@@ -1,0 +1,16 @@
+
+# MessageCodeTextAisSpecific
+
+## Enum
+
+
+* `CONSENT_INVALID` (value: `"CONSENT_INVALID"`)
+
+* `SESSIONS_NOT_SUPPORTED` (value: `"SESSIONS_NOT_SUPPORTED"`)
+
+* `ACCESS_EXCEEDED` (value: `"ACCESS_EXCEEDED"`)
+
+* `REQUESTED_FORMATS_INVALID` (value: `"REQUESTED_FORMATS_INVALID"`)
+
+
+

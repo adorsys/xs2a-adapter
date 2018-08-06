@@ -1,0 +1,18 @@
+
+# MessageCodeTextPisSpecific
+
+## Enum
+
+
+* `PRODUCT_INVALID` (value: `"PRODUCT_INVALID"`)
+
+* `PRODUCT_UNKNOWN` (value: `"PRODUCT_UNKNOWN"`)
+
+* `PAYMENT_FAILED` (value: `"PAYMENT_FAILED"`)
+
+* `REQUIRED_KID_MISSING` (value: `"REQUIRED_KID_MISSING"`)
+
+* `EXECUTION_DATE_INVALID` (value: `"EXECUTION_DATE_INVALID"`)
+
+
+
