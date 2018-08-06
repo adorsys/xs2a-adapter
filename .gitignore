@@ -21,3 +21,4 @@ target
 build
 .classpath
 .settings/
+pom.xml.versionsBackup
