@@ -4,7 +4,7 @@
 
     <groupId>de.adorsys.multibanking</groupId>
     <artifactId>xs2a-adapter</artifactId>
-	<version>1.2.1</version>
+	<version>1.2.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>xs2a-adapter</name>
