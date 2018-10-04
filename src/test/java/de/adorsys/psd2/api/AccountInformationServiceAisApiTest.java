@@ -19,6 +19,7 @@ import de.adorsys.psd2.model.ConsentInformationResponse200Json;
 import de.adorsys.psd2.model.ConsentStatusResponse200;
 import de.adorsys.psd2.model.Consents;
 import de.adorsys.psd2.model.ConsentsResponse201;
+import java.time.LocalDate;
 import de.adorsys.psd2.model.ReadBalanceResponse200;
 import de.adorsys.psd2.model.ScaStatusResponse;
 import de.adorsys.psd2.model.StartScaprocessResponse;
@@ -31,8 +32,6 @@ import de.adorsys.psd2.model.TppMessages406;
 import de.adorsys.psd2.model.TppMessages429;
 import de.adorsys.psd2.model.TransactionDetails;
 import de.adorsys.psd2.model.TransactionsResponse200Json;
-
-import java.time.LocalDate;
 import java.util.UUID;
 import org.junit.Test;
 import org.junit.Ignore;
@@ -298,7 +297,7 @@ public class AccountInformationServiceAisApiTest {
     /**
      * Read Transaction List
      *
-     * Read transaction reports or transaction lists of a given account adressed by \&quot;account-id\&quot;, depending on the steering parameter  \&quot;bookingStatus\&quot; together with balances.  For a given account, additional parameters are e.g. the attributes \&quot;dateFrom\&quot; and \&quot;dateTo\&quot;.  The ASPSP might add balance information, if transaction lists without balances are not supported. 
+     * Read transaction reports or transaction lists of a given account ddressed by \&quot;account-id\&quot;, depending on the steering parameter  \&quot;bookingStatus\&quot; together with balances.  For a given account, additional parameters are e.g. the attributes \&quot;dateFrom\&quot; and \&quot;dateTo\&quot;.  The ASPSP might add balance information, if transaction lists without balances are not supported. 
      *
      * @throws ApiException
      *          if the Api call fails

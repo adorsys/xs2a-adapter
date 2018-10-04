@@ -141,8 +141,7 @@ public class CommonAisAndPisServicesApiTest {
      */
     @Test
     public void getPaymentInitiationAuthorisation_0Test() throws ApiException {
-        String paymentService = null;
-        String paymentId = null;
+        String basketId = null;
         UUID xRequestID = null;
         String digest = null;
         String signature = null;
@@ -157,7 +156,7 @@ public class CommonAisAndPisServicesApiTest {
         String psUHttpMethod = null;
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
-        Authorisations response = api.getPaymentInitiationAuthorisation_0(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        Authorisations response = api.getPaymentInitiationAuthorisation_0(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }

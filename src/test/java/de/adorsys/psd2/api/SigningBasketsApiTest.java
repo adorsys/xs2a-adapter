@@ -91,8 +91,7 @@ public class SigningBasketsApiTest {
      */
     @Test
     public void getPaymentInitiationAuthorisationTest() throws ApiException {
-        String paymentService = null;
-        String paymentId = null;
+        String basketId = null;
         UUID xRequestID = null;
         String digest = null;
         String signature = null;
@@ -107,7 +106,7 @@ public class SigningBasketsApiTest {
         String psUHttpMethod = null;
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
-        Authorisations response = api.getPaymentInitiationAuthorisation(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        Authorisations response = api.getPaymentInitiationAuthorisation(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }

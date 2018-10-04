@@ -174,8 +174,7 @@ public class PaymentInitiationServicePisApiTest {
      */
     @Test
     public void getPaymentInitiationAuthorisation_0Test() throws ApiException {
-        String paymentService = null;
-        String paymentId = null;
+        String consentId = null;
         UUID xRequestID = null;
         String digest = null;
         String signature = null;
@@ -190,7 +189,7 @@ public class PaymentInitiationServicePisApiTest {
         String psUHttpMethod = null;
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
-        Authorisations response = api.getPaymentInitiationAuthorisation_0(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        Authorisations response = api.getPaymentInitiationAuthorisation_0(consentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }
