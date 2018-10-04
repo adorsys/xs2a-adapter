@@ -26,7 +26,7 @@ import java.io.IOException;
  * One Message to the TPP on operational issues.
  */
 @Schema(description = "One Message to the TPP on operational issues.")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-08-14T15:22:31.510+02:00[Europe/Berlin]")public class TppMessageGeneric {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T10:10:17.188+02:00[Europe/Berlin]")public class TppMessageGeneric {
 
   @SerializedName("category")
   private TppMessageCategory category = null;

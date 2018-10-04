@@ -25,7 +25,7 @@ import java.io.IOException;
  * Content of the body of a Select PSU Authentication Method Request 
  */
 @Schema(description = "Content of the body of a Select PSU Authentication Method Request ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-08-14T15:22:31.510+02:00[Europe/Berlin]")public class SelectPsuAuthenticationMethod {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T10:10:17.188+02:00[Europe/Berlin]")public class SelectPsuAuthenticationMethod {
 
   @SerializedName("authenticationMethodId")
   private String authenticationMethodId = null;

@@ -26,7 +26,7 @@ import java.io.IOException;
  * Message to the TPP:  The access on the account has been exceeding the consented multiplicity per day. 
  */
 @Schema(description = "Message to the TPP:  The access on the account has been exceeding the consented multiplicity per day. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-08-14T15:22:31.510+02:00[Europe/Berlin]")public class TppMessageAISACCESSEXCEEDED429 {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T10:10:17.188+02:00[Europe/Berlin]")public class TppMessageAISACCESSEXCEEDED429 {
 
   @SerializedName("category")
   private TppMessageCategory category = null;

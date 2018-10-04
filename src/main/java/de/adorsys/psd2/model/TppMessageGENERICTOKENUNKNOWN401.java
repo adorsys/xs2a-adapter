@@ -26,7 +26,7 @@ import java.io.IOException;
  * The OAuth2 token cannot be matched by the ASPSP relative to the TPP.
  */
 @Schema(description = "The OAuth2 token cannot be matched by the ASPSP relative to the TPP.")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-08-14T15:22:31.510+02:00[Europe/Berlin]")public class TppMessageGENERICTOKENUNKNOWN401 {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T10:10:17.188+02:00[Europe/Berlin]")public class TppMessageGENERICTOKENUNKNOWN401 {
 
   @SerializedName("category")
   private TppMessageCategory category = null;

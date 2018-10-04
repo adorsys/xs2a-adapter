@@ -334,8 +334,7 @@ public class SigningBasketsApi {
     }
     /**
      * Build call for getPaymentInitiationAuthorisation
-     * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
-     * @param paymentId Resource identification of the generated payment initiation resource. (required)
+     * @param basketId This identification of the corresponding signing basket object.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
@@ -355,13 +354,12 @@ public class SigningBasketsApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getPaymentInitiationAuthorisationCall(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getPaymentInitiationAuthorisationCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
         String localVarPath = "/v1/signing-baskets/{basketId}/authorisations"
-            .replaceAll("\\{" + "payment-service" + "\\}", apiClient.escapeString(paymentService.toString()))
-            .replaceAll("\\{" + "paymentId" + "\\}", apiClient.escapeString(paymentId.toString()));
+            .replaceAll("\\{" + "basketId" + "\\}", apiClient.escapeString(basketId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -427,21 +425,17 @@ public class SigningBasketsApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getPaymentInitiationAuthorisationValidateBeforeCall(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        // verify the required parameter 'paymentService' is set
-        if (paymentService == null) {
-            throw new ApiException("Missing the required parameter 'paymentService' when calling getPaymentInitiationAuthorisation(Async)");
-        }
-        // verify the required parameter 'paymentId' is set
-        if (paymentId == null) {
-            throw new ApiException("Missing the required parameter 'paymentId' when calling getPaymentInitiationAuthorisation(Async)");
+    private com.squareup.okhttp.Call getPaymentInitiationAuthorisationValidateBeforeCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        // verify the required parameter 'basketId' is set
+        if (basketId == null) {
+            throw new ApiException("Missing the required parameter 'basketId' when calling getPaymentInitiationAuthorisation(Async)");
         }
         // verify the required parameter 'xRequestID' is set
         if (xRequestID == null) {
             throw new ApiException("Missing the required parameter 'xRequestID' when calling getPaymentInitiationAuthorisation(Async)");
         }
         
-        com.squareup.okhttp.Call call = getPaymentInitiationAuthorisationCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getPaymentInitiationAuthorisationCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -453,8 +447,7 @@ public class SigningBasketsApi {
     /**
      * Get Signing Basket Authorisation Sub-Resources Request
      * Read a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
-     * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
-     * @param paymentId Resource identification of the generated payment initiation resource. (required)
+     * @param basketId This identification of the corresponding signing basket object.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
@@ -472,16 +465,15 @@ public class SigningBasketsApi {
      * @return Authorisations
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Authorisations getPaymentInitiationAuthorisation(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<Authorisations> resp = getPaymentInitiationAuthorisationWithHttpInfo(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public Authorisations getPaymentInitiationAuthorisation(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<Authorisations> resp = getPaymentInitiationAuthorisationWithHttpInfo(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
     /**
      * Get Signing Basket Authorisation Sub-Resources Request
      * Read a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
-     * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
-     * @param paymentId Resource identification of the generated payment initiation resource. (required)
+     * @param basketId This identification of the corresponding signing basket object.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
@@ -499,8 +491,8 @@ public class SigningBasketsApi {
      * @return ApiResponse&lt;Authorisations&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Authorisations> getPaymentInitiationAuthorisationWithHttpInfo(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = getPaymentInitiationAuthorisationValidateBeforeCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+    public ApiResponse<Authorisations> getPaymentInitiationAuthorisationWithHttpInfo(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = getPaymentInitiationAuthorisationValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<Authorisations>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -508,8 +500,7 @@ public class SigningBasketsApi {
     /**
      * Get Signing Basket Authorisation Sub-Resources Request (asynchronously)
      * Read a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
-     * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
-     * @param paymentId Resource identification of the generated payment initiation resource. (required)
+     * @param basketId This identification of the corresponding signing basket object.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
@@ -528,7 +519,7 @@ public class SigningBasketsApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getPaymentInitiationAuthorisationAsync(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Authorisations> callback) throws ApiException {
+    public com.squareup.okhttp.Call getPaymentInitiationAuthorisationAsync(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Authorisations> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -549,7 +540,7 @@ public class SigningBasketsApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getPaymentInitiationAuthorisationValidateBeforeCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getPaymentInitiationAuthorisationValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Authorisations>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

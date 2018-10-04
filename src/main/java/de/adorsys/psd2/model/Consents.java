@@ -27,7 +27,7 @@ import java.time.LocalDate;
  * Content of the body of a consent request. 
  */
 @Schema(description = "Content of the body of a consent request. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-08-14T15:22:31.510+02:00[Europe/Berlin]")public class Consents {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T10:10:17.188+02:00[Europe/Berlin]")public class Consents {
 
   @SerializedName("access")
   private AccountAccess access = null;

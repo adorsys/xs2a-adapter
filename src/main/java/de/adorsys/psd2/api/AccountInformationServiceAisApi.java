@@ -2003,7 +2003,7 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read Transaction List
-     * Read transaction reports or transaction lists of a given account adressed by \&quot;account-id\&quot;, depending on the steering parameter  \&quot;bookingStatus\&quot; together with balances.  For a given account, additional parameters are e.g. the attributes \&quot;dateFrom\&quot; and \&quot;dateTo\&quot;.  The ASPSP might add balance information, if transaction lists without balances are not supported. 
+     * Read transaction reports or transaction lists of a given account ddressed by \&quot;account-id\&quot;, depending on the steering parameter  \&quot;bookingStatus\&quot; together with balances.  For a given account, additional parameters are e.g. the attributes \&quot;dateFrom\&quot; and \&quot;dateTo\&quot;.  The ASPSP might add balance information, if transaction lists without balances are not supported. 
      * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param bookingStatus Permitted codes are    * \&quot;booked\&quot;,   * \&quot;pending\&quot; and    * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP,  Error code if not supported in the online banking frontend  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
@@ -2036,7 +2036,7 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read Transaction List
-     * Read transaction reports or transaction lists of a given account adressed by \&quot;account-id\&quot;, depending on the steering parameter  \&quot;bookingStatus\&quot; together with balances.  For a given account, additional parameters are e.g. the attributes \&quot;dateFrom\&quot; and \&quot;dateTo\&quot;.  The ASPSP might add balance information, if transaction lists without balances are not supported. 
+     * Read transaction reports or transaction lists of a given account ddressed by \&quot;account-id\&quot;, depending on the steering parameter  \&quot;bookingStatus\&quot; together with balances.  For a given account, additional parameters are e.g. the attributes \&quot;dateFrom\&quot; and \&quot;dateTo\&quot;.  The ASPSP might add balance information, if transaction lists without balances are not supported. 
      * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param bookingStatus Permitted codes are    * \&quot;booked\&quot;,   * \&quot;pending\&quot; and    * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP,  Error code if not supported in the online banking frontend  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
@@ -2070,7 +2070,7 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read Transaction List (asynchronously)
-     * Read transaction reports or transaction lists of a given account adressed by \&quot;account-id\&quot;, depending on the steering parameter  \&quot;bookingStatus\&quot; together with balances.  For a given account, additional parameters are e.g. the attributes \&quot;dateFrom\&quot; and \&quot;dateTo\&quot;.  The ASPSP might add balance information, if transaction lists without balances are not supported. 
+     * Read transaction reports or transaction lists of a given account ddressed by \&quot;account-id\&quot;, depending on the steering parameter  \&quot;bookingStatus\&quot; together with balances.  For a given account, additional parameters are e.g. the attributes \&quot;dateFrom\&quot; and \&quot;dateTo\&quot;.  The ASPSP might add balance information, if transaction lists without balances are not supported. 
      * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param bookingStatus Permitted codes are    * \&quot;booked\&quot;,   * \&quot;pending\&quot; and    * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP,  Error code if not supported in the online banking frontend  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)

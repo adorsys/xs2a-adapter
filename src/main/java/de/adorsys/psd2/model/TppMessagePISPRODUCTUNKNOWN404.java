@@ -26,7 +26,7 @@ import java.io.IOException;
  * The addressed payment product is not supported by the ASPSP. 
  */
 @Schema(description = "The addressed payment product is not supported by the ASPSP. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-08-14T15:22:31.510+02:00[Europe/Berlin]")public class TppMessagePISPRODUCTUNKNOWN404 {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T10:10:17.188+02:00[Europe/Berlin]")public class TppMessagePISPRODUCTUNKNOWN404 {
 
   @SerializedName("category")
   private TppMessageCategory category = null;

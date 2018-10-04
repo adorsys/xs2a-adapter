@@ -21,7 +21,7 @@ import java.util.List;
  * Messages with HTTP error code 401 to the TPP on operational issues.
  */
 @Schema(description = "Messages with HTTP error code 401 to the TPP on operational issues.")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-08-14T15:22:31.510+02:00[Europe/Berlin]")public class TppMessages401 extends ArrayList<Object> {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T10:10:17.188+02:00[Europe/Berlin]")public class TppMessages401 extends ArrayList<Object> {
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

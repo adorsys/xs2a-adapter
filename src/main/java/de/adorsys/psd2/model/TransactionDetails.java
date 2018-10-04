@@ -30,7 +30,7 @@ import java.util.Map;
  * Transaction details
  */
 @Schema(description = "Transaction details")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-08-14T15:22:31.510+02:00[Europe/Berlin]")public class TransactionDetails {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T10:10:17.188+02:00[Europe/Berlin]")public class TransactionDetails {
 
   @SerializedName("transactionId")
   private String transactionId = null;

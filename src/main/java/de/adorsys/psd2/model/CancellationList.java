@@ -21,7 +21,7 @@ import java.util.List;
  * An array of all cancellationIds connected to this resource.
  */
 @Schema(description = "An array of all cancellationIds connected to this resource.")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-08-14T15:22:31.510+02:00[Europe/Berlin]")public class CancellationList extends ArrayList<String> {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T10:10:17.188+02:00[Europe/Berlin]")public class CancellationList extends ArrayList<String> {
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

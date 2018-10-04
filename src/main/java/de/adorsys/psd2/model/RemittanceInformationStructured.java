@@ -25,7 +25,7 @@ import java.io.IOException;
  * Structured remittance information 
  */
 @Schema(description = "Structured remittance information ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-08-14T15:22:31.510+02:00[Europe/Berlin]")public class RemittanceInformationStructured {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T10:10:17.188+02:00[Europe/Berlin]")public class RemittanceInformationStructured {
 
   @SerializedName("reference")
   private String reference = null;

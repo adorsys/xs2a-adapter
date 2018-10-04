@@ -26,7 +26,7 @@ import java.io.IOException;
  * The parameter is not supported by the API provider. This code should only be used for parameters that are described as 
  */
 @Schema(description = "The parameter is not supported by the API provider. This code should only be used for parameters that are described as ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-08-14T15:22:31.510+02:00[Europe/Berlin]")public class TppMessageGENERICPARAMETERNOTSUPPORTED400 {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T10:10:17.188+02:00[Europe/Berlin]")public class TppMessageGENERICPARAMETERNOTSUPPORTED400 {
 
   @SerializedName("category")
   private TppMessageCategory category = null;

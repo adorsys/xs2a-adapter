@@ -26,7 +26,7 @@ import java.io.IOException;
  * The addressed resource is unknown relative to the TPP.   - 404 (if account-id in path)   - 403 (if other resource in path)   - 400 (if payload) 
  */
 @Schema(description = "The addressed resource is unknown relative to the TPP.   - 404 (if account-id in path)   - 403 (if other resource in path)   - 400 (if payload) ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-08-14T15:22:31.510+02:00[Europe/Berlin]")public class TppMessageGENERICRESOURCEUNKNOWN404403400 {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T10:10:17.188+02:00[Europe/Berlin]")public class TppMessageGENERICRESOURCEUNKNOWN404403400 {
 
   @SerializedName("category")
   private TppMessageCategory category = null;

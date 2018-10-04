@@ -25,7 +25,7 @@ import java.io.IOException;
  * An alias to access a payment account via a registered mobile phone number. 
  */
 @Schema(description = "An alias to access a payment account via a registered mobile phone number. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-08-14T15:22:31.510+02:00[Europe/Berlin]")public class AccountReferenceMsisdn {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T10:10:17.188+02:00[Europe/Berlin]")public class AccountReferenceMsisdn {
 
   @SerializedName("msisdn")
   private String msisdn = null;

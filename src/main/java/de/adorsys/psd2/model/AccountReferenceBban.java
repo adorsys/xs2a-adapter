@@ -25,7 +25,7 @@ import java.io.IOException;
  * Reference to an Account.  This data elements is used for payment accounts which have no IBAN. 
  */
 @Schema(description = "Reference to an Account.  This data elements is used for payment accounts which have no IBAN. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-08-14T15:22:31.510+02:00[Europe/Berlin]")public class AccountReferenceBban {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T10:10:17.188+02:00[Europe/Berlin]")public class AccountReferenceBban {
 
   @SerializedName("bban")
   private String bban = null;

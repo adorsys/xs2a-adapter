@@ -27,7 +27,7 @@ import java.io.IOException;
  * Body for a TARGET-2 payment initation. 
  */
 @Schema(description = "Body for a TARGET-2 payment initation. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-08-14T15:22:31.510+02:00[Europe/Berlin]")public class PaymentInitiationTarget2Json {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T10:10:17.188+02:00[Europe/Berlin]")public class PaymentInitiationTarget2Json {
 
   @SerializedName("endToEndIdentification")
   private String endToEndIdentification = null;

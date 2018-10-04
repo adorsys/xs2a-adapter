@@ -26,7 +26,7 @@ import java.io.IOException;
  * Application layer eIDAS Signature for TPP authentication is not correct.
  */
 @Schema(description = "Application layer eIDAS Signature for TPP authentication is not correct.")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-08-14T15:22:31.510+02:00[Europe/Berlin]")public class TppMessageGENERICSIGNATUREINVALID401 {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T10:10:17.188+02:00[Europe/Berlin]")public class TppMessageGENERICSIGNATUREINVALID401 {
 
   @SerializedName("category")
   private TppMessageCategory category = null;
