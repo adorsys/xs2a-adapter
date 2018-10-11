@@ -165,35 +165,6 @@ public class PaymentInitiationServicePisApiTest {
         // TODO: test validations
     }
     /**
-     * Get Consent Authorisation Sub-Resources Request
-     *
-     * Return a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void getPaymentInitiationAuthorisation_0Test() throws ApiException {
-        String consentId = null;
-        UUID xRequestID = null;
-        String digest = null;
-        String signature = null;
-        byte[] tpPSignatureCertificate = null;
-        String psUIPAddress = null;
-        Object psUIPPort = null;
-        String psUAccept = null;
-        String psUAcceptCharset = null;
-        String psUAcceptEncoding = null;
-        String psUAcceptLanguage = null;
-        String psUUserAgent = null;
-        String psUHttpMethod = null;
-        UUID psUDeviceID = null;
-        String psUGeoLocation = null;
-        Authorisations response = api.getPaymentInitiationAuthorisation_0(consentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
-
-        // TODO: test validations
-    }
-    /**
      * Will deliver an array of resource identifications to all generated cancellation authorisation sub-resources.
      *
      * Retrieve a list of all created cancellation authorisation sub-resources. 

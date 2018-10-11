@@ -30,7 +30,7 @@ import java.util.Map;
  * Body of the JSON response for a successful update PSU Authentication request.
  */
 @Schema(description = "Body of the JSON response for a successful update PSU Authentication request.")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class UpdatePsuAuthenticationResponse {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class UpdatePsuAuthenticationResponse {
 
   @SerializedName("chosenScaMethod")
   private ChosenScaMethod chosenScaMethod = null;

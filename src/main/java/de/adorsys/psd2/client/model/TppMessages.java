@@ -22,7 +22,7 @@ import java.util.List;
  * Messages to the TPP on operational issues.
  */
 @Schema(description = "Messages to the TPP on operational issues.")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class TppMessages extends ArrayList<TppMessageGeneric> {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class TppMessages extends ArrayList<TppMessageGeneric> {
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

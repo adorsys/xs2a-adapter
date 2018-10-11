@@ -26,7 +26,7 @@ import java.time.LocalDate;
  * Exchange Rate
  */
 @Schema(description = "Exchange Rate")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class ExchangeRate {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class ExchangeRate {
 
   @SerializedName("currencyFrom")
   private String currencyFrom = null;

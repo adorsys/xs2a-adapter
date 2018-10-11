@@ -22,12 +22,14 @@ import de.adorsys.psd2.client.model.Address;
 import de.adorsys.psd2.client.model.Amount;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 /**
  * Body for a SCT payment initation. 
  */
 @Schema(description = "Body for a SCT payment initation. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class PaymentInitiationSctJson {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class PaymentInitiationSctJson {
 
   @SerializedName("endToEndIdentification")
   private String endToEndIdentification = null;
@@ -52,6 +54,12 @@ import java.io.IOException;
 
   @SerializedName("remittanceInformationUnstructured")
   private String remittanceInformationUnstructured = null;
+
+  @SerializedName("requestedExecutionDate")
+  private LocalDate requestedExecutionDate = null;
+
+  @SerializedName("requestedExecutionTime")
+  private OffsetDateTime requestedExecutionTime = null;
   public PaymentInitiationSctJson endToEndIdentification(String endToEndIdentification) {
     this.endToEndIdentification = endToEndIdentification;
     return this;
@@ -196,6 +204,42 @@ import java.io.IOException;
   public void setRemittanceInformationUnstructured(String remittanceInformationUnstructured) {
     this.remittanceInformationUnstructured = remittanceInformationUnstructured;
   }
+  public PaymentInitiationSctJson requestedExecutionDate(LocalDate requestedExecutionDate) {
+    this.requestedExecutionDate = requestedExecutionDate;
+    return this;
+  }
+
+  
+
+  /**
+  * Get requestedExecutionDate
+  * @return requestedExecutionDate
+  **/
+  @Schema(description = "")
+  public LocalDate getRequestedExecutionDate() {
+    return requestedExecutionDate;
+  }
+  public void setRequestedExecutionDate(LocalDate requestedExecutionDate) {
+    this.requestedExecutionDate = requestedExecutionDate;
+  }
+  public PaymentInitiationSctJson requestedExecutionTime(OffsetDateTime requestedExecutionTime) {
+    this.requestedExecutionTime = requestedExecutionTime;
+    return this;
+  }
+
+  
+
+  /**
+  * Get requestedExecutionTime
+  * @return requestedExecutionTime
+  **/
+  @Schema(description = "")
+  public OffsetDateTime getRequestedExecutionTime() {
+    return requestedExecutionTime;
+  }
+  public void setRequestedExecutionTime(OffsetDateTime requestedExecutionTime) {
+    this.requestedExecutionTime = requestedExecutionTime;
+  }
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -212,12 +256,14 @@ import java.io.IOException;
         Objects.equals(this.creditorAgent, paymentInitiationSctJson.creditorAgent) &&
         Objects.equals(this.creditorName, paymentInitiationSctJson.creditorName) &&
         Objects.equals(this.creditorAddress, paymentInitiationSctJson.creditorAddress) &&
-        Objects.equals(this.remittanceInformationUnstructured, paymentInitiationSctJson.remittanceInformationUnstructured);
+        Objects.equals(this.remittanceInformationUnstructured, paymentInitiationSctJson.remittanceInformationUnstructured) &&
+        Objects.equals(this.requestedExecutionDate, paymentInitiationSctJson.requestedExecutionDate) &&
+        Objects.equals(this.requestedExecutionTime, paymentInitiationSctJson.requestedExecutionTime);
   }
 
   @Override
   public int hashCode() {
-    return java.util.Objects.hash(endToEndIdentification, debtorAccount, instructedAmount, creditorAccount, creditorAgent, creditorName, creditorAddress, remittanceInformationUnstructured);
+    return java.util.Objects.hash(endToEndIdentification, debtorAccount, instructedAmount, creditorAccount, creditorAgent, creditorName, creditorAddress, remittanceInformationUnstructured, requestedExecutionDate, requestedExecutionTime);
   }
 
   @Override
@@ -233,6 +279,8 @@ import java.io.IOException;
     sb.append("    creditorName: ").append(toIndentedString(creditorName)).append("\n");
     sb.append("    creditorAddress: ").append(toIndentedString(creditorAddress)).append("\n");
     sb.append("    remittanceInformationUnstructured: ").append(toIndentedString(remittanceInformationUnstructured)).append("\n");
+    sb.append("    requestedExecutionDate: ").append(toIndentedString(requestedExecutionDate)).append("\n");
+    sb.append("    requestedExecutionTime: ").append(toIndentedString(requestedExecutionTime)).append("\n");
     sb.append("}");
     return sb.toString();
   }

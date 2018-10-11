@@ -333,219 +333,6 @@ public class SigningBasketsApi {
         return call;
     }
     /**
-     * Build call for getPaymentInitiationAuthorisation
-     * @param basketId This identification of the corresponding signing basket object.  (required)
-     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
-     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
-     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
-     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
-     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
-     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
-     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
-     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
-     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
-     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
-     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
-     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call getPaymentInitiationAuthorisationCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-        
-        // create path and map variables
-        String localVarPath = "/v1/signing-baskets/{basketId}/authorisations"
-            .replaceAll("\\{" + "basketId" + "\\}", apiClient.escapeString(basketId.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (xRequestID != null)
-        localVarHeaderParams.put("X-Request-ID", apiClient.parameterToString(xRequestID));
-        if (digest != null)
-        localVarHeaderParams.put("Digest", apiClient.parameterToString(digest));
-        if (signature != null)
-        localVarHeaderParams.put("Signature", apiClient.parameterToString(signature));
-        if (tpPSignatureCertificate != null)
-        localVarHeaderParams.put("TPP-Signature-Certificate", apiClient.parameterToString(tpPSignatureCertificate));
-        if (psUIPAddress != null)
-        localVarHeaderParams.put("PSU-IP-Address", apiClient.parameterToString(psUIPAddress));
-        if (psUIPPort != null)
-        localVarHeaderParams.put("PSU-IP-Port", apiClient.parameterToString(psUIPPort));
-        if (psUAccept != null)
-        localVarHeaderParams.put("PSU-Accept", apiClient.parameterToString(psUAccept));
-        if (psUAcceptCharset != null)
-        localVarHeaderParams.put("PSU-Accept-Charset", apiClient.parameterToString(psUAcceptCharset));
-        if (psUAcceptEncoding != null)
-        localVarHeaderParams.put("PSU-Accept-Encoding", apiClient.parameterToString(psUAcceptEncoding));
-        if (psUAcceptLanguage != null)
-        localVarHeaderParams.put("PSU-Accept-Language", apiClient.parameterToString(psUAcceptLanguage));
-        if (psUUserAgent != null)
-        localVarHeaderParams.put("PSU-User-Agent", apiClient.parameterToString(psUUserAgent));
-        if (psUHttpMethod != null)
-        localVarHeaderParams.put("PSU-Http-Method", apiClient.parameterToString(psUHttpMethod));
-        if (psUDeviceID != null)
-        localVarHeaderParams.put("PSU-Device-ID", apiClient.parameterToString(psUDeviceID));
-        if (psUGeoLocation != null)
-        localVarHeaderParams.put("PSU-Geo-Location", apiClient.parameterToString(psUGeoLocation));
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] { "BearerAuthOAuth" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-    
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getPaymentInitiationAuthorisationValidateBeforeCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        // verify the required parameter 'basketId' is set
-        if (basketId == null) {
-            throw new ApiException("Missing the required parameter 'basketId' when calling getPaymentInitiationAuthorisation(Async)");
-        }
-        // verify the required parameter 'xRequestID' is set
-        if (xRequestID == null) {
-            throw new ApiException("Missing the required parameter 'xRequestID' when calling getPaymentInitiationAuthorisation(Async)");
-        }
-        
-        com.squareup.okhttp.Call call = getPaymentInitiationAuthorisationCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
-        return call;
-
-        
-        
-        
-        
-    }
-
-    /**
-     * Get Signing Basket Authorisation Sub-Resources Request
-     * Read a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
-     * @param basketId This identification of the corresponding signing basket object.  (required)
-     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
-     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
-     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
-     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
-     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
-     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
-     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
-     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
-     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
-     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
-     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
-     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
-     * @return Authorisations
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public Authorisations getPaymentInitiationAuthorisation(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<Authorisations> resp = getPaymentInitiationAuthorisationWithHttpInfo(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
-        return resp.getData();
-    }
-
-    /**
-     * Get Signing Basket Authorisation Sub-Resources Request
-     * Read a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
-     * @param basketId This identification of the corresponding signing basket object.  (required)
-     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
-     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
-     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
-     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
-     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
-     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
-     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
-     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
-     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
-     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
-     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
-     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
-     * @return ApiResponse&lt;Authorisations&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<Authorisations> getPaymentInitiationAuthorisationWithHttpInfo(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = getPaymentInitiationAuthorisationValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
-        Type localVarReturnType = new TypeToken<Authorisations>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Get Signing Basket Authorisation Sub-Resources Request (asynchronously)
-     * Read a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
-     * @param basketId This identification of the corresponding signing basket object.  (required)
-     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
-     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
-     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
-     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
-     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
-     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
-     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
-     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
-     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
-     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
-     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
-     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call getPaymentInitiationAuthorisationAsync(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Authorisations> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = getPaymentInitiationAuthorisationValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<Authorisations>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    /**
      * Build call for getSigningBasket
      * @param basketId This identification of the corresponding signing basket object.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
@@ -755,6 +542,219 @@ public class SigningBasketsApi {
 
         com.squareup.okhttp.Call call = getSigningBasketValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<SigningBasketResponse200>(){}.getType();
+        apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+    /**
+     * Build call for getSigningBasketAuthorisations
+     * @param basketId This identification of the corresponding signing basket object.  (required)
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
+     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
+     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
+     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
+     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
+     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
+     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call getSigningBasketAuthorisationsCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = null;
+        
+        // create path and map variables
+        String localVarPath = "/v1/signing-baskets/{basketId}/authorisations"
+            .replaceAll("\\{" + "basketId" + "\\}", apiClient.escapeString(basketId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        if (xRequestID != null)
+        localVarHeaderParams.put("X-Request-ID", apiClient.parameterToString(xRequestID));
+        if (digest != null)
+        localVarHeaderParams.put("Digest", apiClient.parameterToString(digest));
+        if (signature != null)
+        localVarHeaderParams.put("Signature", apiClient.parameterToString(signature));
+        if (tpPSignatureCertificate != null)
+        localVarHeaderParams.put("TPP-Signature-Certificate", apiClient.parameterToString(tpPSignatureCertificate));
+        if (psUIPAddress != null)
+        localVarHeaderParams.put("PSU-IP-Address", apiClient.parameterToString(psUIPAddress));
+        if (psUIPPort != null)
+        localVarHeaderParams.put("PSU-IP-Port", apiClient.parameterToString(psUIPPort));
+        if (psUAccept != null)
+        localVarHeaderParams.put("PSU-Accept", apiClient.parameterToString(psUAccept));
+        if (psUAcceptCharset != null)
+        localVarHeaderParams.put("PSU-Accept-Charset", apiClient.parameterToString(psUAcceptCharset));
+        if (psUAcceptEncoding != null)
+        localVarHeaderParams.put("PSU-Accept-Encoding", apiClient.parameterToString(psUAcceptEncoding));
+        if (psUAcceptLanguage != null)
+        localVarHeaderParams.put("PSU-Accept-Language", apiClient.parameterToString(psUAcceptLanguage));
+        if (psUUserAgent != null)
+        localVarHeaderParams.put("PSU-User-Agent", apiClient.parameterToString(psUUserAgent));
+        if (psUHttpMethod != null)
+        localVarHeaderParams.put("PSU-Http-Method", apiClient.parameterToString(psUHttpMethod));
+        if (psUDeviceID != null)
+        localVarHeaderParams.put("PSU-Device-ID", apiClient.parameterToString(psUDeviceID));
+        if (psUGeoLocation != null)
+        localVarHeaderParams.put("PSU-Geo-Location", apiClient.parameterToString(psUGeoLocation));
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] { "BearerAuthOAuth" };
+        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call getSigningBasketAuthorisationsValidateBeforeCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        // verify the required parameter 'basketId' is set
+        if (basketId == null) {
+            throw new ApiException("Missing the required parameter 'basketId' when calling getSigningBasketAuthorisations(Async)");
+        }
+        // verify the required parameter 'xRequestID' is set
+        if (xRequestID == null) {
+            throw new ApiException("Missing the required parameter 'xRequestID' when calling getSigningBasketAuthorisations(Async)");
+        }
+        
+        com.squareup.okhttp.Call call = getSigningBasketAuthorisationsCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
+
+    /**
+     * Get Signing Basket Authorisation Sub-Resources Request
+     * Read a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
+     * @param basketId This identification of the corresponding signing basket object.  (required)
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
+     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
+     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
+     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
+     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
+     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
+     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
+     * @return Authorisations
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Authorisations getSigningBasketAuthorisations(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<Authorisations> resp = getSigningBasketAuthorisationsWithHttpInfo(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        return resp.getData();
+    }
+
+    /**
+     * Get Signing Basket Authorisation Sub-Resources Request
+     * Read a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
+     * @param basketId This identification of the corresponding signing basket object.  (required)
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
+     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
+     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
+     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
+     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
+     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
+     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
+     * @return ApiResponse&lt;Authorisations&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Authorisations> getSigningBasketAuthorisationsWithHttpInfo(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = getSigningBasketAuthorisationsValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+        Type localVarReturnType = new TypeToken<Authorisations>(){}.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+    /**
+     * Get Signing Basket Authorisation Sub-Resources Request (asynchronously)
+     * Read a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
+     * @param basketId This identification of the corresponding signing basket object.  (required)
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
+     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
+     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
+     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
+     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
+     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
+     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call getSigningBasketAuthorisationsAsync(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Authorisations> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = getSigningBasketAuthorisationsValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<Authorisations>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }

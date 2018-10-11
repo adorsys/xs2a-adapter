@@ -27,7 +27,7 @@ import java.io.IOException;
  * Body for a bulk SCT payment initation. 
  */
 @Schema(description = "Body for a bulk SCT payment initation. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class PaymentInitiationSctBulkElementJson {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class PaymentInitiationSctBulkElementJson {
 
   @SerializedName("endToEndIdentification")
   private String endToEndIdentification = null;

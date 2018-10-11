@@ -29,7 +29,7 @@ import java.util.List;
  * JSON body for a bulk cross-border payment initation. 
  */
 @Schema(description = "JSON body for a bulk cross-border payment initation. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class BulkPaymentInitiationCrossBorderJson {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class BulkPaymentInitiationCrossBorderJson {
 
   @SerializedName("batchBookingPreferred")
   private Boolean batchBookingPreferred = null;

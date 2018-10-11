@@ -26,7 +26,7 @@ import java.io.IOException;
  * The requested execution date is not a valid execution date for the ASPSP. 
  */
 @Schema(description = "The requested execution date is not a valid execution date for the ASPSP. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class TppMessagePISEXECUTIONDATEINVALID400 {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class TppMessagePISEXECUTIONDATEINVALID400 {
 
   @SerializedName("category")
   private TppMessageCategory category = null;

@@ -26,7 +26,7 @@ import java.io.IOException;
  * Body of the JSON response with SCA Status
  */
 @Schema(description = "Body of the JSON response with SCA Status")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class ScaStatusResponse {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class ScaStatusResponse {
 
   @SerializedName("scaStatus")
   private ScaStatus scaStatus = null;

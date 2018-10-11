@@ -26,7 +26,7 @@ import java.io.IOException;
  * Addressed SCA method in the Authentication Method Select Request is unknown or cannot be matched by the ASPSP with the PSU. 
  */
 @Schema(description = "Addressed SCA method in the Authentication Method Select Request is unknown or cannot be matched by the ASPSP with the PSU. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class TppMessageGENERICSCAMETHODUNKNOWN400 {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class TppMessageGENERICSCAMETHODUNKNOWN400 {
 
   @SerializedName("category")
   private TppMessageCategory category = null;

@@ -26,7 +26,7 @@ import java.io.IOException;
  * The contents of the signature/corporate seal certificate are not matching PSD2 general PSD2  or attribute requirements. 
  */
 @Schema(description = "The contents of the signature/corporate seal certificate are not matching PSD2 general PSD2  or attribute requirements. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class TppMessageGENERICCERTIFICATEINVALID401 {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class TppMessageGENERICCERTIFICATEINVALID401 {
 
   @SerializedName("category")
   private TppMessageCategory category = null;

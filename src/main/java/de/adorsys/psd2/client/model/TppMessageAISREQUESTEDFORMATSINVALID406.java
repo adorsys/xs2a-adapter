@@ -26,7 +26,7 @@ import java.io.IOException;
  * Message to the TPP:  The requested formats in the Accept header entry are not matching the formats offered by the ASPSP. 
  */
 @Schema(description = "Message to the TPP:  The requested formats in the Accept header entry are not matching the formats offered by the ASPSP. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class TppMessageAISREQUESTEDFORMATSINVALID406 {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class TppMessageAISREQUESTEDFORMATSINVALID406 {
 
   @SerializedName("category")
   private TppMessageCategory category = null;

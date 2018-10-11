@@ -26,7 +26,7 @@ import java.io.IOException;
  * Body of the response for a successful payment initiation status request in case of an JSON based endpoint.
  */
 @Schema(description = "Body of the response for a successful payment initiation status request in case of an JSON based endpoint.")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class PaymentInitiationStatusResponse200Json {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class PaymentInitiationStatusResponse200Json {
 
   @SerializedName("transactionStatus")
   private TransactionStatus transactionStatus = null;

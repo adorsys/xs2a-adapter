@@ -26,7 +26,7 @@ import java.io.IOException;
  * The PSU has not activated the addressed account for the usage of the PIIS associated with the TPP.
  */
 @Schema(description = "The PSU has not activated the addressed account for the usage of the PIIS associated with the TPP.")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class TppMessagePIISNOPIISACTIVATION400 {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class TppMessagePIISNOPIISACTIVATION400 {
 
   @SerializedName("category")
   private TppMessageCategory category = null;

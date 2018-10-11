@@ -29,7 +29,7 @@ import java.util.List;
  * JSON Body for a bulk TARGET-2 payment initation. 
  */
 @Schema(description = "JSON Body for a bulk TARGET-2 payment initation. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class BulkPaymentInitiationTarget2Json {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class BulkPaymentInitiationTarget2Json {
 
   @SerializedName("batchBookingPreferred")
   private Boolean batchBookingPreferred = null;

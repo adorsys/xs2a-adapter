@@ -31,7 +31,7 @@ import java.time.LocalDate;
  * JSON body for a periodic cross-border payment initation. 
  */
 @Schema(description = "JSON body for a periodic cross-border payment initation. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class PeriodicPaymentInitiationCrossBorderJson {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class PeriodicPaymentInitiationCrossBorderJson {
 
   @SerializedName("debtorAccount")
   private Object debtorAccount = null;

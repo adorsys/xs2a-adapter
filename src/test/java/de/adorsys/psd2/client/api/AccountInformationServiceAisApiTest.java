@@ -15,6 +15,7 @@ package de.adorsys.psd2.client.api;
 import de.adorsys.psd2.client.ApiException;
 import de.adorsys.psd2.client.model.AccountDetails;
 import de.adorsys.psd2.client.model.AccountList;
+import de.adorsys.psd2.client.model.Authorisations;
 import de.adorsys.psd2.client.model.ConsentInformationResponse200Json;
 import de.adorsys.psd2.client.model.ConsentStatusResponse200;
 import de.adorsys.psd2.client.model.Consents;
@@ -172,6 +173,35 @@ public class AccountInformationServiceAisApiTest {
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
         ReadBalanceResponse200 response = api.getBalances(accountId, xRequestID, consentID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+
+        // TODO: test validations
+    }
+    /**
+     * Get Consent Authorisation Sub-Resources Request
+     *
+     * Return a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void getConsentAuthorisationsTest() throws ApiException {
+        String consentId = null;
+        UUID xRequestID = null;
+        String digest = null;
+        String signature = null;
+        byte[] tpPSignatureCertificate = null;
+        String psUIPAddress = null;
+        Object psUIPPort = null;
+        String psUAccept = null;
+        String psUAcceptCharset = null;
+        String psUAcceptEncoding = null;
+        String psUAcceptLanguage = null;
+        String psUUserAgent = null;
+        String psUHttpMethod = null;
+        UUID psUDeviceID = null;
+        String psUGeoLocation = null;
+        Authorisations response = api.getConsentAuthorisations(consentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }

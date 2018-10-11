@@ -26,7 +26,7 @@ import java.io.IOException;
  * Signature/corporate seal certificate was not available in the request but is mandated for the corresponding. 
  */
 @Schema(description = "Signature/corporate seal certificate was not available in the request but is mandated for the corresponding. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class TppMessageGENERICCERTIFICATEMISSING401 {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class TppMessageGENERICCERTIFICATEMISSING401 {
 
   @SerializedName("category")
   private TppMessageCategory category = null;

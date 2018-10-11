@@ -26,7 +26,7 @@ import java.io.IOException;
  * Authentication Object 
  */
 @Schema(description = "Authentication Object ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class AuthenticationObject {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class AuthenticationObject {
 
   @SerializedName("authenticationType")
   private AuthenticationType authenticationType = null;

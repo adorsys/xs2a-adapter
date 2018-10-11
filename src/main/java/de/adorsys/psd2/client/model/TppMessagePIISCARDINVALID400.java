@@ -26,7 +26,7 @@ import java.io.IOException;
  * Addressed card number is unknown to the ASPSP or not associated to the PSU. 
  */
 @Schema(description = "Addressed card number is unknown to the ASPSP or not associated to the PSU. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class TppMessagePIISCARDINVALID400 {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class TppMessagePIISCARDINVALID400 {
 
   @SerializedName("category")
   private TppMessageCategory category = null;

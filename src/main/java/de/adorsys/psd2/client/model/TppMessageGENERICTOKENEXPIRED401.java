@@ -26,7 +26,7 @@ import java.io.IOException;
  * The OAuth2 token is associated to the TPP but has expired and needs to be renewed.
  */
 @Schema(description = "The OAuth2 token is associated to the TPP but has expired and needs to be renewed.")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class TppMessageGENERICTOKENEXPIRED401 {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class TppMessageGENERICTOKENEXPIRED401 {
 
   @SerializedName("category")
   private TppMessageCategory category = null;

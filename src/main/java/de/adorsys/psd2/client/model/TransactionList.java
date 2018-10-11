@@ -22,7 +22,7 @@ import java.util.List;
  * Array of transaction details
  */
 @Schema(description = "Array of transaction details")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class TransactionList extends ArrayList<TransactionDetails> {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class TransactionList extends ArrayList<TransactionDetails> {
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

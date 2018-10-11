@@ -22,7 +22,7 @@ import java.util.List;
  * Array of exchange rates
  */
 @Schema(description = "Array of exchange rates")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class ExchangeRateList extends ArrayList<ExchangeRate> {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class ExchangeRateList extends ArrayList<ExchangeRate> {
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

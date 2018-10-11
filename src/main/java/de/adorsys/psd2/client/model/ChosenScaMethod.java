@@ -12,12 +12,15 @@
 
 package de.adorsys.psd2.client.model;
 
+import java.util.Objects;
+import de.adorsys.psd2.client.model.AuthenticationObject;
+import de.adorsys.psd2.client.model.AuthenticationType;
 
 /**
  * ChosenScaMethod
  */
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class ChosenScaMethod {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class ChosenScaMethod extends AuthenticationObject {
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -26,19 +29,19 @@ package de.adorsys.psd2.client.model;
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    return true;
+    return super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return java.util.Objects.hash();
+    return java.util.Objects.hash(super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ChosenScaMethod {\n");
-    
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("}");
     return sb.toString();
   }

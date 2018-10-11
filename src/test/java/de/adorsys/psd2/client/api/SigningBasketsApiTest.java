@@ -82,35 +82,6 @@ public class SigningBasketsApiTest {
         // TODO: test validations
     }
     /**
-     * Get Signing Basket Authorisation Sub-Resources Request
-     *
-     * Read a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void getPaymentInitiationAuthorisationTest() throws ApiException {
-        String basketId = null;
-        UUID xRequestID = null;
-        String digest = null;
-        String signature = null;
-        byte[] tpPSignatureCertificate = null;
-        String psUIPAddress = null;
-        Object psUIPPort = null;
-        String psUAccept = null;
-        String psUAcceptCharset = null;
-        String psUAcceptEncoding = null;
-        String psUAcceptLanguage = null;
-        String psUUserAgent = null;
-        String psUHttpMethod = null;
-        UUID psUDeviceID = null;
-        String psUGeoLocation = null;
-        Authorisations response = api.getPaymentInitiationAuthorisation(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
-
-        // TODO: test validations
-    }
-    /**
      * Returns the content of an signing basket object.
      *
      * Returns the content of an signing basket object.
@@ -136,6 +107,35 @@ public class SigningBasketsApiTest {
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
         SigningBasketResponse200 response = api.getSigningBasket(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+
+        // TODO: test validations
+    }
+    /**
+     * Get Signing Basket Authorisation Sub-Resources Request
+     *
+     * Read a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void getSigningBasketAuthorisationsTest() throws ApiException {
+        String basketId = null;
+        UUID xRequestID = null;
+        String digest = null;
+        String signature = null;
+        byte[] tpPSignatureCertificate = null;
+        String psUIPAddress = null;
+        Object psUIPPort = null;
+        String psUAccept = null;
+        String psUAcceptCharset = null;
+        String psUAcceptEncoding = null;
+        String psUAcceptLanguage = null;
+        String psUUserAgent = null;
+        String psUHttpMethod = null;
+        UUID psUDeviceID = null;
+        String psUGeoLocation = null;
+        Authorisations response = api.getSigningBasketAuthorisations(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }

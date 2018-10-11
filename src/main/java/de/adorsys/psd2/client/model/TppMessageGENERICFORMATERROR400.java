@@ -26,7 +26,7 @@ import java.io.IOException;
  * Format of certain request fields are not matching the XS2A requirements. An explicit path to the corresponding field might be added in the return message. 
  */
 @Schema(description = "Format of certain request fields are not matching the XS2A requirements. An explicit path to the corresponding field might be added in the return message. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class TppMessageGENERICFORMATERROR400 {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class TppMessageGENERICFORMATERROR400 {
 
   @SerializedName("category")
   private TppMessageCategory category = null;

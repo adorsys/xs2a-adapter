@@ -41,6 +41,35 @@ public class CommonAisAndPisServicesApiTest {
     private final CommonAisAndPisServicesApi api = new CommonAisAndPisServicesApi();
 
     /**
+     * Get Consent Authorisation Sub-Resources Request
+     *
+     * Return a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void getConsentAuthorisationsTest() throws ApiException {
+        String consentId = null;
+        UUID xRequestID = null;
+        String digest = null;
+        String signature = null;
+        byte[] tpPSignatureCertificate = null;
+        String psUIPAddress = null;
+        Object psUIPPort = null;
+        String psUAccept = null;
+        String psUAcceptCharset = null;
+        String psUAcceptEncoding = null;
+        String psUAcceptLanguage = null;
+        String psUUserAgent = null;
+        String psUHttpMethod = null;
+        UUID psUDeviceID = null;
+        String psUGeoLocation = null;
+        Authorisations response = api.getConsentAuthorisations(consentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+
+        // TODO: test validations
+    }
+    /**
      * Read the SCA status of the consent authorisation.
      *
      * This method returns the SCA status of a consent initiation&#x27;s authorisation sub-resource. 
@@ -132,35 +161,6 @@ public class CommonAisAndPisServicesApiTest {
         // TODO: test validations
     }
     /**
-     * Get Signing Basket Authorisation Sub-Resources Request
-     *
-     * Read a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void getPaymentInitiationAuthorisation_0Test() throws ApiException {
-        String basketId = null;
-        UUID xRequestID = null;
-        String digest = null;
-        String signature = null;
-        byte[] tpPSignatureCertificate = null;
-        String psUIPAddress = null;
-        Object psUIPPort = null;
-        String psUAccept = null;
-        String psUAcceptCharset = null;
-        String psUAcceptEncoding = null;
-        String psUAcceptLanguage = null;
-        String psUUserAgent = null;
-        String psUHttpMethod = null;
-        UUID psUDeviceID = null;
-        String psUGeoLocation = null;
-        Authorisations response = api.getPaymentInitiationAuthorisation_0(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
-
-        // TODO: test validations
-    }
-    /**
      * Read the SCA Status of the payment authorisation
      *
      * This method returns the SCA status of a payment initiation&#x27;s authorisation sub-resource. 
@@ -188,6 +188,35 @@ public class CommonAisAndPisServicesApiTest {
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
         ScaStatusResponse response = api.getPaymentInitiationScaStatus(paymentService, paymentId, authorisationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+
+        // TODO: test validations
+    }
+    /**
+     * Get Signing Basket Authorisation Sub-Resources Request
+     *
+     * Read a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void getSigningBasketAuthorisationsTest() throws ApiException {
+        String basketId = null;
+        UUID xRequestID = null;
+        String digest = null;
+        String signature = null;
+        byte[] tpPSignatureCertificate = null;
+        String psUIPAddress = null;
+        Object psUIPPort = null;
+        String psUAccept = null;
+        String psUAcceptCharset = null;
+        String psUAcceptEncoding = null;
+        String psUAcceptLanguage = null;
+        String psUUserAgent = null;
+        String psUHttpMethod = null;
+        UUID psUDeviceID = null;
+        String psUGeoLocation = null;
+        Authorisations response = api.getSigningBasketAuthorisations(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }

@@ -29,7 +29,7 @@ import java.time.LocalDate;
  * The body part 2 of a periodic payment initation request containes the execution related informations  of the periodic payment. 
  */
 @Schema(description = "The body part 2 of a periodic payment initation request containes the execution related informations  of the periodic payment. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class PeriodicPaymentInitiationXmlPart2StandingorderTypeJson {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class PeriodicPaymentInitiationXmlPart2StandingorderTypeJson {
 
   @SerializedName("startDate")
   private LocalDate startDate = null;

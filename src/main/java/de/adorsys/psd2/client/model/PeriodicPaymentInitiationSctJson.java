@@ -31,7 +31,7 @@ import java.time.LocalDate;
  * JSON Body for a periodic SCT payment initation. 
  */
 @Schema(description = "JSON Body for a periodic SCT payment initation. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-04T17:50:34.234+02:00[Europe/Berlin]")public class PeriodicPaymentInitiationSctJson {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class PeriodicPaymentInitiationSctJson {
 
   @SerializedName("endToEndIdentification")
   private String endToEndIdentification = null;

@@ -48,6 +48,18 @@ public class JSON {
 
     public static GsonBuilder createGson() {
         GsonFireBuilder fireBuilder = new GsonFireBuilder()
+          .registerTypeSelector(AuthenticationObject.class, new TypeSelector<AuthenticationObject>() {
+            @Override
+            public Class<? extends AuthenticationObject> getClassForElement(JsonElement readElement) {
+                Map<String, Class<? extends AuthenticationObject>> classByDiscriminatorValue = new HashMap<>();
+
+                    classByDiscriminatorValue.put("chosenScaMethod".toUpperCase(), ChosenScaMethod.class);
+                    classByDiscriminatorValue.put("AuthenticationObject".toUpperCase(), AuthenticationObject.class);
+                return getClassByDiscriminator(
+                            classByDiscriminatorValue,
+                            getDiscriminatorValue(readElement, ""));
+            }
+          })
         ;
         return fireBuilder.createGsonBuilder();
     }
