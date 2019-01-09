@@ -1,8 +1,8 @@
 /*
  * BG PSD2 API
- * # Summary The **NextGenPSD2** *Framework Version 1.2* offers a modern, open, harmonised and interoperable set of  Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely.  The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards  in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service')  by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.    Futhermore this API definition does not differ between methods which are mandatory, conditional, or optional   Therfore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support    a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure    which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**    It is not an replacement in any sense.   The main specification is (at the moment) allways the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]        \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"      The element \"Accept\" will not be defined in this file at any place.      The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".    * There are several predefined types which might occur in payment initiation messages,    but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convinience of the user.   If there is a payment product, which need these field, one can easily use the predefined types.   But the ASPSP need not to accept them in general.    * **We ommit the definition of all standard HTTP header elements (mandatory/optional/conditional)    except they are mention in the Implementation Guidelines.**   Therefore the implementer might add the in his own realisation of a PSD2 comlient API in addition to the elements define in this file.     ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API have to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
+ * # Summary The **NextGenPSD2** *Framework Version 1.3* offers a modern, open, harmonised and interoperable set of Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely. The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service') by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.   Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support   a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure   which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**   It is not an replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]      \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"    The element \"Accept\" will not be defined in this file at any place.    The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".  * There are several predefined types which might occur in payment initiation messages,   but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which need these field, one can easily use the predefined types.   But the ASPSP need not to accept them in general.  * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)   except they are mention in the Implementation Guidelines.**   Therefore the implementer might add the in his own realisation of a PSD2 comlient API in addition to the elements define in this file.  ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API have to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
  *
- * OpenAPI spec version: 1.2
+ * OpenAPI spec version: 1.3 Dec 20th 2018
  * Contact: info@berlin-group.org
  *
  * NOTE: This class is auto generated by the swagger code generator program.
@@ -26,96 +26,96 @@ import java.time.LocalDate;
  * Exchange Rate
  */
 @Schema(description = "Exchange Rate")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2018-10-11T15:55:40.544+02:00[Europe/Berlin]")public class ExchangeRate {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2019-01-09T13:52:08.501+01:00[Europe/Berlin]")public class ExchangeRate {
 
-  @SerializedName("currencyFrom")
-  private String currencyFrom = null;
+  @SerializedName("sourceCurrency")
+  private String sourceCurrency = null;
 
-  @SerializedName("rateFrom")
-  private String rateFrom = null;
+  @SerializedName("rate")
+  private String rate = null;
 
-  @SerializedName("currencyTo")
-  private String currencyTo = null;
+  @SerializedName("unitCurrency")
+  private String unitCurrency = null;
 
-  @SerializedName("rateTo")
-  private String rateTo = null;
+  @SerializedName("targetCurrency")
+  private String targetCurrency = null;
 
   @SerializedName("rateDate")
   private LocalDate rateDate = null;
 
   @SerializedName("rateContract")
   private String rateContract = null;
-  public ExchangeRate currencyFrom(String currencyFrom) {
-    this.currencyFrom = currencyFrom;
+  public ExchangeRate sourceCurrency(String sourceCurrency) {
+    this.sourceCurrency = sourceCurrency;
     return this;
   }
 
   
 
   /**
-  * Get currencyFrom
-  * @return currencyFrom
+  * Get sourceCurrency
+  * @return sourceCurrency
   **/
   @Schema(required = true, description = "")
-  public String getCurrencyFrom() {
-    return currencyFrom;
+  public String getSourceCurrency() {
+    return sourceCurrency;
   }
-  public void setCurrencyFrom(String currencyFrom) {
-    this.currencyFrom = currencyFrom;
+  public void setSourceCurrency(String sourceCurrency) {
+    this.sourceCurrency = sourceCurrency;
   }
-  public ExchangeRate rateFrom(String rateFrom) {
-    this.rateFrom = rateFrom;
+  public ExchangeRate rate(String rate) {
+    this.rate = rate;
     return this;
   }
 
   
 
   /**
-  * Get rateFrom
-  * @return rateFrom
+  * Get rate
+  * @return rate
   **/
   @Schema(required = true, description = "")
-  public String getRateFrom() {
-    return rateFrom;
+  public String getRate() {
+    return rate;
   }
-  public void setRateFrom(String rateFrom) {
-    this.rateFrom = rateFrom;
+  public void setRate(String rate) {
+    this.rate = rate;
   }
-  public ExchangeRate currencyTo(String currencyTo) {
-    this.currencyTo = currencyTo;
+  public ExchangeRate unitCurrency(String unitCurrency) {
+    this.unitCurrency = unitCurrency;
     return this;
   }
 
   
 
   /**
-  * Get currencyTo
-  * @return currencyTo
+  * Get unitCurrency
+  * @return unitCurrency
   **/
   @Schema(required = true, description = "")
-  public String getCurrencyTo() {
-    return currencyTo;
+  public String getUnitCurrency() {
+    return unitCurrency;
   }
-  public void setCurrencyTo(String currencyTo) {
-    this.currencyTo = currencyTo;
+  public void setUnitCurrency(String unitCurrency) {
+    this.unitCurrency = unitCurrency;
   }
-  public ExchangeRate rateTo(String rateTo) {
-    this.rateTo = rateTo;
+  public ExchangeRate targetCurrency(String targetCurrency) {
+    this.targetCurrency = targetCurrency;
     return this;
   }
 
   
 
   /**
-  * Get rateTo
-  * @return rateTo
+  * Get targetCurrency
+  * @return targetCurrency
   **/
   @Schema(required = true, description = "")
-  public String getRateTo() {
-    return rateTo;
+  public String getTargetCurrency() {
+    return targetCurrency;
   }
-  public void setRateTo(String rateTo) {
-    this.rateTo = rateTo;
+  public void setTargetCurrency(String targetCurrency) {
+    this.targetCurrency = targetCurrency;
   }
   public ExchangeRate rateDate(LocalDate rateDate) {
     this.rateDate = rateDate;
@@ -162,17 +162,17 @@ import java.time.LocalDate;
       return false;
     }
     ExchangeRate exchangeRate = (ExchangeRate) o;
-    return Objects.equals(this.currencyFrom, exchangeRate.currencyFrom) &&
-        Objects.equals(this.rateFrom, exchangeRate.rateFrom) &&
-        Objects.equals(this.currencyTo, exchangeRate.currencyTo) &&
-        Objects.equals(this.rateTo, exchangeRate.rateTo) &&
+    return Objects.equals(this.sourceCurrency, exchangeRate.sourceCurrency) &&
+        Objects.equals(this.rate, exchangeRate.rate) &&
+        Objects.equals(this.unitCurrency, exchangeRate.unitCurrency) &&
+        Objects.equals(this.targetCurrency, exchangeRate.targetCurrency) &&
         Objects.equals(this.rateDate, exchangeRate.rateDate) &&
         Objects.equals(this.rateContract, exchangeRate.rateContract);
   }
 
   @Override
   public int hashCode() {
-    return java.util.Objects.hash(currencyFrom, rateFrom, currencyTo, rateTo, rateDate, rateContract);
+    return java.util.Objects.hash(sourceCurrency, rate, unitCurrency, targetCurrency, rateDate, rateContract);
   }
 
   @Override
@@ -180,10 +180,10 @@ import java.time.LocalDate;
     StringBuilder sb = new StringBuilder();
     sb.append("class ExchangeRate {\n");
     
-    sb.append("    currencyFrom: ").append(toIndentedString(currencyFrom)).append("\n");
-    sb.append("    rateFrom: ").append(toIndentedString(rateFrom)).append("\n");
-    sb.append("    currencyTo: ").append(toIndentedString(currencyTo)).append("\n");
-    sb.append("    rateTo: ").append(toIndentedString(rateTo)).append("\n");
+    sb.append("    sourceCurrency: ").append(toIndentedString(sourceCurrency)).append("\n");
+    sb.append("    rate: ").append(toIndentedString(rate)).append("\n");
+    sb.append("    unitCurrency: ").append(toIndentedString(unitCurrency)).append("\n");
+    sb.append("    targetCurrency: ").append(toIndentedString(targetCurrency)).append("\n");
     sb.append("    rateDate: ").append(toIndentedString(rateDate)).append("\n");
     sb.append("    rateContract: ").append(toIndentedString(rateContract)).append("\n");
     sb.append("}");

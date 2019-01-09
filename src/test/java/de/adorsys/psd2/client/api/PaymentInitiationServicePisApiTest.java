@@ -1,8 +1,8 @@
 /*
  * BG PSD2 API
- * # Summary The **NextGenPSD2** *Framework Version 1.2* offers a modern, open, harmonised and interoperable set of  Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely.  The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards  in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service')  by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.    Futhermore this API definition does not differ between methods which are mandatory, conditional, or optional   Therfore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support    a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure    which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**    It is not an replacement in any sense.   The main specification is (at the moment) allways the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]        \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"      The element \"Accept\" will not be defined in this file at any place.      The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".    * There are several predefined types which might occur in payment initiation messages,    but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convinience of the user.   If there is a payment product, which need these field, one can easily use the predefined types.   But the ASPSP need not to accept them in general.    * **We ommit the definition of all standard HTTP header elements (mandatory/optional/conditional)    except they are mention in the Implementation Guidelines.**   Therefore the implementer might add the in his own realisation of a PSD2 comlient API in addition to the elements define in this file.     ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API have to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
+ * # Summary The **NextGenPSD2** *Framework Version 1.3* offers a modern, open, harmonised and interoperable set of Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely. The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service') by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.   Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support   a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure   which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**   It is not an replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]      \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"    The element \"Accept\" will not be defined in this file at any place.    The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".  * There are several predefined types which might occur in payment initiation messages,   but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which need these field, one can easily use the predefined types.   But the ASPSP need not to accept them in general.  * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)   except they are mention in the Implementation Guidelines.**   Therefore the implementer might add the in his own realisation of a PSD2 comlient API in addition to the elements define in this file.  ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API have to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
  *
- * OpenAPI spec version: 1.2
+ * OpenAPI spec version: 1.3 Dec 20th 2018
  * Contact: info@berlin-group.org
  *
  * NOTE: This class is auto generated by the swagger code generator program.
@@ -15,17 +15,16 @@ package de.adorsys.psd2.client.api;
 import de.adorsys.psd2.client.ApiException;
 import de.adorsys.psd2.client.model.Authorisations;
 import de.adorsys.psd2.client.model.CancellationList;
-import de.adorsys.psd2.client.model.PaymentInitiationCancelResponse200202;
+import de.adorsys.psd2.client.model.Error400NGPIS;
+import de.adorsys.psd2.client.model.Error401NGPIS;
+import de.adorsys.psd2.client.model.Error403NGPIS;
+import de.adorsys.psd2.client.model.Error404NGPIS;
+import de.adorsys.psd2.client.model.Error405NGPIS;
+import de.adorsys.psd2.client.model.Error405NGPISCANC;
+import de.adorsys.psd2.client.model.PaymentInitiationCancelResponse204202;
 import de.adorsys.psd2.client.model.PaymentInitiationStatusResponse200Json;
 import de.adorsys.psd2.client.model.ScaStatusResponse;
 import de.adorsys.psd2.client.model.StartScaprocessResponse;
-import de.adorsys.psd2.client.model.TppMessages400;
-import de.adorsys.psd2.client.model.TppMessages401;
-import de.adorsys.psd2.client.model.TppMessages403;
-import de.adorsys.psd2.client.model.TppMessages404;
-import de.adorsys.psd2.client.model.TppMessages405;
-import de.adorsys.psd2.client.model.TppMessages406;
-import de.adorsys.psd2.client.model.TppMessages429;
 import java.util.UUID;
 import org.junit.Test;
 import org.junit.Ignore;
@@ -46,7 +45,7 @@ public class PaymentInitiationServicePisApiTest {
     /**
      * Payment Cancellation Request
      *
-     * This method initiates the cancellation of a payment.  Depending on the payment-service, the payment-product and the ASPSP&#x27;s implementation,  this TPP call might be sufficient to cancel a payment.  If an authorisation of the payment cancellation is mandated by the ASPSP,  a corresponding hyperlink will be contained in the response message.  Cancels the addressed payment with resource identification paymentId if applicable to the payment-service, payment-product and received in product related timelines (e.g. before end of business day for scheduled payments of the last business day before the scheduled execution day).   The response to this DELETE command will tell the TPP whether the    * access method was rejected   * access method was successful, or   * access method is generally applicable, but further authorisation processes are needed. 
+     * This method initiates the cancellation of a payment. Depending on the payment-service, the payment-product and the ASPSP&#x27;s implementation, this TPP call might be sufficient to cancel a payment. If an authorisation of the payment cancellation is mandated by the ASPSP, a corresponding hyperlink will be contained in the response message.  Cancels the addressed payment with resource identification paymentId if applicable to the payment-service, payment-product and received in product related timelines (e.g. before end of business day for scheduled payments of the last business day before the scheduled execution day).  The response to this DELETE command will tell the TPP whether the   * access method was rejected   * access method was successful, or   * access method is generally applicable, but further authorisation processes are needed. 
      *
      * @throws ApiException
      *          if the Api call fails
@@ -54,13 +53,14 @@ public class PaymentInitiationServicePisApiTest {
     @Test
     public void cancelPaymentTest() throws ApiException {
         String paymentService = null;
+        String paymentProduct = null;
         String paymentId = null;
         UUID xRequestID = null;
         String digest = null;
         String signature = null;
         byte[] tpPSignatureCertificate = null;
         String psUIPAddress = null;
-        Object psUIPPort = null;
+        String psUIPPort = null;
         String psUAccept = null;
         String psUAcceptCharset = null;
         String psUAcceptEncoding = null;
@@ -69,7 +69,7 @@ public class PaymentInitiationServicePisApiTest {
         String psUHttpMethod = null;
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
-        PaymentInitiationCancelResponse200202 response = api.cancelPayment(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        PaymentInitiationCancelResponse204202 response = api.cancelPayment(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }
@@ -84,6 +84,7 @@ public class PaymentInitiationServicePisApiTest {
     @Test
     public void getPaymentCancellationScaStatusTest() throws ApiException {
         String paymentService = null;
+        String paymentProduct = null;
         String paymentId = null;
         String cancellationId = null;
         UUID xRequestID = null;
@@ -91,7 +92,7 @@ public class PaymentInitiationServicePisApiTest {
         String signature = null;
         byte[] tpPSignatureCertificate = null;
         String psUIPAddress = null;
-        Object psUIPPort = null;
+        String psUIPPort = null;
         String psUAccept = null;
         String psUAcceptCharset = null;
         String psUAcceptEncoding = null;
@@ -100,7 +101,7 @@ public class PaymentInitiationServicePisApiTest {
         String psUHttpMethod = null;
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
-        ScaStatusResponse response = api.getPaymentCancellationScaStatus(paymentService, paymentId, cancellationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        ScaStatusResponse response = api.getPaymentCancellationScaStatus(paymentService, paymentProduct, paymentId, cancellationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }
@@ -115,13 +116,14 @@ public class PaymentInitiationServicePisApiTest {
     @Test
     public void getPaymentInformationTest() throws ApiException {
         String paymentService = null;
+        String paymentProduct = null;
         String paymentId = null;
         UUID xRequestID = null;
         String digest = null;
         String signature = null;
         byte[] tpPSignatureCertificate = null;
         String psUIPAddress = null;
-        Object psUIPPort = null;
+        String psUIPPort = null;
         String psUAccept = null;
         String psUAcceptCharset = null;
         String psUAcceptEncoding = null;
@@ -130,7 +132,7 @@ public class PaymentInitiationServicePisApiTest {
         String psUHttpMethod = null;
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
-        Object response = api.getPaymentInformation(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        Object response = api.getPaymentInformation(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }
@@ -145,13 +147,14 @@ public class PaymentInitiationServicePisApiTest {
     @Test
     public void getPaymentInitiationAuthorisationTest() throws ApiException {
         String paymentService = null;
+        String paymentProduct = null;
         String paymentId = null;
         UUID xRequestID = null;
         String digest = null;
         String signature = null;
         byte[] tpPSignatureCertificate = null;
         String psUIPAddress = null;
-        Object psUIPPort = null;
+        String psUIPPort = null;
         String psUAccept = null;
         String psUAcceptCharset = null;
         String psUAcceptEncoding = null;
@@ -160,7 +163,7 @@ public class PaymentInitiationServicePisApiTest {
         String psUHttpMethod = null;
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
-        Authorisations response = api.getPaymentInitiationAuthorisation(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        Authorisations response = api.getPaymentInitiationAuthorisation(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }
@@ -175,13 +178,14 @@ public class PaymentInitiationServicePisApiTest {
     @Test
     public void getPaymentInitiationCancellationAuthorisationInformationTest() throws ApiException {
         String paymentService = null;
+        String paymentProduct = null;
         String paymentId = null;
         UUID xRequestID = null;
         String digest = null;
         String signature = null;
         byte[] tpPSignatureCertificate = null;
         String psUIPAddress = null;
-        Object psUIPPort = null;
+        String psUIPPort = null;
         String psUAccept = null;
         String psUAcceptCharset = null;
         String psUAcceptEncoding = null;
@@ -190,7 +194,7 @@ public class PaymentInitiationServicePisApiTest {
         String psUHttpMethod = null;
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
-        CancellationList response = api.getPaymentInitiationCancellationAuthorisationInformation(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        CancellationList response = api.getPaymentInitiationCancellationAuthorisationInformation(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }
@@ -205,6 +209,7 @@ public class PaymentInitiationServicePisApiTest {
     @Test
     public void getPaymentInitiationScaStatusTest() throws ApiException {
         String paymentService = null;
+        String paymentProduct = null;
         String paymentId = null;
         String authorisationId = null;
         UUID xRequestID = null;
@@ -212,7 +217,7 @@ public class PaymentInitiationServicePisApiTest {
         String signature = null;
         byte[] tpPSignatureCertificate = null;
         String psUIPAddress = null;
-        Object psUIPPort = null;
+        String psUIPPort = null;
         String psUAccept = null;
         String psUAcceptCharset = null;
         String psUAcceptEncoding = null;
@@ -221,7 +226,7 @@ public class PaymentInitiationServicePisApiTest {
         String psUHttpMethod = null;
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
-        ScaStatusResponse response = api.getPaymentInitiationScaStatus(paymentService, paymentId, authorisationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        ScaStatusResponse response = api.getPaymentInitiationScaStatus(paymentService, paymentProduct, paymentId, authorisationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }
@@ -236,13 +241,14 @@ public class PaymentInitiationServicePisApiTest {
     @Test
     public void getPaymentInitiationStatusTest() throws ApiException {
         String paymentService = null;
+        String paymentProduct = null;
         String paymentId = null;
         UUID xRequestID = null;
         String digest = null;
         String signature = null;
         byte[] tpPSignatureCertificate = null;
         String psUIPAddress = null;
-        Object psUIPPort = null;
+        String psUIPPort = null;
         String psUAccept = null;
         String psUAcceptCharset = null;
         String psUAcceptEncoding = null;
@@ -251,14 +257,14 @@ public class PaymentInitiationServicePisApiTest {
         String psUHttpMethod = null;
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
-        PaymentInitiationStatusResponse200Json response = api.getPaymentInitiationStatus(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        PaymentInitiationStatusResponse200Json response = api.getPaymentInitiationStatus(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }
     /**
      * Payment initiation request
      *
-     * This method is used to initiate a payment at the ASPSP.  ## Variants of Payment Initiation Requests  This method to initiate a payment initiation at the ASPSP can be sent with either a JSON body or an pain.001 body depending on the payment product in the path.  There are the following **payment products**:    - Payment products with payment information in *JSON* format:     - ***sepa-credit-transfers***     - ***instant-sepa-credit-transfers***     - ***target-2-payments***     - ***cross-border-credit-transfers***   - Payment products with payment information in *pain.001* XML format:     - ***pain.001-sepa-credit-transfers***     - ***pain.001-instant-sepa-credit-transfers***     - ***pain.001-target-2-payments***     - ***pain.001-cross-border-credit-transfers***  Furthermore the request body depends on the **payment-service**   * ***payments***: A single payment initiation request.   * ***bulk-payments***: A collection of several payment iniatiation requests.        In case of a *pain.001* message there are more than one payments contained in the *pain.001 message.          In case of a *JSON* there are several JSON payment blocks contained in a joining list.   * ***periodic-payments***:      Create a standing order initiation resource for recurrent i.e. periodic payments addressable under {paymentId}       with all data relevant for the corresponding payment product and the execution of the standing order contained in a JSON body.   This is the first step in the API to initiate the related recurring/periodic payment.    ## Single and mulitilevel SCA Processes  The Payment Initiation Requests are independent from the need of one ore multilevel  SCA processing, i.e. independent from the number of authorisations needed for the execution of payments.   But the response messages are specific to either one SCA processing or multilevel SCA processing.   For payment initiation with multilevel SCA, this specification requires an explicit start of the authorisation,  i.e. links directly associated with SCA processing like &#x27;scaRedirect&#x27; or &#x27;scaOAuth&#x27; cannot be contained in the  response message of a Payment Initation Request for a payment, where multiple authorisations are needed.  Also if any data is needed for the next action, like selecting an SCA method is not supported in the response,  since all starts of the multiple authorisations are fully equal.  In these cases, first an authorisation sub-resource has to be generated following the &#x27;startAuthorisation&#x27; link. 
+     * This method is used to initiate a payment at the ASPSP.  ## Variants of Payment Initiation Requests  This method to initiate a payment initiation at the ASPSP can be sent with either a JSON body or an pain.001 body depending on the payment product in the path.  There are the following **payment products**:    - Payment products with payment information in *JSON* format:     - ***sepa-credit-transfers***     - ***instant-sepa-credit-transfers***     - ***target-2-payments***     - ***cross-border-credit-transfers***   - Payment products with payment information in *pain.001* XML format:     - ***pain.001-sepa-credit-transfers***     - ***pain.001-instant-sepa-credit-transfers***     - ***pain.001-target-2-payments***     - ***pain.001-cross-border-credit-transfers***  Furthermore the request body depends on the **payment-service**   * ***payments***: A single payment initiation request.   * ***bulk-payments***: A collection of several payment iniatiation requests.      In case of a *pain.001* message there are more than one payments contained in the *pain.001 message.      In case of a *JSON* there are several JSON payment blocks contained in a joining list.   * ***periodic-payments***:     Create a standing order initiation resource for recurrent i.e. periodic payments addressable under {paymentId}      with all data relevant for the corresponding payment product and the execution of the standing order contained in a JSON body.  This is the first step in the API to initiate the related recurring/periodic payment.  ## Single and mulitilevel SCA Processes  The Payment Initiation Requests are independent from the need of one ore multilevel SCA processing, i.e. independent from the number of authorisations needed for the execution of payments.  But the response messages are specific to either one SCA processing or multilevel SCA processing.  For payment initiation with multilevel SCA, this specification requires an explicit start of the authorisation, i.e. links directly associated with SCA processing like &#x27;scaRedirect&#x27; or &#x27;scaOAuth&#x27; cannot be contained in the response message of a Payment Initation Request for a payment, where multiple authorisations are needed. Also if any data is needed for the next action, like selecting an SCA method is not supported in the response, since all starts of the multiple authorisations are fully equal. In these cases, first an authorisation sub-resource has to be generated following the &#x27;startAuthorisation&#x27; link. 
      *
      * @throws ApiException
      *          if the Api call fails
@@ -278,11 +284,11 @@ public class PaymentInitiationServicePisApiTest {
         String psUCorporateID = null;
         String psUCorporateIDType = null;
         String consentID = null;
-        Boolean tpPRedirectPreferred = null;
+        String tpPRedirectPreferred = null;
         String tpPRedirectURI = null;
         String tpPNokRedirectURI = null;
-        Boolean tpPExplicitAuthorisationPreferred = null;
-        Object psUIPPort = null;
+        String tpPExplicitAuthorisationPreferred = null;
+        String psUIPPort = null;
         String psUAccept = null;
         String psUAcceptCharset = null;
         String psUAcceptEncoding = null;
@@ -298,7 +304,7 @@ public class PaymentInitiationServicePisApiTest {
     /**
      * Start the authorisation process for a payment initiation
      *
-     * Create an authorisation sub-resource and start the authorisation process.  The message might in addition transmit authentication and authorisation related data.   This method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the transaction.  The ASPSP might make the usage of this access method unnecessary in case  of only one SCA process needed, since the related authorisation resource  might be automatically created by the ASPSP after the submission of the  payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,      * &#x27;startAuthorisationWithPsuAuthentication&#x27;     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. 
+     * Create an authorisation sub-resource and start the authorisation process. The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a corporate context, each creating an own authorisation sub-endpoint for the corresponding PSU authorising the transaction.  The ASPSP might make the usage of this access method unnecessary in case of only one SCA process needed, since the related authorisation resource might be automatically created by the ASPSP after the submission of the payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation or cancellation sub-resource.  This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment     Initiation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be     uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,     * &#x27;startAuthorisationWithPsuAuthentication&#x27; #TODO     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;   * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding     Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded     by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for     executing the cancellation.   * The signing basket needs to be authorised yet. 
      *
      * @throws ApiException
      *          if the Api call fails
@@ -306,6 +312,7 @@ public class PaymentInitiationServicePisApiTest {
     @Test
     public void startPaymentAuthorisationTest() throws ApiException {
         String paymentService = null;
+        String paymentProduct = null;
         String paymentId = null;
         UUID xRequestID = null;
         String PSU_ID = null;
@@ -316,7 +323,7 @@ public class PaymentInitiationServicePisApiTest {
         String signature = null;
         byte[] tpPSignatureCertificate = null;
         String psUIPAddress = null;
-        Object psUIPPort = null;
+        String psUIPPort = null;
         String psUAccept = null;
         String psUAcceptCharset = null;
         String psUAcceptEncoding = null;
@@ -325,14 +332,14 @@ public class PaymentInitiationServicePisApiTest {
         String psUHttpMethod = null;
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
-        StartScaprocessResponse response = api.startPaymentAuthorisation(paymentService, paymentId, xRequestID, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        StartScaprocessResponse response = api.startPaymentAuthorisation(paymentService, paymentProduct, paymentId, xRequestID, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }
     /**
      * Start the authorisation process for the cancellation of the addressed payment
      *
-     * Creates an authorisation sub-resource and start the authorisation process of the cancellation of the addressed payment.  The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the cancellation-authorisation.  The ASPSP might make the usage of this access method unnecessary in case  of only one SCA process needed, since the related authorisation resource  might be automatically created by the ASPSP after the submission of the  payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,      * &#x27;startAuthorisationWithPsuAuthentication&#x27;     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. 
+     * Creates an authorisation sub-resource and start the authorisation process of the cancellation of the addressed payment. The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a corporate context, each creating an own authorisation sub-endpoint for the corresponding PSU authorising the cancellation-authorisation.  The ASPSP might make the usage of this access method unnecessary in case of only one SCA process needed, since the related authorisation resource might be automatically created by the ASPSP after the submission of the payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation or cancellation sub-resource.  This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment     Initiation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be     uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,     * &#x27;startAuthorisationWithPsuAuthentication&#x27; #TODO     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;   * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding     Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded     by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for     executing the cancellation.   * The signing basket needs to be authorised yet. 
      *
      * @throws ApiException
      *          if the Api call fails
@@ -340,6 +347,7 @@ public class PaymentInitiationServicePisApiTest {
     @Test
     public void startPaymentInitiationCancellationAuthorisationTest() throws ApiException {
         String paymentService = null;
+        String paymentProduct = null;
         String paymentId = null;
         UUID xRequestID = null;
         String digest = null;
@@ -350,7 +358,7 @@ public class PaymentInitiationServicePisApiTest {
         String psUCorporateID = null;
         String psUCorporateIDType = null;
         String psUIPAddress = null;
-        Object psUIPPort = null;
+        String psUIPPort = null;
         String psUAccept = null;
         String psUAcceptCharset = null;
         String psUAcceptEncoding = null;
@@ -359,14 +367,14 @@ public class PaymentInitiationServicePisApiTest {
         String psUHttpMethod = null;
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
-        StartScaprocessResponse response = api.startPaymentInitiationCancellationAuthorisation(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        StartScaprocessResponse response = api.startPaymentInitiationCancellationAuthorisation(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }
     /**
      * Update PSU Data for payment initiation cancellation
      *
-     * This method updates PSU data on the cancellation authorisation resource if needed.  It may authorise a cancellation of the payment within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.   There are several possible Update PSU Data requests in the context of a cancellation authorisation within the payment initiation services needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. 
+     * This method updates PSU data on the cancellation authorisation resource if needed. It may authorise a cancellation of the payment within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.  There are several possible Update PSU Data requests in the context of a cancellation authorisation within the payment initiation services needed, which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for     * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:   The Update PSU Data Request might be used   * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method. For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change. 
      *
      * @throws ApiException
      *          if the Api call fails
@@ -374,6 +382,7 @@ public class PaymentInitiationServicePisApiTest {
     @Test
     public void updatePaymentCancellationPsuDataTest() throws ApiException {
         String paymentService = null;
+        String paymentProduct = null;
         String paymentId = null;
         String cancellationId = null;
         UUID xRequestID = null;
@@ -386,7 +395,7 @@ public class PaymentInitiationServicePisApiTest {
         String psUCorporateID = null;
         String psUCorporateIDType = null;
         String psUIPAddress = null;
-        Object psUIPPort = null;
+        String psUIPPort = null;
         String psUAccept = null;
         String psUAcceptCharset = null;
         String psUAcceptEncoding = null;
@@ -395,14 +404,14 @@ public class PaymentInitiationServicePisApiTest {
         String psUHttpMethod = null;
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
-        Object response = api.updatePaymentCancellationPsuData(paymentService, paymentId, cancellationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        Object response = api.updatePaymentCancellationPsuData(paymentService, paymentProduct, paymentId, cancellationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }
     /**
      * Update PSU data for payment initiation
      *
-     * This methods updates PSU data on the authorisation resource if needed.  It may authorise a payment within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  There are several possible Update PSU Data requests in the context of payment initiation services needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. 
+     * This methods updates PSU data on the authorisation resource if needed. It may authorise a payment within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of the authentication method and a non-SCA PSU authentication.  There are several possible Update PSU Data requests in the context of payment initiation services needed, which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for     * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:   The Update PSU Data Request might be used   * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method. For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change. 
      *
      * @throws ApiException
      *          if the Api call fails
@@ -410,6 +419,7 @@ public class PaymentInitiationServicePisApiTest {
     @Test
     public void updatePaymentPsuDataTest() throws ApiException {
         String paymentService = null;
+        String paymentProduct = null;
         String paymentId = null;
         String authorisationId = null;
         UUID xRequestID = null;
@@ -422,7 +432,7 @@ public class PaymentInitiationServicePisApiTest {
         String psUCorporateID = null;
         String psUCorporateIDType = null;
         String psUIPAddress = null;
-        Object psUIPPort = null;
+        String psUIPPort = null;
         String psUAccept = null;
         String psUAcceptCharset = null;
         String psUAcceptEncoding = null;
@@ -431,7 +441,7 @@ public class PaymentInitiationServicePisApiTest {
         String psUHttpMethod = null;
         UUID psUDeviceID = null;
         String psUGeoLocation = null;
-        Object response = api.updatePaymentPsuData(paymentService, paymentId, authorisationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        Object response = api.updatePaymentPsuData(paymentService, paymentProduct, paymentId, authorisationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         // TODO: test validations
     }

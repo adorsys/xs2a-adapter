@@ -1,8 +1,8 @@
 /*
  * BG PSD2 API
- * # Summary The **NextGenPSD2** *Framework Version 1.2* offers a modern, open, harmonised and interoperable set of  Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely.  The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards  in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service')  by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.    Futhermore this API definition does not differ between methods which are mandatory, conditional, or optional   Therfore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support    a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure    which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**    It is not an replacement in any sense.   The main specification is (at the moment) allways the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]        \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"      The element \"Accept\" will not be defined in this file at any place.      The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".    * There are several predefined types which might occur in payment initiation messages,    but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convinience of the user.   If there is a payment product, which need these field, one can easily use the predefined types.   But the ASPSP need not to accept them in general.    * **We ommit the definition of all standard HTTP header elements (mandatory/optional/conditional)    except they are mention in the Implementation Guidelines.**   Therefore the implementer might add the in his own realisation of a PSD2 comlient API in addition to the elements define in this file.     ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API have to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
+ * # Summary The **NextGenPSD2** *Framework Version 1.3* offers a modern, open, harmonised and interoperable set of Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely. The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service') by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.   Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support   a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure   which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**   It is not an replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]      \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"    The element \"Accept\" will not be defined in this file at any place.    The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".  * There are several predefined types which might occur in payment initiation messages,   but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which need these field, one can easily use the predefined types.   But the ASPSP need not to accept them in general.  * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)   except they are mention in the Implementation Guidelines.**   Therefore the implementer might add the in his own realisation of a PSD2 comlient API in addition to the elements define in this file.  ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API have to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
  *
- * OpenAPI spec version: 1.2
+ * OpenAPI spec version: 1.3 Dec 20th 2018
  * Contact: info@berlin-group.org
  *
  * NOTE: This class is auto generated by the swagger code generator program.
@@ -28,17 +28,16 @@ import java.io.IOException;
 
 import de.adorsys.psd2.client.model.Authorisations;
 import de.adorsys.psd2.client.model.CancellationList;
-import de.adorsys.psd2.client.model.PaymentInitiationCancelResponse200202;
+import de.adorsys.psd2.client.model.Error400NGPIS;
+import de.adorsys.psd2.client.model.Error401NGPIS;
+import de.adorsys.psd2.client.model.Error403NGPIS;
+import de.adorsys.psd2.client.model.Error404NGPIS;
+import de.adorsys.psd2.client.model.Error405NGPIS;
+import de.adorsys.psd2.client.model.Error405NGPISCANC;
+import de.adorsys.psd2.client.model.PaymentInitiationCancelResponse204202;
 import de.adorsys.psd2.client.model.PaymentInitiationStatusResponse200Json;
 import de.adorsys.psd2.client.model.ScaStatusResponse;
 import de.adorsys.psd2.client.model.StartScaprocessResponse;
-import de.adorsys.psd2.client.model.TppMessages400;
-import de.adorsys.psd2.client.model.TppMessages401;
-import de.adorsys.psd2.client.model.TppMessages403;
-import de.adorsys.psd2.client.model.TppMessages404;
-import de.adorsys.psd2.client.model.TppMessages405;
-import de.adorsys.psd2.client.model.TppMessages406;
-import de.adorsys.psd2.client.model.TppMessages429;
 import java.util.UUID;
 
 import java.lang.reflect.Type;
@@ -69,11 +68,12 @@ public class PaymentInitiationServicePisApi {
     /**
      * Build call for cancelPayment
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -89,12 +89,13 @@ public class PaymentInitiationServicePisApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call cancelPaymentCall(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call cancelPaymentCall(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/v1/{payment-service}/{paymentId}"
+        String localVarPath = "/v1/{payment-service}/{payment-product}/{paymentId}"
             .replaceAll("\\{" + "payment-service" + "\\}", apiClient.escapeString(paymentService.toString()))
+            .replaceAll("\\{" + "payment-product" + "\\}", apiClient.escapeString(paymentProduct.toString()))
             .replaceAll("\\{" + "paymentId" + "\\}", apiClient.escapeString(paymentId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -133,7 +134,7 @@ public class PaymentInitiationServicePisApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+            "application/json", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -161,10 +162,14 @@ public class PaymentInitiationServicePisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call cancelPaymentValidateBeforeCall(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call cancelPaymentValidateBeforeCall(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'paymentService' is set
         if (paymentService == null) {
             throw new ApiException("Missing the required parameter 'paymentService' when calling cancelPayment(Async)");
+        }
+        // verify the required parameter 'paymentProduct' is set
+        if (paymentProduct == null) {
+            throw new ApiException("Missing the required parameter 'paymentProduct' when calling cancelPayment(Async)");
         }
         // verify the required parameter 'paymentId' is set
         if (paymentId == null) {
@@ -175,7 +180,7 @@ public class PaymentInitiationServicePisApi {
             throw new ApiException("Missing the required parameter 'xRequestID' when calling cancelPayment(Async)");
         }
         
-        com.squareup.okhttp.Call call = cancelPaymentCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = cancelPaymentCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -186,13 +191,14 @@ public class PaymentInitiationServicePisApi {
 
     /**
      * Payment Cancellation Request
-     * This method initiates the cancellation of a payment.  Depending on the payment-service, the payment-product and the ASPSP&#x27;s implementation,  this TPP call might be sufficient to cancel a payment.  If an authorisation of the payment cancellation is mandated by the ASPSP,  a corresponding hyperlink will be contained in the response message.  Cancels the addressed payment with resource identification paymentId if applicable to the payment-service, payment-product and received in product related timelines (e.g. before end of business day for scheduled payments of the last business day before the scheduled execution day).   The response to this DELETE command will tell the TPP whether the    * access method was rejected   * access method was successful, or   * access method is generally applicable, but further authorisation processes are needed. 
+     * This method initiates the cancellation of a payment. Depending on the payment-service, the payment-product and the ASPSP&#x27;s implementation, this TPP call might be sufficient to cancel a payment. If an authorisation of the payment cancellation is mandated by the ASPSP, a corresponding hyperlink will be contained in the response message.  Cancels the addressed payment with resource identification paymentId if applicable to the payment-service, payment-product and received in product related timelines (e.g. before end of business day for scheduled payments of the last business day before the scheduled execution day).  The response to this DELETE command will tell the TPP whether the   * access method was rejected   * access method was successful, or   * access method is generally applicable, but further authorisation processes are needed. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -203,23 +209,24 @@ public class PaymentInitiationServicePisApi {
      * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
      * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
      * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
-     * @return PaymentInitiationCancelResponse200202
+     * @return PaymentInitiationCancelResponse204202
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public PaymentInitiationCancelResponse200202 cancelPayment(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<PaymentInitiationCancelResponse200202> resp = cancelPaymentWithHttpInfo(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public PaymentInitiationCancelResponse204202 cancelPayment(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<PaymentInitiationCancelResponse204202> resp = cancelPaymentWithHttpInfo(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
     /**
      * Payment Cancellation Request
-     * This method initiates the cancellation of a payment.  Depending on the payment-service, the payment-product and the ASPSP&#x27;s implementation,  this TPP call might be sufficient to cancel a payment.  If an authorisation of the payment cancellation is mandated by the ASPSP,  a corresponding hyperlink will be contained in the response message.  Cancels the addressed payment with resource identification paymentId if applicable to the payment-service, payment-product and received in product related timelines (e.g. before end of business day for scheduled payments of the last business day before the scheduled execution day).   The response to this DELETE command will tell the TPP whether the    * access method was rejected   * access method was successful, or   * access method is generally applicable, but further authorisation processes are needed. 
+     * This method initiates the cancellation of a payment. Depending on the payment-service, the payment-product and the ASPSP&#x27;s implementation, this TPP call might be sufficient to cancel a payment. If an authorisation of the payment cancellation is mandated by the ASPSP, a corresponding hyperlink will be contained in the response message.  Cancels the addressed payment with resource identification paymentId if applicable to the payment-service, payment-product and received in product related timelines (e.g. before end of business day for scheduled payments of the last business day before the scheduled execution day).  The response to this DELETE command will tell the TPP whether the   * access method was rejected   * access method was successful, or   * access method is generally applicable, but further authorisation processes are needed. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -230,24 +237,25 @@ public class PaymentInitiationServicePisApi {
      * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
      * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
      * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
-     * @return ApiResponse&lt;PaymentInitiationCancelResponse200202&gt;
+     * @return ApiResponse&lt;PaymentInitiationCancelResponse204202&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<PaymentInitiationCancelResponse200202> cancelPaymentWithHttpInfo(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = cancelPaymentValidateBeforeCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
-        Type localVarReturnType = new TypeToken<PaymentInitiationCancelResponse200202>(){}.getType();
+    public ApiResponse<PaymentInitiationCancelResponse204202> cancelPaymentWithHttpInfo(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = cancelPaymentValidateBeforeCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+        Type localVarReturnType = new TypeToken<PaymentInitiationCancelResponse204202>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
      * Payment Cancellation Request (asynchronously)
-     * This method initiates the cancellation of a payment.  Depending on the payment-service, the payment-product and the ASPSP&#x27;s implementation,  this TPP call might be sufficient to cancel a payment.  If an authorisation of the payment cancellation is mandated by the ASPSP,  a corresponding hyperlink will be contained in the response message.  Cancels the addressed payment with resource identification paymentId if applicable to the payment-service, payment-product and received in product related timelines (e.g. before end of business day for scheduled payments of the last business day before the scheduled execution day).   The response to this DELETE command will tell the TPP whether the    * access method was rejected   * access method was successful, or   * access method is generally applicable, but further authorisation processes are needed. 
+     * This method initiates the cancellation of a payment. Depending on the payment-service, the payment-product and the ASPSP&#x27;s implementation, this TPP call might be sufficient to cancel a payment. If an authorisation of the payment cancellation is mandated by the ASPSP, a corresponding hyperlink will be contained in the response message.  Cancels the addressed payment with resource identification paymentId if applicable to the payment-service, payment-product and received in product related timelines (e.g. before end of business day for scheduled payments of the last business day before the scheduled execution day).  The response to this DELETE command will tell the TPP whether the   * access method was rejected   * access method was successful, or   * access method is generally applicable, but further authorisation processes are needed. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -262,7 +270,7 @@ public class PaymentInitiationServicePisApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call cancelPaymentAsync(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<PaymentInitiationCancelResponse200202> callback) throws ApiException {
+    public com.squareup.okhttp.Call cancelPaymentAsync(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<PaymentInitiationCancelResponse204202> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -283,20 +291,21 @@ public class PaymentInitiationServicePisApi {
             };
         }
 
-        com.squareup.okhttp.Call call = cancelPaymentValidateBeforeCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<PaymentInitiationCancelResponse200202>(){}.getType();
+        com.squareup.okhttp.Call call = cancelPaymentValidateBeforeCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<PaymentInitiationCancelResponse204202>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /**
      * Build call for getPaymentCancellationScaStatus
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param cancellationId Identification for cancellation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -312,12 +321,13 @@ public class PaymentInitiationServicePisApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getPaymentCancellationScaStatusCall(String paymentService, String paymentId, String cancellationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getPaymentCancellationScaStatusCall(String paymentService, String paymentProduct, String paymentId, String cancellationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/v1/{payment-service}/{paymentId}/cancellation-authorisations/{cancellationId}"
+        String localVarPath = "/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}"
             .replaceAll("\\{" + "payment-service" + "\\}", apiClient.escapeString(paymentService.toString()))
+            .replaceAll("\\{" + "payment-product" + "\\}", apiClient.escapeString(paymentProduct.toString()))
             .replaceAll("\\{" + "paymentId" + "\\}", apiClient.escapeString(paymentId.toString()))
             .replaceAll("\\{" + "cancellationId" + "\\}", apiClient.escapeString(cancellationId.toString()));
 
@@ -357,7 +367,7 @@ public class PaymentInitiationServicePisApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+            "application/json", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -385,10 +395,14 @@ public class PaymentInitiationServicePisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getPaymentCancellationScaStatusValidateBeforeCall(String paymentService, String paymentId, String cancellationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getPaymentCancellationScaStatusValidateBeforeCall(String paymentService, String paymentProduct, String paymentId, String cancellationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'paymentService' is set
         if (paymentService == null) {
             throw new ApiException("Missing the required parameter 'paymentService' when calling getPaymentCancellationScaStatus(Async)");
+        }
+        // verify the required parameter 'paymentProduct' is set
+        if (paymentProduct == null) {
+            throw new ApiException("Missing the required parameter 'paymentProduct' when calling getPaymentCancellationScaStatus(Async)");
         }
         // verify the required parameter 'paymentId' is set
         if (paymentId == null) {
@@ -403,7 +417,7 @@ public class PaymentInitiationServicePisApi {
             throw new ApiException("Missing the required parameter 'xRequestID' when calling getPaymentCancellationScaStatus(Async)");
         }
         
-        com.squareup.okhttp.Call call = getPaymentCancellationScaStatusCall(paymentService, paymentId, cancellationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getPaymentCancellationScaStatusCall(paymentService, paymentProduct, paymentId, cancellationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -416,12 +430,13 @@ public class PaymentInitiationServicePisApi {
      * Read the SCA status of the payment cancellation&#x27;s authorisation.
      * This method returns the SCA status of a payment initiation&#x27;s authorisation sub-resource. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param cancellationId Identification for cancellation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -435,8 +450,8 @@ public class PaymentInitiationServicePisApi {
      * @return ScaStatusResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ScaStatusResponse getPaymentCancellationScaStatus(String paymentService, String paymentId, String cancellationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<ScaStatusResponse> resp = getPaymentCancellationScaStatusWithHttpInfo(paymentService, paymentId, cancellationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public ScaStatusResponse getPaymentCancellationScaStatus(String paymentService, String paymentProduct, String paymentId, String cancellationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<ScaStatusResponse> resp = getPaymentCancellationScaStatusWithHttpInfo(paymentService, paymentProduct, paymentId, cancellationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
@@ -444,12 +459,13 @@ public class PaymentInitiationServicePisApi {
      * Read the SCA status of the payment cancellation&#x27;s authorisation.
      * This method returns the SCA status of a payment initiation&#x27;s authorisation sub-resource. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param cancellationId Identification for cancellation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -463,8 +479,8 @@ public class PaymentInitiationServicePisApi {
      * @return ApiResponse&lt;ScaStatusResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<ScaStatusResponse> getPaymentCancellationScaStatusWithHttpInfo(String paymentService, String paymentId, String cancellationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = getPaymentCancellationScaStatusValidateBeforeCall(paymentService, paymentId, cancellationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+    public ApiResponse<ScaStatusResponse> getPaymentCancellationScaStatusWithHttpInfo(String paymentService, String paymentProduct, String paymentId, String cancellationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = getPaymentCancellationScaStatusValidateBeforeCall(paymentService, paymentProduct, paymentId, cancellationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<ScaStatusResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -473,12 +489,13 @@ public class PaymentInitiationServicePisApi {
      * Read the SCA status of the payment cancellation&#x27;s authorisation. (asynchronously)
      * This method returns the SCA status of a payment initiation&#x27;s authorisation sub-resource. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param cancellationId Identification for cancellation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -493,7 +510,7 @@ public class PaymentInitiationServicePisApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getPaymentCancellationScaStatusAsync(String paymentService, String paymentId, String cancellationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<ScaStatusResponse> callback) throws ApiException {
+    public com.squareup.okhttp.Call getPaymentCancellationScaStatusAsync(String paymentService, String paymentProduct, String paymentId, String cancellationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<ScaStatusResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -514,7 +531,7 @@ public class PaymentInitiationServicePisApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getPaymentCancellationScaStatusValidateBeforeCall(paymentService, paymentId, cancellationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getPaymentCancellationScaStatusValidateBeforeCall(paymentService, paymentProduct, paymentId, cancellationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<ScaStatusResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
@@ -522,11 +539,12 @@ public class PaymentInitiationServicePisApi {
     /**
      * Build call for getPaymentInformation
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -542,12 +560,13 @@ public class PaymentInitiationServicePisApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getPaymentInformationCall(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getPaymentInformationCall(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/v1/{payment-service}/{paymentId}"
+        String localVarPath = "/v1/{payment-service}/{payment-product}/{paymentId}"
             .replaceAll("\\{" + "payment-service" + "\\}", apiClient.escapeString(paymentService.toString()))
+            .replaceAll("\\{" + "payment-product" + "\\}", apiClient.escapeString(paymentProduct.toString()))
             .replaceAll("\\{" + "paymentId" + "\\}", apiClient.escapeString(paymentId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -586,7 +605,7 @@ public class PaymentInitiationServicePisApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json", "application/xml", "multipart/form-data"
+            "application/json", "application/xml", "multipart/form-data", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -614,10 +633,14 @@ public class PaymentInitiationServicePisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getPaymentInformationValidateBeforeCall(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getPaymentInformationValidateBeforeCall(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'paymentService' is set
         if (paymentService == null) {
             throw new ApiException("Missing the required parameter 'paymentService' when calling getPaymentInformation(Async)");
+        }
+        // verify the required parameter 'paymentProduct' is set
+        if (paymentProduct == null) {
+            throw new ApiException("Missing the required parameter 'paymentProduct' when calling getPaymentInformation(Async)");
         }
         // verify the required parameter 'paymentId' is set
         if (paymentId == null) {
@@ -628,7 +651,7 @@ public class PaymentInitiationServicePisApi {
             throw new ApiException("Missing the required parameter 'xRequestID' when calling getPaymentInformation(Async)");
         }
         
-        com.squareup.okhttp.Call call = getPaymentInformationCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getPaymentInformationCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -641,11 +664,12 @@ public class PaymentInitiationServicePisApi {
      * Get Payment Information
      * Returns the content of a payment object
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -659,8 +683,8 @@ public class PaymentInitiationServicePisApi {
      * @return Object
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Object getPaymentInformation(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<Object> resp = getPaymentInformationWithHttpInfo(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public Object getPaymentInformation(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<Object> resp = getPaymentInformationWithHttpInfo(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
@@ -668,11 +692,12 @@ public class PaymentInitiationServicePisApi {
      * Get Payment Information
      * Returns the content of a payment object
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -686,8 +711,8 @@ public class PaymentInitiationServicePisApi {
      * @return ApiResponse&lt;Object&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Object> getPaymentInformationWithHttpInfo(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = getPaymentInformationValidateBeforeCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+    public ApiResponse<Object> getPaymentInformationWithHttpInfo(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = getPaymentInformationValidateBeforeCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -696,11 +721,12 @@ public class PaymentInitiationServicePisApi {
      * Get Payment Information (asynchronously)
      * Returns the content of a payment object
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -715,7 +741,7 @@ public class PaymentInitiationServicePisApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getPaymentInformationAsync(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Object> callback) throws ApiException {
+    public com.squareup.okhttp.Call getPaymentInformationAsync(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Object> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -736,7 +762,7 @@ public class PaymentInitiationServicePisApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getPaymentInformationValidateBeforeCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getPaymentInformationValidateBeforeCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
@@ -744,11 +770,12 @@ public class PaymentInitiationServicePisApi {
     /**
      * Build call for getPaymentInitiationAuthorisation
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -764,12 +791,13 @@ public class PaymentInitiationServicePisApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getPaymentInitiationAuthorisationCall(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getPaymentInitiationAuthorisationCall(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/v1/{payment-service}/{paymentId}/authorisations"
+        String localVarPath = "/v1/{payment-service}/{payment-product}/{paymentId}/authorisations"
             .replaceAll("\\{" + "payment-service" + "\\}", apiClient.escapeString(paymentService.toString()))
+            .replaceAll("\\{" + "payment-product" + "\\}", apiClient.escapeString(paymentProduct.toString()))
             .replaceAll("\\{" + "paymentId" + "\\}", apiClient.escapeString(paymentId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -808,7 +836,7 @@ public class PaymentInitiationServicePisApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+            "application/json", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -836,10 +864,14 @@ public class PaymentInitiationServicePisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getPaymentInitiationAuthorisationValidateBeforeCall(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getPaymentInitiationAuthorisationValidateBeforeCall(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'paymentService' is set
         if (paymentService == null) {
             throw new ApiException("Missing the required parameter 'paymentService' when calling getPaymentInitiationAuthorisation(Async)");
+        }
+        // verify the required parameter 'paymentProduct' is set
+        if (paymentProduct == null) {
+            throw new ApiException("Missing the required parameter 'paymentProduct' when calling getPaymentInitiationAuthorisation(Async)");
         }
         // verify the required parameter 'paymentId' is set
         if (paymentId == null) {
@@ -850,7 +882,7 @@ public class PaymentInitiationServicePisApi {
             throw new ApiException("Missing the required parameter 'xRequestID' when calling getPaymentInitiationAuthorisation(Async)");
         }
         
-        com.squareup.okhttp.Call call = getPaymentInitiationAuthorisationCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getPaymentInitiationAuthorisationCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -863,11 +895,12 @@ public class PaymentInitiationServicePisApi {
      * Get Payment Initiation Authorisation Sub-Resources Request
      * Read a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -881,8 +914,8 @@ public class PaymentInitiationServicePisApi {
      * @return Authorisations
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Authorisations getPaymentInitiationAuthorisation(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<Authorisations> resp = getPaymentInitiationAuthorisationWithHttpInfo(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public Authorisations getPaymentInitiationAuthorisation(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<Authorisations> resp = getPaymentInitiationAuthorisationWithHttpInfo(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
@@ -890,11 +923,12 @@ public class PaymentInitiationServicePisApi {
      * Get Payment Initiation Authorisation Sub-Resources Request
      * Read a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -908,8 +942,8 @@ public class PaymentInitiationServicePisApi {
      * @return ApiResponse&lt;Authorisations&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Authorisations> getPaymentInitiationAuthorisationWithHttpInfo(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = getPaymentInitiationAuthorisationValidateBeforeCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+    public ApiResponse<Authorisations> getPaymentInitiationAuthorisationWithHttpInfo(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = getPaymentInitiationAuthorisationValidateBeforeCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<Authorisations>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -918,11 +952,12 @@ public class PaymentInitiationServicePisApi {
      * Get Payment Initiation Authorisation Sub-Resources Request (asynchronously)
      * Read a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -937,7 +972,7 @@ public class PaymentInitiationServicePisApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getPaymentInitiationAuthorisationAsync(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Authorisations> callback) throws ApiException {
+    public com.squareup.okhttp.Call getPaymentInitiationAuthorisationAsync(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Authorisations> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -958,7 +993,7 @@ public class PaymentInitiationServicePisApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getPaymentInitiationAuthorisationValidateBeforeCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getPaymentInitiationAuthorisationValidateBeforeCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Authorisations>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
@@ -966,11 +1001,12 @@ public class PaymentInitiationServicePisApi {
     /**
      * Build call for getPaymentInitiationCancellationAuthorisationInformation
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -986,12 +1022,13 @@ public class PaymentInitiationServicePisApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getPaymentInitiationCancellationAuthorisationInformationCall(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getPaymentInitiationCancellationAuthorisationInformationCall(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/v1/{payment-service}/{paymentId}/cancellation-authorisations"
+        String localVarPath = "/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations"
             .replaceAll("\\{" + "payment-service" + "\\}", apiClient.escapeString(paymentService.toString()))
+            .replaceAll("\\{" + "payment-product" + "\\}", apiClient.escapeString(paymentProduct.toString()))
             .replaceAll("\\{" + "paymentId" + "\\}", apiClient.escapeString(paymentId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -1030,7 +1067,7 @@ public class PaymentInitiationServicePisApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+            "application/json", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -1058,10 +1095,14 @@ public class PaymentInitiationServicePisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getPaymentInitiationCancellationAuthorisationInformationValidateBeforeCall(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getPaymentInitiationCancellationAuthorisationInformationValidateBeforeCall(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'paymentService' is set
         if (paymentService == null) {
             throw new ApiException("Missing the required parameter 'paymentService' when calling getPaymentInitiationCancellationAuthorisationInformation(Async)");
+        }
+        // verify the required parameter 'paymentProduct' is set
+        if (paymentProduct == null) {
+            throw new ApiException("Missing the required parameter 'paymentProduct' when calling getPaymentInitiationCancellationAuthorisationInformation(Async)");
         }
         // verify the required parameter 'paymentId' is set
         if (paymentId == null) {
@@ -1072,7 +1113,7 @@ public class PaymentInitiationServicePisApi {
             throw new ApiException("Missing the required parameter 'xRequestID' when calling getPaymentInitiationCancellationAuthorisationInformation(Async)");
         }
         
-        com.squareup.okhttp.Call call = getPaymentInitiationCancellationAuthorisationInformationCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getPaymentInitiationCancellationAuthorisationInformationCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -1085,11 +1126,12 @@ public class PaymentInitiationServicePisApi {
      * Will deliver an array of resource identifications to all generated cancellation authorisation sub-resources.
      * Retrieve a list of all created cancellation authorisation sub-resources. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1103,8 +1145,8 @@ public class PaymentInitiationServicePisApi {
      * @return CancellationList
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public CancellationList getPaymentInitiationCancellationAuthorisationInformation(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<CancellationList> resp = getPaymentInitiationCancellationAuthorisationInformationWithHttpInfo(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public CancellationList getPaymentInitiationCancellationAuthorisationInformation(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<CancellationList> resp = getPaymentInitiationCancellationAuthorisationInformationWithHttpInfo(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
@@ -1112,11 +1154,12 @@ public class PaymentInitiationServicePisApi {
      * Will deliver an array of resource identifications to all generated cancellation authorisation sub-resources.
      * Retrieve a list of all created cancellation authorisation sub-resources. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1130,8 +1173,8 @@ public class PaymentInitiationServicePisApi {
      * @return ApiResponse&lt;CancellationList&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<CancellationList> getPaymentInitiationCancellationAuthorisationInformationWithHttpInfo(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = getPaymentInitiationCancellationAuthorisationInformationValidateBeforeCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+    public ApiResponse<CancellationList> getPaymentInitiationCancellationAuthorisationInformationWithHttpInfo(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = getPaymentInitiationCancellationAuthorisationInformationValidateBeforeCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<CancellationList>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -1140,11 +1183,12 @@ public class PaymentInitiationServicePisApi {
      * Will deliver an array of resource identifications to all generated cancellation authorisation sub-resources. (asynchronously)
      * Retrieve a list of all created cancellation authorisation sub-resources. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1159,7 +1203,7 @@ public class PaymentInitiationServicePisApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getPaymentInitiationCancellationAuthorisationInformationAsync(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<CancellationList> callback) throws ApiException {
+    public com.squareup.okhttp.Call getPaymentInitiationCancellationAuthorisationInformationAsync(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<CancellationList> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -1180,7 +1224,7 @@ public class PaymentInitiationServicePisApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getPaymentInitiationCancellationAuthorisationInformationValidateBeforeCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getPaymentInitiationCancellationAuthorisationInformationValidateBeforeCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<CancellationList>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
@@ -1188,12 +1232,13 @@ public class PaymentInitiationServicePisApi {
     /**
      * Build call for getPaymentInitiationScaStatus
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param authorisationId Resource identification of the related SCA. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1209,12 +1254,13 @@ public class PaymentInitiationServicePisApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getPaymentInitiationScaStatusCall(String paymentService, String paymentId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getPaymentInitiationScaStatusCall(String paymentService, String paymentProduct, String paymentId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/v1/{payment-service}/{paymentId}/authorisations/{authorisationId}"
+        String localVarPath = "/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}"
             .replaceAll("\\{" + "payment-service" + "\\}", apiClient.escapeString(paymentService.toString()))
+            .replaceAll("\\{" + "payment-product" + "\\}", apiClient.escapeString(paymentProduct.toString()))
             .replaceAll("\\{" + "paymentId" + "\\}", apiClient.escapeString(paymentId.toString()))
             .replaceAll("\\{" + "authorisationId" + "\\}", apiClient.escapeString(authorisationId.toString()));
 
@@ -1254,7 +1300,7 @@ public class PaymentInitiationServicePisApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+            "application/json", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -1282,10 +1328,14 @@ public class PaymentInitiationServicePisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getPaymentInitiationScaStatusValidateBeforeCall(String paymentService, String paymentId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getPaymentInitiationScaStatusValidateBeforeCall(String paymentService, String paymentProduct, String paymentId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'paymentService' is set
         if (paymentService == null) {
             throw new ApiException("Missing the required parameter 'paymentService' when calling getPaymentInitiationScaStatus(Async)");
+        }
+        // verify the required parameter 'paymentProduct' is set
+        if (paymentProduct == null) {
+            throw new ApiException("Missing the required parameter 'paymentProduct' when calling getPaymentInitiationScaStatus(Async)");
         }
         // verify the required parameter 'paymentId' is set
         if (paymentId == null) {
@@ -1300,7 +1350,7 @@ public class PaymentInitiationServicePisApi {
             throw new ApiException("Missing the required parameter 'xRequestID' when calling getPaymentInitiationScaStatus(Async)");
         }
         
-        com.squareup.okhttp.Call call = getPaymentInitiationScaStatusCall(paymentService, paymentId, authorisationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getPaymentInitiationScaStatusCall(paymentService, paymentProduct, paymentId, authorisationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -1313,12 +1363,13 @@ public class PaymentInitiationServicePisApi {
      * Read the SCA Status of the payment authorisation
      * This method returns the SCA status of a payment initiation&#x27;s authorisation sub-resource. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param authorisationId Resource identification of the related SCA. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1332,8 +1383,8 @@ public class PaymentInitiationServicePisApi {
      * @return ScaStatusResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ScaStatusResponse getPaymentInitiationScaStatus(String paymentService, String paymentId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<ScaStatusResponse> resp = getPaymentInitiationScaStatusWithHttpInfo(paymentService, paymentId, authorisationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public ScaStatusResponse getPaymentInitiationScaStatus(String paymentService, String paymentProduct, String paymentId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<ScaStatusResponse> resp = getPaymentInitiationScaStatusWithHttpInfo(paymentService, paymentProduct, paymentId, authorisationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
@@ -1341,12 +1392,13 @@ public class PaymentInitiationServicePisApi {
      * Read the SCA Status of the payment authorisation
      * This method returns the SCA status of a payment initiation&#x27;s authorisation sub-resource. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param authorisationId Resource identification of the related SCA. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1360,8 +1412,8 @@ public class PaymentInitiationServicePisApi {
      * @return ApiResponse&lt;ScaStatusResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<ScaStatusResponse> getPaymentInitiationScaStatusWithHttpInfo(String paymentService, String paymentId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = getPaymentInitiationScaStatusValidateBeforeCall(paymentService, paymentId, authorisationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+    public ApiResponse<ScaStatusResponse> getPaymentInitiationScaStatusWithHttpInfo(String paymentService, String paymentProduct, String paymentId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = getPaymentInitiationScaStatusValidateBeforeCall(paymentService, paymentProduct, paymentId, authorisationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<ScaStatusResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -1370,12 +1422,13 @@ public class PaymentInitiationServicePisApi {
      * Read the SCA Status of the payment authorisation (asynchronously)
      * This method returns the SCA status of a payment initiation&#x27;s authorisation sub-resource. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param authorisationId Resource identification of the related SCA. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1390,7 +1443,7 @@ public class PaymentInitiationServicePisApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getPaymentInitiationScaStatusAsync(String paymentService, String paymentId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<ScaStatusResponse> callback) throws ApiException {
+    public com.squareup.okhttp.Call getPaymentInitiationScaStatusAsync(String paymentService, String paymentProduct, String paymentId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<ScaStatusResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -1411,7 +1464,7 @@ public class PaymentInitiationServicePisApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getPaymentInitiationScaStatusValidateBeforeCall(paymentService, paymentId, authorisationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getPaymentInitiationScaStatusValidateBeforeCall(paymentService, paymentProduct, paymentId, authorisationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<ScaStatusResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
@@ -1419,11 +1472,12 @@ public class PaymentInitiationServicePisApi {
     /**
      * Build call for getPaymentInitiationStatus
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1439,12 +1493,13 @@ public class PaymentInitiationServicePisApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getPaymentInitiationStatusCall(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getPaymentInitiationStatusCall(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/v1/{payment-service}/{paymentId}/status"
+        String localVarPath = "/v1/{payment-service}/{payment-product}/{paymentId}/status"
             .replaceAll("\\{" + "payment-service" + "\\}", apiClient.escapeString(paymentService.toString()))
+            .replaceAll("\\{" + "payment-product" + "\\}", apiClient.escapeString(paymentProduct.toString()))
             .replaceAll("\\{" + "paymentId" + "\\}", apiClient.escapeString(paymentId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -1483,7 +1538,7 @@ public class PaymentInitiationServicePisApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json", "application/xml"
+            "application/json", "application/xml", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -1511,10 +1566,14 @@ public class PaymentInitiationServicePisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getPaymentInitiationStatusValidateBeforeCall(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getPaymentInitiationStatusValidateBeforeCall(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'paymentService' is set
         if (paymentService == null) {
             throw new ApiException("Missing the required parameter 'paymentService' when calling getPaymentInitiationStatus(Async)");
+        }
+        // verify the required parameter 'paymentProduct' is set
+        if (paymentProduct == null) {
+            throw new ApiException("Missing the required parameter 'paymentProduct' when calling getPaymentInitiationStatus(Async)");
         }
         // verify the required parameter 'paymentId' is set
         if (paymentId == null) {
@@ -1525,7 +1584,7 @@ public class PaymentInitiationServicePisApi {
             throw new ApiException("Missing the required parameter 'xRequestID' when calling getPaymentInitiationStatus(Async)");
         }
         
-        com.squareup.okhttp.Call call = getPaymentInitiationStatusCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getPaymentInitiationStatusCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -1538,11 +1597,12 @@ public class PaymentInitiationServicePisApi {
      * Payment initiation status request
      * Check the transaction status of a payment initiation.
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1556,8 +1616,8 @@ public class PaymentInitiationServicePisApi {
      * @return PaymentInitiationStatusResponse200Json
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public PaymentInitiationStatusResponse200Json getPaymentInitiationStatus(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<PaymentInitiationStatusResponse200Json> resp = getPaymentInitiationStatusWithHttpInfo(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public PaymentInitiationStatusResponse200Json getPaymentInitiationStatus(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<PaymentInitiationStatusResponse200Json> resp = getPaymentInitiationStatusWithHttpInfo(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
@@ -1565,11 +1625,12 @@ public class PaymentInitiationServicePisApi {
      * Payment initiation status request
      * Check the transaction status of a payment initiation.
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1583,8 +1644,8 @@ public class PaymentInitiationServicePisApi {
      * @return ApiResponse&lt;PaymentInitiationStatusResponse200Json&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatusWithHttpInfo(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = getPaymentInitiationStatusValidateBeforeCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+    public ApiResponse<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatusWithHttpInfo(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = getPaymentInitiationStatusValidateBeforeCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<PaymentInitiationStatusResponse200Json>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -1593,11 +1654,12 @@ public class PaymentInitiationServicePisApi {
      * Payment initiation status request (asynchronously)
      * Check the transaction status of a payment initiation.
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1612,7 +1674,7 @@ public class PaymentInitiationServicePisApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getPaymentInitiationStatusAsync(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<PaymentInitiationStatusResponse200Json> callback) throws ApiException {
+    public com.squareup.okhttp.Call getPaymentInitiationStatusAsync(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<PaymentInitiationStatusResponse200Json> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -1633,30 +1695,30 @@ public class PaymentInitiationServicePisApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getPaymentInitiationStatusValidateBeforeCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getPaymentInitiationStatusValidateBeforeCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<PaymentInitiationStatusResponse200Json>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /**
      * Build call for initiatePayment
-     * @param body JSON request body for a payment inition request message   There are the following payment-products supported:   * \&quot;sepa-credit-transfers\&quot; with JSON-Body   * \&quot;instant-sepa-credit-transfers\&quot; with JSON-Body   * \&quot;target-2-payments\&quot; with JSON-Body   * \&quot;cross-border-credit-transfers\&quot; with JSON-Body   * \&quot;pain.001-sepa-credit-transfers\&quot; with XML pain.001.001.03 body for SCT scheme   * \&quot;pain.001-instant-sepa-credit-transfers\&quot; with XML pain.001.001.03 body for SCT INST scheme   * \&quot;pain.001-target-2-payments\&quot; with pain.001 body.      Only country specific schemes are currently available   * \&quot;pain.001-cross-border-credit-transfers\&quot; with pain.001 body.      Only country specific schemes are currently available    There are the following payment-services supported:   * \&quot;payments\&quot;   * \&quot;periodic-payments\&quot;   * \&quot;bulk-paments\&quot;  All optional, conditional and predefined but not yet used fields are defined.  (required)
+     * @param body JSON request body for a payment inition request message  There are the following payment-products supported:   * \&quot;sepa-credit-transfers\&quot; with JSON-Body   * \&quot;instant-sepa-credit-transfers\&quot; with JSON-Body   * \&quot;target-2-payments\&quot; with JSON-Body   * \&quot;cross-border-credit-transfers\&quot; with JSON-Body   * \&quot;pain.001-sepa-credit-transfers\&quot; with XML pain.001.001.03 body for SCT scheme   * \&quot;pain.001-instant-sepa-credit-transfers\&quot; with XML pain.001.001.03 body for SCT INST scheme   * \&quot;pain.001-target-2-payments\&quot; with pain.001 body.     Only country specific schemes are currently available   * \&quot;pain.001-cross-border-credit-transfers\&quot; with pain.001 body.     Only country specific schemes are currently available  There are the following payment-services supported:   * \&quot;payments\&quot;   * \&quot;periodic-payments\&quot;   * \&quot;bulk-paments\&quot;  All optional, conditional and predefined but not yet used fields are defined.  (required)
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
-     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding,  the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content.  Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist.  There are plenty of country specificic scheme variants.  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param consentID This data element may be contained, if the payment initiation transaction is part of a session, i.e. combined AIS/PIS service. This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (optional)
      * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
-     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically  when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:** This field might be changed to mandatory in the next version of the specification.  (optional)
      * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
-     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately,  e.g. because of the usage of a signing basket.  This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP.  This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step,  without using a signing basket.  (optional)
+     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately, e.g. because of the usage of a signing basket. This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP. This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step, without using a signing basket.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1671,7 +1733,7 @@ public class PaymentInitiationServicePisApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call initiatePaymentCall(Object body, String paymentService, String paymentProduct, UUID xRequestID, String psUIPAddress, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call initiatePaymentCall(Object body, String paymentService, String paymentProduct, UUID xRequestID, String psUIPAddress, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
         
         // create path and map variables
@@ -1733,7 +1795,7 @@ public class PaymentInitiationServicePisApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+            "application/json", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -1761,7 +1823,7 @@ public class PaymentInitiationServicePisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call initiatePaymentValidateBeforeCall(Object body, String paymentService, String paymentProduct, UUID xRequestID, String psUIPAddress, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call initiatePaymentValidateBeforeCall(Object body, String paymentService, String paymentProduct, UUID xRequestID, String psUIPAddress, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling initiatePayment(Async)");
@@ -1794,24 +1856,24 @@ public class PaymentInitiationServicePisApi {
 
     /**
      * Payment initiation request
-     * This method is used to initiate a payment at the ASPSP.  ## Variants of Payment Initiation Requests  This method to initiate a payment initiation at the ASPSP can be sent with either a JSON body or an pain.001 body depending on the payment product in the path.  There are the following **payment products**:    - Payment products with payment information in *JSON* format:     - ***sepa-credit-transfers***     - ***instant-sepa-credit-transfers***     - ***target-2-payments***     - ***cross-border-credit-transfers***   - Payment products with payment information in *pain.001* XML format:     - ***pain.001-sepa-credit-transfers***     - ***pain.001-instant-sepa-credit-transfers***     - ***pain.001-target-2-payments***     - ***pain.001-cross-border-credit-transfers***  Furthermore the request body depends on the **payment-service**   * ***payments***: A single payment initiation request.   * ***bulk-payments***: A collection of several payment iniatiation requests.        In case of a *pain.001* message there are more than one payments contained in the *pain.001 message.          In case of a *JSON* there are several JSON payment blocks contained in a joining list.   * ***periodic-payments***:      Create a standing order initiation resource for recurrent i.e. periodic payments addressable under {paymentId}       with all data relevant for the corresponding payment product and the execution of the standing order contained in a JSON body.   This is the first step in the API to initiate the related recurring/periodic payment.    ## Single and mulitilevel SCA Processes  The Payment Initiation Requests are independent from the need of one ore multilevel  SCA processing, i.e. independent from the number of authorisations needed for the execution of payments.   But the response messages are specific to either one SCA processing or multilevel SCA processing.   For payment initiation with multilevel SCA, this specification requires an explicit start of the authorisation,  i.e. links directly associated with SCA processing like &#x27;scaRedirect&#x27; or &#x27;scaOAuth&#x27; cannot be contained in the  response message of a Payment Initation Request for a payment, where multiple authorisations are needed.  Also if any data is needed for the next action, like selecting an SCA method is not supported in the response,  since all starts of the multiple authorisations are fully equal.  In these cases, first an authorisation sub-resource has to be generated following the &#x27;startAuthorisation&#x27; link. 
-     * @param body JSON request body for a payment inition request message   There are the following payment-products supported:   * \&quot;sepa-credit-transfers\&quot; with JSON-Body   * \&quot;instant-sepa-credit-transfers\&quot; with JSON-Body   * \&quot;target-2-payments\&quot; with JSON-Body   * \&quot;cross-border-credit-transfers\&quot; with JSON-Body   * \&quot;pain.001-sepa-credit-transfers\&quot; with XML pain.001.001.03 body for SCT scheme   * \&quot;pain.001-instant-sepa-credit-transfers\&quot; with XML pain.001.001.03 body for SCT INST scheme   * \&quot;pain.001-target-2-payments\&quot; with pain.001 body.      Only country specific schemes are currently available   * \&quot;pain.001-cross-border-credit-transfers\&quot; with pain.001 body.      Only country specific schemes are currently available    There are the following payment-services supported:   * \&quot;payments\&quot;   * \&quot;periodic-payments\&quot;   * \&quot;bulk-paments\&quot;  All optional, conditional and predefined but not yet used fields are defined.  (required)
+     * This method is used to initiate a payment at the ASPSP.  ## Variants of Payment Initiation Requests  This method to initiate a payment initiation at the ASPSP can be sent with either a JSON body or an pain.001 body depending on the payment product in the path.  There are the following **payment products**:    - Payment products with payment information in *JSON* format:     - ***sepa-credit-transfers***     - ***instant-sepa-credit-transfers***     - ***target-2-payments***     - ***cross-border-credit-transfers***   - Payment products with payment information in *pain.001* XML format:     - ***pain.001-sepa-credit-transfers***     - ***pain.001-instant-sepa-credit-transfers***     - ***pain.001-target-2-payments***     - ***pain.001-cross-border-credit-transfers***  Furthermore the request body depends on the **payment-service**   * ***payments***: A single payment initiation request.   * ***bulk-payments***: A collection of several payment iniatiation requests.      In case of a *pain.001* message there are more than one payments contained in the *pain.001 message.      In case of a *JSON* there are several JSON payment blocks contained in a joining list.   * ***periodic-payments***:     Create a standing order initiation resource for recurrent i.e. periodic payments addressable under {paymentId}      with all data relevant for the corresponding payment product and the execution of the standing order contained in a JSON body.  This is the first step in the API to initiate the related recurring/periodic payment.  ## Single and mulitilevel SCA Processes  The Payment Initiation Requests are independent from the need of one ore multilevel SCA processing, i.e. independent from the number of authorisations needed for the execution of payments.  But the response messages are specific to either one SCA processing or multilevel SCA processing.  For payment initiation with multilevel SCA, this specification requires an explicit start of the authorisation, i.e. links directly associated with SCA processing like &#x27;scaRedirect&#x27; or &#x27;scaOAuth&#x27; cannot be contained in the response message of a Payment Initation Request for a payment, where multiple authorisations are needed. Also if any data is needed for the next action, like selecting an SCA method is not supported in the response, since all starts of the multiple authorisations are fully equal. In these cases, first an authorisation sub-resource has to be generated following the &#x27;startAuthorisation&#x27; link. 
+     * @param body JSON request body for a payment inition request message  There are the following payment-products supported:   * \&quot;sepa-credit-transfers\&quot; with JSON-Body   * \&quot;instant-sepa-credit-transfers\&quot; with JSON-Body   * \&quot;target-2-payments\&quot; with JSON-Body   * \&quot;cross-border-credit-transfers\&quot; with JSON-Body   * \&quot;pain.001-sepa-credit-transfers\&quot; with XML pain.001.001.03 body for SCT scheme   * \&quot;pain.001-instant-sepa-credit-transfers\&quot; with XML pain.001.001.03 body for SCT INST scheme   * \&quot;pain.001-target-2-payments\&quot; with pain.001 body.     Only country specific schemes are currently available   * \&quot;pain.001-cross-border-credit-transfers\&quot; with pain.001 body.     Only country specific schemes are currently available  There are the following payment-services supported:   * \&quot;payments\&quot;   * \&quot;periodic-payments\&quot;   * \&quot;bulk-paments\&quot;  All optional, conditional and predefined but not yet used fields are defined.  (required)
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
-     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding,  the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content.  Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist.  There are plenty of country specificic scheme variants.  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param consentID This data element may be contained, if the payment initiation transaction is part of a session, i.e. combined AIS/PIS service. This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (optional)
      * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
-     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically  when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:** This field might be changed to mandatory in the next version of the specification.  (optional)
      * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
-     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately,  e.g. because of the usage of a signing basket.  This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP.  This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step,  without using a signing basket.  (optional)
+     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately, e.g. because of the usage of a signing basket. This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP. This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step, without using a signing basket.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1824,31 +1886,31 @@ public class PaymentInitiationServicePisApi {
      * @return Object
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Object initiatePayment(Object body, String paymentService, String paymentProduct, UUID xRequestID, String psUIPAddress, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+    public Object initiatePayment(Object body, String paymentService, String paymentProduct, UUID xRequestID, String psUIPAddress, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
         ApiResponse<Object> resp = initiatePaymentWithHttpInfo(body, paymentService, paymentProduct, xRequestID, psUIPAddress, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, consentID, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
     /**
      * Payment initiation request
-     * This method is used to initiate a payment at the ASPSP.  ## Variants of Payment Initiation Requests  This method to initiate a payment initiation at the ASPSP can be sent with either a JSON body or an pain.001 body depending on the payment product in the path.  There are the following **payment products**:    - Payment products with payment information in *JSON* format:     - ***sepa-credit-transfers***     - ***instant-sepa-credit-transfers***     - ***target-2-payments***     - ***cross-border-credit-transfers***   - Payment products with payment information in *pain.001* XML format:     - ***pain.001-sepa-credit-transfers***     - ***pain.001-instant-sepa-credit-transfers***     - ***pain.001-target-2-payments***     - ***pain.001-cross-border-credit-transfers***  Furthermore the request body depends on the **payment-service**   * ***payments***: A single payment initiation request.   * ***bulk-payments***: A collection of several payment iniatiation requests.        In case of a *pain.001* message there are more than one payments contained in the *pain.001 message.          In case of a *JSON* there are several JSON payment blocks contained in a joining list.   * ***periodic-payments***:      Create a standing order initiation resource for recurrent i.e. periodic payments addressable under {paymentId}       with all data relevant for the corresponding payment product and the execution of the standing order contained in a JSON body.   This is the first step in the API to initiate the related recurring/periodic payment.    ## Single and mulitilevel SCA Processes  The Payment Initiation Requests are independent from the need of one ore multilevel  SCA processing, i.e. independent from the number of authorisations needed for the execution of payments.   But the response messages are specific to either one SCA processing or multilevel SCA processing.   For payment initiation with multilevel SCA, this specification requires an explicit start of the authorisation,  i.e. links directly associated with SCA processing like &#x27;scaRedirect&#x27; or &#x27;scaOAuth&#x27; cannot be contained in the  response message of a Payment Initation Request for a payment, where multiple authorisations are needed.  Also if any data is needed for the next action, like selecting an SCA method is not supported in the response,  since all starts of the multiple authorisations are fully equal.  In these cases, first an authorisation sub-resource has to be generated following the &#x27;startAuthorisation&#x27; link. 
-     * @param body JSON request body for a payment inition request message   There are the following payment-products supported:   * \&quot;sepa-credit-transfers\&quot; with JSON-Body   * \&quot;instant-sepa-credit-transfers\&quot; with JSON-Body   * \&quot;target-2-payments\&quot; with JSON-Body   * \&quot;cross-border-credit-transfers\&quot; with JSON-Body   * \&quot;pain.001-sepa-credit-transfers\&quot; with XML pain.001.001.03 body for SCT scheme   * \&quot;pain.001-instant-sepa-credit-transfers\&quot; with XML pain.001.001.03 body for SCT INST scheme   * \&quot;pain.001-target-2-payments\&quot; with pain.001 body.      Only country specific schemes are currently available   * \&quot;pain.001-cross-border-credit-transfers\&quot; with pain.001 body.      Only country specific schemes are currently available    There are the following payment-services supported:   * \&quot;payments\&quot;   * \&quot;periodic-payments\&quot;   * \&quot;bulk-paments\&quot;  All optional, conditional and predefined but not yet used fields are defined.  (required)
+     * This method is used to initiate a payment at the ASPSP.  ## Variants of Payment Initiation Requests  This method to initiate a payment initiation at the ASPSP can be sent with either a JSON body or an pain.001 body depending on the payment product in the path.  There are the following **payment products**:    - Payment products with payment information in *JSON* format:     - ***sepa-credit-transfers***     - ***instant-sepa-credit-transfers***     - ***target-2-payments***     - ***cross-border-credit-transfers***   - Payment products with payment information in *pain.001* XML format:     - ***pain.001-sepa-credit-transfers***     - ***pain.001-instant-sepa-credit-transfers***     - ***pain.001-target-2-payments***     - ***pain.001-cross-border-credit-transfers***  Furthermore the request body depends on the **payment-service**   * ***payments***: A single payment initiation request.   * ***bulk-payments***: A collection of several payment iniatiation requests.      In case of a *pain.001* message there are more than one payments contained in the *pain.001 message.      In case of a *JSON* there are several JSON payment blocks contained in a joining list.   * ***periodic-payments***:     Create a standing order initiation resource for recurrent i.e. periodic payments addressable under {paymentId}      with all data relevant for the corresponding payment product and the execution of the standing order contained in a JSON body.  This is the first step in the API to initiate the related recurring/periodic payment.  ## Single and mulitilevel SCA Processes  The Payment Initiation Requests are independent from the need of one ore multilevel SCA processing, i.e. independent from the number of authorisations needed for the execution of payments.  But the response messages are specific to either one SCA processing or multilevel SCA processing.  For payment initiation with multilevel SCA, this specification requires an explicit start of the authorisation, i.e. links directly associated with SCA processing like &#x27;scaRedirect&#x27; or &#x27;scaOAuth&#x27; cannot be contained in the response message of a Payment Initation Request for a payment, where multiple authorisations are needed. Also if any data is needed for the next action, like selecting an SCA method is not supported in the response, since all starts of the multiple authorisations are fully equal. In these cases, first an authorisation sub-resource has to be generated following the &#x27;startAuthorisation&#x27; link. 
+     * @param body JSON request body for a payment inition request message  There are the following payment-products supported:   * \&quot;sepa-credit-transfers\&quot; with JSON-Body   * \&quot;instant-sepa-credit-transfers\&quot; with JSON-Body   * \&quot;target-2-payments\&quot; with JSON-Body   * \&quot;cross-border-credit-transfers\&quot; with JSON-Body   * \&quot;pain.001-sepa-credit-transfers\&quot; with XML pain.001.001.03 body for SCT scheme   * \&quot;pain.001-instant-sepa-credit-transfers\&quot; with XML pain.001.001.03 body for SCT INST scheme   * \&quot;pain.001-target-2-payments\&quot; with pain.001 body.     Only country specific schemes are currently available   * \&quot;pain.001-cross-border-credit-transfers\&quot; with pain.001 body.     Only country specific schemes are currently available  There are the following payment-services supported:   * \&quot;payments\&quot;   * \&quot;periodic-payments\&quot;   * \&quot;bulk-paments\&quot;  All optional, conditional and predefined but not yet used fields are defined.  (required)
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
-     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding,  the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content.  Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist.  There are plenty of country specificic scheme variants.  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param consentID This data element may be contained, if the payment initiation transaction is part of a session, i.e. combined AIS/PIS service. This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (optional)
      * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
-     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically  when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:** This field might be changed to mandatory in the next version of the specification.  (optional)
      * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
-     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately,  e.g. because of the usage of a signing basket.  This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP.  This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step,  without using a signing basket.  (optional)
+     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately, e.g. because of the usage of a signing basket. This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP. This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step, without using a signing basket.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1861,7 +1923,7 @@ public class PaymentInitiationServicePisApi {
      * @return ApiResponse&lt;Object&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Object> initiatePaymentWithHttpInfo(Object body, String paymentService, String paymentProduct, UUID xRequestID, String psUIPAddress, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+    public ApiResponse<Object> initiatePaymentWithHttpInfo(Object body, String paymentService, String paymentProduct, UUID xRequestID, String psUIPAddress, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
         com.squareup.okhttp.Call call = initiatePaymentValidateBeforeCall(body, paymentService, paymentProduct, xRequestID, psUIPAddress, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, consentID, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
@@ -1869,24 +1931,24 @@ public class PaymentInitiationServicePisApi {
 
     /**
      * Payment initiation request (asynchronously)
-     * This method is used to initiate a payment at the ASPSP.  ## Variants of Payment Initiation Requests  This method to initiate a payment initiation at the ASPSP can be sent with either a JSON body or an pain.001 body depending on the payment product in the path.  There are the following **payment products**:    - Payment products with payment information in *JSON* format:     - ***sepa-credit-transfers***     - ***instant-sepa-credit-transfers***     - ***target-2-payments***     - ***cross-border-credit-transfers***   - Payment products with payment information in *pain.001* XML format:     - ***pain.001-sepa-credit-transfers***     - ***pain.001-instant-sepa-credit-transfers***     - ***pain.001-target-2-payments***     - ***pain.001-cross-border-credit-transfers***  Furthermore the request body depends on the **payment-service**   * ***payments***: A single payment initiation request.   * ***bulk-payments***: A collection of several payment iniatiation requests.        In case of a *pain.001* message there are more than one payments contained in the *pain.001 message.          In case of a *JSON* there are several JSON payment blocks contained in a joining list.   * ***periodic-payments***:      Create a standing order initiation resource for recurrent i.e. periodic payments addressable under {paymentId}       with all data relevant for the corresponding payment product and the execution of the standing order contained in a JSON body.   This is the first step in the API to initiate the related recurring/periodic payment.    ## Single and mulitilevel SCA Processes  The Payment Initiation Requests are independent from the need of one ore multilevel  SCA processing, i.e. independent from the number of authorisations needed for the execution of payments.   But the response messages are specific to either one SCA processing or multilevel SCA processing.   For payment initiation with multilevel SCA, this specification requires an explicit start of the authorisation,  i.e. links directly associated with SCA processing like &#x27;scaRedirect&#x27; or &#x27;scaOAuth&#x27; cannot be contained in the  response message of a Payment Initation Request for a payment, where multiple authorisations are needed.  Also if any data is needed for the next action, like selecting an SCA method is not supported in the response,  since all starts of the multiple authorisations are fully equal.  In these cases, first an authorisation sub-resource has to be generated following the &#x27;startAuthorisation&#x27; link. 
-     * @param body JSON request body for a payment inition request message   There are the following payment-products supported:   * \&quot;sepa-credit-transfers\&quot; with JSON-Body   * \&quot;instant-sepa-credit-transfers\&quot; with JSON-Body   * \&quot;target-2-payments\&quot; with JSON-Body   * \&quot;cross-border-credit-transfers\&quot; with JSON-Body   * \&quot;pain.001-sepa-credit-transfers\&quot; with XML pain.001.001.03 body for SCT scheme   * \&quot;pain.001-instant-sepa-credit-transfers\&quot; with XML pain.001.001.03 body for SCT INST scheme   * \&quot;pain.001-target-2-payments\&quot; with pain.001 body.      Only country specific schemes are currently available   * \&quot;pain.001-cross-border-credit-transfers\&quot; with pain.001 body.      Only country specific schemes are currently available    There are the following payment-services supported:   * \&quot;payments\&quot;   * \&quot;periodic-payments\&quot;   * \&quot;bulk-paments\&quot;  All optional, conditional and predefined but not yet used fields are defined.  (required)
+     * This method is used to initiate a payment at the ASPSP.  ## Variants of Payment Initiation Requests  This method to initiate a payment initiation at the ASPSP can be sent with either a JSON body or an pain.001 body depending on the payment product in the path.  There are the following **payment products**:    - Payment products with payment information in *JSON* format:     - ***sepa-credit-transfers***     - ***instant-sepa-credit-transfers***     - ***target-2-payments***     - ***cross-border-credit-transfers***   - Payment products with payment information in *pain.001* XML format:     - ***pain.001-sepa-credit-transfers***     - ***pain.001-instant-sepa-credit-transfers***     - ***pain.001-target-2-payments***     - ***pain.001-cross-border-credit-transfers***  Furthermore the request body depends on the **payment-service**   * ***payments***: A single payment initiation request.   * ***bulk-payments***: A collection of several payment iniatiation requests.      In case of a *pain.001* message there are more than one payments contained in the *pain.001 message.      In case of a *JSON* there are several JSON payment blocks contained in a joining list.   * ***periodic-payments***:     Create a standing order initiation resource for recurrent i.e. periodic payments addressable under {paymentId}      with all data relevant for the corresponding payment product and the execution of the standing order contained in a JSON body.  This is the first step in the API to initiate the related recurring/periodic payment.  ## Single and mulitilevel SCA Processes  The Payment Initiation Requests are independent from the need of one ore multilevel SCA processing, i.e. independent from the number of authorisations needed for the execution of payments.  But the response messages are specific to either one SCA processing or multilevel SCA processing.  For payment initiation with multilevel SCA, this specification requires an explicit start of the authorisation, i.e. links directly associated with SCA processing like &#x27;scaRedirect&#x27; or &#x27;scaOAuth&#x27; cannot be contained in the response message of a Payment Initation Request for a payment, where multiple authorisations are needed. Also if any data is needed for the next action, like selecting an SCA method is not supported in the response, since all starts of the multiple authorisations are fully equal. In these cases, first an authorisation sub-resource has to be generated following the &#x27;startAuthorisation&#x27; link. 
+     * @param body JSON request body for a payment inition request message  There are the following payment-products supported:   * \&quot;sepa-credit-transfers\&quot; with JSON-Body   * \&quot;instant-sepa-credit-transfers\&quot; with JSON-Body   * \&quot;target-2-payments\&quot; with JSON-Body   * \&quot;cross-border-credit-transfers\&quot; with JSON-Body   * \&quot;pain.001-sepa-credit-transfers\&quot; with XML pain.001.001.03 body for SCT scheme   * \&quot;pain.001-instant-sepa-credit-transfers\&quot; with XML pain.001.001.03 body for SCT INST scheme   * \&quot;pain.001-target-2-payments\&quot; with pain.001 body.     Only country specific schemes are currently available   * \&quot;pain.001-cross-border-credit-transfers\&quot; with pain.001 body.     Only country specific schemes are currently available  There are the following payment-services supported:   * \&quot;payments\&quot;   * \&quot;periodic-payments\&quot;   * \&quot;bulk-paments\&quot;  All optional, conditional and predefined but not yet used fields are defined.  (required)
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
-     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding,  the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content.  Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist.  There are plenty of country specificic scheme variants.  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param consentID This data element may be contained, if the payment initiation transaction is part of a session, i.e. combined AIS/PIS service. This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (optional)
      * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
-     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically  when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:** This field might be changed to mandatory in the next version of the specification.  (optional)
      * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
-     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately,  e.g. because of the usage of a signing basket.  This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP.  This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step,  without using a signing basket.  (optional)
+     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately, e.g. because of the usage of a signing basket. This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP. This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step, without using a signing basket.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1900,7 +1962,7 @@ public class PaymentInitiationServicePisApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call initiatePaymentAsync(Object body, String paymentService, String paymentProduct, UUID xRequestID, String psUIPAddress, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Object> callback) throws ApiException {
+    public com.squareup.okhttp.Call initiatePaymentAsync(Object body, String paymentService, String paymentProduct, UUID xRequestID, String psUIPAddress, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Object> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -1929,6 +1991,7 @@ public class PaymentInitiationServicePisApi {
     /**
      * Build call for startPaymentAuthorisation
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
@@ -1937,7 +2000,7 @@ public class PaymentInitiationServicePisApi {
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1953,12 +2016,13 @@ public class PaymentInitiationServicePisApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call startPaymentAuthorisationCall(String paymentService, String paymentId, UUID xRequestID, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call startPaymentAuthorisationCall(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/v1/{payment-service}/{paymentId}/authorisations"
+        String localVarPath = "/v1/{payment-service}/{payment-product}/{paymentId}/authorisations"
             .replaceAll("\\{" + "payment-service" + "\\}", apiClient.escapeString(paymentService.toString()))
+            .replaceAll("\\{" + "payment-product" + "\\}", apiClient.escapeString(paymentProduct.toString()))
             .replaceAll("\\{" + "paymentId" + "\\}", apiClient.escapeString(paymentId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -2005,7 +2069,7 @@ public class PaymentInitiationServicePisApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+            "application/json", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -2033,10 +2097,14 @@ public class PaymentInitiationServicePisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call startPaymentAuthorisationValidateBeforeCall(String paymentService, String paymentId, UUID xRequestID, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call startPaymentAuthorisationValidateBeforeCall(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'paymentService' is set
         if (paymentService == null) {
             throw new ApiException("Missing the required parameter 'paymentService' when calling startPaymentAuthorisation(Async)");
+        }
+        // verify the required parameter 'paymentProduct' is set
+        if (paymentProduct == null) {
+            throw new ApiException("Missing the required parameter 'paymentProduct' when calling startPaymentAuthorisation(Async)");
         }
         // verify the required parameter 'paymentId' is set
         if (paymentId == null) {
@@ -2047,7 +2115,7 @@ public class PaymentInitiationServicePisApi {
             throw new ApiException("Missing the required parameter 'xRequestID' when calling startPaymentAuthorisation(Async)");
         }
         
-        com.squareup.okhttp.Call call = startPaymentAuthorisationCall(paymentService, paymentId, xRequestID, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = startPaymentAuthorisationCall(paymentService, paymentProduct, paymentId, xRequestID, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -2058,8 +2126,9 @@ public class PaymentInitiationServicePisApi {
 
     /**
      * Start the authorisation process for a payment initiation
-     * Create an authorisation sub-resource and start the authorisation process.  The message might in addition transmit authentication and authorisation related data.   This method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the transaction.  The ASPSP might make the usage of this access method unnecessary in case  of only one SCA process needed, since the related authorisation resource  might be automatically created by the ASPSP after the submission of the  payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,      * &#x27;startAuthorisationWithPsuAuthentication&#x27;     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. 
+     * Create an authorisation sub-resource and start the authorisation process. The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a corporate context, each creating an own authorisation sub-endpoint for the corresponding PSU authorising the transaction.  The ASPSP might make the usage of this access method unnecessary in case of only one SCA process needed, since the related authorisation resource might be automatically created by the ASPSP after the submission of the payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation or cancellation sub-resource.  This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment     Initiation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be     uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,     * &#x27;startAuthorisationWithPsuAuthentication&#x27; #TODO     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;   * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding     Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded     by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for     executing the cancellation.   * The signing basket needs to be authorised yet. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
@@ -2068,7 +2137,7 @@ public class PaymentInitiationServicePisApi {
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2082,15 +2151,16 @@ public class PaymentInitiationServicePisApi {
      * @return StartScaprocessResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public StartScaprocessResponse startPaymentAuthorisation(String paymentService, String paymentId, UUID xRequestID, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<StartScaprocessResponse> resp = startPaymentAuthorisationWithHttpInfo(paymentService, paymentId, xRequestID, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public StartScaprocessResponse startPaymentAuthorisation(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<StartScaprocessResponse> resp = startPaymentAuthorisationWithHttpInfo(paymentService, paymentProduct, paymentId, xRequestID, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
     /**
      * Start the authorisation process for a payment initiation
-     * Create an authorisation sub-resource and start the authorisation process.  The message might in addition transmit authentication and authorisation related data.   This method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the transaction.  The ASPSP might make the usage of this access method unnecessary in case  of only one SCA process needed, since the related authorisation resource  might be automatically created by the ASPSP after the submission of the  payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,      * &#x27;startAuthorisationWithPsuAuthentication&#x27;     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. 
+     * Create an authorisation sub-resource and start the authorisation process. The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a corporate context, each creating an own authorisation sub-endpoint for the corresponding PSU authorising the transaction.  The ASPSP might make the usage of this access method unnecessary in case of only one SCA process needed, since the related authorisation resource might be automatically created by the ASPSP after the submission of the payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation or cancellation sub-resource.  This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment     Initiation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be     uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,     * &#x27;startAuthorisationWithPsuAuthentication&#x27; #TODO     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;   * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding     Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded     by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for     executing the cancellation.   * The signing basket needs to be authorised yet. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
@@ -2099,7 +2169,7 @@ public class PaymentInitiationServicePisApi {
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2113,16 +2183,17 @@ public class PaymentInitiationServicePisApi {
      * @return ApiResponse&lt;StartScaprocessResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<StartScaprocessResponse> startPaymentAuthorisationWithHttpInfo(String paymentService, String paymentId, UUID xRequestID, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = startPaymentAuthorisationValidateBeforeCall(paymentService, paymentId, xRequestID, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+    public ApiResponse<StartScaprocessResponse> startPaymentAuthorisationWithHttpInfo(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = startPaymentAuthorisationValidateBeforeCall(paymentService, paymentProduct, paymentId, xRequestID, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<StartScaprocessResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
      * Start the authorisation process for a payment initiation (asynchronously)
-     * Create an authorisation sub-resource and start the authorisation process.  The message might in addition transmit authentication and authorisation related data.   This method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the transaction.  The ASPSP might make the usage of this access method unnecessary in case  of only one SCA process needed, since the related authorisation resource  might be automatically created by the ASPSP after the submission of the  payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,      * &#x27;startAuthorisationWithPsuAuthentication&#x27;     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. 
+     * Create an authorisation sub-resource and start the authorisation process. The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a corporate context, each creating an own authorisation sub-endpoint for the corresponding PSU authorising the transaction.  The ASPSP might make the usage of this access method unnecessary in case of only one SCA process needed, since the related authorisation resource might be automatically created by the ASPSP after the submission of the payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation or cancellation sub-resource.  This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment     Initiation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be     uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,     * &#x27;startAuthorisationWithPsuAuthentication&#x27; #TODO     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;   * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding     Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded     by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for     executing the cancellation.   * The signing basket needs to be authorised yet. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
@@ -2131,7 +2202,7 @@ public class PaymentInitiationServicePisApi {
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2146,7 +2217,7 @@ public class PaymentInitiationServicePisApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call startPaymentAuthorisationAsync(String paymentService, String paymentId, UUID xRequestID, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<StartScaprocessResponse> callback) throws ApiException {
+    public com.squareup.okhttp.Call startPaymentAuthorisationAsync(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<StartScaprocessResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -2167,7 +2238,7 @@ public class PaymentInitiationServicePisApi {
             };
         }
 
-        com.squareup.okhttp.Call call = startPaymentAuthorisationValidateBeforeCall(paymentService, paymentId, xRequestID, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = startPaymentAuthorisationValidateBeforeCall(paymentService, paymentProduct, paymentId, xRequestID, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<StartScaprocessResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
@@ -2175,11 +2246,12 @@ public class PaymentInitiationServicePisApi {
     /**
      * Build call for startPaymentInitiationCancellationAuthorisation
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -2199,12 +2271,13 @@ public class PaymentInitiationServicePisApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call startPaymentInitiationCancellationAuthorisationCall(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call startPaymentInitiationCancellationAuthorisationCall(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/v1/{payment-service}/{paymentId}/cancellation-authorisations"
+        String localVarPath = "/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations"
             .replaceAll("\\{" + "payment-service" + "\\}", apiClient.escapeString(paymentService.toString()))
+            .replaceAll("\\{" + "payment-product" + "\\}", apiClient.escapeString(paymentProduct.toString()))
             .replaceAll("\\{" + "paymentId" + "\\}", apiClient.escapeString(paymentId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -2251,7 +2324,7 @@ public class PaymentInitiationServicePisApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+            "application/json", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -2279,10 +2352,14 @@ public class PaymentInitiationServicePisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call startPaymentInitiationCancellationAuthorisationValidateBeforeCall(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call startPaymentInitiationCancellationAuthorisationValidateBeforeCall(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'paymentService' is set
         if (paymentService == null) {
             throw new ApiException("Missing the required parameter 'paymentService' when calling startPaymentInitiationCancellationAuthorisation(Async)");
+        }
+        // verify the required parameter 'paymentProduct' is set
+        if (paymentProduct == null) {
+            throw new ApiException("Missing the required parameter 'paymentProduct' when calling startPaymentInitiationCancellationAuthorisation(Async)");
         }
         // verify the required parameter 'paymentId' is set
         if (paymentId == null) {
@@ -2293,7 +2370,7 @@ public class PaymentInitiationServicePisApi {
             throw new ApiException("Missing the required parameter 'xRequestID' when calling startPaymentInitiationCancellationAuthorisation(Async)");
         }
         
-        com.squareup.okhttp.Call call = startPaymentInitiationCancellationAuthorisationCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = startPaymentInitiationCancellationAuthorisationCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -2304,13 +2381,14 @@ public class PaymentInitiationServicePisApi {
 
     /**
      * Start the authorisation process for the cancellation of the addressed payment
-     * Creates an authorisation sub-resource and start the authorisation process of the cancellation of the addressed payment.  The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the cancellation-authorisation.  The ASPSP might make the usage of this access method unnecessary in case  of only one SCA process needed, since the related authorisation resource  might be automatically created by the ASPSP after the submission of the  payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,      * &#x27;startAuthorisationWithPsuAuthentication&#x27;     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. 
+     * Creates an authorisation sub-resource and start the authorisation process of the cancellation of the addressed payment. The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a corporate context, each creating an own authorisation sub-endpoint for the corresponding PSU authorising the cancellation-authorisation.  The ASPSP might make the usage of this access method unnecessary in case of only one SCA process needed, since the related authorisation resource might be automatically created by the ASPSP after the submission of the payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation or cancellation sub-resource.  This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment     Initiation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be     uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,     * &#x27;startAuthorisationWithPsuAuthentication&#x27; #TODO     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;   * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding     Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded     by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for     executing the cancellation.   * The signing basket needs to be authorised yet. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -2328,20 +2406,21 @@ public class PaymentInitiationServicePisApi {
      * @return StartScaprocessResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public StartScaprocessResponse startPaymentInitiationCancellationAuthorisation(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<StartScaprocessResponse> resp = startPaymentInitiationCancellationAuthorisationWithHttpInfo(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public StartScaprocessResponse startPaymentInitiationCancellationAuthorisation(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<StartScaprocessResponse> resp = startPaymentInitiationCancellationAuthorisationWithHttpInfo(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
     /**
      * Start the authorisation process for the cancellation of the addressed payment
-     * Creates an authorisation sub-resource and start the authorisation process of the cancellation of the addressed payment.  The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the cancellation-authorisation.  The ASPSP might make the usage of this access method unnecessary in case  of only one SCA process needed, since the related authorisation resource  might be automatically created by the ASPSP after the submission of the  payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,      * &#x27;startAuthorisationWithPsuAuthentication&#x27;     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. 
+     * Creates an authorisation sub-resource and start the authorisation process of the cancellation of the addressed payment. The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a corporate context, each creating an own authorisation sub-endpoint for the corresponding PSU authorising the cancellation-authorisation.  The ASPSP might make the usage of this access method unnecessary in case of only one SCA process needed, since the related authorisation resource might be automatically created by the ASPSP after the submission of the payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation or cancellation sub-resource.  This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment     Initiation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be     uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,     * &#x27;startAuthorisationWithPsuAuthentication&#x27; #TODO     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;   * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding     Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded     by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for     executing the cancellation.   * The signing basket needs to be authorised yet. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -2359,21 +2438,22 @@ public class PaymentInitiationServicePisApi {
      * @return ApiResponse&lt;StartScaprocessResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<StartScaprocessResponse> startPaymentInitiationCancellationAuthorisationWithHttpInfo(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = startPaymentInitiationCancellationAuthorisationValidateBeforeCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+    public ApiResponse<StartScaprocessResponse> startPaymentInitiationCancellationAuthorisationWithHttpInfo(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = startPaymentInitiationCancellationAuthorisationValidateBeforeCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<StartScaprocessResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
      * Start the authorisation process for the cancellation of the addressed payment (asynchronously)
-     * Creates an authorisation sub-resource and start the authorisation process of the cancellation of the addressed payment.  The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the cancellation-authorisation.  The ASPSP might make the usage of this access method unnecessary in case  of only one SCA process needed, since the related authorisation resource  might be automatically created by the ASPSP after the submission of the  payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,      * &#x27;startAuthorisationWithPsuAuthentication&#x27;     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. 
+     * Creates an authorisation sub-resource and start the authorisation process of the cancellation of the addressed payment. The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a corporate context, each creating an own authorisation sub-endpoint for the corresponding PSU authorising the cancellation-authorisation.  The ASPSP might make the usage of this access method unnecessary in case of only one SCA process needed, since the related authorisation resource might be automatically created by the ASPSP after the submission of the payment data with the first POST payments/{payment-product} call.  The start authorisation process is a process which is needed for creating a new authorisation or cancellation sub-resource.  This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment     Initiation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be     uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,     * &#x27;startAuthorisationWithPsuAuthentication&#x27; #TODO     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;   * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding     Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded     by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for     executing the cancellation.   * The signing basket needs to be authorised yet. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -2392,7 +2472,7 @@ public class PaymentInitiationServicePisApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call startPaymentInitiationCancellationAuthorisationAsync(String paymentService, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<StartScaprocessResponse> callback) throws ApiException {
+    public com.squareup.okhttp.Call startPaymentInitiationCancellationAuthorisationAsync(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<StartScaprocessResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -2413,7 +2493,7 @@ public class PaymentInitiationServicePisApi {
             };
         }
 
-        com.squareup.okhttp.Call call = startPaymentInitiationCancellationAuthorisationValidateBeforeCall(paymentService, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = startPaymentInitiationCancellationAuthorisationValidateBeforeCall(paymentService, paymentProduct, paymentId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<StartScaprocessResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
@@ -2421,13 +2501,14 @@ public class PaymentInitiationServicePisApi {
     /**
      * Build call for updatePaymentCancellationPsuData
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param cancellationId Identification for cancellation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -2447,12 +2528,13 @@ public class PaymentInitiationServicePisApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call updatePaymentCancellationPsuDataCall(String paymentService, String paymentId, String cancellationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call updatePaymentCancellationPsuDataCall(String paymentService, String paymentProduct, String paymentId, String cancellationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
         
         // create path and map variables
-        String localVarPath = "/v1/{payment-service}/{paymentId}/cancellation-authorisations/{cancellationId}"
+        String localVarPath = "/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}"
             .replaceAll("\\{" + "payment-service" + "\\}", apiClient.escapeString(paymentService.toString()))
+            .replaceAll("\\{" + "payment-product" + "\\}", apiClient.escapeString(paymentProduct.toString()))
             .replaceAll("\\{" + "paymentId" + "\\}", apiClient.escapeString(paymentId.toString()))
             .replaceAll("\\{" + "cancellationId" + "\\}", apiClient.escapeString(cancellationId.toString()));
 
@@ -2500,7 +2582,7 @@ public class PaymentInitiationServicePisApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+            "application/json", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -2528,10 +2610,14 @@ public class PaymentInitiationServicePisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call updatePaymentCancellationPsuDataValidateBeforeCall(String paymentService, String paymentId, String cancellationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call updatePaymentCancellationPsuDataValidateBeforeCall(String paymentService, String paymentProduct, String paymentId, String cancellationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'paymentService' is set
         if (paymentService == null) {
             throw new ApiException("Missing the required parameter 'paymentService' when calling updatePaymentCancellationPsuData(Async)");
+        }
+        // verify the required parameter 'paymentProduct' is set
+        if (paymentProduct == null) {
+            throw new ApiException("Missing the required parameter 'paymentProduct' when calling updatePaymentCancellationPsuData(Async)");
         }
         // verify the required parameter 'paymentId' is set
         if (paymentId == null) {
@@ -2546,7 +2632,7 @@ public class PaymentInitiationServicePisApi {
             throw new ApiException("Missing the required parameter 'xRequestID' when calling updatePaymentCancellationPsuData(Async)");
         }
         
-        com.squareup.okhttp.Call call = updatePaymentCancellationPsuDataCall(paymentService, paymentId, cancellationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = updatePaymentCancellationPsuDataCall(paymentService, paymentProduct, paymentId, cancellationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -2557,15 +2643,16 @@ public class PaymentInitiationServicePisApi {
 
     /**
      * Update PSU Data for payment initiation cancellation
-     * This method updates PSU data on the cancellation authorisation resource if needed.  It may authorise a cancellation of the payment within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.   There are several possible Update PSU Data requests in the context of a cancellation authorisation within the payment initiation services needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. 
+     * This method updates PSU data on the cancellation authorisation resource if needed. It may authorise a cancellation of the payment within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.  There are several possible Update PSU Data requests in the context of a cancellation authorisation within the payment initiation services needed, which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for     * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:   The Update PSU Data Request might be used   * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method. For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param cancellationId Identification for cancellation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -2583,22 +2670,23 @@ public class PaymentInitiationServicePisApi {
      * @return Object
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Object updatePaymentCancellationPsuData(String paymentService, String paymentId, String cancellationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<Object> resp = updatePaymentCancellationPsuDataWithHttpInfo(paymentService, paymentId, cancellationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public Object updatePaymentCancellationPsuData(String paymentService, String paymentProduct, String paymentId, String cancellationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<Object> resp = updatePaymentCancellationPsuDataWithHttpInfo(paymentService, paymentProduct, paymentId, cancellationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
     /**
      * Update PSU Data for payment initiation cancellation
-     * This method updates PSU data on the cancellation authorisation resource if needed.  It may authorise a cancellation of the payment within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.   There are several possible Update PSU Data requests in the context of a cancellation authorisation within the payment initiation services needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. 
+     * This method updates PSU data on the cancellation authorisation resource if needed. It may authorise a cancellation of the payment within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.  There are several possible Update PSU Data requests in the context of a cancellation authorisation within the payment initiation services needed, which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for     * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:   The Update PSU Data Request might be used   * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method. For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param cancellationId Identification for cancellation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -2616,23 +2704,24 @@ public class PaymentInitiationServicePisApi {
      * @return ApiResponse&lt;Object&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Object> updatePaymentCancellationPsuDataWithHttpInfo(String paymentService, String paymentId, String cancellationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = updatePaymentCancellationPsuDataValidateBeforeCall(paymentService, paymentId, cancellationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+    public ApiResponse<Object> updatePaymentCancellationPsuDataWithHttpInfo(String paymentService, String paymentProduct, String paymentId, String cancellationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = updatePaymentCancellationPsuDataValidateBeforeCall(paymentService, paymentProduct, paymentId, cancellationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
      * Update PSU Data for payment initiation cancellation (asynchronously)
-     * This method updates PSU data on the cancellation authorisation resource if needed.  It may authorise a cancellation of the payment within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.   There are several possible Update PSU Data requests in the context of a cancellation authorisation within the payment initiation services needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. 
+     * This method updates PSU data on the cancellation authorisation resource if needed. It may authorise a cancellation of the payment within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.  There are several possible Update PSU Data requests in the context of a cancellation authorisation within the payment initiation services needed, which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for     * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:   The Update PSU Data Request might be used   * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method. For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param cancellationId Identification for cancellation resource. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -2651,7 +2740,7 @@ public class PaymentInitiationServicePisApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call updatePaymentCancellationPsuDataAsync(String paymentService, String paymentId, String cancellationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Object> callback) throws ApiException {
+    public com.squareup.okhttp.Call updatePaymentCancellationPsuDataAsync(String paymentService, String paymentProduct, String paymentId, String cancellationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Object> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -2672,7 +2761,7 @@ public class PaymentInitiationServicePisApi {
             };
         }
 
-        com.squareup.okhttp.Call call = updatePaymentCancellationPsuDataValidateBeforeCall(paymentService, paymentId, cancellationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = updatePaymentCancellationPsuDataValidateBeforeCall(paymentService, paymentProduct, paymentId, cancellationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
@@ -2680,13 +2769,14 @@ public class PaymentInitiationServicePisApi {
     /**
      * Build call for updatePaymentPsuData
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param authorisationId Resource identification of the related SCA. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -2706,12 +2796,13 @@ public class PaymentInitiationServicePisApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call updatePaymentPsuDataCall(String paymentService, String paymentId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call updatePaymentPsuDataCall(String paymentService, String paymentProduct, String paymentId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
         
         // create path and map variables
-        String localVarPath = "/v1/{payment-service}/{paymentId}/authorisations/{authorisationId}"
+        String localVarPath = "/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}"
             .replaceAll("\\{" + "payment-service" + "\\}", apiClient.escapeString(paymentService.toString()))
+            .replaceAll("\\{" + "payment-product" + "\\}", apiClient.escapeString(paymentProduct.toString()))
             .replaceAll("\\{" + "paymentId" + "\\}", apiClient.escapeString(paymentId.toString()))
             .replaceAll("\\{" + "authorisationId" + "\\}", apiClient.escapeString(authorisationId.toString()));
 
@@ -2759,7 +2850,7 @@ public class PaymentInitiationServicePisApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+            "application/json", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -2787,10 +2878,14 @@ public class PaymentInitiationServicePisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call updatePaymentPsuDataValidateBeforeCall(String paymentService, String paymentId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call updatePaymentPsuDataValidateBeforeCall(String paymentService, String paymentProduct, String paymentId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'paymentService' is set
         if (paymentService == null) {
             throw new ApiException("Missing the required parameter 'paymentService' when calling updatePaymentPsuData(Async)");
+        }
+        // verify the required parameter 'paymentProduct' is set
+        if (paymentProduct == null) {
+            throw new ApiException("Missing the required parameter 'paymentProduct' when calling updatePaymentPsuData(Async)");
         }
         // verify the required parameter 'paymentId' is set
         if (paymentId == null) {
@@ -2805,7 +2900,7 @@ public class PaymentInitiationServicePisApi {
             throw new ApiException("Missing the required parameter 'xRequestID' when calling updatePaymentPsuData(Async)");
         }
         
-        com.squareup.okhttp.Call call = updatePaymentPsuDataCall(paymentService, paymentId, authorisationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = updatePaymentPsuDataCall(paymentService, paymentProduct, paymentId, authorisationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -2816,15 +2911,16 @@ public class PaymentInitiationServicePisApi {
 
     /**
      * Update PSU data for payment initiation
-     * This methods updates PSU data on the authorisation resource if needed.  It may authorise a payment within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  There are several possible Update PSU Data requests in the context of payment initiation services needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. 
+     * This methods updates PSU data on the authorisation resource if needed. It may authorise a payment within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of the authentication method and a non-SCA PSU authentication.  There are several possible Update PSU Data requests in the context of payment initiation services needed, which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for     * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:   The Update PSU Data Request might be used   * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method. For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param authorisationId Resource identification of the related SCA. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -2842,22 +2938,23 @@ public class PaymentInitiationServicePisApi {
      * @return Object
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Object updatePaymentPsuData(String paymentService, String paymentId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<Object> resp = updatePaymentPsuDataWithHttpInfo(paymentService, paymentId, authorisationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public Object updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<Object> resp = updatePaymentPsuDataWithHttpInfo(paymentService, paymentProduct, paymentId, authorisationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
     /**
      * Update PSU data for payment initiation
-     * This methods updates PSU data on the authorisation resource if needed.  It may authorise a payment within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  There are several possible Update PSU Data requests in the context of payment initiation services needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. 
+     * This methods updates PSU data on the authorisation resource if needed. It may authorise a payment within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of the authentication method and a non-SCA PSU authentication.  There are several possible Update PSU Data requests in the context of payment initiation services needed, which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for     * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:   The Update PSU Data Request might be used   * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method. For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param authorisationId Resource identification of the related SCA. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -2875,23 +2972,24 @@ public class PaymentInitiationServicePisApi {
      * @return ApiResponse&lt;Object&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Object> updatePaymentPsuDataWithHttpInfo(String paymentService, String paymentId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = updatePaymentPsuDataValidateBeforeCall(paymentService, paymentId, authorisationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+    public ApiResponse<Object> updatePaymentPsuDataWithHttpInfo(String paymentService, String paymentProduct, String paymentId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = updatePaymentPsuDataValidateBeforeCall(paymentService, paymentProduct, paymentId, authorisationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
      * Update PSU data for payment initiation (asynchronously)
-     * This methods updates PSU data on the authorisation resource if needed.  It may authorise a payment within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  There are several possible Update PSU Data requests in the context of payment initiation services needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. 
+     * This methods updates PSU data on the authorisation resource if needed. It may authorise a payment within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of the authentication method and a non-SCA PSU authentication.  There are several possible Update PSU Data requests in the context of payment initiation services needed, which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for     * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:   The Update PSU Data Request might be used   * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method. For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change. 
      * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
      * @param paymentId Resource identification of the generated payment initiation resource. (required)
      * @param authorisationId Resource identification of the related SCA. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -2910,7 +3008,7 @@ public class PaymentInitiationServicePisApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call updatePaymentPsuDataAsync(String paymentService, String paymentId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Object> callback) throws ApiException {
+    public com.squareup.okhttp.Call updatePaymentPsuDataAsync(String paymentService, String paymentProduct, String paymentId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Object> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -2931,7 +3029,7 @@ public class PaymentInitiationServicePisApi {
             };
         }
 
-        com.squareup.okhttp.Call call = updatePaymentPsuDataValidateBeforeCall(paymentService, paymentId, authorisationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = updatePaymentPsuDataValidateBeforeCall(paymentService, paymentProduct, paymentId, authorisationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

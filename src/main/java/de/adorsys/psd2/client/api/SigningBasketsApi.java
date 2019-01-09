@@ -1,8 +1,8 @@
 /*
  * BG PSD2 API
- * # Summary The **NextGenPSD2** *Framework Version 1.2* offers a modern, open, harmonised and interoperable set of  Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely.  The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards  in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service')  by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.    Futhermore this API definition does not differ between methods which are mandatory, conditional, or optional   Therfore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support    a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure    which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**    It is not an replacement in any sense.   The main specification is (at the moment) allways the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]        \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"      The element \"Accept\" will not be defined in this file at any place.      The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".    * There are several predefined types which might occur in payment initiation messages,    but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convinience of the user.   If there is a payment product, which need these field, one can easily use the predefined types.   But the ASPSP need not to accept them in general.    * **We ommit the definition of all standard HTTP header elements (mandatory/optional/conditional)    except they are mention in the Implementation Guidelines.**   Therefore the implementer might add the in his own realisation of a PSD2 comlient API in addition to the elements define in this file.     ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API have to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
+ * # Summary The **NextGenPSD2** *Framework Version 1.3* offers a modern, open, harmonised and interoperable set of Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely. The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service') by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.   Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support   a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure   which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**   It is not an replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]      \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"    The element \"Accept\" will not be defined in this file at any place.    The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".  * There are several predefined types which might occur in payment initiation messages,   but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which need these field, one can easily use the predefined types.   But the ASPSP need not to accept them in general.  * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)   except they are mention in the Implementation Guidelines.**   Therefore the implementer might add the in his own realisation of a PSD2 comlient API in addition to the elements define in this file.  ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API have to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
  *
- * OpenAPI spec version: 1.2
+ * OpenAPI spec version: 1.3 Dec 20th 2018
  * Contact: info@berlin-group.org
  *
  * NOTE: This class is auto generated by the swagger code generator program.
@@ -27,18 +27,17 @@ import java.io.IOException;
 
 
 import de.adorsys.psd2.client.model.Authorisations;
+import de.adorsys.psd2.client.model.Error400NGSB;
+import de.adorsys.psd2.client.model.Error401NGSB;
+import de.adorsys.psd2.client.model.Error403NGSB;
+import de.adorsys.psd2.client.model.Error404NGSB;
+import de.adorsys.psd2.client.model.Error405NGSB;
 import de.adorsys.psd2.client.model.ScaStatusResponse;
 import de.adorsys.psd2.client.model.SigningBasket;
 import de.adorsys.psd2.client.model.SigningBasketResponse200;
 import de.adorsys.psd2.client.model.SigningBasketResponse201;
+import de.adorsys.psd2.client.model.SigningBasketStatusResponse200;
 import de.adorsys.psd2.client.model.StartScaprocessResponse;
-import de.adorsys.psd2.client.model.TppMessages400;
-import de.adorsys.psd2.client.model.TppMessages401;
-import de.adorsys.psd2.client.model.TppMessages403;
-import de.adorsys.psd2.client.model.TppMessages404;
-import de.adorsys.psd2.client.model.TppMessages405;
-import de.adorsys.psd2.client.model.TppMessages406;
-import de.adorsys.psd2.client.model.TppMessages429;
 import java.util.UUID;
 
 import java.lang.reflect.Type;
@@ -73,16 +72,16 @@ public class SigningBasketsApi {
      * @param body Request body for a confirmation of an establishing signing basket request  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param consentID This data element may be contained, if the payment initiation transaction is part of a session, i.e. combined AIS/PIS service. This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (optional)
      * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
-     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically  when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:** This field might be changed to mandatory in the next version of the specification.  (optional)
      * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
-     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately,  e.g. because of the usage of a signing basket.  This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP.  This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step,  without using a signing basket.  (optional)
+     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately, e.g. because of the usage of a signing basket. This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP. This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step, without using a signing basket.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -97,7 +96,7 @@ public class SigningBasketsApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call createSigningBasketCall(UUID xRequestID, String psUIPAddress, SigningBasket body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call createSigningBasketCall(UUID xRequestID, String psUIPAddress, SigningBasket body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
         
         // create path and map variables
@@ -157,7 +156,7 @@ public class SigningBasketsApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+            "application/json", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -185,7 +184,7 @@ public class SigningBasketsApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call createSigningBasketValidateBeforeCall(UUID xRequestID, String psUIPAddress, SigningBasket body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call createSigningBasketValidateBeforeCall(UUID xRequestID, String psUIPAddress, SigningBasket body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'xRequestID' is set
         if (xRequestID == null) {
             throw new ApiException("Missing the required parameter 'xRequestID' when calling createSigningBasket(Async)");
@@ -206,22 +205,22 @@ public class SigningBasketsApi {
 
     /**
      * Create a signing basket resource
-     * Create a signing basket resource for authorising several transactions with one SCA method.  The resource identifications of these transactions are contained in the  payload of this access method 
+     * Create a signing basket resource for authorising several transactions with one SCA method. The resource identifications of these transactions are contained in the  payload of this access method 
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (required)
      * @param body Request body for a confirmation of an establishing signing basket request  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param consentID This data element may be contained, if the payment initiation transaction is part of a session, i.e. combined AIS/PIS service. This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (optional)
      * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
-     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically  when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:** This field might be changed to mandatory in the next version of the specification.  (optional)
      * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
-     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately,  e.g. because of the usage of a signing basket.  This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP.  This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step,  without using a signing basket.  (optional)
+     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately, e.g. because of the usage of a signing basket. This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP. This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step, without using a signing basket.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -234,29 +233,29 @@ public class SigningBasketsApi {
      * @return SigningBasketResponse201
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public SigningBasketResponse201 createSigningBasket(UUID xRequestID, String psUIPAddress, SigningBasket body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+    public SigningBasketResponse201 createSigningBasket(UUID xRequestID, String psUIPAddress, SigningBasket body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
         ApiResponse<SigningBasketResponse201> resp = createSigningBasketWithHttpInfo(xRequestID, psUIPAddress, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, consentID, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
     /**
      * Create a signing basket resource
-     * Create a signing basket resource for authorising several transactions with one SCA method.  The resource identifications of these transactions are contained in the  payload of this access method 
+     * Create a signing basket resource for authorising several transactions with one SCA method. The resource identifications of these transactions are contained in the  payload of this access method 
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (required)
      * @param body Request body for a confirmation of an establishing signing basket request  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param consentID This data element may be contained, if the payment initiation transaction is part of a session, i.e. combined AIS/PIS service. This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (optional)
      * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
-     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically  when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:** This field might be changed to mandatory in the next version of the specification.  (optional)
      * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
-     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately,  e.g. because of the usage of a signing basket.  This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP.  This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step,  without using a signing basket.  (optional)
+     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately, e.g. because of the usage of a signing basket. This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP. This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step, without using a signing basket.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -269,7 +268,7 @@ public class SigningBasketsApi {
      * @return ApiResponse&lt;SigningBasketResponse201&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<SigningBasketResponse201> createSigningBasketWithHttpInfo(UUID xRequestID, String psUIPAddress, SigningBasket body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+    public ApiResponse<SigningBasketResponse201> createSigningBasketWithHttpInfo(UUID xRequestID, String psUIPAddress, SigningBasket body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
         com.squareup.okhttp.Call call = createSigningBasketValidateBeforeCall(xRequestID, psUIPAddress, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, consentID, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<SigningBasketResponse201>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
@@ -277,22 +276,22 @@ public class SigningBasketsApi {
 
     /**
      * Create a signing basket resource (asynchronously)
-     * Create a signing basket resource for authorising several transactions with one SCA method.  The resource identifications of these transactions are contained in the  payload of this access method 
+     * Create a signing basket resource for authorising several transactions with one SCA method. The resource identifications of these transactions are contained in the  payload of this access method 
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (required)
      * @param body Request body for a confirmation of an establishing signing basket request  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param consentID This data element may be contained, if the payment initiation transaction is part of a session, i.e. combined AIS/PIS service. This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (optional)
      * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
-     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically  when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:** This field might be changed to mandatory in the next version of the specification.  (optional)
      * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
-     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately,  e.g. because of the usage of a signing basket.  This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP.  This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step,  without using a signing basket.  (optional)
+     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately, e.g. because of the usage of a signing basket. This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP. This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step, without using a signing basket.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -306,7 +305,7 @@ public class SigningBasketsApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call createSigningBasketAsync(UUID xRequestID, String psUIPAddress, SigningBasket body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<SigningBasketResponse201> callback) throws ApiException {
+    public com.squareup.okhttp.Call createSigningBasketAsync(UUID xRequestID, String psUIPAddress, SigningBasket body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<SigningBasketResponse201> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -333,12 +332,12 @@ public class SigningBasketsApi {
         return call;
     }
     /**
-     * Build call for getSigningBasket
+     * Build call for deleteSigningBasket
      * @param basketId This identification of the corresponding signing basket object.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -354,7 +353,7 @@ public class SigningBasketsApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getSigningBasketCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call deleteSigningBasketCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
@@ -397,7 +396,216 @@ public class SigningBasketsApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+            "application/json", "application/problem+json"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] { "BearerAuthOAuth" };
+        return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call deleteSigningBasketValidateBeforeCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        // verify the required parameter 'basketId' is set
+        if (basketId == null) {
+            throw new ApiException("Missing the required parameter 'basketId' when calling deleteSigningBasket(Async)");
+        }
+        // verify the required parameter 'xRequestID' is set
+        if (xRequestID == null) {
+            throw new ApiException("Missing the required parameter 'xRequestID' when calling deleteSigningBasket(Async)");
+        }
+        
+        com.squareup.okhttp.Call call = deleteSigningBasketCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
+
+    /**
+     * Delete the signing basket
+     * Delete the signing basket structure as long as no (partial) authorisation has yet been applied. The undlerying transactions are not affected by this deletion.  Remark: The signing basket as such is not deletable after a first (partial) authorisation has been applied. Nevertheless, single transactions might be cancelled on an individual basis on the XS2A interface. 
+     * @param basketId This identification of the corresponding signing basket object.  (required)
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
+     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
+     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
+     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
+     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
+     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
+     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public void deleteSigningBasket(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        deleteSigningBasketWithHttpInfo(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    }
+
+    /**
+     * Delete the signing basket
+     * Delete the signing basket structure as long as no (partial) authorisation has yet been applied. The undlerying transactions are not affected by this deletion.  Remark: The signing basket as such is not deletable after a first (partial) authorisation has been applied. Nevertheless, single transactions might be cancelled on an individual basis on the XS2A interface. 
+     * @param basketId This identification of the corresponding signing basket object.  (required)
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
+     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
+     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
+     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
+     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
+     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
+     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Void> deleteSigningBasketWithHttpInfo(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = deleteSigningBasketValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+        return apiClient.execute(call);
+    }
+
+    /**
+     * Delete the signing basket (asynchronously)
+     * Delete the signing basket structure as long as no (partial) authorisation has yet been applied. The undlerying transactions are not affected by this deletion.  Remark: The signing basket as such is not deletable after a first (partial) authorisation has been applied. Nevertheless, single transactions might be cancelled on an individual basis on the XS2A interface. 
+     * @param basketId This identification of the corresponding signing basket object.  (required)
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
+     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
+     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
+     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
+     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
+     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
+     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call deleteSigningBasketAsync(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Void> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = deleteSigningBasketValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        apiClient.executeAsync(call, callback);
+        return call;
+    }
+    /**
+     * Build call for getSigningBasket
+     * @param basketId This identification of the corresponding signing basket object.  (required)
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
+     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
+     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
+     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
+     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
+     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
+     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call getSigningBasketCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = null;
+        
+        // create path and map variables
+        String localVarPath = "/v1/signing-baskets/{basketId}"
+            .replaceAll("\\{" + "basketId" + "\\}", apiClient.escapeString(basketId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        if (xRequestID != null)
+        localVarHeaderParams.put("X-Request-ID", apiClient.parameterToString(xRequestID));
+        if (digest != null)
+        localVarHeaderParams.put("Digest", apiClient.parameterToString(digest));
+        if (signature != null)
+        localVarHeaderParams.put("Signature", apiClient.parameterToString(signature));
+        if (tpPSignatureCertificate != null)
+        localVarHeaderParams.put("TPP-Signature-Certificate", apiClient.parameterToString(tpPSignatureCertificate));
+        if (psUIPAddress != null)
+        localVarHeaderParams.put("PSU-IP-Address", apiClient.parameterToString(psUIPAddress));
+        if (psUIPPort != null)
+        localVarHeaderParams.put("PSU-IP-Port", apiClient.parameterToString(psUIPPort));
+        if (psUAccept != null)
+        localVarHeaderParams.put("PSU-Accept", apiClient.parameterToString(psUAccept));
+        if (psUAcceptCharset != null)
+        localVarHeaderParams.put("PSU-Accept-Charset", apiClient.parameterToString(psUAcceptCharset));
+        if (psUAcceptEncoding != null)
+        localVarHeaderParams.put("PSU-Accept-Encoding", apiClient.parameterToString(psUAcceptEncoding));
+        if (psUAcceptLanguage != null)
+        localVarHeaderParams.put("PSU-Accept-Language", apiClient.parameterToString(psUAcceptLanguage));
+        if (psUUserAgent != null)
+        localVarHeaderParams.put("PSU-User-Agent", apiClient.parameterToString(psUUserAgent));
+        if (psUHttpMethod != null)
+        localVarHeaderParams.put("PSU-Http-Method", apiClient.parameterToString(psUHttpMethod));
+        if (psUDeviceID != null)
+        localVarHeaderParams.put("PSU-Device-ID", apiClient.parameterToString(psUDeviceID));
+        if (psUGeoLocation != null)
+        localVarHeaderParams.put("PSU-Geo-Location", apiClient.parameterToString(psUGeoLocation));
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -425,7 +633,7 @@ public class SigningBasketsApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getSigningBasketValidateBeforeCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getSigningBasketValidateBeforeCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'basketId' is set
         if (basketId == null) {
             throw new ApiException("Missing the required parameter 'basketId' when calling getSigningBasket(Async)");
@@ -451,7 +659,7 @@ public class SigningBasketsApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -465,7 +673,7 @@ public class SigningBasketsApi {
      * @return SigningBasketResponse200
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public SigningBasketResponse200 getSigningBasket(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+    public SigningBasketResponse200 getSigningBasket(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
         ApiResponse<SigningBasketResponse200> resp = getSigningBasketWithHttpInfo(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
@@ -477,7 +685,7 @@ public class SigningBasketsApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -491,7 +699,7 @@ public class SigningBasketsApi {
      * @return ApiResponse&lt;SigningBasketResponse200&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<SigningBasketResponse200> getSigningBasketWithHttpInfo(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+    public ApiResponse<SigningBasketResponse200> getSigningBasketWithHttpInfo(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
         com.squareup.okhttp.Call call = getSigningBasketValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<SigningBasketResponse200>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
@@ -504,7 +712,7 @@ public class SigningBasketsApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -519,7 +727,7 @@ public class SigningBasketsApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getSigningBasketAsync(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<SigningBasketResponse200> callback) throws ApiException {
+    public com.squareup.okhttp.Call getSigningBasketAsync(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<SigningBasketResponse200> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -546,12 +754,12 @@ public class SigningBasketsApi {
         return call;
     }
     /**
-     * Build call for getSigningBasketAuthorisations
+     * Build call for getSigningBasketAuthorisation
      * @param basketId This identification of the corresponding signing basket object.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -567,7 +775,7 @@ public class SigningBasketsApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getSigningBasketAuthorisationsCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getSigningBasketAuthorisationCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
@@ -610,7 +818,7 @@ public class SigningBasketsApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+            "application/json", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -638,17 +846,17 @@ public class SigningBasketsApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getSigningBasketAuthorisationsValidateBeforeCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getSigningBasketAuthorisationValidateBeforeCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'basketId' is set
         if (basketId == null) {
-            throw new ApiException("Missing the required parameter 'basketId' when calling getSigningBasketAuthorisations(Async)");
+            throw new ApiException("Missing the required parameter 'basketId' when calling getSigningBasketAuthorisation(Async)");
         }
         // verify the required parameter 'xRequestID' is set
         if (xRequestID == null) {
-            throw new ApiException("Missing the required parameter 'xRequestID' when calling getSigningBasketAuthorisations(Async)");
+            throw new ApiException("Missing the required parameter 'xRequestID' when calling getSigningBasketAuthorisation(Async)");
         }
         
-        com.squareup.okhttp.Call call = getSigningBasketAuthorisationsCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getSigningBasketAuthorisationCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -664,7 +872,7 @@ public class SigningBasketsApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -678,8 +886,8 @@ public class SigningBasketsApi {
      * @return Authorisations
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Authorisations getSigningBasketAuthorisations(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<Authorisations> resp = getSigningBasketAuthorisationsWithHttpInfo(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public Authorisations getSigningBasketAuthorisation(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<Authorisations> resp = getSigningBasketAuthorisationWithHttpInfo(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
@@ -690,7 +898,7 @@ public class SigningBasketsApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -704,8 +912,8 @@ public class SigningBasketsApi {
      * @return ApiResponse&lt;Authorisations&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Authorisations> getSigningBasketAuthorisationsWithHttpInfo(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = getSigningBasketAuthorisationsValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+    public ApiResponse<Authorisations> getSigningBasketAuthorisationWithHttpInfo(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = getSigningBasketAuthorisationValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<Authorisations>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -717,7 +925,7 @@ public class SigningBasketsApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -732,7 +940,7 @@ public class SigningBasketsApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getSigningBasketAuthorisationsAsync(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Authorisations> callback) throws ApiException {
+    public com.squareup.okhttp.Call getSigningBasketAuthorisationAsync(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Authorisations> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -753,7 +961,7 @@ public class SigningBasketsApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getSigningBasketAuthorisationsValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getSigningBasketAuthorisationValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Authorisations>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
@@ -765,7 +973,7 @@ public class SigningBasketsApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -781,7 +989,7 @@ public class SigningBasketsApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getSigningBasketScaStatusCall(String basketId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getSigningBasketScaStatusCall(String basketId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
@@ -825,7 +1033,7 @@ public class SigningBasketsApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+            "application/json", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -853,7 +1061,7 @@ public class SigningBasketsApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getSigningBasketScaStatusValidateBeforeCall(String basketId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getSigningBasketScaStatusValidateBeforeCall(String basketId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'basketId' is set
         if (basketId == null) {
             throw new ApiException("Missing the required parameter 'basketId' when calling getSigningBasketScaStatus(Async)");
@@ -884,7 +1092,7 @@ public class SigningBasketsApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -898,7 +1106,7 @@ public class SigningBasketsApi {
      * @return ScaStatusResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ScaStatusResponse getSigningBasketScaStatus(String basketId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+    public ScaStatusResponse getSigningBasketScaStatus(String basketId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
         ApiResponse<ScaStatusResponse> resp = getSigningBasketScaStatusWithHttpInfo(basketId, authorisationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
@@ -911,7 +1119,7 @@ public class SigningBasketsApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -925,7 +1133,7 @@ public class SigningBasketsApi {
      * @return ApiResponse&lt;ScaStatusResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<ScaStatusResponse> getSigningBasketScaStatusWithHttpInfo(String basketId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+    public ApiResponse<ScaStatusResponse> getSigningBasketScaStatusWithHttpInfo(String basketId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
         com.squareup.okhttp.Call call = getSigningBasketScaStatusValidateBeforeCall(basketId, authorisationId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<ScaStatusResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
@@ -939,7 +1147,7 @@ public class SigningBasketsApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -954,7 +1162,7 @@ public class SigningBasketsApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getSigningBasketScaStatusAsync(String basketId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<ScaStatusResponse> callback) throws ApiException {
+    public com.squareup.okhttp.Call getSigningBasketScaStatusAsync(String basketId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<ScaStatusResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -981,12 +1189,12 @@ public class SigningBasketsApi {
         return call;
     }
     /**
-     * Build call for startSigningBasketAuthorisation
+     * Build call for getSigningBasketStatus
      * @param basketId This identification of the corresponding signing basket object.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -1006,7 +1214,244 @@ public class SigningBasketsApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call startSigningBasketAuthorisationCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getSigningBasketStatusCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = null;
+        
+        // create path and map variables
+        String localVarPath = "/v1/signing-baskets/{basketId}/status"
+            .replaceAll("\\{" + "basketId" + "\\}", apiClient.escapeString(basketId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        if (xRequestID != null)
+        localVarHeaderParams.put("X-Request-ID", apiClient.parameterToString(xRequestID));
+        if (digest != null)
+        localVarHeaderParams.put("Digest", apiClient.parameterToString(digest));
+        if (signature != null)
+        localVarHeaderParams.put("Signature", apiClient.parameterToString(signature));
+        if (tpPSignatureCertificate != null)
+        localVarHeaderParams.put("TPP-Signature-Certificate", apiClient.parameterToString(tpPSignatureCertificate));
+        if (PSU_ID != null)
+        localVarHeaderParams.put("PSU-ID", apiClient.parameterToString(PSU_ID));
+        if (psUIDType != null)
+        localVarHeaderParams.put("PSU-ID-Type", apiClient.parameterToString(psUIDType));
+        if (psUCorporateID != null)
+        localVarHeaderParams.put("PSU-Corporate-ID", apiClient.parameterToString(psUCorporateID));
+        if (psUCorporateIDType != null)
+        localVarHeaderParams.put("PSU-Corporate-ID-Type", apiClient.parameterToString(psUCorporateIDType));
+        if (psUIPAddress != null)
+        localVarHeaderParams.put("PSU-IP-Address", apiClient.parameterToString(psUIPAddress));
+        if (psUIPPort != null)
+        localVarHeaderParams.put("PSU-IP-Port", apiClient.parameterToString(psUIPPort));
+        if (psUAccept != null)
+        localVarHeaderParams.put("PSU-Accept", apiClient.parameterToString(psUAccept));
+        if (psUAcceptCharset != null)
+        localVarHeaderParams.put("PSU-Accept-Charset", apiClient.parameterToString(psUAcceptCharset));
+        if (psUAcceptEncoding != null)
+        localVarHeaderParams.put("PSU-Accept-Encoding", apiClient.parameterToString(psUAcceptEncoding));
+        if (psUAcceptLanguage != null)
+        localVarHeaderParams.put("PSU-Accept-Language", apiClient.parameterToString(psUAcceptLanguage));
+        if (psUUserAgent != null)
+        localVarHeaderParams.put("PSU-User-Agent", apiClient.parameterToString(psUUserAgent));
+        if (psUHttpMethod != null)
+        localVarHeaderParams.put("PSU-Http-Method", apiClient.parameterToString(psUHttpMethod));
+        if (psUDeviceID != null)
+        localVarHeaderParams.put("PSU-Device-ID", apiClient.parameterToString(psUDeviceID));
+        if (psUGeoLocation != null)
+        localVarHeaderParams.put("PSU-Geo-Location", apiClient.parameterToString(psUGeoLocation));
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json", "application/problem+json"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] { "BearerAuthOAuth" };
+        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call getSigningBasketStatusValidateBeforeCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        // verify the required parameter 'basketId' is set
+        if (basketId == null) {
+            throw new ApiException("Missing the required parameter 'basketId' when calling getSigningBasketStatus(Async)");
+        }
+        // verify the required parameter 'xRequestID' is set
+        if (xRequestID == null) {
+            throw new ApiException("Missing the required parameter 'xRequestID' when calling getSigningBasketStatus(Async)");
+        }
+        
+        com.squareup.okhttp.Call call = getSigningBasketStatusCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
+
+    /**
+     * Read the status of the signing basket
+     * Returns the status of a signing basket object. 
+     * @param basketId This identification of the corresponding signing basket object.  (required)
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
+     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
+     * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
+     * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
+     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
+     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
+     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
+     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
+     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
+     * @return SigningBasketStatusResponse200
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public SigningBasketStatusResponse200 getSigningBasketStatus(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<SigningBasketStatusResponse200> resp = getSigningBasketStatusWithHttpInfo(basketId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        return resp.getData();
+    }
+
+    /**
+     * Read the status of the signing basket
+     * Returns the status of a signing basket object. 
+     * @param basketId This identification of the corresponding signing basket object.  (required)
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
+     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
+     * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
+     * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
+     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
+     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
+     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
+     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
+     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
+     * @return ApiResponse&lt;SigningBasketStatusResponse200&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<SigningBasketStatusResponse200> getSigningBasketStatusWithHttpInfo(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = getSigningBasketStatusValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+        Type localVarReturnType = new TypeToken<SigningBasketStatusResponse200>(){}.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+    /**
+     * Read the status of the signing basket (asynchronously)
+     * Returns the status of a signing basket object. 
+     * @param basketId This identification of the corresponding signing basket object.  (required)
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
+     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
+     * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
+     * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
+     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
+     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
+     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
+     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
+     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call getSigningBasketStatusAsync(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<SigningBasketStatusResponse200> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = getSigningBasketStatusValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<SigningBasketStatusResponse200>(){}.getType();
+        apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+    /**
+     * Build call for startSigningBasketAuthorisation
+     * @param basketId This identification of the corresponding signing basket object.  (required)
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
+     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
+     * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
+     * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (optional)
+     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
+     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
+     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
+     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
+     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call startSigningBasketAuthorisationCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
@@ -1057,7 +1502,7 @@ public class SigningBasketsApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+            "application/json", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -1085,7 +1530,7 @@ public class SigningBasketsApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call startSigningBasketAuthorisationValidateBeforeCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call startSigningBasketAuthorisationValidateBeforeCall(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'basketId' is set
         if (basketId == null) {
             throw new ApiException("Missing the required parameter 'basketId' when calling startSigningBasketAuthorisation(Async)");
@@ -1106,12 +1551,12 @@ public class SigningBasketsApi {
 
     /**
      * Start the authorisation process for a signing basket
-     * Create an authorisation sub-resource and start the authorisation process of a signing basket.  The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the signing-baskets.  The ASPSP might make the usage of this access method unnecessary in case  of only one SCA process needed, since the related authorisation resource  might be automatically created by the ASPSP after the submission of the  payment data with the first POST signing basket call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,      * &#x27;startAuthorisationWithPsuAuthentication&#x27;     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. 
+     * Create an authorisation sub-resource and start the authorisation process of a signing basket. The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a corporate context, each creating an own authorisation sub-endpoint for the corresponding PSU authorising the signing-baskets.  The ASPSP might make the usage of this access method unnecessary in case of only one SCA process needed, since the related authorisation resource might be automatically created by the ASPSP after the submission of the payment data with the first POST signing basket call.  The start authorisation process is a process which is needed for creating a new authorisation or cancellation sub-resource.  This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment     Initiation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be     uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,     * &#x27;startAuthorisationWithPsuAuthentication&#x27; #TODO     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;   * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding     Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded     by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for     executing the cancellation.   * The signing basket needs to be authorised yet. 
      * @param basketId This identification of the corresponding signing basket object.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -1129,19 +1574,19 @@ public class SigningBasketsApi {
      * @return StartScaprocessResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public StartScaprocessResponse startSigningBasketAuthorisation(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+    public StartScaprocessResponse startSigningBasketAuthorisation(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
         ApiResponse<StartScaprocessResponse> resp = startSigningBasketAuthorisationWithHttpInfo(basketId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
     /**
      * Start the authorisation process for a signing basket
-     * Create an authorisation sub-resource and start the authorisation process of a signing basket.  The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the signing-baskets.  The ASPSP might make the usage of this access method unnecessary in case  of only one SCA process needed, since the related authorisation resource  might be automatically created by the ASPSP after the submission of the  payment data with the first POST signing basket call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,      * &#x27;startAuthorisationWithPsuAuthentication&#x27;     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. 
+     * Create an authorisation sub-resource and start the authorisation process of a signing basket. The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a corporate context, each creating an own authorisation sub-endpoint for the corresponding PSU authorising the signing-baskets.  The ASPSP might make the usage of this access method unnecessary in case of only one SCA process needed, since the related authorisation resource might be automatically created by the ASPSP after the submission of the payment data with the first POST signing basket call.  The start authorisation process is a process which is needed for creating a new authorisation or cancellation sub-resource.  This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment     Initiation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be     uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,     * &#x27;startAuthorisationWithPsuAuthentication&#x27; #TODO     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;   * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding     Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded     by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for     executing the cancellation.   * The signing basket needs to be authorised yet. 
      * @param basketId This identification of the corresponding signing basket object.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -1159,7 +1604,7 @@ public class SigningBasketsApi {
      * @return ApiResponse&lt;StartScaprocessResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<StartScaprocessResponse> startSigningBasketAuthorisationWithHttpInfo(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+    public ApiResponse<StartScaprocessResponse> startSigningBasketAuthorisationWithHttpInfo(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
         com.squareup.okhttp.Call call = startSigningBasketAuthorisationValidateBeforeCall(basketId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<StartScaprocessResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
@@ -1167,12 +1612,12 @@ public class SigningBasketsApi {
 
     /**
      * Start the authorisation process for a signing basket (asynchronously)
-     * Create an authorisation sub-resource and start the authorisation process of a signing basket.  The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the signing-baskets.  The ASPSP might make the usage of this access method unnecessary in case  of only one SCA process needed, since the related authorisation resource  might be automatically created by the ASPSP after the submission of the  payment data with the first POST signing basket call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,      * &#x27;startAuthorisationWithPsuAuthentication&#x27;     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. 
+     * Create an authorisation sub-resource and start the authorisation process of a signing basket. The message might in addition transmit authentication and authorisation related data.  This method is iterated n times for a n times SCA authorisation in a corporate context, each creating an own authorisation sub-endpoint for the corresponding PSU authorising the signing-baskets.  The ASPSP might make the usage of this access method unnecessary in case of only one SCA process needed, since the related authorisation resource might be automatically created by the ASPSP after the submission of the payment data with the first POST signing basket call.  The start authorisation process is a process which is needed for creating a new authorisation or cancellation sub-resource.  This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment     Initiation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be     uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,     * &#x27;startAuthorisationWithPsuAuthentication&#x27; #TODO     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;   * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding     Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded     by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for     executing the cancellation.   * The signing basket needs to be authorised yet. 
      * @param basketId This identification of the corresponding signing basket object.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -1191,7 +1636,7 @@ public class SigningBasketsApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call startSigningBasketAuthorisationAsync(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<StartScaprocessResponse> callback) throws ApiException {
+    public com.squareup.okhttp.Call startSigningBasketAuthorisationAsync(String basketId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<StartScaprocessResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -1225,7 +1670,7 @@ public class SigningBasketsApi {
      * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -1245,7 +1690,7 @@ public class SigningBasketsApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call updateSigningBasketPsuDataCall(String basketId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call updateSigningBasketPsuDataCall(String basketId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
         
         // create path and map variables
@@ -1297,7 +1742,7 @@ public class SigningBasketsApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/json"
+            "application/json", "application/problem+json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -1325,7 +1770,7 @@ public class SigningBasketsApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call updateSigningBasketPsuDataValidateBeforeCall(String basketId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call updateSigningBasketPsuDataValidateBeforeCall(String basketId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'basketId' is set
         if (basketId == null) {
             throw new ApiException("Missing the required parameter 'basketId' when calling updateSigningBasketPsuData(Async)");
@@ -1350,14 +1795,14 @@ public class SigningBasketsApi {
 
     /**
      * Update PSU Data for signing basket
-     * This method update PSU data on the signing basket resource if needed.  It may authorise a igning basket within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.   There are several possible Update PSU Data requests in the context of a consent request if needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. 
+     * This method update PSU data on the signing basket resource if needed. It may authorise a igning basket within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.  There are several possible Update PSU Data requests in the context of a consent request if needed, which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for     * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:   The Update PSU Data Request might be used   * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method. For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change. 
      * @param basketId This identification of the corresponding signing basket object.  (required)
      * @param authorisationId Resource identification of the related SCA. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -1375,21 +1820,21 @@ public class SigningBasketsApi {
      * @return Object
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Object updateSigningBasketPsuData(String basketId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+    public Object updateSigningBasketPsuData(String basketId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
         ApiResponse<Object> resp = updateSigningBasketPsuDataWithHttpInfo(basketId, authorisationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
     /**
      * Update PSU Data for signing basket
-     * This method update PSU data on the signing basket resource if needed.  It may authorise a igning basket within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.   There are several possible Update PSU Data requests in the context of a consent request if needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. 
+     * This method update PSU data on the signing basket resource if needed. It may authorise a igning basket within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.  There are several possible Update PSU Data requests in the context of a consent request if needed, which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for     * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:   The Update PSU Data Request might be used   * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method. For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change. 
      * @param basketId This identification of the corresponding signing basket object.  (required)
      * @param authorisationId Resource identification of the related SCA. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -1407,7 +1852,7 @@ public class SigningBasketsApi {
      * @return ApiResponse&lt;Object&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Object> updateSigningBasketPsuDataWithHttpInfo(String basketId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+    public ApiResponse<Object> updateSigningBasketPsuDataWithHttpInfo(String basketId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
         com.squareup.okhttp.Call call = updateSigningBasketPsuDataValidateBeforeCall(basketId, authorisationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
@@ -1415,14 +1860,14 @@ public class SigningBasketsApi {
 
     /**
      * Update PSU Data for signing basket (asynchronously)
-     * This method update PSU data on the signing basket resource if needed.  It may authorise a igning basket within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.   There are several possible Update PSU Data requests in the context of a consent request if needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. 
+     * This method update PSU data on the signing basket resource if needed. It may authorise a igning basket within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.  There are several possible Update PSU Data requests in the context of a consent request if needed, which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for     * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:   The Update PSU Data Request might be used   * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method. For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change. 
      * @param basketId This identification of the corresponding signing basket object.  (required)
      * @param authorisationId Resource identification of the related SCA. (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
      * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
@@ -1441,7 +1886,7 @@ public class SigningBasketsApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call updateSigningBasketPsuDataAsync(String basketId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, Object psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Object> callback) throws ApiException {
+    public com.squareup.okhttp.Call updateSigningBasketPsuDataAsync(String basketId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Object> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
