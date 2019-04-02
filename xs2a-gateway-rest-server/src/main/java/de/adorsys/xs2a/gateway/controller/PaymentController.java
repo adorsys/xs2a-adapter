@@ -5,9 +5,11 @@ import de.adorsys.xs2a.gateway.service.PaymentInitiationHeaders;
 import de.adorsys.xs2a.gateway.service.PaymentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
+@RestController
 public class PaymentController implements PaymentApi {
     private final PaymentService paymentService;
 
