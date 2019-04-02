@@ -2,6 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+    <properties>
+        <spring-boot-maven-plugin.version>2.1.3.RELEASE</spring-boot-maven-plugin.version>
+    </properties>
 
     <parent>
         <groupId>de.adorsys.xs2a.gateway</groupId>
@@ -42,11 +45,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
+            <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -54,16 +57,16 @@
             <scope>runtime</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-config</artifactId>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-security</artifactId>-->
+            <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -118,6 +121,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
