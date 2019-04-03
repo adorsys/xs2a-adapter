@@ -1,7 +1,15 @@
-FROM openjdk:8-alpine
+FROM adorsys/openjdk-jre-base:8-minideb
 
-WORKDIR /service
-ENV JAVA_OPTS ""
-ENV SERVICE_PARAMS ""
-ADD xs2a-gateway-app/target/xs2a-gateway-app.jar /service/
-CMD java $JAVA_OPTS -jar xs2a-gateway-app.jar $SERVICE_PARAMS
+MAINTAINER https://github.com/adorsys/xs2a-gateway/
+
+ENV SERVER_PORT 8082
+ENV JAVA_OPTS -Xmx1024m
+ENV JAVA_TOOL_OPTIONS -Xmx1024m
+
+WORKDIR /opt/xs2a-gateway
+
+COPY ./xs2a-gateway-app/target/xs2a-gateway-app.jar /opt/xs2a-gateway/xs2a-gateway-app.jar
+
+EXPOSE 8081
+
+CMD exec $JAVA_HOME/bin/java $JAVA_OPTS -jar /opt/xs2a-gateway/xs2a-gateway-app.jar

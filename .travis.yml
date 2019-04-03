@@ -1,1 +1,44 @@
-language: java
+language: generic
+
+# Build only commits on master and release tags for the "Build pushed branches" feature.
+# This prevents building twice on PRs originating from our repo ("Build pushed pull requests)".
+# See:
+#   - https://github.com/travis-ci/travis-ci/issues/1147
+#   - https://docs.travis-ci.com/user/pull-requests/#double-builds-on-pull-requests
+branches:
+  only:
+    - master
+    - develop
+    - /v[0-9]+\.[0-9]+\.[0-9]+(-.*)?$/
+
+jdk:
+  - openjdk8
+
+services: docker
+
+env:
+  global:
+    - XS2A_GATEWAY_IMAGE="xs2a-gateway"
+    - OPENSHIFT_REGISTRY="openshift-registry.adorsys.de"
+    - OPENSHIFT_NAMESPACE="xs2a-gateway-dev"
+    - OPENSHIFT_IMAGE_NAME="${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${XS2A_GATEWAY_IMAGE}"
+
+cache:
+  directories:
+    - "$HOME/.m2"
+
+script:
+  # build service
+  - mvn clean install -B
+  # build docker
+  - docker build -t "$OPENSHIFT_IMAGE_NAME:test" .
+
+deploy:
+  # develop
+  - provider: script
+    skip_cleanup: true
+    script:
+      bash ./devops/build/deploy.sh develop;
+      mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST -Dsonar.login=$SONAR_TOKEN
+    on:
+      branch: develop
