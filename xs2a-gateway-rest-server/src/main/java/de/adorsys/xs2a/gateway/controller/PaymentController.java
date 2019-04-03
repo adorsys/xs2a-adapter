@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.gateway.controller;
 
 import de.adorsys.xs2a.gateway.api.PaymentApi;
+import de.adorsys.xs2a.gateway.service.PaymentInformationHeaders;
 import de.adorsys.xs2a.gateway.service.PaymentInitiationHeaders;
 import de.adorsys.xs2a.gateway.service.PaymentService;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,29 @@ public class PaymentController implements PaymentApi {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(this.paymentService.initiatePayment(paymentService, paymentProduct, body, headers));
+    }
+
+    @Override
+    public ResponseEntity<Object> getPaymentInformation(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+        PaymentInformationHeaders headers = PaymentInformationHeaders.builder()
+                                                  .xRequestID(xRequestID)
+                                                  .digest(digest)
+                                                  .signature(signature)
+                                                  .tpPSignatureCertificate(tpPSignatureCertificate)
+                                                  .psUIPAddress(psUIPAddress)
+                                                  .psUIPPort(psUIPPort)
+                                                  .psUAccept(psUAccept)
+                                                  .psUAcceptCharset(psUAcceptCharset)
+                                                  .psUAcceptEncoding(psUAcceptEncoding)
+                                                  .psUAcceptLanguage(psUAcceptLanguage)
+                                                  .psUUserAgent(psUUserAgent)
+                                                  .psUHttpMethod(psUHttpMethod)
+                                                  .psUDeviceID(psUDeviceID)
+                                                  .psUGeoLocation(psUGeoLocation)
+                                                  .build();
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.paymentService.getPaymentInformation(paymentService, paymentProduct, paymentId, headers));
     }
 }
 
