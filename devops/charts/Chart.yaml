@@ -1,0 +1,14 @@
+apiVersion: v1
+name: xs2a-gateway
+version: 0.1.0
+appVersion: "1.0"
+description: XS2A Gateway Helm charts
+sources:
+  - https://github.com/adorsys/xs2a-gateway
+maintainers:
+  - name: Serhii Petrychenko
+    email: spe@adorsys.com.ua
+  - name: Artem Snisarenko
+    email: asn@adorsys.com.ua
+  - name: Mykola Shumyn
+    email: msh@adorsys.com.ua

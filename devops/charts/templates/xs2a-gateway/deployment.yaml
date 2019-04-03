@@ -1,0 +1,47 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: xs2a-gateway
+  name: xs2a-gateway
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    app: xs2a-gateway
+    deploymentconfig: xs2a-gateway
+  template:
+    metadata:
+      labels:
+        app: xs2a-gateway
+        deploymentconfig: xs2a-gateway
+    spec:
+      containers:
+        - env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
+          imagePullPolicy: Always
+          name: xs2a-gateway
+          ports:
+            - containerPort: 8081
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - xs2a-gateway
+        from:
+          kind: ImageStreamTag
+          name: xs2a-gateway:{{ .Values.xs2a-gateway.image-tag }}
+          namespace: {{ .Values.xs2a-gateway.namespace }}
+      type: ImageChange
