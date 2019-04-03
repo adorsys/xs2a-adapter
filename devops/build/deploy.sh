@@ -20,11 +20,11 @@ fi
 # push latest to openshift
 if [ "$1" == "latest" ]; then
   docker login -u openshift -p $OPENSHIFT_TOKEN $OPENSHIFT_REGISTRY
-  docker build -t "$OPENSHIFT_IMAGE_NAME:latest"
+  docker build -t "$OPENSHIFT_IMAGE_NAME:latest" .
   docker push $OPENSHIFT_IMAGE_NAME:latest
 elif [ "$1" == "develop" ]; then
   docker login -u openshift -p $OPENSHIFT_TOKEN $OPENSHIFT_REGISTRY
-  docker build -t "$OPENSHIFT_IMAGE_NAME:develop"
+  docker build -t "$OPENSHIFT_IMAGE_NAME:develop" .
   docker push $OPENSHIFT_IMAGE_NAME:develop
 # but nothing else
 else
