@@ -42,6 +42,6 @@ spec:
           - xs2a-gateway
         from:
           kind: ImageStreamTag
-          name: xs2a-gateway:{{ .Values.xs2a-gateway.image-tag }}
-          namespace: {{ .Values.xs2a-gateway.namespace }}
+          name: xs2a-gateway:{{ .Values.gateway.tag }}
+          namespace: {{ .Values.gateway.namespace }}
       type: ImageChange

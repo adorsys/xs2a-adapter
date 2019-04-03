@@ -2,7 +2,7 @@ FROM adorsys/openjdk-jre-base:8-minideb
 
 MAINTAINER https://github.com/adorsys/xs2a-gateway/
 
-ENV SERVER_PORT 8082
+ENV SERVER_PORT 8081
 ENV JAVA_OPTS -Xmx1024m
 ENV JAVA_TOOL_OPTIONS -Xmx1024m
 

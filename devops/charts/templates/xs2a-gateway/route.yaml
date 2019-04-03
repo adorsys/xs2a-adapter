@@ -5,7 +5,7 @@ metadata:
     app: xs2a-gateway
   name: xs2a-gateway
 spec:
-  host: {{ .Values.xs2a-gateway.route }}
+  host: {{ .Values.gateway.route }}
   port:
     targetPort: 8080-tcp
   tls:
