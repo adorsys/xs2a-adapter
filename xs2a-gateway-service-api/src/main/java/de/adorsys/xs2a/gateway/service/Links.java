@@ -40,4 +40,188 @@ public class Links {
     private String startAuthorisationWithTransactionAuthorisation;
     private String scaStatus;
     private String authoriseTransaction;
+
+    public String getScaRedirect() {
+        return scaRedirect;
+    }
+
+    public void setScaRedirect(String scaRedirect) {
+        this.scaRedirect = scaRedirect;
+    }
+
+    public String getScaOAuth() {
+        return scaOAuth;
+    }
+
+    public void setScaOAuth(String scaOAuth) {
+        this.scaOAuth = scaOAuth;
+    }
+
+    public String getUpdatePsuIdentification() {
+        return updatePsuIdentification;
+    }
+
+    public void setUpdatePsuIdentification(String updatePsuIdentification) {
+        this.updatePsuIdentification = updatePsuIdentification;
+    }
+
+    public String getUpdateProprietaryData() {
+        return updateProprietaryData;
+    }
+
+    public void setUpdateProprietaryData(String updateProprietaryData) {
+        this.updateProprietaryData = updateProprietaryData;
+    }
+
+    public String getUpdatePsuAuthentication() {
+        return updatePsuAuthentication;
+    }
+
+    public void setUpdatePsuAuthentication(String updatePsuAuthentication) {
+        this.updatePsuAuthentication = updatePsuAuthentication;
+    }
+
+    public String getSelectAuthenticationMethod() {
+        return selectAuthenticationMethod;
+    }
+
+    public void setSelectAuthenticationMethod(String selectAuthenticationMethod) {
+        this.selectAuthenticationMethod = selectAuthenticationMethod;
+    }
+
+    public String getSelf() {
+        return self;
+    }
+
+    public void setSelf(String self) {
+        this.self = self;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getViewBalances() {
+        return viewBalances;
+    }
+
+    public void setViewBalances(String viewBalances) {
+        this.viewBalances = viewBalances;
+    }
+
+    public String getViewTransactions() {
+        return viewTransactions;
+    }
+
+    public void setViewTransactions(String viewTransactions) {
+        this.viewTransactions = viewTransactions;
+    }
+
+    public String getFirst() {
+        return first;
+    }
+
+    public void setFirst(String first) {
+        this.first = first;
+    }
+
+    public String getNext() {
+        return next;
+    }
+
+    public void setNext(String next) {
+        this.next = next;
+    }
+
+    public String getPrevious() {
+        return previous;
+    }
+
+    public void setPrevious(String previous) {
+        this.previous = previous;
+    }
+
+    public String getLast() {
+        return last;
+    }
+
+    public void setLast(String last) {
+        this.last = last;
+    }
+
+    public String getDownload() {
+        return download;
+    }
+
+    public void setDownload(String download) {
+        this.download = download;
+    }
+
+    public String getStartAuthorisation() {
+        return startAuthorisation;
+    }
+
+    public void setStartAuthorisation(String startAuthorisation) {
+        this.startAuthorisation = startAuthorisation;
+    }
+
+    public String getStartAuthorisationWithPsuIdentification() {
+        return startAuthorisationWithPsuIdentification;
+    }
+
+    public void setStartAuthorisationWithPsuIdentification(String startAuthorisationWithPsuIdentification) {
+        this.startAuthorisationWithPsuIdentification = startAuthorisationWithPsuIdentification;
+    }
+
+    public String getStartAuthorisationWithPsuAuthentication() {
+        return startAuthorisationWithPsuAuthentication;
+    }
+
+    public void setStartAuthorisationWithPsuAuthentication(String startAuthorisationWithPsuAuthentication) {
+        this.startAuthorisationWithPsuAuthentication = startAuthorisationWithPsuAuthentication;
+    }
+
+    public String getStartAuthorisationWithAuthenticationMethodSelection() {
+        return startAuthorisationWithAuthenticationMethodSelection;
+    }
+
+    public void setStartAuthorisationWithAuthenticationMethodSelection(String startAuthorisationWithAuthenticationMethodSelection) {
+        this.startAuthorisationWithAuthenticationMethodSelection = startAuthorisationWithAuthenticationMethodSelection;
+    }
+
+    public String getStartAuthorisationWithTransactionAuthorisation() {
+        return startAuthorisationWithTransactionAuthorisation;
+    }
+
+    public void setStartAuthorisationWithTransactionAuthorisation(String startAuthorisationWithTransactionAuthorisation) {
+        this.startAuthorisationWithTransactionAuthorisation = startAuthorisationWithTransactionAuthorisation;
+    }
+
+    public String getScaStatus() {
+        return scaStatus;
+    }
+
+    public void setScaStatus(String scaStatus) {
+        this.scaStatus = scaStatus;
+    }
+
+    public String getAuthoriseTransaction() {
+        return authoriseTransaction;
+    }
+
+    public void setAuthoriseTransaction(String authoriseTransaction) {
+        this.authoriseTransaction = authoriseTransaction;
+    }
 }

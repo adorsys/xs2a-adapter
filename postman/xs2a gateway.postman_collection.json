@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "312ccd6e-387b-41a2-9fd1-9d122fe89018",
+		"name": "xs2a gateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PIS/PaymentInit/Products/001a",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e4efa145-5a35-4b82-af51-90ee995ae199",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Transaction status received\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Request-ID",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "PSU-IP-Address",
+						"value": "0.0.0.0",
+						"type": "text"
+					},
+					{
+						"key": "PSU-ID",
+						"value": "648403403900",
+						"type": "text"
+					},
+					{
+						"key": "PSU-ID-Type",
+						"value": "FKDN",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"creditorAccount\": {\n        \"iban\": \"DE58215730420403292600\",\n        \"currency\": \"EUR\"\n    },\n    \"creditorAddress\": {\n        \"street\": \"12th Avenue\",\n        \"buildingNumber\": \"108\",\n        \"city\": \"Sandbox1\",\n        \"postalCode\": \"2AC450\",\n        \"country\": \"SB\"\n    },\n    \"creditorAgent\": \"Agent\",\n    \"creditorName\": \"Name\",\n    \"debtorAccount\": {\n        \"iban\": \"DE51648730420403403900\",\n        \"currency\": \"EUR\"\n    },\n    \"instructedAmount\": {\n        \"amount\": \"20.9\",\n        \"currency\": \"EUR\"\n    },\n    \"remittanceInformationUnstructured\": \"just\",\n    \"endToEndIdentification\": \"SandboxTPPTest1\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/v1/payments/sepa-credit-transfers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"v1",
+						"payments",
+						"sepa-credit-transfers"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

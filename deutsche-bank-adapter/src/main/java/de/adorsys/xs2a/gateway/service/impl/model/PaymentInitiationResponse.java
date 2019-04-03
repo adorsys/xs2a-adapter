@@ -1,13 +1,14 @@
-package de.adorsys.xs2a.gateway.service;
+package de.adorsys.xs2a.gateway.service.impl.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.adorsys.xs2a.gateway.service.*;
 
-public class PaymentInitiationRequestResponse {
+public class PaymentInitiationResponse {
     // required
     private TransactionStatus transactionStatus;
     private String paymentId;
     @JsonProperty("_links")
-    private Links links;
+    private ObjectLinks links;
     // optional
     private ScaStatus scaStatus;
     private Amount transactionFees;
@@ -34,11 +35,11 @@ public class PaymentInitiationRequestResponse {
         this.paymentId = paymentId;
     }
 
-    public Links getLinks() {
+    public ObjectLinks getLinks() {
         return links;
     }
 
-    public void setLinks(Links links) {
+    public void setLinks(ObjectLinks links) {
         this.links = links;
     }
 

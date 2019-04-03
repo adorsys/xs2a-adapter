@@ -1,6 +1,11 @@
 package de.adorsys.xs2a.gateway.service;
 
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+
+import static de.adorsys.xs2a.gateway.service.HeaderNames.*;
 
 public class PaymentInitiationHeaders {
     private UUID xRequestID;
@@ -8,15 +13,15 @@ public class PaymentInitiationHeaders {
     private String digest;
     private String signature;
     private byte[] tpPSignatureCertificate;
-    private String PSU_ID;
+    private String psuID;
     private String psUIDType;
     private String psUCorporateID;
     private String psUCorporateIDType;
     private String consentID;
-    private boolean tppRedirectPreferred;
+    private Boolean tppRedirectPreferred;
     private String tpPRedirectURI;
     private String tpPNokRedirectURI;
-    private boolean tpPExplicitAuthorisationPreferred;
+    private Boolean tpPExplicitAuthorisationPreferred;
     private String psUIPPort;
     private String psUAccept;
     private String psUAcceptCharset;
@@ -26,6 +31,43 @@ public class PaymentInitiationHeaders {
     private String psUHttpMethod;
     private UUID psUDeviceID;
     private String psUGeoLocation;
+
+    public Map<String, String> toMap() {
+        HashMap<String, String> headers = new HashMap<>();
+
+        putIntoAs(xRequestID, headers, X_REQUEST_ID);
+        putIntoAs(psUIPAddress, headers, PSU_IP_ADDRESS);
+        putIntoAs(digest, headers, DIGEST);
+        putIntoAs(signature, headers, SIGNATURE);
+        if (tpPSignatureCertificate != null) {
+            headers.put(TPP_SIGNATURE_CERTIFICATE, Base64.getEncoder().encodeToString(tpPSignatureCertificate));
+        }
+        putIntoAs(psuID, headers, PSU_ID);
+        putIntoAs(psUIDType, headers, PSU_ID_TYPE);
+        putIntoAs(psUCorporateID, headers, PSU_CORPORATE_ID);
+        putIntoAs(psUCorporateIDType, headers, PSU_CORPORATE_ID_TYPE);
+        putIntoAs(consentID, headers, CONSENT_ID);
+        putIntoAs(tppRedirectPreferred, headers, TPP_REDIRECT_PREFERRED);
+        putIntoAs(tpPRedirectURI, headers, TPP_REDIRECT_URI);
+        putIntoAs(tpPNokRedirectURI, headers, TPP_NOK_REDIRECT_URI);
+        putIntoAs(tpPExplicitAuthorisationPreferred, headers, TPP_EXPLICIT_AUTHORISATION_PREFERRED);
+        putIntoAs(psUIPPort, headers, PSU_IP_PORT);
+        putIntoAs(psUAccept, headers, PSU_ACCEPT);
+        putIntoAs(psUAcceptCharset, headers, PSU_ACCEPT_CHARSET);
+        putIntoAs(psUAcceptEncoding, headers, PSU_ACCEPT_ENCODING);
+        putIntoAs(psUAcceptLanguage, headers, PSU_ACCEPT_LANGUAGE);
+        putIntoAs(psUUserAgent, headers, PSU_USER_AGENT);
+        putIntoAs(psUHttpMethod, headers, PSU_HTTP_METHOD);
+        putIntoAs(psUDeviceID, headers, PSU_DEVICE_ID);
+        putIntoAs(psUGeoLocation, headers, PSU_GEO_LOCATION);
+        return headers;
+    }
+
+    private void putIntoAs(Object headerValue, Map<String, String> headers, String headerName) {
+        if (headerValue != null) {
+            headers.put(headerName, headerValue.toString());
+        }
+    }
 
     public static PaymentInitiationHeadersBuilder builder() {
         return new PaymentInitiationHeadersBuilder();
@@ -42,10 +84,10 @@ public class PaymentInitiationHeaders {
         private String psUCorporateID;
         private String psUCorporateIDType;
         private String consentID;
-        private boolean tppRedirectPreferred;
+        private Boolean tppRedirectPreferred;
         private String tpPRedirectURI;
         private String tpPNokRedirectURI;
-        private boolean tpPExplicitAuthorisationPreferred;
+        private Boolean tpPExplicitAuthorisationPreferred;
         private String psUIPPort;
         private String psUAccept;
         private String psUAcceptCharset;
@@ -109,7 +151,7 @@ public class PaymentInitiationHeaders {
             return this;
         }
 
-        public PaymentInitiationHeadersBuilder tppRedirectPreferred(boolean tppRedirectPreferred) {
+        public PaymentInitiationHeadersBuilder tppRedirectPreferred(Boolean tppRedirectPreferred) {
             this.tppRedirectPreferred = tppRedirectPreferred;
             return this;
         }
@@ -124,7 +166,7 @@ public class PaymentInitiationHeaders {
             return this;
         }
 
-        public PaymentInitiationHeadersBuilder tpPExplicitAuthorisationPreferred(boolean tpPExplicitAuthorisationPreferred) {
+        public PaymentInitiationHeadersBuilder tpPExplicitAuthorisationPreferred(Boolean tpPExplicitAuthorisationPreferred) {
             this.tpPExplicitAuthorisationPreferred = tpPExplicitAuthorisationPreferred;
             return this;
         }
@@ -195,7 +237,7 @@ public class PaymentInitiationHeaders {
             paymentInitiationHeaders.signature = this.signature;
             paymentInitiationHeaders.psUIDType = this.psUIDType;
             paymentInitiationHeaders.psUCorporateIDType = this.psUCorporateIDType;
-            paymentInitiationHeaders.PSU_ID = this.PSU_ID;
+            paymentInitiationHeaders.psuID = this.PSU_ID;
             paymentInitiationHeaders.consentID = this.consentID;
             paymentInitiationHeaders.tpPRedirectURI = this.tpPRedirectURI;
             paymentInitiationHeaders.psUAccept = this.psUAccept;
