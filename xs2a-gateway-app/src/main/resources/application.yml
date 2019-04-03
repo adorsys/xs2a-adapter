@@ -11,3 +11,5 @@ info:
 spring:
   application:
     name: xs2a-gateway
+
+logging.level.org.apache.http.wire: DEBUG
