@@ -17,7 +17,7 @@
 package de.adorsys.xs2a.gateway.model.shared;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.adorsys.xs2a.gateway.model.pis.ScaStatus;
+import de.adorsys.xs2a.gateway.model.pis.ScaStatusTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -37,7 +37,7 @@ import java.util.Objects;
 
 public class StartScaprocessResponse   {
   @JsonProperty("scaStatus")
-  private ScaStatus scaStatus = null;
+  private ScaStatusTO scaStatus = null;
 
   @JsonProperty("authorisationId")
   private String authorisationId = null;
@@ -57,7 +57,7 @@ public class StartScaprocessResponse   {
   @JsonProperty("psuMessage")
   private String psuMessage = null;
 
-  public StartScaprocessResponse scaStatus(ScaStatus scaStatus) {
+  public StartScaprocessResponse scaStatus(ScaStatusTO scaStatus) {
     this.scaStatus = scaStatus;
     return this;
   }
@@ -69,11 +69,11 @@ public class StartScaprocessResponse   {
   @ApiModelProperty(required = true, value = "")
   @NotNull
   @Valid
-  public ScaStatus getScaStatus() {
+  public ScaStatusTO getScaStatus() {
     return scaStatus;
   }
 
-  public void setScaStatus(ScaStatus scaStatus) {
+  public void setScaStatus(ScaStatusTO scaStatus) {
     this.scaStatus = scaStatus;
   }
 

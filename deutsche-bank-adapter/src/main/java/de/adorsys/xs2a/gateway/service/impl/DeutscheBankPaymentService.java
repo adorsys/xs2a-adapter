@@ -12,4 +12,9 @@ public class DeutscheBankPaymentService implements PaymentService {
     public PaymentInformationResponse getPaymentInformation(String paymentService, String paymentProduct, String paymentId, PaymentInformationHeaders headers) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public PaymentInitiationScaStatusResponse getPaymentInitiationScaStatus(String paymentService, String paymentProduct, String paymentId, String authorisationId, PaymentInitiationScaStatusHeaders headers) {
+        throw new UnsupportedOperationException();
+    }
 }
