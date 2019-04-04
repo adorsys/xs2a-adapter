@@ -35,18 +35,18 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 
-public class AccountAccess {
+public class AccountAccessTO {
   @JsonProperty("accounts")
   @Valid
-  private List<AccountReference> accounts = null;
+  private List<AccountReferenceTO> accounts = null;
 
   @JsonProperty("balances")
   @Valid
-  private List<AccountReference> balances = null;
+  private List<AccountReferenceTO> balances = null;
 
   @JsonProperty("transactions")
   @Valid
-  private List<AccountReference> transactions = null;
+  private List<AccountReferenceTO> transactions = null;
 
   /**
    * Optional if supported by API provider.  Only the values \"allAccounts\" or \"allAccountsWithBalances\" is admitted. 
@@ -114,12 +114,12 @@ public class AccountAccess {
   @JsonProperty("allPsd2")
   private AllPsd2Enum allPsd2 = null;
 
-  public AccountAccess accounts(List<AccountReference> accounts) {
+  public AccountAccessTO accounts(List<AccountReferenceTO> accounts) {
     this.accounts = accounts;
     return this;
   }
 
-  public AccountAccess addAccountsItem(AccountReference accountsItem) {
+  public AccountAccessTO addAccountsItem(AccountReferenceTO accountsItem) {
     if (this.accounts == null) {
       this.accounts = new ArrayList<>();
     }
@@ -135,20 +135,20 @@ public class AccountAccess {
 
   @Valid
 
-  public List<AccountReference> getAccounts() {
+  public List<AccountReferenceTO> getAccounts() {
     return accounts;
   }
 
-  public void setAccounts(List<AccountReference> accounts) {
+  public void setAccounts(List<AccountReferenceTO> accounts) {
     this.accounts = accounts;
   }
 
-  public AccountAccess balances(List<AccountReference> balances) {
+  public AccountAccessTO balances(List<AccountReferenceTO> balances) {
     this.balances = balances;
     return this;
   }
 
-  public AccountAccess addBalancesItem(AccountReference balancesItem) {
+  public AccountAccessTO addBalancesItem(AccountReferenceTO balancesItem) {
     if (this.balances == null) {
       this.balances = new ArrayList<>();
     }
@@ -164,20 +164,20 @@ public class AccountAccess {
 
   @Valid
 
-  public List<AccountReference> getBalances() {
+  public List<AccountReferenceTO> getBalances() {
     return balances;
   }
 
-  public void setBalances(List<AccountReference> balances) {
+  public void setBalances(List<AccountReferenceTO> balances) {
     this.balances = balances;
   }
 
-  public AccountAccess transactions(List<AccountReference> transactions) {
+  public AccountAccessTO transactions(List<AccountReferenceTO> transactions) {
     this.transactions = transactions;
     return this;
   }
 
-  public AccountAccess addTransactionsItem(AccountReference transactionsItem) {
+  public AccountAccessTO addTransactionsItem(AccountReferenceTO transactionsItem) {
     if (this.transactions == null) {
       this.transactions = new ArrayList<>();
     }
@@ -193,15 +193,15 @@ public class AccountAccess {
 
   @Valid
 
-  public List<AccountReference> getTransactions() {
+  public List<AccountReferenceTO> getTransactions() {
     return transactions;
   }
 
-  public void setTransactions(List<AccountReference> transactions) {
+  public void setTransactions(List<AccountReferenceTO> transactions) {
     this.transactions = transactions;
   }
 
-  public AccountAccess availableAccounts(AvailableAccountsEnum availableAccounts) {
+  public AccountAccessTO availableAccounts(AvailableAccountsEnum availableAccounts) {
     this.availableAccounts = availableAccounts;
     return this;
   }
@@ -221,7 +221,7 @@ public class AccountAccess {
     this.availableAccounts = availableAccounts;
   }
 
-  public AccountAccess allPsd2(AllPsd2Enum allPsd2) {
+  public AccountAccessTO allPsd2(AllPsd2Enum allPsd2) {
     this.allPsd2 = allPsd2;
     return this;
   }
@@ -250,7 +250,7 @@ public class AccountAccess {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AccountAccess accountAccess = (AccountAccess) o;
+    AccountAccessTO accountAccess = (AccountAccessTO) o;
     return Objects.equals(this.accounts, accountAccess.accounts) &&
         Objects.equals(this.balances, accountAccess.balances) &&
         Objects.equals(this.transactions, accountAccess.transactions) &&
@@ -266,7 +266,7 @@ public class AccountAccess {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AccountAccess {\n");
+    sb.append("class AccountAccessTO {\n");
     
     sb.append("    accounts: ").append(toIndentedString(accounts)).append("\n");
     sb.append("    balances: ").append(toIndentedString(balances)).append("\n");

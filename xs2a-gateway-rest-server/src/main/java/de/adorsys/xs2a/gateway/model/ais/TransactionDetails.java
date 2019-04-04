@@ -70,7 +70,7 @@ public class TransactionDetails {
   private String creditorName = null;
 
   @JsonProperty("creditorAccount")
-  private AccountReference creditorAccount = null;
+  private AccountReferenceTO creditorAccount = null;
 
   @JsonProperty("ultimateCreditor")
   private String ultimateCreditor = null;
@@ -79,7 +79,7 @@ public class TransactionDetails {
   private String debtorName = null;
 
   @JsonProperty("debtorAccount")
-  private AccountReference debtorAccount = null;
+  private AccountReferenceTO debtorAccount = null;
 
   @JsonProperty("ultimateDebtor")
   private String ultimateDebtor = null;
@@ -327,7 +327,7 @@ public class TransactionDetails {
     this.creditorName = creditorName;
   }
 
-  public TransactionDetails creditorAccount(AccountReference creditorAccount) {
+  public TransactionDetails creditorAccount(AccountReferenceTO creditorAccount) {
     this.creditorAccount = creditorAccount;
     return this;
   }
@@ -340,11 +340,11 @@ public class TransactionDetails {
 
   @Valid
 
-  public AccountReference getCreditorAccount() {
+  public AccountReferenceTO getCreditorAccount() {
     return creditorAccount;
   }
 
-  public void setCreditorAccount(AccountReference creditorAccount) {
+  public void setCreditorAccount(AccountReferenceTO creditorAccount) {
     this.creditorAccount = creditorAccount;
   }
 
@@ -388,7 +388,7 @@ public class TransactionDetails {
     this.debtorName = debtorName;
   }
 
-  public TransactionDetails debtorAccount(AccountReference debtorAccount) {
+  public TransactionDetails debtorAccount(AccountReferenceTO debtorAccount) {
     this.debtorAccount = debtorAccount;
     return this;
   }
@@ -401,11 +401,11 @@ public class TransactionDetails {
 
   @Valid
 
-  public AccountReference getDebtorAccount() {
+  public AccountReferenceTO getDebtorAccount() {
     return debtorAccount;
   }
 
-  public void setDebtorAccount(AccountReference debtorAccount) {
+  public void setDebtorAccount(AccountReferenceTO debtorAccount) {
     this.debtorAccount = debtorAccount;
   }
 

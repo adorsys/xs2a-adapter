@@ -34,12 +34,12 @@ import java.util.Objects;
 
 public class ReadAccountBalanceResponse200 {
   @JsonProperty("account")
-  private AccountReference account = null;
+  private AccountReferenceTO account = null;
 
   @JsonProperty("balances")
   private BalanceList balances = null;
 
-  public ReadAccountBalanceResponse200 account(AccountReference account) {
+  public ReadAccountBalanceResponse200 account(AccountReferenceTO account) {
     this.account = account;
     return this;
   }
@@ -52,11 +52,11 @@ public class ReadAccountBalanceResponse200 {
 
   @Valid
 
-  public AccountReference getAccount() {
+  public AccountReferenceTO getAccount() {
     return account;
   }
 
-  public void setAccount(AccountReference account) {
+  public void setAccount(AccountReferenceTO account) {
     this.account = account;
   }
 
