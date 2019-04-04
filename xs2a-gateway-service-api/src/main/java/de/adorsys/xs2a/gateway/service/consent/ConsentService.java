@@ -19,5 +19,5 @@ package de.adorsys.xs2a.gateway.service.consent;
 import de.adorsys.xs2a.gateway.service.ConsentCreationHeaders;
 
 public interface ConsentService {
-    ConsentCreationResponse createConsent(Object body, ConsentCreationHeaders headers);
+    ConsentCreationResponse createConsent(Consents body, ConsentCreationHeaders headers);
 }

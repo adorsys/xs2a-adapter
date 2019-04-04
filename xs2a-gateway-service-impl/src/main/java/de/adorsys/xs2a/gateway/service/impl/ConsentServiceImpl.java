@@ -19,13 +19,14 @@ package de.adorsys.xs2a.gateway.service.impl;
 import de.adorsys.xs2a.gateway.service.ConsentCreationHeaders;
 import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.consent.ConsentService;
+import de.adorsys.xs2a.gateway.service.consent.Consents;
 
 public class ConsentServiceImpl implements ConsentService {
 
     private ConsentService service = new DeutscheBankConsentService();
 
     @Override
-    public ConsentCreationResponse createConsent(Object body, ConsentCreationHeaders headers) {
-        return service.createConsent(body, headers);
+    public ConsentCreationResponse createConsent(Consents consents, ConsentCreationHeaders headers) {
+        return service.createConsent(consents, headers);
     }
 }

@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.gateway.service.impl;
+package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.service.ConsentCreationHeaders;
-import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
-import de.adorsys.xs2a.gateway.service.consent.ConsentService;
-import de.adorsys.xs2a.gateway.service.consent.Consents;
+import de.adorsys.xs2a.gateway.model.ais.AccountAccessTO;
+import de.adorsys.xs2a.gateway.service.consent.AccountAccess;
+import org.mapstruct.Mapper;
 
-public class DeutscheBankConsentService implements ConsentService {
-    @Override
-    public ConsentCreationResponse createConsent(Consents body, ConsentCreationHeaders headers) {
-        throw new UnsupportedOperationException();
-    }
+@Mapper(uses = {AccountReferenceMapper.class})
+public interface AccountAccessMapper {
+
+    AccountAccess toAccountAccess(AccountAccessTO to);
 }

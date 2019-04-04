@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.gateway.model.shared;
 
-import de.adorsys.xs2a.gateway.model.pis.AuthenticationObject;
+import de.adorsys.xs2a.gateway.model.pis.AuthenticationObjectTO;
 import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
 
@@ -30,7 +30,7 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 
-public class ScaMethods extends ArrayList<AuthenticationObject>  {
+public class ScaMethods extends ArrayList<AuthenticationObjectTO>  {
 
   @Override
   public boolean equals(Object o) {

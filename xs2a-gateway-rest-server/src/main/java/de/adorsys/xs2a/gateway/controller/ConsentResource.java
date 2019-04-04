@@ -17,22 +17,31 @@
 package de.adorsys.xs2a.gateway.controller;
 
 import de.adorsys.xs2a.gateway.api.ConsentApi;
+import de.adorsys.xs2a.gateway.mapper.ConsentCreationResponseMapper;
+import de.adorsys.xs2a.gateway.mapper.ConsentMapper;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsTO;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
 import de.adorsys.xs2a.gateway.service.ConsentCreationHeaders;
 import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.consent.ConsentService;
+import de.adorsys.xs2a.gateway.service.consent.Consents;
+import org.mapstruct.factory.Mappers;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
 @RestController
-public class ConsentController implements ConsentApi {
+public class ConsentResource implements ConsentApi {
 
     private final ConsentService consentService;
 
-    public ConsentController(ConsentService consentService) {
+    private final ConsentMapper consentMapper = Mappers.getMapper(ConsentMapper.class);
+
+    private final ConsentCreationResponseMapper creationResponseMapper = Mappers.getMapper(ConsentCreationResponseMapper.class);
+
+    public ConsentResource(ConsentService consentService) {
         this.consentService = consentService;
     }
 
@@ -63,9 +72,9 @@ public class ConsentController implements ConsentApi {
                                                  .psUDeviceID(psUDeviceID)
                                                  .psUGeoLocation(psUGeoLocation)
                                                  .build();
-        //todo: convert body to api model
-        ConsentCreationResponse consent = consentService.createConsent(body, headers);
-        return null;
+        Consents consents = consentMapper.toConsents(body);
+        ConsentCreationResponse consent = consentService.createConsent(consents, headers);
+        return ResponseEntity.status(HttpStatus.CREATED).body(creationResponseMapper.toConsentResponse201(consent));
     }
 
 }
