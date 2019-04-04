@@ -78,6 +78,10 @@ public enum ScaStatus {
         this.finalisedStatus = finalisedStatus;
     }
 
+    public String getValue() {
+        return value;
+    }
+
     public boolean isFinalisedStatus() {
         return finalisedStatus;
     }

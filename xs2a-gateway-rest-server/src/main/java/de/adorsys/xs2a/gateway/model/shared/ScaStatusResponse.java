@@ -17,7 +17,7 @@
 package de.adorsys.xs2a.gateway.model.shared;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.adorsys.xs2a.gateway.model.pis.ScaStatus;
+import de.adorsys.xs2a.gateway.model.pis.ScaStatusTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -34,9 +34,9 @@ import java.util.Objects;
 
 public class ScaStatusResponse   {
   @JsonProperty("scaStatus")
-  private ScaStatus scaStatus = null;
+  private ScaStatusTO scaStatus = null;
 
-  public ScaStatusResponse scaStatus(ScaStatus scaStatus) {
+  public ScaStatusResponse scaStatus(ScaStatusTO scaStatus) {
     this.scaStatus = scaStatus;
     return this;
   }
@@ -49,11 +49,11 @@ public class ScaStatusResponse   {
 
   @Valid
 
-  public ScaStatus getScaStatus() {
+  public ScaStatusTO getScaStatus() {
     return scaStatus;
   }
 
-  public void setScaStatus(ScaStatus scaStatus) {
+  public void setScaStatus(ScaStatusTO scaStatus) {
     this.scaStatus = scaStatus;
   }
 

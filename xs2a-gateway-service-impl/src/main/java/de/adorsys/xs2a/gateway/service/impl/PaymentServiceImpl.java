@@ -15,4 +15,9 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentInformationResponse getPaymentInformation(String paymentService, String paymentProduct, String paymentId, PaymentInformationHeaders headers) {
         return this.paymentService.getPaymentInformation(paymentService, paymentProduct, paymentId, headers);
     }
+
+    @Override
+    public PaymentInitiationScaStatusResponse getPaymentInitiationScaStatus(String paymentService, String paymentProduct, String paymentId, String authorisationId, PaymentInitiationScaStatusHeaders headers) {
+        return this.paymentService.getPaymentInitiationScaStatus(paymentService, paymentProduct, paymentId, authorisationId, headers);
+    }
 }
