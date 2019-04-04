@@ -17,7 +17,7 @@
 package de.adorsys.xs2a.gateway.model.ais;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.adorsys.xs2a.gateway.model.shared.ChallengeData;
+import de.adorsys.xs2a.gateway.model.shared.ChallengeDataTO;
 import de.adorsys.xs2a.gateway.model.shared.ChosenScaMethod;
 import de.adorsys.xs2a.gateway.model.shared.ScaMethods;
 import io.swagger.annotations.ApiModel;
@@ -51,7 +51,7 @@ public class ConsentsResponse201 {
   private ChosenScaMethod chosenScaMethod = null;
 
   @JsonProperty("challengeData")
-  private ChallengeData challengeData = null;
+  private ChallengeDataTO challengeData = null;
 
   @JsonProperty("_links")
   private Map _links = null;
@@ -144,7 +144,7 @@ public class ConsentsResponse201 {
     this.chosenScaMethod = chosenScaMethod;
   }
 
-  public ConsentsResponse201 challengeData(ChallengeData challengeData) {
+  public ConsentsResponse201 challengeData(ChallengeDataTO challengeData) {
     this.challengeData = challengeData;
     return this;
   }
@@ -157,11 +157,11 @@ public class ConsentsResponse201 {
 
   @Valid
 
-  public ChallengeData getChallengeData() {
+  public ChallengeDataTO getChallengeData() {
     return challengeData;
   }
 
-  public void setChallengeData(ChallengeData challengeData) {
+  public void setChallengeData(ChallengeDataTO challengeData) {
     this.challengeData = challengeData;
   }
 

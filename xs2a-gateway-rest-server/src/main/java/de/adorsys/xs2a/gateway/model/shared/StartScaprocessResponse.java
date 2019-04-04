@@ -49,7 +49,7 @@ public class StartScaprocessResponse   {
   private ChosenScaMethod chosenScaMethod = null;
 
   @JsonProperty("challengeData")
-  private ChallengeData challengeData = null;
+  private ChallengeDataTO challengeData = null;
 
   @JsonProperty("_links")
   private Map _links = null;
@@ -135,7 +135,7 @@ public class StartScaprocessResponse   {
     this.chosenScaMethod = chosenScaMethod;
   }
 
-  public StartScaprocessResponse challengeData(ChallengeData challengeData) {
+  public StartScaprocessResponse challengeData(ChallengeDataTO challengeData) {
     this.challengeData = challengeData;
     return this;
   }
@@ -148,11 +148,11 @@ public class StartScaprocessResponse   {
 
   @Valid
 
-  public ChallengeData getChallengeData() {
+  public ChallengeDataTO getChallengeData() {
     return challengeData;
   }
 
-  public void setChallengeData(ChallengeData challengeData) {
+  public void setChallengeData(ChallengeDataTO challengeData) {
     this.challengeData = challengeData;
   }
 

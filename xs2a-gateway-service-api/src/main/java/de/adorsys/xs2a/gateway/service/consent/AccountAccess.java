@@ -28,6 +28,46 @@ public class AccountAccess {
     private AvailableAccountsEnum availableAccounts;
     private AllPsd2Enum allPsd2;
 
+    public List<AccountReference> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<AccountReference> accounts) {
+        this.accounts = accounts;
+    }
+
+    public List<AccountReference> getBalances() {
+        return balances;
+    }
+
+    public void setBalances(List<AccountReference> balances) {
+        this.balances = balances;
+    }
+
+    public List<AccountReference> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<AccountReference> transactions) {
+        this.transactions = transactions;
+    }
+
+    public AvailableAccountsEnum getAvailableAccounts() {
+        return availableAccounts;
+    }
+
+    public void setAvailableAccounts(AvailableAccountsEnum availableAccounts) {
+        this.availableAccounts = availableAccounts;
+    }
+
+    public AllPsd2Enum getAllPsd2() {
+        return allPsd2;
+    }
+
+    public void setAllPsd2(AllPsd2Enum allPsd2) {
+        this.allPsd2 = allPsd2;
+    }
+
     public enum AvailableAccountsEnum {
         ALLACCOUNTS("allAccounts"),
 

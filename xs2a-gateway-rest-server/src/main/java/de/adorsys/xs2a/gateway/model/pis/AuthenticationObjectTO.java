@@ -33,7 +33,7 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 
-public class AuthenticationObject   {
+public class AuthenticationObjectTO {
   @JsonProperty("authenticationType")
   private AuthenticationType authenticationType = null;
 
@@ -49,7 +49,7 @@ public class AuthenticationObject   {
   @JsonProperty("explanation")
   private String explanation = null;
 
-  public AuthenticationObject authenticationType(AuthenticationType authenticationType) {
+  public AuthenticationObjectTO authenticationType(AuthenticationType authenticationType) {
     this.authenticationType = authenticationType;
     return this;
   }
@@ -71,7 +71,7 @@ public class AuthenticationObject   {
     this.authenticationType = authenticationType;
   }
 
-  public AuthenticationObject authenticationVersion(String authenticationVersion) {
+  public AuthenticationObjectTO authenticationVersion(String authenticationVersion) {
     this.authenticationVersion = authenticationVersion;
     return this;
   }
@@ -91,7 +91,7 @@ public class AuthenticationObject   {
     this.authenticationVersion = authenticationVersion;
   }
 
-  public AuthenticationObject authenticationMethodId(String authenticationMethodId) {
+  public AuthenticationObjectTO authenticationMethodId(String authenticationMethodId) {
     this.authenticationMethodId = authenticationMethodId;
     return this;
   }
@@ -112,7 +112,7 @@ public class AuthenticationObject   {
     this.authenticationMethodId = authenticationMethodId;
   }
 
-  public AuthenticationObject name(String name) {
+  public AuthenticationObjectTO name(String name) {
     this.name = name;
     return this;
   }
@@ -132,7 +132,7 @@ public class AuthenticationObject   {
     this.name = name;
   }
 
-  public AuthenticationObject explanation(String explanation) {
+  public AuthenticationObjectTO explanation(String explanation) {
     this.explanation = explanation;
     return this;
   }
@@ -161,7 +161,7 @@ public class AuthenticationObject   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AuthenticationObject authenticationObject = (AuthenticationObject) o;
+    AuthenticationObjectTO authenticationObject = (AuthenticationObjectTO) o;
     return Objects.equals(this.authenticationType, authenticationObject.authenticationType) &&
         Objects.equals(this.authenticationVersion, authenticationObject.authenticationVersion) &&
         Objects.equals(this.authenticationMethodId, authenticationObject.authenticationMethodId) &&
@@ -177,7 +177,7 @@ public class AuthenticationObject   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AuthenticationObject {\n");
+    sb.append("class AuthenticationObjectTO {\n");
     
     sb.append("    authenticationType: ").append(toIndentedString(authenticationType)).append("\n");
     sb.append("    authenticationVersion: ").append(toIndentedString(authenticationVersion)).append("\n");

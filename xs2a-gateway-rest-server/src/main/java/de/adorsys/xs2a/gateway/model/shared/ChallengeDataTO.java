@@ -32,7 +32,7 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 
-public class ChallengeData   {
+public class ChallengeDataTO {
   @JsonProperty("image")
   private byte[] image = null;
 
@@ -82,7 +82,7 @@ public class ChallengeData   {
   @JsonProperty("additionalInformation")
   private String additionalInformation = null;
 
-  public ChallengeData image(byte[] image) {
+  public ChallengeDataTO image(byte[] image) {
     this.image = image;
     return this;
   }
@@ -102,7 +102,7 @@ public class ChallengeData   {
     this.image = image;
   }
 
-  public ChallengeData data(String data) {
+  public ChallengeDataTO data(String data) {
     this.data = data;
     return this;
   }
@@ -122,7 +122,7 @@ public class ChallengeData   {
     this.data = data;
   }
 
-  public ChallengeData imageLink(String imageLink) {
+  public ChallengeDataTO imageLink(String imageLink) {
     this.imageLink = imageLink;
     return this;
   }
@@ -142,7 +142,7 @@ public class ChallengeData   {
     this.imageLink = imageLink;
   }
 
-  public ChallengeData otpMaxLength(Integer otpMaxLength) {
+  public ChallengeDataTO otpMaxLength(Integer otpMaxLength) {
     this.otpMaxLength = otpMaxLength;
     return this;
   }
@@ -162,7 +162,7 @@ public class ChallengeData   {
     this.otpMaxLength = otpMaxLength;
   }
 
-  public ChallengeData otpFormat(OtpFormatEnum otpFormat) {
+  public ChallengeDataTO otpFormat(OtpFormatEnum otpFormat) {
     this.otpFormat = otpFormat;
     return this;
   }
@@ -182,7 +182,7 @@ public class ChallengeData   {
     this.otpFormat = otpFormat;
   }
 
-  public ChallengeData additionalInformation(String additionalInformation) {
+  public ChallengeDataTO additionalInformation(String additionalInformation) {
     this.additionalInformation = additionalInformation;
     return this;
   }
@@ -211,7 +211,7 @@ public class ChallengeData   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ChallengeData challengeData = (ChallengeData) o;
+    ChallengeDataTO challengeData = (ChallengeDataTO) o;
     return Objects.equals(this.image, challengeData.image) &&
         Objects.equals(this.data, challengeData.data) &&
         Objects.equals(this.imageLink, challengeData.imageLink) &&
@@ -228,7 +228,7 @@ public class ChallengeData   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ChallengeData {\n");
+    sb.append("class ChallengeDataTO {\n");
     
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
     sb.append("    data: ").append(toIndentedString(data)).append("\n");

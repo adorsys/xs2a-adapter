@@ -28,6 +28,62 @@ public class ConsentCreationResponse {
     private List<AuthenticationObject> scaMethods;
     private AuthenticationObject chosenScaMethod;
     private ChallengeData challengeData;
-    private Map _links;
+    private Map links;
     private String message;
+
+    public ConsentStatus getConsentStatus() {
+        return consentStatus;
+    }
+
+    public void setConsentStatus(ConsentStatus consentStatus) {
+        this.consentStatus = consentStatus;
+    }
+
+    public String getConsentId() {
+        return consentId;
+    }
+
+    public void setConsentId(String consentId) {
+        this.consentId = consentId;
+    }
+
+    public List<AuthenticationObject> getScaMethods() {
+        return scaMethods;
+    }
+
+    public void setScaMethods(List<AuthenticationObject> scaMethods) {
+        this.scaMethods = scaMethods;
+    }
+
+    public AuthenticationObject getChosenScaMethod() {
+        return chosenScaMethod;
+    }
+
+    public void setChosenScaMethod(AuthenticationObject chosenScaMethod) {
+        this.chosenScaMethod = chosenScaMethod;
+    }
+
+    public ChallengeData getChallengeData() {
+        return challengeData;
+    }
+
+    public void setChallengeData(ChallengeData challengeData) {
+        this.challengeData = challengeData;
+    }
+
+    public Map getLinks() {
+        return links;
+    }
+
+    public void setLinks(Map links) {
+        this.links = links;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

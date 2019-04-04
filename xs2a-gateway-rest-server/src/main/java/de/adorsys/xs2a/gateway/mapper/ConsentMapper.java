@@ -16,8 +16,13 @@
 
 package de.adorsys.xs2a.gateway.mapper;
 
+import de.adorsys.xs2a.gateway.model.ais.ConsentsTO;
+import de.adorsys.xs2a.gateway.service.consent.Consents;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(uses = {AccountAccessMapper.class})
 public interface ConsentMapper {
+
+    Consents toConsents(ConsentsTO to);
+
 }
