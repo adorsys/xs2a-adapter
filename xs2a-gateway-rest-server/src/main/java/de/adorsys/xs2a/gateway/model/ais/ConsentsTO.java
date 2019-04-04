@@ -33,9 +33,9 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 
-public class Consents {
+public class ConsentsTO {
   @JsonProperty("access")
-  private AccountAccess access = null;
+  private AccountAccessTO access = null;
 
   @JsonProperty("recurringIndicator")
   private Boolean recurringIndicator = null;
@@ -49,7 +49,7 @@ public class Consents {
   @JsonProperty("combinedServiceIndicator")
   private Boolean combinedServiceIndicator = null;
 
-  public Consents access(AccountAccess access) {
+  public ConsentsTO access(AccountAccessTO access) {
     this.access = access;
     return this;
   }
@@ -63,15 +63,15 @@ public class Consents {
 
   @Valid
 
-  public AccountAccess getAccess() {
+  public AccountAccessTO getAccess() {
     return access;
   }
 
-  public void setAccess(AccountAccess access) {
+  public void setAccess(AccountAccessTO access) {
     this.access = access;
   }
 
-  public Consents recurringIndicator(Boolean recurringIndicator) {
+  public ConsentsTO recurringIndicator(Boolean recurringIndicator) {
     this.recurringIndicator = recurringIndicator;
     return this;
   }
@@ -92,7 +92,7 @@ public class Consents {
     this.recurringIndicator = recurringIndicator;
   }
 
-  public Consents validUntil(LocalDate validUntil) {
+  public ConsentsTO validUntil(LocalDate validUntil) {
     this.validUntil = validUntil;
     return this;
   }
@@ -114,7 +114,7 @@ public class Consents {
     this.validUntil = validUntil;
   }
 
-  public Consents frequencyPerDay(Integer frequencyPerDay) {
+  public ConsentsTO frequencyPerDay(Integer frequencyPerDay) {
     this.frequencyPerDay = frequencyPerDay;
     return this;
   }
@@ -135,7 +135,7 @@ public class Consents {
     this.frequencyPerDay = frequencyPerDay;
   }
 
-  public Consents combinedServiceIndicator(Boolean combinedServiceIndicator) {
+  public ConsentsTO combinedServiceIndicator(Boolean combinedServiceIndicator) {
     this.combinedServiceIndicator = combinedServiceIndicator;
     return this;
   }
@@ -165,7 +165,7 @@ public class Consents {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Consents consents = (Consents) o;
+    ConsentsTO consents = (ConsentsTO) o;
     return Objects.equals(this.access, consents.access) &&
         Objects.equals(this.recurringIndicator, consents.recurringIndicator) &&
         Objects.equals(this.validUntil, consents.validUntil) &&
@@ -181,7 +181,7 @@ public class Consents {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Consents {\n");
+    sb.append("class ConsentsTO {\n");
     
     sb.append("    access: ").append(toIndentedString(access)).append("\n");
     sb.append("    recurringIndicator: ").append(toIndentedString(recurringIndicator)).append("\n");

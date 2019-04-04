@@ -35,7 +35,7 @@ import java.util.Objects;
 
 public class ConsentInformationResponse200Json {
   @JsonProperty("access")
-  private AccountAccess access = null;
+  private AccountAccessTO access = null;
 
   @JsonProperty("recurringIndicator")
   private Boolean recurringIndicator = null;
@@ -52,7 +52,7 @@ public class ConsentInformationResponse200Json {
   @JsonProperty("consentStatus")
   private ConsentStatus consentStatus = null;
 
-  public ConsentInformationResponse200Json access(AccountAccess access) {
+  public ConsentInformationResponse200Json access(AccountAccessTO access) {
     this.access = access;
     return this;
   }
@@ -66,11 +66,11 @@ public class ConsentInformationResponse200Json {
 
   @Valid
 
-  public AccountAccess getAccess() {
+  public AccountAccessTO getAccess() {
     return access;
   }
 
-  public void setAccess(AccountAccess access) {
+  public void setAccess(AccountAccessTO access) {
     this.access = access;
   }
 

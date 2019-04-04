@@ -32,7 +32,7 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 
-public class AccountReference {
+public class AccountReferenceTO {
   @JsonProperty("iban")
   private String iban = null;
 
@@ -51,7 +51,7 @@ public class AccountReference {
   @JsonProperty("currency")
   private String currency = null;
 
-  public AccountReference iban(String iban) {
+  public AccountReferenceTO iban(String iban) {
     this.iban = iban;
     return this;
   }
@@ -71,7 +71,7 @@ public class AccountReference {
     this.iban = iban;
   }
 
-  public AccountReference bban(String bban) {
+  public AccountReferenceTO bban(String bban) {
     this.bban = bban;
     return this;
   }
@@ -91,7 +91,7 @@ public class AccountReference {
     this.bban = bban;
   }
 
-  public AccountReference pan(String pan) {
+  public AccountReferenceTO pan(String pan) {
     this.pan = pan;
     return this;
   }
@@ -111,7 +111,7 @@ public class AccountReference {
     this.pan = pan;
   }
 
-  public AccountReference maskedPan(String maskedPan) {
+  public AccountReferenceTO maskedPan(String maskedPan) {
     this.maskedPan = maskedPan;
     return this;
   }
@@ -131,7 +131,7 @@ public class AccountReference {
     this.maskedPan = maskedPan;
   }
 
-  public AccountReference msisdn(String msisdn) {
+  public AccountReferenceTO msisdn(String msisdn) {
     this.msisdn = msisdn;
     return this;
   }
@@ -151,7 +151,7 @@ public class AccountReference {
     this.msisdn = msisdn;
   }
 
-  public AccountReference currency(String currency) {
+  public AccountReferenceTO currency(String currency) {
     this.currency = currency;
     return this;
   }
@@ -180,7 +180,7 @@ public class AccountReference {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AccountReference accountReference = (AccountReference) o;
+    AccountReferenceTO accountReference = (AccountReferenceTO) o;
     return Objects.equals(this.iban, accountReference.iban) &&
         Objects.equals(this.bban, accountReference.bban) &&
         Objects.equals(this.pan, accountReference.pan) &&
@@ -197,7 +197,7 @@ public class AccountReference {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AccountReference {\n");
+    sb.append("class AccountReferenceTO {\n");
     
     sb.append("    iban: ").append(toIndentedString(iban)).append("\n");
     sb.append("    bban: ").append(toIndentedString(bban)).append("\n");

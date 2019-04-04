@@ -34,7 +34,7 @@ import java.util.Objects;
 
 public class TransactionsResponse200Json {
   @JsonProperty("account")
-  private AccountReference account = null;
+  private AccountReferenceTO account = null;
 
   @JsonProperty("transactions")
   private AccountReport transactions = null;
@@ -45,7 +45,7 @@ public class TransactionsResponse200Json {
   @JsonProperty("_links")
   private Map _links = null;
 
-  public TransactionsResponse200Json account(AccountReference account) {
+  public TransactionsResponse200Json account(AccountReferenceTO account) {
     this.account = account;
     return this;
   }
@@ -58,11 +58,11 @@ public class TransactionsResponse200Json {
 
   @Valid
 
-  public AccountReference getAccount() {
+  public AccountReferenceTO getAccount() {
     return account;
   }
 
-  public void setAccount(AccountReference account) {
+  public void setAccount(AccountReferenceTO account) {
     this.account = account;
   }
 

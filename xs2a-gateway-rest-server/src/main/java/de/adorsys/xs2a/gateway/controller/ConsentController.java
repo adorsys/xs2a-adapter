@@ -17,7 +17,7 @@
 package de.adorsys.xs2a.gateway.controller;
 
 import de.adorsys.xs2a.gateway.api.ConsentApi;
-import de.adorsys.xs2a.gateway.model.ais.Consents;
+import de.adorsys.xs2a.gateway.model.ais.ConsentsTO;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
 import de.adorsys.xs2a.gateway.service.ConsentCreationHeaders;
 import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
@@ -37,7 +37,7 @@ public class ConsentController implements ConsentApi {
     }
 
     @Override
-    public ResponseEntity<ConsentsResponse201> createConsent(String bankCode, UUID xRequestID, Consents body, String digest, String signature, byte[] tpPSignatureCertificate, String psuId, String psUIDType, String psUCorporateID, String psUCorporateIDType, boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, boolean tpPExplicitAuthorisationPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+    public ResponseEntity<ConsentsResponse201> createConsent(String bankCode, UUID xRequestID, ConsentsTO body, String digest, String signature, byte[] tpPSignatureCertificate, String psuId, String psUIDType, String psUCorporateID, String psUCorporateIDType, boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, boolean tpPExplicitAuthorisationPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
         ConsentCreationHeaders headers = ConsentCreationHeaders.builder()
                                                  .bankCode(bankCode)
                                                  .xRequestID(xRequestID)
