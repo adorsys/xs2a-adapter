@@ -61,7 +61,7 @@ public class TransactionDetails {
   private LocalDate valueDate = null;
 
   @JsonProperty("transactionAmount")
-  private Amount transactionAmount = null;
+  private AmountTO transactionAmount = null;
 
   @JsonProperty("exchangeRate")
   private ExchangeRateList exchangeRate = null;
@@ -264,7 +264,7 @@ public class TransactionDetails {
     this.valueDate = valueDate;
   }
 
-  public TransactionDetails transactionAmount(Amount transactionAmount) {
+  public TransactionDetails transactionAmount(AmountTO transactionAmount) {
     this.transactionAmount = transactionAmount;
     return this;
   }
@@ -278,11 +278,11 @@ public class TransactionDetails {
 
   @Valid
 
-  public Amount getTransactionAmount() {
+  public AmountTO getTransactionAmount() {
     return transactionAmount;
   }
 
-  public void setTransactionAmount(Amount transactionAmount) {
+  public void setTransactionAmount(AmountTO transactionAmount) {
     this.transactionAmount = transactionAmount;
   }
 

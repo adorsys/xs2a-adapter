@@ -30,14 +30,14 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 
-public class Amount {
+public class AmountTO {
   @JsonProperty("currency")
   private String currency = null;
 
   @JsonProperty("amount")
   private String amount = null;
 
-  public Amount currency(String currency) {
+  public AmountTO currency(String currency) {
     this.currency = currency;
     return this;
   }
@@ -58,7 +58,7 @@ public class Amount {
     this.currency = currency;
   }
 
-  public Amount amount(String amount) {
+  public AmountTO amount(String amount) {
     this.amount = amount;
     return this;
   }
@@ -86,7 +86,7 @@ public class Amount {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Amount amount = (Amount) o;
+    AmountTO amount = (AmountTO) o;
     return Objects.equals(this.currency, amount.currency) &&
         Objects.equals(this.amount, amount.amount);
   }
@@ -99,7 +99,7 @@ public class Amount {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Amount {\n");
+    sb.append("class AmountTO {\n");
     
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
