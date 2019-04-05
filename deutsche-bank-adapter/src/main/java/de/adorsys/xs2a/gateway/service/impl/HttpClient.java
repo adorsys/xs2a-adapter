@@ -14,12 +14,7 @@ interface HttpClient {
 
     @FunctionalInterface
     interface ResponseHandler<T> {
-        BodyHandler<T> apply(int statusCode);
-    }
-
-    @FunctionalInterface
-    interface BodyHandler<T> {
-        T apply(InputStream responseBody);
+        T apply(int statusCode, InputStream responseBody);
     }
 
     static HttpClient newHttpClient() {

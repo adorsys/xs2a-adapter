@@ -50,8 +50,7 @@ class ApacheHttpClient implements HttpClient {
                 int statusCode = response.getStatusLine().getStatusCode();
                 InputStream content = response.getEntity().getContent();
 
-                return responseHandler.apply(statusCode)
-                               .apply(content);
+                return responseHandler.apply(statusCode, content);
             }
         } catch (IOException e) {
             throw new UncheckedIOException(e);

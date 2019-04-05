@@ -39,15 +39,13 @@ public class DeutscheBankPaymentService implements PaymentService {
 
         String bodyString = writeValueAsString(objectMapper.convertValue(body, SinglePaymentInitiationBody.class));
 
-        PaymentInitiationResponse response = httpClient.post(uri, bodyString, headersMap, statusCode -> {
+        PaymentInitiationResponse response = httpClient.post(uri, bodyString, headersMap, (statusCode, responseBody) -> {
             switch (statusCode) {
                 case 201:
-                    return responseBody -> readValue(responseBody, PaymentInitiationResponse.class);
+                    return readValue(responseBody, PaymentInitiationResponse.class);
                 case 401:
                 case 400:
-                    return responseBody -> {
-                        throw new ErrorResponseException(statusCode, readValue(responseBody, ErrorResponse.class));
-                    };
+                    throw new ErrorResponseException(statusCode, readValue(responseBody, ErrorResponse.class));
                 default:
                     throw new UnexpectedResponseStatusCodeException();
             }
