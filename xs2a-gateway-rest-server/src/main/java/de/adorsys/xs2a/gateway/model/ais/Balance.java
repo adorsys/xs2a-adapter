@@ -37,7 +37,7 @@ import java.util.Objects;
 
 public class Balance   {
   @JsonProperty("balanceAmount")
-  private Amount balanceAmount = null;
+  private AmountTO balanceAmount = null;
 
   @JsonProperty("balanceType")
   private BalanceType balanceType = null;
@@ -51,7 +51,7 @@ public class Balance   {
   @JsonProperty("lastCommittedTransaction")
   private String lastCommittedTransaction = null;
 
-  public Balance balanceAmount(Amount balanceAmount) {
+  public Balance balanceAmount(AmountTO balanceAmount) {
     this.balanceAmount = balanceAmount;
     return this;
   }
@@ -65,11 +65,11 @@ public class Balance   {
 
   @Valid
 
-  public Amount getBalanceAmount() {
+  public AmountTO getBalanceAmount() {
     return balanceAmount;
   }
 
-  public void setBalanceAmount(Amount balanceAmount) {
+  public void setBalanceAmount(AmountTO balanceAmount) {
     this.balanceAmount = balanceAmount;
   }
 

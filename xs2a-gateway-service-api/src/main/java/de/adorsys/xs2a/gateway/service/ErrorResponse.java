@@ -5,9 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-// verified that structure compatibility with
-// Error401_NG_PIS
+// verified that structure is compatible with
 // Error400_NG_PIS
+// Error401_NG_PIS
+// Error403_NG_PIS
+// Error404_NG_PIS
+// Error405_NG_PIS
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ErrorResponse {
     private List<TppMessage> tppMessages;
