@@ -3,7 +3,7 @@ package de.adorsys.xs2a.gateway.service.impl.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.gateway.service.*;
 
-public class PaymentInitiationResponse {
+public class DeutscheBankPaymentInitiationResponse {
     // required
     private TransactionStatus transactionStatus;
     private String paymentId;

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.gateway.service.*;
 import de.adorsys.xs2a.gateway.service.impl.mapper.PaymentMapper;
-import de.adorsys.xs2a.gateway.service.impl.model.PaymentInitiationResponse;
+import de.adorsys.xs2a.gateway.service.impl.model.DeutscheBankPaymentInitiationResponse;
 import org.mapstruct.factory.Mappers;
 
 import java.io.IOException;
@@ -43,10 +43,10 @@ public class DeutscheBankPaymentService implements PaymentService {
         Map<String, String> headersMap = headers.toMap();
         headersMap.put(DATE_HEADER_NAME, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
         headersMap.put("Content-Type", "application/json");
-        PaymentInitiationResponse response = httpClient.post(uri, writeValueAsString(body), headersMap, statusCode -> {
+        DeutscheBankPaymentInitiationResponse response = httpClient.post(uri, writeValueAsString(body), headersMap, statusCode -> {
             switch (statusCode) {
                 case 201:
-                    return responseBody -> readValue(responseBody, PaymentInitiationResponse.class);
+                    return responseBody -> readValue(responseBody, DeutscheBankPaymentInitiationResponse.class);
                 case 401:
                 case 400:
                     return responseBody -> {
@@ -56,7 +56,7 @@ public class DeutscheBankPaymentService implements PaymentService {
                     throw new UnexpectedResponseStatusCodeException();
             }
         });
-        return paymentMapper.toBerlinGroupPaymentInitiationResponse(response);
+        return paymentMapper.toPaymentInitiationRequestResponse(response);
     }
 
     private String writeValueAsString(SinglePaymentInitiationBody body) {
