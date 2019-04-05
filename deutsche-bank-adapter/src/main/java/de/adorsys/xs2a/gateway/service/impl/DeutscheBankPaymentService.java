@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.gateway.service.*;
 import de.adorsys.xs2a.gateway.service.impl.mapper.PaymentMapper;
-import de.adorsys.xs2a.gateway.service.impl.model.DeutscheBankPaymentInitiationResponse;
+import de.adorsys.xs2a.gateway.service.impl.model.PaymentInitiationResponse;
 import org.mapstruct.factory.Mappers;
 
 import java.io.IOException;
@@ -27,14 +27,7 @@ public class DeutscheBankPaymentService implements PaymentService {
     }
 
     @Override
-    public PaymentInitiationRequestResponse initiatePayment(String paymentService, String paymentProduct, Object body, PaymentInitiationHeaders headers) {
-        if (!paymentService.equalsIgnoreCase("payments")) {
-            throw new UnsupportedOperationException(paymentService);
-        }
-        return initiatePayment(paymentProduct, headers, objectMapper.convertValue(body, SinglePaymentInitiationBody.class));
-    }
-
-    private PaymentInitiationRequestResponse initiatePayment(String paymentProduct, PaymentInitiationHeaders headers, SinglePaymentInitiationBody body) {
+    public PaymentInitiationRequestResponse initiateSinglePayment(String paymentProduct, Object body, PaymentInitiationHeaders headers) {
         if (!paymentProduct.equalsIgnoreCase("sepa-credit-transfers")) {
             throw new UnsupportedOperationException(paymentProduct);
         }
@@ -43,10 +36,13 @@ public class DeutscheBankPaymentService implements PaymentService {
         Map<String, String> headersMap = headers.toMap();
         headersMap.put(DATE_HEADER_NAME, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
         headersMap.put("Content-Type", "application/json");
-        DeutscheBankPaymentInitiationResponse response = httpClient.post(uri, writeValueAsString(body), headersMap, statusCode -> {
+
+        String bodyString = writeValueAsString(objectMapper.convertValue(body, SinglePaymentInitiationBody.class));
+
+        PaymentInitiationResponse response = httpClient.post(uri, bodyString, headersMap, statusCode -> {
             switch (statusCode) {
                 case 201:
-                    return responseBody -> readValue(responseBody, DeutscheBankPaymentInitiationResponse.class);
+                    return responseBody -> readValue(responseBody, PaymentInitiationResponse.class);
                 case 401:
                 case 400:
                     return responseBody -> {
@@ -56,7 +52,7 @@ public class DeutscheBankPaymentService implements PaymentService {
                     throw new UnexpectedResponseStatusCodeException();
             }
         });
-        return paymentMapper.toPaymentInitiationRequestResponse(response);
+        return paymentMapper.toBerlinGroupPaymentInitiationResponse(response);
     }
 
     private String writeValueAsString(SinglePaymentInitiationBody body) {
