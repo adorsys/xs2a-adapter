@@ -21,9 +21,10 @@ public class PaymentController implements PaymentApi {
     }
 
     @Override
-    public ResponseEntity<Object> initiatePayment(Object body, UUID xRequestID, String psUIPAddress, String paymentService, String paymentProduct, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tppRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+    public ResponseEntity<Object> initiatePayment(Object body, UUID xRequestID, String psUIPAddress, String paymentProduct, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tppRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
         PaymentInitiationHeaders headers = PaymentInitiationHeaders.builder()
                 .xRequestID(xRequestID)
+                .psUIPAddress(psUIPAddress)
                 .digest(digest)
                 .signature(signature)
                 .tpPSignatureCertificate(tpPSignatureCertificate)
@@ -48,7 +49,7 @@ public class PaymentController implements PaymentApi {
                 .build();
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(this.paymentService.initiatePayment(paymentService, paymentProduct, body, headers));
+                .body(this.paymentService.initiateSinglePayment(paymentProduct, body, headers));
     }
 
     @Override
