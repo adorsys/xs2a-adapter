@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.gateway.service.*;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.gateway.service.impl.mapper.PaymentMapper;
-import de.adorsys.xs2a.gateway.service.impl.model.PaymentInitiationResponse;
+import de.adorsys.xs2a.gateway.service.impl.model.DeutscheBankPaymentInitiationResponse;
 import org.mapstruct.factory.Mappers;
 
 import java.io.IOException;
@@ -39,10 +39,10 @@ public class DeutscheBankPaymentService implements PaymentService {
 
         String bodyString = writeValueAsString(objectMapper.convertValue(body, SinglePaymentInitiationBody.class));
 
-        PaymentInitiationResponse response = httpClient.post(PAYMENTS_SEPA_CREDIT_TRANSFERS_URI, bodyString, headersMap, (statusCode, responseBody) -> {
+        DeutscheBankPaymentInitiationResponse response = httpClient.post(PAYMENTS_SEPA_CREDIT_TRANSFERS_URI, bodyString, headersMap, (statusCode, responseBody) -> {
             switch (statusCode) {
                 case 201:
-                    return readValue(responseBody, PaymentInitiationResponse.class);
+                    return readValue(responseBody, DeutscheBankPaymentInitiationResponse.class);
                 case 401:
                 case 400:
                     throw new ErrorResponseException(statusCode, readValue(responseBody, ErrorResponse.class));
@@ -50,7 +50,7 @@ public class DeutscheBankPaymentService implements PaymentService {
                     throw new UnexpectedResponseStatusCodeException();
             }
         });
-        return paymentMapper.toBerlinGroupPaymentInitiationResponse(response);
+        return paymentMapper.toPaymentInitiationRequestResponse(response);
     }
 
     private void requireSepaCreditTransfer(String paymentProduct) {
