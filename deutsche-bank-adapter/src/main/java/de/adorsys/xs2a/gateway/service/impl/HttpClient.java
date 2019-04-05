@@ -8,6 +8,10 @@ import java.util.Map;
 interface HttpClient {
     <T> T post(String uri, String body, Map<String, String> headers, ResponseHandler<T> responseHandler);
 
+    <T> T get(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler);
+
+    <T> T put(String uri, String body, Map<String, String> headers, ResponseHandler<T> responseHandler);
+
     @FunctionalInterface
     interface ResponseHandler<T> {
         BodyHandler<T> apply(int statusCode);
