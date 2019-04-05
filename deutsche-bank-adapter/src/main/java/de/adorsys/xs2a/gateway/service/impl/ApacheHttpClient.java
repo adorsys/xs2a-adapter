@@ -1,7 +1,6 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -23,21 +22,37 @@ class ApacheHttpClient implements HttpClient {
 
     @Override
     public <T> T post(String uri, String body, Map<String, String> headers, ResponseHandler<T> responseHandler) {
+        HttpPost post = new HttpPost(uri);
+        post.setEntity(new StringEntity(body, ContentType.APPLICATION_JSON));
+        return execute(post, headers, responseHandler);
+    }
+
+    @Override
+    public <T> T get(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler) {
+        return execute(new HttpGet(uri), headers, responseHandler);
+    }
+
+    @Override
+    public <T> T put(String uri, String body, Map<String, String> headers, ResponseHandler<T> responseHandler) {
+        HttpPut put = new HttpPut(uri);
+        put.setEntity(new StringEntity(body, ContentType.APPLICATION_JSON));
+        return execute(put, headers, responseHandler);
+    }
+
+    private <T> T execute(HttpUriRequest request, Map<String, String> headers, ResponseHandler<T> responseHandler) {
+        headers.forEach(request::addHeader);
 
         try (CloseableHttpClient httpClient = HttpClientBuilder.create()
-                .setSSLContext(sslContext)
-                .build()) {
+                                                      .setSSLContext(sslContext)
+                                                      .build()) {
 
-            HttpPost post = new HttpPost(uri);
-            headers.forEach(post::addHeader);
-            post.setEntity(new StringEntity(body, ContentType.APPLICATION_JSON));
-            CloseableHttpResponse response = httpClient.execute(post);
+            try (CloseableHttpResponse response = httpClient.execute(request)) {
+                int statusCode = response.getStatusLine().getStatusCode();
+                InputStream content = response.getEntity().getContent();
 
-            int statusCode = response.getStatusLine().getStatusCode();
-            InputStream content = response.getEntity().getContent();
-
-            return responseHandler.apply(statusCode)
-                    .apply(content);
+                return responseHandler.apply(statusCode)
+                               .apply(content);
+            }
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
