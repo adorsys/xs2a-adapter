@@ -34,9 +34,9 @@ import java.util.Objects;
 
 public class PaymentInitiationStatusResponse200Json {
   @JsonProperty("transactionStatus")
-  private TransactionStatus transactionStatus = null;
+  private TransactionStatusTO transactionStatus = null;
 
-  public PaymentInitiationStatusResponse200Json transactionStatus(TransactionStatus transactionStatus) {
+  public PaymentInitiationStatusResponse200Json transactionStatus(TransactionStatusTO transactionStatus) {
     this.transactionStatus = transactionStatus;
     return this;
   }
@@ -50,11 +50,11 @@ public class PaymentInitiationStatusResponse200Json {
 
   @Valid
 
-  public TransactionStatus getTransactionStatus() {
+  public TransactionStatusTO getTransactionStatus() {
     return transactionStatus;
   }
 
-  public void setTransactionStatus(TransactionStatus transactionStatus) {
+  public void setTransactionStatus(TransactionStatusTO transactionStatus) {
     this.transactionStatus = transactionStatus;
   }
 

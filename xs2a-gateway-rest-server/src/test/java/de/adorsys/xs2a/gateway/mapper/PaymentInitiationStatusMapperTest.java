@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.gateway.mapper;
 
 import de.adorsys.xs2a.gateway.model.pis.PaymentInitiationStatusResponse200Json;
+import de.adorsys.xs2a.gateway.model.pis.TransactionStatusTO;
 import de.adorsys.xs2a.gateway.service.PaymentInitiationStatus;
 import de.adorsys.xs2a.gateway.service.TransactionStatus;
 import org.junit.Test;
@@ -18,6 +19,6 @@ public class PaymentInitiationStatusMapperTest {
         paymentInitiationStatus.setTransactionStatus(TransactionStatus.RCVD);
         PaymentInitiationStatusResponse200Json paymentInitiationStatusResponse200Json =
                 paymentInitiationStatusMapper.toPaymentInitiationStatusResponse200Json(paymentInitiationStatus);
-        assertThat(paymentInitiationStatusResponse200Json.getTransactionStatus()).isEqualTo(de.adorsys.xs2a.gateway.model.pis.TransactionStatus.RCVD);
+        assertThat(paymentInitiationStatusResponse200Json.getTransactionStatus()).isEqualTo(TransactionStatusTO.RCVD);
     }
 }
