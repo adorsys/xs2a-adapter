@@ -17,10 +17,12 @@
 							"    pm.response.to.have.status(201);",
 							"});",
 							"",
-							"pm.test(\"Transaction status received\", function () {",
+							"pm.test(\"Transaction status is received\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
-							"});"
+							"});",
+							"",
+							"pm.globals.set(\"payment-id\", pm.response.json().paymentId);"
 						],
 						"type": "text/javascript"
 					}
@@ -71,6 +73,58 @@
 						"v1",
 						"payments",
 						"sepa-credit-transfers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PIS/GetTransactionStatus/001a",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "26c04d43-e3bc-4bf0-acc8-59622c3b23aa",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Transaction status is received\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Request-ID",
+						"value": "{{$guid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8081/v1/payments/sepa-credit-transfers/{{payment-id}}/status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"v1",
+						"payments",
+						"sepa-credit-transfers",
+						"{{payment-id}}",
+						"status"
 					]
 				}
 			},
