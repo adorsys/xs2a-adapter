@@ -16,6 +16,8 @@
 
 package de.adorsys.xs2a.gateway.service.consent;
 
+import de.adorsys.xs2a.gateway.service.AccountReference;
+
 import java.util.List;
 
 /**

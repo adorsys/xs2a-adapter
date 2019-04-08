@@ -1,14 +1,12 @@
 package de.adorsys.xs2a.gateway.service;
 
-import java.util.Currency;
-
 public class AccountReference {
     private String iban;
     private String bban;
     private String pan;
     private String maskedPan;
     private String msisdn;
-    private Currency currency;
+    private String currency;
 
     public String getIban() {
         return iban;
@@ -50,11 +48,11 @@ public class AccountReference {
         this.msisdn = msisdn;
     }
 
-    public Currency getCurrency() {
+    public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency) {
+    public void setCurrency(String currency) {
         this.currency = currency;
     }
 }

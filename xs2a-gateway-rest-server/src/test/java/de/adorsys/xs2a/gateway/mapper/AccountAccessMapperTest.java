@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.Collections;
 
-import static de.adorsys.xs2a.gateway.mapper.AccountReferenceMapperTest.buildAccountReference;
+import static de.adorsys.xs2a.gateway.mapper.AccountReferenceMapperTest.buildAccountReferenceTO;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AccountAccessMapperTest {
@@ -27,9 +27,9 @@ public class AccountAccessMapperTest {
         AccountAccessTO access = new AccountAccessTO();
         access.setAllPsd2(AccountAccessTO.AllPsd2Enum.ALLACCOUNTS);
         access.setAvailableAccounts(AccountAccessTO.AvailableAccountsEnum.ALLACCOUNTSWITHBALANCES);
-        access.setAccounts(Collections.singletonList(buildAccountReference()));
-        access.setBalances(Collections.singletonList(buildAccountReference()));
-        access.setTransactions(Collections.singletonList(buildAccountReference()));
+        access.setAccounts(Collections.singletonList(buildAccountReferenceTO()));
+        access.setBalances(Collections.singletonList(buildAccountReferenceTO()));
+        access.setTransactions(Collections.singletonList(buildAccountReferenceTO()));
         return access;
     }
 }
