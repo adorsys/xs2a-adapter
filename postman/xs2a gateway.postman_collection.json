@@ -125,6 +125,76 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "PIS/GetPayment/001a",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e4efa145-5a35-4b82-af51-90ee995ae199",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Transaction status received\", function () {",
+							"    pm.expect(jsonData).to.have.property('transactionStatus');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Request-ID",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "PSU-IP-Address",
+						"value": "0.0.0.0",
+						"type": "text"
+					},
+					{
+						"key": "PSU-ID",
+						"value": "648403403900",
+						"type": "text"
+					},
+					{
+						"key": "PSU-ID-Type",
+						"value": "FKDN",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8081/v1/payments/sepa-credit-transfers/{{payment_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"v1",
+						"payments",
+						"sepa-credit-transfers",
+						"{{payment_id}}"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
