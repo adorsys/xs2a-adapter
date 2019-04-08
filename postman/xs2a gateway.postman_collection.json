@@ -63,12 +63,10 @@
 					"raw": "{\n    \"creditorAccount\": {\n        \"iban\": \"DE58215730420403292600\",\n        \"currency\": \"EUR\"\n    },\n    \"creditorAddress\": {\n        \"street\": \"12th Avenue\",\n        \"buildingNumber\": \"108\",\n        \"city\": \"Sandbox1\",\n        \"postalCode\": \"2AC450\",\n        \"country\": \"SB\"\n    },\n    \"creditorAgent\": \"Agent\",\n    \"creditorName\": \"Name\",\n    \"debtorAccount\": {\n        \"iban\": \"DE51648730420403403900\",\n        \"currency\": \"EUR\"\n    },\n    \"instructedAmount\": {\n        \"amount\": \"20.9\",\n        \"currency\": \"EUR\"\n    },\n    \"remittanceInformationUnstructured\": \"just\",\n    \"endToEndIdentification\": \"SandboxTPPTest1\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8081/v1/payments/sepa-credit-transfers",
-					"protocol": "http",
+					"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers",
 					"host": [
-						"localhost"
+						"{{baseUri}}"
 					],
-					"port": "8081",
 					"path": [
 						"v1",
 						"payments",
@@ -113,12 +111,10 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8081/v1/payments/sepa-credit-transfers/{{payment-id}}/status",
-					"protocol": "http",
+					"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{payment-id}}/status",
 					"host": [
-						"localhost"
+						"{{baseUri}}"
 					],
-					"port": "8081",
 					"path": [
 						"v1",
 						"payments",
