@@ -2,13 +2,12 @@ package de.adorsys.xs2a.gateway.controller;
 
 import de.adorsys.xs2a.gateway.api.PaymentApi;
 import de.adorsys.xs2a.gateway.mapper.PaymentInitiationScaStatusResponseMapper;
+import de.adorsys.xs2a.gateway.mapper.PaymentInitiationStatusMapper;
 import de.adorsys.xs2a.gateway.mapper.SinglePaymentInformationMapper;
 import de.adorsys.xs2a.gateway.model.pis.PaymentInitiationSctWithStatusResponse;
+import de.adorsys.xs2a.gateway.model.pis.PaymentInitiationStatusResponse200Json;
 import de.adorsys.xs2a.gateway.model.shared.ScaStatusResponse;
-import de.adorsys.xs2a.gateway.service.Headers;
-import de.adorsys.xs2a.gateway.service.PaymentInitiationScaStatusResponse;
-import de.adorsys.xs2a.gateway.service.PaymentService;
-import de.adorsys.xs2a.gateway.service.SinglePaymentInitiationInformationWithStatusResponse;
+import de.adorsys.xs2a.gateway.service.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +20,7 @@ public class PaymentController implements PaymentApi {
     private final PaymentService paymentService;
     private final PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper;
     private final SinglePaymentInformationMapper singlePaymentInformationMapper = Mappers.getMapper(SinglePaymentInformationMapper.class);
+    private final PaymentInitiationStatusMapper paymentInitiationStatusMapper = Mappers.getMapper(PaymentInitiationStatusMapper.class);
 
     public PaymentController(PaymentService paymentService, PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper) {
         this.paymentService = paymentService;
@@ -61,22 +61,7 @@ public class PaymentController implements PaymentApi {
 
     @Override
     public ResponseEntity<PaymentInitiationSctWithStatusResponse> getSinglePaymentInformation(String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        Headers headers = Headers.builder()
-                                  .xRequestId(xRequestID)
-                                  .digest(digest)
-                                  .signature(signature)
-                                  .tppSignatureCertificate(tpPSignatureCertificate)
-                                  .psuIpAddress(psUIPAddress)
-                                  .psuIpPort(psUIPPort)
-                                  .psuAccept(psUAccept)
-                                  .psuAcceptCharset(psUAcceptCharset)
-                                  .psuAcceptEncoding(psUAcceptEncoding)
-                                  .psuAcceptLanguage(psUAcceptLanguage)
-                                  .psuUserAgent(psUUserAgent)
-                                  .psuHttpMethod(psUHttpMethod)
-                                  .psuDeviceId(psUDeviceID)
-                                  .psuGeoLocation(psUGeoLocation)
-                                  .build();
+        Headers headers = buildHeaders(xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         SinglePaymentInitiationInformationWithStatusResponse response = this.paymentService.getSinglePaymentInformation(paymentProduct, paymentId, headers);
 
@@ -84,29 +69,41 @@ public class PaymentController implements PaymentApi {
                        .body(singlePaymentInformationMapper.toPaymentInitiationSctWithStatusResponse(response));
     }
 
+    private Headers buildHeaders(UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+        return Headers.builder()
+                .xRequestId(xRequestID)
+                .digest(digest)
+                .signature(signature)
+                .tppSignatureCertificate(tpPSignatureCertificate)
+                .psuIpAddress(psUIPAddress)
+                .psuIpPort(psUIPPort)
+                .psuAccept(psUAccept)
+                .psuAcceptCharset(psUAcceptCharset)
+                .psuAcceptEncoding(psUAcceptEncoding)
+                .psuAcceptLanguage(psUAcceptLanguage)
+                .psuUserAgent(psUUserAgent)
+                .psuHttpMethod(psUHttpMethod)
+                .psuDeviceId(psUDeviceID)
+                .psuGeoLocation(psUGeoLocation)
+                .build();
+    }
+
     @Override
     public ResponseEntity<ScaStatusResponse> getPaymentInitiationScaStatus(String paymentService, String paymentProduct, String paymentId, String authorisationId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        Headers headers = Headers.builder()
-                                  .xRequestId(xRequestID)
-                                  .digest(digest)
-                                  .signature(signature)
-                                  .tppSignatureCertificate(tpPSignatureCertificate)
-                                  .psuIpAddress(psUIPAddress)
-                                  .psuIpPort(psUIPPort)
-                                  .psuAccept(psUAccept)
-                                  .psuAcceptCharset(psUAcceptCharset)
-                                  .psuAcceptEncoding(psUAcceptEncoding)
-                                  .psuAcceptLanguage(psUAcceptLanguage)
-                                  .psuUserAgent(psUUserAgent)
-                                  .psuHttpMethod(psUHttpMethod)
-                                  .psuDeviceId(psUDeviceID)
-                                  .psuGeoLocation(psUGeoLocation)
-                                  .build();
+        Headers headers = buildHeaders(xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         PaymentInitiationScaStatusResponse paymentInitiationScaStatusResponse = this.paymentService.getPaymentInitiationScaStatus(paymentService, paymentProduct, paymentId, authorisationId, headers);
 
         return ResponseEntity.status(HttpStatus.OK)
                        .body(paymentInitiationScaStatusResponseMapper.mapToScaStatusResponse(paymentInitiationScaStatusResponse));
+    }
+
+    @Override
+    public ResponseEntity<PaymentInitiationStatusResponse200Json> getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+        Headers headers = buildHeaders(xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+
+        PaymentInitiationStatus status = paymentService.getSinglePaymentInitiationStatus(paymentProduct, paymentId, headers);
+        return ResponseEntity.ok(paymentInitiationStatusMapper.toPaymentInitiationStatusResponse200Json(status));
     }
 }
 
