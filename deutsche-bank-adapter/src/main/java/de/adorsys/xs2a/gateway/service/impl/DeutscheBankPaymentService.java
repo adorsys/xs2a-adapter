@@ -43,9 +43,19 @@ public class DeutscheBankPaymentService implements PaymentService {
             switch (statusCode) {
                 case 201:
                     return readValue(responseBody, DeutscheBankPaymentInitiationResponse.class);
-                case 401:
                 case 400:
+                case 401:
+                case 403:
+                case 404:
+                case 405:
                     throw new ErrorResponseException(statusCode, readValue(responseBody, ErrorResponse.class));
+                case 406:
+                case 408:
+                case 415:
+                case 429:
+                case 500:
+                case 503:
+                    throw new ErrorResponseException(statusCode);
                 default:
                     throw new UnexpectedResponseStatusCodeException();
             }
