@@ -63,7 +63,7 @@ public class PaymentInitiationSctWithStatusResponse {
   private String remittanceInformationUnstructured = null;
 
   @JsonProperty("transactionStatus")
-  private TransactionStatus transactionStatus = null;
+  private TransactionStatusTO transactionStatus = null;
 
   public PaymentInitiationSctWithStatusResponse endToEndIdentification(String endToEndIdentification) {
     this.endToEndIdentification = endToEndIdentification;
@@ -233,7 +233,7 @@ public class PaymentInitiationSctWithStatusResponse {
     this.remittanceInformationUnstructured = remittanceInformationUnstructured;
   }
 
-  public PaymentInitiationSctWithStatusResponse transactionStatus(TransactionStatus transactionStatus) {
+  public PaymentInitiationSctWithStatusResponse transactionStatus(TransactionStatusTO transactionStatus) {
     this.transactionStatus = transactionStatus;
     return this;
   }
@@ -246,11 +246,11 @@ public class PaymentInitiationSctWithStatusResponse {
 
   @Valid
 
-  public TransactionStatus getTransactionStatus() {
+  public TransactionStatusTO getTransactionStatus() {
     return transactionStatus;
   }
 
-  public void setTransactionStatus(TransactionStatus transactionStatus) {
+  public void setTransactionStatus(TransactionStatusTO transactionStatus) {
     this.transactionStatus = transactionStatus;
   }
 
