@@ -124,7 +124,7 @@ public class DeutscheBankPaymentService implements PaymentService {
     @Override
     public PaymentInitiationStatus getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, Headers headers) {
         requireSepaCreditTransfer(paymentProduct);
-        String uri = PAYMENTS_SEPA_CREDIT_TRANSFERS_URI + "/" + paymentId + "/status";
+        String uri = PAYMENTS_SEPA_CREDIT_TRANSFERS_URI + SLASH_SEPARATOR + paymentId + "/status";
         Map<String, String> headersMap = headers.toMap();
         addRequiredExtraHeadersForGet(headersMap);
 
