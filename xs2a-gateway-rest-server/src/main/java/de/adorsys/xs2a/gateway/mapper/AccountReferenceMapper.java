@@ -17,11 +17,13 @@
 package de.adorsys.xs2a.gateway.mapper;
 
 import de.adorsys.xs2a.gateway.model.ais.AccountReferenceTO;
-import de.adorsys.xs2a.gateway.service.consent.AccountReference;
+import de.adorsys.xs2a.gateway.service.AccountReference;
 import org.mapstruct.Mapper;
 
 @Mapper
 public interface AccountReferenceMapper {
 
     AccountReference toAccountReference(AccountReferenceTO to);
+
+    AccountReferenceTO toAccountReferenceTO(AccountReference accountReference);
 }
