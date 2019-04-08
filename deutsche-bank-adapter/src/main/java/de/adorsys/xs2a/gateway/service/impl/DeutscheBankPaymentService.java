@@ -82,13 +82,21 @@ public class DeutscheBankPaymentService implements PaymentService {
         String uri = PAYMENTS_SEPA_CREDIT_TRANSFERS_URI + SLASH_SEPARATOR + paymentId;
 
         Map<String, String> headersMap = headers.toMap();
+        addRequiredExtraHeadersForGet(headersMap);
+
+        return httpClient.get(uri, headersMap, okResponseHandler(SinglePaymentInitiationInformationWithStatusResponse.class));
+    }
+
+    private void addRequiredExtraHeadersForGet(Map<String, String> headersMap) {
         headersMap.put(DATE_HEADER_NAME, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
         headersMap.put("Accept", "application/json");
+    }
 
-        return httpClient.get(uri, headersMap, (statusCode, responseBody) -> {
+    private <T> HttpClient.ResponseHandler<T> okResponseHandler(Class<T> klass) {
+        return (statusCode, responseBody) -> {
                     switch (statusCode) {
                         case 200:
-                            return readValue(responseBody, SinglePaymentInitiationInformationWithStatusResponse.class);
+                            return readValue(responseBody, klass);
                         case 400:
                         case 401:
                         case 403:
@@ -105,12 +113,21 @@ public class DeutscheBankPaymentService implements PaymentService {
                         default:
                             throw new UnexpectedResponseStatusCodeException();
                     }
-                }
-        );
+                };
     }
 
     @Override
     public PaymentInitiationScaStatusResponse getPaymentInitiationScaStatus(String paymentService, String paymentProduct, String paymentId, String authorisationId, Headers headers) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public PaymentInitiationStatus getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, Headers headers) {
+        requireSepaCreditTransfer(paymentProduct);
+        String uri = PAYMENTS_SEPA_CREDIT_TRANSFERS_URI + "/" + paymentId + "/status";
+        Map<String, String> headersMap = headers.toMap();
+        addRequiredExtraHeadersForGet(headersMap);
+
+        return httpClient.get(uri, headersMap, okResponseHandler(PaymentInitiationStatus.class));
     }
 }
