@@ -180,12 +180,10 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8081/v1/payments/sepa-credit-transfers/{{payment_id}}",
-					"protocol": "http",
+					"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{payment_id}}",
 					"host": [
-						"localhost"
+						"{{baseUri}}"
 					],
-					"port": "8081",
 					"path": [
 						"v1",
 						"payments",
