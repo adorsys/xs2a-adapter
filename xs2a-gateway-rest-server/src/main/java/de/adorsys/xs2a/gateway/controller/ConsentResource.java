@@ -19,9 +19,9 @@ package de.adorsys.xs2a.gateway.controller;
 import de.adorsys.xs2a.gateway.api.ConsentApi;
 import de.adorsys.xs2a.gateway.mapper.ConsentCreationResponseMapper;
 import de.adorsys.xs2a.gateway.mapper.ConsentMapper;
-import de.adorsys.xs2a.gateway.model.ais.ConsentsTO;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
-import de.adorsys.xs2a.gateway.service.ConsentCreationHeaders;
+import de.adorsys.xs2a.gateway.model.ais.ConsentsTO;
+import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.consent.ConsentService;
 import de.adorsys.xs2a.gateway.service.consent.Consents;
@@ -46,35 +46,39 @@ public class ConsentResource implements ConsentApi {
     }
 
     @Override
-    public ResponseEntity<ConsentsResponse201> createConsent(String bankCode, UUID xRequestID, ConsentsTO body, String digest, String signature, byte[] tpPSignatureCertificate, String psuId, String psUIDType, String psUCorporateID, String psUCorporateIDType, boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, boolean tpPExplicitAuthorisationPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        ConsentCreationHeaders headers = ConsentCreationHeaders.builder()
-                                                 .bankCode(bankCode)
-                                                 .xRequestID(xRequestID)
-                                                 .digest(digest)
-                                                 .signature(signature)
-                                                 .tppSignatureCertificate(tpPSignatureCertificate)
-                                                 .psuId(psuId)
-                                                 .psUIDType(psUIDType)
-                                                 .psUCorporateID(psUCorporateID)
-                                                 .psUCorporateIDType(psUCorporateIDType)
-                                                 .tpPRedirectPreferred(tpPRedirectPreferred)
-                                                 .tpPRedirectURI(tpPRedirectURI)
-                                                 .tpPNokRedirectURI(tpPNokRedirectURI)
-                                                 .tpPExplicitAuthorisationPreferred(tpPExplicitAuthorisationPreferred)
-                                                 .psUIPAddress(psUIPAddress)
-                                                 .psUIPPort(psUIPPort)
-                                                 .psUAccept(psUAccept)
-                                                 .psUAcceptCharset(psUAcceptCharset)
-                                                 .psUAcceptEncoding(psUAcceptEncoding)
-                                                 .psUAcceptLanguage(psUAcceptLanguage)
-                                                 .psUUserAgent(psUUserAgent)
-                                                 .psUHttpMethod(psUHttpMethod)
-                                                 .psUDeviceID(psUDeviceID)
-                                                 .psUGeoLocation(psUGeoLocation)
-                                                 .build();
+    public ResponseEntity<ConsentsResponse201> createConsent(String bankCode, UUID xRequestId, ConsentsTO body, String digest, String signature, byte[] tppSignatureCertificate, String psuId, String psuIdType, String psuCorporateId, String psuCorporateIdType, boolean tppRedirectPreferred, String tppRedirectUri, String tppNokRedirectUri, boolean tppExplicitAuthorisationPreferred, String psuIpAddress, String psuIpPort, String psuAccept, String psuAcceptCharset, String psuAcceptEncoding, String psuAcceptLanguage, String psuUserAgent, String psuHttpMethod, UUID psuDeviceId, String psuGeoLocation) {
+        Headers headers = buildHeaders(bankCode, xRequestId, digest, signature, tppSignatureCertificate, psuId, psuIdType, psuCorporateId, psuCorporateIdType, tppRedirectPreferred, tppRedirectUri, tppNokRedirectUri, tppExplicitAuthorisationPreferred, psuIpAddress, psuIpPort, psuAccept, psuAcceptCharset, psuAcceptEncoding, psuAcceptLanguage, psuUserAgent, psuHttpMethod, psuDeviceId, psuGeoLocation);
         Consents consents = consentMapper.toConsents(body);
         ConsentCreationResponse consent = consentService.createConsent(consents, headers);
         return ResponseEntity.status(HttpStatus.CREATED).body(creationResponseMapper.toConsentResponse201(consent));
+    }
+
+    private Headers buildHeaders(String bankCode, UUID xRequestId, String digest, String signature, byte[] tppSignatureCertificate, String psuId, String psuIdType, String psuCorporateId, String psuCorporateIdType, boolean tppRedirectPreferred, String tppRedirectUri, String tppNokRedirectUri, boolean tppExplicitAuthorisationPreferred, String psuIpAddress, String psuIpPort, String psuAccept, String psuAcceptCharset, String psuAcceptEncoding, String psuAcceptLanguage, String psuUserAgent, String psuHttpMethod, UUID psuDeviceId, String psuGeoLocation) {
+        return Headers.builder()
+                       .bankCode(bankCode)
+                       .xRequestId(xRequestId)
+                       .digest(digest)
+                       .signature(signature)
+                       .tppSignatureCertificate(tppSignatureCertificate)
+                       .psuId(psuId)
+                       .psuIdType(psuIdType)
+                       .psuCorporateId(psuCorporateId)
+                       .psuCorporateIdType(psuCorporateIdType)
+                       .tppRedirectPreferred(tppRedirectPreferred)
+                       .tppRedirectUri(tppRedirectUri)
+                       .tppNokRedirectUri(tppNokRedirectUri)
+                       .tppExplicitAuthorisationPreferred(tppExplicitAuthorisationPreferred)
+                       .psuIpAddress(psuIpAddress)
+                       .psuIpPort(psuIpPort)
+                       .psuAccept(psuAccept)
+                       .psuAcceptCharset(psuAcceptCharset)
+                       .psuAcceptEncoding(psuAcceptEncoding)
+                       .psuAcceptLanguage(psuAcceptLanguage)
+                       .psuUserAgent(psuUserAgent)
+                       .psuHttpMethod(psuHttpMethod)
+                       .psuDeviceId(psuDeviceId)
+                       .psuGeoLocation(psuGeoLocation)
+                       .build();
     }
 
 }

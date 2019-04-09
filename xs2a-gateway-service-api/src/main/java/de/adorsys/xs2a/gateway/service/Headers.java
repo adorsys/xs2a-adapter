@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class Headers {
+    private static final String X_GTW_BANK_CODE = "X-GTW-Bank-Code";
     private static final String X_REQUEST_ID = "X-Request-ID";
     private static final String PSU_IP_ADDRESS = "PSU-IP-Address";
     private static final String DIGEST = "Digest";
@@ -32,6 +33,7 @@ public class Headers {
 
     private Map<String, String> headers;
 
+    private String bankCode;
     private UUID xRequestId;
     private String psuIpAddress;
     private String digest;
@@ -67,6 +69,7 @@ public class Headers {
         if (headers == null) {
             headers = new HashMap<>();
 
+            putIntoAs(bankCode, headers, X_GTW_BANK_CODE);
             putIntoAs(xRequestId, headers, X_REQUEST_ID);
             putIntoAs(psuIpAddress, headers, PSU_IP_ADDRESS);
             putIntoAs(digest, headers, DIGEST);
@@ -104,6 +107,7 @@ public class Headers {
     }
 
     public static final class HeadersBuilder {
+        private String bankCode;
         private UUID xRequestId;
         private String psuIpAddress;
         private String digest;
@@ -129,6 +133,11 @@ public class Headers {
         private String psuGeoLocation;
 
         private HeadersBuilder() {
+        }
+
+        public HeadersBuilder bankCode(String bankCode) {
+            this.bankCode = bankCode;
+            return this;
         }
 
         public HeadersBuilder xRequestId(UUID xRequestId) {
@@ -248,6 +257,7 @@ public class Headers {
 
         public Headers build() {
             Headers headers = new Headers();
+            headers.bankCode = this.bankCode;
             headers.psuCorporateId = this.psuCorporateId;
             headers.tppRedirectUri = this.tppRedirectUri;
             headers.psuHttpMethod = this.psuHttpMethod;
