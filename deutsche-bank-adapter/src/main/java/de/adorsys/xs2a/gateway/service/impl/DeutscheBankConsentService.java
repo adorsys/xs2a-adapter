@@ -16,14 +16,78 @@
 
 package de.adorsys.xs2a.gateway.service.impl;
 
-import de.adorsys.xs2a.gateway.service.ConsentCreationHeaders;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.adorsys.xs2a.gateway.service.ErrorResponse;
+import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.consent.ConsentService;
 import de.adorsys.xs2a.gateway.service.consent.Consents;
+import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 public class DeutscheBankConsentService implements ConsentService {
+    private static final String DATE_HEADER_NAME = "Date";
+    private static final String ESTABLISH_CONSENT_URI = "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents";
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final HttpClient httpClient = HttpClient.newHttpClient();
+
+    public DeutscheBankConsentService() {
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
+
     @Override
-    public ConsentCreationResponse createConsent(Consents body, ConsentCreationHeaders headers) {
-        throw new UnsupportedOperationException();
+    public ConsentCreationResponse createConsent(Consents body, Headers headers) {
+
+        Map<String, String> headersMap = headers.toMap();
+        headersMap.put(DATE_HEADER_NAME, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
+        headersMap.put("Content-Type", "application/json");
+
+        String bodyString = writeValueAsString(objectMapper.convertValue(body, Consents.class));
+
+        return httpClient.post(ESTABLISH_CONSENT_URI, bodyString, headersMap, (statusCode, responseBody) -> {
+            switch (statusCode) {
+                case 201:
+                    return readValue(responseBody, ConsentCreationResponse.class);
+                case 400:
+                case 401:
+                case 403:
+                case 404:
+                case 405:
+                    throw new ErrorResponseException(statusCode, readValue(responseBody, ErrorResponse.class));
+                case 406:
+                case 408:
+                case 415:
+                case 429:
+                case 500:
+                case 503:
+                    throw new ErrorResponseException(statusCode);
+                default:
+                    throw new UnexpectedResponseStatusCodeException();
+            }
+        });
+    }
+
+    private String writeValueAsString(Consents body) {
+        try {
+            return objectMapper.writeValueAsString(body);
+        } catch (JsonProcessingException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    private <T> T readValue(InputStream inputStream, Class<T> klass) {
+        try {
+            return objectMapper.readValue(inputStream, klass);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }
