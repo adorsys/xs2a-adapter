@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.UUID;
 
 public class Headers {
-    private static final String X_GTW_BANK_CODE = "X-GTW-Bank-Code";
-    private static final String X_REQUEST_ID = "X-Request-ID";
+    public static final String X_GTW_BANK_CODE = "X-GTW-Bank-Code";
+    public static final String X_REQUEST_ID = "X-Request-ID";
     private static final String PSU_IP_ADDRESS = "PSU-IP-Address";
     private static final String DIGEST = "Digest";
     private static final String SIGNATURE = "Signature";

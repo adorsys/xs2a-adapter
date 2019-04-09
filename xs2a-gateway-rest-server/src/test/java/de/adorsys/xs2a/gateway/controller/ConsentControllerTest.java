@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.gateway.TestModelBuilder;
 import de.adorsys.xs2a.gateway.model.ais.ConsentStatus;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
+import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.consent.ConsentService;
 import org.junit.Before;
@@ -58,8 +59,8 @@ public class ConsentControllerTest {
                 .thenReturn(response);
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                                                       .post(ConsentResource.CONSENTS)
-                                                      .header("X-GTW-BANK-CODE", "db")
-                                                      .header("X-Request-ID", UUID.randomUUID())
+                                                      .header(Headers.X_GTW_BANK_CODE, "db")
+                                                      .header(Headers.X_REQUEST_ID, UUID.randomUUID())
                                                       .contentType(APPLICATION_JSON_UTF8_VALUE)
                                                       .content(body))
                                       .andExpect(status().is(HttpStatus.CREATED.value()))
