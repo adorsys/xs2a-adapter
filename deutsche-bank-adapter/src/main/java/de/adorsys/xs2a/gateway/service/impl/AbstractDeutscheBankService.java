@@ -34,10 +34,14 @@ abstract class AbstractDeutscheBankService {
     static final String SLASH_SEPARATOR = "/";
     private static final String DATE_HEADER_NAME = "Date";
     final ObjectMapper objectMapper = new ObjectMapper();
-    final HttpClient httpClient = HttpClient.newHttpClient();
+    HttpClient httpClient = HttpClient.newHttpClient();
 
     AbstractDeutscheBankService() {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
+
+    void setHttpClient(HttpClient httpClient) {
+        this.httpClient = httpClient;
     }
 
     <T> String writeValueAsString(T body) {

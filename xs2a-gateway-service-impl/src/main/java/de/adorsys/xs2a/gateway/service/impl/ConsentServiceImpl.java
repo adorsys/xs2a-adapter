@@ -25,6 +25,10 @@ public class ConsentServiceImpl implements ConsentService {
 
     private ConsentService service = new DeutscheBankConsentService();
 
+    void setConsentService(ConsentService service) {
+        this.service = service;
+    }
+
     @Override
     public ConsentCreationResponse createConsent(Consents consents, Headers headers) {
         //todo: user bank registry to define bank
