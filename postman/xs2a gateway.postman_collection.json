@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3d07f52e-3813-4726-add8-c73b42723d7a",
+		"_postman_id": "6aa71d5c-fcc7-4b80-ab33-d83d44c15e6b",
 		"name": "xs2a gateway",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -272,6 +272,104 @@
 						"consents"
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "AIS/Consents/Get/001",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "49fc416f-7765-4c03-a892-aea24f827e34",
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});",
+							"",
+							"pm.test(\"Consent status is received\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.tppMessages[0].code).to.eql(\"CONSENT_UNKNOWN\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Request-ID",
+						"type": "text",
+						"value": "{{$guid}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseUri}}/v1/consents/{{$guid}}",
+					"host": [
+						"{{baseUri}}"
+					],
+					"path": [
+						"v1",
+						"consents",
+						"{{$guid}}"
+					]
+				},
+				"description": "Get Consent request for a unkown consent\n\nDeliver a GET Consent Request where the consent-Id in the path does not refer to a previously created consent resource. \nAll other Data in the request may be chosen arbitrarily."
+			},
+			"response": []
+		},
+		{
+			"name": "AIS/Consents/Get/002",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "49fc416f-7765-4c03-a892-aea24f827e34",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Consent status is received\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.consentStatus).to.eql(\"received\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Request-ID",
+						"type": "text",
+						"value": "{{$guid}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseUri}}/v1/consents/{{consent-id}}",
+					"host": [
+						"{{baseUri}}"
+					],
+					"path": [
+						"v1",
+						"consents",
+						"{{consent-id}}"
+					]
+				},
+				"description": "Standard GET Consent test\n\nDeliver a GET Consent Request where the consent-Id equals the consent Id from the Account Information Consent Response of test case AIS/Consents/Create/002."
 			},
 			"response": []
 		}
