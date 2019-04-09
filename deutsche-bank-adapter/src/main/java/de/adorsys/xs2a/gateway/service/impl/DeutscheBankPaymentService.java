@@ -19,7 +19,7 @@ public class DeutscheBankPaymentService extends AbstractDeutscheBankService impl
 
         Map<String, String> headersMap = headers.toMap();
         addDBSpecificPostHeaders(headersMap);
-        String bodyString = writeValueAsString(objectMapper.convertValue(body, SinglePaymentInitiationBody.class));
+        String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, SinglePaymentInitiationBody.class));
 
         DeutscheBankPaymentInitiationResponse response = httpClient.post(
                 PAYMENTS_SEPA_CREDIT_TRANSFERS_URI,

@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.gateway.service;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -11,7 +10,14 @@ import java.util.List;
 // Error403_NG_PIS
 // Error404_NG_PIS
 // Error405_NG_PIS
-@JsonIgnoreProperties(ignoreUnknown = true)
+// Error400_NG_AIS
+// Error401_NG_AIS
+// Error403_NG_AIS
+// Error404_NG_AIS
+// Error405_NG_AIS
+// Error406_NG_AIS
+// Error409_NG_AIS
+// Error429_NG_AIS
 public class ErrorResponse {
     private List<TppMessage> tppMessages;
     @JsonProperty("_links")

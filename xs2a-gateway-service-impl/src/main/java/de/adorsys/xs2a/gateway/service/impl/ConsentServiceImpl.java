@@ -18,6 +18,7 @@ package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
+import de.adorsys.xs2a.gateway.service.consent.ConsentInformation;
 import de.adorsys.xs2a.gateway.service.consent.ConsentService;
 import de.adorsys.xs2a.gateway.service.consent.Consents;
 
@@ -33,5 +34,10 @@ public class ConsentServiceImpl implements ConsentService {
     public ConsentCreationResponse createConsent(Consents consents, Headers headers) {
         //todo: user bank registry to define bank
         return service.createConsent(consents, headers);
+    }
+
+    @Override
+    public ConsentInformation getConsentInformation(String consentId, Headers headers) {
+        return service.getConsentInformation(consentId, headers);
     }
 }

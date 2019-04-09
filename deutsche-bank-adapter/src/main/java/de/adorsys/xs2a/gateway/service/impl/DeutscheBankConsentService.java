@@ -17,14 +17,18 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.service.Headers;
-import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
-import de.adorsys.xs2a.gateway.service.consent.ConsentService;
-import de.adorsys.xs2a.gateway.service.consent.Consents;
+import de.adorsys.xs2a.gateway.service.consent.*;
+import de.adorsys.xs2a.gateway.service.impl.mapper.DeutscheBankConsentInformationMapper;
+import de.adorsys.xs2a.gateway.service.impl.model.DeutscheBankConsentInformation;
+import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
 
 public class DeutscheBankConsentService extends AbstractDeutscheBankService implements ConsentService {
-    private static final String ESTABLISH_CONSENT_URI = AIS_URI + "consents";
+    private static final String CONSENTS_URI = AIS_URI + "consents";
+
+    private final DeutscheBankConsentInformationMapper deutscheBankConsentInformationMapper =
+            Mappers.getMapper(DeutscheBankConsentInformationMapper.class);
 
     @Override
     public ConsentCreationResponse createConsent(Consents body, Headers headers) {
@@ -32,9 +36,28 @@ public class DeutscheBankConsentService extends AbstractDeutscheBankService impl
         Map<String, String> headersMap = headers.toMap();
         addDBSpecificPostHeaders(headersMap);
 
-        String bodyString = writeValueAsString(objectMapper.convertValue(body, Consents.class));
+        String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
 
-        return httpClient.post(ESTABLISH_CONSENT_URI, bodyString, headersMap,
+        return httpClient.post(CONSENTS_URI, bodyString, headersMap,
                                postResponseHandler(ConsentCreationResponse.class));
+    }
+
+    @Override
+    public ConsentInformation getConsentInformation(String consentId, Headers headers) {
+        String uri = CONSENTS_URI + "/" + consentId;
+        Map<String, String> headersMap = headers.toMap();
+        addDBSpecificGetHeaders(headersMap);
+        DeutscheBankConsentInformation deutscheBankConsentInformation =
+                httpClient.get(uri, headersMap, getResponseHandlerAis(DeutscheBankConsentInformation.class));
+        return deutscheBankConsentInformationMapper.toConsentInformation(deutscheBankConsentInformation);
+    }
+
+    @Override
+    public ConsentStatusResponse getConsentStatus(String consentId, Headers headers) {
+        String uri = CONSENTS_URI + "/" + consentId + "/status";
+        Map<String, String> headersMap = headers.toMap();
+        addDBSpecificGetHeaders(headersMap);
+
+        return httpClient.get(uri, headersMap, getResponseHandlerAis(ConsentStatusResponse.class));
     }
 }

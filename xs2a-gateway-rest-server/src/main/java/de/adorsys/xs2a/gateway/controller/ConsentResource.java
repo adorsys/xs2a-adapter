@@ -18,11 +18,14 @@ package de.adorsys.xs2a.gateway.controller;
 
 import de.adorsys.xs2a.gateway.api.ConsentApi;
 import de.adorsys.xs2a.gateway.mapper.ConsentCreationResponseMapper;
+import de.adorsys.xs2a.gateway.mapper.ConsentInformationMapper;
 import de.adorsys.xs2a.gateway.mapper.ConsentMapper;
+import de.adorsys.xs2a.gateway.model.ais.ConsentInformationResponse200Json;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsTO;
 import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
+import de.adorsys.xs2a.gateway.service.consent.ConsentInformation;
 import de.adorsys.xs2a.gateway.service.consent.ConsentService;
 import de.adorsys.xs2a.gateway.service.consent.Consents;
 import org.mapstruct.factory.Mappers;
@@ -40,6 +43,8 @@ public class ConsentResource implements ConsentApi {
     private final ConsentMapper consentMapper = Mappers.getMapper(ConsentMapper.class);
 
     private final ConsentCreationResponseMapper creationResponseMapper = Mappers.getMapper(ConsentCreationResponseMapper.class);
+
+    private final ConsentInformationMapper consentInformationMapper = Mappers.getMapper(ConsentInformationMapper.class);
 
     public ConsentResource(ConsentService consentService) {
         this.consentService = consentService;
@@ -81,4 +86,25 @@ public class ConsentResource implements ConsentApi {
                        .build();
     }
 
+    @Override
+    public ResponseEntity<ConsentInformationResponse200Json> getConsentInformation(String consentId, UUID xRequestID,
+            String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort,
+            String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage,
+            String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+        Headers headers = Headers.builder()
+                .xRequestId(xRequestID)
+                .digest(digest)
+                .signature(signature)
+                .tppSignatureCertificate(tpPSignatureCertificate)
+                .psuIpAddress(psUIPAddress)
+                .psuIpPort(psUIPPort)
+                .psuUserAgent(psUUserAgent)
+                .psuHttpMethod(psUHttpMethod)
+                .psuDeviceId(psUDeviceID)
+                .psuGeoLocation(psUGeoLocation)
+                .build();
+
+        ConsentInformation consentInformation = consentService.getConsentInformation(consentId, headers);
+        return ResponseEntity.ok(consentInformationMapper.toConsentInformationResponse200Json(consentInformation));
+    }
 }

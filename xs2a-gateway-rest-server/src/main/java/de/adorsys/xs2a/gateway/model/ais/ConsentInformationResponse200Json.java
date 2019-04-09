@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.gateway.model.ais;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.adorsys.xs2a.gateway.model.shared.LinksTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -51,6 +52,9 @@ public class ConsentInformationResponse200Json {
 
   @JsonProperty("consentStatus")
   private ConsentStatus consentStatus = null;
+
+  @JsonProperty("_links")
+  private LinksTO links;
 
   public ConsentInformationResponse200Json access(AccountAccessTO access) {
     this.access = access;
@@ -182,6 +186,13 @@ public class ConsentInformationResponse200Json {
     this.consentStatus = consentStatus;
   }
 
+  public LinksTO getLinks() {
+    return links;
+  }
+
+  public void setLinks(LinksTO links) {
+    this.links = links;
+  }
 
   @Override
   public boolean equals(Object o) {
