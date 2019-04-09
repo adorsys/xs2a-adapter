@@ -1,11 +1,13 @@
 package de.adorsys.xs2a.gateway.controller;
 
 import de.adorsys.xs2a.gateway.api.PaymentApi;
+import de.adorsys.xs2a.gateway.mapper.PaymentInitiationAuthorisationResponseMapper;
 import de.adorsys.xs2a.gateway.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.gateway.mapper.PaymentInitiationStatusMapper;
 import de.adorsys.xs2a.gateway.mapper.SinglePaymentInformationMapper;
 import de.adorsys.xs2a.gateway.model.pis.PaymentInitiationSctWithStatusResponse;
 import de.adorsys.xs2a.gateway.model.pis.PaymentInitiationStatusResponse200Json;
+import de.adorsys.xs2a.gateway.model.shared.Authorisations;
 import de.adorsys.xs2a.gateway.model.shared.ScaStatusResponse;
 import de.adorsys.xs2a.gateway.service.*;
 import org.mapstruct.factory.Mappers;
@@ -21,6 +23,7 @@ public class PaymentController implements PaymentApi {
     private final PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper;
     private final SinglePaymentInformationMapper singlePaymentInformationMapper = Mappers.getMapper(SinglePaymentInformationMapper.class);
     private final PaymentInitiationStatusMapper paymentInitiationStatusMapper = Mappers.getMapper(PaymentInitiationStatusMapper.class);
+    private final PaymentInitiationAuthorisationResponseMapper paymentInitiationAuthorisationResponseMapper = Mappers.getMapper(PaymentInitiationAuthorisationResponseMapper.class);
 
     public PaymentController(PaymentService paymentService, PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper) {
         this.paymentService = paymentService;
@@ -104,6 +107,14 @@ public class PaymentController implements PaymentApi {
 
         PaymentInitiationStatus status = paymentService.getSinglePaymentInitiationStatus(paymentProduct, paymentId, headers);
         return ResponseEntity.ok(paymentInitiationStatusMapper.toPaymentInitiationStatusResponse200Json(status));
+    }
+
+    @Override
+    public ResponseEntity<Authorisations> getPaymentInitiationAuthorisation(String paymentService, String paymentProduct, String paymentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+        Headers headers = buildHeaders(xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+
+        PaymentInitiationAuthorisationResponse authorisations = this.paymentService.getPaymentInitiationAuthorisation(paymentService, paymentProduct, paymentId, headers);
+        return ResponseEntity.ok(paymentInitiationAuthorisationResponseMapper.toAuthorisations(authorisations));
     }
 }
 

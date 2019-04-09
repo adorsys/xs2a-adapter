@@ -25,4 +25,9 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentInitiationStatus getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, Headers headers) {
         return paymentService.getSinglePaymentInitiationStatus(paymentProduct, paymentId, headers);
     }
+
+    @Override
+    public PaymentInitiationAuthorisationResponse getPaymentInitiationAuthorisation(String paymentService, String paymentProduct, String paymentId, Headers headers) {
+        return this.paymentService.getPaymentInitiationAuthorisation(paymentService, paymentProduct, paymentId, headers);
+    }
 }

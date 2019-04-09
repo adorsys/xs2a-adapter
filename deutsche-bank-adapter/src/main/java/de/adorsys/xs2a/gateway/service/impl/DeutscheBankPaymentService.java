@@ -65,4 +65,17 @@ public class DeutscheBankPaymentService extends AbstractDeutscheBankService impl
 
         return httpClient.get(uri, headersMap, getResponseHandler(PaymentInitiationStatus.class));
     }
+
+    @Override
+    public PaymentInitiationAuthorisationResponse getPaymentInitiationAuthorisation(String paymentService, String paymentProduct, String paymentId, Headers headers) {
+        requireSepaCreditTransfer(paymentProduct);
+
+        String uri = PAYMENTS_SEPA_CREDIT_TRANSFERS_URI + SLASH_SEPARATOR + paymentId + "/authorisations";
+
+        Map<String, String> headersMap = headers.toMap();
+        addRequiredExtraHeadersForGet(headersMap);
+
+        // TODO should be updated after Deutsche bank provides the implementation for this endpoint
+        throw new UnsupportedOperationException();
+    }
 }
