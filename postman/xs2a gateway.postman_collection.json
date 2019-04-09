@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "312ccd6e-387b-41a2-9fd1-9d122fe89018",
-		"name": "xs2a gateway",
+		"_postman_id": "3d07f52e-3813-4726-add8-c73b42723d7a",
+		"name": "xs2a gateway copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -189,6 +189,81 @@
 						"payments",
 						"sepa-credit-transfers",
 						"{{payment-id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AIS/Consent/G001b",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "73ea2b3e-dab0-4b72-8039-c7a0c29c9fe9",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "899ea327-3ff9-49df-be3e-9c4e1baa6703",
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setGlobalVariable(\"consentId_dbapi\",data.consentId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"description": "128-bit universally unique identifier (rf. ISO/IEC 11578:1996) - Format: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx'",
+						"key": "X-Request-ID",
+						"value": "{{$guid}}"
+					},
+					{
+						"description": "Value predetermined by Deutsche Bank ",
+						"key": "PSU-ID-Type",
+						"value": "FKDN"
+					},
+					{
+						"description": "Value predetermined by Deutsche Bank ",
+						"key": "PSU-ID",
+						"value": "555-EXTAISC-02"
+					},
+					{
+						"description": "Accepted values are: application/json",
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "PSU-IP-Address",
+						"value": "0.0.0.0"
+					},
+					{
+						"key": "X-GTW-BANK-CODE",
+						"value": "092",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n\t\t\t \"access\": {\r\n\t\t\t  \"balances\": [{\"iban\": \"DE92500105177545332689\"},{\"iban\": \"DE07500105179915314752\"}\r\n\t\t\t  ],\r\n\t\t\t  \"transactions\": [{\"iban\": \"DE92500105177545332689\"},{\"iban\": \"DE07500105179915314752\"}\r\n\t\t\t],\"accounts\": [{\"iban\": \"DE92500105177545332689\"},{\"iban\": \"DE07500105179915314752\"}\r\n\t\t\t]\r\n\t\t\t },\r\n\t\t\t\"combinedServiceIndicator\" : \"false\",\r\n\t\t\t \"recurringIndicator\": \"true\",\r\n\t\t\t \"validUntil\": \"2019-12-30\",\r\n\t\t\t \"frequencyPerDay\": \"4\"\r\n\t\t\t}  "
+				},
+				"url": {
+					"raw": "{{baseUri}}/v1/consents",
+					"host": [
+						"{{baseUri}}"
+					],
+					"path": [
+						"v1",
+						"consents"
 					]
 				}
 			},
