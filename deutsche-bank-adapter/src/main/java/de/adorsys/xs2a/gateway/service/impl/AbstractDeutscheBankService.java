@@ -16,7 +16,6 @@
 
 package de.adorsys.xs2a.gateway.service.impl;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.gateway.service.ErrorResponse;
@@ -33,12 +32,8 @@ abstract class AbstractDeutscheBankService {
     static final String BASE_DB_URI = "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/";
     static final String SLASH_SEPARATOR = "/";
     private static final String DATE_HEADER_NAME = "Date";
-    final ObjectMapper objectMapper = new ObjectMapper();
+    final ObjectMapper objectMapper = new DeutscheBankObjectMapper();
     HttpClient httpClient = HttpClient.newHttpClient();
-
-    AbstractDeutscheBankService() {
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    }
 
     void setHttpClient(HttpClient httpClient) {
         this.httpClient = httpClient;
