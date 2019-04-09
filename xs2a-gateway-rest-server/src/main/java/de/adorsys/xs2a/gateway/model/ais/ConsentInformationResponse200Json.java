@@ -51,7 +51,7 @@ public class ConsentInformationResponse200Json {
   private LocalDate lastActionDate = null;
 
   @JsonProperty("consentStatus")
-  private ConsentStatus consentStatus = null;
+  private ConsentStatusTO consentStatus = null;
 
   @JsonProperty("_links")
   private LinksTO links;
@@ -164,7 +164,7 @@ public class ConsentInformationResponse200Json {
     this.lastActionDate = lastActionDate;
   }
 
-  public ConsentInformationResponse200Json consentStatus(ConsentStatus consentStatus) {
+  public ConsentInformationResponse200Json consentStatus(ConsentStatusTO consentStatus) {
     this.consentStatus = consentStatus;
     return this;
   }
@@ -178,11 +178,11 @@ public class ConsentInformationResponse200Json {
 
   @Valid
 
-  public ConsentStatus getConsentStatus() {
+  public ConsentStatusTO getConsentStatus() {
     return consentStatus;
   }
 
-  public void setConsentStatus(ConsentStatus consentStatus) {
+  public void setConsentStatus(ConsentStatusTO consentStatus) {
     this.consentStatus = consentStatus;
   }
 

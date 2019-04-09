@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.gateway.mapper;
 
 import de.adorsys.xs2a.gateway.model.ais.ConsentInformationResponse200Json;
+import de.adorsys.xs2a.gateway.model.ais.ConsentStatusTO;
 import de.adorsys.xs2a.gateway.service.Links;
 import de.adorsys.xs2a.gateway.service.consent.AccountAccess;
 import de.adorsys.xs2a.gateway.service.consent.ConsentInformation;
@@ -29,7 +30,7 @@ public class ConsentInformationMapperTest {
         assertThat(consentInformationResponse200Json.getValidUntil()).isEqualTo(VALID_UNTIL);
         assertThat(consentInformationResponse200Json.getFrequencyPerDay()).isEqualTo(FREQUENCY_PER_DAY);
         assertThat(consentInformationResponse200Json.getLastActionDate()).isEqualTo(LAST_ACTION_DATE);
-        assertThat(consentInformationResponse200Json.getConsentStatus()).isEqualTo(de.adorsys.xs2a.gateway.model.ais.ConsentStatus.RECEIVED);
+        assertThat(consentInformationResponse200Json.getConsentStatus()).isEqualTo(ConsentStatusTO.RECEIVED);
         assertThat(consentInformationResponse200Json.getLinks()).isNotNull();
     }
 

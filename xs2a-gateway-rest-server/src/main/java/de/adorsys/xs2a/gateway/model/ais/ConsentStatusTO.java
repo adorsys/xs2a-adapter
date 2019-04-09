@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * This is the overall lifecycle status of the consent.  Valid values are:   - 'received': The consent data have been received and are technically correct.      The data is not authorised yet.   - 'rejected': The consent data have been rejected e.g. since no successful authorisation has taken place.   - 'valid': The consent is accepted and valid for GET account data calls and others as specified in the consent object.   - 'revokedByPsu': The consent has been revoked by the PSU towards the ASPSP.   - 'expired': The consent expired.   - 'terminatedByTpp': The corresponding TPP has terminated the consent by applying the DELETE method to the consent resource.  The ASPSP might add further codes. These codes then shall be contained in the ASPSP's documentation of the XS2A interface  and has to be added to this API definition as well. 
  */
-public enum ConsentStatus {
+public enum ConsentStatusTO {
   
   RECEIVED("received"),
   
@@ -38,7 +38,7 @@ public enum ConsentStatus {
 
   private String value;
 
-  ConsentStatus(String value) {
+  ConsentStatusTO(String value) {
     this.value = value;
   }
 
@@ -49,8 +49,8 @@ public enum ConsentStatus {
   }
 
   @JsonCreator
-  public static ConsentStatus fromValue(String text) {
-    for (ConsentStatus b : ConsentStatus.values()) {
+  public static ConsentStatusTO fromValue(String text) {
+    for (ConsentStatusTO b : ConsentStatusTO.values()) {
       if (String.valueOf(b.value).equals(text)) {
         return b;
       }
