@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 
 public class DeutscheBankConsentServiceTest {
 
-    private static final String CONSENT_URL = "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/consents";
+    private static final String CONSENT_URL = "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents";
 
     @SuppressWarnings("unchecked")
     @Test

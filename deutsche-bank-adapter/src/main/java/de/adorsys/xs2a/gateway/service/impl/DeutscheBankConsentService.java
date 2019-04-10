@@ -24,7 +24,7 @@ import de.adorsys.xs2a.gateway.service.consent.Consents;
 import java.util.Map;
 
 public class DeutscheBankConsentService extends AbstractDeutscheBankService implements ConsentService {
-    private static final String ESTABLISH_CONSENT_URI = BASE_DB_URI + "consents";
+    private static final String ESTABLISH_CONSENT_URI = BASE_AIS_URI + "consents";
 
     @Override
     public ConsentCreationResponse createConsent(Consents body, Headers headers) {
@@ -32,7 +32,7 @@ public class DeutscheBankConsentService extends AbstractDeutscheBankService impl
         Map<String, String> headersMap = headers.toMap();
         addDBSpecificPostHeaders(headersMap);
 
-        String bodyString = writeValueAsString(objectMapper.convertValue(body, Consents.class));
+        String bodyString = objectMapper.toString(objectMapper.convertValue(body, Consents.class));
 
         return httpClient.post(ESTABLISH_CONSENT_URI, bodyString, headersMap,
                                postResponseHandler(ConsentCreationResponse.class));
