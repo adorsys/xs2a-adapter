@@ -24,7 +24,7 @@ import de.adorsys.xs2a.gateway.service.consent.Consents;
 import java.util.Map;
 
 public class DeutscheBankConsentService extends AbstractDeutscheBankService implements ConsentService {
-    private static final String ESTABLISH_CONSENT_URI = BASE_DB_URI + "consents";
+    private static final String ESTABLISH_CONSENT_URI = AIS_URI + "consents";
 
     @Override
     public ConsentCreationResponse createConsent(Consents body, Headers headers) {

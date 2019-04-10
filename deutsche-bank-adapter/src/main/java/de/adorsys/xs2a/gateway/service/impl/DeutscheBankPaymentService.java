@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class DeutscheBankPaymentService extends AbstractDeutscheBankService implements PaymentService {
 
-    private static final String PAYMENTS_SEPA_CREDIT_TRANSFERS_URI = BASE_DB_URI + "payments/sepa-credit-transfers";
+    private static final String PAYMENTS_SEPA_CREDIT_TRANSFERS_URI = PIS_URI + "payments/sepa-credit-transfers";
 
     private final PaymentMapper paymentMapper = Mappers.getMapper(PaymentMapper.class);
 
