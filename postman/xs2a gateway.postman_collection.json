@@ -212,8 +212,14 @@
 					"script": {
 						"id": "899ea327-3ff9-49df-be3e-9c4e1baa6703",
 						"exec": [
-							"var data = JSON.parse(responseBody);\r",
-							"postman.setGlobalVariable(\"consentId_dbapi\",data.consentId);"
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Transaction status is received\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.consentStatus).to.eql(\"received\");",
+							"});"
 						],
 						"type": "text/javascript"
 					}
