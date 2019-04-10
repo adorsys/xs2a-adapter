@@ -32,6 +32,8 @@ abstract class AbstractDeutscheBankService {
     static final String BASE_DB_URI = "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/";
     static final String SLASH_SEPARATOR = "/";
     private static final String DATE_HEADER_NAME = "Date";
+    private static final String CONTENT_TYPE = "Content-Type";
+    private static final String APPLICATION_JSON = "application/json";
     final ObjectMapper objectMapper = new DeutscheBankObjectMapper();
     HttpClient httpClient = HttpClient.newHttpClient();
 
@@ -55,9 +57,14 @@ abstract class AbstractDeutscheBankService {
         }
     }
 
-    void addDBSpecificHeaders(Map<String, String> headersMap) {
+    void addDBSpecificPostHeaders(Map<String, String> headersMap) {
         headersMap.put(DATE_HEADER_NAME, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        headersMap.put("Content-Type", "application/json");
+        headersMap.put(CONTENT_TYPE, APPLICATION_JSON);
+    }
+
+    void addDBSpecificGetHeaders(Map<String, String> headersMap) {
+        headersMap.put(DATE_HEADER_NAME, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
+        headersMap.put(CONTENT_TYPE, APPLICATION_JSON);
     }
 
     <T> HttpClient.ResponseHandler<T> getResponseHandler(Class<T> klass) {
