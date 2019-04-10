@@ -30,7 +30,7 @@ public class DeutscheBankConsentService extends AbstractDeutscheBankService impl
     public ConsentCreationResponse createConsent(Consents body, Headers headers) {
 
         Map<String, String> headersMap = headers.toMap();
-        addDBSpecificHeaders(headersMap);
+        addDBSpecificPostHeaders(headersMap);
 
         String bodyString = writeValueAsString(objectMapper.convertValue(body, Consents.class));
 

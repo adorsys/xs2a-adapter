@@ -18,7 +18,7 @@ public class DeutscheBankPaymentService extends AbstractDeutscheBankService impl
         requireSepaCreditTransfer(paymentProduct);
 
         Map<String, String> headersMap = headers.toMap();
-        addDBSpecificHeaders(headersMap);
+        addDBSpecificPostHeaders(headersMap);
         String bodyString = writeValueAsString(objectMapper.convertValue(body, SinglePaymentInitiationBody.class));
 
         DeutscheBankPaymentInitiationResponse response = httpClient.post(
@@ -44,7 +44,7 @@ public class DeutscheBankPaymentService extends AbstractDeutscheBankService impl
         String uri = PAYMENTS_SEPA_CREDIT_TRANSFERS_URI + SLASH_SEPARATOR + paymentId;
 
         Map<String, String> headersMap = headers.toMap();
-        addDBSpecificHeaders(headersMap);
+        addDBSpecificGetHeaders(headersMap);
         return httpClient.get(uri, headersMap,
                               getResponseHandler(SinglePaymentInitiationInformationWithStatusResponse.class));
     }
@@ -61,7 +61,7 @@ public class DeutscheBankPaymentService extends AbstractDeutscheBankService impl
         requireSepaCreditTransfer(paymentProduct);
         String uri = PAYMENTS_SEPA_CREDIT_TRANSFERS_URI + SLASH_SEPARATOR + paymentId + "/status";
         Map<String, String> headersMap = headers.toMap();
-        addDBSpecificHeaders(headersMap);
+        addDBSpecificGetHeaders(headersMap);
 
         return httpClient.get(uri, headersMap, getResponseHandler(PaymentInitiationStatus.class));
     }
