@@ -73,7 +73,7 @@ public class DeutscheBankPaymentService extends AbstractDeutscheBankService impl
         String uri = PAYMENTS_SEPA_CREDIT_TRANSFERS_URI + SLASH_SEPARATOR + paymentId + "/authorisations";
 
         Map<String, String> headersMap = headers.toMap();
-        addRequiredExtraHeadersForGet(headersMap);
+        addDBSpecificGetHeaders(headersMap);
 
         // TODO should be updated after Deutsche bank provides the implementation for this endpoint
         throw new UnsupportedOperationException();
