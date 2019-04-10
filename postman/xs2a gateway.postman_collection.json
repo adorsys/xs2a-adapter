@@ -195,7 +195,7 @@
 			"response": []
 		},
 		{
-			"name": "AIS/Consent/G001b",
+			"name": "AIS/Consents/Create/006",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -254,7 +254,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": " {\r\n\t\t\t \"access\": {\r\n\t\t\t  \"balances\": [{\"iban\": \"DE92500105177545332689\"},{\"iban\": \"DE07500105179915314752\"}\r\n\t\t\t  ],\r\n\t\t\t  \"transactions\": [{\"iban\": \"DE92500105177545332689\"},{\"iban\": \"DE07500105179915314752\"}\r\n\t\t\t],\"accounts\": [{\"iban\": \"DE92500105177545332689\"},{\"iban\": \"DE07500105179915314752\"}\r\n\t\t\t]\r\n\t\t\t },\r\n\t\t\t\"combinedServiceIndicator\" : \"false\",\r\n\t\t\t \"recurringIndicator\": \"true\",\r\n\t\t\t \"validUntil\": \"2019-12-30\",\r\n\t\t\t \"frequencyPerDay\": \"4\"\r\n\t\t\t}  "
+					"raw": " {\r\n\t\t\t \"access\": {\r\n\t\t\t  \"balances\": [{\"iban\": \"DE92500105177545332689\"}],\r\n\t\t\t  \"transactions\": [{\"iban\": \"DE92500105177545332689\"}],\r\n\t\t\t  \"accounts\": [{\"iban\": \"DE92500105177545332689\"}]\r\n\t\t\t },\r\n\t\t\t\"combinedServiceIndicator\" : \"false\",\r\n\t\t\t \"recurringIndicator\": \"true\",\r\n\t\t\t \"validUntil\": \"2019-12-30\",\r\n\t\t\t \"frequencyPerDay\": \"4\"\r\n\t\t\t}  "
 				},
 				"url": {
 					"raw": "{{baseUri}}/v1/consents",
