@@ -17,10 +17,7 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.service.Headers;
-import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
-import de.adorsys.xs2a.gateway.service.consent.ConsentInformation;
-import de.adorsys.xs2a.gateway.service.consent.ConsentService;
-import de.adorsys.xs2a.gateway.service.consent.Consents;
+import de.adorsys.xs2a.gateway.service.consent.*;
 
 public class ConsentServiceImpl implements ConsentService {
 
@@ -39,5 +36,10 @@ public class ConsentServiceImpl implements ConsentService {
     @Override
     public ConsentInformation getConsentInformation(String consentId, Headers headers) {
         return service.getConsentInformation(consentId, headers);
+    }
+
+    @Override
+    public ConsentStatusResponse getConsentStatus(String consentId, Headers headers) {
+        return service.getConsentStatus(consentId, headers);
     }
 }

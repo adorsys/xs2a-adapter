@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-public class PaymentController implements PaymentApi {
+public class PaymentController extends AbstractController implements PaymentApi {
     private final PaymentService paymentService;
     private final PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper;
     private final SinglePaymentInformationMapper singlePaymentInformationMapper = Mappers.getMapper(SinglePaymentInformationMapper.class);
@@ -70,25 +70,6 @@ public class PaymentController implements PaymentApi {
 
         return ResponseEntity.status(HttpStatus.OK)
                        .body(singlePaymentInformationMapper.toPaymentInitiationSctWithStatusResponse(response));
-    }
-
-    private Headers buildHeaders(UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        return Headers.builder()
-                .xRequestId(xRequestID)
-                .digest(digest)
-                .signature(signature)
-                .tppSignatureCertificate(tpPSignatureCertificate)
-                .psuIpAddress(psUIPAddress)
-                .psuIpPort(psUIPPort)
-                .psuAccept(psUAccept)
-                .psuAcceptCharset(psUAcceptCharset)
-                .psuAcceptEncoding(psUAcceptEncoding)
-                .psuAcceptLanguage(psUAcceptLanguage)
-                .psuUserAgent(psUUserAgent)
-                .psuHttpMethod(psUHttpMethod)
-                .psuDeviceId(psUDeviceID)
-                .psuGeoLocation(psUGeoLocation)
-                .build();
     }
 
     @Override
