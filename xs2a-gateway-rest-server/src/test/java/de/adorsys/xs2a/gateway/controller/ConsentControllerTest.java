@@ -2,7 +2,7 @@ package de.adorsys.xs2a.gateway.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.gateway.TestModelBuilder;
-import de.adorsys.xs2a.gateway.model.ais.ConsentStatus;
+import de.adorsys.xs2a.gateway.model.ais.ConsentStatusTO;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
 import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
@@ -71,7 +71,7 @@ public class ConsentControllerTest {
 
         assertThat(response201.getConsentId()).isEqualTo(TestModelBuilder.CONSTENT_ID);
         assertThat(response201.getMessage()).isEqualTo(TestModelBuilder.MESSAGE);
-        assertThat(response201.getConsentStatus()).isEqualTo(ConsentStatus.RECEIVED);
+        assertThat(response201.getConsentStatus()).isEqualTo(ConsentStatusTO.RECEIVED);
         assertThat(response201.getLinks()).hasSize(1);
         assertThat(response201.getChosenScaMethod()).isNotNull();
         assertThat(response201.getScaMethods()).isNotNull();

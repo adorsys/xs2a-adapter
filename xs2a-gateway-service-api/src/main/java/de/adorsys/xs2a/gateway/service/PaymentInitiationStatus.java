@@ -1,8 +1,5 @@
 package de.adorsys.xs2a.gateway.service;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentInitiationStatus {
     private TransactionStatus transactionStatus;
 

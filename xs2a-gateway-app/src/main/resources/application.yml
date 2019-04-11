@@ -11,5 +11,7 @@ info:
 spring:
   application:
     name: xs2a-gateway
+  jackson:
+    default-property-inclusion: non_null
 
 logging.level.org.apache.http.wire: DEBUG

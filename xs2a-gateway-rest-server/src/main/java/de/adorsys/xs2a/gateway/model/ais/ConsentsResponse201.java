@@ -39,7 +39,7 @@ import java.util.Objects;
 
 public class ConsentsResponse201 {
   @JsonProperty("consentStatus")
-  private ConsentStatus consentStatus = null;
+  private ConsentStatusTO consentStatus = null;
 
   @JsonProperty("consentId")
   private String consentId = null;
@@ -59,7 +59,7 @@ public class ConsentsResponse201 {
   @JsonProperty("message")
   private String message = null;
 
-  public ConsentsResponse201 consentStatus(ConsentStatus consentStatus) {
+  public ConsentsResponse201 consentStatus(ConsentStatusTO consentStatus) {
     this.consentStatus = consentStatus;
     return this;
   }
@@ -73,11 +73,11 @@ public class ConsentsResponse201 {
 
   @Valid
 
-  public ConsentStatus getConsentStatus() {
+  public ConsentStatusTO getConsentStatus() {
     return consentStatus;
   }
 
-  public void setConsentStatus(ConsentStatus consentStatus) {
+  public void setConsentStatus(ConsentStatusTO consentStatus) {
     this.consentStatus = consentStatus;
   }
 

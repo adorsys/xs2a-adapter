@@ -20,4 +20,8 @@ import de.adorsys.xs2a.gateway.service.Headers;
 
 public interface ConsentService {
     ConsentCreationResponse createConsent(Consents body, Headers headers);
+
+    ConsentInformation getConsentInformation(String consentId, Headers headers);
+
+    ConsentStatusResponse getConsentStatus(String consentId, Headers headers);
 }

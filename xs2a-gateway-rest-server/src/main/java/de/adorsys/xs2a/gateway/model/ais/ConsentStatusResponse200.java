@@ -34,9 +34,9 @@ import java.util.Objects;
 
 public class ConsentStatusResponse200 {
   @JsonProperty("consentStatus")
-  private ConsentStatus consentStatus = null;
+  private ConsentStatusTO consentStatus = null;
 
-  public ConsentStatusResponse200 consentStatus(ConsentStatus consentStatus) {
+  public ConsentStatusResponse200 consentStatus(ConsentStatusTO consentStatus) {
     this.consentStatus = consentStatus;
     return this;
   }
@@ -50,11 +50,11 @@ public class ConsentStatusResponse200 {
 
   @Valid
 
-  public ConsentStatus getConsentStatus() {
+  public ConsentStatusTO getConsentStatus() {
     return consentStatus;
   }
 
-  public void setConsentStatus(ConsentStatus consentStatus) {
+  public void setConsentStatus(ConsentStatusTO consentStatus) {
     this.consentStatus = consentStatus;
   }
 
