@@ -16,30 +16,31 @@
 
 package de.adorsys.xs2a.gateway.service.impl;
 
+import de.adorsys.xs2a.gateway.adapter.AdapterManager;
+import de.adorsys.xs2a.gateway.adapter.AdapterRegistry;
 import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.consent.*;
 
 public class ConsentServiceImpl implements ConsentService {
 
-    private ConsentService service = new DeutscheBankConsentService();
-
-    void setConsentService(ConsentService service) {
-        this.service = service;
-    }
-
     @Override
     public ConsentCreationResponse createConsent(Consents consents, Headers headers) {
-        //todo: user bank registry to define bank
-        return service.createConsent(consents, headers);
+        return getConsentService(headers).createConsent(consents, headers);
     }
 
     @Override
     public ConsentInformation getConsentInformation(String consentId, Headers headers) {
-        return service.getConsentInformation(consentId, headers);
+        return getConsentService(headers).getConsentInformation(consentId, headers);
     }
 
     @Override
     public ConsentStatusResponse getConsentStatus(String consentId, Headers headers) {
-        return service.getConsentStatus(consentId, headers);
+        return getConsentService(headers).getConsentStatus(consentId, headers);
+    }
+
+    ConsentService getConsentService(Headers headers) {
+        String bankCode = headers.toMap().get(Headers.X_GTW_BANK_CODE);
+        AdapterManager manager = AdapterRegistry.getInstance().getAdapterManager(bankCode);
+        return manager.getConsentService();
     }
 }

@@ -2,6 +2,7 @@ package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
+import de.adorsys.xs2a.gateway.service.consent.ConsentService;
 import de.adorsys.xs2a.gateway.service.consent.Consents;
 import org.junit.Test;
 
@@ -15,8 +16,12 @@ public class ConsentServiceImplTest {
     public void createConsent() {
         ConsentCreationResponse response = new ConsentCreationResponse();
         DeutscheBankConsentService deutscheBankConsentService = mock(DeutscheBankConsentService.class);
-        ConsentServiceImpl service = new ConsentServiceImpl();
-        service.setConsentService(deutscheBankConsentService);
+        ConsentServiceImpl service = new ConsentServiceImpl(){
+            @Override
+            ConsentService getConsentService(Headers headers) {
+                return deutscheBankConsentService;
+            }
+        };
 
         when(deutscheBankConsentService.createConsent(any(), any())).thenReturn(response);
 
