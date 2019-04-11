@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.gateway.controller;
+package de.adorsys.xs2a.gateway.resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.gateway.TestModelBuilder;
