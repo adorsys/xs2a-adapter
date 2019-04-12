@@ -10,7 +10,6 @@
     <name>xs2a-gateway</name>
 
     <modules>
-        <module>xs2a-gateway-adapter-api</module>
         <module>xs2a-gateway-service-api</module>
         <module>xs2a-gateway-service-impl</module>
         <module>xs2a-gateway-rest-server</module>

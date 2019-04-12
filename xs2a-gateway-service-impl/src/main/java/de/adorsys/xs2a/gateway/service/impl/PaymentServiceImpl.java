@@ -1,8 +1,11 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
-import de.adorsys.xs2a.gateway.adapter.AdapterManager;
-import de.adorsys.xs2a.gateway.adapter.AdapterRegistry;
 import de.adorsys.xs2a.gateway.service.*;
+import de.adorsys.xs2a.gateway.service.provider.BankNotSupportedException;
+import de.adorsys.xs2a.gateway.service.provider.PaymentInitiationServiceProvider;
+
+import java.util.ServiceLoader;
+import java.util.stream.StreamSupport;
 
 public class PaymentServiceImpl implements PaymentService {
 
@@ -46,7 +49,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     private PaymentService getPaymentService(Headers headers) {
         String bankCode = headers.toMap().get(Headers.X_GTW_BANK_CODE);
-        AdapterManager manager = AdapterRegistry.getInstance().getAdapterManager(bankCode);
-        return manager.getPaymentService();
+        ServiceLoader<PaymentInitiationServiceProvider> loader =
+                ServiceLoader.load(PaymentInitiationServiceProvider.class);
+        return StreamSupport.stream(loader.spliterator(), false)
+                       .filter(pis -> pis.getBankCode().equalsIgnoreCase(bankCode))
+                       .findFirst().orElseThrow(() -> new BankNotSupportedException(bankCode))
+                       .getPaymentInitiationService();
     }
+
 }

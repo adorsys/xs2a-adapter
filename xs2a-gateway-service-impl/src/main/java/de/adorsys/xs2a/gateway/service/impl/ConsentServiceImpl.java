@@ -16,10 +16,13 @@
 
 package de.adorsys.xs2a.gateway.service.impl;
 
-import de.adorsys.xs2a.gateway.adapter.AdapterManager;
-import de.adorsys.xs2a.gateway.adapter.AdapterRegistry;
 import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.consent.*;
+import de.adorsys.xs2a.gateway.service.provider.AccountInformationServiceProvider;
+import de.adorsys.xs2a.gateway.service.provider.BankNotSupportedException;
+
+import java.util.ServiceLoader;
+import java.util.stream.StreamSupport;
 
 public class ConsentServiceImpl implements ConsentService {
 
@@ -40,7 +43,11 @@ public class ConsentServiceImpl implements ConsentService {
 
     ConsentService getConsentService(Headers headers) {
         String bankCode = headers.toMap().get(Headers.X_GTW_BANK_CODE);
-        AdapterManager manager = AdapterRegistry.getInstance().getAdapterManager(bankCode);
-        return manager.getConsentService();
+        ServiceLoader<AccountInformationServiceProvider> loader =
+                ServiceLoader.load(AccountInformationServiceProvider.class);
+        return StreamSupport.stream(loader.spliterator(), false)
+                       .filter(pis -> pis.getBankCode().equalsIgnoreCase(bankCode))
+                       .findFirst().orElseThrow(() -> new BankNotSupportedException(bankCode))
+                       .getAccountInformationService();
     }
 }

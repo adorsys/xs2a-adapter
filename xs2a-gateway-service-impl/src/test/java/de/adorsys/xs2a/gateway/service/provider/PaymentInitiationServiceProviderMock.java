@@ -14,30 +14,18 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.gateway.adapter;
+package de.adorsys.xs2a.gateway.service.provider;
 
 import de.adorsys.xs2a.gateway.service.PaymentService;
-import de.adorsys.xs2a.gateway.service.consent.ConsentService;
 
-public class TestAdapterProvider implements AdapterProvider {
+public class PaymentInitiationServiceProviderMock implements PaymentInitiationServiceProvider {
     @Override
     public String getBankCode() {
         return "test";
     }
 
     @Override
-    public AdapterManager getManager() {
-        return new AdapterManager() {
-
-            @Override
-            public ConsentService getConsentService() {
-                return null;
-            }
-
-            @Override
-            public PaymentService getPaymentService() {
-                return null;
-            }
-        };
+    public PaymentService getPaymentInitiationService() {
+        return null;
     }
 }

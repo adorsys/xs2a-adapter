@@ -14,14 +14,25 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.gateway.adapter;
+package de.adorsys.xs2a.gateway.service.provider;
 
-import de.adorsys.xs2a.gateway.service.PaymentService;
 import de.adorsys.xs2a.gateway.service.consent.ConsentService;
+import de.adorsys.xs2a.gateway.service.impl.DeutscheBankAccountInformationService;
 
-public interface AdapterManager {
+public class DeutscheBankAccountInformationServiceProvider implements AccountInformationServiceProvider {
 
-    ConsentService getConsentService();
+    private DeutscheBankAccountInformationService accountInformationService;
 
-    PaymentService getPaymentService();
+    @Override
+    public String getBankCode() {
+        return "50010517";
+    }
+
+    @Override
+    public ConsentService getAccountInformationService() {
+        if (accountInformationService == null) {
+            accountInformationService = new DeutscheBankAccountInformationService();
+        }
+        return accountInformationService;
+    }
 }

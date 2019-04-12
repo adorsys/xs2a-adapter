@@ -15,7 +15,7 @@ public class ConsentServiceImplTest {
     @Test
     public void createConsent() {
         ConsentCreationResponse response = new ConsentCreationResponse();
-        DeutscheBankConsentService deutscheBankConsentService = mock(DeutscheBankConsentService.class);
+        DeutscheBankAccountInformationService deutscheBankConsentService = mock(DeutscheBankAccountInformationService.class);
         ConsentServiceImpl service = new ConsentServiceImpl(){
             @Override
             ConsentService getConsentService(Headers headers) {

@@ -14,21 +14,13 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.gateway.adapter;
+package de.adorsys.xs2a.gateway.service.provider;
 
-import org.junit.Test;
+import de.adorsys.xs2a.gateway.service.PaymentService;
 
-import java.util.ServiceLoader;
+public interface PaymentInitiationServiceProvider {
 
-import static org.assertj.core.api.Assertions.assertThat;
+    String getBankCode();
 
-public class ServiceLoaderTest {
-
-    @Test
-    public void getAdapterProvider() {
-        ServiceLoader<AdapterProvider> loader = ServiceLoader.load(AdapterProvider.class);
-        AdapterProvider provider = loader.iterator().next();
-
-        assertThat(provider).isInstanceOf(DeutscheBankAdapterProvider.class);
-    }
+    PaymentService getPaymentInitiationService();
 }

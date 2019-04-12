@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
 
-public class DeutscheBankPaymentService extends AbstractDeutscheBankService implements PaymentService {
+public class DeutscheBankPaymentInitiationService extends AbstractDeutscheBankService implements PaymentService {
 
     private static final String PAYMENTS_SEPA_CREDIT_TRANSFERS_URI = PIS_URI + "payments/sepa-credit-transfers";
 

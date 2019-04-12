@@ -14,21 +14,13 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.gateway.adapter;
+package de.adorsys.xs2a.gateway.service.provider;
 
-public class DeutscheBankAdapterProvider implements AdapterProvider {
-    private AdapterManager manager;
+import de.adorsys.xs2a.gateway.service.consent.ConsentService;
 
-    @Override
-    public String getBankCode() {
-        return "50010517";
-    }
+public interface AccountInformationServiceProvider {
 
-    @Override
-    public AdapterManager getManager() {
-        if (manager == null) {
-            manager = new DeutscheBankAdapterManager();
-        }
-        return manager;
-    }
+    String getBankCode();
+
+    ConsentService getAccountInformationService();
 }

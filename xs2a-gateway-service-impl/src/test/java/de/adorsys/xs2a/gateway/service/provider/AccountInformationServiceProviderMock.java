@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.gateway.adapter;
+package de.adorsys.xs2a.gateway.service.provider;
 
-public interface AdapterProvider {
+import de.adorsys.xs2a.gateway.service.consent.ConsentService;
 
-    String getBankCode();
+public class AccountInformationServiceProviderMock implements AccountInformationServiceProvider {
+    @Override
+    public String getBankCode() {
+        return "test";
+    }
 
-    AdapterManager getManager();
+    @Override
+    public ConsentService getAccountInformationService() {
+        return null;
+    }
 }

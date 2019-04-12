@@ -24,7 +24,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
 
-public class DeutscheBankConsentService extends AbstractDeutscheBankService implements ConsentService {
+public class DeutscheBankAccountInformationService extends AbstractDeutscheBankService implements ConsentService {
     private static final String CONSENTS_URI = AIS_URI + "consents";
 
     private final DeutscheBankConsentInformationMapper deutscheBankConsentInformationMapper =

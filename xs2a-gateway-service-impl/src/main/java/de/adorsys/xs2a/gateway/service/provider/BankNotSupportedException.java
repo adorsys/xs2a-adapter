@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.gateway.adapter;
+package de.adorsys.xs2a.gateway.service.provider;
 
 public class BankNotSupportedException extends RuntimeException {
     private static final String MESSAGE = "Bank with code [%s] is not supported";
@@ -22,7 +22,7 @@ public class BankNotSupportedException extends RuntimeException {
     public BankNotSupportedException() {
     }
 
-    BankNotSupportedException(String bankCode) {
+    public BankNotSupportedException(String bankCode) {
         super(String.format(MESSAGE, bankCode));
     }
 }
