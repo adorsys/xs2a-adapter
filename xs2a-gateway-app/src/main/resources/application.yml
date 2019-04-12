@@ -15,13 +15,3 @@ spring:
     default-property-inclusion: non_null
 
 logging.level.org.apache.http.wire: DEBUG
-
-one-bank-mode:
-  code: set bank code of the bank
-
----
-spring:
-  profiles: deutscheBank
-
-one-bank-mode:
-  code: 50010517
