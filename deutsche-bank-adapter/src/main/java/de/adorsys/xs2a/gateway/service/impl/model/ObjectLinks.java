@@ -16,212 +16,214 @@
 
 package de.adorsys.xs2a.gateway.service.impl.model;
 
-public class ObjectLinks {
-    private ObjectLink scaRedirect;
-    private ObjectLink scaOAuth;
-    private ObjectLink updatePsuIdentification;
-    private ObjectLink updateProprietaryData;
-    private ObjectLink updatePsuAuthentication;
-    private ObjectLink selectAuthenticationMethod;
-    private ObjectLink self;
-    private ObjectLink status;
-    private ObjectLink account;
-    private ObjectLink viewBalances;
-    private ObjectLink viewTransactions;
-    private ObjectLink first;
-    private ObjectLink next;
-    private ObjectLink previous;
-    private ObjectLink last;
-    private ObjectLink download;
-    private ObjectLink startAuthorisation;
-    private ObjectLink startAuthorisationWithPsuIdentification;
-    private ObjectLink startAuthorisationWithPsuAuthentication;
-    private ObjectLink startAuthorisationWithAuthenticationMethodSelection;
-    private ObjectLink startAuthorisationWithTransactionAuthorisation;
-    private ObjectLink scaStatus;
-    private ObjectLink authoriseTransaction;
+import de.adorsys.xs2a.gateway.service.model.Link;
 
-    public ObjectLink getScaRedirect() {
+public class ObjectLinks {
+    private Link scaRedirect;
+    private Link scaOAuth;
+    private Link updatePsuIdentification;
+    private Link updateProprietaryData;
+    private Link updatePsuAuthentication;
+    private Link selectAuthenticationMethod;
+    private Link self;
+    private Link status;
+    private Link account;
+    private Link viewBalances;
+    private Link viewTransactions;
+    private Link first;
+    private Link next;
+    private Link previous;
+    private Link last;
+    private Link download;
+    private Link startAuthorisation;
+    private Link startAuthorisationWithPsuIdentification;
+    private Link startAuthorisationWithPsuAuthentication;
+    private Link startAuthorisationWithAuthenticationMethodSelection;
+    private Link startAuthorisationWithTransactionAuthorisation;
+    private Link scaStatus;
+    private Link authoriseTransaction;
+
+    public Link getScaRedirect() {
         return scaRedirect;
     }
 
-    public void setScaRedirect(ObjectLink scaRedirect) {
+    public void setScaRedirect(Link scaRedirect) {
         this.scaRedirect = scaRedirect;
     }
 
-    public ObjectLink getScaOAuth() {
+    public Link getScaOAuth() {
         return scaOAuth;
     }
 
-    public void setScaOAuth(ObjectLink scaOAuth) {
+    public void setScaOAuth(Link scaOAuth) {
         this.scaOAuth = scaOAuth;
     }
 
-    public ObjectLink getUpdatePsuIdentification() {
+    public Link getUpdatePsuIdentification() {
         return updatePsuIdentification;
     }
 
-    public void setUpdatePsuIdentification(ObjectLink updatePsuIdentification) {
+    public void setUpdatePsuIdentification(Link updatePsuIdentification) {
         this.updatePsuIdentification = updatePsuIdentification;
     }
 
-    public ObjectLink getUpdateProprietaryData() {
+    public Link getUpdateProprietaryData() {
         return updateProprietaryData;
     }
 
-    public void setUpdateProprietaryData(ObjectLink updateProprietaryData) {
+    public void setUpdateProprietaryData(Link updateProprietaryData) {
         this.updateProprietaryData = updateProprietaryData;
     }
 
-    public ObjectLink getUpdatePsuAuthentication() {
+    public Link getUpdatePsuAuthentication() {
         return updatePsuAuthentication;
     }
 
-    public void setUpdatePsuAuthentication(ObjectLink updatePsuAuthentication) {
+    public void setUpdatePsuAuthentication(Link updatePsuAuthentication) {
         this.updatePsuAuthentication = updatePsuAuthentication;
     }
 
-    public ObjectLink getSelectAuthenticationMethod() {
+    public Link getSelectAuthenticationMethod() {
         return selectAuthenticationMethod;
     }
 
-    public void setSelectAuthenticationMethod(ObjectLink selectAuthenticationMethod) {
+    public void setSelectAuthenticationMethod(Link selectAuthenticationMethod) {
         this.selectAuthenticationMethod = selectAuthenticationMethod;
     }
 
-    public ObjectLink getSelf() {
+    public Link getSelf() {
         return self;
     }
 
-    public void setSelf(ObjectLink self) {
+    public void setSelf(Link self) {
         this.self = self;
     }
 
-    public ObjectLink getStatus() {
+    public Link getStatus() {
         return status;
     }
 
-    public void setStatus(ObjectLink status) {
+    public void setStatus(Link status) {
         this.status = status;
     }
 
-    public ObjectLink getAccount() {
+    public Link getAccount() {
         return account;
     }
 
-    public void setAccount(ObjectLink account) {
+    public void setAccount(Link account) {
         this.account = account;
     }
 
-    public ObjectLink getViewBalances() {
+    public Link getViewBalances() {
         return viewBalances;
     }
 
-    public void setViewBalances(ObjectLink viewBalances) {
+    public void setViewBalances(Link viewBalances) {
         this.viewBalances = viewBalances;
     }
 
-    public ObjectLink getViewTransactions() {
+    public Link getViewTransactions() {
         return viewTransactions;
     }
 
-    public void setViewTransactions(ObjectLink viewTransactions) {
+    public void setViewTransactions(Link viewTransactions) {
         this.viewTransactions = viewTransactions;
     }
 
-    public ObjectLink getFirst() {
+    public Link getFirst() {
         return first;
     }
 
-    public void setFirst(ObjectLink first) {
+    public void setFirst(Link first) {
         this.first = first;
     }
 
-    public ObjectLink getNext() {
+    public Link getNext() {
         return next;
     }
 
-    public void setNext(ObjectLink next) {
+    public void setNext(Link next) {
         this.next = next;
     }
 
-    public ObjectLink getPrevious() {
+    public Link getPrevious() {
         return previous;
     }
 
-    public void setPrevious(ObjectLink previous) {
+    public void setPrevious(Link previous) {
         this.previous = previous;
     }
 
-    public ObjectLink getLast() {
+    public Link getLast() {
         return last;
     }
 
-    public void setLast(ObjectLink last) {
+    public void setLast(Link last) {
         this.last = last;
     }
 
-    public ObjectLink getDownload() {
+    public Link getDownload() {
         return download;
     }
 
-    public void setDownload(ObjectLink download) {
+    public void setDownload(Link download) {
         this.download = download;
     }
 
-    public ObjectLink getStartAuthorisation() {
+    public Link getStartAuthorisation() {
         return startAuthorisation;
     }
 
-    public void setStartAuthorisation(ObjectLink startAuthorisation) {
+    public void setStartAuthorisation(Link startAuthorisation) {
         this.startAuthorisation = startAuthorisation;
     }
 
-    public ObjectLink getStartAuthorisationWithPsuIdentification() {
+    public Link getStartAuthorisationWithPsuIdentification() {
         return startAuthorisationWithPsuIdentification;
     }
 
-    public void setStartAuthorisationWithPsuIdentification(ObjectLink startAuthorisationWithPsuIdentification) {
+    public void setStartAuthorisationWithPsuIdentification(Link startAuthorisationWithPsuIdentification) {
         this.startAuthorisationWithPsuIdentification = startAuthorisationWithPsuIdentification;
     }
 
-    public ObjectLink getStartAuthorisationWithPsuAuthentication() {
+    public Link getStartAuthorisationWithPsuAuthentication() {
         return startAuthorisationWithPsuAuthentication;
     }
 
-    public void setStartAuthorisationWithPsuAuthentication(ObjectLink startAuthorisationWithPsuAuthentication) {
+    public void setStartAuthorisationWithPsuAuthentication(Link startAuthorisationWithPsuAuthentication) {
         this.startAuthorisationWithPsuAuthentication = startAuthorisationWithPsuAuthentication;
     }
 
-    public ObjectLink getStartAuthorisationWithAuthenticationMethodSelection() {
+    public Link getStartAuthorisationWithAuthenticationMethodSelection() {
         return startAuthorisationWithAuthenticationMethodSelection;
     }
 
-    public void setStartAuthorisationWithAuthenticationMethodSelection(ObjectLink startAuthorisationWithAuthenticationMethodSelection) {
+    public void setStartAuthorisationWithAuthenticationMethodSelection(Link startAuthorisationWithAuthenticationMethodSelection) {
         this.startAuthorisationWithAuthenticationMethodSelection = startAuthorisationWithAuthenticationMethodSelection;
     }
 
-    public ObjectLink getStartAuthorisationWithTransactionAuthorisation() {
+    public Link getStartAuthorisationWithTransactionAuthorisation() {
         return startAuthorisationWithTransactionAuthorisation;
     }
 
-    public void setStartAuthorisationWithTransactionAuthorisation(ObjectLink startAuthorisationWithTransactionAuthorisation) {
+    public void setStartAuthorisationWithTransactionAuthorisation(Link startAuthorisationWithTransactionAuthorisation) {
         this.startAuthorisationWithTransactionAuthorisation = startAuthorisationWithTransactionAuthorisation;
     }
 
-    public ObjectLink getScaStatus() {
+    public Link getScaStatus() {
         return scaStatus;
     }
 
-    public void setScaStatus(ObjectLink scaStatus) {
+    public void setScaStatus(Link scaStatus) {
         this.scaStatus = scaStatus;
     }
 
-    public ObjectLink getAuthoriseTransaction() {
+    public Link getAuthoriseTransaction() {
         return authoriseTransaction;
     }
 
-    public void setAuthoriseTransaction(ObjectLink authoriseTransaction) {
+    public void setAuthoriseTransaction(Link authoriseTransaction) {
         this.authoriseTransaction = authoriseTransaction;
     }
 }

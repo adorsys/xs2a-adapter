@@ -20,17 +20,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.gateway.api.AccountApi;
 import de.adorsys.xs2a.gateway.api.ConsentApi;
 import de.adorsys.xs2a.gateway.mapper.*;
-import de.adorsys.xs2a.gateway.model.ais.*;
+import de.adorsys.xs2a.gateway.model.ais.ConsentInformationResponse200Json;
+import de.adorsys.xs2a.gateway.model.ais.ConsentStatusResponse200;
+import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
+import de.adorsys.xs2a.gateway.model.ais.ConsentsTO;
+import de.adorsys.xs2a.gateway.model.shared.StartScaprocessResponseTO;
+import de.adorsys.xs2a.gateway.model.shared.UpdatePsuAuthenticationTO;
 import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.RequestParams;
+import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.ais.*;
+import de.adorsys.xs2a.gateway.service.model.UpdatePsuAuthentication;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -46,6 +54,10 @@ public class ConsentController extends AbstractController implements ConsentApi,
     private final ConsentInformationMapper consentInformationMapper = Mappers.getMapper(ConsentInformationMapper.class);
 
     private final ConsentStatusResponseMapper consentStatusResponseMapper = Mappers.getMapper(ConsentStatusResponseMapper.class);
+
+    private final UpdatePsuAuthenticationMapper updatePsuAuthenticationMapper = Mappers.getMapper(UpdatePsuAuthenticationMapper.class);
+
+    private final StartScaProcessResponseMapper startScaProcessResponseMapper = Mappers.getMapper(StartScaProcessResponseMapper.class);
 
     private final AccountListHolderMapper accountListHolderMapper = Mappers.getMapper(AccountListHolderMapper.class);
 
@@ -113,6 +125,19 @@ public class ConsentController extends AbstractController implements ConsentApi,
                        .psuDeviceId(psuDeviceId)
                        .psuGeoLocation(psuGeoLocation)
                        .build();
+    }
+
+    @Override
+    public ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(
+            String consentId,
+            Map<String, String> headers,
+            UpdatePsuAuthenticationTO body) {
+        UpdatePsuAuthentication updatePsuAuthentication = updatePsuAuthenticationMapper.toUpdatePsuAuthentication(body);
+        StartScaProcessResponse startScaProcessResponse =
+                consentService.startConsentAuthorisation(consentId, Headers.fromMap(headers), updatePsuAuthentication);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(startScaProcessResponseMapper.toStartScaprocessResponseTO(startScaProcessResponse));
     }
 
     @Override

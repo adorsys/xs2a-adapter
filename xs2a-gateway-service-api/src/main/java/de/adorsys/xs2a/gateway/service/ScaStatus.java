@@ -16,6 +16,8 @@
 
 package de.adorsys.xs2a.gateway.service;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,5 +90,15 @@ public enum ScaStatus {
 
     public boolean isNotFinalisedStatus() {
         return !isFinalisedStatus();
+    }
+
+    @JsonCreator
+    public static ScaStatus fromValue(String text) {
+        for (ScaStatus scaStatus : ScaStatus.values()) {
+            if (String.valueOf(scaStatus.value).equals(text)) {
+                return scaStatus;
+            }
+        }
+        return null;
     }
 }

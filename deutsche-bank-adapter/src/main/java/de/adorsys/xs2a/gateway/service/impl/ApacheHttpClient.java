@@ -28,6 +28,11 @@ class ApacheHttpClient implements HttpClient {
     }
 
     @Override
+    public <T> T post(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler) {
+        return execute(new HttpPost(uri), headers, responseHandler);
+    }
+
+    @Override
     public <T> T get(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler) {
         return execute(new HttpGet(uri), headers, responseHandler);
     }

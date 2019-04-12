@@ -17,11 +17,13 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.service.Headers;
+import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.RequestParams;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.impl.mapper.DeutscheBankConsentInformationMapper;
 import de.adorsys.xs2a.gateway.service.impl.model.DeutscheBankConsentInformation;
+import de.adorsys.xs2a.gateway.service.model.UpdatePsuAuthentication;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
@@ -66,6 +68,24 @@ public class DeutscheBankAccountInformationService extends AbstractDeutscheBankS
         addDBSpecificGetHeaders(headersMap);
 
         return httpClient.get(uri, headersMap, getResponseHandlerAis(ConsentStatusResponse.class));
+    }
+
+    @Override
+    public StartScaProcessResponse startConsentAuthorisation(String consentId, Headers headers) {
+        String uri = CONSENTS_URI + "/" + consentId + "/authorisations";
+
+        return httpClient.post(uri, headers.toMap(), responseHandler(StartScaProcessResponse.class));
+    }
+
+    @Override
+    public StartScaProcessResponse startConsentAuthorisation(
+            String consentId,
+            Headers headers,
+            UpdatePsuAuthentication updatePsuAuthentication) {
+        String uri = CONSENTS_URI + "/" + consentId + "/authorisations";
+        String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
+
+        return httpClient.post(uri, body, headers.toMap(), responseHandler(StartScaProcessResponse.class));
     }
 
     @Override

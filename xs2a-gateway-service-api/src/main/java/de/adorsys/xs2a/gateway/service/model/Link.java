@@ -1,6 +1,6 @@
-package de.adorsys.xs2a.gateway.service.impl.model;
+package de.adorsys.xs2a.gateway.service.model;
 
-public class ObjectLink {
+public class Link {
     private String href;
 
     public String getHref() {

@@ -2,8 +2,8 @@ package de.adorsys.xs2a.gateway.service.impl.mapper;
 
 import de.adorsys.xs2a.gateway.service.*;
 import de.adorsys.xs2a.gateway.service.impl.model.DeutscheBankPaymentInitiationResponse;
-import de.adorsys.xs2a.gateway.service.impl.model.ObjectLink;
 import de.adorsys.xs2a.gateway.service.impl.model.ObjectLinks;
+import de.adorsys.xs2a.gateway.service.model.Link;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 
@@ -55,7 +55,7 @@ public class PaymentMapperTest {
 
     private ObjectLinks links() {
         ObjectLinks objectLinks = new ObjectLinks();
-        ObjectLink scaRedirect = new ObjectLink();
+        Link scaRedirect = new Link();
         scaRedirect.setHref(SCA_REDIRECT_LINK);
         objectLinks.setScaRedirect(scaRedirect);
         return objectLinks;

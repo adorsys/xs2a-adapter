@@ -19,6 +19,9 @@ package de.adorsys.xs2a.gateway.service.impl;
 import de.adorsys.xs2a.gateway.service.ErrorResponse;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -120,5 +123,25 @@ abstract class AbstractDeutscheBankService {
                     throw new UnexpectedResponseStatusCodeException();
             }
         };
+    }
+
+    <T> HttpClient.ResponseHandler<T> responseHandler(Class<T> klass) {
+        return (statusCode, responseBody) -> {
+            if (statusCode == 200 || statusCode == 201) {
+                return jsonMapper.readValue(responseBody, klass);
+            }
+            if (isEmpty(responseBody)) {
+                throw new ErrorResponseException(statusCode);
+            }
+            throw new ErrorResponseException(statusCode, jsonMapper.readValue(responseBody, ErrorResponse.class));
+        };
+    }
+
+    private boolean isEmpty(InputStream responseBody) {
+        try {
+            return responseBody.available() == 0;
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

@@ -35,7 +35,7 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 
-public class StartScaprocessResponse   {
+public class StartScaprocessResponseTO {
   @JsonProperty("scaStatus")
   private ScaStatusTO scaStatus = null;
 
@@ -57,7 +57,7 @@ public class StartScaprocessResponse   {
   @JsonProperty("psuMessage")
   private String psuMessage = null;
 
-  public StartScaprocessResponse scaStatus(ScaStatusTO scaStatus) {
+  public StartScaprocessResponseTO scaStatus(ScaStatusTO scaStatus) {
     this.scaStatus = scaStatus;
     return this;
   }
@@ -77,7 +77,7 @@ public class StartScaprocessResponse   {
     this.scaStatus = scaStatus;
   }
 
-  public StartScaprocessResponse scaMethods(ScaMethods scaMethods) {
+  public StartScaprocessResponseTO scaMethods(ScaMethods scaMethods) {
     this.scaMethods = scaMethods;
     return this;
   }
@@ -97,7 +97,7 @@ public class StartScaprocessResponse   {
         this.authorisationId = authorisationId;
     }
 
-    public StartScaprocessResponse authorisationId(String authorisationId) {
+    public StartScaprocessResponseTO authorisationId(String authorisationId) {
         this.authorisationId = authorisationId;
         return this;
     }
@@ -116,7 +116,7 @@ public class StartScaprocessResponse   {
     this.scaMethods = scaMethods;
   }
 
-  public StartScaprocessResponse chosenScaMethod(ChosenScaMethod chosenScaMethod) {
+  public StartScaprocessResponseTO chosenScaMethod(ChosenScaMethod chosenScaMethod) {
     this.chosenScaMethod = chosenScaMethod;
     return this;
   }
@@ -135,7 +135,7 @@ public class StartScaprocessResponse   {
     this.chosenScaMethod = chosenScaMethod;
   }
 
-  public StartScaprocessResponse challengeData(ChallengeDataTO challengeData) {
+  public StartScaprocessResponseTO challengeData(ChallengeDataTO challengeData) {
     this.challengeData = challengeData;
     return this;
   }
@@ -156,7 +156,7 @@ public class StartScaprocessResponse   {
     this.challengeData = challengeData;
   }
 
-  public StartScaprocessResponse _links(Map _links) {
+  public StartScaprocessResponseTO _links(Map _links) {
     this._links = _links;
     return this;
   }
@@ -178,7 +178,7 @@ public class StartScaprocessResponse   {
     this._links = _links;
   }
 
-  public StartScaprocessResponse psuMessage(String psuMessage) {
+  public StartScaprocessResponseTO psuMessage(String psuMessage) {
     this.psuMessage = psuMessage;
     return this;
   }
@@ -207,7 +207,7 @@ public class StartScaprocessResponse   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    StartScaprocessResponse startScaprocessResponse = (StartScaprocessResponse) o;
+    StartScaprocessResponseTO startScaprocessResponse = (StartScaprocessResponseTO) o;
     return Objects.equals(this.scaStatus, startScaprocessResponse.scaStatus) &&
         Objects.equals(this.scaMethods, startScaprocessResponse.scaMethods) &&
         Objects.equals(this.chosenScaMethod, startScaprocessResponse.chosenScaMethod) &&

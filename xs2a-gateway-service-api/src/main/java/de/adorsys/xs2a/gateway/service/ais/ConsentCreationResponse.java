@@ -16,6 +16,7 @@
 
 package de.adorsys.xs2a.gateway.service.ais;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.gateway.service.AuthenticationObject;
 import de.adorsys.xs2a.gateway.service.ChallengeData;
 
@@ -28,6 +29,7 @@ public class ConsentCreationResponse {
     private List<AuthenticationObject> scaMethods;
     private AuthenticationObject chosenScaMethod;
     private ChallengeData challengeData;
+    @JsonProperty("_links")
     private Map links;
     private String message;
 
