@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.service.Headers;
-import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
-import de.adorsys.xs2a.gateway.service.consent.Consents;
+import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
+import de.adorsys.xs2a.gateway.service.ais.Consents;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 

@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.gateway.service.provider;
 
-import de.adorsys.xs2a.gateway.service.consent.ConsentService;
+import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 
 public class AccountInformationServiceProviderMock implements AccountInformationServiceProvider {
     @Override
@@ -25,7 +25,7 @@ public class AccountInformationServiceProviderMock implements AccountInformation
     }
 
     @Override
-    public ConsentService getAccountInformationService() {
+    public AccountInformationService getAccountInformationService() {
         return null;
     }
 }

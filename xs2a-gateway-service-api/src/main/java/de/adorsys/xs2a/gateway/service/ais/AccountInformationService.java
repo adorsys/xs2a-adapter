@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.gateway.service.consent;
+package de.adorsys.xs2a.gateway.service.ais;
 
 import de.adorsys.xs2a.gateway.service.Headers;
 
-public interface ConsentService {
+public interface AccountInformationService {
     ConsentCreationResponse createConsent(Consents body, Headers headers);
 
     ConsentInformation getConsentInformation(String consentId, Headers headers);

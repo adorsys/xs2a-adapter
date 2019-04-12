@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.gateway.service.provider;
 
-import de.adorsys.xs2a.gateway.service.PaymentService;
+import de.adorsys.xs2a.gateway.service.PaymentInitiationService;
 import de.adorsys.xs2a.gateway.service.impl.DeutscheBankPaymentInitiationService;
 
 public class DeutscheBankPaymentInitiationServiceProvider implements PaymentInitiationServiceProvider {
@@ -29,7 +29,7 @@ public class DeutscheBankPaymentInitiationServiceProvider implements PaymentInit
     }
 
     @Override
-    public PaymentService getPaymentInitiationService() {
+    public PaymentInitiationService getPaymentInitiationService() {
         if (paymentInitiationService == null) {
             paymentInitiationService = new DeutscheBankPaymentInitiationService();
         }

@@ -19,13 +19,13 @@ import java.util.UUID;
 
 @RestController
 public class PaymentController extends AbstractController implements PaymentApi {
-    private final PaymentService paymentService;
+    private final PaymentInitiationService paymentService;
     private final PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper;
     private final SinglePaymentInformationMapper singlePaymentInformationMapper = Mappers.getMapper(SinglePaymentInformationMapper.class);
     private final PaymentInitiationStatusMapper paymentInitiationStatusMapper = Mappers.getMapper(PaymentInitiationStatusMapper.class);
     private final PaymentInitiationAuthorisationResponseMapper paymentInitiationAuthorisationResponseMapper = Mappers.getMapper(PaymentInitiationAuthorisationResponseMapper.class);
 
-    public PaymentController(PaymentService paymentService, PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper) {
+    public PaymentController(PaymentInitiationService paymentService, PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper) {
         this.paymentService = paymentService;
         this.paymentInitiationScaStatusResponseMapper = paymentInitiationScaStatusResponseMapper;
     }

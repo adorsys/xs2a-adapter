@@ -17,7 +17,7 @@
 package de.adorsys.xs2a.gateway.mapper;
 
 import de.adorsys.xs2a.gateway.model.ais.AccountAccessTO;
-import de.adorsys.xs2a.gateway.service.consent.AccountAccess;
+import de.adorsys.xs2a.gateway.service.ais.AccountAccess;
 import org.mapstruct.Mapper;
 
 @Mapper(uses = {AccountReferenceMapper.class})

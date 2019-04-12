@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.gateway.service.provider;
 
-import de.adorsys.xs2a.gateway.service.PaymentService;
+import de.adorsys.xs2a.gateway.service.PaymentInitiationService;
 
 public class PaymentInitiationServiceProviderMock implements PaymentInitiationServiceProvider {
     @Override
@@ -25,7 +25,7 @@ public class PaymentInitiationServiceProviderMock implements PaymentInitiationSe
     }
 
     @Override
-    public PaymentService getPaymentInitiationService() {
+    public PaymentInitiationService getPaymentInitiationService() {
         return null;
     }
 }

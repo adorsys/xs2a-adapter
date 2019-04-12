@@ -7,7 +7,7 @@ import de.adorsys.xs2a.gateway.service.provider.PaymentInitiationServiceProvider
 import java.util.ServiceLoader;
 import java.util.stream.StreamSupport;
 
-public class PaymentServiceImpl implements PaymentService {
+public class PaymentInitiationServiceImpl implements PaymentInitiationService {
 
     @Override
     public PaymentInitiationRequestResponse initiateSinglePayment(String paymentProduct, Object body, Headers headers) {
@@ -47,7 +47,7 @@ public class PaymentServiceImpl implements PaymentService {
                                                                             paymentId, headers);
     }
 
-    private PaymentService getPaymentService(Headers headers) {
+    private PaymentInitiationService getPaymentService(Headers headers) {
         String bankCode = headers.toMap().get(Headers.X_GTW_BANK_CODE);
         ServiceLoader<PaymentInitiationServiceProvider> loader =
                 ServiceLoader.load(PaymentInitiationServiceProvider.class);

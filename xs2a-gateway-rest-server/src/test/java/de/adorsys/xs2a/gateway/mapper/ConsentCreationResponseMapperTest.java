@@ -2,7 +2,7 @@ package de.adorsys.xs2a.gateway.mapper;
 
 import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
 import de.adorsys.xs2a.gateway.model.shared.ChallengeDataTO;
-import de.adorsys.xs2a.gateway.service.consent.ConsentStatus;
+import de.adorsys.xs2a.gateway.service.ais.ConsentStatus;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 

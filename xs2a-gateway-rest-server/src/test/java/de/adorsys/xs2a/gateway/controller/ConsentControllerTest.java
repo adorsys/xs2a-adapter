@@ -2,12 +2,11 @@ package de.adorsys.xs2a.gateway.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.gateway.TestModelBuilder;
-import de.adorsys.xs2a.gateway.controller.ConsentController;
 import de.adorsys.xs2a.gateway.model.ais.ConsentStatusTO;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
 import de.adorsys.xs2a.gateway.service.Headers;
-import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
-import de.adorsys.xs2a.gateway.service.consent.ConsentService;
+import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
+import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -40,7 +39,7 @@ public class ConsentControllerTest {
     private ConsentController controller;
 
     @Mock
-    private ConsentService consentService;
+    private AccountInformationService consentService;
 
 
     @Before

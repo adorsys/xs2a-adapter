@@ -3,9 +3,9 @@ package de.adorsys.xs2a.gateway.mapper;
 import de.adorsys.xs2a.gateway.model.ais.ConsentInformationResponse200Json;
 import de.adorsys.xs2a.gateway.model.ais.ConsentStatusTO;
 import de.adorsys.xs2a.gateway.service.Links;
-import de.adorsys.xs2a.gateway.service.consent.AccountAccess;
-import de.adorsys.xs2a.gateway.service.consent.ConsentInformation;
-import de.adorsys.xs2a.gateway.service.consent.ConsentStatus;
+import de.adorsys.xs2a.gateway.service.ais.AccountAccess;
+import de.adorsys.xs2a.gateway.service.ais.ConsentInformation;
+import de.adorsys.xs2a.gateway.service.ais.ConsentStatus;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 

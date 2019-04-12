@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.gateway.service.consent;
+package de.adorsys.xs2a.gateway.service.ais;
 
 public class ConsentStatusResponse {
     private ConsentStatus consentStatus;

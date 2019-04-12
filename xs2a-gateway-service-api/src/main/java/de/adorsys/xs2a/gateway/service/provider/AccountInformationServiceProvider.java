@@ -16,11 +16,11 @@
 
 package de.adorsys.xs2a.gateway.service.provider;
 
-import de.adorsys.xs2a.gateway.service.consent.ConsentService;
+import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 
 public interface AccountInformationServiceProvider {
 
     String getBankCode();
 
-    ConsentService getAccountInformationService();
+    AccountInformationService getAccountInformationService();
 }

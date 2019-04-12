@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.gateway.service;
 
-public interface PaymentService {
+public interface PaymentInitiationService {
     PaymentInitiationRequestResponse initiateSinglePayment(String paymentProduct, Object body, Headers headers);
 
     SinglePaymentInitiationInformationWithStatusResponse getSinglePaymentInformation(String paymentProduct, String paymentId, Headers headers);

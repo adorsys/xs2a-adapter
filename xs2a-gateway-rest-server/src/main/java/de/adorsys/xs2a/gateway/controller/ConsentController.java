@@ -26,7 +26,7 @@ import de.adorsys.xs2a.gateway.model.ais.ConsentStatusResponse200;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsTO;
 import de.adorsys.xs2a.gateway.service.Headers;
-import de.adorsys.xs2a.gateway.service.consent.*;
+import de.adorsys.xs2a.gateway.service.ais.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +37,7 @@ import java.util.UUID;
 @RestController
 public class ConsentController extends AbstractController implements ConsentApi {
 
-    private final ConsentService consentService;
+    private final AccountInformationService consentService;
 
     private final ConsentMapper consentMapper = Mappers.getMapper(ConsentMapper.class);
 
@@ -47,7 +47,7 @@ public class ConsentController extends AbstractController implements ConsentApi 
 
     private final ConsentStatusResponseMapper consentStatusResponseMapper = Mappers.getMapper(ConsentStatusResponseMapper.class);
 
-    public ConsentController(ConsentService consentService) {
+    public ConsentController(AccountInformationService consentService) {
         this.consentService = consentService;
     }
 

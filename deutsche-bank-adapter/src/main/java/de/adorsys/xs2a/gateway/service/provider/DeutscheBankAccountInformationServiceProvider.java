@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.gateway.service.provider;
 
-import de.adorsys.xs2a.gateway.service.consent.ConsentService;
+import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 import de.adorsys.xs2a.gateway.service.impl.DeutscheBankAccountInformationService;
 
 public class DeutscheBankAccountInformationServiceProvider implements AccountInformationServiceProvider {
@@ -29,7 +29,7 @@ public class DeutscheBankAccountInformationServiceProvider implements AccountInf
     }
 
     @Override
-    public ConsentService getAccountInformationService() {
+    public AccountInformationService getAccountInformationService() {
         if (accountInformationService == null) {
             accountInformationService = new DeutscheBankAccountInformationService();
         }

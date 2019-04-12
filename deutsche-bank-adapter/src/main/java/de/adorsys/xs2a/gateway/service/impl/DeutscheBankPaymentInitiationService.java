@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
 
-public class DeutscheBankPaymentInitiationService extends AbstractDeutscheBankService implements PaymentService {
+public class DeutscheBankPaymentInitiationService extends AbstractDeutscheBankService implements PaymentInitiationService {
 
     private static final String PAYMENTS_SEPA_CREDIT_TRANSFERS_URI = PIS_URI + "payments/sepa-credit-transfers";
 
@@ -69,8 +69,6 @@ public class DeutscheBankPaymentInitiationService extends AbstractDeutscheBankSe
     @Override
     public PaymentInitiationAuthorisationResponse getPaymentInitiationAuthorisation(String paymentService, String paymentProduct, String paymentId, Headers headers) {
         requireSepaCreditTransfer(paymentProduct);
-
-        String uri = PAYMENTS_SEPA_CREDIT_TRANSFERS_URI + SLASH_SEPARATOR + paymentId + "/authorisations";
 
         Map<String, String> headersMap = headers.toMap();
         addDBSpecificGetHeaders(headersMap);

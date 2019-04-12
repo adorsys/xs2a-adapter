@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.gateway.service.consent;
+package de.adorsys.xs2a.gateway.service.ais;
 
 import de.adorsys.xs2a.gateway.service.AccountReference;
 
