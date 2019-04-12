@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.gateway.mapper;
+package de.adorsys.xs2a.gateway.service.ais;
 
-import de.adorsys.xs2a.gateway.model.ais.AccountAccessTO;
-import de.adorsys.xs2a.gateway.service.ais.AccountAccess;
-import org.mapstruct.Mapper;
+import de.adorsys.xs2a.gateway.service.Headers;
 
-@Mapper(uses = {AccountReferenceMapper.class})
-public interface AccountAccessMapper {
+public interface AccountInformationService {
+    ConsentCreationResponse createConsent(Consents body, Headers headers);
 
-    AccountAccess toAccountAccess(AccountAccessTO to);
+    ConsentInformation getConsentInformation(String consentId, Headers headers);
+
+    ConsentStatusResponse getConsentStatus(String consentId, Headers headers);
 }

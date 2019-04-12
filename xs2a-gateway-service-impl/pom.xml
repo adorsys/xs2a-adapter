@@ -19,6 +19,12 @@
 
         <dependency>
             <groupId>de.adorsys.xs2a.gateway</groupId>
+            <artifactId>xs2a-gateway-adapter-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.gateway</groupId>
             <artifactId>xs2a-gateway-service-api</artifactId>
             <version>${project.version}</version>
         </dependency>

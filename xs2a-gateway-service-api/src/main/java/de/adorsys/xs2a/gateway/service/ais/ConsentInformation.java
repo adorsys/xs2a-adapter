@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.gateway.service.consent;
+package de.adorsys.xs2a.gateway.service.ais;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.gateway.service.Links;

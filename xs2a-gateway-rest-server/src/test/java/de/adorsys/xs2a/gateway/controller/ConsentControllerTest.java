@@ -5,8 +5,8 @@ import de.adorsys.xs2a.gateway.TestModelBuilder;
 import de.adorsys.xs2a.gateway.model.ais.ConsentStatusTO;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
 import de.adorsys.xs2a.gateway.service.Headers;
-import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
-import de.adorsys.xs2a.gateway.service.consent.ConsentService;
+import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
+import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -36,10 +36,10 @@ public class ConsentControllerTest {
     private MockMvc mockMvc;
 
     @InjectMocks
-    private ConsentResource controller;
+    private ConsentController controller;
 
     @Mock
-    private ConsentService consentService;
+    private AccountInformationService consentService;
 
 
     @Before
@@ -58,7 +58,7 @@ public class ConsentControllerTest {
         when(consentService.createConsent(any(), any()))
                 .thenReturn(response);
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                                                      .post(ConsentResource.CONSENTS)
+                                                      .post(ConsentController.CONSENTS)
                                                       .header(Headers.X_GTW_BANK_CODE, "db")
                                                       .header(Headers.X_REQUEST_ID, UUID.randomUUID())
                                                       .contentType(APPLICATION_JSON_UTF8_VALUE)
@@ -81,7 +81,7 @@ public class ConsentControllerTest {
     @Test
     public void createConsentRequiredFieldIsMissing() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                                .post(ConsentResource.CONSENTS)
+                                .post(ConsentController.CONSENTS)
                                 .contentType(APPLICATION_JSON_UTF8_VALUE)
                                 .content("{}"))
                 .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))

@@ -17,14 +17,14 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.service.Headers;
-import de.adorsys.xs2a.gateway.service.consent.*;
+import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.impl.mapper.DeutscheBankConsentInformationMapper;
 import de.adorsys.xs2a.gateway.service.impl.model.DeutscheBankConsentInformation;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
 
-public class DeutscheBankConsentService extends AbstractDeutscheBankService implements ConsentService {
+public class DeutscheBankAccountInformationService extends AbstractDeutscheBankService implements AccountInformationService {
     private static final String CONSENTS_URI = AIS_URI + "consents";
 
     private final DeutscheBankConsentInformationMapper deutscheBankConsentInformationMapper =

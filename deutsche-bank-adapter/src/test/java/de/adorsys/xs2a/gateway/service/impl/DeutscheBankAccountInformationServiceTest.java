@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.service.Headers;
-import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
-import de.adorsys.xs2a.gateway.service.consent.Consents;
+import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
+import de.adorsys.xs2a.gateway.service.ais.Consents;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -13,7 +13,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
-public class DeutscheBankConsentServiceTest {
+public class DeutscheBankAccountInformationServiceTest {
 
     private static final String CONSENT_URL = "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents";
 
@@ -21,7 +21,7 @@ public class DeutscheBankConsentServiceTest {
     @Test
     public void createConsent() {
         HttpClient httpClient = mock(HttpClient.class);
-        DeutscheBankConsentService service = new DeutscheBankConsentService();
+        DeutscheBankAccountInformationService service = new DeutscheBankAccountInformationService();
         service.setHttpClient(httpClient);
 
         ArgumentCaptor<Map> headersCaptor = ArgumentCaptor.forClass(Map.class);

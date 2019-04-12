@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.gateway.mapper;
+package de.adorsys.xs2a.gateway.service.provider;
 
-import de.adorsys.xs2a.gateway.model.ais.AccountAccessTO;
-import de.adorsys.xs2a.gateway.service.ais.AccountAccess;
-import org.mapstruct.Mapper;
+import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 
-@Mapper(uses = {AccountReferenceMapper.class})
-public interface AccountAccessMapper {
+public class AccountInformationServiceProviderMock implements AccountInformationServiceProvider {
+    @Override
+    public String getBankCode() {
+        return "test";
+    }
 
-    AccountAccess toAccountAccess(AccountAccessTO to);
+    @Override
+    public AccountInformationService getAccountInformationService() {
+        return null;
+    }
 }

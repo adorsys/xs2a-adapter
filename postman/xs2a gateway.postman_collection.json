@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6aa71d5c-fcc7-4b80-ab33-d83d44c15e6b",
+		"_postman_id": "e1941dee-f898-4d39-a2a5-81755c9f0b37",
 		"name": "xs2a gateway",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -56,6 +56,11 @@
 						"key": "PSU-ID-Type",
 						"value": "FKDN",
 						"type": "text"
+					},
+					{
+						"key": "X-GTW-Bank-Code",
+						"value": "{{bankCode}}",
+						"type": "text"
 					}
 				],
 				"body": {
@@ -103,6 +108,11 @@
 					{
 						"key": "X-Request-ID",
 						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "X-GTW-Bank-Code",
+						"value": "{{bankCode}}",
 						"type": "text"
 					}
 				],
@@ -173,6 +183,11 @@
 						"key": "PSU-ID-Type",
 						"value": "FKDN",
 						"type": "text"
+					},
+					{
+						"key": "X-GTW-Bank-Code",
+						"value": "{{bankCode}}",
+						"type": "text"
 					}
 				],
 				"body": {
@@ -189,6 +204,13 @@
 						"payments",
 						"sepa-credit-transfers",
 						"{{payment-id}}"
+					],
+					"query": [
+						{
+							"key": "X-GTW-Bank-Code",
+							"value": "",
+							"disabled": true
+						}
 					]
 				}
 			},
@@ -254,7 +276,7 @@
 					},
 					{
 						"key": "X-GTW-BANK-CODE",
-						"value": "092",
+						"value": "{{bankCode}}",
 						"type": "text"
 					}
 				],
@@ -303,6 +325,11 @@
 						"key": "X-Request-ID",
 						"type": "text",
 						"value": "{{$guid}}"
+					},
+					{
+						"key": "X-GTW-BANK-CODE",
+						"value": "{{bankCode}}",
+						"type": "text"
 					}
 				],
 				"body": {
@@ -352,6 +379,11 @@
 						"key": "X-Request-ID",
 						"type": "text",
 						"value": "{{$guid}}"
+					},
+					{
+						"key": "X-GTW-BANK-CODE",
+						"value": "{{bankCode}}",
+						"type": "text"
 					}
 				],
 				"body": {
@@ -401,6 +433,11 @@
 						"key": "X-Request-ID",
 						"type": "text",
 						"value": "{{$guid}}"
+					},
+					{
+						"key": "X-GTW-BANK-CODE",
+						"value": "{{bankCode}}",
+						"type": "text"
 					}
 				],
 				"body": {
@@ -451,6 +488,11 @@
 						"key": "X-Request-ID",
 						"type": "text",
 						"value": "{{$guid}}"
+					},
+					{
+						"key": "X-GTW-BANK-CODE",
+						"value": "{{bankCode}}",
+						"type": "text"
 					}
 				],
 				"body": {

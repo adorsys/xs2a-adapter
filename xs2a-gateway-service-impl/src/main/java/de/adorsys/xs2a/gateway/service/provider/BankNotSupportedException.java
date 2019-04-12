@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.gateway.service.consent;
+package de.adorsys.xs2a.gateway.service.provider;
 
-import de.adorsys.xs2a.gateway.service.Headers;
+public class BankNotSupportedException extends RuntimeException {
+    private static final String MESSAGE = "Bank with code [%s] is not supported";
 
-public interface ConsentService {
-    ConsentCreationResponse createConsent(Consents body, Headers headers);
+    public BankNotSupportedException() {
+    }
 
-    ConsentInformation getConsentInformation(String consentId, Headers headers);
-
-    ConsentStatusResponse getConsentStatus(String consentId, Headers headers);
+    public BankNotSupportedException(String bankCode) {
+        super(String.format(MESSAGE, bankCode));
+    }
 }

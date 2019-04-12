@@ -19,8 +19,8 @@ package de.adorsys.xs2a.gateway;
 import de.adorsys.xs2a.gateway.service.AuthenticationObject;
 import de.adorsys.xs2a.gateway.service.ChallengeData;
 import de.adorsys.xs2a.gateway.service.OtpFormat;
-import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
-import de.adorsys.xs2a.gateway.service.consent.ConsentStatus;
+import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
+import de.adorsys.xs2a.gateway.service.ais.ConsentStatus;
 
 import java.util.Collections;
 import java.util.HashMap;

@@ -26,7 +26,7 @@ import de.adorsys.xs2a.gateway.model.ais.ConsentStatusResponse200;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsTO;
 import de.adorsys.xs2a.gateway.service.Headers;
-import de.adorsys.xs2a.gateway.service.consent.*;
+import de.adorsys.xs2a.gateway.service.ais.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +35,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-public class ConsentResource extends AbstractController implements ConsentApi {
+public class ConsentController extends AbstractController implements ConsentApi {
 
-    private final ConsentService consentService;
+    private final AccountInformationService consentService;
 
     private final ConsentMapper consentMapper = Mappers.getMapper(ConsentMapper.class);
 
@@ -47,7 +47,7 @@ public class ConsentResource extends AbstractController implements ConsentApi {
 
     private final ConsentStatusResponseMapper consentStatusResponseMapper = Mappers.getMapper(ConsentStatusResponseMapper.class);
 
-    public ConsentResource(ConsentService consentService) {
+    public ConsentController(AccountInformationService consentService) {
         this.consentService = consentService;
     }
 
@@ -57,6 +57,32 @@ public class ConsentResource extends AbstractController implements ConsentApi {
         Consents consents = consentMapper.toConsents(body);
         ConsentCreationResponse consent = consentService.createConsent(consents, headers);
         return ResponseEntity.status(HttpStatus.CREATED).body(creationResponseMapper.toConsentResponse201(consent));
+    }
+
+    @Override
+    public ResponseEntity<ConsentInformationResponse200Json> getConsentInformation(String bankCode, String consentId, UUID xRequestID,
+                                                                                   String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort,
+                                                                                   String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage,
+                                                                                   String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+        Headers headers = buildHeaders(bankCode, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort,
+                psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod,
+                psUDeviceID, psUGeoLocation);
+
+        ConsentInformation consentInformation = consentService.getConsentInformation(consentId, headers);
+        return ResponseEntity.ok(consentInformationMapper.toConsentInformationResponse200Json(consentInformation));
+    }
+
+    @Override
+    public ResponseEntity<ConsentStatusResponse200> getConsentStatus(String bankCode, String consentId, UUID xRequestID, String digest,
+                                                                     String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept,
+                                                                     String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent,
+                                                                     String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+        Headers headers = buildHeaders(bankCode, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort,
+                                       psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod,
+                                       psUDeviceID, psUGeoLocation);
+
+        ConsentStatusResponse consentStatusResponse = consentService.getConsentStatus(consentId, headers);
+        return ResponseEntity.ok(consentStatusResponseMapper.toConsentStatusResponse200(consentStatusResponse));
     }
 
     private Headers buildHeaders(String bankCode, UUID xRequestId, String digest, String signature, byte[] tppSignatureCertificate, String psuId, String psuIdType, String psuCorporateId, String psuCorporateIdType, boolean tppRedirectPreferred, String tppRedirectUri, String tppNokRedirectUri, boolean tppExplicitAuthorisationPreferred, String psuIpAddress, String psuIpPort, String psuAccept, String psuAcceptCharset, String psuAcceptEncoding, String psuAcceptLanguage, String psuUserAgent, String psuHttpMethod, UUID psuDeviceId, String psuGeoLocation) {
@@ -85,31 +111,5 @@ public class ConsentResource extends AbstractController implements ConsentApi {
                        .psuDeviceId(psuDeviceId)
                        .psuGeoLocation(psuGeoLocation)
                        .build();
-    }
-
-    @Override
-    public ResponseEntity<ConsentInformationResponse200Json> getConsentInformation(String consentId, UUID xRequestID,
-            String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort,
-            String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage,
-            String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        Headers headers = buildHeaders(xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort,
-                psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod,
-                psUDeviceID, psUGeoLocation);
-
-        ConsentInformation consentInformation = consentService.getConsentInformation(consentId, headers);
-        return ResponseEntity.ok(consentInformationMapper.toConsentInformationResponse200Json(consentInformation));
-    }
-
-    @Override
-    public ResponseEntity<ConsentStatusResponse200> getConsentStatus(String consentId, UUID xRequestID, String digest,
-            String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept,
-            String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent,
-            String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        Headers headers = buildHeaders(xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort,
-                psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod,
-                psUDeviceID, psUGeoLocation);
-
-        ConsentStatusResponse consentStatusResponse = consentService.getConsentStatus(consentId, headers);
-        return ResponseEntity.ok(consentStatusResponseMapper.toConsentStatusResponse200(consentStatusResponse));
     }
 }

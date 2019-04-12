@@ -1,18 +1,18 @@
 package de.adorsys.xs2a.gateway.config;
 
 import de.adorsys.xs2a.gateway.mapper.PaymentInitiationScaStatusResponseMapper;
-import de.adorsys.xs2a.gateway.service.PaymentService;
-import de.adorsys.xs2a.gateway.service.consent.ConsentService;
-import de.adorsys.xs2a.gateway.service.impl.ConsentServiceImpl;
-import de.adorsys.xs2a.gateway.service.impl.PaymentServiceImpl;
+import de.adorsys.xs2a.gateway.service.PaymentInitiationService;
+import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
+import de.adorsys.xs2a.gateway.service.impl.AccountInformationServiceImpl;
+import de.adorsys.xs2a.gateway.service.impl.PaymentInitiationServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RestConfiguration {
     @Bean
-    PaymentService paymentService() {
-        return new PaymentServiceImpl();
+    PaymentInitiationService paymentService() {
+        return new PaymentInitiationServiceImpl();
     }
 
     @Bean
@@ -21,7 +21,7 @@ public class RestConfiguration {
     }
 
     @Bean
-    ConsentService consentService() {
-        return new ConsentServiceImpl();
+    AccountInformationService consentService() {
+        return new AccountInformationServiceImpl();
     }
 }

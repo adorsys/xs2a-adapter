@@ -17,7 +17,7 @@
 package de.adorsys.xs2a.gateway.mapper;
 
 import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
-import de.adorsys.xs2a.gateway.service.consent.ConsentCreationResponse;
+import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
 import org.mapstruct.Mapper;
 
 @Mapper(uses = {AuthenticationObjectMapper.class, ChallengeDataMapper.class})
