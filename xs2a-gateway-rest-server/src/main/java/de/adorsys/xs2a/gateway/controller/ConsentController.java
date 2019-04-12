@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.gateway.resource;
+package de.adorsys.xs2a.gateway.controller;
 
 import de.adorsys.xs2a.gateway.api.ConsentApi;
 import de.adorsys.xs2a.gateway.mapper.ConsentCreationResponseMapper;
@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-public class ConsentResource extends AbstractResource implements ConsentApi {
+public class ConsentController extends AbstractController implements ConsentApi {
 
     private final ConsentService consentService;
 
@@ -47,7 +47,7 @@ public class ConsentResource extends AbstractResource implements ConsentApi {
 
     private final ConsentStatusResponseMapper consentStatusResponseMapper = Mappers.getMapper(ConsentStatusResponseMapper.class);
 
-    public ConsentResource(ConsentService consentService) {
+    public ConsentController(ConsentService consentService) {
         this.consentService = consentService;
     }
 

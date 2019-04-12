@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.gateway.resource;
+package de.adorsys.xs2a.gateway.controller;
 
 import de.adorsys.xs2a.gateway.api.PaymentApi;
 import de.adorsys.xs2a.gateway.mapper.PaymentInitiationAuthorisationResponseMapper;
@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-public class PaymentResource extends AbstractResource implements PaymentApi {
+public class PaymentController extends AbstractController implements PaymentApi {
     private final PaymentService paymentService;
     private final PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper;
     private final SinglePaymentInformationMapper singlePaymentInformationMapper = Mappers.getMapper(SinglePaymentInformationMapper.class);
     private final PaymentInitiationStatusMapper paymentInitiationStatusMapper = Mappers.getMapper(PaymentInitiationStatusMapper.class);
     private final PaymentInitiationAuthorisationResponseMapper paymentInitiationAuthorisationResponseMapper = Mappers.getMapper(PaymentInitiationAuthorisationResponseMapper.class);
 
-    public PaymentResource(PaymentService paymentService, PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper) {
+    public PaymentController(PaymentService paymentService, PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper) {
         this.paymentService = paymentService;
         this.paymentInitiationScaStatusResponseMapper = paymentInitiationScaStatusResponseMapper;
     }
