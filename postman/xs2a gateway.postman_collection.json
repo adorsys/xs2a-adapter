@@ -514,6 +514,55 @@
 				"description": "Consent status test - received\n\nDeliver a GET Consent Status Request where the consent-Id equals the consentId from the Account Information Consent Response of test case AIS/Consents/Create/002."
 			},
 			"response": []
+		},
+		{
+			"name": "AIS/Accounts/001",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "Accepted values are application/json"
+					},
+					{
+						"key": "X-Request-ID",
+						"value": "{{$guid}}",
+						"description": "128-bit universally unique identifier (rf. ISO/IEC 11578:1996) - Format: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx'"
+					},
+					{
+						"key": "Consent-ID",
+						"value": "{{consent-id}}",
+						"description": "Use specific data per TPP-Registration-Number"
+					},
+					{
+						"key": "X-GTW-BANK-CODE",
+						"value": "{{bankCode}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseUri}}/v1/accounts?withBalance=true",
+					"host": [
+						"{{baseUri}}"
+					],
+					"path": [
+						"v1",
+						"accounts"
+					],
+					"query": [
+						{
+							"key": "withBalance",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
