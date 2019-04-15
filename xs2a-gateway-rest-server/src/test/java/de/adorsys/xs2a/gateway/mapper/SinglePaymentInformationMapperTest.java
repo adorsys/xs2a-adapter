@@ -40,7 +40,7 @@ public class SinglePaymentInformationMapperTest {
 
         AmountTO instructedAmount = response.getInstructedAmount();
         assertThat(instructedAmount).isNotNull();
-        assertThat(instructedAmount.getCurrency()).isEqualTo(INSTRUCTED_AMOUNT.getCurrency().getCurrencyCode());
+        assertThat(instructedAmount.getCurrency()).isEqualTo(INSTRUCTED_AMOUNT.getCurrency());
         assertThat(instructedAmount.getAmount()).isEqualTo(INSTRUCTED_AMOUNT.getAmount());
 
         AccountReferenceTO creditorAccount = response.getCreditorAccount();

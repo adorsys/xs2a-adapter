@@ -16,18 +16,16 @@
 
 package de.adorsys.xs2a.gateway.service;
 
-import java.util.Currency;
-
 public class Amount {
 
-    private Currency currency;
+    private String currency;
     private String amount;
 
-    public Currency getCurrency() {
+    public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency) {
+    public void setCurrency(String currency) {
         this.currency = currency;
     }
 

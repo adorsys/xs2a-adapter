@@ -5,8 +5,6 @@ import de.adorsys.xs2a.gateway.service.Amount;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 
-import java.util.Currency;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AmountMapperTest {
@@ -25,7 +23,7 @@ public class AmountMapperTest {
     static Amount buildAmount() {
         Amount amount = new Amount();
 
-        amount.setCurrency(Currency.getInstance(CURRENCY));
+        amount.setCurrency(CURRENCY);
         amount.setAmount(AMOUNT);
 
         return amount;

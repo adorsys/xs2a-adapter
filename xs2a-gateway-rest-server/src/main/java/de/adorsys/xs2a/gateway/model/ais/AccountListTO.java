@@ -34,17 +34,17 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 
-public class AccountList   {
+public class AccountListTO {
   @JsonProperty("accounts")
   @Valid
-  private List<AccountDetails> accounts = new ArrayList<>();
+  private List<AccountDetailsTO> accounts = new ArrayList<>();
 
-  public AccountList accounts(List<AccountDetails> accounts) {
+  public AccountListTO accounts(List<AccountDetailsTO> accounts) {
     this.accounts = accounts;
     return this;
   }
 
-  public AccountList addAccountsItem(AccountDetails accountsItem) {
+  public AccountListTO addAccountsItem(AccountDetailsTO accountsItem) {
     this.accounts.add(accountsItem);
     return this;
   }
@@ -58,11 +58,11 @@ public class AccountList   {
 
   @Valid
 
-  public List<AccountDetails> getAccounts() {
+  public List<AccountDetailsTO> getAccounts() {
     return accounts;
   }
 
-  public void setAccounts(List<AccountDetails> accounts) {
+  public void setAccounts(List<AccountDetailsTO> accounts) {
     this.accounts = accounts;
   }
 
@@ -75,7 +75,7 @@ public class AccountList   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AccountList accountList = (AccountList) o;
+    AccountListTO accountList = (AccountListTO) o;
     return Objects.equals(this.accounts, accountList.accounts);
   }
 
@@ -87,7 +87,7 @@ public class AccountList   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AccountList {\n");
+    sb.append("class AccountListTO {\n");
     
     sb.append("    accounts: ").append(toIndentedString(accounts)).append("\n");
     sb.append("}");
