@@ -17,6 +17,8 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.service.Headers;
+import de.adorsys.xs2a.gateway.service.RequestParams;
+import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.gateway.service.provider.BankNotSupportedException;
@@ -49,5 +51,10 @@ public class AccountInformationServiceImpl implements AccountInformationService 
                        .filter(pis -> pis.getBankCode().equalsIgnoreCase(bankCode))
                        .findFirst().orElseThrow(() -> new BankNotSupportedException(bankCode))
                        .getAccountInformationService();
+    }
+
+    @Override
+    public AccountListHolder getAccountList(Headers headers, RequestParams requestParams) {
+        return getConsentService(headers).getAccountList(headers, requestParams);
     }
 }

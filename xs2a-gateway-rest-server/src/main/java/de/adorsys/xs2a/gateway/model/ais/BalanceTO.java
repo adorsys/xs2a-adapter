@@ -25,7 +25,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -35,15 +35,15 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 
-public class Balance   {
+public class BalanceTO {
   @JsonProperty("balanceAmount")
   private AmountTO balanceAmount = null;
 
   @JsonProperty("balanceType")
-  private BalanceType balanceType = null;
+  private BalanceTypeTO balanceType = null;
 
   @JsonProperty("lastChangeDateTime")
-  private OffsetDateTime lastChangeDateTime = null;
+  private LocalDateTime lastChangeDateTime = null;
 
   @JsonProperty("referenceDate")
   private LocalDate referenceDate = null;
@@ -51,7 +51,7 @@ public class Balance   {
   @JsonProperty("lastCommittedTransaction")
   private String lastCommittedTransaction = null;
 
-  public Balance balanceAmount(AmountTO balanceAmount) {
+  public BalanceTO balanceAmount(AmountTO balanceAmount) {
     this.balanceAmount = balanceAmount;
     return this;
   }
@@ -73,7 +73,7 @@ public class Balance   {
     this.balanceAmount = balanceAmount;
   }
 
-  public Balance balanceType(BalanceType balanceType) {
+  public BalanceTO balanceType(BalanceTypeTO balanceType) {
     this.balanceType = balanceType;
     return this;
   }
@@ -87,15 +87,15 @@ public class Balance   {
 
   @Valid
 
-  public BalanceType getBalanceType() {
+  public BalanceTypeTO getBalanceType() {
     return balanceType;
   }
 
-  public void setBalanceType(BalanceType balanceType) {
+  public void setBalanceType(BalanceTypeTO balanceType) {
     this.balanceType = balanceType;
   }
 
-  public Balance lastChangeDateTime(OffsetDateTime lastChangeDateTime) {
+  public BalanceTO lastChangeDateTime(LocalDateTime lastChangeDateTime) {
     this.lastChangeDateTime = lastChangeDateTime;
     return this;
   }
@@ -108,15 +108,15 @@ public class Balance   {
 
   @Valid
 
-  public OffsetDateTime getLastChangeDateTime() {
+  public LocalDateTime getLastChangeDateTime() {
     return lastChangeDateTime;
   }
 
-  public void setLastChangeDateTime(OffsetDateTime lastChangeDateTime) {
+  public void setLastChangeDateTime(LocalDateTime lastChangeDateTime) {
     this.lastChangeDateTime = lastChangeDateTime;
   }
 
-  public Balance referenceDate(LocalDate referenceDate) {
+  public BalanceTO referenceDate(LocalDate referenceDate) {
     this.referenceDate = referenceDate;
     return this;
   }
@@ -137,7 +137,7 @@ public class Balance   {
     this.referenceDate = referenceDate;
   }
 
-  public Balance lastCommittedTransaction(String lastCommittedTransaction) {
+  public BalanceTO lastCommittedTransaction(String lastCommittedTransaction) {
     this.lastCommittedTransaction = lastCommittedTransaction;
     return this;
   }
@@ -166,7 +166,7 @@ public class Balance   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Balance balance = (Balance) o;
+    BalanceTO balance = (BalanceTO) o;
     return Objects.equals(this.balanceAmount, balance.balanceAmount) &&
         Objects.equals(this.balanceType, balance.balanceType) &&
         Objects.equals(this.lastChangeDateTime, balance.lastChangeDateTime) &&
@@ -182,7 +182,7 @@ public class Balance   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Balance {\n");
+    sb.append("class BalanceTO {\n");
     
     sb.append("    balanceAmount: ").append(toIndentedString(balanceAmount)).append("\n");
     sb.append("    balanceType: ").append(toIndentedString(balanceType)).append("\n");

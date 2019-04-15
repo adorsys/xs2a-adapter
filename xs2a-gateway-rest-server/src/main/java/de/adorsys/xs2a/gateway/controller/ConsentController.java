@@ -16,26 +16,26 @@
 
 package de.adorsys.xs2a.gateway.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.adorsys.xs2a.gateway.api.AccountApi;
 import de.adorsys.xs2a.gateway.api.ConsentApi;
-import de.adorsys.xs2a.gateway.mapper.ConsentCreationResponseMapper;
-import de.adorsys.xs2a.gateway.mapper.ConsentInformationMapper;
-import de.adorsys.xs2a.gateway.mapper.ConsentMapper;
-import de.adorsys.xs2a.gateway.mapper.ConsentStatusResponseMapper;
-import de.adorsys.xs2a.gateway.model.ais.ConsentInformationResponse200Json;
-import de.adorsys.xs2a.gateway.model.ais.ConsentStatusResponse200;
-import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
-import de.adorsys.xs2a.gateway.model.ais.ConsentsTO;
+import de.adorsys.xs2a.gateway.mapper.*;
+import de.adorsys.xs2a.gateway.model.ais.*;
 import de.adorsys.xs2a.gateway.service.Headers;
+import de.adorsys.xs2a.gateway.service.RequestParams;
+import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-public class ConsentController extends AbstractController implements ConsentApi {
+public class ConsentController extends AbstractController implements ConsentApi, AccountApi {
 
     private final AccountInformationService consentService;
 
@@ -46,6 +46,8 @@ public class ConsentController extends AbstractController implements ConsentApi 
     private final ConsentInformationMapper consentInformationMapper = Mappers.getMapper(ConsentInformationMapper.class);
 
     private final ConsentStatusResponseMapper consentStatusResponseMapper = Mappers.getMapper(ConsentStatusResponseMapper.class);
+
+    private final AccountListHolderMapper accountListHolderMapper = Mappers.getMapper(AccountListHolderMapper.class);
 
     public ConsentController(AccountInformationService consentService) {
         this.consentService = consentService;
@@ -111,5 +113,54 @@ public class ConsentController extends AbstractController implements ConsentApi 
                        .psuDeviceId(psuDeviceId)
                        .psuGeoLocation(psuGeoLocation)
                        .build();
+    }
+
+    @Override
+    public ResponseEntity<AccountListTO> getAccountList(String bankCode, UUID xRequestID, String consentID, Boolean withBalance, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+        Headers headers = Headers.builder()
+                                  .bankCode(bankCode)
+                                  .xRequestId(xRequestID)
+                                  .consentId(consentID)
+                                  .digest(digest)
+                                  .signature(signature)
+                                  .tppSignatureCertificate(tpPSignatureCertificate)
+                                  .psuIpAddress(psUIPAddress)
+                                  .psuIpPort(psUIPPort)
+                                  .psuAccept(psUAccept)
+                                  .psuAcceptCharset(psUAcceptCharset)
+                                  .psuAcceptEncoding(psUAcceptEncoding)
+                                  .psuAcceptLanguage(psUAcceptLanguage)
+                                  .psuUserAgent(psUUserAgent)
+                                  .psuHttpMethod(psUHttpMethod)
+                                  .psuDeviceId(psUDeviceID)
+                                  .psuGeoLocation(psUGeoLocation)
+                                  .build();
+
+        RequestParams requestParams = RequestParams.builder()
+                                              .withBalance(withBalance)
+                                              .build();
+
+        AccountListHolder accountListHolder = consentService.getAccountList(headers, requestParams);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                       .body(accountListHolderMapper.toAccountListTO(accountListHolder));
+    }
+
+    // fixes compile error (inheritance diamond problem due to the same method names in ConsentApi and AccountApi interfaces)
+    @Override
+    public Optional<String> getAcceptHeader() {
+        return getRequest().map(r -> r.getHeader("Accept"));
+    }
+
+    // fixes compile error (inheritance diamond problem due to the same method names in ConsentApi and AccountApi interfaces)
+    @Override
+    public Optional<ObjectMapper> getObjectMapper() {
+        return Optional.empty();
+    }
+
+    // fixes compile error (inheritance diamond problem due to the same method names in ConsentApi and AccountApi interfaces)
+    @Override
+    public Optional<HttpServletRequest> getRequest() {
+        return Optional.empty();
     }
 }

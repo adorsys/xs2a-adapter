@@ -8,6 +8,8 @@ import java.util.UUID;
 public class Headers {
     public static final String X_GTW_BANK_CODE = "X-GTW-Bank-Code";
     public static final String X_REQUEST_ID = "X-Request-ID";
+    public static final String CONSENT_ID = "Consent-ID";
+    public static final String RESOURCE_ID = "Resource-ID";
     private static final String PSU_IP_ADDRESS = "PSU-IP-Address";
     private static final String DIGEST = "Digest";
     private static final String SIGNATURE = "Signature";
@@ -16,7 +18,6 @@ public class Headers {
     private static final String PSU_ID_TYPE = "PSU-ID-Type";
     private static final String PSU_CORPORATE_ID = "PSU-Corporate-ID";
     private static final String PSU_CORPORATE_ID_TYPE = "PSU-Corporate-ID-Type";
-    private static final String CONSENT_ID = "Consent-ID";
     private static final String TPP_REDIRECT_PREFERRED = "TPP-Redirect-Preferred";
     private static final String TPP_REDIRECT_URI = "TPP-Redirect-URI";
     private static final String TPP_NOK_REDIRECT_URI = "TPP-Nok-Redirect-URI";

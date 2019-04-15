@@ -37,7 +37,7 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 
-public class AccountDetails   {
+public class AccountDetailsTO   {
   @JsonProperty("resourceId")
   private String resourceId = null;
 
@@ -114,7 +114,7 @@ public class AccountDetails   {
   @JsonProperty("_links")
   private Map _links = null;
 
-  public AccountDetails resourceId(String resourceId) {
+  public AccountDetailsTO resourceId(String resourceId) {
     this.resourceId = resourceId;
     return this;
   }
@@ -134,7 +134,7 @@ public class AccountDetails   {
     this.resourceId = resourceId;
   }
 
-  public AccountDetails iban(String iban) {
+  public AccountDetailsTO iban(String iban) {
     this.iban = iban;
     return this;
   }
@@ -154,7 +154,7 @@ public class AccountDetails   {
     this.iban = iban;
   }
 
-  public AccountDetails bban(String bban) {
+  public AccountDetailsTO bban(String bban) {
     this.bban = bban;
     return this;
   }
@@ -174,7 +174,7 @@ public class AccountDetails   {
     this.bban = bban;
   }
 
-  public AccountDetails msisdn(String msisdn) {
+  public AccountDetailsTO msisdn(String msisdn) {
     this.msisdn = msisdn;
     return this;
   }
@@ -194,7 +194,7 @@ public class AccountDetails   {
     this.msisdn = msisdn;
   }
 
-  public AccountDetails currency(String currency) {
+  public AccountDetailsTO currency(String currency) {
     this.currency = currency;
     return this;
   }
@@ -215,7 +215,7 @@ public class AccountDetails   {
     this.currency = currency;
   }
 
-  public AccountDetails name(String name) {
+  public AccountDetailsTO name(String name) {
     this.name = name;
     return this;
   }
@@ -235,7 +235,7 @@ public class AccountDetails   {
     this.name = name;
   }
 
-  public AccountDetails product(String product) {
+  public AccountDetailsTO product(String product) {
     this.product = product;
     return this;
   }
@@ -255,7 +255,7 @@ public class AccountDetails   {
     this.product = product;
   }
 
-  public AccountDetails cashAccountType(String cashAccountType) {
+  public AccountDetailsTO cashAccountType(String cashAccountType) {
     this.cashAccountType = cashAccountType;
     return this;
   }
@@ -275,7 +275,7 @@ public class AccountDetails   {
     this.cashAccountType = cashAccountType;
   }
 
-  public AccountDetails status(AccountStatus status) {
+  public AccountDetailsTO status(AccountStatus status) {
     this.status = status;
     return this;
   }
@@ -296,7 +296,7 @@ public class AccountDetails   {
     this.status = status;
   }
 
-  public AccountDetails bic(String bic) {
+  public AccountDetailsTO bic(String bic) {
     this.bic = bic;
     return this;
   }
@@ -316,7 +316,7 @@ public class AccountDetails   {
     this.bic = bic;
   }
 
-  public AccountDetails linkedAccounts(String linkedAccounts) {
+  public AccountDetailsTO linkedAccounts(String linkedAccounts) {
     this.linkedAccounts = linkedAccounts;
     return this;
   }
@@ -336,7 +336,7 @@ public class AccountDetails   {
     this.linkedAccounts = linkedAccounts;
   }
 
-  public AccountDetails usage(UsageEnum usage) {
+  public AccountDetailsTO usage(UsageEnum usage) {
     this.usage = usage;
     return this;
   }
@@ -356,7 +356,7 @@ public class AccountDetails   {
     this.usage = usage;
   }
 
-  public AccountDetails details(String details) {
+  public AccountDetailsTO details(String details) {
     this.details = details;
     return this;
   }
@@ -376,7 +376,7 @@ public class AccountDetails   {
     this.details = details;
   }
 
-  public AccountDetails balances(BalanceList balances) {
+  public AccountDetailsTO balances(BalanceList balances) {
     this.balances = balances;
     return this;
   }
@@ -397,7 +397,7 @@ public class AccountDetails   {
     this.balances = balances;
   }
 
-  public AccountDetails _links(Map _links) {
+  public AccountDetailsTO _links(Map _links) {
     this._links = _links;
     return this;
   }
@@ -427,7 +427,7 @@ public class AccountDetails   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AccountDetails accountDetails = (AccountDetails) o;
+    AccountDetailsTO accountDetails = (AccountDetailsTO) o;
     return Objects.equals(this.resourceId, accountDetails.resourceId) &&
         Objects.equals(this.iban, accountDetails.iban) &&
         Objects.equals(this.bban, accountDetails.bban) &&
