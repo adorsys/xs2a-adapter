@@ -21,7 +21,7 @@ $ mvn clean install
 ```
 ### Embedded mode
 
-If you want to integrate into your java application you need just add next dependencies in your classpath:
+If you want to integrate xs2a-gateway into your java application you need just add next dependencies in your classpath:
 * xs2a-gateway-service-impl
 * deutsche-bank-adapter
 * ... all other bank adapters *-adapter
@@ -33,6 +33,9 @@ If you want to install our *xs2a-gateway* as standalone application, you need ju
 * java -jar xs2a-gateway-app.jar
 
 Application will be available by address http://localhost:8081/swagger-ui.html
+
+### How to write your own adapter
+Read this short [guideline](/docs/Adapter.md) to get more details
 
 ### Running
 
