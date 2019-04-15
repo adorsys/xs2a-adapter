@@ -19,7 +19,7 @@ public class ChallengeDataMapperTest {
         assertThat(data.getImageLink()).isEqualTo(LINK);
         assertThat(data.getOtpFormat().name()).isEqualTo("CHARACTERS");
         assertThat(data.getOtpMaxLength()).isEqualTo(LENGTH);
-        assertThat(data.getImage()).isEqualTo(DATA.getBytes());
+        assertThat(data.getImage()).isEqualTo(IMAGE.getBytes());
     }
 
 

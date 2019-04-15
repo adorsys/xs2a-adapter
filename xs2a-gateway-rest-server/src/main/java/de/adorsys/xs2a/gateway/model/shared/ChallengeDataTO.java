@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -37,7 +38,7 @@ public class ChallengeDataTO {
   private byte[] image = null;
 
   @JsonProperty("data")
-  private String data = null;
+  private List<String> data = null;
 
   @JsonProperty("imageLink")
   private String imageLink = null;
@@ -102,7 +103,7 @@ public class ChallengeDataTO {
     this.image = image;
   }
 
-  public ChallengeDataTO data(String data) {
+  public ChallengeDataTO data(List<String> data) {
     this.data = data;
     return this;
   }
@@ -114,11 +115,11 @@ public class ChallengeDataTO {
   @ApiModelProperty(value = "String challenge data")
 
 
-  public String getData() {
+  public List<String> getData() {
     return data;
   }
 
-  public void setData(String data) {
+  public void setData(List<String> data) {
     this.data = data;
   }
 
