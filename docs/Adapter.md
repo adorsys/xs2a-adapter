@@ -1,8 +1,8 @@
-#How to write a xs2a gateway adapter
+# How to write a xs2a gateway adapter
 
 To create your own adapter you need to implement 4 interfaces and create 2 one-line files.
 
-###Steps:
+### Steps:
 - Add **xs2a-gateway-api** dependency to your classpath
 - Implement **AccountInformationServiceProvider** and **PaymentInitiationServiceProvider** interfaces. Don't forget to provide **correct bank code** because noone can communicate with your adapter.
 - Provide implementation of **AccountInformationService** interface.
