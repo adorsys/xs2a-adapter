@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.gateway.service.provider;
+package de.adorsys.xs2a.gateway.adorsys.service.provider;
 
+import de.adorsys.xs2a.gateway.adorsys.service.impl.AdorsysIntegAccountInformationService;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
-import de.adorsys.xs2a.gateway.service.impl.AdorsysIntegAccountInformationService;
+import de.adorsys.xs2a.gateway.service.provider.AccountInformationServiceProvider;
 
 public class AdorsysIntegAccountInformationServiceProvider implements AccountInformationServiceProvider {
+
+    private AdorsysIntegAccountInformationService accountInformationService;
+
     @Override
     public String getBankCode() {
         return "adorsys-integ";
@@ -27,6 +31,9 @@ public class AdorsysIntegAccountInformationServiceProvider implements AccountInf
 
     @Override
     public AccountInformationService getAccountInformationService() {
-        return new AdorsysIntegAccountInformationService();
+        if (accountInformationService == null) {
+            accountInformationService = new AdorsysIntegAccountInformationService();
+        }
+        return accountInformationService;
     }
 }
