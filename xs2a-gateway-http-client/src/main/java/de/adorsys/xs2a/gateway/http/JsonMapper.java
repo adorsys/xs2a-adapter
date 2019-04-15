@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.gateway.service.impl;
+package de.adorsys.xs2a.gateway.http;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,8 +12,10 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 
 public class JsonMapper {
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    {
+    private final ObjectMapper objectMapper;
+
+    public JsonMapper() {
+        objectMapper = new ObjectMapper();
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.registerModule(new JavaTimeModule());

@@ -16,6 +16,8 @@
 
 package de.adorsys.xs2a.gateway.service.impl;
 
+import de.adorsys.xs2a.gateway.http.HttpClient;
+import de.adorsys.xs2a.gateway.http.JsonMapper;
 import de.adorsys.xs2a.gateway.service.ErrorResponse;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
 

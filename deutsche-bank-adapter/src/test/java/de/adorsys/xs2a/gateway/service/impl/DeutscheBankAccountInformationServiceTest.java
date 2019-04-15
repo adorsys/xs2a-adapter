@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
+import de.adorsys.xs2a.gateway.http.HttpClient;
 import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.ais.Consents;

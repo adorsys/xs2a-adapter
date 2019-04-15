@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.gateway.service.impl;
+package de.adorsys.xs2a.gateway.http;
 
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.ContentType;
