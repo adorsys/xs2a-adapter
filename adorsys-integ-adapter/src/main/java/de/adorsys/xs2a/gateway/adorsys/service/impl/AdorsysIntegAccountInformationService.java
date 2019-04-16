@@ -21,10 +21,15 @@ import de.adorsys.xs2a.gateway.http.JsonMapper;
 import de.adorsys.xs2a.gateway.service.ErrorResponse;
 import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.RequestParams;
+import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
+import de.adorsys.xs2a.gateway.service.model.UpdatePsuAuthentication;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -32,6 +37,7 @@ public class AdorsysIntegAccountInformationService implements AccountInformation
     private static final String AIS_URI = "https://dev-xs2a.cloud.adorsys.de/v1/consents";
     private static final String ACCOUNTS_URI = "https://dev-xs2a.cloud.adorsys.de/v1/accounts";
     private static final String SLASH_SEPARATOR = "/";
+    private static final String SLASH_AUTHORISATIONS = "/authorisations";
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
     private static final String ACCEPT_HEADER = "Accept";
@@ -65,6 +71,21 @@ public class AdorsysIntegAccountInformationService implements AccountInformation
         Map<String, String> headersMap = headers.toMap();
         headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
         return httpClient.get(uri, headersMap, getResponseHandlerAis(ConsentStatusResponse.class));
+    }
+
+    @Override
+    public StartScaProcessResponse startConsentAuthorisation(String consentId, Headers headers) {
+        String uri = AIS_URI + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS;
+
+        return httpClient.post(uri, headers.toMap(), responseHandler(StartScaProcessResponse.class));
+    }
+
+    @Override
+    public StartScaProcessResponse startConsentAuthorisation(String consentId, Headers headers, UpdatePsuAuthentication updatePsuAuthentication) {
+        String uri = AIS_URI + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS;
+        String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
+
+        return httpClient.post(uri, body, headers.toMap(), responseHandler(StartScaProcessResponse.class));
     }
 
     @Override
@@ -166,5 +187,25 @@ public class AdorsysIntegAccountInformationService implements AccountInformation
                     throw new UnexpectedResponseStatusCodeException();
             }
         };
+    }
+
+    <T> HttpClient.ResponseHandler<T> responseHandler(Class<T> klass) {
+        return (statusCode, responseBody) -> {
+            if (statusCode == 200 || statusCode == 201) {
+                return jsonMapper.readValue(responseBody, klass);
+            }
+            if (isEmpty(responseBody)) {
+                throw new ErrorResponseException(statusCode);
+            }
+            throw new ErrorResponseException(statusCode, jsonMapper.readValue(responseBody, ErrorResponse.class));
+        };
+    }
+
+    private boolean isEmpty(InputStream responseBody) {
+        try {
+            return responseBody.available() == 0;
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }
