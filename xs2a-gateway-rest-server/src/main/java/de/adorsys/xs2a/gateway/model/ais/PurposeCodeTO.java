@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * ExternalPurpose1Code from ISO 20022.  Values from ISO 20022 External Code List ExternalCodeSets_1Q2018 June 2018. 
  */
-public enum PurposeCode {
+public enum PurposeCodeTO {
   
   BKDF("BKDF"),
   
@@ -582,7 +582,7 @@ public enum PurposeCode {
 
   private String value;
 
-  PurposeCode(String value) {
+  PurposeCodeTO(String value) {
     this.value = value;
   }
 
@@ -593,8 +593,8 @@ public enum PurposeCode {
   }
 
   @JsonCreator
-  public static PurposeCode fromValue(String text) {
-    for (PurposeCode b : PurposeCode.values()) {
+  public static PurposeCodeTO fromValue(String text) {
+    for (PurposeCodeTO b : PurposeCodeTO.values()) {
       if (String.valueOf(b.value).equals(text)) {
         return b;
       }

@@ -91,7 +91,7 @@ public class TransactionDetails {
   private String remittanceInformationStructured = null;
 
   @JsonProperty("purposeCode")
-  private PurposeCode purposeCode = null;
+  private PurposeCodeTO purposeCode = null;
 
   @JsonProperty("bankTransactionCode")
   private String bankTransactionCode = null;
@@ -469,7 +469,7 @@ public class TransactionDetails {
     this.remittanceInformationStructured = remittanceInformationStructured;
   }
 
-  public TransactionDetails purposeCode(PurposeCode purposeCode) {
+  public TransactionDetails purposeCode(PurposeCodeTO purposeCode) {
     this.purposeCode = purposeCode;
     return this;
   }
@@ -482,11 +482,11 @@ public class TransactionDetails {
 
   @Valid
 
-  public PurposeCode getPurposeCode() {
+  public PurposeCodeTO getPurposeCode() {
     return purposeCode;
   }
 
-  public void setPurposeCode(PurposeCode purposeCode) {
+  public void setPurposeCode(PurposeCodeTO purposeCode) {
     this.purposeCode = purposeCode;
   }
 

@@ -20,6 +20,7 @@ import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.RequestParams;
 import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
+import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.impl.mapper.DeutscheBankConsentInformationMapper;
 import de.adorsys.xs2a.gateway.service.impl.model.DeutscheBankConsentInformation;
@@ -146,5 +147,10 @@ public class DeutscheBankAccountInformationService extends AbstractDeutscheBankS
                                              .collect(Collectors.joining("&", "?", ""));
 
         return uri + requestParamsString;
+    }
+
+    @Override
+    public TransactionsReport getTransactionList(String accountId, Headers headers, RequestParams requestParams) {
+        throw new UnsupportedOperationException();
     }
 }

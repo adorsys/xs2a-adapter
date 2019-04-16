@@ -20,6 +20,7 @@ import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.RequestParams;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
+import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.model.*;
 import de.adorsys.xs2a.gateway.service.provider.AccountInformationServiceProvider;
@@ -89,5 +90,10 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     @Override
     public AccountListHolder getAccountList(Headers headers, RequestParams requestParams) {
         return getConsentService(headers).getAccountList(headers, requestParams);
+    }
+
+    @Override
+    public TransactionsReport getTransactionList(String accountId, Headers headers, RequestParams requestParams) {
+        return getConsentService(headers).getTransactionList(accountId, headers, requestParams);
     }
 }
