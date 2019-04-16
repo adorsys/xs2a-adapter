@@ -32,11 +32,11 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 
-public class ScaStatusResponse   {
+public class ScaStatusResponseTO {
   @JsonProperty("scaStatus")
   private ScaStatusTO scaStatus = null;
 
-  public ScaStatusResponse scaStatus(ScaStatusTO scaStatus) {
+  public ScaStatusResponseTO scaStatus(ScaStatusTO scaStatus) {
     this.scaStatus = scaStatus;
     return this;
   }
@@ -66,7 +66,7 @@ public class ScaStatusResponse   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ScaStatusResponse scaStatusResponse = (ScaStatusResponse) o;
+    ScaStatusResponseTO scaStatusResponse = (ScaStatusResponseTO) o;
     return Objects.equals(this.scaStatus, scaStatusResponse.scaStatus);
   }
 
@@ -78,7 +78,7 @@ public class ScaStatusResponse   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ScaStatusResponse {\n");
+    sb.append("class ScaStatusResponseTO {\n");
     
     sb.append("    scaStatus: ").append(toIndentedString(scaStatus)).append("\n");
     sb.append("}");

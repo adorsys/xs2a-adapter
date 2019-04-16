@@ -8,7 +8,7 @@ import de.adorsys.xs2a.gateway.mapper.SinglePaymentInformationMapper;
 import de.adorsys.xs2a.gateway.model.pis.PaymentInitiationSctWithStatusResponse;
 import de.adorsys.xs2a.gateway.model.pis.PaymentInitiationStatusResponse200Json;
 import de.adorsys.xs2a.gateway.model.shared.Authorisations;
-import de.adorsys.xs2a.gateway.model.shared.ScaStatusResponse;
+import de.adorsys.xs2a.gateway.model.shared.ScaStatusResponseTO;
 import de.adorsys.xs2a.gateway.service.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
@@ -74,7 +74,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
     }
 
     @Override
-    public ResponseEntity<ScaStatusResponse> getPaymentInitiationScaStatus(String paymentService, String paymentProduct, String paymentId, String authorisationId, String bankCode, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+    public ResponseEntity<ScaStatusResponseTO> getPaymentInitiationScaStatus(String paymentService, String paymentProduct, String paymentId, String authorisationId, String bankCode, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
         Headers headers = buildHeaders(bankCode, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         PaymentInitiationScaStatusResponse paymentInitiationScaStatusResponse = this.paymentService.getPaymentInitiationScaStatus(paymentService, paymentProduct, paymentId, authorisationId, headers);
