@@ -23,6 +23,7 @@ import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.RequestParams;
 import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
+import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.gateway.service.model.*;
@@ -230,5 +231,10 @@ public class AdorsysIntegAccountInformationService implements AccountInformation
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    @Override
+    public TransactionsReport getTransactionList(String accountId, Headers headers, RequestParams requestParams) {
+        throw new UnsupportedOperationException();
     }
 }
