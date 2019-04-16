@@ -17,8 +17,8 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.service.Headers;
-import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.RequestParams;
+import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.impl.mapper.DeutscheBankConsentInformationMapper;
@@ -53,7 +53,7 @@ public class DeutscheBankAccountInformationService extends AbstractDeutscheBankS
 
     @Override
     public ConsentInformation getConsentInformation(String consentId, Headers headers) {
-        String uri = CONSENTS_URI + "/" + consentId;
+        String uri = CONSENTS_URI + SLASH_SEPARATOR + consentId;
         Map<String, String> headersMap = headers.toMap();
         addDBSpecificGetHeaders(headersMap);
         DeutscheBankConsentInformation deutscheBankConsentInformation =
@@ -63,7 +63,7 @@ public class DeutscheBankAccountInformationService extends AbstractDeutscheBankS
 
     @Override
     public ConsentStatusResponse getConsentStatus(String consentId, Headers headers) {
-        String uri = CONSENTS_URI + "/" + consentId + "/status";
+        String uri = CONSENTS_URI + SLASH_SEPARATOR + consentId + "/status";
         Map<String, String> headersMap = headers.toMap();
         addDBSpecificGetHeaders(headersMap);
 
@@ -72,7 +72,7 @@ public class DeutscheBankAccountInformationService extends AbstractDeutscheBankS
 
     @Override
     public StartScaProcessResponse startConsentAuthorisation(String consentId, Headers headers) {
-        String uri = CONSENTS_URI + "/" + consentId + "/authorisations";
+        String uri = CONSENTS_URI + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS;
 
         return httpClient.post(uri, headers.toMap(), responseHandler(StartScaProcessResponse.class));
     }
@@ -82,7 +82,7 @@ public class DeutscheBankAccountInformationService extends AbstractDeutscheBankS
             String consentId,
             Headers headers,
             UpdatePsuAuthentication updatePsuAuthentication) {
-        String uri = CONSENTS_URI + "/" + consentId + "/authorisations";
+        String uri = CONSENTS_URI + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS;
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
         return httpClient.post(uri, body, headers.toMap(), responseHandler(StartScaProcessResponse.class));

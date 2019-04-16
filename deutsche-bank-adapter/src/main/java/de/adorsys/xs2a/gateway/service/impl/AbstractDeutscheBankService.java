@@ -31,6 +31,7 @@ abstract class AbstractDeutscheBankService {
     static final String PIS_URI = BASE_URI + "pis/DE/SB-DB/v1/";
     static final String AIS_URI = BASE_URI + "ais/DE/SB-DB/v1/";
     static final String SLASH_SEPARATOR = "/";
+    static final String SLASH_AUTHORISATIONS = "/authorisations";
     private static final String DATE_HEADER = "Date";
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
