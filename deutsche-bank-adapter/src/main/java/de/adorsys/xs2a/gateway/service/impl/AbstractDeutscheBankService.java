@@ -19,6 +19,9 @@ package de.adorsys.xs2a.gateway.service.impl;
 import de.adorsys.xs2a.gateway.service.ErrorResponse;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -28,6 +31,7 @@ abstract class AbstractDeutscheBankService {
     static final String PIS_URI = BASE_URI + "pis/DE/SB-DB/v1/";
     static final String AIS_URI = BASE_URI + "ais/DE/SB-DB/v1/";
     static final String SLASH_SEPARATOR = "/";
+    static final String SLASH_AUTHORISATIONS = "/authorisations";
     private static final String DATE_HEADER = "Date";
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
@@ -120,5 +124,25 @@ abstract class AbstractDeutscheBankService {
                     throw new UnexpectedResponseStatusCodeException();
             }
         };
+    }
+
+    <T> HttpClient.ResponseHandler<T> responseHandler(Class<T> klass) {
+        return (statusCode, responseBody) -> {
+            if (statusCode == 200 || statusCode == 201) {
+                return jsonMapper.readValue(responseBody, klass);
+            }
+            if (isEmpty(responseBody)) {
+                throw new ErrorResponseException(statusCode);
+            }
+            throw new ErrorResponseException(statusCode, jsonMapper.readValue(responseBody, ErrorResponse.class));
+        };
+    }
+
+    private boolean isEmpty(InputStream responseBody) {
+        try {
+            return responseBody.available() == 0;
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

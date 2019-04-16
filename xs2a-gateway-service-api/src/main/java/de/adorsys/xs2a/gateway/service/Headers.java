@@ -32,6 +32,34 @@ public class Headers {
     private static final String PSU_DEVICE_ID = "PSU-Device-ID";
     private static final String PSU_GEO_LOCATION = "PSU-Geo-Location";
 
+    private static Map<String, String> headerNamesLowerCased = new HashMap<>();
+    static {
+        headerNamesLowerCased.put(X_GTW_BANK_CODE.toLowerCase(), X_GTW_BANK_CODE);
+        headerNamesLowerCased.put(X_REQUEST_ID.toLowerCase(), X_REQUEST_ID);
+        headerNamesLowerCased.put(PSU_IP_ADDRESS.toLowerCase(), PSU_IP_ADDRESS);
+        headerNamesLowerCased.put(DIGEST.toLowerCase(), DIGEST);
+        headerNamesLowerCased.put(SIGNATURE.toLowerCase(), SIGNATURE);
+        headerNamesLowerCased.put(TPP_SIGNATURE_CERTIFICATE.toLowerCase(), TPP_SIGNATURE_CERTIFICATE);
+        headerNamesLowerCased.put(PSU_ID.toLowerCase(), PSU_ID);
+        headerNamesLowerCased.put(PSU_ID_TYPE.toLowerCase(), PSU_ID_TYPE);
+        headerNamesLowerCased.put(PSU_CORPORATE_ID.toLowerCase(), PSU_CORPORATE_ID);
+        headerNamesLowerCased.put(PSU_CORPORATE_ID_TYPE.toLowerCase(), PSU_CORPORATE_ID_TYPE);
+        headerNamesLowerCased.put(CONSENT_ID.toLowerCase(), CONSENT_ID);
+        headerNamesLowerCased.put(TPP_REDIRECT_PREFERRED.toLowerCase(), TPP_REDIRECT_PREFERRED);
+        headerNamesLowerCased.put(TPP_REDIRECT_URI.toLowerCase(), TPP_REDIRECT_URI);
+        headerNamesLowerCased.put(TPP_NOK_REDIRECT_URI.toLowerCase(), TPP_NOK_REDIRECT_URI);
+        headerNamesLowerCased.put(TPP_EXPLICIT_AUTHORISATION_PREFERRED.toLowerCase(), TPP_EXPLICIT_AUTHORISATION_PREFERRED);
+        headerNamesLowerCased.put(PSU_IP_PORT.toLowerCase(), PSU_IP_PORT);
+        headerNamesLowerCased.put(PSU_ACCEPT.toLowerCase(), PSU_ACCEPT);
+        headerNamesLowerCased.put(PSU_ACCEPT_CHARSET.toLowerCase(), PSU_ACCEPT_CHARSET);
+        headerNamesLowerCased.put(PSU_ACCEPT_ENCODING.toLowerCase(), PSU_ACCEPT_ENCODING);
+        headerNamesLowerCased.put(PSU_ACCEPT_LANGUAGE.toLowerCase(), PSU_ACCEPT_LANGUAGE);
+        headerNamesLowerCased.put(PSU_USER_AGENT.toLowerCase(), PSU_USER_AGENT);
+        headerNamesLowerCased.put(PSU_HTTP_METHOD.toLowerCase(), PSU_HTTP_METHOD);
+        headerNamesLowerCased.put(PSU_DEVICE_ID.toLowerCase(), PSU_DEVICE_ID);
+        headerNamesLowerCased.put(PSU_GEO_LOCATION.toLowerCase(), PSU_GEO_LOCATION);
+    }
+
     private Map<String, String> headers;
 
     private String bankCode;
@@ -62,8 +90,22 @@ public class Headers {
     private Headers() {
     }
 
+    private Headers(Map<String, String> headers) {
+        this.headers = headers;
+    }
+
     public static HeadersBuilder builder() {
         return new HeadersBuilder();
+    }
+
+    public static Headers fromMap(Map<String, String> headersMap) {
+        Map<String, String> headers = new HashMap<>();
+        headersMap.forEach((name, value) -> {
+            if (headerNamesLowerCased.keySet().contains(name.toLowerCase())) {
+                headers.put(headerNamesLowerCased.get(name), value);
+            }
+        });
+        return new Headers(headers);
     }
 
     public Map<String, String> toMap() {
