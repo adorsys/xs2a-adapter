@@ -23,9 +23,17 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!-- adapters -->
+
         <dependency>
             <groupId>de.adorsys.xs2a.gateway</groupId>
             <artifactId>deutsche-bank-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <artifactId>adorsys-integ-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 

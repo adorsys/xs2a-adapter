@@ -14,45 +14,106 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.gateway.service.impl;
+package de.adorsys.xs2a.gateway.adorsys.service.impl;
 
 import de.adorsys.xs2a.gateway.http.HttpClient;
 import de.adorsys.xs2a.gateway.http.JsonMapper;
 import de.adorsys.xs2a.gateway.service.ErrorResponse;
+import de.adorsys.xs2a.gateway.service.Headers;
+import de.adorsys.xs2a.gateway.service.RequestParams;
+import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
+import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
+import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
+import de.adorsys.xs2a.gateway.service.model.UpdatePsuAuthentication;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-abstract class AbstractDeutscheBankService {
-    private static final String BASE_URI = "https://simulator-xs2a.db.com/";
-    static final String PIS_URI = BASE_URI + "pis/DE/SB-DB/v1/";
-    static final String AIS_URI = BASE_URI + "ais/DE/SB-DB/v1/";
-    static final String SLASH_SEPARATOR = "/";
-    static final String SLASH_AUTHORISATIONS = "/authorisations";
-    private static final String DATE_HEADER = "Date";
+public class AdorsysIntegAccountInformationService implements AccountInformationService {
+    private static final String AIS_URI = "https://dev-xs2a.cloud.adorsys.de/v1/consents";
+    private static final String ACCOUNTS_URI = "https://dev-xs2a.cloud.adorsys.de/v1/accounts";
+    private static final String SLASH_SEPARATOR = "/";
+    private static final String SLASH_AUTHORISATIONS = "/authorisations";
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
     private static final String ACCEPT_HEADER = "Accept";
-    final JsonMapper jsonMapper = new JsonMapper();
-    HttpClient httpClient = HttpClient.newHttpClient();
+    private final JsonMapper jsonMapper = new JsonMapper();
+    private HttpClient httpClient = HttpClient.newHttpClient();
 
-    void setHttpClient(HttpClient httpClient) {
-        this.httpClient = httpClient;
-    }
+    @Override
+    public ConsentCreationResponse createConsent(Consents body, Headers headers) {
 
-    void addDBSpecificPostHeaders(Map<String, String> headersMap) {
-        headersMap.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
+        Map<String, String> headersMap = headers.toMap();
         headersMap.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
+
+        String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
+
+        return httpClient.post(AIS_URI, bodyString, headersMap,
+                               postResponseHandler(ConsentCreationResponse.class));
+
     }
 
-    void addDBSpecificGetHeaders(Map<String, String> headersMap) {
-        headersMap.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
+    @Override
+    public ConsentInformation getConsentInformation(String consentId, Headers headers) {
+        String uri = AIS_URI + SLASH_SEPARATOR + consentId;
+        Map<String, String> headersMap = headers.toMap();
         headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
+        return httpClient.get(uri, headersMap, getResponseHandlerAis(ConsentInformation.class));
+    }
+
+    @Override
+    public ConsentStatusResponse getConsentStatus(String consentId, Headers headers) {
+        String uri = AIS_URI + SLASH_SEPARATOR + consentId + "/status";
+        Map<String, String> headersMap = headers.toMap();
+        headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
+        return httpClient.get(uri, headersMap, getResponseHandlerAis(ConsentStatusResponse.class));
+    }
+
+    @Override
+    public StartScaProcessResponse startConsentAuthorisation(String consentId, Headers headers) {
+        String uri = AIS_URI + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS;
+
+        return httpClient.post(uri, headers.toMap(), responseHandler(StartScaProcessResponse.class));
+    }
+
+    @Override
+    public StartScaProcessResponse startConsentAuthorisation(String consentId, Headers headers, UpdatePsuAuthentication updatePsuAuthentication) {
+        String uri = AIS_URI + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS;
+        String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
+
+        return httpClient.post(uri, body, headers.toMap(), responseHandler(StartScaProcessResponse.class));
+    }
+
+    @Override
+    public AccountListHolder getAccountList(Headers headers, RequestParams requestParams) {
+        Map<String, String> headersMap = headers.toMap();
+        headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
+
+        String uri = buildUri(ACCOUNTS_URI, requestParams);
+
+        return httpClient.get(uri, headersMap, getResponseHandler(AccountListHolder.class));
+    }
+
+    private static String buildUri(String uri, RequestParams requestParams) {
+        if (requestParams == null) {
+            return uri;
+        }
+
+        Map<String, String> requestParamsMap = requestParams.toMap();
+
+        if (requestParamsMap.isEmpty()) {
+            return uri;
+        }
+
+        String requestParamsString = requestParamsMap.entrySet().stream()
+                                             .map(entry -> entry.getKey() + "=" + entry.getValue())
+                                             .collect(Collectors.joining("&", "?", ""));
+
+        return uri + requestParamsString;
     }
 
     <T> HttpClient.ResponseHandler<T> getResponseHandler(Class<T> klass) {

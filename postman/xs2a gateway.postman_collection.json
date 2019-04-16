@@ -241,7 +241,9 @@
 							"pm.test(\"Transaction status is received\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData.consentStatus).to.eql(\"received\");",
-							"});"
+							"});",
+							"",
+							"pm.globals.set(\"consent-id\", pm.response.json().consentId);"
 						],
 						"type": "text/javascript"
 					}
@@ -277,7 +279,8 @@
 					{
 						"key": "X-GTW-BANK-CODE",
 						"value": "{{bankCode}}",
-						"type": "text"
+						"type": "text",
+						"disabled": true
 					}
 				],
 				"body": {
