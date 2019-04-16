@@ -23,9 +23,7 @@ import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.impl.mapper.DeutscheBankConsentInformationMapper;
 import de.adorsys.xs2a.gateway.service.impl.model.DeutscheBankConsentInformation;
-import de.adorsys.xs2a.gateway.service.model.SelectPsuAuthenticationMethod;
-import de.adorsys.xs2a.gateway.service.model.SelectPsuAuthenticationMethodResponse;
-import de.adorsys.xs2a.gateway.service.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.gateway.service.model.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
@@ -101,6 +99,18 @@ public class DeutscheBankAccountInformationService extends AbstractDeutscheBankS
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
 
         return httpClient.put(uri, body, headers.toMap(), responseHandler(SelectPsuAuthenticationMethodResponse.class));
+    }
+
+    @Override
+    public ScaStatusResponse updateConsentsPsuData(
+            String consentId,
+            String authorisationId,
+            Headers headers,
+            TransactionAuthorisation transactionAuthorisation) {
+        String uri = CONSENTS_URI + "/" + consentId + "/authorisations/" + authorisationId;
+        String body = jsonMapper.writeValueAsString(transactionAuthorisation);
+
+        return httpClient.put(uri, body, headers.toMap(), responseHandler(ScaStatusResponse.class));
     }
 
     @Override

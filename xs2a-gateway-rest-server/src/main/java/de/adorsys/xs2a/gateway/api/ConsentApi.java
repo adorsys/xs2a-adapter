@@ -359,6 +359,6 @@ public interface ConsentApi {
             @PathVariable("authorisationId") String authorisationId,
             @ApiParam(hidden = true)
             @RequestHeader Map<String, String> headers,
-            @RequestBody Object body);
+            @RequestBody ObjectNode body);
 }
 
