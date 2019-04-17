@@ -71,8 +71,7 @@
 							{
 								"key": "X-GTW-BANK-CODE",
 								"value": "{{bankCode}}",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							}
 						],
 						"body": {
