@@ -22,7 +22,7 @@
 							"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
 							"});",
 							"",
-							"pm.globals.set(\"payment-id\", pm.response.json().paymentId);"
+							"pm.globals.set(\"paymentId\", pm.response.json().paymentId);"
 						],
 						"type": "text/javascript"
 					}
@@ -121,7 +121,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{payment-id}}/status",
+					"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/status",
 					"host": [
 						"{{baseUri}}"
 					],
@@ -129,7 +129,7 @@
 						"v1",
 						"payments",
 						"sepa-credit-transfers",
-						"{{payment-id}}",
+						"{{paymentId}}",
 						"status"
 					]
 				}
@@ -195,7 +195,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{payment-id}}",
+					"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}",
 					"host": [
 						"{{baseUri}}"
 					],
@@ -203,7 +203,7 @@
 						"v1",
 						"payments",
 						"sepa-credit-transfers",
-						"{{payment-id}}"
+						"{{paymentId}}"
 					],
 					"query": [
 						{
@@ -243,7 +243,7 @@
 							"    pm.expect(jsonData.consentStatus).to.eql(\"received\");",
 							"});",
 							"",
-							"pm.globals.set(\"consent-id\", pm.response.json().consentId);"
+							"pm.globals.set(\"consentId\", pm.response.json().consentId);"
 						],
 						"type": "text/javascript"
 					}
@@ -394,14 +394,14 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{baseUri}}/v1/consents/{{consent-id}}",
+					"raw": "{{baseUri}}/v1/consents/{{consentId}}",
 					"host": [
 						"{{baseUri}}"
 					],
 					"path": [
 						"v1",
 						"consents",
-						"{{consent-id}}"
+						"{{consentId}}"
 					]
 				},
 				"description": "Standard GET Consent test\n\nDeliver a GET Consent Request where the consent-Id equals the consent Id from the Account Information Consent Response of test case AIS/Consents/Create/002."
@@ -503,14 +503,14 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{baseUri}}/v1/consents/{{consent-id}}/status",
+					"raw": "{{baseUri}}/v1/consents/{{consentId}}/status",
 					"host": [
 						"{{baseUri}}"
 					],
 					"path": [
 						"v1",
 						"consents",
-						"{{consent-id}}",
+						"{{consentId}}",
 						"status"
 					]
 				},
@@ -535,7 +535,7 @@
 					},
 					{
 						"key": "Consent-ID",
-						"value": "{{consent-id}}",
+						"value": "{{consentId}}",
 						"description": "Use specific data per TPP-Registration-Number"
 					},
 					{
