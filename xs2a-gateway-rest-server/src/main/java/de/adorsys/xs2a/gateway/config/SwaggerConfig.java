@@ -23,7 +23,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                        .apiInfo(apiInfo())
                        .select()
-                       .apis(RequestHandlerSelectors.basePackage("de.adorsys.xs2a.gateway.resource"))
+                       .apis(RequestHandlerSelectors.basePackage("de.adorsys.xs2a.gateway.controller"))
                        .paths(PathSelectors.any())
                        .build();
     }
