@@ -40,6 +40,7 @@ public class AdorsysIntegAccountInformationService implements AccountInformation
     private static final String SLASH_SEPARATOR = "/";
     private static final String SLASH_AUTHORISATIONS = "/authorisations";
     private static final String SLASH_AUTHORISATIONS_SLASH = "/authorisations/";
+    private static final String SLASH_TRANSACTIONS = "/transactions";
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
     private static final String ACCEPT_HEADER = "Accept";
@@ -235,6 +236,12 @@ public class AdorsysIntegAccountInformationService implements AccountInformation
 
     @Override
     public TransactionsReport getTransactionList(String accountId, Headers headers, RequestParams requestParams) {
-        throw new UnsupportedOperationException();
+        Map<String, String> headersMap = headers.toMap();
+        headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
+
+        String uri = ACCOUNTS_URI + SLASH_SEPARATOR + accountId + SLASH_TRANSACTIONS;
+        uri = buildUri(uri, requestParams);
+
+        return httpClient.get(uri, headersMap, getResponseHandlerAis(TransactionsReport.class));
     }
 }
