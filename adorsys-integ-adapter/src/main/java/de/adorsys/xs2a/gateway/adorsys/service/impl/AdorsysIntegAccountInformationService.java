@@ -38,6 +38,7 @@ public class AdorsysIntegAccountInformationService implements AccountInformation
     private static final String ACCOUNTS_URI = "https://dev-xs2a.cloud.adorsys.de/v1/accounts";
     private static final String SLASH_SEPARATOR = "/";
     private static final String SLASH_AUTHORISATIONS = "/authorisations";
+    private static final String SLASH_AUTHORISATIONS_SLASH = "/authorisations/";
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
     private static final String ACCEPT_HEADER = "Accept";
@@ -89,13 +90,25 @@ public class AdorsysIntegAccountInformationService implements AccountInformation
     }
 
     @Override
-    public SelectPsuAuthenticationMethodResponse updateConsentsPsuData(String consentId, String authorisationId, Headers headers, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
-        throw new UnsupportedOperationException();
+    public SelectPsuAuthenticationMethodResponse updateConsentsPsuData(
+            String consentId,
+            String authorisationId,
+            Headers headers,
+            SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+
+        String uri = AIS_URI + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS_SLASH + authorisationId;
+        String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
+
+        return httpClient.put(uri, body, headers.toMap(), responseHandler(SelectPsuAuthenticationMethodResponse.class));
     }
 
     @Override
-    public ScaStatusResponse updateConsentsPsuData(String consentId, String authorisationId, Headers headers, TransactionAuthorisation transactionAuthorisation) {
-        throw new UnsupportedOperationException();
+    public ScaStatusResponse updateConsentsPsuData(String consentId, String authorisationId, Headers headers,
+                                                   TransactionAuthorisation transactionAuthorisation) {
+        String uri = AIS_URI + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS_SLASH + authorisationId;
+        String body = jsonMapper.writeValueAsString(transactionAuthorisation);
+
+        return httpClient.put(uri, body, headers.toMap(), responseHandler(ScaStatusResponse.class));
     }
 
     @Override

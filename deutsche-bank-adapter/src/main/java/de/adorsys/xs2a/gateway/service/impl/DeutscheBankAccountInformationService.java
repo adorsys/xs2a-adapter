@@ -95,7 +95,7 @@ public class DeutscheBankAccountInformationService extends AbstractDeutscheBankS
             Headers headers,
             SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
 
-        String uri = CONSENTS_URI + "/" + consentId + SLASH_AUTHORISATIONS_SLASH + authorisationId;
+        String uri = CONSENTS_URI + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS_SLASH + authorisationId;
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
 
         return httpClient.put(uri, body, headers.toMap(), responseHandler(SelectPsuAuthenticationMethodResponse.class));
