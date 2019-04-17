@@ -22,7 +22,7 @@ import de.adorsys.xs2a.gateway.service.ErrorResponse;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.PushbackInputStream;
 import java.io.UncheckedIOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -134,16 +134,25 @@ abstract class AbstractDeutscheBankService {
             if (statusCode == 200 || statusCode == 201) {
                 return jsonMapper.readValue(responseBody, klass);
             }
-            if (isEmpty(responseBody)) {
-                throw new ErrorResponseException(statusCode);
-            }
-            throw new ErrorResponseException(statusCode, jsonMapper.readValue(responseBody, ErrorResponse.class));
+            throw responseException(statusCode, new PushbackInputStream(responseBody));
         };
     }
 
-    private boolean isEmpty(InputStream responseBody) {
+    private ErrorResponseException responseException(int statusCode, PushbackInputStream responseBody) {
+        if (isEmpty(responseBody)) {
+            return new ErrorResponseException(statusCode);
+        }
+        return new ErrorResponseException(statusCode, jsonMapper.readValue(responseBody, ErrorResponse.class));
+    }
+
+    private boolean isEmpty(PushbackInputStream responseBody) {
         try {
-            return responseBody.available() == 0;
+            int nextByte = responseBody.read();
+            if (nextByte == -1) {
+                return true;
+            }
+            responseBody.unread(nextByte);
+            return false;
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
