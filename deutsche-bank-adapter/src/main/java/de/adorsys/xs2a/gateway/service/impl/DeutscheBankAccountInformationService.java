@@ -47,8 +47,7 @@ public class DeutscheBankAccountInformationService extends AbstractDeutscheBankS
 
         String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
 
-        return httpClient.post(CONSENTS_URI, bodyString, headersMap,
-                               postResponseHandler(ConsentCreationResponse.class));
+        return httpClient.post(CONSENTS_URI, bodyString, headersMap, responseHandler(ConsentCreationResponse.class));
     }
 
     @Override
@@ -57,7 +56,7 @@ public class DeutscheBankAccountInformationService extends AbstractDeutscheBankS
         Map<String, String> headersMap = headers.toMap();
         addDBSpecificGetHeaders(headersMap);
         DeutscheBankConsentInformation deutscheBankConsentInformation =
-                httpClient.get(uri, headersMap, getResponseHandlerAis(DeutscheBankConsentInformation.class));
+                httpClient.get(uri, headersMap, responseHandler(DeutscheBankConsentInformation.class));
         return deutscheBankConsentInformationMapper.toConsentInformation(deutscheBankConsentInformation);
     }
 
@@ -67,7 +66,7 @@ public class DeutscheBankAccountInformationService extends AbstractDeutscheBankS
         Map<String, String> headersMap = headers.toMap();
         addDBSpecificGetHeaders(headersMap);
 
-        return httpClient.get(uri, headersMap, getResponseHandlerAis(ConsentStatusResponse.class));
+        return httpClient.get(uri, headersMap, responseHandler(ConsentStatusResponse.class));
     }
 
     @Override
@@ -121,7 +120,7 @@ public class DeutscheBankAccountInformationService extends AbstractDeutscheBankS
 
         String uri = buildUri(ACCOUNTS_URI, requestParams);
 
-        return httpClient.get(uri, headersMap, getResponseHandler(AccountListHolder.class));
+        return httpClient.get(uri, headersMap, responseHandler(AccountListHolder.class));
     }
 
     private void adaptConsentIdHeaderForDB(Map<String, String> headersMap) {

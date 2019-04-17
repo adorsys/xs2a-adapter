@@ -25,7 +25,7 @@ public class DeutscheBankPaymentInitiationService extends AbstractDeutscheBankSe
                 PAYMENTS_SEPA_CREDIT_TRANSFERS_URI,
                 bodyString,
                 headersMap,
-                postResponseHandler(DeutscheBankPaymentInitiationResponse.class)
+                responseHandler(DeutscheBankPaymentInitiationResponse.class)
         );
         return paymentMapper.toPaymentInitiationRequestResponse(response);
     }
@@ -45,8 +45,7 @@ public class DeutscheBankPaymentInitiationService extends AbstractDeutscheBankSe
 
         Map<String, String> headersMap = headers.toMap();
         addDBSpecificGetHeaders(headersMap);
-        return httpClient.get(uri, headersMap,
-                              getResponseHandler(SinglePaymentInitiationInformationWithStatusResponse.class));
+        return httpClient.get(uri, headersMap, responseHandler(SinglePaymentInitiationInformationWithStatusResponse.class));
     }
 
     @Override
@@ -63,7 +62,7 @@ public class DeutscheBankPaymentInitiationService extends AbstractDeutscheBankSe
         Map<String, String> headersMap = headers.toMap();
         addDBSpecificGetHeaders(headersMap);
 
-        return httpClient.get(uri, headersMap, getResponseHandler(PaymentInitiationStatus.class));
+        return httpClient.get(uri, headersMap, responseHandler(PaymentInitiationStatus.class));
     }
 
     @Override
