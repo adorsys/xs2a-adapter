@@ -101,8 +101,9 @@ public class Headers {
     public static Headers fromMap(Map<String, String> headersMap) {
         Map<String, String> headers = new HashMap<>();
         headersMap.forEach((name, value) -> {
-            if (headerNamesLowerCased.keySet().contains(name.toLowerCase())) {
-                headers.put(headerNamesLowerCased.get(name), value);
+            String headerNameInLowerCase = name.toLowerCase();
+            if (headerNamesLowerCased.keySet().contains(headerNameInLowerCase)) {
+                headers.put(headerNamesLowerCased.get(headerNameInLowerCase), value);
             }
         });
         return new Headers(headers);
