@@ -16,9 +16,11 @@
 
 package de.adorsys.xs2a.gateway.service;
 
+import java.util.List;
+
 public class ChallengeData {
     private byte[] image;
-    private String data;
+    private List<String> data;
     private String imageLink;
     private Integer otpMaxLength;
     private OtpFormat otpFormat;
@@ -32,11 +34,11 @@ public class ChallengeData {
         this.image = image;
     }
 
-    public String getData() {
+    public List<String> getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(List<String> data) {
         this.data = data;
     }
 

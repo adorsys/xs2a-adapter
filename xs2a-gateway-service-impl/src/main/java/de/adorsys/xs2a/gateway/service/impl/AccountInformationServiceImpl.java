@@ -21,7 +21,7 @@ import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.RequestParams;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.ais.*;
-import de.adorsys.xs2a.gateway.service.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.gateway.service.model.*;
 import de.adorsys.xs2a.gateway.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.gateway.service.provider.BankNotSupportedException;
 
@@ -56,6 +56,24 @@ public class AccountInformationServiceImpl implements AccountInformationService 
             Headers headers,
             UpdatePsuAuthentication updatePsuAuthentication) {
         return getConsentService(headers).startConsentAuthorisation(consentId, headers, updatePsuAuthentication);
+    }
+
+    @Override
+    public SelectPsuAuthenticationMethodResponse updateConsentsPsuData(
+            String consentId,
+            String authorisationId,
+            Headers headers,
+            SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+        return getConsentService(headers).updateConsentsPsuData(consentId, authorisationId, headers, selectPsuAuthenticationMethod);
+    }
+
+    @Override
+    public ScaStatusResponse updateConsentsPsuData(
+            String consentId,
+            String authorisationId,
+            Headers headers,
+            TransactionAuthorisation transactionAuthorisation) {
+        return getConsentService(headers).updateConsentsPsuData(consentId, authorisationId, headers, transactionAuthorisation);
     }
 
     AccountInformationService getConsentService(Headers headers) {

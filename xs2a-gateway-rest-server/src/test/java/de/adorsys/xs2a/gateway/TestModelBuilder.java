@@ -24,6 +24,7 @@ import de.adorsys.xs2a.gateway.service.ais.ConsentStatus;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TestModelBuilder {
@@ -39,7 +40,8 @@ public class TestModelBuilder {
     public static final String VERSION = "v1.2";
     public static final String METHOD_ID = "authMethodId3";
     public static final String ADDITIONAL_INFO = "additionalInfo";
-    public static final String DATA = "data";
+    public static final List<String> DATA = Collections.singletonList("data");
+    public static final String IMAGE = "image";
     public static final String LINK = "http://link-to-image";
     public static final int LENGTH = 123;
 
@@ -74,7 +76,7 @@ public class TestModelBuilder {
         data.setImageLink(LINK);
         data.setOtpFormat(OtpFormat.CHARACTERS);
         data.setOtpMaxLength(LENGTH);
-        data.setImage(DATA.getBytes());
+        data.setImage(IMAGE.getBytes());
         return data;
     }
 

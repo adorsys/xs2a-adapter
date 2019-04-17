@@ -17,10 +17,10 @@
 package de.adorsys.xs2a.gateway.service.ais;
 
 import de.adorsys.xs2a.gateway.service.Headers;
-import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
-import de.adorsys.xs2a.gateway.service.model.UpdatePsuAuthentication;
 import de.adorsys.xs2a.gateway.service.RequestParams;
+import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
+import de.adorsys.xs2a.gateway.service.model.*;
 
 public interface AccountInformationService {
     ConsentCreationResponse createConsent(Consents body, Headers headers);
@@ -32,6 +32,18 @@ public interface AccountInformationService {
     StartScaProcessResponse startConsentAuthorisation(String consentId, Headers headers);
 
     StartScaProcessResponse startConsentAuthorisation(String consentId, Headers headers, UpdatePsuAuthentication updatePsuAuthentication);
+
+    SelectPsuAuthenticationMethodResponse updateConsentsPsuData(
+            String consentId,
+            String authorisationId,
+            Headers headers,
+            SelectPsuAuthenticationMethod selectPsuAuthenticationMethod);
+
+    ScaStatusResponse updateConsentsPsuData(
+            String consentId,
+            String authorisationId,
+            Headers headers,
+            TransactionAuthorisation transactionAuthorisation);
 
     AccountListHolder getAccountList(Headers headers, RequestParams requestParams);
 }

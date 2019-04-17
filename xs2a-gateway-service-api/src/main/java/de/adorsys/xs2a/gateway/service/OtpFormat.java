@@ -16,9 +16,10 @@
 
 package de.adorsys.xs2a.gateway.service;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public enum OtpFormat {
     CHARACTERS("characters"),
@@ -42,7 +43,8 @@ public enum OtpFormat {
         return value;
     }
 
-    public static Optional<OtpFormat> getByValue(String name) {
-        return Optional.ofNullable(container.get(name));
+    @JsonCreator
+    public static OtpFormat fromValue(String value) {
+        return container.get(value);
     }
 }

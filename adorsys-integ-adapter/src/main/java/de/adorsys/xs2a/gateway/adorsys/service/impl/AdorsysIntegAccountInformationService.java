@@ -25,7 +25,7 @@ import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
-import de.adorsys.xs2a.gateway.service.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.gateway.service.model.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -86,6 +86,16 @@ public class AdorsysIntegAccountInformationService implements AccountInformation
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
         return httpClient.post(uri, body, headers.toMap(), responseHandler(StartScaProcessResponse.class));
+    }
+
+    @Override
+    public SelectPsuAuthenticationMethodResponse updateConsentsPsuData(String consentId, String authorisationId, Headers headers, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ScaStatusResponse updateConsentsPsuData(String consentId, String authorisationId, Headers headers, TransactionAuthorisation transactionAuthorisation) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
