@@ -11,7 +11,7 @@
 
     <modules>
         <module>xs2a-gateway-service-api</module>
-        <module>xs2a-gateway-http-client</module>
+        <module>xs2a-gateway-api-adapter</module>
         <module>xs2a-gateway-service-loader</module>
         <module>xs2a-gateway-rest-server</module>
         <module>xs2a-gateway-app</module>

@@ -16,35 +16,17 @@
 
 package de.adorsys.xs2a.gateway.service.impl;
 
-import de.adorsys.xs2a.gateway.http.HttpClient;
-import de.adorsys.xs2a.gateway.http.JsonMapper;
-import de.adorsys.xs2a.gateway.service.ErrorResponse;
-import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
+import de.adorsys.xs2a.gateway.adapter.AbstractService;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UncheckedIOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
-abstract class AbstractDeutscheBankService {
+abstract class AbstractDeutscheBankService extends AbstractService {
     private static final String BASE_URI = "https://simulator-xs2a.db.com/";
     static final String PIS_URI = BASE_URI + "pis/DE/SB-DB/v1/";
     static final String AIS_URI = BASE_URI + "ais/DE/SB-DB/v1/";
-    static final String SLASH_SEPARATOR = "/";
-    static final String SLASH_AUTHORISATIONS = "/authorisations";
-    static final String SLASH_AUTHORISATIONS_SLASH = "/authorisations/";
     private static final String DATE_HEADER = "Date";
-    private static final String CONTENT_TYPE_HEADER = "Content-Type";
-    private static final String APPLICATION_JSON = "application/json";
-    private static final String ACCEPT_HEADER = "Accept";
-    final JsonMapper jsonMapper = new JsonMapper();
-    HttpClient httpClient = HttpClient.newHttpClient();
-
-    void setHttpClient(HttpClient httpClient) {
-        this.httpClient = httpClient;
-    }
 
     void addDBSpecificPostHeaders(Map<String, String> headersMap) {
         headersMap.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
@@ -54,98 +36,5 @@ abstract class AbstractDeutscheBankService {
     void addDBSpecificGetHeaders(Map<String, String> headersMap) {
         headersMap.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
         headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
-    }
-
-    <T> HttpClient.ResponseHandler<T> getResponseHandler(Class<T> klass) {
-        return (statusCode, responseBody) -> {
-            switch (statusCode) {
-                case 200:
-                    return jsonMapper.readValue(responseBody, klass);
-                case 400:
-                case 401:
-                case 403:
-                case 404:
-                case 405:
-                    throw new ErrorResponseException(statusCode, jsonMapper.readValue(responseBody, ErrorResponse.class));
-                case 406:
-                case 408:
-                case 415:
-                case 429:
-                case 500:
-                case 503:
-                    throw new ErrorResponseException(statusCode);
-                default:
-                    throw new UnexpectedResponseStatusCodeException();
-            }
-        };
-    }
-
-    <T> HttpClient.ResponseHandler<T> postResponseHandler(Class<T> klass) {
-        return (statusCode, responseBody) -> {
-            switch (statusCode) {
-                case 201:
-                    return jsonMapper.readValue(responseBody, klass);
-                case 400:
-                case 401:
-                case 403:
-                case 404:
-                case 405:
-                    throw new ErrorResponseException(statusCode, jsonMapper.readValue(responseBody, ErrorResponse.class));
-                case 406:
-                case 408:
-                case 415:
-                case 429:
-                case 500:
-                case 503:
-                    throw new ErrorResponseException(statusCode);
-                default:
-                    throw new UnexpectedResponseStatusCodeException();
-            }
-        };
-    }
-
-    <T> HttpClient.ResponseHandler<T> getResponseHandlerAis(Class<T> klass) {
-        return (statusCode, responseBody) -> {
-            switch (statusCode) {
-                case 200:
-                    return jsonMapper.readValue(responseBody, klass);
-                case 400:
-                case 401:
-                case 403:
-                case 404:
-                case 405:
-                case 406:
-                case 409:
-                case 429:
-                    throw new ErrorResponseException(statusCode, jsonMapper.readValue(responseBody, ErrorResponse.class));
-                case 408:
-                case 415:
-                case 500:
-                case 503:
-                    throw new ErrorResponseException(statusCode);
-                default:
-                    throw new UnexpectedResponseStatusCodeException();
-            }
-        };
-    }
-
-    <T> HttpClient.ResponseHandler<T> responseHandler(Class<T> klass) {
-        return (statusCode, responseBody) -> {
-            if (statusCode == 200 || statusCode == 201) {
-                return jsonMapper.readValue(responseBody, klass);
-            }
-            if (isEmpty(responseBody)) {
-                throw new ErrorResponseException(statusCode);
-            }
-            throw new ErrorResponseException(statusCode, jsonMapper.readValue(responseBody, ErrorResponse.class));
-        };
-    }
-
-    private boolean isEmpty(InputStream responseBody) {
-        try {
-            return responseBody.available() == 0;
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
     }
 }

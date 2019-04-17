@@ -16,6 +16,7 @@
 
 package de.adorsys.xs2a.gateway.service.impl;
 
+import de.adorsys.xs2a.gateway.adapter.AccountInformationServiceWrapper;
 import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.RequestParams;
 import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
@@ -32,7 +33,7 @@ import java.util.stream.Collectors;
 import static de.adorsys.xs2a.gateway.service.Headers.CONSENT_ID;
 import static de.adorsys.xs2a.gateway.service.Headers.RESOURCE_ID;
 
-public class DeutscheBankAccountInformationService extends AbstractDeutscheBankService implements AccountInformationService {
+public class DeutscheBankAccountInformationService extends AbstractDeutscheBankService implements AccountInformationServiceWrapper {
     private static final String CONSENTS_URI = AIS_URI + "consents";
     private static final String ACCOUNTS_URI = AIS_URI + "accounts";
 

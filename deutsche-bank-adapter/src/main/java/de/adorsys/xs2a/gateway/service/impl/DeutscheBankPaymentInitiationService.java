@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
+import de.adorsys.xs2a.gateway.adapter.PaymentInitiationServiceWrapper;
 import de.adorsys.xs2a.gateway.service.*;
 import de.adorsys.xs2a.gateway.service.impl.mapper.PaymentMapper;
 import de.adorsys.xs2a.gateway.service.impl.model.DeutscheBankPaymentInitiationResponse;
@@ -7,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
 
-public class DeutscheBankPaymentInitiationService extends AbstractDeutscheBankService implements PaymentInitiationService {
+public class DeutscheBankPaymentInitiationService extends AbstractDeutscheBankService implements PaymentInitiationServiceWrapper {
 
     private static final String PAYMENTS_SEPA_CREDIT_TRANSFERS_URI = PIS_URI + "payments/sepa-credit-transfers";
 
