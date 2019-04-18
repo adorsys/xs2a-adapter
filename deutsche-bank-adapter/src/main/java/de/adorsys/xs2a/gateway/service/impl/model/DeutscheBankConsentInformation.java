@@ -2,7 +2,6 @@ package de.adorsys.xs2a.gateway.service.impl.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.adorsys.xs2a.gateway.service.Links;
 import de.adorsys.xs2a.gateway.service.ais.AccountAccess;
 import de.adorsys.xs2a.gateway.service.ais.ConsentStatus;
 import de.adorsys.xs2a.gateway.service.model.Link;
