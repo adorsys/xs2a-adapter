@@ -26,6 +26,7 @@ import de.adorsys.xs2a.gateway.model.shared.StartScaprocessResponseTO;
 import de.adorsys.xs2a.gateway.model.shared.UpdatePsuAuthenticationTO;
 import de.adorsys.xs2a.gateway.service.*;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
+import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.gateway.service.model.*;
@@ -34,10 +35,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -61,6 +61,8 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
     private final AccountListHolderMapper accountListHolderMapper = Mappers.getMapper(AccountListHolderMapper.class);
 
+    private final TransactionsReportMapper transactionsReportMapper = Mappers.getMapper(TransactionsReportMapper.class);
+
     public ConsentController(AccountInformationService consentService, ObjectMapper objectMapper) {
         this.consentService = consentService;
         this.objectMapper = objectMapper;
@@ -68,7 +70,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
     @Override
     public ResponseEntity<ConsentsResponse201> createConsent(String bankCode, UUID xRequestId, ConsentsTO body, String digest, String signature, byte[] tppSignatureCertificate, String psuId, String psuIdType, String psuCorporateId, String psuCorporateIdType, boolean tppRedirectPreferred, String tppRedirectUri, String tppNokRedirectUri, boolean tppExplicitAuthorisationPreferred, String psuIpAddress, String psuIpPort, String psuAccept, String psuAcceptCharset, String psuAcceptEncoding, String psuAcceptLanguage, String psuUserAgent, String psuHttpMethod, UUID psuDeviceId, String psuGeoLocation) {
-        Headers headers = buildHeaders(bankCode, xRequestId, digest, signature, tppSignatureCertificate, psuId, psuIdType, psuCorporateId, psuCorporateIdType, tppRedirectPreferred, tppRedirectUri, tppNokRedirectUri, tppExplicitAuthorisationPreferred, psuIpAddress, psuIpPort, psuAccept, psuAcceptCharset, psuAcceptEncoding, psuAcceptLanguage, psuUserAgent, psuHttpMethod, psuDeviceId, psuGeoLocation);
+        Headers headers = buildCreateConsentHeaders(bankCode, xRequestId, digest, signature, tppSignatureCertificate, psuId, psuIdType, psuCorporateId, psuCorporateIdType, tppRedirectPreferred, tppRedirectUri, tppNokRedirectUri, tppExplicitAuthorisationPreferred, psuIpAddress, psuIpPort, psuAccept, psuAcceptCharset, psuAcceptEncoding, psuAcceptLanguage, psuUserAgent, psuHttpMethod, psuDeviceId, psuGeoLocation);
         Consents consents = consentMapper.toConsents(body);
         ConsentCreationResponse consent = consentService.createConsent(consents, headers);
         return ResponseEntity.status(HttpStatus.CREATED).body(creationResponseMapper.toConsentResponse201(consent));
@@ -100,7 +102,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
         return ResponseEntity.ok(consentStatusResponseMapper.toConsentStatusResponse200(consentStatusResponse));
     }
 
-    private Headers buildHeaders(String bankCode, UUID xRequestId, String digest, String signature, byte[] tppSignatureCertificate, String psuId, String psuIdType, String psuCorporateId, String psuCorporateIdType, boolean tppRedirectPreferred, String tppRedirectUri, String tppNokRedirectUri, boolean tppExplicitAuthorisationPreferred, String psuIpAddress, String psuIpPort, String psuAccept, String psuAcceptCharset, String psuAcceptEncoding, String psuAcceptLanguage, String psuUserAgent, String psuHttpMethod, UUID psuDeviceId, String psuGeoLocation) {
+    private Headers buildCreateConsentHeaders(String bankCode, UUID xRequestId, String digest, String signature, byte[] tppSignatureCertificate, String psuId, String psuIdType, String psuCorporateId, String psuCorporateIdType, boolean tppRedirectPreferred, String tppRedirectUri, String tppNokRedirectUri, boolean tppExplicitAuthorisationPreferred, String psuIpAddress, String psuIpPort, String psuAccept, String psuAcceptCharset, String psuAcceptEncoding, String psuAcceptLanguage, String psuUserAgent, String psuHttpMethod, UUID psuDeviceId, String psuGeoLocation) {
         return Headers.builder()
                        .bankCode(bankCode)
                        .xRequestId(xRequestId)
@@ -157,7 +159,12 @@ public class ConsentController extends AbstractController implements ConsentApi,
 //              - $ref: "#/components/schemas/updatePsuAuthenticationResponse" #Update PSU Authentication
 //              - $ref: "#/components/schemas/selectPsuAuthenticationMethodResponse" #Select Authentication Method
 //              - $ref: "#/components/schemas/scaStatusResponse" #Transaction Authorisation
-
+        if (body.has("psuData")) {
+            UpdatePsuAuthentication updatePsuAuthentication =
+                    objectMapper.convertValue(body, UpdatePsuAuthentication.class);
+            UpdatePsuAuthenticationResponse response = consentService.updateConsentsPsuData(consentId, authorisationId, Headers.fromMap(headers), updatePsuAuthentication);
+            return ResponseEntity.ok(response);
+        }
         if (body.has("authenticationMethodId")) {
             SelectPsuAuthenticationMethod selectPsuAuthenticationMethod =
                     objectMapper.convertValue(body, SelectPsuAuthenticationMethod.class);
@@ -182,24 +189,9 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
     @Override
     public ResponseEntity<AccountListTO> getAccountList(String bankCode, UUID xRequestID, String consentID, Boolean withBalance, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        Headers headers = Headers.builder()
-                                  .bankCode(bankCode)
-                                  .xRequestId(xRequestID)
-                                  .consentId(consentID)
-                                  .digest(digest)
-                                  .signature(signature)
-                                  .tppSignatureCertificate(tpPSignatureCertificate)
-                                  .psuIpAddress(psUIPAddress)
-                                  .psuIpPort(psUIPPort)
-                                  .psuAccept(psUAccept)
-                                  .psuAcceptCharset(psUAcceptCharset)
-                                  .psuAcceptEncoding(psUAcceptEncoding)
-                                  .psuAcceptLanguage(psUAcceptLanguage)
-                                  .psuUserAgent(psUUserAgent)
-                                  .psuHttpMethod(psUHttpMethod)
-                                  .psuDeviceId(psUDeviceID)
-                                  .psuGeoLocation(psUGeoLocation)
-                                  .build();
+        Headers headers = buildAccountGetHeaders(bankCode, xRequestID, consentID, digest, signature, tpPSignatureCertificate,
+                psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent,
+                psUHttpMethod, psUDeviceID, psUGeoLocation);
 
         RequestParams requestParams = RequestParams.builder()
                                               .withBalance(withBalance)
@@ -211,21 +203,45 @@ public class ConsentController extends AbstractController implements ConsentApi,
                        .body(accountListHolderMapper.toAccountListTO(accountListHolder));
     }
 
-    // fixes compile error (inheritance diamond problem due to the same method names in ConsentApi and AccountApi interfaces)
     @Override
-    public Optional<String> getAcceptHeader() {
-        return getRequest().map(r -> r.getHeader("Accept"));
+    public ResponseEntity<TransactionsResponse200Json> getTransactionList(String bankCode, String accountId, String bookingStatus, UUID xRequestID, String consentID, LocalDate dateFrom, LocalDate dateTo, String entryReferenceFrom, Boolean deltaList, Boolean withBalance, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+        Headers headers = buildAccountGetHeaders(bankCode, xRequestID, consentID, digest, signature, tpPSignatureCertificate,
+                psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent,
+                psUHttpMethod, psUDeviceID, psUGeoLocation);
+
+        RequestParams requestParams = RequestParams.builder()
+                                              .bookingStatus(bookingStatus)
+                                              .dateFrom(dateFrom)
+                                              .dateTo(dateTo)
+                                              .entryReferenceFrom(entryReferenceFrom)
+                                              .deltaList(deltaList)
+                                              .withBalance(withBalance)
+                                              .build();
+
+        TransactionsReport transactionsReport = consentService.getTransactionList(accountId, headers, requestParams);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(transactionsReportMapper.toTransactionsResponse200Json(transactionsReport));
     }
 
-    // fixes compile error (inheritance diamond problem due to the same method names in ConsentApi and AccountApi interfaces)
-    @Override
-    public Optional<ObjectMapper> getObjectMapper() {
-        return Optional.empty();
-    }
-
-    // fixes compile error (inheritance diamond problem due to the same method names in ConsentApi and AccountApi interfaces)
-    @Override
-    public Optional<HttpServletRequest> getRequest() {
-        return Optional.empty();
+    private Headers buildAccountGetHeaders(String bankCode, UUID xRequestID, String consentID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+        return Headers.builder()
+                       .bankCode(bankCode)
+                       .xRequestId(xRequestID)
+                       .consentId(consentID)
+                       .digest(digest)
+                       .signature(signature)
+                       .tppSignatureCertificate(tpPSignatureCertificate)
+                       .psuIpAddress(psUIPAddress)
+                       .psuIpPort(psUIPPort)
+                       .psuAccept(psUAccept)
+                       .psuAcceptCharset(psUAcceptCharset)
+                       .psuAcceptEncoding(psUAcceptEncoding)
+                       .psuAcceptLanguage(psUAcceptLanguage)
+                       .psuUserAgent(psUUserAgent)
+                       .psuHttpMethod(psUHttpMethod)
+                       .psuDeviceId(psUDeviceID)
+                       .psuGeoLocation(psUGeoLocation)
+                       .build();
     }
 }

@@ -23,6 +23,7 @@ import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.RequestParams;
 import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
+import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.gateway.service.model.*;
@@ -39,6 +40,7 @@ public class AdorsysIntegAccountInformationService implements AccountInformation
     private static final String SLASH_SEPARATOR = "/";
     private static final String SLASH_AUTHORISATIONS = "/authorisations";
     private static final String SLASH_AUTHORISATIONS_SLASH = "/authorisations/";
+    private static final String SLASH_TRANSACTIONS = "/transactions";
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
     private static final String ACCEPT_HEADER = "Accept";
@@ -109,6 +111,15 @@ public class AdorsysIntegAccountInformationService implements AccountInformation
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 
         return httpClient.put(uri, body, headers.toMap(), responseHandler(ScaStatusResponse.class));
+    }
+
+    @Override
+    public UpdatePsuAuthenticationResponse updateConsentsPsuData(String consentId, String authorisationId, Headers headers,
+                                                                 UpdatePsuAuthentication updatePsuAuthentication) {
+        String uri = AIS_URI + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS_SLASH + authorisationId;
+        String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
+
+        return httpClient.put(uri, body, headers.toMap(), responseHandler(UpdatePsuAuthenticationResponse.class));
     }
 
     @Override
@@ -230,5 +241,16 @@ public class AdorsysIntegAccountInformationService implements AccountInformation
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    @Override
+    public TransactionsReport getTransactionList(String accountId, Headers headers, RequestParams requestParams) {
+        Map<String, String> headersMap = headers.toMap();
+        headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
+
+        String uri = ACCOUNTS_URI + SLASH_SEPARATOR + accountId + SLASH_TRANSACTIONS;
+        uri = buildUri(uri, requestParams);
+
+        return httpClient.get(uri, headersMap, getResponseHandlerAis(TransactionsReport.class));
     }
 }

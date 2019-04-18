@@ -29,7 +29,7 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 
-public class ExchangeRateList extends ArrayList<ExchangeRate>  {
+public class ExchangeRateList extends ArrayList<ExchangeRateTO>  {
 
   @Override
   public boolean equals(Object o) {
