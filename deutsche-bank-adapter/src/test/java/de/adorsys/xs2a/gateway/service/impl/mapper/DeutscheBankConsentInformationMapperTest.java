@@ -5,10 +5,13 @@ import de.adorsys.xs2a.gateway.service.ais.AccountAccess;
 import de.adorsys.xs2a.gateway.service.ais.ConsentInformation;
 import de.adorsys.xs2a.gateway.service.ais.ConsentStatus;
 import de.adorsys.xs2a.gateway.service.impl.model.DeutscheBankConsentInformation;
+import de.adorsys.xs2a.gateway.service.model.Link;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,7 +20,7 @@ public class DeutscheBankConsentInformationMapperTest {
     private static final LocalDate VALID_UNTIL = LocalDate.of(2121, 12, 12);
     private static final int FREQUENCY_PER_DAY = 10;
     private static final LocalDate LAST_ACTION_DATE = LocalDate.of(2021, 10, 10);
-    private static final Links LINKS = new Links();
+    private static final Map<String, Link> LINKS = new HashMap<>();
 
     private DeutscheBankConsentInformationMapper deutscheBankConsentInformationMapper =
             Mappers.getMapper(DeutscheBankConsentInformationMapper.class);

@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.gateway.service.Links;
 import de.adorsys.xs2a.gateway.service.ais.AccountAccess;
 import de.adorsys.xs2a.gateway.service.ais.ConsentStatus;
+import de.adorsys.xs2a.gateway.service.model.Link;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 public class DeutscheBankConsentInformation {
     // required
@@ -19,7 +21,7 @@ public class DeutscheBankConsentInformation {
     private ConsentStatus consentStatus;
     // optional
     @JsonProperty("_links")
-    private Links links;
+    private Map<String, Link> links;
 
     public AccountAccess getAccess() {
         return access;
@@ -69,11 +71,11 @@ public class DeutscheBankConsentInformation {
         this.consentStatus = consentStatus;
     }
 
-    public Links getLinks() {
+    public Map<String, Link> getLinks() {
         return links;
     }
 
-    public void setLinks(Links links) {
+    public void setLinks(Map<String, Link> links) {
         this.links = links;
     }
 }

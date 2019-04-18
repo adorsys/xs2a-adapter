@@ -2,8 +2,10 @@ package de.adorsys.xs2a.gateway.service.ais;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.gateway.service.Links;
+import de.adorsys.xs2a.gateway.service.model.Link;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 public class ConsentInformation {
     // required
@@ -15,7 +17,7 @@ public class ConsentInformation {
     private ConsentStatus consentStatus;
     // optional
     @JsonProperty("_links")
-    private Links links;
+    private Map<String, Link> links;
 
     public AccountAccess getAccess() {
         return access;
@@ -65,11 +67,11 @@ public class ConsentInformation {
         this.consentStatus = consentStatus;
     }
 
-    public Links getLinks() {
+    public Map<String, Link> getLinks() {
         return links;
     }
 
-    public void setLinks(Links links) {
+    public void setLinks(Map<String, Link> links) {
         this.links = links;
     }
 }
