@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.gateway.service.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.gateway.service.AccountReference;
 import de.adorsys.xs2a.gateway.service.Links;
 
@@ -13,6 +14,7 @@ public class TransactionsReport {
     private AccountReference accountReference;
     private AccountReport transactions;
     private List<Balance> balances;
+    @JsonProperty("_links")
     private Links links;
     // TODO change it when other response type is supported
     private String responseContentType = RESPONSE_TYPE_JSON;
