@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.gateway.service;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -80,6 +81,7 @@ public enum ScaStatus {
         this.finalisedStatus = finalisedStatus;
     }
 
+    @JsonValue
     public String getValue() {
         return value;
     }
