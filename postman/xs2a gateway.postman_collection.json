@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d3e6d4d6-1ebd-4be9-a4eb-b63b9580d773",
+		"_postman_id": "628853e1-6da1-4f8d-a7c7-77241834b846",
 		"name": "xs2a gateway",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -34,6 +34,11 @@
 									"pm.test(\"Transaction status is received\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.consentStatus).to.eql(\"received\");",
+									"});",
+									"",
+									"// non NISP checks",
+									"pm.test(\"startAuthorisationWithPsuAuthentication link is present\", function() {",
+									"    pm.response.to.have.jsonBody(\"_links.startAuthorisationWithPsuAuthentication.href\");",
 									"});",
 									"",
 									"pm.globals.set(\"consentId\", pm.response.json().consentId);"
@@ -308,6 +313,203 @@
 							]
 						},
 						"description": "Consent status test - received\n\nDeliver a GET Consent Status Request where the consent-Id equals the consentId from the Account Information Consent Response of test case AIS/Consents/Create/002."
+					},
+					"response": []
+				},
+				{
+					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "853e6f55-ac06-452c-bc23-c65e9a7db516",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"scaStatus is psuAuthenticated\", function () {",
+									"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
+									"});",
+									"",
+									"pm.test(\"SCA methods are available\", function () {",
+									"    pm.response.to.have.jsonBody(\"scaMethods\");",
+									"});",
+									"",
+									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
+									"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+									"});",
+									"",
+									"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
+									"pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "PSU-ID",
+								"value": "{{psuId}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"value": "{{bankCode}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password}}\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"consents",
+								"{{consentId}}",
+								"authorisations"
+							]
+						},
+						"description": "Processing of a service request that needs authentication. The PSU has not yet been authorised. Embedded SCA Approach selected. The PSU has more than one embedded method available. PSU authenticaton required for the SCA selection to be applied. Missing authorisation data may be delivered at the same time as an authorisation sub-resource is created."
+					},
+					"response": []
+				},
+				{
+					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7ae7e14f-31f0-45c2-9004-47a64d28fe92",
+								"exec": [
+									"pm.test(\"scaStatus is scaMethodSelected\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.scaStatus).to.eql(\"scaMethodSelected\");",
+									"});",
+									"",
+									"pm.test(\"SCA method as indicated by the request field \\\"authenticationMethodId\\\"\", function () {",
+									"    var authenticationMethodId = pm.variables.get(\"authenticationMethodId\");",
+									"    pm.response.to.have.jsonBody(\"chosenScaMethod.authenticationMethodId\", authenticationMethodId);",
+									"});",
+									"",
+									"pm.test(\"_links/authoriseTransaction/href must be present\", function () {",
+									"    pm.response.to.have.jsonBody(\"_links.authoriseTransaction.href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"value": "{{bankCode}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations/{{authorisationId}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"consents",
+								"{{consentId}}",
+								"authorisations",
+								"{{authorisationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2b397a1a-d656-4218-b363-eb4bba353252",
+								"exec": [
+									"pm.test(\"scaStatus is finalised\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"value": "{{bankCode}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"scaAuthenticationData\": \"{{scaAuthenticationData}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations/{{authorisationId}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"consents",
+								"{{consentId}}",
+								"authorisations",
+								"{{authorisationId}}"
+							]
+						}
 					},
 					"response": []
 				},
