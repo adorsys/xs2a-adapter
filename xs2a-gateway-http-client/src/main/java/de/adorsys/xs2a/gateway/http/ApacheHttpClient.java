@@ -1,10 +1,12 @@
 package de.adorsys.xs2a.gateway.http;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.io.EmptyInputStream;
 
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
@@ -16,7 +18,7 @@ class ApacheHttpClient implements HttpClient {
 
     private SSLContext sslContext;
 
-    public ApacheHttpClient(SSLContext sslContext) {
+    ApacheHttpClient(SSLContext sslContext) {
         this.sslContext = sslContext;
     }
 
@@ -53,7 +55,8 @@ class ApacheHttpClient implements HttpClient {
 
             try (CloseableHttpResponse response = httpClient.execute(request)) {
                 int statusCode = response.getStatusLine().getStatusCode();
-                InputStream content = response.getEntity().getContent();
+                HttpEntity entity = response.getEntity();
+                InputStream content = entity != null? entity.getContent() : EmptyInputStream.INSTANCE;
 
                 return responseHandler.apply(statusCode, content);
             }
