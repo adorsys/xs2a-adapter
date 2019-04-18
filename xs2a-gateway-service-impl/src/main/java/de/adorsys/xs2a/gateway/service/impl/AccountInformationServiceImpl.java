@@ -77,6 +77,15 @@ public class AccountInformationServiceImpl implements AccountInformationService 
         return getConsentService(headers).updateConsentsPsuData(consentId, authorisationId, headers, transactionAuthorisation);
     }
 
+    @Override
+    public UpdatePsuAuthenticationResponse updateConsentsPsuData(
+            String consentId,
+            String authorisationId,
+            Headers headers,
+            UpdatePsuAuthentication updatePsuAuthentication) {
+        return getConsentService(headers).updateConsentsPsuData(consentId, authorisationId, headers, updatePsuAuthentication);
+    }
+
     AccountInformationService getConsentService(Headers headers) {
         String bankCode = headers.toMap().get(Headers.X_GTW_BANK_CODE);
         ServiceLoader<AccountInformationServiceProvider> loader =

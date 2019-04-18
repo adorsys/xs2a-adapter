@@ -114,6 +114,15 @@ public class AdorsysIntegAccountInformationService implements AccountInformation
     }
 
     @Override
+    public UpdatePsuAuthenticationResponse updateConsentsPsuData(String consentId, String authorisationId, Headers headers,
+                                                                 UpdatePsuAuthentication updatePsuAuthentication) {
+        String uri = AIS_URI + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS_SLASH + authorisationId;
+        String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
+
+        return httpClient.put(uri, body, headers.toMap(), responseHandler(UpdatePsuAuthenticationResponse.class));
+    }
+
+    @Override
     public AccountListHolder getAccountList(Headers headers, RequestParams requestParams) {
         Map<String, String> headersMap = headers.toMap();
         headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);

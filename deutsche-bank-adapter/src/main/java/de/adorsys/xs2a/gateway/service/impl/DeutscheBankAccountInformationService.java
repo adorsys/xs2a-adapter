@@ -115,6 +115,11 @@ public class DeutscheBankAccountInformationService extends AbstractDeutscheBankS
     }
 
     @Override
+    public UpdatePsuAuthenticationResponse updateConsentsPsuData(String consentId, String authorisationId, Headers headers, UpdatePsuAuthentication updatePsuAuthentication) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public AccountListHolder getAccountList(Headers headers, RequestParams requestParams) {
         Map<String, String> headersMap = headers.toMap();
         addDBSpecificGetHeaders(headersMap);

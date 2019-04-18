@@ -36,7 +36,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
@@ -160,7 +159,12 @@ public class ConsentController extends AbstractController implements ConsentApi,
 //              - $ref: "#/components/schemas/updatePsuAuthenticationResponse" #Update PSU Authentication
 //              - $ref: "#/components/schemas/selectPsuAuthenticationMethodResponse" #Select Authentication Method
 //              - $ref: "#/components/schemas/scaStatusResponse" #Transaction Authorisation
-
+        if (body.has("psuData")) {
+            UpdatePsuAuthentication updatePsuAuthentication =
+                    objectMapper.convertValue(body, UpdatePsuAuthentication.class);
+            UpdatePsuAuthenticationResponse response = consentService.updateConsentsPsuData(consentId, authorisationId, Headers.fromMap(headers), updatePsuAuthentication);
+            return ResponseEntity.ok(response);
+        }
         if (body.has("authenticationMethodId")) {
             SelectPsuAuthenticationMethod selectPsuAuthenticationMethod =
                     objectMapper.convertValue(body, SelectPsuAuthenticationMethod.class);
