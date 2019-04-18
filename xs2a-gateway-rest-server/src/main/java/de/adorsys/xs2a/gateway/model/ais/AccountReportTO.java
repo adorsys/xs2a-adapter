@@ -33,7 +33,7 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 
-public class AccountReport {
+public class AccountReportTO {
   @JsonProperty("booked")
   private TransactionList booked = null;
 
@@ -43,7 +43,7 @@ public class AccountReport {
   @JsonProperty("_links")
   private Map _links = null;
 
-  public AccountReport booked(TransactionList booked) {
+  public AccountReportTO booked(TransactionList booked) {
     this.booked = booked;
     return this;
   }
@@ -64,7 +64,7 @@ public class AccountReport {
     this.booked = booked;
   }
 
-  public AccountReport pending(TransactionList pending) {
+  public AccountReportTO pending(TransactionList pending) {
     this.pending = pending;
     return this;
   }
@@ -85,7 +85,7 @@ public class AccountReport {
     this.pending = pending;
   }
 
-  public AccountReport _links(Map _links) {
+  public AccountReportTO _links(Map _links) {
     this._links = _links;
     return this;
   }
@@ -116,7 +116,7 @@ public class AccountReport {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AccountReport accountReport = (AccountReport) o;
+    AccountReportTO accountReport = (AccountReportTO) o;
     return Objects.equals(this.booked, accountReport.booked) &&
         Objects.equals(this.pending, accountReport.pending) &&
         Objects.equals(this._links, accountReport._links);
@@ -130,7 +130,7 @@ public class AccountReport {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AccountReport {\n");
+    sb.append("class AccountReportTO {\n");
     
     sb.append("    booked: ").append(toIndentedString(booked)).append("\n");
     sb.append("    pending: ").append(toIndentedString(pending)).append("\n");

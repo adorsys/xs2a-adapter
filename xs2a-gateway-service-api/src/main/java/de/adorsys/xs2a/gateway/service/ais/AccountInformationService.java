@@ -20,6 +20,7 @@ import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.RequestParams;
 import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
+import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.model.*;
 
 public interface AccountInformationService {
@@ -45,5 +46,14 @@ public interface AccountInformationService {
             Headers headers,
             TransactionAuthorisation transactionAuthorisation);
 
+    UpdatePsuAuthenticationResponse updateConsentsPsuData(
+            String consentId,
+            String authorisationId,
+            Headers headers,
+            UpdatePsuAuthentication updatePsuAuthentication
+    );
+
     AccountListHolder getAccountList(Headers headers, RequestParams requestParams);
+
+    TransactionsReport getTransactionList(String accountId, Headers headers, RequestParams requestParams);
 }

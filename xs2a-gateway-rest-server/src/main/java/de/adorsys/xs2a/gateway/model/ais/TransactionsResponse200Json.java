@@ -37,7 +37,7 @@ public class TransactionsResponse200Json {
   private AccountReferenceTO account = null;
 
   @JsonProperty("transactions")
-  private AccountReport transactions = null;
+  private AccountReportTO transactions = null;
 
   @JsonProperty("balances")
   private BalanceList balances = null;
@@ -66,7 +66,7 @@ public class TransactionsResponse200Json {
     this.account = account;
   }
 
-  public TransactionsResponse200Json transactions(AccountReport transactions) {
+  public TransactionsResponse200Json transactions(AccountReportTO transactions) {
     this.transactions = transactions;
     return this;
   }
@@ -79,11 +79,11 @@ public class TransactionsResponse200Json {
 
   @Valid
 
-  public AccountReport getTransactions() {
+  public AccountReportTO getTransactions() {
     return transactions;
   }
 
-  public void setTransactions(AccountReport transactions) {
+  public void setTransactions(AccountReportTO transactions) {
     this.transactions = transactions;
   }
 
