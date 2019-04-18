@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ca606a9d-df59-4cd4-8500-dc5535225fdf",
+		"_postman_id": "9b597547-8c8d-447d-98d1-c3e1eeb2e726",
 		"name": "xs2a gateway",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -235,6 +235,7 @@
 									"",
 									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 									"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3\");",
 									"});",
 									"",
 									"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
