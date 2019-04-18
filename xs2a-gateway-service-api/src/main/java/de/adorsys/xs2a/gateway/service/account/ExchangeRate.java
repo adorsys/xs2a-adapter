@@ -4,11 +4,11 @@ import java.time.LocalDate;
 
 public class ExchangeRate {
     private String sourceCurrency;
-    private String exchangeRate;
+    private String rate;
     private String unitCurrency;
     private String targetCurrency;
-    private LocalDate quotationDate;
-    private String contractIdentification;
+    private LocalDate rateDate;
+    private String rateContract;
 
     public String getSourceCurrency() {
         return sourceCurrency;
@@ -18,12 +18,12 @@ public class ExchangeRate {
         this.sourceCurrency = sourceCurrency;
     }
 
-    public String getExchangeRate() {
-        return exchangeRate;
+    public String getRate() {
+        return rate;
     }
 
-    public void setExchangeRate(String exchangeRate) {
-        this.exchangeRate = exchangeRate;
+    public void setRate(String rate) {
+        this.rate = rate;
     }
 
     public String getUnitCurrency() {
@@ -42,19 +42,19 @@ public class ExchangeRate {
         this.targetCurrency = targetCurrency;
     }
 
-    public LocalDate getQuotationDate() {
-        return quotationDate;
+    public LocalDate getRateDate() {
+        return rateDate;
     }
 
-    public void setQuotationDate(LocalDate quotationDate) {
-        this.quotationDate = quotationDate;
+    public void setRateDate(LocalDate rateDate) {
+        this.rateDate = rateDate;
     }
 
-    public String getContractIdentification() {
-        return contractIdentification;
+    public String getRateContract() {
+        return rateContract;
     }
 
-    public void setContractIdentification(String contractIdentification) {
-        this.contractIdentification = contractIdentification;
+    public void setRateContract(String rateContract) {
+        this.rateContract = rateContract;
     }
 }

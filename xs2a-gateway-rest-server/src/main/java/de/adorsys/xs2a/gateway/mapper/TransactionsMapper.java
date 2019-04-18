@@ -11,11 +11,10 @@ import org.mapstruct.Mappings;
 
 import java.util.Objects;
 
-@Mapper(uses = {AmountMapper.class, AccountReferenceMapper.class})
+@Mapper(uses = {AmountMapper.class, AccountReferenceMapper.class, ExchangeRateMapper.class})
 public interface TransactionsMapper {
 
     @Mappings({
-            @Mapping(source = "amount", target = "transactionAmount"),
             @Mapping(target = "links", ignore = true)  // TODO add links mapping after Link class is designed
     })
     TransactionDetails toTransactionDetails(Transactions transactions);

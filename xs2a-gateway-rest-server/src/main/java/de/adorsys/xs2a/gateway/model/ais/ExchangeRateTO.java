@@ -34,7 +34,7 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 
-public class ExchangeRate   {
+public class ExchangeRateTO {
   @JsonProperty("sourceCurrency")
   private String sourceCurrency = null;
 
@@ -53,7 +53,7 @@ public class ExchangeRate   {
   @JsonProperty("rateContract")
   private String rateContract = null;
 
-  public ExchangeRate sourceCurrency(String sourceCurrency) {
+  public ExchangeRateTO sourceCurrency(String sourceCurrency) {
     this.sourceCurrency = sourceCurrency;
     return this;
   }
@@ -74,7 +74,7 @@ public class ExchangeRate   {
     this.sourceCurrency = sourceCurrency;
   }
 
-  public ExchangeRate rate(String rate) {
+  public ExchangeRateTO rate(String rate) {
     this.rate = rate;
     return this;
   }
@@ -95,7 +95,7 @@ public class ExchangeRate   {
     this.rate = rate;
   }
 
-  public ExchangeRate unitCurrency(String unitCurrency) {
+  public ExchangeRateTO unitCurrency(String unitCurrency) {
     this.unitCurrency = unitCurrency;
     return this;
   }
@@ -116,7 +116,7 @@ public class ExchangeRate   {
     this.unitCurrency = unitCurrency;
   }
 
-  public ExchangeRate targetCurrency(String targetCurrency) {
+  public ExchangeRateTO targetCurrency(String targetCurrency) {
     this.targetCurrency = targetCurrency;
     return this;
   }
@@ -137,7 +137,7 @@ public class ExchangeRate   {
     this.targetCurrency = targetCurrency;
   }
 
-  public ExchangeRate rateDate(LocalDate rateDate) {
+  public ExchangeRateTO rateDate(LocalDate rateDate) {
     this.rateDate = rateDate;
     return this;
   }
@@ -159,7 +159,7 @@ public class ExchangeRate   {
     this.rateDate = rateDate;
   }
 
-  public ExchangeRate rateContract(String rateContract) {
+  public ExchangeRateTO rateContract(String rateContract) {
     this.rateContract = rateContract;
     return this;
   }
@@ -188,7 +188,7 @@ public class ExchangeRate   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ExchangeRate exchangeRate = (ExchangeRate) o;
+    ExchangeRateTO exchangeRate = (ExchangeRateTO) o;
     return Objects.equals(this.sourceCurrency, exchangeRate.sourceCurrency) &&
         Objects.equals(this.rate, exchangeRate.rate) &&
         Objects.equals(this.unitCurrency, exchangeRate.unitCurrency) &&
@@ -205,7 +205,7 @@ public class ExchangeRate   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ExchangeRate {\n");
+    sb.append("class ExchangeRateTO {\n");
     
     sb.append("    sourceCurrency: ").append(toIndentedString(sourceCurrency)).append("\n");
     sb.append("    rate: ").append(toIndentedString(rate)).append("\n");

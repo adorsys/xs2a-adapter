@@ -17,7 +17,7 @@ public class Transactions {
     private String creditorId;
     private LocalDate bookingDate;
     private LocalDate valueDate;
-    private Amount amount;
+    private Amount transactionAmount;
     private List<ExchangeRate> exchangeRate;
     private String creditorName;
     private AccountReference creditorAccount;
@@ -98,12 +98,12 @@ public class Transactions {
         this.valueDate = valueDate;
     }
 
-    public Amount getAmount() {
-        return amount;
+    public Amount getTransactionAmount() {
+        return transactionAmount;
     }
 
-    public void setAmount(Amount amount) {
-        this.amount = amount;
+    public void setTransactionAmount(Amount transactionAmount) {
+        this.transactionAmount = transactionAmount;
     }
 
     public List<ExchangeRate> getExchangeRate() {

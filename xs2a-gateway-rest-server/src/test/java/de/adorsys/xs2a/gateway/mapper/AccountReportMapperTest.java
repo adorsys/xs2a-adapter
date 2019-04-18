@@ -1,0 +1,47 @@
+package de.adorsys.xs2a.gateway.mapper;
+
+import de.adorsys.xs2a.gateway.model.ais.AccountReportTO;
+import de.adorsys.xs2a.gateway.model.ais.TransactionList;
+import de.adorsys.xs2a.gateway.service.account.AccountReport;
+import de.adorsys.xs2a.gateway.service.account.Transactions;
+import org.junit.Test;
+import org.mapstruct.factory.Mappers;
+
+import java.util.Collections;
+import java.util.List;
+
+import static de.adorsys.xs2a.gateway.mapper.TransactionsMapperTest.buildTransactions;
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class AccountReportMapperTest {
+    private static final Transactions BOOKED = buildTransactions();
+    private static final Transactions PENDING = buildTransactions();
+    private static final List<Transactions> BOOKED_LIST = Collections.singletonList(BOOKED);
+    private static final List<Transactions> PENDING_LIST = Collections.singletonList(PENDING);
+    private static final byte[] TRANSACTION_RAW = "transactionsRaw".getBytes();
+
+    @Test
+    public void toAccountReportTO() {
+        AccountReportTO accountReportTO = Mappers.getMapper(AccountReportMapper.class).toAccountReportTO(buildAccountReport());
+
+        assertThat(accountReportTO).isNotNull();
+
+        TransactionList bookedTransactionList = accountReportTO.getBooked();
+        assertThat(bookedTransactionList).isNotNull();
+        assertThat(bookedTransactionList.size()).isEqualTo(BOOKED_LIST.size());
+
+        TransactionList pendingTransactionList = accountReportTO.getPending();
+        assertThat(pendingTransactionList).isNotNull();
+        assertThat(pendingTransactionList.size()).isEqualTo(PENDING_LIST.size());
+    }
+
+    static AccountReport buildAccountReport() {
+        AccountReport accountReport = new AccountReport();
+
+        accountReport.setBooked(BOOKED_LIST);
+        accountReport.setPending(PENDING_LIST);
+        accountReport.setTransactionsRaw(TRANSACTION_RAW);
+
+        return accountReport;
+    }
+}
