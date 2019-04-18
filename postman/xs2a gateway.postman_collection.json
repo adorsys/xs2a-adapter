@@ -1,571 +1,675 @@
 {
 	"info": {
-		"_postman_id": "e1941dee-f898-4d39-a2a5-81755c9f0b37",
+		"_postman_id": "628853e1-6da1-4f8d-a7c7-77241834b846",
 		"name": "xs2a gateway",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "PIS/PaymentInit/Products/001a",
-			"event": [
+			"name": "AIS",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"id": "e4efa145-5a35-4b82-af51-90ee995ae199",
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});",
-							"",
-							"pm.test(\"Transaction status is received\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
-							"});",
-							"",
-							"pm.globals.set(\"payment-id\", pm.response.json().paymentId);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "X-Request-ID",
-						"value": "{{$guid}}",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "PSU-IP-Address",
-						"value": "0.0.0.0",
-						"type": "text"
-					},
-					{
-						"key": "PSU-ID",
-						"value": "648403403900",
-						"type": "text"
-					},
-					{
-						"key": "PSU-ID-Type",
-						"value": "FKDN",
-						"type": "text"
-					},
-					{
-						"key": "X-GTW-Bank-Code",
-						"value": "{{bankCode}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"creditorAccount\": {\n        \"iban\": \"DE58215730420403292600\",\n        \"currency\": \"EUR\"\n    },\n    \"creditorAddress\": {\n        \"street\": \"12th Avenue\",\n        \"buildingNumber\": \"108\",\n        \"city\": \"Sandbox1\",\n        \"postalCode\": \"2AC450\",\n        \"country\": \"SB\"\n    },\n    \"creditorAgent\": \"Agent\",\n    \"creditorName\": \"Name\",\n    \"debtorAccount\": {\n        \"iban\": \"DE51648730420403403900\",\n        \"currency\": \"EUR\"\n    },\n    \"instructedAmount\": {\n        \"amount\": \"20.9\",\n        \"currency\": \"EUR\"\n    },\n    \"remittanceInformationUnstructured\": \"just\",\n    \"endToEndIdentification\": \"SandboxTPPTest1\"\n}"
-				},
-				"url": {
-					"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers",
-					"host": [
-						"{{baseUri}}"
-					],
-					"path": [
-						"v1",
-						"payments",
-						"sepa-credit-transfers"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PIS/GetTransactionStatus/001a",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "26c04d43-e3bc-4bf0-acc8-59622c3b23aa",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Transaction status is received\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "X-Request-ID",
-						"value": "{{$guid}}",
-						"type": "text"
-					},
-					{
-						"key": "X-GTW-Bank-Code",
-						"value": "{{bankCode}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{payment-id}}/status",
-					"host": [
-						"{{baseUri}}"
-					],
-					"path": [
-						"v1",
-						"payments",
-						"sepa-credit-transfers",
-						"{{payment-id}}",
-						"status"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "PIS/GetPayment/001a",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "e4efa145-5a35-4b82-af51-90ee995ae199",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"const jsonData = pm.response.json();",
-							"",
-							"pm.test(\"Transaction status received\", function () {",
-							"    pm.expect(jsonData).to.have.property('transactionStatus');",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "X-Request-ID",
-						"value": "{{$guid}}",
-						"type": "text"
-					},
-					{
-						"key": "PSU-IP-Address",
-						"value": "0.0.0.0",
-						"type": "text"
-					},
-					{
-						"key": "PSU-ID",
-						"value": "648403403900",
-						"type": "text"
-					},
-					{
-						"key": "PSU-ID-Type",
-						"value": "FKDN",
-						"type": "text"
-					},
-					{
-						"key": "X-GTW-Bank-Code",
-						"value": "{{bankCode}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{payment-id}}",
-					"host": [
-						"{{baseUri}}"
-					],
-					"path": [
-						"v1",
-						"payments",
-						"sepa-credit-transfers",
-						"{{payment-id}}"
-					],
-					"query": [
+					"name": "AIS/Consents/Create/006",
+					"event": [
 						{
-							"key": "X-GTW-Bank-Code",
-							"value": "",
-							"disabled": true
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "AIS/Consents/Create/006",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "73ea2b3e-dab0-4b72-8039-c7a0c29c9fe9",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "899ea327-3ff9-49df-be3e-9c4e1baa6703",
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});",
-							"",
-							"pm.test(\"Transaction status is received\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.consentStatus).to.eql(\"received\");",
-							"});",
-							"",
-							"pm.globals.set(\"consent-id\", pm.response.json().consentId);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"description": "128-bit universally unique identifier (rf. ISO/IEC 11578:1996) - Format: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx'",
-						"key": "X-Request-ID",
-						"value": "{{$guid}}"
-					},
-					{
-						"description": "Value predetermined by Deutsche Bank ",
-						"key": "PSU-ID-Type",
-						"value": "FKDN"
-					},
-					{
-						"description": "Value predetermined by Deutsche Bank ",
-						"key": "PSU-ID",
-						"value": "555-EXTAISC-02"
-					},
-					{
-						"description": "Accepted values are: application/json",
-						"key": "Content-Type",
-						"value": "application/json"
-					},
-					{
-						"key": "PSU-IP-Address",
-						"value": "0.0.0.0"
-					},
-					{
-						"key": "X-GTW-BANK-CODE",
-						"value": "{{bankCode}}",
-						"type": "text",
-						"disabled": true
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": " {\r\n\t\t\t \"access\": {\r\n\t\t\t  \"balances\": [{\"iban\": \"DE92500105177545332689\"}],\r\n\t\t\t  \"transactions\": [{\"iban\": \"DE92500105177545332689\"}],\r\n\t\t\t  \"accounts\": [{\"iban\": \"DE92500105177545332689\"}]\r\n\t\t\t },\r\n\t\t\t\"combinedServiceIndicator\" : \"false\",\r\n\t\t\t \"recurringIndicator\": \"true\",\r\n\t\t\t \"validUntil\": \"2019-12-30\",\r\n\t\t\t \"frequencyPerDay\": \"4\"\r\n\t\t\t}  "
-				},
-				"url": {
-					"raw": "{{baseUri}}/v1/consents",
-					"host": [
-						"{{baseUri}}"
-					],
-					"path": [
-						"v1",
-						"consents"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "AIS/Consents/Get/001",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "49fc416f-7765-4c03-a892-aea24f827e34",
-						"exec": [
-							"pm.test(\"Status code is 403\", function () {",
-							"    pm.response.to.have.status(403);",
-							"});",
-							"",
-							"pm.test(\"Consent status is received\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.tppMessages[0].code).to.eql(\"CONSENT_UNKNOWN\");",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "X-Request-ID",
-						"type": "text",
-						"value": "{{$guid}}"
-					},
-					{
-						"key": "X-GTW-BANK-CODE",
-						"value": "{{bankCode}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{baseUri}}/v1/consents/{{$guid}}",
-					"host": [
-						"{{baseUri}}"
-					],
-					"path": [
-						"v1",
-						"consents",
-						"{{$guid}}"
-					]
-				},
-				"description": "Get Consent request for a unkown consent\n\nDeliver a GET Consent Request where the consent-Id in the path does not refer to a previously created consent resource. \nAll other Data in the request may be chosen arbitrarily."
-			},
-			"response": []
-		},
-		{
-			"name": "AIS/Consents/Get/002",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "49fc416f-7765-4c03-a892-aea24f827e34",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Consent status is received\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.consentStatus).to.eql(\"received\");",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "X-Request-ID",
-						"type": "text",
-						"value": "{{$guid}}"
-					},
-					{
-						"key": "X-GTW-BANK-CODE",
-						"value": "{{bankCode}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{baseUri}}/v1/consents/{{consent-id}}",
-					"host": [
-						"{{baseUri}}"
-					],
-					"path": [
-						"v1",
-						"consents",
-						"{{consent-id}}"
-					]
-				},
-				"description": "Standard GET Consent test\n\nDeliver a GET Consent Request where the consent-Id equals the consent Id from the Account Information Consent Response of test case AIS/Consents/Create/002."
-			},
-			"response": []
-		},
-		{
-			"name": "AIS/Consents/Status/001",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "49fc416f-7765-4c03-a892-aea24f827e34",
-						"exec": [
-							"pm.test(\"Status code is 403\", function () {",
-							"    pm.response.to.have.status(403);",
-							"});",
-							"",
-							"pm.test(\"Consent status is received\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.tppMessages[0].code).to.eql(\"CONSENT_UNKNOWN\");",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "X-Request-ID",
-						"type": "text",
-						"value": "{{$guid}}"
-					},
-					{
-						"key": "X-GTW-BANK-CODE",
-						"value": "{{bankCode}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{baseUri}}/v1/consents/{{$guid}}/status",
-					"host": [
-						"{{baseUri}}"
-					],
-					"path": [
-						"v1",
-						"consents",
-						"{{$guid}}",
-						"status"
-					]
-				},
-				"description": "Try to get a consent status for an unknown consent\n\nDeliver a GET Consent Status Request where the consent-Id in the path does not refer to a previously created consent ressource. \nAll other Data in the request may be chosen arbitrarily."
-			},
-			"response": []
-		},
-		{
-			"name": "AIS/Consents/Status/003a",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "49fc416f-7765-4c03-a892-aea24f827e34",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"pm.test(\"Consent status is received\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.consentStatus).to.eql(\"received\");",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "X-Request-ID",
-						"type": "text",
-						"value": "{{$guid}}"
-					},
-					{
-						"key": "X-GTW-BANK-CODE",
-						"value": "{{bankCode}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{baseUri}}/v1/consents/{{consent-id}}/status",
-					"host": [
-						"{{baseUri}}"
-					],
-					"path": [
-						"v1",
-						"consents",
-						"{{consent-id}}",
-						"status"
-					]
-				},
-				"description": "Consent status test - received\n\nDeliver a GET Consent Status Request where the consent-Id equals the consentId from the Account Information Consent Response of test case AIS/Consents/Create/002."
-			},
-			"response": []
-		},
-		{
-			"name": "AIS/Accounts/001",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"description": "Accepted values are application/json"
-					},
-					{
-						"key": "X-Request-ID",
-						"value": "{{$guid}}",
-						"description": "128-bit universally unique identifier (rf. ISO/IEC 11578:1996) - Format: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx'"
-					},
-					{
-						"key": "Consent-ID",
-						"value": "{{consent-id}}",
-						"description": "Use specific data per TPP-Registration-Number"
-					},
-					{
-						"key": "X-GTW-BANK-CODE",
-						"value": "{{bankCode}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{baseUri}}/v1/accounts?withBalance=true",
-					"host": [
-						"{{baseUri}}"
-					],
-					"path": [
-						"v1",
-						"accounts"
-					],
-					"query": [
+							"listen": "prerequest",
+							"script": {
+								"id": "73ea2b3e-dab0-4b72-8039-c7a0c29c9fe9",
+								"exec": [
+									"const today = new Date().toISOString().split(\"T\")[0];",
+									"pm.globals.set(\"validUntil\", today);"
+								],
+								"type": "text/javascript"
+							}
+						},
 						{
-							"key": "withBalance",
-							"value": "true"
+							"listen": "test",
+							"script": {
+								"id": "899ea327-3ff9-49df-be3e-9c4e1baa6703",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Transaction status is received\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.consentStatus).to.eql(\"received\");",
+									"});",
+									"",
+									"// non NISP checks",
+									"pm.test(\"startAuthorisationWithPsuAuthentication link is present\", function() {",
+									"    pm.response.to.have.jsonBody(\"_links.startAuthorisationWithPsuAuthentication.href\");",
+									"});",
+									"",
+									"pm.globals.set(\"consentId\", pm.response.json().consentId);"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"value": "{{psuIdType}}"
+							},
+							{
+								"key": "PSU-ID",
+								"value": "{{psuId}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "PSU-IP-Address",
+								"value": "0.0.0.0"
+							},
+							{
+								"key": "X-GTW-BANK-CODE",
+								"value": "{{bankCode}}",
+								"type": "text"
+							},
+							{
+								"key": "TPP-Redirect-Preferred",
+								"value": "false",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"access\": {\n        \"balances\": [\n            {\n                \"iban\": \"{{iban}}\"\n            }\n        ],\n        \"transactions\": [\n            {\n                \"iban\": \"{{iban}}\"\n            }\n        ],\n        \"accounts\": [\n            {\n                \"iban\": \"{{iban}}\"\n            }\n        ]\n    },\n    \"combinedServiceIndicator\": \"false\",\n    \"recurringIndicator\": \"true\",\n    \"validUntil\": \"{{validUntil}}\",\n    \"frequencyPerDay\": \"4\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/consents",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"consents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AIS/Consents/Get/002",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "49fc416f-7765-4c03-a892-aea24f827e34",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Consent status is received\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.consentStatus).to.eql(\"received\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"type": "text",
+								"value": "{{$guid}}"
+							},
+							{
+								"key": "X-GTW-BANK-CODE",
+								"value": "{{bankCode}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/consents/{{consentId}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"consents",
+								"{{consentId}}"
+							]
+						},
+						"description": "Standard GET Consent test\n\nDeliver a GET Consent Request where the consent-Id equals the consent Id from the Account Information Consent Response of test case AIS/Consents/Create/002."
+					},
+					"response": []
+				},
+				{
+					"name": "AIS/Consents/Status/003a",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "49fc416f-7765-4c03-a892-aea24f827e34",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Consent status is received\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.consentStatus).to.eql(\"received\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"type": "text",
+								"value": "{{$guid}}"
+							},
+							{
+								"key": "X-GTW-BANK-CODE",
+								"value": "{{bankCode}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/consents/{{consentId}}/status",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"consents",
+								"{{consentId}}",
+								"status"
+							]
+						},
+						"description": "Consent status test - received\n\nDeliver a GET Consent Status Request where the consent-Id equals the consentId from the Account Information Consent Response of test case AIS/Consents/Create/002."
+					},
+					"response": []
+				},
+				{
+					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "853e6f55-ac06-452c-bc23-c65e9a7db516",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"scaStatus is psuAuthenticated\", function () {",
+									"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
+									"});",
+									"",
+									"pm.test(\"SCA methods are available\", function () {",
+									"    pm.response.to.have.jsonBody(\"scaMethods\");",
+									"});",
+									"",
+									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
+									"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+									"});",
+									"",
+									"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
+									"pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "PSU-ID",
+								"value": "{{psuId}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"value": "{{bankCode}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password}}\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"consents",
+								"{{consentId}}",
+								"authorisations"
+							]
+						},
+						"description": "Processing of a service request that needs authentication. The PSU has not yet been authorised. Embedded SCA Approach selected. The PSU has more than one embedded method available. PSU authenticaton required for the SCA selection to be applied. Missing authorisation data may be delivered at the same time as an authorisation sub-resource is created."
+					},
+					"response": []
+				},
+				{
+					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7ae7e14f-31f0-45c2-9004-47a64d28fe92",
+								"exec": [
+									"pm.test(\"scaStatus is scaMethodSelected\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.scaStatus).to.eql(\"scaMethodSelected\");",
+									"});",
+									"",
+									"pm.test(\"SCA method as indicated by the request field \\\"authenticationMethodId\\\"\", function () {",
+									"    var authenticationMethodId = pm.variables.get(\"authenticationMethodId\");",
+									"    pm.response.to.have.jsonBody(\"chosenScaMethod.authenticationMethodId\", authenticationMethodId);",
+									"});",
+									"",
+									"pm.test(\"_links/authoriseTransaction/href must be present\", function () {",
+									"    pm.response.to.have.jsonBody(\"_links.authoriseTransaction.href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"value": "{{bankCode}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations/{{authorisationId}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"consents",
+								"{{consentId}}",
+								"authorisations",
+								"{{authorisationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2b397a1a-d656-4218-b363-eb4bba353252",
+								"exec": [
+									"pm.test(\"scaStatus is finalised\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"value": "{{bankCode}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"scaAuthenticationData\": \"{{scaAuthenticationData}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations/{{authorisationId}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"consents",
+								"{{consentId}}",
+								"authorisations",
+								"{{authorisationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AIS/Accounts/001",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": "Accepted values are application/json"
+							},
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"description": "128-bit universally unique identifier (rf. ISO/IEC 11578:1996) - Format: 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx'"
+							},
+							{
+								"key": "Consent-ID",
+								"value": "{{consentId}}",
+								"description": "Use specific data per TPP-Registration-Number"
+							},
+							{
+								"key": "X-GTW-BANK-CODE",
+								"value": "{{bankCode}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/accounts?withBalance=true",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"accounts"
+							],
+							"query": [
+								{
+									"key": "withBalance",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "PIS",
+			"item": [
+				{
+					"name": "PIS/PaymentInit/Products/001a",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e4efa145-5a35-4b82-af51-90ee995ae199",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Transaction status is received\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
+									"});",
+									"",
+									"pm.globals.set(\"paymentId\", pm.response.json().paymentId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "PSU-IP-Address",
+								"value": "0.0.0.0",
+								"type": "text"
+							},
+							{
+								"key": "PSU-ID",
+								"value": "648403403900",
+								"type": "text"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"value": "FKDN",
+								"type": "text"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"value": "{{bankCode}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"creditorAccount\": {\n        \"iban\": \"DE58215730420403292600\",\n        \"currency\": \"EUR\"\n    },\n    \"creditorAddress\": {\n        \"street\": \"12th Avenue\",\n        \"buildingNumber\": \"108\",\n        \"city\": \"Sandbox1\",\n        \"postalCode\": \"2AC450\",\n        \"country\": \"SB\"\n    },\n    \"creditorAgent\": \"Agent\",\n    \"creditorName\": \"Name\",\n    \"debtorAccount\": {\n        \"iban\": \"DE51648730420403403900\",\n        \"currency\": \"EUR\"\n    },\n    \"instructedAmount\": {\n        \"amount\": \"20.9\",\n        \"currency\": \"EUR\"\n    },\n    \"remittanceInformationUnstructured\": \"just\",\n    \"endToEndIdentification\": \"SandboxTPPTest1\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"payments",
+								"sepa-credit-transfers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PIS/GetTransactionStatus/001a",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "26c04d43-e3bc-4bf0-acc8-59622c3b23aa",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Transaction status is received\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"value": "{{bankCode}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/status",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"payments",
+								"sepa-credit-transfers",
+								"{{paymentId}}",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PIS/GetPayment/001a",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e4efa145-5a35-4b82-af51-90ee995ae199",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const jsonData = pm.response.json();",
+									"",
+									"pm.test(\"Transaction status received\", function () {",
+									"    pm.expect(jsonData).to.have.property('transactionStatus');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "PSU-IP-Address",
+								"value": "0.0.0.0",
+								"type": "text"
+							},
+							{
+								"key": "PSU-ID",
+								"value": "648403403900",
+								"type": "text"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"value": "FKDN",
+								"type": "text"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"value": "{{bankCode}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}?",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"payments",
+								"sepa-credit-transfers",
+								"{{paymentId}}"
+							],
+							"query": [
+								{
+									"key": "X-GTW-Bank-Code",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
