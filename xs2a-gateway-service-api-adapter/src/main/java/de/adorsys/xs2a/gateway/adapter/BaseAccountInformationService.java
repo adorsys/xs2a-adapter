@@ -20,6 +20,7 @@ import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.RequestParams;
 import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
+import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.model.*;
 
@@ -78,6 +79,15 @@ public abstract class BaseAccountInformationService extends AbstractService impl
     }
 
     @Override
+    public UpdatePsuAuthenticationResponse updateConsentsPsuData(String consentId, String authorisationId, Headers headers,
+                                                                 UpdatePsuAuthentication updatePsuAuthentication) {
+        String uri = getConsentBaseUri() + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS_SLASH + authorisationId;
+        String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
+
+        return httpClient.put(uri, body, headers.toMap(), responseHandler(UpdatePsuAuthenticationResponse.class));
+    }
+
+    @Override
     public SelectPsuAuthenticationMethodResponse updateConsentsPsuData(String consentId, String authorisationId, Headers headers, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         String uri = getConsentBaseUri() + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS_SLASH + authorisationId;
         Map<String, String> headersMap = populatePutHeaders(headers.toMap());
@@ -104,6 +114,17 @@ public abstract class BaseAccountInformationService extends AbstractService impl
         String uri = buildUri(getAccountsBaseUri(), requestParams);
 
         return httpClient.get(uri, headersMap, responseHandler(AccountListHolder.class));
+    }
+
+    @Override
+    public TransactionsReport getTransactionList(String accountId, Headers headers, RequestParams requestParams) {
+        Map<String, String> headersMap = headers.toMap();
+        headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
+
+        String uri = getAccountsBaseUri() + SLASH_SEPARATOR + accountId + SLASH_TRANSACTIONS;
+        uri = buildUri(uri, requestParams);
+
+        return httpClient.get(uri, headersMap, responseHandler(TransactionsReport.class));
     }
 
     protected abstract String getConsentBaseUri();

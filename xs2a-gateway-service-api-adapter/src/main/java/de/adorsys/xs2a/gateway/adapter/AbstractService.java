@@ -23,13 +23,14 @@ import de.adorsys.xs2a.gateway.service.RequestParams;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.PushbackInputStream;
 import java.io.UncheckedIOException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public abstract class AbstractService {
     protected static final String SLASH_SEPARATOR = "/";
+    protected static final String SLASH_TRANSACTIONS = "/transactions";
     protected static final String SLASH_AUTHORISATIONS = "/authorisations";
     protected static final String SLASH_AUTHORISATIONS_SLASH = "/authorisations/";
     protected static final String CONTENT_TYPE_HEADER = "Content-Type";
@@ -58,21 +59,30 @@ public abstract class AbstractService {
         return map;
     }
 
-    protected <T> HttpClient.ResponseHandler<T> responseHandler(Class<T> klass) {
+    <T> HttpClient.ResponseHandler<T> responseHandler(Class<T> klass) {
         return (statusCode, responseBody) -> {
             if (statusCode == 200 || statusCode == 201) {
                 return jsonMapper.readValue(responseBody, klass);
             }
-            if (isEmpty(responseBody)) {
-                throw new ErrorResponseException(statusCode);
-            }
-            throw new ErrorResponseException(statusCode, jsonMapper.readValue(responseBody, ErrorResponse.class));
+            throw responseException(statusCode, new PushbackInputStream(responseBody));
         };
     }
 
-    private boolean isEmpty(InputStream responseBody) {
+    private ErrorResponseException responseException(int statusCode, PushbackInputStream responseBody) {
+        if (isEmpty(responseBody)) {
+            return new ErrorResponseException(statusCode);
+        }
+        return new ErrorResponseException(statusCode, jsonMapper.readValue(responseBody, ErrorResponse.class));
+    }
+
+    private boolean isEmpty(PushbackInputStream responseBody) {
         try {
-            return responseBody.available() == 0;
+            int nextByte = responseBody.read();
+            if (nextByte == -1) {
+                return true;
+            }
+            responseBody.unread(nextByte);
+            return false;
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
