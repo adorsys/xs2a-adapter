@@ -2,10 +2,12 @@ package de.adorsys.xs2a.gateway.service.impl.mapper;
 
 import de.adorsys.xs2a.gateway.service.*;
 import de.adorsys.xs2a.gateway.service.impl.model.DeutscheBankPaymentInitiationResponse;
-import de.adorsys.xs2a.gateway.service.impl.model.ObjectLinks;
 import de.adorsys.xs2a.gateway.service.model.Link;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,7 +28,7 @@ public class PaymentMapperTest {
                 paymentMapper.toPaymentInitiationRequestResponse(deutscheBankPaymentInitiationResponse());
         assertThat(paymentInitiationRequestResponse.getPaymentId()).isEqualTo(PAYMENT_ID);
         assertThat(paymentInitiationRequestResponse.getTransactionStatus()).isEqualTo(TransactionStatus.RCVD);
-        assertThat(paymentInitiationRequestResponse.getLinks().getScaRedirect()).isEqualTo(SCA_REDIRECT_LINK);
+        assertThat(paymentInitiationRequestResponse.getLinks().get(SCA_REDIRECT_LINK).getHref()).isEqualTo(SCA_REDIRECT_LINK);
         assertThat(paymentInitiationRequestResponse.getScaStatus()).isEqualTo(ScaStatus.RECEIVED);
         assertThat(paymentInitiationRequestResponse.getTransactionFees()).isEqualTo(TRANSACTION_FEES);
         assertThat(paymentInitiationRequestResponse.isTransactionFeeIndicator()).isTrue();
@@ -53,11 +55,11 @@ public class PaymentMapperTest {
         return deutscheBankPaymentInitiationResponse;
     }
 
-    private ObjectLinks links() {
-        ObjectLinks objectLinks = new ObjectLinks();
+    private Map<String, Link> links() {
+        Map<String, Link> objectLinks = new HashMap<>(1);
         Link scaRedirect = new Link();
         scaRedirect.setHref(SCA_REDIRECT_LINK);
-        objectLinks.setScaRedirect(scaRedirect);
+        objectLinks.put(SCA_REDIRECT_LINK, scaRedirect);
         return objectLinks;
     }
 }

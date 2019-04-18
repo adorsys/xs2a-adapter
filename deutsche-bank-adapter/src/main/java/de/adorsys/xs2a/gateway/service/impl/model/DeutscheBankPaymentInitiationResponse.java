@@ -2,13 +2,16 @@ package de.adorsys.xs2a.gateway.service.impl.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.gateway.service.*;
+import de.adorsys.xs2a.gateway.service.model.Link;
+
+import java.util.Map;
 
 public class DeutscheBankPaymentInitiationResponse {
     // required
     private TransactionStatus transactionStatus;
     private String paymentId;
     @JsonProperty("_links")
-    private ObjectLinks links;
+    private Map<String, Link> links;
     // optional
     private ScaStatus scaStatus;
     private Amount transactionFees;
@@ -35,11 +38,11 @@ public class DeutscheBankPaymentInitiationResponse {
         this.paymentId = paymentId;
     }
 
-    public ObjectLinks getLinks() {
+    public Map<String, Link> getLinks() {
         return links;
     }
 
-    public void setLinks(ObjectLinks links) {
+    public void setLinks(Map<String, Link> links) {
         this.links = links;
     }
 

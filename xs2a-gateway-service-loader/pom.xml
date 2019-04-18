@@ -10,8 +10,7 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <artifactId>xs2a-gateway-service-impl</artifactId>
-    <name>xs2a-gateway-service-impl</name>
+    <artifactId>xs2a-gateway-service-loader</artifactId>
 
     <dependencies>
 

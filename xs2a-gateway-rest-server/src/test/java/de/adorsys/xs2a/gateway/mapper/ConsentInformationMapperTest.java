@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,7 +43,7 @@ public class ConsentInformationMapperTest {
         consentInformation.setFrequencyPerDay(FREQUENCY_PER_DAY);
         consentInformation.setLastActionDate(LAST_ACTION_DATE);
         consentInformation.setConsentStatus(ConsentStatus.RECEIVED);
-        consentInformation.setLinks(new Links());
+        consentInformation.setLinks(new HashMap<>());
         return consentInformation;
     }
 }

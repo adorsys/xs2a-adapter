@@ -14,46 +14,49 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.gateway.service.impl;
+package de.adorsys.xs2a.gateway.adapter;
 
 import de.adorsys.xs2a.gateway.http.HttpClient;
 import de.adorsys.xs2a.gateway.http.JsonMapper;
 import de.adorsys.xs2a.gateway.service.ErrorResponse;
+import de.adorsys.xs2a.gateway.service.RequestParams;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
 
 import java.io.IOException;
 import java.io.PushbackInputStream;
 import java.io.UncheckedIOException;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-abstract class AbstractDeutscheBankService {
-    private static final String BASE_URI = "https://simulator-xs2a.db.com/";
-    static final String PIS_URI = BASE_URI + "pis/DE/SB-DB/v1/";
-    static final String AIS_URI = BASE_URI + "ais/DE/SB-DB/v1/";
-    static final String SLASH_SEPARATOR = "/";
-    static final String SLASH_AUTHORISATIONS = "/authorisations";
-    static final String SLASH_AUTHORISATIONS_SLASH = "/authorisations/";
-    private static final String DATE_HEADER = "Date";
-    private static final String CONTENT_TYPE_HEADER = "Content-Type";
-    private static final String APPLICATION_JSON = "application/json";
-    private static final String ACCEPT_HEADER = "Accept";
-    final JsonMapper jsonMapper = new JsonMapper();
-    HttpClient httpClient = HttpClient.newHttpClient();
+public abstract class AbstractService {
+    protected static final String SLASH_SEPARATOR = "/";
+    protected static final String SLASH_TRANSACTIONS = "/transactions";
+    protected static final String SLASH_AUTHORISATIONS = "/authorisations";
+    protected static final String SLASH_AUTHORISATIONS_SLASH = "/authorisations/";
+    protected static final String CONTENT_TYPE_HEADER = "Content-Type";
+    protected static final String APPLICATION_JSON = "application/json";
+    protected static final String ACCEPT_HEADER = "Accept";
+    protected final JsonMapper jsonMapper = new JsonMapper();
+    protected HttpClient httpClient = HttpClient.newHttpClient();
 
-    void setHttpClient(HttpClient httpClient) {
+    public void setHttpClient(HttpClient httpClient) {
         this.httpClient = httpClient;
     }
 
-    void addDBSpecificPostHeaders(Map<String, String> headersMap) {
-        headersMap.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        headersMap.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
+    protected Map<String, String> addConsentIdHeader(Map<String, String> map) {
+        return map;
     }
 
-    void addDBSpecificGetHeaders(Map<String, String> headersMap) {
-        headersMap.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
+    protected Map<String, String> populatePostHeaders(Map<String, String> map) {
+        return map;
+    }
+
+    protected Map<String, String> populatePutHeaders(Map<String, String> map) {
+        return map;
+    }
+
+    protected Map<String, String> populateGetHeaders(Map<String, String> map) {
+        return map;
     }
 
     <T> HttpClient.ResponseHandler<T> responseHandler(Class<T> klass) {
@@ -83,5 +86,23 @@ abstract class AbstractDeutscheBankService {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    protected static String buildUri(String uri, RequestParams requestParams) {
+        if (requestParams == null) {
+            return uri;
+        }
+
+        Map<String, String> requestParamsMap = requestParams.toMap();
+
+        if (requestParamsMap.isEmpty()) {
+            return uri;
+        }
+
+        String requestParamsString = requestParamsMap.entrySet().stream()
+                                             .map(entry -> entry.getKey() + "=" + entry.getValue())
+                                             .collect(Collectors.joining("&", "?", ""));
+
+        return uri + requestParamsString;
     }
 }
