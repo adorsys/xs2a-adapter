@@ -10,8 +10,7 @@ import org.mapstruct.Mappings;
 public interface AccountDetailsMapper {
 
     @Mappings({
-            @Mapping(source = "usageType", target = "usage"),
-            @Mapping(target = "links", ignore = true)  // TODO add links mapping after Link class is designed
+            @Mapping(source = "usageType", target = "usage")
     })
     AccountDetailsTO toAccountDetailsTO(AccountDetails accountDetails);
 }

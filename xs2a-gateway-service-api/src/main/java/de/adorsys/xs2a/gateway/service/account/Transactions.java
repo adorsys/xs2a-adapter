@@ -3,10 +3,11 @@ package de.adorsys.xs2a.gateway.service.account;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.gateway.service.AccountReference;
 import de.adorsys.xs2a.gateway.service.Amount;
-import de.adorsys.xs2a.gateway.service.Links;
+import de.adorsys.xs2a.gateway.service.model.Link;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class Transactions {
     private String transactionId;
@@ -32,7 +33,7 @@ public class Transactions {
     private String proprietaryBankTransactionCode;
 
     @JsonProperty("_links")
-    private Links links = new Links();
+    private Map<String, Link> links;
 
     public String getTransactionId() {
         return transactionId;
@@ -202,11 +203,11 @@ public class Transactions {
         this.proprietaryBankTransactionCode = proprietaryBankTransactionCode;
     }
 
-    public Links getLinks() {
+    public Map<String, Link> getLinks() {
         return links;
     }
 
-    public void setLinks(Links links) {
+    public void setLinks(Map<String, Link> links) {
         this.links = links;
     }
 }

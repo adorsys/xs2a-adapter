@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.gateway.model.ais;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.adorsys.xs2a.gateway.service.model.Link;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -43,7 +44,7 @@ public class TransactionsResponse200Json {
   private BalanceList balances = null;
 
   @JsonProperty("_links")
-  private Map _links = null;
+  private Map<String, Link> links;
 
   public TransactionsResponse200Json account(AccountReferenceTO account) {
     this.account = account;
@@ -108,8 +109,8 @@ public class TransactionsResponse200Json {
     this.balances = balances;
   }
 
-  public TransactionsResponse200Json _links(Map _links) {
-    this._links = _links;
+  public TransactionsResponse200Json _links(Map<String, Link> _links) {
+    this.links = _links;
     return this;
   }
 
@@ -121,12 +122,12 @@ public class TransactionsResponse200Json {
 
   @Valid
   @JsonProperty("_links")
-  public Map getLinks() {
-    return _links;
+  public Map<String, Link> getLinks() {
+    return links;
   }
 
-  public void setLinks(Map _links) {
-    this._links = _links;
+  public void setLinks(Map<String, Link> _links) {
+    this.links = _links;
   }
 
 
@@ -142,12 +143,12 @@ public class TransactionsResponse200Json {
     return Objects.equals(this.account, transactionsResponse200Json.account) &&
         Objects.equals(this.transactions, transactionsResponse200Json.transactions) &&
         Objects.equals(this.balances, transactionsResponse200Json.balances) &&
-        Objects.equals(this._links, transactionsResponse200Json._links);
+        Objects.equals(this.links, transactionsResponse200Json.links);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(account, transactions, balances, _links);
+    return Objects.hash(account, transactions, balances, links);
   }
 
   @Override
@@ -158,7 +159,7 @@ public class TransactionsResponse200Json {
     sb.append("    account: ").append(toIndentedString(account)).append("\n");
     sb.append("    transactions: ").append(toIndentedString(transactions)).append("\n");
     sb.append("    balances: ").append(toIndentedString(balances)).append("\n");
-    sb.append("    _links: ").append(toIndentedString(_links)).append("\n");
+    sb.append("    _links: ").append(toIndentedString(links)).append("\n");
     sb.append("}");
     return sb.toString();
   }

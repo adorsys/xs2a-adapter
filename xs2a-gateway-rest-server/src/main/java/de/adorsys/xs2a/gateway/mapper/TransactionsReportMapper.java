@@ -10,8 +10,7 @@ import org.mapstruct.Mappings;
 public interface TransactionsReportMapper {
 
     @Mappings({
-            @Mapping(source = "accountReference", target = "account"),
-            @Mapping(target = "links", ignore = true)  // TODO add links mapping after Link class is designed
+            @Mapping(source = "accountReference", target = "account")
     })
     TransactionsResponse200Json toTransactionsResponse200Json(TransactionsReport transactionsReport);
 }
