@@ -18,6 +18,7 @@
         <!-- adapters -->
         <module>adorsys-integ-adapter</module>
         <module>deutsche-bank-adapter</module>
+        <module>sparkasse-adapter</module>
     </modules>
 
     <properties>
