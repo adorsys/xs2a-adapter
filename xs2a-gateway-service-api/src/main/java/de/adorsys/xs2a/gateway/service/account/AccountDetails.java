@@ -1,8 +1,9 @@
 package de.adorsys.xs2a.gateway.service.account;
 
-import de.adorsys.xs2a.gateway.service.Links;
+import de.adorsys.xs2a.gateway.service.model.Link;
 
 import java.util.List;
+import java.util.Map;
 
 public class AccountDetails {
     private String aspspAccountId;
@@ -22,7 +23,7 @@ public class AccountDetails {
     private UsageType usageType;
     private String details;
     private List<Balance> balances;
-    private Links links = new Links();
+    private Map<String, Link> links;
 
     public String getAspspAccountId() {
         return aspspAccountId;
@@ -160,11 +161,11 @@ public class AccountDetails {
         this.balances = balances;
     }
 
-    public Links getLinks() {
+    public Map<String, Link> getLinks() {
         return links;
     }
 
-    public void setLinks(Links links) {
+    public void setLinks(Map<String, Link> links) {
         this.links = links;
     }
 }

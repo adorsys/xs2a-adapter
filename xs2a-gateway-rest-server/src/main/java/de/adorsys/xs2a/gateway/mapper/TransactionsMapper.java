@@ -6,17 +6,12 @@ import de.adorsys.xs2a.gateway.service.account.BankTransactionCode;
 import de.adorsys.xs2a.gateway.service.account.PurposeCode;
 import de.adorsys.xs2a.gateway.service.account.Transactions;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
 import java.util.Objects;
 
 @Mapper(uses = {AmountMapper.class, AccountReferenceMapper.class, ExchangeRateMapper.class})
 public interface TransactionsMapper {
 
-    @Mappings({
-            @Mapping(target = "links", ignore = true)  // TODO add links mapping after Link class is designed
-    })
     TransactionDetails toTransactionDetails(Transactions transactions);
 
     default PurposeCodeTO toPurposeCodeTO(PurposeCode purposeCode) {

@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.gateway.model.ais;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.adorsys.xs2a.gateway.service.model.Link;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -100,7 +101,7 @@ public class TransactionDetails {
   private String proprietaryBankTransactionCode = null;
 
   @JsonProperty("_links")
-  private Map _links = null;
+  private Map<String, Link> links;
 
   public TransactionDetails transactionId(String transactionId) {
     this.transactionId = transactionId;
@@ -530,8 +531,8 @@ public class TransactionDetails {
     this.proprietaryBankTransactionCode = proprietaryBankTransactionCode;
   }
 
-  public TransactionDetails _links(Map _links) {
-    this._links = _links;
+  public TransactionDetails _links(Map<String, Link> _links) {
+    this.links = _links;
     return this;
   }
 
@@ -543,12 +544,12 @@ public class TransactionDetails {
 
   @Valid
   @JsonProperty("_links")
-  public Map getLinks() {
-    return _links;
+  public Map<String, Link> getLinks() {
+    return links;
   }
 
-  public void setLinks(Map _links) {
-    this._links = _links;
+  public void setLinks(Map<String, Link> _links) {
+    this.links = _links;
   }
 
 
@@ -582,12 +583,12 @@ public class TransactionDetails {
         Objects.equals(this.purposeCode, transactionDetails.purposeCode) &&
         Objects.equals(this.bankTransactionCode, transactionDetails.bankTransactionCode) &&
         Objects.equals(this.proprietaryBankTransactionCode, transactionDetails.proprietaryBankTransactionCode) &&
-        Objects.equals(this._links, transactionDetails._links);
+        Objects.equals(this.links, transactionDetails.links);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(transactionId, entryReference, endToEndId, mandateId, checkId, creditorId, bookingDate, valueDate, transactionAmount, exchangeRate, creditorName, creditorAccount, ultimateCreditor, debtorName, debtorAccount, ultimateDebtor, remittanceInformationUnstructured, remittanceInformationStructured, purposeCode, bankTransactionCode, proprietaryBankTransactionCode, _links);
+    return Objects.hash(transactionId, entryReference, endToEndId, mandateId, checkId, creditorId, bookingDate, valueDate, transactionAmount, exchangeRate, creditorName, creditorAccount, ultimateCreditor, debtorName, debtorAccount, ultimateDebtor, remittanceInformationUnstructured, remittanceInformationStructured, purposeCode, bankTransactionCode, proprietaryBankTransactionCode, links);
   }
 
   @Override
@@ -616,7 +617,7 @@ public class TransactionDetails {
     sb.append("    purposeCode: ").append(toIndentedString(purposeCode)).append("\n");
     sb.append("    bankTransactionCode: ").append(toIndentedString(bankTransactionCode)).append("\n");
     sb.append("    proprietaryBankTransactionCode: ").append(toIndentedString(proprietaryBankTransactionCode)).append("\n");
-    sb.append("    _links: ").append(toIndentedString(_links)).append("\n");
+    sb.append("    _links: ").append(toIndentedString(links)).append("\n");
     sb.append("}");
     return sb.toString();
   }

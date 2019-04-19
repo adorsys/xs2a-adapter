@@ -1,9 +1,10 @@
 package de.adorsys.xs2a.gateway.service.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.adorsys.xs2a.gateway.service.Links;
+import de.adorsys.xs2a.gateway.service.model.Link;
 
 import java.util.List;
+import java.util.Map;
 
 public class AccountReport {
 
@@ -12,7 +13,7 @@ public class AccountReport {
     private byte[] transactionsRaw;
 
     @JsonProperty("_links")
-    private Links links;
+    private Map<String, Link> links;
 
     public List<Transactions> getBooked() {
         return booked;
@@ -38,11 +39,11 @@ public class AccountReport {
         this.transactionsRaw = transactionsRaw;
     }
 
-    public Links getLinks() {
+    public Map<String, Link> getLinks() {
         return links;
     }
 
-    public void setLinks(Links links) {
+    public void setLinks(Map<String, Link> links) {
         this.links = links;
     }
 }

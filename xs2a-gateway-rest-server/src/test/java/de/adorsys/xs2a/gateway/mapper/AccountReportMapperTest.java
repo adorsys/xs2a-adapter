@@ -4,11 +4,14 @@ import de.adorsys.xs2a.gateway.model.ais.AccountReportTO;
 import de.adorsys.xs2a.gateway.model.ais.TransactionList;
 import de.adorsys.xs2a.gateway.service.account.AccountReport;
 import de.adorsys.xs2a.gateway.service.account.Transactions;
+import de.adorsys.xs2a.gateway.service.model.Link;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static de.adorsys.xs2a.gateway.mapper.TransactionsMapperTest.buildTransactions;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,6 +22,10 @@ public class AccountReportMapperTest {
     private static final List<Transactions> BOOKED_LIST = Collections.singletonList(BOOKED);
     private static final List<Transactions> PENDING_LIST = Collections.singletonList(PENDING);
     private static final byte[] TRANSACTION_RAW = "transactionsRaw".getBytes();
+    private static final String LINK_NAME = "linkName";
+    private static final String LINK_HREF = "linkHref";
+    private static final Link LINK = buildLink();
+    private static final Map<String, Link> LINKS_MAP = buildLinksMap();
 
     @Test
     public void toAccountReportTO() {
@@ -33,6 +40,10 @@ public class AccountReportMapperTest {
         TransactionList pendingTransactionList = accountReportTO.getPending();
         assertThat(pendingTransactionList).isNotNull();
         assertThat(pendingTransactionList.size()).isEqualTo(PENDING_LIST.size());
+
+        Map<String, Link> linksMapTO = accountReportTO.getLinks();
+        assertThat(linksMapTO).isNotNull();
+        assertThat(linksMapTO).isEqualTo(LINKS_MAP);
     }
 
     static AccountReport buildAccountReport() {
@@ -41,7 +52,20 @@ public class AccountReportMapperTest {
         accountReport.setBooked(BOOKED_LIST);
         accountReport.setPending(PENDING_LIST);
         accountReport.setTransactionsRaw(TRANSACTION_RAW);
+        accountReport.setLinks(LINKS_MAP);
 
         return accountReport;
+    }
+
+    private static Link buildLink() {
+        Link link = new Link();
+        link.setHref(LINK_HREF);
+        return link;
+    }
+
+    private static Map<String, Link> buildLinksMap() {
+        Map<String, Link> linksMap = new HashMap<>();
+        linksMap.put(LINK_NAME, LINK);
+        return linksMap;
     }
 }

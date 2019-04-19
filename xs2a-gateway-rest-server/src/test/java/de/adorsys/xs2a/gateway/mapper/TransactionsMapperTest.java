@@ -7,12 +7,15 @@ import de.adorsys.xs2a.gateway.service.account.BankTransactionCode;
 import de.adorsys.xs2a.gateway.service.account.ExchangeRate;
 import de.adorsys.xs2a.gateway.service.account.PurposeCode;
 import de.adorsys.xs2a.gateway.service.account.Transactions;
+import de.adorsys.xs2a.gateway.service.model.Link;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static de.adorsys.xs2a.gateway.mapper.AccountReferenceMapperTest.buildAccountReference;
 import static de.adorsys.xs2a.gateway.mapper.AmountMapperTest.buildAmount;
@@ -44,6 +47,10 @@ public class TransactionsMapperTest {
     private static final PurposeCode PURPOSE_CODE = buildPurposeCode();
     private static final String BANK_TRANSACTION_CODE_STRING = "bankTransactionCode";
     private static final BankTransactionCode BANK_TRANSACTION_CODE = buildBankTransactionCode();
+    private static final String LINK_NAME = "linkName";
+    private static final String LINK_HREF = "linkHref";
+    private static final Link LINK = buildLink();
+    private static final Map<String, Link> LINKS_MAP = buildLinksMap();
 
     private TransactionsMapper transactionsMapper = Mappers.getMapper(TransactionsMapper.class);
 
@@ -93,6 +100,10 @@ public class TransactionsMapperTest {
 
         assertThat(transactionDetails.getBankTransactionCode()).isEqualTo(BANK_TRANSACTION_CODE.getCode());
         assertThat(transactionDetails.getProprietaryBankTransactionCode()).isEqualTo(PROPRIETARY_BANK_TRANSACTION_CODE);
+
+        Map<String, Link> linksMapTO = transactionDetails.getLinks();
+        assertThat(linksMapTO).isNotNull();
+        assertThat(linksMapTO).isEqualTo(LINKS_MAP);
     }
 
     @Test
@@ -133,6 +144,7 @@ public class TransactionsMapperTest {
         transactions.setPurposeCode(PURPOSE_CODE);
         transactions.setBankTransactionCode(BANK_TRANSACTION_CODE);
         transactions.setProprietaryBankTransactionCode(PROPRIETARY_BANK_TRANSACTION_CODE);
+        transactions.setLinks(LINKS_MAP);
 
         return transactions;
     }
@@ -147,5 +159,17 @@ public class TransactionsMapperTest {
         BankTransactionCode bankTransactionCode = new BankTransactionCode();
         bankTransactionCode.setCode(BANK_TRANSACTION_CODE_STRING);
         return bankTransactionCode;
+    }
+
+    private static Link buildLink() {
+        Link link = new Link();
+        link.setHref(LINK_HREF);
+        return link;
+    }
+
+    private static Map<String, Link> buildLinksMap() {
+        Map<String, Link> linksMap = new HashMap<>();
+        linksMap.put(LINK_NAME, LINK);
+        return linksMap;
     }
 }

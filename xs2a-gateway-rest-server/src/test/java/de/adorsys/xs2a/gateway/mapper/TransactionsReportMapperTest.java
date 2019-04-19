@@ -8,11 +8,14 @@ import de.adorsys.xs2a.gateway.service.AccountReference;
 import de.adorsys.xs2a.gateway.service.account.AccountReport;
 import de.adorsys.xs2a.gateway.service.account.Balance;
 import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
+import de.adorsys.xs2a.gateway.service.model.Link;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static de.adorsys.xs2a.gateway.mapper.AccountReferenceMapperTest.buildAccountReference;
 import static de.adorsys.xs2a.gateway.mapper.AccountReportMapperTest.buildAccountReport;
@@ -24,6 +27,10 @@ public class TransactionsReportMapperTest {
     private static final AccountReport TRANSACTIONS = buildAccountReport();
     private static final Balance BALANCE = buildBalance();
     private static final List<Balance> BALANCES = Collections.singletonList(BALANCE);
+    private static final String LINK_NAME = "linkName";
+    private static final String LINK_HREF = "linkHref";
+    private static final Link LINK = buildLink();
+    private static final Map<String, Link> LINKS_MAP = buildLinksMap();
 
     @Test
     public void toTransactionsResponse200Json() {
@@ -42,6 +49,10 @@ public class TransactionsReportMapperTest {
         BalanceList balancesTO = transactionsResponse200Json.getBalances();
         assertThat(balancesTO).isNotNull();
         assertThat(balancesTO.size()).isEqualTo(BALANCES.size());
+
+        Map<String, Link> linksMapTO = transactionsResponse200Json.getLinks();
+        assertThat(linksMapTO).isNotNull();
+        assertThat(linksMapTO).isEqualTo(LINKS_MAP);
     }
 
     static TransactionsReport buildTransactionsReport() {
@@ -50,7 +61,20 @@ public class TransactionsReportMapperTest {
         transactionsReport.setAccountReference(ACCOUNT_REFERENCE);
         transactionsReport.setTransactions(TRANSACTIONS);
         transactionsReport.setBalances(BALANCES);
+        transactionsReport.setLinks(LINKS_MAP);
 
         return transactionsReport;
+    }
+
+    private static Link buildLink() {
+        Link link = new Link();
+        link.setHref(LINK_HREF);
+        return link;
+    }
+
+    private static Map<String, Link> buildLinksMap() {
+        Map<String, Link> linksMap = new HashMap<>();
+        linksMap.put(LINK_NAME, LINK);
+        return linksMap;
     }
 }
