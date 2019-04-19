@@ -19,6 +19,9 @@ However, being able to interact with many banks can be a time and cost consuming
 
 The XS2A Adapter is a service component for Multi-Banking Applications. On one hand, you can interact with the adapter through an own interface based on the Berlin Group Specification. On the other Hand, it can communicate with different PSD2-interfaces from various Banks in Germany and Europe. Our solution is Open Source and free of charge. It can easily be embedded in your application using either a java or a REST client. With the help of a growing community our adapter is kept up-to-date regarding the changes on the XS2A interfaces of the banks. Also, as part of our product vision, a core team will be interacting with the community in order to keep connecting new banks to the adapter. 
 
+###High level architecture
+![High level architecture](docs/img/high%20level%20architecture.png)
+
 ## Getting Started
 
 ### Prerequisites
