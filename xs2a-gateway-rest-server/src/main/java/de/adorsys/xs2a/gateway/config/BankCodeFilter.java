@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.gateway.config;
 
-import de.adorsys.xs2a.gateway.service.Headers;
+import de.adorsys.xs2a.gateway.service.RequestHeaders;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -38,7 +38,7 @@ public class BankCodeFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         if (bankCode != null && !bankCode.isEmpty()) {
             MutableHttpServletRequest wrapper = new MutableHttpServletRequest((HttpServletRequest) request);
-            wrapper.addHeader(Headers.X_GTW_BANK_CODE, bankCode);
+            wrapper.addHeader(RequestHeaders.X_GTW_BANK_CODE, bankCode);
             chain.doFilter(wrapper, response);
         } else {
             chain.doFilter(request, response);

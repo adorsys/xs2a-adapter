@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.gateway.http;
 
 import de.adorsys.xs2a.gateway.service.GeneralResponse;
+import de.adorsys.xs2a.gateway.service.ResponseHeaders;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.*;
@@ -60,7 +61,8 @@ class ApacheHttpClient implements HttpClient {
             try (CloseableHttpResponse response = httpClient.execute(request)) {
                 int statusCode = response.getStatusLine().getStatusCode();
                 HttpEntity entity = response.getEntity();
-                Map<String, String> responseHeaders = toHeadersMap(response.getAllHeaders());
+                Map<String, String> responseHeadersMap = toHeadersMap(response.getAllHeaders());
+                ResponseHeaders responseHeaders = ResponseHeaders.fromMap(responseHeadersMap);
                 InputStream content = entity != null? entity.getContent() : EmptyInputStream.INSTANCE;
 
                 T responseBody = responseHandler.apply(statusCode, content, responseHeaders);

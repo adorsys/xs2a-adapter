@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.gateway.http;
 
 import de.adorsys.xs2a.gateway.service.GeneralResponse;
+import de.adorsys.xs2a.gateway.service.ResponseHeaders;
 
 import javax.net.ssl.SSLContext;
 import java.io.InputStream;
@@ -18,7 +19,7 @@ public interface HttpClient {
 
     @FunctionalInterface
     interface ResponseHandler<T> {
-        T apply(int statusCode, InputStream responseBody, Map<String, String> responseHeaders);
+        T apply(int statusCode, InputStream responseBody, ResponseHeaders responseHeaders);
     }
 
     static HttpClient newHttpClient() {

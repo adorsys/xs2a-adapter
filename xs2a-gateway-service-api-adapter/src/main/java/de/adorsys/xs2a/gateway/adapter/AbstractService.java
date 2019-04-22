@@ -20,6 +20,7 @@ import de.adorsys.xs2a.gateway.http.HttpClient;
 import de.adorsys.xs2a.gateway.http.JsonMapper;
 import de.adorsys.xs2a.gateway.service.ErrorResponse;
 import de.adorsys.xs2a.gateway.service.RequestParams;
+import de.adorsys.xs2a.gateway.service.ResponseHeaders;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
 
 import java.io.IOException;
@@ -68,7 +69,7 @@ public abstract class AbstractService {
         };
     }
 
-    private ErrorResponseException responseException(int statusCode, PushbackInputStream responseBody, Map<String, String> responseHeaders) {
+    private ErrorResponseException responseException(int statusCode, PushbackInputStream responseBody, ResponseHeaders responseHeaders) {
         if (isEmpty(responseBody)) {
             return new ErrorResponseException(statusCode, responseHeaders);
         }

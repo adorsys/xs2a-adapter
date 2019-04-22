@@ -18,7 +18,7 @@ package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.gateway.service.GeneralResponse;
-import de.adorsys.xs2a.gateway.service.Headers;
+import de.adorsys.xs2a.gateway.service.RequestHeaders;
 import de.adorsys.xs2a.gateway.service.ais.ConsentInformation;
 import de.adorsys.xs2a.gateway.service.impl.mapper.DeutscheBankConsentInformationMapper;
 import de.adorsys.xs2a.gateway.service.impl.model.DeutscheBankConsentInformation;
@@ -28,8 +28,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
-import static de.adorsys.xs2a.gateway.service.Headers.CONSENT_ID;
-import static de.adorsys.xs2a.gateway.service.Headers.RESOURCE_ID;
+import static de.adorsys.xs2a.gateway.service.RequestHeaders.CONSENT_ID;
+import static de.adorsys.xs2a.gateway.service.RequestHeaders.RESOURCE_ID;
 
 public class DeutscheBankAccountInformationService extends BaseAccountInformationService {
     private static final String DATE_HEADER = "Date";
@@ -42,8 +42,8 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
             Mappers.getMapper(DeutscheBankConsentInformationMapper.class);
 
     @Override
-    public GeneralResponse<ConsentInformation> getConsentInformation(String consentId, Headers headers) {
-        return getConsentInformation(consentId, headers, DeutscheBankConsentInformation.class, deutscheBankConsentInformationMapper::toConsentInformation);
+    public GeneralResponse<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders) {
+        return getConsentInformation(consentId, requestHeaders, DeutscheBankConsentInformation.class, deutscheBankConsentInformationMapper::toConsentInformation);
     }
 
     @Override

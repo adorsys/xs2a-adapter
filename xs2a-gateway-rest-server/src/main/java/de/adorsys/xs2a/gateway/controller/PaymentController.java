@@ -31,7 +31,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
 
     @Override
     public ResponseEntity<Object> initiatePayment(Object body, String bankCode, UUID xRequestID, String psUIPAddress, String paymentProduct, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tppRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        Headers headers = Headers.builder()
+        RequestHeaders requestHeaders = RequestHeaders.builder()
                                   .bankCode(bankCode)
                                   .xRequestId(xRequestID)
                                   .psuIpAddress(psUIPAddress)
@@ -58,18 +58,18 @@ public class PaymentController extends AbstractController implements PaymentApi 
                                   .psuGeoLocation(psUGeoLocation)
                                   .build();
 
-        GeneralResponse<PaymentInitiationRequestResponse> response = this.paymentService.initiateSinglePayment(paymentProduct, body, headers);
+        GeneralResponse<PaymentInitiationRequestResponse> response = this.paymentService.initiateSinglePayment(paymentProduct, body, requestHeaders);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                        .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
-                       .body(response);
+                       .body(response.getResponseBody());
     }
 
     @Override
     public ResponseEntity<PaymentInitiationSctWithStatusResponse> getSinglePaymentInformation(String paymentProduct, String paymentId, String bankCode, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        Headers headers = buildHeaders(bankCode, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        RequestHeaders requestHeaders = buildHeaders(bankCode, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
-        GeneralResponse<SinglePaymentInitiationInformationWithStatusResponse> response = this.paymentService.getSinglePaymentInformation(paymentProduct, paymentId, headers);
+        GeneralResponse<SinglePaymentInitiationInformationWithStatusResponse> response = this.paymentService.getSinglePaymentInformation(paymentProduct, paymentId, requestHeaders);
 
         return ResponseEntity.status(HttpStatus.OK)
                        .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
@@ -78,9 +78,9 @@ public class PaymentController extends AbstractController implements PaymentApi 
 
     @Override
     public ResponseEntity<ScaStatusResponseTO> getPaymentInitiationScaStatus(String paymentService, String paymentProduct, String paymentId, String authorisationId, String bankCode, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        Headers headers = buildHeaders(bankCode, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        RequestHeaders requestHeaders = buildHeaders(bankCode, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
-        GeneralResponse<PaymentInitiationScaStatusResponse> response = this.paymentService.getPaymentInitiationScaStatus(paymentService, paymentProduct, paymentId, authorisationId, headers);
+        GeneralResponse<PaymentInitiationScaStatusResponse> response = this.paymentService.getPaymentInitiationScaStatus(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders);
 
         return ResponseEntity.status(HttpStatus.OK)
                        .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
@@ -89,9 +89,9 @@ public class PaymentController extends AbstractController implements PaymentApi 
 
     @Override
     public ResponseEntity<PaymentInitiationStatusResponse200Json> getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, String bankCode, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        Headers headers = buildHeaders(bankCode, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        RequestHeaders requestHeaders = buildHeaders(bankCode, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
-        GeneralResponse<PaymentInitiationStatus> response = paymentService.getSinglePaymentInitiationStatus(paymentProduct, paymentId, headers);
+        GeneralResponse<PaymentInitiationStatus> response = paymentService.getSinglePaymentInitiationStatus(paymentProduct, paymentId, requestHeaders);
 
         return ResponseEntity.status(HttpStatus.OK)
                        .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
@@ -100,9 +100,9 @@ public class PaymentController extends AbstractController implements PaymentApi 
 
     @Override
     public ResponseEntity<Authorisations> getPaymentInitiationAuthorisation(String paymentService, String paymentProduct, String paymentId, String bankCode, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        Headers headers = buildHeaders(bankCode, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        RequestHeaders requestHeaders = buildHeaders(bankCode, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
-        GeneralResponse<PaymentInitiationAuthorisationResponse> response = this.paymentService.getPaymentInitiationAuthorisation(paymentService, paymentProduct, paymentId, headers);
+        GeneralResponse<PaymentInitiationAuthorisationResponse> response = this.paymentService.getPaymentInitiationAuthorisation(paymentService, paymentProduct, paymentId, requestHeaders);
 
         return ResponseEntity.status(HttpStatus.OK)
                        .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))

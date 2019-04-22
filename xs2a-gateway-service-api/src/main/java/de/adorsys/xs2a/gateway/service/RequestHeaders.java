@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class Headers {
+public class RequestHeaders {
     public static final String X_GTW_BANK_CODE = "X-GTW-Bank-Code";
     public static final String X_REQUEST_ID = "X-Request-ID";
     public static final String CONSENT_ID = "Consent-ID";
@@ -87,10 +87,10 @@ public class Headers {
     private UUID psuDeviceId;
     private String psuGeoLocation;
 
-    private Headers() {
+    private RequestHeaders() {
     }
 
-    private Headers(Map<String, String> headers) {
+    private RequestHeaders(Map<String, String> headers) {
         this.headers = headers;
     }
 
@@ -98,7 +98,7 @@ public class Headers {
         return new HeadersBuilder();
     }
 
-    public static Headers fromMap(Map<String, String> headersMap) {
+    public static RequestHeaders fromMap(Map<String, String> headersMap) {
         Map<String, String> headers = new HashMap<>();
         headersMap.forEach((name, value) -> {
             String headerNameInLowerCase = name.toLowerCase();
@@ -106,7 +106,7 @@ public class Headers {
                 headers.put(headerNamesLowerCased.get(headerNameInLowerCase), value);
             }
         });
-        return new Headers(headers);
+        return new RequestHeaders(headers);
     }
 
     public Map<String, String> toMap() {
@@ -299,33 +299,33 @@ public class Headers {
             return this;
         }
 
-        public Headers build() {
-            Headers headers = new Headers();
-            headers.bankCode = this.bankCode;
-            headers.psuCorporateId = this.psuCorporateId;
-            headers.tppRedirectUri = this.tppRedirectUri;
-            headers.psuHttpMethod = this.psuHttpMethod;
-            headers.psuGeoLocation = this.psuGeoLocation;
-            headers.psuIpPort = this.psuIpPort;
-            headers.psuAcceptEncoding = this.psuAcceptEncoding;
-            headers.psuCorporateIdType = this.psuCorporateIdType;
-            headers.xRequestId = this.xRequestId;
-            headers.psuIpAddress = this.psuIpAddress;
-            headers.signature = this.signature;
-            headers.tppExplicitAuthorisationPreferred = this.tppExplicitAuthorisationPreferred;
-            headers.psuDeviceId = this.psuDeviceId;
-            headers.tppSignatureCertificate = this.tppSignatureCertificate;
-            headers.digest = this.digest;
-            headers.tppNokRedirectUri = this.tppNokRedirectUri;
-            headers.psuAcceptCharset = this.psuAcceptCharset;
-            headers.consentId = this.consentId;
-            headers.psuAcceptLanguage = this.psuAcceptLanguage;
-            headers.tppRedirectPreferred = this.tppRedirectPreferred;
-            headers.psuUserAgent = this.psuUserAgent;
-            headers.psuIdType = this.psuIdType;
-            headers.psuId = this.psuId;
-            headers.psuAccept = this.psuAccept;
-            return headers;
+        public RequestHeaders build() {
+            RequestHeaders requestHeaders = new RequestHeaders();
+            requestHeaders.bankCode = this.bankCode;
+            requestHeaders.psuCorporateId = this.psuCorporateId;
+            requestHeaders.tppRedirectUri = this.tppRedirectUri;
+            requestHeaders.psuHttpMethod = this.psuHttpMethod;
+            requestHeaders.psuGeoLocation = this.psuGeoLocation;
+            requestHeaders.psuIpPort = this.psuIpPort;
+            requestHeaders.psuAcceptEncoding = this.psuAcceptEncoding;
+            requestHeaders.psuCorporateIdType = this.psuCorporateIdType;
+            requestHeaders.xRequestId = this.xRequestId;
+            requestHeaders.psuIpAddress = this.psuIpAddress;
+            requestHeaders.signature = this.signature;
+            requestHeaders.tppExplicitAuthorisationPreferred = this.tppExplicitAuthorisationPreferred;
+            requestHeaders.psuDeviceId = this.psuDeviceId;
+            requestHeaders.tppSignatureCertificate = this.tppSignatureCertificate;
+            requestHeaders.digest = this.digest;
+            requestHeaders.tppNokRedirectUri = this.tppNokRedirectUri;
+            requestHeaders.psuAcceptCharset = this.psuAcceptCharset;
+            requestHeaders.consentId = this.consentId;
+            requestHeaders.psuAcceptLanguage = this.psuAcceptLanguage;
+            requestHeaders.tppRedirectPreferred = this.tppRedirectPreferred;
+            requestHeaders.psuUserAgent = this.psuUserAgent;
+            requestHeaders.psuIdType = this.psuIdType;
+            requestHeaders.psuId = this.psuId;
+            requestHeaders.psuAccept = this.psuAccept;
+            return requestHeaders;
         }
     }
 }

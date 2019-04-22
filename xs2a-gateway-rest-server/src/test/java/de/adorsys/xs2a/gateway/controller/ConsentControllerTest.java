@@ -6,7 +6,8 @@ import de.adorsys.xs2a.gateway.mapper.HeadersMapper;
 import de.adorsys.xs2a.gateway.model.ais.ConsentStatusTO;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
 import de.adorsys.xs2a.gateway.service.GeneralResponse;
-import de.adorsys.xs2a.gateway.service.Headers;
+import de.adorsys.xs2a.gateway.service.RequestHeaders;
+import de.adorsys.xs2a.gateway.service.ResponseHeaders;
 import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 import org.junit.Before;
@@ -65,13 +66,13 @@ public class ConsentControllerTest {
         String body = new ObjectMapper().writeValueAsString(response);
 
         when(consentService.createConsent(any(), any()))
-                .thenReturn(new GeneralResponse<>(HTTP_CODE_200, response, Collections.emptyMap()));
+                .thenReturn(new GeneralResponse<>(HTTP_CODE_200, response, ResponseHeaders.fromMap(Collections.emptyMap())));
         when(headersMapper.toHttpHeaders(any()))
                 .thenReturn(new HttpHeaders());
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                                                       .post(ConsentController.CONSENTS)
-                                                      .header(Headers.X_GTW_BANK_CODE, "db")
-                                                      .header(Headers.X_REQUEST_ID, UUID.randomUUID())
+                                                      .header(RequestHeaders.X_GTW_BANK_CODE, "db")
+                                                      .header(RequestHeaders.X_REQUEST_ID, UUID.randomUUID())
                                                       .contentType(APPLICATION_JSON_UTF8_VALUE)
                                                       .content(body))
                                       .andExpect(status().is(HttpStatus.CREATED.value()))

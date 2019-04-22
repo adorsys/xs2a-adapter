@@ -1,16 +1,15 @@
 package de.adorsys.xs2a.gateway.mapper;
 
+import de.adorsys.xs2a.gateway.service.ResponseHeaders;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 @Component
 public class HeadersMapper {
 
-    public HttpHeaders toHttpHeaders(Map<String, String> headersMap) {
+    public HttpHeaders toHttpHeaders(ResponseHeaders responseHeaders) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        headersMap.forEach(httpHeaders::add);
+        responseHeaders.getHeadersMap().forEach(httpHeaders::add);
         return httpHeaders;
     }
 }

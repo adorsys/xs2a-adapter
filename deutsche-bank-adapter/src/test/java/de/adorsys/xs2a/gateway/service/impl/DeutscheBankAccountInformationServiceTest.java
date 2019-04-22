@@ -2,7 +2,8 @@ package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.http.HttpClient;
 import de.adorsys.xs2a.gateway.service.GeneralResponse;
-import de.adorsys.xs2a.gateway.service.Headers;
+import de.adorsys.xs2a.gateway.service.RequestHeaders;
+import de.adorsys.xs2a.gateway.service.ResponseHeaders;
 import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.ais.Consents;
 import org.junit.Test;
@@ -35,9 +36,9 @@ public class DeutscheBankAccountInformationServiceTest {
                 anyString(),
                 headersCaptor.capture(),
                 any()
-        )).thenReturn(new GeneralResponse(HTTP_CODE_200, new ConsentCreationResponse(), Collections.emptyMap()));
+        )).thenReturn(new GeneralResponse(HTTP_CODE_200, new ConsentCreationResponse(), ResponseHeaders.fromMap(Collections.emptyMap())));
 
-        service.createConsent(new Consents(), Headers.builder().build());
+        service.createConsent(new Consents(), RequestHeaders.builder().build());
 
         verify(httpClient, times(1)).post(
                 eq(CONSENT_URL),

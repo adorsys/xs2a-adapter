@@ -1,7 +1,8 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.service.GeneralResponse;
-import de.adorsys.xs2a.gateway.service.Headers;
+import de.adorsys.xs2a.gateway.service.RequestHeaders;
+import de.adorsys.xs2a.gateway.service.ResponseHeaders;
 import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 import de.adorsys.xs2a.gateway.service.ais.Consents;
@@ -18,18 +19,18 @@ public class ConsentServiceImplTest {
 
     @Test
     public void createConsent() {
-        GeneralResponse<ConsentCreationResponse> response = new GeneralResponse<>(HTTP_CODE_200, new ConsentCreationResponse(), Collections.emptyMap());
+        GeneralResponse<ConsentCreationResponse> response = new GeneralResponse<>(HTTP_CODE_200, new ConsentCreationResponse(), ResponseHeaders.fromMap(Collections.emptyMap()));
         DeutscheBankAccountInformationService deutscheBankConsentService = mock(DeutscheBankAccountInformationService.class);
         AccountInformationServiceImpl service = new AccountInformationServiceImpl(){
             @Override
-            AccountInformationService getConsentService(Headers headers) {
+            AccountInformationService getConsentService(RequestHeaders headers) {
                 return deutscheBankConsentService;
             }
         };
 
         when(deutscheBankConsentService.createConsent(any(), any())).thenReturn(response);
 
-        GeneralResponse<ConsentCreationResponse> consentResponse = service.createConsent(new Consents(), Headers.builder().build());
+        GeneralResponse<ConsentCreationResponse> consentResponse = service.createConsent(new Consents(), RequestHeaders.builder().build());
 
         verify(deutscheBankConsentService, times(1)).createConsent(any(), any());
 
