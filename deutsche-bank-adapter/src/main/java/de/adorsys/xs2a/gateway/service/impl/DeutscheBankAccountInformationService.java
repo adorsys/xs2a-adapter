@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.gateway.service.GeneralResponse;
 import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.ais.ConsentInformation;
 import de.adorsys.xs2a.gateway.service.impl.mapper.DeutscheBankConsentInformationMapper;
@@ -41,7 +42,7 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
             Mappers.getMapper(DeutscheBankConsentInformationMapper.class);
 
     @Override
-    public ConsentInformation getConsentInformation(String consentId, Headers headers) {
+    public GeneralResponse<ConsentInformation> getConsentInformation(String consentId, Headers headers) {
         return getConsentInformation(consentId, headers, DeutscheBankConsentInformation.class, deutscheBankConsentInformationMapper::toConsentInformation);
     }
 

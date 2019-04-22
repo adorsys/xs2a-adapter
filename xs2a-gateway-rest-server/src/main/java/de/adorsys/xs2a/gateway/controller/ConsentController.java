@@ -47,6 +47,8 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
     private final ObjectMapper objectMapper;
 
+    private final HeadersMapper headersMapper;
+
     private final ConsentMapper consentMapper = Mappers.getMapper(ConsentMapper.class);
 
     private final ConsentCreationResponseMapper creationResponseMapper = Mappers.getMapper(ConsentCreationResponseMapper.class);
@@ -63,17 +65,23 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
     private final TransactionsReportMapper transactionsReportMapper = Mappers.getMapper(TransactionsReportMapper.class);
 
-    public ConsentController(AccountInformationService consentService, ObjectMapper objectMapper) {
+    public ConsentController(AccountInformationService consentService, ObjectMapper objectMapper, HeadersMapper headersMapper) {
         this.consentService = consentService;
         this.objectMapper = objectMapper;
+        this.headersMapper = headersMapper;
     }
 
     @Override
     public ResponseEntity<ConsentsResponse201> createConsent(String bankCode, UUID xRequestId, ConsentsTO body, String digest, String signature, byte[] tppSignatureCertificate, String psuId, String psuIdType, String psuCorporateId, String psuCorporateIdType, boolean tppRedirectPreferred, String tppRedirectUri, String tppNokRedirectUri, boolean tppExplicitAuthorisationPreferred, String psuIpAddress, String psuIpPort, String psuAccept, String psuAcceptCharset, String psuAcceptEncoding, String psuAcceptLanguage, String psuUserAgent, String psuHttpMethod, UUID psuDeviceId, String psuGeoLocation) {
         Headers headers = buildCreateConsentHeaders(bankCode, xRequestId, digest, signature, tppSignatureCertificate, psuId, psuIdType, psuCorporateId, psuCorporateIdType, tppRedirectPreferred, tppRedirectUri, tppNokRedirectUri, tppExplicitAuthorisationPreferred, psuIpAddress, psuIpPort, psuAccept, psuAcceptCharset, psuAcceptEncoding, psuAcceptLanguage, psuUserAgent, psuHttpMethod, psuDeviceId, psuGeoLocation);
         Consents consents = consentMapper.toConsents(body);
-        ConsentCreationResponse consent = consentService.createConsent(consents, headers);
-        return ResponseEntity.status(HttpStatus.CREATED).body(creationResponseMapper.toConsentResponse201(consent));
+
+        GeneralResponse<ConsentCreationResponse> response = consentService.createConsent(consents, headers);
+
+        return ResponseEntity
+                       .status(HttpStatus.CREATED)
+                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .body(creationResponseMapper.toConsentResponse201(response.getResponseBody()));
     }
 
     @Override
@@ -85,8 +93,13 @@ public class ConsentController extends AbstractController implements ConsentApi,
                 psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod,
                 psUDeviceID, psUGeoLocation);
 
-        ConsentInformation consentInformation = consentService.getConsentInformation(consentId, headers);
-        return ResponseEntity.ok(consentInformationMapper.toConsentInformationResponse200Json(consentInformation));
+
+        GeneralResponse<ConsentInformation> response = consentService.getConsentInformation(consentId, headers);
+
+        return ResponseEntity
+                       .status(HttpStatus.OK)
+                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .body(consentInformationMapper.toConsentInformationResponse200Json(response.getResponseBody()));
     }
 
     @Override
@@ -98,8 +111,12 @@ public class ConsentController extends AbstractController implements ConsentApi,
                                        psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod,
                                        psUDeviceID, psUGeoLocation);
 
-        ConsentStatusResponse consentStatusResponse = consentService.getConsentStatus(consentId, headers);
-        return ResponseEntity.ok(consentStatusResponseMapper.toConsentStatusResponse200(consentStatusResponse));
+        GeneralResponse<ConsentStatusResponse> response = consentService.getConsentStatus(consentId, headers);
+
+        return ResponseEntity
+                       .status(HttpStatus.OK)
+                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .body(consentStatusResponseMapper.toConsentStatusResponse200(response.getResponseBody()));
     }
 
     private Headers buildCreateConsentHeaders(String bankCode, UUID xRequestId, String digest, String signature, byte[] tppSignatureCertificate, String psuId, String psuIdType, String psuCorporateId, String psuCorporateIdType, boolean tppRedirectPreferred, String tppRedirectUri, String tppNokRedirectUri, boolean tppExplicitAuthorisationPreferred, String psuIpAddress, String psuIpPort, String psuAccept, String psuAcceptCharset, String psuAcceptEncoding, String psuAcceptLanguage, String psuUserAgent, String psuHttpMethod, UUID psuDeviceId, String psuGeoLocation) {
@@ -136,11 +153,13 @@ public class ConsentController extends AbstractController implements ConsentApi,
             Map<String, String> headers,
             UpdatePsuAuthenticationTO body) {
         UpdatePsuAuthentication updatePsuAuthentication = updatePsuAuthenticationMapper.toUpdatePsuAuthentication(body);
-        StartScaProcessResponse startScaProcessResponse =
-                consentService.startConsentAuthorisation(consentId, Headers.fromMap(headers), updatePsuAuthentication);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(startScaProcessResponseMapper.toStartScaprocessResponseTO(startScaProcessResponse));
+        GeneralResponse<StartScaProcessResponse> response = consentService.startConsentAuthorisation(consentId, Headers.fromMap(headers), updatePsuAuthentication);
+
+        return ResponseEntity
+                       .status(HttpStatus.CREATED)
+                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .body(startScaProcessResponseMapper.toStartScaprocessResponseTO(response.getResponseBody()));
     }
 
     @Override
@@ -160,31 +179,47 @@ public class ConsentController extends AbstractController implements ConsentApi,
 //              - $ref: "#/components/schemas/selectPsuAuthenticationMethodResponse" #Select Authentication Method
 //              - $ref: "#/components/schemas/scaStatusResponse" #Transaction Authorisation
         if (body.has("psuData")) {
-            UpdatePsuAuthentication updatePsuAuthentication =
-                    objectMapper.convertValue(body, UpdatePsuAuthentication.class);
-            UpdatePsuAuthenticationResponse response = consentService.updateConsentsPsuData(consentId, authorisationId, Headers.fromMap(headers), updatePsuAuthentication);
-            return ResponseEntity.ok(response);
+            UpdatePsuAuthentication updatePsuAuthentication
+                    = objectMapper.convertValue(body, UpdatePsuAuthentication.class);
+
+            GeneralResponse<UpdatePsuAuthenticationResponse> response
+                    = consentService.updateConsentsPsuData(consentId, authorisationId, Headers.fromMap(headers), updatePsuAuthentication);
+
+            return ResponseEntity
+                           .status(HttpStatus.OK)
+                           .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                           .body(response.getResponseBody());
         }
         if (body.has("authenticationMethodId")) {
-            SelectPsuAuthenticationMethod selectPsuAuthenticationMethod =
-                    objectMapper.convertValue(body, SelectPsuAuthenticationMethod.class);
-            SelectPsuAuthenticationMethodResponse response =
-                    consentService.updateConsentsPsuData(consentId, authorisationId, Headers.fromMap(headers), selectPsuAuthenticationMethod);
-            return ResponseEntity.ok(response);
+            SelectPsuAuthenticationMethod selectPsuAuthenticationMethod
+                    = objectMapper.convertValue(body, SelectPsuAuthenticationMethod.class);
+
+            GeneralResponse<SelectPsuAuthenticationMethodResponse> response
+                    = consentService.updateConsentsPsuData(consentId, authorisationId, Headers.fromMap(headers), selectPsuAuthenticationMethod);
+
+            return ResponseEntity
+                           .status(HttpStatus.OK)
+                           .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                           .body(response.getResponseBody());
         }
         if (body.has("scaAuthenticationData")) {
-            TransactionAuthorisation transactionAuthorisation =
-                    objectMapper.convertValue(body, TransactionAuthorisation.class);
-            ScaStatusResponse response =
-                    consentService.updateConsentsPsuData(consentId, authorisationId, Headers.fromMap(headers), transactionAuthorisation);
-            return ResponseEntity.ok(response);
+            TransactionAuthorisation transactionAuthorisation
+                    = objectMapper.convertValue(body, TransactionAuthorisation.class);
+
+            GeneralResponse<ScaStatusResponse> response
+                    = consentService.updateConsentsPsuData(consentId, authorisationId, Headers.fromMap(headers), transactionAuthorisation);
+
+            return ResponseEntity
+                           .status(HttpStatus.OK)
+                           .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                           .body(response.getResponseBody());
         }
 
         ErrorResponse errorResponse = new ErrorResponse();
         TppMessage tppMessage = new TppMessage();
         tppMessage.setText("Request body doesn't match any of the supported schemas");
         errorResponse.setTppMessages(Collections.singletonList(tppMessage));
-        throw new ErrorResponseException(400, errorResponse);
+        throw new ErrorResponseException(400, Collections.emptyMap(), errorResponse);
     }
 
     @Override
@@ -197,10 +232,11 @@ public class ConsentController extends AbstractController implements ConsentApi,
                                               .withBalance(withBalance)
                                               .build();
 
-        AccountListHolder accountListHolder = consentService.getAccountList(headers, requestParams);
+        GeneralResponse<AccountListHolder> response = consentService.getAccountList(headers, requestParams);
 
         return ResponseEntity.status(HttpStatus.OK)
-                       .body(accountListHolderMapper.toAccountListTO(accountListHolder));
+                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .body(accountListHolderMapper.toAccountListTO(response.getResponseBody()));
     }
 
     @Override
@@ -218,10 +254,12 @@ public class ConsentController extends AbstractController implements ConsentApi,
                                               .withBalance(withBalance)
                                               .build();
 
-        TransactionsReport transactionsReport = consentService.getTransactionList(accountId, headers, requestParams);
+        GeneralResponse<TransactionsReport> response = consentService.getTransactionList(accountId, headers, requestParams);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(transactionsReportMapper.toTransactionsResponse200Json(transactionsReport));
+        return ResponseEntity
+                       .status(HttpStatus.OK)
+                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .body(transactionsReportMapper.toTransactionsResponse200Json(response.getResponseBody()));
     }
 
     private Headers buildAccountGetHeaders(String bankCode, UUID xRequestID, String consentID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {

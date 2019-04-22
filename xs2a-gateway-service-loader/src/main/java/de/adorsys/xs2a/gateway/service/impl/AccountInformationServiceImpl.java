@@ -16,9 +16,10 @@
 
 package de.adorsys.xs2a.gateway.service.impl;
 
+import de.adorsys.xs2a.gateway.service.GeneralResponse;
 import de.adorsys.xs2a.gateway.service.Headers;
-import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.RequestParams;
+import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.ais.*;
@@ -32,27 +33,27 @@ import java.util.stream.StreamSupport;
 public class AccountInformationServiceImpl implements AccountInformationService {
 
     @Override
-    public ConsentCreationResponse createConsent(Consents consents, Headers headers) {
+    public GeneralResponse<ConsentCreationResponse> createConsent(Consents consents, Headers headers) {
         return getConsentService(headers).createConsent(consents, headers);
     }
 
     @Override
-    public ConsentInformation getConsentInformation(String consentId, Headers headers) {
+    public GeneralResponse<ConsentInformation> getConsentInformation(String consentId, Headers headers) {
         return getConsentService(headers).getConsentInformation(consentId, headers);
     }
 
     @Override
-    public ConsentStatusResponse getConsentStatus(String consentId, Headers headers) {
+    public GeneralResponse<ConsentStatusResponse> getConsentStatus(String consentId, Headers headers) {
         return getConsentService(headers).getConsentStatus(consentId, headers);
     }
 
     @Override
-    public StartScaProcessResponse startConsentAuthorisation(String consentId, Headers headers) {
+    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, Headers headers) {
         return getConsentService(headers).startConsentAuthorisation(consentId, headers);
     }
 
     @Override
-    public StartScaProcessResponse startConsentAuthorisation(
+    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(
             String consentId,
             Headers headers,
             UpdatePsuAuthentication updatePsuAuthentication) {
@@ -60,7 +61,7 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     }
 
     @Override
-    public SelectPsuAuthenticationMethodResponse updateConsentsPsuData(
+    public GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(
             String consentId,
             String authorisationId,
             Headers headers,
@@ -69,7 +70,7 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     }
 
     @Override
-    public ScaStatusResponse updateConsentsPsuData(
+    public GeneralResponse<ScaStatusResponse> updateConsentsPsuData(
             String consentId,
             String authorisationId,
             Headers headers,
@@ -78,7 +79,7 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     }
 
     @Override
-    public UpdatePsuAuthenticationResponse updateConsentsPsuData(
+    public GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(
             String consentId,
             String authorisationId,
             Headers headers,
@@ -97,12 +98,12 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     }
 
     @Override
-    public AccountListHolder getAccountList(Headers headers, RequestParams requestParams) {
+    public GeneralResponse<AccountListHolder> getAccountList(Headers headers, RequestParams requestParams) {
         return getConsentService(headers).getAccountList(headers, requestParams);
     }
 
     @Override
-    public TransactionsReport getTransactionList(String accountId, Headers headers, RequestParams requestParams) {
+    public GeneralResponse<TransactionsReport> getTransactionList(String accountId, Headers headers, RequestParams requestParams) {
         return getConsentService(headers).getTransactionList(accountId, headers, requestParams);
     }
 }

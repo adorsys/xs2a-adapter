@@ -23,7 +23,7 @@ import java.util.Map;
 public abstract class BasePaymentInitiationService extends AbstractService implements PaymentInitiationService {
 
     @Override
-    public PaymentInitiationRequestResponse initiateSinglePayment(String paymentProduct, Object body, Headers headers) {
+    public GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, Object body, Headers headers) {
         requireSepaCreditTransfer(paymentProduct);
 
         Map<String, String> headersMap = populatePostHeaders(headers.toMap());
@@ -38,7 +38,7 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
     }
 
     @Override
-    public SinglePaymentInitiationInformationWithStatusResponse getSinglePaymentInformation(String paymentProduct,
+    public GeneralResponse<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,
                                                                                             String paymentId,
                                                                                             Headers headers) {
         requireSepaCreditTransfer(paymentProduct);
@@ -51,12 +51,12 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
     }
 
     @Override
-    public PaymentInitiationScaStatusResponse getPaymentInitiationScaStatus(String paymentService, String paymentProduct, String paymentId, String authorisationId, Headers headers) {
+    public GeneralResponse<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService, String paymentProduct, String paymentId, String authorisationId, Headers headers) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public PaymentInitiationStatus getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, Headers headers) {
+    public GeneralResponse<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, Headers headers) {
         requireSepaCreditTransfer(paymentProduct);
         String uri = getSingleSepaCreditTransferUri() + SLASH_SEPARATOR + paymentId + "/status";
         Map<String, String> headersMap = populateGetHeaders(headers.toMap());
@@ -72,7 +72,7 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
     }
 
     @Override
-    public PaymentInitiationAuthorisationResponse getPaymentInitiationAuthorisation(String paymentService, String paymentProduct, String paymentId, Headers headers) {
+    public GeneralResponse<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService, String paymentProduct, String paymentId, Headers headers) {
         throw new UnsupportedOperationException();
     }
 

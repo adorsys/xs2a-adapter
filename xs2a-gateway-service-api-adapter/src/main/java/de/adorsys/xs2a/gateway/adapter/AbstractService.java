@@ -60,19 +60,19 @@ public abstract class AbstractService {
     }
 
     <T> HttpClient.ResponseHandler<T> responseHandler(Class<T> klass) {
-        return (statusCode, responseBody) -> {
+        return (statusCode, responseBody, responseHeaders) -> {
             if (statusCode == 200 || statusCode == 201) {
                 return jsonMapper.readValue(responseBody, klass);
             }
-            throw responseException(statusCode, new PushbackInputStream(responseBody));
+            throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
         };
     }
 
-    private ErrorResponseException responseException(int statusCode, PushbackInputStream responseBody) {
+    private ErrorResponseException responseException(int statusCode, PushbackInputStream responseBody, Map<String, String> responseHeaders) {
         if (isEmpty(responseBody)) {
-            return new ErrorResponseException(statusCode);
+            return new ErrorResponseException(statusCode, responseHeaders);
         }
-        return new ErrorResponseException(statusCode, jsonMapper.readValue(responseBody, ErrorResponse.class));
+        return new ErrorResponseException(statusCode, responseHeaders, jsonMapper.readValue(responseBody, ErrorResponse.class));
     }
 
     private boolean isEmpty(PushbackInputStream responseBody) {

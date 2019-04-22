@@ -1,12 +1,14 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.http.HttpClient;
+import de.adorsys.xs2a.gateway.service.GeneralResponse;
 import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.ais.Consents;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+import java.util.Collections;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,6 +19,7 @@ import static org.mockito.Mockito.*;
 public class DeutscheBankAccountInformationServiceTest {
 
     private static final String CONSENT_URL = "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents";
+    private static final int HTTP_CODE_200 = 200;
 
     @SuppressWarnings("unchecked")
     @Test
@@ -32,7 +35,7 @@ public class DeutscheBankAccountInformationServiceTest {
                 anyString(),
                 headersCaptor.capture(),
                 any()
-        )).thenReturn(new ConsentCreationResponse());
+        )).thenReturn(new GeneralResponse(HTTP_CODE_200, new ConsentCreationResponse(), Collections.emptyMap()));
 
         service.createConsent(new Consents(), Headers.builder().build());
 

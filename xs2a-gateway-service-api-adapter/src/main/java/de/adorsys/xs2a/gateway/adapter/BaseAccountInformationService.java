@@ -16,6 +16,7 @@
 
 package de.adorsys.xs2a.gateway.adapter;
 
+import de.adorsys.xs2a.gateway.service.GeneralResponse;
 import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.RequestParams;
 import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
@@ -30,7 +31,7 @@ import java.util.function.Function;
 public abstract class BaseAccountInformationService extends AbstractService implements AccountInformationService {
 
     @Override
-    public ConsentCreationResponse createConsent(Consents body, Headers headers) {
+    public GeneralResponse<ConsentCreationResponse> createConsent(Consents body, Headers headers) {
         Map<String, String> headersMap = populatePostHeaders(headers.toMap());
 
         String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
@@ -40,21 +41,23 @@ public abstract class BaseAccountInformationService extends AbstractService impl
     }
 
     @Override
-    public ConsentInformation getConsentInformation(String consentId, Headers headers) {
+    public GeneralResponse<ConsentInformation> getConsentInformation(String consentId, Headers headers) {
         String uri = getConsentBaseUri() + SLASH_SEPARATOR + consentId;
         Map<String, String> headersMap = populateGetHeaders(headers.toMap());
         return httpClient.get(uri, headersMap, responseHandler(ConsentInformation.class));
     }
 
-    protected <T> ConsentInformation getConsentInformation(String consentId, Headers headers, Class<T> klass, Function<T, ConsentInformation> mapper) {
+    protected <T> GeneralResponse<ConsentInformation> getConsentInformation(String consentId, Headers headers, Class<T> klass, Function<T, ConsentInformation> mapper) {
         String uri = getConsentBaseUri() + SLASH_SEPARATOR + consentId;
         Map<String, String> headersMap = populateGetHeaders(headers.toMap());
-        T response = httpClient.get(uri, headersMap, responseHandler(klass));
-        return mapper.apply(response);
+        GeneralResponse<T> response = httpClient.get(uri, headersMap, responseHandler(klass));
+        ConsentInformation consentInformation = mapper.apply(response.getResponseBody());
+
+        return new GeneralResponse<>(response.getStatusCode(), consentInformation, response.getResponseHeaders());
     }
 
     @Override
-    public ConsentStatusResponse getConsentStatus(String consentId, Headers headers) {
+    public GeneralResponse<ConsentStatusResponse> getConsentStatus(String consentId, Headers headers) {
         String uri = getConsentBaseUri() + SLASH_SEPARATOR + consentId + "/status";
         Map<String, String> headersMap = populateGetHeaders(headers.toMap());
 
@@ -62,7 +65,7 @@ public abstract class BaseAccountInformationService extends AbstractService impl
     }
 
     @Override
-    public StartScaProcessResponse startConsentAuthorisation(String consentId, Headers headers) {
+    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, Headers headers) {
         String uri = getConsentBaseUri() + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS;
         Map<String, String> headersMap = populatePostHeaders(headers.toMap());
 
@@ -70,7 +73,7 @@ public abstract class BaseAccountInformationService extends AbstractService impl
     }
 
     @Override
-    public StartScaProcessResponse startConsentAuthorisation(String consentId, Headers headers, UpdatePsuAuthentication updatePsuAuthentication) {
+    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, Headers headers, UpdatePsuAuthentication updatePsuAuthentication) {
         String uri = getConsentBaseUri() + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS;
         Map<String, String> headersMap = populatePostHeaders(headers.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
@@ -79,7 +82,7 @@ public abstract class BaseAccountInformationService extends AbstractService impl
     }
 
     @Override
-    public UpdatePsuAuthenticationResponse updateConsentsPsuData(String consentId, String authorisationId, Headers headers,
+    public GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId, String authorisationId, Headers headers,
                                                                  UpdatePsuAuthentication updatePsuAuthentication) {
         String uri = getConsentBaseUri() + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS_SLASH + authorisationId;
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
@@ -88,7 +91,7 @@ public abstract class BaseAccountInformationService extends AbstractService impl
     }
 
     @Override
-    public SelectPsuAuthenticationMethodResponse updateConsentsPsuData(String consentId, String authorisationId, Headers headers, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+    public GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId, String authorisationId, Headers headers, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         String uri = getConsentBaseUri() + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS_SLASH + authorisationId;
         Map<String, String> headersMap = populatePutHeaders(headers.toMap());
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
@@ -98,7 +101,7 @@ public abstract class BaseAccountInformationService extends AbstractService impl
     }
 
     @Override
-    public ScaStatusResponse updateConsentsPsuData(String consentId, String authorisationId, Headers headers, TransactionAuthorisation transactionAuthorisation) {
+    public GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String consentId, String authorisationId, Headers headers, TransactionAuthorisation transactionAuthorisation) {
         String uri = getConsentBaseUri() + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS_SLASH + authorisationId;
         Map<String, String> headersMap = populatePutHeaders(headers.toMap());
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
@@ -107,7 +110,7 @@ public abstract class BaseAccountInformationService extends AbstractService impl
     }
 
     @Override
-    public AccountListHolder getAccountList(Headers headers, RequestParams requestParams) {
+    public GeneralResponse<AccountListHolder> getAccountList(Headers headers, RequestParams requestParams) {
         Map<String, String> headersMap = populateGetHeaders(headers.toMap());
         headersMap = addConsentIdHeader(headersMap);
 
@@ -117,7 +120,7 @@ public abstract class BaseAccountInformationService extends AbstractService impl
     }
 
     @Override
-    public TransactionsReport getTransactionList(String accountId, Headers headers, RequestParams requestParams) {
+    public GeneralResponse<TransactionsReport> getTransactionList(String accountId, Headers headers, RequestParams requestParams) {
         Map<String, String> headersMap = headers.toMap();
         headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
 

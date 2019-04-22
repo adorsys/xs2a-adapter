@@ -2,8 +2,10 @@ package de.adorsys.xs2a.gateway.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.gateway.TestModelBuilder;
+import de.adorsys.xs2a.gateway.mapper.HeadersMapper;
 import de.adorsys.xs2a.gateway.model.ais.ConsentStatusTO;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
+import de.adorsys.xs2a.gateway.service.GeneralResponse;
 import de.adorsys.xs2a.gateway.service.Headers;
 import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
@@ -14,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,6 +25,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pro.javatar.commons.reader.JsonReader;
 
+import java.util.Collections;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,6 +37,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ConsentControllerTest {
+    private static final int HTTP_CODE_200 = 200;
+
     private MockMvc mockMvc;
 
     @InjectMocks
@@ -40,6 +46,8 @@ public class ConsentControllerTest {
 
     @Mock
     private AccountInformationService consentService;
+    @Mock
+    private HeadersMapper headersMapper;
 
 
     @Before
@@ -55,8 +63,11 @@ public class ConsentControllerTest {
     public void createConsent() throws Exception {
         ConsentCreationResponse response = TestModelBuilder.buildConsentCreationResponse();
         String body = new ObjectMapper().writeValueAsString(response);
+
         when(consentService.createConsent(any(), any()))
-                .thenReturn(response);
+                .thenReturn(new GeneralResponse<>(HTTP_CODE_200, response, Collections.emptyMap()));
+        when(headersMapper.toHttpHeaders(any()))
+                .thenReturn(new HttpHeaders());
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                                                       .post(ConsentController.CONSENTS)
                                                       .header(Headers.X_GTW_BANK_CODE, "db")

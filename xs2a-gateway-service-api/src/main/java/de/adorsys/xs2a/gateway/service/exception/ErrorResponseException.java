@@ -2,6 +2,7 @@ package de.adorsys.xs2a.gateway.service.exception;
 
 import de.adorsys.xs2a.gateway.service.ErrorResponse;
 
+import java.util.Map;
 import java.util.Optional;
 
 // Following error schemas don't have the body:
@@ -14,14 +15,16 @@ import java.util.Optional;
 public class ErrorResponseException extends RuntimeException{
     private final int statusCode;
     private final ErrorResponse errorResponse;
+    private final Map<String, String> responseHeaders;
 
-    public ErrorResponseException(int statusCode, ErrorResponse errorResponse) {
+    public ErrorResponseException(int statusCode, Map<String, String> responseHeaders, ErrorResponse errorResponse) {
         this.statusCode = statusCode;
+        this.responseHeaders = responseHeaders;
         this.errorResponse = errorResponse;
     }
 
-    public ErrorResponseException(int statusCode) {
-        this(statusCode, null);
+    public ErrorResponseException(int statusCode, Map<String, String> responseHeaders) {
+        this(statusCode, responseHeaders, null);
     }
 
     public int getStatusCode() {
@@ -30,5 +33,9 @@ public class ErrorResponseException extends RuntimeException{
 
     public Optional<ErrorResponse> getErrorResponse() {
         return Optional.ofNullable(errorResponse);
+    }
+
+    public Map<String, String> getResponseHeaders() {
+        return responseHeaders;
     }
 }

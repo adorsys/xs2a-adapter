@@ -10,19 +10,19 @@ import java.util.stream.StreamSupport;
 public class PaymentInitiationServiceImpl implements PaymentInitiationService {
 
     @Override
-    public PaymentInitiationRequestResponse initiateSinglePayment(String paymentProduct, Object body, Headers headers) {
+    public GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, Object body, Headers headers) {
         return getPaymentService(headers).initiateSinglePayment(paymentProduct, body, headers);
     }
 
     @Override
-    public SinglePaymentInitiationInformationWithStatusResponse getSinglePaymentInformation(String paymentProduct,
+    public GeneralResponse<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,
                                                                                             String paymentId,
                                                                                             Headers headers) {
         return getPaymentService(headers).getSinglePaymentInformation(paymentProduct, paymentId, headers);
     }
 
     @Override
-    public PaymentInitiationScaStatusResponse getPaymentInitiationScaStatus(String paymentService,
+    public GeneralResponse<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
                                                                             String paymentProduct,
                                                                             String paymentId,
                                                                             String authorisationId,
@@ -32,14 +32,14 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public PaymentInitiationStatus getSinglePaymentInitiationStatus(String paymentProduct,
+    public GeneralResponse<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct,
                                                                     String paymentId,
                                                                     Headers headers) {
         return getPaymentService(headers).getSinglePaymentInitiationStatus(paymentProduct, paymentId, headers);
     }
 
     @Override
-    public PaymentInitiationAuthorisationResponse getPaymentInitiationAuthorisation(String paymentService,
+    public GeneralResponse<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService,
                                                                                     String paymentProduct,
                                                                                     String paymentId,
                                                                                     Headers headers) {
