@@ -10,7 +10,7 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <artifactId>xs2a-gateway-service-loader</artifactId>
+    <artifactId>verlag-adapter</artifactId>
 
     <dependencies>
 
@@ -18,60 +18,8 @@
 
         <dependency>
             <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>xs2a-gateway-service-api</artifactId>
+            <artifactId>xs2a-gateway-service-api-adapter</artifactId>
             <version>${project.version}</version>
-        </dependency>
-
-        <!-- adapters -->
-
-        <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>deutsche-bank-adapter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>adorsys-integ-adapter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>sparkasse-adapter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>verlag-adapter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <!-- other -->
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-jdk8</artifactId>
-        </dependency>
-
-        <!-- test dependencies -->
-
-        <dependency>
-            <groupId>pro.javatar.commons</groupId>
-            <artifactId>javatar-commons</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -95,6 +43,11 @@
                                         <!-- project dependencies -->
                                         <exclude>de.adorsys.xs2a.gateway:xs2a-gateway-app</exclude>
                                         <exclude>de.adorsys.xs2a.gateway:xs2a-gateway-rest-server</exclude>
+                                        <exclude>de.adorsys.xs2a.gateway:xs2a-gateway-service-loader</exclude>
+                                        <!-- adapters -->
+                                        <exclude>de.adorsys.xs2a.gateway:deutsche-bank-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.gateway:adorsys-integ-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.gateway:sparkasse-adapter</exclude>
                                         <!-- 3rd party dependencies -->
                                         <exclude>joda-time:*</exclude>
                                         <exclude>org.projectlombok:lombok</exclude>
