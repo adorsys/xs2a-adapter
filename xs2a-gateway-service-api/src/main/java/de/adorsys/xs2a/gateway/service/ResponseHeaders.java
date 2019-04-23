@@ -8,12 +8,12 @@ public class ResponseHeaders {
     private static final String ASPSP_SCA_APPROACH = "ASPSP-SCA-Approach";
     private static final String CONTENT_TYPE = "Content-Type";
 
-    private static Map<String, String> headerNamesLowerCasedToBGSpecificationHeaderNames = new HashMap<>();
+    private static Map<String, String> headerNamesLowerCased = new HashMap<>();
     static {
-        headerNamesLowerCasedToBGSpecificationHeaderNames.put(LOCATION.toLowerCase(), LOCATION);
-        headerNamesLowerCasedToBGSpecificationHeaderNames.put(X_REQUEST_ID.toLowerCase(), X_REQUEST_ID);
-        headerNamesLowerCasedToBGSpecificationHeaderNames.put(ASPSP_SCA_APPROACH.toLowerCase(), ASPSP_SCA_APPROACH);
-        headerNamesLowerCasedToBGSpecificationHeaderNames.put(CONTENT_TYPE.toLowerCase(), CONTENT_TYPE);
+        headerNamesLowerCased.put(LOCATION.toLowerCase(), LOCATION);
+        headerNamesLowerCased.put(X_REQUEST_ID.toLowerCase(), X_REQUEST_ID);
+        headerNamesLowerCased.put(ASPSP_SCA_APPROACH.toLowerCase(), ASPSP_SCA_APPROACH);
+        headerNamesLowerCased.put(CONTENT_TYPE.toLowerCase(), CONTENT_TYPE);
     }
 
     private Map<String, String> headers;
@@ -29,12 +29,12 @@ public class ResponseHeaders {
 
         Map<String, String> headers = new HashMap<>();
 
-        Set<String> headerNamesLowerCased = headerNamesLowerCasedToBGSpecificationHeaderNames.keySet();
+        Set<String> headerNamesLowerCased = ResponseHeaders.headerNamesLowerCased.keySet();
 
         headersMap.forEach((name, value) -> {
             String headerNameInLowerCase = name.toLowerCase();
             if (isHeaderExistInBGSpecification(headerNamesLowerCased, headerNameInLowerCase)) {
-                headers.put(headerNamesLowerCasedToBGSpecificationHeaderNames.get(headerNameInLowerCase), value);
+                headers.put(ResponseHeaders.headerNamesLowerCased.get(headerNameInLowerCase), value);
             }
         });
         return new ResponseHeaders(headers);
