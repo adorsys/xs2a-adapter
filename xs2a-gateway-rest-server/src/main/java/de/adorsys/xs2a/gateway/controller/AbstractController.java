@@ -1,12 +1,12 @@
 package de.adorsys.xs2a.gateway.controller;
 
-import de.adorsys.xs2a.gateway.service.Headers;
+import de.adorsys.xs2a.gateway.service.RequestHeaders;
 
 import java.util.UUID;
 
 public abstract class AbstractController {
-    Headers buildHeaders(String bankCode, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        return Headers.builder()
+    RequestHeaders buildHeaders(String bankCode, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+        return RequestHeaders.builder()
                 .bankCode(bankCode)
                 .xRequestId(xRequestID)
                 .digest(digest)

@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.gateway.service.exception;
 
 import de.adorsys.xs2a.gateway.service.ErrorResponse;
+import de.adorsys.xs2a.gateway.service.ResponseHeaders;
 
 import java.util.Optional;
 
@@ -13,15 +14,17 @@ import java.util.Optional;
 // Error503_NG_PIS
 public class ErrorResponseException extends RuntimeException{
     private final int statusCode;
+    private final ResponseHeaders responseHeaders;
     private final ErrorResponse errorResponse;
 
-    public ErrorResponseException(int statusCode, ErrorResponse errorResponse) {
+    public ErrorResponseException(int statusCode, ResponseHeaders responseHeaders, ErrorResponse errorResponse) {
         this.statusCode = statusCode;
+        this.responseHeaders = responseHeaders;
         this.errorResponse = errorResponse;
     }
 
-    public ErrorResponseException(int statusCode) {
-        this(statusCode, null);
+    public ErrorResponseException(int statusCode, ResponseHeaders responseHeaders) {
+        this(statusCode, responseHeaders, null);
     }
 
     public int getStatusCode() {
@@ -30,5 +33,9 @@ public class ErrorResponseException extends RuntimeException{
 
     public Optional<ErrorResponse> getErrorResponse() {
         return Optional.ofNullable(errorResponse);
+    }
+
+    public ResponseHeaders getResponseHeaders() {
+        return responseHeaders;
     }
 }

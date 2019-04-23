@@ -16,7 +16,8 @@
 
 package de.adorsys.xs2a.gateway.service.ais;
 
-import de.adorsys.xs2a.gateway.service.Headers;
+import de.adorsys.xs2a.gateway.service.GeneralResponse;
+import de.adorsys.xs2a.gateway.service.RequestHeaders;
 import de.adorsys.xs2a.gateway.service.RequestParams;
 import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
@@ -24,36 +25,36 @@ import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.model.*;
 
 public interface AccountInformationService {
-    ConsentCreationResponse createConsent(Consents body, Headers headers);
+    GeneralResponse<ConsentCreationResponse> createConsent(Consents body, RequestHeaders requestHeaders);
 
-    ConsentInformation getConsentInformation(String consentId, Headers headers);
+    GeneralResponse<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders);
 
-    ConsentStatusResponse getConsentStatus(String consentId, Headers headers);
+    GeneralResponse<ConsentStatusResponse> getConsentStatus(String consentId, RequestHeaders requestHeaders);
 
-    StartScaProcessResponse startConsentAuthorisation(String consentId, Headers headers);
+    GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders);
 
-    StartScaProcessResponse startConsentAuthorisation(String consentId, Headers headers, UpdatePsuAuthentication updatePsuAuthentication);
+    GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication);
 
-    SelectPsuAuthenticationMethodResponse updateConsentsPsuData(
+    GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(
             String consentId,
             String authorisationId,
-            Headers headers,
+            RequestHeaders requestHeaders,
             SelectPsuAuthenticationMethod selectPsuAuthenticationMethod);
 
-    ScaStatusResponse updateConsentsPsuData(
+    GeneralResponse<ScaStatusResponse> updateConsentsPsuData(
             String consentId,
             String authorisationId,
-            Headers headers,
+            RequestHeaders requestHeaders,
             TransactionAuthorisation transactionAuthorisation);
 
-    UpdatePsuAuthenticationResponse updateConsentsPsuData(
+    GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(
             String consentId,
             String authorisationId,
-            Headers headers,
+            RequestHeaders requestHeaders,
             UpdatePsuAuthentication updatePsuAuthentication
     );
 
-    AccountListHolder getAccountList(Headers headers, RequestParams requestParams);
+    GeneralResponse<AccountListHolder> getAccountList(RequestHeaders requestHeaders, RequestParams requestParams);
 
-    TransactionsReport getTransactionList(String accountId, Headers headers, RequestParams requestParams);
+    GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams);
 }

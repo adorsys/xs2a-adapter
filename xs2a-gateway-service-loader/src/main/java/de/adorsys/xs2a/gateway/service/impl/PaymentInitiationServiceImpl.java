@@ -10,45 +10,45 @@ import java.util.stream.StreamSupport;
 public class PaymentInitiationServiceImpl implements PaymentInitiationService {
 
     @Override
-    public PaymentInitiationRequestResponse initiateSinglePayment(String paymentProduct, Object body, Headers headers) {
-        return getPaymentService(headers).initiateSinglePayment(paymentProduct, body, headers);
+    public GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, Object body, RequestHeaders requestHeaders) {
+        return getPaymentService(requestHeaders).initiateSinglePayment(paymentProduct, body, requestHeaders);
     }
 
     @Override
-    public SinglePaymentInitiationInformationWithStatusResponse getSinglePaymentInformation(String paymentProduct,
+    public GeneralResponse<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,
                                                                                             String paymentId,
-                                                                                            Headers headers) {
-        return getPaymentService(headers).getSinglePaymentInformation(paymentProduct, paymentId, headers);
+                                                                                            RequestHeaders requestHeaders) {
+        return getPaymentService(requestHeaders).getSinglePaymentInformation(paymentProduct, paymentId, requestHeaders);
     }
 
     @Override
-    public PaymentInitiationScaStatusResponse getPaymentInitiationScaStatus(String paymentService,
+    public GeneralResponse<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
                                                                             String paymentProduct,
                                                                             String paymentId,
                                                                             String authorisationId,
-                                                                            Headers headers) {
-        return getPaymentService(headers).getPaymentInitiationScaStatus(paymentService, paymentProduct, paymentId,
-                                                                        authorisationId, headers);
+                                                                            RequestHeaders requestHeaders) {
+        return getPaymentService(requestHeaders).getPaymentInitiationScaStatus(paymentService, paymentProduct, paymentId,
+                                                                        authorisationId, requestHeaders);
     }
 
     @Override
-    public PaymentInitiationStatus getSinglePaymentInitiationStatus(String paymentProduct,
+    public GeneralResponse<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct,
                                                                     String paymentId,
-                                                                    Headers headers) {
-        return getPaymentService(headers).getSinglePaymentInitiationStatus(paymentProduct, paymentId, headers);
+                                                                    RequestHeaders requestHeaders) {
+        return getPaymentService(requestHeaders).getSinglePaymentInitiationStatus(paymentProduct, paymentId, requestHeaders);
     }
 
     @Override
-    public PaymentInitiationAuthorisationResponse getPaymentInitiationAuthorisation(String paymentService,
+    public GeneralResponse<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService,
                                                                                     String paymentProduct,
                                                                                     String paymentId,
-                                                                                    Headers headers) {
-        return getPaymentService(headers).getPaymentInitiationAuthorisation(paymentService, paymentProduct,
-                                                                            paymentId, headers);
+                                                                                    RequestHeaders requestHeaders) {
+        return getPaymentService(requestHeaders).getPaymentInitiationAuthorisation(paymentService, paymentProduct,
+                                                                            paymentId, requestHeaders);
     }
 
-    private PaymentInitiationService getPaymentService(Headers headers) {
-        String bankCode = headers.toMap().get(Headers.X_GTW_BANK_CODE);
+    private PaymentInitiationService getPaymentService(RequestHeaders requestHeaders) {
+        String bankCode = requestHeaders.toMap().get(RequestHeaders.X_GTW_BANK_CODE);
         ServiceLoader<PaymentInitiationServiceProvider> loader =
                 ServiceLoader.load(PaymentInitiationServiceProvider.class);
         return StreamSupport.stream(loader.spliterator(), false)
