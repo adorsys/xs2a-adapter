@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.gateway.service.account;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,12 +30,13 @@ public enum BalanceType {
         this.value = value;
     }
 
+    @JsonValue
     public String getValue() {
         return value;
     }
 
-    @JsonIgnore
-    public static Optional<BalanceType> getByValue(String name) {
+    @JsonCreator
+    public static Optional<BalanceType> fromValue(String name) {
         return Optional.ofNullable(container.get(name));
     }
 }
