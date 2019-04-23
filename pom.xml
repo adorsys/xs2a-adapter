@@ -20,6 +20,7 @@
         <module>deutsche-bank-adapter</module>
         <module>sparkasse-adapter</module>
         <module>verlag-adapter</module>
+        <module>dab-bank-adapter</module>
     </modules>
 
     <properties>
