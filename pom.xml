@@ -21,6 +21,7 @@
         <module>sparkasse-adapter</module>
         <module>verlag-adapter</module>
         <module>dab-bank-adapter</module>
+        <module>consors-bank-adapter</module>
     </modules>
 
     <properties>
