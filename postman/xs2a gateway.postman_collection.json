@@ -53,8 +53,8 @@
 									"    var scaRedirect = jsonData._links.scaRedirect.href;",
 									"    var adapter = pm.variables.get(\"adapter\");",
 									"    pm.globals.set(\"scaRedirect\", scaRedirect);",
-									"    if (adapter === \"dab-bank\" || adapter === \"consors-bank\") {",
-									"        postman.setNextRequest(\"SCA/Redirect/DAB\");",
+									"    if (adapter === \"dab-bank\" || adapter === \"consors-bank\" || adapter === \"sparda-bank\") {",
+									"        postman.setNextRequest(\"SCA/Redirect/DAB&Consors&Sparda\");",
 									"    }",
 									"}",
 									"",
@@ -225,7 +225,7 @@
 					"response": []
 				},
 				{
-					"name": "SCA/Redirect/DAB&Consors",
+					"name": "SCA/Redirect/DAB&Consors&Sparda",
 					"event": [
 						{
 							"listen": "test",
