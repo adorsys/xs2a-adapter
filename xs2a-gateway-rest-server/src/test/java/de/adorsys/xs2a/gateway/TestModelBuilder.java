@@ -21,6 +21,7 @@ import de.adorsys.xs2a.gateway.service.ChallengeData;
 import de.adorsys.xs2a.gateway.service.OtpFormat;
 import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.ais.ConsentStatus;
+import de.adorsys.xs2a.gateway.service.model.Link;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -50,8 +51,8 @@ public class TestModelBuilder {
         response.setMessage(MESSAGE);
         response.setConsentId(CONSTENT_ID);
         response.setConsentStatus(ConsentStatus.RECEIVED);
-        Map<String, String> links = new HashMap<>();
-        links.put(CONSTENT_ID, MESSAGE);
+        Map<String, Link> links = new HashMap<>();
+        links.put(CONSTENT_ID, new Link(MESSAGE));
         response.setLinks(links);
         response.setScaMethods(Collections.singletonList(buildAuthenticationObject()));
         response.setChosenScaMethod(buildAuthenticationObject());

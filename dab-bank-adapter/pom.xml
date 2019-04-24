@@ -10,7 +10,8 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <artifactId>xs2a-gateway-service-loader</artifactId>
+    <artifactId>dab-bank-adapter</artifactId>
+    <name>dab-bank-adapter</name>
 
     <dependencies>
 
@@ -18,61 +19,11 @@
 
         <dependency>
             <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>xs2a-gateway-service-api</artifactId>
+            <artifactId>xs2a-gateway-service-api-adapter</artifactId>
             <version>${project.version}</version>
-        </dependency>
-
-        <!-- adapters -->
-
-        <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>deutsche-bank-adapter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>adorsys-integ-adapter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>sparkasse-adapter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>verlag-adapter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>dab-bank-adapter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <!-- other -->
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-jdk8</artifactId>
         </dependency>
 
         <!-- test dependencies -->
-
-        <dependency>
-            <groupId>pro.javatar.commons</groupId>
-            <artifactId>javatar-commons</artifactId>
-            <scope>test</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.assertj</groupId>

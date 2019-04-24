@@ -19,6 +19,7 @@ package de.adorsys.xs2a.gateway.service.ais;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.gateway.service.AuthenticationObject;
 import de.adorsys.xs2a.gateway.service.ChallengeData;
+import de.adorsys.xs2a.gateway.service.model.Link;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class ConsentCreationResponse {
     private AuthenticationObject chosenScaMethod;
     private ChallengeData challengeData;
     @JsonProperty("_links")
-    private Map links;
+    private Map<String, Link> links;
     private String message;
 
     public ConsentStatus getConsentStatus() {
@@ -73,11 +74,11 @@ public class ConsentCreationResponse {
         this.challengeData = challengeData;
     }
 
-    public Map getLinks() {
+    public Map<String, Link> getLinks() {
         return links;
     }
 
-    public void setLinks(Map links) {
+    public void setLinks(Map<String, Link> links) {
         this.links = links;
     }
 

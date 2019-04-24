@@ -3,6 +3,13 @@ package de.adorsys.xs2a.gateway.service.account;
 public class PurposeCode {
     private String code;
 
+    public PurposeCode() {
+    }
+
+    public PurposeCode(String code) {
+        this.code = code;
+    }
+
     public String getCode() {
         return code;
     }
