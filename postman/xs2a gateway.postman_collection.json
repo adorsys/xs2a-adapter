@@ -51,8 +51,9 @@
 									"    }",
 									"} else if (jsonData._links.scaRedirect) {",
 									"    var scaRedirect = jsonData._links.scaRedirect.href;",
+									"    var adapter = pm.variables.get(\"adapter\");",
 									"    pm.globals.set(\"scaRedirect\", scaRedirect);",
-									"    if (pm.variables.get(\"adapter\") === \"dab-bank\") {",
+									"    if (adapter === \"dab-bank\" || adapter === \"consors-bank\") {",
 									"        postman.setNextRequest(\"SCA/Redirect/DAB\");",
 									"    }",
 									"}",
@@ -235,7 +236,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"The consent status has changed to: valid\");",
 									"});",
 									"",
-									"postman.setNextRequest(\"AIS/Accounts/001\");"
+									"postman.setNextRequest(\"AIS/Accounts/005c_MsgX+1\");"
 								],
 								"type": "text/javascript"
 							}
