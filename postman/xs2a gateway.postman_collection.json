@@ -16,8 +16,10 @@
 							"script": {
 								"id": "73ea2b3e-dab0-4b72-8039-c7a0c29c9fe9",
 								"exec": [
-									"const today = new Date().toISOString().split(\"T\")[0];",
-									"pm.globals.set(\"validUntil\", today);"
+									"const date = new Date();",
+									"date.setDate(date.getDate() + 1);",
+									"const tomorrow = date.toISOString().split(\"T\")[0];",
+									"pm.globals.set(\"validUntil\", tomorrow);"
 								],
 								"type": "text/javascript"
 							}
@@ -37,17 +39,23 @@
 									"    pm.expect(jsonData.consentStatus).to.eql(\"received\");",
 									"});",
 									"",
-									"// non NISP checks",
-									"pm.test(\"startAuthorisationWithPsuAuthentication link is present\", function() {",
-									"    pm.response.to.have.jsonBody(\"_links.startAuthorisationWithPsuAuthentication.href\");",
+									"if (jsonData._links.startAuthorisationWithPsuAuthentication) {",
 									"    var startAuthorisationWithPsuAuthenticationUri = jsonData._links.startAuthorisationWithPsuAuthentication.href;",
 									"    var matches = startAuthorisationWithPsuAuthenticationUri.match(/authorisations\\/(.+)/);",
 									"    if (matches && matches[1]) {",
 									"        var authorisationId = matches[1];",
 									"        pm.globals.set(\"authorisationId\", authorisationId);",
 									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3\");",
+									"    } else {",
+									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2\");",
 									"    }",
-									"});",
+									"} else if (jsonData._links.scaRedirect) {",
+									"    var scaRedirect = jsonData._links.scaRedirect.href;",
+									"    pm.globals.set(\"scaRedirect\", scaRedirect);",
+									"    if (pm.variables.get(\"adapter\") === \"dab-bank\") {",
+									"        postman.setNextRequest(\"SCA/Redirect/DAB\");",
+									"    }",
+									"}",
 									"",
 									"pm.globals.set(\"consentId\", pm.response.json().consentId);"
 								],
@@ -91,7 +99,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"access\": {\n        \"balances\": [\n            {\n                \"iban\": \"{{iban}}\"\n            }\n        ],\n        \"transactions\": [\n            {\n                \"iban\": \"{{iban}}\"\n            }\n        ],\n        \"accounts\": [\n            {\n                \"iban\": \"{{iban}}\"\n            }\n        ]\n    },\n    \"combinedServiceIndicator\": \"false\",\n    \"recurringIndicator\": \"true\",\n    \"validUntil\": \"{{validUntil}}\",\n    \"frequencyPerDay\": \"4\"\n}"
+							"raw": "{\n    \"access\": {\n        \"balances\": [\n            {\n                \"iban\": \"{{iban}}\",\n                \"currency\": \"EUR\"\n            }\n        ],\n        \"transactions\": [\n            {\n                \"iban\": \"{{iban}}\",\n                \"currency\": \"EUR\"\n            }\n        ],\n        \"accounts\": [\n            {\n                \"iban\": \"{{iban}}\",\n                \"currency\": \"EUR\"\n            }\n        ]\n    },\n    \"combinedServiceIndicator\": \"false\",\n    \"recurringIndicator\": \"true\",\n    \"validUntil\": \"{{validUntil}}\",\n    \"frequencyPerDay\": \"4\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents",
@@ -212,6 +220,46 @@
 							]
 						},
 						"description": "Consent status test - received\n\nDeliver a GET Consent Status Request where the consent-Id equals the consentId from the Account Information Consent Response of test case AIS/Consents/Create/002."
+					},
+					"response": []
+				},
+				{
+					"name": "SCA/Redirect/DAB",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3620d4f5-d0c3-410c-ae18-a953317608ec",
+								"exec": [
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The consent status has changed to: valid\");",
+									"});",
+									"",
+									"postman.setNextRequest(\"AIS/Accounts/001\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{scaRedirect}}?psu-id=PSU-Successful",
+							"host": [
+								"{{scaRedirect}}"
+							],
+							"query": [
+								{
+									"key": "psu-id",
+									"value": "PSU-Successful"
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -489,7 +537,24 @@
 					"response": []
 				},
 				{
-					"name": "AIS/Accounts/001",
+					"name": "AIS/Accounts/005c_MsgX+1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "08eb6b0d-8760-407b-9818-d2b01fa48faf",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.globals.set(\"accountId\", jsonData.accounts[0].resourceId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -534,6 +599,83 @@
 								}
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "AIS/Accounts/005c_MsgX+2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "591a8b3b-91a2-448b-ad70-907557d84792",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Contains \\\"transactions\\\"\", function () {",
+									"    pm.response.to.have.jsonBody(\"transactions\");",
+									"});",
+									"",
+									"pm.test(\"Contains \\\"balances\\\"\", function () {",
+									"    pm.response.to.have.jsonBody(\"balances\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "Consent-ID",
+								"value": "{{consentId}}",
+								"type": "text"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"value": "{{bankCode}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/accounts/{{accountId}}/transactions?dateFrom=1970-01-01&bookingStatus=both&withBalance=true",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"accounts",
+								"{{accountId}}",
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "dateFrom",
+									"value": "1970-01-01"
+								},
+								{
+									"key": "bookingStatus",
+									"value": "both"
+								},
+								{
+									"key": "withBalance",
+									"value": "true"
+								}
+							]
+						},
+						"description": "Read Transaction List Request including the optional query parameter '?withBalance=true'"
 					},
 					"response": []
 				}
