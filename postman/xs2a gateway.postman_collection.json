@@ -225,14 +225,14 @@
 					"response": []
 				},
 				{
-					"name": "SCA/Redirect/DAB",
+					"name": "SCA/Redirect/DAB&Consors",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"id": "3620d4f5-d0c3-410c-ae18-a953317608ec",
 								"exec": [
-									"pm.test(\"Body matches string\", function () {",
+									"pm.test(\"Consent status is valid\", function () {",
 									"    pm.expect(pm.response.text()).to.include(\"The consent status has changed to: valid\");",
 									"});",
 									"",
