@@ -175,11 +175,11 @@ public abstract class BaseAccountInformationService extends AbstractService impl
     }
 
     protected String getConsentBaseUri() {
-        return buildUri(false, getBaseUri(), CONSENTS_URI);
+        return buildUri(getBaseUri(), CONSENTS_URI);
     }
 
     protected String getAccountsBaseUri() {
-        return buildUri(false, getBaseUri(), ACCOUNTS_URI);
+        return buildUri(getBaseUri(), ACCOUNTS_URI);
     }
 
     protected abstract String getBaseUri();

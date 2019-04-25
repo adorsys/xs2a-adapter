@@ -8,10 +8,10 @@ public class AbstractServiceTest {
 
     @Test
     public void buildUri() {
-        String uri = AbstractService.buildUri(false, "/a", "b/", "/c/");
+        String uri = AbstractService.buildUri("/a", "b/", "/c/");
         assertThat(uri).isEqualTo("a/b/c");
 
-        uri = AbstractService.buildUri(true, "/d/","e","/f/","g/");
-        assertThat(uri).isEqualTo("d/e/f/g/");
+        uri = AbstractService.buildUri("/d/","e","/f/","g/");
+        assertThat(uri).isEqualTo("d/e/f/g");
     }
 }

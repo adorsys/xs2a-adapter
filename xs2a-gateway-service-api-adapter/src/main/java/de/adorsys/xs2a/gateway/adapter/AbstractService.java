@@ -112,10 +112,10 @@ public abstract class AbstractService {
         return uri + requestParamsString;
     }
 
-    static String buildUri(boolean lastSlashIsNeeded, String... uris) {
+    static String buildUri(String... uris) {
         return Arrays.stream(uris)
                        .map(AbstractService::trimUri)
-                       .collect(Collectors.joining(SLASH_SEPARATOR, "", lastSlashIsNeeded ? SLASH_SEPARATOR : ""));
+                       .collect(Collectors.joining(SLASH_SEPARATOR, "",  ""));
     }
 
     private static String trimUri(String str) {
