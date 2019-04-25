@@ -240,10 +240,17 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
-    public ResponseEntity<TransactionsResponse200Json> getTransactionList(String bankCode, String accountId, String bookingStatus, UUID xRequestID, String consentID, LocalDate dateFrom, LocalDate dateTo, String entryReferenceFrom, Boolean deltaList, Boolean withBalance, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        RequestHeaders requestHeaders = buildAccountGetHeaders(bankCode, xRequestID, consentID, digest, signature, tpPSignatureCertificate,
-                psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent,
-                psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public ResponseEntity<?> getTransactionList(
+            String accountId,
+            String bookingStatus,
+            LocalDate dateFrom,
+            LocalDate dateTo,
+            String entryReferenceFrom,
+            Boolean deltaList,
+            Boolean withBalance,
+            Map<String, String> headers) {
+
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
         RequestParams requestParams = RequestParams.builder()
                                               .bookingStatus(bookingStatus)
@@ -254,12 +261,19 @@ public class ConsentController extends AbstractController implements ConsentApi,
                                               .withBalance(withBalance)
                                               .build();
 
-        GeneralResponse<TransactionsReport> response = consentService.getTransactionList(accountId, requestHeaders, requestParams);
+        if (requestHeaders.isAcceptJson()) {
+            GeneralResponse<TransactionsReport> transactionList = consentService.getTransactionList(accountId, requestHeaders, requestParams);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .headers(headersMapper.toHttpHeaders(transactionList.getResponseHeaders()))
+                    .body(transactionList.getResponseBody());
+        }
+
+        GeneralResponse<String> response = consentService.getTransactionListAsString(accountId, requestHeaders, requestParams);
 
         return ResponseEntity
                        .status(HttpStatus.OK)
                        .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
-                       .body(transactionsReportMapper.toTransactionsResponse200Json(response.getResponseBody()));
+                       .body(response.getResponseBody());
     }
 
     private RequestHeaders buildAccountGetHeaders(String bankCode, UUID xRequestID, String consentID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {

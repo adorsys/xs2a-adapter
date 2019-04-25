@@ -31,6 +31,8 @@ public class RequestHeaders {
     private static final String PSU_HTTP_METHOD = "PSU-Http-Method";
     private static final String PSU_DEVICE_ID = "PSU-Device-ID";
     private static final String PSU_GEO_LOCATION = "PSU-Geo-Location";
+    // technical
+    public static final String ACCEPT = "Accept";
 
     private static Map<String, String> headerNamesLowerCased = new HashMap<>();
     static {
@@ -58,6 +60,7 @@ public class RequestHeaders {
         headerNamesLowerCased.put(PSU_HTTP_METHOD.toLowerCase(), PSU_HTTP_METHOD);
         headerNamesLowerCased.put(PSU_DEVICE_ID.toLowerCase(), PSU_DEVICE_ID);
         headerNamesLowerCased.put(PSU_GEO_LOCATION.toLowerCase(), PSU_GEO_LOCATION);
+        headerNamesLowerCased.put(ACCEPT.toLowerCase(), ACCEPT);
     }
 
     private Map<String, String> headers;
@@ -86,6 +89,7 @@ public class RequestHeaders {
     private String psuHttpMethod;
     private UUID psuDeviceId;
     private String psuGeoLocation;
+    private String accept;
 
     private RequestHeaders() {
     }
@@ -139,6 +143,7 @@ public class RequestHeaders {
             putIntoAs(psuHttpMethod, headers, PSU_HTTP_METHOD);
             putIntoAs(psuDeviceId, headers, PSU_DEVICE_ID);
             putIntoAs(psuGeoLocation, headers, PSU_GEO_LOCATION);
+            putIntoAs(accept, headers, ACCEPT);
         }
 
         return new HashMap<>(headers);
@@ -148,6 +153,10 @@ public class RequestHeaders {
         if (headerValue != null) {
             headers.put(headerName, headerValue.toString());
         }
+    }
+
+    public boolean isAcceptJson() {
+        return "application/json".equalsIgnoreCase(headers.get(ACCEPT));
     }
 
     public static final class HeadersBuilder {
@@ -175,6 +184,7 @@ public class RequestHeaders {
         private String psuHttpMethod;
         private UUID psuDeviceId;
         private String psuGeoLocation;
+        private String accept;
 
         private HeadersBuilder() {
         }
@@ -299,6 +309,11 @@ public class RequestHeaders {
             return this;
         }
 
+        public HeadersBuilder accept(String accept) {
+            this.accept = accept;
+            return this;
+        }
+
         public RequestHeaders build() {
             RequestHeaders requestHeaders = new RequestHeaders();
             requestHeaders.bankCode = this.bankCode;
@@ -325,6 +340,7 @@ public class RequestHeaders {
             requestHeaders.psuIdType = this.psuIdType;
             requestHeaders.psuId = this.psuId;
             requestHeaders.psuAccept = this.psuAccept;
+            requestHeaders.accept = accept;
             return requestHeaders;
         }
     }

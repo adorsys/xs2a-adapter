@@ -106,4 +106,9 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     public GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         return getConsentService(requestHeaders).getTransactionList(accountId, requestHeaders, requestParams);
     }
+
+    @Override
+    public GeneralResponse<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
+        return getConsentService(requestHeaders).getTransactionListAsString(accountId, requestHeaders, requestParams);
+    }
 }

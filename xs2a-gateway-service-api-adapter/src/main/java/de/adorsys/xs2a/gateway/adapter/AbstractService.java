@@ -22,6 +22,7 @@ import de.adorsys.xs2a.gateway.service.ErrorResponse;
 import de.adorsys.xs2a.gateway.service.RequestParams;
 import de.adorsys.xs2a.gateway.service.ResponseHeaders;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
+import de.adorsys.xs2a.gateway.service.exception.NotAcceptableException;
 
 import java.io.IOException;
 import java.io.PushbackInputStream;
@@ -62,6 +63,9 @@ public abstract class AbstractService {
 
     <T> HttpClient.ResponseHandler<T> responseHandler(Class<T> klass) {
         return (statusCode, responseBody, responseHeaders) -> {
+            if (!responseHeaders.getHeader(CONTENT_TYPE_HEADER).startsWith(APPLICATION_JSON)) {
+                throw new NotAcceptableException();
+            }
             if (statusCode == 200 || statusCode == 201) {
                 return jsonMapper.readValue(responseBody, klass);
             }
@@ -69,7 +73,7 @@ public abstract class AbstractService {
         };
     }
 
-    private ErrorResponseException responseException(int statusCode, PushbackInputStream responseBody, ResponseHeaders responseHeaders) {
+    protected ErrorResponseException responseException(int statusCode, PushbackInputStream responseBody, ResponseHeaders responseHeaders) {
         if (isEmpty(responseBody)) {
             return new ErrorResponseException(statusCode, responseHeaders);
         }

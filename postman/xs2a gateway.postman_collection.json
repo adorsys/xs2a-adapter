@@ -550,7 +550,11 @@
 									"});",
 									"",
 									"var jsonData = pm.response.json();",
-									"pm.globals.set(\"accountId\", jsonData.accounts[0].resourceId);"
+									"pm.globals.set(\"accountId\", jsonData.accounts[0].resourceId);",
+									"",
+									"if (pm.variables.get(\"adapter\") === \"sparkasse\") {",
+									"    postman.setNextRequest(\"AIS/Accounts/021a_MsgX+1\");",
+									"}"
 								],
 								"type": "text/javascript"
 							}
@@ -621,7 +625,9 @@
 									"",
 									"pm.test(\"Contains \\\"balances\\\"\", function () {",
 									"    pm.response.to.have.jsonBody(\"balances\");",
-									"});"
+									"});",
+									"",
+									"postman.setNextRequest(null);"
 								],
 								"type": "text/javascript"
 							}
@@ -677,6 +683,78 @@
 							]
 						},
 						"description": "Read Transaction List Request including the optional query parameter '?withBalance=true'"
+					},
+					"response": []
+				},
+				{
+					"name": "AIS/Accounts/021a_MsgX+1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "591a8b3b-91a2-448b-ad70-907557d84792",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is in format camt.52\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"urn:iso:std:iso:20022:tech:xsd:camt.052.001.02\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "Consent-ID",
+								"value": "{{consentId}}",
+								"type": "text"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"value": "{{bankCode}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/accounts/{{accountId}}/transactions?dateFrom=1970-01-01&bookingStatus=both&withBalance=true",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"accounts",
+								"{{accountId}}",
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "dateFrom",
+									"value": "1970-01-01"
+								},
+								{
+									"key": "bookingStatus",
+									"value": "both"
+								},
+								{
+									"key": "withBalance",
+									"value": "true"
+								}
+							]
+						}
 					},
 					"response": []
 				}
