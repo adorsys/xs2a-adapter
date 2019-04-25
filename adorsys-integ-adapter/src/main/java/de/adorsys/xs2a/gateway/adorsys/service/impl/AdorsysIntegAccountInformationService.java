@@ -18,33 +18,11 @@ package de.adorsys.xs2a.gateway.adorsys.service.impl;
 
 import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
 
-import java.util.Map;
-
 public class AdorsysIntegAccountInformationService extends BaseAccountInformationService {
-    private static final String CONSENT_URI = "https://dev-xs2a.cloud.adorsys.de/v1/consents";
-    private static final String ACCOUNTS_URI = "https://dev-xs2a.cloud.adorsys.de/v1/accounts";
+    private static final String BASE_URI = "https://dev-psd2-xs2a.cloud.adorsys.de/v1";
 
     @Override
-    protected String getConsentBaseUri() {
-        return CONSENT_URI;
-    }
-
-    @Override
-    protected String getAccountsBaseUri() {
-        return ACCOUNTS_URI;
-    }
-
-    @Override
-    protected Map<String, String> populateGetHeaders(Map<String, String> map) {
-        Map<String, String> headers = super.populateGetHeaders(map);
-        headers.put(ACCEPT_HEADER, APPLICATION_JSON);
-        return headers;
-    }
-
-    @Override
-    protected Map<String, String> populatePostHeaders(Map<String, String> map) {
-        Map<String, String> headers = super.populatePostHeaders(map);
-        headers.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
-        return headers;
+    protected String getBaseUri() {
+        return BASE_URI;
     }
 }

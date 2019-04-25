@@ -33,10 +33,7 @@ import static de.adorsys.xs2a.gateway.service.RequestHeaders.RESOURCE_ID;
 
 public class DeutscheBankAccountInformationService extends BaseAccountInformationService {
     private static final String DATE_HEADER = "Date";
-    private static final String BASE_URI = "https://simulator-xs2a.db.com/";
-    private static final String AIS_URI = BASE_URI + "ais/DE/SB-DB/v1/";
-    private static final String CONSENTS_URI = AIS_URI + "consents";
-    private static final String ACCOUNTS_URI = AIS_URI + "accounts";
+    private static final String BASE_URI = "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/";
 
     private final DeutscheBankConsentInformationMapper deutscheBankConsentInformationMapper =
             Mappers.getMapper(DeutscheBankConsentInformationMapper.class);
@@ -45,15 +42,9 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
     public GeneralResponse<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders) {
         return getConsentInformation(consentId, requestHeaders, DeutscheBankConsentInformation.class, deutscheBankConsentInformationMapper::toConsentInformation);
     }
-
     @Override
-    protected String getConsentBaseUri() {
-        return CONSENTS_URI;
-    }
-
-    @Override
-    protected String getAccountsBaseUri() {
-        return ACCOUNTS_URI;
+    protected String getBaseUri() {
+        return BASE_URI;
     }
 
     @Override

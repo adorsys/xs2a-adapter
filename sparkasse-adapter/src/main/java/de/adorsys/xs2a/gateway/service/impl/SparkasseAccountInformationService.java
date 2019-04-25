@@ -20,16 +20,9 @@ import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
 
 public class SparkasseAccountInformationService extends BaseAccountInformationService {
     private static final String BASE_URI = "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1";
-    private static final String CONSENTS_URI = BASE_URI + "/consents";
-    private static final String ACCOUNTS_URI = BASE_URI + "/accounts";
 
     @Override
-    protected String getConsentBaseUri() {
-        return CONSENTS_URI;
-    }
-
-    @Override
-    protected String getAccountsBaseUri() {
-        return ACCOUNTS_URI;
+    protected String getBaseUri() {
+        return BASE_URI;
     }
 }

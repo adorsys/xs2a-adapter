@@ -37,6 +37,9 @@ import java.util.regex.Pattern;
 
 public abstract class BaseAccountInformationService extends AbstractService implements AccountInformationService {
 
+    private static final String CONSENTS_URI = "/consents";
+    private static final String ACCOUNTS_URI = "/accounts";
+
     private final Pattern charsetPattern = Pattern.compile("charset=([^;]+)");
 
     @Override
@@ -92,7 +95,7 @@ public abstract class BaseAccountInformationService extends AbstractService impl
 
     @Override
     public GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders,
-                                                                 UpdatePsuAuthentication updatePsuAuthentication) {
+                                                                                  UpdatePsuAuthentication updatePsuAuthentication) {
         String uri = getConsentBaseUri() + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS_SLASH + authorisationId;
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
@@ -171,7 +174,13 @@ public abstract class BaseAccountInformationService extends AbstractService impl
         });
     }
 
-    protected abstract String getConsentBaseUri();
+    protected String getConsentBaseUri() {
+        return buildUri(false, getBaseUri(), CONSENTS_URI);
+    }
 
-    protected abstract String getAccountsBaseUri();
+    protected String getAccountsBaseUri() {
+        return buildUri(false, getBaseUri(), ACCOUNTS_URI);
+    }
+
+    protected abstract String getBaseUri();
 }

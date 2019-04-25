@@ -20,16 +20,9 @@ import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
 
 public class SpardaAccountInformationService extends BaseAccountInformationService {
     private static final String BASE_URI = "https://api.sparda.de.schulung.sparda.de/v1";
-    private static final String CONSENTS_URI = BASE_URI + "/consents";
-    private static final String ACCOUNTS_URI = BASE_URI + "/accounts";
 
     @Override
-    protected String getConsentBaseUri() {
-        return CONSENTS_URI;
-    }
-
-    @Override
-    protected String getAccountsBaseUri() {
-        return ACCOUNTS_URI;
+    protected String getBaseUri() {
+        return BASE_URI;
     }
 }
