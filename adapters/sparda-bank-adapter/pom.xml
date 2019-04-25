@@ -7,10 +7,11 @@
         <groupId>de.adorsys.xs2a.gateway</groupId>
         <artifactId>xs2a-gateway</artifactId>
         <version>0.1-SNAPSHOT</version>
-        <relativePath>..</relativePath>
+        <relativePath>../..</relativePath>
     </parent>
 
-    <artifactId>adorsys-integ-adapter</artifactId>
+    <artifactId>sparda-bank-adapter</artifactId>
+    <name>sparda-bank-adapter</name>
 
     <dependencies>
 
@@ -20,6 +21,14 @@
             <groupId>de.adorsys.xs2a.gateway</groupId>
             <artifactId>xs2a-gateway-service-api-adapter</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <!-- test dependencies -->
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -43,9 +52,6 @@
                                         <!-- project dependencies -->
                                         <exclude>de.adorsys.xs2a.gateway:xs2a-gateway-app</exclude>
                                         <exclude>de.adorsys.xs2a.gateway:xs2a-gateway-rest-server</exclude>
-                                        <exclude>de.adorsys.xs2a.gateway:xs2a-gateway-service-impl</exclude>
-                                        <!-- adapters -->
-                                        <exclude>de.adorsys.xs2a.gateway:deutsche-bank-adapter</exclude>
                                         <!-- 3rd party dependencies -->
                                         <exclude>joda-time:*</exclude>
                                         <exclude>org.projectlombok:lombok</exclude>

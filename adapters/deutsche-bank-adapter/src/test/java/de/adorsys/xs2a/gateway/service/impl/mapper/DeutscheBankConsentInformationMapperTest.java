@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.gateway.service.impl.mapper;
 
-import de.adorsys.xs2a.gateway.service.Links;
 import de.adorsys.xs2a.gateway.service.ais.AccountAccess;
 import de.adorsys.xs2a.gateway.service.ais.ConsentInformation;
 import de.adorsys.xs2a.gateway.service.ais.ConsentStatus;

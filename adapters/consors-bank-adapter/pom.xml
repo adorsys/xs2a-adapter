@@ -7,11 +7,11 @@
         <groupId>de.adorsys.xs2a.gateway</groupId>
         <artifactId>xs2a-gateway</artifactId>
         <version>0.1-SNAPSHOT</version>
-        <relativePath>..</relativePath>
+        <relativePath>../..</relativePath>
     </parent>
 
-    <artifactId>sparkasse-adapter</artifactId>
-    <name>sparkasse-adapter</name>
+    <artifactId>consors-bank-adapter</artifactId>
+    <name>consors-bank-adapter</name>
 
     <dependencies>
 
