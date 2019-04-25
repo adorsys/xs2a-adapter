@@ -92,7 +92,7 @@ public class AccountInformationServiceImpl implements AccountInformationService 
         ServiceLoader<AccountInformationServiceProvider> loader =
                 ServiceLoader.load(AccountInformationServiceProvider.class);
         return StreamSupport.stream(loader.spliterator(), false)
-                       .filter(pis -> pis.getBankCode().equalsIgnoreCase(bankCode))
+                       .filter(pis -> pis.getBankCodes().contains(bankCode))
                        .findFirst().orElseThrow(() -> new BankNotSupportedException(bankCode))
                        .getAccountInformationService();
     }

@@ -33,7 +33,7 @@ public class ProviderTest {
     private PaymentInitiationServiceProvider getPaymentInitiationServiceProvider(String bankCode) {
         ServiceLoader<PaymentInitiationServiceProvider> loader = ServiceLoader.load(PaymentInitiationServiceProvider.class);
         return StreamSupport.stream(loader.spliterator(), false)
-                       .filter(pis -> pis.getBankCode().equalsIgnoreCase(bankCode))
+                       .filter(pis -> pis.getBankCodes().contains(bankCode))
                        .findFirst()
                        .orElseThrow(() -> new BankNotSupportedException(bankCode));
     }
@@ -41,7 +41,7 @@ public class ProviderTest {
     private AccountInformationServiceProvider getAccountInformationServiceProvider() {
         ServiceLoader<AccountInformationServiceProvider> loader = ServiceLoader.load(AccountInformationServiceProvider.class);
         return StreamSupport.stream(loader.spliterator(), false)
-                       .filter(ais -> ais.getBankCode().equalsIgnoreCase(BANK_CODE))
+                       .filter(ais -> ais.getBankCodes().contains(BANK_CODE))
                        .findFirst()
                        .orElseThrow(() -> new BankNotSupportedException(BANK_CODE));
     }

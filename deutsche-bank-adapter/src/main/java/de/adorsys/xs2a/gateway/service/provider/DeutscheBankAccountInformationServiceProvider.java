@@ -19,13 +19,18 @@ package de.adorsys.xs2a.gateway.service.provider;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 import de.adorsys.xs2a.gateway.service.impl.DeutscheBankAccountInformationService;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 public class DeutscheBankAccountInformationServiceProvider implements AccountInformationServiceProvider {
 
+    private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("50010517")));
     private DeutscheBankAccountInformationService accountInformationService;
 
     @Override
-    public String getBankCode() {
-        return "50010517";
+    public Set<String> getBankCodes() {
+        return bankCodes;
     }
 
     @Override
