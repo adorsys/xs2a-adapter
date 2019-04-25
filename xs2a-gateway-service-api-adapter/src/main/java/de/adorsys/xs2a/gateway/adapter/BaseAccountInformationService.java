@@ -94,9 +94,10 @@ public abstract class BaseAccountInformationService extends AbstractService impl
     public GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders,
                                                                  UpdatePsuAuthentication updatePsuAuthentication) {
         String uri = getConsentBaseUri() + SLASH_SEPARATOR + consentId + SLASH_AUTHORISATIONS_SLASH + authorisationId;
+        Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
-        return httpClient.put(uri, body, requestHeaders.toMap(), responseHandler(UpdatePsuAuthenticationResponse.class));
+        return httpClient.put(uri, body, headersMap, responseHandler(UpdatePsuAuthenticationResponse.class));
     }
 
     @Override
