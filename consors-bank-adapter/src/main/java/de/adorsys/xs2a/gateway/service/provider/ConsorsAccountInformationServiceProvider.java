@@ -19,13 +19,18 @@ package de.adorsys.xs2a.gateway.service.provider;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 import de.adorsys.xs2a.gateway.service.impl.ConsorsAccountInformationService;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 public class ConsorsAccountInformationServiceProvider implements AccountInformationServiceProvider {
 
+    private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("76030080")));
     private ConsorsAccountInformationService accountInformationService;
 
     @Override
-    public String getBankCode() {
-        return "76030080";
+    public Set<String> getBankCodes() {
+        return bankCodes;
     }
 
     @Override

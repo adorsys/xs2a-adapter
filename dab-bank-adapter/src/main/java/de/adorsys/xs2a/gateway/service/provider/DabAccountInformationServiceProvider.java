@@ -19,13 +19,18 @@ package de.adorsys.xs2a.gateway.service.provider;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 import de.adorsys.xs2a.gateway.service.impl.DabAccountInformationService;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 public class DabAccountInformationServiceProvider implements AccountInformationServiceProvider {
 
+    private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("70120400")));
     private DabAccountInformationService accountInformationService;
 
     @Override
-    public String getBankCode() {
-        return "70120400";
+    public Set<String> getBankCodes() {
+        return bankCodes;
     }
 
     @Override

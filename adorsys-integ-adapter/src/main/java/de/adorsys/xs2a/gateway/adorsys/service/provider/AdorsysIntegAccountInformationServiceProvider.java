@@ -20,13 +20,18 @@ import de.adorsys.xs2a.gateway.adorsys.service.impl.AdorsysIntegAccountInformati
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 import de.adorsys.xs2a.gateway.service.provider.AccountInformationServiceProvider;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 public class AdorsysIntegAccountInformationServiceProvider implements AccountInformationServiceProvider {
 
+    private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("adorsys-integ")));
     private AdorsysIntegAccountInformationService accountInformationService;
 
     @Override
-    public String getBankCode() {
-        return "adorsys-integ";
+    public Set<String> getBankCodes() {
+        return bankCodes;
     }
 
     @Override
