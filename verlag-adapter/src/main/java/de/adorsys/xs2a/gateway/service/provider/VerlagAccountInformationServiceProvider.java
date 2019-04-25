@@ -25,7 +25,7 @@ import java.util.Set;
 
 public class VerlagAccountInformationServiceProvider implements AccountInformationServiceProvider {
 
-    private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("test")));
+    private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("25040090")));
     private VerlagAccountInformationService accountInformationService;
 
     @Override
