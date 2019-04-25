@@ -25,8 +25,15 @@ import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.model.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PushbackInputStream;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class BaseAccountInformationService extends AbstractService implements AccountInformationService {
 
@@ -124,10 +131,42 @@ public abstract class BaseAccountInformationService extends AbstractService impl
         Map<String, String> headersMap = requestHeaders.toMap();
         headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
 
-        String uri = getAccountsBaseUri() + SLASH_SEPARATOR + accountId + SLASH_TRANSACTIONS;
-        uri = buildUri(uri, requestParams);
+        String uri = getTransactionListUri(accountId, requestParams);
 
         return httpClient.get(uri, headersMap, responseHandler(TransactionsReport.class));
+    }
+
+    private String getTransactionListUri(String accountId, RequestParams requestParams) {
+        String uri = getAccountsBaseUri() + SLASH_SEPARATOR + accountId + SLASH_TRANSACTIONS;
+        uri = buildUri(uri, requestParams);
+        return uri;
+    }
+
+    @Override
+    public GeneralResponse<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
+        String uri = getTransactionListUri(accountId, requestParams);
+        return httpClient.get(uri, requestHeaders.toMap(), (statusCode, responseBody, responseHeaders) -> {
+            if (statusCode == 200) {
+                try(ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = responseBody.read(buffer)) != -1) {
+                        baos.write(buffer, 0, length);
+                    }
+
+                    Pattern pattern = Pattern.compile("charset=([^;]+)");
+                    Matcher matcher = pattern.matcher(responseHeaders.getHeader(CONTENT_TYPE_HEADER));
+                    if (matcher.find()) {
+                        return baos.toString(matcher.group(1));
+                    }
+
+                    return baos.toString(StandardCharsets.UTF_8.name());
+                } catch (IOException e) {
+                    throw new UncheckedIOException(e);
+                }
+            }
+            throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
+        });
     }
 
     protected abstract String getConsentBaseUri();
