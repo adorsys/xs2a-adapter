@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.adorsys.xs2a.gateway</groupId>
+        <artifactId>xs2a-gateway</artifactId>
+        <version>0.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
+    </parent>
+
+    <packaging>pom</packaging>
+    <artifactId>adapters</artifactId>
+
+    <modules>
+        <module>adorsys-integ-adapter</module>
+        <module>consors-bank-adapter</module>
+        <module>dab-bank-adapter</module>
+        <module>deutsche-bank-adapter</module>
+        <module>sparda-bank-adapter</module>
+        <module>sparkasse-adapter</module>
+        <module>verlag-adapter</module>
+    </modules>
+
+</project>

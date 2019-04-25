@@ -27,6 +27,7 @@ import de.adorsys.xs2a.gateway.service.exception.NotAcceptableException;
 import java.io.IOException;
 import java.io.PushbackInputStream;
 import java.io.UncheckedIOException;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -109,5 +110,19 @@ public abstract class AbstractService {
                                              .collect(Collectors.joining("&", "?", ""));
 
         return uri + requestParamsString;
+    }
+
+    static String buildUri(String... elements) {
+        return Arrays.stream(elements)
+                       .map(AbstractService::trimUri)
+                       .collect(Collectors.joining(SLASH_SEPARATOR));
+    }
+
+    private static String trimUri(String str) {
+        if (str == null || str.isEmpty()) {
+            return "";
+        }
+        str = str.startsWith(SLASH_SEPARATOR) ? str.substring(1) : str;
+        return str.endsWith(SLASH_SEPARATOR) ? str.substring(0, str.length() - 1) : str;
     }
 }

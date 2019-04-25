@@ -7,10 +7,10 @@
         <groupId>de.adorsys.xs2a.gateway</groupId>
         <artifactId>xs2a-gateway</artifactId>
         <version>0.1-SNAPSHOT</version>
-        <relativePath>..</relativePath>
+        <relativePath>../..</relativePath>
     </parent>
 
-    <artifactId>xs2a-gateway-service-loader</artifactId>
+    <artifactId>adorsys-integ-adapter</artifactId>
 
     <dependencies>
 
@@ -18,34 +18,8 @@
 
         <dependency>
             <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>xs2a-gateway-service-api</artifactId>
+            <artifactId>xs2a-gateway-service-api-adapter</artifactId>
             <version>${project.version}</version>
-        </dependency>
-
-        <!-- other -->
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-jdk8</artifactId>
-        </dependency>
-
-        <!-- test dependencies -->
-
-        <dependency>
-            <groupId>pro.javatar.commons</groupId>
-            <artifactId>javatar-commons</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -69,6 +43,9 @@
                                         <!-- project dependencies -->
                                         <exclude>de.adorsys.xs2a.gateway:xs2a-gateway-app</exclude>
                                         <exclude>de.adorsys.xs2a.gateway:xs2a-gateway-rest-server</exclude>
+                                        <exclude>de.adorsys.xs2a.gateway:xs2a-gateway-service-impl</exclude>
+                                        <!-- adapters -->
+                                        <exclude>de.adorsys.xs2a.gateway:deutsche-bank-adapter</exclude>
                                         <!-- 3rd party dependencies -->
                                         <exclude>joda-time:*</exclude>
                                         <exclude>org.projectlombok:lombok</exclude>
