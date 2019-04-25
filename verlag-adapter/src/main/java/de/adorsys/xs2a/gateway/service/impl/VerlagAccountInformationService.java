@@ -18,8 +18,32 @@ package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
 
+import java.util.Map;
+
 public class VerlagAccountInformationService extends BaseAccountInformationService {
-    private static final String BASE_URI = "https://bkv-xs2a-dev.cloud.adorsys.de";
+    private static final String BASE_URI = "https://www.sandbox-bvxs2a.de/nationalbank";
+
+    @Override
+    protected Map<String, String> populatePostHeaders(Map<String, String> map) {
+        Map<String, String> headers = super.populatePostHeaders(map);
+        addApiKey(headers);
+        return headers;
+    }
+
+    @Override
+    protected Map<String, String> populatePutHeaders(Map<String, String> map) {
+        Map<String, String> headers = super.populatePutHeaders(map);
+        addApiKey(headers);
+        return headers;
+
+    }
+
+    @Override
+    protected Map<String, String> populateGetHeaders(Map<String, String> map) {
+        Map<String, String> headers = super.populateGetHeaders(map);
+        addApiKey(headers);
+        return headers;
+    }
 
     @Override
     protected String getConsentBaseUri() {
@@ -29,5 +53,9 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
     @Override
     protected String getAccountsBaseUri() {
         return BASE_URI + "/v1/accounts";
+    }
+
+    private void addApiKey(Map<String, String> headers) {
+        headers.put("X-bvpsd2-test-apikey","tUfZ5KOHRTFrikZUsmSMUabKw09UIzGE");
     }
 }
