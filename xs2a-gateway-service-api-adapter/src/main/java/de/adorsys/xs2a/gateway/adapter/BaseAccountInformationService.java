@@ -37,6 +37,8 @@ import java.util.regex.Pattern;
 
 public abstract class BaseAccountInformationService extends AbstractService implements AccountInformationService {
 
+    private final Pattern charsetPattern = Pattern.compile("charset=([^;]+)");
+
     @Override
     public GeneralResponse<ConsentCreationResponse> createConsent(Consents body, RequestHeaders requestHeaders) {
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
@@ -154,8 +156,7 @@ public abstract class BaseAccountInformationService extends AbstractService impl
                         baos.write(buffer, 0, length);
                     }
 
-                    Pattern pattern = Pattern.compile("charset=([^;]+)");
-                    Matcher matcher = pattern.matcher(responseHeaders.getHeader(CONTENT_TYPE_HEADER));
+                    Matcher matcher = charsetPattern.matcher(responseHeaders.getHeader(CONTENT_TYPE_HEADER));
                     if (matcher.find()) {
                         return baos.toString(matcher.group(1));
                     }
