@@ -18,6 +18,7 @@ package de.adorsys.xs2a.gateway.adapter;
 
 import de.adorsys.xs2a.gateway.http.HttpClient;
 import de.adorsys.xs2a.gateway.http.JsonMapper;
+import de.adorsys.xs2a.gateway.http.StringUri;
 import de.adorsys.xs2a.gateway.service.ErrorResponse;
 import de.adorsys.xs2a.gateway.service.RequestParams;
 import de.adorsys.xs2a.gateway.service.ResponseHeaders;
@@ -27,15 +28,11 @@ import de.adorsys.xs2a.gateway.service.exception.NotAcceptableException;
 import java.io.IOException;
 import java.io.PushbackInputStream;
 import java.io.UncheckedIOException;
-import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public abstract class AbstractService {
-    protected static final String SLASH_SEPARATOR = "/";
-    protected static final String SLASH_TRANSACTIONS = "/transactions";
-    protected static final String SLASH_AUTHORISATIONS = "/authorisations";
-    protected static final String SLASH_AUTHORISATIONS_SLASH = "/authorisations/";
+    protected static final String AUTHORISATIONS = "authorisations";
+    protected static final String STATUS = "status";
     protected static final String CONTENT_TYPE_HEADER = "Content-Type";
     protected static final String APPLICATION_JSON = "application/json";
     protected static final String ACCEPT_HEADER = "Accept";
@@ -101,28 +98,6 @@ public abstract class AbstractService {
 
         Map<String, String> requestParamsMap = requestParams.toMap();
 
-        if (requestParamsMap.isEmpty()) {
-            return uri;
-        }
-
-        String requestParamsString = requestParamsMap.entrySet().stream()
-                                             .map(entry -> entry.getKey() + "=" + entry.getValue())
-                                             .collect(Collectors.joining("&", "?", ""));
-
-        return uri + requestParamsString;
-    }
-
-    static String buildUri(String... elements) {
-        return Arrays.stream(elements)
-                       .map(AbstractService::trimUri)
-                       .collect(Collectors.joining(SLASH_SEPARATOR));
-    }
-
-    private static String trimUri(String str) {
-        if (str == null || str.isEmpty()) {
-            return "";
-        }
-        str = str.startsWith(SLASH_SEPARATOR) ? str.substring(1) : str;
-        return str.endsWith(SLASH_SEPARATOR) ? str.substring(0, str.length() - 1) : str;
+        return StringUri.withQuery(uri, requestParamsMap);
     }
 }

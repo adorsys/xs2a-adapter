@@ -16,6 +16,7 @@
 
 package de.adorsys.xs2a.gateway.adapter;
 
+import de.adorsys.xs2a.gateway.http.StringUri;
 import de.adorsys.xs2a.gateway.service.*;
 
 import java.util.Map;
@@ -46,7 +47,7 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
                                                                                             RequestHeaders requestHeaders) {
         requireSepaCreditTransfer(paymentProduct);
 
-        String uri = getSingleSepaCreditTransferUri() + SLASH_SEPARATOR + paymentId;
+        String uri = StringUri.fromElements(getSingleSepaCreditTransferUri(), paymentId);
 
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
         return httpClient.get(uri, headersMap,
@@ -61,7 +62,7 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
     @Override
     public GeneralResponse<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, RequestHeaders requestHeaders) {
         requireSepaCreditTransfer(paymentProduct);
-        String uri = getSingleSepaCreditTransferUri() + SLASH_SEPARATOR + paymentId + "/status";
+        String uri = StringUri.fromElements(getSingleSepaCreditTransferUri(), paymentId, STATUS);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
         return httpClient.get(uri, headersMap, responseHandler(PaymentInitiationStatus.class));
@@ -80,7 +81,7 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
     }
 
     protected String getSingleSepaCreditTransferUri() {
-        return getBaseUri() + "/" + PAYMENTS + "/" + SEPA_CREDIT_TRANSFERS;
+        return StringUri.fromElements(getBaseUri(), PAYMENTS, SEPA_CREDIT_TRANSFERS);
     }
 
     protected abstract String getBaseUri();
