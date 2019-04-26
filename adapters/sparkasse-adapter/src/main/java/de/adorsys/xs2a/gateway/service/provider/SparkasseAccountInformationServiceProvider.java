@@ -19,18 +19,17 @@ package de.adorsys.xs2a.gateway.service.provider;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 import de.adorsys.xs2a.gateway.service.impl.SparkasseAccountInformationService;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
+
+import static de.adorsys.xs2a.gateway.service.provider.Sparkasse.BANK_CODES;
 
 public class SparkasseAccountInformationServiceProvider implements AccountInformationServiceProvider {
 
-    private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("99999999")));
     private SparkasseAccountInformationService accountInformationService;
 
     @Override
     public Set<String> getBankCodes() {
-        return bankCodes;
+        return BANK_CODES;
     }
 
     @Override

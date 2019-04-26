@@ -22,6 +22,9 @@ import java.util.Map;
 
 public abstract class BasePaymentInitiationService extends AbstractService implements PaymentInitiationService {
 
+    private static final String PAYMENTS = "payments";
+    private static final String SEPA_CREDIT_TRANSFERS = "sepa-credit-transfers";
+
     @Override
     public GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, Object body, RequestHeaders requestHeaders) {
         requireSepaCreditTransfer(paymentProduct);
@@ -66,7 +69,7 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
     }
 
     private void requireSepaCreditTransfer(String paymentProduct) {
-        if (!paymentProduct.equalsIgnoreCase("sepa-credit-transfers")) {
+        if (!paymentProduct.equalsIgnoreCase(SEPA_CREDIT_TRANSFERS)) {
             throw new UnsupportedOperationException(paymentProduct);
         }
     }
@@ -76,5 +79,9 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
         throw new UnsupportedOperationException();
     }
 
-    protected abstract String getSingleSepaCreditTransferUri();
+    protected String getSingleSepaCreditTransferUri() {
+        return getBaseUri() + "/" + PAYMENTS + "/" + SEPA_CREDIT_TRANSFERS;
+    }
+
+    protected abstract String getBaseUri();
 }
