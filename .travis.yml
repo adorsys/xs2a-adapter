@@ -27,9 +27,22 @@ cache:
   directories:
     - "$HOME/.m2"
 
+install:
+  - npm install newman
+
 script:
   # build service
   - mvn clean install -B
+  # run postman tests
+  - >
+    node_modules/.bin/newman run postman/xs2a\ gateway.postman_collection.json
+    -d postman/adapters.postman_data.json
+    --global-var "baseUri=https://xs2a-gateway-dev.cloud.adorsys.de"
+    --folder AIS
+    --bail
+    --ssl-client-cert=$QWAC_CRT
+    --ssl-client-key=$QWAC_KEY
+    --ssl-client-passphrase=$QWAC_PASSPHRASE
   # build docker
   - docker build -t "$OPENSHIFT_IMAGE_NAME:test" .
 
