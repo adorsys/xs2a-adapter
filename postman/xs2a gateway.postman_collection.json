@@ -807,12 +807,12 @@
 							},
 							{
 								"key": "PSU-ID",
-								"value": "648403403900",
+								"value": "{{psuId}}",
 								"type": "text"
 							},
 							{
 								"key": "PSU-ID-Type",
-								"value": "FKDN",
+								"value": "{{psuIdType}}",
 								"type": "text"
 							},
 							{
@@ -823,7 +823,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"creditorAccount\": {\n        \"iban\": \"DE58215730420403292600\",\n        \"currency\": \"EUR\"\n    },\n    \"creditorAddress\": {\n        \"street\": \"12th Avenue\",\n        \"buildingNumber\": \"108\",\n        \"city\": \"Sandbox1\",\n        \"postalCode\": \"2AC450\",\n        \"country\": \"SB\"\n    },\n    \"creditorAgent\": \"Agent\",\n    \"creditorName\": \"Name\",\n    \"debtorAccount\": {\n        \"iban\": \"DE51648730420403403900\",\n        \"currency\": \"EUR\"\n    },\n    \"instructedAmount\": {\n        \"amount\": \"20.9\",\n        \"currency\": \"EUR\"\n    },\n    \"remittanceInformationUnstructured\": \"just\",\n    \"endToEndIdentification\": \"SandboxTPPTest1\"\n}"
+							"raw": "{\n    \"creditorAccount\": {\n        \"iban\": \"DE58215730420403292600\",\n        \"currency\": \"EUR\"\n    },\n    \"creditorAddress\": {\n        \"street\": \"12th Avenue\",\n        \"buildingNumber\": \"108\",\n        \"city\": \"Sandbox1\",\n        \"postalCode\": \"2AC450\",\n        \"country\": \"SB\"\n    },\n    \"creditorAgent\": \"Agent\",\n    \"creditorName\": \"Name\",\n    \"debtorAccount\": {\n        \"iban\": \"DE51648730420403403900\",\n        \"currency\": \"EUR\"\n    },\n    \"instructedAmount\": {\n        \"amount\": \"20.99\",\n        \"currency\": \"EUR\"\n    },\n    \"remittanceInformationUnstructured\": \"just\",\n    \"endToEndIdentification\": \"SandboxTPPTest1\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers",

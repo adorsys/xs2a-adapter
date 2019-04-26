@@ -8,13 +8,11 @@ import java.util.Map;
 
 public class DeutscheBankPaymentInitiationService extends BasePaymentInitiationService {
     private static final String DATE_HEADER = "Date";
-    private static final String BASE_URI = "https://simulator-xs2a.db.com/";
-    private static final String PIS_URI = BASE_URI + "pis/DE/SB-DB/v1/";
-    private static final String PAYMENTS_SEPA_CREDIT_TRANSFERS_URI = PIS_URI + "payments/sepa-credit-transfers";
+    private static final String PIS_URI = "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/";
 
     @Override
-    protected String getSingleSepaCreditTransferUri() {
-        return PAYMENTS_SEPA_CREDIT_TRANSFERS_URI;
+    protected String getBaseUri() {
+        return PIS_URI;
     }
 
     @Override

@@ -18,8 +18,9 @@ package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
 
+import static de.adorsys.xs2a.gateway.service.provider.Sparkasse.BASE_URI;
+
 public class SparkasseAccountInformationService extends BaseAccountInformationService {
-    private static final String BASE_URI = "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1";
 
     @Override
     protected String getBaseUri() {
