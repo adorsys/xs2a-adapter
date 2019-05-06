@@ -52,6 +52,7 @@
         <mockito.version>1.10.19</mockito.version>
         <javatar-commons.version>0.6</javatar-commons.version>
         <logback-gelf.version>1.1.0</logback-gelf.version>
+        <bouncycastle.version>1.61</bouncycastle.version>
 
         <!-- Sonar dependencies -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>

@@ -29,5 +29,13 @@ public interface HttpClient {
             throw new HttpClientException(e);
         }
     }
+
+    static HttpClient newHttpClientWithSignature(RequestSigningInterceptor requestSigningInterceptor) {
+        try {
+            return new ApacheHttpClient(SSLContext.getDefault(), requestSigningInterceptor);
+        } catch (NoSuchAlgorithmException e) {
+            throw new HttpClientException(e);
+        }
+    }
 }
 
