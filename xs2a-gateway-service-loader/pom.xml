@@ -66,6 +66,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <artifactId>fiducia-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- other -->
 
         <dependency>

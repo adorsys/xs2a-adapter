@@ -6,9 +6,9 @@ import de.adorsys.xs2a.gateway.signing.service.algorithm.SigningAlgorithm;
 import java.nio.charset.Charset;
 import java.security.*;
 
-import static de.adorsys.xs2a.gateway.signing.service.algorithm.SigningAlgorithm.RSA_SHA256;
+import static de.adorsys.xs2a.gateway.signing.service.algorithm.SigningAlgorithm.SHA256_WITH_RSA;
 
-public class RsaSha256SigningService implements SigningService {
+public class Sha256WithRsaSigningService implements SigningService {
 
     @Override
     public byte[] sign(PrivateKey privateKey, String data, Charset charset) {
@@ -23,6 +23,6 @@ public class RsaSha256SigningService implements SigningService {
     }
 
     private SigningAlgorithm getAlgorithm() {
-        return RSA_SHA256;
+        return SHA256_WITH_RSA;
     }
 }

@@ -37,7 +37,7 @@ public class Signature {
 
     public static final class SignatureBuilder {
         private String keyId;
-        private SigningAlgorithm signingAlgorithm = SigningAlgorithm.RSA_SHA256;
+        private SigningAlgorithm signingAlgorithm = SigningAlgorithm.SHA256_WITH_RSA;
         private EncodingAlgorithm encodingAlgorithm = EncodingAlgorithm.BASE64;
         private Charset charset = StandardCharsets.UTF_8;
         private Map<String, String> headersMap;

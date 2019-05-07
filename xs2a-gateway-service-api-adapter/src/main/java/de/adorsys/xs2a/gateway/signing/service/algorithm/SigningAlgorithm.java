@@ -1,10 +1,10 @@
 package de.adorsys.xs2a.gateway.signing.service.algorithm;
 
-import de.adorsys.xs2a.gateway.signing.service.signing.RsaSha256SigningService;
+import de.adorsys.xs2a.gateway.signing.service.signing.Sha256WithRsaSigningService;
 import de.adorsys.xs2a.gateway.signing.service.signing.SigningService;
 
 public enum SigningAlgorithm {
-    RSA_SHA256("SHA256withRSA", "rsa-sha256", new RsaSha256SigningService());
+    SHA256_WITH_RSA("SHA256withRSA", "SHA256withRSA", new Sha256WithRsaSigningService());
 
     private String algorithmName;
     private String httpName;
