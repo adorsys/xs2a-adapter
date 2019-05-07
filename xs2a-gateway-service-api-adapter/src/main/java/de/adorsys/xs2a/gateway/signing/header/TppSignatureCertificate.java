@@ -21,7 +21,7 @@ public class TppSignatureCertificate {
         return headerValue;
     }
 
-    public static final class TppSignatureCertificateBuilder {
+    private static final class TppSignatureCertificateBuilder {
         private String publicKeyAsString;
 
         private TppSignatureCertificateBuilder() {

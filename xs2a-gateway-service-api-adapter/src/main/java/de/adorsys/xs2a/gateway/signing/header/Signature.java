@@ -35,7 +35,7 @@ public class Signature {
         return headerValue;
     }
 
-    public static final class SignatureBuilder {
+    private static final class SignatureBuilder {
         private String keyId;
         private SigningAlgorithm signingAlgorithm = SigningAlgorithm.SHA256_WITH_RSA;
         private EncodingAlgorithm encodingAlgorithm = EncodingAlgorithm.BASE64;
