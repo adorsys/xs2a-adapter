@@ -32,7 +32,7 @@ public class RequestHeaders {
     private static final String PSU_DEVICE_ID = "PSU-Device-ID";
     private static final String PSU_GEO_LOCATION = "PSU-Geo-Location";
     // technical
-    public static final String ACCEPT = "Accept";
+    private static final String ACCEPT = "Accept";
 
     private static Map<String, String> headerNamesLowerCased = new HashMap<>();
     static {

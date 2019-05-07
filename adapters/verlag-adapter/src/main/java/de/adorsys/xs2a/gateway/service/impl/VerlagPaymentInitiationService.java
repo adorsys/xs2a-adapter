@@ -16,11 +16,11 @@
 
 package de.adorsys.xs2a.gateway.service.impl;
 
-import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.gateway.adapter.BasePaymentInitiationService;
 
 import java.util.Map;
 
-public class VerlagAccountInformationService extends BaseAccountInformationService {
+public class VerlagPaymentInitiationService extends BasePaymentInitiationService {
     private static final String BASE_URI = "https://www.sandbox-bvxs2a.de/nationalbank/v1";
 
     @Override
@@ -47,6 +47,6 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
     }
 
     private void addApiKey(Map<String, String> headers) {
-        headers.put("X-bvpsd2-test-apikey","tUfZ5KOHRTFrikZUsmSMUabKw09UIzGE");
+        headers.put("X-bvpsd2-test-apikey", "tUfZ5KOHRTFrikZUsmSMUabKw09UIzGE");
     }
 }

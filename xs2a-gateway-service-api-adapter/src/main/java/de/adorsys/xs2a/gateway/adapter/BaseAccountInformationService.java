@@ -136,7 +136,7 @@ public abstract class BaseAccountInformationService extends AbstractService impl
 
     @Override
     public GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
-        Map<String, String> headersMap = requestHeaders.toMap();
+        Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
         headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
 
         String uri = getTransactionListUri(accountId, requestParams);
@@ -153,7 +153,8 @@ public abstract class BaseAccountInformationService extends AbstractService impl
     @Override
     public GeneralResponse<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         String uri = getTransactionListUri(accountId, requestParams);
-        return httpClient.get(uri, requestHeaders.toMap(), (statusCode, responseBody, responseHeaders) -> {
+        Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
+        return httpClient.get(uri, headers, (statusCode, responseBody, responseHeaders) -> {
             if (statusCode == 200) {
                 try(ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
                     byte[] buffer = new byte[1024];
