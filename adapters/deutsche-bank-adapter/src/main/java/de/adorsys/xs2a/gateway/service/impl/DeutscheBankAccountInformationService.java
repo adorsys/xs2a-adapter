@@ -29,10 +29,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import static de.adorsys.xs2a.gateway.service.RequestHeaders.CONSENT_ID;
-import static de.adorsys.xs2a.gateway.service.RequestHeaders.RESOURCE_ID;
 
 public class DeutscheBankAccountInformationService extends BaseAccountInformationService {
     private static final String DATE_HEADER = "Date";
+    private static final String RESOURCE_ID_HEADER = "Resource-ID";
     private static final String BASE_URI = "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/";
 
     private final DeutscheBankConsentInformationMapper deutscheBankConsentInformationMapper =
@@ -51,7 +51,7 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
     protected Map<String, String> addConsentIdHeader(Map<String, String> map) {
         Map<String, String> headers = super.addConsentIdHeader(map);
         // needed, as DB passes consent id value through "Resource-ID" header instead of "Consent-ID" one
-        headers.put(RESOURCE_ID, headers.get(CONSENT_ID));
+        headers.put(RESOURCE_ID_HEADER, headers.get(CONSENT_ID));
         headers.remove(CONSENT_ID);
         return headers;
     }

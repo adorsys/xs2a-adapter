@@ -38,7 +38,6 @@ public class RequestHeaders {
     static {
         headerNamesLowerCased.put(X_GTW_BANK_CODE.toLowerCase(), X_GTW_BANK_CODE);
         headerNamesLowerCased.put(X_REQUEST_ID.toLowerCase(), X_REQUEST_ID);
-        headerNamesLowerCased.put(RESOURCE_ID.toLowerCase(), RESOURCE_ID);
         headerNamesLowerCased.put(PSU_IP_ADDRESS.toLowerCase(), PSU_IP_ADDRESS);
         headerNamesLowerCased.put(DIGEST.toLowerCase(), DIGEST);
         headerNamesLowerCased.put(SIGNATURE.toLowerCase(), SIGNATURE);
@@ -68,7 +67,6 @@ public class RequestHeaders {
 
     private String bankCode;
     private UUID xRequestId;
-    private String resourceId;
     private String psuIpAddress;
     private String digest;
     private String signature;
@@ -121,7 +119,6 @@ public class RequestHeaders {
 
             putIntoAs(bankCode, headers, X_GTW_BANK_CODE);
             putIntoAs(xRequestId, headers, X_REQUEST_ID);
-            putIntoAs(resourceId, headers, RESOURCE_ID);
             putIntoAs(psuIpAddress, headers, PSU_IP_ADDRESS);
             putIntoAs(digest, headers, DIGEST);
             putIntoAs(signature, headers, SIGNATURE);
@@ -165,7 +162,6 @@ public class RequestHeaders {
     public static final class HeadersBuilder {
         private String bankCode;
         private UUID xRequestId;
-        private String resourceId;
         private String psuIpAddress;
         private String digest;
         private String signature;
@@ -200,11 +196,6 @@ public class RequestHeaders {
 
         public HeadersBuilder xRequestId(UUID xRequestId) {
             this.xRequestId = xRequestId;
-            return this;
-        }
-
-        public HeadersBuilder resourceId(String resourceId) {
-            this.resourceId = resourceId;
             return this;
         }
 
@@ -326,7 +317,6 @@ public class RequestHeaders {
         public RequestHeaders build() {
             RequestHeaders requestHeaders = new RequestHeaders();
             requestHeaders.bankCode = this.bankCode;
-            requestHeaders.resourceId = this.resourceId;
             requestHeaders.psuCorporateId = this.psuCorporateId;
             requestHeaders.tppRedirectUri = this.tppRedirectUri;
             requestHeaders.psuHttpMethod = this.psuHttpMethod;
