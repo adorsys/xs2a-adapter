@@ -1050,6 +1050,62 @@
 						"description": "Processing of a Payment Initiation Request for a single payment with service sepa-credit-transfer with the body in XML format.\nPayInitReqStart-1.1: It has to be checked that for each Single Payment product/endpoint supported by the ASPSP according to IO2 a payment resource can be successfully created."
 					},
 					"response": []
+				},
+				{
+					"name": "PIS/GetTransactionStatus/001e",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "26c04d43-e3bc-4bf0-acc8-59622c3b23aa",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Transaction status is received\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"value": "{{bankCode}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/status",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"payments",
+								"pain.001-sepa-credit-transfers",
+								"{{paymentId}}",
+								"status"
+							]
+						},
+						"description": "Processing of a Get Transaction Status Request after a Payment Initiation Request for a single payment with product sepa-credit-transfer with the body in XML format."
+					},
+					"response": []
 				}
 			]
 		}
