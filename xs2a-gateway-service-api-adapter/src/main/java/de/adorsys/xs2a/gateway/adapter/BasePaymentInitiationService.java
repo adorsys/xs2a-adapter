@@ -19,22 +19,39 @@ package de.adorsys.xs2a.gateway.adapter;
 import de.adorsys.xs2a.gateway.http.StringUri;
 import de.adorsys.xs2a.gateway.service.*;
 
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import java.util.Map;
 
 public abstract class BasePaymentInitiationService extends AbstractService implements PaymentInitiationService {
 
     private static final String PAYMENTS = "payments";
-    private static final String SEPA_CREDIT_TRANSFERS = "sepa-credit-transfers";
 
     @Override
     public GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, Object body, RequestHeaders requestHeaders) {
-        requireSepaCreditTransfer(paymentProduct);
+        return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct), body, requestHeaders);
+    }
+
+    private GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(StandardPaymentProduct paymentProduct,
+                                                                                    Object body,
+                                                                                    RequestHeaders requestHeaders) {
 
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
-        String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, SinglePaymentInitiationBody.class));
+        String bodyString;
+        switch (paymentProduct.getMediaType()) {
+            case MediaType.APPLICATION_JSON:
+                bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, SinglePaymentInitiationBody.class));
+                break;
+            case MediaType.APPLICATION_XML:
+                bodyString = (String) body;
+                headersMap.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML);
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported payment product media type");
+        }
 
         return httpClient.post(
-                getSingleSepaCreditTransferUri(),
+                StringUri.fromElements(getBaseUri(), PAYMENTS, paymentProduct.getSlug()),
                 bodyString,
                 headersMap,
                 responseHandler(PaymentInitiationRequestResponse.class)
@@ -45,13 +62,17 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
     public GeneralResponse<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,
                                                                                             String paymentId,
                                                                                             RequestHeaders requestHeaders) {
-        requireSepaCreditTransfer(paymentProduct);
+        return getSinglePaymentInformation(StandardPaymentProduct.fromSlug(paymentProduct), paymentId, requestHeaders);
+    }
 
-        String uri = StringUri.fromElements(getSingleSepaCreditTransferUri(), paymentId);
+    private GeneralResponse<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(StandardPaymentProduct paymentProduct,
+                                                                                                              String paymentId,
+                                                                                                              RequestHeaders requestHeaders) {
+        String uri = StringUri.fromElements(StringUri.fromElements(getBaseUri(), PAYMENTS, paymentProduct.getSlug()), paymentId);
 
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
         return httpClient.get(uri, headersMap,
-                              responseHandler(SinglePaymentInitiationInformationWithStatusResponse.class));
+                responseHandler(SinglePaymentInitiationInformationWithStatusResponse.class));
     }
 
     @Override
@@ -61,27 +82,21 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
 
     @Override
     public GeneralResponse<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, RequestHeaders requestHeaders) {
-        requireSepaCreditTransfer(paymentProduct);
-        String uri = StringUri.fromElements(getSingleSepaCreditTransferUri(), paymentId, STATUS);
+        return getSinglePaymentInitiationStatus(StandardPaymentProduct.fromSlug(paymentProduct), paymentId, requestHeaders);
+    }
+
+    private GeneralResponse<PaymentInitiationStatus> getSinglePaymentInitiationStatus(StandardPaymentProduct paymentProduct,
+                                                                                      String paymentId,
+                                                                                      RequestHeaders requestHeaders) {
+        String uri = StringUri.fromElements(StringUri.fromElements(getBaseUri(), PAYMENTS, paymentProduct.getSlug()), paymentId, STATUS);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
         return httpClient.get(uri, headersMap, responseHandler(PaymentInitiationStatus.class));
-
-    }
-
-    private void requireSepaCreditTransfer(String paymentProduct) {
-        if (!paymentProduct.equalsIgnoreCase(SEPA_CREDIT_TRANSFERS)) {
-            throw new UnsupportedOperationException(paymentProduct);
-        }
     }
 
     @Override
     public GeneralResponse<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService, String paymentProduct, String paymentId, RequestHeaders requestHeaders) {
         throw new UnsupportedOperationException();
-    }
-
-    protected String getSingleSepaCreditTransferUri() {
-        return StringUri.fromElements(getBaseUri(), PAYMENTS, SEPA_CREDIT_TRANSFERS);
     }
 
     protected abstract String getBaseUri();

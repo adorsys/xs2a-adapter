@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -63,6 +64,15 @@ public class PaymentController extends AbstractController implements PaymentApi 
         return ResponseEntity.status(HttpStatus.CREATED)
                        .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
                        .body(response.getResponseBody());
+    }
+
+    @Override
+    public ResponseEntity<Object> initiatePayment(String paymentProduct, Map<String, String> headers, String body) {
+        GeneralResponse<PaymentInitiationRequestResponse> response =
+                paymentService.initiateSinglePayment(paymentProduct, body, RequestHeaders.fromMap(headers));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                .body(response.getResponseBody());
     }
 
     @Override
