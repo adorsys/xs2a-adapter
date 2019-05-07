@@ -28,7 +28,7 @@ public class Digest {
         return headerValue;
     }
 
-    private static final class DigestBuilder {
+    public static final class DigestBuilder {
         private String requestBody;
         private HashingAlgorithm hashingAlgorithm = HashingAlgorithm.SHA256;
         private EncodingAlgorithm encodingAlgorithm = EncodingAlgorithm.BASE64;

@@ -15,9 +15,9 @@ public class RequestHeaders {
     public static final String PSU_CORPORATE_ID = "PSU-Corporate-ID";
     public static final String TPP_REDIRECT_URI = "TPP-Redirect-URI";
     public static final String DATE = "Date";
+    public static final String SIGNATURE = "Signature";
+    public static final String TPP_SIGNATURE_CERTIFICATE = "TPP-Signature-Certificate";
     private static final String PSU_IP_ADDRESS = "PSU-IP-Address";
-    private static final String SIGNATURE = "Signature";
-    private static final String TPP_SIGNATURE_CERTIFICATE = "TPP-Signature-Certificate";
     private static final String PSU_ID_TYPE = "PSU-ID-Type";
     private static final String PSU_CORPORATE_ID_TYPE = "PSU-Corporate-ID-Type";
     private static final String TPP_REDIRECT_PREFERRED = "TPP-Redirect-Preferred";

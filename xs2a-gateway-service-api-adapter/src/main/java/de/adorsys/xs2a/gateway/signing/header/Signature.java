@@ -35,7 +35,7 @@ public class Signature {
         return headerValue;
     }
 
-    private static final class SignatureBuilder {
+    public static final class SignatureBuilder {
         private String keyId;
         private SigningAlgorithm signingAlgorithm = SigningAlgorithm.SHA256_WITH_RSA;
         private EncodingAlgorithm encodingAlgorithm = EncodingAlgorithm.BASE64;
@@ -85,8 +85,8 @@ public class Signature {
                 throw new HttpRequestSigningException(
                         String.format("Required Signature header attributes must be present. Current values [%s] = %s, [%s] = %s, [%s] = %s)",
                                 KEY_ID_ATTRIBUTE_NAME, keyId,
-                                ALGORITHM_ATTRIBUTE_NAME, signingAlgorithm.name(),
-                                HEADERS_ATTRIBUTE_NAME, headersMap.toString()
+                                ALGORITHM_ATTRIBUTE_NAME, signingAlgorithm,
+                                HEADERS_ATTRIBUTE_NAME, headersMap
                         )
                 );
             }
@@ -100,7 +100,7 @@ public class Signature {
             String signingAttributeValue = encodingAlgorithm.getEncodingService().encode(signedData);
 
             return new Signature(
-                    buildSignatureHeader(keyId, signingAlgorithm.getHttpName(), headersAttributeValue, signingAttributeValue)
+                    buildSignatureHeader(keyId, signingAlgorithm.getAlgorithmName(), headersAttributeValue, signingAttributeValue)
             );
         }
 
