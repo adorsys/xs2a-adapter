@@ -26,17 +26,10 @@ import static org.apache.http.protocol.HTTP.DATE_HEADER;
 
 public class FiduciaAccountInformationService extends BaseAccountInformationService {
     private static final String BASE_URI = "https://xs2a-test.fiduciagad.de/xs2a/v1";
-    private static final String CONSENTS_URI = BASE_URI + "/consents";
-    private static final String ACCOUNTS_URI = BASE_URI + "/accounts";
 
     @Override
-    protected String getConsentBaseUri() {
-        return CONSENTS_URI;
-    }
-
-    @Override
-    protected String getAccountsBaseUri() {
-        return ACCOUNTS_URI;
+    protected String getBaseUri() {
+        return BASE_URI;
     }
 
     @Override
