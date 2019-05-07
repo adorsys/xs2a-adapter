@@ -97,10 +97,10 @@ public class Signature {
 
             String signingString = buildSigningString(headersEntries);
             byte[] signedData = signingAlgorithm.getSigningService().sign(privateKey, signingString, charset);
-            String signingAttributeValue = encodingAlgorithm.getEncodingService().encode(signedData);
+            String signatureAttributeValue = encodingAlgorithm.getEncodingService().encode(signedData);
 
             return new Signature(
-                    buildSignatureHeader(keyId, signingAlgorithm.getAlgorithmName(), headersAttributeValue, signingAttributeValue)
+                    buildSignatureHeader(keyId, signingAlgorithm.getAlgorithmName(), headersAttributeValue, signatureAttributeValue)
             );
         }
 
@@ -141,14 +141,14 @@ public class Signature {
         private String buildSignatureHeader(String keyIdAttributeValue,
                                             String algorithmAttributeValue,
                                             String headersAttributeValue,
-                                            String signingAttributeValue) {
+                                            String signatureAttributeValue) {
             return buildAttribute(KEY_ID_ATTRIBUTE_NAME, keyIdAttributeValue)
                            + COMMA_SEPARATOR
                            + buildAttribute(ALGORITHM_ATTRIBUTE_NAME, algorithmAttributeValue)
                            + COMMA_SEPARATOR
                            + buildAttribute(HEADERS_ATTRIBUTE_NAME, headersAttributeValue)
                            + COMMA_SEPARATOR
-                           + buildAttribute(SIGNATURE_ATTRIBUTE_NAME, signingAttributeValue);
+                           + buildAttribute(SIGNATURE_ATTRIBUTE_NAME, signatureAttributeValue);
         }
 
         private String buildAttribute(String attributeName, String attributeValue) {
