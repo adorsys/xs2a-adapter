@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9b597547-8c8d-447d-98d1-c3e1eeb2e726",
+		"_postman_id": "f9deb88c-4aac-462c-bb2d-31f54c29b931",
 		"name": "xs2a gateway",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -392,6 +392,11 @@
 								"key": "PSU-ID",
 								"value": "{{psuId}}",
 								"type": "text"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"value": "{{psuIdType}}",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -458,6 +463,11 @@
 								"key": "X-Request-ID",
 								"value": "{{$guid}}",
 								"type": "text"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"value": "{{psuIdType}}",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -514,6 +524,11 @@
 								"key": "Content-Type",
 								"name": "Content-Type",
 								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"value": "{{psuIdType}}",
 								"type": "text"
 							}
 						],
