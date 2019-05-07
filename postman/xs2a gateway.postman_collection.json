@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9b597547-8c8d-447d-98d1-c3e1eeb2e726",
+		"_postman_id": "f9deb88c-4aac-462c-bb2d-31f54c29b931",
 		"name": "xs2a gateway",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -392,6 +392,11 @@
 								"key": "PSU-ID",
 								"value": "{{psuId}}",
 								"type": "text"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"value": "{{psuIdType}}",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -458,6 +463,11 @@
 								"key": "X-Request-ID",
 								"value": "{{$guid}}",
 								"type": "text"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"value": "{{psuIdType}}",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -515,6 +525,11 @@
 								"name": "Content-Type",
 								"value": "application/json",
 								"type": "text"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"value": "{{psuIdType}}",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -550,7 +565,11 @@
 									"});",
 									"",
 									"var jsonData = pm.response.json();",
-									"pm.globals.set(\"accountId\", jsonData.accounts[0].resourceId);"
+									"pm.globals.set(\"accountId\", jsonData.accounts[0].resourceId);",
+									"",
+									"if (pm.variables.get(\"adapter\") === \"sparkasse\") {",
+									"    postman.setNextRequest(\"AIS/Accounts/021a_MsgX+1\");",
+									"}"
 								],
 								"type": "text/javascript"
 							}
@@ -621,7 +640,9 @@
 									"",
 									"pm.test(\"Contains \\\"balances\\\"\", function () {",
 									"    pm.response.to.have.jsonBody(\"balances\");",
-									"});"
+									"});",
+									"",
+									"postman.setNextRequest(null);"
 								],
 								"type": "text/javascript"
 							}
@@ -679,6 +700,78 @@
 						"description": "Read Transaction List Request including the optional query parameter '?withBalance=true'"
 					},
 					"response": []
+				},
+				{
+					"name": "AIS/Accounts/021a_MsgX+1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "591a8b3b-91a2-448b-ad70-907557d84792",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is in format camt.52\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"urn:iso:std:iso:20022:tech:xsd:camt.052.001.02\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "Consent-ID",
+								"value": "{{consentId}}",
+								"type": "text"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"value": "{{bankCode}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/accounts/{{accountId}}/transactions?dateFrom=1970-01-01&bookingStatus=both&withBalance=true",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"accounts",
+								"{{accountId}}",
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "dateFrom",
+									"value": "1970-01-01"
+								},
+								{
+									"key": "bookingStatus",
+									"value": "both"
+								},
+								{
+									"key": "withBalance",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -729,12 +822,12 @@
 							},
 							{
 								"key": "PSU-ID",
-								"value": "648403403900",
+								"value": "{{psuId}}",
 								"type": "text"
 							},
 							{
 								"key": "PSU-ID-Type",
-								"value": "FKDN",
+								"value": "{{psuIdType}}",
 								"type": "text"
 							},
 							{
@@ -745,7 +838,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"creditorAccount\": {\n        \"iban\": \"DE58215730420403292600\",\n        \"currency\": \"EUR\"\n    },\n    \"creditorAddress\": {\n        \"street\": \"12th Avenue\",\n        \"buildingNumber\": \"108\",\n        \"city\": \"Sandbox1\",\n        \"postalCode\": \"2AC450\",\n        \"country\": \"SB\"\n    },\n    \"creditorAgent\": \"Agent\",\n    \"creditorName\": \"Name\",\n    \"debtorAccount\": {\n        \"iban\": \"DE51648730420403403900\",\n        \"currency\": \"EUR\"\n    },\n    \"instructedAmount\": {\n        \"amount\": \"20.9\",\n        \"currency\": \"EUR\"\n    },\n    \"remittanceInformationUnstructured\": \"just\",\n    \"endToEndIdentification\": \"SandboxTPPTest1\"\n}"
+							"raw": "{\n    \"creditorAccount\": {\n        \"iban\": \"DE58215730420403292600\",\n        \"currency\": \"EUR\"\n    },\n    \"creditorAddress\": {\n        \"street\": \"12th Avenue\",\n        \"buildingNumber\": \"108\",\n        \"city\": \"Sandbox1\",\n        \"postalCode\": \"2AC450\",\n        \"country\": \"SB\"\n    },\n    \"creditorAgent\": \"Agent\",\n    \"creditorName\": \"Name\",\n    \"debtorAccount\": {\n        \"iban\": \"DE51648730420403403900\",\n        \"currency\": \"EUR\"\n    },\n    \"instructedAmount\": {\n        \"amount\": \"20.99\",\n        \"currency\": \"EUR\"\n    },\n    \"remittanceInformationUnstructured\": \"just\",\n    \"endToEndIdentification\": \"SandboxTPPTest1\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers",
@@ -893,6 +986,139 @@
 								}
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "PIS/PaymentInit/Products/001e",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e4efa145-5a35-4b82-af51-90ee995ae199",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Transaction status is received\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
+									"});",
+									"",
+									"pm.globals.set(\"paymentId\", pm.response.json().paymentId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/xml",
+								"type": "text"
+							},
+							{
+								"key": "PSU-IP-Address",
+								"value": "0.0.0.0",
+								"type": "text"
+							},
+							{
+								"key": "PSU-ID",
+								"value": "{{psuId}}",
+								"type": "text"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"value": "{{psuIdType}}",
+								"type": "text"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"value": "{{bankCode}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.03\">\n    <CstmrCdtTrfInitn>\n        <GrpHdr>\n            <MsgId>PSD294387538754378</MsgId>\n            <CreDtTm>2018-12-10T09:40:47.314+01:00</CreDtTm>\n            <NbOfTxs>1</NbOfTxs>\n            <CtrlSum>100</CtrlSum>\n            <InitgPty>\n                <Nm>Name InitgPty</Nm>\n            </InitgPty>\n        </GrpHdr>\n        <PmtInf>\n            <PmtInfId>NOTPROVIDED</PmtInfId>\n            <PmtMtd>TRF</PmtMtd>\n            <NbOfTxs>1</NbOfTxs>\n            <CtrlSum>100</CtrlSum>\n            <ReqdExctnDt>1999-01-01</ReqdExctnDt>\n            <Dbtr>\n                <Nm>Debtor Name</Nm>\n            </Dbtr>\n            <DbtrAcct>\n                <Id>\n                    <IBAN>{{IBAN_available}}</IBAN>\n                </Id>\n            </DbtrAcct>\n            <DbtrAgt>\n                <FinInstnId>\n                    <BIC>TESTDETT421</BIC>\n                </FinInstnId>\n            </DbtrAgt>\n            <ChrgBr>SLEV</ChrgBr>\n            <CdtTrfTxInf>\n                <PmtId>\n                    <EndToEndId>EndToEndId</EndToEndId>\n                </PmtId>\n                <Amt>\n                    <InstdAmt Ccy=\"EUR\">100</InstdAmt>\n                </Amt>\n                <Cdtr>\n                    <Nm>Hans Handbuch</Nm>\n                </Cdtr>\n                <CdtrAcct>\n                    <Id>\n                        <IBAN>{{IBAN_receiving}}</IBAN>\n                    </Id>\n                </CdtrAcct>\n                <RmtInf>\n                    <Ustrd>POSTPaymentEmbPain_OK</Ustrd>\n                </RmtInf>\n            </CdtTrfTxInf>\n        </PmtInf>\n    </CstmrCdtTrfInitn>\n</Document>"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"payments",
+								"pain.001-sepa-credit-transfers"
+							]
+						},
+						"description": "Processing of a Payment Initiation Request for a single payment with service sepa-credit-transfer with the body in XML format.\nPayInitReqStart-1.1: It has to be checked that for each Single Payment product/endpoint supported by the ASPSP according to IO2 a payment resource can be successfully created."
+					},
+					"response": []
+				},
+				{
+					"name": "PIS/GetTransactionStatus/001e",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "26c04d43-e3bc-4bf0-acc8-59622c3b23aa",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Transaction status is received\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"value": "{{bankCode}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/status",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"payments",
+								"pain.001-sepa-credit-transfers",
+								"{{paymentId}}",
+								"status"
+							]
+						},
+						"description": "Processing of a Get Transaction Status Request after a Payment Initiation Request for a single payment with product sepa-credit-transfer with the body in XML format."
 					},
 					"response": []
 				}

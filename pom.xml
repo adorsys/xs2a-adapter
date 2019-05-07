@@ -15,15 +15,7 @@
         <module>xs2a-gateway-service-loader</module>
         <module>xs2a-gateway-rest-server</module>
         <module>xs2a-gateway-app</module>
-        <!-- adapters -->
-        <module>adorsys-integ-adapter</module>
-        <module>deutsche-bank-adapter</module>
-        <module>sparkasse-adapter</module>
-        <module>verlag-adapter</module>
-        <module>dab-bank-adapter</module>
-        <module>consors-bank-adapter</module>
-        <module>sparda-bank-adapter</module>
-        <module>fiducia-adapter</module>
+        <module>adapters</module>
     </modules>
 
     <properties>

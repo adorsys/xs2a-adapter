@@ -56,5 +56,10 @@ public interface AccountInformationService {
 
     GeneralResponse<AccountListHolder> getAccountList(RequestHeaders requestHeaders, RequestParams requestParams);
 
+    /**
+     * @throws de.adorsys.xs2a.gateway.service.exception.NotAcceptableException if response content type is not json
+     */
     GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams);
+
+    GeneralResponse<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams);
 }

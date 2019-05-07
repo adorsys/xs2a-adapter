@@ -38,8 +38,8 @@ $ mvn clean install
 
 If you want to integrate xs2a-gateway into your java application you need just add next dependencies in your classpath:
 * xs2a-gateway-service-impl
-* deutsche-bank-adapter
-* ... all other bank adapters *-adapter
+* adapters/deutsche-bank-adapter
+* ... all other bank adapters adapters/*-adapter
 
 ### Standalone mode
 
