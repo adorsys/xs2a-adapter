@@ -66,9 +66,6 @@ public class RequestHeaders {
 
     private Map<String, String> headers;
 
-    private RequestHeaders() {
-    }
-
     private RequestHeaders(Map<String, String> headers) {
         this.headers = headers;
     }
@@ -89,9 +86,6 @@ public class RequestHeaders {
     }
 
     public Map<String, String> toMap() {
-        if (headers == null) {
-            headers = new HashMap<>();
-        }
         return new HashMap<>(headers);
     }
 
@@ -100,11 +94,7 @@ public class RequestHeaders {
     }
 
     public String removeBankCode() {
-        if (headers != null) {
-            return headers.remove(X_GTW_BANK_CODE);
-        }
-
-        return "";
+        return headers.remove(X_GTW_BANK_CODE);
     }
 
     public static final class HeadersBuilder {
