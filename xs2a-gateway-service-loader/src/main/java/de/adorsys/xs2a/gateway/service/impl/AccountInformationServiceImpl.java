@@ -34,22 +34,22 @@ public class AccountInformationServiceImpl implements AccountInformationService 
 
     @Override
     public GeneralResponse<ConsentCreationResponse> createConsent(Consents consents, RequestHeaders requestHeaders) {
-        return getConsentService(requestHeaders).createConsent(consents, requestHeaders);
+        return getConsentService(requestHeaders.getAndRemoveBankCode()).createConsent(consents, requestHeaders);
     }
 
     @Override
     public GeneralResponse<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders) {
-        return getConsentService(requestHeaders).getConsentInformation(consentId, requestHeaders);
+        return getConsentService(requestHeaders.getAndRemoveBankCode()).getConsentInformation(consentId, requestHeaders);
     }
 
     @Override
     public GeneralResponse<ConsentStatusResponse> getConsentStatus(String consentId, RequestHeaders requestHeaders) {
-        return getConsentService(requestHeaders).getConsentStatus(consentId, requestHeaders);
+        return getConsentService(requestHeaders.getAndRemoveBankCode()).getConsentStatus(consentId, requestHeaders);
     }
 
     @Override
     public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders) {
-        return getConsentService(requestHeaders).startConsentAuthorisation(consentId, requestHeaders);
+        return getConsentService(requestHeaders.getAndRemoveBankCode()).startConsentAuthorisation(consentId, requestHeaders);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class AccountInformationServiceImpl implements AccountInformationService 
             String consentId,
             RequestHeaders requestHeaders,
             UpdatePsuAuthentication updatePsuAuthentication) {
-        return getConsentService(requestHeaders).startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication);
+        return getConsentService(requestHeaders.getAndRemoveBankCode()).startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class AccountInformationServiceImpl implements AccountInformationService 
             String authorisationId,
             RequestHeaders requestHeaders,
             SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
-        return getConsentService(requestHeaders).updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod);
+        return getConsentService(requestHeaders.getAndRemoveBankCode()).updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class AccountInformationServiceImpl implements AccountInformationService 
             String authorisationId,
             RequestHeaders requestHeaders,
             TransactionAuthorisation transactionAuthorisation) {
-        return getConsentService(requestHeaders).updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation);
+        return getConsentService(requestHeaders.getAndRemoveBankCode()).updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation);
     }
 
     @Override
@@ -84,11 +84,10 @@ public class AccountInformationServiceImpl implements AccountInformationService 
             String authorisationId,
             RequestHeaders requestHeaders,
             UpdatePsuAuthentication updatePsuAuthentication) {
-        return getConsentService(requestHeaders).updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication);
+        return getConsentService(requestHeaders.getAndRemoveBankCode()).updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication);
     }
 
-    AccountInformationService getConsentService(RequestHeaders requestHeaders) {
-        String bankCode = requestHeaders.toMap().get(RequestHeaders.X_GTW_BANK_CODE);
+    AccountInformationService getConsentService(String bankCode) {
         ServiceLoader<AccountInformationServiceProvider> loader =
                 ServiceLoader.load(AccountInformationServiceProvider.class);
         return StreamSupport.stream(loader.spliterator(), false)
@@ -99,16 +98,16 @@ public class AccountInformationServiceImpl implements AccountInformationService 
 
     @Override
     public GeneralResponse<AccountListHolder> getAccountList(RequestHeaders requestHeaders, RequestParams requestParams) {
-        return getConsentService(requestHeaders).getAccountList(requestHeaders, requestParams);
+        return getConsentService(requestHeaders.getAndRemoveBankCode()).getAccountList(requestHeaders, requestParams);
     }
 
     @Override
     public GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
-        return getConsentService(requestHeaders).getTransactionList(accountId, requestHeaders, requestParams);
+        return getConsentService(requestHeaders.getAndRemoveBankCode()).getTransactionList(accountId, requestHeaders, requestParams);
     }
 
     @Override
     public GeneralResponse<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
-        return getConsentService(requestHeaders).getTransactionListAsString(accountId, requestHeaders, requestParams);
+        return getConsentService(requestHeaders.getAndRemoveBankCode()).getTransactionListAsString(accountId, requestHeaders, requestParams);
     }
 }

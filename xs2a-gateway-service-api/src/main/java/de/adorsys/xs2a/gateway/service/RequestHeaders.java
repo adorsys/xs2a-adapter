@@ -160,6 +160,26 @@ public class RequestHeaders {
         return "application/json".equalsIgnoreCase(headers.get(ACCEPT));
     }
 
+    public String getAndRemoveBankCode() {
+        String bankCodeToReturn = null;
+
+        // TODO remove when all headers in controllers are collected as a Map
+        if (this.bankCode != null) {
+            bankCodeToReturn = this.bankCode;
+            this.bankCode = null;
+        }
+
+        if (headers != null) {
+            if (bankCodeToReturn == null) {
+                bankCodeToReturn = headers.get(X_GTW_BANK_CODE);
+            }
+
+            headers.remove(X_GTW_BANK_CODE);
+        }
+
+        return bankCodeToReturn;
+    }
+
     public static final class HeadersBuilder {
         private String bankCode;
         private UUID xRequestId;
