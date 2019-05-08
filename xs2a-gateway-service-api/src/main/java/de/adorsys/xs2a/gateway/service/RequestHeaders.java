@@ -161,13 +161,9 @@ public class RequestHeaders {
     }
 
     public String removeBankCode() {
-        String bankCodeToReturn = null;
-
         // TODO remove when all headers in controllers are collected as a Map
-        if (this.bankCode != null) {
-            bankCodeToReturn = this.bankCode;
-            this.bankCode = null;
-        }
+        String bankCodeToReturn = this.bankCode;
+        this.bankCode = null;
 
         if (headers != null) {
             if (bankCodeToReturn == null) {
