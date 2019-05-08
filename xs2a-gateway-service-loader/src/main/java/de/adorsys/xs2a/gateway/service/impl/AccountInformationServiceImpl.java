@@ -88,7 +88,7 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     }
 
     AccountInformationService getConsentService(RequestHeaders requestHeaders) {
-        String bankCode = requestHeaders.getAndRemoveBankCode();
+        String bankCode = requestHeaders.removeBankCode();
         ServiceLoader<AccountInformationServiceProvider> loader =
                 ServiceLoader.load(AccountInformationServiceProvider.class);
         return StreamSupport.stream(loader.spliterator(), false)

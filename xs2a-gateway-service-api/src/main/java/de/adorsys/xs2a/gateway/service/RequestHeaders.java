@@ -160,7 +160,7 @@ public class RequestHeaders {
         return "application/json".equalsIgnoreCase(headers.get(ACCEPT));
     }
 
-    public String getAndRemoveBankCode() {
+    public String removeBankCode() {
         String bankCodeToReturn = null;
 
         // TODO remove when all headers in controllers are collected as a Map
