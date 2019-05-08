@@ -1,11 +1,14 @@
 package de.adorsys.xs2a.gateway.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import de.adorsys.xs2a.gateway.api.PaymentApi;
 import de.adorsys.xs2a.gateway.mapper.*;
 import de.adorsys.xs2a.gateway.model.pis.PaymentInitiationSctWithStatusResponse;
 import de.adorsys.xs2a.gateway.model.pis.PaymentInitiationStatusResponse200Json;
 import de.adorsys.xs2a.gateway.model.shared.Authorisations;
 import de.adorsys.xs2a.gateway.model.shared.ScaStatusResponseTO;
+import de.adorsys.xs2a.gateway.model.shared.StartScaprocessResponseTO;
 import de.adorsys.xs2a.gateway.service.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
@@ -24,7 +27,11 @@ public class PaymentController extends AbstractController implements PaymentApi 
     private final PaymentInitiationStatusMapper paymentInitiationStatusMapper = Mappers.getMapper(PaymentInitiationStatusMapper.class);
     private final PaymentInitiationAuthorisationResponseMapper paymentInitiationAuthorisationResponseMapper = Mappers.getMapper(PaymentInitiationAuthorisationResponseMapper.class);
 
-    public PaymentController(PaymentInitiationService paymentService, PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper, HeadersMapper headersMapper) {
+    public PaymentController(PaymentInitiationService paymentService,
+                             PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper,
+                             HeadersMapper headersMapper,
+                             ObjectMapper objectMapper) {
+        super(objectMapper);
         this.paymentService = paymentService;
         this.paymentInitiationScaStatusResponseMapper = paymentInitiationScaStatusResponseMapper;
         this.headersMapper = headersMapper;
@@ -117,6 +124,20 @@ public class PaymentController extends AbstractController implements PaymentApi 
         return ResponseEntity.status(HttpStatus.OK)
                        .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
                        .body(paymentInitiationAuthorisationResponseMapper.toAuthorisations(response.getResponseBody()));
+    }
+
+    @Override
+    public ResponseEntity<StartScaprocessResponseTO> startSinglePaymentAuthorisation(String paymentProduct,
+                                                                                     String paymentId,
+                                                                                     Map<String, String> headers,
+                                                                                     ObjectNode body) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        GeneralResponse<?> response = handleAuthorisationBody(body,
+                (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> paymentService.startSinglePaymentAuthorisation(paymentProduct, paymentId, requestHeaders, updatePsuAuthentication));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                .body(startScaProcessResponseMapper.toStartScaprocessResponseTO((StartScaProcessResponse) response.getResponseBody()));
     }
 }
 
