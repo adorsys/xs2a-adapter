@@ -24,19 +24,20 @@ import de.adorsys.xs2a.gateway.mapper.*;
 import de.adorsys.xs2a.gateway.model.ais.*;
 import de.adorsys.xs2a.gateway.model.shared.StartScaprocessResponseTO;
 import de.adorsys.xs2a.gateway.model.shared.UpdatePsuAuthenticationTO;
-import de.adorsys.xs2a.gateway.service.*;
+import de.adorsys.xs2a.gateway.service.GeneralResponse;
+import de.adorsys.xs2a.gateway.service.RequestHeaders;
+import de.adorsys.xs2a.gateway.service.RequestParams;
+import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.ais.*;
-import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
-import de.adorsys.xs2a.gateway.service.model.*;
+import de.adorsys.xs2a.gateway.service.model.UpdatePsuAuthentication;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
@@ -44,8 +45,6 @@ import java.util.UUID;
 public class ConsentController extends AbstractController implements ConsentApi, AccountApi {
 
     private final AccountInformationService consentService;
-
-    private final ObjectMapper objectMapper;
 
     private final HeadersMapper headersMapper;
 
@@ -59,15 +58,13 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
     private final UpdatePsuAuthenticationMapper updatePsuAuthenticationMapper = Mappers.getMapper(UpdatePsuAuthenticationMapper.class);
 
-    private final StartScaProcessResponseMapper startScaProcessResponseMapper = Mappers.getMapper(StartScaProcessResponseMapper.class);
-
     private final AccountListHolderMapper accountListHolderMapper = Mappers.getMapper(AccountListHolderMapper.class);
 
     private final TransactionsReportMapper transactionsReportMapper = Mappers.getMapper(TransactionsReportMapper.class);
 
     public ConsentController(AccountInformationService consentService, ObjectMapper objectMapper, HeadersMapper headersMapper) {
+        super(objectMapper);
         this.consentService = consentService;
-        this.objectMapper = objectMapper;
         this.headersMapper = headersMapper;
     }
 
@@ -178,48 +175,16 @@ public class ConsentController extends AbstractController implements ConsentApi,
 //              - $ref: "#/components/schemas/updatePsuAuthenticationResponse" #Update PSU Authentication
 //              - $ref: "#/components/schemas/selectPsuAuthenticationMethodResponse" #Select Authentication Method
 //              - $ref: "#/components/schemas/scaStatusResponse" #Transaction Authorisation
-        if (body.has("psuData")) {
-            UpdatePsuAuthentication updatePsuAuthentication
-                    = objectMapper.convertValue(body, UpdatePsuAuthentication.class);
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        GeneralResponse<?> response = handleAuthorisationBody(body,
+                updatePsuAuthentication -> consentService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication),
+                selectPsuAuthenticationMethod -> consentService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod),
+                transactionAuthorisation -> consentService.updateConsentsPsuData(consentId, authorisationId, RequestHeaders.fromMap(headers), transactionAuthorisation));
 
-            GeneralResponse<UpdatePsuAuthenticationResponse> response
-                    = consentService.updateConsentsPsuData(consentId, authorisationId, RequestHeaders.fromMap(headers), updatePsuAuthentication);
-
-            return ResponseEntity
-                           .status(HttpStatus.OK)
-                           .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
-                           .body(response.getResponseBody());
-        }
-        if (body.has("authenticationMethodId")) {
-            SelectPsuAuthenticationMethod selectPsuAuthenticationMethod
-                    = objectMapper.convertValue(body, SelectPsuAuthenticationMethod.class);
-
-            GeneralResponse<SelectPsuAuthenticationMethodResponse> response
-                    = consentService.updateConsentsPsuData(consentId, authorisationId, RequestHeaders.fromMap(headers), selectPsuAuthenticationMethod);
-
-            return ResponseEntity
-                           .status(HttpStatus.OK)
-                           .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
-                           .body(response.getResponseBody());
-        }
-        if (body.has("scaAuthenticationData")) {
-            TransactionAuthorisation transactionAuthorisation
-                    = objectMapper.convertValue(body, TransactionAuthorisation.class);
-
-            GeneralResponse<ScaStatusResponse> response
-                    = consentService.updateConsentsPsuData(consentId, authorisationId, RequestHeaders.fromMap(headers), transactionAuthorisation);
-
-            return ResponseEntity
-                           .status(HttpStatus.OK)
-                           .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
-                           .body(response.getResponseBody());
-        }
-
-        ErrorResponse errorResponse = new ErrorResponse();
-        TppMessage tppMessage = new TppMessage();
-        tppMessage.setText("Request body doesn't match any of the supported schemas");
-        errorResponse.setTppMessages(Collections.singletonList(tppMessage));
-        throw new ErrorResponseException(400, ResponseHeaders.emptyResponseHeaders(), errorResponse);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                .body(response.getResponseBody());
     }
 
     @Override

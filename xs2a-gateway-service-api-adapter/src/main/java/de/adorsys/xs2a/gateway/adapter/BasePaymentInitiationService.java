@@ -18,6 +18,7 @@ package de.adorsys.xs2a.gateway.adapter;
 
 import de.adorsys.xs2a.gateway.http.StringUri;
 import de.adorsys.xs2a.gateway.service.*;
+import de.adorsys.xs2a.gateway.service.model.UpdatePsuAuthentication;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -68,7 +69,7 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
     private GeneralResponse<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(StandardPaymentProduct paymentProduct,
                                                                                                               String paymentId,
                                                                                                               RequestHeaders requestHeaders) {
-        String uri = StringUri.fromElements(StringUri.fromElements(getBaseUri(), PAYMENTS, paymentProduct.getSlug()), paymentId);
+        String uri = StringUri.fromElements(getBaseUri(), PAYMENTS, paymentProduct.getSlug(), paymentId);
 
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
         return httpClient.get(uri, headersMap,
@@ -88,7 +89,7 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
     private GeneralResponse<PaymentInitiationStatus> getSinglePaymentInitiationStatus(StandardPaymentProduct paymentProduct,
                                                                                       String paymentId,
                                                                                       RequestHeaders requestHeaders) {
-        String uri = StringUri.fromElements(StringUri.fromElements(getBaseUri(), PAYMENTS, paymentProduct.getSlug()), paymentId, STATUS);
+        String uri = StringUri.fromElements(getBaseUri(), PAYMENTS, paymentProduct.getSlug(), paymentId, STATUS);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
         return httpClient.get(uri, headersMap, responseHandler(PaymentInitiationStatus.class));
@@ -97,6 +98,25 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
     @Override
     public GeneralResponse<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService, String paymentProduct, String paymentId, RequestHeaders requestHeaders) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public GeneralResponse<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
+                                                                                    String paymentId,
+                                                                                    RequestHeaders requestHeaders,
+                                                                                    UpdatePsuAuthentication updatePsuAuthentication) {
+        return startSinglePaymentAuthorisation(StandardPaymentProduct.fromSlug(paymentProduct), paymentId,
+                requestHeaders, updatePsuAuthentication);
+    }
+
+    private GeneralResponse<StartScaProcessResponse> startSinglePaymentAuthorisation(PaymentProduct paymentProduct,
+                                                                             String paymentId,
+                                                                             RequestHeaders requestHeaders,
+                                                                             UpdatePsuAuthentication updatePsuAuthentication) {
+        String uri = StringUri.fromElements(getBaseUri(), PAYMENTS, paymentProduct.getSlug(), paymentId, AUTHORISATIONS);
+        Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
+        String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
+        return httpClient.post(uri, body, headersMap, responseHandler(StartScaProcessResponse.class));
     }
 
     protected abstract String getBaseUri();

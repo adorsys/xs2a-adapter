@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.service.*;
+import de.adorsys.xs2a.gateway.service.model.UpdatePsuAuthentication;
 import de.adorsys.xs2a.gateway.service.provider.BankNotSupportedException;
 import de.adorsys.xs2a.gateway.service.provider.PaymentInitiationServiceProvider;
 
@@ -45,6 +46,15 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
                                                                                     RequestHeaders requestHeaders) {
         return getPaymentService(requestHeaders).getPaymentInitiationAuthorisation(paymentService, paymentProduct,
                                                                             paymentId, requestHeaders);
+    }
+
+    @Override
+    public GeneralResponse<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
+                                                                                    String paymentId,
+                                                                                    RequestHeaders requestHeaders,
+                                                                                    UpdatePsuAuthentication updatePsuAuthentication) {
+        return getPaymentService(requestHeaders).startSinglePaymentAuthorisation(paymentProduct, paymentId,
+                requestHeaders, updatePsuAuthentication);
     }
 
     private PaymentInitiationService getPaymentService(RequestHeaders requestHeaders) {
