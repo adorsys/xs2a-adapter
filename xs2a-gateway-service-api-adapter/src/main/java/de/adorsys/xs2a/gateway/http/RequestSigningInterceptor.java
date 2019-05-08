@@ -27,17 +27,12 @@ public class RequestSigningInterceptor implements HttpRequestInterceptor {
     @Override
     public void process(HttpRequest request, HttpContext context) {
         // Digest header computing and adding MUST BE BEFORE the Signature header, as Digest is used in Signature header computation
-        Digest digest = buildDigest(request);
-        request.addHeader(digest.getHeaderName(), digest.getHeaderValue());
-
-        Signature signature = buildSignature(request);
-        request.addHeader(signature.getHeaderName(), signature.getHeaderValue());
-
-        TppSignatureCertificate tppSignatureCertificate = buildTppSignatureCertificate();
-        request.addHeader(tppSignatureCertificate.getHeaderName(), tppSignatureCertificate.getHeaderValue());
+        populateDigest(request);
+        populateSignature(request);
+        populateTppSignatureCertificate(request);
     }
 
-    private Digest buildDigest(HttpRequest request) {
+    private void populateDigest(HttpRequest request) {
         String requestBody = "";
 
         if (request instanceof HttpEntityEnclosingRequest) {
@@ -49,20 +44,23 @@ public class RequestSigningInterceptor implements HttpRequestInterceptor {
             }
         }
 
-        return requestSigningService.buildDigest(requestBody);
+        Digest digest = requestSigningService.buildDigest(requestBody);
+        request.addHeader(digest.getHeaderName(), digest.getHeaderValue());
     }
 
-    private Signature buildSignature(HttpRequest request) {
+    private void populateSignature(HttpRequest request) {
         Map<String, String> headersMap = SIGNATURE_HEADERS.stream()
                                               .map(request::getHeaders)
                                               .filter(headers -> headers.length > 0)
                                               .map(headers -> headers[0])
                                               .collect(Collectors.toMap(NameValuePair::getName, NameValuePair::getValue));
 
-        return requestSigningService.buildSignature(headersMap);
+        Signature signature = requestSigningService.buildSignature(headersMap);
+        request.addHeader(signature.getHeaderName(), signature.getHeaderValue());
     }
 
-    private TppSignatureCertificate buildTppSignatureCertificate() {
-        return requestSigningService.buildTppSignatureCertificate();
+    private void populateTppSignatureCertificate(HttpRequest request) {
+        TppSignatureCertificate tppSignatureCertificate = requestSigningService.buildTppSignatureCertificate();
+        request.addHeader(tppSignatureCertificate.getHeaderName(), tppSignatureCertificate.getHeaderValue());
     }
 }

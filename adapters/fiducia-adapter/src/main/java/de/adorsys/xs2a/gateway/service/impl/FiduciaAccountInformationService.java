@@ -33,26 +33,20 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
     }
 
     @Override
-    protected Map<String, String> populatePostHeaders(Map<String, String> map) {
-        Map<String, String> headers = super.populateGetHeaders(map);
+    protected Map<String, String> populatePostHeaders(Map<String, String> headers) {
         headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-
         return headers;
     }
 
     @Override
-    protected Map<String, String> populateGetHeaders(Map<String, String> map) {
-        Map<String, String> headers = super.populateGetHeaders(map);
+    protected Map<String, String> populateGetHeaders(Map<String, String> headers) {
         headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-
         return headers;
     }
 
     @Override
-    protected Map<String, String> populatePutHeaders(Map<String, String> map) {
-        Map<String, String> headers = super.populateGetHeaders(map);
+    protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
         headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-
         return headers;
     }
 }

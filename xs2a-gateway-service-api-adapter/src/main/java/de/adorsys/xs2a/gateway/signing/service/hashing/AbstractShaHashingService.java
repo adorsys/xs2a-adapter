@@ -7,7 +7,7 @@ import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public abstract class ShaHashingService implements HashingService {
+public abstract class AbstractShaHashingService implements HashingService {
 
     @Override
     public byte[] hash(String data, Charset charset) {

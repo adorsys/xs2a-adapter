@@ -4,7 +4,7 @@ import de.adorsys.xs2a.gateway.signing.service.algorithm.HashingAlgorithm;
 
 import static de.adorsys.xs2a.gateway.signing.service.algorithm.HashingAlgorithm.SHA256;
 
-public class Sha256HashingService extends ShaHashingService {
+public class Sha256HashingService extends AbstractShaHashingService {
 
     @Override
     protected HashingAlgorithm getAlgorithm() {
