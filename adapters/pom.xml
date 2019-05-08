@@ -21,6 +21,7 @@
         <module>sparda-bank-adapter</module>
         <module>sparkasse-adapter</module>
         <module>verlag-adapter</module>
+        <module>fiducia-adapter</module>
     </modules>
 
 </project>

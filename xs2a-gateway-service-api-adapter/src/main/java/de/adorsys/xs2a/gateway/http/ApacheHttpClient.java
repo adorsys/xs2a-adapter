@@ -22,9 +22,15 @@ import java.util.Objects;
 class ApacheHttpClient implements HttpClient {
 
     private SSLContext sslContext;
+    private RequestSigningInterceptor requestSigningInterceptor;
 
     ApacheHttpClient(SSLContext sslContext) {
         this.sslContext = sslContext;
+    }
+
+    ApacheHttpClient(SSLContext sslContext, RequestSigningInterceptor requestSigningInterceptor) {
+        this.sslContext = sslContext;
+        this.requestSigningInterceptor = requestSigningInterceptor;
     }
 
     @Override
@@ -54,9 +60,7 @@ class ApacheHttpClient implements HttpClient {
     private <T> GeneralResponse<T> execute(HttpUriRequest request, Map<String, String> headers, ResponseHandler<T> responseHandler) {
         headers.forEach(request::addHeader);
 
-        try (CloseableHttpClient httpClient = HttpClientBuilder.create()
-                                                      .setSSLContext(sslContext)
-                                                      .build()) {
+        try (CloseableHttpClient httpClient = createHttpClient()) {
 
             try (CloseableHttpResponse response = httpClient.execute(request)) {
                 int statusCode = response.getStatusLine().getStatusCode();
@@ -71,6 +75,18 @@ class ApacheHttpClient implements HttpClient {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    private CloseableHttpClient createHttpClient() {
+        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create()
+                                                      .setSSLContext(sslContext);
+
+        if (requestSigningInterceptor != null) {
+            httpClientBuilder.addInterceptorFirst(requestSigningInterceptor);
+        }
+
+        return httpClientBuilder
+                       .build();
     }
 
     private Map<String, String> toHeadersMap(Header[] headers) {
