@@ -23,7 +23,6 @@ import de.adorsys.xs2a.gateway.api.ConsentApi;
 import de.adorsys.xs2a.gateway.mapper.*;
 import de.adorsys.xs2a.gateway.model.ais.*;
 import de.adorsys.xs2a.gateway.model.shared.StartScaprocessResponseTO;
-import de.adorsys.xs2a.gateway.model.shared.UpdatePsuAuthenticationTO;
 import de.adorsys.xs2a.gateway.service.GeneralResponse;
 import de.adorsys.xs2a.gateway.service.RequestHeaders;
 import de.adorsys.xs2a.gateway.service.RequestParams;
@@ -31,7 +30,6 @@ import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.ais.*;
-import de.adorsys.xs2a.gateway.service.model.UpdatePsuAuthentication;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,8 +53,6 @@ public class ConsentController extends AbstractController implements ConsentApi,
     private final ConsentInformationMapper consentInformationMapper = Mappers.getMapper(ConsentInformationMapper.class);
 
     private final ConsentStatusResponseMapper consentStatusResponseMapper = Mappers.getMapper(ConsentStatusResponseMapper.class);
-
-    private final UpdatePsuAuthenticationMapper updatePsuAuthenticationMapper = Mappers.getMapper(UpdatePsuAuthenticationMapper.class);
 
     private final AccountListHolderMapper accountListHolderMapper = Mappers.getMapper(AccountListHolderMapper.class);
 
@@ -148,15 +144,17 @@ public class ConsentController extends AbstractController implements ConsentApi,
     public ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(
             String consentId,
             Map<String, String> headers,
-            UpdatePsuAuthenticationTO body) {
-        UpdatePsuAuthentication updatePsuAuthentication = updatePsuAuthenticationMapper.toUpdatePsuAuthentication(body);
+            ObjectNode body) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        GeneralResponse<?> response = handleAuthorisationBody(body,
+                updatePsuAuthentication -> consentService.startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication),
+                null, null);
 
-        GeneralResponse<StartScaProcessResponse> response = consentService.startConsentAuthorisation(consentId, RequestHeaders.fromMap(headers), updatePsuAuthentication);
 
         return ResponseEntity
                        .status(HttpStatus.CREATED)
                        .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
-                       .body(startScaProcessResponseMapper.toStartScaprocessResponseTO(response.getResponseBody()));
+                       .body(startScaProcessResponseMapper.toStartScaprocessResponseTO((StartScaProcessResponse) response.getResponseBody()));
     }
 
     @Override
