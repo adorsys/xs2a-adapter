@@ -23,7 +23,7 @@ public class ConsentServiceImplTest {
         AccountInformationService accountInformationService = mock(AccountInformationService.class);
         AccountInformationServiceImpl service = new AccountInformationServiceImpl(){
             @Override
-            AccountInformationService getConsentService(String bankCode) {
+            AccountInformationService getConsentService(RequestHeaders headers) {
                 return accountInformationService;
             }
         };
