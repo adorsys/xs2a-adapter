@@ -147,8 +147,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
             ObjectNode body) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         GeneralResponse<?> response = handleAuthorisationBody(body,
-                updatePsuAuthentication -> consentService.startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication),
-                null, null);
+                (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> consentService.startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication));
 
 
         return ResponseEntity
@@ -175,9 +174,9 @@ public class ConsentController extends AbstractController implements ConsentApi,
 //              - $ref: "#/components/schemas/scaStatusResponse" #Transaction Authorisation
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         GeneralResponse<?> response = handleAuthorisationBody(body,
-                updatePsuAuthentication -> consentService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication),
-                selectPsuAuthenticationMethod -> consentService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod),
-                transactionAuthorisation -> consentService.updateConsentsPsuData(consentId, authorisationId, RequestHeaders.fromMap(headers), transactionAuthorisation));
+                (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> consentService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication),
+                (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod -> consentService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod),
+                (TransactionAuthorisationHandler) transactionAuthorisation -> consentService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation));
 
         return ResponseEntity
                 .status(HttpStatus.OK)

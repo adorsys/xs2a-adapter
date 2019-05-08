@@ -133,8 +133,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
                                                                                      ObjectNode body) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         GeneralResponse<?> response = handleAuthorisationBody(body,
-                    updatePsuAuthentication -> paymentService.startSinglePaymentAuthorisation(paymentProduct, paymentId, requestHeaders, updatePsuAuthentication),
-                    null, null);
+                (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> paymentService.startSinglePaymentAuthorisation(paymentProduct, paymentId, requestHeaders, updatePsuAuthentication));
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))

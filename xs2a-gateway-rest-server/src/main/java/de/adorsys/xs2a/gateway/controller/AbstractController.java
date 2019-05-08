@@ -12,11 +12,10 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.Collections;
 import java.util.UUID;
-import java.util.function.Function;
 
 public abstract class AbstractController {
-    final ObjectMapper objectMapper;
     final StartScaProcessResponseMapper startScaProcessResponseMapper = Mappers.getMapper(StartScaProcessResponseMapper.class);
+    private final ObjectMapper objectMapper;
 
     protected AbstractController(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -42,27 +41,11 @@ public abstract class AbstractController {
                 .build();
     }
 
-    GeneralResponse<?> handleAuthorisationBody(ObjectNode body,
-                                               Function<UpdatePsuAuthentication, GeneralResponse<?>> updatePsuAuthenticationHandler,
-                                               Function<SelectPsuAuthenticationMethod, GeneralResponse<?>> selectPsuAuthenticationMethodHandler,
-                                               Function<TransactionAuthorisation, GeneralResponse<?>> transactionAuthorisationHandler) {
-        if (body.has("psuData") && updatePsuAuthenticationHandler != null) {
-            UpdatePsuAuthentication updatePsuAuthentication
-                    = objectMapper.convertValue(body, UpdatePsuAuthentication.class);
-
-            return updatePsuAuthenticationHandler.apply(updatePsuAuthentication);
-        }
-        if (body.has("authenticationMethodId") && selectPsuAuthenticationMethodHandler != null) {
-            SelectPsuAuthenticationMethod selectPsuAuthenticationMethod
-                    = objectMapper.convertValue(body, SelectPsuAuthenticationMethod.class);
-
-            return selectPsuAuthenticationMethodHandler.apply(selectPsuAuthenticationMethod);
-        }
-        if (body.has("scaAuthenticationData") && transactionAuthorisationHandler != null) {
-            TransactionAuthorisation transactionAuthorisation
-                    = objectMapper.convertValue(body, TransactionAuthorisation.class);
-
-            return transactionAuthorisationHandler.apply(transactionAuthorisation);
+    GeneralResponse<?> handleAuthorisationBody(ObjectNode body, AuthorisationBodyHandler... handlers) {
+        for (AuthorisationBodyHandler handler : handlers) {
+            if (handler.isApplicable(body)) {
+                return handler.apply(body, objectMapper);
+            }
         }
 
         ErrorResponse errorResponse = new ErrorResponse();
@@ -70,5 +53,49 @@ public abstract class AbstractController {
         tppMessage.setText("Request body doesn't match any of the supported schemas");
         errorResponse.setTppMessages(Collections.singletonList(tppMessage));
         throw new ErrorResponseException(400, ResponseHeaders.emptyResponseHeaders(), errorResponse);
+    }
+
+    interface AuthorisationBodyHandler<T> {
+        boolean isApplicable(ObjectNode body);
+
+        GeneralResponse<?> apply(ObjectNode body, ObjectMapper objectMapper);
+
+        GeneralResponse<?> apply(T t);
+    }
+
+    @FunctionalInterface
+    interface UpdatePsuAuthenticationHandler extends AuthorisationBodyHandler<UpdatePsuAuthentication> {
+
+        default boolean isApplicable(ObjectNode body) {
+            return body.has("psuData");
+        }
+
+        default GeneralResponse<?> apply(ObjectNode body, ObjectMapper objectMapper) {
+            return apply(objectMapper.convertValue(body, UpdatePsuAuthentication.class));
+        }
+    }
+
+    @FunctionalInterface
+    interface SelectPsuAuthenticationMethodHandler extends AuthorisationBodyHandler<SelectPsuAuthenticationMethod> {
+
+        default boolean isApplicable(ObjectNode body) {
+            return body.has("authenticationMethodId");
+        }
+
+        default GeneralResponse<?> apply(ObjectNode body, ObjectMapper objectMapper) {
+            return apply(objectMapper.convertValue(body, SelectPsuAuthenticationMethod.class));
+        }
+    }
+
+    @FunctionalInterface
+    interface TransactionAuthorisationHandler extends AuthorisationBodyHandler<TransactionAuthorisation> {
+
+        default boolean isApplicable(ObjectNode body) {
+            return body.has("scaAuthenticationData");
+        }
+
+        default GeneralResponse<?> apply(ObjectNode body, ObjectMapper objectMapper) {
+            return apply(objectMapper.convertValue(body, TransactionAuthorisation.class));
+        }
     }
 }
