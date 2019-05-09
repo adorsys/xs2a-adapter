@@ -26,6 +26,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class FiduciaAccountInformationServiceProvider implements AccountInformationServiceProvider {
+
+    private static final String BASE_URI = "https://xs2a-test.fiduciagad.de/xs2a/v1";
     private final RequestSigningInterceptor requestSigningInterceptor = new RequestSigningInterceptor();
 
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("88888888")));
@@ -39,7 +41,7 @@ public class FiduciaAccountInformationServiceProvider implements AccountInformat
     @Override
     public AccountInformationService getAccountInformationService() {
         if (accountInformationService == null) {
-            accountInformationService = new FiduciaAccountInformationService();
+            accountInformationService = new FiduciaAccountInformationService(BASE_URI);
             accountInformationService.setHttpClient(HttpClient.newHttpClientWithSignature(requestSigningInterceptor));
         }
         return accountInformationService;

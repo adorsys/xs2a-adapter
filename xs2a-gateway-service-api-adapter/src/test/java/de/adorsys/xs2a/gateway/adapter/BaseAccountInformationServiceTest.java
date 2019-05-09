@@ -12,13 +12,7 @@ public class BaseAccountInformationServiceTest {
 
     @Before
     public void setUp() {
-        informationService = new BaseAccountInformationService() {
-
-            @Override
-            protected String getBaseUri() {
-                return BASE_URI;
-            }
-        };
+        informationService = new BaseAccountInformationService(BASE_URI);
     }
 
     @Test

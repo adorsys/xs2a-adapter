@@ -16,8 +16,8 @@
 
 package de.adorsys.xs2a.gateway.service.provider;
 
+import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
-import de.adorsys.xs2a.gateway.service.impl.SpardaAccountInformationService;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -25,8 +25,9 @@ import java.util.Set;
 
 public class SpardaAccountInformationServiceProvider implements AccountInformationServiceProvider {
 
+    private static final String BASE_URI = "https://api.sparda.de.schulung.sparda.de/v1";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("sparda-bank")));
-    private SpardaAccountInformationService accountInformationService;
+    private AccountInformationService accountInformationService;
 
     @Override
     public Set<String> getBankCodes() {
@@ -36,7 +37,7 @@ public class SpardaAccountInformationServiceProvider implements AccountInformati
     @Override
     public AccountInformationService getAccountInformationService() {
         if (accountInformationService == null) {
-            accountInformationService = new SpardaAccountInformationService();
+            accountInformationService = new BaseAccountInformationService(BASE_URI);
         }
         return accountInformationService;
     }

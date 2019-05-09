@@ -16,8 +16,8 @@
 
 package de.adorsys.xs2a.gateway.service.provider;
 
+import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
-import de.adorsys.xs2a.gateway.service.impl.DabAccountInformationService;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -25,8 +25,9 @@ import java.util.Set;
 
 public class DabAccountInformationServiceProvider implements AccountInformationServiceProvider {
 
+    private static final String BASE_URI = "https://xs2a-sndbx.dab-bank.de/v1";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("70120400")));
-    private DabAccountInformationService accountInformationService;
+    private AccountInformationService accountInformationService;
 
     @Override
     public Set<String> getBankCodes() {
@@ -36,7 +37,7 @@ public class DabAccountInformationServiceProvider implements AccountInformationS
     @Override
     public AccountInformationService getAccountInformationService() {
         if (accountInformationService == null) {
-            accountInformationService = new DabAccountInformationService();
+            accountInformationService = new BaseAccountInformationService(BASE_URI);
         }
         return accountInformationService;
     }

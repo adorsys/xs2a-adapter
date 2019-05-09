@@ -21,7 +21,10 @@ import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
 import java.util.Map;
 
 public class VerlagAccountInformationService extends BaseAccountInformationService {
-    private static final String BASE_URI = "https://www.sandbox-bvxs2a.de/nationalbank/v1";
+
+    public VerlagAccountInformationService(String baseUri) {
+        super(baseUri);
+    }
 
     @Override
     protected Map<String, String> populatePostHeaders(Map<String, String> map) {
@@ -39,11 +42,6 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
     protected Map<String, String> populateGetHeaders(Map<String, String> map) {
         addApiKey(map);
         return map;
-    }
-
-    @Override
-    protected String getBaseUri() {
-        return BASE_URI;
     }
 
     private void addApiKey(Map<String, String> headers) {

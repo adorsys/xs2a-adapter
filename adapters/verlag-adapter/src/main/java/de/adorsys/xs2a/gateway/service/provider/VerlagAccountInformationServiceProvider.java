@@ -25,6 +25,7 @@ import java.util.Set;
 
 public class VerlagAccountInformationServiceProvider implements AccountInformationServiceProvider {
 
+    private static final String BASE_URI = "https://www.sandbox-bvxs2a.de/nationalbank/v1";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("25040090")));
     private VerlagAccountInformationService accountInformationService;
 
@@ -36,7 +37,7 @@ public class VerlagAccountInformationServiceProvider implements AccountInformati
     @Override
     public AccountInformationService getAccountInformationService() {
         if (accountInformationService == null) {
-            accountInformationService = new VerlagAccountInformationService();
+            accountInformationService = new VerlagAccountInformationService(BASE_URI);
         }
         return accountInformationService;
     }

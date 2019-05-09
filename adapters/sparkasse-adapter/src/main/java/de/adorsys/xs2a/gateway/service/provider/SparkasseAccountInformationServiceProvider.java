@@ -16,16 +16,17 @@
 
 package de.adorsys.xs2a.gateway.service.provider;
 
+import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
-import de.adorsys.xs2a.gateway.service.impl.SparkasseAccountInformationService;
 
 import java.util.Set;
 
 import static de.adorsys.xs2a.gateway.service.provider.Sparkasse.BANK_CODES;
+import static de.adorsys.xs2a.gateway.service.provider.Sparkasse.BASE_URI;
 
 public class SparkasseAccountInformationServiceProvider implements AccountInformationServiceProvider {
 
-    private SparkasseAccountInformationService accountInformationService;
+    private AccountInformationService accountInformationService;
 
     @Override
     public Set<String> getBankCodes() {
@@ -35,7 +36,7 @@ public class SparkasseAccountInformationServiceProvider implements AccountInform
     @Override
     public AccountInformationService getAccountInformationService() {
         if (accountInformationService == null) {
-            accountInformationService = new SparkasseAccountInformationService();
+            accountInformationService = new BaseAccountInformationService(BASE_URI);
         }
         return accountInformationService;
     }
