@@ -17,17 +17,20 @@
 package de.adorsys.xs2a.gateway.service.provider;
 
 import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.gateway.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.gateway.service.PaymentInitiationService;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DabAccountInformationServiceProvider implements AccountInformationServiceProvider {
+public class DabServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
     private static final String BASE_URI = "https://xs2a-sndbx.dab-bank.de/v1";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("70120400")));
     private AccountInformationService accountInformationService;
+    private PaymentInitiationService paymentInitiationService;
 
     @Override
     public Set<String> getBankCodes() {
@@ -40,5 +43,13 @@ public class DabAccountInformationServiceProvider implements AccountInformationS
             accountInformationService = new BaseAccountInformationService(BASE_URI);
         }
         return accountInformationService;
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService() {
+        if (paymentInitiationService == null) {
+            paymentInitiationService = new BasePaymentInitiationService(BASE_URI);
+        }
+        return paymentInitiationService;
     }
 }
