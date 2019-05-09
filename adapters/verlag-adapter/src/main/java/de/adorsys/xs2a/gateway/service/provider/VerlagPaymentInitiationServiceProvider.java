@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class VerlagPaymentInitiationServiceProvider implements PaymentInitiationServiceProvider {
+    private static final String BASE_URI = "https://www.sandbox-bvxs2a.de/nationalbank/v1";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("25040090")));
     private VerlagPaymentInitiationService paymentInitiationService;
 
@@ -36,7 +37,7 @@ public class VerlagPaymentInitiationServiceProvider implements PaymentInitiation
     @Override
     public PaymentInitiationService getPaymentInitiationService() {
         if (paymentInitiationService == null) {
-            paymentInitiationService = new VerlagPaymentInitiationService();
+            paymentInitiationService = new VerlagPaymentInitiationService(BASE_URI);
         }
         return paymentInitiationService;
     }

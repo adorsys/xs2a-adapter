@@ -25,6 +25,7 @@ import java.util.Set;
 
 public class DeutscheBankPaymentInitiationServiceProvider implements PaymentInitiationServiceProvider {
 
+    private static final String PIS_URI = "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("50010517")));
     private DeutscheBankPaymentInitiationService paymentInitiationService;
 
@@ -36,7 +37,7 @@ public class DeutscheBankPaymentInitiationServiceProvider implements PaymentInit
     @Override
     public PaymentInitiationService getPaymentInitiationService() {
         if (paymentInitiationService == null) {
-            paymentInitiationService = new DeutscheBankPaymentInitiationService();
+            paymentInitiationService = new DeutscheBankPaymentInitiationService(PIS_URI);
         }
         return paymentInitiationService;
     }
