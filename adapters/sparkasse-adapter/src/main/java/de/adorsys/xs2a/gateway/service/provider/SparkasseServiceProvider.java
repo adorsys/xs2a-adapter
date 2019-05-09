@@ -17,16 +17,20 @@
 package de.adorsys.xs2a.gateway.service.provider;
 
 import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.gateway.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.gateway.service.PaymentInitiationService;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
-import static de.adorsys.xs2a.gateway.service.provider.Sparkasse.BANK_CODES;
-import static de.adorsys.xs2a.gateway.service.provider.Sparkasse.BASE_URI;
+public class SparkasseServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
-public class SparkasseAccountInformationServiceProvider implements AccountInformationServiceProvider {
-
+    private final Set<String> BANK_CODES = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("99999999")));
+    private final String BASE_URI = "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1";
     private AccountInformationService accountInformationService;
+    private PaymentInitiationService paymentInitiationService;
 
     @Override
     public Set<String> getBankCodes() {
@@ -39,5 +43,13 @@ public class SparkasseAccountInformationServiceProvider implements AccountInform
             accountInformationService = new BaseAccountInformationService(BASE_URI);
         }
         return accountInformationService;
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService() {
+        if (paymentInitiationService == null) {
+            paymentInitiationService = new BasePaymentInitiationService(BASE_URI);
+        }
+        return paymentInitiationService;
     }
 }
