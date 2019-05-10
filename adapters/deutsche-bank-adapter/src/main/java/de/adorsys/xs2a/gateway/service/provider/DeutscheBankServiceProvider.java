@@ -17,21 +17,33 @@
 package de.adorsys.xs2a.gateway.service.provider;
 
 import de.adorsys.xs2a.gateway.service.PaymentInitiationService;
+import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
+import de.adorsys.xs2a.gateway.service.impl.DeutscheBankAccountInformationService;
 import de.adorsys.xs2a.gateway.service.impl.DeutscheBankPaymentInitiationService;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DeutscheBankPaymentInitiationServiceProvider implements PaymentInitiationServiceProvider {
+public class DeutscheBankServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
+    private static final String AIS_URI = "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/";
     private static final String PIS_URI = "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("50010517")));
+    private DeutscheBankAccountInformationService accountInformationService;
     private DeutscheBankPaymentInitiationService paymentInitiationService;
 
     @Override
     public Set<String> getBankCodes() {
         return bankCodes;
+    }
+
+    @Override
+    public AccountInformationService getAccountInformationService() {
+        if (accountInformationService == null) {
+            accountInformationService = new DeutscheBankAccountInformationService(AIS_URI);
+        }
+        return accountInformationService;
     }
 
     @Override
