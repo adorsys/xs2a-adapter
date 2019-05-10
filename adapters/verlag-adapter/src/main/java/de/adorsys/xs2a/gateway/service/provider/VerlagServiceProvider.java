@@ -17,21 +17,33 @@
 package de.adorsys.xs2a.gateway.service.provider;
 
 import de.adorsys.xs2a.gateway.service.PaymentInitiationService;
+import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
+import de.adorsys.xs2a.gateway.service.impl.VerlagAccountInformationService;
 import de.adorsys.xs2a.gateway.service.impl.VerlagPaymentInitiationService;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class VerlagPaymentInitiationServiceProvider implements PaymentInitiationServiceProvider {
+public class VerlagServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+
     private static final String BASE_URI = "https://www.sandbox-bvxs2a.de/nationalbank/v1";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("25040090")));
+    private VerlagAccountInformationService accountInformationService;
     private VerlagPaymentInitiationService paymentInitiationService;
 
 
     @Override
     public Set<String> getBankCodes() {
         return bankCodes;
+    }
+
+    @Override
+    public AccountInformationService getAccountInformationService() {
+        if (accountInformationService == null) {
+            accountInformationService = new VerlagAccountInformationService(BASE_URI);
+        }
+        return accountInformationService;
     }
 
     @Override
