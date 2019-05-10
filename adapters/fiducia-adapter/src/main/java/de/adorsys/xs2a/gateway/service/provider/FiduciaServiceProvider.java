@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class FiduciaAccountInformationServiceProvider implements AccountInformationServiceProvider {
+public class FiduciaServiceProvider implements AccountInformationServiceProvider {
 
     private static final String BASE_URI = "https://xs2a-test.fiduciagad.de/xs2a/v1";
     private final RequestSigningInterceptor requestSigningInterceptor = new RequestSigningInterceptor();
