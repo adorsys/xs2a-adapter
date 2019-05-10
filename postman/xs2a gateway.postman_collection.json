@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9b597547-8c8d-447d-98d1-c3e1eeb2e726",
+		"_postman_id": "b5de688d-db9c-470e-af45-2b41f58240e6",
 		"name": "xs2a gateway",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -786,16 +786,22 @@
 							"script": {
 								"id": "e4efa145-5a35-4b82-af51-90ee995ae199",
 								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
 									"});",
 									"",
 									"pm.test(\"Transaction status is received\", function () {",
-									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
 									"});",
 									"",
-									"pm.globals.set(\"paymentId\", pm.response.json().paymentId);"
+									"pm.globals.set(\"paymentId\", pm.response.json().paymentId);",
+									"",
+									"if (jsonData._links.scaRedirect) {",
+									"    var scaRedirect = jsonData._links.scaRedirect.href;",
+									"    pm.globals.set(\"scaRedirect\", scaRedirect);",
+									"}"
 								],
 								"type": "text/javascript"
 							}
@@ -1492,6 +1498,44 @@
 							]
 						},
 						"description": "Processing of a service request that needs authentication. The PSU has not yet been authorised. Embedded SCA Approach selected. The PSU has more than one embedded method available. PSU authenticaton required for the SCA selection to be applied. Missing authorisation data may be delivered at the same time as an authorisation sub-resource is created."
+					},
+					"response": []
+				},
+				{
+					"name": "SCA/Redirect/DAB&Consors&Sparda",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3620d4f5-d0c3-410c-ae18-a953317608ec",
+								"exec": [
+									"pm.test(\"Consent status is valid\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The payment status has changed to: AcceptedSettlementCompleted\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{scaRedirect}}?psu-id=PSU-Successful",
+							"host": [
+								"{{scaRedirect}}"
+							],
+							"query": [
+								{
+									"key": "psu-id",
+									"value": "PSU-Successful"
+								}
+							]
+						}
 					},
 					"response": []
 				},

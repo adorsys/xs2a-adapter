@@ -25,11 +25,9 @@ import java.util.Map;
 import static org.apache.http.protocol.HTTP.DATE_HEADER;
 
 public class FiduciaAccountInformationService extends BaseAccountInformationService {
-    private static final String BASE_URI = "https://xs2a-test.fiduciagad.de/xs2a/v1";
 
-    @Override
-    protected String getBaseUri() {
-        return BASE_URI;
+    public FiduciaAccountInformationService(String baseUri) {
+        super(baseUri);
     }
 
     @Override
