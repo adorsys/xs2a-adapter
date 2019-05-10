@@ -139,5 +139,20 @@ public class PaymentController extends AbstractController implements PaymentApi 
                 .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
                 .body(startScaProcessResponseMapper.toStartScaprocessResponseTO((StartScaProcessResponse) response.getResponseBody()));
     }
+
+    @Override
+    public ResponseEntity<Object> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, Map<String, String> headers, ObjectNode body) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+
+        GeneralResponse<?> response = handleAuthorisationBody(body,
+                (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> this.paymentService.updateConsentsPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, updatePsuAuthentication),
+                (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod -> this.paymentService.updateConsentsPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod),
+                (TransactionAuthorisationHandler) transactionAuthorisation -> this.paymentService.updateConsentsPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, transactionAuthorisation));
+
+        return ResponseEntity
+                       .status(HttpStatus.OK)
+                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .body(response.getResponseBody());
+    }
 }
 

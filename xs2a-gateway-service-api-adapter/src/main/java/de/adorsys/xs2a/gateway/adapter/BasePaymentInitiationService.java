@@ -18,7 +18,7 @@ package de.adorsys.xs2a.gateway.adapter;
 
 import de.adorsys.xs2a.gateway.http.StringUri;
 import de.adorsys.xs2a.gateway.service.*;
-import de.adorsys.xs2a.gateway.service.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.gateway.service.model.*;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -122,5 +122,32 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
         return httpClient.post(uri, body, headersMap, responseHandler(StartScaProcessResponse.class));
+    }
+
+    @Override
+    public GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
+        String uri = StringUri.fromElements(baseUri, paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
+        Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
+        String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
+
+        return httpClient.put(uri, body, headersMap, responseHandler(UpdatePsuAuthenticationResponse.class));
+    }
+
+    @Override
+    public GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+        String uri = StringUri.fromElements(baseUri, paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
+        Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
+        String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
+
+        return httpClient.put(uri, body, headersMap, responseHandler(SelectPsuAuthenticationMethodResponse.class));
+    }
+
+    @Override
+    public GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
+        String uri = StringUri.fromElements(baseUri, paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
+        Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
+        String body = jsonMapper.writeValueAsString(transactionAuthorisation);
+
+        return httpClient.put(uri, body, headersMap, responseHandler(ScaStatusResponse.class));
     }
 }

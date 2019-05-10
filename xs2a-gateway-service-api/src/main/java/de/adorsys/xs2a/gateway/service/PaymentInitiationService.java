@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.gateway.service;
 
-import de.adorsys.xs2a.gateway.service.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.gateway.service.model.*;
 
 public interface PaymentInitiationService {
     GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, Object body, RequestHeaders requestHeaders);
@@ -14,4 +14,29 @@ public interface PaymentInitiationService {
     GeneralResponse<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService, String paymentProduct, String paymentId, RequestHeaders requestHeaders);
 
     GeneralResponse<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct, String paymentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication);
+
+    GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(
+            String paymentService,
+            String paymentProduct,
+            String paymentId,
+            String authorisationId,
+            RequestHeaders requestHeaders,
+            SelectPsuAuthenticationMethod selectPsuAuthenticationMethod);
+
+    GeneralResponse<ScaStatusResponse> updateConsentsPsuData(
+            String paymentService,
+            String paymentProduct,
+            String paymentId,
+            String authorisationId,
+            RequestHeaders requestHeaders,
+            TransactionAuthorisation transactionAuthorisation);
+
+    GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(
+            String paymentService,
+            String paymentProduct,
+            String paymentId,
+            String authorisationId,
+            RequestHeaders requestHeaders,
+            UpdatePsuAuthentication updatePsuAuthentication
+    );
 }

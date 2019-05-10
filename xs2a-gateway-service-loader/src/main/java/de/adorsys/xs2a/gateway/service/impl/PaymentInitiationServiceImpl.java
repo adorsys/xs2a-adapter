@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.service.*;
-import de.adorsys.xs2a.gateway.service.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.gateway.service.model.*;
 import de.adorsys.xs2a.gateway.service.provider.BankNotSupportedException;
 import de.adorsys.xs2a.gateway.service.provider.PaymentInitiationServiceProvider;
 
@@ -55,6 +55,21 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
                                                                                     UpdatePsuAuthentication updatePsuAuthentication) {
         return getPaymentService(requestHeaders).startSinglePaymentAuthorisation(paymentProduct, paymentId,
                 requestHeaders, updatePsuAuthentication);
+    }
+
+    @Override
+    public GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+        return getPaymentService(requestHeaders).updateConsentsPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod);
+    }
+
+    @Override
+    public GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
+        return getPaymentService(requestHeaders).updateConsentsPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, transactionAuthorisation);
+    }
+
+    @Override
+    public GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
+        return getPaymentService(requestHeaders).updateConsentsPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, updatePsuAuthentication);
     }
 
     private PaymentInitiationService getPaymentService(RequestHeaders requestHeaders) {
