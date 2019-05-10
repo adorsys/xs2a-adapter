@@ -126,7 +126,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
     @Override
     public GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
-        String uri = StringUri.fromElements(getBaseUri(), paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
+        String uri = StringUri.fromElements(baseUri, paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
@@ -135,7 +135,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
     @Override
     public GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
-        String uri = StringUri.fromElements(getBaseUri(), paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
+        String uri = StringUri.fromElements(baseUri, paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
 
@@ -144,7 +144,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
     @Override
     public GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
-        String uri = StringUri.fromElements(getBaseUri(), paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
+        String uri = StringUri.fromElements(baseUri, paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 
