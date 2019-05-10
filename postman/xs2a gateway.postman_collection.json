@@ -990,6 +990,298 @@
 					"response": []
 				},
 				{
+					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_sepa_credit_transfers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "853e6f55-ac06-452c-bc23-c65e9a7db516",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"scaStatus is psuAuthenticated\", function () {",
+									"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
+									"});",
+									"",
+									"pm.test(\"SCA methods are available\", function () {",
+									"    pm.response.to.have.jsonBody(\"scaMethods\");",
+									"});",
+									"",
+									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
+									"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers\");",
+									"});",
+									"",
+									"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
+									"pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"type": "text",
+								"value": "{{$guid}}"
+							},
+							{
+								"key": "PSU-ID",
+								"type": "text",
+								"value": "{{psuId}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"type": "text",
+								"value": "{{bankCode}}"
+							},
+							{
+								"key": "TPP-Redirect-Preferred",
+								"type": "text",
+								"value": "false"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password}}\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"payments",
+								"sepa-credit-transfers",
+								"{{paymentId}}",
+								"authorisations"
+							]
+						},
+						"description": "Processing of a service request that needs authentication. The PSU has not yet been authorised. Embedded SCA Approach selected. The PSU has more than one embedded method available. PSU authenticaton required for the SCA selection to be applied. Missing authorisation data may be delivered at the same time as an authorisation sub-resource is created."
+					},
+					"response": []
+				},
+				{
+					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7ae7e14f-31f0-45c2-9004-47a64d28fe92",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.test(\"scaStatus is psuAuthenticated\", function () {",
+									"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
+									"});",
+									"",
+									"pm.test(\"SCA methods are available\", function () {",
+									"    pm.response.to.have.jsonBody(\"scaMethods\");",
+									"});",
+									"",
+									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
+									"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"type": "text",
+								"value": "{{bankCode}}"
+							},
+							{
+								"key": "X-Request-ID",
+								"type": "text",
+								"value": "{{$guid}}"
+							},
+							{
+								"key": "PSU-ID",
+								"type": "text",
+								"value": "{{psuId}}"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"type": "text",
+								"value": "{{psuIdType}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password}}\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"payments",
+								"sepa-credit-transfers",
+								"{{paymentId}}",
+								"authorisations",
+								"{{authorisationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7ae7e14f-31f0-45c2-9004-47a64d28fe92",
+								"exec": [
+									"pm.test(\"scaStatus is scaMethodSelected\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.scaStatus).to.eql(\"scaMethodSelected\");",
+									"});",
+									"",
+									"pm.test(\"SCA method as indicated by the request field \\\"authenticationMethodId\\\"\", function () {",
+									"    var authenticationMethodId = pm.variables.get(\"authenticationMethodId\");",
+									"    pm.response.to.have.jsonBody(\"chosenScaMethod.authenticationMethodId\", authenticationMethodId);",
+									"});",
+									"",
+									"pm.test(\"_links/authoriseTransaction/href must be present\", function () {",
+									"    pm.response.to.have.jsonBody(\"_links.authoriseTransaction.href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"type": "text",
+								"value": "{{bankCode}}"
+							},
+							{
+								"key": "X-Request-ID",
+								"type": "text",
+								"value": "{{$guid}}"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"type": "text",
+								"value": "{{psuIdType}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"payments",
+								"sepa-credit-transfers",
+								"{{paymentId}}",
+								"authorisations",
+								"{{authorisationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4_sepa_credit_transfers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2b397a1a-d656-4218-b363-eb4bba353252",
+								"exec": [
+									"pm.test(\"scaStatus is finalised\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"type": "text",
+								"value": "{{$guid}}"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"type": "text",
+								"value": "{{bankCode}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"type": "text",
+								"value": "{{psuIdType}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"scaAuthenticationData\": \"{{scaAuthenticationData}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"payments",
+								"sepa-credit-transfers",
+								"{{paymentId}}",
+								"authorisations",
+								"{{authorisationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "PIS/PaymentInit/Products/001e",
 					"event": [
 						{
@@ -1123,7 +1415,7 @@
 					"response": []
 				},
 				{
-					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2",
+					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_pain001_sepa_credit_transfers",
 					"event": [
 						{
 							"listen": "test",
@@ -1142,7 +1434,7 @@
 									"",
 									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 									"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3\");",
+									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_pain001_sepa_credit_transfers\");",
 									"});",
 									"",
 									"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
@@ -1157,29 +1449,29 @@
 						"header": [
 							{
 								"key": "X-Request-ID",
-								"value": "{{$guid}}",
-								"type": "text"
+								"type": "text",
+								"value": "{{$guid}}"
 							},
 							{
 								"key": "PSU-ID",
-								"value": "{{psuId}}",
-								"type": "text"
+								"type": "text",
+								"value": "{{psuId}}"
 							},
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							},
 							{
 								"key": "X-GTW-Bank-Code",
-								"value": "{{bankCode}}",
-								"type": "text"
+								"type": "text",
+								"value": "{{bankCode}}"
 							},
 							{
 								"key": "TPP-Redirect-Preferred",
-								"value": "false",
-								"type": "text"
+								"type": "text",
+								"value": "false"
 							}
 						],
 						"body": {
@@ -1200,6 +1492,217 @@
 							]
 						},
 						"description": "Processing of a service request that needs authentication. The PSU has not yet been authorised. Embedded SCA Approach selected. The PSU has more than one embedded method available. PSU authenticaton required for the SCA selection to be applied. Missing authorisation data may be delivered at the same time as an authorisation sub-resource is created."
+					},
+					"response": []
+				},
+				{
+					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_pain001_sepa_credit_transfers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7ae7e14f-31f0-45c2-9004-47a64d28fe92",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.test(\"scaStatus is psuAuthenticated\", function () {",
+									"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
+									"});",
+									"",
+									"pm.test(\"SCA methods are available\", function () {",
+									"    pm.response.to.have.jsonBody(\"scaMethods\");",
+									"});",
+									"",
+									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
+									"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"type": "text",
+								"value": "{{bankCode}}"
+							},
+							{
+								"key": "X-Request-ID",
+								"type": "text",
+								"value": "{{$guid}}"
+							},
+							{
+								"key": "PSU-ID",
+								"type": "text",
+								"value": "{{psuId}}"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"type": "text",
+								"value": "{{psuIdType}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password}}\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"payments",
+								"pain.001-sepa-credit-transfers",
+								"{{paymentId}}",
+								"authorisations",
+								"{{authorisationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_pain001_sepa_credit_transfers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7ae7e14f-31f0-45c2-9004-47a64d28fe92",
+								"exec": [
+									"pm.test(\"scaStatus is scaMethodSelected\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.scaStatus).to.eql(\"scaMethodSelected\");",
+									"});",
+									"",
+									"pm.test(\"SCA method as indicated by the request field \\\"authenticationMethodId\\\"\", function () {",
+									"    var authenticationMethodId = pm.variables.get(\"authenticationMethodId\");",
+									"    pm.response.to.have.jsonBody(\"chosenScaMethod.authenticationMethodId\", authenticationMethodId);",
+									"});",
+									"",
+									"pm.test(\"_links/authoriseTransaction/href must be present\", function () {",
+									"    pm.response.to.have.jsonBody(\"_links.authoriseTransaction.href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"type": "text",
+								"value": "{{bankCode}}"
+							},
+							{
+								"key": "X-Request-ID",
+								"type": "text",
+								"value": "{{$guid}}"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"type": "text",
+								"value": "{{psuIdType}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"payments",
+								"sepa-credit-transfers",
+								"{{paymentId}}",
+								"authorisations",
+								"{{authorisationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4_pain001_sepa_credit_transfers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2b397a1a-d656-4218-b363-eb4bba353252",
+								"exec": [
+									"pm.test(\"scaStatus is finalised\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"type": "text",
+								"value": "{{$guid}}"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"type": "text",
+								"value": "{{bankCode}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"type": "text",
+								"value": "{{psuIdType}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"scaAuthenticationData\": \"{{scaAuthenticationData}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"payments",
+								"sepa-credit-transfers",
+								"{{paymentId}}",
+								"authorisations",
+								"{{authorisationId}}"
+							]
+						}
 					},
 					"response": []
 				}
