@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AdorsysIntegAccountInformationServiceProvider implements AccountInformationServiceProvider {
+public class AdorsysIntegServiceProvider implements AccountInformationServiceProvider {
 
     private static final String BASE_URI = "https://dev-psd2-xs2a.cloud.adorsys.de/v1";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("adorsys-integ")));
