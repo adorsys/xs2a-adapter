@@ -29,9 +29,7 @@ public interface ConsentApi {
 
     String CONSENTS = "/v1/consents";
 
-    @ApiOperation(value = "Create consent", nickname = "createConsent", notes = "This method create a consent resource, defining access rights to dedicated accounts of  a given PSU-ID. These accounts are addressed explicitly in the method as  parameters as a core function.  **Side Effects** When this Consent Request is a request where the \"recurringIndicator\" equals \"true\",  and if it exists already a former consent for recurring access on account information  for the addressed PSU, then the former consent automatically expires as soon as the new  consent request is authorised by the PSU.  Optional Extension: As an option, an ASPSP might optionally accept a specific access right on the access on all psd2 related services for all available accounts.   As another option an ASPSP might optionally also accept a command, where only access rights are inserted without mentioning the addressed account.  The relation to accounts is then handled afterwards between PSU and ASPSP.  This option is not supported for the Embedded SCA Approach.  As a last option, an ASPSP might in addition accept a command with access rights   * to see the list of available payment accounts or   * to see the list of available payment accounts with balances. ", response = ConsentsResponse201.class, authorizations = {
-        @Authorization(value = "BearerAuthOAuth")
-    }, tags={  })
+    @ApiOperation(value = "Create consent", nickname = "createConsent", notes = "This method create a consent resource, defining access rights to dedicated accounts of  a given PSU-ID. These accounts are addressed explicitly in the method as  parameters as a core function.  **Side Effects** When this Consent Request is a request where the \"recurringIndicator\" equals \"true\",  and if it exists already a former consent for recurring access on account information  for the addressed PSU, then the former consent automatically expires as soon as the new  consent request is authorised by the PSU.  Optional Extension: As an option, an ASPSP might optionally accept a specific access right on the access on all psd2 related services for all available accounts.   As another option an ASPSP might optionally also accept a command, where only access rights are inserted without mentioning the addressed account.  The relation to accounts is then handled afterwards between PSU and ASPSP.  This option is not supported for the Embedded SCA Approach.  As a last option, an ASPSP might in addition accept a command with access rights   * to see the list of available payment accounts or   * to see the list of available payment accounts with balances. ", response = ConsentsResponse201.class)
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "Created", response = ConsentsResponse201.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
@@ -81,9 +79,7 @@ public interface ConsentApi {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @ApiOperation(value = "Delete Consent", nickname = "deleteConsent", notes = "The TPP can delete an account information consent object if needed.", authorizations = {
-        @Authorization(value = "BearerAuthOAuth")
-    }, tags={  })
+    @ApiOperation(value = "Delete Consent", nickname = "deleteConsent", notes = "The TPP can delete an account information consent object if needed.")
     @ApiResponses(value = {
         @ApiResponse(code = 204, message = "No Content"),
         @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
@@ -109,9 +105,7 @@ public interface ConsentApi {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @ApiOperation(value = "Get Consent Authorisation Sub-Resources Request", nickname = "getConsentAuthorisation", notes = "Return a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. ", response = Authorisations.class, authorizations = {
-        @Authorization(value = "BearerAuthOAuth")
-    }, tags={  })
+    @ApiOperation(value = "Get Consent Authorisation Sub-Resources Request", nickname = "getConsentAuthorisation", notes = "Return a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. ", response = Authorisations.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = Authorisations.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
@@ -137,9 +131,7 @@ public interface ConsentApi {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @ApiOperation(value = "Get Consent Request", nickname = "getConsentInformation", notes = "Returns the content of an account information consent object.  This is returning the data for the TPP especially in cases,  where the consent was directly managed between ASPSP and PSU e.g. in a re-direct SCA Approach. ", response = ConsentInformationResponse200Json.class, authorizations = {
-        @Authorization(value = "BearerAuthOAuth")
-    }, tags={  })
+    @ApiOperation(value = "Get Consent Request", nickname = "getConsentInformation", notes = "Returns the content of an account information consent object.  This is returning the data for the TPP especially in cases,  where the consent was directly managed between ASPSP and PSU e.g. in a re-direct SCA Approach. ", response = ConsentInformationResponse200Json.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = ConsentInformationResponse200Json.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
@@ -181,9 +173,7 @@ public interface ConsentApi {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @ApiOperation(value = "Read the SCA status of the consent authorisation.", nickname = "getConsentScaStatus", notes = "This method returns the SCA status of a consent initiation's authorisation sub-resource. ", response = ScaStatusResponseTO.class, authorizations = {
-        @Authorization(value = "BearerAuthOAuth")
-    }, tags={  })
+    @ApiOperation(value = "Read the SCA status of the consent authorisation.", nickname = "getConsentScaStatus", notes = "This method returns the SCA status of a consent initiation's authorisation sub-resource. ", response = ScaStatusResponseTO.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = ScaStatusResponseTO.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
@@ -209,9 +199,7 @@ public interface ConsentApi {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @ApiOperation(value = "Consent status request", nickname = "getConsentStatus", notes = "Read the status of an account information consent resource.", response = ConsentStatusResponse200.class, authorizations = {
-        @Authorization(value = "BearerAuthOAuth")
-    }, tags={  })
+    @ApiOperation(value = "Consent status request", nickname = "getConsentStatus", notes = "Read the status of an account information consent resource.", response = ConsentStatusResponse200.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = ConsentStatusResponse200.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
@@ -237,9 +225,7 @@ public interface ConsentApi {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @ApiOperation(value = "Start the authorisation process for a consent", nickname = "startConsentAuthorisation", notes = "Create an authorisation sub-resource and start the authorisation process of a consent.  The message might in addition transmit authentication and authorisation related data.  his method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the consent.  The ASPSP might make the usage of this access method unnecessary,  since the related authorisation resource will be automatically created by  the ASPSP after the submission of the consent data with the first POST consents call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an 'startAuthorisation' hyperlink in the preceeding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The 'startAuthorisation' hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * 'startAuthorisationWithPsuIdentfication',      * 'startAuthorisationWithPsuAuthentication' #TODO     * 'startAuthorisationWithAuthentciationMethodSelection'    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an 'startAuthorisation' hyperlink in the preceeding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The 'startAuthorisation' hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. ", response = StartScaprocessResponseTO.class, authorizations = {
-        @Authorization(value = "BearerAuthOAuth")
-    }, tags={  })
+    @ApiOperation(value = "Start the authorisation process for a consent", nickname = "startConsentAuthorisation", notes = "Create an authorisation sub-resource and start the authorisation process of a consent.  The message might in addition transmit authentication and authorisation related data.  his method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the consent.  The ASPSP might make the usage of this access method unnecessary,  since the related authorisation resource will be automatically created by  the ASPSP after the submission of the consent data with the first POST consents call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an 'startAuthorisation' hyperlink in the preceeding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The 'startAuthorisation' hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * 'startAuthorisationWithPsuIdentfication',      * 'startAuthorisationWithPsuAuthentication' #TODO     * 'startAuthorisationWithAuthentciationMethodSelection'    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an 'startAuthorisation' hyperlink in the preceeding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The 'startAuthorisation' hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. ", response = StartScaprocessResponseTO.class)
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "Created", response = StartScaprocessResponseTO.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
@@ -284,9 +270,7 @@ public interface ConsentApi {
             @RequestHeader Map<String, String> headers,
             @RequestBody(required = false) ObjectNode body);
 
-    @ApiOperation(value = "Update PSU Data for consents", nickname = "updateConsentsPsuData", notes = "This method update PSU data on the consents  resource if needed.  It may authorise a consent within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.   There are several possible Update PSU Data requests in the context of a consent request if needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. ", response = Object.class, authorizations = {
-        @Authorization(value = "BearerAuthOAuth")
-    }, tags={  })
+    @ApiOperation(value = "Update PSU Data for consents", nickname = "updateConsentsPsuData", notes = "This method update PSU data on the consents  resource if needed.  It may authorise a consent within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.   There are several possible Update PSU Data requests in the context of a consent request if needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. ", response = Object.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = Object.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
