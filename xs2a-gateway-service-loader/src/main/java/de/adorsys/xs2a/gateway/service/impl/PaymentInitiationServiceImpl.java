@@ -73,7 +73,7 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     private PaymentInitiationService getPaymentService(RequestHeaders requestHeaders) {
-        String bankCode = requestHeaders.toMap().get(RequestHeaders.X_GTW_BANK_CODE);
+        String bankCode = requestHeaders.removeBankCode();
         ServiceLoader<PaymentInitiationServiceProvider> loader =
                 ServiceLoader.load(PaymentInitiationServiceProvider.class);
         return StreamSupport.stream(loader.spliterator(), false)
