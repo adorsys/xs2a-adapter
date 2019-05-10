@@ -24,9 +24,14 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import java.util.Map;
 
-public abstract class BasePaymentInitiationService extends AbstractService implements PaymentInitiationService {
+public class BasePaymentInitiationService extends AbstractService implements PaymentInitiationService {
 
     private static final String PAYMENTS = "payments";
+    private final String baseUri;
+
+    public BasePaymentInitiationService(String baseUri) {
+        this.baseUri = baseUri;
+    }
 
     @Override
     public GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, Object body, RequestHeaders requestHeaders) {
@@ -52,7 +57,7 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
         }
 
         return httpClient.post(
-                StringUri.fromElements(getBaseUri(), PAYMENTS, paymentProduct.getSlug()),
+                StringUri.fromElements(baseUri, PAYMENTS, paymentProduct.getSlug()),
                 bodyString,
                 headersMap,
                 responseHandler(PaymentInitiationRequestResponse.class)
@@ -69,7 +74,7 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
     private GeneralResponse<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(StandardPaymentProduct paymentProduct,
                                                                                                               String paymentId,
                                                                                                               RequestHeaders requestHeaders) {
-        String uri = StringUri.fromElements(getBaseUri(), PAYMENTS, paymentProduct.getSlug(), paymentId);
+        String uri = StringUri.fromElements(baseUri, PAYMENTS, paymentProduct.getSlug(), paymentId);
 
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
         return httpClient.get(uri, headersMap,
@@ -89,7 +94,7 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
     private GeneralResponse<PaymentInitiationStatus> getSinglePaymentInitiationStatus(StandardPaymentProduct paymentProduct,
                                                                                       String paymentId,
                                                                                       RequestHeaders requestHeaders) {
-        String uri = StringUri.fromElements(getBaseUri(), PAYMENTS, paymentProduct.getSlug(), paymentId, STATUS);
+        String uri = StringUri.fromElements(baseUri, PAYMENTS, paymentProduct.getSlug(), paymentId, STATUS);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
         return httpClient.get(uri, headersMap, responseHandler(PaymentInitiationStatus.class));
@@ -113,11 +118,9 @@ public abstract class BasePaymentInitiationService extends AbstractService imple
                                                                              String paymentId,
                                                                              RequestHeaders requestHeaders,
                                                                              UpdatePsuAuthentication updatePsuAuthentication) {
-        String uri = StringUri.fromElements(getBaseUri(), PAYMENTS, paymentProduct.getSlug(), paymentId, AUTHORISATIONS);
+        String uri = StringUri.fromElements(baseUri, PAYMENTS, paymentProduct.getSlug(), paymentId, AUTHORISATIONS);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
         return httpClient.post(uri, body, headersMap, responseHandler(StartScaProcessResponse.class));
     }
-
-    protected abstract String getBaseUri();
 }
