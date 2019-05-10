@@ -20,6 +20,8 @@ import java.util.Optional;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+    private static final String ERROR_ORIGINATION_HEADER_NAME = "X-GTW-Error-Origination";
+
     private final HeadersMapper headersMapper;
 
     public RestExceptionHandler(HeadersMapper headersMapper) {
@@ -29,7 +31,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     ResponseEntity handle(ErrorResponseException exception) {
         Optional<ErrorResponse> errorResponse = exception.getErrorResponse();
-        HttpHeaders responseHeaders = headersMapper.toHttpHeaders(exception.getResponseHeaders());
+        HttpHeaders responseHeaders = addErrorOriginationHeader(
+                headersMapper.toHttpHeaders(exception.getResponseHeaders()),
+                ErrorOrigination.BANK
+        );
 
         return errorResponse
                        .map(response -> new ResponseEntity<>(response, responseHeaders, HttpStatus.valueOf(exception.getStatusCode())))
@@ -38,8 +43,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity handle(NotAcceptableException exception) {
-        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
-                .build();
+        return ResponseEntity
+                       .status(HttpStatus.NOT_ACCEPTABLE)
+                       .headers(addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER))
+                       .build();
     }
 
     @ExceptionHandler
@@ -47,7 +54,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         String errorText = "Exception during the request signing process";
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategory.ERROR.name(), httpStatus.name(), errorText);
-        return new ResponseEntity<>(errorResponse, httpStatus);
+        HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
+        return new ResponseEntity<>(errorResponse, headers, httpStatus);
     }
 
     @ExceptionHandler
@@ -55,7 +63,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         String errorText = "Exception during the IO process";
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategory.ERROR.name(), httpStatus.name(), errorText);
-        return new ResponseEntity<>(errorResponse, httpStatus);
+        HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
+        return new ResponseEntity<>(errorResponse, headers, httpStatus);
     }
 
     @ExceptionHandler
@@ -63,7 +72,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         String errorText = "This endpoint is not supported yet";
         HttpStatus httpStatus = HttpStatus.NOT_IMPLEMENTED;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategory.ERROR.name(), httpStatus.name(), errorText);
-        return new ResponseEntity<>(errorResponse, httpStatus);
+        HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
+        return new ResponseEntity<>(errorResponse, headers, httpStatus);
     }
 
     @ExceptionHandler
@@ -71,18 +81,28 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         String errorText = "Server error";
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategory.ERROR.name(), httpStatus.name(), errorText);
-        return new ResponseEntity<>(errorResponse, httpStatus);
+        HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
+        return new ResponseEntity<>(errorResponse, headers, httpStatus);
     }
 
     private ErrorResponse buildErrorResponse(String category, String code, String text) {
-        ErrorResponse errorResponse = new ErrorResponse();
-
         TppMessage tppMessage = new TppMessage();
         tppMessage.setCategory(category);
         tppMessage.setCode(code);
         tppMessage.setText(text);
 
+        ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setTppMessages(Collections.singletonList(tppMessage));
         return errorResponse;
+    }
+
+    private HttpHeaders addErrorOriginationHeader(HttpHeaders httpHeaders, ErrorOrigination errorOrigination) {
+        httpHeaders.add(ERROR_ORIGINATION_HEADER_NAME, errorOrigination.name());
+        return httpHeaders;
+    }
+
+    private enum ErrorOrigination {
+        BANK,
+        ADAPTER
     }
 }
