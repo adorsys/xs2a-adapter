@@ -36,13 +36,18 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class BaseAccountInformationService extends AbstractService implements AccountInformationService {
+public class BaseAccountInformationService extends AbstractService implements AccountInformationService {
 
     private static final String CONSENTS = "consents";
     private static final String ACCOUNTS = "accounts";
     private static final String TRANSACTIONS = "transactions";
 
+    private final String baseUri;
     private final Pattern charsetPattern = Pattern.compile("charset=([^;]+)");
+
+    public BaseAccountInformationService(String baseUri) {
+        this.baseUri = baseUri;
+    }
 
     @Override
     public GeneralResponse<ConsentCreationResponse> createConsent(Consents body, RequestHeaders requestHeaders) {
@@ -178,12 +183,10 @@ public abstract class BaseAccountInformationService extends AbstractService impl
     }
 
     protected String getConsentBaseUri() {
-        return StringUri.fromElements(getBaseUri(), CONSENTS);
+        return StringUri.fromElements(baseUri, CONSENTS);
     }
 
     protected String getAccountsBaseUri() {
-        return StringUri.fromElements(getBaseUri(), ACCOUNTS);
+        return StringUri.fromElements(baseUri, ACCOUNTS);
     }
-
-    protected abstract String getBaseUri();
 }

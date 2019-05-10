@@ -16,17 +16,22 @@
 
 package de.adorsys.xs2a.gateway.service.provider;
 
+import de.adorsys.xs2a.gateway.http.HttpClient;
+import de.adorsys.xs2a.gateway.http.RequestSigningInterceptor;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
-import de.adorsys.xs2a.gateway.service.impl.DeutscheBankAccountInformationService;
+import de.adorsys.xs2a.gateway.service.impl.FiduciaAccountInformationService;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DeutscheBankAccountInformationServiceProvider implements AccountInformationServiceProvider {
+public class FiduciaServiceProvider implements AccountInformationServiceProvider {
 
-    private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("50010517")));
-    private DeutscheBankAccountInformationService accountInformationService;
+    private static final String BASE_URI = "https://xs2a-test.fiduciagad.de/xs2a/v1";
+    private final RequestSigningInterceptor requestSigningInterceptor = new RequestSigningInterceptor();
+
+    private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("88888888")));
+    private FiduciaAccountInformationService accountInformationService;
 
     @Override
     public Set<String> getBankCodes() {
@@ -36,7 +41,8 @@ public class DeutscheBankAccountInformationServiceProvider implements AccountInf
     @Override
     public AccountInformationService getAccountInformationService() {
         if (accountInformationService == null) {
-            accountInformationService = new DeutscheBankAccountInformationService();
+            accountInformationService = new FiduciaAccountInformationService(BASE_URI);
+            accountInformationService.setHttpClient(HttpClient.newHttpClientWithSignature(requestSigningInterceptor));
         }
         return accountInformationService;
     }

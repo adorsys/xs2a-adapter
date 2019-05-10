@@ -8,11 +8,9 @@ import java.util.Map;
 
 public class DeutscheBankPaymentInitiationService extends BasePaymentInitiationService {
     private static final String DATE_HEADER = "Date";
-    private static final String PIS_URI = "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/";
 
-    @Override
-    protected String getBaseUri() {
-        return PIS_URI;
+    public DeutscheBankPaymentInitiationService(String baseUri) {
+        super(baseUri);
     }
 
     @Override

@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.gateway.adorsys.service.provider;
 
-import de.adorsys.xs2a.gateway.adorsys.service.impl.AdorsysIntegAccountInformationService;
+import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 import de.adorsys.xs2a.gateway.service.provider.AccountInformationServiceProvider;
 
@@ -24,10 +24,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AdorsysIntegAccountInformationServiceProvider implements AccountInformationServiceProvider {
+public class AdorsysIntegServiceProvider implements AccountInformationServiceProvider {
 
+    private static final String BASE_URI = "https://dev-psd2-xs2a.cloud.adorsys.de/v1";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("adorsys-integ")));
-    private AdorsysIntegAccountInformationService accountInformationService;
+    private AccountInformationService accountInformationService;
 
     @Override
     public Set<String> getBankCodes() {
@@ -37,7 +38,7 @@ public class AdorsysIntegAccountInformationServiceProvider implements AccountInf
     @Override
     public AccountInformationService getAccountInformationService() {
         if (accountInformationService == null) {
-            accountInformationService = new AdorsysIntegAccountInformationService();
+            accountInformationService = new BaseAccountInformationService(BASE_URI);
         }
         return accountInformationService;
     }
