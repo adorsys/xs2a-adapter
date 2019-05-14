@@ -24,4 +24,56 @@
         <module>fiducia-adapter</module>
     </modules>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <artifactId>deutsche-bank-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <artifactId>adorsys-integ-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <artifactId>sparkasse-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <artifactId>verlag-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <artifactId>dab-bank-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <artifactId>consors-bank-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <artifactId>sparda-bank-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <artifactId>fiducia-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+    </dependencies>
+
 </project>
