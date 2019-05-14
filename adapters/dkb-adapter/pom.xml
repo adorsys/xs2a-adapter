@@ -7,7 +7,7 @@
         <groupId>de.adorsys.xs2a.gateway</groupId>
         <artifactId>xs2a-gateway</artifactId>
         <version>0.1-SNAPSHOT</version>
-        <relativePath>..</relativePath>
+        <relativePath>../..</relativePath>
     </parent>
 
     <artifactId>dkb-adapter</artifactId>
