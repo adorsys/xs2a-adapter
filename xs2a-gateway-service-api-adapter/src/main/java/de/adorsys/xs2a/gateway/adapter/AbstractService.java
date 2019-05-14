@@ -59,7 +59,7 @@ public abstract class AbstractService {
         return map;
     }
 
-    <T> HttpClient.ResponseHandler<T> responseHandler(Class<T> klass) {
+    protected <T> HttpClient.ResponseHandler<T> responseHandler(Class<T> klass) {
         return (statusCode, responseBody, responseHeaders) -> {
             if (!responseHeaders.getHeader(CONTENT_TYPE_HEADER).startsWith(APPLICATION_JSON)) {
                 throw new NotAcceptableException();
