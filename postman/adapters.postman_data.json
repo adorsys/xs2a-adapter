@@ -20,6 +20,17 @@
     "creditorName": "Merchant123"
   },
   {
+    "adapter": "dkb",
+    "bankCode": "12030000",
+    "psuId": "PSD2TEST2",
+    "psuIdType": "",
+    "iban": "DE51250400903312345678",
+    "password": "123456",
+    "authenticationMethodId": "901",
+    "scaAuthenticationData": "22222",
+    "creditorName": "Merchant123"
+  },
+  {
     "adapter": "dab-bank",
     "bankCode": "70120400",
     "psuId": "PSU-Successful",
