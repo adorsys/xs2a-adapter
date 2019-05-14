@@ -18,20 +18,23 @@ package de.adorsys.xs2a.gateway.service.provider;
 
 import de.adorsys.xs2a.gateway.http.HttpClient;
 import de.adorsys.xs2a.gateway.http.RequestSigningInterceptor;
+import de.adorsys.xs2a.gateway.service.PaymentInitiationService;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 import de.adorsys.xs2a.gateway.service.impl.FiduciaAccountInformationService;
+import de.adorsys.xs2a.gateway.service.impl.FiduciaPaymentInitiationService;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class FiduciaServiceProvider implements AccountInformationServiceProvider {
+public class FiduciaServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
     private static final String BASE_URI = "https://xs2a-test.fiduciagad.de/xs2a/v1";
     private final RequestSigningInterceptor requestSigningInterceptor = new RequestSigningInterceptor();
 
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("88888888")));
     private FiduciaAccountInformationService accountInformationService;
+    private FiduciaPaymentInitiationService paymentInitiationService;
 
     @Override
     public Set<String> getBankCodes() {
@@ -45,5 +48,14 @@ public class FiduciaServiceProvider implements AccountInformationServiceProvider
             accountInformationService.setHttpClient(HttpClient.newHttpClientWithSignature(requestSigningInterceptor));
         }
         return accountInformationService;
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService() {
+        if (paymentInitiationService == null) {
+            paymentInitiationService = new FiduciaPaymentInitiationService(BASE_URI);
+            paymentInitiationService.setHttpClient(HttpClient.newHttpClientWithSignature(requestSigningInterceptor));
+        }
+        return paymentInitiationService;
     }
 }
