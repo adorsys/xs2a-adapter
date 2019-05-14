@@ -41,7 +41,7 @@ public abstract class AbstractController {
                 .build();
     }
 
-    GeneralResponse<?> handleAuthorisationBody(ObjectNode body, AuthorisationBodyHandler... handlers) {
+    GeneralResponse handleAuthorisationBody(ObjectNode body, AuthorisationBodyHandler... handlers) {
         for (AuthorisationBodyHandler handler : handlers) {
             if (handler.isApplicable(body)) {
                 return handler.apply(body, objectMapper);
@@ -58,9 +58,9 @@ public abstract class AbstractController {
     interface AuthorisationBodyHandler<T> {
         boolean isApplicable(ObjectNode body);
 
-        GeneralResponse<?> apply(ObjectNode body, ObjectMapper objectMapper);
+        GeneralResponse apply(ObjectNode body, ObjectMapper objectMapper);
 
-        GeneralResponse<?> apply(T t);
+        GeneralResponse apply(T t);
     }
 
     @FunctionalInterface
