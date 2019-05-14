@@ -22,6 +22,7 @@
         <module>sparkasse-adapter</module>
         <module>verlag-adapter</module>
         <module>fiducia-adapter</module>
+        <module>dkb-adapter</module>
     </modules>
 
     <dependencies>
