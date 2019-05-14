@@ -16,8 +16,10 @@
 
 package de.adorsys.xs2a.gateway.service.provider;
 
+import de.adorsys.xs2a.gateway.security.AccessTokenService;
 import de.adorsys.xs2a.gateway.service.PaymentInitiationService;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
+import de.adorsys.xs2a.gateway.service.impl.DkbAccessTokenService;
 import de.adorsys.xs2a.gateway.service.impl.DkbAccountInformationService;
 import de.adorsys.xs2a.gateway.service.impl.DkbPaymentInitiationService;
 
@@ -27,6 +29,7 @@ import java.util.Set;
 public class DkbServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
     private static final String BASE_URI = "https://api.dkb.de/psd2/1.3.2/v1/";
+    private final AccessTokenService tokenService = DkbAccessTokenService.getInstance();
     private PaymentInitiationService paymentInitiationService;
     private AccountInformationService accountInformationService;
 
@@ -38,7 +41,7 @@ public class DkbServiceProvider implements AccountInformationServiceProvider, Pa
     @Override
     public PaymentInitiationService getPaymentInitiationService() {
         if (paymentInitiationService == null) {
-            paymentInitiationService = new DkbPaymentInitiationService(BASE_URI);
+            paymentInitiationService = new DkbPaymentInitiationService(BASE_URI, tokenService);
         }
         return paymentInitiationService;
     }
@@ -46,7 +49,7 @@ public class DkbServiceProvider implements AccountInformationServiceProvider, Pa
     @Override
     public AccountInformationService getAccountInformationService() {
         if (accountInformationService == null) {
-            accountInformationService = new DkbAccountInformationService(BASE_URI);
+            accountInformationService = new DkbAccountInformationService(BASE_URI, tokenService);
         }
         return accountInformationService;
     }

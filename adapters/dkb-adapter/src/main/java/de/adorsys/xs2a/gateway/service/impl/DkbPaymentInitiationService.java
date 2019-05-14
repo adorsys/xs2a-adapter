@@ -22,10 +22,11 @@ import de.adorsys.xs2a.gateway.security.AccessTokenService;
 import java.util.Map;
 
 public class DkbPaymentInitiationService extends BasePaymentInitiationService {
-    private AccessTokenService accessService = DkbAccessTokenService.getInstance();
+    private AccessTokenService accessService;
 
-    public DkbPaymentInitiationService(String baseUri) {
+    public DkbPaymentInitiationService(String baseUri, AccessTokenService accessService) {
         super(baseUri);
+        this.accessService = accessService;
     }
 
     @Override
@@ -43,7 +44,7 @@ public class DkbPaymentInitiationService extends BasePaymentInitiationService {
         return addBearerHeader(map);
     }
 
-    private Map<String, String> addBearerHeader(Map<String, String> map) {
+    Map<String, String> addBearerHeader(Map<String, String> map) {
         map.put("Authorization", "Bearer " + accessService.retrieveToken());
         return map;
     }

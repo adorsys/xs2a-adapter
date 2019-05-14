@@ -30,9 +30,9 @@ import java.util.Map;
 
 public class DkbAccessTokenService implements AccessTokenService {
 
+    public static final String DKB_TOKEN_CONSUMER_KEY_PROPERTY = "dkb.token.consumer_key";
+    public static final String DKB_TOKEN_CONSUMER_SECRET_PROPERTY = "dkb.token.consumer_secret";
     private static final String DKB_TOKEN_URL_PROPERTY = "dkb.token.url";
-    private static final String DKB_TOKEN_CONSUMER_KEY_PROPERTY = "dkb.token.consumer_key";
-    private static final String DKB_TOKEN_CONSUMER_SECRET_PROPERTY = "dkb.token.consumer_secret";
     private static final String DKB_TOKEN_SECONDS_BEFORE_TOKEN_EXPIRATION_PROPERTY = "dkb.token.seconds_before_token_expiration";
 
     private static final String DEFAULT_SECONDS_BEFORE_TOKEN_EXPIRATION = "60";
@@ -51,11 +51,11 @@ public class DkbAccessTokenService implements AccessTokenService {
 
 
     private DkbAccessTokenService() {
-        this.httpClient = HttpClient.newHttpClient();
         jsonMapper = new JsonMapper();
+        setHttpClient(HttpClient.newHttpClient());
     }
 
-    static AccessTokenService getInstance() {
+    public static AccessTokenService getInstance() {
         if (instance == null) {
             instance = new DkbAccessTokenService();
         }
@@ -96,6 +96,10 @@ public class DkbAccessTokenService implements AccessTokenService {
         return accessToken.token;
     }
 
+    void setHttpClient(HttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
+
     private boolean isValid() {
         if (accessToken == null || accessToken.token == null || accessToken.validity == null) {
             return false;
@@ -114,16 +118,24 @@ public class DkbAccessTokenService implements AccessTokenService {
             if (statusCode == 200) {
                 return jsonMapper.readValue(responseBody, TokenResponse.class);
             }
-            throw new IllegalStateException();
+            throw new AccessTokenException("Can't retrieve access token by provided credentials");
         };
     }
 
-    private static class TokenResponse {
+    static class TokenResponse {
         // {"access_token":"9c60cc0a-7b38-3a2a-9b43-2b7d9d957838","scope":"am_application_scope default","token_type":"Bearer","expires_in":3600}
         @JsonProperty("access_token")
         private String accessToken;
         @JsonProperty("expires_in")
         private int expiresIn;
+
+        TokenResponse() {
+        }
+
+        TokenResponse(String accessToken, int expiresIn) {
+            this.accessToken = accessToken;
+            this.expiresIn = expiresIn;
+        }
     }
 
     private static class AccessToken {
