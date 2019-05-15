@@ -17,10 +17,7 @@
 package de.adorsys.xs2a.gateway.adapter;
 
 import de.adorsys.xs2a.gateway.http.StringUri;
-import de.adorsys.xs2a.gateway.service.GeneralResponse;
-import de.adorsys.xs2a.gateway.service.RequestHeaders;
-import de.adorsys.xs2a.gateway.service.RequestParams;
-import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
+import de.adorsys.xs2a.gateway.service.*;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.ais.*;
@@ -181,6 +178,13 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         String uri = getTransactionListUri(accountId, requestParams);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
         return httpClient.get(uri, headers, xmlResponseHandler());
+    }
+
+    @Override
+    public GeneralResponse<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, RequestHeaders requestHeaders) {
+        String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
+        Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
+        return httpClient.get(uri, headers, jsonResponseHandler(ScaStatusResponse.class));
     }
 
     protected String getConsentBaseUri() {
