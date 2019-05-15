@@ -25,16 +25,22 @@ import de.adorsys.xs2a.gateway.service.ResponseHeaders;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.gateway.service.exception.NotAcceptableException;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PushbackInputStream;
 import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class AbstractService {
+    protected static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([^;]+)");
     protected static final String AUTHORISATIONS = "authorisations";
     protected static final String STATUS = "status";
     protected static final String CONTENT_TYPE_HEADER = "Content-Type";
     protected static final String APPLICATION_JSON = "application/json";
+    protected static final String APPLICATION_XML = "application/xml";
     protected static final String ACCEPT_HEADER = "Accept";
     protected final JsonMapper jsonMapper = new JsonMapper();
     protected HttpClient httpClient = HttpClient.newHttpClient();
@@ -59,13 +65,41 @@ public abstract class AbstractService {
         return map;
     }
 
-    <T> HttpClient.ResponseHandler<T> responseHandler(Class<T> klass) {
+    <T> HttpClient.ResponseHandler<T> jsonResponseHandler(Class<T> klass) {
         return (statusCode, responseBody, responseHeaders) -> {
             if (!responseHeaders.getHeader(CONTENT_TYPE_HEADER).startsWith(APPLICATION_JSON)) {
                 throw new NotAcceptableException();
             }
             if (statusCode == 200 || statusCode == 201) {
                 return jsonMapper.readValue(responseBody, klass);
+            }
+            throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
+        };
+    }
+
+    HttpClient.ResponseHandler<String> xmlResponseHandler() {
+        return (statusCode, responseBody, responseHeaders) -> {
+            if (!responseHeaders.getHeader(CONTENT_TYPE_HEADER).startsWith(APPLICATION_XML)) {
+                throw new NotAcceptableException();
+            }
+
+            if (statusCode == 200) {
+                try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = responseBody.read(buffer)) != -1) {
+                        baos.write(buffer, 0, length);
+                    }
+
+                    Matcher matcher = CHARSET_PATTERN.matcher(responseHeaders.getHeader(CONTENT_TYPE_HEADER));
+                    if (matcher.find()) {
+                        return baos.toString(matcher.group(1));
+                    }
+
+                    return baos.toString(StandardCharsets.UTF_8.name());
+                } catch (IOException e) {
+                    throw new UncheckedIOException(e);
+                }
             }
             throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
         };

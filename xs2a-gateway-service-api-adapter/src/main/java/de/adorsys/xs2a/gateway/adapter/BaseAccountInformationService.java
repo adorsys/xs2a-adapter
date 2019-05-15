@@ -26,15 +26,8 @@ import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.model.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PushbackInputStream;
-import java.io.UncheckedIOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class BaseAccountInformationService extends AbstractService implements AccountInformationService {
 
@@ -43,7 +36,6 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     private static final String TRANSACTIONS = "transactions";
 
     private final String baseUri;
-    private final Pattern charsetPattern = Pattern.compile("charset=([^;]+)");
 
     public BaseAccountInformationService(String baseUri) {
         this.baseUri = baseUri;
@@ -56,7 +48,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
 
         return httpClient.post(getConsentBaseUri(), bodyString, headersMap,
-                               responseHandler(ConsentCreationResponse.class));
+                               jsonResponseHandler(ConsentCreationResponse.class));
     }
 
     protected <T> GeneralResponse<ConsentCreationResponse> createConsent(Consents body, RequestHeaders requestHeaders, Class<T> klass, Function<T, ConsentCreationResponse> mapper){
@@ -64,7 +56,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
 
-        GeneralResponse<T> response = httpClient.post(getConsentBaseUri(), bodyString, headersMap, responseHandler(klass));
+        GeneralResponse<T> response = httpClient.post(getConsentBaseUri(), bodyString, headersMap, jsonResponseHandler(klass));
         ConsentCreationResponse creationResponse = mapper.apply(response.getResponseBody());
         return new GeneralResponse<>(response.getStatusCode(), creationResponse, response.getResponseHeaders());
     }
@@ -73,13 +65,13 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     public GeneralResponse<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
-        return httpClient.get(uri, headersMap, responseHandler(ConsentInformation.class));
+        return httpClient.get(uri, headersMap, jsonResponseHandler(ConsentInformation.class));
     }
 
     protected <T> GeneralResponse<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders, Class<T> klass, Function<T, ConsentInformation> mapper) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
-        GeneralResponse<T> response = httpClient.get(uri, headersMap, responseHandler(klass));
+        GeneralResponse<T> response = httpClient.get(uri, headersMap, jsonResponseHandler(klass));
         ConsentInformation consentInformation = mapper.apply(response.getResponseBody());
 
         return new GeneralResponse<>(response.getStatusCode(), consentInformation, response.getResponseHeaders());
@@ -90,7 +82,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, STATUS);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
-        return httpClient.get(uri, headersMap, responseHandler(ConsentStatusResponse.class));
+        return httpClient.get(uri, headersMap, jsonResponseHandler(ConsentStatusResponse.class));
     }
 
     @Override
@@ -98,14 +90,14 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
 
-        return httpClient.post(uri, headersMap, responseHandler(StartScaProcessResponse.class));
+        return httpClient.post(uri, headersMap, jsonResponseHandler(StartScaProcessResponse.class));
     }
 
     protected <T> GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, Class<T> klass, Function<T, StartScaProcessResponse> mapper) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
 
-        GeneralResponse<T> response = httpClient.post(uri, headersMap, responseHandler(klass));
+        GeneralResponse<T> response = httpClient.post(uri, headersMap, jsonResponseHandler(klass));
         StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getResponseBody());
         return new GeneralResponse<>(response.getStatusCode(), startScaProcessResponse, response.getResponseHeaders());
     }
@@ -116,7 +108,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
-        return httpClient.post(uri, body, headersMap, responseHandler(StartScaProcessResponse.class));
+        return httpClient.post(uri, body, headersMap, jsonResponseHandler(StartScaProcessResponse.class));
     }
 
     protected <T> GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication, Class<T> klass, Function<T, StartScaProcessResponse> mapper) {
@@ -124,7 +116,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
-        GeneralResponse<T> response = httpClient.post(uri, body, headersMap, responseHandler(klass));
+        GeneralResponse<T> response = httpClient.post(uri, body, headersMap, jsonResponseHandler(klass));
         StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getResponseBody());
         return new GeneralResponse<>(response.getStatusCode(), startScaProcessResponse, response.getResponseHeaders());
     }
@@ -136,7 +128,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
-        return httpClient.put(uri, body, headersMap, responseHandler(UpdatePsuAuthenticationResponse.class));
+        return httpClient.put(uri, body, headersMap, jsonResponseHandler(UpdatePsuAuthenticationResponse.class));
     }
 
     @Override
@@ -145,7 +137,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
 
-        return httpClient.put(uri, body, headersMap, responseHandler(SelectPsuAuthenticationMethodResponse.class));
+        return httpClient.put(uri, body, headersMap, jsonResponseHandler(SelectPsuAuthenticationMethodResponse.class));
 
     }
 
@@ -155,7 +147,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 
-        return httpClient.put(uri, body, headersMap, responseHandler(ScaStatusResponse.class));
+        return httpClient.put(uri, body, headersMap, jsonResponseHandler(ScaStatusResponse.class));
     }
 
     @Override
@@ -165,7 +157,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         String uri = buildUri(getAccountsBaseUri(), requestParams);
 
-        return httpClient.get(uri, headersMap, responseHandler(AccountListHolder.class));
+        return httpClient.get(uri, headersMap, jsonResponseHandler(AccountListHolder.class));
     }
 
     @Override
@@ -175,7 +167,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         String uri = getTransactionListUri(accountId, requestParams);
 
-        return httpClient.get(uri, headersMap, responseHandler(TransactionsReport.class));
+        return httpClient.get(uri, headersMap, jsonResponseHandler(TransactionsReport.class));
     }
 
     private String getTransactionListUri(String accountId, RequestParams requestParams) {
@@ -188,27 +180,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     public GeneralResponse<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         String uri = getTransactionListUri(accountId, requestParams);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
-        return httpClient.get(uri, headers, (statusCode, responseBody, responseHeaders) -> {
-            if (statusCode == 200) {
-                try(ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-                    byte[] buffer = new byte[1024];
-                    int length;
-                    while ((length = responseBody.read(buffer)) != -1) {
-                        baos.write(buffer, 0, length);
-                    }
-
-                    Matcher matcher = charsetPattern.matcher(responseHeaders.getHeader(CONTENT_TYPE_HEADER));
-                    if (matcher.find()) {
-                        return baos.toString(matcher.group(1));
-                    }
-
-                    return baos.toString(StandardCharsets.UTF_8.name());
-                } catch (IOException e) {
-                    throw new UncheckedIOException(e);
-                }
-            }
-            throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
-        });
+        return httpClient.get(uri, headers, xmlResponseHandler());
     }
 
     protected String getConsentBaseUri() {

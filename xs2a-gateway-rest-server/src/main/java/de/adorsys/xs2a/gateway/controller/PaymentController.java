@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import de.adorsys.xs2a.gateway.api.PaymentApi;
 import de.adorsys.xs2a.gateway.mapper.*;
 import de.adorsys.xs2a.gateway.model.pis.PaymentInitiationSctWithStatusResponse;
-import de.adorsys.xs2a.gateway.model.pis.PaymentInitiationStatusResponse200Json;
 import de.adorsys.xs2a.gateway.model.shared.Authorisations;
 import de.adorsys.xs2a.gateway.model.shared.ScaStatusResponseTO;
 import de.adorsys.xs2a.gateway.model.shared.StartScaprocessResponseTO;
@@ -105,14 +104,23 @@ public class PaymentController extends AbstractController implements PaymentApi 
     }
 
     @Override
-    public ResponseEntity<PaymentInitiationStatusResponse200Json> getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, String bankCode, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+    public ResponseEntity<?> getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, String bankCode, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
         RequestHeaders requestHeaders = buildHeaders(bankCode, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
 
-        GeneralResponse<PaymentInitiationStatus> response = paymentService.getSinglePaymentInitiationStatus(paymentProduct, paymentId, requestHeaders);
+        if (requestHeaders.isAcceptJson()) {
+            GeneralResponse<PaymentInitiationStatus> response = paymentService.getSinglePaymentInitiationStatus(paymentProduct, paymentId, requestHeaders);
 
-        return ResponseEntity.status(HttpStatus.OK)
+            return ResponseEntity.status(HttpStatus.OK)
+                           .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                           .body(paymentInitiationStatusMapper.toPaymentInitiationStatusResponse200Json(response.getResponseBody()));
+        }
+
+        GeneralResponse<String> response = paymentService.getSinglePaymentInitiationStatusAsString(paymentProduct, paymentId, requestHeaders);
+
+        return ResponseEntity
+                       .status(HttpStatus.OK)
                        .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
-                       .body(paymentInitiationStatusMapper.toPaymentInitiationStatusResponse200Json(response.getResponseBody()));
+                       .body(response.getResponseBody());
     }
 
     @Override
