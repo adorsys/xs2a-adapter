@@ -18,15 +18,15 @@ package de.adorsys.xs2a.gateway.service.impl.mapper;
 
 import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.impl.model.DkbStartScaProcessResponse;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Mapper;
 
 import java.util.Collections;
 import java.util.List;
 
+@Mapper
 public interface StartScaProcessResponseMapper {
-    StartScaProcessResponseMapper INSTANCE = Mappers.getMapper(StartScaProcessResponseMapper.class);
 
-    StartScaProcessResponse toBGEntity(DkbStartScaProcessResponse response);
+    StartScaProcessResponse toStartScaProcessResponse(DkbStartScaProcessResponse response);
 
     default List<String> toListOfString(String str) {
         return Collections.singletonList(str);

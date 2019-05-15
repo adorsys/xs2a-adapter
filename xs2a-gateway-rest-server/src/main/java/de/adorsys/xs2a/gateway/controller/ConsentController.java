@@ -56,8 +56,6 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
     private final AccountListHolderMapper accountListHolderMapper = Mappers.getMapper(AccountListHolderMapper.class);
 
-    private final TransactionsReportMapper transactionsReportMapper = Mappers.getMapper(TransactionsReportMapper.class);
-
     public ConsentController(AccountInformationService consentService, ObjectMapper objectMapper, HeadersMapper headersMapper) {
         super(objectMapper);
         this.consentService = consentService;

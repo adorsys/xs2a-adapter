@@ -19,16 +19,14 @@ package de.adorsys.xs2a.gateway.service.impl.mapper;
 import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.impl.model.DkbConsentCreationResponse;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 import java.util.Collections;
 import java.util.List;
 
 @Mapper
 public interface ConsentCreationResponseMapper {
-    ConsentCreationResponseMapper INSTANCE = Mappers.getMapper(ConsentCreationResponseMapper.class);
 
-    ConsentCreationResponse toBGEntity(DkbConsentCreationResponse response);
+    ConsentCreationResponse toConsentCreationResponse(DkbConsentCreationResponse response);
 
     default List<String> toListOfString(String str) {
         return Collections.singletonList(str);

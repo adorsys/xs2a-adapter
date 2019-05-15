@@ -17,7 +17,6 @@
 package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
-import de.adorsys.xs2a.gateway.http.StringUri;
 import de.adorsys.xs2a.gateway.security.AccessTokenService;
 import de.adorsys.xs2a.gateway.service.GeneralResponse;
 import de.adorsys.xs2a.gateway.service.RequestHeaders;
@@ -29,10 +28,13 @@ import de.adorsys.xs2a.gateway.service.impl.mapper.StartScaProcessResponseMapper
 import de.adorsys.xs2a.gateway.service.impl.model.DkbConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.impl.model.DkbStartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.model.UpdatePsuAuthentication;
+import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
 
 public class DkbAccountInformationService extends BaseAccountInformationService {
+    private final StartScaProcessResponseMapper startScaProcessResponseMapper = Mappers.getMapper(StartScaProcessResponseMapper.class);
+    private final ConsentCreationResponseMapper creationResponseMapper = Mappers.getMapper(ConsentCreationResponseMapper.class);
     private AccessTokenService accessService;
 
     public DkbAccountInformationService(String baseUri, AccessTokenService accessService) {
@@ -42,35 +44,17 @@ public class DkbAccountInformationService extends BaseAccountInformationService 
 
     @Override
     public GeneralResponse<ConsentCreationResponse> createConsent(Consents body, RequestHeaders requestHeaders) {
-        Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
-
-        String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
-
-        GeneralResponse<DkbConsentCreationResponse> response = httpClient.post(getConsentBaseUri(), bodyString, headersMap,
-                                                                               responseHandler(DkbConsentCreationResponse.class));
-        ConsentCreationResponse entity = ConsentCreationResponseMapper.INSTANCE.toBGEntity(response.getResponseBody());
-        return new GeneralResponse<>(response.getStatusCode(), entity, response.getResponseHeaders());
+        return createConsent(body, requestHeaders, DkbConsentCreationResponse.class, creationResponseMapper::toConsentCreationResponse);
     }
 
     @Override
     public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders) {
-        String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
-        Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
-
-        GeneralResponse<DkbStartScaProcessResponse> response = httpClient.post(uri, headersMap, responseHandler(DkbStartScaProcessResponse.class));
-        StartScaProcessResponse entity = StartScaProcessResponseMapper.INSTANCE.toBGEntity(response.getResponseBody());
-        return new GeneralResponse<>(response.getStatusCode(), entity, response.getResponseHeaders());
+        return startConsentAuthorisation(consentId, requestHeaders, DkbStartScaProcessResponse.class, startScaProcessResponseMapper::toStartScaProcessResponse);
     }
 
     @Override
     public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
-        String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
-        Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
-        String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
-
-        GeneralResponse<DkbStartScaProcessResponse> response = httpClient.post(uri, body, headersMap, responseHandler(DkbStartScaProcessResponse.class));
-        StartScaProcessResponse entity = StartScaProcessResponseMapper.INSTANCE.toBGEntity(response.getResponseBody());
-        return new GeneralResponse<>(response.getStatusCode(), entity, response.getResponseHeaders());
+        return startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication, DkbStartScaProcessResponse.class, startScaProcessResponseMapper::toStartScaProcessResponse);
     }
 
     @Override
