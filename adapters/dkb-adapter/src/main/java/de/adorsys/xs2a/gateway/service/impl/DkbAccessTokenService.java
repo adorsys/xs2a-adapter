@@ -64,11 +64,11 @@ public class DkbAccessTokenService implements AccessTokenService {
     }
 
     static {
-        String consumerKey = System.getProperty(DKB_TOKEN_CONSUMER_KEY_PROPERTY);
-        String consumerSecret = System.getProperty(DKB_TOKEN_CONSUMER_SECRET_PROPERTY);
+        String consumerKey = System.getProperty(DKB_TOKEN_CONSUMER_KEY_PROPERTY, "");
+        String consumerSecret = System.getProperty(DKB_TOKEN_CONSUMER_SECRET_PROPERTY, "");
 
         if (consumerKey.isEmpty() || consumerSecret.isEmpty()) {
-            String message = "DKB: Consumer key or secret are not provided";
+            String message = "Consumer key or secret are not provided";
             logger.error(message);
             throw new AccessTokenException(message);
         }
@@ -78,26 +78,26 @@ public class DkbAccessTokenService implements AccessTokenService {
         headers.put("Authorization", "Basic " + buildBasicAuthorization(consumerKey, consumerSecret));
 
         tokenUrl = System.getProperty(DKB_TOKEN_URL_PROPERTY, DEFAULT_TOKEN_URL);
-        logger.debug("DKB: Token url is {}", tokenUrl);
+        logger.debug("Token url is {}", tokenUrl);
 
         secondsBeforeTokenExpiration = Integer.valueOf(System.getProperty(
                 DKB_TOKEN_SECONDS_BEFORE_TOKEN_EXPIRATION_PROPERTY,
                 DEFAULT_SECONDS_BEFORE_TOKEN_EXPIRATION
         ));
-        logger.debug("DKB: Seconds before token expiration is {}", secondsBeforeTokenExpiration);
+        logger.debug("Seconds before token expiration is {}", secondsBeforeTokenExpiration);
     }
 
     @Override
     public String retrieveToken() {
         if (isNotValid()) {
-            logger.debug("DKB: Token is not valid");
+            logger.debug("Token is not valid");
             GeneralResponse<TokenResponse> response = httpClient.post(
                     tokenUrl,
                     TOKEN_GRANT_TYPE,
                     headers,
                     responseHandler()
             );
-            logger.debug("DKB: New token is retrieved");
+            logger.debug("New token is retrieved");
             accessToken = new AccessToken(response.getResponseBody());
         }
         return accessToken.token;
@@ -125,7 +125,7 @@ public class DkbAccessTokenService implements AccessTokenService {
             if (statusCode == 200) {
                 return jsonMapper.readValue(responseBody, TokenResponse.class);
             }
-            String message = "DKB: Can't retrieve access token by provided credentials";
+            String message = "Can't retrieve access token by provided credentials";
             logger.error(message);
             throw new AccessTokenException(message);
         };
