@@ -1671,14 +1671,14 @@
 							"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId}}\"\r\n}"
 						},
 						"url": {
-							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+							"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
 							"host": [
 								"{{baseUri}}"
 							],
 							"path": [
 								"v1",
 								"payments",
-								"sepa-credit-transfers",
+								"pain.001-sepa-credit-transfers",
 								"{{paymentId}}",
 								"authorisations",
 								"{{authorisationId}}"
@@ -1734,14 +1734,14 @@
 							"raw": "{\n    \"scaAuthenticationData\": \"{{scaAuthenticationData}}\"\n}"
 						},
 						"url": {
-							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+							"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
 							"host": [
 								"{{baseUri}}"
 							],
 							"path": [
 								"v1",
 								"payments",
-								"sepa-credit-transfers",
+								"pain.001-sepa-credit-transfers",
 								"{{paymentId}}",
 								"authorisations",
 								"{{authorisationId}}"
