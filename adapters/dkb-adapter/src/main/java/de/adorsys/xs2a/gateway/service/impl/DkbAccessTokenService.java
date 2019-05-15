@@ -37,8 +37,9 @@ public class DkbAccessTokenService implements AccessTokenService {
 
     private static final String DEFAULT_SECONDS_BEFORE_TOKEN_EXPIRATION = "60";
     private static final String DEFAULT_TOKEN_URL = "https://api.dkb.de/token";
+    private static final String TOKEN_GRANT_TYPE = "grant_type=client_credentials";
 
-    private static AccessTokenService instance;
+    private static AccessTokenService instance = new DkbAccessTokenService();
     private static Map<String, String> headers;
     private static String tokenUrl;
     private static int secondsBeforeTokenExpiration;
@@ -56,9 +57,6 @@ public class DkbAccessTokenService implements AccessTokenService {
     }
 
     public static AccessTokenService getInstance() {
-        if (instance == null) {
-            instance = new DkbAccessTokenService();
-        }
         return instance;
     }
 
@@ -84,10 +82,10 @@ public class DkbAccessTokenService implements AccessTokenService {
 
     @Override
     public String retrieveToken() {
-        if (!isValid()) {
+        if (isNotValid()) {
             GeneralResponse<TokenResponse> response = httpClient.post(
                     tokenUrl,
-                    "grant_type=client_credentials",
+                    TOKEN_GRANT_TYPE,
                     headers,
                     responseHandler()
             );
@@ -100,12 +98,12 @@ public class DkbAccessTokenService implements AccessTokenService {
         this.httpClient = httpClient;
     }
 
-    private boolean isValid() {
+    private boolean isNotValid() {
         if (accessToken == null || accessToken.token == null || accessToken.validity == null) {
-            return false;
+            return true;
         }
         LocalDateTime expirationDate = LocalDateTime.now().plusSeconds(secondsBeforeTokenExpiration);
-        return accessToken.validity.isAfter(expirationDate);
+        return accessToken.validity.isBefore(expirationDate);
     }
 
     private static String buildBasicAuthorization(String key, String secret) {
@@ -129,6 +127,7 @@ public class DkbAccessTokenService implements AccessTokenService {
         @JsonProperty("expires_in")
         private int expiresIn;
 
+        // DO NOT remove default constructor. It needs for ObjectMapper
         TokenResponse() {
         }
 
@@ -139,7 +138,7 @@ public class DkbAccessTokenService implements AccessTokenService {
     }
 
     private static class AccessToken {
-        private String token = "";
+        private String token;
         private LocalDateTime validity;
 
         AccessToken(TokenResponse response) {
