@@ -30,6 +30,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity handle(ErrorResponseException exception) {
+        logger.error(exception.getMessage(), exception);
         Optional<ErrorResponse> errorResponse = exception.getErrorResponse();
         HttpHeaders responseHeaders = addErrorOriginationHeader(
                 headersMapper.toHttpHeaders(exception.getResponseHeaders()),
@@ -43,6 +44,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity handle(NotAcceptableException exception) {
+        logger.error(exception.getMessage(), exception);
         return ResponseEntity
                        .status(HttpStatus.NOT_ACCEPTABLE)
                        .headers(addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER))
@@ -51,6 +53,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity handle(HttpRequestSigningException exception) {
+        logger.error(exception.getMessage(), exception);
         String errorText = "Exception during the request signing process";
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategory.ERROR.name(), httpStatus.name(), errorText);
@@ -60,6 +63,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity handle(UncheckedIOException exception) {
+        logger.error(exception.getMessage(), exception);
         String errorText = "Exception during the IO process";
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategory.ERROR.name(), httpStatus.name(), errorText);
@@ -69,6 +73,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity handle(UnsupportedOperationException exception) {
+        logger.error(exception.getMessage(), exception);
         String errorText = "This endpoint is not supported yet";
         HttpStatus httpStatus = HttpStatus.NOT_IMPLEMENTED;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategory.ERROR.name(), httpStatus.name(), errorText);
@@ -78,6 +83,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity handle(Exception exception) {
+        logger.error(exception.getMessage(), exception);
         String errorText = "Server error";
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategory.ERROR.name(), httpStatus.name(), errorText);
