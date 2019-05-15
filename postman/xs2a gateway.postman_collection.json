@@ -553,6 +553,61 @@
 					"response": []
 				},
 				{
+					"name": "DefaultGetSCAStatus AIS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e65f94d6-2b57-44b0-9c2e-3a18c8713193",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"scaStatus is finalised\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-GTW-BANK-CODE",
+								"value": "{{bankCode}}",
+								"type": "text"
+							},
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations/{{authorisationId}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"consents",
+								"{{consentId}}",
+								"authorisations",
+								"{{authorisationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "AIS/Accounts/005c_MsgX+1",
 					"event": [
 						{
@@ -974,7 +1029,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}?",
+							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}",
 							"host": [
 								"{{baseUri}}"
 							],
@@ -983,13 +1038,6 @@
 								"payments",
 								"sepa-credit-transfers",
 								"{{paymentId}}"
-							],
-							"query": [
-								{
-									"key": "X-GTW-Bank-Code",
-									"value": "",
-									"disabled": true
-								}
 							]
 						}
 					},
