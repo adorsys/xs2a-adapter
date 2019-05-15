@@ -20,6 +20,16 @@ spec:
         - env:
             - name: SPRING_PROFILES_ACTIVE
               value: dev
+            - name: DKB_TOKEN_CONSUMER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: dkb-token
+                  key: consumer-key
+            - name: DKB_TOKEN_CONSUMER_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: dkb-token
+                  key: consumer-secret
             - name: KEY_STORE_TYPE
               valueFrom:
                 secretKeyRef:
