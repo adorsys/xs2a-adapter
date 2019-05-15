@@ -1,8 +1,8 @@
 /*
- * BG PSD2 API
- * # Summary The **NextGenPSD2** *Framework Version 1.3* offers a modern, open, harmonised and interoperable set of Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely. The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service') by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.   Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support   a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure   which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**   It is not an replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]      \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"    The element \"Accept\" will not be defined in this file at any place.    The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".  * There are several predefined types which might occur in payment initiation messages,   but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which need these field, one can easily use the predefined types.   But the ASPSP need not to accept them in general.  * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)   except they are mention in the Implementation Guidelines.**   Therefore the implementer might add the in his own realisation of a PSD2 comlient API in addition to the elements define in this file.  ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API have to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
+ * NextGenPSD2 XS2A Framework
+ * # Summary The **NextGenPSD2** *Framework Version 1.3.2* offers a modern, open, harmonised and interoperable set of  Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely.  The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards  in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service')  by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.    Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support    a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure    which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**    It is not an replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]        \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"      The element \"Accept\" will not be defined in this file at any place.      The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".    * There are several predefined types which might occur in payment initiation messages,    but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which need these field, one can easily use the predefined types.   But the ASPSP need not to accept them in general.    * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)    except they are mention in the Implementation Guidelines.**   Therefore the implementer might add the in his own realisation of a PSD2 comlient API in addition to the elements define in this file.     ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API have to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
  *
- * OpenAPI spec version: 1.3 Dec 20th 2018
+ * OpenAPI spec version: 1.3.3 Mar 29th 2019
  * Contact: info@berlin-group.org
  *
  * NOTE: This class is auto generated by the swagger code generator program.
@@ -42,6 +42,7 @@ import de.adorsys.psd2.client.model.Error403NGAIS;
 import de.adorsys.psd2.client.model.Error404NGAIS;
 import de.adorsys.psd2.client.model.Error405NGAIS;
 import de.adorsys.psd2.client.model.Error406NGAIS;
+import de.adorsys.psd2.client.model.Error409NGAIS;
 import de.adorsys.psd2.client.model.Error429NGAIS;
 import java.time.LocalDate;
 import de.adorsys.psd2.client.model.ReadAccountBalanceResponse200;
@@ -80,19 +81,22 @@ public class AccountInformationServiceAisApi {
     /**
      * Build call for createConsent
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
-     * @param body Requestbody for a consents request  (optional)
+     * @param body Requestbody for a consents request
+ (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
-     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface.   Might be mandated in the ASPSP&#x27;s documentation.  It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. In this case the ASPSP might check whether PSU-ID and token match,  according to ASPSP documentation.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  In this case, the mean and use are then defined in the ASPSP’s documentation.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
-     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:** This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach, specifically  when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification.  (optional)
      * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
-     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately, e.g. because of the usage of a signing basket. This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP. This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step, without using a signing basket.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately,  e.g. because of the usage of a signing basket.  This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP.  This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step,  without using a signing basket.  (optional)
+     * @param tpPNotificationURI URI for the Endpoint of the TPP-API to which the status of the payment initiation should be sent. This header field may by ignored by the ASPSP.  (optional)
+     * @param tpPNotificationContentPreferred The string has the form   status&#x3D;X1, ..., Xn  where Xi is one of the constants SCA, PROCESS, LAST and where constants are not repeated. The usage of the constants supports the of following semantics:    SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the TPP.    PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the TPP.   LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the TPP.  This header field may be ignored, if the ASPSP does not support resource notification services for the related TPP.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -107,7 +111,7 @@ public class AccountInformationServiceAisApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call createConsentCall(UUID xRequestID, Consents body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call createConsentCall(UUID xRequestID, Consents body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String tpPNotificationURI, String tpPNotificationContentPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
         
         // create path and map variables
@@ -141,6 +145,10 @@ public class AccountInformationServiceAisApi {
         localVarHeaderParams.put("TPP-Nok-Redirect-URI", apiClient.parameterToString(tpPNokRedirectURI));
         if (tpPExplicitAuthorisationPreferred != null)
         localVarHeaderParams.put("TPP-Explicit-Authorisation-Preferred", apiClient.parameterToString(tpPExplicitAuthorisationPreferred));
+        if (tpPNotificationURI != null)
+        localVarHeaderParams.put("TPP-Notification-URI", apiClient.parameterToString(tpPNotificationURI));
+        if (tpPNotificationContentPreferred != null)
+        localVarHeaderParams.put("TPP-Notification-Content-Preferred", apiClient.parameterToString(tpPNotificationContentPreferred));
         if (psUIPAddress != null)
         localVarHeaderParams.put("PSU-IP-Address", apiClient.parameterToString(psUIPAddress));
         if (psUIPPort != null)
@@ -171,7 +179,7 @@ public class AccountInformationServiceAisApi {
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            
+            "application/json"
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -193,13 +201,13 @@ public class AccountInformationServiceAisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call createConsentValidateBeforeCall(UUID xRequestID, Consents body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call createConsentValidateBeforeCall(UUID xRequestID, Consents body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String tpPNotificationURI, String tpPNotificationContentPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'xRequestID' is set
         if (xRequestID == null) {
             throw new ApiException("Missing the required parameter 'xRequestID' when calling createConsent(Async)");
         }
         
-        com.squareup.okhttp.Call call = createConsentCall(xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = createConsentCall(xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, tpPNotificationURI, tpPNotificationContentPreferred, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -210,21 +218,24 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Create consent
-     * This method create a consent resource, defining access rights to dedicated accounts of a given PSU-ID. These accounts are addressed explicitly in the method as parameters as a core function.  **Side Effects** When this Consent Request is a request where the \&quot;recurringIndicator\&quot; equals \&quot;true\&quot;, and if it exists already a former consent for recurring access on account information for the addressed PSU, then the former consent automatically expires as soon as the new consent request is authorised by the PSU.  Optional Extension: As an option, an ASPSP might optionally accept a specific access right on the access on all psd2 related services for all available accounts.  As another option an ASPSP might optionally also accept a command, where only access rights are inserted without mentioning the addressed account. The relation to accounts is then handled afterwards between PSU and ASPSP. This option is not supported for the Embedded SCA Approach. As a last option, an ASPSP might in addition accept a command with access rights   * to see the list of available payment accounts or   * to see the list of available payment accounts with balances. 
+     * This method create a consent resource, defining access rights to dedicated accounts of  a given PSU-ID. These accounts are addressed explicitly in the method as  parameters as a core function.  **Side Effects** When this Consent Request is a request where the \&quot;recurringIndicator\&quot; equals \&quot;true\&quot;,  and if it exists already a former consent for recurring access on account information  for the addressed PSU, then the former consent automatically expires as soon as the new  consent request is authorised by the PSU.  Optional Extension: As an option, an ASPSP might optionally accept a specific access right on the access on all psd2 related services for all available accounts.   As another option an ASPSP might optionally also accept a command, where only access rights are inserted without mentioning the addressed account.  The relation to accounts is then handled afterwards between PSU and ASPSP.  This option is not supported for the Embedded SCA Approach.  As a last option, an ASPSP might in addition accept a command with access rights   * to see the list of available payment accounts or   * to see the list of available payment accounts with balances. 
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
-     * @param body Requestbody for a consents request  (optional)
+     * @param body Requestbody for a consents request
+ (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
-     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface.   Might be mandated in the ASPSP&#x27;s documentation.  It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. In this case the ASPSP might check whether PSU-ID and token match,  according to ASPSP documentation.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  In this case, the mean and use are then defined in the ASPSP’s documentation.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
-     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:** This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach, specifically  when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification.  (optional)
      * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
-     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately, e.g. because of the usage of a signing basket. This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP. This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step, without using a signing basket.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately,  e.g. because of the usage of a signing basket.  This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP.  This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step,  without using a signing basket.  (optional)
+     * @param tpPNotificationURI URI for the Endpoint of the TPP-API to which the status of the payment initiation should be sent. This header field may by ignored by the ASPSP.  (optional)
+     * @param tpPNotificationContentPreferred The string has the form   status&#x3D;X1, ..., Xn  where Xi is one of the constants SCA, PROCESS, LAST and where constants are not repeated. The usage of the constants supports the of following semantics:    SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the TPP.    PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the TPP.   LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the TPP.  This header field may be ignored, if the ASPSP does not support resource notification services for the related TPP.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -237,28 +248,31 @@ public class AccountInformationServiceAisApi {
      * @return ConsentsResponse201
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ConsentsResponse201 createConsent(UUID xRequestID, Consents body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<ConsentsResponse201> resp = createConsentWithHttpInfo(xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public ConsentsResponse201 createConsent(UUID xRequestID, Consents body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String tpPNotificationURI, String tpPNotificationContentPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<ConsentsResponse201> resp = createConsentWithHttpInfo(xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, tpPNotificationURI, tpPNotificationContentPreferred, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
     /**
      * Create consent
-     * This method create a consent resource, defining access rights to dedicated accounts of a given PSU-ID. These accounts are addressed explicitly in the method as parameters as a core function.  **Side Effects** When this Consent Request is a request where the \&quot;recurringIndicator\&quot; equals \&quot;true\&quot;, and if it exists already a former consent for recurring access on account information for the addressed PSU, then the former consent automatically expires as soon as the new consent request is authorised by the PSU.  Optional Extension: As an option, an ASPSP might optionally accept a specific access right on the access on all psd2 related services for all available accounts.  As another option an ASPSP might optionally also accept a command, where only access rights are inserted without mentioning the addressed account. The relation to accounts is then handled afterwards between PSU and ASPSP. This option is not supported for the Embedded SCA Approach. As a last option, an ASPSP might in addition accept a command with access rights   * to see the list of available payment accounts or   * to see the list of available payment accounts with balances. 
+     * This method create a consent resource, defining access rights to dedicated accounts of  a given PSU-ID. These accounts are addressed explicitly in the method as  parameters as a core function.  **Side Effects** When this Consent Request is a request where the \&quot;recurringIndicator\&quot; equals \&quot;true\&quot;,  and if it exists already a former consent for recurring access on account information  for the addressed PSU, then the former consent automatically expires as soon as the new  consent request is authorised by the PSU.  Optional Extension: As an option, an ASPSP might optionally accept a specific access right on the access on all psd2 related services for all available accounts.   As another option an ASPSP might optionally also accept a command, where only access rights are inserted without mentioning the addressed account.  The relation to accounts is then handled afterwards between PSU and ASPSP.  This option is not supported for the Embedded SCA Approach.  As a last option, an ASPSP might in addition accept a command with access rights   * to see the list of available payment accounts or   * to see the list of available payment accounts with balances. 
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
-     * @param body Requestbody for a consents request  (optional)
+     * @param body Requestbody for a consents request
+ (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
-     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface.   Might be mandated in the ASPSP&#x27;s documentation.  It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. In this case the ASPSP might check whether PSU-ID and token match,  according to ASPSP documentation.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  In this case, the mean and use are then defined in the ASPSP’s documentation.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
-     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:** This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach, specifically  when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification.  (optional)
      * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
-     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately, e.g. because of the usage of a signing basket. This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP. This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step, without using a signing basket.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately,  e.g. because of the usage of a signing basket.  This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP.  This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step,  without using a signing basket.  (optional)
+     * @param tpPNotificationURI URI for the Endpoint of the TPP-API to which the status of the payment initiation should be sent. This header field may by ignored by the ASPSP.  (optional)
+     * @param tpPNotificationContentPreferred The string has the form   status&#x3D;X1, ..., Xn  where Xi is one of the constants SCA, PROCESS, LAST and where constants are not repeated. The usage of the constants supports the of following semantics:    SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the TPP.    PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the TPP.   LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the TPP.  This header field may be ignored, if the ASPSP does not support resource notification services for the related TPP.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -271,29 +285,32 @@ public class AccountInformationServiceAisApi {
      * @return ApiResponse&lt;ConsentsResponse201&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<ConsentsResponse201> createConsentWithHttpInfo(UUID xRequestID, Consents body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = createConsentValidateBeforeCall(xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+    public ApiResponse<ConsentsResponse201> createConsentWithHttpInfo(UUID xRequestID, Consents body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String tpPNotificationURI, String tpPNotificationContentPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = createConsentValidateBeforeCall(xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, tpPNotificationURI, tpPNotificationContentPreferred, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<ConsentsResponse201>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
      * Create consent (asynchronously)
-     * This method create a consent resource, defining access rights to dedicated accounts of a given PSU-ID. These accounts are addressed explicitly in the method as parameters as a core function.  **Side Effects** When this Consent Request is a request where the \&quot;recurringIndicator\&quot; equals \&quot;true\&quot;, and if it exists already a former consent for recurring access on account information for the addressed PSU, then the former consent automatically expires as soon as the new consent request is authorised by the PSU.  Optional Extension: As an option, an ASPSP might optionally accept a specific access right on the access on all psd2 related services for all available accounts.  As another option an ASPSP might optionally also accept a command, where only access rights are inserted without mentioning the addressed account. The relation to accounts is then handled afterwards between PSU and ASPSP. This option is not supported for the Embedded SCA Approach. As a last option, an ASPSP might in addition accept a command with access rights   * to see the list of available payment accounts or   * to see the list of available payment accounts with balances. 
+     * This method create a consent resource, defining access rights to dedicated accounts of  a given PSU-ID. These accounts are addressed explicitly in the method as  parameters as a core function.  **Side Effects** When this Consent Request is a request where the \&quot;recurringIndicator\&quot; equals \&quot;true\&quot;,  and if it exists already a former consent for recurring access on account information  for the addressed PSU, then the former consent automatically expires as soon as the new  consent request is authorised by the PSU.  Optional Extension: As an option, an ASPSP might optionally accept a specific access right on the access on all psd2 related services for all available accounts.   As another option an ASPSP might optionally also accept a command, where only access rights are inserted without mentioning the addressed account.  The relation to accounts is then handled afterwards between PSU and ASPSP.  This option is not supported for the Embedded SCA Approach.  As a last option, an ASPSP might in addition accept a command with access rights   * to see the list of available payment accounts or   * to see the list of available payment accounts with balances. 
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
-     * @param body Requestbody for a consents request  (optional)
+     * @param body Requestbody for a consents request
+ (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
-     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface.   Might be mandated in the ASPSP&#x27;s documentation.  It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. In this case the ASPSP might check whether PSU-ID and token match,  according to ASPSP documentation.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  In this case, the mean and use are then defined in the ASPSP’s documentation.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
-     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:** This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach, specifically  when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification.  (optional)
      * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
-     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately, e.g. because of the usage of a signing basket. This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP. This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step, without using a signing basket.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately,  e.g. because of the usage of a signing basket.  This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP.  This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step,  without using a signing basket.  (optional)
+     * @param tpPNotificationURI URI for the Endpoint of the TPP-API to which the status of the payment initiation should be sent. This header field may by ignored by the ASPSP.  (optional)
+     * @param tpPNotificationContentPreferred The string has the form   status&#x3D;X1, ..., Xn  where Xi is one of the constants SCA, PROCESS, LAST and where constants are not repeated. The usage of the constants supports the of following semantics:    SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the TPP.    PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the TPP.   LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the TPP.  This header field may be ignored, if the ASPSP does not support resource notification services for the related TPP.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -307,7 +324,7 @@ public class AccountInformationServiceAisApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call createConsentAsync(UUID xRequestID, Consents body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<ConsentsResponse201> callback) throws ApiException {
+    public com.squareup.okhttp.Call createConsentAsync(UUID xRequestID, Consents body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPExplicitAuthorisationPreferred, String tpPNotificationURI, String tpPNotificationContentPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<ConsentsResponse201> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -328,7 +345,7 @@ public class AccountInformationServiceAisApi {
             };
         }
 
-        com.squareup.okhttp.Call call = createConsentValidateBeforeCall(xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = createConsentValidateBeforeCall(xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, tpPNotificationURI, tpPNotificationContentPreferred, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<ConsentsResponse201>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
@@ -339,8 +356,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -452,8 +469,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -476,8 +493,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -502,8 +519,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -546,11 +563,11 @@ public class AccountInformationServiceAisApi {
      * Build call for getAccountList
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
-     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance, if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored by the ASPSP.  (optional)
+     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.   (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -660,14 +677,14 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read Account List
-     * Read the identifiers of the available payment account together with booking balance information, depending on the consent granted.  It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system. The addressed list of accounts depends then on the PSU ID and the stored consent addressed by consentId, respectively the OAuth2 access token.  Returns all identifiers of the accounts, to which an account access has been granted to through the /consents endpoint by the PSU. In addition, relevant information about the accounts and hyperlinks to corresponding account information resources are provided if a related consent has been already granted.  Remark: Note that the /consents endpoint optionally offers to grant an access on all available payment accounts of a PSU. In this case, this endpoint will deliver the information about all available payment accounts of the PSU at this ASPSP. 
+     * Read the identifiers of the available payment account together with  booking balance information, depending on the consent granted.  It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system.  The addressed list of accounts depends then on the PSU ID and the stored consent addressed by consentId,  respectively the OAuth2 access token.   Returns all identifiers of the accounts, to which an account access has been granted to through  the /consents endpoint by the PSU.  In addition, relevant information about the accounts and hyperlinks to corresponding account  information resources are provided if a related consent has been already granted.  Remark: Note that the /consents endpoint optionally offers to grant an access on all available  payment accounts of a PSU.  In this case, this endpoint will deliver the information about all available payment accounts  of the PSU at this ASPSP. 
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
-     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance, if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored by the ASPSP.  (optional)
+     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.   (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -687,14 +704,14 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read Account List
-     * Read the identifiers of the available payment account together with booking balance information, depending on the consent granted.  It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system. The addressed list of accounts depends then on the PSU ID and the stored consent addressed by consentId, respectively the OAuth2 access token.  Returns all identifiers of the accounts, to which an account access has been granted to through the /consents endpoint by the PSU. In addition, relevant information about the accounts and hyperlinks to corresponding account information resources are provided if a related consent has been already granted.  Remark: Note that the /consents endpoint optionally offers to grant an access on all available payment accounts of a PSU. In this case, this endpoint will deliver the information about all available payment accounts of the PSU at this ASPSP. 
+     * Read the identifiers of the available payment account together with  booking balance information, depending on the consent granted.  It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system.  The addressed list of accounts depends then on the PSU ID and the stored consent addressed by consentId,  respectively the OAuth2 access token.   Returns all identifiers of the accounts, to which an account access has been granted to through  the /consents endpoint by the PSU.  In addition, relevant information about the accounts and hyperlinks to corresponding account  information resources are provided if a related consent has been already granted.  Remark: Note that the /consents endpoint optionally offers to grant an access on all available  payment accounts of a PSU.  In this case, this endpoint will deliver the information about all available payment accounts  of the PSU at this ASPSP. 
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
-     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance, if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored by the ASPSP.  (optional)
+     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.   (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -715,14 +732,14 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read Account List (asynchronously)
-     * Read the identifiers of the available payment account together with booking balance information, depending on the consent granted.  It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system. The addressed list of accounts depends then on the PSU ID and the stored consent addressed by consentId, respectively the OAuth2 access token.  Returns all identifiers of the accounts, to which an account access has been granted to through the /consents endpoint by the PSU. In addition, relevant information about the accounts and hyperlinks to corresponding account information resources are provided if a related consent has been already granted.  Remark: Note that the /consents endpoint optionally offers to grant an access on all available payment accounts of a PSU. In this case, this endpoint will deliver the information about all available payment accounts of the PSU at this ASPSP. 
+     * Read the identifiers of the available payment account together with  booking balance information, depending on the consent granted.  It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system.  The addressed list of accounts depends then on the PSU ID and the stored consent addressed by consentId,  respectively the OAuth2 access token.   Returns all identifiers of the accounts, to which an account access has been granted to through  the /consents endpoint by the PSU.  In addition, relevant information about the accounts and hyperlinks to corresponding account  information resources are provided if a related consent has been already granted.  Remark: Note that the /consents endpoint optionally offers to grant an access on all available  payment accounts of a PSU.  In this case, this endpoint will deliver the information about all available payment accounts  of the PSU at this ASPSP. 
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
-     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance, if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored by the ASPSP.  (optional)
+     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.   (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -764,13 +781,13 @@ public class AccountInformationServiceAisApi {
     }
     /**
      * Build call for getBalances
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -883,14 +900,14 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read Balance
-     * Reads account data from a given account addressed by \&quot;account-id\&quot;.  **Remark:** This account-id can be a tokenised identification due to data protection reason since the path information might be logged on intermediary servers within the ASPSP sphere. This account-id then can be retrieved by the \&quot;GET Account List\&quot; call.  The account-id is constant at least throughout the lifecycle of a given consent. 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * Reads account data from a given account addressed by \&quot;account-id\&quot;.   **Remark:** This account-id can be a tokenised identification due to data protection reason since the path  information might be logged on intermediary servers within the ASPSP sphere.  This account-id then can be retrieved by the \&quot;GET Account List\&quot; call.  The account-id is constant at least throughout the lifecycle of a given consent. 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -910,14 +927,14 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read Balance
-     * Reads account data from a given account addressed by \&quot;account-id\&quot;.  **Remark:** This account-id can be a tokenised identification due to data protection reason since the path information might be logged on intermediary servers within the ASPSP sphere. This account-id then can be retrieved by the \&quot;GET Account List\&quot; call.  The account-id is constant at least throughout the lifecycle of a given consent. 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * Reads account data from a given account addressed by \&quot;account-id\&quot;.   **Remark:** This account-id can be a tokenised identification due to data protection reason since the path  information might be logged on intermediary servers within the ASPSP sphere.  This account-id then can be retrieved by the \&quot;GET Account List\&quot; call.  The account-id is constant at least throughout the lifecycle of a given consent. 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -938,14 +955,14 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read Balance (asynchronously)
-     * Reads account data from a given account addressed by \&quot;account-id\&quot;.  **Remark:** This account-id can be a tokenised identification due to data protection reason since the path information might be logged on intermediary servers within the ASPSP sphere. This account-id then can be retrieved by the \&quot;GET Account List\&quot; call.  The account-id is constant at least throughout the lifecycle of a given consent. 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * Reads account data from a given account addressed by \&quot;account-id\&quot;.   **Remark:** This account-id can be a tokenised identification due to data protection reason since the path  information might be logged on intermediary servers within the ASPSP sphere.  This account-id then can be retrieved by the \&quot;GET Account List\&quot; call.  The account-id is constant at least throughout the lifecycle of a given consent. 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -991,8 +1008,8 @@ public class AccountInformationServiceAisApi {
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1011,7 +1028,7 @@ public class AccountInformationServiceAisApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/card-accounts";
+        String localVarPath = "/v1/card-accounts";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -1100,13 +1117,13 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Reads a list of card accounts
-     * Reads a list of card accounts with additional information, e.g. balance information. It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system. The addressed list of card accounts depends then on the PSU ID and the stored consent addressed by consentId, respectively the OAuth2 access token. 
+     * Reads a list of card accounts with additional information, e.g. balance information.  It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system.  The addressed list of card accounts depends then on the PSU ID and the stored consent addressed by consentId,  respectively the OAuth2 access token.  
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1126,13 +1143,13 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Reads a list of card accounts
-     * Reads a list of card accounts with additional information, e.g. balance information. It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system. The addressed list of card accounts depends then on the PSU ID and the stored consent addressed by consentId, respectively the OAuth2 access token. 
+     * Reads a list of card accounts with additional information, e.g. balance information.  It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system.  The addressed list of card accounts depends then on the PSU ID and the stored consent addressed by consentId,  respectively the OAuth2 access token.  
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1153,13 +1170,13 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Reads a list of card accounts (asynchronously)
-     * Reads a list of card accounts with additional information, e.g. balance information. It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system. The addressed list of card accounts depends then on the PSU ID and the stored consent addressed by consentId, respectively the OAuth2 access token. 
+     * Reads a list of card accounts with additional information, e.g. balance information.  It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system.  The addressed list of card accounts depends then on the PSU ID and the stored consent addressed by consentId,  respectively the OAuth2 access token.  
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1201,13 +1218,13 @@ public class AccountInformationServiceAisApi {
     }
     /**
      * Build call for getCardAccountBalances
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1226,7 +1243,7 @@ public class AccountInformationServiceAisApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/card-accounts/{account-id}/balances"
+        String localVarPath = "/v1/card-accounts/{account-id}/balances"
             .replaceAll("\\{" + "account-id" + "\\}", apiClient.escapeString(accountId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -1320,14 +1337,14 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read card account balances
-     * Reads balance data from a given card account addressed by \&quot;account-id\&quot;.  Remark: This account-id can be a tokenised identification due to data protection reason since the path information might be logged on intermediary servers within the ASPSP sphere. This account-id then can be retrieved by the \&quot;GET Card Account List\&quot; call 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * Reads balance data from a given card account addressed by  \&quot;account-id\&quot;.   Remark: This account-id can be a tokenised identification due  to data protection reason since the path information might be  logged on intermediary servers within the ASPSP sphere.  This account-id then can be retrieved by the  \&quot;GET Card Account List\&quot; call 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1347,14 +1364,14 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read card account balances
-     * Reads balance data from a given card account addressed by \&quot;account-id\&quot;.  Remark: This account-id can be a tokenised identification due to data protection reason since the path information might be logged on intermediary servers within the ASPSP sphere. This account-id then can be retrieved by the \&quot;GET Card Account List\&quot; call 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * Reads balance data from a given card account addressed by  \&quot;account-id\&quot;.   Remark: This account-id can be a tokenised identification due  to data protection reason since the path information might be  logged on intermediary servers within the ASPSP sphere.  This account-id then can be retrieved by the  \&quot;GET Card Account List\&quot; call 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1375,14 +1392,14 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read card account balances (asynchronously)
-     * Reads balance data from a given card account addressed by \&quot;account-id\&quot;.  Remark: This account-id can be a tokenised identification due to data protection reason since the path information might be logged on intermediary servers within the ASPSP sphere. This account-id then can be retrieved by the \&quot;GET Card Account List\&quot; call 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * Reads balance data from a given card account addressed by  \&quot;account-id\&quot;.   Remark: This account-id can be a tokenised identification due  to data protection reason since the path information might be  logged on intermediary servers within the ASPSP sphere.  This account-id then can be retrieved by the  \&quot;GET Card Account List\&quot; call 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1424,19 +1441,19 @@ public class AccountInformationServiceAisApi {
     }
     /**
      * Build call for getCardAccountTransactionList
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
-     * @param bookingStatus Permitted codes are   * \&quot;booked\&quot;,   * \&quot;pending\&quot; and   * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP, Error code if not supported in the online banking frontend  (required)
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * @param bookingStatus Permitted codes are    * \&quot;booked\&quot;,   * \&quot;pending\&quot; and    * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP,  Error code if not supported in the online banking frontend  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
-     * @param dateFrom Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required.  For booked transactions, the relevant date is the booking date.  For pending transactions, the relevant date is the entry date, which may not be transparent neither in this API nor other channels of the ASPSP.  (optional)
-     * @param dateTo End date (inclusive the data dateTo) of the transaction list, default is \&quot;now\&quot; if not given.  Might be ignored if a delta function is used.  For booked transactions, the relevant date is the booking date.  For pending transactions, the relevant date is the entry date, which may not be transparent neither in this API nor other channels of the ASPSP.  (optional)
-     * @param entryReferenceFrom This data attribute is indicating that the AISP is in favour to get all transactions after the transaction with identification entryReferenceFrom alternatively to the above defined period. This is a implementation of a delta access. If this data element is contained, the entries \&quot;dateFrom\&quot; and \&quot;dateTo\&quot; might be ignored by the ASPSP if a delta report is supported.  Optional if supported by API provider.  (optional)
+     * @param dateFrom Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required.  For booked transactions, the relevant date is the booking date.   For pending transactions, the relevant date is the entry date, which may not be transparent  neither in this API nor other channels of the ASPSP.  (optional)
+     * @param dateTo End date (inclusive the data dateTo) of the transaction list, default is \&quot;now\&quot; if not given.   Might be ignored if a delta function is used.  For booked transactions, the relevant date is the booking date.   For pending transactions, the relevant date is the entry date, which may not be transparent  neither in this API nor other channels of the ASPSP.  (optional)
+     * @param entryReferenceFrom This data attribute is indicating that the AISP is in favour to get all transactions after  the transaction with identification entryReferenceFrom alternatively to the above defined period.  This is a implementation of a delta access.  If this data element is contained, the entries \&quot;dateFrom\&quot; and \&quot;dateTo\&quot; might be ignored by the ASPSP  if a delta report is supported.  Optional if supported by API provider.  (optional)
      * @param deltaList This data attribute is indicating that the AISP is in favour to get all transactions after the last report access for this PSU on the addressed account. This is another implementation of a delta access-report. This delta indicator might be rejected by the ASPSP if this function is not supported. Optional if supported by API provider (optional)
-     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance, if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored by the ASPSP.  (optional)
+     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.   (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1455,7 +1472,7 @@ public class AccountInformationServiceAisApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/card-accounts/{account-id}/transactions"
+        String localVarPath = "/v1/card-accounts/{account-id}/transactions"
             .replaceAll("\\{" + "account-id" + "\\}", apiClient.escapeString(accountId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -1566,19 +1583,19 @@ public class AccountInformationServiceAisApi {
     /**
      * Read transaction list of an account
      * Reads account data from a given card account addressed by \&quot;account-id\&quot;. 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
-     * @param bookingStatus Permitted codes are   * \&quot;booked\&quot;,   * \&quot;pending\&quot; and   * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP, Error code if not supported in the online banking frontend  (required)
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * @param bookingStatus Permitted codes are    * \&quot;booked\&quot;,   * \&quot;pending\&quot; and    * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP,  Error code if not supported in the online banking frontend  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
-     * @param dateFrom Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required.  For booked transactions, the relevant date is the booking date.  For pending transactions, the relevant date is the entry date, which may not be transparent neither in this API nor other channels of the ASPSP.  (optional)
-     * @param dateTo End date (inclusive the data dateTo) of the transaction list, default is \&quot;now\&quot; if not given.  Might be ignored if a delta function is used.  For booked transactions, the relevant date is the booking date.  For pending transactions, the relevant date is the entry date, which may not be transparent neither in this API nor other channels of the ASPSP.  (optional)
-     * @param entryReferenceFrom This data attribute is indicating that the AISP is in favour to get all transactions after the transaction with identification entryReferenceFrom alternatively to the above defined period. This is a implementation of a delta access. If this data element is contained, the entries \&quot;dateFrom\&quot; and \&quot;dateTo\&quot; might be ignored by the ASPSP if a delta report is supported.  Optional if supported by API provider.  (optional)
+     * @param dateFrom Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required.  For booked transactions, the relevant date is the booking date.   For pending transactions, the relevant date is the entry date, which may not be transparent  neither in this API nor other channels of the ASPSP.  (optional)
+     * @param dateTo End date (inclusive the data dateTo) of the transaction list, default is \&quot;now\&quot; if not given.   Might be ignored if a delta function is used.  For booked transactions, the relevant date is the booking date.   For pending transactions, the relevant date is the entry date, which may not be transparent  neither in this API nor other channels of the ASPSP.  (optional)
+     * @param entryReferenceFrom This data attribute is indicating that the AISP is in favour to get all transactions after  the transaction with identification entryReferenceFrom alternatively to the above defined period.  This is a implementation of a delta access.  If this data element is contained, the entries \&quot;dateFrom\&quot; and \&quot;dateTo\&quot; might be ignored by the ASPSP  if a delta report is supported.  Optional if supported by API provider.  (optional)
      * @param deltaList This data attribute is indicating that the AISP is in favour to get all transactions after the last report access for this PSU on the addressed account. This is another implementation of a delta access-report. This delta indicator might be rejected by the ASPSP if this function is not supported. Optional if supported by API provider (optional)
-     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance, if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored by the ASPSP.  (optional)
+     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.   (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1599,19 +1616,19 @@ public class AccountInformationServiceAisApi {
     /**
      * Read transaction list of an account
      * Reads account data from a given card account addressed by \&quot;account-id\&quot;. 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
-     * @param bookingStatus Permitted codes are   * \&quot;booked\&quot;,   * \&quot;pending\&quot; and   * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP, Error code if not supported in the online banking frontend  (required)
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * @param bookingStatus Permitted codes are    * \&quot;booked\&quot;,   * \&quot;pending\&quot; and    * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP,  Error code if not supported in the online banking frontend  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
-     * @param dateFrom Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required.  For booked transactions, the relevant date is the booking date.  For pending transactions, the relevant date is the entry date, which may not be transparent neither in this API nor other channels of the ASPSP.  (optional)
-     * @param dateTo End date (inclusive the data dateTo) of the transaction list, default is \&quot;now\&quot; if not given.  Might be ignored if a delta function is used.  For booked transactions, the relevant date is the booking date.  For pending transactions, the relevant date is the entry date, which may not be transparent neither in this API nor other channels of the ASPSP.  (optional)
-     * @param entryReferenceFrom This data attribute is indicating that the AISP is in favour to get all transactions after the transaction with identification entryReferenceFrom alternatively to the above defined period. This is a implementation of a delta access. If this data element is contained, the entries \&quot;dateFrom\&quot; and \&quot;dateTo\&quot; might be ignored by the ASPSP if a delta report is supported.  Optional if supported by API provider.  (optional)
+     * @param dateFrom Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required.  For booked transactions, the relevant date is the booking date.   For pending transactions, the relevant date is the entry date, which may not be transparent  neither in this API nor other channels of the ASPSP.  (optional)
+     * @param dateTo End date (inclusive the data dateTo) of the transaction list, default is \&quot;now\&quot; if not given.   Might be ignored if a delta function is used.  For booked transactions, the relevant date is the booking date.   For pending transactions, the relevant date is the entry date, which may not be transparent  neither in this API nor other channels of the ASPSP.  (optional)
+     * @param entryReferenceFrom This data attribute is indicating that the AISP is in favour to get all transactions after  the transaction with identification entryReferenceFrom alternatively to the above defined period.  This is a implementation of a delta access.  If this data element is contained, the entries \&quot;dateFrom\&quot; and \&quot;dateTo\&quot; might be ignored by the ASPSP  if a delta report is supported.  Optional if supported by API provider.  (optional)
      * @param deltaList This data attribute is indicating that the AISP is in favour to get all transactions after the last report access for this PSU on the addressed account. This is another implementation of a delta access-report. This delta indicator might be rejected by the ASPSP if this function is not supported. Optional if supported by API provider (optional)
-     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance, if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored by the ASPSP.  (optional)
+     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.   (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1633,19 +1650,19 @@ public class AccountInformationServiceAisApi {
     /**
      * Read transaction list of an account (asynchronously)
      * Reads account data from a given card account addressed by \&quot;account-id\&quot;. 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
-     * @param bookingStatus Permitted codes are   * \&quot;booked\&quot;,   * \&quot;pending\&quot; and   * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP, Error code if not supported in the online banking frontend  (required)
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * @param bookingStatus Permitted codes are    * \&quot;booked\&quot;,   * \&quot;pending\&quot; and    * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP,  Error code if not supported in the online banking frontend  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
-     * @param dateFrom Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required.  For booked transactions, the relevant date is the booking date.  For pending transactions, the relevant date is the entry date, which may not be transparent neither in this API nor other channels of the ASPSP.  (optional)
-     * @param dateTo End date (inclusive the data dateTo) of the transaction list, default is \&quot;now\&quot; if not given.  Might be ignored if a delta function is used.  For booked transactions, the relevant date is the booking date.  For pending transactions, the relevant date is the entry date, which may not be transparent neither in this API nor other channels of the ASPSP.  (optional)
-     * @param entryReferenceFrom This data attribute is indicating that the AISP is in favour to get all transactions after the transaction with identification entryReferenceFrom alternatively to the above defined period. This is a implementation of a delta access. If this data element is contained, the entries \&quot;dateFrom\&quot; and \&quot;dateTo\&quot; might be ignored by the ASPSP if a delta report is supported.  Optional if supported by API provider.  (optional)
+     * @param dateFrom Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required.  For booked transactions, the relevant date is the booking date.   For pending transactions, the relevant date is the entry date, which may not be transparent  neither in this API nor other channels of the ASPSP.  (optional)
+     * @param dateTo End date (inclusive the data dateTo) of the transaction list, default is \&quot;now\&quot; if not given.   Might be ignored if a delta function is used.  For booked transactions, the relevant date is the booking date.   For pending transactions, the relevant date is the entry date, which may not be transparent  neither in this API nor other channels of the ASPSP.  (optional)
+     * @param entryReferenceFrom This data attribute is indicating that the AISP is in favour to get all transactions after  the transaction with identification entryReferenceFrom alternatively to the above defined period.  This is a implementation of a delta access.  If this data element is contained, the entries \&quot;dateFrom\&quot; and \&quot;dateTo\&quot; might be ignored by the ASPSP  if a delta report is supported.  Optional if supported by API provider.  (optional)
      * @param deltaList This data attribute is indicating that the AISP is in favour to get all transactions after the last report access for this PSU on the addressed account. This is another implementation of a delta access-report. This delta indicator might be rejected by the ASPSP if this function is not supported. Optional if supported by API provider (optional)
-     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance, if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored by the ASPSP.  (optional)
+     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.   (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1691,8 +1708,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1804,8 +1821,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1830,8 +1847,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1857,8 +1874,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -1904,8 +1921,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2012,13 +2029,13 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Get Consent Request
-     * Returns the content of an account information consent object. This is returning the data for the TPP especially in cases, where the consent was directly managed between ASPSP and PSU e.g. in a re-direct SCA Approach. 
+     * Returns the content of an account information consent object.  This is returning the data for the TPP especially in cases,  where the consent was directly managed between ASPSP and PSU e.g. in a re-direct SCA Approach. 
      * @param consentId ID of the corresponding consent object as returned by an Account Information Consent Request.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2038,13 +2055,13 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Get Consent Request
-     * Returns the content of an account information consent object. This is returning the data for the TPP especially in cases, where the consent was directly managed between ASPSP and PSU e.g. in a re-direct SCA Approach. 
+     * Returns the content of an account information consent object.  This is returning the data for the TPP especially in cases,  where the consent was directly managed between ASPSP and PSU e.g. in a re-direct SCA Approach. 
      * @param consentId ID of the corresponding consent object as returned by an Account Information Consent Request.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2065,13 +2082,13 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Get Consent Request (asynchronously)
-     * Returns the content of an account information consent object. This is returning the data for the TPP especially in cases, where the consent was directly managed between ASPSP and PSU e.g. in a re-direct SCA Approach. 
+     * Returns the content of an account information consent object.  This is returning the data for the TPP especially in cases,  where the consent was directly managed between ASPSP and PSU e.g. in a re-direct SCA Approach. 
      * @param consentId ID of the corresponding consent object as returned by an Account Information Consent Request.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2118,8 +2135,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2237,8 +2254,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2264,8 +2281,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2292,8 +2309,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2339,8 +2356,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2452,8 +2469,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2478,8 +2495,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2505,8 +2522,8 @@ public class AccountInformationServiceAisApi {
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2548,14 +2565,14 @@ public class AccountInformationServiceAisApi {
     }
     /**
      * Build call for getTransactionDetails
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
-     * @param resourceId This identification is given by the attribute resourceId of the corresponding entry of a transaction list.  (required)
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * @param transactionId This identification is given by the attribute transactionId of the corresponding entry of a transaction list.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2570,13 +2587,13 @@ public class AccountInformationServiceAisApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getTransactionDetailsCall(String accountId, String resourceId, UUID xRequestID, String consentID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getTransactionDetailsCall(String accountId, String transactionId, UUID xRequestID, String consentID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/v1/accounts/{account-id}/transactions/{resourceId}"
+        String localVarPath = "/v1/accounts/{account-id}/transactions/{transactionId}"
             .replaceAll("\\{" + "account-id" + "\\}", apiClient.escapeString(accountId.toString()))
-            .replaceAll("\\{" + "resourceId" + "\\}", apiClient.escapeString(resourceId.toString()));
+            .replaceAll("\\{" + "transactionId" + "\\}", apiClient.escapeString(transactionId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -2644,14 +2661,14 @@ public class AccountInformationServiceAisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getTransactionDetailsValidateBeforeCall(String accountId, String resourceId, UUID xRequestID, String consentID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getTransactionDetailsValidateBeforeCall(String accountId, String transactionId, UUID xRequestID, String consentID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'accountId' is set
         if (accountId == null) {
             throw new ApiException("Missing the required parameter 'accountId' when calling getTransactionDetails(Async)");
         }
-        // verify the required parameter 'resourceId' is set
-        if (resourceId == null) {
-            throw new ApiException("Missing the required parameter 'resourceId' when calling getTransactionDetails(Async)");
+        // verify the required parameter 'transactionId' is set
+        if (transactionId == null) {
+            throw new ApiException("Missing the required parameter 'transactionId' when calling getTransactionDetails(Async)");
         }
         // verify the required parameter 'xRequestID' is set
         if (xRequestID == null) {
@@ -2662,7 +2679,7 @@ public class AccountInformationServiceAisApi {
             throw new ApiException("Missing the required parameter 'consentID' when calling getTransactionDetails(Async)");
         }
         
-        com.squareup.okhttp.Call call = getTransactionDetailsCall(accountId, resourceId, xRequestID, consentID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getTransactionDetailsCall(accountId, transactionId, xRequestID, consentID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -2673,15 +2690,15 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read Transaction Details
-     * Reads transaction details from a given transaction addressed by \&quot;resourceId\&quot; on a given account addressed by \&quot;account-id\&quot;. This call is only available on transactions as reported in a JSON format.  **Remark:** Please note that the PATH might be already given in detail by the corresponding entry of the response of the \&quot;Read Transaction List\&quot; call within the _links subfield. 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
-     * @param resourceId This identification is given by the attribute resourceId of the corresponding entry of a transaction list.  (required)
+     * Reads transaction details from a given transaction addressed by \&quot;transactionId\&quot; on a given account addressed by \&quot;account-id\&quot;.  This call is only available on transactions as reported in a JSON format.  **Remark:** Please note that the PATH might be already given in detail by the corresponding entry of the response of the  \&quot;Read Transaction List\&quot; call within the _links subfield. 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * @param transactionId This identification is given by the attribute transactionId of the corresponding entry of a transaction list.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2694,22 +2711,22 @@ public class AccountInformationServiceAisApi {
      * @return TransactionDetails
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public TransactionDetails getTransactionDetails(String accountId, String resourceId, UUID xRequestID, String consentID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<TransactionDetails> resp = getTransactionDetailsWithHttpInfo(accountId, resourceId, xRequestID, consentID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public TransactionDetails getTransactionDetails(String accountId, String transactionId, UUID xRequestID, String consentID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<TransactionDetails> resp = getTransactionDetailsWithHttpInfo(accountId, transactionId, xRequestID, consentID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
     /**
      * Read Transaction Details
-     * Reads transaction details from a given transaction addressed by \&quot;resourceId\&quot; on a given account addressed by \&quot;account-id\&quot;. This call is only available on transactions as reported in a JSON format.  **Remark:** Please note that the PATH might be already given in detail by the corresponding entry of the response of the \&quot;Read Transaction List\&quot; call within the _links subfield. 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
-     * @param resourceId This identification is given by the attribute resourceId of the corresponding entry of a transaction list.  (required)
+     * Reads transaction details from a given transaction addressed by \&quot;transactionId\&quot; on a given account addressed by \&quot;account-id\&quot;.  This call is only available on transactions as reported in a JSON format.  **Remark:** Please note that the PATH might be already given in detail by the corresponding entry of the response of the  \&quot;Read Transaction List\&quot; call within the _links subfield. 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * @param transactionId This identification is given by the attribute transactionId of the corresponding entry of a transaction list.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2722,23 +2739,23 @@ public class AccountInformationServiceAisApi {
      * @return ApiResponse&lt;TransactionDetails&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<TransactionDetails> getTransactionDetailsWithHttpInfo(String accountId, String resourceId, UUID xRequestID, String consentID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = getTransactionDetailsValidateBeforeCall(accountId, resourceId, xRequestID, consentID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+    public ApiResponse<TransactionDetails> getTransactionDetailsWithHttpInfo(String accountId, String transactionId, UUID xRequestID, String consentID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = getTransactionDetailsValidateBeforeCall(accountId, transactionId, xRequestID, consentID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<TransactionDetails>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
      * Read Transaction Details (asynchronously)
-     * Reads transaction details from a given transaction addressed by \&quot;resourceId\&quot; on a given account addressed by \&quot;account-id\&quot;. This call is only available on transactions as reported in a JSON format.  **Remark:** Please note that the PATH might be already given in detail by the corresponding entry of the response of the \&quot;Read Transaction List\&quot; call within the _links subfield. 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
-     * @param resourceId This identification is given by the attribute resourceId of the corresponding entry of a transaction list.  (required)
+     * Reads transaction details from a given transaction addressed by \&quot;transactionId\&quot; on a given account addressed by \&quot;account-id\&quot;.  This call is only available on transactions as reported in a JSON format.  **Remark:** Please note that the PATH might be already given in detail by the corresponding entry of the response of the  \&quot;Read Transaction List\&quot; call within the _links subfield. 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * @param transactionId This identification is given by the attribute transactionId of the corresponding entry of a transaction list.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2752,7 +2769,7 @@ public class AccountInformationServiceAisApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getTransactionDetailsAsync(String accountId, String resourceId, UUID xRequestID, String consentID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<TransactionDetails> callback) throws ApiException {
+    public com.squareup.okhttp.Call getTransactionDetailsAsync(String accountId, String transactionId, UUID xRequestID, String consentID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<TransactionDetails> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -2773,26 +2790,26 @@ public class AccountInformationServiceAisApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getTransactionDetailsValidateBeforeCall(accountId, resourceId, xRequestID, consentID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getTransactionDetailsValidateBeforeCall(accountId, transactionId, xRequestID, consentID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<TransactionDetails>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /**
      * Build call for getTransactionList
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
-     * @param bookingStatus Permitted codes are   * \&quot;booked\&quot;,   * \&quot;pending\&quot; and   * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP, Error code if not supported in the online banking frontend  (required)
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * @param bookingStatus Permitted codes are    * \&quot;booked\&quot;,   * \&quot;pending\&quot; and    * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP,  Error code if not supported in the online banking frontend  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
-     * @param dateFrom Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required.  For booked transactions, the relevant date is the booking date.  For pending transactions, the relevant date is the entry date, which may not be transparent neither in this API nor other channels of the ASPSP.  (optional)
-     * @param dateTo End date (inclusive the data dateTo) of the transaction list, default is \&quot;now\&quot; if not given.  Might be ignored if a delta function is used.  For booked transactions, the relevant date is the booking date.  For pending transactions, the relevant date is the entry date, which may not be transparent neither in this API nor other channels of the ASPSP.  (optional)
-     * @param entryReferenceFrom This data attribute is indicating that the AISP is in favour to get all transactions after the transaction with identification entryReferenceFrom alternatively to the above defined period. This is a implementation of a delta access. If this data element is contained, the entries \&quot;dateFrom\&quot; and \&quot;dateTo\&quot; might be ignored by the ASPSP if a delta report is supported.  Optional if supported by API provider.  (optional)
+     * @param dateFrom Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required.  For booked transactions, the relevant date is the booking date.   For pending transactions, the relevant date is the entry date, which may not be transparent  neither in this API nor other channels of the ASPSP.  (optional)
+     * @param dateTo End date (inclusive the data dateTo) of the transaction list, default is \&quot;now\&quot; if not given.   Might be ignored if a delta function is used.  For booked transactions, the relevant date is the booking date.   For pending transactions, the relevant date is the entry date, which may not be transparent  neither in this API nor other channels of the ASPSP.  (optional)
+     * @param entryReferenceFrom This data attribute is indicating that the AISP is in favour to get all transactions after  the transaction with identification entryReferenceFrom alternatively to the above defined period.  This is a implementation of a delta access.  If this data element is contained, the entries \&quot;dateFrom\&quot; and \&quot;dateTo\&quot; might be ignored by the ASPSP  if a delta report is supported.  Optional if supported by API provider.  (optional)
      * @param deltaList This data attribute is indicating that the AISP is in favour to get all transactions after the last report access for this PSU on the addressed account. This is another implementation of a delta access-report. This delta indicator might be rejected by the ASPSP if this function is not supported. Optional if supported by API provider (optional)
-     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance, if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored by the ASPSP.  (optional)
+     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.   (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2811,7 +2828,7 @@ public class AccountInformationServiceAisApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/v1/accounts/{account-id}/transactions/"
+        String localVarPath = "/v1/accounts/{account-id}/transactions"
             .replaceAll("\\{" + "account-id" + "\\}", apiClient.escapeString(accountId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -2921,20 +2938,20 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read transaction list of an account
-     * Read transaction reports or transaction lists of a given account ddressed by \&quot;account-id\&quot;, depending on the steering parameter \&quot;bookingStatus\&quot; together with balances.  For a given account, additional parameters are e.g. the attributes \&quot;dateFrom\&quot; and \&quot;dateTo\&quot;. The ASPSP might add balance information, if transaction lists without balances are not supported. 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
-     * @param bookingStatus Permitted codes are   * \&quot;booked\&quot;,   * \&quot;pending\&quot; and   * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP, Error code if not supported in the online banking frontend  (required)
+     * Read transaction reports or transaction lists of a given account ddressed by \&quot;account-id\&quot;, depending on the steering parameter  \&quot;bookingStatus\&quot; together with balances.  For a given account, additional parameters are e.g. the attributes \&quot;dateFrom\&quot; and \&quot;dateTo\&quot;.  The ASPSP might add balance information, if transaction lists without balances are not supported. 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * @param bookingStatus Permitted codes are    * \&quot;booked\&quot;,   * \&quot;pending\&quot; and    * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP,  Error code if not supported in the online banking frontend  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
-     * @param dateFrom Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required.  For booked transactions, the relevant date is the booking date.  For pending transactions, the relevant date is the entry date, which may not be transparent neither in this API nor other channels of the ASPSP.  (optional)
-     * @param dateTo End date (inclusive the data dateTo) of the transaction list, default is \&quot;now\&quot; if not given.  Might be ignored if a delta function is used.  For booked transactions, the relevant date is the booking date.  For pending transactions, the relevant date is the entry date, which may not be transparent neither in this API nor other channels of the ASPSP.  (optional)
-     * @param entryReferenceFrom This data attribute is indicating that the AISP is in favour to get all transactions after the transaction with identification entryReferenceFrom alternatively to the above defined period. This is a implementation of a delta access. If this data element is contained, the entries \&quot;dateFrom\&quot; and \&quot;dateTo\&quot; might be ignored by the ASPSP if a delta report is supported.  Optional if supported by API provider.  (optional)
+     * @param dateFrom Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required.  For booked transactions, the relevant date is the booking date.   For pending transactions, the relevant date is the entry date, which may not be transparent  neither in this API nor other channels of the ASPSP.  (optional)
+     * @param dateTo End date (inclusive the data dateTo) of the transaction list, default is \&quot;now\&quot; if not given.   Might be ignored if a delta function is used.  For booked transactions, the relevant date is the booking date.   For pending transactions, the relevant date is the entry date, which may not be transparent  neither in this API nor other channels of the ASPSP.  (optional)
+     * @param entryReferenceFrom This data attribute is indicating that the AISP is in favour to get all transactions after  the transaction with identification entryReferenceFrom alternatively to the above defined period.  This is a implementation of a delta access.  If this data element is contained, the entries \&quot;dateFrom\&quot; and \&quot;dateTo\&quot; might be ignored by the ASPSP  if a delta report is supported.  Optional if supported by API provider.  (optional)
      * @param deltaList This data attribute is indicating that the AISP is in favour to get all transactions after the last report access for this PSU on the addressed account. This is another implementation of a delta access-report. This delta indicator might be rejected by the ASPSP if this function is not supported. Optional if supported by API provider (optional)
-     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance, if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored by the ASPSP.  (optional)
+     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.   (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2954,20 +2971,20 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read transaction list of an account
-     * Read transaction reports or transaction lists of a given account ddressed by \&quot;account-id\&quot;, depending on the steering parameter \&quot;bookingStatus\&quot; together with balances.  For a given account, additional parameters are e.g. the attributes \&quot;dateFrom\&quot; and \&quot;dateTo\&quot;. The ASPSP might add balance information, if transaction lists without balances are not supported. 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
-     * @param bookingStatus Permitted codes are   * \&quot;booked\&quot;,   * \&quot;pending\&quot; and   * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP, Error code if not supported in the online banking frontend  (required)
+     * Read transaction reports or transaction lists of a given account ddressed by \&quot;account-id\&quot;, depending on the steering parameter  \&quot;bookingStatus\&quot; together with balances.  For a given account, additional parameters are e.g. the attributes \&quot;dateFrom\&quot; and \&quot;dateTo\&quot;.  The ASPSP might add balance information, if transaction lists without balances are not supported. 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * @param bookingStatus Permitted codes are    * \&quot;booked\&quot;,   * \&quot;pending\&quot; and    * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP,  Error code if not supported in the online banking frontend  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
-     * @param dateFrom Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required.  For booked transactions, the relevant date is the booking date.  For pending transactions, the relevant date is the entry date, which may not be transparent neither in this API nor other channels of the ASPSP.  (optional)
-     * @param dateTo End date (inclusive the data dateTo) of the transaction list, default is \&quot;now\&quot; if not given.  Might be ignored if a delta function is used.  For booked transactions, the relevant date is the booking date.  For pending transactions, the relevant date is the entry date, which may not be transparent neither in this API nor other channels of the ASPSP.  (optional)
-     * @param entryReferenceFrom This data attribute is indicating that the AISP is in favour to get all transactions after the transaction with identification entryReferenceFrom alternatively to the above defined period. This is a implementation of a delta access. If this data element is contained, the entries \&quot;dateFrom\&quot; and \&quot;dateTo\&quot; might be ignored by the ASPSP if a delta report is supported.  Optional if supported by API provider.  (optional)
+     * @param dateFrom Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required.  For booked transactions, the relevant date is the booking date.   For pending transactions, the relevant date is the entry date, which may not be transparent  neither in this API nor other channels of the ASPSP.  (optional)
+     * @param dateTo End date (inclusive the data dateTo) of the transaction list, default is \&quot;now\&quot; if not given.   Might be ignored if a delta function is used.  For booked transactions, the relevant date is the booking date.   For pending transactions, the relevant date is the entry date, which may not be transparent  neither in this API nor other channels of the ASPSP.  (optional)
+     * @param entryReferenceFrom This data attribute is indicating that the AISP is in favour to get all transactions after  the transaction with identification entryReferenceFrom alternatively to the above defined period.  This is a implementation of a delta access.  If this data element is contained, the entries \&quot;dateFrom\&quot; and \&quot;dateTo\&quot; might be ignored by the ASPSP  if a delta report is supported.  Optional if supported by API provider.  (optional)
      * @param deltaList This data attribute is indicating that the AISP is in favour to get all transactions after the last report access for this PSU on the addressed account. This is another implementation of a delta access-report. This delta indicator might be rejected by the ASPSP if this function is not supported. Optional if supported by API provider (optional)
-     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance, if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored by the ASPSP.  (optional)
+     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.   (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -2988,20 +3005,20 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read transaction list of an account (asynchronously)
-     * Read transaction reports or transaction lists of a given account ddressed by \&quot;account-id\&quot;, depending on the steering parameter \&quot;bookingStatus\&quot; together with balances.  For a given account, additional parameters are e.g. the attributes \&quot;dateFrom\&quot; and \&quot;dateTo\&quot;. The ASPSP might add balance information, if transaction lists without balances are not supported. 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
-     * @param bookingStatus Permitted codes are   * \&quot;booked\&quot;,   * \&quot;pending\&quot; and   * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP, Error code if not supported in the online banking frontend  (required)
+     * Read transaction reports or transaction lists of a given account ddressed by \&quot;account-id\&quot;, depending on the steering parameter  \&quot;bookingStatus\&quot; together with balances.  For a given account, additional parameters are e.g. the attributes \&quot;dateFrom\&quot; and \&quot;dateTo\&quot;.  The ASPSP might add balance information, if transaction lists without balances are not supported. 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * @param bookingStatus Permitted codes are    * \&quot;booked\&quot;,   * \&quot;pending\&quot; and    * \&quot;both\&quot; \&quot;booked\&quot; shall be supported by the ASPSP. To support the \&quot;pending\&quot; and \&quot;both\&quot; feature is optional for the ASPSP,  Error code if not supported in the online banking frontend  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
-     * @param dateFrom Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required.  For booked transactions, the relevant date is the booking date.  For pending transactions, the relevant date is the entry date, which may not be transparent neither in this API nor other channels of the ASPSP.  (optional)
-     * @param dateTo End date (inclusive the data dateTo) of the transaction list, default is \&quot;now\&quot; if not given.  Might be ignored if a delta function is used.  For booked transactions, the relevant date is the booking date.  For pending transactions, the relevant date is the entry date, which may not be transparent neither in this API nor other channels of the ASPSP.  (optional)
-     * @param entryReferenceFrom This data attribute is indicating that the AISP is in favour to get all transactions after the transaction with identification entryReferenceFrom alternatively to the above defined period. This is a implementation of a delta access. If this data element is contained, the entries \&quot;dateFrom\&quot; and \&quot;dateTo\&quot; might be ignored by the ASPSP if a delta report is supported.  Optional if supported by API provider.  (optional)
+     * @param dateFrom Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required.  For booked transactions, the relevant date is the booking date.   For pending transactions, the relevant date is the entry date, which may not be transparent  neither in this API nor other channels of the ASPSP.  (optional)
+     * @param dateTo End date (inclusive the data dateTo) of the transaction list, default is \&quot;now\&quot; if not given.   Might be ignored if a delta function is used.  For booked transactions, the relevant date is the booking date.   For pending transactions, the relevant date is the entry date, which may not be transparent  neither in this API nor other channels of the ASPSP.  (optional)
+     * @param entryReferenceFrom This data attribute is indicating that the AISP is in favour to get all transactions after  the transaction with identification entryReferenceFrom alternatively to the above defined period.  This is a implementation of a delta access.  If this data element is contained, the entries \&quot;dateFrom\&quot; and \&quot;dateTo\&quot; might be ignored by the ASPSP  if a delta report is supported.  Optional if supported by API provider.  (optional)
      * @param deltaList This data attribute is indicating that the AISP is in favour to get all transactions after the last report access for this PSU on the addressed account. This is another implementation of a delta access-report. This delta indicator might be rejected by the ASPSP if this function is not supported. Optional if supported by API provider (optional)
-     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance, if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored by the ASPSP.  (optional)
+     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.   (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3043,14 +3060,14 @@ public class AccountInformationServiceAisApi {
     }
     /**
      * Build call for readAccountDetails
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
-     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance, if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored by the ASPSP.  (optional)
+     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.   (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3165,15 +3182,15 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read Account Details
-     * Reads details about an account, with balances where required. It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system. The addressed details of this account depends then on the stored consent addressed by consentId, respectively the OAuth2 access token.  **NOTE:** The account-id can represent a multicurrency account. In this case the currency code is set to \&quot;XXX\&quot;.  Give detailed information about the addressed account.  Give detailed information about the addressed account together with balance information 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * Reads details about an account, with balances where required.  It is assumed that a consent of the PSU to  this access is already given and stored on the ASPSP system.  The addressed details of this account depends then on the stored consent addressed by consentId,  respectively the OAuth2 access token.  **NOTE:** The account-id can represent a multicurrency account.  In this case the currency code is set to \&quot;XXX\&quot;.  Give detailed information about the addressed account.  Give detailed information about the addressed account together with balance information 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
-     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance, if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored by the ASPSP.  (optional)
+     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.   (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3193,15 +3210,15 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read Account Details
-     * Reads details about an account, with balances where required. It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system. The addressed details of this account depends then on the stored consent addressed by consentId, respectively the OAuth2 access token.  **NOTE:** The account-id can represent a multicurrency account. In this case the currency code is set to \&quot;XXX\&quot;.  Give detailed information about the addressed account.  Give detailed information about the addressed account together with balance information 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * Reads details about an account, with balances where required.  It is assumed that a consent of the PSU to  this access is already given and stored on the ASPSP system.  The addressed details of this account depends then on the stored consent addressed by consentId,  respectively the OAuth2 access token.  **NOTE:** The account-id can represent a multicurrency account.  In this case the currency code is set to \&quot;XXX\&quot;.  Give detailed information about the addressed account.  Give detailed information about the addressed account together with balance information 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
-     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance, if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored by the ASPSP.  (optional)
+     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.   (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3222,15 +3239,15 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Read Account Details (asynchronously)
-     * Reads details about an account, with balances where required. It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system. The addressed details of this account depends then on the stored consent addressed by consentId, respectively the OAuth2 access token.  **NOTE:** The account-id can represent a multicurrency account. In this case the currency code is set to \&quot;XXX\&quot;.  Give detailed information about the addressed account.  Give detailed information about the addressed account together with balance information 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * Reads details about an account, with balances where required.  It is assumed that a consent of the PSU to  this access is already given and stored on the ASPSP system.  The addressed details of this account depends then on the stored consent addressed by consentId,  respectively the OAuth2 access token.  **NOTE:** The account-id can represent a multicurrency account.  In this case the currency code is set to \&quot;XXX\&quot;.  Give detailed information about the addressed account.  Give detailed information about the addressed account together with balance information 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
-     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance, if granted by the PSU in the related consent and available by the ASPSP. This parameter might be ignored by the ASPSP.  (optional)
+     * @param withBalance If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.   (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3272,13 +3289,13 @@ public class AccountInformationServiceAisApi {
     }
     /**
      * Build call for readCardAccount
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3297,7 +3314,7 @@ public class AccountInformationServiceAisApi {
         Object localVarPostBody = null;
         
         // create path and map variables
-        String localVarPath = "/card-accounts/{account-id}"
+        String localVarPath = "/v1/card-accounts/{account-id}"
             .replaceAll("\\{" + "account-id" + "\\}", apiClient.escapeString(accountId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -3391,14 +3408,14 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Reads details about a card account
-     * Reads details about a card account. It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system. The addressed details of this account depends then on the stored consent addressed by consentId, respectively the OAuth2 access token. 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * Reads details about a card account.  It is assumed that a consent of the PSU to this access is already given  and stored on the ASPSP system. The addressed details of this account depends  then on the stored consent addressed by consentId, respectively the OAuth2  access token. 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3418,14 +3435,14 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Reads details about a card account
-     * Reads details about a card account. It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system. The addressed details of this account depends then on the stored consent addressed by consentId, respectively the OAuth2 access token. 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * Reads details about a card account.  It is assumed that a consent of the PSU to this access is already given  and stored on the ASPSP system. The addressed details of this account depends  then on the stored consent addressed by consentId, respectively the OAuth2  access token. 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3446,14 +3463,14 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Reads details about a card account (asynchronously)
-     * Reads details about a card account. It is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system. The addressed details of this account depends then on the stored consent addressed by consentId, respectively the OAuth2 access token. 
-     * @param accountId This identification is denoting the addressed account. The account-id is retrieved by using a \&quot;Read Account List\&quot; call. The account-id is the \&quot;id\&quot; attribute of the account structure. Its value is constant at least throughout the lifecycle of a given consent.  (required)
+     * Reads details about a card account.  It is assumed that a consent of the PSU to this access is already given  and stored on the ASPSP system. The addressed details of this account depends  then on the stored consent addressed by consentId, respectively the OAuth2  access token. 
+     * @param accountId This identification is denoting the addressed account.  The account-id is retrieved by using a \&quot;Read Account List\&quot; call.  The account-id is the \&quot;id\&quot; attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentID This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (required)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3495,16 +3512,22 @@ public class AccountInformationServiceAisApi {
     }
     /**
      * Build call for startConsentAuthorisation
-     * @param consentId ID of the corresponding consent object as returned by an Account Information Consent Request.  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param consentId ID of the corresponding consent object as returned by an Account Information Consent Request.  (required)
+     * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
-     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface.   Might be mandated in the ASPSP&#x27;s documentation.  It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. In this case the ASPSP might check whether PSU-ID and token match,  according to ASPSP documentation.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  In this case, the mean and use are then defined in the ASPSP’s documentation.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach, specifically  when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
+     * @param tpPNotificationURI URI for the Endpoint of the TPP-API to which the status of the payment initiation should be sent. This header field may by ignored by the ASPSP.  (optional)
+     * @param tpPNotificationContentPreferred The string has the form   status&#x3D;X1, ..., Xn  where Xi is one of the constants SCA, PROCESS, LAST and where constants are not repeated. The usage of the constants supports the of following semantics:    SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the TPP.    PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the TPP.   LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the TPP.  This header field may be ignored, if the ASPSP does not support resource notification services for the related TPP.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3519,8 +3542,8 @@ public class AccountInformationServiceAisApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call startConsentAuthorisationCall(String consentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
+    public com.squareup.okhttp.Call startConsentAuthorisationCall(UUID xRequestID, String consentId, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPNotificationURI, String tpPNotificationContentPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = body;
         
         // create path and map variables
         String localVarPath = "/v1/consents/{consentId}/authorisations"
@@ -3546,6 +3569,16 @@ public class AccountInformationServiceAisApi {
         localVarHeaderParams.put("PSU-Corporate-ID", apiClient.parameterToString(psUCorporateID));
         if (psUCorporateIDType != null)
         localVarHeaderParams.put("PSU-Corporate-ID-Type", apiClient.parameterToString(psUCorporateIDType));
+        if (tpPRedirectPreferred != null)
+        localVarHeaderParams.put("TPP-Redirect-Preferred", apiClient.parameterToString(tpPRedirectPreferred));
+        if (tpPRedirectURI != null)
+        localVarHeaderParams.put("TPP-Redirect-URI", apiClient.parameterToString(tpPRedirectURI));
+        if (tpPNokRedirectURI != null)
+        localVarHeaderParams.put("TPP-Nok-Redirect-URI", apiClient.parameterToString(tpPNokRedirectURI));
+        if (tpPNotificationURI != null)
+        localVarHeaderParams.put("TPP-Notification-URI", apiClient.parameterToString(tpPNotificationURI));
+        if (tpPNotificationContentPreferred != null)
+        localVarHeaderParams.put("TPP-Notification-Content-Preferred", apiClient.parameterToString(tpPNotificationContentPreferred));
         if (psUIPAddress != null)
         localVarHeaderParams.put("PSU-IP-Address", apiClient.parameterToString(psUIPAddress));
         if (psUIPPort != null)
@@ -3576,7 +3609,7 @@ public class AccountInformationServiceAisApi {
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            
+            "application/json"
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -3598,17 +3631,17 @@ public class AccountInformationServiceAisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call startConsentAuthorisationValidateBeforeCall(String consentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        // verify the required parameter 'consentId' is set
-        if (consentId == null) {
-            throw new ApiException("Missing the required parameter 'consentId' when calling startConsentAuthorisation(Async)");
-        }
+    private com.squareup.okhttp.Call startConsentAuthorisationValidateBeforeCall(UUID xRequestID, String consentId, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPNotificationURI, String tpPNotificationContentPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'xRequestID' is set
         if (xRequestID == null) {
             throw new ApiException("Missing the required parameter 'xRequestID' when calling startConsentAuthorisation(Async)");
         }
+        // verify the required parameter 'consentId' is set
+        if (consentId == null) {
+            throw new ApiException("Missing the required parameter 'consentId' when calling startConsentAuthorisation(Async)");
+        }
         
-        com.squareup.okhttp.Call call = startConsentAuthorisationCall(consentId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = startConsentAuthorisationCall(xRequestID, consentId, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPNotificationURI, tpPNotificationContentPreferred, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -3619,17 +3652,23 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Start the authorisation process for a consent
-     * Create an authorisation sub-resource and start the authorisation process of a consent. The message might in addition transmit authentication and authorisation related data.  his method is iterated n times for a n times SCA authorisation in a corporate context, each creating an own authorisation sub-endpoint for the corresponding PSU authorising the consent.  The ASPSP might make the usage of this access method unnecessary, since the related authorisation resource will be automatically created by the ASPSP after the submission of the consent data with the first POST consents call.  The start authorisation process is a process which is needed for creating a new authorisation or cancellation sub-resource.  This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment     Initiation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be     uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,     * &#x27;startAuthorisationWithPsuAuthentication&#x27; #TODO     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;   * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding     Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded     by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for     executing the cancellation.   * The signing basket needs to be authorised yet. 
-     * @param consentId ID of the corresponding consent object as returned by an Account Information Consent Request.  (required)
+     * Create an authorisation sub-resource and start the authorisation process of a consent.  The message might in addition transmit authentication and authorisation related data.  his method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the consent.  The ASPSP might make the usage of this access method unnecessary,  since the related authorisation resource will be automatically created by  the ASPSP after the submission of the consent data with the first POST consents call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,      * &#x27;startAuthorisationWithPsuAuthentication&#x27;      * &#x27;startAuthorisationWithEncryptedPsuAuthentication&#x27;     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. 
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param consentId ID of the corresponding consent object as returned by an Account Information Consent Request.  (required)
+     * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
-     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface.   Might be mandated in the ASPSP&#x27;s documentation.  It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. In this case the ASPSP might check whether PSU-ID and token match,  according to ASPSP documentation.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  In this case, the mean and use are then defined in the ASPSP’s documentation.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach, specifically  when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
+     * @param tpPNotificationURI URI for the Endpoint of the TPP-API to which the status of the payment initiation should be sent. This header field may by ignored by the ASPSP.  (optional)
+     * @param tpPNotificationContentPreferred The string has the form   status&#x3D;X1, ..., Xn  where Xi is one of the constants SCA, PROCESS, LAST and where constants are not repeated. The usage of the constants supports the of following semantics:    SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the TPP.    PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the TPP.   LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the TPP.  This header field may be ignored, if the ASPSP does not support resource notification services for the related TPP.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3642,24 +3681,30 @@ public class AccountInformationServiceAisApi {
      * @return StartScaprocessResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public StartScaprocessResponse startConsentAuthorisation(String consentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<StartScaprocessResponse> resp = startConsentAuthorisationWithHttpInfo(consentId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public StartScaprocessResponse startConsentAuthorisation(UUID xRequestID, String consentId, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPNotificationURI, String tpPNotificationContentPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<StartScaprocessResponse> resp = startConsentAuthorisationWithHttpInfo(xRequestID, consentId, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPNotificationURI, tpPNotificationContentPreferred, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
     /**
      * Start the authorisation process for a consent
-     * Create an authorisation sub-resource and start the authorisation process of a consent. The message might in addition transmit authentication and authorisation related data.  his method is iterated n times for a n times SCA authorisation in a corporate context, each creating an own authorisation sub-endpoint for the corresponding PSU authorising the consent.  The ASPSP might make the usage of this access method unnecessary, since the related authorisation resource will be automatically created by the ASPSP after the submission of the consent data with the first POST consents call.  The start authorisation process is a process which is needed for creating a new authorisation or cancellation sub-resource.  This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment     Initiation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be     uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,     * &#x27;startAuthorisationWithPsuAuthentication&#x27; #TODO     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;   * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding     Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded     by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for     executing the cancellation.   * The signing basket needs to be authorised yet. 
-     * @param consentId ID of the corresponding consent object as returned by an Account Information Consent Request.  (required)
+     * Create an authorisation sub-resource and start the authorisation process of a consent.  The message might in addition transmit authentication and authorisation related data.  his method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the consent.  The ASPSP might make the usage of this access method unnecessary,  since the related authorisation resource will be automatically created by  the ASPSP after the submission of the consent data with the first POST consents call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,      * &#x27;startAuthorisationWithPsuAuthentication&#x27;      * &#x27;startAuthorisationWithEncryptedPsuAuthentication&#x27;     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. 
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param consentId ID of the corresponding consent object as returned by an Account Information Consent Request.  (required)
+     * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
-     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface.   Might be mandated in the ASPSP&#x27;s documentation.  It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. In this case the ASPSP might check whether PSU-ID and token match,  according to ASPSP documentation.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  In this case, the mean and use are then defined in the ASPSP’s documentation.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach, specifically  when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
+     * @param tpPNotificationURI URI for the Endpoint of the TPP-API to which the status of the payment initiation should be sent. This header field may by ignored by the ASPSP.  (optional)
+     * @param tpPNotificationContentPreferred The string has the form   status&#x3D;X1, ..., Xn  where Xi is one of the constants SCA, PROCESS, LAST and where constants are not repeated. The usage of the constants supports the of following semantics:    SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the TPP.    PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the TPP.   LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the TPP.  This header field may be ignored, if the ASPSP does not support resource notification services for the related TPP.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3672,25 +3717,31 @@ public class AccountInformationServiceAisApi {
      * @return ApiResponse&lt;StartScaprocessResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<StartScaprocessResponse> startConsentAuthorisationWithHttpInfo(String consentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = startConsentAuthorisationValidateBeforeCall(consentId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+    public ApiResponse<StartScaprocessResponse> startConsentAuthorisationWithHttpInfo(UUID xRequestID, String consentId, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPNotificationURI, String tpPNotificationContentPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = startConsentAuthorisationValidateBeforeCall(xRequestID, consentId, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPNotificationURI, tpPNotificationContentPreferred, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<StartScaprocessResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
      * Start the authorisation process for a consent (asynchronously)
-     * Create an authorisation sub-resource and start the authorisation process of a consent. The message might in addition transmit authentication and authorisation related data.  his method is iterated n times for a n times SCA authorisation in a corporate context, each creating an own authorisation sub-endpoint for the corresponding PSU authorising the consent.  The ASPSP might make the usage of this access method unnecessary, since the related authorisation resource will be automatically created by the ASPSP after the submission of the consent data with the first POST consents call.  The start authorisation process is a process which is needed for creating a new authorisation or cancellation sub-resource.  This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding Payment     Initiation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be     uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,     * &#x27;startAuthorisationWithPsuAuthentication&#x27; #TODO     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;   * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceeding     Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.     The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded     by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for     executing the cancellation.   * The signing basket needs to be authorised yet. 
-     * @param consentId ID of the corresponding consent object as returned by an Account Information Consent Request.  (required)
+     * Create an authorisation sub-resource and start the authorisation process of a consent.  The message might in addition transmit authentication and authorisation related data.  his method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the consent.  The ASPSP might make the usage of this access method unnecessary,  since the related authorisation resource will be automatically created by  the ASPSP after the submission of the consent data with the first POST consents call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * &#x27;startAuthorisationWithPsuIdentfication&#x27;,      * &#x27;startAuthorisationWithPsuAuthentication&#x27;      * &#x27;startAuthorisationWithEncryptedPsuAuthentication&#x27;     * &#x27;startAuthorisationWithAuthentciationMethodSelection&#x27;    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an &#x27;startAuthorisation&#x27; hyperlink in the preceding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The &#x27;startAuthorisation&#x27; hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. 
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param consentId ID of the corresponding consent object as returned by an Account Information Consent Request.  (required)
+     * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
-     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface.   Might be mandated in the ASPSP&#x27;s documentation.  It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. In this case the ASPSP might check whether PSU-ID and token match,  according to ASPSP documentation.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  In this case, the mean and use are then defined in the ASPSP’s documentation.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach, specifically  when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
+     * @param tpPNotificationURI URI for the Endpoint of the TPP-API to which the status of the payment initiation should be sent. This header field may by ignored by the ASPSP.  (optional)
+     * @param tpPNotificationContentPreferred The string has the form   status&#x3D;X1, ..., Xn  where Xi is one of the constants SCA, PROCESS, LAST and where constants are not repeated. The usage of the constants supports the of following semantics:    SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the TPP.    PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the TPP.   LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the TPP.  This header field may be ignored, if the ASPSP does not support resource notification services for the related TPP.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3704,7 +3755,7 @@ public class AccountInformationServiceAisApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call startConsentAuthorisationAsync(String consentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<StartScaprocessResponse> callback) throws ApiException {
+    public com.squareup.okhttp.Call startConsentAuthorisationAsync(UUID xRequestID, String consentId, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, String tpPNotificationURI, String tpPNotificationContentPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<StartScaprocessResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -3725,25 +3776,25 @@ public class AccountInformationServiceAisApi {
             };
         }
 
-        com.squareup.okhttp.Call call = startConsentAuthorisationValidateBeforeCall(consentId, xRequestID, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = startConsentAuthorisationValidateBeforeCall(xRequestID, consentId, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPNotificationURI, tpPNotificationContentPreferred, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<StartScaprocessResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /**
      * Build call for updateConsentsPsuData
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentId ID of the corresponding consent object as returned by an Account Information Consent Request.  (required)
      * @param authorisationId Resource identification of the related SCA. (required)
-     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
-     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface.   Might be mandated in the ASPSP&#x27;s documentation.  It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. In this case the ASPSP might check whether PSU-ID and token match,  according to ASPSP documentation.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  In this case, the mean and use are then defined in the ASPSP’s documentation.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3758,7 +3809,7 @@ public class AccountInformationServiceAisApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call updateConsentsPsuDataCall(String consentId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call updateConsentsPsuDataCall(UUID xRequestID, String consentId, String authorisationId, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
         
         // create path and map variables
@@ -3838,7 +3889,11 @@ public class AccountInformationServiceAisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call updateConsentsPsuDataValidateBeforeCall(String consentId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call updateConsentsPsuDataValidateBeforeCall(UUID xRequestID, String consentId, String authorisationId, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        // verify the required parameter 'xRequestID' is set
+        if (xRequestID == null) {
+            throw new ApiException("Missing the required parameter 'xRequestID' when calling updateConsentsPsuData(Async)");
+        }
         // verify the required parameter 'consentId' is set
         if (consentId == null) {
             throw new ApiException("Missing the required parameter 'consentId' when calling updateConsentsPsuData(Async)");
@@ -3847,12 +3902,8 @@ public class AccountInformationServiceAisApi {
         if (authorisationId == null) {
             throw new ApiException("Missing the required parameter 'authorisationId' when calling updateConsentsPsuData(Async)");
         }
-        // verify the required parameter 'xRequestID' is set
-        if (xRequestID == null) {
-            throw new ApiException("Missing the required parameter 'xRequestID' when calling updateConsentsPsuData(Async)");
-        }
         
-        com.squareup.okhttp.Call call = updateConsentsPsuDataCall(consentId, authorisationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = updateConsentsPsuDataCall(xRequestID, consentId, authorisationId, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         return call;
 
         
@@ -3863,19 +3914,19 @@ public class AccountInformationServiceAisApi {
 
     /**
      * Update PSU Data for consents
-     * This method update PSU data on the consents  resource if needed. It may authorise a consent within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.  There are several possible Update PSU Data requests in the context of a consent request if needed, which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for     * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:   The Update PSU Data Request might be used   * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method. For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change. 
+     * This method update PSU data on the consents  resource if needed.  It may authorise a consent within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.   There are several possible Update PSU Data requests in the context of a consent request if needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. 
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentId ID of the corresponding consent object as returned by an Account Information Consent Request.  (required)
      * @param authorisationId Resource identification of the related SCA. (required)
-     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
-     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface.   Might be mandated in the ASPSP&#x27;s documentation.  It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. In this case the ASPSP might check whether PSU-ID and token match,  according to ASPSP documentation.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  In this case, the mean and use are then defined in the ASPSP’s documentation.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3888,26 +3939,26 @@ public class AccountInformationServiceAisApi {
      * @return Object
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Object updateConsentsPsuData(String consentId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        ApiResponse<Object> resp = updateConsentsPsuDataWithHttpInfo(consentId, authorisationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public Object updateConsentsPsuData(UUID xRequestID, String consentId, String authorisationId, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<Object> resp = updateConsentsPsuDataWithHttpInfo(xRequestID, consentId, authorisationId, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
         return resp.getData();
     }
 
     /**
      * Update PSU Data for consents
-     * This method update PSU data on the consents  resource if needed. It may authorise a consent within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.  There are several possible Update PSU Data requests in the context of a consent request if needed, which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for     * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:   The Update PSU Data Request might be used   * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method. For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change. 
+     * This method update PSU data on the consents  resource if needed.  It may authorise a consent within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.   There are several possible Update PSU Data requests in the context of a consent request if needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. 
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentId ID of the corresponding consent object as returned by an Account Information Consent Request.  (required)
      * @param authorisationId Resource identification of the related SCA. (required)
-     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
-     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface.   Might be mandated in the ASPSP&#x27;s documentation.  It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. In this case the ASPSP might check whether PSU-ID and token match,  according to ASPSP documentation.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  In this case, the mean and use are then defined in the ASPSP’s documentation.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3920,27 +3971,27 @@ public class AccountInformationServiceAisApi {
      * @return ApiResponse&lt;Object&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Object> updateConsentsPsuDataWithHttpInfo(String consentId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
-        com.squareup.okhttp.Call call = updateConsentsPsuDataValidateBeforeCall(consentId, authorisationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+    public ApiResponse<Object> updateConsentsPsuDataWithHttpInfo(UUID xRequestID, String consentId, String authorisationId, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = updateConsentsPsuDataValidateBeforeCall(xRequestID, consentId, authorisationId, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
      * Update PSU Data for consents (asynchronously)
-     * This method update PSU data on the consents  resource if needed. It may authorise a consent within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.  There are several possible Update PSU Data requests in the context of a consent request if needed, which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for     * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:   The Update PSU Data Request might be used   * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method. For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,     therefore many optional elements are not present.     Maybe in a later version the access path will change. 
+     * This method update PSU data on the consents  resource if needed.  It may authorise a consent within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.   There are several possible Update PSU Data requests in the context of a consent request if needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. 
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param consentId ID of the corresponding consent object as returned by an Account Information Consent Request.  (required)
      * @param authorisationId Resource identification of the related SCA. (required)
-     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
      * @param body  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
-     * @param PSU_ID Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP&#x27;s documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session.  (optional)
-     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface.   Might be mandated in the ASPSP&#x27;s documentation.  It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. In this case the ASPSP might check whether PSU-ID and token match,  according to ASPSP documentation.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  In this case, the mean and use are then defined in the ASPSP’s documentation.  (optional)
      * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
      * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
-     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request IP Address field between PSU and TPP. It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU.  (optional)
      * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
      * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
      * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
@@ -3954,7 +4005,7 @@ public class AccountInformationServiceAisApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call updateConsentsPsuDataAsync(String consentId, String authorisationId, UUID xRequestID, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Object> callback) throws ApiException {
+    public com.squareup.okhttp.Call updateConsentsPsuDataAsync(UUID xRequestID, String consentId, String authorisationId, Object body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<Object> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -3975,7 +4026,7 @@ public class AccountInformationServiceAisApi {
             };
         }
 
-        com.squareup.okhttp.Call call = updateConsentsPsuDataValidateBeforeCall(consentId, authorisationId, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = updateConsentsPsuDataValidateBeforeCall(xRequestID, consentId, authorisationId, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
