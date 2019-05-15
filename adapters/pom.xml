@@ -22,6 +22,7 @@
         <module>sparkasse-adapter</module>
         <module>verlag-adapter</module>
         <module>fiducia-adapter</module>
+        <module>dkb-adapter</module>
     </modules>
 
     <dependencies>
@@ -71,6 +72,12 @@
         <dependency>
             <groupId>de.adorsys.xs2a.gateway</groupId>
             <artifactId>fiducia-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <artifactId>dkb-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 

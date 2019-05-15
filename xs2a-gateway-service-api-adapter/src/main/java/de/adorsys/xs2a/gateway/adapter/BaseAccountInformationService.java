@@ -59,6 +59,16 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                responseHandler(ConsentCreationResponse.class));
     }
 
+    protected <T> GeneralResponse<ConsentCreationResponse> createConsent(Consents body, RequestHeaders requestHeaders, Class<T> klass, Function<T, ConsentCreationResponse> mapper){
+        Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
+
+        String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
+
+        GeneralResponse<T> response = httpClient.post(getConsentBaseUri(), bodyString, headersMap, responseHandler(klass));
+        ConsentCreationResponse creationResponse = mapper.apply(response.getResponseBody());
+        return new GeneralResponse<>(response.getStatusCode(), creationResponse, response.getResponseHeaders());
+    }
+
     @Override
     public GeneralResponse<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
@@ -91,6 +101,15 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         return httpClient.post(uri, headersMap, responseHandler(StartScaProcessResponse.class));
     }
 
+    protected <T> GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, Class<T> klass, Function<T, StartScaProcessResponse> mapper) {
+        String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
+        Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
+
+        GeneralResponse<T> response = httpClient.post(uri, headersMap, responseHandler(klass));
+        StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getResponseBody());
+        return new GeneralResponse<>(response.getStatusCode(), startScaProcessResponse, response.getResponseHeaders());
+    }
+
     @Override
     public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
@@ -98,6 +117,16 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
         return httpClient.post(uri, body, headersMap, responseHandler(StartScaProcessResponse.class));
+    }
+
+    protected <T> GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication, Class<T> klass, Function<T, StartScaProcessResponse> mapper) {
+        String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
+        Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
+        String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
+
+        GeneralResponse<T> response = httpClient.post(uri, body, headersMap, responseHandler(klass));
+        StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getResponseBody());
+        return new GeneralResponse<>(response.getStatusCode(), startScaProcessResponse, response.getResponseHeaders());
     }
 
     @Override

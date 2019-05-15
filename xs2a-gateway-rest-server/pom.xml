@@ -22,11 +22,17 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <artifactId>xs2a-gateway-service-api-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- spring dependencies -->
 
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
+            <artifactId>spring-webmvc</artifactId>
         </dependency>
 
         <!--<dependency>-->
@@ -102,12 +108,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
             <scope>test</scope>
         </dependency>
 
