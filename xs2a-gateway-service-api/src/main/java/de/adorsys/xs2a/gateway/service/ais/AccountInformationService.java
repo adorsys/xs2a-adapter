@@ -16,10 +16,7 @@
 
 package de.adorsys.xs2a.gateway.service.ais;
 
-import de.adorsys.xs2a.gateway.service.GeneralResponse;
-import de.adorsys.xs2a.gateway.service.RequestHeaders;
-import de.adorsys.xs2a.gateway.service.RequestParams;
-import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
+import de.adorsys.xs2a.gateway.service.*;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.model.*;
@@ -62,4 +59,6 @@ public interface AccountInformationService {
     GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams);
 
     GeneralResponse<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams);
+
+    GeneralResponse<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, RequestHeaders requestHeaders);
 }

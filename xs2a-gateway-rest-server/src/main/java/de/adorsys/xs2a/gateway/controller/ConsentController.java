@@ -22,14 +22,13 @@ import de.adorsys.xs2a.gateway.api.AccountApi;
 import de.adorsys.xs2a.gateway.api.ConsentApi;
 import de.adorsys.xs2a.gateway.mapper.*;
 import de.adorsys.xs2a.gateway.model.ais.*;
+import de.adorsys.xs2a.gateway.model.shared.ScaStatusResponseTO;
 import de.adorsys.xs2a.gateway.model.shared.StartScaprocessResponseTO;
-import de.adorsys.xs2a.gateway.service.GeneralResponse;
-import de.adorsys.xs2a.gateway.service.RequestHeaders;
-import de.adorsys.xs2a.gateway.service.RequestParams;
-import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
+import de.adorsys.xs2a.gateway.service.*;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.ais.*;
+import de.adorsys.xs2a.gateway.service.model.ScaStatusResponse;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,6 +54,8 @@ public class ConsentController extends AbstractController implements ConsentApi,
     private final ConsentStatusResponseMapper consentStatusResponseMapper = Mappers.getMapper(ConsentStatusResponseMapper.class);
 
     private final AccountListHolderMapper accountListHolderMapper = Mappers.getMapper(AccountListHolderMapper.class);
+
+    private final ScaStatusResponseMapper scaStatusResponseMapper = Mappers.getMapper(ScaStatusResponseMapper.class);
 
     public ConsentController(AccountInformationService consentService, ObjectMapper objectMapper, HeadersMapper headersMapper) {
         super(objectMapper);
@@ -255,5 +256,17 @@ public class ConsentController extends AbstractController implements ConsentApi,
                        .psuDeviceId(psUDeviceID)
                        .psuGeoLocation(psUGeoLocation)
                        .build();
+    }
+
+    @Override
+    public ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(String consentId, String authorisationId, Map<String, String> headers) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+
+        GeneralResponse<ScaStatusResponse> response = consentService.getConsentScaStatus(consentId, authorisationId, requestHeaders);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                .body(scaStatusResponseMapper.toScaStatusResponseTO(response.getResponseBody()));
     }
 }

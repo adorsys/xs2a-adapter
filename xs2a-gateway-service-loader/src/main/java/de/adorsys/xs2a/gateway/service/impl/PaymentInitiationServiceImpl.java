@@ -40,6 +40,13 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
+    public GeneralResponse<String> getSinglePaymentInitiationStatusAsString(String paymentProduct,
+                                                                            String paymentId,
+                                                                            RequestHeaders requestHeaders) {
+        return getPaymentService(requestHeaders).getSinglePaymentInitiationStatusAsString(paymentProduct, paymentId, requestHeaders);
+    }
+
+    @Override
     public GeneralResponse<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService,
                                                                                     String paymentProduct,
                                                                                     String paymentId,
