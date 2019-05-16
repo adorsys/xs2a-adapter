@@ -177,7 +177,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     public GeneralResponse<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         String uri = getTransactionListUri(accountId, requestParams);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
-        return httpClient.get(uri, headers, xmlResponseHandler());
+        return httpClient.get(uri, headers, stringResponseHandler());
     }
 
     @Override

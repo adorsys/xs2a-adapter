@@ -86,14 +86,11 @@ public abstract class AbstractService {
         };
     }
 
-    HttpClient.ResponseHandler<String> xmlResponseHandler() {
+    /**
+     * Should be used, when it is not clear, what content type will be used in bank response.
+     */
+    HttpClient.ResponseHandler<String> stringResponseHandler() {
         return (statusCode, responseBody, responseHeaders) -> {
-            if (!responseHeaders.getHeader(CONTENT_TYPE_HEADER).startsWith(APPLICATION_XML)) {
-                NotAcceptableException notAcceptableException = new NotAcceptableException();
-                log.error(notAcceptableException.getMessage(), notAcceptableException);
-                throw notAcceptableException;
-            }
-
             if (statusCode == 200) {
                 try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
                     byte[] buffer = new byte[1024];
@@ -110,7 +107,7 @@ public abstract class AbstractService {
                         charset = matcher.group(1);
                     }
 
-                    log.info("{} charset is used for parsing XML", charset);
+                    log.info("{} charset is used for response body parsing", charset);
                     return baos.toString(charset);
                 } catch (IOException e) {
                     log.error(e.getMessage(), e);
