@@ -64,8 +64,8 @@ public class DkbAccessTokenService implements AccessTokenService {
     }
 
     static {
-        String consumerKey = System.getProperty(DKB_TOKEN_CONSUMER_KEY_PROPERTY, "");
-        String consumerSecret = System.getProperty(DKB_TOKEN_CONSUMER_SECRET_PROPERTY, "");
+        String consumerKey = readProperty(DKB_TOKEN_CONSUMER_KEY_PROPERTY);
+        String consumerSecret = readProperty(DKB_TOKEN_CONSUMER_SECRET_PROPERTY);
 
         if (consumerKey.isEmpty() || consumerSecret.isEmpty()) {
             String message = "Consumer key or secret are not provided";
@@ -77,10 +77,10 @@ public class DkbAccessTokenService implements AccessTokenService {
         headers.put("Content-type", "application/x-www-form-urlencoded");
         headers.put("Authorization", "Basic " + buildBasicAuthorization(consumerKey, consumerSecret));
 
-        tokenUrl = System.getProperty(DKB_TOKEN_URL_PROPERTY, DEFAULT_TOKEN_URL);
+        tokenUrl = readProperty(DKB_TOKEN_URL_PROPERTY, DEFAULT_TOKEN_URL);
         logger.debug("Token url is {}", tokenUrl);
 
-        secondsBeforeTokenExpiration = Integer.valueOf(System.getProperty(
+        secondsBeforeTokenExpiration = Integer.valueOf(readProperty(
                 DKB_TOKEN_SECONDS_BEFORE_TOKEN_EXPIRATION_PROPERTY,
                 DEFAULT_SECONDS_BEFORE_TOKEN_EXPIRATION
         ));
@@ -115,11 +115,6 @@ public class DkbAccessTokenService implements AccessTokenService {
         return accessToken.validity.isBefore(expirationDate);
     }
 
-    private static String buildBasicAuthorization(String key, String secret) {
-        String credentials = key + ":" + secret;
-        return new String(Base64.getEncoder().encode(credentials.getBytes()));
-    }
-
     private HttpClient.ResponseHandler<TokenResponse> responseHandler() {
         return (statusCode, responseBody, responseHeaders) -> {
             if (statusCode == 200) {
@@ -129,6 +124,23 @@ public class DkbAccessTokenService implements AccessTokenService {
             logger.error(message);
             throw new AccessTokenException(message);
         };
+    }
+
+    private static String readProperty(String key, String def) {
+        String property = System.getProperty(key, "");
+        if (property.isEmpty()) {
+            property = System.getenv(key);
+        }
+        return property == null || property.trim().isEmpty() ? def : property;
+    }
+
+    private static String readProperty(String key) {
+        return readProperty(key,"");
+    }
+
+    private static String buildBasicAuthorization(String key, String secret) {
+        String credentials = key + ":" + secret;
+        return new String(Base64.getEncoder().encode(credentials.getBytes()));
     }
 
     static class TokenResponse {
