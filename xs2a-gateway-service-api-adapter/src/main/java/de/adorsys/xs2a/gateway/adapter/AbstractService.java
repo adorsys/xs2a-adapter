@@ -37,7 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class AbstractService {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractService.class);
+    private static final Logger log = LoggerFactory.getLogger(AbstractService.class);
 
     protected static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([^;]+)");
     protected static final String AUTHORISATIONS = "authorisations";
@@ -73,7 +73,7 @@ public abstract class AbstractService {
         return (statusCode, responseBody, responseHeaders) -> {
             if (!responseHeaders.getHeader(CONTENT_TYPE_HEADER).startsWith(APPLICATION_JSON)) {
                 NotAcceptableException notAcceptableException = new NotAcceptableException();
-                LOG.error(notAcceptableException.getMessage(), notAcceptableException);
+                log.error(notAcceptableException.getMessage(), notAcceptableException);
                 throw notAcceptableException;
             }
             if (statusCode == 200 || statusCode == 201) {
@@ -81,7 +81,7 @@ public abstract class AbstractService {
             }
 
             ErrorResponseException errorResponseException = responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
-            LOG.error(errorResponseException.getMessage(), errorResponseException);
+            log.error(errorResponseException.getMessage(), errorResponseException);
             throw errorResponseException;
         };
     }
@@ -90,7 +90,7 @@ public abstract class AbstractService {
         return (statusCode, responseBody, responseHeaders) -> {
             if (!responseHeaders.getHeader(CONTENT_TYPE_HEADER).startsWith(APPLICATION_XML)) {
                 NotAcceptableException notAcceptableException = new NotAcceptableException();
-                LOG.error(notAcceptableException.getMessage(), notAcceptableException);
+                log.error(notAcceptableException.getMessage(), notAcceptableException);
                 throw notAcceptableException;
             }
 
@@ -104,26 +104,22 @@ public abstract class AbstractService {
 
                     Matcher matcher = CHARSET_PATTERN.matcher(responseHeaders.getHeader(CONTENT_TYPE_HEADER));
 
-                    String charset = null;
+                    String charset = StandardCharsets.UTF_8.name();;
 
                     if (matcher.find()) {
                         charset = matcher.group(1);
                     }
 
-                    if (charset == null) {
-                        charset = StandardCharsets.UTF_8.name();
-                    }
-
-                    LOG.info("{} charset is used for parsing XML", charset);
+                    log.info("{} charset is used for parsing XML", charset);
                     return baos.toString(charset);
                 } catch (IOException e) {
-                    LOG.error(e.getMessage(), e);
+                    log.error(e.getMessage(), e);
                     throw new UncheckedIOException(e);
                 }
             }
 
             ErrorResponseException errorResponseException = responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
-            LOG.error(errorResponseException.getMessage(), errorResponseException);
+            log.error(errorResponseException.getMessage(), errorResponseException);
             throw errorResponseException;
         };
     }
@@ -144,7 +140,7 @@ public abstract class AbstractService {
             responseBody.unread(nextByte);
             return false;
         } catch (IOException e) {
-            LOG.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             throw new UncheckedIOException(e);
         }
     }
