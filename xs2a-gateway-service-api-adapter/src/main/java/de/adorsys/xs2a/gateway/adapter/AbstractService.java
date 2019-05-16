@@ -24,6 +24,8 @@ import de.adorsys.xs2a.gateway.service.RequestParams;
 import de.adorsys.xs2a.gateway.service.ResponseHeaders;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.gateway.service.exception.NotAcceptableException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -35,6 +37,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class AbstractService {
+    private static final Logger log = LoggerFactory.getLogger(AbstractService.class);
+
     protected static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([^;]+)");
     protected static final String AUTHORISATIONS = "authorisations";
     protected static final String STATUS = "status";
@@ -68,19 +72,26 @@ public abstract class AbstractService {
     <T> HttpClient.ResponseHandler<T> jsonResponseHandler(Class<T> klass) {
         return (statusCode, responseBody, responseHeaders) -> {
             if (!responseHeaders.getHeader(CONTENT_TYPE_HEADER).startsWith(APPLICATION_JSON)) {
-                throw new NotAcceptableException();
+                NotAcceptableException notAcceptableException = new NotAcceptableException();
+                log.error(notAcceptableException.getMessage(), notAcceptableException);
+                throw notAcceptableException;
             }
             if (statusCode == 200 || statusCode == 201) {
                 return jsonMapper.readValue(responseBody, klass);
             }
-            throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
+
+            ErrorResponseException errorResponseException = responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
+            log.error(errorResponseException.getMessage(), errorResponseException);
+            throw errorResponseException;
         };
     }
 
     HttpClient.ResponseHandler<String> xmlResponseHandler() {
         return (statusCode, responseBody, responseHeaders) -> {
             if (!responseHeaders.getHeader(CONTENT_TYPE_HEADER).startsWith(APPLICATION_XML)) {
-                throw new NotAcceptableException();
+                NotAcceptableException notAcceptableException = new NotAcceptableException();
+                log.error(notAcceptableException.getMessage(), notAcceptableException);
+                throw notAcceptableException;
             }
 
             if (statusCode == 200) {
@@ -92,16 +103,24 @@ public abstract class AbstractService {
                     }
 
                     Matcher matcher = CHARSET_PATTERN.matcher(responseHeaders.getHeader(CONTENT_TYPE_HEADER));
+
+                    String charset = StandardCharsets.UTF_8.name();;
+
                     if (matcher.find()) {
-                        return baos.toString(matcher.group(1));
+                        charset = matcher.group(1);
                     }
 
-                    return baos.toString(StandardCharsets.UTF_8.name());
+                    log.info("{} charset is used for parsing XML", charset);
+                    return baos.toString(charset);
                 } catch (IOException e) {
+                    log.error(e.getMessage(), e);
                     throw new UncheckedIOException(e);
                 }
             }
-            throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
+
+            ErrorResponseException errorResponseException = responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
+            log.error(errorResponseException.getMessage(), errorResponseException);
+            throw errorResponseException;
         };
     }
 
@@ -121,6 +140,7 @@ public abstract class AbstractService {
             responseBody.unread(nextByte);
             return false;
         } catch (IOException e) {
+            log.error(e.getMessage(), e);
             throw new UncheckedIOException(e);
         }
     }
