@@ -105,7 +105,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         String uri = getSinglePaymentInitiationStatusUri(paymentProduct, paymentId);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
-        return httpClient.get(uri, headersMap, xmlResponseHandler());
+        return httpClient.get(uri, headersMap, stringResponseHandler());
     }
 
     private String getSinglePaymentInitiationStatusUri(String paymentProduct, String paymentId) {
