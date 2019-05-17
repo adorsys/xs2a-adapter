@@ -54,6 +54,7 @@
 									"    var adapter = pm.variables.get(\"adapter\");",
 									"    pm.globals.set(\"scaRedirect\", scaRedirect);",
 									"    if (adapter === \"dab-bank\" || adapter === \"consors-bank\" || adapter === \"sparda-bank\") {",
+									"        pm.globals.set(\"authorisationId\", scaRedirect.split('/').pop());",
 									"        postman.setNextRequest(\"SCA/Redirect/DAB&Consors&Sparda\");",
 									"    }",
 									"}",
@@ -236,7 +237,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"The consent status has changed to: valid\");",
 									"});",
 									"",
-									"postman.setNextRequest(\"AIS/Accounts/005c_MsgX+1\");"
+									"postman.setNextRequest(\"DefaultGetSCAStatus AIS_redirect\");"
 								],
 								"type": "text/javascript"
 							}
@@ -259,6 +260,59 @@
 									"key": "psu-id",
 									"value": "PSU-Successful"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DefaultGetSCAStatus AIS_redirect",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e65f94d6-2b57-44b0-9c2e-3a18c8713193",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"scaStatus is finalised\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
+									"});",
+									"",
+									"postman.setNextRequest(\"AIS/Accounts/005c_MsgX+1\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-GTW-BANK-CODE",
+								"type": "text",
+								"value": "{{bankCode}}"
+							},
+							{
+								"key": "X-Request-ID",
+								"type": "text",
+								"value": "{{$guid}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations/{{authorisationId}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"consents",
+								"{{consentId}}",
+								"authorisations",
+								"{{authorisationId}}"
 							]
 						}
 					},

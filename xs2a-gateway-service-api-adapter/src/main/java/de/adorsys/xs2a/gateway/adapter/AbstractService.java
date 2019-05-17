@@ -71,8 +71,10 @@ public abstract class AbstractService {
 
     <T> HttpClient.ResponseHandler<T> jsonResponseHandler(Class<T> klass) {
         return (statusCode, responseBody, responseHeaders) -> {
-            if (!responseHeaders.getHeader(CONTENT_TYPE_HEADER).startsWith(APPLICATION_JSON)) {
-                NotAcceptableException notAcceptableException = new NotAcceptableException();
+            String contentType = responseHeaders.getHeader(CONTENT_TYPE_HEADER);
+
+            if (!contentType.startsWith(APPLICATION_JSON)) {
+                NotAcceptableException notAcceptableException = new NotAcceptableException(buildNotAcceptableExceptionMessage(contentType, APPLICATION_JSON));
                 log.error(notAcceptableException.getMessage(), notAcceptableException);
                 throw notAcceptableException;
             }
@@ -150,5 +152,9 @@ public abstract class AbstractService {
         Map<String, String> requestParamsMap = requestParams.toMap();
 
         return StringUri.withQuery(uri, requestParamsMap);
+    }
+
+    private String buildNotAcceptableExceptionMessage(String actualContentType, String expectedContentType) {
+        return String.format("Content type %s is not acceptable, has to start with %s", actualContentType, expectedContentType);
     }
 }
