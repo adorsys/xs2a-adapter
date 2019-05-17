@@ -71,8 +71,10 @@ public abstract class AbstractService {
 
     <T> HttpClient.ResponseHandler<T> jsonResponseHandler(Class<T> klass) {
         return (statusCode, responseBody, responseHeaders) -> {
-            if (!responseHeaders.getHeader(CONTENT_TYPE_HEADER).startsWith(APPLICATION_JSON)) {
-                NotAcceptableException notAcceptableException = new NotAcceptableException();
+            String contentType = responseHeaders.getHeader(CONTENT_TYPE_HEADER);
+
+            if (!contentType.startsWith(APPLICATION_JSON)) {
+                NotAcceptableException notAcceptableException = new NotAcceptableException(buildNotAcceptableExceptionMessage(contentType, APPLICATION_JSON));
                 log.error(notAcceptableException.getMessage(), notAcceptableException);
                 throw notAcceptableException;
             }
@@ -88,8 +90,10 @@ public abstract class AbstractService {
 
     HttpClient.ResponseHandler<String> xmlResponseHandler() {
         return (statusCode, responseBody, responseHeaders) -> {
-            if (!responseHeaders.getHeader(CONTENT_TYPE_HEADER).startsWith(APPLICATION_XML)) {
-                NotAcceptableException notAcceptableException = new NotAcceptableException();
+            String contentType = responseHeaders.getHeader(CONTENT_TYPE_HEADER);
+
+            if (!contentType.startsWith(APPLICATION_XML)) {
+                NotAcceptableException notAcceptableException = new NotAcceptableException(buildNotAcceptableExceptionMessage(contentType, APPLICATION_XML));
                 log.error(notAcceptableException.getMessage(), notAcceptableException);
                 throw notAcceptableException;
             }
@@ -102,7 +106,7 @@ public abstract class AbstractService {
                         baos.write(buffer, 0, length);
                     }
 
-                    Matcher matcher = CHARSET_PATTERN.matcher(responseHeaders.getHeader(CONTENT_TYPE_HEADER));
+                    Matcher matcher = CHARSET_PATTERN.matcher(contentType);
 
                     String charset = StandardCharsets.UTF_8.name();;
 
@@ -153,5 +157,9 @@ public abstract class AbstractService {
         Map<String, String> requestParamsMap = requestParams.toMap();
 
         return StringUri.withQuery(uri, requestParamsMap);
+    }
+
+    private String buildNotAcceptableExceptionMessage(String actualContentType, String expectedContentType) {
+        return String.format("Content type %s is not acceptable, has to start with %s", actualContentType, expectedContentType);
     }
 }
