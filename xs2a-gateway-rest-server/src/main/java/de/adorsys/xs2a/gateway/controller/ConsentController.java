@@ -26,6 +26,7 @@ import de.adorsys.xs2a.gateway.model.shared.ScaStatusResponseTO;
 import de.adorsys.xs2a.gateway.model.shared.StartScaprocessResponseTO;
 import de.adorsys.xs2a.gateway.service.*;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
+import de.adorsys.xs2a.gateway.service.account.BalanceReport;
 import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.model.ScaStatusResponse;
@@ -41,7 +42,7 @@ import java.util.UUID;
 @RestController
 public class ConsentController extends AbstractController implements ConsentApi, AccountApi {
 
-    private final AccountInformationService consentService;
+    private final AccountInformationService accountInformationService;
 
     private final HeadersMapper headersMapper;
 
@@ -57,9 +58,11 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
     private final ScaStatusResponseMapper scaStatusResponseMapper = Mappers.getMapper(ScaStatusResponseMapper.class);
 
-    public ConsentController(AccountInformationService consentService, ObjectMapper objectMapper, HeadersMapper headersMapper) {
+    private final BalanceReportMapper balanceReportMapper = Mappers.getMapper(BalanceReportMapper.class);
+
+    public ConsentController(AccountInformationService accountInformationService, ObjectMapper objectMapper, HeadersMapper headersMapper) {
         super(objectMapper);
-        this.consentService = consentService;
+        this.accountInformationService = accountInformationService;
         this.headersMapper = headersMapper;
     }
 
@@ -68,7 +71,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
         RequestHeaders requestHeaders = buildCreateConsentHeaders(bankCode, xRequestId, digest, signature, tppSignatureCertificate, psuId, psuIdType, psuCorporateId, psuCorporateIdType, tppRedirectPreferred, tppRedirectUri, tppNokRedirectUri, tppExplicitAuthorisationPreferred, psuIpAddress, psuIpPort, psuAccept, psuAcceptCharset, psuAcceptEncoding, psuAcceptLanguage, psuUserAgent, psuHttpMethod, psuDeviceId, psuGeoLocation);
         Consents consents = consentMapper.toConsents(body);
 
-        GeneralResponse<ConsentCreationResponse> response = consentService.createConsent(consents, requestHeaders);
+        GeneralResponse<ConsentCreationResponse> response = accountInformationService.createConsent(consents, requestHeaders);
 
         return ResponseEntity
                        .status(HttpStatus.CREATED)
@@ -86,7 +89,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
                 psUDeviceID, psUGeoLocation);
 
 
-        GeneralResponse<ConsentInformation> response = consentService.getConsentInformation(consentId, requestHeaders);
+        GeneralResponse<ConsentInformation> response = accountInformationService.getConsentInformation(consentId, requestHeaders);
 
         return ResponseEntity
                        .status(HttpStatus.OK)
@@ -103,7 +106,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
                                        psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod,
                                        psUDeviceID, psUGeoLocation);
 
-        GeneralResponse<ConsentStatusResponse> response = consentService.getConsentStatus(consentId, requestHeaders);
+        GeneralResponse<ConsentStatusResponse> response = accountInformationService.getConsentStatus(consentId, requestHeaders);
 
         return ResponseEntity
                        .status(HttpStatus.OK)
@@ -146,7 +149,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
             ObjectNode body) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         GeneralResponse<?> response = handleAuthorisationBody(body,
-                (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> consentService.startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication));
+                (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> accountInformationService.startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication));
 
 
         return ResponseEntity
@@ -173,9 +176,9 @@ public class ConsentController extends AbstractController implements ConsentApi,
 //              - $ref: "#/components/schemas/scaStatusResponse" #Transaction Authorisation
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         GeneralResponse<?> response = handleAuthorisationBody(body,
-                (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> consentService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication),
-                (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod -> consentService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod),
-                (TransactionAuthorisationHandler) transactionAuthorisation -> consentService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation));
+                (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication),
+                (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod -> accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod),
+                (TransactionAuthorisationHandler) transactionAuthorisation -> accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -193,7 +196,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
                                               .withBalance(withBalance)
                                               .build();
 
-        GeneralResponse<AccountListHolder> response = consentService.getAccountList(requestHeaders, requestParams);
+        GeneralResponse<AccountListHolder> response = accountInformationService.getAccountList(requestHeaders, requestParams);
 
         return ResponseEntity.status(HttpStatus.OK)
                        .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
@@ -223,13 +226,13 @@ public class ConsentController extends AbstractController implements ConsentApi,
                                               .build();
 
         if (requestHeaders.isAcceptJson()) {
-            GeneralResponse<TransactionsReport> transactionList = consentService.getTransactionList(accountId, requestHeaders, requestParams);
+            GeneralResponse<TransactionsReport> transactionList = accountInformationService.getTransactionList(accountId, requestHeaders, requestParams);
             return ResponseEntity.status(HttpStatus.OK)
                     .headers(headersMapper.toHttpHeaders(transactionList.getResponseHeaders()))
                     .body(transactionList.getResponseBody());
         }
 
-        GeneralResponse<String> response = consentService.getTransactionListAsString(accountId, requestHeaders, requestParams);
+        GeneralResponse<String> response = accountInformationService.getTransactionListAsString(accountId, requestHeaders, requestParams);
 
         return ResponseEntity
                        .status(HttpStatus.OK)
@@ -262,11 +265,23 @@ public class ConsentController extends AbstractController implements ConsentApi,
     public ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(String consentId, String authorisationId, Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
-        GeneralResponse<ScaStatusResponse> response = consentService.getConsentScaStatus(consentId, authorisationId, requestHeaders);
+        GeneralResponse<ScaStatusResponse> response = accountInformationService.getConsentScaStatus(consentId, authorisationId, requestHeaders);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
                 .body(scaStatusResponseMapper.toScaStatusResponseTO(response.getResponseBody()));
+    }
+
+    @Override
+    public ResponseEntity<ReadAccountBalanceResponse200TO> getBalances(String accountId, Map<String, String> headers) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+
+        GeneralResponse<BalanceReport> response = accountInformationService.getBalances(accountId, requestHeaders);
+
+        return ResponseEntity
+                       .status(HttpStatus.OK)
+                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .body(balanceReportMapper.toReadAccountBalanceResponse200TO(response.getResponseBody()));
     }
 }
