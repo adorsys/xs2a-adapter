@@ -32,14 +32,14 @@ import java.util.Objects;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 
-public class ReadAccountBalanceResponse200 {
+public class ReadAccountBalanceResponse200TO {
   @JsonProperty("account")
   private AccountReferenceTO account = null;
 
   @JsonProperty("balances")
   private BalanceList balances = null;
 
-  public ReadAccountBalanceResponse200 account(AccountReferenceTO account) {
+  public ReadAccountBalanceResponse200TO account(AccountReferenceTO account) {
     this.account = account;
     return this;
   }
@@ -60,7 +60,7 @@ public class ReadAccountBalanceResponse200 {
     this.account = account;
   }
 
-  public ReadAccountBalanceResponse200 balances(BalanceList balances) {
+  public ReadAccountBalanceResponse200TO balances(BalanceList balances) {
     this.balances = balances;
     return this;
   }
@@ -91,7 +91,7 @@ public class ReadAccountBalanceResponse200 {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ReadAccountBalanceResponse200 readAccountBalanceResponse200 = (ReadAccountBalanceResponse200) o;
+    ReadAccountBalanceResponse200TO readAccountBalanceResponse200 = (ReadAccountBalanceResponse200TO) o;
     return Objects.equals(this.account, readAccountBalanceResponse200.account) &&
         Objects.equals(this.balances, readAccountBalanceResponse200.balances);
   }
@@ -104,7 +104,7 @@ public class ReadAccountBalanceResponse200 {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ReadAccountBalanceResponse200 {\n");
+    sb.append("class ReadAccountBalanceResponse200TO {\n");
     
     sb.append("    account: ").append(toIndentedString(account)).append("\n");
     sb.append("    balances: ").append(toIndentedString(balances)).append("\n");

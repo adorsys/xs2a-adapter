@@ -44,7 +44,6 @@ public abstract class AbstractService {
     protected static final String STATUS = "status";
     protected static final String CONTENT_TYPE_HEADER = "Content-Type";
     protected static final String APPLICATION_JSON = "application/json";
-    protected static final String APPLICATION_XML = "application/xml";
     protected static final String ACCEPT_HEADER = "Accept";
     protected final JsonMapper jsonMapper = new JsonMapper();
     protected HttpClient httpClient = HttpClient.newHttpClient();

@@ -19,6 +19,7 @@ package de.adorsys.xs2a.gateway.adapter;
 import de.adorsys.xs2a.gateway.http.StringUri;
 import de.adorsys.xs2a.gateway.service.*;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
+import de.adorsys.xs2a.gateway.service.account.BalanceReport;
 import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.model.*;
@@ -31,6 +32,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     private static final String CONSENTS = "consents";
     private static final String ACCOUNTS = "accounts";
     private static final String TRANSACTIONS = "transactions";
+    private static final String BALANCES = "balances";
 
     private final String baseUri;
 
@@ -185,6 +187,13 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
         return httpClient.get(uri, headers, jsonResponseHandler(ScaStatusResponse.class));
+    }
+
+    @Override
+    public GeneralResponse<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
+        String uri = StringUri.fromElements(getAccountsBaseUri(), accountId, BALANCES);
+        Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
+        return httpClient.get(uri, headers, jsonResponseHandler(BalanceReport.class));
     }
 
     protected String getConsentBaseUri() {

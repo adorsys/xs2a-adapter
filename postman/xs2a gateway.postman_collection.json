@@ -751,7 +751,7 @@
 									"    pm.response.to.have.jsonBody(\"balances\");",
 									"});",
 									"",
-									"postman.setNextRequest(null);"
+									"postman.setNextRequest(\"AIS/Accounts/020c_MsgX+3\");"
 								],
 								"type": "text/javascript"
 							}
@@ -877,6 +877,61 @@
 									"key": "withBalance",
 									"value": "true"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AIS/Accounts/020c_MsgX+3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4bd043d6-71c3-4c16-9925-384927e41562",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Contains \\\"balances\\\"\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('balances');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}",
+								"type": "text"
+							},
+							{
+								"key": "Consent-ID",
+								"value": "{{consentId}}",
+								"type": "text"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"value": "{{bankCode}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUri}}/v1/accounts/{{accountId}}/balances",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"accounts",
+								"{{accountId}}",
+								"balances"
 							]
 						}
 					},
