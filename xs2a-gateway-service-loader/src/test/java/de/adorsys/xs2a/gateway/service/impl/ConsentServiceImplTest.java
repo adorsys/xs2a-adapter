@@ -30,7 +30,7 @@ public class ConsentServiceImplTest {
 
         when(accountInformationService.createConsent(any(), any())).thenReturn(response);
 
-        GeneralResponse<ConsentCreationResponse> consentResponse = service.createConsent(new Consents(), RequestHeaders.builder().build());
+        GeneralResponse<ConsentCreationResponse> consentResponse = service.createConsent(new Consents(), RequestHeaders.fromMap(Collections.emptyMap()));
 
         verify(accountInformationService, times(1)).createConsent(any(), any());
 

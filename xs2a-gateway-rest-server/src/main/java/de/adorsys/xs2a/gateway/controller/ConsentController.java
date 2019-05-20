@@ -24,7 +24,10 @@ import de.adorsys.xs2a.gateway.mapper.*;
 import de.adorsys.xs2a.gateway.model.ais.*;
 import de.adorsys.xs2a.gateway.model.shared.ScaStatusResponseTO;
 import de.adorsys.xs2a.gateway.model.shared.StartScaprocessResponseTO;
-import de.adorsys.xs2a.gateway.service.*;
+import de.adorsys.xs2a.gateway.service.GeneralResponse;
+import de.adorsys.xs2a.gateway.service.RequestHeaders;
+import de.adorsys.xs2a.gateway.service.RequestParams;
+import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.account.BalanceReport;
 import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
@@ -37,27 +40,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 public class ConsentController extends AbstractController implements ConsentApi, AccountApi {
 
     private final AccountInformationService accountInformationService;
-
     private final HeadersMapper headersMapper;
 
     private final ConsentMapper consentMapper = Mappers.getMapper(ConsentMapper.class);
-
     private final ConsentCreationResponseMapper creationResponseMapper = Mappers.getMapper(ConsentCreationResponseMapper.class);
-
     private final ConsentInformationMapper consentInformationMapper = Mappers.getMapper(ConsentInformationMapper.class);
-
     private final ConsentStatusResponseMapper consentStatusResponseMapper = Mappers.getMapper(ConsentStatusResponseMapper.class);
-
     private final AccountListHolderMapper accountListHolderMapper = Mappers.getMapper(AccountListHolderMapper.class);
-
     private final ScaStatusResponseMapper scaStatusResponseMapper = Mappers.getMapper(ScaStatusResponseMapper.class);
-
     private final BalanceReportMapper balanceReportMapper = Mappers.getMapper(BalanceReportMapper.class);
 
     public ConsentController(AccountInformationService accountInformationService, ObjectMapper objectMapper, HeadersMapper headersMapper) {
@@ -67,8 +62,8 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
-    public ResponseEntity<ConsentsResponse201> createConsent(String bankCode, UUID xRequestId, ConsentsTO body, String digest, String signature, byte[] tppSignatureCertificate, String psuId, String psuIdType, String psuCorporateId, String psuCorporateIdType, boolean tppRedirectPreferred, String tppRedirectUri, String tppNokRedirectUri, boolean tppExplicitAuthorisationPreferred, String psuIpAddress, String psuIpPort, String psuAccept, String psuAcceptCharset, String psuAcceptEncoding, String psuAcceptLanguage, String psuUserAgent, String psuHttpMethod, UUID psuDeviceId, String psuGeoLocation) {
-        RequestHeaders requestHeaders = buildCreateConsentHeaders(bankCode, xRequestId, digest, signature, tppSignatureCertificate, psuId, psuIdType, psuCorporateId, psuCorporateIdType, tppRedirectPreferred, tppRedirectUri, tppNokRedirectUri, tppExplicitAuthorisationPreferred, psuIpAddress, psuIpPort, psuAccept, psuAcceptCharset, psuAcceptEncoding, psuAcceptLanguage, psuUserAgent, psuHttpMethod, psuDeviceId, psuGeoLocation);
+    public ResponseEntity<ConsentsResponse201> createConsent(ConsentsTO body, Map<String, String> headers) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         Consents consents = consentMapper.toConsents(body);
 
         GeneralResponse<ConsentCreationResponse> response = accountInformationService.createConsent(consents, requestHeaders);
@@ -80,14 +75,8 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
-    public ResponseEntity<ConsentInformationResponse200Json> getConsentInformation(String bankCode, String consentId, UUID xRequestID,
-                                                                                   String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort,
-                                                                                   String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage,
-                                                                                   String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        RequestHeaders requestHeaders = buildHeaders(bankCode, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort,
-                psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod,
-                psUDeviceID, psUGeoLocation);
-
+    public ResponseEntity<ConsentInformationResponse200Json> getConsentInformation(String consentId, Map<String, String> headers) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
         GeneralResponse<ConsentInformation> response = accountInformationService.getConsentInformation(consentId, requestHeaders);
 
@@ -98,13 +87,8 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
-    public ResponseEntity<ConsentStatusResponse200> getConsentStatus(String bankCode, String consentId, UUID xRequestID, String digest,
-                                                                     String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept,
-                                                                     String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent,
-                                                                     String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        RequestHeaders requestHeaders = buildHeaders(bankCode, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort,
-                                       psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod,
-                                       psUDeviceID, psUGeoLocation);
+    public ResponseEntity<ConsentStatusResponse200> getConsentStatus(String consentId, Map<String, String> headers) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
         GeneralResponse<ConsentStatusResponse> response = accountInformationService.getConsentStatus(consentId, requestHeaders);
 
@@ -114,43 +98,12 @@ public class ConsentController extends AbstractController implements ConsentApi,
                        .body(consentStatusResponseMapper.toConsentStatusResponse200(response.getResponseBody()));
     }
 
-    private RequestHeaders buildCreateConsentHeaders(String bankCode, UUID xRequestId, String digest, String signature, byte[] tppSignatureCertificate, String psuId, String psuIdType, String psuCorporateId, String psuCorporateIdType, boolean tppRedirectPreferred, String tppRedirectUri, String tppNokRedirectUri, boolean tppExplicitAuthorisationPreferred, String psuIpAddress, String psuIpPort, String psuAccept, String psuAcceptCharset, String psuAcceptEncoding, String psuAcceptLanguage, String psuUserAgent, String psuHttpMethod, UUID psuDeviceId, String psuGeoLocation) {
-        return RequestHeaders.builder()
-                       .bankCode(bankCode)
-                       .xRequestId(xRequestId)
-                       .digest(digest)
-                       .signature(signature)
-                       .tppSignatureCertificate(tppSignatureCertificate)
-                       .psuId(psuId)
-                       .psuIdType(psuIdType)
-                       .psuCorporateId(psuCorporateId)
-                       .psuCorporateIdType(psuCorporateIdType)
-                       .tppRedirectPreferred(tppRedirectPreferred)
-                       .tppRedirectUri(tppRedirectUri)
-                       .tppNokRedirectUri(tppNokRedirectUri)
-                       .tppExplicitAuthorisationPreferred(tppExplicitAuthorisationPreferred)
-                       .psuIpAddress(psuIpAddress)
-                       .psuIpPort(psuIpPort)
-                       .psuAccept(psuAccept)
-                       .psuAcceptCharset(psuAcceptCharset)
-                       .psuAcceptEncoding(psuAcceptEncoding)
-                       .psuAcceptLanguage(psuAcceptLanguage)
-                       .psuUserAgent(psuUserAgent)
-                       .psuHttpMethod(psuHttpMethod)
-                       .psuDeviceId(psuDeviceId)
-                       .psuGeoLocation(psuGeoLocation)
-                       .build();
-    }
-
     @Override
-    public ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(
-            String consentId,
-            Map<String, String> headers,
-            ObjectNode body) {
+    public ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(String consentId, Map<String, String> headers, ObjectNode body) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+
         GeneralResponse<?> response = handleAuthorisationBody(body,
                 (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> accountInformationService.startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication));
-
 
         return ResponseEntity
                        .status(HttpStatus.CREATED)
@@ -159,11 +112,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
-    public ResponseEntity<Object> updateConsentsPsuData(
-            String consentId,
-            String authorisationId,
-            Map<String, String> headers,
-            ObjectNode body) {
+    public ResponseEntity<Object> updateConsentsPsuData(String consentId, String authorisationId, Map<String, String> headers, ObjectNode body) {
 //        oneOf: #Different Authorisation Bodies
 //                - {}
 //                - $ref: "#/components/schemas/updatePsuAuthentication"
@@ -175,10 +124,12 @@ public class ConsentController extends AbstractController implements ConsentApi,
 //              - $ref: "#/components/schemas/selectPsuAuthenticationMethodResponse" #Select Authentication Method
 //              - $ref: "#/components/schemas/scaStatusResponse" #Transaction Authorisation
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+
         GeneralResponse<?> response = handleAuthorisationBody(body,
                 (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication),
                 (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod -> accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod),
-                (TransactionAuthorisationHandler) transactionAuthorisation -> accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation));
+                (TransactionAuthorisationHandler) transactionAuthorisation -> accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation)
+        );
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -202,16 +153,8 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
-    public ResponseEntity<?> getTransactionList(
-            String accountId,
-            String bookingStatus,
-            LocalDate dateFrom,
-            LocalDate dateTo,
-            String entryReferenceFrom,
-            Boolean deltaList,
-            Boolean withBalance,
-            Map<String, String> headers) {
-
+    public ResponseEntity<?> getTransactionList(String accountId, String bookingStatus, LocalDate dateFrom, LocalDate dateTo,
+                                                String entryReferenceFrom, Boolean deltaList, Boolean withBalance, Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
         RequestParams requestParams = RequestParams.builder()
