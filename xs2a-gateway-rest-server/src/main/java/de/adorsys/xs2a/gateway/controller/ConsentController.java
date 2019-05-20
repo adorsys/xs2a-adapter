@@ -184,10 +184,8 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
-    public ResponseEntity<AccountListTO> getAccountList(String bankCode, UUID xRequestID, String consentID, Boolean withBalance, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        RequestHeaders requestHeaders = buildAccountGetHeaders(bankCode, xRequestID, consentID, digest, signature, tpPSignatureCertificate,
-                psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent,
-                psUHttpMethod, psUDeviceID, psUGeoLocation);
+    public ResponseEntity<AccountListTO> getAccountList(Boolean withBalance, Map<String, String> headers) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
         RequestParams requestParams = RequestParams.builder()
                                               .withBalance(withBalance)
@@ -235,27 +233,6 @@ public class ConsentController extends AbstractController implements ConsentApi,
                        .status(HttpStatus.OK)
                        .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
                        .body(response.getResponseBody());
-    }
-
-    private RequestHeaders buildAccountGetHeaders(String bankCode, UUID xRequestID, String consentID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        return RequestHeaders.builder()
-                       .bankCode(bankCode)
-                       .xRequestId(xRequestID)
-                       .consentId(consentID)
-                       .digest(digest)
-                       .signature(signature)
-                       .tppSignatureCertificate(tpPSignatureCertificate)
-                       .psuIpAddress(psUIPAddress)
-                       .psuIpPort(psUIPPort)
-                       .psuAccept(psUAccept)
-                       .psuAcceptCharset(psUAcceptCharset)
-                       .psuAcceptEncoding(psUAcceptEncoding)
-                       .psuAcceptLanguage(psUAcceptLanguage)
-                       .psuUserAgent(psUUserAgent)
-                       .psuHttpMethod(psUHttpMethod)
-                       .psuDeviceId(psUDeviceID)
-                       .psuGeoLocation(psUGeoLocation)
-                       .build();
     }
 
     @Override
