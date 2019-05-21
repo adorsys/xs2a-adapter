@@ -23,7 +23,8 @@ import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.ais.*;
 import de.adorsys.xs2a.gateway.service.model.*;
 import de.adorsys.xs2a.gateway.service.provider.AccountInformationServiceProvider;
-import de.adorsys.xs2a.gateway.service.provider.BankNotSupportedException;
+import de.adorsys.xs2a.gateway.service.exception.BankCodeNotProvidedException;
+import de.adorsys.xs2a.gateway.service.exception.BankNotSupportedException;
 
 import java.util.ServiceLoader;
 import java.util.stream.StreamSupport;
@@ -87,6 +88,11 @@ public class AccountInformationServiceImpl implements AccountInformationService 
 
     AccountInformationService getAccountInformationService(RequestHeaders requestHeaders) {
         String bankCode = requestHeaders.removeBankCode();
+
+        if (bankCode == null) {
+            throw new BankCodeNotProvidedException();
+        }
+
         ServiceLoader<AccountInformationServiceProvider> loader =
                 ServiceLoader.load(AccountInformationServiceProvider.class);
         return StreamSupport.stream(loader.spliterator(), false)

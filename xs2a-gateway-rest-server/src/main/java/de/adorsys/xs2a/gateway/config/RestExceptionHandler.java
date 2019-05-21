@@ -3,7 +3,10 @@ package de.adorsys.xs2a.gateway.config;
 import de.adorsys.xs2a.gateway.mapper.HeadersMapper;
 import de.adorsys.xs2a.gateway.model.shared.TppMessageCategory;
 import de.adorsys.xs2a.gateway.service.ErrorResponse;
+import de.adorsys.xs2a.gateway.service.RequestHeaders;
 import de.adorsys.xs2a.gateway.service.TppMessage;
+import de.adorsys.xs2a.gateway.service.exception.BankCodeNotProvidedException;
+import de.adorsys.xs2a.gateway.service.exception.BankNotSupportedException;
 import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.gateway.service.exception.NotAcceptableException;
 import de.adorsys.xs2a.gateway.signing.exception.HttpRequestSigningException;
@@ -75,6 +78,26 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         logger.error(exception.getMessage(), exception);
         String errorText = "This endpoint is not supported yet";
         HttpStatus httpStatus = HttpStatus.NOT_IMPLEMENTED;
+        ErrorResponse errorResponse = buildErrorResponse(TppMessageCategory.ERROR.name(), httpStatus.name(), errorText);
+        HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
+        return new ResponseEntity<>(errorResponse, headers, httpStatus);
+    }
+
+    @ExceptionHandler
+    ResponseEntity handle(BankCodeNotProvidedException exception) {
+        logger.error(exception.getMessage(), exception);
+        String errorText = String.format("%s header is not provided within the request", RequestHeaders.X_GTW_BANK_CODE);
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        ErrorResponse errorResponse = buildErrorResponse(TppMessageCategory.ERROR.name(), httpStatus.name(), errorText);
+        HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
+        return new ResponseEntity<>(errorResponse, headers, httpStatus);
+    }
+
+    @ExceptionHandler
+    ResponseEntity handle(BankNotSupportedException exception) {
+        String errorText = exception.getMessage();
+        logger.error(errorText, exception);
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategory.ERROR.name(), httpStatus.name(), errorText);
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
         return new ResponseEntity<>(errorResponse, headers, httpStatus);

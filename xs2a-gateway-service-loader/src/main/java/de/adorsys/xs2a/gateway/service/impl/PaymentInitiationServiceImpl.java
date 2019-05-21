@@ -2,7 +2,7 @@ package de.adorsys.xs2a.gateway.service.impl;
 
 import de.adorsys.xs2a.gateway.service.*;
 import de.adorsys.xs2a.gateway.service.model.*;
-import de.adorsys.xs2a.gateway.service.provider.BankNotSupportedException;
+import de.adorsys.xs2a.gateway.service.exception.BankNotSupportedException;
 import de.adorsys.xs2a.gateway.service.provider.PaymentInitiationServiceProvider;
 
 import java.util.ServiceLoader;

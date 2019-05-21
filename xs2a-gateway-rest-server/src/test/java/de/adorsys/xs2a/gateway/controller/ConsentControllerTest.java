@@ -2,6 +2,7 @@ package de.adorsys.xs2a.gateway.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.gateway.TestModelBuilder;
+import de.adorsys.xs2a.gateway.config.RestExceptionHandler;
 import de.adorsys.xs2a.gateway.mapper.HeadersMapper;
 import de.adorsys.xs2a.gateway.model.ais.ConsentStatusTO;
 import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
@@ -10,6 +11,7 @@ import de.adorsys.xs2a.gateway.service.RequestHeaders;
 import de.adorsys.xs2a.gateway.service.ResponseHeaders;
 import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
+import de.adorsys.xs2a.gateway.service.exception.BankCodeNotProvidedException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -46,7 +48,7 @@ public class ConsentControllerTest {
     private ConsentController controller;
 
     @Mock
-    private AccountInformationService consentService;
+    private AccountInformationService accountInformationService;
     @Mock
     private HeadersMapper headersMapper;
 
@@ -57,6 +59,7 @@ public class ConsentControllerTest {
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
                           .setMessageConverters(new MappingJackson2HttpMessageConverter())
+                          .setControllerAdvice(new RestExceptionHandler(new HeadersMapper()))
                           .build();
     }
 
@@ -65,7 +68,7 @@ public class ConsentControllerTest {
         ConsentCreationResponse response = TestModelBuilder.buildConsentCreationResponse();
         String body = new ObjectMapper().writeValueAsString(response);
 
-        when(consentService.createConsent(any(), any()))
+        when(accountInformationService.createConsent(any(), any()))
                 .thenReturn(new GeneralResponse<>(HTTP_CODE_200, response, ResponseHeaders.fromMap(Collections.emptyMap())));
         when(headersMapper.toHttpHeaders(any()))
                 .thenReturn(new HttpHeaders());
@@ -92,6 +95,9 @@ public class ConsentControllerTest {
 
     @Test
     public void createConsentRequiredFieldIsMissing() throws Exception {
+        when(accountInformationService.createConsent(any(), any()))
+                .thenThrow(new BankCodeNotProvidedException());
+
         mockMvc.perform(MockMvcRequestBuilders
                                 .post(ConsentController.CONSENTS)
                                 .contentType(APPLICATION_JSON_UTF8_VALUE)
