@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Map;
-import java.util.UUID;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-01-11T12:48:04.675377+02:00[Europe/Kiev]")
 @Api(value = "v1", description = "consent API")
@@ -31,147 +30,178 @@ public interface ConsentApi {
 
     @ApiOperation(value = "Create consent", nickname = "createConsent", notes = "This method create a consent resource, defining access rights to dedicated accounts of  a given PSU-ID. These accounts are addressed explicitly in the method as  parameters as a core function.  **Side Effects** When this Consent Request is a request where the \"recurringIndicator\" equals \"true\",  and if it exists already a former consent for recurring access on account information  for the addressed PSU, then the former consent automatically expires as soon as the new  consent request is authorised by the PSU.  Optional Extension: As an option, an ASPSP might optionally accept a specific access right on the access on all psd2 related services for all available accounts.   As another option an ASPSP might optionally also accept a command, where only access rights are inserted without mentioning the addressed account.  The relation to accounts is then handled afterwards between PSU and ASPSP.  This option is not supported for the Embedded SCA Approach.  As a last option, an ASPSP might in addition accept a command with access rights   * to see the list of available payment accounts or   * to see the list of available payment accounts with balances. ", response = ConsentsResponse201.class)
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Created", response = ConsentsResponse201.class),
-        @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
-        @ApiResponse(code = 401, message = "Unauthorized", response = Error401NGAIS.class),
-        @ApiResponse(code = 403, message = "Forbidden", response = Error403NGAIS.class),
-        @ApiResponse(code = 404, message = "Not found", response = Error404NGAIS.class),
-        @ApiResponse(code = 405, message = "Method Not Allowed", response = Error405NGAIS.class),
-        @ApiResponse(code = 406, message = "Not Acceptable", response = Error406NGAIS.class),
-        @ApiResponse(code = 408, message = "Request Timeout"),
-        @ApiResponse(code = 415, message = "Unsupported Media Type"),
-        @ApiResponse(code = 429, message = "Too Many Requests", response = Error429NGAIS.class),
-        @ApiResponse(code = 500, message = "Internal Server Error"),
-        @ApiResponse(code = 503, message = "Service Unavailable") })
+            @ApiResponse(code = 201, message = "Created", response = ConsentsResponse201.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
+            @ApiResponse(code = 401, message = "Unauthorized", response = Error401NGAIS.class),
+            @ApiResponse(code = 403, message = "Forbidden", response = Error403NGAIS.class),
+            @ApiResponse(code = 404, message = "Not found", response = Error404NGAIS.class),
+            @ApiResponse(code = 405, message = "Method Not Allowed", response = Error405NGAIS.class),
+            @ApiResponse(code = 406, message = "Not Acceptable", response = Error406NGAIS.class),
+            @ApiResponse(code = 408, message = "Request Timeout"),
+            @ApiResponse(code = 415, message = "Unsupported Media Type"),
+            @ApiResponse(code = 429, message = "Too Many Requests", response = Error429NGAIS.class),
+            @ApiResponse(code = 500, message = "Internal Server Error"),
+            @ApiResponse(code = 503, message = "Service Unavailable")})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-GTW-Bank-Code", value = "Bank code of bank to which the request addressed", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "X-Request-ID", value = "ID of the request, unique to the call, as determined by the initiating party.", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "Digest", value = "Is contained if and only if the \"Signature\" element is contained in the header of the request.", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "Signature", value = "A signature of the request by the TPP on application level. This might be mandated by ASPSP. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "TPP-Signature-Certificate", value = "The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-ID", value = "Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP's documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-ID-Type", value = "Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Corporate-ID", value = "Might be mandated in the ASPSP's documentation. Only used in a corporate context. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Corporate-ID-Type", value = "Might be mandated in the ASPSP's documentation. Only used in a corporate context. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "TPP-Redirect-Preferred", value = "If it equals \"true\", the TPP prefers a redirect over an embedded SCA approach. If it equals \"false\", the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP ", allowableValues = "true, false", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "TPP-Redirect-URI", value = "URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically  when TPP-Redirect-Preferred equals \"true\". It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "TPP-Nok-Redirect-URI", value = "If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "TPP-Explicit-Authorisation-Preferred", value = "If it equals \"true\", the TPP prefers to start the authorisation process separately,  e.g. because of the usage of a signing basket.  This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \"false\" or if the parameter is not used, there is no preference of the TPP.  This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step,  without using a signing basket. ", allowableValues = "true, false", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-IP-Address", value = "The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-IP-Port", value = "The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Charset", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Encoding", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Language", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-User-Agent", value = "The forwarded Agent header field of the HTTP request between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Http-Method", value = "HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE ", allowableValues = "GET, POST, PUT, PATCH, DELETE", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Device-ID", value = "UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Geo-Location", value = "The forwarded Geo Location of the corresponding http request between PSU and TPP if available. ", dataType = "string", paramType = "header")
+    })
     @RequestMapping(value = CONSENTS,
-        produces = { "application/json", "application/problem+json" },
-        method = RequestMethod.POST)
-    default ResponseEntity<ConsentsResponse201> _createConsent(
-            @ApiParam(value = "Bank code of bank to which the request addressed", required = true) @RequestHeader(value = "X-GTW-Bank-Code", required = true) String bankCode,
-            @ApiParam(value = "ID of the request, unique to the call, as determined by the initiating party.", required = true) @RequestHeader(value = "X-Request-ID", required = true) UUID xRequestID,
-            @ApiParam(value = "Requestbody for a consents request ") @Valid @RequestBody ConsentsTO body,
-            @ApiParam(value = "Is contained if and only if the \"Signature\" element is contained in the header of the request.") @RequestHeader(value = "Digest", required = false) String digest,
-            @ApiParam(value = "A signature of the request by the TPP on application level. This might be mandated by ASPSP. ") @RequestHeader(value = "Signature", required = false) String signature,
-            @ApiParam(value = "The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained. ") @RequestHeader(value = "TPP-Signature-Certificate", required = false) byte[] tpPSignatureCertificate,
-            @ApiParam(value = "Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP's documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session. ") @RequestHeader(value = "PSU-ID", required = false) String PSU_ID,
-            @ApiParam(value = "Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility. ") @RequestHeader(value = "PSU-ID-Type", required = false) String psUIDType,
-            @ApiParam(value = "Might be mandated in the ASPSP's documentation. Only used in a corporate context. ") @RequestHeader(value = "PSU-Corporate-ID", required = false) String psUCorporateID,
-            @ApiParam(value = "Might be mandated in the ASPSP's documentation. Only used in a corporate context. ") @RequestHeader(value = "PSU-Corporate-ID-Type", required = false) String psUCorporateIDType,
-            @ApiParam(value = "If it equals \"true\", the TPP prefers a redirect over an embedded SCA approach. If it equals \"false\", the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU. ", allowableValues = "true, false") @RequestHeader(value = "TPP-Redirect-Preferred", required = false) boolean tpPRedirectPreferred,
-            @ApiParam(value = "URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach (including OAuth2 SCA approach), specifically  when TPP-Redirect-Preferred equals \"true\". It is recommended to always use this header field.  **Remark for Future:**  This field might be changed to mandatory in the next version of the specification. ") @RequestHeader(value = "TPP-Redirect-URI", required = false) String tpPRedirectURI,
-            @ApiParam(value = "If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP. ") @RequestHeader(value = "TPP-Nok-Redirect-URI", required = false) String tpPNokRedirectURI,
-            @ApiParam(value = "If it equals \"true\", the TPP prefers to start the authorisation process separately,  e.g. because of the usage of a signing basket.  This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \"false\" or if the parameter is not used, there is no preference of the TPP.  This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step,  without using a signing basket. ", allowableValues = "true, false") @RequestHeader(value = "TPP-Explicit-Authorisation-Preferred", required = false) boolean tpPExplicitAuthorisationPreferred,
-            @ApiParam(value = "The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU. ") @RequestHeader(value = "PSU-IP-Address", required = false) String psUIPAddress,
-            @ApiParam(value = "The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available. ") @RequestHeader(value = "PSU-IP-Port", required = false) String psUIPPort,
-            @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept", required = false) String psUAccept,
-            @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept-Charset", required = false) String psUAcceptCharset,
-            @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept-Encoding", required = false) String psUAcceptEncoding,
-            @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept-Language", required = false) String psUAcceptLanguage,
-            @ApiParam(value = "The forwarded Agent header field of the HTTP request between PSU and TPP, if available. ") @RequestHeader(value = "PSU-User-Agent", required = false) String psUUserAgent,
-            @ApiParam(value = "HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE ", allowableValues = "GET, POST, PUT, PATCH, DELETE") @RequestHeader(value = "PSU-Http-Method", required = false) String psUHttpMethod,
-            @ApiParam(value = "UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device. ") @RequestHeader(value = "PSU-Device-ID", required = false) UUID psUDeviceID,
-            @ApiParam(value = "The forwarded Geo Location of the corresponding http request between PSU and TPP if available. ") @RequestHeader(value = "PSU-Geo-Location", required = false) String psUGeoLocation) {
-        return createConsent(bankCode, xRequestID, body, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
-    }
-
-    // Override this method
-    default ResponseEntity<ConsentsResponse201> createConsent(String bankCode, UUID xRequestID, ConsentsTO body, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, boolean tpPExplicitAuthorisationPreferred, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-    }
+            produces = {"application/json", "application/problem+json"},
+            method = RequestMethod.POST)
+    ResponseEntity<ConsentsResponse201> createConsent(
+            @ApiParam(hidden = true)
+            @RequestHeader Map<String, String> headers,
+            @ApiParam(value = "Requestbody for a consents request")
+            @Valid
+            @RequestBody ConsentsTO body
+    );
 
     @ApiOperation(value = "Delete Consent", nickname = "deleteConsent", notes = "The TPP can delete an account information consent object if needed.")
     @ApiResponses(value = {
-        @ApiResponse(code = 204, message = "No Content"),
-        @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
-        @ApiResponse(code = 401, message = "Unauthorized", response = Error401NGAIS.class),
-        @ApiResponse(code = 403, message = "Forbidden", response = Error403NGAIS.class),
-        @ApiResponse(code = 404, message = "Not found", response = Error404NGAIS.class),
-        @ApiResponse(code = 405, message = "Method Not Allowed", response = Error405NGAIS.class),
-        @ApiResponse(code = 406, message = "Not Acceptable", response = Error406NGAIS.class),
-        @ApiResponse(code = 408, message = "Request Timeout"),
-        @ApiResponse(code = 415, message = "Unsupported Media Type"),
-        @ApiResponse(code = 429, message = "Too Many Requests", response = Error429NGAIS.class),
-        @ApiResponse(code = 500, message = "Internal Server Error"),
-        @ApiResponse(code = 503, message = "Service Unavailable") })
+            @ApiResponse(code = 204, message = "No Content"),
+            @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
+            @ApiResponse(code = 401, message = "Unauthorized", response = Error401NGAIS.class),
+            @ApiResponse(code = 403, message = "Forbidden", response = Error403NGAIS.class),
+            @ApiResponse(code = 404, message = "Not found", response = Error404NGAIS.class),
+            @ApiResponse(code = 405, message = "Method Not Allowed", response = Error405NGAIS.class),
+            @ApiResponse(code = 406, message = "Not Acceptable", response = Error406NGAIS.class),
+            @ApiResponse(code = 408, message = "Request Timeout"),
+            @ApiResponse(code = 415, message = "Unsupported Media Type"),
+            @ApiResponse(code = 429, message = "Too Many Requests", response = Error429NGAIS.class),
+            @ApiResponse(code = 500, message = "Internal Server Error"),
+            @ApiResponse(code = 503, message = "Service Unavailable")})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-GTW-Bank-Code", value = "Bank code of bank to which the request addressed", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "X-Request-ID", value = "ID of the request, unique to the call, as determined by the initiating party.", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "Digest", value = "Is contained if and only if the \"Signature\" element is contained in the header of the request.", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "Signature", value = "A signature of the request by the TPP on application level. This might be mandated by ASPSP. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "TPP-Signature-Certificate", value = "The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-IP-Address", value = "The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU. ", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-IP-Port", value = "The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Charset", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Encoding", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Language", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-User-Agent", value = "The forwarded Agent header field of the HTTP request between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Http-Method", value = "HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE ", allowableValues = "GET, POST, PUT, PATCH, DELETE", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Device-ID", value = "UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Geo-Location", value = "The forwarded Geo Location of the corresponding http request between PSU and TPP if available. ", dataType = "string", paramType = "header")
+    })
     @RequestMapping(value = "/v1/consents/{consentId}",
-        produces = { "application/json", "application/problem+json" },
-        method = RequestMethod.DELETE)
-    default ResponseEntity<Void> _deleteConsent(@ApiParam(value = "ID of the corresponding consent object as returned by an Account Information Consent Request. ", required = true) @PathVariable("consentId") String consentId, @ApiParam(value = "ID of the request, unique to the call, as determined by the initiating party.", required = true) @RequestHeader(value = "X-Request-ID", required = true) UUID xRequestID, @ApiParam(value = "Is contained if and only if the \"Signature\" element is contained in the header of the request.") @RequestHeader(value = "Digest", required = false) String digest, @ApiParam(value = "A signature of the request by the TPP on application level. This might be mandated by ASPSP. ") @RequestHeader(value = "Signature", required = false) String signature, @ApiParam(value = "The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained. ") @RequestHeader(value = "TPP-Signature-Certificate", required = false) byte[] tpPSignatureCertificate, @ApiParam(value = "The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU. ") @RequestHeader(value = "PSU-IP-Address", required = false) String psUIPAddress, @ApiParam(value = "The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available. ") @RequestHeader(value = "PSU-IP-Port", required = false) String psUIPPort, @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept", required = false) String psUAccept, @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept-Charset", required = false) String psUAcceptCharset, @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept-Encoding", required = false) String psUAcceptEncoding, @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept-Language", required = false) String psUAcceptLanguage, @ApiParam(value = "The forwarded Agent header field of the HTTP request between PSU and TPP, if available. ") @RequestHeader(value = "PSU-User-Agent", required = false) String psUUserAgent, @ApiParam(value = "HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE ", allowableValues = "GET, POST, PUT, PATCH, DELETE") @RequestHeader(value = "PSU-Http-Method", required = false) String psUHttpMethod, @ApiParam(value = "UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device. ") @RequestHeader(value = "PSU-Device-ID", required = false) UUID psUDeviceID, @ApiParam(value = "The forwarded Geo Location of the corresponding http request between PSU and TPP if available. ") @RequestHeader(value = "PSU-Geo-Location", required = false) String psUGeoLocation) {
-        return deleteConsent(consentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
-    }
-
-    // Override this method
-    default ResponseEntity<Void> deleteConsent(String consentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+            produces = {"application/json", "application/problem+json"},
+            method = RequestMethod.DELETE)
+    default ResponseEntity<Void> deleteConsent(
+            @ApiParam(value = "ID of the corresponding consent object as returned by an Account Information Consent Request. ", required = true)
+            @PathVariable("consentId") String consentId,
+            @ApiParam(hidden = true)
+            @RequestHeader Map<String, String> headers) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     @ApiOperation(value = "Get Consent Authorisation Sub-Resources Request", nickname = "getConsentAuthorisation", notes = "Return a list of all authorisation subresources IDs which have been created.  This function returns an array of hyperlinks to all generated authorisation sub-resources. ", response = Authorisations.class)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = Authorisations.class),
-        @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
-        @ApiResponse(code = 401, message = "Unauthorized", response = Error401NGAIS.class),
-        @ApiResponse(code = 403, message = "Forbidden", response = Error403NGAIS.class),
-        @ApiResponse(code = 404, message = "Not found", response = Error404NGAIS.class),
-        @ApiResponse(code = 405, message = "Method Not Allowed", response = Error405NGAIS.class),
-        @ApiResponse(code = 406, message = "Not Acceptable", response = Error406NGAIS.class),
-        @ApiResponse(code = 408, message = "Request Timeout"),
-        @ApiResponse(code = 415, message = "Unsupported Media Type"),
-        @ApiResponse(code = 429, message = "Too Many Requests", response = Error429NGAIS.class),
-        @ApiResponse(code = 500, message = "Internal Server Error"),
-        @ApiResponse(code = 503, message = "Service Unavailable") })
+            @ApiResponse(code = 200, message = "OK", response = Authorisations.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
+            @ApiResponse(code = 401, message = "Unauthorized", response = Error401NGAIS.class),
+            @ApiResponse(code = 403, message = "Forbidden", response = Error403NGAIS.class),
+            @ApiResponse(code = 404, message = "Not found", response = Error404NGAIS.class),
+            @ApiResponse(code = 405, message = "Method Not Allowed", response = Error405NGAIS.class),
+            @ApiResponse(code = 406, message = "Not Acceptable", response = Error406NGAIS.class),
+            @ApiResponse(code = 408, message = "Request Timeout"),
+            @ApiResponse(code = 415, message = "Unsupported Media Type"),
+            @ApiResponse(code = 429, message = "Too Many Requests", response = Error429NGAIS.class),
+            @ApiResponse(code = 500, message = "Internal Server Error"),
+            @ApiResponse(code = 503, message = "Service Unavailable")})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-GTW-Bank-Code", value = "Bank code of bank to which the request addressed", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "X-Request-ID", value = "ID of the request, unique to the call, as determined by the initiating party.", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "Digest", value = "Is contained if and only if the \"Signature\" element is contained in the header of the request.", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "Signature", value = "A signature of the request by the TPP on application level. This might be mandated by ASPSP. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "TPP-Signature-Certificate", value = "The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-IP-Address", value = "The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU. ", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-IP-Port", value = "The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Charset", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Encoding", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Language", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-User-Agent", value = "The forwarded Agent header field of the HTTP request between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Http-Method", value = "HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE ", allowableValues = "GET, POST, PUT, PATCH, DELETE", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Device-ID", value = "UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Geo-Location", value = "The forwarded Geo Location of the corresponding http request between PSU and TPP if available. ", dataType = "string", paramType = "header")
+    })
     @RequestMapping(value = "/v1/consents/{consentId}/authorisations",
-        produces = { "application/json", "application/problem+json" },
-        method = RequestMethod.GET)
-    default ResponseEntity<Authorisations> _getConsentAuthorisation(@ApiParam(value = "ID of the corresponding consent object as returned by an Account Information Consent Request. ", required = true) @PathVariable("consentId") String consentId, @ApiParam(value = "ID of the request, unique to the call, as determined by the initiating party.", required = true) @RequestHeader(value = "X-Request-ID", required = true) UUID xRequestID, @ApiParam(value = "Is contained if and only if the \"Signature\" element is contained in the header of the request.") @RequestHeader(value = "Digest", required = false) String digest, @ApiParam(value = "A signature of the request by the TPP on application level. This might be mandated by ASPSP. ") @RequestHeader(value = "Signature", required = false) String signature, @ApiParam(value = "The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained. ") @RequestHeader(value = "TPP-Signature-Certificate", required = false) byte[] tpPSignatureCertificate, @ApiParam(value = "The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU. ") @RequestHeader(value = "PSU-IP-Address", required = false) String psUIPAddress, @ApiParam(value = "The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available. ") @RequestHeader(value = "PSU-IP-Port", required = false) String psUIPPort, @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept", required = false) String psUAccept, @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept-Charset", required = false) String psUAcceptCharset, @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept-Encoding", required = false) String psUAcceptEncoding, @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept-Language", required = false) String psUAcceptLanguage, @ApiParam(value = "The forwarded Agent header field of the HTTP request between PSU and TPP, if available. ") @RequestHeader(value = "PSU-User-Agent", required = false) String psUUserAgent, @ApiParam(value = "HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE ", allowableValues = "GET, POST, PUT, PATCH, DELETE") @RequestHeader(value = "PSU-Http-Method", required = false) String psUHttpMethod, @ApiParam(value = "UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device. ") @RequestHeader(value = "PSU-Device-ID", required = false) UUID psUDeviceID, @ApiParam(value = "The forwarded Geo Location of the corresponding http request between PSU and TPP if available. ") @RequestHeader(value = "PSU-Geo-Location", required = false) String psUGeoLocation) {
-        return getConsentAuthorisation(consentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
-    }
-
-    // Override this method
-    default ResponseEntity<Authorisations> getConsentAuthorisation(String consentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
+            produces = {"application/json", "application/problem+json"},
+            method = RequestMethod.GET)
+    default ResponseEntity<Authorisations> getConsentAuthorisation(
+            @ApiParam(value = "ID of the corresponding consent object as returned by an Account Information Consent Request. ", required = true)
+            @PathVariable("consentId") String consentId,
+            @ApiParam(hidden = true)
+            @RequestHeader Map<String, String> headers) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     @ApiOperation(value = "Get Consent Request", nickname = "getConsentInformation", notes = "Returns the content of an account information consent object.  This is returning the data for the TPP especially in cases,  where the consent was directly managed between ASPSP and PSU e.g. in a re-direct SCA Approach. ", response = ConsentInformationResponse200Json.class)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = ConsentInformationResponse200Json.class),
-        @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
-        @ApiResponse(code = 401, message = "Unauthorized", response = Error401NGAIS.class),
-        @ApiResponse(code = 403, message = "Forbidden", response = Error403NGAIS.class),
-        @ApiResponse(code = 404, message = "Not found", response = Error404NGAIS.class),
-        @ApiResponse(code = 405, message = "Method Not Allowed", response = Error405NGAIS.class),
-        @ApiResponse(code = 406, message = "Not Acceptable", response = Error406NGAIS.class),
-        @ApiResponse(code = 408, message = "Request Timeout"),
-        @ApiResponse(code = 415, message = "Unsupported Media Type"),
-        @ApiResponse(code = 429, message = "Too Many Requests", response = Error429NGAIS.class),
-        @ApiResponse(code = 500, message = "Internal Server Error"),
-        @ApiResponse(code = 503, message = "Service Unavailable") })
+            @ApiResponse(code = 200, message = "OK", response = ConsentInformationResponse200Json.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
+            @ApiResponse(code = 401, message = "Unauthorized", response = Error401NGAIS.class),
+            @ApiResponse(code = 403, message = "Forbidden", response = Error403NGAIS.class),
+            @ApiResponse(code = 404, message = "Not found", response = Error404NGAIS.class),
+            @ApiResponse(code = 405, message = "Method Not Allowed", response = Error405NGAIS.class),
+            @ApiResponse(code = 406, message = "Not Acceptable", response = Error406NGAIS.class),
+            @ApiResponse(code = 408, message = "Request Timeout"),
+            @ApiResponse(code = 415, message = "Unsupported Media Type"),
+            @ApiResponse(code = 429, message = "Too Many Requests", response = Error429NGAIS.class),
+            @ApiResponse(code = 500, message = "Internal Server Error"),
+            @ApiResponse(code = 503, message = "Service Unavailable")})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-GTW-Bank-Code", value = "Bank code of bank to which the request addressed", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "X-Request-ID", value = "ID of the request, unique to the call, as determined by the initiating party.", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "Digest", value = "Is contained if and only if the \"Signature\" element is contained in the header of the request.", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "Signature", value = "A signature of the request by the TPP on application level. This might be mandated by ASPSP. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "TPP-Signature-Certificate", value = "The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-IP-Address", value = "The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU. ", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-IP-Port", value = "The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Charset", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Encoding", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Language", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-User-Agent", value = "The forwarded Agent header field of the HTTP request between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Http-Method", value = "HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE ", allowableValues = "GET, POST, PUT, PATCH, DELETE", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Device-ID", value = "UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Geo-Location", value = "The forwarded Geo Location of the corresponding http request between PSU and TPP if available. ", dataType = "string", paramType = "header")
+    })
     @RequestMapping(value = "/v1/consents/{consentId}",
-        produces = { "application/json", "application/problem+json" },
-        method = RequestMethod.GET)
-    default ResponseEntity<ConsentInformationResponse200Json> _getConsentInformation(
-            @ApiParam(value = "Bank code of bank to which the request addressed", required = true) @RequestHeader(value = "X-GTW-Bank-Code", required = true) String bankCode,
-            @ApiParam(value = "ID of the corresponding consent object as returned by an Account Information Consent Request. ", required = true) @PathVariable("consentId") String consentId,
-            @ApiParam(value = "ID of the request, unique to the call, as determined by the initiating party.", required = true) @RequestHeader(value = "X-Request-ID", required = true) UUID xRequestID,
-            @ApiParam(value = "Is contained if and only if the \"Signature\" element is contained in the header of the request.") @RequestHeader(value = "Digest", required = false) String digest,
-            @ApiParam(value = "A signature of the request by the TPP on application level. This might be mandated by ASPSP. ") @RequestHeader(value = "Signature", required = false) String signature,
-            @ApiParam(value = "The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained. ") @RequestHeader(value = "TPP-Signature-Certificate", required = false) byte[] tpPSignatureCertificate,
-            @ApiParam(value = "The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU. ") @RequestHeader(value = "PSU-IP-Address", required = false) String psUIPAddress,
-            @ApiParam(value = "The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available. ") @RequestHeader(value = "PSU-IP-Port", required = false) String psUIPPort,
-            @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept", required = false) String psUAccept,
-            @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept-Charset", required = false) String psUAcceptCharset,
-            @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept-Encoding", required = false) String psUAcceptEncoding,
-            @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept-Language", required = false) String psUAcceptLanguage,
-            @ApiParam(value = "The forwarded Agent header field of the HTTP request between PSU and TPP, if available. ") @RequestHeader(value = "PSU-User-Agent", required = false) String psUUserAgent,
-            @ApiParam(value = "HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE ", allowableValues = "GET, POST, PUT, PATCH, DELETE") @RequestHeader(value = "PSU-Http-Method", required = false) String psUHttpMethod,
-            @ApiParam(value = "UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device. ") @RequestHeader(value = "PSU-Device-ID", required = false) UUID psUDeviceID,
-            @ApiParam(value = "The forwarded Geo Location of the corresponding http request between PSU and TPP if available. ") @RequestHeader(value = "PSU-Geo-Location", required = false) String psUGeoLocation) {
-        return getConsentInformation(bankCode, consentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
-    }
-
-    // Override this method
-    default ResponseEntity<ConsentInformationResponse200Json> getConsentInformation(String bankCode, String consentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-    }
+            produces = {"application/json", "application/problem+json"},
+            method = RequestMethod.GET)
+    ResponseEntity<ConsentInformationResponse200Json> getConsentInformation(
+            @ApiParam(value = "ID of the corresponding consent object as returned by an Account Information Consent Request. ", required = true)
+            @PathVariable("consentId") String consentId,
+            @ApiParam(hidden = true)
+            @RequestHeader Map<String, String> headers
+    );
 
     @ApiOperation(value = "Read the SCA status of the consent authorisation.", nickname = "getConsentScaStatus", notes = "This method returns the SCA status of a consent initiation's authorisation sub-resource. ", response = ScaStatusResponseTO.class)
     @ApiResponses(value = {
@@ -186,7 +216,7 @@ public interface ConsentApi {
             @ApiResponse(code = 415, message = "Unsupported Media Type"),
             @ApiResponse(code = 429, message = "Too Many Requests", response = Error429NGAIS.class),
             @ApiResponse(code = 500, message = "Internal Server Error"),
-            @ApiResponse(code = 503, message = "Service Unavailable") })
+            @ApiResponse(code = 503, message = "Service Unavailable")})
     @ApiImplicitParams({
             @ApiImplicitParam(name = "X-GTW-Bank-Code", value = "Bank code of bank to which the request addressed", required = true, dataType = "string", paramType = "header"),
             @ApiImplicitParam(name = "X-Request-ID", value = "ID of the request, unique to the call, as determined by the initiating party.", required = true, dataType = "string", paramType = "header"),
@@ -205,7 +235,7 @@ public interface ConsentApi {
             @ApiImplicitParam(name = "PSU-Geo-Location", value = "The forwarded Geo Location of the corresponding http request between PSU and TPP if available. ", dataType = "string", paramType = "header")
     })
     @RequestMapping(value = "/v1/consents/{consentId}/authorisations/{authorisationId}",
-            produces = { "application/json", "application/problem+json" },
+            produces = {"application/json", "application/problem+json"},
             method = RequestMethod.GET)
     ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(
             @ApiParam(value = "ID of the corresponding consent object as returned by an Account Information Consent Request. ", required = true)
@@ -213,118 +243,135 @@ public interface ConsentApi {
             @ApiParam(value = "Resource identification of the related SCA.", required = true)
             @PathVariable("authorisationId") String authorisationId,
             @ApiParam(hidden = true)
-            @RequestHeader Map<String, String> headers);
+            @RequestHeader Map<String, String> headers
+    );
 
     @ApiOperation(value = "Consent status request", nickname = "getConsentStatus", notes = "Read the status of an account information consent resource.", response = ConsentStatusResponse200.class)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = ConsentStatusResponse200.class),
-        @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
-        @ApiResponse(code = 401, message = "Unauthorized", response = Error401NGAIS.class),
-        @ApiResponse(code = 403, message = "Forbidden", response = Error403NGAIS.class),
-        @ApiResponse(code = 404, message = "Not found", response = Error404NGAIS.class),
-        @ApiResponse(code = 405, message = "Method Not Allowed", response = Error405NGAIS.class),
-        @ApiResponse(code = 406, message = "Not Acceptable", response = Error406NGAIS.class),
-        @ApiResponse(code = 408, message = "Request Timeout"),
-        @ApiResponse(code = 415, message = "Unsupported Media Type"),
-        @ApiResponse(code = 429, message = "Too Many Requests", response = Error429NGAIS.class),
-        @ApiResponse(code = 500, message = "Internal Server Error"),
-        @ApiResponse(code = 503, message = "Service Unavailable") })
+            @ApiResponse(code = 200, message = "OK", response = ConsentStatusResponse200.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
+            @ApiResponse(code = 401, message = "Unauthorized", response = Error401NGAIS.class),
+            @ApiResponse(code = 403, message = "Forbidden", response = Error403NGAIS.class),
+            @ApiResponse(code = 404, message = "Not found", response = Error404NGAIS.class),
+            @ApiResponse(code = 405, message = "Method Not Allowed", response = Error405NGAIS.class),
+            @ApiResponse(code = 406, message = "Not Acceptable", response = Error406NGAIS.class),
+            @ApiResponse(code = 408, message = "Request Timeout"),
+            @ApiResponse(code = 415, message = "Unsupported Media Type"),
+            @ApiResponse(code = 429, message = "Too Many Requests", response = Error429NGAIS.class),
+            @ApiResponse(code = 500, message = "Internal Server Error"),
+            @ApiResponse(code = 503, message = "Service Unavailable")})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "X-GTW-Bank-Code", value = "Bank code of bank to which the request addressed", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "X-Request-ID", value = "ID of the request, unique to the call, as determined by the initiating party.", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "Digest", value = "Is contained if and only if the \"Signature\" element is contained in the header of the request.", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "Signature", value = "A signature of the request by the TPP on application level. This might be mandated by ASPSP. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "TPP-Signature-Certificate", value = "The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-IP-Address", value = "The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU. ", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-IP-Port", value = "The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Charset", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Encoding", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Language", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-User-Agent", value = "The forwarded Agent header field of the HTTP request between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Http-Method", value = "HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE ", allowableValues = "GET, POST, PUT, PATCH, DELETE", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Device-ID", value = "UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Geo-Location", value = "The forwarded Geo Location of the corresponding http request between PSU and TPP if available. ", dataType = "string", paramType = "header")
+    })
     @RequestMapping(value = "/v1/consents/{consentId}/status",
-        produces = { "application/json", "application/problem+json" },
-        method = RequestMethod.GET)
-    default ResponseEntity<ConsentStatusResponse200> _getConsentStatus(@ApiParam(value = "Bank code of bank to which the request addressed", required = true) @RequestHeader(value = "X-GTW-Bank-Code", required = true) String bankCode, @ApiParam(value = "ID of the corresponding consent object as returned by an Account Information Consent Request. ", required = true) @PathVariable("consentId") String consentId, @ApiParam(value = "ID of the request, unique to the call, as determined by the initiating party.", required = true) @RequestHeader(value = "X-Request-ID", required = true) UUID xRequestID, @ApiParam(value = "Is contained if and only if the \"Signature\" element is contained in the header of the request.") @RequestHeader(value = "Digest", required = false) String digest, @ApiParam(value = "A signature of the request by the TPP on application level. This might be mandated by ASPSP. ") @RequestHeader(value = "Signature", required = false) String signature, @ApiParam(value = "The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained. ") @RequestHeader(value = "TPP-Signature-Certificate", required = false) byte[] tpPSignatureCertificate, @ApiParam(value = "The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU. ") @RequestHeader(value = "PSU-IP-Address", required = false) String psUIPAddress, @ApiParam(value = "The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available. ") @RequestHeader(value = "PSU-IP-Port", required = false) String psUIPPort, @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept", required = false) String psUAccept, @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept-Charset", required = false) String psUAcceptCharset, @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept-Encoding", required = false) String psUAcceptEncoding, @ApiParam(value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ") @RequestHeader(value = "PSU-Accept-Language", required = false) String psUAcceptLanguage, @ApiParam(value = "The forwarded Agent header field of the HTTP request between PSU and TPP, if available. ") @RequestHeader(value = "PSU-User-Agent", required = false) String psUUserAgent, @ApiParam(value = "HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE ", allowableValues = "GET, POST, PUT, PATCH, DELETE") @RequestHeader(value = "PSU-Http-Method", required = false) String psUHttpMethod, @ApiParam(value = "UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device. ") @RequestHeader(value = "PSU-Device-ID", required = false) UUID psUDeviceID, @ApiParam(value = "The forwarded Geo Location of the corresponding http request between PSU and TPP if available. ") @RequestHeader(value = "PSU-Geo-Location", required = false) String psUGeoLocation) {
-        return getConsentStatus(bankCode, consentId, xRequestID, digest, signature, tpPSignatureCertificate, psUIPAddress, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
-    }
-
-    // Override this method
-    default ResponseEntity<ConsentStatusResponse200> getConsentStatus(String bankCode, String consentId, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, String psUIPAddress, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-    }
+            produces = {"application/json", "application/problem+json"},
+            method = RequestMethod.GET)
+    ResponseEntity<ConsentStatusResponse200> getConsentStatus(
+            @ApiParam(value = "ID of the corresponding consent object as returned by an Account Information Consent Request. ", required = true)
+            @PathVariable("consentId") String consentId,
+            @ApiParam(hidden = true)
+            @RequestHeader Map<String, String> headers
+    );
 
     @ApiOperation(value = "Start the authorisation process for a consent", nickname = "startConsentAuthorisation", notes = "Create an authorisation sub-resource and start the authorisation process of a consent.  The message might in addition transmit authentication and authorisation related data.  his method is iterated n times for a n times SCA authorisation in a  corporate context, each creating an own authorisation sub-endpoint for  the corresponding PSU authorising the consent.  The ASPSP might make the usage of this access method unnecessary,  since the related authorisation resource will be automatically created by  the ASPSP after the submission of the consent data with the first POST consents call.  The start authorisation process is a process which is needed for creating a new authorisation  or cancellation sub-resource.   This applies in the following scenarios:    * The ASPSP has indicated with an 'startAuthorisation' hyperlink in the preceeding Payment      Initiation Response that an explicit start of the authorisation process is needed by the TPP.      The 'startAuthorisation' hyperlink can transport more information about data which needs to be      uploaded by using the extended forms.     * 'startAuthorisationWithPsuIdentfication',      * 'startAuthorisationWithPsuAuthentication' #TODO     * 'startAuthorisationWithAuthentciationMethodSelection'    * The related payment initiation cannot yet be executed since a multilevel SCA is mandated.   * The ASPSP has indicated with an 'startAuthorisation' hyperlink in the preceeding      Payment Cancellation Response that an explicit start of the authorisation process is needed by the TPP.      The 'startAuthorisation' hyperlink can transport more information about data which needs to be uploaded      by using the extended forms as indicated above.   * The related payment cancellation request cannot be applied yet since a multilevel SCA is mandate for      executing the cancellation.   * The signing basket needs to be authorised yet. ", response = StartScaprocessResponseTO.class)
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Created", response = StartScaprocessResponseTO.class),
-        @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
-        @ApiResponse(code = 401, message = "Unauthorized", response = Error401NGAIS.class),
-        @ApiResponse(code = 403, message = "Forbidden", response = Error403NGAIS.class),
-        @ApiResponse(code = 404, message = "Not found", response = Error404NGAIS.class),
-        @ApiResponse(code = 405, message = "Method Not Allowed", response = Error405NGAIS.class),
-        @ApiResponse(code = 406, message = "Not Acceptable", response = Error406NGAIS.class),
-        @ApiResponse(code = 408, message = "Request Timeout"),
-        @ApiResponse(code = 415, message = "Unsupported Media Type"),
-        @ApiResponse(code = 429, message = "Too Many Requests", response = Error429NGAIS.class),
-        @ApiResponse(code = 500, message = "Internal Server Error"),
-        @ApiResponse(code = 503, message = "Service Unavailable") })
+            @ApiResponse(code = 201, message = "Created", response = StartScaprocessResponseTO.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
+            @ApiResponse(code = 401, message = "Unauthorized", response = Error401NGAIS.class),
+            @ApiResponse(code = 403, message = "Forbidden", response = Error403NGAIS.class),
+            @ApiResponse(code = 404, message = "Not found", response = Error404NGAIS.class),
+            @ApiResponse(code = 405, message = "Method Not Allowed", response = Error405NGAIS.class),
+            @ApiResponse(code = 406, message = "Not Acceptable", response = Error406NGAIS.class),
+            @ApiResponse(code = 408, message = "Request Timeout"),
+            @ApiResponse(code = 415, message = "Unsupported Media Type"),
+            @ApiResponse(code = 429, message = "Too Many Requests", response = Error429NGAIS.class),
+            @ApiResponse(code = 500, message = "Internal Server Error"),
+            @ApiResponse(code = 503, message = "Service Unavailable")})
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "X-GTW-Bank-Code", value = "Bank code of bank to which the request addressed", required = true, dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "X-Request-ID", value = "ID of the request, unique to the call, as determined by the initiating party.", required = true, dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "Digest", value = "Is contained if and only if the \"Signature\" element is contained in the header of the request.", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "Signature", value = "A signature of the request by the TPP on application level. This might be mandated by ASPSP. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "TPP-Signature-Certificate", value = "The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-ID", value = "Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP's documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-ID-Type", value = "Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Corporate-ID", value = "Might be mandated in the ASPSP's documentation. Only used in a corporate context. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Corporate-ID-Type", value = "Might be mandated in the ASPSP's documentation. Only used in a corporate context. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-IP-Address", value = "The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-IP-Port", value = "The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Accept", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Accept-Charset", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Accept-Encoding", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Accept-Language", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-User-Agent", value = "The forwarded Agent header field of the HTTP request between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Http-Method", value = "HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE ", allowableValues = "GET, POST, PUT, PATCH, DELETE", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Device-ID", value = "UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Geo-Location", value = "The forwarded Geo Location of the corresponding http request between PSU and TPP if available. ", dataType = "string", paramType = "header")
+            @ApiImplicitParam(name = "X-GTW-Bank-Code", value = "Bank code of bank to which the request addressed", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "X-Request-ID", value = "ID of the request, unique to the call, as determined by the initiating party.", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "Digest", value = "Is contained if and only if the \"Signature\" element is contained in the header of the request.", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "Signature", value = "A signature of the request by the TPP on application level. This might be mandated by ASPSP. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "TPP-Signature-Certificate", value = "The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-ID", value = "Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP's documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-ID-Type", value = "Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Corporate-ID", value = "Might be mandated in the ASPSP's documentation. Only used in a corporate context. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Corporate-ID-Type", value = "Might be mandated in the ASPSP's documentation. Only used in a corporate context. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-IP-Address", value = "The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-IP-Port", value = "The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Charset", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Encoding", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Language", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-User-Agent", value = "The forwarded Agent header field of the HTTP request between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Http-Method", value = "HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE ", allowableValues = "GET, POST, PUT, PATCH, DELETE", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Device-ID", value = "UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Geo-Location", value = "The forwarded Geo Location of the corresponding http request between PSU and TPP if available. ", dataType = "string", paramType = "header")
     })
     @RequestMapping(value = "/v1/consents/{consentId}/authorisations",
-        produces = { "application/json", "application/problem+json" },
-        method = RequestMethod.POST)
+            produces = {"application/json", "application/problem+json"},
+            method = RequestMethod.POST)
     ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(
             @ApiParam(value = "ID of the corresponding consent object as returned by an Account Information Consent Request. ", required = true)
             @PathVariable("consentId") String consentId,
             @ApiParam(hidden = true)
             @RequestHeader Map<String, String> headers,
-            @RequestBody(required = false) ObjectNode body);
+            @RequestBody(required = false) ObjectNode body
+    );
 
     @ApiOperation(value = "Update PSU Data for consents", nickname = "updateConsentsPsuData", notes = "This method update PSU data on the consents  resource if needed.  It may authorise a consent within the Embedded SCA Approach where needed.  Independently from the SCA Approach it supports e.g. the selection of  the authentication method and a non-SCA PSU authentication.  This methods updates PSU data on the cancellation authorisation resource if needed.   There are several possible Update PSU Data requests in the context of a consent request if needed,  which depends on the SCA approach:  * Redirect SCA Approach:   A specific Update PSU Data Request is applicable for      * the selection of authentication methods, before choosing the actual SCA approach. * Decoupled SCA Approach:   A specific Update PSU Data Request is only applicable for   * adding the PSU Identification, if not provided yet in the Payment Initiation Request or the Account Information Consent Request, or if no OAuth2 access token is used, or   * the selection of authentication methods. * Embedded SCA Approach:    The Update PSU Data Request might be used    * to add credentials as a first factor authentication data of the PSU and   * to select the authentication method and   * transaction authorisation.  The SCA Approach might depend on the chosen SCA method.  For that reason, the following possible Update PSU Data request can apply to all SCA approaches:  * Select an SCA method in case of several SCA methods are available for the customer.  There are the following request types on this access path:   * Update PSU Identification   * Update PSU Authentication   * Select PSU Autorization Method      WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change.   * Transaction Authorisation     WARNING: This method need a reduced header,      therefore many optional elements are not present.      Maybe in a later version the access path will change. ", response = Object.class)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = Object.class),
-        @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
-        @ApiResponse(code = 401, message = "Unauthorized", response = Error401NGAIS.class),
-        @ApiResponse(code = 403, message = "Forbidden", response = Error403NGAIS.class),
-        @ApiResponse(code = 404, message = "Not found", response = Error404NGAIS.class),
-        @ApiResponse(code = 405, message = "Method Not Allowed", response = Error405NGAIS.class),
-        @ApiResponse(code = 406, message = "Not Acceptable", response = Error406NGAIS.class),
-        @ApiResponse(code = 408, message = "Request Timeout"),
-        @ApiResponse(code = 415, message = "Unsupported Media Type"),
-        @ApiResponse(code = 429, message = "Too Many Requests", response = Error429NGAIS.class),
-        @ApiResponse(code = 500, message = "Internal Server Error"),
-        @ApiResponse(code = 503, message = "Service Unavailable") })
+            @ApiResponse(code = 200, message = "OK", response = Object.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = Error400NGAIS.class),
+            @ApiResponse(code = 401, message = "Unauthorized", response = Error401NGAIS.class),
+            @ApiResponse(code = 403, message = "Forbidden", response = Error403NGAIS.class),
+            @ApiResponse(code = 404, message = "Not found", response = Error404NGAIS.class),
+            @ApiResponse(code = 405, message = "Method Not Allowed", response = Error405NGAIS.class),
+            @ApiResponse(code = 406, message = "Not Acceptable", response = Error406NGAIS.class),
+            @ApiResponse(code = 408, message = "Request Timeout"),
+            @ApiResponse(code = 415, message = "Unsupported Media Type"),
+            @ApiResponse(code = 429, message = "Too Many Requests", response = Error429NGAIS.class),
+            @ApiResponse(code = 500, message = "Internal Server Error"),
+            @ApiResponse(code = 503, message = "Service Unavailable")})
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "X-GTW-Bank-Code", value = "Bank code of bank to which the request addressed", required = true, dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "X-Request-ID", value = "ID of the request, unique to the call, as determined by the initiating party.", required = true, dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "Digest", value = "Is contained if and only if the \"Signature\" element is contained in the header of the request.", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "Signature", value = "A signature of the request by the TPP on application level. This might be mandated by ASPSP. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "TPP-Signature-Certificate", value = "The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-ID", value = "Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP's documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-ID-Type", value = "Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Corporate-ID", value = "Might be mandated in the ASPSP's documentation. Only used in a corporate context. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Corporate-ID-Type", value = "Might be mandated in the ASPSP's documentation. Only used in a corporate context. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-IP-Address", value = "The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-IP-Port", value = "The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Accept", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Accept-Charset", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Accept-Encoding", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Accept-Language", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-User-Agent", value = "The forwarded Agent header field of the HTTP request between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Http-Method", value = "HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE ", allowableValues = "GET, POST, PUT, PATCH, DELETE", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Device-ID", value = "UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device. ", dataType = "string", paramType = "header"),
-        @ApiImplicitParam(name = "PSU-Geo-Location", value = "The forwarded Geo Location of the corresponding http request between PSU and TPP if available. ", dataType = "string", paramType = "header")
+            @ApiImplicitParam(name = "X-GTW-Bank-Code", value = "Bank code of bank to which the request addressed", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "X-Request-ID", value = "ID of the request, unique to the call, as determined by the initiating party.", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "Digest", value = "Is contained if and only if the \"Signature\" element is contained in the header of the request.", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "Signature", value = "A signature of the request by the TPP on application level. This might be mandated by ASPSP. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "TPP-Signature-Certificate", value = "The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-ID", value = "Client ID of the PSU in the ASPSP client interface. Might be mandated in the ASPSP's documentation. Is not contained if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceeding AIS service in the same session. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-ID-Type", value = "Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Corporate-ID", value = "Might be mandated in the ASPSP's documentation. Only used in a corporate context. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Corporate-ID-Type", value = "Might be mandated in the ASPSP's documentation. Only used in a corporate context. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-IP-Address", value = "The forwarded IP Address header field consists of the corresponding HTTP request  IP Address field between PSU and TPP.  It shall be contained if and only if this request was actively initiated by the PSU. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-IP-Port", value = "The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Charset", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Encoding", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Accept-Language", value = "The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-User-Agent", value = "The forwarded Agent header field of the HTTP request between PSU and TPP, if available. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Http-Method", value = "HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE ", allowableValues = "GET, POST, PUT, PATCH, DELETE", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Device-ID", value = "UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device. ", dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "PSU-Geo-Location", value = "The forwarded Geo Location of the corresponding http request between PSU and TPP if available. ", dataType = "string", paramType = "header")
     })
     @RequestMapping(value = "/v1/consents/{consentId}/authorisations/{authorisationId}",
-        produces = { "application/json", "application/problem+json" },
-        consumes = { "application/json" },
-        method = RequestMethod.PUT)
+            produces = {"application/json", "application/problem+json"},
+            consumes = {"application/json"},
+            method = RequestMethod.PUT)
     ResponseEntity<Object> updateConsentsPsuData(
             @ApiParam(value = "ID of the corresponding consent object as returned by an Account Information Consent Request.", required = true)
             @PathVariable("consentId") String consentId,
@@ -332,6 +379,7 @@ public interface ConsentApi {
             @PathVariable("authorisationId") String authorisationId,
             @ApiParam(hidden = true)
             @RequestHeader Map<String, String> headers,
-            @RequestBody ObjectNode body);
+            @RequestBody ObjectNode body
+    );
 }
 

@@ -26,45 +26,56 @@ import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
 import de.adorsys.xs2a.gateway.service.model.*;
 
 public interface AccountInformationService {
-    GeneralResponse<ConsentCreationResponse> createConsent(Consents body, RequestHeaders requestHeaders);
+    GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                           Consents body);
 
-    GeneralResponse<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders);
+    GeneralResponse<ConsentInformation> getConsentInformation(String consentId,
+                                                              RequestHeaders requestHeaders);
 
-    GeneralResponse<ConsentStatusResponse> getConsentStatus(String consentId, RequestHeaders requestHeaders);
+    GeneralResponse<ConsentStatusResponse> getConsentStatus(String consentId,
+                                                            RequestHeaders requestHeaders);
 
-    GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders);
+    GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders);
 
-    GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication);
+    GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       UpdatePsuAuthentication updatePsuAuthentication);
 
-    GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(
-            String consentId,
-            String authorisationId,
-            RequestHeaders requestHeaders,
-            SelectPsuAuthenticationMethod selectPsuAuthenticationMethod);
+    GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
+                                                                                 String authorisationId,
+                                                                                 RequestHeaders requestHeaders,
+                                                                                 SelectPsuAuthenticationMethod selectPsuAuthenticationMethod);
 
-    GeneralResponse<ScaStatusResponse> updateConsentsPsuData(
-            String consentId,
-            String authorisationId,
-            RequestHeaders requestHeaders,
-            TransactionAuthorisation transactionAuthorisation);
+    GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String consentId,
+                                                             String authorisationId,
+                                                             RequestHeaders requestHeaders,
+                                                             TransactionAuthorisation transactionAuthorisation);
 
-    GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(
-            String consentId,
-            String authorisationId,
-            RequestHeaders requestHeaders,
-            UpdatePsuAuthentication updatePsuAuthentication
+    GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
+                                                                           String authorisationId,
+                                                                           RequestHeaders requestHeaders,
+                                                                           UpdatePsuAuthentication updatePsuAuthentication
     );
 
-    GeneralResponse<AccountListHolder> getAccountList(RequestHeaders requestHeaders, RequestParams requestParams);
+    GeneralResponse<AccountListHolder> getAccountList(RequestHeaders requestHeaders,
+                                                      RequestParams requestParams);
 
     /**
      * @throws de.adorsys.xs2a.gateway.service.exception.NotAcceptableException if response content type is not json
      */
-    GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams);
+    GeneralResponse<TransactionsReport> getTransactionList(String accountId,
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams);
 
-    GeneralResponse<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams);
+    GeneralResponse<String> getTransactionListAsString(String accountId,
+                                                       RequestHeaders requestHeaders,
+                                                       RequestParams requestParams);
 
-    GeneralResponse<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, RequestHeaders requestHeaders);
+    GeneralResponse<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                           String authorisationId,
+                                                           RequestHeaders requestHeaders);
 
-    GeneralResponse<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders);
+    GeneralResponse<BalanceReport> getBalances(String accountId,
+                                               RequestHeaders requestHeaders);
 }

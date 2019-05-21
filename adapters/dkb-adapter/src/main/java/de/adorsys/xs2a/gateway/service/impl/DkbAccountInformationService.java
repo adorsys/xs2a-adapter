@@ -43,8 +43,8 @@ public class DkbAccountInformationService extends BaseAccountInformationService 
     }
 
     @Override
-    public GeneralResponse<ConsentCreationResponse> createConsent(Consents body, RequestHeaders requestHeaders) {
-        return createConsent(body, requestHeaders, DkbConsentCreationResponse.class, creationResponseMapper::toConsentCreationResponse);
+    public GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
+        return createConsent(requestHeaders, body, DkbConsentCreationResponse.class, creationResponseMapper::toConsentCreationResponse);
     }
 
     @Override

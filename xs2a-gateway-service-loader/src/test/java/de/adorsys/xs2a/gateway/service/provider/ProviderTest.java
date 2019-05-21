@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.gateway.service.provider;
 
+import de.adorsys.xs2a.gateway.service.exception.BankNotSupportedException;
 import org.junit.Test;
 
 import java.util.ServiceLoader;
