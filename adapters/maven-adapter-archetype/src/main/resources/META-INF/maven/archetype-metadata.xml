@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0 http://maven.apache.org/xsd/archetype-descriptor-1.0.0.xsd" name="dkb-adapter"
+    xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <requiredProperties>
+    <requiredProperty key="groupId">
+      <defaultValue>de.adorsys.xs2a.gateway</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="artifactId">
+      <validationRegex>.{2,}-adapter</validationRegex>
+    </requiredProperty>
+    <requiredProperty key="version">
+      <defaultValue>0.1-SNAPSHOT</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="package">
+      <defaultValue>de.adorsys.xs2a.gateway</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="classNamePrefix"/>
+    <requiredProperty key="baseUri"/>
+    <requiredProperty key="bankCode"/>
+  </requiredProperties>
+  <fileSets>
+    <fileSet filtered="true" packaged="true" encoding="UTF-8">
+      <directory>src/main/java</directory>
+      <includes>
+        <include>**/*.java</include>
+      </includes>
+    </fileSet>
+    <fileSet packaged="true" encoding="UTF-8">
+      <directory>src/main/java</directory>
+      <includes>
+        <include>**/*.class</include>
+      </includes>
+    </fileSet>
+    <fileSet filtered="true" encoding="UTF-8">
+      <directory>src/main/resources</directory>
+      <includes>
+        <include>**/*.PaymentInitiationServiceProvider</include>
+        <include>**/*.AccountInformationServiceProvider</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+</archetype-descriptor>
