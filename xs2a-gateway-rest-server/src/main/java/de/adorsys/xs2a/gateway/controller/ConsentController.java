@@ -62,11 +62,11 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
-    public ResponseEntity<ConsentsResponse201> createConsent(ConsentsTO body, Map<String, String> headers) {
+    public ResponseEntity<ConsentsResponse201> createConsent(Map<String, String> headers, ConsentsTO body) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         Consents consents = consentMapper.toConsents(body);
 
-        GeneralResponse<ConsentCreationResponse> response = accountInformationService.createConsent(consents, requestHeaders);
+        GeneralResponse<ConsentCreationResponse> response = accountInformationService.createConsent(requestHeaders, consents);
 
         return ResponseEntity
                        .status(HttpStatus.CREATED)

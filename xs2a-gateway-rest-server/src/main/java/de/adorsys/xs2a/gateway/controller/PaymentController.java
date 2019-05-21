@@ -37,10 +37,10 @@ public class PaymentController extends AbstractController implements PaymentApi 
     }
 
     @Override
-    public ResponseEntity<Object> initiatePayment(Object body, String paymentProduct, Map<String, String> headers) {
+    public ResponseEntity<Object> initiatePayment(String paymentProduct, Map<String, String> headers, Object body) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
-        GeneralResponse<PaymentInitiationRequestResponse> response = this.paymentService.initiateSinglePayment(paymentProduct, body, requestHeaders);
+        GeneralResponse<PaymentInitiationRequestResponse> response = this.paymentService.initiateSinglePayment(paymentProduct, requestHeaders, body);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                        .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
@@ -51,7 +51,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
     public ResponseEntity<Object> initiatePayment(String paymentProduct, Map<String, String> headers, String body) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
-        GeneralResponse<PaymentInitiationRequestResponse> response = paymentService.initiateSinglePayment(paymentProduct, body, requestHeaders);
+        GeneralResponse<PaymentInitiationRequestResponse> response = paymentService.initiateSinglePayment(paymentProduct, requestHeaders, body);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))

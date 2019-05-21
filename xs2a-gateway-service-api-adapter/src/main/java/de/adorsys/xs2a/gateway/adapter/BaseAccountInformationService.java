@@ -41,7 +41,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public GeneralResponse<ConsentCreationResponse> createConsent(Consents body, RequestHeaders requestHeaders) {
+    public GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
 
         String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
@@ -50,7 +50,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                jsonResponseHandler(ConsentCreationResponse.class));
     }
 
-    protected <T> GeneralResponse<ConsentCreationResponse> createConsent(Consents body, RequestHeaders requestHeaders, Class<T> klass, Function<T, ConsentCreationResponse> mapper){
+    protected <T> GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body, Class<T> klass, Function<T, ConsentCreationResponse> mapper){
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
 
         String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));

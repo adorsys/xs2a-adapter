@@ -34,7 +34,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, Object body, RequestHeaders requestHeaders) {
+    public GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, RequestHeaders requestHeaders, Object body) {
         return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct), body, requestHeaders);
     }
 

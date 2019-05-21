@@ -60,7 +60,9 @@ public interface AccountApi {
             @ApiParam(value = "If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.  ")
             @Valid
             @RequestParam(value = "withBalance", required = false) Boolean withBalance,
-            @RequestHeader Map<String, String> headers);
+            @ApiParam(hidden = true)
+            @RequestHeader Map<String, String> headers
+    );
 
     @ApiOperation(value = "Read Balance", nickname = "getBalances", notes = "Reads account data from a given account addressed by \"account-id\".   **Remark:** This account-id can be a tokenised identification due to data protection reason since the path  information might be logged on intermediary servers within the ASPSP sphere.  This account-id then can be retrieved by the \"GET Account List\" call.  The account-id is constant at least throughout the lifecycle of a given consent. ", response = ReadAccountBalanceResponse200TO.class)
     @ApiResponses(value = {
@@ -100,7 +102,9 @@ public interface AccountApi {
     ResponseEntity<ReadAccountBalanceResponse200TO> getBalances(
             @ApiParam(value = "This identification is denoting the addressed account.  The account-id is retrieved by using a \"Read Account List\" call.  The account-id is the \"id\" attribute of the account structure.  Its value is constant at least throughout the lifecycle of a given consent. ", required = true)
             @PathVariable("account-id") String accountId,
-            @RequestHeader Map<String, String> headers);
+            @ApiParam(hidden = true)
+            @RequestHeader Map<String, String> headers
+    );
 
     @ApiOperation(value = "Read Transaction Details", nickname = "getTransactionDetails", notes = "Reads transaction details from a given transaction addressed by \"resourceId\" on a given account addressed by \"account-id\".  This call is only available on transactions as reported in a JSON format.  **Remark:** Please note that the PATH might be already given in detail by the corresponding entry of the response of the  \"Read Transaction List\" call within the _links subfield. ", response = TransactionDetails.class)
     @ApiResponses(value = {
@@ -142,6 +146,7 @@ public interface AccountApi {
             @PathVariable("account-id") String accountId,
             @ApiParam(value = "This identification is given by the attribute resourceId of the corresponding entry of a transaction list. ", required = true)
             @PathVariable("resourceId") String resourceId,
+            @ApiParam(hidden = true)
             @RequestHeader Map<String, String> headers) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
@@ -198,7 +203,9 @@ public interface AccountApi {
             @RequestParam(value = "deltaList", required = false) Boolean deltaList,
             @ApiParam(value = "If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.  ")
             @RequestParam(value = "withBalance", required = false) Boolean withBalance,
-            @RequestHeader Map<String, String> headers);
+            @ApiParam(hidden = true)
+            @RequestHeader Map<String, String> headers
+    );
 
     @ApiOperation(value = "Read Account Details", nickname = "readAccountDetails", notes = "Reads details about an account, with balances where required.  It is assumed that a consent of the PSU to  this access is already given and stored on the ASPSP system.  The addressed details of this account depends then on the stored consent addressed by consentId,  respectively the OAuth2 access token.  **NOTE:** The account-id can represent a multicurrency account.  In this case the currency code is set to \"XXX\".  Give detailed information about the addressed account.  Give detailed information about the addressed account together with balance information ", response = AccountDetailsTO.class)
     @ApiResponses(value = {
@@ -241,6 +248,7 @@ public interface AccountApi {
             @ApiParam(value = "If contained, this function reads the list of accessible payment accounts including the booking balance,  if granted by the PSU in the related consent and available by the ASPSP.  This parameter might be ignored by the ASPSP.  ")
             @Valid
             @RequestParam(value = "withBalance", required = false) Boolean withBalance,
+            @ApiParam(hidden = true)
             @RequestHeader Map<String, String> headers) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }

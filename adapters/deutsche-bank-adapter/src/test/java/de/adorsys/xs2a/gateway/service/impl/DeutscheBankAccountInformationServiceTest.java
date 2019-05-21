@@ -39,7 +39,7 @@ public class DeutscheBankAccountInformationServiceTest {
                 any()
         )).thenReturn(new GeneralResponse(HTTP_CODE_200, new ConsentCreationResponse(), ResponseHeaders.fromMap(Collections.emptyMap())));
 
-        service.createConsent(new Consents(), RequestHeaders.fromMap(Collections.emptyMap()));
+        service.createConsent(RequestHeaders.fromMap(Collections.emptyMap()), new Consents());
 
         verify(httpClient, times(1)).post(
                 eq(CONSENT_URL),

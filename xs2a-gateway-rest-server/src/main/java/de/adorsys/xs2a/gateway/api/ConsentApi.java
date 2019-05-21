@@ -71,10 +71,11 @@ public interface ConsentApi {
             produces = {"application/json", "application/problem+json"},
             method = RequestMethod.POST)
     ResponseEntity<ConsentsResponse201> createConsent(
-            @ApiParam(value = "Requestbody for a consents request ")
+            @ApiParam(hidden = true)
+            @RequestHeader Map<String, String> headers,
+            @ApiParam(value = "Requestbody for a consents request")
             @Valid
-            @RequestBody ConsentsTO body,
-            @RequestHeader Map<String, String> headers
+            @RequestBody ConsentsTO body
     );
 
     @ApiOperation(value = "Delete Consent", nickname = "deleteConsent", notes = "The TPP can delete an account information consent object if needed.")
@@ -114,6 +115,7 @@ public interface ConsentApi {
     default ResponseEntity<Void> deleteConsent(
             @ApiParam(value = "ID of the corresponding consent object as returned by an Account Information Consent Request. ", required = true)
             @PathVariable("consentId") String consentId,
+            @ApiParam(hidden = true)
             @RequestHeader Map<String, String> headers) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
@@ -155,8 +157,8 @@ public interface ConsentApi {
     default ResponseEntity<Authorisations> getConsentAuthorisation(
             @ApiParam(value = "ID of the corresponding consent object as returned by an Account Information Consent Request. ", required = true)
             @PathVariable("consentId") String consentId,
-            @RequestHeader Map<String, String> headers
-    ) {
+            @ApiParam(hidden = true)
+            @RequestHeader Map<String, String> headers) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
@@ -197,6 +199,7 @@ public interface ConsentApi {
     ResponseEntity<ConsentInformationResponse200Json> getConsentInformation(
             @ApiParam(value = "ID of the corresponding consent object as returned by an Account Information Consent Request. ", required = true)
             @PathVariable("consentId") String consentId,
+            @ApiParam(hidden = true)
             @RequestHeader Map<String, String> headers
     );
 
@@ -239,6 +242,7 @@ public interface ConsentApi {
             @PathVariable("consentId") String consentId,
             @ApiParam(value = "Resource identification of the related SCA.", required = true)
             @PathVariable("authorisationId") String authorisationId,
+            @ApiParam(hidden = true)
             @RequestHeader Map<String, String> headers
     );
 
@@ -279,6 +283,7 @@ public interface ConsentApi {
     ResponseEntity<ConsentStatusResponse200> getConsentStatus(
             @ApiParam(value = "ID of the corresponding consent object as returned by an Account Information Consent Request. ", required = true)
             @PathVariable("consentId") String consentId,
+            @ApiParam(hidden = true)
             @RequestHeader Map<String, String> headers
     );
 

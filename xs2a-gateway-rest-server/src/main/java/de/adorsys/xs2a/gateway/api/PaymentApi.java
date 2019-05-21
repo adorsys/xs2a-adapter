@@ -78,6 +78,7 @@ public interface PaymentApi {
             @PathVariable("payment-product") String paymentProduct,
             @ApiParam(value = "Resource identification of the generated payment initiation resource.", required = true)
             @PathVariable("paymentId") String paymentId,
+            @ApiParam(hidden = true)
             @RequestHeader Map<String, String> headers
     );
 
@@ -122,6 +123,7 @@ public interface PaymentApi {
             @PathVariable("payment-product") String paymentProduct,
             @ApiParam(value = "Resource identification of the generated payment initiation resource.", required = true)
             @PathVariable("paymentId") String paymentId,
+            @ApiParam(hidden = true)
             @RequestHeader Map<String, String> headers
     );
 
@@ -168,6 +170,7 @@ public interface PaymentApi {
             @PathVariable("paymentId") String paymentId,
             @ApiParam(value = "Resource identification of the related SCA.", required = true)
             @PathVariable("authorisationId") String authorisationId,
+            @ApiParam(hidden = true)
             @RequestHeader Map<String, String> headers
     );
 
@@ -210,6 +213,7 @@ public interface PaymentApi {
             @PathVariable("payment-product") String paymentProduct,
             @ApiParam(value = "Resource identification of the generated payment initiation resource.", required = true)
             @PathVariable("paymentId") String paymentId,
+            @ApiParam(hidden = true)
             @RequestHeader Map<String, String> headers
     );
 
@@ -259,12 +263,13 @@ public interface PaymentApi {
             consumes = {"application/json"},
             method = RequestMethod.POST)
     ResponseEntity<Object> initiatePayment(
-            @ApiParam(value = "JSON request body for a payment inition request message   There are the following payment-products supported:   * \"sepa-credit-transfers\" with JSON-Body   * \"instant-sepa-credit-transfers\" with JSON-Body   * \"target-2-payments\" with JSON-Body   * \"cross-border-credit-transfers\" with JSON-Body   * \"pain.001-sepa-credit-transfers\" with XML pain.001.001.03 body for SCT scheme   * \"pain.001-instant-sepa-credit-transfers\" with XML pain.001.001.03 body for SCT INST scheme   * \"pain.001-target-2-payments\" with pain.001 body.      Only country specific schemes are currently available   * \"pain.001-cross-border-credit-transfers\" with pain.001 body.      Only country specific schemes are currently available    There are the following payment-services supported:   * \"payments\"   * \"periodic-payments\"   * \"bulk-paments\"  All optional, conditional and predefined but not yet used fields are defined. ", required = true)
-            @Valid
-            @RequestBody Object body,
             @ApiParam(value = "The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding,  the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content.  Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist.  There are plenty of country specificic scheme variants. ", required = true, allowableValues = "\"sepa-credit-transfers\", \"instant-sepa-credit-transfers\", \"target-2-payments\", \"cross-border-credit-transfers\", \"pain.001-sepa-credit-transfers\", \"pain.001-instant-sepa-credit-transfers\", \"pain.001-target-2-payments\", \"pain.001-cross-border-credit-transfers\"")
             @PathVariable("payment-product") String paymentProduct,
-            @RequestHeader Map<String, String> headers
+            @ApiParam(hidden = true)
+            @RequestHeader Map<String, String> headers,
+            @ApiParam(value = "JSON request body for a payment inition request message   There are the following payment-products supported:   * \"sepa-credit-transfers\" with JSON-Body   * \"instant-sepa-credit-transfers\" with JSON-Body   * \"target-2-payments\" with JSON-Body   * \"cross-border-credit-transfers\" with JSON-Body   * \"pain.001-sepa-credit-transfers\" with XML pain.001.001.03 body for SCT scheme   * \"pain.001-instant-sepa-credit-transfers\" with XML pain.001.001.03 body for SCT INST scheme   * \"pain.001-target-2-payments\" with pain.001 body.      Only country specific schemes are currently available   * \"pain.001-cross-border-credit-transfers\" with pain.001 body.      Only country specific schemes are currently available    There are the following payment-services supported:   * \"payments\"   * \"periodic-payments\"   * \"bulk-paments\"  All optional, conditional and predefined but not yet used fields are defined. ", required = true)
+            @Valid
+            @RequestBody Object body
     );
 
     @ApiOperation(value = "Payment initiation request", nickname = "initiatePayment", notes = "This method is used to initiate a payment at the ASPSP.  ## Variants of Payment Initiation Requests  This method to initiate a payment initiation at the ASPSP can be sent with either a JSON body or an pain.001 body depending on the payment product in the path.  There are the following **payment products**:    - Payment products with payment information in *JSON* format:     - ***sepa-credit-transfers***     - ***instant-sepa-credit-transfers***     - ***target-2-payments***     - ***cross-border-credit-transfers***   - Payment products with payment information in *pain.001* XML format:     - ***pain.001-sepa-credit-transfers***     - ***pain.001-instant-sepa-credit-transfers***     - ***pain.001-target-2-payments***     - ***pain.001-cross-border-credit-transfers***  Furthermore the request body depends on the **payment-service**   * ***payments***: A single payment initiation request.   * ***bulk-payments***: A collection of several payment iniatiation requests.        In case of a *pain.001* message there are more than one payments contained in the *pain.001 message.          In case of a *JSON* there are several JSON payment blocks contained in a joining list.   * ***periodic-payments***:      Create a standing order initiation resource for recurrent i.e. periodic payments addressable under {paymentId}       with all data relevant for the corresponding payment product and the execution of the standing order contained in a JSON body.   This is the first step in the API to initiate the related recurring/periodic payment.    ## Single and mulitilevel SCA Processes  The Payment Initiation Requests are independent from the need of one ore multilevel  SCA processing, i.e. independent from the number of authorisations needed for the execution of payments.   But the response messages are specific to either one SCA processing or multilevel SCA processing.   For payment initiation with multilevel SCA, this specification requires an explicit start of the authorisation,  i.e. links directly associated with SCA processing like 'scaRedirect' or 'scaOAuth' cannot be contained in the  response message of a Payment Initation Request for a payment, where multiple authorisations are needed.  Also if any data is needed for the next action, like selecting an SCA method is not supported in the response,  since all starts of the multiple authorisations are fully equal.  In these cases, first an authorisation sub-resource has to be generated following the 'startAuthorisation' link. ", response = Object.class)
@@ -419,6 +424,7 @@ public interface PaymentApi {
             @PathVariable("paymentId") String paymentId,
             @ApiParam(value = "Resource identification of the related SCA.", required = true)
             @PathVariable("authorisationId") String authorisationId,
+            @ApiParam(hidden = true)
             @RequestHeader Map<String, String> headers,
             @RequestBody ObjectNode body
     );
