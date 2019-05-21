@@ -8,6 +8,7 @@
 - enter **artifactId** ex. *commerz-bank-adapter*
 - enter **bankCode** ex. *10040000*
 - enter **baseUri** ex. *https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/*
+- enter **classNamePrefix** ex. *CommerzBank*
 
 After these steps adapter module will be generated. 
 

@@ -17,14 +17,12 @@
  * limitations under the License.
  */
 
-package ${package}.provider;
+package ${package}.service.provider;
 
 import ${package}.adapter.BaseAccountInformationService;
 import ${package}.adapter.BasePaymentInitiationService;
 import ${package}.service.PaymentInitiationService;
 import ${package}.service.ais.AccountInformationService;
-import ${package}.service.provider.AccountInformationServiceProvider;
-import ${package}.service.provider.PaymentInitiationServiceProvider;
 
 import java.util.Collections;
 import java.util.HashSet;
