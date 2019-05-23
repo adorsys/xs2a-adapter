@@ -47,7 +47,7 @@ If you want to install our *xs2a-gateway* as standalone application, you need ju
 * cd xs2a-gateway-app/target/
 * java -jar xs2a-gateway-app.jar
 
-Application will be available by address http://localhost:8081/swagger-ui.html
+Application will be available by address http://localhost:8999/swagger-ui.html
 
 ### How to write your own adapter
 Read this short [guideline](/docs/Adapter.md) to get more details
