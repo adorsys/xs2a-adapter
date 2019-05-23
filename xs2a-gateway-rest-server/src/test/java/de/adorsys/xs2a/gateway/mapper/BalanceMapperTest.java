@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import static de.adorsys.xs2a.gateway.mapper.AmountMapperTest.buildAmount;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BalanceMapperTest {
     private static final Amount AMOUNT = buildAmount();
     private static final BalanceType BALANCE_TYPE = BalanceType.AUTHORISED;
-    private static final LocalDateTime LAST_CHANGE_DATE_TIME = LocalDateTime.now();
+    private static final ZonedDateTime LAST_CHANGE_DATE_TIME = ZonedDateTime.now();
     private static final LocalDate REFERENCE_DATE = LocalDate.now();
     private static final String LAST_COMMITTED_TRANSACTION = "lastCommittedTransaction";
 
