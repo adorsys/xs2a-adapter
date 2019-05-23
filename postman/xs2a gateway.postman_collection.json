@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b5de688d-db9c-470e-af45-2b41f58240e6",
+		"_postman_id": "d195bca0-197d-4fa4-82d9-66a50f25288c",
 		"name": "xs2a gateway",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -12,22 +12,9 @@
 					"name": "AIS/Consents/Create/006",
 					"event": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"id": "73ea2b3e-dab0-4b72-8039-c7a0c29c9fe9",
-								"exec": [
-									"const date = new Date();",
-									"date.setDate(date.getDate() + 1);",
-									"const tomorrow = date.toISOString().split(\"T\")[0];",
-									"pm.globals.set(\"validUntil\", tomorrow);"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
 							"listen": "test",
 							"script": {
-								"id": "899ea327-3ff9-49df-be3e-9c4e1baa6703",
+								"id": "53b1f9f6-c902-4b09-b746-9ce756fe1120",
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"   ",
@@ -39,7 +26,15 @@
 									"    pm.expect(jsonData.consentStatus).to.eql(\"received\");",
 									"});",
 									"",
-									"if (jsonData._links.startAuthorisationWithPsuAuthentication) {",
+									"if (jsonData._links.updatePsuAuthentication) {",
+									"    var updatePsuAuthentication = jsonData._links.updatePsuAuthentication.href;",
+									"    var matches = updatePsuAuthentication.match(/authorisations\\/(.+)/);",
+									"    if (matches && matches[1]) {",
+									"        var authorisationId = matches[1];",
+									"        pm.globals.set(\"authorisationId\", authorisationId);",
+									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3\");",
+									"    }",
+									"} else if (jsonData._links.startAuthorisationWithPsuAuthentication) {",
 									"    var startAuthorisationWithPsuAuthenticationUri = jsonData._links.startAuthorisationWithPsuAuthentication.href;",
 									"    var matches = startAuthorisationWithPsuAuthenticationUri.match(/authorisations\\/(.+)/);",
 									"    if (matches && matches[1]) {",
@@ -60,6 +55,19 @@
 									"}",
 									"",
 									"pm.globals.set(\"consentId\", pm.response.json().consentId);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "7b23c8d5-9e12-4ff9-8e15-00edbc2ec369",
+								"exec": [
+									"const date = new Date();",
+									"date.setDate(date.getDate() + 1);",
+									"const tomorrow = date.toISOString().split(\"T\")[0];",
+									"pm.globals.set(\"validUntil\", tomorrow);"
 								],
 								"type": "text/javascript"
 							}
@@ -151,10 +159,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents/{{consentId}}",
 							"host": [
@@ -205,10 +209,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents/{{consentId}}/status",
 							"host": [
@@ -246,10 +246,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{scaRedirect}}?psu-id=PSU-Successful",
 							"host": [
@@ -641,10 +637,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations/{{authorisationId}}",
 							"host": [
@@ -708,10 +700,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{baseUri}}/v1/accounts?withBalance=true",
 							"host": [
@@ -774,12 +762,13 @@
 								"key": "X-GTW-Bank-Code",
 								"value": "{{bankCode}}",
 								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{baseUri}}/v1/accounts/{{accountId}}/transactions?dateFrom=1970-01-01&bookingStatus=both&withBalance=true",
 							"host": [
@@ -847,12 +836,13 @@
 								"key": "X-GTW-Bank-Code",
 								"value": "{{bankCode}}",
 								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{baseUri}}/v1/accounts/{{accountId}}/transactions?dateFrom=1970-01-01&bookingStatus=both&withBalance=true",
 							"host": [
@@ -962,7 +952,15 @@
 									"",
 									"pm.globals.set(\"paymentId\", pm.response.json().paymentId);",
 									"",
-									"if (jsonData._links.scaRedirect) {",
+									"if (jsonData._links.updatePsuAuthentication) {",
+									"    var updatePsuAuthentication = jsonData._links.updatePsuAuthentication.href;",
+									"    var matches = updatePsuAuthentication.match(/authorisations\\/(.+)/);",
+									"    if (matches && matches[1]) {",
+									"        var authorisationId = matches[1];",
+									"        pm.globals.set(\"authorisationId\", authorisationId);",
+									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers\");",
+									"    }",
+									"} else if (jsonData._links.scaRedirect) {",
 									"    var scaRedirect = jsonData._links.scaRedirect.href;",
 									"    pm.globals.set(\"scaRedirect\", scaRedirect);",
 									"}"
@@ -1059,10 +1057,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/status",
 							"host": [
@@ -1556,10 +1550,6 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/status",
 							"host": [
@@ -1677,10 +1667,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{scaRedirect}}?psu-id=PSU-Successful",
 							"host": [
