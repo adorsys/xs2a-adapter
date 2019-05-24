@@ -37,9 +37,9 @@ clean-java-services: ## Clean services temp files
 test: postman-scipts ## Run postman scripts
 
 postman-scipts: ## Run postman scripts for adorsys sandbox
-	newman run postman/xs2a\ gateway.postman_collection.json \
-          -d postman/adorsys.adapter.postman_data.json \
+	newman run postman/xs2a-gateway-adorsys-sandbox-local.postman_collection.json \
+		  -e "postman/xs2a gateway (adorsys-integ).postman_environment.json" \
           --global-var "baseUri=http://localhost:8999" \
           --folder AIS \
-          --folder sepa-credit-transfers \
+          --folder PIS \
           --timeout-request 3000
