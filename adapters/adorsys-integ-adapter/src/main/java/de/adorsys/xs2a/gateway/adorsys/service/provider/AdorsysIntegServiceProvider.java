@@ -29,7 +29,8 @@ import java.util.Set;
 
 public class AdorsysIntegServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
-    private static final String BASE_URI = "http://localhost:8089/v1";
+    private static final String DEFAULT_BASE_URI = "http://localhost:8089/v1";
+    private static final String BASE_URI_ENV = "adorsys-integ.base_uri";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("adorsys-integ")));
     private AccountInformationService accountInformationService;
     private BasePaymentInitiationService paymentInitiationService;
@@ -42,7 +43,7 @@ public class AdorsysIntegServiceProvider implements AccountInformationServicePro
     @Override
     public PaymentInitiationService getPaymentInitiationService() {
         if (paymentInitiationService == null) {
-            paymentInitiationService = new BasePaymentInitiationService(BASE_URI);
+            paymentInitiationService = new BasePaymentInitiationService(getBaseUri());
         }
         return paymentInitiationService;
     }
@@ -50,8 +51,13 @@ public class AdorsysIntegServiceProvider implements AccountInformationServicePro
     @Override
     public AccountInformationService getAccountInformationService() {
         if (accountInformationService == null) {
-            accountInformationService = new BaseAccountInformationService(BASE_URI);
+            accountInformationService = new BaseAccountInformationService(getBaseUri());
         }
         return accountInformationService;
+    }
+
+    private static String getBaseUri() {
+        String baseUri = System.getenv(BASE_URI_ENV);
+        return baseUri == null || baseUri.trim().isEmpty() ? DEFAULT_BASE_URI : baseUri.trim();
     }
 }

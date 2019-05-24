@@ -1,15 +1,24 @@
 .PHONY: all run clean test
-DEPENDENCIES = java mvn npm newman
+DEPENDENCIES = java mvn docker npm newman
 
-all: build-xs2a-gateway ## Build all services
+all: build-artifacts build-image ## Build all services
 
 ## Run section ##
 run: all ## Run xs2a-gateway as spring boot app locally
-	java -jar ./xs2a-gateway-app/target/xs2a-gateway-app.jar
+	docker run -d \
+		-p 8999:8081 \
+		-e adorsys-integ.base_uri=http://xs2a-connector-examples:8089/v1 \
+		--network xs2a-sandbox_xs2a-net \
+		--name xs2a-gateway \
+		adorsys/xs2a-gateway
 
 ## Build section ##
-build-xs2a-gateway: ## Build xs2a-gateway
+build-artifacts: ## Build xs2a-gateway
 	mvn -DskipTests clean package
+
+## Build image ##
+build-image: ## Build docker image of xs2a-gateway
+	docker build . -t adorsys/xs2a-gateway
 
 ## Check section ##
 check: ## Check required dependencies ("@:" hides nothing to be done for...)
@@ -21,6 +30,8 @@ clean: clean-java-services ## Clean everything
 
 clean-java-services: ## Clean services temp files
 	mvn clean
+	docker stop xs2a-gateway
+	docker rm xs2a-gateway
 
 ## Test section ##
 test: postman-scipts ## Run postman scripts
