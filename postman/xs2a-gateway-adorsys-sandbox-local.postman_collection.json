@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "434ac5ea-3bcc-4e3e-92f0-f38fcfaae19a",
-		"name": "xs2a gateway custom naming",
+		"name": "xs2a-gateway-adorsys-sandbox-local",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -26,24 +26,12 @@
 									"    pm.expect(jsonData.consentStatus).to.eql(\"received\");",
 									"});",
 									"",
-									"if (jsonData._links.updatePsuAuthentication) {",
-									"    var updatePsuAuthentication = jsonData._links.updatePsuAuthentication.href;",
-									"    var matches = updatePsuAuthentication.match(/authorisations\\/(.+)/);",
-									"    if (matches && matches[1]) {",
-									"        var authorisationId = matches[1];",
-									"        pm.globals.set(\"authorisationId\", authorisationId);",
-									"        postman.setNextRequest(\"05_Update_PSU_data_Send_PSU_password\");",
-									"    }",
-									"} else if (jsonData._links.startAuthorisationWithPsuAuthentication) {",
-									"    var startAuthorisationWithPsuAuthenticationUri = jsonData._links.startAuthorisationWithPsuAuthentication.href;",
-									"    var matches = startAuthorisationWithPsuAuthenticationUri.match(/authorisations\\/(.+)/);",
-									"    if (matches && matches[1]) {",
-									"        var authorisationId = matches[1];",
-									"        pm.globals.set(\"authorisationId\", authorisationId);",
-									"        postman.setNextRequest(\"05_Update_PSU_data_Send_PSU_password\");",
-									"    } else {",
-									"        postman.setNextRequest(\"04_Start_AIS_consent_authorisation\");",
-									"    }",
+									"var updatePsuAuthentication = jsonData._links.updatePsuAuthentication.href;",
+									"    ",
+									"var matches = updatePsuAuthentication.match(/authorisations\\/(.+)/);",
+									"if (matches && matches[1]) {",
+									"    var authorisationId = matches[1];",
+									"    pm.globals.set(\"authorisationId\", authorisationId);",
 									"}",
 									"",
 									"pm.globals.set(\"consentId\", pm.response.json().consentId);"
@@ -218,87 +206,7 @@
 					"response": []
 				},
 				{
-					"name": "04_Start_AIS_consent_authorisation",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "853e6f55-ac06-452c-bc23-c65e9a7db516",
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"",
-									"pm.test(\"scaStatus is psuAuthenticated\", function () {",
-									"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
-									"});",
-									"",
-									"pm.test(\"SCA methods are available\", function () {",
-									"    pm.response.to.have.jsonBody(\"scaMethods\");",
-									"});",
-									"",
-									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
-									"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-									"    postman.setNextRequest(\"06_Update_PSU_data_Choose_SCA_method\");",
-									"});",
-									"",
-									"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
-									"pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "X-Request-ID",
-								"value": "{{$guid}}",
-								"type": "text"
-							},
-							{
-								"key": "PSU-ID",
-								"value": "{{psuId}}",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "X-GTW-Bank-Code",
-								"value": "{{bankCode}}",
-								"type": "text"
-							},
-							{
-								"key": "TPP-Redirect-Preferred",
-								"value": "false",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"psuData\": {\n        \"password\": \"12345\"\n    }\n}"
-						},
-						"url": {
-							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations",
-							"host": [
-								"{{baseUri}}"
-							],
-							"path": [
-								"v1",
-								"consents",
-								"{{consentId}}",
-								"authorisations"
-							]
-						},
-						"description": "Processing of a service request that needs authentication. The PSU has not yet been authorised. Embedded SCA Approach selected. The PSU has more than one embedded method available. PSU authenticaton required for the SCA selection to be applied. Missing authorisation data may be delivered at the same time as an authorisation sub-resource is created."
-					},
-					"response": []
-				},
-				{
-					"name": "05_Update_PSU_data_Send_PSU_password",
+					"name": "04_Update_PSU_data_Send_PSU_password",
 					"event": [
 						{
 							"listen": "test",
@@ -373,7 +281,7 @@
 					"response": []
 				},
 				{
-					"name": "06_Update_PSU_data_Choose_SCA_method",
+					"name": "05_Update_PSU_data_Choose_SCA_method",
 					"event": [
 						{
 							"listen": "test",
@@ -444,7 +352,7 @@
 					"response": []
 				},
 				{
-					"name": "07_Update_PSU_data_Send_authentication_data(TAN)",
+					"name": "06_Update_PSU_data_Send_authentication_data(TAN)",
 					"event": [
 						{
 							"listen": "test",
@@ -506,7 +414,7 @@
 					"response": []
 				},
 				{
-					"name": "08_Get_AIS_consent_authorisation_status",
+					"name": "07_Get_AIS_consent_authorisation_status",
 					"event": [
 						{
 							"listen": "test",
@@ -557,7 +465,7 @@
 					"response": []
 				},
 				{
-					"name": "09_Get_account_list",
+					"name": "08_Get_account_list",
 					"event": [
 						{
 							"listen": "test",
@@ -619,7 +527,7 @@
 					"response": []
 				},
 				{
-					"name": "10_Get_account_by_id",
+					"name": "09_Get_account_by_id",
 					"event": [
 						{
 							"listen": "test",
@@ -697,7 +605,7 @@
 					"response": []
 				},
 				{
-					"name": "11_Get_balances_by_account_id",
+					"name": "10_Get_balances_by_account_id",
 					"event": [
 						{
 							"listen": "test",
@@ -776,17 +684,12 @@
 									"",
 									"pm.globals.set(\"paymentId\", pm.response.json().paymentId);",
 									"",
-									"if (jsonData._links.updatePsuAuthentication) {",
-									"    var updatePsuAuthentication = jsonData._links.updatePsuAuthentication.href;",
-									"    var matches = updatePsuAuthentication.match(/authorisations\\/(.+)/);",
-									"    if (matches && matches[1]) {",
-									"        var authorisationId = matches[1];",
-									"        pm.globals.set(\"authorisationId\", authorisationId);",
-									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers\");",
-									"    }",
-									"} else if (jsonData._links.scaRedirect) {",
-									"    var scaRedirect = jsonData._links.scaRedirect.href;",
-									"    pm.globals.set(\"scaRedirect\", scaRedirect);",
+									"var updatePsuAuthentication = jsonData._links.updatePsuAuthentication.href;",
+									"var matches = updatePsuAuthentication.match(/authorisations\\/(.+)/);",
+									"",
+									"if (matches && matches[1]) {",
+									"    var authorisationId = matches[1];",
+									"    pm.globals.set(\"authorisationId\", authorisationId);",
 									"}"
 								],
 								"type": "text/javascript"
@@ -971,88 +874,7 @@
 					"response": []
 				},
 				{
-					"name": "04_Start_PIS_Authorisation",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "853e6f55-ac06-452c-bc23-c65e9a7db516",
-								"exec": [
-									"var jsonData = pm.response.json();",
-									"",
-									"pm.test(\"scaStatus is psuAuthenticated\", function () {",
-									"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
-									"});",
-									"",
-									"pm.test(\"SCA methods are available\", function () {",
-									"    pm.response.to.have.jsonBody(\"scaMethods\");",
-									"});",
-									"",
-									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
-									"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-									"    postman.setNextRequest(\"06_Update_PSU_data_Choose_SCA_method\");",
-									"});",
-									"",
-									"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
-									"pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "X-Request-ID",
-								"type": "text",
-								"value": "{{$guid}}"
-							},
-							{
-								"key": "PSU-ID",
-								"type": "text",
-								"value": "{{psuId}}"
-							},
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							},
-							{
-								"key": "X-GTW-Bank-Code",
-								"type": "text",
-								"value": "{{bankCode}}"
-							},
-							{
-								"key": "TPP-Redirect-Preferred",
-								"type": "text",
-								"value": "false"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"psuData\": {\n        \"password\": \"12345\"\n    }\n}"
-						},
-						"url": {
-							"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations",
-							"host": [
-								"{{baseUri}}"
-							],
-							"path": [
-								"v1",
-								"payments",
-								"sepa-credit-transfers",
-								"{{paymentId}}",
-								"authorisations"
-							]
-						},
-						"description": "Processing of a service request that needs authentication. The PSU has not yet been authorised. Embedded SCA Approach selected. The PSU has more than one embedded method available. PSU authenticaton required for the SCA selection to be applied. Missing authorisation data may be delivered at the same time as an authorisation sub-resource is created."
-					},
-					"response": []
-				},
-				{
-					"name": "05_Update_PSU_data_Send_PSU_password",
+					"name": "04_Update_PSU_data_Send_PSU_password",
 					"event": [
 						{
 							"listen": "test",
@@ -1128,7 +950,7 @@
 					"response": []
 				},
 				{
-					"name": "06_Update_PSU_data_Choose_SCA_method",
+					"name": "05_Update_PSU_data_Choose_SCA_method",
 					"event": [
 						{
 							"listen": "test",
@@ -1200,7 +1022,7 @@
 					"response": []
 				},
 				{
-					"name": "07_Update_PSU_data_Send_authentication_data(TAN)",
+					"name": "06_Update_PSU_data_Send_authentication_data(TAN)",
 					"event": [
 						{
 							"listen": "test",
