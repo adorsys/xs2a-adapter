@@ -1,4 +1,4 @@
-# xs2a-gateway
+# XS2A Gateway
 [![Build Status](https://travis-ci.com/adorsys/xs2a-gateway.svg?branch=develop)](https://travis-ci.com/adorsys/xs2a-gateway)
 
 There are various ways for a bank to implement a PSD2 compliant XS2A interface. Don’t waste time in connecting different banks with different approaches into your application. Use the free of charge XS2A adapter and concentrate on your true value proposition! 
@@ -15,55 +15,64 @@ You can check your readiness for PSD2 Compliance and other information via [our 
 PSD2 as the first regulatory driven Open Banking initiative offers many opportunities for both Banks and Third Party Providers. TPPs can use the account information and payment services provided by the banks in order to offer new innovative services to the end users. The more banks a TPP can interact with the more users it can reach with its application, which in consequence raises the value of the application itself.  
 However, being able to interact with many banks can be a time and cost consuming challenge when developing and maintaining an application. Even though PSD2 sets a standard for bank interfaces, much space for implementation options remains. A bank, therefore, can have an own PSD2 compliant solution or have implemented one of the mayor PSD2 standards, like Open Banking UK, Berlin Group or STET. A PSD2 adapter must be able to process the different messages correctly and react fast to changes on the XS2A interfaces. 
 
-### XS2A Adapter Solution by adorsys
+### XS2A Gateway Solution by adorsys
 
-The XS2A Adapter is a service component for Multi-Banking Applications. On one hand, you can interact with the adapter through an own interface based on the Berlin Group Specification. On the other Hand, it can communicate with different PSD2-interfaces from various Banks in Germany and Europe. Our solution is Open Source and free of charge. It can easily be embedded in your application using either a java or a REST client. With the help of a growing community our adapter is kept up-to-date regarding the changes on the XS2A interfaces of the banks. Also, as part of our product vision, a core team will be interacting with the community in order to keep connecting new banks to the adapter. 
+The XS2A Gateway is a service component for Multi-Banking Applications. On one hand, you can interact with the adapter through an own interface based on the Berlin Group Specification. On the other Hand, it can communicate with different PSD2-interfaces from various Banks in Germany and Europe. Our solution is Open Source and free of charge. It can easily be embedded in your application using either a java or a REST client. With the help of a growing community our adapter is kept up-to-date regarding the changes on the XS2A interfaces of the banks. Also, as part of our product vision, a core team will be interacting with the community in order to keep connecting new banks to the adapter. 
 
 ### High level architecture
 ![High level architecture](docs/img/high%20level%20architecture.png)
 
-## Getting Started
+## Running the XS2A Gateway
+0.For build and run xs2a-gateway requires GNU Make to be installed on your local machine. Please, make sure it is installed.
 
-### Prerequisites
+1.Download the project and go to the project directory:
 
-- Java JDK version 1.8.x, Maven 3.x;
-
-### Clone git repository and build a project:
-```bash
-$ git clone https://github.com/adorsys/xs2a-gateway
-$ cd xs2a-gateway
-$ mvn clean install
+```sh
+> git clone https://github.com/adorsys/xs2a-gateway
+> cd xs2a-gateway
 ```
-### Embedded mode
 
-If you want to integrate xs2a-gateway into your java application you need just add next dependencies in your classpath:
-* xs2a-gateway-service-impl
-* adapters/deutsche-bank-adapter
-* ... all other bank adapters adapters/*-adapter
+2.This xs2a gateway runs with the docker and [Makefile](Makefile).
+But before you run this, first of all you should check if all build dependencies are installed:
 
-### Standalone mode
+```sh
+> make check
+```
 
-If you want to install our *xs2a-gateway* as standalone application, you need just run next commands 
-* cd xs2a-gateway-app/target/
-* java -jar xs2a-gateway-app.jar
+If something is missing, install it to your local machine, otherwise the build will fail. 
+List of dependencies that are required to use XS2A Gateway: **Java 8**, **nodeJs**, **docker**, **maven**, **newman**.
+Here are links where you can install needed dependencies:
 
-Application will be available by address http://localhost:8999/swagger-ui.html
+| Dependency         | Link                                    |                                                     
+|--------------------|-----------------------------------------|
+| Java 8             | https://openjdk.java.net/install/       | 
+| Node.js            | https://nodejs.org/en/download          | 
+| Docker 1.17        | https://www.docker.com/get-started      |
+| Maven 3.5          | https://maven.apache.org/download.cgi   |
+| Newman             | https://www.npmjs.com/package/newman    |
 
-### How to write your own adapter
+3.Build and run the project with Makefile:
+  
+```sh 
+> make run
+```
+
+4.Open [xs2a-gateway swagger page](http://localhost:8999/swagger-ui.html) to get more details about REST Api.
+
+6.Run postman tests for AIS and PIS flows against XS2ASandbox:
+  
+```sh 
+> make test
+```
+
+6.Stop & clean the project with Makefile:
+  
+```sh 
+> make clean
+```
+
+## How to write your own bank adapter
 Read this short [guideline](/docs/Adapter.md) to get more details
-
-### Running
-
-    -Djavax.net.ssl.keyStoreType=pkcs12
-    -Djavax.net.ssl.keyStore=<filename.p12>
-    -Djavax.net.ssl.keyStorePassword=<password>
-    -Dcom.sun.security.enableAIAcaIssuers=true
-
-### Built With
-
-* [Java, version 1.8](http://java.oracle.com) - The main language of implementation
-* [Maven, version 3.0](https://maven.apache.org/) - Dependency Management
-* [Spring Boot](https://projects.spring.io/spring-boot/) - Spring boot as core Java framework
 
 ## Releases and versions
 
