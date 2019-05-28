@@ -17,7 +17,10 @@
 package de.adorsys.xs2a.gateway.adapter;
 
 import de.adorsys.xs2a.gateway.http.StringUri;
-import de.adorsys.xs2a.gateway.service.*;
+import de.adorsys.xs2a.gateway.service.GeneralResponse;
+import de.adorsys.xs2a.gateway.service.RequestHeaders;
+import de.adorsys.xs2a.gateway.service.RequestParams;
+import de.adorsys.xs2a.gateway.service.StartScaProcessResponse;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import de.adorsys.xs2a.gateway.service.account.BalanceReport;
 import de.adorsys.xs2a.gateway.service.account.TransactionsReport;
@@ -136,8 +139,11 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
 
-        return httpClient.put(uri, body, headersMap, jsonResponseHandler(SelectPsuAuthenticationMethodResponse.class));
+        return httpClient.put(buildSelectPsuAuthenticationMethodUri(uri), body, headersMap, jsonResponseHandler(SelectPsuAuthenticationMethodResponse.class));
+    }
 
+    protected String buildSelectPsuAuthenticationMethodUri(String uri){
+        return uri;
     }
 
     @Override
@@ -146,7 +152,11 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 
-        return httpClient.put(uri, body, headersMap, jsonResponseHandler(ScaStatusResponse.class));
+        return httpClient.put(buildTransactionAuthorisationUri(uri), body, headersMap, jsonResponseHandler(ScaStatusResponse.class));
+    }
+
+    protected String buildTransactionAuthorisationUri(String uri) {
+        return uri;
     }
 
     @Override
