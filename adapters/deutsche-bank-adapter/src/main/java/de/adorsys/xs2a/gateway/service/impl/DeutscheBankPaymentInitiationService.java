@@ -44,7 +44,7 @@ public class DeutscheBankPaymentInitiationService extends BasePaymentInitiationS
     }
 
     @Override
-    protected String buildScaStatus(String uri) {
+    protected String buildScaStatusUri(String uri) {
         return uri + "/otpvalidation";
     }
 }

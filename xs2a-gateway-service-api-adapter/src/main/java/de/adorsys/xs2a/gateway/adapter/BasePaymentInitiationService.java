@@ -164,10 +164,10 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 
-        return httpClient.put(buildScaStatus(uri), body, headersMap, jsonResponseHandler(ScaStatusResponse.class));
+        return httpClient.put(buildScaStatusUri(uri), body, headersMap, jsonResponseHandler(ScaStatusResponse.class));
     }
 
-    protected String buildScaStatus(String uri) {
+    protected String buildScaStatusUri(String uri) {
         return uri;
     }
 }
