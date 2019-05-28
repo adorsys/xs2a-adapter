@@ -28,11 +28,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
-import static de.adorsys.xs2a.gateway.service.RequestHeaders.CONSENT_ID;
-
 public class DeutscheBankAccountInformationService extends BaseAccountInformationService {
     private static final String DATE_HEADER = "Date";
-    private static final String RESOURCE_ID_HEADER = "Resource-ID";
 
     private final DeutscheBankConsentInformationMapper deutscheBankConsentInformationMapper =
             Mappers.getMapper(DeutscheBankConsentInformationMapper.class);
@@ -47,14 +44,14 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
     }
 
     @Override
-    protected Map<String, String> addConsentIdHeader(Map<String, String> map) {
-        Map<String, String> headers = super.addConsentIdHeader(map);
-        // needed, as DB passes consent id value through "Resource-ID" header instead of "Consent-ID" one
-        headers.put(RESOURCE_ID_HEADER, headers.get(CONSENT_ID));
-        headers.remove(CONSENT_ID);
-        return headers;
+    protected String buildSelectPsuAuthenticationMethodUri(String uri) {
+        return uri + "/scamethod";
     }
 
+    @Override
+    protected String buildTransactionAuthorisationUri(String uri) {
+        return uri + "/otpvalidation";
+    }
 
     @Override
     protected Map<String, String> populateGetHeaders(Map<String, String> map) {
@@ -67,10 +64,15 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
 
     @Override
     protected Map<String, String> populatePostHeaders(Map<String, String> map) {
-        Map<String, String> headers = super.populateGetHeaders(map);
-        headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        headers.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
+        map.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
+        map.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
+        return map;
+    }
 
-        return headers;
+    @Override
+    protected Map<String, String> populatePutHeaders(Map<String, String> map) {
+        map.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
+        map.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
+        return map;
     }
 }

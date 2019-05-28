@@ -30,4 +30,21 @@ public class DeutscheBankPaymentInitiationService extends BasePaymentInitiationS
 
         return headers;
     }
+
+    @Override
+    protected Map<String, String> populatePutHeaders(Map<String, String> map) {
+        map.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
+        map.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
+        return map;
+    }
+
+    @Override
+    protected String buildSelectPsuAuthenticationMethodUri(String uri) {
+        return uri + "/scamethod";
+    }
+
+    @Override
+    protected String buildScaStatusUri(String uri) {
+        return uri + "/otpvalidation";
+    }
 }
