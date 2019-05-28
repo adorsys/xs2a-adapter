@@ -29,7 +29,8 @@ import java.util.Set;
 
 public class DeutscheBankServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
-    private static final String BASE_URI = "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/";
+    private static final String AIS_URI = "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/";
+    private static final String PIS_URI = "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("50010517")));
     private BaseAccountInformationService accountInformationService;
     private BasePaymentInitiationService paymentInitiationService;
@@ -42,7 +43,7 @@ public class DeutscheBankServiceProvider implements AccountInformationServicePro
     @Override
     public AccountInformationService getAccountInformationService() {
         if (accountInformationService == null) {
-            accountInformationService = new DeutscheBankAccountInformationService(BASE_URI);
+            accountInformationService = new DeutscheBankAccountInformationService(AIS_URI);
         }
         return accountInformationService;
     }
@@ -50,7 +51,7 @@ public class DeutscheBankServiceProvider implements AccountInformationServicePro
     @Override
     public PaymentInitiationService getPaymentInitiationService() {
         if (paymentInitiationService == null) {
-            paymentInitiationService = new DeutscheBankPaymentInitiationService(BASE_URI);
+            paymentInitiationService = new DeutscheBankPaymentInitiationService(PIS_URI);
         }
         return paymentInitiationService;
     }
