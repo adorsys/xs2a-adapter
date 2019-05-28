@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "434ac5ea-3bcc-4e3e-92f0-f38fcfaae19a",
+		"_postman_id": "ec7115eb-fe60-4202-b6ce-326ec26b6e3b",
 		"name": "xs2a-gateway-adorsys-sandbox-local",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -527,7 +527,7 @@
 					"response": []
 				},
 				{
-					"name": "09_Get_account_by_id",
+					"name": "09_Get_transactions_by_account_id",
 					"event": [
 						{
 							"listen": "test",
