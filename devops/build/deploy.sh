@@ -18,14 +18,16 @@ if [ $# -ne 1 ]; then
 fi
 
 # push latest to openshift
-if [ "$1" == "latest" ]; then
-  docker login -u image-pusher -p $OPENSHIFT_TOKEN $OPENSHIFT_REGISTRY
-  docker build -t "$OPENSHIFT_IMAGE_NAME:latest" .
-  docker push $OPENSHIFT_IMAGE_NAME:latest
-elif [ "$1" == "develop" ]; then
+if [ "$1" == "develop" ]; then
   docker login -u image-pusher -p $OPENSHIFT_TOKEN $OPENSHIFT_REGISTRY
   docker build -t "$OPENSHIFT_IMAGE_NAME:develop" .
   docker push $OPENSHIFT_IMAGE_NAME:develop
+  mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST -Dsonar.login=$SONAR_TOKEN
+  # push tags to dockerhub
+elif checkSemver $(git2dockerTag $1); then
+  echo $GPG_SECRET_KEY | base64 --decode | $GPG_EXECUTABLE --import || true
+  echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust || true
+  mvn --settings ../../scripts/mvn-release-settings.xml -Prelease -DskipTests -B -U deploy
 # but nothing else
 else
   echo "ERROR We only deploy 'latest' but got '$1'" 1>&2

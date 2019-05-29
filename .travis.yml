@@ -34,11 +34,16 @@ script:
   - docker build -t "$OPENSHIFT_IMAGE_NAME:test" .
 
 deploy:
-  # develop
+  # Push Code Coverage to Sonar
   - provider: script
     skip_cleanup: true
-    script:
-      bash ./devops/build/deploy.sh develop;
-      mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST -Dsonar.login=$SONAR_TOKEN
+    script: bash ./devops/build/deploy.sh develop
     on:
       branch: develop
+  # Deploy artifacts to the Sonatype registry
+  - provider: script
+    skip_cleanup: true
+    script: bash infrastructure/build/deploy.sh $TRAVIS_TAG
+    on:
+      tags: true
+      condition: '$TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-.*)?$'
