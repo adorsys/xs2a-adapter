@@ -43,7 +43,7 @@ deploy:
   # Deploy artifacts to the Sonatype registry
   - provider: script
     skip_cleanup: true
-    script: bash infrastructure/build/deploy.sh $TRAVIS_TAG
+    script: bash ./devops/build/deploy.sh $TRAVIS_TAG
     on:
       tags: true
       condition: '$TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-.*)?$'
