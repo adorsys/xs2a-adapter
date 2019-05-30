@@ -1,35 +1,49 @@
 = Release notes for version 0.0.1 (release date: 30.05.2019)
 
-* Implement AIS requests:
-** Establish consent
-** Create authorisation
-** Authorise PSU
-** Select SCA method
-** Submit OTP
-** Get consent status
-** Get consent
-** Get list of account
-** Get transactions
-** Get balances
+.Implemented AIS requests
+|===
+|BG Spec summary|BG Spec operationId
 
-* Implement PIS requests:
-** Initiate payment
-** Create authorisation
-** Authorise PSU
-** Select SCA method
-** Submit OTP
-** Get transaction status
-** Get payment details
+|Create consent|*_createConsent_*
+|Start the authorisation process for a consent|*_startConsentAuthorisation_*
+|Update PSU Authentication|*_updateConsentsPsuData_*
+|Select PSU Authentication Method|*_updateConsentsPsuData_*
+|Transaction Authorisation|*_updateConsentsPsuData_*
+|Consent status request|*_getConsentStatus_*
+|Read the SCA status of the consent authorisation|*_getConsentScaStatus_*
+|Get Consent Request|*_getConsentInformation_*
+|Read Account List|*_getAccountList_*
+|Read transaction list of an account|*_getTransactionList_*
+|Read Balance|*_getBalances_*
+|===
 
-* Implement adapters for next banks:
-** Deutsche Bank
-** Bank Verlag
-** DAB Bank
-** Consors Bank
-** Sparda Bank
-** Fiducia Bank
-** Sparkasse Bank
-** Adorsys Sandbox
+.Implemented PIS requests
+|===
+|BG Spec summary|BG Spec operationId
+
+|Payment initiation request|*_initiatePayment_*
+|Start the authorisation process for a payment initiation|*_startPaymentAuthorisation_*
+|Update PSU Authentication|*_updatePaymentPsuData_*
+|Select PSU Authentication Method|*_updatePaymentPsuData_*
+|Transaction Authorisation|*_updatePaymentPsuData_*
+|Payment initiation status request|*_getPaymentInitiationStatus_*
+|Read the SCA Status of the payment authorisation|*_getPaymentInitiationScaStatus_*
+|Get Payment Information|*_getPaymentInformation_*
+|===
+
+.Supported banks
+|===
+|Bank Name|approach
+
+|Deutsche Bank|embedded
+|Bank Verlag|embedded
+|DAB Bank|redirect
+|Consors Bank|redirect
+|Sparda Bank|redirect
+|Fiducia Bank|embedded
+|Sparkasse Bank|embedded
+|Adorsys Sandbox|embedded
+|===
 
 * Implement REST API module based on `*Berlin Group Spec 1.3*`
 
