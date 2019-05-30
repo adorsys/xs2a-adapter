@@ -27,7 +27,7 @@ if [ "$1" == "develop" ]; then
 elif checkSemver $(git2dockerTag $1); then
   echo $GPG_SECRET_KEY | base64 --decode | $GPG_EXECUTABLE --import || true
   echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust || true
-  mvn --settings ../../scripts/mvn-release-settings.xml -Prelease -DskipTests -B -U deploy
+  mvn --settings scripts/mvn-release-settings.xml -Prelease -DskipTests -B -U deploy
 # but nothing else
 else
   echo "ERROR We only deploy 'develop' or release tags ('v1.2.3') but got '$1'" 1>&2
