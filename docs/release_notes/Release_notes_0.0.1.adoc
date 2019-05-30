@@ -1,0 +1,38 @@
+= Release notes for version 0.0.1 (release date: 30.05.2019)
+
+* Implement AIS requests:
+** Establish consent
+** Create authorisation
+** Authorise PSU
+** Select SCA method
+** Submit OTP
+** Get consent status
+** Get consent
+** Get list of account
+** Get transactions
+** Get balances
+
+* Implement PIS requests:
+** Initiate payment
+** Create authorisation
+** Authorise PSU
+** Select SCA method
+** Submit OTP
+** Get transaction status
+** Get payment details
+
+* Implement adapters for next banks:
+** Deutsche Bank
+** Bank Verlag
+** DAB Bank
+** Consors Bank
+** Sparda Bank
+** Fiducia Bank
+** Sparkasse Bank
+** Adorsys Sandbox
+
+* Implement REST API module based on `*Berlin Group Spec 1.3*`
+
+* Write `_Postman_` tests for AIS and PIS flows for all implemented bank adapters
+
+* Implement maven archetype for fast adapter creation
