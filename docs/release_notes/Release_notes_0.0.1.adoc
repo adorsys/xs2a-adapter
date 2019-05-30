@@ -27,7 +27,6 @@
 |Select PSU Authentication Method|*_updatePaymentPsuData_*
 |Transaction Authorisation|*_updatePaymentPsuData_*
 |Payment initiation status request|*_getPaymentInitiationStatus_*
-|Read the SCA Status of the payment authorisation|*_getPaymentInitiationScaStatus_*
 |Get Payment Information|*_getPaymentInformation_*
 |===
 
