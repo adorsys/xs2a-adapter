@@ -28,6 +28,7 @@
 |Transaction Authorisation|*_updatePaymentPsuData_*
 |Payment initiation status request|*_getPaymentInitiationStatus_*
 |Get Payment Information|*_getPaymentInformation_*
+|Read the SCA Status of the payment authorisation|*_getPaymentInitiationScaStatus_*
 |===
 
 .Supported banks
@@ -45,10 +46,10 @@
 |Adorsys Sandbox|embedded
 |===
 
-* Implemented request signing functionality on application level
+* Implemented application level request signing functionality
 
 * Implemented REST API module based on `*Berlin Group Spec 1.3*`
 
 * Created `_Postman_` tests for AIS and PIS flows for all supported banks
 
-* Implemented maven archetype for fast adapter creation
+* Created maven archetype for fast adapter set up
