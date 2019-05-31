@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
-import de.adorsys.xs2a.gateway.model.shared.ChallengeDataTO;
+import de.adorsys.xs2a.gateway.model.ChallengeDataTO;
+import de.adorsys.xs2a.gateway.model.ConsentsResponse201TO;
 import de.adorsys.xs2a.gateway.service.ais.ConsentStatus;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
@@ -15,7 +15,7 @@ public class ConsentCreationResponseMapperTest {
     public void toConsentResponse201() {
         ConsentCreationResponseMapper mapper = Mappers.getMapper(ConsentCreationResponseMapper.class);
 
-        ConsentsResponse201 response201 = mapper.toConsentResponse201(buildConsentCreationResponse());
+        ConsentsResponse201TO response201 = mapper.toConsentResponse201(buildConsentCreationResponse());
 
         assertThat(response201.getMessage()).isEqualTo(MESSAGE);
         assertThat(response201.getConsentId()).isEqualTo(CONSTENT_ID);

@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.ConsentStatusResponse200;
-import de.adorsys.xs2a.gateway.model.ais.ConsentStatusTO;
+import de.adorsys.xs2a.gateway.model.ConsentStatusResponse200TO;
+import de.adorsys.xs2a.gateway.model.ConsentStatusTO;
 import de.adorsys.xs2a.gateway.service.ais.ConsentStatus;
 import de.adorsys.xs2a.gateway.service.ais.ConsentStatusResponse;
 import org.junit.Test;
@@ -14,7 +14,7 @@ public class ConsentStatusResponseMapperTest {
 
     @Test
     public void toConsentStatusResponse200() {
-        ConsentStatusResponse200 consentStatusResponse200 = consentStatusResponseMapper.toConsentStatusResponse200(consentStatusResponse());
+        ConsentStatusResponse200TO consentStatusResponse200 = consentStatusResponseMapper.toConsentStatusResponse200(consentStatusResponse());
         assertThat(consentStatusResponse200.getConsentStatus()).isEqualTo(ConsentStatusTO.RECEIVED);
     }
 

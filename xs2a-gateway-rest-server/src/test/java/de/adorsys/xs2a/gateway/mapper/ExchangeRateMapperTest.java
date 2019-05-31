@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.ExchangeRateTO;
+import de.adorsys.xs2a.gateway.model.ReportExchangeRateTO;
 import de.adorsys.xs2a.gateway.service.account.ExchangeRate;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
@@ -19,15 +19,15 @@ public class ExchangeRateMapperTest {
 
     @Test
     public void toExchangeRateTO() {
-        ExchangeRateTO exchangeRateTO = Mappers.getMapper(ExchangeRateMapper.class).toExchangeRateTO(buildExchangeRate());
+        ReportExchangeRateTO exchangeRateTO = Mappers.getMapper(ExchangeRateMapper.class).toExchangeRateTO(buildExchangeRate());
 
         assertThat(exchangeRateTO).isNotNull();
         assertThat(exchangeRateTO.getSourceCurrency()).isEqualTo(SOURCE_CURRENCY);
-        assertThat(exchangeRateTO.getRate()).isEqualTo(RATE);
+        assertThat(exchangeRateTO.getExchangeRate()).isEqualTo(RATE);
         assertThat(exchangeRateTO.getUnitCurrency()).isEqualTo(UNIT_CURRENCY);
         assertThat(exchangeRateTO.getTargetCurrency()).isEqualTo(TARGET_CURRENCY);
-        assertThat(exchangeRateTO.getRateDate()).isEqualTo(RATE_DATE);
-        assertThat(exchangeRateTO.getRateContract()).isEqualTo(RATE_CONTRACT);
+        assertThat(exchangeRateTO.getQuotationDate()).isEqualTo(RATE_DATE);
+        assertThat(exchangeRateTO.getContractIdentification()).isEqualTo(RATE_CONTRACT);
     }
 
     static ExchangeRate buildExchangeRate() {

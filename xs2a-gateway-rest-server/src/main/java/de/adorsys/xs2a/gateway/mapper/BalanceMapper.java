@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.BalanceTO;
+import de.adorsys.xs2a.gateway.model.BalanceTO;
 import de.adorsys.xs2a.gateway.service.account.Balance;
 import org.mapstruct.Mapper;
 

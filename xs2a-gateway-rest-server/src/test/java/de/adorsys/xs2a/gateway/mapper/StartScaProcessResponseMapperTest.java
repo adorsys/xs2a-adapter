@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.pis.ScaStatusTO;
-import de.adorsys.xs2a.gateway.model.shared.StartScaprocessResponseTO;
+import de.adorsys.xs2a.gateway.model.ScaStatusTO;
+import de.adorsys.xs2a.gateway.model.StartScaprocessResponseTO;
 import de.adorsys.xs2a.gateway.service.AuthenticationObject;
 import de.adorsys.xs2a.gateway.service.ChallengeData;
 import de.adorsys.xs2a.gateway.service.ScaStatus;

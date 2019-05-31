@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.AmountTO;
-import de.adorsys.xs2a.gateway.model.ais.BalanceTO;
+import de.adorsys.xs2a.gateway.model.AmountTO;
+import de.adorsys.xs2a.gateway.model.BalanceTO;
 import de.adorsys.xs2a.gateway.service.Amount;
 import de.adorsys.xs2a.gateway.service.account.Balance;
 import de.adorsys.xs2a.gateway.service.account.BalanceType;

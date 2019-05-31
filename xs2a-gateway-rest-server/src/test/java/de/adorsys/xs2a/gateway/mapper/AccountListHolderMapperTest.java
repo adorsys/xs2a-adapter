@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.AccountDetailsTO;
-import de.adorsys.xs2a.gateway.model.ais.AccountListTO;
-import de.adorsys.xs2a.gateway.model.ais.BalanceList;
+import de.adorsys.xs2a.gateway.model.AccountDetailsTO;
+import de.adorsys.xs2a.gateway.model.AccountListTO;
+import de.adorsys.xs2a.gateway.model.BalanceTO;
 import de.adorsys.xs2a.gateway.service.account.AccountDetails;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class AccountListHolderMapperTest {
         assertThat(accountDetailsTO.getUsage().name()).isEqualTo(ACCOUNT_DETAILS.getUsageType().name());
         assertThat(accountDetailsTO.getDetails()).isEqualTo(ACCOUNT_DETAILS.getDetails());
 
-        BalanceList balanceList = accountDetailsTO.getBalances();
+        List<BalanceTO> balanceList = accountDetailsTO.getBalances();
         assertThat(balanceList).isNotNull();
         assertThat(balanceList.size()).isEqualTo(ACCOUNT_DETAILS.getBalances().size());
     }

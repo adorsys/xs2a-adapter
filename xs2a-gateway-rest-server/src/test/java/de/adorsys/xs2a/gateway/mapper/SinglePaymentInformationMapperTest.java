@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.AccountReferenceTO;
-import de.adorsys.xs2a.gateway.model.ais.AmountTO;
-import de.adorsys.xs2a.gateway.model.pis.PaymentInitiationSctWithStatusResponse;
-import de.adorsys.xs2a.gateway.model.shared.AddressTO;
+import de.adorsys.xs2a.gateway.model.AccountReferenceTO;
+import de.adorsys.xs2a.gateway.model.AddressTO;
+import de.adorsys.xs2a.gateway.model.AmountTO;
+import de.adorsys.xs2a.gateway.model.PaymentInitiationWithStatusResponseTO;
 import de.adorsys.xs2a.gateway.service.*;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
@@ -24,7 +24,7 @@ public class SinglePaymentInformationMapperTest {
     @Test
     public void toPaymentInitiationSctWithStatusResponse() {
         SinglePaymentInformationMapper mapper = Mappers.getMapper(SinglePaymentInformationMapper.class);
-        PaymentInitiationSctWithStatusResponse response = mapper.toPaymentInitiationSctWithStatusResponse(buildSinglePaymentInitiationInformationWithStatusResponse());
+        PaymentInitiationWithStatusResponseTO response = mapper.toPaymentInitiationSctWithStatusResponse(buildSinglePaymentInitiationInformationWithStatusResponse());
 
         assertThat(response).isNotNull();
         assertThat(response.getEndToEndIdentification()).isEqualTo(END_TO_END_IDENTIFICATION);

@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.ConsentsTO;
+import de.adorsys.xs2a.gateway.model.ConsentsTO;
 import de.adorsys.xs2a.gateway.service.ais.Consents;
 import org.mapstruct.Mapper;
 

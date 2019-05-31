@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.shared.ChallengeDataTO;
+import de.adorsys.xs2a.gateway.model.ChallengeDataTO;
 import de.adorsys.xs2a.gateway.service.ChallengeData;
 import org.mapstruct.Mapper;
 

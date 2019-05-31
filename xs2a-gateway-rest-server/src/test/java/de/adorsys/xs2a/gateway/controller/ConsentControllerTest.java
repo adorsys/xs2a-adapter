@@ -4,13 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.gateway.TestModelBuilder;
 import de.adorsys.xs2a.gateway.config.RestExceptionHandler;
 import de.adorsys.xs2a.gateway.mapper.HeadersMapper;
-import de.adorsys.xs2a.gateway.model.ais.ConsentStatusTO;
-import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
+import de.adorsys.xs2a.gateway.model.ConsentStatusTO;
+import de.adorsys.xs2a.gateway.model.ConsentsResponse201TO;
 import de.adorsys.xs2a.gateway.service.GeneralResponse;
 import de.adorsys.xs2a.gateway.service.RequestHeaders;
 import de.adorsys.xs2a.gateway.service.ResponseHeaders;
-import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
+import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
 import de.adorsys.xs2a.gateway.service.exception.BankCodeNotProvidedException;
 import org.junit.Before;
 import org.junit.Test;
@@ -81,8 +81,8 @@ public class ConsentControllerTest {
                                       .andExpect(status().is(HttpStatus.CREATED.value()))
                                       .andReturn();
 
-        ConsentsResponse201 response201 = JsonReader.getInstance().getObjectFromString(mvcResult.getResponse().getContentAsString()
-                , ConsentsResponse201.class);
+        ConsentsResponse201TO response201 = JsonReader.getInstance().getObjectFromString(mvcResult.getResponse().getContentAsString()
+                , ConsentsResponse201TO.class);
 
         assertThat(response201.getConsentId()).isEqualTo(TestModelBuilder.CONSTENT_ID);
         assertThat(response201.getMessage()).isEqualTo(TestModelBuilder.MESSAGE);
