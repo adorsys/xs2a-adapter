@@ -41,11 +41,14 @@
 |Sparda Bank|redirect
 |Fiducia Bank|embedded
 |Sparkasse Bank|embedded
+|DKB Bank|oauth
 |Adorsys Sandbox|embedded
 |===
 
-* Implement REST API module based on `*Berlin Group Spec 1.3*`
+* Implemented request signing functionality on application level
 
-* Write `_Postman_` tests for AIS and PIS flows for all implemented bank adapters
+* Implemented REST API module based on `*Berlin Group Spec 1.3*`
 
-* Implement maven archetype for fast adapter creation
+* Created `_Postman_` tests for AIS and PIS flows for all supported banks
+
+* Implemented maven archetype for fast adapter creation
