@@ -1,0 +1,55 @@
+= Release notes for version 0.0.1 (release date: 30.05.2019)
+
+.Implemented AIS requests
+|===
+|BG Spec summary|BG Spec operationId
+
+|Create consent|*_createConsent_*
+|Start the authorisation process for a consent|*_startConsentAuthorisation_*
+|Update PSU Authentication|*_updateConsentsPsuData_*
+|Select PSU Authentication Method|*_updateConsentsPsuData_*
+|Transaction Authorisation|*_updateConsentsPsuData_*
+|Consent status request|*_getConsentStatus_*
+|Read the SCA status of the consent authorisation|*_getConsentScaStatus_*
+|Get Consent Request|*_getConsentInformation_*
+|Read Account List|*_getAccountList_*
+|Read transaction list of an account|*_getTransactionList_*
+|Read Balance|*_getBalances_*
+|===
+
+.Implemented PIS requests
+|===
+|BG Spec summary|BG Spec operationId
+
+|Payment initiation request|*_initiatePayment_*
+|Start the authorisation process for a payment initiation|*_startPaymentAuthorisation_*
+|Update PSU Authentication|*_updatePaymentPsuData_*
+|Select PSU Authentication Method|*_updatePaymentPsuData_*
+|Transaction Authorisation|*_updatePaymentPsuData_*
+|Payment initiation status request|*_getPaymentInitiationStatus_*
+|Get Payment Information|*_getPaymentInformation_*
+|Read the SCA Status of the payment authorisation|*_getPaymentInitiationScaStatus_*
+|===
+
+.Supported banks
+|===
+|Bank Name|approach
+
+|Deutsche Bank|embedded
+|Bank Verlag|embedded
+|DAB Bank|redirect
+|Consors Bank|redirect
+|Sparda Bank|redirect
+|Fiducia Bank|embedded
+|Sparkasse Bank|embedded
+|DKB Bank|oauth
+|Adorsys Sandbox|embedded
+|===
+
+* Implemented application level request signing functionality
+
+* Implemented REST API module based on `*Berlin Group Spec 1.3*`
+
+* Created `_Postman_` tests for AIS and PIS flows for all supported banks
+
+* Created maven archetype for fast adapter set up
