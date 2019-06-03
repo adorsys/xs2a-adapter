@@ -6,7 +6,9 @@
     "iban": "DE86999999990000001000",
     "password": "okok1",
     "authenticationMethodId": "OPTICAL",
-    "scaAuthenticationData": "111111"
+    "scaAuthenticationData": "111111",
+    "sepa-credit-transfers-supported": "true",
+    "pain.001-sepa-credit-transfers-supported": "true"
   },
   {
     "adapter": "verlag",
@@ -17,7 +19,9 @@
     "password": "123456",
     "authenticationMethodId": "901",
     "scaAuthenticationData": "22222",
-    "creditorName": "Merchant123"
+    "creditorName": "Merchant123",
+    "sepa-credit-transfers-supported": "true",
+    "pain.001-sepa-credit-transfers-supported": "false"
   },
   {
     "adapter": "dkb",
@@ -28,24 +32,43 @@
     "password": "123456",
     "authenticationMethodId": "901",
     "scaAuthenticationData": "22222",
-    "creditorName": "Merchant123"
+    "creditorName": "Merchant123",
+    "sepa-credit-transfers-supported": "true",
+    "pain.001-sepa-credit-transfers-supported": "false"
   },
   {
     "adapter": "dab-bank",
     "bankCode": "70120400",
     "psuId": "PSU-Successful",
-    "iban": "DE74701204003326455007"
+    "iban": "DE74701204003326455007",
+    "sepa-credit-transfers-supported": "true",
+    "pain.001-sepa-credit-transfers-supported": "false"
   },
   {
     "adapter": "consors-bank",
     "bankCode": "76030080",
     "psuId": "PSU-Successful",
-    "iban": "DE60760300800500123456"
+    "iban": "DE60760300800500123456",
+    "sepa-credit-transfers-supported": "true",
+    "pain.001-sepa-credit-transfers-supported": "false"
   },
   {
     "adapter": "sparda-bank",
     "bankCode": "sparda-bank",
     "psuId": "PSU-Successful",
-    "iban": "DE32799905998833114935"
+    "iban": "DE32799905998833114935",
+    "sepa-credit-transfers-supported": "true",
+    "pain.001-sepa-credit-transfers-supported": "false"
+  },
+  {
+    "adapter": "fiducia",
+    "bankCode": "88888888",
+    "psuId": "VRK1234567890ALL",
+    "iban": "DE87499999600000005120",
+    "password": "password",
+    "authenticationMethodId": "942",
+    "scaAuthenticationData": "123456",
+    "sepa-credit-transfers-supported": "false",
+    "pain.001-sepa-credit-transfers-supported": "true"
   }
 ]

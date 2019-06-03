@@ -60,7 +60,7 @@
 									"    pm.globals.set(\"scaRedirect\", scaRedirect);",
 									"    if (adapter === \"dab-bank\" || adapter === \"consors-bank\" || adapter === \"sparda-bank\") {",
 									"        pm.globals.set(\"authorisationId\", scaRedirect.split('/').pop());",
-									"        postman.setNextRequest(\"SCA/Redirect/DAB&Consors&Sparda\");",
+									"        postman.setNextRequest(\"SCA/Redirect/DAB&Consors&Sparda_AIS\");",
 									"    }",
 									"}",
 									"",
@@ -241,7 +241,7 @@
 					"response": []
 				},
 				{
-					"name": "SCA/Redirect/DAB&Consors&Sparda",
+					"name": "SCA/Redirect/DAB&Consors&Sparda_AIS",
 					"event": [
 						{
 							"listen": "test",
@@ -1119,6 +1119,33 @@
 					"name": "sepa-credit-transfers",
 					"item": [
 						{
+							"name": "Payment_Product_Support_Checking_Step_sepa_credit_transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "024bd3e3-4113-4b54-b394-383c710b4ce2",
+										"exec": [
+											"const paymentProductSupported = pm.iterationData.get(\"sepa-credit-transfers-supported\");",
+											"",
+											"if (paymentProductSupported === \"false\") {",
+											"    postman.setNextRequest(\"Payment_Product_Support_Checking_Step_pain.001_sepa_credit_transfers\");",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "PIS/PaymentInit/Products/001a",
 							"event": [
 								{
@@ -1160,6 +1187,16 @@
 											"    var scaRedirect = jsonData._links.scaRedirect.href;",
 											"    pm.globals.set(\"scaRedirect\", scaRedirect);",
 											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "a058a5e9-10d7-40c6-9632-29f42a83417a",
+										"exec": [
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -1808,12 +1845,49 @@
 					"name": "pain.001-sepa-credit-transfers",
 					"item": [
 						{
-							"name": "PIS/PaymentInit/Products/001e",
+							"name": "Payment_Product_Support_Checking_Step_pain.001_sepa_credit_transfers",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "e4efa145-5a35-4b82-af51-90ee995ae199",
+										"id": "024bd3e3-4113-4b54-b394-383c710b4ce2",
+										"exec": [
+											"const paymentProductSupported = pm.iterationData.get(\"pain.001-sepa-credit-transfers-supported\");",
+											"",
+											"if (paymentProductSupported === \"false\") {",
+											"    postman.setNextRequest(null);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PIS/PaymentInit/Products/001e",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "692e5b8a-3166-4f45-8241-0048d0d51334",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "aa5f857f-5139-409b-9443-f0e1e6671097",
 										"exec": [
 											"pm.test(\"Status code is 201\", function () {",
 											"    pm.response.to.have.status(201);",
@@ -2018,7 +2092,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/Redirect/DAB&Consors&Sparda",
+							"name": "SCA/Redirect/DAB&Consors&Sparda_PIS_pain001_sepa_credit_transfers",
 							"event": [
 								{
 									"listen": "test",

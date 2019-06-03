@@ -1,0 +1,11 @@
+{
+  "values": [
+    {
+      "key": "baseUri",
+      "value": "https://xs2a-gateway-dev.cloud.adorsys.de",
+      "enabled": true
+    }
+  ],
+  "name": "xs2a-gateway globals",
+  "_postman_variable_scope": "globals"
+}
