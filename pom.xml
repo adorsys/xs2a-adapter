@@ -5,9 +5,47 @@
 
     <groupId>de.adorsys.xs2a.gateway</groupId>
     <artifactId>xs2a-gateway</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
+
     <name>xs2a-gateway</name>
+    <description>OpenSource PSD2 XS2A Gateway solution</description>
+
+    <url>https://github.com/adorsys/xs2a-gateway</url>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Francis Pouatcha</name>
+            <email>fpo@adorsys.de</email>
+            <organization>adorsys</organization>
+            <organizationUrl>https://adorsys.de/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Serhii Petrychenko</name>
+            <email>spe@adorsys.com.ua</email>
+            <organization>LLC Golden Dimension</organization>
+            <organizationUrl>https://adorsys.com.ua/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Artem Snisarenko</name>
+            <email>asn@adorsys.com.ua</email>
+            <organization>LLC Golden Dimension</organization>
+            <organizationUrl>https://adorsys.com.ua/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Mykola Shumyn</name>
+            <email>msh@adorsys.com.ua</email>
+            <organization>LLC Golden Dimension</organization>
+            <organizationUrl>https://adorsys.com.ua/</organizationUrl>
+        </developer>
+    </developers>
 
     <modules>
         <module>xs2a-gateway-service-api</module>
@@ -257,6 +295,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <scm>
+        <connection>scm:git@github.com:adorsys/xs2a-gateway.git</connection>
+        <developerConnection>scm:git:git@github.com:adorsys/xs2a-gateway.git</developerConnection>
+        <url>git@github.com:adorsys/xs2a-gateway.git</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <profiles>
         <profile>
