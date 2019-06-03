@@ -1,8 +1,7 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.ConsentInformationResponse200Json;
-import de.adorsys.xs2a.gateway.model.ais.ConsentStatusTO;
-import de.adorsys.xs2a.gateway.service.Links;
+import de.adorsys.xs2a.gateway.model.ConsentInformationResponse200JsonTO;
+import de.adorsys.xs2a.gateway.model.ConsentStatusTO;
 import de.adorsys.xs2a.gateway.service.ais.AccountAccess;
 import de.adorsys.xs2a.gateway.service.ais.ConsentInformation;
 import de.adorsys.xs2a.gateway.service.ais.ConsentStatus;
@@ -24,7 +23,7 @@ public class ConsentInformationMapperTest {
 
     @Test
     public void toConsentInformationResponse200Json() {
-        ConsentInformationResponse200Json consentInformationResponse200Json =
+        ConsentInformationResponse200JsonTO consentInformationResponse200Json =
                 consentInformationMapper.toConsentInformationResponse200Json(consentInformation());
         assertThat(consentInformationResponse200Json.getAccess()).isNotNull();
         assertThat(consentInformationResponse200Json.getRecurringIndicator()).isTrue();

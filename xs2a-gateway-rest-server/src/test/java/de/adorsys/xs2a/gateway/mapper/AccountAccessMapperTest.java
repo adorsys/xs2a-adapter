@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.AccountAccessTO;
+import de.adorsys.xs2a.gateway.model.AccountAccessTO;
 import de.adorsys.xs2a.gateway.service.ais.AccountAccess;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
@@ -25,8 +25,8 @@ public class AccountAccessMapperTest {
 
     static AccountAccessTO buildAccountAccess() {
         AccountAccessTO access = new AccountAccessTO();
-        access.setAllPsd2(AccountAccessTO.AllPsd2Enum.ALLACCOUNTS);
-        access.setAvailableAccounts(AccountAccessTO.AvailableAccountsEnum.ALLACCOUNTSWITHBALANCES);
+        access.setAllPsd2(AccountAccessTO.AllPsd2TO.ALLACCOUNTS);
+        access.setAvailableAccounts(AccountAccessTO.AvailableAccountsTO.ALLACCOUNTSWITHBALANCES);
         access.setAccounts(Collections.singletonList(buildAccountReferenceTO()));
         access.setBalances(Collections.singletonList(buildAccountReferenceTO()));
         access.setTransactions(Collections.singletonList(buildAccountReferenceTO()));

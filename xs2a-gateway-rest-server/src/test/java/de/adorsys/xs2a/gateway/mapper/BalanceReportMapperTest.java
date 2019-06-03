@@ -1,9 +1,8 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.AccountReferenceTO;
-import de.adorsys.xs2a.gateway.model.ais.BalanceList;
-import de.adorsys.xs2a.gateway.model.ais.BalanceTO;
-import de.adorsys.xs2a.gateway.model.ais.ReadAccountBalanceResponse200TO;
+import de.adorsys.xs2a.gateway.model.AccountReferenceTO;
+import de.adorsys.xs2a.gateway.model.BalanceTO;
+import de.adorsys.xs2a.gateway.model.ReadAccountBalanceResponse200TO;
 import de.adorsys.xs2a.gateway.service.AccountReference;
 import de.adorsys.xs2a.gateway.service.account.Balance;
 import de.adorsys.xs2a.gateway.service.account.BalanceReport;
@@ -33,7 +32,7 @@ public class BalanceReportMapperTest {
         assertThat(accountTO).isNotNull();
         assertThat(accountTO).isEqualToComparingFieldByField(ACCOUNT_REFERENCE);
 
-        BalanceList balancesListTO = balanceResponseTO.getBalances();
+        List<BalanceTO> balancesListTO = balanceResponseTO.getBalances();
         assertThat(balancesListTO.size()).isEqualTo(BALANCE_LIST.size());
 
         BalanceTO balanceTO = balancesListTO.get(0);

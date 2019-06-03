@@ -1,9 +1,6 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.AccountReferenceTO;
-import de.adorsys.xs2a.gateway.model.ais.AccountReportTO;
-import de.adorsys.xs2a.gateway.model.ais.BalanceList;
-import de.adorsys.xs2a.gateway.model.ais.TransactionsResponse200Json;
+import de.adorsys.xs2a.gateway.model.*;
 import de.adorsys.xs2a.gateway.service.AccountReference;
 import de.adorsys.xs2a.gateway.service.account.AccountReport;
 import de.adorsys.xs2a.gateway.service.account.Balance;
@@ -34,7 +31,7 @@ public class TransactionsReportMapperTest {
 
     @Test
     public void toTransactionsResponse200Json() {
-        TransactionsResponse200Json transactionsResponse200Json
+        TransactionsResponse200JsonTO transactionsResponse200Json
                 = Mappers.getMapper(TransactionsReportMapper.class).toTransactionsResponse200Json(buildTransactionsReport());
 
         assertThat(transactionsResponse200Json).isNotNull();
@@ -46,13 +43,13 @@ public class TransactionsReportMapperTest {
         AccountReportTO transactionsTO = transactionsResponse200Json.getTransactions();
         assertThat(transactionsTO).isNotNull();
 
-        BalanceList balancesTO = transactionsResponse200Json.getBalances();
+        List<BalanceTO> balancesTO = transactionsResponse200Json.getBalances();
         assertThat(balancesTO).isNotNull();
         assertThat(balancesTO.size()).isEqualTo(BALANCES.size());
 
-        Map<String, Link> linksMapTO = transactionsResponse200Json.getLinks();
+        Map<String, HrefTypeTO> linksMapTO = transactionsResponse200Json.getLinks();
         assertThat(linksMapTO).isNotNull();
-        assertThat(linksMapTO).isEqualTo(LINKS_MAP);
+        assertThat(linksMapTO).containsOnlyKeys(LINK_NAME);
     }
 
     static TransactionsReport buildTransactionsReport() {

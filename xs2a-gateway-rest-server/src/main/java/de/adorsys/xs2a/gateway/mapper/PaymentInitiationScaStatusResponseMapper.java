@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.pis.ScaStatusTO;
-import de.adorsys.xs2a.gateway.model.shared.ScaStatusResponseTO;
+import de.adorsys.xs2a.gateway.model.ScaStatusResponseTO;
+import de.adorsys.xs2a.gateway.model.ScaStatusTO;
 import de.adorsys.xs2a.gateway.service.PaymentInitiationScaStatusResponse;
 import de.adorsys.xs2a.gateway.service.ScaStatus;
 

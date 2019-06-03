@@ -1,7 +1,8 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.AccountDetailsTO;
-import de.adorsys.xs2a.gateway.model.ais.BalanceList;
+import de.adorsys.xs2a.gateway.model.AccountDetailsTO;
+import de.adorsys.xs2a.gateway.model.BalanceTO;
+import de.adorsys.xs2a.gateway.model.HrefTypeTO;
 import de.adorsys.xs2a.gateway.service.account.*;
 import de.adorsys.xs2a.gateway.service.model.Link;
 import org.junit.Test;
@@ -56,13 +57,13 @@ public class AccountDetailsMapperTest {
         assertThat(accountDetailsTO.getUsage().name()).isEqualTo(USAGE_TYPE.name());
         assertThat(accountDetailsTO.getDetails()).isEqualTo(DETAILS);
 
-        BalanceList balanceList = accountDetailsTO.getBalances();
+        List<BalanceTO> balanceList = accountDetailsTO.getBalances();
         assertThat(balanceList).isNotNull();
         assertThat(balanceList.size()).isEqualTo(BALANCE_LIST.size());
 
-        Map<String, Link> linksMapTO = accountDetailsTO.getLinks();
+        Map<String, HrefTypeTO> linksMapTO = accountDetailsTO.getLinks();
         assertThat(linksMapTO).isNotNull();
-        assertThat(linksMapTO).isEqualTo(LINKS_MAP);
+        assertThat(linksMapTO).hasSameSizeAs(LINKS_MAP);
     }
 
     static AccountDetails buildAccountDetails() {

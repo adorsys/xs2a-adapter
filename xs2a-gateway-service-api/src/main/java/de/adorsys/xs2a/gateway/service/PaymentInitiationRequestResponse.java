@@ -3,6 +3,7 @@ package de.adorsys.xs2a.gateway.service;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.gateway.service.model.Link;
 
+import java.util.List;
 import java.util.Map;
 
 public class PaymentInitiationRequestResponse {
@@ -19,7 +20,7 @@ public class PaymentInitiationRequestResponse {
     private AuthenticationObject[] scaMethods;
     private ChallengeData challengeData;
     private String psuMessage;
-    private MessageErrorCode[] tppMessages;
+    private List<TppMessage> tppMessages;
 
     public TransactionStatus getTransactionStatus() {
         return transactionStatus;
@@ -101,11 +102,11 @@ public class PaymentInitiationRequestResponse {
         this.psuMessage = psuMessage;
     }
 
-    public MessageErrorCode[] getTppMessages() {
+    public List<TppMessage> getTppMessages() {
         return tppMessages;
     }
 
-    public void setTppMessages(MessageErrorCode[] tppMessages) {
+    public void setTppMessages(List<TppMessage> tppMessages) {
         this.tppMessages = tppMessages;
     }
 }

@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.AccountListTO;
+import de.adorsys.xs2a.gateway.model.AccountListTO;
 import de.adorsys.xs2a.gateway.service.account.AccountListHolder;
 import org.mapstruct.Mapper;
 

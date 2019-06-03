@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.AmountTO;
+import de.adorsys.xs2a.gateway.model.AmountTO;
 import de.adorsys.xs2a.gateway.service.Amount;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;

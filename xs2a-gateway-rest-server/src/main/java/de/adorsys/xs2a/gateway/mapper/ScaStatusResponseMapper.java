@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.shared.ScaStatusResponseTO;
+import de.adorsys.xs2a.gateway.model.ScaStatusResponseTO;
 import de.adorsys.xs2a.gateway.service.model.ScaStatusResponse;
 import org.mapstruct.Mapper;
 

@@ -16,12 +16,12 @@
 
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.ConsentsResponse201;
+import de.adorsys.xs2a.gateway.model.ConsentsResponse201TO;
 import de.adorsys.xs2a.gateway.service.ais.ConsentCreationResponse;
 import org.mapstruct.Mapper;
 
 @Mapper(uses = {AuthenticationObjectMapper.class, ChallengeDataMapper.class})
 public interface ConsentCreationResponseMapper {
 
-    ConsentsResponse201 toConsentResponse201(ConsentCreationResponse response);
+    ConsentsResponse201TO toConsentResponse201(ConsentCreationResponse response);
 }

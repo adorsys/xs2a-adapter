@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.*;
+import de.adorsys.xs2a.gateway.model.*;
 import de.adorsys.xs2a.gateway.service.AccountReference;
 import de.adorsys.xs2a.gateway.service.Amount;
 import de.adorsys.xs2a.gateway.service.account.BankTransactionCode;
@@ -56,7 +56,7 @@ public class TransactionsMapperTest {
 
     @Test
     public void toTransactionDetails() {
-        TransactionDetails transactionDetails = transactionsMapper.toTransactionDetails(buildTransactions());
+        TransactionDetailsTO transactionDetails = transactionsMapper.toTransactionDetails(buildTransactions());
 
         assertThat(transactionDetails).isNotNull();
         assertThat(transactionDetails.getTransactionId()).isEqualTo(TRANSACTION_ID);
@@ -72,10 +72,9 @@ public class TransactionsMapperTest {
         assertThat(transactionAmount).isNotNull();
         assertThat(transactionAmount).isEqualToComparingFieldByField(AMOUNT);
 
-        ExchangeRateList exchangeRateList = transactionDetails.getExchangeRate();
+        List<ReportExchangeRateTO> exchangeRateList = transactionDetails.getCurrencyExchange();
         assertThat(exchangeRateList).isNotNull();
         assertThat(exchangeRateList.size()).isEqualTo(EXCHANGE_RATE_LIST.size());
-        assertThat(exchangeRateList.get(0)).isEqualToComparingFieldByField(EXCHANGE_RATE);
 
         assertThat(transactionDetails.getCreditorName()).isEqualTo(CREDITOR_NAME);
 
@@ -101,9 +100,9 @@ public class TransactionsMapperTest {
         assertThat(transactionDetails.getBankTransactionCode()).isEqualTo(BANK_TRANSACTION_CODE.getCode());
         assertThat(transactionDetails.getProprietaryBankTransactionCode()).isEqualTo(PROPRIETARY_BANK_TRANSACTION_CODE);
 
-        Map<String, Link> linksMapTO = transactionDetails.getLinks();
+        Map<String, HrefTypeTO> linksMapTO = transactionDetails.getLinks();
         assertThat(linksMapTO).isNotNull();
-        assertThat(linksMapTO).isEqualTo(LINKS_MAP);
+        assertThat(linksMapTO).hasSameSizeAs(LINKS_MAP);
     }
 
     @Test

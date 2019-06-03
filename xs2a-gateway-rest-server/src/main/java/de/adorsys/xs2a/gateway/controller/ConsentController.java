@@ -21,9 +21,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import de.adorsys.xs2a.gateway.api.AccountApi;
 import de.adorsys.xs2a.gateway.api.ConsentApi;
 import de.adorsys.xs2a.gateway.mapper.*;
-import de.adorsys.xs2a.gateway.model.ais.*;
-import de.adorsys.xs2a.gateway.model.shared.ScaStatusResponseTO;
-import de.adorsys.xs2a.gateway.model.shared.StartScaprocessResponseTO;
+import de.adorsys.xs2a.gateway.model.*;
 import de.adorsys.xs2a.gateway.service.GeneralResponse;
 import de.adorsys.xs2a.gateway.service.RequestHeaders;
 import de.adorsys.xs2a.gateway.service.RequestParams;
@@ -43,6 +41,7 @@ import java.util.Map;
 
 @RestController
 public class ConsentController extends AbstractController implements ConsentApi, AccountApi {
+    public static String CONSENTS = "/v1/consents";
 
     private final AccountInformationService accountInformationService;
     private final HeadersMapper headersMapper;
@@ -62,7 +61,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
-    public ResponseEntity<ConsentsResponse201> createConsent(Map<String, String> headers, ConsentsTO body) {
+    public ResponseEntity<ConsentsResponse201TO> createConsent(Map<String, String> headers, ConsentsTO body) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         Consents consents = consentMapper.toConsents(body);
 
@@ -75,7 +74,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
-    public ResponseEntity<ConsentInformationResponse200Json> getConsentInformation(String consentId, Map<String, String> headers) {
+    public ResponseEntity<ConsentInformationResponse200JsonTO> getConsentInformation(String consentId, Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
         GeneralResponse<ConsentInformation> response = accountInformationService.getConsentInformation(consentId, requestHeaders);
@@ -87,7 +86,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
-    public ResponseEntity<ConsentStatusResponse200> getConsentStatus(String consentId, Map<String, String> headers) {
+    public ResponseEntity<ConsentStatusResponse200TO> getConsentStatus(String consentId, Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
         GeneralResponse<ConsentStatusResponse> response = accountInformationService.getConsentStatus(consentId, requestHeaders);
@@ -153,12 +152,17 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
-    public ResponseEntity<?> getTransactionList(String accountId, String bookingStatus, LocalDate dateFrom, LocalDate dateTo,
-                                                String entryReferenceFrom, Boolean deltaList, Boolean withBalance, Map<String, String> headers) {
+    public ResponseEntity<Object> getTransactionList(String accountId,
+                                                     LocalDate dateFrom,
+                                                     LocalDate dateTo, String entryReferenceFrom,
+                                                     BookingStatusTO bookingStatus,
+                                                     Boolean deltaList,
+                                                     Boolean withBalance,
+                                                     Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
         RequestParams requestParams = RequestParams.builder()
-                                              .bookingStatus(bookingStatus)
+                                              .bookingStatus(bookingStatus.toString())
                                               .dateFrom(dateFrom)
                                               .dateTo(dateTo)
                                               .entryReferenceFrom(entryReferenceFrom)

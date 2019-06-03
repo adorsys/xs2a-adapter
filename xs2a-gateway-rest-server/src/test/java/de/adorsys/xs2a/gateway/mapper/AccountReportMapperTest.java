@@ -1,7 +1,8 @@
 package de.adorsys.xs2a.gateway.mapper;
 
-import de.adorsys.xs2a.gateway.model.ais.AccountReportTO;
-import de.adorsys.xs2a.gateway.model.ais.TransactionList;
+import de.adorsys.xs2a.gateway.model.AccountReportTO;
+import de.adorsys.xs2a.gateway.model.HrefTypeTO;
+import de.adorsys.xs2a.gateway.model.TransactionDetailsTO;
 import de.adorsys.xs2a.gateway.service.account.AccountReport;
 import de.adorsys.xs2a.gateway.service.account.Transactions;
 import de.adorsys.xs2a.gateway.service.model.Link;
@@ -33,17 +34,17 @@ public class AccountReportMapperTest {
 
         assertThat(accountReportTO).isNotNull();
 
-        TransactionList bookedTransactionList = accountReportTO.getBooked();
+        List<TransactionDetailsTO> bookedTransactionList = accountReportTO.getBooked();
         assertThat(bookedTransactionList).isNotNull();
         assertThat(bookedTransactionList.size()).isEqualTo(BOOKED_LIST.size());
 
-        TransactionList pendingTransactionList = accountReportTO.getPending();
+        List<TransactionDetailsTO> pendingTransactionList = accountReportTO.getPending();
         assertThat(pendingTransactionList).isNotNull();
         assertThat(pendingTransactionList.size()).isEqualTo(PENDING_LIST.size());
 
-        Map<String, Link> linksMapTO = accountReportTO.getLinks();
+        Map<String, HrefTypeTO> linksMapTO = accountReportTO.getLinks();
         assertThat(linksMapTO).isNotNull();
-        assertThat(linksMapTO).isEqualTo(LINKS_MAP);
+        assertThat(linksMapTO).hasSameSizeAs(LINKS_MAP);
     }
 
     static AccountReport buildAccountReport() {
