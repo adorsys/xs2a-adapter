@@ -23,7 +23,8 @@
         <module>verlag-adapter</module>
         <module>fiducia-adapter</module>
         <module>dkb-adapter</module>
-    </modules>
+        <module>commerzbank-adapter</module>
+  </modules>
 
     <dependencies>
 
