@@ -1126,9 +1126,12 @@
 									"script": {
 										"id": "024bd3e3-4113-4b54-b394-383c710b4ce2",
 										"exec": [
-											"const paymentProductSupported = pm.iterationData.get(\"sepa-credit-transfers-supported\");",
+											"// both variables are needed, because this test could be run with the evironment variables collection and with data file as well",
+											"// so it is important to check both possible approaches",
+											"const paymentProductSupportedEnvironmentVar = pm.environment.get(\"sepa-credit-transfers-supported\");    // get env var",
+											"const paymentProductSupportedIterationVar = pm.iterationData.get(\"sepa-credit-transfers-supported\");    // get var from data file for the current iteration",
 											"",
-											"if (paymentProductSupported === \"false\") {",
+											"if (paymentProductSupportedEnvironmentVar !== \"true\" && paymentProductSupportedIterationVar !== \"true\") {",
 											"    postman.setNextRequest(\"Payment_Product_Support_Checking_Step_pain.001_sepa_credit_transfers\");",
 											"}"
 										],
@@ -1140,7 +1143,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": ""
+									"raw": "http://example.com",
+									"protocol": "http",
+									"host": [
+										"example",
+										"com"
+									]
 								}
 							},
 							"response": []
@@ -1173,6 +1181,16 @@
 											"        pm.globals.set(\"authorisationId\", authorisationId);",
 											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers\");",
 											"    }",
+											"} else if (jsonData._links.startAuthorisationWithPsuAuthentication) {",
+											"    var startAuthorisationWithPsuAuthenticationUri = jsonData._links.startAuthorisationWithPsuAuthentication.href;",
+											"    var matches = startAuthorisationWithPsuAuthenticationUri.match(/authorisations\\/(.+)/);",
+											"    if (matches && matches[1]) {",
+											"        var authorisationId = matches[1];",
+											"        pm.globals.set(\"authorisationId\", authorisationId);",
+											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers\");",
+											"    } else {",
+											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_sepa_credit_transfers\");",
+											"    }",
 											"} else if (jsonData._links.startAuthorisationWithEncryptedPsuAuthentication) {",
 											"    var startAuthorisationWithEncryptedPsuAuthentication = jsonData._links.startAuthorisationWithEncryptedPsuAuthentication.href;",
 											"    var matches = startAuthorisationWithEncryptedPsuAuthentication.match(/authorisations\\/(.+)/);",
@@ -1186,6 +1204,11 @@
 											"} else if (jsonData._links.scaRedirect) {",
 											"    var scaRedirect = jsonData._links.scaRedirect.href;",
 											"    pm.globals.set(\"scaRedirect\", scaRedirect);",
+											"    var adapter = pm.variables.get(\"adapter\");",
+											"    if (adapter === \"dab-bank\" || adapter === \"consors-bank\" || adapter === \"sparda-bank\") {",
+											"        pm.globals.set(\"authorisationId\", scaRedirect.split('/').pop());",
+											"        postman.setNextRequest(\"SCA/Redirect/DAB&Consors&Sparda_PIS_sepa_credit_transfers\");",
+											"    }",
 											"}"
 										],
 										"type": "text/javascript"
@@ -1250,6 +1273,42 @@
 										"v1",
 										"payments",
 										"sepa-credit-transfers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SCA/Redirect/DAB&Consors&Sparda_PIS_sepa_credit_transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3620d4f5-d0c3-410c-ae18-a953317608ec",
+										"exec": [
+											"pm.test(\"Consent status is valid\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"The payment status has changed to: AcceptedSettlementCompleted\");",
+											"});",
+											"",
+											"postman.setNextRequest(\"PIS/GetPayment/001a\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{scaRedirect}}?psu-id=PSU-Successful",
+									"host": [
+										"{{scaRedirect}}"
+									],
+									"query": [
+										{
+											"key": "psu-id",
+											"value": "PSU-Successful"
+										}
 									]
 								}
 							},
@@ -1322,7 +1381,11 @@
 											"",
 											"pm.test(\"Transaction status received\", function () {",
 											"    pm.expect(jsonData).to.have.property('transactionStatus');",
-											"});"
+											"});",
+											"",
+											"if (jsonData.transactionStatus === 'ACSC') {",
+											"    postman.setNextRequest(\"Payment_Product_Support_Checking_Step_pain.001_sepa_credit_transfers\");",
+											"}"
 										],
 										"type": "text/javascript"
 									}
@@ -1852,9 +1915,12 @@
 									"script": {
 										"id": "024bd3e3-4113-4b54-b394-383c710b4ce2",
 										"exec": [
-											"const paymentProductSupported = pm.iterationData.get(\"pain.001-sepa-credit-transfers-supported\");",
+											"// both variables are needed, because this test could be run with the evironment variables collection and with data file as well",
+											"// so it is important to check both possible approaches",
+											"const paymentProductSupportedEnvironmentVar = pm.environment.get(\"pain.001-sepa-credit-transfers-supported\");   // get env var",
+											"const paymentProductSupportedIterationVar = pm.iterationData.get(\"pain.001-sepa-credit-transfers-supported\");   // get var from data file for the current iteration",
 											"",
-											"if (paymentProductSupported === \"false\") {",
+											"if (paymentProductSupportedEnvironmentVar !== \"true\" && paymentProductSupportedIterationVar !== \"true\") {",
 											"    postman.setNextRequest(null);",
 											"}"
 										],
@@ -1866,7 +1932,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": ""
+									"raw": "http://example.com",
+									"protocol": "http",
+									"host": [
+										"example",
+										"com"
+									]
 								}
 							},
 							"response": []
