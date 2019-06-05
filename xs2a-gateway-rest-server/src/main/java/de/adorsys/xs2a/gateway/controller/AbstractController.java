@@ -80,4 +80,19 @@ public abstract class AbstractController {
             return apply(objectMapper.convertValue(body, TransactionAuthorisation.class));
         }
     }
+
+    @FunctionalInterface
+    interface StartAuthorisationHandler extends AuthorisationBodyHandler<StartAuthorisationHandler.EmptyAuthorisationBody> {
+
+        class EmptyAuthorisationBody {
+        }
+
+        default boolean isApplicable(ObjectNode body) {
+            return !body.fields().hasNext();
+        }
+
+        default GeneralResponse<?> apply(ObjectNode body, ObjectMapper objectMapper) {
+            return apply(new EmptyAuthorisationBody());
+        }
+    }
 }
