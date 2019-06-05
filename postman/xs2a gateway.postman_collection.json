@@ -92,11 +92,11 @@
 							},
 							{
 								"key": "PSU-ID-Type",
-								"value": "{{psuIdType}}"
+								"value": "{{psuIdType_AIS}}"
 							},
 							{
 								"key": "PSU-ID",
-								"value": "{{psuId}}"
+								"value": "{{psuId_AIS}}"
 							},
 							{
 								"key": "Content-Type",
@@ -124,7 +124,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"access\": {\n        \"balances\": [\n            {\n                \"iban\": \"{{iban}}\",\n                \"currency\": \"EUR\"\n            }\n        ],\n        \"transactions\": [\n            {\n                \"iban\": \"{{iban}}\",\n                \"currency\": \"EUR\"\n            }\n        ],\n        \"accounts\": [\n            {\n                \"iban\": \"{{iban}}\",\n                \"currency\": \"EUR\"\n            }\n        ]\n    },\n    \"combinedServiceIndicator\": \"false\",\n    \"recurringIndicator\": \"true\",\n    \"validUntil\": \"{{validUntil}}\",\n    \"frequencyPerDay\": \"4\"\n}"
+							"raw": "{\n    \"access\": {\n        \"balances\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ],\n        \"transactions\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ],\n        \"accounts\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ]\n    },\n    \"combinedServiceIndicator\": \"false\",\n    \"recurringIndicator\": \"true\",\n    \"validUntil\": \"{{validUntil}}\",\n    \"frequencyPerDay\": \"4\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents",
@@ -369,7 +369,7 @@
 							},
 							{
 								"key": "PSU-ID",
-								"value": "{{psuId}}",
+								"value": "{{psuId_AIS}}",
 								"type": "text"
 							},
 							{
@@ -391,7 +391,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password}}\"\n    }\n}"
+							"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_AIS}}\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations",
@@ -450,7 +450,7 @@
 							{
 								"key": "PSU-ID",
 								"type": "text",
-								"value": "{{psuId}}"
+								"value": "{{psuId_AIS}}"
 							},
 							{
 								"key": "Content-Type",
@@ -471,7 +471,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"psuData\": {\n        \"encryptedPassword\": \"{{password}}\"\n    }\n}"
+							"raw": "{\n    \"psuData\": {\n        \"encryptedPassword\": \"{{password_AIS}}\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations",
@@ -536,18 +536,18 @@
 							},
 							{
 								"key": "PSU-ID",
-								"value": "{{psuId}}",
+								"value": "{{psuId_AIS}}",
 								"type": "text"
 							},
 							{
 								"key": "PSU-ID-Type",
-								"value": "{{psuIdType}}",
+								"value": "{{psuIdType_AIS}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password}}\"\n    }\n}"
+							"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_AIS}}\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations/{{authorisationId}}",
@@ -613,17 +613,17 @@
 							{
 								"key": "PSU-ID",
 								"type": "text",
-								"value": "{{psuId}}"
+								"value": "{{psuId_AIS}}"
 							},
 							{
 								"key": "PSU-ID-Type",
 								"type": "text",
-								"value": "{{psuIdType}}"
+								"value": "{{psuIdType_AIS}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"psuData\": {\n        \"encryptedPassword\": \"{{password}}\"\n    }\n}"
+							"raw": "{\n    \"psuData\": {\n        \"encryptedPassword\": \"{{password_AIS}}\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations/{{authorisationId}}",
@@ -655,7 +655,7 @@
 									"});",
 									"",
 									"pm.test(\"SCA method as indicated by the request field \\\"authenticationMethodId\\\"\", function () {",
-									"    var authenticationMethodId = pm.variables.get(\"authenticationMethodId\");",
+									"    var authenticationMethodId = pm.variables.get(\"authenticationMethodId_AIS\");",
 									"    pm.response.to.have.jsonBody(\"chosenScaMethod.authenticationMethodId\", authenticationMethodId);",
 									"});",
 									"",
@@ -688,18 +688,18 @@
 							},
 							{
 								"key": "PSU-ID-Type",
-								"value": "{{psuIdType}}",
+								"value": "{{psuIdType_AIS}}",
 								"type": "text"
 							},
 							{
 								"key": "PSU-ID",
-								"value": "{{psuId}}",
+								"value": "{{psuId_AIS}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId}}\"\r\n}"
+							"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId_AIS}}\"\r\n}"
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations/{{authorisationId}}",
@@ -755,18 +755,18 @@
 							},
 							{
 								"key": "PSU-ID-Type",
-								"value": "{{psuIdType}}",
+								"value": "{{psuIdType_AIS}}",
 								"type": "text"
 							},
 							{
 								"key": "PSU-ID",
-								"value": "{{psuId}}",
+								"value": "{{psuId_AIS}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"scaAuthenticationData\": \"{{scaAuthenticationData}}\"\n}"
+							"raw": "{\n    \"scaAuthenticationData\": \"{{scaAuthenticationData_AIS}}\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations/{{authorisationId}}",
@@ -1246,12 +1246,12 @@
 									},
 									{
 										"key": "PSU-ID",
-										"value": "{{psuId}}",
+										"value": "{{psuId_PIS}}",
 										"type": "text"
 									},
 									{
 										"key": "PSU-ID-Type",
-										"value": "{{psuIdType}}",
+										"value": "{{psuIdType_PIS}}",
 										"type": "text"
 									},
 									{
@@ -1262,7 +1262,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"creditorAccount\": {\n        \"iban\": \"{{iban}}\",\n        \"currency\": \"EUR\"\n    },\n    \"creditorName\": \"{{creditorName}}}\",\n    \"debtorAccount\": {\n        \"iban\": \"{{iban}}\",\n        \"currency\": \"EUR\"\n    },\n    \"instructedAmount\": {\n        \"amount\": \"20.99\",\n        \"currency\": \"EUR\"\n    },\n    \"remittanceInformationUnstructured\": \"just\",\n    \"endToEndIdentification\": \"SandboxTPPTest1\"\n}"
+									"raw": "{\n    \"creditorAccount\": {\n        \"iban\": \"{{iban_PIS}}\",\n        \"currency\": \"EUR\"\n    },\n    \"creditorName\": \"{{creditorName}}}\",\n    \"debtorAccount\": {\n        \"iban\": \"{{iban_PIS}}\",\n        \"currency\": \"EUR\"\n    },\n    \"instructedAmount\": {\n        \"amount\": \"20.99\",\n        \"currency\": \"EUR\"\n    },\n    \"remittanceInformationUnstructured\": \"just\",\n    \"endToEndIdentification\": \"SandboxTPPTest1\"\n}"
 								},
 								"url": {
 									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers",
@@ -1409,12 +1409,12 @@
 									},
 									{
 										"key": "PSU-ID",
-										"value": "648403403900",
+										"value": "{{psuID_PIS}}",
 										"type": "text"
 									},
 									{
 										"key": "PSU-ID-Type",
-										"value": "FKDN",
+										"value": "{{psuIdType_PIS}}",
 										"type": "text"
 									},
 									{
@@ -1483,7 +1483,7 @@
 									{
 										"key": "PSU-ID",
 										"type": "text",
-										"value": "{{psuId}}"
+										"value": "{{psuId_PIS}}"
 									},
 									{
 										"key": "Content-Type",
@@ -1504,7 +1504,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password}}\"\n    }\n}"
+									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_PIS}}\"\n    }\n}"
 								},
 								"url": {
 									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations",
@@ -1564,7 +1564,7 @@
 									{
 										"key": "PSU-ID",
 										"type": "text",
-										"value": "{{psuId}}"
+										"value": "{{psuId_PIS}}"
 									},
 									{
 										"key": "Content-Type",
@@ -1585,7 +1585,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"psuData\": {\n        \"encryptedPassword\": \"{{password}}\"\n    }\n}"
+									"raw": "{\n    \"psuData\": {\n        \"encryptedPassword\": \"{{password_PIS}}\"\n    }\n}"
 								},
 								"url": {
 									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations",
@@ -1651,17 +1651,17 @@
 									{
 										"key": "PSU-ID",
 										"type": "text",
-										"value": "{{psuId}}"
+										"value": "{{psuId_PIS}}"
 									},
 									{
 										"key": "PSU-ID-Type",
 										"type": "text",
-										"value": "{{psuIdType}}"
+										"value": "{{psuIdType_PIS}}"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password}}\"\n    }\n}"
+									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_PIS}}\"\n    }\n}"
 								},
 								"url": {
 									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
@@ -1727,17 +1727,17 @@
 									{
 										"key": "PSU-ID",
 										"type": "text",
-										"value": "{{psuId}}"
+										"value": "{{psuId_PIS}}"
 									},
 									{
 										"key": "PSU-ID-Type",
 										"type": "text",
-										"value": "{{psuIdType}}"
+										"value": "{{psuIdType_PIS}}"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"psuData\": {\n        \"encryptedPassword\": \"{{password}}\"\n    }\n}"
+									"raw": "{\n    \"psuData\": {\n        \"encryptedPassword\": \"{{password_PIS}}\"\n    }\n}"
 								},
 								"url": {
 									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
@@ -1770,7 +1770,7 @@
 											"});",
 											"",
 											"pm.test(\"SCA method as indicated by the request field \\\"authenticationMethodId\\\"\", function () {",
-											"    var authenticationMethodId = pm.variables.get(\"authenticationMethodId\");",
+											"    var authenticationMethodId = pm.variables.get(\"authenticationMethodId_PIS\");",
 											"    pm.response.to.have.jsonBody(\"chosenScaMethod.authenticationMethodId\", authenticationMethodId);",
 											"});",
 											"",
@@ -1804,17 +1804,17 @@
 									{
 										"key": "PSU-ID-Type",
 										"type": "text",
-										"value": "{{psuIdType}}"
+										"value": "{{psuIdType_PIS}}"
 									},
 									{
 										"key": "PSU-ID",
-										"value": "{{psuId}}",
+										"value": "{{psuId_PIS}}",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId}}\"\r\n}"
+									"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId_PIS}}\"\r\n}"
 								},
 								"url": {
 									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
@@ -1872,17 +1872,17 @@
 									{
 										"key": "PSU-ID-Type",
 										"type": "text",
-										"value": "{{psuIdType}}"
+										"value": "{{psuIdType_PIS}}"
 									},
 									{
 										"key": "PSU-ID",
-										"value": "{{psuId}}",
+										"value": "{{psuId_PIS}}",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"scaAuthenticationData\": \"{{scaAuthenticationData}}\"\n}"
+									"raw": "{\n    \"scaAuthenticationData\": \"{{scaAuthenticationData_PIS}}\"\n}"
 								},
 								"url": {
 									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
@@ -1996,12 +1996,12 @@
 									},
 									{
 										"key": "PSU-ID",
-										"value": "{{psuId}}",
+										"value": "{{psuId_PIS}}",
 										"type": "text"
 									},
 									{
 										"key": "PSU-ID-Type",
-										"value": "{{psuIdType}}",
+										"value": "{{psuIdType_PIS}}",
 										"type": "text"
 									},
 									{
@@ -2012,7 +2012,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.03\">\n    <CstmrCdtTrfInitn>\n        <GrpHdr>\n            <MsgId>PSD294387538754378</MsgId>\n            <CreDtTm>2018-12-10T09:40:47.314+01:00</CreDtTm>\n            <NbOfTxs>1</NbOfTxs>\n            <CtrlSum>100</CtrlSum>\n            <InitgPty>\n                <Nm>Name InitgPty</Nm>\n            </InitgPty>\n        </GrpHdr>\n        <PmtInf>\n            <PmtInfId>NOTPROVIDED</PmtInfId>\n            <PmtMtd>TRF</PmtMtd>\n            <NbOfTxs>1</NbOfTxs>\n            <CtrlSum>100</CtrlSum>\n            <ReqdExctnDt>1999-01-01</ReqdExctnDt>\n            <Dbtr>\n                <Nm>Debtor Name</Nm>\n            </Dbtr>\n            <DbtrAcct>\n                <Id>\n                    <IBAN>{{IBAN_available}}</IBAN>\n                </Id>\n            </DbtrAcct>\n            <DbtrAgt>\n                <FinInstnId>\n                    <BIC>TESTDETT421</BIC>\n                </FinInstnId>\n            </DbtrAgt>\n            <ChrgBr>SLEV</ChrgBr>\n            <CdtTrfTxInf>\n                <PmtId>\n                    <EndToEndId>EndToEndId</EndToEndId>\n                </PmtId>\n                <Amt>\n                    <InstdAmt Ccy=\"EUR\">100</InstdAmt>\n                </Amt>\n                <Cdtr>\n                    <Nm>Hans Handbuch</Nm>\n                </Cdtr>\n                <CdtrAcct>\n                    <Id>\n                        <IBAN>{{IBAN_receiving}}</IBAN>\n                    </Id>\n                </CdtrAcct>\n                <RmtInf>\n                    <Ustrd>POSTPaymentEmbPain_OK</Ustrd>\n                </RmtInf>\n            </CdtTrfTxInf>\n        </PmtInf>\n    </CstmrCdtTrfInitn>\n</Document>"
+									"raw": "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.03\">\n    <CstmrCdtTrfInitn>\n        <GrpHdr>\n            <MsgId>PSD294387538754378</MsgId>\n            <CreDtTm>2018-12-10T09:40:47.314+01:00</CreDtTm>\n            <NbOfTxs>1</NbOfTxs>\n            <CtrlSum>100</CtrlSum>\n            <InitgPty>\n                <Nm>Name InitgPty</Nm>\n            </InitgPty>\n        </GrpHdr>\n        <PmtInf>\n            <PmtInfId>NOTPROVIDED</PmtInfId>\n            <PmtMtd>TRF</PmtMtd>\n            <NbOfTxs>1</NbOfTxs>\n            <CtrlSum>100</CtrlSum>\n            <ReqdExctnDt>1999-01-01</ReqdExctnDt>\n            <Dbtr>\n                <Nm>Debtor Name</Nm>\n            </Dbtr>\n            <DbtrAcct>\n                <Id>\n                    <IBAN>{{iban_PIS}}</IBAN>\n                </Id>\n            </DbtrAcct>\n            <DbtrAgt>\n                <FinInstnId>\n                    <BIC>TESTDETT421</BIC>\n                </FinInstnId>\n            </DbtrAgt>\n            <ChrgBr>SLEV</ChrgBr>\n            <CdtTrfTxInf>\n                <PmtId>\n                    <EndToEndId>EndToEndId</EndToEndId>\n                </PmtId>\n                <Amt>\n                    <InstdAmt Ccy=\"EUR\">100</InstdAmt>\n                </Amt>\n                <Cdtr>\n                    <Nm>Hans Handbuch</Nm>\n                </Cdtr>\n                <CdtrAcct>\n                    <Id>\n                        <IBAN>{{iban_PIS}}</IBAN>\n                    </Id>\n                </CdtrAcct>\n                <RmtInf>\n                    <Ustrd>POSTPaymentEmbPain_OK</Ustrd>\n                </RmtInf>\n            </CdtTrfTxInf>\n        </PmtInf>\n    </CstmrCdtTrfInitn>\n</Document>"
 								},
 								"url": {
 									"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers",
@@ -2122,7 +2122,7 @@
 									{
 										"key": "PSU-ID",
 										"type": "text",
-										"value": "{{psuId}}"
+										"value": "{{psuId_PIS}}"
 									},
 									{
 										"key": "Content-Type",
@@ -2143,7 +2143,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password}}\"\n    }\n}"
+									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_PIS}}\"\n    }\n}"
 								},
 								"url": {
 									"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/authorisations",
@@ -2243,17 +2243,17 @@
 									{
 										"key": "PSU-ID",
 										"type": "text",
-										"value": "{{psuId}}"
+										"value": "{{psuId_PIS}}"
 									},
 									{
 										"key": "PSU-ID-Type",
 										"type": "text",
-										"value": "{{psuIdType}}"
+										"value": "{{psuIdType_PIS}}"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password}}\"\n    }\n}"
+									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_PIS}}\"\n    }\n}"
 								},
 								"url": {
 									"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
@@ -2286,7 +2286,7 @@
 											"});",
 											"",
 											"pm.test(\"SCA method as indicated by the request field \\\"authenticationMethodId\\\"\", function () {",
-											"    var authenticationMethodId = pm.variables.get(\"authenticationMethodId\");",
+											"    var authenticationMethodId = pm.variables.get(\"authenticationMethodId_PIS\");",
 											"    pm.response.to.have.jsonBody(\"chosenScaMethod.authenticationMethodId\", authenticationMethodId);",
 											"});",
 											"",
@@ -2320,12 +2320,17 @@
 									{
 										"key": "PSU-ID-Type",
 										"type": "text",
-										"value": "{{psuIdType}}"
+										"value": "{{psuIdType_PIS}}"
+									},
+									{
+										"key": "PSU-ID",
+										"type": "text",
+										"value": "{{psuId_PIS}}"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId}}\"\r\n}"
+									"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId_PIS}}\"\r\n}"
 								},
 								"url": {
 									"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
@@ -2383,12 +2388,17 @@
 									{
 										"key": "PSU-ID-Type",
 										"type": "text",
-										"value": "{{psuIdType}}"
+										"value": "{{psuIdType_PIS}}"
+									},
+									{
+										"key": "PSU-ID",
+										"type": "text",
+										"value": "{{psuId_PIS}}"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"scaAuthenticationData\": \"{{scaAuthenticationData}}\"\n}"
+									"raw": "{\n    \"scaAuthenticationData\": \"{{scaAuthenticationData_PIS}}\"\n}"
 								},
 								"url": {
 									"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
