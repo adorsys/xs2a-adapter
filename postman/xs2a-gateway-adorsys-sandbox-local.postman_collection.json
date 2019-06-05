@@ -789,12 +789,12 @@
 							},
 							{
 								"key": "PSU-ID",
-								"value": "648403403900",
+								"value": "{{psuId}}",
 								"type": "text"
 							},
 							{
 								"key": "PSU-ID-Type",
-								"value": "FKDN",
+								"value": "{{psuIdType}}",
 								"type": "text"
 							},
 							{
