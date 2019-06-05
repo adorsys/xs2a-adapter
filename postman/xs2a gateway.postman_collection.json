@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "426b1e6a-1ccd-4ece-b2a2-c0c9744a2b5c",
+		"_postman_id": "0ca3681a-4a42-4f31-9504-ea2c7795d099",
 		"name": "xs2a gateway",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -119,6 +119,11 @@
 							{
 								"key": "TPP-Explicit-Authorisation-Preferred",
 								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "TPP-Redirect-URI",
+								"value": "https://example.com",
 								"type": "text"
 							}
 						],
