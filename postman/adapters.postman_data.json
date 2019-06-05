@@ -3,10 +3,12 @@
     "adapter": "sparkasse",
     "bankCode": "99999999",
     "psuId": "chipTAN",
+    "psuIdType": "",
     "iban": "DE86999999990000001000",
     "password": "okok1",
     "authenticationMethodId": "OPTICAL",
     "scaAuthenticationData": "111111",
+    "creditorName": "Merchant123",
     "sepa-credit-transfers-supported": "true",
     "pain.001-sepa-credit-transfers-supported": "true"
   },
@@ -40,7 +42,9 @@
     "adapter": "dab-bank",
     "bankCode": "70120400",
     "psuId": "PSU-Successful",
+    "psuIdType": "",
     "iban": "DE74701204003326455007",
+    "creditorName": "Merchant123",
     "sepa-credit-transfers-supported": "true",
     "pain.001-sepa-credit-transfers-supported": "false"
   },
@@ -48,7 +52,9 @@
     "adapter": "consors-bank",
     "bankCode": "76030080",
     "psuId": "PSU-Successful",
+    "psuIdType": "",
     "iban": "DE60760300800500123456",
+    "creditorName": "Merchant123",
     "sepa-credit-transfers-supported": "true",
     "pain.001-sepa-credit-transfers-supported": "false"
   },
@@ -56,7 +62,9 @@
     "adapter": "sparda-bank",
     "bankCode": "sparda-bank",
     "psuId": "PSU-Successful",
+    "psuIdType": "",
     "iban": "DE32799905998833114935",
+    "creditorName": "Merchant123",
     "sepa-credit-transfers-supported": "true",
     "pain.001-sepa-credit-transfers-supported": "false"
   },
@@ -64,10 +72,12 @@
     "adapter": "fiducia",
     "bankCode": "88888888",
     "psuId": "VRK1234567890ALL",
+    "psuIdType": "",
     "iban": "DE87499999600000005120",
     "password": "password",
     "authenticationMethodId": "942",
     "scaAuthenticationData": "123456",
+    "creditorName": "Merchant123",
     "sepa-credit-transfers-supported": "false",
     "pain.001-sepa-credit-transfers-supported": "true"
   }
