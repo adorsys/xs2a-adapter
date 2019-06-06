@@ -5,10 +5,7 @@ import de.adorsys.xs2a.gateway.model.TppMessageCategoryTO;
 import de.adorsys.xs2a.gateway.service.ErrorResponse;
 import de.adorsys.xs2a.gateway.service.RequestHeaders;
 import de.adorsys.xs2a.gateway.service.TppMessage;
-import de.adorsys.xs2a.gateway.service.exception.BankCodeNotProvidedException;
-import de.adorsys.xs2a.gateway.service.exception.BankNotSupportedException;
-import de.adorsys.xs2a.gateway.service.exception.ErrorResponseException;
-import de.adorsys.xs2a.gateway.service.exception.NotAcceptableException;
+import de.adorsys.xs2a.gateway.service.exception.*;
 import de.adorsys.xs2a.gateway.signing.exception.HttpRequestSigningException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -60,6 +57,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
+        return new ResponseEntity<>(errorResponse, headers, httpStatus);
+    }
+
+    @ExceptionHandler
+    ResponseEntity handle(UncheckedSSLHandshakeException exception) {
+        logger.error(exception.getMessage(), exception);
+        String errorText = "Exception during the SSL handshake process";
+        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
+        HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.BANK);
         return new ResponseEntity<>(errorResponse, headers, httpStatus);
     }
 
