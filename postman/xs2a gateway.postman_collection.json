@@ -77,7 +77,9 @@
 									"const date = new Date();",
 									"date.setDate(date.getDate() + 1);",
 									"const tomorrow = date.toISOString().split(\"T\")[0];",
-									"pm.globals.set(\"validUntil\", tomorrow);"
+									"pm.globals.set(\"validUntil\", tomorrow);",
+									"",
+									"pm.globals.unset(\"scaRedirect\");"
 								],
 								"type": "text/javascript"
 							}
@@ -434,7 +436,7 @@
 									"",
 									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 									"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3\");",
+									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_encrypted\");",
 									"});",
 									"",
 									"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
@@ -514,6 +516,7 @@
 									"",
 									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 									"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1115,6 +1118,30 @@
 					},
 					"response": []
 				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a0fac88b-55b0-4435-a9ad-78c603c91e13",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "90ee5cc6-c25e-4bbd-bfb4-9a7033837514",
+						"type": "text/javascript",
+						"exec": [
+							"if (pm.response.code >= 400) {",
+							"    postman.setNextRequest(\"Payment_Product_Support_Checking_Step_sepa_credit_transfers\");",
+							"}"
+						]
+					}
+				}
 			]
 		},
 		{
@@ -1224,7 +1251,7 @@
 									"script": {
 										"id": "a058a5e9-10d7-40c6-9632-29f42a83417a",
 										"exec": [
-											""
+											"pm.globals.unset(\"scaRedirect\");"
 										],
 										"type": "text/javascript"
 									}
@@ -1548,7 +1575,7 @@
 											"",
 											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers\");",
+											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers_encrypted\");",
 											"});",
 											"",
 											"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
@@ -1628,6 +1655,7 @@
 											"",
 											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers\");",
 											"});"
 										],
 										"type": "text/javascript"
@@ -1907,6 +1935,30 @@
 							"response": []
 						}
 					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "21995a29-a1b5-47b9-b517-633098f30f9e",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "f0005302-6aeb-4e4d-9d0f-2047bfaa411e",
+								"type": "text/javascript",
+								"exec": [
+									"if (pm.response.code >= 400) {",
+									"    postman.setNextRequest(\"Payment_Product_Support_Checking_Step_pain.001_sepa_credit_transfers\");",
+									"}"
+								]
+							}
+						}
+					],
 					"_postman_isSubFolder": true
 				},
 				{
@@ -1955,7 +2007,7 @@
 									"script": {
 										"id": "692e5b8a-3166-4f45-8241-0048d0d51334",
 										"exec": [
-											""
+											"pm.globals.unset(\"scaRedirect\");"
 										],
 										"type": "text/javascript"
 									}
@@ -2421,6 +2473,30 @@
 								}
 							},
 							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "630a04ac-d0f3-4111-86c6-8ce0f5bc1e6b",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "a7c6b532-b063-412e-b563-35c95be576a1",
+								"type": "text/javascript",
+								"exec": [
+									"if (pm.response.code >= 400) {",
+									"    postman.setNextRequest(null);",
+									"}"
+								]
+							}
 						}
 					],
 					"_postman_isSubFolder": true
