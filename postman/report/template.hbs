@@ -480,8 +480,17 @@
                             <a data-toggle="collapse" href="#" data-target="#collapse-{{cursor.ref}}"
                                aria-expanded="false" aria-controls="collapse" id="requests-{{cursor.ref}}"
                                class="collapsed text-white z-block">
-                                Iteration: {{inc cursor.iteration}} - {{item.name}} <i
-                                    class="float-lg-right fa fa-chevron-down"></i>
+                                Iteration: {{inc cursor.iteration}} - {{item.name}}
+                                <i class="float-lg-right fa fa-chevron-down"></i>
+                                <span class="float-lg-right">
+                                    {{#if cumulativeTests.failed}}
+                                        {{#each response.header}}
+                                            {{#contains key "X-GTW-Error-Origination"}}
+                                                {{value}}
+                                            {{/contains}}
+                                        {{/each}}
+                                    {{/if}}
+                                </span>
                             </a>
                         </div>
                         <div id="collapse-{{cursor.ref}}" class="collapse" aria-labelledby="requests-{{cursor.ref}}">
@@ -785,6 +794,7 @@
     })
 </script>
 
+<!-- Handlebars helpers registering -->
 <script>
     Handlebars.registerHelper('contains', function (string, pisChars, options) {
         if (string.toString().toLowerCase().includes(pisChars.toLowerCase())) {
