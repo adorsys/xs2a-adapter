@@ -2,6 +2,7 @@ package de.adorsys.xs2a.gateway.http;
 
 import de.adorsys.xs2a.gateway.service.GeneralResponse;
 import de.adorsys.xs2a.gateway.service.ResponseHeaders;
+import de.adorsys.xs2a.gateway.service.exception.UncheckedSSLHandshakeException;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.*;
@@ -12,6 +13,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.io.EmptyInputStream;
 
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLHandshakeException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
@@ -72,6 +74,8 @@ class ApacheHttpClient implements HttpClient {
                 T responseBody = responseHandler.apply(statusCode, content, responseHeaders);
                 return new GeneralResponse<>(statusCode, responseBody, responseHeaders);
             }
+        } catch (SSLHandshakeException e) {
+            throw new UncheckedSSLHandshakeException(e);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
