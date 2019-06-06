@@ -144,10 +144,12 @@
     "iban_PIS": "DE38760700240320465700",
     "password_AIS": "12345",
     "password_PIS": "12345",
+    "authenticationMethodId_AIS": "wmNr_kh-StYgvmnf_cb6ko",
+    "authenticationMethodId_PIS": "wmNr_kh-StYgvmnf_cb6ko",
     "scaAuthenticationData_AIS": "123456",
     "scaAuthenticationData_PIS": "123456",
     "creditorName": "Merchant123",
     "sepa-credit-transfers-supported": "true",
-    "pain.001-sepa-credit-transfers-supported": "true"
+    "pain.001-sepa-credit-transfers-supported": "false"
   }
 ]
