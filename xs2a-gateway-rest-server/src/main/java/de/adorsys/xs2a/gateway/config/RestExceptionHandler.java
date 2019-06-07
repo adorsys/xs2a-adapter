@@ -46,7 +46,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     ResponseEntity handle(NotAcceptableException exception) {
         return ResponseEntity
                        .status(HttpStatus.NOT_ACCEPTABLE)
-                       .headers(addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER))
+                       .headers(addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.BANK))
                        .build();
     }
 
