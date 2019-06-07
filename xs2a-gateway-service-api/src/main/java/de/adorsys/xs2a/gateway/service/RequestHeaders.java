@@ -31,6 +31,7 @@ public class RequestHeaders {
     private static final String PSU_GEO_LOCATION = "PSU-Geo-Location";
     // technical
     private static final String ACCEPT = "Accept";
+    private static final String AUTHORIZATION = "Authorization";
 
     private static Map<String, String> headerNamesLowerCased = new HashMap<>();
 
@@ -60,6 +61,7 @@ public class RequestHeaders {
         headerNamesLowerCased.put(PSU_DEVICE_ID.toLowerCase(), PSU_DEVICE_ID);
         headerNamesLowerCased.put(PSU_GEO_LOCATION.toLowerCase(), PSU_GEO_LOCATION);
         headerNamesLowerCased.put(ACCEPT.toLowerCase(), ACCEPT);
+        headerNamesLowerCased.put(AUTHORIZATION.toLowerCase(), AUTHORIZATION);
     }
 
     private Map<String, String> headers;
