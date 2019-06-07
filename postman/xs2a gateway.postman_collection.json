@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0ca3681a-4a42-4f31-9504-ea2c7795d099",
+		"_postman_id": "cd29e350-4638-4079-a79a-027b237f6106",
 		"name": "xs2a gateway",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -62,6 +62,8 @@
 									"        pm.globals.set(\"authorisationId\", scaRedirect.split('/').pop());",
 									"        postman.setNextRequest(\"SCA/Redirect/DAB&Consors&Sparda_AIS\");",
 									"    }",
+									"} else if (jsonData._links.startAuthorization) {",
+									"    postman.setNextRequest(\"SCA/Redirect/001a_Msg2\");",
 									"}",
 									"",
 									"pm.globals.set(\"consentId\", pm.response.json().consentId);"
@@ -333,6 +335,77 @@
 								"{{authorisationId}}"
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "SCA/Redirect/001a_Msg2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "853e6f55-ac06-452c-bc23-c65e9a7db516",
+								"exec": [
+									"postman.setNextRequest(null);",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"_links/scaOAuth/href must be present\", function () {",
+									"    pm.response.to.have.jsonBody(\"_links.scaOAuth.href\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"type": "text",
+								"value": "{{$guid}}"
+							},
+							{
+								"key": "PSU-ID",
+								"type": "text",
+								"value": "{{psuId_AIS}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "X-GTW-Bank-Code",
+								"type": "text",
+								"value": "{{bankCode}}"
+							},
+							{
+								"key": "TPP-Redirect-Preferred",
+								"type": "text",
+								"value": "false"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"consents",
+								"{{consentId}}",
+								"authorisations"
+							]
+						},
+						"description": "Processing of a Consent request that needs authentication. The redirect SCA approach is selected. A link to start the authorisation is contained in the request."
 					},
 					"response": []
 				},

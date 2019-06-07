@@ -44,7 +44,9 @@ class ApacheHttpClient implements HttpClient {
 
     @Override
     public <T> GeneralResponse<T> post(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler) {
-        return execute(new HttpPost(uri), headers, responseHandler);
+        HttpPost post = new HttpPost(uri);
+        post.setEntity(new StringEntity("{}", ContentType.APPLICATION_JSON));
+        return execute(post, headers, responseHandler);
     }
 
     @Override

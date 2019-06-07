@@ -102,7 +102,8 @@ public class ConsentController extends AbstractController implements ConsentApi,
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
         GeneralResponse<?> response = handleAuthorisationBody(body,
-                (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> accountInformationService.startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication));
+                (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> accountInformationService.startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication),
+                (StartAuthorisationHandler) emptyAuthorisationBody -> accountInformationService.startConsentAuthorisation(consentId, requestHeaders));
 
         return ResponseEntity
                        .status(HttpStatus.CREATED)
