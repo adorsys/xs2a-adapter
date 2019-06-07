@@ -1138,7 +1138,11 @@
 						"exec": [
 							"if (pm.response.code >= 400) {",
 							"    postman.setNextRequest(\"Payment_Product_Support_Checking_Step_sepa_credit_transfers\");",
-							"}"
+							"}",
+							"",
+							"pm.test(\"Response code is successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.below(400);",
+							"});"
 						]
 					}
 				}
@@ -2500,6 +2504,30 @@
 						}
 					],
 					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6d3543ad-3bc0-4f14-83ee-06d78dbf070c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "88768a77-c605-4d6f-a6bd-5df3ecdb5ad0",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Response code is successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.below(400);",
+							"});"
+						]
+					}
 				}
 			]
 		}
