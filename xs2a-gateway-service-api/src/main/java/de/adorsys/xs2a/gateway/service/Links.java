@@ -16,212 +16,214 @@
 
 package de.adorsys.xs2a.gateway.service;
 
-public class Links {
-    private String scaRedirect;
-    private String scaOAuth;
-    private String updatePsuIdentification;
-    private String updateProprietaryData;
-    private String updatePsuAuthentication;
-    private String selectAuthenticationMethod;
-    private String self;
-    private String status;
-    private String account;
-    private String viewBalances;
-    private String viewTransactions;
-    private String first;
-    private String next;
-    private String previous;
-    private String last;
-    private String download;
-    private String startAuthorisation;
-    private String startAuthorisationWithPsuIdentification;
-    private String startAuthorisationWithPsuAuthentication;
-    private String startAuthorisationWithAuthenticationMethodSelection;
-    private String startAuthorisationWithTransactionAuthorisation;
-    private String scaStatus;
-    private String authoriseTransaction;
+import de.adorsys.xs2a.gateway.service.model.Link;
 
-    public String getScaRedirect() {
+public class Links {
+    private Link scaRedirect;
+    private Link scaOAuth;
+    private Link updatePsuIdentification;
+    private Link updateProprietaryData;
+    private Link updatePsuAuthentication;
+    private Link selectAuthenticationMethod;
+    private Link self;
+    private Link status;
+    private Link account;
+    private Link viewBalances;
+    private Link viewTransactions;
+    private Link first;
+    private Link next;
+    private Link previous;
+    private Link last;
+    private Link download;
+    private Link startAuthorisation;
+    private Link startAuthorisationWithPsuIdentification;
+    private Link startAuthorisationWithPsuAuthentication;
+    private Link startAuthorisationWithAuthenticationMethodSelection;
+    private Link startAuthorisationWithTransactionAuthorisation;
+    private Link scaStatus;
+    private Link authoriseTransaction;
+
+    public Link getScaRedirect() {
         return scaRedirect;
     }
 
-    public void setScaRedirect(String scaRedirect) {
+    public void setScaRedirect(Link scaRedirect) {
         this.scaRedirect = scaRedirect;
     }
 
-    public String getScaOAuth() {
+    public Link getScaOAuth() {
         return scaOAuth;
     }
 
-    public void setScaOAuth(String scaOAuth) {
+    public void setScaOAuth(Link scaOAuth) {
         this.scaOAuth = scaOAuth;
     }
 
-    public String getUpdatePsuIdentification() {
+    public Link getUpdatePsuIdentification() {
         return updatePsuIdentification;
     }
 
-    public void setUpdatePsuIdentification(String updatePsuIdentification) {
+    public void setUpdatePsuIdentification(Link updatePsuIdentification) {
         this.updatePsuIdentification = updatePsuIdentification;
     }
 
-    public String getUpdateProprietaryData() {
+    public Link getUpdateProprietaryData() {
         return updateProprietaryData;
     }
 
-    public void setUpdateProprietaryData(String updateProprietaryData) {
+    public void setUpdateProprietaryData(Link updateProprietaryData) {
         this.updateProprietaryData = updateProprietaryData;
     }
 
-    public String getUpdatePsuAuthentication() {
+    public Link getUpdatePsuAuthentication() {
         return updatePsuAuthentication;
     }
 
-    public void setUpdatePsuAuthentication(String updatePsuAuthentication) {
+    public void setUpdatePsuAuthentication(Link updatePsuAuthentication) {
         this.updatePsuAuthentication = updatePsuAuthentication;
     }
 
-    public String getSelectAuthenticationMethod() {
+    public Link getSelectAuthenticationMethod() {
         return selectAuthenticationMethod;
     }
 
-    public void setSelectAuthenticationMethod(String selectAuthenticationMethod) {
+    public void setSelectAuthenticationMethod(Link selectAuthenticationMethod) {
         this.selectAuthenticationMethod = selectAuthenticationMethod;
     }
 
-    public String getSelf() {
+    public Link getSelf() {
         return self;
     }
 
-    public void setSelf(String self) {
+    public void setSelf(Link self) {
         this.self = self;
     }
 
-    public String getStatus() {
+    public Link getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Link status) {
         this.status = status;
     }
 
-    public String getAccount() {
+    public Link getAccount() {
         return account;
     }
 
-    public void setAccount(String account) {
+    public void setAccount(Link account) {
         this.account = account;
     }
 
-    public String getViewBalances() {
+    public Link getViewBalances() {
         return viewBalances;
     }
 
-    public void setViewBalances(String viewBalances) {
+    public void setViewBalances(Link viewBalances) {
         this.viewBalances = viewBalances;
     }
 
-    public String getViewTransactions() {
+    public Link getViewTransactions() {
         return viewTransactions;
     }
 
-    public void setViewTransactions(String viewTransactions) {
+    public void setViewTransactions(Link viewTransactions) {
         this.viewTransactions = viewTransactions;
     }
 
-    public String getFirst() {
+    public Link getFirst() {
         return first;
     }
 
-    public void setFirst(String first) {
+    public void setFirst(Link first) {
         this.first = first;
     }
 
-    public String getNext() {
+    public Link getNext() {
         return next;
     }
 
-    public void setNext(String next) {
+    public void setNext(Link next) {
         this.next = next;
     }
 
-    public String getPrevious() {
+    public Link getPrevious() {
         return previous;
     }
 
-    public void setPrevious(String previous) {
+    public void setPrevious(Link previous) {
         this.previous = previous;
     }
 
-    public String getLast() {
+    public Link getLast() {
         return last;
     }
 
-    public void setLast(String last) {
+    public void setLast(Link last) {
         this.last = last;
     }
 
-    public String getDownload() {
+    public Link getDownload() {
         return download;
     }
 
-    public void setDownload(String download) {
+    public void setDownload(Link download) {
         this.download = download;
     }
 
-    public String getStartAuthorisation() {
+    public Link getStartAuthorisation() {
         return startAuthorisation;
     }
 
-    public void setStartAuthorisation(String startAuthorisation) {
+    public void setStartAuthorisation(Link startAuthorisation) {
         this.startAuthorisation = startAuthorisation;
     }
 
-    public String getStartAuthorisationWithPsuIdentification() {
+    public Link getStartAuthorisationWithPsuIdentification() {
         return startAuthorisationWithPsuIdentification;
     }
 
-    public void setStartAuthorisationWithPsuIdentification(String startAuthorisationWithPsuIdentification) {
+    public void setStartAuthorisationWithPsuIdentification(Link startAuthorisationWithPsuIdentification) {
         this.startAuthorisationWithPsuIdentification = startAuthorisationWithPsuIdentification;
     }
 
-    public String getStartAuthorisationWithPsuAuthentication() {
+    public Link getStartAuthorisationWithPsuAuthentication() {
         return startAuthorisationWithPsuAuthentication;
     }
 
-    public void setStartAuthorisationWithPsuAuthentication(String startAuthorisationWithPsuAuthentication) {
+    public void setStartAuthorisationWithPsuAuthentication(Link startAuthorisationWithPsuAuthentication) {
         this.startAuthorisationWithPsuAuthentication = startAuthorisationWithPsuAuthentication;
     }
 
-    public String getStartAuthorisationWithAuthenticationMethodSelection() {
+    public Link getStartAuthorisationWithAuthenticationMethodSelection() {
         return startAuthorisationWithAuthenticationMethodSelection;
     }
 
-    public void setStartAuthorisationWithAuthenticationMethodSelection(String startAuthorisationWithAuthenticationMethodSelection) {
+    public void setStartAuthorisationWithAuthenticationMethodSelection(Link startAuthorisationWithAuthenticationMethodSelection) {
         this.startAuthorisationWithAuthenticationMethodSelection = startAuthorisationWithAuthenticationMethodSelection;
     }
 
-    public String getStartAuthorisationWithTransactionAuthorisation() {
+    public Link getStartAuthorisationWithTransactionAuthorisation() {
         return startAuthorisationWithTransactionAuthorisation;
     }
 
-    public void setStartAuthorisationWithTransactionAuthorisation(String startAuthorisationWithTransactionAuthorisation) {
+    public void setStartAuthorisationWithTransactionAuthorisation(Link startAuthorisationWithTransactionAuthorisation) {
         this.startAuthorisationWithTransactionAuthorisation = startAuthorisationWithTransactionAuthorisation;
     }
 
-    public String getScaStatus() {
+    public Link getScaStatus() {
         return scaStatus;
     }
 
-    public void setScaStatus(String scaStatus) {
+    public void setScaStatus(Link scaStatus) {
         this.scaStatus = scaStatus;
     }
 
-    public String getAuthoriseTransaction() {
+    public Link getAuthoriseTransaction() {
         return authoriseTransaction;
     }
 
-    public void setAuthoriseTransaction(String authoriseTransaction) {
+    public void setAuthoriseTransaction(Link authoriseTransaction) {
         this.authoriseTransaction = authoriseTransaction;
     }
 }
