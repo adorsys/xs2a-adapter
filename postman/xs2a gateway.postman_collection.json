@@ -2604,6 +2604,46 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "General information",
+			"item": [
+				{
+					"name": "Get supported banks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f4ac69de-a30e-4afd-a445-822601a8c1b9",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const parsedResponseBody = JSON.parse(responseBody);",
+									"tests['JSON array is not empty'] = (parsedResponseBody.length > 0);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUri}}/v1/supported-banks",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"supported-banks"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
