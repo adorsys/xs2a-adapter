@@ -25,9 +25,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ConsorsServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+public class ConsorsServiceProvider implements BankServiceProvider {
 
     private static final String BASE_URI = "https://xs2a-sndbx.consorsbank.de/v1";
+    private static final String BANK_NAME = "Consors bank";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("76030080")));
     private AccountInformationService accountInformationService;
     private PaymentInitiationService paymentInitiationService;
@@ -51,5 +52,10 @@ public class ConsorsServiceProvider implements AccountInformationServiceProvider
             paymentInitiationService = new BasePaymentInitiationService(BASE_URI);
         }
         return paymentInitiationService;
+    }
+
+    @Override
+    public String getBankName() {
+        return BANK_NAME;
     }
 }

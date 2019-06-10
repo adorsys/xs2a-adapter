@@ -16,13 +16,18 @@
 
 package de.adorsys.xs2a.gateway.service.provider;
 
+import de.adorsys.xs2a.gateway.service.PaymentInitiationService;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 
 import java.util.Set;
 
-public interface AccountInformationServiceProvider {
+public interface BankServiceProvider {
 
     Set<String> getBankCodes();
 
     AccountInformationService getAccountInformationService();
+
+    PaymentInitiationService getPaymentInitiationService();
+
+    String getBankName();
 }

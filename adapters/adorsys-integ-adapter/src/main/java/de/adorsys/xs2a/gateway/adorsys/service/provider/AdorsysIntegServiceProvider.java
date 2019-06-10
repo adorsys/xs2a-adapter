@@ -20,17 +20,17 @@ import de.adorsys.xs2a.gateway.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.gateway.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.gateway.service.PaymentInitiationService;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
-import de.adorsys.xs2a.gateway.service.provider.AccountInformationServiceProvider;
-import de.adorsys.xs2a.gateway.service.provider.PaymentInitiationServiceProvider;
+import de.adorsys.xs2a.gateway.service.provider.BankServiceProvider;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AdorsysIntegServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+public class AdorsysIntegServiceProvider implements BankServiceProvider {
 
     private static final String DEFAULT_BASE_URI = "http://localhost:8089/v1";
     private static final String BASE_URI_ENV = "adorsys-integ.base_uri";
+    private static final String BANK_NAME = "adorsys xs2a";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("adorsys-integ")));
     private AccountInformationService accountInformationService;
     private BasePaymentInitiationService paymentInitiationService;
@@ -59,5 +59,10 @@ public class AdorsysIntegServiceProvider implements AccountInformationServicePro
     private static String getBaseUri() {
         String baseUri = System.getenv(BASE_URI_ENV);
         return baseUri == null || baseUri.trim().isEmpty() ? DEFAULT_BASE_URI : baseUri.trim();
+    }
+
+    @Override
+    public String getBankName() {
+        return BANK_NAME;
     }
 }

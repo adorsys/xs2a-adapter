@@ -25,10 +25,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class VerlagServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+public class VerlagServiceProvider implements BankServiceProvider {
 
     private static final String BASE_URI = "https://www.sandbox-bvxs2a.de/nationalbank/v1";
-    private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("25040090")));
+    private static final String BANK_NAME = "Bank-Verlag";
+    private final Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("25040090")));
     private VerlagAccountInformationService accountInformationService;
     private VerlagPaymentInitiationService paymentInitiationService;
 
@@ -52,5 +53,10 @@ public class VerlagServiceProvider implements AccountInformationServiceProvider,
             paymentInitiationService = new VerlagPaymentInitiationService(BASE_URI);
         }
         return paymentInitiationService;
+    }
+
+    @Override
+    public String getBankName() {
+        return BANK_NAME;
     }
 }

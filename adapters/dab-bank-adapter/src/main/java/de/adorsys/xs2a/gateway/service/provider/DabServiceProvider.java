@@ -25,9 +25,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DabServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+public class DabServiceProvider implements BankServiceProvider {
 
     private static final String BASE_URI = "https://xs2a-sndbx.dab-bank.de/v1";
+    private static final String BANK_NAME = "DAB bank";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("70120400")));
     private AccountInformationService accountInformationService;
     private PaymentInitiationService paymentInitiationService;
@@ -51,5 +52,10 @@ public class DabServiceProvider implements AccountInformationServiceProvider, Pa
             paymentInitiationService = new BasePaymentInitiationService(BASE_URI);
         }
         return paymentInitiationService;
+    }
+
+    @Override
+    public String getBankName() {
+        return BANK_NAME;
     }
 }

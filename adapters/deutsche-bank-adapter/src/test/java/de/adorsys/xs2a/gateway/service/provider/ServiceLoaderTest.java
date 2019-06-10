@@ -26,8 +26,8 @@ public class ServiceLoaderTest {
 
     @Test
     public void getPaymentInitiationServiceProvider() {
-        ServiceLoader<PaymentInitiationServiceProvider> loader = ServiceLoader.load(PaymentInitiationServiceProvider.class);
-        PaymentInitiationServiceProvider provider = loader.iterator().next();
+        ServiceLoader<BankServiceProvider> loader = ServiceLoader.load(BankServiceProvider.class);
+        BankServiceProvider provider = loader.iterator().next();
 
         assertThat(provider).isInstanceOf(DeutscheBankServiceProvider.class);
         assertThat(provider.getBankCodes()).contains("50010517");
@@ -36,8 +36,8 @@ public class ServiceLoaderTest {
 
     @Test
     public void getAccountInformationServiceProvider() {
-        ServiceLoader<AccountInformationServiceProvider> loader = ServiceLoader.load(AccountInformationServiceProvider.class);
-        AccountInformationServiceProvider provider = loader.iterator().next();
+        ServiceLoader<BankServiceProvider> loader = ServiceLoader.load(BankServiceProvider.class);
+        BankServiceProvider provider = loader.iterator().next();
 
         assertThat(provider).isInstanceOf(DeutscheBankServiceProvider.class);
         assertThat(provider.getBankCodes()).contains("50010517");

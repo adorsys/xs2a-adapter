@@ -16,14 +16,16 @@
 
 package de.adorsys.xs2a.gateway.service.provider;
 
+import de.adorsys.xs2a.gateway.service.PaymentInitiationService;
 import de.adorsys.xs2a.gateway.service.ais.AccountInformationService;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AccountInformationServiceProviderMock implements AccountInformationServiceProvider {
+public class BankServiceProviderMock implements BankServiceProvider {
 
+    private static final String BANK_NAME = "test";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("test")));
 
     @Override
@@ -33,6 +35,16 @@ public class AccountInformationServiceProviderMock implements AccountInformation
 
     @Override
     public AccountInformationService getAccountInformationService() {
-        return null;
+        return new AccountInformationServiceMock();
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService() {
+        return new PaymentInitiationServiceMock();
+    }
+
+    @Override
+    public String getBankName() {
+        return BANK_NAME;
     }
 }
