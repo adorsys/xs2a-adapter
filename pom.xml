@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.adorsys.multibanking</groupId>
-    <artifactId>xs2a-adapter</artifactId>
+    <artifactId>xs2a-client-adapter</artifactId>
 	<version>1.3.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>xs2a-adapter</name>
+    <name>xs2a-client-adapter</name>
     <url>https://github.com/adorsys/xs2a-adapter</url>
     <description>PSD2 XS2A Client Adapter</description>
     <licenses>
