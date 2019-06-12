@@ -9,9 +9,9 @@
     <packaging>pom</packaging>
 
     <name>xs2a-gateway</name>
-    <description>OpenSource PSD2 XS2A Gateway solution</description>
+    <description>OpenSource PSD2 XS2A Adapter solution</description>
 
-    <url>https://github.com/adorsys/xs2a-gateway</url>
+    <url>https://github.com/adorsys/xs2a-adapter</url>
 
     <licenses>
         <license>
@@ -297,9 +297,9 @@
     </build>
 
     <scm>
-        <connection>scm:git@github.com:adorsys/xs2a-gateway.git</connection>
-        <developerConnection>scm:git:git@github.com:adorsys/xs2a-gateway.git</developerConnection>
-        <url>git@github.com:adorsys/xs2a-gateway.git</url>
+        <connection>scm:git@github.com:adorsys/xs2a-adapter.git</connection>
+        <developerConnection>scm:git:git@github.com:adorsys/xs2a-adapter.git</developerConnection>
+        <url>git@github.com:adorsys/xs2a-adapter.git</url>
         <tag>HEAD</tag>
     </scm>
 

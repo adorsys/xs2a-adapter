@@ -10,7 +10,7 @@ info:
 
 spring:
   application:
-    name: xs2a-gateway
+    name: xs2a-adapter
   jackson:
     default-property-inclusion: non_null
 
