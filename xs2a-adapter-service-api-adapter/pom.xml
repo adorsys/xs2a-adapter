@@ -5,12 +5,12 @@
 
     <parent>
         <groupId>de.adorsys.xs2a.gateway</groupId>
-        <artifactId>xs2a-gateway</artifactId>
+        <artifactId>xs2a-adapter</artifactId>
         <version>0.0.2-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
-    <artifactId>xs2a-gateway-service-api-adapter</artifactId>
+    <artifactId>xs2a-adapter-service-api-adapter</artifactId>
 
     <dependencies>
 
@@ -18,7 +18,7 @@
 
         <dependency>
             <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>xs2a-gateway-service-api</artifactId>
+            <artifactId>xs2a-adapter-service-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 

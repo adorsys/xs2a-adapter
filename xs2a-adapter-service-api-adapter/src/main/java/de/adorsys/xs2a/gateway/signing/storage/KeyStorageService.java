@@ -3,7 +3,10 @@ package de.adorsys.xs2a.gateway.signing.storage;
 import de.adorsys.xs2a.gateway.signing.exception.HttpRequestSigningException;
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;

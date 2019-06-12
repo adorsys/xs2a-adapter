@@ -2,7 +2,7 @@ package de.adorsys.xs2a.gateway.signing.service.signing;
 
 import org.junit.Test;
 
-import java.io.*;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.*;

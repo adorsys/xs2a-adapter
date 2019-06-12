@@ -8,13 +8,12 @@
 
     <parent>
         <groupId>de.adorsys.xs2a.gateway</groupId>
-        <artifactId>xs2a-gateway</artifactId>
+        <artifactId>xs2a-adapter</artifactId>
         <version>0.0.2-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
-    <artifactId>xs2a-gateway-app</artifactId>
-    <name>xs2a-gateway-app</name>
+    <artifactId>xs2a-adapter-app</artifactId>
 
     <dependencies>
 
