@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "cd29e350-4638-4079-a79a-027b237f6106",
+		"_postman_id": "53d806c1-ae7b-4e65-bff9-3759983716c6",
 		"name": "xs2a gateway",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -584,7 +584,7 @@
 									"",
 									"pm.test(\"SCA methods are available\", function () {",
 									"    pm.response.to.have.jsonBody(\"scaMethods\");",
-									"    postman.setGlobalVariable(\"authenticationMethodId\",jsonData.scaMethods[0].authenticationMethodId);",
+									"    postman.setGlobalVariable(\"authenticationMethodId_AIS\",jsonData.scaMethods[0].authenticationMethodId);",
 									"});",
 									"",
 									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
