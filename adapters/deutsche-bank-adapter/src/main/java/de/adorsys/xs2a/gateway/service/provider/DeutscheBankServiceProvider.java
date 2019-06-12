@@ -31,6 +31,7 @@ public class DeutscheBankServiceProvider implements AccountInformationServicePro
 
     private static final String AIS_URI = "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/";
     private static final String PIS_URI = "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/";
+    private static final String BANK_NAME = "Deutsche bank";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("50010517")));
     private BaseAccountInformationService accountInformationService;
     private BasePaymentInitiationService paymentInitiationService;
@@ -54,5 +55,10 @@ public class DeutscheBankServiceProvider implements AccountInformationServicePro
             paymentInitiationService = new DeutscheBankPaymentInitiationService(PIS_URI);
         }
         return paymentInitiationService;
+    }
+
+    @Override
+    public String getBankName() {
+        return BANK_NAME;
     }
 }

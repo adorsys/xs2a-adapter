@@ -28,6 +28,7 @@ import java.util.Set;
 public class SpardaServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider{
 
     private static final String BASE_URI = "https://api.sparda.de.schulung.sparda.de/v1";
+    private static final String BANK_NAME = "Sparda bank";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("sparda-bank")));
     private AccountInformationService accountInformationService;
     private PaymentInitiationService paymentInitiationService;
@@ -51,5 +52,10 @@ public class SpardaServiceProvider implements AccountInformationServiceProvider,
             paymentInitiationService = new BasePaymentInitiationService(BASE_URI);
         }
         return paymentInitiationService;
+    }
+
+    @Override
+    public String getBankName() {
+        return BANK_NAME;
     }
 }

@@ -27,14 +27,15 @@ import java.util.Set;
 
 public class SparkasseServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
-    private final Set<String> BANK_CODES = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("99999999")));
-    private final String BASE_URI = "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1";
+    private static final String BASE_URI = "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1";
+    private static final String BANK_NAME = "Sparkasse";
+    private final Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("99999999")));
     private AccountInformationService accountInformationService;
     private PaymentInitiationService paymentInitiationService;
 
     @Override
     public Set<String> getBankCodes() {
-        return BANK_CODES;
+        return bankCodes;
     }
 
     @Override
@@ -51,5 +52,10 @@ public class SparkasseServiceProvider implements AccountInformationServiceProvid
             paymentInitiationService = new BasePaymentInitiationService(BASE_URI);
         }
         return paymentInitiationService;
+    }
+
+    @Override
+    public String getBankName() {
+        return BANK_NAME;
     }
 }

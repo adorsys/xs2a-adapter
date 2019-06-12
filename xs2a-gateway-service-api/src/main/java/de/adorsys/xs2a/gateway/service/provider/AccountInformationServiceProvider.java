@@ -25,4 +25,6 @@ public interface AccountInformationServiceProvider {
     Set<String> getBankCodes();
 
     AccountInformationService getAccountInformationService();
+
+    String getBankName();
 }

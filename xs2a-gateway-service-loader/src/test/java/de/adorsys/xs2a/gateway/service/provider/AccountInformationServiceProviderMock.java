@@ -24,6 +24,7 @@ import java.util.Set;
 
 public class AccountInformationServiceProviderMock implements AccountInformationServiceProvider {
 
+    private static final String BANK_NAME = "test";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("test")));
 
     @Override
@@ -34,5 +35,10 @@ public class AccountInformationServiceProviderMock implements AccountInformation
     @Override
     public AccountInformationService getAccountInformationService() {
         return null;
+    }
+
+    @Override
+    public String getBankName() {
+        return BANK_NAME;
     }
 }

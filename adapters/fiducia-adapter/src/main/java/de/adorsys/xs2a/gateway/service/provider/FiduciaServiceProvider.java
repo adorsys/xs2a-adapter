@@ -30,6 +30,7 @@ import java.util.Set;
 public class FiduciaServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
     private static final String BASE_URI = "https://xs2a-test.fiduciagad.de/xs2a/v1";
+    private static final String BANK_NAME = "Fiducia";
     private final RequestSigningInterceptor requestSigningInterceptor = new RequestSigningInterceptor();
 
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("88888888")));
@@ -57,5 +58,10 @@ public class FiduciaServiceProvider implements AccountInformationServiceProvider
             paymentInitiationService.setHttpClient(HttpClient.newHttpClientWithSignature(requestSigningInterceptor));
         }
         return paymentInitiationService;
+    }
+
+    @Override
+    public String getBankName() {
+        return BANK_NAME;
     }
 }

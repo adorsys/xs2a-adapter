@@ -25,4 +25,6 @@ public interface PaymentInitiationServiceProvider {
     Set<String> getBankCodes();
 
     PaymentInitiationService getPaymentInitiationService();
+
+    String getBankName();
 }
