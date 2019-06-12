@@ -7,7 +7,9 @@ import de.adorsys.xs2a.gateway.service.exception.BankNotSupportedException;
 import de.adorsys.xs2a.gateway.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.gateway.service.provider.PaymentInitiationServiceProvider;
 
+import java.util.List;
 import java.util.ServiceLoader;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class BankServiceLoader {
@@ -38,5 +40,12 @@ public class BankServiceLoader {
                    .filter(pis -> pis.getBankCodes().contains(bankCode))
                    .findFirst().orElseThrow(() -> new BankNotSupportedException(bankCode))
                    .getPaymentInitiationService();
+    }
+
+    public <T> List<T> getSupportedServiceProviders(Class<T> providerClass) {
+        ServiceLoader<T> loader = ServiceLoader.load(providerClass);
+
+        return StreamSupport.stream(loader.spliterator(), false)
+                   .collect(Collectors.toList());
     }
 }
