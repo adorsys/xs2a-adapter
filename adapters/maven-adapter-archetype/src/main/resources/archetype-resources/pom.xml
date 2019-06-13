@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>de.adorsys.xs2a.gateway</groupId>
-        <artifactId>xs2a-gateway</artifactId>
+        <groupId>de.adorsys.xs2a.adapter</groupId>
+        <artifactId>xs2a-adapter</artifactId>
         <version>${version}</version>
         <relativePath>../..</relativePath>
     </parent>
@@ -17,8 +17,8 @@
         <!-- project dependencies -->
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>xs2a-gateway-service-api-adapter</artifactId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>xs2a-adapter-service-api-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 

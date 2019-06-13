@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "ec7115eb-fe60-4202-b6ce-326ec26b6e3b",
-		"name": "xs2a-gateway-adorsys-sandbox-local",
+		"name": "xs2a-adapter-adorsys-sandbox-local",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [

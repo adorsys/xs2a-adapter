@@ -4,7 +4,7 @@
 - mvn clean install
 - cd ..
 - mvn archetype:generate -DarchetypeCatalog=local
-- choose this one *local -> de.adorsys.xs2a.gateway:maven-adapter-archetype (maven-adapter-archetype)*
+- choose this one *local -> de.adorsys.xs2a.adapter:maven-adapter-archetype (maven-adapter-archetype)*
 - enter **artifactId** ex. *commerz-bank-adapter*
 - enter **bankCode** ex. *10040000*
 - enter **baseUri** ex. *https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/*

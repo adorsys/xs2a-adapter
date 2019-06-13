@@ -21,19 +21,19 @@
 
         <dependency>
             <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>xs2a-gateway-rest-server</artifactId>
+            <artifactId>xs2a-adapter-rest-server</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>xs2a-gateway-service-api</artifactId>
+            <artifactId>xs2a-adapter-service-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>de.adorsys.xs2a.gateway</groupId>
-            <artifactId>xs2a-gateway-service-loader</artifactId>
+            <artifactId>xs2a-adapter-service-loader</artifactId>
             <version>${project.version}</version>
         </dependency>
 

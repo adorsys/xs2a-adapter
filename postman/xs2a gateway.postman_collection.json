@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "b6e39ab1-8f57-4091-9789-950056a64b2e",
-		"name": "xs2a gateway",
+		"name": "xs2a adapter",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
