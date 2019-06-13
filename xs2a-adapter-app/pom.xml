@@ -7,7 +7,7 @@
     </properties>
 
     <parent>
-        <groupId>de.adorsys.xs2a.gateway</groupId>
+        <groupId>de.adorsys.xs2a.adapter</groupId>
         <artifactId>xs2a-adapter</artifactId>
         <version>0.0.2-SNAPSHOT</version>
         <relativePath>..</relativePath>
@@ -20,19 +20,19 @@
         <!-- project dependencies -->
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>xs2a-adapter-rest-server</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>xs2a-adapter-service-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>xs2a-adapter-service-loader</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -40,7 +40,7 @@
         <!-- adapters -->
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>adapters</artifactId>
             <version>${project.version}</version>
             <type>pom</type>

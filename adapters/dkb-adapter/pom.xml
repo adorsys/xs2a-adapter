@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>de.adorsys.xs2a.gateway</groupId>
+        <groupId>de.adorsys.xs2a.adapter</groupId>
         <artifactId>xs2a-adapter</artifactId>
         <version>0.0.2-SNAPSHOT</version>
         <relativePath>../..</relativePath>
@@ -17,7 +17,7 @@
         <!-- project dependencies -->
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>xs2a-adapter-service-api-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -55,18 +55,18 @@
                                 <bannedDependencies>
                                     <excludes>
                                         <!-- project dependencies -->
-                                        <exclude>de.adorsys.xs2a.gateway:xs2a-adapter-app</exclude>
-                                        <exclude>de.adorsys.xs2a.gateway:xs2a-adapter-rest-server</exclude>
-                                        <exclude>de.adorsys.xs2a.gateway:xs2a-adapter-service-loader</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-app</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-server</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-loader</exclude>
                                         <!-- adapters -->
-                                        <exclude>de.adorsys.xs2a.gateway:deutsche-bank-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.gateway:adorsys-integ-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.gateway:sparkasse-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.gateway:verlag-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.gateway:consors-bank-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.gateway:dab-bank-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.gateway:sparda-bank-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.gateway:fiducia-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:deutsche-bank-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:adorsys-integ-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:sparkasse-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:verlag-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:consors-bank-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:dab-bank-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:sparda-bank-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:fiducia-adapter</exclude>
                                         <!-- 3rd party dependencies -->
                                         <exclude>joda-time:*</exclude>
                                         <exclude>org.projectlombok:lombok</exclude>

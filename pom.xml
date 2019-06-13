@@ -3,7 +3,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.adorsys.xs2a.gateway</groupId>
+    <groupId>de.adorsys.xs2a.adapter</groupId>
     <artifactId>xs2a-adapter</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>

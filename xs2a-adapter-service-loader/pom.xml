@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>de.adorsys.xs2a.gateway</groupId>
+        <groupId>de.adorsys.xs2a.adapter</groupId>
         <artifactId>xs2a-adapter</artifactId>
         <version>0.0.2-SNAPSHOT</version>
         <relativePath>..</relativePath>
@@ -17,7 +17,7 @@
         <!-- project dependencies -->
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>xs2a-adapter-service-api</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -67,8 +67,8 @@
                                 <bannedDependencies>
                                     <excludes>
                                         <!-- project dependencies -->
-                                        <exclude>de.adorsys.xs2a.gateway:xs2a-adapter-app</exclude>
-                                        <exclude>de.adorsys.xs2a.gateway:xs2a-adapter-rest-server</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-app</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-server</exclude>
                                         <!-- 3rd party dependencies -->
                                         <exclude>joda-time:*</exclude>
                                         <exclude>org.projectlombok:lombok</exclude>
