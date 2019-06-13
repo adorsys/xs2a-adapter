@@ -6,6 +6,6 @@
       "enabled": true
     }
   ],
-  "name": "xs2a-gateway globals",
+  "name": "xs2a-adapter globals",
   "_postman_variable_scope": "globals"
 }

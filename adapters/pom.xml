@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>de.adorsys.xs2a.gateway</groupId>
-        <artifactId>xs2a-gateway</artifactId>
+        <groupId>de.adorsys.xs2a.adapter</groupId>
+        <artifactId>xs2a-adapter</artifactId>
         <version>0.0.2-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
@@ -29,61 +29,61 @@
     <dependencies>
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>deutsche-bank-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>adorsys-integ-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>sparkasse-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>verlag-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>dab-bank-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>consors-bank-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>sparda-bank-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>fiducia-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>dkb-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>de.adorsys.xs2a.gateway</groupId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>commerzbank-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>

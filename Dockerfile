@@ -1,6 +1,6 @@
 FROM adorsys/java:8
 
-MAINTAINER https://github.com/adorsys/xs2a-gateway/
+MAINTAINER https://github.com/adorsys/xs2a-adapter/
 
 ENV SERVER_PORT 8081
 ENV JAVA_OPTS -Xmx1024m \
@@ -9,10 +9,10 @@ ENV JAVA_OPTS -Xmx1024m \
 
 ENV JAVA_TOOL_OPTIONS -Xmx1024m
 
-WORKDIR /opt/xs2a-gateway
+WORKDIR /opt/xs2a-adapter
 
-COPY ./xs2a-gateway-app/target/xs2a-gateway-app.jar /opt/xs2a-gateway/xs2a-gateway-app.jar
+COPY xs2a-adapter-app /opt/xs2a-adapter/xs2a-adapter-app.jar
 
 EXPOSE 8081
 
-CMD exec $JAVA_HOME/bin/java $JAVA_OPTS $SSL_OPTS -jar /opt/xs2a-gateway/xs2a-gateway-app.jar
+CMD exec $JAVA_HOME/bin/java $JAVA_OPTS $SSL_OPTS -jar /opt/xs2a-adapter/xs2a-adapter-app.jar

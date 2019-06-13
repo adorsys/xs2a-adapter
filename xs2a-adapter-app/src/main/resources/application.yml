@@ -1,0 +1,17 @@
+server:
+  port: 8999
+
+info:
+  app:
+    name: ${spring.application.name}
+    description: "Description"
+    version: @project.version@
+    artifactId: @project.artifactId@
+
+spring:
+  application:
+    name: xs2a-adapter
+  jackson:
+    default-property-inclusion: non_null
+
+logging.level.org.apache.http.wire: DEBUG

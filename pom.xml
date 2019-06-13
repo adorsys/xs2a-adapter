@@ -3,15 +3,15 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.adorsys.xs2a.gateway</groupId>
-    <artifactId>xs2a-gateway</artifactId>
+    <groupId>de.adorsys.xs2a.adapter</groupId>
+    <artifactId>xs2a-adapter</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>xs2a-gateway</name>
-    <description>OpenSource PSD2 XS2A Gateway solution</description>
+    <name>xs2a-adapter</name>
+    <description>OpenSource PSD2 XS2A Adapter solution</description>
 
-    <url>https://github.com/adorsys/xs2a-gateway</url>
+    <url>https://github.com/adorsys/xs2a-adapter</url>
 
     <licenses>
         <license>
@@ -48,11 +48,11 @@
     </developers>
 
     <modules>
-        <module>xs2a-gateway-service-api</module>
-        <module>xs2a-gateway-service-api-adapter</module>
-        <module>xs2a-gateway-service-loader</module>
-        <module>xs2a-gateway-rest-server</module>
-        <module>xs2a-gateway-app</module>
+        <module>xs2a-adapter-service-api</module>
+        <module>xs2a-adapter-service-api-adapter</module>
+        <module>xs2a-adapter-service-loader</module>
+        <module>xs2a-adapter-rest-server</module>
+        <module>xs2a-adapter-app</module>
         <module>adapters</module>
     </modules>
 
@@ -297,9 +297,9 @@
     </build>
 
     <scm>
-        <connection>scm:git@github.com:adorsys/xs2a-gateway.git</connection>
-        <developerConnection>scm:git:git@github.com:adorsys/xs2a-gateway.git</developerConnection>
-        <url>git@github.com:adorsys/xs2a-gateway.git</url>
+        <connection>scm:git@github.com:adorsys/xs2a-adapter.git</connection>
+        <developerConnection>scm:git:git@github.com:adorsys/xs2a-adapter.git</developerConnection>
+        <url>git@github.com:adorsys/xs2a-adapter.git</url>
         <tag>HEAD</tag>
     </scm>
 
