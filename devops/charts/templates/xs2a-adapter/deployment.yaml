@@ -2,19 +2,19 @@ apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
   labels:
-    app: xs2a-gateway
-  name: xs2a-gateway
+    app: xs2a-adapter
+  name: xs2a-adapter
 spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
-    app: xs2a-gateway
-    deploymentconfig: xs2a-gateway
+    app: xs2a-adapter
+    deploymentconfig: xs2a-adapter
   template:
     metadata:
       labels:
-        app: xs2a-gateway
-        deploymentconfig: xs2a-gateway
+        app: xs2a-adapter
+        deploymentconfig: xs2a-adapter
     spec:
       containers:
         - env:
@@ -46,7 +46,7 @@ spec:
                 -Djavax.net.ssl.keyStore=/qwac/key-store
                 -Djavax.net.ssl.keyStorePassword=$(KEY_STORE_PASSWORD)
           imagePullPolicy: Always
-          name: xs2a-gateway
+          name: xs2a-adapter
           ports:
             - containerPort: 8081
               protocol: TCP
@@ -71,9 +71,9 @@ spec:
     - imageChangeParams:
         automatic: true
         containerNames:
-          - xs2a-gateway
+          - xs2a-adapter
         from:
           kind: ImageStreamTag
-          name: xs2a-gateway:{{ .Values.gateway.tag }}
-          namespace: {{ .Values.gateway.namespace }}
+          name: xs2a-adapter:{{ .Values.adapter.tag }}
+          namespace: {{ .Values.adapter.namespace }}
       type: ImageChange

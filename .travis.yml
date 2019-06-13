@@ -18,10 +18,10 @@ services: docker
 
 env:
   global:
-    - XS2A_GATEWAY_IMAGE="xs2a-gateway"
+    - XS2A_ADAPTER_IMAGE="xs2a-adapter"
     - OPENSHIFT_REGISTRY="openshift-registry.adorsys.de"
-    - OPENSHIFT_NAMESPACE="xs2a-gateway-dev"
-    - OPENSHIFT_IMAGE_NAME="${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${XS2A_GATEWAY_IMAGE}"
+    - OPENSHIFT_NAMESPACE="xs2a-adapter-dev"
+    - OPENSHIFT_IMAGE_NAME="${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${XS2A_ADAPTER_IMAGE}"
 
 cache:
   directories:
