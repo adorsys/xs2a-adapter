@@ -4,7 +4,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <requiredProperties>
     <requiredProperty key="groupId">
-      <defaultValue>de.adorsys.xs2a.gateway</defaultValue>
+      <defaultValue>de.adorsys.xs2a.adapter</defaultValue>
     </requiredProperty>
     <requiredProperty key="artifactId">
       <validationRegex>.{2,}-adapter</validationRegex>
@@ -13,7 +13,7 @@
       <defaultValue>0.0.2-SNAPSHOT</defaultValue>
     </requiredProperty>
     <requiredProperty key="package">
-      <defaultValue>de.adorsys.xs2a.gateway</defaultValue>
+      <defaultValue>de.adorsys.xs2a.adapter</defaultValue>
     </requiredProperty>
     <requiredProperty key="classNamePrefix"/>
     <requiredProperty key="baseUri"/>

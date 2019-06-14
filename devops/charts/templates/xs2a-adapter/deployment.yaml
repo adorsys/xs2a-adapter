@@ -1,0 +1,79 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: xs2a-adapter
+  name: xs2a-adapter
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    app: xs2a-adapter
+    deploymentconfig: xs2a-adapter
+  template:
+    metadata:
+      labels:
+        app: xs2a-adapter
+        deploymentconfig: xs2a-adapter
+    spec:
+      containers:
+        - env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
+            - name: dkb.token.consumer_key
+              valueFrom:
+                secretKeyRef:
+                  name: dkb-token
+                  key: consumer-key
+            - name: dkb.token.consumer_secret
+              valueFrom:
+                secretKeyRef:
+                  name: dkb-token
+                  key: consumer-secret
+            - name: KEY_STORE_TYPE
+              valueFrom:
+                secretKeyRef:
+                  name: qwac-secret
+                  key: key-store-type
+            - name: KEY_STORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: qwac-secret
+                  key: key-store-password
+            - name: SSL_OPTS
+              value: >-
+                -Djavax.net.ssl.keyStoreType=$(KEY_STORE_TYPE)
+                -Djavax.net.ssl.keyStore=/qwac/key-store
+                -Djavax.net.ssl.keyStorePassword=$(KEY_STORE_PASSWORD)
+          imagePullPolicy: Always
+          name: xs2a-adapter
+          ports:
+            - containerPort: 8081
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - name: qwac-secret-volume
+              mountPath: /qwac
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: qwac-secret-volume
+          secret:
+            secretName: qwac-secret
+  test: false
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - xs2a-adapter
+        from:
+          kind: ImageStreamTag
+          name: xs2a-adapter:{{ .Values.adapter.tag }}
+          namespace: {{ .Values.adapter.namespace }}
+      type: ImageChange

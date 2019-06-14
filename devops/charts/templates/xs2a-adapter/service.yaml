@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: xs2a-adapter
+  name: xs2a-adapter
+spec:
+  ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8081
+  selector:
+    app: xs2a-adapter
+    deploymentconfig: xs2a-adapter
+  sessionAffinity: None
+  type: ClusterIP

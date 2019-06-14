@@ -1,4 +1,4 @@
-# XS2A Gateway Chart
+# XS2A Adapter Chart
 
 ## Chart Parameter
 
@@ -8,4 +8,4 @@
 |-----------|-------------|---------|
 | `timezone` | Define timezone for all containers | `Europe/Berlin` |
 
-### xs2a-gateway
+### xs2a-adapter
