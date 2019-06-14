@@ -11,7 +11,7 @@ ENV JAVA_TOOL_OPTIONS -Xmx1024m
 
 WORKDIR /opt/xs2a-adapter
 
-COPY xs2a-adapter-app /opt/xs2a-adapter/xs2a-adapter-app.jar
+COPY xs2a-adapter-app/target/xs2a-adapter-app.jar /opt/xs2a-adapter/xs2a-adapter-app.jar
 
 EXPOSE 8081
 
