@@ -18,11 +18,7 @@ package de.adorsys.xs2a.adapter.service.provider;
 
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 
-import java.util.Set;
-
-public interface PaymentInitiationServiceProvider {
-
-    Set<String> getBankCodes();
+public interface PaymentInitiationServiceProvider extends ServiceProvider {
 
     PaymentInitiationService getPaymentInitiationService();
 }

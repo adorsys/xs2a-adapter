@@ -18,11 +18,7 @@ package de.adorsys.xs2a.adapter.service.provider;
 
 import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
 
-import java.util.Set;
-
-public interface AccountInformationServiceProvider {
-
-    Set<String> getBankCodes();
+public interface AccountInformationServiceProvider extends ServiceProvider {
 
     AccountInformationService getAccountInformationService();
 }

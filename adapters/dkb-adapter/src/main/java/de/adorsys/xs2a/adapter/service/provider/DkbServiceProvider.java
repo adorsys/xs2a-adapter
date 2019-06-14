@@ -29,6 +29,7 @@ import java.util.Set;
 public class DkbServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
     private static final String BASE_URI = "https://api.dkb.de/psd2/1.3.2/v1/";
+    private static final String BANK_NAME = "DKB";
     private final AccessTokenService tokenService = DkbAccessTokenService.getInstance();
     private PaymentInitiationService paymentInitiationService;
     private AccountInformationService accountInformationService;
@@ -52,5 +53,10 @@ public class DkbServiceProvider implements AccountInformationServiceProvider, Pa
             accountInformationService = new DkbAccountInformationService(BASE_URI, tokenService);
         }
         return accountInformationService;
+    }
+
+    @Override
+    public String getBankName() {
+        return BANK_NAME;
     }
 }

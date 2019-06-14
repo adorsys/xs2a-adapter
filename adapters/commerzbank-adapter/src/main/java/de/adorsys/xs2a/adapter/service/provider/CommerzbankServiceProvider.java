@@ -28,6 +28,7 @@ import java.util.Set;
 public class CommerzbankServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
     private static final String BASE_URI = "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1";
+    private static final String BANK_NAME = "Commerzbank";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("commerzbank")));
     private AccountInformationService accountInformationService;
     private PaymentInitiationService paymentInitiationService;
@@ -51,5 +52,10 @@ public class CommerzbankServiceProvider implements AccountInformationServiceProv
             paymentInitiationService = new BasePaymentInitiationService(BASE_URI);
         }
         return paymentInitiationService;
+    }
+
+    @Override
+    public String getBankName() {
+        return BANK_NAME;
     }
 }
