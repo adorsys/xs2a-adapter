@@ -42,7 +42,7 @@
 |Sparda Bank|redirect
 |Fiducia Bank|embedded
 |Sparkasse Bank|embedded
-|DKB Bank|oauth
+|DKB Bank|embedded
 |Adorsys Sandbox|embedded
 |===
 
