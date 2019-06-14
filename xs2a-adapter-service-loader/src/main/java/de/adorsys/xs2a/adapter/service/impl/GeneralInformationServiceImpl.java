@@ -1,10 +1,10 @@
-package de.adorsys.xs2a.gateway.service.impl;
+package de.adorsys.xs2a.adapter.service.impl;
 
-import de.adorsys.xs2a.gateway.service.Bank;
-import de.adorsys.xs2a.gateway.service.GeneralInformationService;
-import de.adorsys.xs2a.gateway.service.provider.AccountInformationServiceProvider;
-import de.adorsys.xs2a.gateway.service.provider.PaymentInitiationServiceProvider;
-import de.adorsys.xs2a.gateway.service.provider.ServiceProvider;
+import de.adorsys.xs2a.adapter.service.Bank;
+import de.adorsys.xs2a.adapter.service.GeneralInformationService;
+import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
+import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
+import de.adorsys.xs2a.adapter.service.provider.ServiceProvider;
 
 import java.util.List;
 import java.util.stream.Collectors;

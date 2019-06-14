@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.gateway.model;
+package de.adorsys.xs2a.adapter.model;
 
 import java.util.Set;
 

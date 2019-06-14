@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.gateway.service.provider;
+package de.adorsys.xs2a.adapter.service.provider;
 
 import java.util.Set;
 

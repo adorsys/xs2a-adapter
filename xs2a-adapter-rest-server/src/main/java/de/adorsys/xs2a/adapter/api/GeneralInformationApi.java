@@ -1,6 +1,6 @@
-package de.adorsys.xs2a.gateway.api;
+package de.adorsys.xs2a.adapter.api;
 
-import de.adorsys.xs2a.gateway.model.BankTO;
+import de.adorsys.xs2a.adapter.model.BankTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

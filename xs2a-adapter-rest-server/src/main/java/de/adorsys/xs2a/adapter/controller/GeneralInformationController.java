@@ -1,10 +1,10 @@
-package de.adorsys.xs2a.gateway.controller;
+package de.adorsys.xs2a.adapter.controller;
 
-import de.adorsys.xs2a.gateway.api.GeneralInformationApi;
-import de.adorsys.xs2a.gateway.mapper.BankMapper;
-import de.adorsys.xs2a.gateway.model.BankTO;
-import de.adorsys.xs2a.gateway.service.Bank;
-import de.adorsys.xs2a.gateway.service.GeneralInformationService;
+import de.adorsys.xs2a.adapter.api.GeneralInformationApi;
+import de.adorsys.xs2a.adapter.mapper.BankMapper;
+import de.adorsys.xs2a.adapter.model.BankTO;
+import de.adorsys.xs2a.adapter.service.Bank;
+import de.adorsys.xs2a.adapter.service.GeneralInformationService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

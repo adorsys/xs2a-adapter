@@ -1,7 +1,7 @@
-package de.adorsys.xs2a.gateway.mapper;
+package de.adorsys.xs2a.adapter.mapper;
 
-import de.adorsys.xs2a.gateway.model.BankTO;
-import de.adorsys.xs2a.gateway.service.Bank;
+import de.adorsys.xs2a.adapter.model.BankTO;
+import de.adorsys.xs2a.adapter.service.Bank;
 import org.mapstruct.Mapper;
 
 import java.util.List;
