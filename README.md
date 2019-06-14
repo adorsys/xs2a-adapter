@@ -52,9 +52,26 @@ Here are links where you can install needed dependencies:
 | Newman             | https://www.npmjs.com/package/newman    |
 
 3.Build and run the project with Makefile:
-  
+```text
+ <certificate-file>, <certificate-password>, <key> and <secret> placeholders should be replaced by real values
+
+``` 
+
 ```sh 
 > make run
+```
+Alternative commands:
+```bash
+> mvn clean package
+> 	java \
+  	-Djavax.net.ssl.keyStoreType=pkcs12 \
+  	-Djavax.net.ssl.keyStore=<certificate-file> \
+  	-Djavax.net.ssl.keyStorePassword=<certificate-password> \
+  	-Dcom.sun.security.enableAIAcaIssuers=true \
+  	-Ddkb.token.consumer_key=<key> \
+  	-Ddkb.token.consumer_secret=<secret> \
+  	-jar xs2a-adapter-app/target/xs2a-adapter-app.jar
+
 ```
 
 4.Open [xs2a-adapter swagger page](http://localhost:8999/swagger-ui.html) to get more details about REST Api.
@@ -64,11 +81,25 @@ Here are links where you can install needed dependencies:
 ```sh 
 > make test
 ```
+Alternative commands:
+```bash
+> newman run postman/xs2a\ adapter.postman_collection.json \
+        -d postman/adapters.postman_data.json \
+        --globals postman/postman_globals_local.json \
+        --folder AIS \
+        --folder sepa-credit-transfers \
+        --folder pain.001-sepa-credit-transfers \
+        --timeout-request 3000
+```
 
 6.Stop & clean the project with Makefile:
   
 ```sh 
 > make clean
+```
+Alternative commands:
+```bash
+> mvn clean
 ```
 
 ## How to write your own bank adapter
