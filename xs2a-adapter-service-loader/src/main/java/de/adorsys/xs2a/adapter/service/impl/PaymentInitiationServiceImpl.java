@@ -1,13 +1,7 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.service.*;
-import de.adorsys.xs2a.adapter.service.exception.BankCodeNotProvidedException;
-import de.adorsys.xs2a.adapter.service.exception.BankNotSupportedException;
 import de.adorsys.xs2a.adapter.service.model.*;
-import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
-
-import java.util.ServiceLoader;
-import java.util.stream.StreamSupport;
 
 public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     private final BankServiceLoader bankServiceLoader;
@@ -84,38 +78,38 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String paymentService,
-                                                                                        String paymentProduct,
-                                                                                        String paymentId,
-                                                                                        String authorisationId,
-                                                                                        RequestHeaders requestHeaders,
-                                                                                        SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+    public GeneralResponse<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
+                                                                                       String paymentProduct,
+                                                                                       String paymentId,
+                                                                                       String authorisationId,
+                                                                                       RequestHeaders requestHeaders,
+                                                                                       SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         return bankServiceLoader
                    .getPaymentInitiationService(requestHeaders.removeBankCode())
-                   .updateConsentsPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod);
+                   .updatePaymentPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod);
     }
 
     @Override
-    public GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String paymentService,
-                                                                    String paymentProduct,
-                                                                    String paymentId,
-                                                                    String authorisationId,
-                                                                    RequestHeaders requestHeaders,
-                                                                    TransactionAuthorisation transactionAuthorisation) {
+    public GeneralResponse<ScaStatusResponse> updatePaymentPsuData(String paymentService,
+                                                                   String paymentProduct,
+                                                                   String paymentId,
+                                                                   String authorisationId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   TransactionAuthorisation transactionAuthorisation) {
         return bankServiceLoader
                    .getPaymentInitiationService(requestHeaders.removeBankCode())
-                   .updateConsentsPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, transactionAuthorisation);
+                   .updatePaymentPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, transactionAuthorisation);
     }
 
     @Override
-    public GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String paymentService,
-                                                                                  String paymentProduct,
-                                                                                  String paymentId,
-                                                                                  String authorisationId,
-                                                                                  RequestHeaders requestHeaders,
-                                                                                  UpdatePsuAuthentication updatePsuAuthentication) {
+    public GeneralResponse<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
+                                                                                 String paymentProduct,
+                                                                                 String paymentId,
+                                                                                 String authorisationId,
+                                                                                 RequestHeaders requestHeaders,
+                                                                                 UpdatePsuAuthentication updatePsuAuthentication) {
         return bankServiceLoader
                    .getPaymentInitiationService(requestHeaders.removeBankCode())
-                   .updateConsentsPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, updatePsuAuthentication);
+                   .updatePaymentPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, updatePsuAuthentication);
     }
 }

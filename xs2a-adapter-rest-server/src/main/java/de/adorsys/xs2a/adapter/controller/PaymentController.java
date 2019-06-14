@@ -142,9 +142,9 @@ public class PaymentController extends AbstractController implements PaymentApi 
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
         GeneralResponse<?> response = handleAuthorisationBody(body,
-                (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> this.paymentService.updateConsentsPsuData(paymentService.toString(), paymentProduct.toString(), paymentId, authorisationId, requestHeaders, updatePsuAuthentication),
-                (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod -> this.paymentService.updateConsentsPsuData(paymentService.toString(), paymentProduct.toString(), paymentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod),
-                (TransactionAuthorisationHandler) transactionAuthorisation -> this.paymentService.updateConsentsPsuData(paymentService.toString(), paymentProduct.toString(), paymentId, authorisationId, requestHeaders, transactionAuthorisation)
+                (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> this.paymentService.updatePaymentPsuData(paymentService.toString(), paymentProduct.toString(), paymentId, authorisationId, requestHeaders, updatePsuAuthentication),
+                (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod -> this.paymentService.updatePaymentPsuData(paymentService.toString(), paymentProduct.toString(), paymentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod),
+                (TransactionAuthorisationHandler) transactionAuthorisation -> this.paymentService.updatePaymentPsuData(paymentService.toString(), paymentProduct.toString(), paymentId, authorisationId, requestHeaders, transactionAuthorisation)
         );
 
         return ResponseEntity

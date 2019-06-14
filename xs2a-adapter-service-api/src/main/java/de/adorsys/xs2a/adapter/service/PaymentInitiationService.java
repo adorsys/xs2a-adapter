@@ -39,25 +39,25 @@ public interface PaymentInitiationService {
                                                                              RequestHeaders requestHeaders,
                                                                              UpdatePsuAuthentication updatePsuAuthentication);
 
-    GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String paymentService,
-                                                                                 String paymentProduct,
-                                                                                 String paymentId,
-                                                                                 String authorisationId,
-                                                                                 RequestHeaders requestHeaders,
-                                                                                 SelectPsuAuthenticationMethod selectPsuAuthenticationMethod);
+    GeneralResponse<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
+                                                                                String paymentProduct,
+                                                                                String paymentId,
+                                                                                String authorisationId,
+                                                                                RequestHeaders requestHeaders,
+                                                                                SelectPsuAuthenticationMethod selectPsuAuthenticationMethod);
 
-    GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String paymentService,
-                                                             String paymentProduct,
-                                                             String paymentId,
-                                                             String authorisationId,
-                                                             RequestHeaders requestHeaders,
-                                                             TransactionAuthorisation transactionAuthorisation);
+    GeneralResponse<ScaStatusResponse> updatePaymentPsuData(String paymentService,
+                                                            String paymentProduct,
+                                                            String paymentId,
+                                                            String authorisationId,
+                                                            RequestHeaders requestHeaders,
+                                                            TransactionAuthorisation transactionAuthorisation);
 
-    GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String paymentService,
-                                                                           String paymentProduct,
-                                                                           String paymentId,
-                                                                           String authorisationId,
-                                                                           RequestHeaders requestHeaders,
-                                                                           UpdatePsuAuthentication updatePsuAuthentication
+    GeneralResponse<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
+                                                                          String paymentProduct,
+                                                                          String paymentId,
+                                                                          String authorisationId,
+                                                                          RequestHeaders requestHeaders,
+                                                                          UpdatePsuAuthentication updatePsuAuthentication
     );
 }
