@@ -3,12 +3,12 @@ package de.adorsys.xs2a.adapter.service.account;
 import de.adorsys.xs2a.adapter.service.Amount;
 
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
 
 public class Balance {
     private Amount balanceAmount;
     private BalanceType balanceType;
-    private ZonedDateTime lastChangeDateTime;
+    private OffsetDateTime lastChangeDateTime;
     private LocalDate referenceDate;
     private String lastCommittedTransaction;
 
@@ -28,11 +28,11 @@ public class Balance {
         this.balanceType = balanceType;
     }
 
-    public ZonedDateTime getLastChangeDateTime() {
+    public OffsetDateTime getLastChangeDateTime() {
         return lastChangeDateTime;
     }
 
-    public void setLastChangeDateTime(ZonedDateTime lastChangeDateTime) {
+    public void setLastChangeDateTime(OffsetDateTime lastChangeDateTime) {
         this.lastChangeDateTime = lastChangeDateTime;
     }
 
