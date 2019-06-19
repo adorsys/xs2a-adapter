@@ -31,6 +31,7 @@ import java.util.Set;
 public class ${classNamePrefix}ServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
     private static final String BASE_URI = "${baseUri}";
+    private static final String BANK_NAME = "${bankName}";
     private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("${bankCode}")));
     private AccountInformationService accountInformationService;
     private PaymentInitiationService paymentInitiationService;
@@ -38,6 +39,11 @@ public class ${classNamePrefix}ServiceProvider implements AccountInformationServ
     @Override
     public Set<String> getBankCodes() {
         return bankCodes;
+    }
+
+    @Override
+    public String getBankName(){
+        return BANK_NAME;
     }
 
     @Override
