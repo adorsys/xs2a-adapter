@@ -2,7 +2,7 @@ package de.adorsys.xs2a.adapter.model;
 
 import javax.annotation.Generated;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
 
 @Generated("xs2a-gateway-codegen")
 public class BalanceTO {
@@ -12,7 +12,7 @@ public class BalanceTO {
 
   private Boolean creditLimitIncluded;
 
-  private ZonedDateTime lastChangeDateTime;
+  private OffsetDateTime lastChangeDateTime;
 
   private LocalDate referenceDate;
 
@@ -42,11 +42,11 @@ public class BalanceTO {
     this.creditLimitIncluded = creditLimitIncluded;
   }
 
-  public ZonedDateTime getLastChangeDateTime() {
+  public OffsetDateTime getLastChangeDateTime() {
     return lastChangeDateTime;
   }
 
-  public void setLastChangeDateTime(ZonedDateTime lastChangeDateTime) {
+  public void setLastChangeDateTime(OffsetDateTime lastChangeDateTime) {
     this.lastChangeDateTime = lastChangeDateTime;
   }
 

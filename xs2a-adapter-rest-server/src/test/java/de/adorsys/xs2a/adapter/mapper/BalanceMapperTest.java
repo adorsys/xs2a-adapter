@@ -9,14 +9,14 @@ import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BalanceMapperTest {
     private static final Amount AMOUNT = AmountMapperTest.buildAmount();
     private static final BalanceType BALANCE_TYPE = BalanceType.AUTHORISED;
-    private static final ZonedDateTime LAST_CHANGE_DATE_TIME = ZonedDateTime.now();
+    private static final OffsetDateTime LAST_CHANGE_DATE_TIME = OffsetDateTime.now();
     private static final LocalDate REFERENCE_DATE = LocalDate.now();
     private static final String LAST_COMMITTED_TRANSACTION = "lastCommittedTransaction";
 
