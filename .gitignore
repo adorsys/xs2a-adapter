@@ -52,3 +52,10 @@ crashlytics-build.properties
 target/sonar/
 */target/*
 */target/**
+
+.project/
+.project
+.settings/
+.settings
+.classpath/
+.classpath

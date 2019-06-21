@@ -46,7 +46,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         String bodyString;
         switch (paymentProduct.getMediaType()) {
             case MediaType.APPLICATION_JSON:
-                bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, SinglePaymentInitiationBody.class));
+                bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, getSinglePaymentInitiationBodyClass()));
                 break;
             case MediaType.APPLICATION_XML:
                 bodyString = (String) body;

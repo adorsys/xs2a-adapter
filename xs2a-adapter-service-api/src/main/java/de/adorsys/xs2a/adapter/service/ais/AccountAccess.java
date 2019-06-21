@@ -16,6 +16,7 @@
 
 package de.adorsys.xs2a.adapter.service.ais;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import de.adorsys.xs2a.adapter.service.AccountReference;
 
 import java.util.List;
@@ -86,6 +87,7 @@ public class AccountAccess {
             return String.valueOf(value);
         }
 
+        @JsonCreator
         public static AvailableAccountsEnum fromValue(String text) {
             for (AvailableAccountsEnum b : AvailableAccountsEnum.values()) {
                 if (String.valueOf(b.value).equals(text)) {
@@ -110,6 +112,7 @@ public class AccountAccess {
             return String.valueOf(value);
         }
 
+        @JsonCreator
         public static AllPsd2Enum fromValue(String text) {
             for (AllPsd2Enum b : AllPsd2Enum.values()) {
                 if (String.valueOf(b.value).equals(text)) {

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
@@ -25,7 +26,9 @@
         <module>fiducia-adapter</module>
         <module>dkb-adapter</module>
         <module>commerzbank-adapter</module>
-  </modules>
+        <module>olb-adapter</module>
+        <module>finapi-adapter</module>
+    </modules>
 
     <dependencies>
 
@@ -86,6 +89,18 @@
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>commerzbank-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>olb-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>finapi-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
