@@ -7,7 +7,6 @@ public class FinApiPaymentInitiationService extends BasePaymentInitiationService
 
     public FinApiPaymentInitiationService(String baseUri) {
         super(baseUri);
-
     }
 
     @Override

@@ -104,7 +104,6 @@ public abstract class AbstractService {
                     Matcher matcher = CHARSET_PATTERN.matcher(responseHeaders.getHeader(CONTENT_TYPE_HEADER));
 
                     String charset = StandardCharsets.UTF_8.name();
-                    ;
 
                     if (matcher.find()) {
                         charset = matcher.group(1);
