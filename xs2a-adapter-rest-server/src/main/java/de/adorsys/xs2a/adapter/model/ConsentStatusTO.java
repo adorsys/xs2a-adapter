@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 import javax.annotation.Generated;
 
-@Generated("xs2a-gateway-codegen")
+@Generated("xs2a-codegen")
 public enum ConsentStatusTO {
   RECEIVED("received"),
 

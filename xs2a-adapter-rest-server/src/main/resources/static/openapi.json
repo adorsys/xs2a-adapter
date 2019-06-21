@@ -18,16 +18,6 @@
     "description": "Full Documentation of NextGenPSD2 Access to Account Interoperability Framework\n(General Introduction Paper, Operational Rules, Implementation Guidelines)\n",
     "url": "https://www.berlin-group.org/nextgenpsd2-downloads"
   },
-  "servers": [
-    {
-      "url": "https://api.testbank.com/psd2",
-      "description": "PSD2 server"
-    },
-    {
-      "url": "https://test-api.testbank.com/psd2",
-      "description": "Optional PSD2 test server"
-    }
-  ],
   "paths": {
     "/v1/{payment-service}/{payment-product}": {
       "post": {

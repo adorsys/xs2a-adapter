@@ -2,7 +2,7 @@ package de.adorsys.xs2a.adapter.model;
 
 import javax.annotation.Generated;
 
-@Generated("xs2a-gateway-codegen")
+@Generated("xs2a-codegen")
 public class ScaStatusResponseTO {
   private ScaStatusTO scaStatus;
 

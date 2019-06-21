@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.annotation.Generated;
 import java.util.Map;
 
-@Generated("xs2a-gateway-codegen")
+@Generated("xs2a-codegen")
 public class SelectPsuAuthenticationMethodResponseTO {
   private AuthenticationObjectTO chosenScaMethod;
 

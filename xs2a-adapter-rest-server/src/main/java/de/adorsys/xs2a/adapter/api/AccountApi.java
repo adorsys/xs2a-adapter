@@ -10,22 +10,22 @@ import javax.annotation.Generated;
 import java.time.LocalDate;
 import java.util.Map;
 
-@Generated("xs2a-gateway-codegen")
+@Generated("xs2a-codegen")
 public interface AccountApi {
   @RequestMapping(
       value = "/v1/accounts",
       method = RequestMethod.GET
   )
   ResponseEntity<AccountListTO> getAccountList(
-          @RequestParam(value = "withBalance", required = false) Boolean withBalance,
-          @RequestHeader Map<String, String> headers);
+      @RequestParam(value = "withBalance", required = false) Boolean withBalance,
+      @RequestHeader Map<String, String> headers);
 
   @RequestMapping(
       value = "/v1/accounts/{account-id}/balances",
       method = RequestMethod.GET
   )
   ResponseEntity<ReadAccountBalanceResponse200TO> getBalances(
-          @PathVariable("account-id") String accountId, @RequestHeader Map<String, String> headers);
+      @PathVariable("account-id") String accountId, @RequestHeader Map<String, String> headers);
 
   @RequestMapping(
       value = "/v1/accounts/{account-id}/transactions",
@@ -35,9 +35,9 @@ public interface AccountApi {
                                             @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom,
                                             @RequestParam(value = "dateTo", required = false) LocalDate dateTo,
                                             @RequestParam(value = "entryReferenceFrom", required = false)
-                                                    String entryReferenceFrom,
+                                                String entryReferenceFrom,
                                             @RequestParam(value = "bookingStatus", required = true)
-                                                    BookingStatusTO bookingStatus,
+                                                BookingStatusTO bookingStatus,
                                             @RequestParam(value = "deltaList", required = false) Boolean deltaList,
                                             @RequestParam(value = "withBalance", required = false) Boolean withBalance,
                                             @RequestHeader Map<String, String> headers);

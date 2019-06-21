@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-@Generated("xs2a-gateway-codegen")
+@Generated("xs2a-codegen")
 public class TransactionDetailsTO {
   private String transactionId;
 
