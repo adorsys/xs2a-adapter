@@ -22,6 +22,7 @@ import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.ErrorResponse;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
+import de.adorsys.xs2a.adapter.service.SinglePaymentInitiationBody;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
 import org.slf4j.Logger;
@@ -102,7 +103,7 @@ public abstract class AbstractService {
 
                     Matcher matcher = CHARSET_PATTERN.matcher(responseHeaders.getHeader(CONTENT_TYPE_HEADER));
 
-                    String charset = StandardCharsets.UTF_8.name();;
+                    String charset = StandardCharsets.UTF_8.name();
 
                     if (matcher.find()) {
                         charset = matcher.group(1);
@@ -155,5 +156,9 @@ public abstract class AbstractService {
 
     private String buildNotAcceptableExceptionMessage(String actualContentType, String expectedContentType) {
         return String.format("Content type %s is not acceptable, has to start with %s", actualContentType, expectedContentType);
+    }
+
+    protected Class<?> getSinglePaymentInitiationBodyClass() {
+        return SinglePaymentInitiationBody.class;
     }
 }
