@@ -46,7 +46,13 @@ public class KeyStorageService {
 
     private void initKey() {
         try {
-            keystore = KeyStore.getInstance(System.getProperty(KEYSTORE_TYPE_SYSTEM_PROPERTY));
+            String keyStoreType = System.getProperty(KEYSTORE_TYPE_SYSTEM_PROPERTY);
+
+            if (keyStoreType == null) {
+                throw new HttpRequestSigningException(String.format("Key store type system property [%s] is not provided", KEYSTORE_TYPE_SYSTEM_PROPERTY));
+            }
+
+            keystore = KeyStore.getInstance(keyStoreType);
             keystore.load(new FileInputStream(new File(privateKeyPath)), privateKeyPassword.toCharArray());
         } catch (IOException | CertificateException | NoSuchAlgorithmException | KeyStoreException e) {
             throw new HttpRequestSigningException("Exception during the private key initialisation: " + e);
