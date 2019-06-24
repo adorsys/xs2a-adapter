@@ -1,7 +1,5 @@
 = Draft Release notes for version 0.0.2 (release date: xx.xx.2019)
 
-. The project was renamed from xs2a-gateway to xs2a-adapter to avoid misunderstanding with another adorsys project
-
 .Added banks
 |===
 |Bank Name|approach
@@ -9,3 +7,5 @@
 |AAB Bank|embedded
 |Olb Bank|embedded
 |===
+
+* The project was renamed from xs2a-gateway to xs2a-adapter to avoid misunderstanding with another adorsys project
