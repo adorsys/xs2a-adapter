@@ -4,7 +4,7 @@ import javax.annotation.Generated;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
-@Generated("xs2a-gateway-codegen")
+@Generated("xs2a-codegen")
 public class BalanceTO {
   private AmountTO balanceAmount;
 

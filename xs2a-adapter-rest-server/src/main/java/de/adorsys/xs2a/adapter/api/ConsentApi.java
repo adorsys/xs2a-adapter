@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Generated;
 import java.util.Map;
 
-@Generated("xs2a-gateway-codegen")
+@Generated("xs2a-codegen")
 public interface ConsentApi {
   @RequestMapping(
       value = "/v1/consents",
@@ -23,14 +23,14 @@ public interface ConsentApi {
       method = RequestMethod.GET
   )
   ResponseEntity<ConsentInformationResponse200JsonTO> getConsentInformation(
-          @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers);
+      @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers);
 
   @RequestMapping(
       value = "/v1/consents/{consentId}/status",
       method = RequestMethod.GET
   )
   ResponseEntity<ConsentStatusResponse200TO> getConsentStatus(
-          @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers);
+      @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers);
 
   @RequestMapping(
       value = "/v1/consents/{consentId}/authorisations",
@@ -38,17 +38,17 @@ public interface ConsentApi {
       consumes = "application/json"
   )
   ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(
-          @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers,
-          @RequestBody ObjectNode body);
+      @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers,
+      @RequestBody ObjectNode body);
 
   @RequestMapping(
       value = "/v1/consents/{consentId}/authorisations/{authorisationId}",
       method = RequestMethod.GET
   )
   ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(
-          @PathVariable("consentId") String consentId,
-          @PathVariable("authorisationId") String authorisationId,
-          @RequestHeader Map<String, String> headers);
+      @PathVariable("consentId") String consentId,
+      @PathVariable("authorisationId") String authorisationId,
+      @RequestHeader Map<String, String> headers);
 
   @RequestMapping(
       value = "/v1/consents/{consentId}/authorisations/{authorisationId}",

@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 import java.util.List;
 import java.util.Map;
 
-@Generated("xs2a-gateway-codegen")
+@Generated("xs2a-codegen")
 public class PaymentInitationRequestResponse201TO {
   private TransactionStatusTO transactionStatus;
 

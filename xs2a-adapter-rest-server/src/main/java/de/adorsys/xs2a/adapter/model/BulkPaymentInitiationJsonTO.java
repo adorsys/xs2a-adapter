@@ -2,10 +2,10 @@ package de.adorsys.xs2a.adapter.model;
 
 import javax.annotation.Generated;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
-@Generated("xs2a-gateway-codegen")
+@Generated("xs2a-codegen")
 public class BulkPaymentInitiationJsonTO {
   private Boolean batchBookingPreferred;
 
@@ -13,7 +13,7 @@ public class BulkPaymentInitiationJsonTO {
 
   private LocalDate requestedExecutionDate;
 
-  private ZonedDateTime requestedExecutionTime;
+  private OffsetDateTime requestedExecutionTime;
 
   private List<PaymentInitiationBulkElementJsonTO> payments;
 
@@ -41,11 +41,11 @@ public class BulkPaymentInitiationJsonTO {
     this.requestedExecutionDate = requestedExecutionDate;
   }
 
-  public ZonedDateTime getRequestedExecutionTime() {
+  public OffsetDateTime getRequestedExecutionTime() {
     return requestedExecutionTime;
   }
 
-  public void setRequestedExecutionTime(ZonedDateTime requestedExecutionTime) {
+  public void setRequestedExecutionTime(OffsetDateTime requestedExecutionTime) {
     this.requestedExecutionTime = requestedExecutionTime;
   }
 

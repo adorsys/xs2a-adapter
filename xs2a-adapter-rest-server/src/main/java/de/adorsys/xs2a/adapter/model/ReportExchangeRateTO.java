@@ -3,7 +3,7 @@ package de.adorsys.xs2a.adapter.model;
 import javax.annotation.Generated;
 import java.time.LocalDate;
 
-@Generated("xs2a-gateway-codegen")
+@Generated("xs2a-codegen")
 public class ReportExchangeRateTO {
   private String sourceCurrency;
 

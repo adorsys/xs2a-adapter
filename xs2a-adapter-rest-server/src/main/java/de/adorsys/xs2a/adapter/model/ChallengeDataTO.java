@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import javax.annotation.Generated;
 import java.util.List;
 
-@Generated("xs2a-gateway-codegen")
+@Generated("xs2a-codegen")
 public class ChallengeDataTO {
   private byte[] image;
 
