@@ -37,14 +37,4 @@ public class DeutscheBankPaymentInitiationService extends BasePaymentInitiationS
         map.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
         return map;
     }
-
-    @Override
-    protected String buildSelectPsuAuthenticationMethodUri(String uri) {
-        return uri + "/scamethod";
-    }
-
-    @Override
-    protected String buildScaStatusUri(String uri) {
-        return uri + "/otpvalidation";
-    }
 }

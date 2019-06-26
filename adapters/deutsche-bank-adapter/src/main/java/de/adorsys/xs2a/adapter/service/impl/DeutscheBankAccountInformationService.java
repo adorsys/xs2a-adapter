@@ -44,16 +44,6 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
     }
 
     @Override
-    protected String buildSelectPsuAuthenticationMethodUri(String uri) {
-        return uri + "/scamethod";
-    }
-
-    @Override
-    protected String buildTransactionAuthorisationUri(String uri) {
-        return uri + "/otpvalidation";
-    }
-
-    @Override
     protected Map<String, String> populateGetHeaders(Map<String, String> map) {
         Map<String, String> headers = super.populateGetHeaders(map);
         headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
