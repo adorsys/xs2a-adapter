@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.signing.service.hashing;
 
-import de.adorsys.xs2a.adapter.signing.exception.HttpRequestSigningException;
+import de.adorsys.xs2a.adapter.service.exception.HttpRequestSigningException;
 import de.adorsys.xs2a.adapter.signing.service.algorithm.HashingAlgorithm;
 
 import java.nio.charset.Charset;

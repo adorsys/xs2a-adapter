@@ -4,27 +4,29 @@ import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.model.*;
 
 public class PaymentInitiationServiceImpl implements PaymentInitiationService {
-    private final BankServiceLoader bankServiceLoader;
+    private final AdapterServiceLoader adapterServiceLoader;
 
-    public PaymentInitiationServiceImpl(BankServiceLoader bankServiceLoader) {
-        this.bankServiceLoader = bankServiceLoader;
+    public PaymentInitiationServiceImpl(AdapterServiceLoader adapterServiceLoader) {
+        this.adapterServiceLoader = adapterServiceLoader;
     }
 
     @Override
     public GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct,
                                                                                    RequestHeaders requestHeaders,
                                                                                    Object body) {
-        return bankServiceLoader
-                   .getPaymentInitiationService(requestHeaders.removeBankCode())
+        return getPaymentInitiationService(requestHeaders)
                    .initiateSinglePayment(paymentProduct, requestHeaders, body);
+    }
+
+    private PaymentInitiationService getPaymentInitiationService(RequestHeaders requestHeaders) {
+        return adapterServiceLoader.getPaymentInitiationService(requestHeaders.removeBic());
     }
 
     @Override
     public GeneralResponse<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,
                                                                                                              String paymentId,
                                                                                                              RequestHeaders requestHeaders) {
-        return bankServiceLoader
-                   .getPaymentInitiationService(requestHeaders.removeBankCode())
+        return getPaymentInitiationService(requestHeaders)
                    .getSinglePaymentInformation(paymentProduct, paymentId, requestHeaders);
     }
 
@@ -34,8 +36,7 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
                                                                                              String paymentId,
                                                                                              String authorisationId,
                                                                                              RequestHeaders requestHeaders) {
-        return bankServiceLoader
-                   .getPaymentInitiationService(requestHeaders.removeBankCode())
+        return getPaymentInitiationService(requestHeaders)
                    .getPaymentInitiationScaStatus(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders);
     }
 
@@ -43,8 +44,7 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     public GeneralResponse<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct,
                                                                                      String paymentId,
                                                                                      RequestHeaders requestHeaders) {
-        return bankServiceLoader
-                   .getPaymentInitiationService(requestHeaders.removeBankCode())
+        return getPaymentInitiationService(requestHeaders)
                    .getSinglePaymentInitiationStatus(paymentProduct, paymentId, requestHeaders);
     }
 
@@ -52,8 +52,7 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     public GeneralResponse<String> getSinglePaymentInitiationStatusAsString(String paymentProduct,
                                                                             String paymentId,
                                                                             RequestHeaders requestHeaders) {
-        return bankServiceLoader
-                   .getPaymentInitiationService(requestHeaders.removeBankCode())
+        return getPaymentInitiationService(requestHeaders)
                    .getSinglePaymentInitiationStatusAsString(paymentProduct, paymentId, requestHeaders);
     }
 
@@ -62,8 +61,7 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
                                                                                                      String paymentProduct,
                                                                                                      String paymentId,
                                                                                                      RequestHeaders requestHeaders) {
-        return bankServiceLoader
-                   .getPaymentInitiationService(requestHeaders.removeBankCode())
+        return getPaymentInitiationService(requestHeaders)
                    .getPaymentInitiationAuthorisation(paymentService, paymentProduct, paymentId, requestHeaders);
     }
 
@@ -72,8 +70,7 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
                                                                                     String paymentId,
                                                                                     RequestHeaders requestHeaders,
                                                                                     UpdatePsuAuthentication updatePsuAuthentication) {
-        return bankServiceLoader
-                   .getPaymentInitiationService(requestHeaders.removeBankCode())
+        return getPaymentInitiationService(requestHeaders)
                    .startSinglePaymentAuthorisation(paymentProduct, paymentId, requestHeaders, updatePsuAuthentication);
     }
 
@@ -84,8 +81,7 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
                                                                                        String authorisationId,
                                                                                        RequestHeaders requestHeaders,
                                                                                        SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
-        return bankServiceLoader
-                   .getPaymentInitiationService(requestHeaders.removeBankCode())
+        return getPaymentInitiationService(requestHeaders)
                    .updatePaymentPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod);
     }
 
@@ -96,8 +92,7 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
                                                                    String authorisationId,
                                                                    RequestHeaders requestHeaders,
                                                                    TransactionAuthorisation transactionAuthorisation) {
-        return bankServiceLoader
-                   .getPaymentInitiationService(requestHeaders.removeBankCode())
+        return getPaymentInitiationService(requestHeaders)
                    .updatePaymentPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, transactionAuthorisation);
     }
 
@@ -108,8 +103,7 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
                                                                                  String authorisationId,
                                                                                  RequestHeaders requestHeaders,
                                                                                  UpdatePsuAuthentication updatePsuAuthentication) {
-        return bankServiceLoader
-                   .getPaymentInitiationService(requestHeaders.removeBankCode())
+        return getPaymentInitiationService(requestHeaders)
                    .updatePaymentPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, updatePsuAuthentication);
     }
 }

@@ -19,8 +19,8 @@ import static org.mockito.Mockito.*;
 
 public class DeutscheBankAccountInformationServiceTest {
 
-    private static final String BASE_URL = "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1";
-    private static final String CONSENT_URL = BASE_URL + "/consents";
+    private static final String BASE_URL = "https://simulator-xs2a.db.com/ais/DE/SB-DB";
+    private static final String CONSENT_URL = BASE_URL + "/v1/consents";
     private static final int HTTP_CODE_200 = 200;
 
     @SuppressWarnings("unchecked")

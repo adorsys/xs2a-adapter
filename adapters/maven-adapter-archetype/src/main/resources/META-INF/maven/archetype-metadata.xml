@@ -16,9 +16,6 @@
       <defaultValue>de.adorsys.xs2a.adapter</defaultValue>
     </requiredProperty>
     <requiredProperty key="classNamePrefix"/>
-    <requiredProperty key="baseUri"/>
-    <requiredProperty key="bankCode"/>
-    <requiredProperty key="bankName"/>
   </requiredProperties>
   <fileSets>
     <fileSet filtered="true" packaged="true" encoding="UTF-8">

@@ -23,47 +23,20 @@ import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 public class AdorsysIntegServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
-    private static final String DEFAULT_BASE_URI = "http://localhost:8089/v1";
-    private static final String BASE_URI_ENV = "adorsys-integ.base_uri";
-    private static final String BANK_NAME = "adorsys xs2a";
-    private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("adorsys-integ")));
-    private AccountInformationService accountInformationService;
-    private BasePaymentInitiationService paymentInitiationService;
-
     @Override
-    public Set<String> getBankCodes() {
-        return bankCodes;
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
+        return new BasePaymentInitiationService(baseUrl);
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService() {
-        if (paymentInitiationService == null) {
-            paymentInitiationService = new BasePaymentInitiationService(getBaseUri());
-        }
-        return paymentInitiationService;
+    public AccountInformationService getAccountInformationService(String baseUrl) {
+        return new BaseAccountInformationService(baseUrl);
     }
 
     @Override
-    public AccountInformationService getAccountInformationService() {
-        if (accountInformationService == null) {
-            accountInformationService = new BaseAccountInformationService(getBaseUri());
-        }
-        return accountInformationService;
-    }
-
-    private static String getBaseUri() {
-        String baseUri = System.getenv(BASE_URI_ENV);
-        return baseUri == null || baseUri.trim().isEmpty() ? DEFAULT_BASE_URI : baseUri.trim();
-    }
-
-    @Override
-    public String getBankName() {
-        return BANK_NAME;
+    public String getAdapterId() {
+        return "adorsys-integ-adapter";
     }
 }

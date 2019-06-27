@@ -24,41 +24,20 @@ import ${package}.adapter.BasePaymentInitiationService;
 import ${package}.service.PaymentInitiationService;
 import ${package}.service.ais.AccountInformationService;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 public class ${classNamePrefix}ServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
-    private static final String BASE_URI = "${baseUri}";
-    private static final String BANK_NAME = "${bankName}";
-    private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("${bankCode}")));
-    private AccountInformationService accountInformationService;
-    private PaymentInitiationService paymentInitiationService;
-
     @Override
-    public Set<String> getBankCodes() {
-        return bankCodes;
+    public AccountInformationService getAccountInformationService(String baseUrl) {
+        return new BaseAccountInformationService(baseUrl);
     }
 
     @Override
-    public String getBankName(){
-        return BANK_NAME;
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
+        return new BasePaymentInitiationService(baseUrl);
     }
 
     @Override
-    public AccountInformationService getAccountInformationService() {
-        if (accountInformationService == null) {
-            accountInformationService = new BaseAccountInformationService(BASE_URI);
-        }
-        return accountInformationService;
-    }
-
-    @Override
-    public PaymentInitiationService getPaymentInitiationService() {
-        if (paymentInitiationService == null) {
-            paymentInitiationService = new BasePaymentInitiationService(BASE_URI);
-        }
-        return paymentInitiationService;
+    public String getAdapterId() {
+        return "${artifactId}";
     }
 }

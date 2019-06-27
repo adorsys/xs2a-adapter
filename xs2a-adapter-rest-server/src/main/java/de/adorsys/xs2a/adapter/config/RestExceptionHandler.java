@@ -6,7 +6,6 @@ import de.adorsys.xs2a.adapter.service.ErrorResponse;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.TppMessage;
 import de.adorsys.xs2a.adapter.service.exception.*;
-import de.adorsys.xs2a.adapter.signing.exception.HttpRequestSigningException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -91,19 +90,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    ResponseEntity handle(BankCodeNotProvidedException exception) {
+    ResponseEntity handle(BicNotProvidedException exception) {
         logger.error(exception.getMessage(), exception);
-        String errorText = String.format("%s header is not provided within the request", RequestHeaders.X_GTW_BANK_CODE);
-        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
-        HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
-        return new ResponseEntity<>(errorResponse, headers, httpStatus);
-    }
-
-    @ExceptionHandler
-    ResponseEntity handle(BankNotSupportedException exception) {
-        String errorText = exception.getMessage();
-        logger.error(errorText, exception);
+        String errorText = String.format("%s header is not provided within the request", RequestHeaders.X_GTW_BIC);
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);

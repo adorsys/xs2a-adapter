@@ -21,42 +21,20 @@ import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.VerlagAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.VerlagPaymentInitiationService;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 public class VerlagServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
-    private static final String BASE_URI = "https://www.sandbox-bvxs2a.de/nationalbank/v1";
-    private static final String BANK_NAME = "Bank-Verlag";
-    private final Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("25040090")));
-    private VerlagAccountInformationService accountInformationService;
-    private VerlagPaymentInitiationService paymentInitiationService;
-
-
     @Override
-    public Set<String> getBankCodes() {
-        return bankCodes;
+    public AccountInformationService getAccountInformationService(String baseUrl) {
+        return new VerlagAccountInformationService(baseUrl);
     }
 
     @Override
-    public AccountInformationService getAccountInformationService() {
-        if (accountInformationService == null) {
-            accountInformationService = new VerlagAccountInformationService(BASE_URI);
-        }
-        return accountInformationService;
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
+        return new VerlagPaymentInitiationService(baseUrl);
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService() {
-        if (paymentInitiationService == null) {
-            paymentInitiationService = new VerlagPaymentInitiationService(BASE_URI);
-        }
-        return paymentInitiationService;
-    }
-
-    @Override
-    public String getBankName() {
-        return BANK_NAME;
+    public String getAdapterId() {
+        return "verlag-adapter";
     }
 }

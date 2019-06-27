@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class BaseAccountInformationServiceTest {
 
-    private static final String BASE_URI = "baseUri/v1/";
+    private static final String BASE_URI = "baseUri";
     private BaseAccountInformationService informationService;
 
     @Before

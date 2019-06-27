@@ -1,13 +1,9 @@
 package de.adorsys.xs2a.adapter.config;
 
 import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
-import de.adorsys.xs2a.adapter.service.GeneralInformationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.impl.AccountInformationServiceImpl;
-import de.adorsys.xs2a.adapter.service.impl.BankServiceLoader;
-import de.adorsys.xs2a.adapter.service.impl.GeneralInformationServiceImpl;
-import de.adorsys.xs2a.adapter.service.impl.PaymentInitiationServiceImpl;
+import de.adorsys.xs2a.adapter.service.impl.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,13 +11,8 @@ import org.springframework.context.annotation.Configuration;
 public class RestConfiguration {
 
     @Bean
-    BankServiceLoader bankServiceLoader() {
-        return new BankServiceLoader();
-    }
-
-    @Bean
-    PaymentInitiationService paymentService() {
-        return new PaymentInitiationServiceImpl(bankServiceLoader());
+    PaymentInitiationService paymentInitiationService() {
+        return new PaymentInitiationServiceImpl(adapterServiceLoader());
     }
 
     @Bean
@@ -30,12 +21,12 @@ public class RestConfiguration {
     }
 
     @Bean
-    AccountInformationService consentService() {
-        return new AccountInformationServiceImpl(bankServiceLoader());
+    AccountInformationService accountInformationService() {
+        return new AccountInformationServiceImpl(adapterServiceLoader());
     }
 
     @Bean
-    GeneralInformationService generalInformationService() {
-        return new GeneralInformationServiceImpl(bankServiceLoader());
+    AdapterServiceLoader adapterServiceLoader() {
+        return new AdapterServiceLoader();
     }
 }

@@ -1,7 +1,7 @@
 [
   {
     "adapter": "sparkasse",
-    "bankCode": "99999999",
+    "bic": "BYLADEM1SFU",
     "psuId_AIS": "chipTAN",
     "psuId_PIS": "chipTAN",
     "psuIdType_AIS": "",
@@ -20,7 +20,7 @@
   },
   {
     "adapter": "verlag",
-    "bankCode": "25040090",
+    "bic": "MARKDEF",
     "psuId_AIS": "PSD2TEST2",
     "psuId_PIS": "PSD2TEST2",
     "psuIdType_AIS": "",
@@ -39,7 +39,7 @@
   },
   {
     "adapter": "dkb",
-    "bankCode": "12030000",
+    "bic": "BYLADEM1001",
     "psuId_AIS": "PSD2TEST2",
     "psuId_PIS": "PSD2TEST2",
     "psuIdType_AIS": "",
@@ -58,7 +58,7 @@
   },
   {
     "adapter": "dab-bank",
-    "bankCode": "70120400",
+    "bic": "DABBDEMMXXX",
     "psuId_AIS": "PSU-Successful",
     "psuId_PIS": "PSU-Successful",
     "psuIdType_AIS": "",
@@ -71,7 +71,7 @@
   },
   {
     "adapter": "consors-bank",
-    "bankCode": "76030080",
+    "bic": "CSDBDE71",
     "psuId_AIS": "PSU-Successful",
     "psuId_PIS": "PSU-Successful",
     "psuIdType_AIS": "",
@@ -84,7 +84,7 @@
   },
   {
     "adapter": "sparda-bank",
-    "bankCode": "sparda-bank",
+    "bic": "GENODEF1S06",
     "psuId_AIS": "PSU-Successful",
     "psuId_PIS": "PSU-Successful",
     "psuIdType_AIS": "",
@@ -97,7 +97,7 @@
   },
   {
     "adapter": "fiducia",
-    "bankCode": "88888888",
+    "bic": "GENODEF1N08",
     "psuId_AIS": "VRK1234567890ALL",
     "psuId_PIS": "VRK1234567890ALL",
     "psuIdType_AIS": "",
@@ -116,7 +116,7 @@
   },
   {
     "adapter": "deutsche-bank",
-    "bankCode": "50010517",
+    "bic": "DEUTDE",
     "psuId_AIS": "555-EXTAISC-02",
     "psuId_PIS": "648403403903",
     "psuIdType_AIS": "DE_ONLB_DB",
@@ -135,7 +135,7 @@
   },
   {
     "adapter": "adorsys-integ",
-    "bankCode": "adorsys-integ",
+    "bic": "ADORSYS",
     "psuId_AIS": "max.musterman",
     "psuId_PIS": "max.musterman",
     "psuIdType_AIS": "",

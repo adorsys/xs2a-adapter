@@ -8,8 +8,6 @@ import de.adorsys.xs2a.adapter.service.impl.DkbPaymentInitiationService;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Set;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DkbServiceProviderTest {
@@ -26,16 +24,8 @@ public class DkbServiceProviderTest {
     }
 
     @Test
-    public void getBankCodes() {
-        Set<String> codes = provider.getBankCodes();
-
-        assertThat(codes).hasSize(1);
-        assertThat(codes.contains("12030000")).isTrue();
-    }
-
-    @Test
     public void getPaymentInitiationService() {
-        PaymentInitiationService service = provider.getPaymentInitiationService();
+        PaymentInitiationService service = provider.getPaymentInitiationService(null);
 
         assertThat(service).isNotNull();
         assertThat(service).isInstanceOfAny(DkbPaymentInitiationService.class);
@@ -43,7 +33,7 @@ public class DkbServiceProviderTest {
 
     @Test
     public void getAccountInformationService() {
-        AccountInformationService service = provider.getAccountInformationService();
+        AccountInformationService service = provider.getAccountInformationService(null);
 
         assertThat(service).isNotNull();
         assertThat(service).isInstanceOfAny(DkbAccountInformationService.class);

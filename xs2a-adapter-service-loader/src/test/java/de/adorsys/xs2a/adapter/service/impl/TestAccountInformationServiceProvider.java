@@ -14,12 +14,20 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.service.exception;
+package de.adorsys.xs2a.adapter.service.impl;
 
-public class BankNotSupportedException extends RuntimeException {
-    private static final String MESSAGE = "Bank with code [%s] is not supported";
+import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 
-    public BankNotSupportedException(String bankCode) {
-        super(String.format(MESSAGE, bankCode));
+public class TestAccountInformationServiceProvider implements AccountInformationServiceProvider {
+
+    @Override
+    public AccountInformationService getAccountInformationService(String baseUrl) {
+        return new TestAccountInformationService();
+    }
+
+    @Override
+    public String getAdapterId() {
+        return "test-adapter";
     }
 }

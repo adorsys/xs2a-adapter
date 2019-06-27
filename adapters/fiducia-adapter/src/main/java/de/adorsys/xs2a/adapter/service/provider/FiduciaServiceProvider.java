@@ -23,45 +23,26 @@ import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.FiduciaAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.FiduciaPaymentInitiationService;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 public class FiduciaServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
-    private static final String BASE_URI = "https://xs2a-test.fiduciagad.de/xs2a/v1";
-    private static final String BANK_NAME = "Fiducia";
     private final RequestSigningInterceptor requestSigningInterceptor = new RequestSigningInterceptor();
 
-    private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("88888888")));
-    private FiduciaAccountInformationService accountInformationService;
-    private FiduciaPaymentInitiationService paymentInitiationService;
-
     @Override
-    public Set<String> getBankCodes() {
-        return bankCodes;
-    }
-
-    @Override
-    public AccountInformationService getAccountInformationService() {
-        if (accountInformationService == null) {
-            accountInformationService = new FiduciaAccountInformationService(BASE_URI);
-            accountInformationService.setHttpClient(HttpClient.newHttpClientWithSignature(requestSigningInterceptor));
-        }
+    public AccountInformationService getAccountInformationService(String baseUrl) {
+        FiduciaAccountInformationService accountInformationService = new FiduciaAccountInformationService(baseUrl);
+        accountInformationService.setHttpClient(HttpClient.newHttpClientWithSignature(requestSigningInterceptor));
         return accountInformationService;
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService() {
-        if (paymentInitiationService == null) {
-            paymentInitiationService = new FiduciaPaymentInitiationService(BASE_URI);
-            paymentInitiationService.setHttpClient(HttpClient.newHttpClientWithSignature(requestSigningInterceptor));
-        }
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
+        FiduciaPaymentInitiationService paymentInitiationService = new FiduciaPaymentInitiationService(baseUrl);
+        paymentInitiationService.setHttpClient(HttpClient.newHttpClientWithSignature(requestSigningInterceptor));
         return paymentInitiationService;
     }
 
     @Override
-    public String getBankName() {
-        return BANK_NAME;
+    public String getAdapterId() {
+        return "fiducia-adapter";
     }
 }

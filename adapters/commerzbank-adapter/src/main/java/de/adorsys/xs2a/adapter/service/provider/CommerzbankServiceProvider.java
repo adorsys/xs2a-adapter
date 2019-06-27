@@ -21,41 +21,20 @@ import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 public class CommerzbankServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
-    private static final String BASE_URI = "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1";
-    private static final String BANK_NAME = "Commerzbank";
-    private Set<String> bankCodes = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("commerzbank")));
-    private AccountInformationService accountInformationService;
-    private PaymentInitiationService paymentInitiationService;
-
     @Override
-    public Set<String> getBankCodes() {
-        return bankCodes;
+    public AccountInformationService getAccountInformationService(String baseUrl) {
+        return new BaseAccountInformationService(baseUrl);
     }
 
     @Override
-    public AccountInformationService getAccountInformationService() {
-        if (accountInformationService == null) {
-            accountInformationService = new BaseAccountInformationService(BASE_URI);
-        }
-        return accountInformationService;
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
+        return new BasePaymentInitiationService(baseUrl);
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService() {
-        if (paymentInitiationService == null) {
-            paymentInitiationService = new BasePaymentInitiationService(BASE_URI);
-        }
-        return paymentInitiationService;
-    }
-
-    @Override
-    public String getBankName() {
-        return BANK_NAME;
+    public String getAdapterId() {
+        return "commerzbank-adapter";
     }
 }

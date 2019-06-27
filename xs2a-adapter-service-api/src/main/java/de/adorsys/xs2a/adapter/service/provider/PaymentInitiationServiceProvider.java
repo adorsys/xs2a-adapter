@@ -18,7 +18,7 @@ package de.adorsys.xs2a.adapter.service.provider;
 
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 
-public interface PaymentInitiationServiceProvider extends ServiceProvider {
+public interface PaymentInitiationServiceProvider extends AdapterServiceProvider {
 
-    PaymentInitiationService getPaymentInitiationService();
+    PaymentInitiationService getPaymentInitiationService(String baseUrl);
 }

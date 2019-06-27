@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.http;
 
+import de.adorsys.xs2a.adapter.service.exception.HttpRequestSigningException;
 import de.adorsys.xs2a.adapter.signing.RequestSigningService;
-import de.adorsys.xs2a.adapter.signing.exception.HttpRequestSigningException;
 import de.adorsys.xs2a.adapter.signing.header.Digest;
 import de.adorsys.xs2a.adapter.signing.header.Signature;
 import de.adorsys.xs2a.adapter.signing.header.TppSignatureCertificate;

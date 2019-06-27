@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class BasePaymentInitiationService extends AbstractService implements PaymentInitiationService {
 
-    private static final String PAYMENTS = "payments";
+    private static final String PAYMENTS = "/v1/payments";
     private final String baseUri;
 
     public BasePaymentInitiationService(String baseUri) {

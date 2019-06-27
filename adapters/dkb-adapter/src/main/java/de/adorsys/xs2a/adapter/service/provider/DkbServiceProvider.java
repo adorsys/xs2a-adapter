@@ -23,40 +23,22 @@ import de.adorsys.xs2a.adapter.service.impl.DkbAccessTokenService;
 import de.adorsys.xs2a.adapter.service.impl.DkbAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.DkbPaymentInitiationService;
 
-import java.util.Collections;
-import java.util.Set;
-
 public class DkbServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
-    private static final String BASE_URI = "https://api.dkb.de/psd2/1.3.2/v1/";
-    private static final String BANK_NAME = "DKB";
     private final AccessTokenService tokenService = DkbAccessTokenService.getInstance();
-    private PaymentInitiationService paymentInitiationService;
-    private AccountInformationService accountInformationService;
 
     @Override
-    public Set<String> getBankCodes() {
-        return Collections.unmodifiableSet(Collections.singleton("12030000"));
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
+        return new DkbPaymentInitiationService(baseUrl, tokenService);
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService() {
-        if (paymentInitiationService == null) {
-            paymentInitiationService = new DkbPaymentInitiationService(BASE_URI, tokenService);
-        }
-        return paymentInitiationService;
+    public AccountInformationService getAccountInformationService(String baseUrl) {
+        return new DkbAccountInformationService(baseUrl, tokenService);
     }
 
     @Override
-    public AccountInformationService getAccountInformationService() {
-        if (accountInformationService == null) {
-            accountInformationService = new DkbAccountInformationService(BASE_URI, tokenService);
-        }
-        return accountInformationService;
-    }
-
-    @Override
-    public String getBankName() {
-        return BANK_NAME;
+    public String getAdapterId() {
+        return "dkb-adapter";
     }
 }

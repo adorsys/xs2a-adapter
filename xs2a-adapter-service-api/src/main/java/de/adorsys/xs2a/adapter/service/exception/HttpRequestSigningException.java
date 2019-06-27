@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.signing.exception;
+package de.adorsys.xs2a.adapter.service.exception;
 
 public class HttpRequestSigningException extends RuntimeException {
 
