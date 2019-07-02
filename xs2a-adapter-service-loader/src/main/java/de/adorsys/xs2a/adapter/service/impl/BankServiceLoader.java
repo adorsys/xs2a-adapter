@@ -15,15 +15,20 @@ import java.util.stream.StreamSupport;
 
 public class BankServiceLoader {
 
+    private ServiceLoader<AccountInformationServiceProvider> accountInformationServiceLoader;
+    private ServiceLoader<PaymentInitiationServiceProvider> paymentInitiationServiceloader;
+
+    public BankServiceLoader() {
+        accountInformationServiceLoader = ServiceLoader.load(AccountInformationServiceProvider.class);
+        paymentInitiationServiceloader = ServiceLoader.load(PaymentInitiationServiceProvider.class);
+    }
+
     public AccountInformationService getAccountInformationService(String bankCode) {
         if (bankCode == null) {
             throw new BankCodeNotProvidedException();
         }
 
-        ServiceLoader<AccountInformationServiceProvider> loader =
-            ServiceLoader.load(AccountInformationServiceProvider.class);
-
-        return StreamSupport.stream(loader.spliterator(), false)
+        return StreamSupport.stream(accountInformationServiceLoader.spliterator(), false)
                    .filter(pis -> pis.getBankCodes().contains(bankCode))
                    .findFirst().orElseThrow(() -> new BankNotSupportedException(bankCode))
                    .getAccountInformationService();
@@ -34,10 +39,7 @@ public class BankServiceLoader {
             throw new BankCodeNotProvidedException();
         }
 
-        ServiceLoader<PaymentInitiationServiceProvider> loader =
-            ServiceLoader.load(PaymentInitiationServiceProvider.class);
-
-        return StreamSupport.stream(loader.spliterator(), false)
+        return StreamSupport.stream(paymentInitiationServiceloader.spliterator(), false)
                    .filter(pis -> pis.getBankCodes().contains(bankCode))
                    .findFirst().orElseThrow(() -> new BankNotSupportedException(bankCode))
                    .getPaymentInitiationService();
