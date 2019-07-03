@@ -1,10 +1,12 @@
 package de.adorsys.xs2a.adapter.service;
 
+import de.adorsys.xs2a.adapter.service.exception.BicNotProvidedException;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class RequestHeaders {
-    public static final String X_GTW_BANK_CODE = "X-GTW-Bank-Code";
+    public static final String X_GTW_BIC = "X-GTW-BIC";
     public static final String X_REQUEST_ID = "X-Request-ID";
     public static final String CONSENT_ID = "Consent-ID";
     public static final String DIGEST = "Digest";
@@ -36,7 +38,7 @@ public class RequestHeaders {
     private static Map<String, String> headerNamesLowerCased = new HashMap<>();
 
     static {
-        headerNamesLowerCased.put(X_GTW_BANK_CODE.toLowerCase(), X_GTW_BANK_CODE);
+        headerNamesLowerCased.put(X_GTW_BIC.toLowerCase(), X_GTW_BIC);
         headerNamesLowerCased.put(X_REQUEST_ID.toLowerCase(), X_REQUEST_ID);
         headerNamesLowerCased.put(PSU_IP_ADDRESS.toLowerCase(), PSU_IP_ADDRESS);
         headerNamesLowerCased.put(DIGEST.toLowerCase(), DIGEST);
@@ -89,7 +91,11 @@ public class RequestHeaders {
         return "application/json".equalsIgnoreCase(headers.get(ACCEPT));
     }
 
-    public String removeBankCode() {
-        return headers.remove(X_GTW_BANK_CODE);
+    public String removeBic() {
+        String bic = headers.remove(X_GTW_BIC);
+        if (bic == null) {
+            throw new BicNotProvidedException();
+        }
+        return bic;
     }
 }

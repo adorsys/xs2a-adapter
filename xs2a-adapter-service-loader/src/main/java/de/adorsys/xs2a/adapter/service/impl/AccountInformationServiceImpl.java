@@ -24,50 +24,44 @@ import de.adorsys.xs2a.adapter.service.account.AccountListHolder;
 import de.adorsys.xs2a.adapter.service.account.BalanceReport;
 import de.adorsys.xs2a.adapter.service.account.TransactionsReport;
 import de.adorsys.xs2a.adapter.service.ais.*;
-import de.adorsys.xs2a.adapter.service.exception.BankCodeNotProvidedException;
-import de.adorsys.xs2a.adapter.service.exception.BankNotSupportedException;
 import de.adorsys.xs2a.adapter.service.model.*;
-import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
-
-import java.util.ServiceLoader;
-import java.util.stream.StreamSupport;
 
 public class AccountInformationServiceImpl implements AccountInformationService {
-    private final BankServiceLoader bankServiceLoader;
+    private final AdapterServiceLoader adapterServiceLoader;
 
-    public AccountInformationServiceImpl(BankServiceLoader bankServiceLoader) {
-        this.bankServiceLoader = bankServiceLoader;
+    public AccountInformationServiceImpl(AdapterServiceLoader adapterServiceLoader) {
+        this.adapterServiceLoader = adapterServiceLoader;
     }
 
     @Override
     public GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
                                                                   Consents consents) {
-        return bankServiceLoader
-                   .getAccountInformationService(requestHeaders.removeBankCode())
+        return getAccountInformationService(requestHeaders)
                    .createConsent(requestHeaders, consents);
+    }
+
+    private AccountInformationService getAccountInformationService(RequestHeaders requestHeaders) {
+        return adapterServiceLoader.getAccountInformationService(requestHeaders.removeBic());
     }
 
     @Override
     public GeneralResponse<ConsentInformation> getConsentInformation(String consentId,
                                                                      RequestHeaders requestHeaders) {
-        return bankServiceLoader
-                   .getAccountInformationService(requestHeaders.removeBankCode())
+        return getAccountInformationService(requestHeaders)
                    .getConsentInformation(consentId, requestHeaders);
     }
 
     @Override
     public GeneralResponse<ConsentStatusResponse> getConsentStatus(String consentId,
                                                                    RequestHeaders requestHeaders) {
-        return bankServiceLoader
-                   .getAccountInformationService(requestHeaders.removeBankCode())
+        return getAccountInformationService(requestHeaders)
                    .getConsentStatus(consentId, requestHeaders);
     }
 
     @Override
     public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId,
                                                                               RequestHeaders requestHeaders) {
-        return bankServiceLoader
-                   .getAccountInformationService(requestHeaders.removeBankCode())
+        return getAccountInformationService(requestHeaders)
                    .startConsentAuthorisation(consentId, requestHeaders);
     }
 
@@ -75,8 +69,7 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId,
                                                                               RequestHeaders requestHeaders,
                                                                               UpdatePsuAuthentication updatePsuAuthentication) {
-        return bankServiceLoader
-                   .getAccountInformationService(requestHeaders.removeBankCode())
+        return getAccountInformationService(requestHeaders)
                    .startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication);
     }
 
@@ -85,8 +78,7 @@ public class AccountInformationServiceImpl implements AccountInformationService 
                                                                                         String authorisationId,
                                                                                         RequestHeaders requestHeaders,
                                                                                         SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
-        return bankServiceLoader
-                   .getAccountInformationService(requestHeaders.removeBankCode())
+        return getAccountInformationService(requestHeaders)
                    .updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod);
     }
 
@@ -95,8 +87,7 @@ public class AccountInformationServiceImpl implements AccountInformationService 
                                                                     String authorisationId,
                                                                     RequestHeaders requestHeaders,
                                                                     TransactionAuthorisation transactionAuthorisation) {
-        return bankServiceLoader
-                   .getAccountInformationService(requestHeaders.removeBankCode())
+        return getAccountInformationService(requestHeaders)
                    .updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation);
     }
 
@@ -105,32 +96,28 @@ public class AccountInformationServiceImpl implements AccountInformationService 
                                                                                   String authorisationId,
                                                                                   RequestHeaders requestHeaders,
                                                                                   UpdatePsuAuthentication updatePsuAuthentication) {
-        return bankServiceLoader
-                   .getAccountInformationService(requestHeaders.removeBankCode())
+        return getAccountInformationService(requestHeaders)
                    .updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication);
     }
 
     @Override
     public GeneralResponse<AccountListHolder> getAccountList(RequestHeaders requestHeaders,
                                                              RequestParams requestParams) {
-        return bankServiceLoader
-                   .getAccountInformationService(requestHeaders.removeBankCode())
+        return getAccountInformationService(requestHeaders)
                    .getAccountList(requestHeaders, requestParams);
     }
 
     @Override
     public GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders,
                                                                   RequestParams requestParams) {
-        return bankServiceLoader
-                   .getAccountInformationService(requestHeaders.removeBankCode())
+        return getAccountInformationService(requestHeaders)
                    .getTransactionList(accountId, requestHeaders, requestParams);
     }
 
     @Override
     public GeneralResponse<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders,
                                                               RequestParams requestParams) {
-        return bankServiceLoader
-                   .getAccountInformationService(requestHeaders.removeBankCode())
+        return getAccountInformationService(requestHeaders)
                    .getTransactionListAsString(accountId, requestHeaders, requestParams);
     }
 
@@ -138,16 +125,14 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     public GeneralResponse<ScaStatusResponse> getConsentScaStatus(String consentId,
                                                                   String authorisationId,
                                                                   RequestHeaders requestHeaders) {
-        return bankServiceLoader
-                   .getAccountInformationService(requestHeaders.removeBankCode())
+        return getAccountInformationService(requestHeaders)
                    .getConsentScaStatus(consentId, authorisationId, requestHeaders);
     }
 
     @Override
     public GeneralResponse<BalanceReport> getBalances(String accountId,
                                                       RequestHeaders requestHeaders) {
-        return bankServiceLoader
-                   .getAccountInformationService(requestHeaders.removeBankCode())
+        return getAccountInformationService(requestHeaders)
                    .getBalances(accountId, requestHeaders);
     }
 }

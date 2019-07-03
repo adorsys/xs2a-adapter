@@ -1,10 +1,8 @@
 package de.adorsys.xs2a.adapter.model;
 
-import java.util.Set;
-
 public class BankTO {
     private String name;
-    private Set<String> bankCodes;
+    private String bic;
 
     public String getName() {
         return name;
@@ -14,11 +12,11 @@ public class BankTO {
         this.name = name;
     }
 
-    public Set<String> getBankCodes() {
-        return bankCodes;
+    public String getBic() {
+        return bic;
     }
 
-    public void setBankCodes(Set<String> bankCodes) {
-        this.bankCodes = bankCodes;
+    public void setBic(String bic) {
+        this.bic = bic;
     }
 }

@@ -11,7 +11,7 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.ais.ConsentCreationResponse;
-import de.adorsys.xs2a.adapter.service.exception.BankCodeNotProvidedException;
+import de.adorsys.xs2a.adapter.service.exception.BicNotProvidedException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -32,7 +32,7 @@ import java.util.Collections;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -74,7 +74,7 @@ public class ConsentControllerTest {
                 .thenReturn(new HttpHeaders());
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                                                       .post(ConsentController.CONSENTS)
-                                                      .header(RequestHeaders.X_GTW_BANK_CODE, "db")
+                                                      .header(RequestHeaders.X_GTW_BIC, "db")
                                                       .header(RequestHeaders.X_REQUEST_ID, UUID.randomUUID())
                                                       .contentType(APPLICATION_JSON_UTF8_VALUE)
                                                       .content(body))
@@ -96,7 +96,7 @@ public class ConsentControllerTest {
     @Test
     public void createConsentRequiredFieldIsMissing() throws Exception {
         when(accountInformationService.createConsent(any(), any()))
-                .thenThrow(new BankCodeNotProvidedException());
+                .thenThrow(new BicNotProvidedException());
 
         mockMvc.perform(MockMvcRequestBuilders
                                 .post(ConsentController.CONSENTS)

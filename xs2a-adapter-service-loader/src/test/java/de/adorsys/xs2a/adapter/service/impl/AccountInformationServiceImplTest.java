@@ -19,7 +19,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ConsentServiceImplTest {
+public class AccountInformationServiceImplTest {
     private static final int HTTP_CODE_200 = 200;
 
     @InjectMocks
@@ -28,18 +28,18 @@ public class ConsentServiceImplTest {
     @Mock
     private AccountInformationService accountInformationService;
     @Mock
-    private BankServiceLoader bankServiceLoader;
+    private AdapterServiceLoader adapterServiceLoader;
 
     @Test
     public void createConsent() {
         GeneralResponse<ConsentCreationResponse> response = new GeneralResponse<>(HTTP_CODE_200, new ConsentCreationResponse(), ResponseHeaders.fromMap(Collections.emptyMap()));
 
-        when(bankServiceLoader.getAccountInformationService(anyString()))
+        when(adapterServiceLoader.getAccountInformationService(anyString()))
             .thenReturn(accountInformationService);
 
         when(accountInformationService.createConsent(any(), any())).thenReturn(response);
 
-        GeneralResponse<ConsentCreationResponse> consentResponse = service.createConsent(RequestHeaders.fromMap(Collections.emptyMap()), new Consents());
+        GeneralResponse<ConsentCreationResponse> consentResponse = service.createConsent(RequestHeaders.fromMap(Collections.singletonMap(RequestHeaders.X_GTW_BIC, "BIC")), new Consents());
 
         verify(accountInformationService, times(1)).createConsent(any(), any());
 

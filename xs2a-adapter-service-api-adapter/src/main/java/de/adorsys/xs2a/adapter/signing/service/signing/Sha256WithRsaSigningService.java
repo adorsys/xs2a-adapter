@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.signing.service.signing;
 
-import de.adorsys.xs2a.adapter.signing.exception.HttpRequestSigningException;
+import de.adorsys.xs2a.adapter.service.exception.HttpRequestSigningException;
 import de.adorsys.xs2a.adapter.signing.service.algorithm.SigningAlgorithm;
 
 import java.nio.charset.Charset;

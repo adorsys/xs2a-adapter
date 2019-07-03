@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.signing.storage;
 
-import de.adorsys.xs2a.adapter.signing.exception.HttpRequestSigningException;
+import de.adorsys.xs2a.adapter.service.exception.HttpRequestSigningException;
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 
 import java.io.File;

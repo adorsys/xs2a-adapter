@@ -77,8 +77,8 @@
 								"value": "0.0.0.0"
 							},
 							{
-								"key": "X-GTW-BANK-CODE",
-								"value": "{{bankCode}}",
+								"key": "X-GTW-BIC",
+								"value": "{{bic}}",
 								"type": "text"
 							},
 							{
@@ -134,8 +134,8 @@
 								"value": "{{$guid}}"
 							},
 							{
-								"key": "X-GTW-BANK-CODE",
-								"value": "{{bankCode}}",
+								"key": "X-GTW-BIC",
+								"value": "{{bic}}",
 								"type": "text"
 							}
 						],
@@ -184,8 +184,8 @@
 								"value": "{{$guid}}"
 							},
 							{
-								"key": "X-GTW-BANK-CODE",
-								"value": "{{bankCode}}",
+								"key": "X-GTW-BIC",
+								"value": "{{bic}}",
 								"type": "text"
 							}
 						],
@@ -240,9 +240,9 @@
 								"value": "application/json"
 							},
 							{
-								"key": "X-GTW-Bank-Code",
+								"key": "X-GTW-BIC",
 								"type": "text",
-								"value": "{{bankCode}}"
+								"value": "{{bic}}"
 							},
 							{
 								"key": "X-Request-ID",
@@ -316,8 +316,8 @@
 								"type": "text"
 							},
 							{
-								"key": "X-GTW-Bank-Code",
-								"value": "{{bankCode}}",
+								"key": "X-GTW-BIC",
+								"value": "{{bic}}",
 								"type": "text"
 							},
 							{
@@ -377,8 +377,8 @@
 								"type": "text"
 							},
 							{
-								"key": "X-GTW-Bank-Code",
-								"value": "{{bankCode}}",
+								"key": "X-GTW-BIC",
+								"value": "{{bic}}",
 								"type": "text"
 							},
 							{
@@ -438,8 +438,8 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "X-GTW-BANK-CODE",
-								"value": "{{bankCode}}",
+								"key": "X-GTW-BIC",
+								"value": "{{bic}}",
 								"type": "text"
 							},
 							{
@@ -502,8 +502,8 @@
 								"description": "Use specific data per TPP-Registration-Number"
 							},
 							{
-								"key": "X-GTW-BANK-CODE",
-								"value": "{{bankCode}}",
+								"key": "X-GTW-BIC",
+								"value": "{{bic}}",
 								"type": "text"
 							}
 						],
@@ -564,9 +564,9 @@
 								"value": "{{consentId}}"
 							},
 							{
-								"key": "X-GTW-Bank-Code",
+								"key": "X-GTW-BIC",
 								"type": "text",
-								"value": "{{bankCode}}"
+								"value": "{{bic}}"
 							},
 							{
 								"key": "Accept",
@@ -639,8 +639,8 @@
 								"type": "text"
 							},
 							{
-								"key": "X-GTW-Bank-Code",
-								"value": "{{bankCode}}",
+								"key": "X-GTW-BIC",
+								"value": "{{bic}}",
 								"type": "text"
 							}
 						],
@@ -726,9 +726,9 @@
 								"value": "{{psuIdType}}"
 							},
 							{
-								"key": "X-GTW-Bank-Code",
+								"key": "X-GTW-BIC",
 								"type": "text",
-								"value": "{{bankCode}}"
+								"value": "{{bic}}"
 							}
 						],
 						"body": {
@@ -798,8 +798,8 @@
 								"type": "text"
 							},
 							{
-								"key": "X-GTW-Bank-Code",
-								"value": "{{bankCode}}",
+								"key": "X-GTW-BIC",
+								"value": "{{bic}}",
 								"type": "text"
 							}
 						],
@@ -852,8 +852,8 @@
 								"type": "text"
 							},
 							{
-								"key": "X-GTW-Bank-Code",
-								"value": "{{bankCode}}",
+								"key": "X-GTW-BIC",
+								"value": "{{bic}}",
 								"type": "text"
 							}
 						],
@@ -908,9 +908,9 @@
 								"value": "application/json"
 							},
 							{
-								"key": "X-GTW-Bank-Code",
+								"key": "X-GTW-BIC",
 								"type": "text",
-								"value": "{{bankCode}}"
+								"value": "{{bic}}"
 							},
 							{
 								"key": "X-Request-ID",
@@ -985,9 +985,9 @@
 								"value": "application/json"
 							},
 							{
-								"key": "X-GTW-Bank-Code",
+								"key": "X-GTW-BIC",
 								"type": "text",
-								"value": "{{bankCode}}"
+								"value": "{{bic}}"
 							},
 							{
 								"key": "X-Request-ID",
@@ -1047,9 +1047,9 @@
 								"value": "{{$guid}}"
 							},
 							{
-								"key": "X-GTW-Bank-Code",
+								"key": "X-GTW-BIC",
 								"type": "text",
-								"value": "{{bankCode}}"
+								"value": "{{bic}}"
 							},
 							{
 								"key": "Content-Type",

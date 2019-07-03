@@ -18,7 +18,7 @@ package de.adorsys.xs2a.adapter.service.provider;
 
 import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
 
-public interface AccountInformationServiceProvider extends ServiceProvider {
+public interface AccountInformationServiceProvider extends AdapterServiceProvider {
 
-    AccountInformationService getAccountInformationService();
+    AccountInformationService getAccountInformationService(String baseUrl);
 }

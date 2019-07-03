@@ -1,7 +1,7 @@
 [
   {
     "adapter": "adorsys",
-    "bankCode": "adorsys-integ",
+    "bic": "ADORSYS",
     "psuId": "max.musterman",
     "iban": "DE38760700240320465700",
     "password": "12345",

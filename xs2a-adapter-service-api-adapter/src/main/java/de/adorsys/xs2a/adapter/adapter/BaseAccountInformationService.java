@@ -32,8 +32,8 @@ import java.util.function.Function;
 
 public class BaseAccountInformationService extends AbstractService implements AccountInformationService {
 
-    private static final String CONSENTS = "consents";
-    private static final String ACCOUNTS = "accounts";
+    private static final String CONSENTS = "/v1/consents";
+    private static final String ACCOUNTS = "/v1/accounts";
     private static final String TRANSACTIONS = "transactions";
     private static final String BALANCES = "balances";
 
