@@ -54,6 +54,7 @@
         <module>xs2a-adapter-rest-server</module>
         <module>xs2a-adapter-app</module>
         <module>adapters</module>
+        <module>xs2a-adapter-psd2-api</module>
     </modules>
 
     <properties>
