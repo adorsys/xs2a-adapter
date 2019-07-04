@@ -21,7 +21,7 @@ public class AdapterServiceLoader {
     private final ConcurrentMap<Class<?>, ServiceLoader<? extends AdapterServiceProvider>> serviceLoaders = new ConcurrentHashMap<>();
 
     public AdapterServiceLoader() {
-        this(CsvAspspAdapterConfig.fromDefaultCsvFile());
+        this(new CsvAspspAdapterConfig());
     }
 
     public AdapterServiceLoader(AspspAdapterConfig aspspAdapterConfig) {
