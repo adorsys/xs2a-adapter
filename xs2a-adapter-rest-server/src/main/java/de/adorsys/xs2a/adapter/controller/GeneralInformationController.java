@@ -2,8 +2,8 @@ package de.adorsys.xs2a.adapter.controller;
 
 import de.adorsys.xs2a.adapter.mapper.BankMapper;
 import de.adorsys.xs2a.adapter.model.BankTO;
-import de.adorsys.xs2a.adapter.service.impl.AdapterServiceLoader;
-import de.adorsys.xs2a.adapter.service.impl.AspspAdapterConfigRecord;
+import de.adorsys.xs2a.adapter.service.Bank;
+import de.adorsys.xs2a.adapter.service.GeneralInformationService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,11 +14,11 @@ import java.util.List;
 
 @RestController
 public class GeneralInformationController {
-    private AdapterServiceLoader adapterServiceLoader;
+    private GeneralInformationService generalInformationService;
     private final BankMapper bankMapper = Mappers.getMapper(BankMapper.class);
 
-    public GeneralInformationController(AdapterServiceLoader adapterServiceLoader) {
-        this.adapterServiceLoader = adapterServiceLoader;
+    public GeneralInformationController(GeneralInformationService generalInformationService) {
+        this.generalInformationService = generalInformationService;
     }
 
     @RequestMapping(
@@ -26,8 +26,7 @@ public class GeneralInformationController {
         method = RequestMethod.GET
     )
     public ResponseEntity<List<BankTO>> getSupportedBankList() {
-        List<AspspAdapterConfigRecord> supportedAspsps = adapterServiceLoader.getSupportedAspsps();
-
-        return ResponseEntity.ok(bankMapper.toBankTOList(supportedAspsps));
+        List<Bank> supportedBankList = generalInformationService.getSupportedBankList();
+        return ResponseEntity.ok(bankMapper.toBankTOList(supportedBankList));
     }
 }
