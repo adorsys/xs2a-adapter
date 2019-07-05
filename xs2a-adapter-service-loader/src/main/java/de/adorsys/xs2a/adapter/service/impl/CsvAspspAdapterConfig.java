@@ -2,15 +2,15 @@ package de.adorsys.xs2a.adapter.service.impl;
 
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.util.*;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
 public class CsvAspspAdapterConfig implements AspspAdapterConfig {
+    private static final String CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH_PROPERTY = "csv.aspsp.adapter.config.file.path";
+    private static final String DEFAULT_CSV_ASPSP_ADAPTER_CONFIG_FILE = "aspsp-adapter-config.csv";
 
     private final List<AspspAdapterConfigRecord> records;
     private final Map<String, AspspAdapterConfigRecord> bicToRecord;
@@ -21,12 +21,21 @@ public class CsvAspspAdapterConfig implements AspspAdapterConfig {
             .collect(toMap(AspspAdapterConfigRecord::getBic, identity()));
     }
 
-    public static CsvAspspAdapterConfig fromDefaultCsvFile() {
-        return fromFile("aspsp-adapter-config.csv");
+    public CsvAspspAdapterConfig() {
+        this(load());
     }
 
-    public static CsvAspspAdapterConfig fromFile(String fileName) {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
+    private static List<AspspAdapterConfigRecord> load() {
+        String filePath = System.getenv(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH_PROPERTY);
+
+        InputStream inputStream;
+
+        if (filePath == null || filePath.isEmpty()) {
+            inputStream = getResourceAsStream(DEFAULT_CSV_ASPSP_ADAPTER_CONFIG_FILE);
+        } else {
+            inputStream = getFileAsStream(filePath);
+        }
+
         List<AspspAdapterConfigRecord> records;
         try {
             records = new CsvMapper().readerWithTypedSchemaFor(AspspAdapterConfigRecord.class)
@@ -35,7 +44,19 @@ public class CsvAspspAdapterConfig implements AspspAdapterConfig {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
-        return new CsvAspspAdapterConfig(records);
+        return records;
+    }
+
+    private static InputStream getResourceAsStream(String fileName) {
+        return Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
+    }
+
+    private static InputStream getFileAsStream(String filePath) {
+        try {
+            return new FileInputStream(filePath);
+        } catch (FileNotFoundException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     @Override
