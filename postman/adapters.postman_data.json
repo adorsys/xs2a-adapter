@@ -151,5 +151,43 @@
     "creditorName": "Merchant123",
     "sepa-credit-transfers-supported": "true",
     "pain.001-sepa-credit-transfers-supported": "false"
+  },
+  {
+    "adapter": "finapi",
+    "bic": "AUGBDE77XXX",
+    "psuId_AIS": "aspsp2",
+    "psuId_PIS": "aspsp3",
+    "psuIdType_AIS": "",
+    "psuIdType_PIS": "",
+    "iban_AIS": "LU280019400644750000",
+    "iban_PIS": "DE89370400440532013003",
+    "password_AIS": "aspsp2",
+    "password_PIS": "aspsp3",
+    "authenticationMethodId_AIS": "chip",
+    "authenticationMethodId_PIS": "chip",
+    "creditorName": "aspsp2",
+    "sepa-credit-transfers-supported": "true",
+    "pain.001-sepa-credit-transfers-supported": "true",
+    "psuId": "aspsp3",
+    "@type": "PaymentInitiationSctJson"
+  },
+  {
+    "adapter": "finapi",
+    "bic": "GENODEF1S15",
+    "psuId_AIS": "aspsp2",
+    "psuId_PIS": "aspsp3",
+    "psuIdType_AIS": "",
+    "psuIdType_PIS": "",
+    "iban_AIS": "LU280019400644750000",
+    "iban_PIS": "DE89370400440532013003",
+    "password_AIS": "aspsp2",
+    "password_PIS": "aspsp3",
+    "authenticationMethodId_AIS": "chip",
+    "authenticationMethodId_PIS": "chip",
+    "creditorName": "aspsp2",
+    "sepa-credit-transfers-supported": "true",
+    "pain.001-sepa-credit-transfers-supported": "true",
+    "psuId": "aspsp3",
+    "@type": "PaymentInitiationSctJson"
   }
 ]

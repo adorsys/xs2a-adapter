@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b6e39ab1-8f57-4091-9789-950056a64b2e",
+		"_postman_id": "447babf4-2d31-439e-816c-f8106b1d8a18",
 		"name": "xs2a adapter",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -213,7 +213,12 @@
 									"pm.test(\"Consent status is received\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.consentStatus).to.eql(\"received\");",
-									"});"
+									"});",
+									"",
+									"var adapter = pm.variables.get(\"adapter\");",
+									"if(adapter === \"finapi\") {",
+									"    postman.setNextRequest(\"SCA/Redirect/001a_Msg2\");",
+									"}"
 								],
 								"type": "text/javascript"
 							}
@@ -350,10 +355,14 @@
 									"",
 									"var jsonData = pm.response.json();",
 									"",
-									"pm.test(\"_links/scaOAuth/href must be present\", function () {",
-									"    pm.response.to.have.jsonBody(\"_links.scaOAuth.href\");",
-									"});",
-									""
+									"var adapter = pm.variables.get(\"adapter\");",
+									"if(adapter === \"finapi\") {",
+									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2\");",
+									"} else {",
+									"    pm.test(\"_links/scaOAuth/href must be present\", function () {",
+									"        pm.response.to.have.jsonBody(\"_links.scaOAuth.href\");",
+									"    });",
+									"}"
 								],
 								"type": "text/javascript"
 							}
@@ -419,21 +428,33 @@
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"",
-									"pm.test(\"scaStatus is psuAuthenticated\", function () {",
-									"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
-									"});",
+									"var adapter = pm.variables.get(\"adapter\");",
+									"if(adapter === \"finapi\") {",
+									"    pm.test(\"_links/updatePsuAuthentication/href must be present\", function () {",
+									"        pm.response.to.have.jsonBody(\"_links.updatePsuAuthentication.href\");",
+									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3\");",
+									"    });",
+									"    ",
+									"    var selectAuthenticationMethodUri = jsonData._links.updatePsuAuthentication.href;",
+									"    pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());",
+									"} else {",
+									"    pm.test(\"scaStatus is psuAuthenticated\", function () {",
+									"        pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
+									"    });",
+									"    ",
+									"    pm.test(\"SCA methods are available\", function () {",
+									"        pm.response.to.have.jsonBody(\"scaMethods\");",
+									"    });",
+									"    pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
+									"        pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3\");",
+									"    });",
+									"    ",
+									"    var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
+									"    pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());",
+									"}",
 									"",
-									"pm.test(\"SCA methods are available\", function () {",
-									"    pm.response.to.have.jsonBody(\"scaMethods\");",
-									"});",
-									"",
-									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
-									"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3\");",
-									"});",
-									"",
-									"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
-									"pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -587,10 +608,19 @@
 									"    postman.setGlobalVariable(\"authenticationMethodId_AIS\",jsonData.scaMethods[0].authenticationMethodId);",
 									"});",
 									"",
-									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
-									"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3\");",
-									"});"
+									"var adapter = pm.variables.get(\"adapter\");",
+									"if(adapter === \"finapi\") {",
+									"    pm.test(\"_links/selectAuthenticationMethod must be present\", function () {",
+									"        pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod\");",
+									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3\");",
+									"    });",
+									"} else {",
+									"    pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
+									"        pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3\");",
+									"    });",
+									"}",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -742,7 +772,14 @@
 									"",
 									"pm.test(\"_links/authoriseTransaction/href must be present\", function () {",
 									"    pm.response.to.have.jsonBody(\"_links.authoriseTransaction.href\");",
-									"});"
+									"});",
+									"",
+									"let now_utc = new Date();",
+									"now_utc.setMinutes(now_utc.getMinutes() + now_utc.getTimezoneOffset());",
+									"now_utc.setDate(now_utc.getDate() + 1);",
+									"now_utc.addMinutes(1);",
+									"let scaAuthenticationData_AIS = (now_utc.getDate()).toString().padStart(2, '0') + (now_utc.getMinutes()).toString().padStart(2, '0');    ",
+									"pm.environment.set(\"scaAuthenticationData_AIS\", scaAuthenticationData_AIS);"
 								],
 								"type": "text/javascript"
 							}
@@ -1240,7 +1277,9 @@
 											"const paymentProductSupportedEnvironmentVar = pm.environment.get(\"sepa-credit-transfers-supported\");    // get env var",
 											"const paymentProductSupportedIterationVar = pm.iterationData.get(\"sepa-credit-transfers-supported\");    // get var from data file for the current iteration",
 											"",
-											"if (paymentProductSupportedEnvironmentVar !== \"true\" && paymentProductSupportedIterationVar !== \"true\") {",
+											"if(paymentProductSupportedEnvironmentVar && pm.variables.get(\"adapter\") === \"finapi\") {",
+											"    postman.setNextRequest(\"PIS/PaymentInit/Products/001a\");",
+											"} else if (paymentProductSupportedEnvironmentVar !== \"true\" && paymentProductSupportedIterationVar !== \"true\") {",
 											"    postman.setNextRequest(\"Payment_Product_Support_Checking_Step_pain.001_sepa_credit_transfers\");",
 											"}"
 										],
@@ -1281,6 +1320,7 @@
 											"});",
 											"",
 											"pm.globals.set(\"paymentId\", pm.response.json().paymentId);",
+											"var adapter = pm.variables.get(\"adapter\");",
 											"",
 											"if (jsonData._links.updatePsuAuthentication) {",
 											"    var updatePsuAuthentication = jsonData._links.updatePsuAuthentication.href;",
@@ -1313,11 +1353,13 @@
 											"} else if (jsonData._links.scaRedirect) {",
 											"    var scaRedirect = jsonData._links.scaRedirect.href;",
 											"    pm.globals.set(\"scaRedirect\", scaRedirect);",
-											"    var adapter = pm.variables.get(\"adapter\");",
+											"    ",
 											"    if (adapter === \"dab-bank\" || adapter === \"consors-bank\" || adapter === \"sparda-bank\") {",
 											"        pm.globals.set(\"authorisationId\", scaRedirect.split('/').pop());",
 											"        postman.setNextRequest(\"SCA/Redirect/DAB&Consors&Sparda_PIS_sepa_credit_transfers\");",
-											"    }",
+											"    } ",
+											"} else if(jsonData._links.startAuthorisation && adapter === \"finapi\") {",
+											"    postman.setNextRequest(\"PIS/GetTransactionStatus/001a\");",
 											"}"
 										],
 										"type": "text/javascript"
@@ -1371,7 +1413,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"creditorAccount\": {\n        \"iban\": \"{{iban_PIS}}\",\n        \"currency\": \"EUR\"\n    },\n    \"creditorName\": \"{{creditorName}}}\",\n    \"debtorAccount\": {\n        \"iban\": \"{{iban_PIS}}\",\n        \"currency\": \"EUR\"\n    },\n    \"instructedAmount\": {\n        \"amount\": \"20.99\",\n        \"currency\": \"EUR\"\n    },\n    \"remittanceInformationUnstructured\": \"just\",\n    \"endToEndIdentification\": \"SandboxTPPTest1\"\n}"
+									"raw": "{\n\t\"@type\": \"{{@type}}\",\n    \"creditorAccount\": {\n        \"iban\": \"{{iban_PIS}}\",\n        \"currency\": \"EUR\"\n    },\n    \"creditorName\": \"{{creditorName}}}\",\n    \"debtorAccount\": {\n        \"iban\": \"{{iban_PIS}}\",\n        \"currency\": \"EUR\"\n    },\n    \"instructedAmount\": {\n        \"amount\": \"20.99\",\n        \"currency\": \"EUR\"\n    },\n    \"remittanceInformationUnstructured\": \"just\",\n    \"endToEndIdentification\": \"SandboxTPPTest1\"\n}"
 								},
 								"url": {
 									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers",
@@ -1561,21 +1603,37 @@
 										"exec": [
 											"var jsonData = pm.response.json();",
 											"",
-											"pm.test(\"scaStatus is psuAuthenticated\", function () {",
-											"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
-											"});",
+											"if (pm.variables.get(\"adapter\") === \"finapi\") {",
+											"    pm.test(\"scaStatus is psuAuthenticated\", function () {",
+											"        pm.expect(jsonData.scaStatus).to.eql(\"received\");",
+											"    });",
 											"",
-											"pm.test(\"SCA methods are available\", function () {",
-											"    pm.response.to.have.jsonBody(\"scaMethods\");",
-											"});",
+											"    pm.test(\"_links/updatePsuAuthentication/href must be present\", function () {",
+											"        pm.response.to.have.jsonBody(\"_links.updatePsuAuthentication.href\");",
+											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers\");",
+											"    });",
+											"    var selectAuthenticationMethodUri = jsonData._links.updatePsuAuthentication.href;",
+											"    pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());",
+											"} else {",
+											"    ",
+											"    pm.test(\"scaStatus is psuAuthenticated\", function () {",
+											"        pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
+											"    });",
+											"    ",
+											"    pm.test(\"SCA methods are available\", function () {",
+											"        pm.response.to.have.jsonBody(\"scaMethods\");",
+											"    });",
 											"",
-											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
-											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers\");",
-											"});",
+											"    pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
+											"        pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers\");",
+											"    });",
 											"",
-											"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
-											"pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());"
+											"    var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
+											"    pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());",
+											"}",
+											"",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -1731,10 +1789,18 @@
 											"    postman.setGlobalVariable(\"authenticationMethodId_PIS\",jsonData.scaMethods[0].authenticationMethodId);",
 											"});",
 											"",
-											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
-											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers\");",
-											"});"
+											"if (pm.variables.get(\"adapter\") === \"finapi\") {",
+											"    pm.test(\"_links/selectAuthenticationMethod must be present\", function () {",
+											"        pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod\");",
+											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers\");",
+											"    });",
+											"} else {",
+											"    pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
+											"        pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers\");",
+											"    });",
+											"}",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -1875,8 +1941,8 @@
 									"script": {
 										"id": "7ae7e14f-31f0-45c2-9004-47a64d28fe92",
 										"exec": [
+											"var jsonData = pm.response.json();",
 											"pm.test(\"scaStatus is scaMethodSelected\", function () {",
-											"    var jsonData = pm.response.json();",
 											"    pm.expect(jsonData.scaStatus).to.eql(\"scaMethodSelected\");",
 											"});",
 											"",
@@ -1887,7 +1953,19 @@
 											"",
 											"pm.test(\"_links/authoriseTransaction/href must be present\", function () {",
 											"    pm.response.to.have.jsonBody(\"_links.authoriseTransaction.href\");",
-											"});"
+											"});",
+											"",
+											"if (pm.variables.get(\"adapter\") === \"finapi\") {",
+											"    if(jsonData.chosenScaMethod.authenticationMethodId == \"chip\"){",
+											"        let now_utc = new Date();",
+											"        now_utc.setMinutes(now_utc.getMinutes() + now_utc.getTimezoneOffset());",
+											"        now_utc.setDate(now_utc.getDate() + 1);",
+											"        now_utc.addMinutes(1);",
+											"        let scaAuthenticationData_PIS = (now_utc.getDate()).toString().padStart(2, '0') + (now_utc.getMinutes()).toString().padStart(2, '0');",
+											"        pm.environment.set(\"scaAuthenticationData_PIS\", scaAuthenticationData_PIS);",
+											"        ",
+											"    }",
+											"}"
 										],
 										"type": "text/javascript"
 									}
