@@ -1611,6 +1611,7 @@ TARGOBANK AG,CMCIDEDD,https://www.sandbox-bvxs2a.de/targobank,verlag-adapter
 ZIRAAT BANK INTERNATIONAL AG Hauptverwaltung,TCZBDEFF,https://www.sandbox-bvxs2a.de/ziraatbank,verlag-adapter
 Olb Bank,OLBODEH2XXX,https://xs2a-int.olb.de/xs2a,olb-adapter
 AAB Bank,AUGBDE77XXX,https://banking.aab.de/xs2a-app,finapi-adapter
+Net Bank,GENODEF1S15,https://banking.netbank.de/xs2a-app,finapi-adapter
 DKB,BYLADEM1001,https://api.dkb.de/psd2/1.3.2,dkb-adapter
 DAB,DABBDEMMXXX,https://xs2a-sndbx.dab-bank.de,dab-bank-adapter
 adorsys xs2a,ADORSYS,https://demo-dynamicsandbox-xs2a.cloud.adorsys.de,adorsys-integ-adapter
