@@ -25,6 +25,7 @@ class ApacheHttpClient implements HttpClient {
 
     private SSLContext sslContext;
     private RequestSigningInterceptor requestSigningInterceptor;
+    private UserAgentRemovingInterceptor userAgentRemovingInterceptor = new UserAgentRemovingInterceptor();
 
     ApacheHttpClient(SSLContext sslContext) {
         this.sslContext = sslContext;
@@ -85,7 +86,8 @@ class ApacheHttpClient implements HttpClient {
 
     private CloseableHttpClient createHttpClient() {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create()
-                                                      .setSSLContext(sslContext);
+                                                  .setSSLContext(sslContext)
+                                                  .addInterceptorLast(userAgentRemovingInterceptor);
 
         if (requestSigningInterceptor != null) {
             httpClientBuilder.addInterceptorFirst(requestSigningInterceptor);
