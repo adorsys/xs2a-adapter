@@ -58,4 +58,14 @@ public class AspspAdapterConfigRecord {
     public int hashCode() {
         return Objects.hash(aspspName, bic, url, adapterId);
     }
+
+    @Override
+    public String toString() {
+        return "AspspAdapterConfigRecord{" +
+                   "aspspName='" + aspspName + '\'' +
+                   ", bic='" + bic + '\'' +
+                   ", url='" + url + '\'' +
+                   ", adapterId='" + adapterId + '\'' +
+                   '}';
+    }
 }
