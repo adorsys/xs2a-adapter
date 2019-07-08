@@ -18,7 +18,7 @@ public class CsvAspspAdapterConfig implements AspspAdapterConfig {
     private CsvAspspAdapterConfig(List<AspspAdapterConfigRecord> records) {
         this.records = Collections.unmodifiableList(records);
         bicToRecord = records.stream()
-            .collect(toMap(AspspAdapterConfigRecord::getBic, identity()));
+            .collect(toMap(AspspAdapterConfigRecord::getBic, identity(), (key1, key2) -> key2));    // TODO [(key1, key2) -> key2] is a workaround to fix duplicate key exception - investigate how to handle multiple URLs per BIC
     }
 
     public CsvAspspAdapterConfig() {
