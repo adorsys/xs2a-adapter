@@ -32,8 +32,9 @@ import java.util.function.Function;
 
 public class BaseAccountInformationService extends AbstractService implements AccountInformationService {
 
-    private static final String CONSENTS = "/v1/consents";
-    private static final String ACCOUNTS = "/v1/accounts";
+    private static final String V1 = "v1";
+    private static final String CONSENTS = "consents";
+    private static final String ACCOUNTS = "accounts";
     private static final String TRANSACTIONS = "transactions";
     private static final String BALANCES = "balances";
 
@@ -199,10 +200,10 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     protected String getConsentBaseUri() {
-        return StringUri.fromElements(baseUri, CONSENTS);
+        return StringUri.fromElements(baseUri, V1, CONSENTS);
     }
 
     protected String getAccountsBaseUri() {
-        return StringUri.fromElements(baseUri, ACCOUNTS);
+        return StringUri.fromElements(baseUri, V1, ACCOUNTS);
     }
 }
