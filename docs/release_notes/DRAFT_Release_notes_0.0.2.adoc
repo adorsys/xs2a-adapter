@@ -6,6 +6,7 @@
 
 |AAB Bank|embedded
 |Olb Bank|embedded
+|Commerzbank|redirect (OAuth)
 |===
 
 * The project was renamed from xs2a-gateway to xs2a-adapter to avoid misunderstanding with another adorsys project

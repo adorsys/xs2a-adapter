@@ -151,5 +151,24 @@
     "creditorName": "Merchant123",
     "sepa-credit-transfers-supported": "true",
     "pain.001-sepa-credit-transfers-supported": "false"
+  },
+  {
+    "adapter": "commerzbank",
+    "bic": "COBADEFF",
+    "psuId_AIS": "",
+    "psuId_PIS": "",
+    "psuIdType_AIS": "",
+    "psuIdType_PIS": "",
+    "iban_AIS": "DE86999999990000001000",
+    "iban_PIS": "DE38760700240320465700",
+    "password_AIS": "",
+    "password_PIS": "",
+    "authenticationMethodId_AIS": "",
+    "authenticationMethodId_PIS": "",
+    "scaAuthenticationData_AIS": "",
+    "scaAuthenticationData_PIS": "",
+    "creditorName": "Merchant123",
+    "sepa-credit-transfers-supported": "true",
+    "pain.001-sepa-credit-transfers-supported": "false"
   }
 ]
