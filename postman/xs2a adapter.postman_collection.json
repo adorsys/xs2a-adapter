@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b6e39ab1-8f57-4091-9789-950056a64b2e",
+		"_postman_id": "bd5f1d70-61fe-442c-9eb9-4ef6af5045cd",
 		"name": "xs2a adapter",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -64,6 +64,8 @@
 									"    }",
 									"} else if (jsonData._links.startAuthorization) {",
 									"    postman.setNextRequest(\"SCA/Redirect/001a_Msg2\");",
+									"} else if (jsonData._links.scaOAuth) {",
+									"    postman.setNextRequest(\"AIS/Accounts/005c_MsgX+1\");",
 									"}",
 									"",
 									"pm.globals.set(\"consentId\", pm.response.json().consentId);"
@@ -118,11 +120,6 @@
 							{
 								"key": "TPP-Redirect-Preferred",
 								"value": "false",
-								"type": "text"
-							},
-							{
-								"key": "TPP-Explicit-Authorisation-Preferred",
-								"value": "true",
 								"type": "text"
 							},
 							{
@@ -1318,6 +1315,8 @@
 											"        pm.globals.set(\"authorisationId\", scaRedirect.split('/').pop());",
 											"        postman.setNextRequest(\"SCA/Redirect/DAB&Consors&Sparda_PIS_sepa_credit_transfers\");",
 											"    }",
+											"} else if (jsonData._links.scaOAuth) {",
+											"    postman.setNextRequest(\"PIS/GetTransactionStatus/001a\");",
 											"}"
 										],
 										"type": "text/javascript"
@@ -1366,6 +1365,11 @@
 									{
 										"key": "X-GTW-BIC",
 										"value": "{{bic}}",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Redirect-URI",
+										"value": "https://example.com",
 										"type": "text"
 									}
 								],
@@ -1492,7 +1496,7 @@
 											"    pm.expect(jsonData).to.have.property('transactionStatus');",
 											"});",
 											"",
-											"if (jsonData.transactionStatus === 'ACSC') {",
+											"if (jsonData.transactionStatus === 'ACSC' || jsonData.transactionStatus === 'RCVD') {",
 											"    postman.setNextRequest(\"Payment_Product_Support_Checking_Step_pain.001_sepa_credit_transfers\");",
 											"}"
 										],
