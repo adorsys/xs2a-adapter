@@ -10,15 +10,18 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 
 public class Psd2DateTimeDeserializer extends JsonDeserializer<OffsetDateTime> {
-    private static final String DATE_TIME_PATTERN_LOCAL = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-    private static final String ZONE_PART = "Z";
-    private static final String OFFSET_PART = "XXX";
 
     private DateTimeFormatter psd2Formatter = new DateTimeFormatterBuilder()
-                                                  .append(DateTimeFormatter.ofPattern(DATE_TIME_PATTERN_LOCAL))
-                                                  .appendOptional(DateTimeFormatter.ofPattern(ZONE_PART))
-                                                  .appendOptional(DateTimeFormatter.ofPattern(OFFSET_PART))
-                                                  .toFormatter();
+                                                        // date/time
+                                                        .append(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                                                        // offset (hh:mm - "+00:00" when it's zero)
+                                                        .optionalStart().appendOffset("+HH:MM", "+00:00").optionalEnd()
+                                                        // offset (hhmm - "+0000" when it's zero)
+                                                        .optionalStart().appendOffset("+HHMM", "+0000").optionalEnd()
+                                                        // offset (hh - "Z" when it's zero)
+                                                        .optionalStart().appendOffset("+HH", "Z").optionalEnd()
+                                                        // create formatter
+                                                        .toFormatter();
 
     @Override
     public OffsetDateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException {

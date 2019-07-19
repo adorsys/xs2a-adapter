@@ -19,9 +19,13 @@ package de.adorsys.xs2a.adapter.service.impl;
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.service.GeneralResponse;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.ais.ConsentInformation;
-import de.adorsys.xs2a.adapter.service.impl.mapper.DeutscheBankConsentInformationMapper;
-import de.adorsys.xs2a.adapter.service.impl.model.DeutscheBankConsentInformation;
+import de.adorsys.xs2a.adapter.service.RequestParams;
+import de.adorsys.xs2a.adapter.service.account.BalanceReport;
+import de.adorsys.xs2a.adapter.service.account.TransactionsReport;
+import de.adorsys.xs2a.adapter.service.impl.mapper.DbBalanceReportMapper;
+import de.adorsys.xs2a.adapter.service.impl.mapper.DbTransactionReportMapper;
+import de.adorsys.xs2a.adapter.service.impl.model.DbBalanceReport;
+import de.adorsys.xs2a.adapter.service.impl.model.DbTransactionReport;
 import org.mapstruct.factory.Mappers;
 
 import java.time.ZonedDateTime;
@@ -30,17 +34,21 @@ import java.util.Map;
 
 public class DeutscheBankAccountInformationService extends BaseAccountInformationService {
     private static final String DATE_HEADER = "Date";
-
-    private final DeutscheBankConsentInformationMapper deutscheBankConsentInformationMapper =
-            Mappers.getMapper(DeutscheBankConsentInformationMapper.class);
+    private final DbBalanceReportMapper balanceReportMapper = Mappers.getMapper(DbBalanceReportMapper.class);
+    private final DbTransactionReportMapper transactionReportMapper = Mappers.getMapper(DbTransactionReportMapper.class);
 
     public DeutscheBankAccountInformationService(String baseUri) {
         super(baseUri);
     }
 
     @Override
-    public GeneralResponse<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders) {
-        return getConsentInformation(consentId, requestHeaders, DeutscheBankConsentInformation.class, deutscheBankConsentInformationMapper::toConsentInformation);
+    public GeneralResponse<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
+        return getBalances(accountId, requestHeaders, DbBalanceReport.class, balanceReportMapper::toBalanceReport);
+    }
+
+    @Override
+    public GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
+        return getTransactionList(accountId, requestHeaders, requestParams, DbTransactionReport.class, transactionReportMapper::toTransactionReport);
     }
 
     @Override
