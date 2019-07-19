@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.service.provider;
+package de.adorsys.xs2a.adapter.service;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeTokenRequest;
 import com.google.api.client.auth.oauth2.TokenResponse;
@@ -6,18 +6,24 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.account.AccountListHolder;
 import de.adorsys.xs2a.adapter.service.account.BalanceReport;
 import de.adorsys.xs2a.adapter.service.account.TransactionsReport;
+import de.adorsys.xs2a.adapter.service.mapper.BalanceReportMapper;
+import de.adorsys.xs2a.adapter.service.mapper.TransactionsReportMapper;
+import de.adorsys.xs2a.adapter.service.model.CommerzbankBalanceReport;
+import de.adorsys.xs2a.adapter.service.model.CommerzbankTransactionsReport;
+import org.mapstruct.factory.Mappers;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Map;
 
 public class CommerzbankAccountInformationService extends BaseAccountInformationService {
+
+    private TransactionsReportMapper transactionsReportMapper = Mappers.getMapper(TransactionsReportMapper.class);
+    private BalanceReportMapper balanceReportMapper = Mappers.getMapper(BalanceReportMapper.class);
+
     public CommerzbankAccountInformationService(String baseUrl) {
         super(baseUrl);
     }
@@ -55,7 +61,8 @@ public class CommerzbankAccountInformationService extends BaseAccountInformation
                                                                   RequestHeaders requestHeaders,
                                                                   RequestParams requestParams) {
         requestHeaders = withAuthorizationBearer(requestHeaders);
-        return super.getTransactionList(accountId, requestHeaders, requestParams);
+        return getTransactionList(accountId, requestHeaders, requestParams, CommerzbankTransactionsReport.class,
+            transactionsReportMapper::toTransactionsReport);
     }
 
     @Override
@@ -69,6 +76,7 @@ public class CommerzbankAccountInformationService extends BaseAccountInformation
     @Override
     public GeneralResponse<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
         requestHeaders = withAuthorizationBearer(requestHeaders);
-        return super.getBalances(accountId, requestHeaders);
+        return getBalances(accountId, requestHeaders, CommerzbankBalanceReport.class,
+            balanceReportMapper::toBalanceReport);
     }
 }
