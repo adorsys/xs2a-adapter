@@ -178,6 +178,18 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         return uri;
     }
 
+    protected <T> GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams, Class<T> klass, Function<T, TransactionsReport> mapper) {
+        Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
+        headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
+
+        String uri = getTransactionListUri(accountId, requestParams);
+
+        GeneralResponse<T> response = httpClient.get(uri, headersMap, jsonResponseHandler(klass));
+        TransactionsReport transactionsReport = mapper.apply(response.getResponseBody());
+
+        return new GeneralResponse<>(response.getStatusCode(), transactionsReport, response.getResponseHeaders());
+    }
+
     @Override
     public GeneralResponse<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         String uri = getTransactionListUri(accountId, requestParams);
@@ -198,6 +210,15 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
         return httpClient.get(uri, headers, jsonResponseHandler(BalanceReport.class));
     }
+
+    protected <T> GeneralResponse<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders, Class<T> klass, Function<T, BalanceReport> mapper) {
+        String uri = StringUri.fromElements(getAccountsBaseUri(), accountId, BALANCES);
+        Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
+        GeneralResponse<T> response = httpClient.get(uri, headers, jsonResponseHandler(klass));
+        BalanceReport balanceReport = mapper.apply(response.getResponseBody());
+        return new GeneralResponse<>(response.getStatusCode(), balanceReport, response.getResponseHeaders());
+    }
+
 
     protected String getConsentBaseUri() {
         return StringUri.fromElements(baseUri, V1, CONSENTS);

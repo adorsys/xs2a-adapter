@@ -1,16 +1,16 @@
-package de.adorsys.xs2a.adapter.service.account;
+package de.adorsys.xs2a.adapter.service.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.adapter.service.AccountReference;
-import de.adorsys.xs2a.adapter.service.model.Link;
+import de.adorsys.xs2a.adapter.service.account.AccountReport;
 
 import java.util.List;
 import java.util.Map;
 
-public class TransactionsReport {
+public class CommerzbankTransactionsReport {
     private AccountReference accountReference;
     private AccountReport transactions;
-    private List<Balance> balances;
+    private List<CommerzbankBalance> balances;
     @JsonProperty("_links")
     private Map<String, Link> links;
 
@@ -30,11 +30,11 @@ public class TransactionsReport {
         this.transactions = transactions;
     }
 
-    public List<Balance> getBalances() {
+    public List<CommerzbankBalance> getBalances() {
         return balances;
     }
 
-    public void setBalances(List<Balance> balances) {
+    public void setBalances(List<CommerzbankBalance> balances) {
         this.balances = balances;
     }
 
