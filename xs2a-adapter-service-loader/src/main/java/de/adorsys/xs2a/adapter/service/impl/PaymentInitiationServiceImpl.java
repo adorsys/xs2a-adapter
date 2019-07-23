@@ -19,7 +19,7 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     private PaymentInitiationService getPaymentInitiationService(RequestHeaders requestHeaders) {
-        return adapterServiceLoader.getPaymentInitiationService(requestHeaders.removeBic());
+        return adapterServiceLoader.getPaymentInitiationService(requestHeaders.removeAspspId());
     }
 
     @Override

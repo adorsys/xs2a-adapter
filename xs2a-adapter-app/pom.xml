@@ -37,6 +37,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>xs2a-adapter-aspsp-registry</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- adapters -->
 
         <dependency>

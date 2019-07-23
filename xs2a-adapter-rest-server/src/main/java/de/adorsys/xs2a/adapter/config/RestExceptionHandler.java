@@ -90,9 +90,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    ResponseEntity handle(BicNotProvidedException exception) {
+    ResponseEntity handle(AspspIdNotProvidedException exception) {
         logger.error(exception.getMessage(), exception);
-        String errorText = String.format("%s header is not provided within the request", RequestHeaders.X_GTW_BIC);
+        String errorText = String.format("%s header is not provided within the request", RequestHeaders.X_GTW_ASPSP_ID);
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
+        HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
+        return new ResponseEntity<>(errorResponse, headers, httpStatus);
+    }
+
+    @ExceptionHandler
+    ResponseEntity handle(IbanException exception) {
+        logger.error(exception.getMessage(), exception);
+        String errorText = exception.getMessage();
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);

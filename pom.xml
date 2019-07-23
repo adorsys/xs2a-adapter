@@ -55,6 +55,7 @@
         <module>xs2a-adapter-app</module>
         <module>adapters</module>
         <module>xs2a-adapter-psd2-api</module>
+        <module>xs2a-adapter-aspsp-registry</module>
     </modules>
 
     <properties>
