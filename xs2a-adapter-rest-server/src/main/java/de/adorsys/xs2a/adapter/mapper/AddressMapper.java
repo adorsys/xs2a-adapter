@@ -8,4 +8,6 @@ import org.mapstruct.Mapper;
 public interface AddressMapper {
 
     AddressTO toAddressTO(Address address);
+
+    Address toAddress(AddressTO to);
 }

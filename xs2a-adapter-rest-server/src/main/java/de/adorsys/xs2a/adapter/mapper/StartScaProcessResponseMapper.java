@@ -7,4 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface StartScaProcessResponseMapper {
     StartScaprocessResponseTO toStartScaprocessResponseTO(StartScaProcessResponse startScaProcessResponse);
+
+    StartScaProcessResponse toStartScaProcessResponse(StartScaprocessResponseTO to);
 }

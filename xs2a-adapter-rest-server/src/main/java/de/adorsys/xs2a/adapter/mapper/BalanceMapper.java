@@ -8,4 +8,6 @@ import org.mapstruct.Mapper;
 public interface BalanceMapper {
 
     BalanceTO toBalanceTO(Balance balance);
+
+    Balance toBalance(BalanceTO to);
 }

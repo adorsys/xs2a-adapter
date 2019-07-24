@@ -24,4 +24,6 @@ import org.mapstruct.Mapper;
 public interface AccountAccessMapper {
 
     AccountAccess toAccountAccess(AccountAccessTO to);
+
+    AccountAccessTO toAccountAccessTO(AccountAccess access);
 }

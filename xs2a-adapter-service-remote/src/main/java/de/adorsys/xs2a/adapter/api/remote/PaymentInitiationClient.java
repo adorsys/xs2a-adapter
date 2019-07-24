@@ -14,16 +14,11 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.mapper;
+package de.adorsys.xs2a.adapter.api.remote;
 
-import de.adorsys.xs2a.adapter.model.ConsentsResponse201TO;
-import de.adorsys.xs2a.adapter.service.ais.ConsentCreationResponse;
-import org.mapstruct.Mapper;
+import de.adorsys.xs2a.adapter.api.PaymentApi;
+import org.springframework.cloud.openfeign.FeignClient;
 
-@Mapper(uses = {AuthenticationObjectMapper.class, ChallengeDataMapper.class})
-public interface ConsentCreationResponseMapper {
-
-    ConsentsResponse201TO toConsentResponse201(ConsentCreationResponse response);
-
-    ConsentCreationResponse toConsentCreationResponse(ConsentsResponse201TO to);
+@FeignClient("payment-initiation-client")
+public interface PaymentInitiationClient extends PaymentApi {
 }

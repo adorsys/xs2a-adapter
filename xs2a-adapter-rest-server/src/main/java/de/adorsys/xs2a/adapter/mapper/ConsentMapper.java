@@ -25,4 +25,5 @@ public interface ConsentMapper {
 
     Consents toConsents(ConsentsTO to);
 
+    ConsentsTO toConsentsTO(Consents consents);
 }

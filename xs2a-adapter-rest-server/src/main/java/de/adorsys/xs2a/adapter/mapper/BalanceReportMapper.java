@@ -8,4 +8,6 @@ import org.mapstruct.Mapper;
 public interface BalanceReportMapper {
 
     ReadAccountBalanceResponse200TO toReadAccountBalanceResponse200TO(BalanceReport balanceReport);
+
+    BalanceReport toBalanceReport(ReadAccountBalanceResponse200TO to);
 }

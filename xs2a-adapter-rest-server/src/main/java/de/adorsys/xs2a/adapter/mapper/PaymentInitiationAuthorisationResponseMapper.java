@@ -8,4 +8,6 @@ import org.mapstruct.Mapper;
 public interface PaymentInitiationAuthorisationResponseMapper {
 
     AuthorisationsTO toAuthorisationsTO(PaymentInitiationAuthorisationResponse response);
+
+    PaymentInitiationAuthorisationResponse toPaymentInitiationAuthorisationResponse(AuthorisationsTO to);
 }

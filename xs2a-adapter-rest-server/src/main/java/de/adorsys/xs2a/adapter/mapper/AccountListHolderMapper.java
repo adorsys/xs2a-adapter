@@ -8,4 +8,6 @@ import org.mapstruct.Mapper;
 public interface AccountListHolderMapper {
 
     AccountListTO toAccountListTO(AccountListHolder accountListHolder);
+
+    AccountListHolder toAccountListHolder(AccountListTO to);
 }

@@ -7,4 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface PaymentInitiationStatusMapper {
     PaymentInitiationStatusResponse200JsonTO toPaymentInitiationStatusResponse200Json(PaymentInitiationStatus status);
+
+    PaymentInitiationStatus toPaymentInitiationStatus(PaymentInitiationStatusResponse200JsonTO to);
 }

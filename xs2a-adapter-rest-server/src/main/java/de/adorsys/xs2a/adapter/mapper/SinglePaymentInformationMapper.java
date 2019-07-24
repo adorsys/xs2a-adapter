@@ -7,4 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper(uses = {AddressMapper.class, AmountMapper.class, AccountReferenceMapper.class})
 public interface SinglePaymentInformationMapper {
     PaymentInitiationWithStatusResponseTO toPaymentInitiationSctWithStatusResponse(SinglePaymentInitiationInformationWithStatusResponse response);
+
+    SinglePaymentInitiationInformationWithStatusResponse toSinglePaymentInitiationInformationWithStatusResponse(PaymentInitiationWithStatusResponseTO to);
 }

@@ -13,6 +13,7 @@ public enum BalanceType {
     AUTHORISED("authorised"),
     OPENINGBOOKED("openingBooked"),
     INTERIMAVAILABLE("interimAvailable"),
+    INTERIMBOOKED("interimBooked"),
     FORWARDAVAILABLE("forwardAvailable"),
     NONINVOICED("nonInvoiced");
 

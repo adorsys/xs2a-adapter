@@ -7,4 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface PaymentInitiationRequestResponseMapper {
     PaymentInitationRequestResponse201TO toPaymentInitationRequestResponse201TO(PaymentInitiationRequestResponse paymentInitiationRequestResponse);
+
+    PaymentInitiationRequestResponse toPaymentInitiationRequestResponse(PaymentInitationRequestResponse201TO to);
 }

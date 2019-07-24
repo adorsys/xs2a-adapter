@@ -7,4 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface ConsentInformationMapper {
     ConsentInformationResponse200JsonTO toConsentInformationResponse200Json(ConsentInformation consentInformation);
+
+    ConsentInformation toConsentInformation(ConsentInformationResponse200JsonTO to);
 }

@@ -11,11 +11,20 @@ public interface AmountMapper {
 
     AmountTO toAmountTO(Amount amount);
 
+    Amount toAmount(AmountTO to);
+
     default String toCurrencyString(Currency currency) {
         if (currency == null) {
             return null;
         }
 
         return currency.getCurrencyCode();
+    }
+
+    default Currency toCurrency(String currencyCode) {
+        if (currencyCode != null && currencyCode.trim().isEmpty()) {
+            return Currency.getInstance(currencyCode);
+        }
+        return null;
     }
 }

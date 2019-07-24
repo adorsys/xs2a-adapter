@@ -22,4 +22,14 @@ public class PaymentInitiationScaStatusResponseMapper {
     private ScaStatusTO mapToScaStatusTO(ScaStatus scaStatus) {
         return ScaStatusTO.fromValue(scaStatus.getValue());
     }
+
+    private ScaStatus toScaStatus(ScaStatusTO to) {
+        return ScaStatus.fromValue(to.toString());
+    }
+
+    public PaymentInitiationScaStatusResponse toPaymentInitiationScaStatusResponse(ScaStatusResponseTO to){
+        return Optional.ofNullable(to)
+                   .map(r -> new PaymentInitiationScaStatusResponse(toScaStatus(r.getScaStatus())))
+                   .orElse(null);
+    }
 }

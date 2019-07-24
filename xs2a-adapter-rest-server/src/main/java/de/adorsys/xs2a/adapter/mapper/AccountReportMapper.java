@@ -8,4 +8,6 @@ import org.mapstruct.Mapper;
 public interface AccountReportMapper {
 
     AccountReportTO toAccountReportTO(AccountReport accountReport);
+
+    AccountReport toAccountReport(AccountReportTO to);
 }

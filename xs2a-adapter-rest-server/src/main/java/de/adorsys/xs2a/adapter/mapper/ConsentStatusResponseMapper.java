@@ -7,4 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface ConsentStatusResponseMapper {
     ConsentStatusResponse200TO toConsentStatusResponse200(ConsentStatusResponse consentStatusResponse);
+
+    ConsentStatusResponse toConsentStatusResponse(ConsentStatusResponse200TO to);
 }
