@@ -30,6 +30,8 @@ import de.adorsys.xs2a.adapter.service.model.*;
 import java.util.Map;
 import java.util.function.Function;
 
+import static java.util.function.Function.identity;
+
 public class BaseAccountInformationService extends AbstractService implements AccountInformationService {
 
     private static final String V1 = "v1";
@@ -46,12 +48,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     @Override
     public GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
-        Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
-
-        String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
-
-        return httpClient.post(getConsentBaseUri(), bodyString, headersMap,
-                               jsonResponseHandler(ConsentCreationResponse.class));
+        return createConsent(requestHeaders, body, ConsentCreationResponse.class, identity());
     }
 
     protected <T> GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body, Class<T> klass, Function<T, ConsentCreationResponse> mapper){
@@ -66,9 +63,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     @Override
     public GeneralResponse<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders) {
-        String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
-        Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
-        return httpClient.get(uri, headersMap, jsonResponseHandler(ConsentInformation.class));
+        return getConsentInformation(consentId, requestHeaders, ConsentInformation.class, identity());
     }
 
     protected <T> GeneralResponse<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders, Class<T> klass, Function<T, ConsentInformation> mapper) {
@@ -107,11 +102,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     @Override
     public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
-        String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
-        Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
-        String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
-
-        return httpClient.post(uri, body, headersMap, jsonResponseHandler(StartScaProcessResponse.class));
+        return startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication, StartScaProcessResponse.class, identity());
     }
 
     protected <T> GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication, Class<T> klass, Function<T, StartScaProcessResponse> mapper) {
@@ -164,12 +155,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     @Override
     public GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
-        Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
-        headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
-
-        String uri = getTransactionListUri(accountId, requestParams);
-
-        return httpClient.get(uri, headersMap, jsonResponseHandler(TransactionsReport.class));
+        return getTransactionList(accountId, requestHeaders, requestParams, TransactionsReport.class, identity());
     }
 
     private String getTransactionListUri(String accountId, RequestParams requestParams) {
@@ -206,9 +192,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     @Override
     public GeneralResponse<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
-        String uri = StringUri.fromElements(getAccountsBaseUri(), accountId, BALANCES);
-        Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
-        return httpClient.get(uri, headers, jsonResponseHandler(BalanceReport.class));
+        return getBalances(accountId, requestHeaders, BalanceReport.class, identity());
     }
 
     protected <T> GeneralResponse<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders, Class<T> klass, Function<T, BalanceReport> mapper) {
