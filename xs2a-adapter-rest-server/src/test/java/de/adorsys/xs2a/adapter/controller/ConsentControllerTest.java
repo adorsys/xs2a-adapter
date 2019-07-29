@@ -11,7 +11,7 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.ais.ConsentCreationResponse;
-import de.adorsys.xs2a.adapter.service.exception.BicNotProvidedException;
+import de.adorsys.xs2a.adapter.service.exception.AspspIdNotProvidedException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -74,7 +74,7 @@ public class ConsentControllerTest {
                 .thenReturn(new HttpHeaders());
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                                                       .post(ConsentController.CONSENTS)
-                                                      .header(RequestHeaders.X_GTW_BIC, "db")
+                                                      .header(RequestHeaders.X_GTW_ASPSP_ID, "db")
                                                       .header(RequestHeaders.X_REQUEST_ID, UUID.randomUUID())
                                                       .contentType(APPLICATION_JSON_UTF8_VALUE)
                                                       .content(body))
@@ -96,7 +96,7 @@ public class ConsentControllerTest {
     @Test
     public void createConsentRequiredFieldIsMissing() throws Exception {
         when(accountInformationService.createConsent(any(), any()))
-                .thenThrow(new BicNotProvidedException());
+                .thenThrow(new AspspIdNotProvidedException());
 
         mockMvc.perform(MockMvcRequestBuilders
                                 .post(ConsentController.CONSENTS)

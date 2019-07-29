@@ -1,11 +1,11 @@
-package de.adorsys.xs2a.adapter.service.impl;
+package de.adorsys.xs2a.adapter.registry;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.Objects;
 
 @JsonPropertyOrder({"aspspName", "bic", "url", "adapterId"})
-public class AspspAdapterConfigRecord {
+public class AspspCsvRecord {
     private String aspspName;
     private String bic;
     private String url;
@@ -47,7 +47,7 @@ public class AspspAdapterConfigRecord {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AspspAdapterConfigRecord that = (AspspAdapterConfigRecord) o;
+        AspspCsvRecord that = (AspspCsvRecord) o;
         return Objects.equals(aspspName, that.aspspName) &&
             Objects.equals(bic, that.bic) &&
             Objects.equals(url, that.url) &&
@@ -61,11 +61,11 @@ public class AspspAdapterConfigRecord {
 
     @Override
     public String toString() {
-        return "AspspAdapterConfigRecord{" +
-                   "aspspName='" + aspspName + '\'' +
-                   ", bic='" + bic + '\'' +
-                   ", url='" + url + '\'' +
-                   ", adapterId='" + adapterId + '\'' +
-                   '}';
+        return "AspspCsvRecord{" +
+            "aspspName='" + aspspName + '\'' +
+            ", bic='" + bic + '\'' +
+            ", url='" + url + '\'' +
+            ", adapterId='" + adapterId + '\'' +
+            '}';
     }
 }

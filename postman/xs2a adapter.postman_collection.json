@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bd5f1d70-61fe-442c-9eb9-4ef6af5045cd",
+		"_postman_id": "d508ffcb-b968-41f9-861e-e22dcbb57c8a",
 		"name": "xs2a adapter",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -8,6 +8,47 @@
 		{
 			"name": "AIS",
 			"item": [
+				{
+					"name": "GET ASPSP ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f4ac69de-a30e-4afd-a445-822601a8c1b9",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.globals.set(\"aspspId\", jsonData[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUri}}/v1/aspsps?bic={{bic}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"aspsps"
+							],
+							"query": [
+								{
+									"key": "bic",
+									"value": "{{bic}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "AIS/Consents/Create/006",
 					"event": [
@@ -113,8 +154,8 @@
 								"value": "0.0.0.0"
 							},
 							{
-								"key": "X-GTW-BIC",
-								"value": "{{bic}}",
+								"key": "X-GTW-ASPSP-ID",
+								"value": "{{aspspId}}",
 								"type": "text"
 							},
 							{
@@ -175,8 +216,8 @@
 								"value": "{{$guid}}"
 							},
 							{
-								"key": "X-GTW-BIC",
-								"value": "{{bic}}",
+								"key": "X-GTW-ASPSP-ID",
+								"value": "{{aspspId}}",
 								"type": "text"
 							}
 						],
@@ -225,8 +266,8 @@
 								"value": "{{$guid}}"
 							},
 							{
-								"key": "X-GTW-BIC",
-								"value": "{{bic}}",
+								"key": "X-GTW-ASPSP-ID",
+								"value": "{{aspspId}}",
 								"type": "text"
 							}
 						],
@@ -309,9 +350,9 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "X-GTW-BIC",
+								"key": "X-GTW-ASPSP-ID",
 								"type": "text",
-								"value": "{{bic}}"
+								"value": "{{aspspId}}"
 							},
 							{
 								"key": "X-Request-ID",
@@ -376,9 +417,9 @@
 								"value": "application/json"
 							},
 							{
-								"key": "X-GTW-BIC",
+								"key": "X-GTW-ASPSP-ID",
 								"type": "text",
-								"value": "{{bic}}"
+								"value": "{{aspspId}}"
 							},
 							{
 								"key": "TPP-Redirect-Preferred",
@@ -456,8 +497,8 @@
 								"type": "text"
 							},
 							{
-								"key": "X-GTW-BIC",
-								"value": "{{bic}}",
+								"key": "X-GTW-ASPSP-ID",
+								"value": "{{aspspId}}",
 								"type": "text"
 							},
 							{
@@ -536,9 +577,9 @@
 								"value": "application/json"
 							},
 							{
-								"key": "X-GTW-BIC",
+								"key": "X-GTW-ASPSP-ID",
 								"type": "text",
-								"value": "{{bic}}"
+								"value": "{{aspspId}}"
 							},
 							{
 								"key": "TPP-Redirect-Preferred",
@@ -603,9 +644,9 @@
 								"value": "application/json"
 							},
 							{
-								"key": "X-GTW-BIC",
+								"key": "X-GTW-ASPSP-ID",
 								"type": "text",
-								"value": "{{bic}}"
+								"value": "{{aspspId}}"
 							},
 							{
 								"key": "X-Request-ID",
@@ -679,9 +720,9 @@
 								"value": "application/json"
 							},
 							{
-								"key": "X-GTW-BIC",
+								"key": "X-GTW-ASPSP-ID",
 								"type": "text",
-								"value": "{{bic}}"
+								"value": "{{aspspId}}"
 							},
 							{
 								"key": "X-Request-ID",
@@ -755,8 +796,8 @@
 								"type": "text"
 							},
 							{
-								"key": "X-GTW-BIC",
-								"value": "{{bic}}",
+								"key": "X-GTW-ASPSP-ID",
+								"value": "{{aspspId}}",
 								"type": "text"
 							},
 							{
@@ -821,8 +862,8 @@
 								"type": "text"
 							},
 							{
-								"key": "X-GTW-BIC",
-								"value": "{{bic}}",
+								"key": "X-GTW-ASPSP-ID",
+								"value": "{{aspspId}}",
 								"type": "text"
 							},
 							{
@@ -887,8 +928,8 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "X-GTW-BIC",
-								"value": "{{bic}}",
+								"key": "X-GTW-ASPSP-ID",
+								"value": "{{aspspId}}",
 								"type": "text"
 							},
 							{
@@ -958,8 +999,8 @@
 								"description": "Use specific data per TPP-Registration-Number"
 							},
 							{
-								"key": "X-GTW-BIC",
-								"value": "{{bic}}",
+								"key": "X-GTW-ASPSP-ID",
+								"value": "{{aspspId}}",
 								"type": "text"
 							}
 						],
@@ -1022,8 +1063,8 @@
 								"type": "text"
 							},
 							{
-								"key": "X-GTW-BIC",
-								"value": "{{bic}}",
+								"key": "X-GTW-ASPSP-ID",
+								"value": "{{aspspId}}",
 								"type": "text"
 							},
 							{
@@ -1096,8 +1137,8 @@
 								"type": "text"
 							},
 							{
-								"key": "X-GTW-BIC",
-								"value": "{{bic}}",
+								"key": "X-GTW-ASPSP-ID",
+								"value": "{{aspspId}}",
 								"type": "text"
 							},
 							{
@@ -1171,8 +1212,8 @@
 								"type": "text"
 							},
 							{
-								"key": "X-GTW-BIC",
-								"value": "{{bic}}",
+								"key": "X-GTW-ASPSP-ID",
+								"value": "{{aspspId}}",
 								"type": "text"
 							}
 						],
@@ -1227,6 +1268,47 @@
 				{
 					"name": "sepa-credit-transfers",
 					"item": [
+						{
+							"name": "GET ASPSP ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f4ac69de-a30e-4afd-a445-822601a8c1b9",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"pm.globals.set(\"aspspId\", jsonData[0].id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUri}}/v1/aspsps?bic={{bic}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"aspsps"
+									],
+									"query": [
+										{
+											"key": "bic",
+											"value": "{{bic}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
 						{
 							"name": "Payment_Product_Support_Checking_Step_sepa_credit_transfers",
 							"event": [
@@ -1366,8 +1448,8 @@
 										"type": "text"
 									},
 									{
-										"key": "X-GTW-BIC",
-										"value": "{{bic}}",
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
 										"type": "text"
 									},
 									{
@@ -1460,8 +1542,8 @@
 										"type": "text"
 									},
 									{
-										"key": "X-GTW-BIC",
-										"value": "{{bic}}",
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
 										"type": "text"
 									}
 								],
@@ -1534,8 +1616,8 @@
 										"type": "text"
 									},
 									{
-										"key": "X-GTW-BIC",
-										"value": "{{bic}}",
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
 										"type": "text"
 									}
 								],
@@ -1608,9 +1690,9 @@
 										"value": "application/json"
 									},
 									{
-										"key": "X-GTW-BIC",
+										"key": "X-GTW-ASPSP-ID",
 										"type": "text",
-										"value": "{{bic}}"
+										"value": "{{aspspId}}"
 									},
 									{
 										"key": "TPP-Redirect-Preferred",
@@ -1689,9 +1771,9 @@
 										"value": "application/json"
 									},
 									{
-										"key": "X-GTW-BIC",
+										"key": "X-GTW-ASPSP-ID",
 										"type": "text",
-										"value": "{{bic}}"
+										"value": "{{aspspId}}"
 									},
 									{
 										"key": "TPP-Redirect-Preferred",
@@ -1757,9 +1839,9 @@
 										"value": "application/json"
 									},
 									{
-										"key": "X-GTW-BIC",
+										"key": "X-GTW-ASPSP-ID",
 										"type": "text",
-										"value": "{{bic}}"
+										"value": "{{aspspId}}"
 									},
 									{
 										"key": "X-Request-ID",
@@ -1833,9 +1915,9 @@
 										"value": "application/json"
 									},
 									{
-										"key": "X-GTW-BIC",
+										"key": "X-GTW-ASPSP-ID",
 										"type": "text",
-										"value": "{{bic}}"
+										"value": "{{aspspId}}"
 									},
 									{
 										"key": "X-Request-ID",
@@ -1910,9 +1992,9 @@
 										"value": "application/json"
 									},
 									{
-										"key": "X-GTW-BIC",
+										"key": "X-GTW-ASPSP-ID",
 										"type": "text",
-										"value": "{{bic}}"
+										"value": "{{aspspId}}"
 									},
 									{
 										"key": "X-Request-ID",
@@ -1977,9 +2059,9 @@
 										"value": "{{$guid}}"
 									},
 									{
-										"key": "X-GTW-BIC",
+										"key": "X-GTW-ASPSP-ID",
 										"type": "text",
-										"value": "{{bic}}"
+										"value": "{{aspspId}}"
 									},
 									{
 										"key": "Content-Type",
@@ -2049,6 +2131,47 @@
 				{
 					"name": "pain.001-sepa-credit-transfers",
 					"item": [
+						{
+							"name": "GET ASPSP ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f4ac69de-a30e-4afd-a445-822601a8c1b9",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"pm.globals.set(\"aspspId\", jsonData[0].id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUri}}/v1/aspsps?bic={{bic}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"aspsps"
+									],
+									"query": [
+										{
+											"key": "bic",
+											"value": "{{bic}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
 						{
 							"name": "Payment_Product_Support_Checking_Step_pain.001_sepa_credit_transfers",
 							"event": [
@@ -2147,8 +2270,8 @@
 										"type": "text"
 									},
 									{
-										"key": "X-GTW-BIC",
-										"value": "{{bic}}",
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
 										"type": "text"
 									}
 								],
@@ -2201,8 +2324,8 @@
 										"type": "text"
 									},
 									{
-										"key": "X-GTW-BIC",
-										"value": "{{bic}}",
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
 										"type": "text"
 									}
 								],
@@ -2273,9 +2396,9 @@
 										"value": "application/json"
 									},
 									{
-										"key": "X-GTW-BIC",
+										"key": "X-GTW-ASPSP-ID",
 										"type": "text",
-										"value": "{{bic}}"
+										"value": "{{aspspId}}"
 									},
 									{
 										"key": "TPP-Redirect-Preferred",
@@ -2373,9 +2496,9 @@
 										"value": "application/json"
 									},
 									{
-										"key": "X-GTW-BIC",
+										"key": "X-GTW-ASPSP-ID",
 										"type": "text",
-										"value": "{{bic}}"
+										"value": "{{aspspId}}"
 									},
 									{
 										"key": "X-Request-ID",
@@ -2450,9 +2573,9 @@
 										"value": "application/json"
 									},
 									{
-										"key": "X-GTW-BIC",
+										"key": "X-GTW-ASPSP-ID",
 										"type": "text",
-										"value": "{{bic}}"
+										"value": "{{aspspId}}"
 									},
 									{
 										"key": "X-Request-ID",
@@ -2517,9 +2640,9 @@
 										"value": "{{$guid}}"
 									},
 									{
-										"key": "X-GTW-BIC",
+										"key": "X-GTW-ASPSP-ID",
 										"type": "text",
-										"value": "{{bic}}"
+										"value": "{{aspspId}}"
 									},
 									{
 										"key": "Content-Type",
@@ -2609,46 +2732,6 @@
 							"});"
 						]
 					}
-				}
-			]
-		},
-		{
-			"name": "General information",
-			"item": [
-				{
-					"name": "Get supported banks",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "f4ac69de-a30e-4afd-a445-822601a8c1b9",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"const parsedResponseBody = JSON.parse(responseBody);",
-									"tests['JSON array is not empty'] = (parsedResponseBody.length > 0);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUri}}/v1/supported-banks",
-							"host": [
-								"{{baseUri}}"
-							],
-							"path": [
-								"v1",
-								"supported-banks"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		}
