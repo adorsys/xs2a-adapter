@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.Objects;
 
-@JsonPropertyOrder({"id","aspspName", "bic", "url", "bankCode", "adapterId"})
+@JsonPropertyOrder({"id", "adapterId", "aspspName", "bic", "url", "bankCode"})
 public class AspspCsvRecord {
     private String id;
     private String aspspName;
