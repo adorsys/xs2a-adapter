@@ -34,7 +34,7 @@ public class AccountInformationServiceImplTest {
     public void createConsent() {
         GeneralResponse<ConsentCreationResponse> response = new GeneralResponse<>(HTTP_CODE_200, new ConsentCreationResponse(), ResponseHeaders.fromMap(Collections.emptyMap()));
 
-        when(adapterServiceLoader.getAccountInformationService(anyString()))
+        when(adapterServiceLoader.getAccountInformationService(any()))
             .thenReturn(accountInformationService);
 
         when(accountInformationService.createConsent(any(), any())).thenReturn(response);

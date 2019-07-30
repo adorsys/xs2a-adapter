@@ -105,6 +105,13 @@ Alternative commands:
 ## How to write your own bank adapter
 Read this short [guideline](/docs/Adapter.md) to get more details
 
+## Routing and ASPSP Registry
+`xs2a-adapter` relies on presence of `X-GTW-ASPSP-ID` or `X-GTW-Bank-Code` request header for routing.
+The former uniquely identifies an XS2A API provider in the `aspsp-registry`. 
+The later is a shorthand for performing a lookup in the registry using a bank code.
+Note that the `aspsp-registry` supports lookup by attributes other than bank code including full-text search by name,
+but only as a pre-request. 
+
 ## Releases and versions
 
 * [Versioning, Release and Support policy](doc/Version_Policy.md)
