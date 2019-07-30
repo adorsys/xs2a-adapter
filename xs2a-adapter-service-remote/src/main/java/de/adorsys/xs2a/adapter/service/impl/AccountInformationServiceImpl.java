@@ -16,9 +16,13 @@
 
 package de.adorsys.xs2a.adapter.service.impl;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import de.adorsys.xs2a.adapter.api.remote.AccountInformationClient;
 import de.adorsys.xs2a.adapter.mapper.*;
 import de.adorsys.xs2a.adapter.model.*;
@@ -56,6 +60,11 @@ public class AccountInformationServiceImpl implements AccountInformationService 
 
     public AccountInformationServiceImpl(AccountInformationClient client) {
         this.client = client;
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
     }
 
     @Override
@@ -102,19 +111,22 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     @Override
     public GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String s, String s1, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         ResponseEntity<Object> responseEntity = client.updateConsentsPsuData(s, s1, requestHeaders.toMap(), objectMapper.valueToTree(selectPsuAuthenticationMethod));
-        return new GeneralResponse<>(responseEntity.getStatusCodeValue(), (SelectPsuAuthenticationMethodResponse) responseEntity.getBody(), getHeaders(responseEntity.getHeaders()));
+        SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = objectMapper.convertValue(responseEntity.getBody(), SelectPsuAuthenticationMethodResponse.class);
+        return new GeneralResponse<>(responseEntity.getStatusCodeValue(), selectPsuAuthenticationMethodResponse, getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
     public GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String s, String s1, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
         ResponseEntity<Object> responseEntity = client.updateConsentsPsuData(s, s1, requestHeaders.toMap(), objectMapper.valueToTree(transactionAuthorisation));
-        return new GeneralResponse<>(responseEntity.getStatusCodeValue(), (ScaStatusResponse) responseEntity.getBody(), getHeaders(responseEntity.getHeaders()));
+        ScaStatusResponse scaStatusResponse = objectMapper.convertValue(responseEntity.getBody(), ScaStatusResponse.class);
+        return new GeneralResponse<>(responseEntity.getStatusCodeValue(), scaStatusResponse, getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
     public GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String s, String s1, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
         ResponseEntity<Object> responseEntity = client.updateConsentsPsuData(s, s1, requestHeaders.toMap(), objectMapper.valueToTree(updatePsuAuthentication));
-        return new GeneralResponse<>(responseEntity.getStatusCodeValue(), (UpdatePsuAuthenticationResponse) responseEntity.getBody(), getHeaders(responseEntity.getHeaders()));
+        UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = objectMapper.convertValue(responseEntity.getBody(), UpdatePsuAuthenticationResponse.class);
+        return new GeneralResponse<>(responseEntity.getStatusCodeValue(), updatePsuAuthenticationResponse, getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
@@ -132,7 +144,8 @@ public class AccountInformationServiceImpl implements AccountInformationService 
             throw new NotAcceptableException("Unsupported accept type: " + headersMap.get(RequestHeaders.ACCEPT));
         }
         ResponseEntity<Object> responseEntity = getTransactionListFromClient(s, requestParams, headersMap);
-        TransactionsReport transactionsReport = transactionsReportMapper.toTransactionsReport((TransactionsResponse200JsonTO) responseEntity.getBody());
+        TransactionsResponse200JsonTO transactionsResponse200JsonTO = objectMapper.convertValue(responseEntity.getBody(), TransactionsResponse200JsonTO.class);
+        TransactionsReport transactionsReport = transactionsReportMapper.toTransactionsReport(transactionsResponse200JsonTO);
         return new GeneralResponse<>(responseEntity.getStatusCodeValue(), transactionsReport, getHeaders(responseEntity.getHeaders()));
     }
 

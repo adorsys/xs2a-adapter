@@ -22,7 +22,7 @@ public enum BookingStatusTO {
   @JsonCreator
   public static BookingStatusTO fromValue(String value) {
     for (BookingStatusTO e : BookingStatusTO.values()) {
-      if (e.value.equals(value)) {
+      if (e.value.equalsIgnoreCase(value)) {
         return e;
       }
     }

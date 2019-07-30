@@ -16,10 +16,9 @@
 
 package de.adorsys.xs2a.adapter.api.remote;
 
-import de.adorsys.xs2a.adapter.api.AccountApi;
-import de.adorsys.xs2a.adapter.api.ConsentApi;
+import de.adorsys.xs2a.adapter.service.AccountApi;
 import org.springframework.cloud.openfeign.FeignClient;
 
-@FeignClient("account-information-client")
-public interface AccountInformationClient extends AccountApi, ConsentApi {
+@FeignClient(value = "account-information-client", url = "${xs2a-adapter.url}")
+public interface AccountInformationClient extends AccountApi {
 }

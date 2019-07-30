@@ -19,6 +19,6 @@ package de.adorsys.xs2a.adapter.api.remote;
 import de.adorsys.xs2a.adapter.api.PaymentApi;
 import org.springframework.cloud.openfeign.FeignClient;
 
-@FeignClient("payment-initiation-client")
+@FeignClient(value = "payment-initiation-client", url = "${xs2a-adapter.url}")
 public interface PaymentInitiationClient extends PaymentApi {
 }

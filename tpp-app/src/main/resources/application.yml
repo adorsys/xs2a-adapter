@@ -1,0 +1,30 @@
+server:
+  port: 8333
+
+xs2a-adapter:
+  url: http://localhost:8999
+
+info:
+  app:
+    name: ${spring.application.name}
+    description: "Description"
+    version: @project.version@
+    artifactId: @project.artifactId@
+
+spring:
+  application:
+    name: tpp-application
+  jackson:
+    default-property-inclusion: non_null
+
+logging.level.org.apache.http.wire: DEBUG
+logging.level.de.adorsys.xs2a.adapter.api.remote.AccountInformationClient: DEBUG
+
+feign:
+  client:
+  config:
+  default:
+  connectTimeout: 15000
+  readTimeout: 15000
+  loggerLevel: FULL
+
