@@ -11,7 +11,7 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.ais.ConsentCreationResponse;
-import de.adorsys.xs2a.adapter.service.exception.AspspIdNotProvidedException;
+import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -96,7 +96,7 @@ public class ConsentControllerTest {
     @Test
     public void createConsentRequiredFieldIsMissing() throws Exception {
         when(accountInformationService.createConsent(any(), any()))
-                .thenThrow(new AspspIdNotProvidedException());
+                .thenThrow(new AspspRegistrationNotFoundException(""));
 
         mockMvc.perform(MockMvcRequestBuilders
                                 .post(ConsentController.CONSENTS)

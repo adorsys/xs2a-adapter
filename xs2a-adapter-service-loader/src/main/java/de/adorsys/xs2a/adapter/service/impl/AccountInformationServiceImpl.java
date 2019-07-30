@@ -41,7 +41,7 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     }
 
     private AccountInformationService getAccountInformationService(RequestHeaders requestHeaders) {
-        return adapterServiceLoader.getAccountInformationService(requestHeaders.removeAspspId());
+        return adapterServiceLoader.getAccountInformationService(requestHeaders);
     }
 
     @Override

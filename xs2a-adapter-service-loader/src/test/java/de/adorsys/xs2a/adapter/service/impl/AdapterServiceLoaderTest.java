@@ -1,14 +1,22 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.service.AspspRepository;
-import de.adorsys.xs2a.adapter.service.exception.AdapterMappingNotFoundException;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
+import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Optional;
 
+import static de.adorsys.xs2a.adapter.service.RequestHeaders.*;
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -16,6 +24,9 @@ public class AdapterServiceLoaderTest {
 
     private static final String ADAPTER_ID = "test-adapter";
     private static final String ASPSP_ID = "test-aspsp-id";
+    private static final RequestHeaders requestHeadersWithAspspId = fromMap(singletonMap(X_GTW_ASPSP_ID, ASPSP_ID));
+    private static final String BANK_CODE = "test-bank-code";
+    private static final RequestHeaders requestHeadersWithBankCode = fromMap(singletonMap(X_GTW_BANK_CODE, BANK_CODE));
 
     private final AspspRepository aspspRepository = mock(AspspRepository.class);
     private final AdapterServiceLoader adapterServiceLoader = new AdapterServiceLoader(aspspRepository);
@@ -40,21 +51,64 @@ public class AdapterServiceLoaderTest {
         aspsp.setAdapterId(ADAPTER_ID);
         when(aspspRepository.findById(ASPSP_ID))
             .thenReturn(Optional.of(aspsp));
-        adapterServiceLoader.getAccountInformationService(ASPSP_ID);
+        adapterServiceLoader.getAccountInformationService(requestHeadersWithAspspId);
         verify(aspspRepository, times(1)).findById(ASPSP_ID);
     }
 
-    @Test(expected = AdapterMappingNotFoundException.class)
+    @Test(expected = AspspRegistrationNotFoundException.class)
     public void getAccountInformationServiceThrowsWhenAspspNotFound() {
         when(aspspRepository.findById(ASPSP_ID))
             .thenReturn(Optional.empty());
-        adapterServiceLoader.getAccountInformationService(ASPSP_ID);
+        adapterServiceLoader.getAccountInformationService(requestHeadersWithAspspId);
     }
 
     @Test(expected = AdapterNotFoundException.class)
     public void getServiceProviderThrowsExceptionWhenAdapterNotFound() {
         when(aspspRepository.findById(ASPSP_ID))
             .thenReturn(Optional.of(new Aspsp()));
-        adapterServiceLoader.getAccountInformationService(ASPSP_ID);
+        adapterServiceLoader.getAccountInformationService(requestHeadersWithAspspId);
+    }
+
+    @Test(expected = AspspRegistrationNotFoundException.class)
+    public void getAccountInformationServiceThrowsIfNothingFoundByBankCode() {
+        adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCode);
+    }
+
+    @Test
+    public void getAccountInformationServiceFindsAdapterByBankCode() {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setAdapterId(ADAPTER_ID);
+        when(aspspRepository.findByBankCode(BANK_CODE))
+            .thenReturn(Collections.singletonList(aspsp));
+        AccountInformationService ais = adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCode);
+        assertThat(ais).isNotNull();
+        verify(aspspRepository, times(1)).findByBankCode(BANK_CODE);
+    }
+
+    @Test
+    public void getAccountInformationServicePrefersSearchingByAspspId() {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setAdapterId(ADAPTER_ID);
+        when(aspspRepository.findById(ASPSP_ID))
+            .thenReturn(Optional.of(aspsp));
+
+        HashMap<String, String> requestHeadersMap = new HashMap<>(2);
+        requestHeadersMap.put(X_GTW_ASPSP_ID, ASPSP_ID);
+        requestHeadersMap.put(X_GTW_BANK_CODE, BANK_CODE);
+
+        adapterServiceLoader.getAccountInformationService(RequestHeaders.fromMap(requestHeadersMap));
+        verify(aspspRepository, times(1)).findById(ASPSP_ID);
+    }
+
+    @Test(expected = AspspRegistrationNotFoundException.class)
+    public void getAccountInformationServiceThrowsIfMoreThanOneAspspFoundByBankCode() {
+        when(aspspRepository.findByBankCode(BANK_CODE))
+            .thenReturn(Arrays.asList(new Aspsp(), new Aspsp()));
+        adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCode);
+    }
+
+    @Test(expected = AspspRegistrationNotFoundException.class)
+    public void getAccountInformationServiceThrowsIfNotAspspIdentifyingHeadersProvided() {
+        adapterServiceLoader.getAccountInformationService(RequestHeaders.fromMap(emptyMap()));
     }
 }
