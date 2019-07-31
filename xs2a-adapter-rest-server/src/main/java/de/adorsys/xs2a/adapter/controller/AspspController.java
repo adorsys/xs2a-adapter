@@ -32,6 +32,8 @@ public class AspspController {
         List <Aspsp> aspsps;
         if (iban != null) {
             aspsps = aspspSearchService.findByIban(iban, after, size);
+        } else if (name == null && bic == null && bankCode == null) {
+            aspsps = aspspSearchService.findAll(after, size);
         } else {
             Aspsp aspsp = new Aspsp();
             aspsp.setName(name);

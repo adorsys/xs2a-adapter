@@ -7,6 +7,7 @@ public class AspspTO {
     private String bankCode;
     private String url;
     private String adapterId;
+    private String paginationId;
 
     public String getId() {
         return id;
@@ -54,5 +55,13 @@ public class AspspTO {
 
     public void setAdapterId(String adapterId) {
         this.adapterId = adapterId;
+    }
+
+    public String getPaginationId() {
+        return paginationId;
+    }
+
+    public void setPaginationId(String paginationId) {
+        this.paginationId = paginationId;
     }
 }

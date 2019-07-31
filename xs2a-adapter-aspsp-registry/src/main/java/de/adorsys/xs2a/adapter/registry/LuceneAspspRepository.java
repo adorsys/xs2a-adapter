@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 
 public class LuceneAspspRepository implements AspspRepository {
 
+    private static final String ID_FIELD_NAME = "id";
     private static final String NAME_FIELD_NAME = "name";
     private static final String URL_FIELD_NAME = "url";
     private static final String BIC_FIELD_NAME = "bic";
@@ -43,6 +44,7 @@ public class LuceneAspspRepository implements AspspRepository {
 
     private void save(IndexWriter indexWriter, Aspsp aspsp) throws IOException {
         Document document = new Document();
+        document.add(new StringField(ID_FIELD_NAME, serialize(aspsp.getId()), Field.Store.YES));
         document.add(new TextField(NAME_FIELD_NAME, serialize(aspsp.getName()), Field.Store.YES));
         document.add(new StringField(URL_FIELD_NAME, serialize(aspsp.getUrl()), Field.Store.YES));
         document.add(new StringField(BIC_FIELD_NAME, serialize(aspsp.getBic()), Field.Store.YES));
@@ -68,21 +70,11 @@ public class LuceneAspspRepository implements AspspRepository {
 
     @Override
     public Optional<Aspsp> findById(String id) {
-        ScoreDoc scoreDoc = parseScoreDoc(id);
-        if (scoreDoc == null) {
+        List<Aspsp> aspsps = find(new TermQuery(new Term(ID_FIELD_NAME, id)), null, 1);
+        if (aspsps.size() == 0) {
             return Optional.empty();
         }
-
-        return getDocument(scoreDoc.doc).map(document -> {
-            Aspsp aspsp = new Aspsp();
-            aspsp.setId(id);
-            aspsp.setName(deserialize(document.get(NAME_FIELD_NAME)));
-            aspsp.setUrl(deserialize(document.get(URL_FIELD_NAME)));
-            aspsp.setBic(deserialize(document.get(BIC_FIELD_NAME)));
-            aspsp.setBankCode(deserialize(document.get(BANK_CODE_FIELD_NAME)));
-            aspsp.setAdapterId(deserialize(document.get(ADAPTER_ID_FIELD_NAME)));
-            return aspsp;
-        });
+        return Optional.of(aspsps.get(0));
     }
 
     private Optional<Document> getDocument(int docId) {
@@ -121,13 +113,28 @@ public class LuceneAspspRepository implements AspspRepository {
             TopDocs topDocs = indexSearcher.searchAfter(afterDoc, query, size);
             ScoreDoc[] scoreDocs = topDocs.scoreDocs;
             return Arrays.stream(scoreDocs)
-                .map(scoreDoc -> findById(scoreDoc.doc + ":" + scoreDoc.score))
+                .map(this::getDocumentAsAspsp)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(toList());
         } catch (IOException e) {
             throw new RegistryIOException(e);
         }
+    }
+
+    private Optional<Aspsp> getDocumentAsAspsp(ScoreDoc scoreDoc) {
+        return getDocument(scoreDoc.doc)
+            .map(document -> {
+            Aspsp aspsp = new Aspsp();
+            aspsp.setId(deserialize(document.get(ID_FIELD_NAME)));
+            aspsp.setName(deserialize(document.get(NAME_FIELD_NAME)));
+            aspsp.setUrl(deserialize(document.get(URL_FIELD_NAME)));
+            aspsp.setBic(deserialize(document.get(BIC_FIELD_NAME)));
+            aspsp.setBankCode(deserialize(document.get(BANK_CODE_FIELD_NAME)));
+            aspsp.setAdapterId(deserialize(document.get(ADAPTER_ID_FIELD_NAME)));
+            aspsp.setPaginationId(scoreDoc.doc + ":" + scoreDoc.score);
+            return aspsp;
+        });
     }
 
     private ScoreDoc parseScoreDoc(String id) {

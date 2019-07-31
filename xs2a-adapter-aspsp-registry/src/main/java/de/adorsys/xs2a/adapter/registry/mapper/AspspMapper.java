@@ -14,8 +14,8 @@ public interface AspspMapper {
     List<Aspsp> toAspsps(List<AspspCsvRecord> aspspCsvRecords);
 
     @Mappings({
-        @Mapping(target = "id", ignore = true),
-        @Mapping(source = "aspspName", target = "name")
+        @Mapping(source = "aspspName", target = "name"),
+        @Mapping(target = "paginationId", ignore = true)
     })
     Aspsp toAspsp(AspspCsvRecord aspspCsvRecord);
 }
