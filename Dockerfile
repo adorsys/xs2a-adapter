@@ -14,7 +14,7 @@ WORKDIR /opt/xs2a-adapter
 COPY xs2a-adapter-app/target/xs2a-adapter-app.jar /opt/xs2a-adapter/xs2a-adapter-app.jar
 
 USER 0
-RUN chmod o+w /opt/xs2a-adapter
+RUN chmod go+w /opt/xs2a-adapter
 USER 1001
 
 EXPOSE 8081
