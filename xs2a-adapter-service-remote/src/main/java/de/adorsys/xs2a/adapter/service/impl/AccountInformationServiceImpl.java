@@ -87,6 +87,12 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     }
 
     @Override
+    public GeneralResponse<Void> deleteConsent(String consentId, RequestHeaders requestHeaders) {
+        ResponseEntity<Void> responseEntity = client.deleteConsent(consentId, requestHeaders.toMap());
+        return new GeneralResponse<>(responseEntity.getStatusCodeValue(), null, getHeaders(responseEntity.getHeaders()));
+    }
+
+    @Override
     public GeneralResponse<ConsentStatusResponse> getConsentStatus(String consentId, RequestHeaders requestHeaders) {
         ResponseEntity<ConsentStatusResponse200TO> responseEntity = client.getConsentStatus(consentId, requestHeaders.toMap());
         ConsentStatusResponse statusResponse = statusResponseMapper.toConsentStatusResponse(responseEntity.getBody());
