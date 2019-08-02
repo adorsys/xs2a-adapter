@@ -33,15 +33,15 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
     }
 
     @Override
-    protected Map<String, String> populatePutHeaders(Map<String, String> map) {
-        addApiKey(map);
-        return map;
+    protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
+        addApiKey(headers);
+        return headers;
     }
 
     @Override
-    protected Map<String, String> populateGetHeaders(Map<String, String> map) {
-        addApiKey(map);
-        return map;
+    protected Map<String, String> populateGetHeaders(Map<String, String> headers) {
+        addApiKey(headers);
+        return headers;
     }
 
     private void addApiKey(Map<String, String> headers) {

@@ -53,24 +53,24 @@ public abstract class AbstractService {
         this.httpClient = httpClient;
     }
 
-    protected Map<String, String> addConsentIdHeader(Map<String, String> map) {
-        return map;
+    protected Map<String, String> addConsentIdHeader(Map<String, String> headers) {
+        return headers;
     }
 
-    protected Map<String, String> populatePostHeaders(Map<String, String> map) {
-        return map;
+    protected Map<String, String> populatePostHeaders(Map<String, String> headers) {
+        return headers;
     }
 
-    protected Map<String, String> populatePutHeaders(Map<String, String> map) {
-        return map;
+    protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
+        return headers;
     }
 
-    protected Map<String, String> populateGetHeaders(Map<String, String> map) {
-        return map;
+    protected Map<String, String> populateGetHeaders(Map<String, String> headers) {
+        return headers;
     }
 
-    protected Map<String, String> populateDeleteHeaders(Map<String, String> map) {
-        return map;
+    protected Map<String, String> populateDeleteHeaders(Map<String, String> headers) {
+        return headers;
     }
 
     <T> HttpClient.ResponseHandler<T> jsonResponseHandler(Class<T> klass) {

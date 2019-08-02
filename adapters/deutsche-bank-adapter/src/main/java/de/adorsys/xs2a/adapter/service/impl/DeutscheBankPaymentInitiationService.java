@@ -32,9 +32,9 @@ public class DeutscheBankPaymentInitiationService extends BasePaymentInitiationS
     }
 
     @Override
-    protected Map<String, String> populatePutHeaders(Map<String, String> map) {
-        map.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        map.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
-        return map;
+    protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
+        headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
+        headers.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
+        return headers;
     }
 }
