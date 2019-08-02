@@ -4,13 +4,6 @@ server:
 xs2a-adapter:
   url: http://localhost:8999
 
-info:
-  app:
-    name: ${spring.application.name}
-    description: "Description"
-    version: @project.version@
-    artifactId: @project.artifactId@
-
 spring:
   application:
     name: tpp-application
