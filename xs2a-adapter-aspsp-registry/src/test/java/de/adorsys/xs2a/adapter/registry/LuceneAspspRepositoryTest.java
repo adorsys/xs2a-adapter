@@ -22,21 +22,23 @@ public class LuceneAspspRepositoryTest {
 
     @Test(expected = RegistryIOException.class)
     public void findByIdThrowsIOExceptionWhenIndexDoesntExist() {
-        luceneAspspRepository.findById("1:1.0");
+        luceneAspspRepository.findById("id");
     }
 
     @Test
     public void findById_NotFound() {
         luceneAspspRepository.save(new Aspsp());
-        Optional<Aspsp> found = luceneAspspRepository.findById("1:1.0");
+        Optional<Aspsp> found = luceneAspspRepository.findById("id");
         assertThat(found).isEmpty();
     }
 
     @Test
     public void findById_Found() {
-        luceneAspspRepository.save(new Aspsp());
-        Optional<Aspsp> found = luceneAspspRepository.findById("0:1.0");
-        assertThat(found).get().hasFieldOrPropertyWithValue("id", "0:1.0");
+        Aspsp aspsp = new Aspsp();
+        aspsp.setId("id");
+        luceneAspspRepository.save(aspsp);
+        Optional<Aspsp> found = luceneAspspRepository.findById("id");
+        assertThat(found).get().hasFieldOrPropertyWithValue("id", "id");
     }
 
     @Test
@@ -137,7 +139,7 @@ public class LuceneAspspRepositoryTest {
         List<Aspsp> firstPage = luceneAspspRepository.findAll(2);
         assertThat(firstPage).hasSize(2);
 
-        List<Aspsp> secondPage = luceneAspspRepository.findAll(firstPage.get(1).getId(), 2);
+        List<Aspsp> secondPage = luceneAspspRepository.findAll(firstPage.get(1).getPaginationId(), 2);
         assertThat(secondPage).hasSize(1);
     }
 

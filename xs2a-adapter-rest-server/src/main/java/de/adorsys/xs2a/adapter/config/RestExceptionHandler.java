@@ -3,7 +3,6 @@ package de.adorsys.xs2a.adapter.config;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.model.TppMessageCategoryTO;
 import de.adorsys.xs2a.adapter.service.ErrorResponse;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.TppMessage;
 import de.adorsys.xs2a.adapter.service.exception.*;
 import org.springframework.http.HttpHeaders;
@@ -90,9 +89,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    ResponseEntity handle(AspspIdNotProvidedException exception) {
+    ResponseEntity handle(AspspRegistrationNotFoundException exception) {
+        return badRequestHandler(exception);
+    }
+
+    private ResponseEntity badRequestHandler(RuntimeException exception) {
         logger.error(exception.getMessage(), exception);
-        String errorText = String.format("%s header is not provided within the request", RequestHeaders.X_GTW_ASPSP_ID);
+        String errorText = exception.getMessage();
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
@@ -101,12 +104,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity handle(IbanException exception) {
-        logger.error(exception.getMessage(), exception);
-        String errorText = exception.getMessage();
-        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
-        HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
-        return new ResponseEntity<>(errorResponse, headers, httpStatus);
+        return badRequestHandler(exception);
     }
 
     @ExceptionHandler

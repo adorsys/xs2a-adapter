@@ -7,6 +7,7 @@ public class Aspsp {
     private String bankCode;
     private String url;
     private String adapterId;
+    private String paginationId;
 
     public String getId() {
         return id;
@@ -56,6 +57,14 @@ public class Aspsp {
         this.adapterId = adapterId;
     }
 
+    public String getPaginationId() {
+        return paginationId;
+    }
+
+    public void setPaginationId(String paginationId) {
+        this.paginationId = paginationId;
+    }
+
     @Override
     public String toString() {
         return "Aspsp{" +
@@ -65,6 +74,7 @@ public class Aspsp {
             ", bankCode='" + bankCode + '\'' +
             ", url='" + url + '\'' +
             ", adapterId='" + adapterId + '\'' +
+            ", paginationId='" + paginationId + '\'' +
             '}';
     }
 }

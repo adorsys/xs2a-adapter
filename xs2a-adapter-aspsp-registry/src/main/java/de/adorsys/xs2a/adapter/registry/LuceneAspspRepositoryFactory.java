@@ -52,10 +52,6 @@ public class LuceneAspspRepositoryFactory {
             changed = true;
         }
 
-        if (changed) {
-            Files.write(digestPath, computedDigest.getBytes());
-        }
-
         Directory directory = FSDirectory.open(Paths.get(DEFAULT_LUCENE_DIR_PATH, "index"));
         LuceneAspspRepository luceneAspspRepository = new LuceneAspspRepository(directory);
         if (changed) {
@@ -64,6 +60,7 @@ public class LuceneAspspRepositoryFactory {
             }
             List<Aspsp> aspsps = aspspMapper.toAspsps(readAllRecords(csv));
             luceneAspspRepository.saveAll(aspsps);
+            Files.write(digestPath, computedDigest.getBytes());
         }
         return luceneAspspRepository;
     }
