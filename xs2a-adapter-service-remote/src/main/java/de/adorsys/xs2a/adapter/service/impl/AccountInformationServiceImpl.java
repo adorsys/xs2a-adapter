@@ -76,22 +76,22 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     }
 
     @Override
-    public GeneralResponse<ConsentInformation> getConsentInformation(String s, RequestHeaders requestHeaders) {
-        ResponseEntity<ConsentInformationResponse200JsonTO> responseEntity = client.getConsentInformation(s, requestHeaders.toMap());
+    public GeneralResponse<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders) {
+        ResponseEntity<ConsentInformationResponse200JsonTO> responseEntity = client.getConsentInformation(consentId, requestHeaders.toMap());
         ConsentInformation information = consentInformationMapper.toConsentInformation(responseEntity.getBody());
         return new GeneralResponse<>(responseEntity.getStatusCodeValue(), information, getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
-    public GeneralResponse<ConsentStatusResponse> getConsentStatus(String s, RequestHeaders requestHeaders) {
-        ResponseEntity<ConsentStatusResponse200TO> responseEntity = client.getConsentStatus(s, requestHeaders.toMap());
+    public GeneralResponse<ConsentStatusResponse> getConsentStatus(String consentId, RequestHeaders requestHeaders) {
+        ResponseEntity<ConsentStatusResponse200TO> responseEntity = client.getConsentStatus(consentId, requestHeaders.toMap());
         ConsentStatusResponse statusResponse = statusResponseMapper.toConsentStatusResponse(responseEntity.getBody());
         return new GeneralResponse<>(responseEntity.getStatusCodeValue(), statusResponse, getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
-    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String s, RequestHeaders requestHeaders) {
-        ResponseEntity<StartScaprocessResponseTO> responseEntity = client.startConsentAuthorisation(s, requestHeaders.toMap(), createEmptyBody());
+    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders) {
+        ResponseEntity<StartScaprocessResponseTO> responseEntity = client.startConsentAuthorisation(consentId, requestHeaders.toMap(), createEmptyBody());
         StartScaProcessResponse scaProcessResponse = scaProcessResponseMapper.toStartScaProcessResponse(responseEntity.getBody());
         return new GeneralResponse<>(responseEntity.getStatusCodeValue(), scaProcessResponse, getHeaders(responseEntity.getHeaders()));
     }
@@ -101,30 +101,30 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     }
 
     @Override
-    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String s, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
-        ResponseEntity<StartScaprocessResponseTO> responseEntity = client.startConsentAuthorisation(s, requestHeaders.toMap(), objectMapper.valueToTree(updatePsuAuthentication));
+    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
+        ResponseEntity<StartScaprocessResponseTO> responseEntity = client.startConsentAuthorisation(consentId, requestHeaders.toMap(), objectMapper.valueToTree(updatePsuAuthentication));
 
         StartScaProcessResponse scaProcessResponse = scaProcessResponseMapper.toStartScaProcessResponse(responseEntity.getBody());
         return new GeneralResponse<>(responseEntity.getStatusCodeValue(), scaProcessResponse, getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
-    public GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String s, String s1, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
-        ResponseEntity<Object> responseEntity = client.updateConsentsPsuData(s, s1, requestHeaders.toMap(), objectMapper.valueToTree(selectPsuAuthenticationMethod));
+    public GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+        ResponseEntity<Object> responseEntity = client.updateConsentsPsuData(consentId, authorisationId, requestHeaders.toMap(), objectMapper.valueToTree(selectPsuAuthenticationMethod));
         SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = objectMapper.convertValue(responseEntity.getBody(), SelectPsuAuthenticationMethodResponse.class);
         return new GeneralResponse<>(responseEntity.getStatusCodeValue(), selectPsuAuthenticationMethodResponse, getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
-    public GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String s, String s1, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
-        ResponseEntity<Object> responseEntity = client.updateConsentsPsuData(s, s1, requestHeaders.toMap(), objectMapper.valueToTree(transactionAuthorisation));
+    public GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
+        ResponseEntity<Object> responseEntity = client.updateConsentsPsuData(consentId, authorisationId, requestHeaders.toMap(), objectMapper.valueToTree(transactionAuthorisation));
         ScaStatusResponse scaStatusResponse = objectMapper.convertValue(responseEntity.getBody(), ScaStatusResponse.class);
         return new GeneralResponse<>(responseEntity.getStatusCodeValue(), scaStatusResponse, getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
-    public GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String s, String s1, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
-        ResponseEntity<Object> responseEntity = client.updateConsentsPsuData(s, s1, requestHeaders.toMap(), objectMapper.valueToTree(updatePsuAuthentication));
+    public GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
+        ResponseEntity<Object> responseEntity = client.updateConsentsPsuData(consentId, authorisationId, requestHeaders.toMap(), objectMapper.valueToTree(updatePsuAuthentication));
         UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = objectMapper.convertValue(responseEntity.getBody(), UpdatePsuAuthenticationResponse.class);
         return new GeneralResponse<>(responseEntity.getStatusCodeValue(), updatePsuAuthenticationResponse, getHeaders(responseEntity.getHeaders()));
     }
@@ -138,18 +138,18 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     }
 
     @Override
-    public GeneralResponse<TransactionsReport> getTransactionList(String s, RequestHeaders requestHeaders, RequestParams requestParams) {
+    public GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         Map<String, String> headersMap = requestHeaders.toMap();
         if (!requestHeaders.isAcceptJson()) {
             throw new NotAcceptableException("Unsupported accept type: " + headersMap.get(RequestHeaders.ACCEPT));
         }
-        ResponseEntity<Object> responseEntity = getTransactionListFromClient(s, requestParams, headersMap);
+        ResponseEntity<Object> responseEntity = getTransactionListFromClient(accountId, requestParams, headersMap);
         TransactionsResponse200JsonTO transactionsResponse200JsonTO = objectMapper.convertValue(responseEntity.getBody(), TransactionsResponse200JsonTO.class);
         TransactionsReport transactionsReport = transactionsReportMapper.toTransactionsReport(transactionsResponse200JsonTO);
         return new GeneralResponse<>(responseEntity.getStatusCodeValue(), transactionsReport, getHeaders(responseEntity.getHeaders()));
     }
 
-    private ResponseEntity<Object> getTransactionListFromClient(String s, RequestParams requestParams, Map<String, String> headersMap) {
+    private ResponseEntity<Object> getTransactionListFromClient(String accountId, RequestParams requestParams, Map<String, String> headersMap) {
         Map<String, String> requestParamMap = requestParams.toMap();
         LocalDate dateFrom = strToLocalDate(requestParamMap.get(RequestParams.DATE_FROM));
         LocalDate dateTo = strToLocalDate(requestParamMap.get(RequestParams.DATE_TO));
@@ -157,27 +157,27 @@ public class AccountInformationServiceImpl implements AccountInformationService 
         BookingStatusTO bookingStatus = BookingStatusTO.fromValue(requestParamMap.get(RequestParams.BOOKING_STATUS));
         Boolean deltaList = Boolean.valueOf(requestParamMap.get(RequestParams.DELTA_LIST));
         Boolean withBalance = Boolean.valueOf(requestParamMap.get(RequestParams.WITH_BALANCE));
-        return client.getTransactionList(s, dateFrom, dateTo, entryReferenceFrom, bookingStatus, deltaList, withBalance, headersMap);
+        return client.getTransactionList(accountId, dateFrom, dateTo, entryReferenceFrom, bookingStatus, deltaList, withBalance, headersMap);
     }
 
     @Override
-    public GeneralResponse<String> getTransactionListAsString(String s, RequestHeaders requestHeaders, RequestParams requestParams) {
+    public GeneralResponse<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         Map<String, String> headersMap = requestHeaders.toMap();
-        ResponseEntity<Object> responseEntity = getTransactionListFromClient(s, requestParams, headersMap);
+        ResponseEntity<Object> responseEntity = getTransactionListFromClient(accountId, requestParams, headersMap);
 
         return new GeneralResponse<>(responseEntity.getStatusCodeValue(), (String) responseEntity.getBody(), getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
-    public GeneralResponse<ScaStatusResponse> getConsentScaStatus(String s, String s1, RequestHeaders requestHeaders) {
-        ResponseEntity<ScaStatusResponseTO> responseEntity = client.getConsentScaStatus(s, s1, requestHeaders.toMap());
+    public GeneralResponse<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, RequestHeaders requestHeaders) {
+        ResponseEntity<ScaStatusResponseTO> responseEntity = client.getConsentScaStatus(consentId, authorisationId, requestHeaders.toMap());
         ScaStatusResponse scaStatusResponse = scaStatusResponseMapper.toScaStatusResponse(responseEntity.getBody());
         return new GeneralResponse<>(responseEntity.getStatusCodeValue(), scaStatusResponse, getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
-    public GeneralResponse<BalanceReport> getBalances(String s, RequestHeaders requestHeaders) {
-        ResponseEntity<ReadAccountBalanceResponse200TO> responseEntity = client.getBalances(s, requestHeaders.toMap());
+    public GeneralResponse<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
+        ResponseEntity<ReadAccountBalanceResponse200TO> responseEntity = client.getBalances(accountId, requestHeaders.toMap());
         BalanceReport balanceReport = balanceReportMapper.toBalanceReport(responseEntity.getBody());
         return new GeneralResponse<>(responseEntity.getStatusCodeValue(), balanceReport, getHeaders(responseEntity.getHeaders()));
     }
