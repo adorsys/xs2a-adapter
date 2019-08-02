@@ -1231,6 +1231,50 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "AIS/Consents/Del/003",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "49fc416f-7765-4c03-a892-aea24f827e34",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-Request-ID",
+								"type": "text",
+								"value": "{{$guid}}"
+							},
+							{
+								"key": "X-GTW-ASPSP-ID",
+								"value": "{{aspspId}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUri}}/v1/consents/{{consentId}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"consents",
+								"{{consentId}}"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"event": [
