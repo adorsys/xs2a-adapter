@@ -4,8 +4,6 @@
 |===
 |Bank Name|approach
 
-|AAB Bank|embedded
-|Olb Bank|embedded
 |Commerzbank|redirect (OAuth)
 |===
 

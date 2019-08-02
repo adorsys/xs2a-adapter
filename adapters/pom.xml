@@ -26,8 +26,6 @@
         <module>fiducia-adapter</module>
         <module>dkb-adapter</module>
         <module>commerzbank-adapter</module>
-        <module>olb-adapter</module>
-        <module>finapi-adapter</module>
     </modules>
 
     <dependencies>
