@@ -6,14 +6,13 @@ import de.adorsys.xs2a.adapter.service.AspspSearchService;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-public class AspspController {
+public class AspspController implements AspspService {
     private final AspspSearchService aspspSearchService;
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
@@ -21,15 +20,15 @@ public class AspspController {
         this.aspspSearchService = aspspSearchService;
     }
 
-    @GetMapping("/v1/aspsps")
-    ResponseEntity<List<AspspTO>> getAspsps(@RequestParam(required = false) String name,
-                                            @RequestParam(required = false) String bic,
-                                            @RequestParam(required = false) String bankCode,
-                                            @RequestParam(required = false) String iban, // if present - other params ignored
-                                            @RequestParam(required = false) String after,
-                                            @RequestParam(required = false, defaultValue = "10") int size) {
+    @Override
+    public ResponseEntity<List<AspspTO>> getAspsps(@RequestParam(required = false) String name,
+                                                   @RequestParam(required = false) String bic,
+                                                   @RequestParam(required = false) String bankCode,
+                                                   @RequestParam(required = false) String iban, // if present - other params ignored
+                                                   @RequestParam(required = false) String after,
+                                                   @RequestParam(required = false, defaultValue = "10") int size) {
 
-        List <Aspsp> aspsps;
+        List<Aspsp> aspsps;
         if (iban != null) {
             aspsps = aspspSearchService.findByIban(iban, after, size);
         } else if (name == null && bic == null && bankCode == null) {
