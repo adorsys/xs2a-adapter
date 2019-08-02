@@ -26,6 +26,13 @@ public interface ConsentApi {
       @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers);
 
   @RequestMapping(
+      value = "/v1/consents/{consentId}",
+      method = RequestMethod.DELETE
+  )
+  ResponseEntity<Void> deleteConsent(@PathVariable("consentId") String consentId,
+                                     @RequestHeader Map<String, String> headers);
+
+  @RequestMapping(
       value = "/v1/consents/{consentId}/status",
       method = RequestMethod.GET
   )

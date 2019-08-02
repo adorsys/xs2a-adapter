@@ -52,6 +52,12 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     }
 
     @Override
+    public GeneralResponse<Void> deleteConsent(String consentId, RequestHeaders requestHeaders) {
+        return getAccountInformationService(requestHeaders)
+                   .deleteConsent(consentId, requestHeaders);
+    }
+
+    @Override
     public GeneralResponse<ConsentStatusResponse> getConsentStatus(String consentId,
                                                                    RequestHeaders requestHeaders) {
         return getAccountInformationService(requestHeaders)

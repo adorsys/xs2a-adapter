@@ -63,13 +63,13 @@ public class DkbAccountInformationService extends BaseAccountInformationService 
     }
 
     @Override
-    protected Map<String, String> populatePutHeaders(Map<String, String> map) {
-        return addBearerHeader(map);
+    protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
+        return addBearerHeader(headers);
     }
 
     @Override
-    protected Map<String, String> populateGetHeaders(Map<String, String> map) {
-        return addBearerHeader(map);
+    protected Map<String, String> populateGetHeaders(Map<String, String> headers) {
+        return addBearerHeader(headers);
     }
 
     Map<String, String> addBearerHeader(Map<String, String> map) {

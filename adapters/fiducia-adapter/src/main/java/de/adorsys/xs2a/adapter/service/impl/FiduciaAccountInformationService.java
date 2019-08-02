@@ -47,4 +47,10 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
         headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
         return headers;
     }
+
+    @Override
+    protected Map<String, String> populateDeleteHeaders(Map<String, String> headers) {
+        headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
+        return headers;
+    }
 }

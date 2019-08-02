@@ -87,6 +87,15 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
+    public ResponseEntity<Void> deleteConsent(String consentId, Map<String, String> headers) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+
+        GeneralResponse<Void> response = accountInformationService.deleteConsent(consentId, requestHeaders);
+
+        return new ResponseEntity<>(headersMapper.toHttpHeaders(response.getResponseHeaders()), HttpStatus.NO_CONTENT);
+    }
+
+    @Override
     public ResponseEntity<ConsentStatusResponse200TO> getConsentStatus(String consentId, Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 

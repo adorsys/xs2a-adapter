@@ -17,6 +17,8 @@ public interface HttpClient {
 
     <T> GeneralResponse<T> put(String uri, String body, Map<String, String> headers, ResponseHandler<T> responseHandler);
 
+    <T> GeneralResponse<T> delete(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler);
+
     @FunctionalInterface
     interface ResponseHandler<T> {
         T apply(int statusCode, InputStream responseBody, ResponseHeaders responseHeaders);

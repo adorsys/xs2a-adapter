@@ -53,24 +53,32 @@ public abstract class AbstractService {
         this.httpClient = httpClient;
     }
 
-    protected Map<String, String> addConsentIdHeader(Map<String, String> map) {
-        return map;
+    protected Map<String, String> addConsentIdHeader(Map<String, String> headers) {
+        return headers;
     }
 
-    protected Map<String, String> populatePostHeaders(Map<String, String> map) {
-        return map;
+    protected Map<String, String> populatePostHeaders(Map<String, String> headers) {
+        return headers;
     }
 
-    protected Map<String, String> populatePutHeaders(Map<String, String> map) {
-        return map;
+    protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
+        return headers;
     }
 
-    protected Map<String, String> populateGetHeaders(Map<String, String> map) {
-        return map;
+    protected Map<String, String> populateGetHeaders(Map<String, String> headers) {
+        return headers;
+    }
+
+    protected Map<String, String> populateDeleteHeaders(Map<String, String> headers) {
+        return headers;
     }
 
     <T> HttpClient.ResponseHandler<T> jsonResponseHandler(Class<T> klass) {
         return (statusCode, responseBody, responseHeaders) -> {
+            if (statusCode == 204) {
+                return null;
+            }
+
             String contentType = responseHeaders.getHeader(CONTENT_TYPE_HEADER);
 
             if (!contentType.startsWith(APPLICATION_JSON)) {
@@ -78,6 +86,7 @@ public abstract class AbstractService {
                 log.error(notAcceptableException.getMessage(), notAcceptableException);
                 throw notAcceptableException;
             }
+
             if (statusCode == 200 || statusCode == 201) {
                 return jsonMapper.readValue(responseBody, klass);
             }

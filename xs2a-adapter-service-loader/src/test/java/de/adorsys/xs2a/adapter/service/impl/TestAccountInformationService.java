@@ -22,6 +22,11 @@ public class TestAccountInformationService implements AccountInformationService 
     }
 
     @Override
+    public GeneralResponse<Void> deleteConsent(String consentId, RequestHeaders requestHeaders) {
+        return null;
+    }
+
+    @Override
     public GeneralResponse<ConsentStatusResponse> getConsentStatus(String consentId, RequestHeaders requestHeaders) {
         return null;
     }
