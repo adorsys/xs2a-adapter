@@ -22,8 +22,8 @@ if [ "$1" == "develop" ]; then
   docker login -u image-pusher -p $OPENSHIFT_TOKEN $OPENSHIFT_REGISTRY
   docker build -t "$OPENSHIFT_IMAGE_NAME:develop" .
   docker push $OPENSHIFT_IMAGE_NAME:develop
-  docker tag $OPENSHIFT_IMAGE_NAME:develop $OPENSHIFT_IMAGE_NAME_BANKING_GATEWAY_DEV:develop
-  docker push $OPENSHIFT_IMAGE_NAME_BANKING_GATEWAY_DEV:develop
+  docker tag $OPENSHIFT_IMAGE_NAME:develop $OPENSHIFT_IMAGE_NAME_BANKING_GATEWAY_DEV:latest
+  docker push $OPENSHIFT_IMAGE_NAME_BANKING_GATEWAY_DEV:latest
   mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST -Dsonar.login=$SONAR_TOKEN
   # push tags to dockerhub
 elif checkSemver $(git2dockerTag $1); then
