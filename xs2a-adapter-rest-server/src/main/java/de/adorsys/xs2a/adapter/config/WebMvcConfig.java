@@ -34,11 +34,35 @@ public class WebMvcConfig implements WebMvcConfigurer {
             }
         });
 
+        registry.addConverter(new Converter<BookingStatusTO, String>() {
+
+            @Override
+            public String convert(BookingStatusTO source) {
+                return source.toString();
+            }
+        });
+
         registry.addConverter(new Converter<String, PaymentServiceTO>() {
 
             @Override
             public PaymentServiceTO convert(String source) {
                 return PaymentServiceTO.fromValue(source);
+            }
+        });
+
+        registry.addConverter(new Converter<PaymentProductTO, String>() {
+
+            @Override
+            public String convert(PaymentProductTO source) {
+                return source.toString();
+            }
+        });
+
+        registry.addConverter(new Converter<PaymentServiceTO, String>() {
+
+            @Override
+            public String convert(PaymentServiceTO source) {
+                return source.toString();
             }
         });
 
@@ -49,5 +73,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 return PaymentProductTO.fromValue(source);
             }
         });
+
     }
 }

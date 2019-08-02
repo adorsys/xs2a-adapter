@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RequestParams {
-    private static final String WITH_BALANCE = "withBalance";
-    private static final String BOOKING_STATUS = "bookingStatus";
-    private static final String DATE_FROM = "dateFrom";
-    private static final String DATE_TO = "dateTo";
-    private static final String ENTRY_REFERENCE_FROM = "entryReferenceFrom";
-    private static final String DELTA_LIST = "deltaList";
+    public static final String WITH_BALANCE = "withBalance";
+    public static final String BOOKING_STATUS = "bookingStatus";
+    public static final String DATE_FROM = "dateFrom";
+    public static final String DATE_TO = "dateTo";
+    public static final String ENTRY_REFERENCE_FROM = "entryReferenceFrom";
+    public static final String DELTA_LIST = "deltaList";
 
     private Map<String, String> requestParams;
 

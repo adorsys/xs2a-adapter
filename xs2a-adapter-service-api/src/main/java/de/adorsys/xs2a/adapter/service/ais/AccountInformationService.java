@@ -27,8 +27,8 @@ import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
 import de.adorsys.xs2a.adapter.service.model.*;
 
 public interface AccountInformationService {
-    GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
-                                                           Consents body);
+    GeneralResponse createConsent(RequestHeaders requestHeaders,
+                                  Consents body);
 
     GeneralResponse<ConsentInformation> getConsentInformation(String consentId,
                                                               RequestHeaders requestHeaders);

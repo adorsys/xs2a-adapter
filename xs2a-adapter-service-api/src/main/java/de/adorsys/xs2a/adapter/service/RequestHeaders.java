@@ -90,7 +90,9 @@ public class RequestHeaders {
     }
 
     public boolean isAcceptJson() {
-        return "application/json".equalsIgnoreCase(headers.get(ACCEPT));
+        return Optional.ofNullable(headers.get(ACCEPT))
+                   .map(a -> a.toLowerCase().startsWith("application/json"))
+                   .orElse(false);
     }
 
     public Optional<String> get(String headerName) {
