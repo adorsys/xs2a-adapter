@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import de.adorsys.xs2a.adapter.api.remote.AccountInformationClient;
+import de.adorsys.xs2a.adapter.api.remote.Xs2aAdapterClientParseException;
 import de.adorsys.xs2a.adapter.mapper.*;
 import de.adorsys.xs2a.adapter.model.*;
 import de.adorsys.xs2a.adapter.service.*;
@@ -35,6 +36,8 @@ import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
@@ -45,6 +48,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class AccountInformationServiceImpl implements AccountInformationService {
+    private static final Logger log = LoggerFactory.getLogger(AccountInformationServiceImpl.class);
 
     private final AccountInformationClient client;
     private final ConsentMapper consentMapper = Mappers.getMapper(ConsentMapper.class);
@@ -196,7 +200,12 @@ public class AccountInformationServiceImpl implements AccountInformationService 
 
     private LocalDate strToLocalDate(String date) {
         if (StringUtils.isNotBlank(date)) {
-            return LocalDate.parse(date);
+            try {
+                return LocalDate.parse(date);
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                throw new Xs2aAdapterClientParseException(e.getMessage());
+            }
         }
         return null;
     }
