@@ -15,3 +15,4 @@
 * Added adapter resolution by `ASPSP-ID` in the _aspsp-regisry_
 * Added AspspSearchService (/v1/aspsps endpoint) for lookup of `ASPSP-ID` in the aspsp-registry by different fields.
 A fuzzy search by name and prefix search by bic and bank code are currently supported.
+* Added feign client for xs2a-adapter. [Read more here](../../xs2a-adapter-service-remote/README.md)
