@@ -27,9 +27,9 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
     }
 
     @Override
-    protected Map<String, String> populatePostHeaders(Map<String, String> map) {
-        addApiKey(map);
-        return map;
+    protected Map<String, String> populatePostHeaders(Map<String, String> headers) {
+        addApiKey(headers);
+        return headers;
     }
 
     @Override
@@ -40,6 +40,12 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
 
     @Override
     protected Map<String, String> populateGetHeaders(Map<String, String> headers) {
+        addApiKey(headers);
+        return headers;
+    }
+
+    @Override
+    protected Map<String, String> populateDeleteHeaders(Map<String, String> headers) {
         addApiKey(headers);
         return headers;
     }
