@@ -18,13 +18,15 @@ spring:
     default-property-inclusion: non_null
 
 logging.level.org.apache.http.wire: DEBUG
+
 logging.level.de.adorsys.xs2a.adapter.api.remote.AccountInformationClient: DEBUG
+logging.level.de.adorsys.xs2a.adapter.api.remote.PaymentInitiationClient : DEBUG
 
 feign:
   client:
-  config:
-  default:
-  connectTimeout: 15000
-  readTimeout: 15000
-  loggerLevel: FULL
+    config:
+      default:
+        connectTimeout: 15000
+        readTimeout: 15000
+        loggerLevel: full
 

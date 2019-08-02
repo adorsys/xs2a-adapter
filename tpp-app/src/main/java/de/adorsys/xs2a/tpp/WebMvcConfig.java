@@ -8,31 +8,27 @@ import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Collections;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public Contract feignContract() {
-        return new SpringMvcContract();
+        return new SpringMvcContract(Collections.emptyList(), new CustomConversionService());
     }
+
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
         DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
         registrar.setUseIsoFormat(true);
         registrar.registerFormatters(registry);
-
-        registry.addConverter(new Converter<BookingStatusTO, String>() {
-
-            @Override
-            public String convert(BookingStatusTO source) {
-                return source.toString();
-            }
-        });
 
         registry.addConverter(new Converter<String, BookingStatusTO>() {
 
@@ -50,22 +46,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
             }
         });
 
-        registry.addConverter(new Converter<PaymentProductTO, String>() {
-
-            @Override
-            public String convert(PaymentProductTO source) {
-                return source.toString();
-            }
-        });
-
-        registry.addConverter(new Converter<PaymentServiceTO, String>() {
-
-            @Override
-            public String convert(PaymentServiceTO source) {
-                return source.toString();
-            }
-        });
-
         registry.addConverter(new Converter<String, PaymentProductTO>() {
 
             @Override
@@ -73,5 +53,32 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 return PaymentProductTO.fromValue(source);
             }
         });
+    }
+
+    public static class CustomConversionService extends DefaultConversionService {
+
+        public CustomConversionService() {
+
+            addConverter(new Converter<BookingStatusTO, String>() {
+                @Override
+                public String convert(BookingStatusTO source) {
+                    return source.toString();
+                }
+            });
+
+            addConverter(new Converter<PaymentProductTO, String>() {
+                @Override
+                public String convert(PaymentProductTO source) {
+                    return source.toString();
+                }
+            });
+
+            addConverter(new Converter<PaymentServiceTO, String>() {
+                @Override
+                public String convert(PaymentServiceTO source) {
+                    return source.toString();
+                }
+            });
+        }
     }
 }
