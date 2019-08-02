@@ -76,6 +76,13 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
+    public GeneralResponse<Void> deleteConsent(String consentId, RequestHeaders requestHeaders) {
+        String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
+        Map<String, String> headersMap = populateDeleteHeaders(requestHeaders.toMap());
+        return httpClient.delete(uri, headersMap, jsonResponseHandler(Void.class));
+    }
+
+    @Override
     public GeneralResponse<ConsentStatusResponse> getConsentStatus(String consentId, RequestHeaders requestHeaders) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, STATUS);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());

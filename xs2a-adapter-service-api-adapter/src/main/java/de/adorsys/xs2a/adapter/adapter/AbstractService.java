@@ -69,8 +69,16 @@ public abstract class AbstractService {
         return map;
     }
 
+    protected Map<String, String> populateDeleteHeaders(Map<String, String> map) {
+        return map;
+    }
+
     <T> HttpClient.ResponseHandler<T> jsonResponseHandler(Class<T> klass) {
         return (statusCode, responseBody, responseHeaders) -> {
+            if (statusCode == 204) {
+                return null;
+            }
+
             String contentType = responseHeaders.getHeader(CONTENT_TYPE_HEADER);
 
             if (!contentType.startsWith(APPLICATION_JSON)) {
@@ -78,6 +86,7 @@ public abstract class AbstractService {
                 log.error(notAcceptableException.getMessage(), notAcceptableException);
                 throw notAcceptableException;
             }
+
             if (statusCode == 200 || statusCode == 201) {
                 return jsonMapper.readValue(responseBody, klass);
             }

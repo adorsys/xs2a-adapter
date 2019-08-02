@@ -62,6 +62,11 @@ class ApacheHttpClient implements HttpClient {
         return execute(put, headers, responseHandler);
     }
 
+    @Override
+    public <T> GeneralResponse<T> delete(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler) {
+        return execute(new HttpDelete(uri), headers, responseHandler);
+    }
+
     private <T> GeneralResponse<T> execute(HttpUriRequest request, Map<String, String> headers, ResponseHandler<T> responseHandler) {
         headers.forEach(request::addHeader);
 

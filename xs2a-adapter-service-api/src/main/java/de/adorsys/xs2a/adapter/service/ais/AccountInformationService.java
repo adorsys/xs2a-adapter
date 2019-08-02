@@ -33,6 +33,9 @@ public interface AccountInformationService {
     GeneralResponse<ConsentInformation> getConsentInformation(String consentId,
                                                               RequestHeaders requestHeaders);
 
+    GeneralResponse<Void> deleteConsent(String consentId,
+                                        RequestHeaders requestHeaders);
+
     GeneralResponse<ConsentStatusResponse> getConsentStatus(String consentId,
                                                             RequestHeaders requestHeaders);
 
