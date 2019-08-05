@@ -90,18 +90,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>olb-adapter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>finapi-adapter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
     </dependencies>
 
 </project>
