@@ -19,6 +19,7 @@ package de.adorsys.xs2a.adapter.service;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import de.adorsys.xs2a.adapter.model.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -81,6 +82,7 @@ public interface AccountApi {
     ResponseEntity<Object> updateConsentsPsuData(@PathVariable("consentId") String consentId,
                                                  @PathVariable("authorisationId") String authorisationId,
                                                  @RequestHeader Map<String, String> headers, @RequestBody ObjectNode body);
+
     @RequestMapping(
         value = "/v1/accounts",
         method = RequestMethod.GET
@@ -110,5 +112,20 @@ public interface AccountApi {
                                               @RequestParam(value = "deltaList", required = false) Boolean deltaList,
                                               @RequestParam(value = "withBalance", required = false) Boolean withBalance,
                                               @RequestHeader Map<String, String> headers);
+
+    @RequestMapping(
+        value = "/v1/accounts/{account-id}/transactions",
+        method = RequestMethod.GET, produces = {MediaType.APPLICATION_XML_VALUE}
+    )
+    ResponseEntity<String> getTransactionListAsString(@PathVariable("account-id") String accountId,
+                                                      @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom,
+                                                      @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(value = "dateTo", required = false) LocalDate dateTo,
+                                                      @RequestParam(value = "entryReferenceFrom", required = false)
+                                                          String entryReferenceFrom,
+                                                      @RequestParam(value = "bookingStatus", required = true)
+                                                          BookingStatusTO bookingStatus,
+                                                      @RequestParam(value = "deltaList", required = false) Boolean deltaList,
+                                                      @RequestParam(value = "withBalance", required = false) Boolean withBalance,
+                                                      @RequestHeader Map<String, String> headers);
 
 }
