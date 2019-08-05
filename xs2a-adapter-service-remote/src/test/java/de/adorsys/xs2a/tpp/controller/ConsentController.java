@@ -197,6 +197,27 @@ public class ConsentController extends AbstractController implements AccountApi 
     }
 
     @Override
+    public ResponseEntity<String> getTransactionListAsString(String accountId, LocalDate dateFrom, LocalDate dateTo, String entryReferenceFrom, BookingStatusTO bookingStatus, Boolean deltaList, Boolean withBalance, Map<String, String> headers) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+
+        RequestParams requestParams = RequestParams.builder()
+                                          .bookingStatus(bookingStatus.toString())
+                                          .dateFrom(dateFrom)
+                                          .dateTo(dateTo)
+                                          .entryReferenceFrom(entryReferenceFrom)
+                                          .deltaList(deltaList)
+                                          .withBalance(withBalance)
+                                          .build();
+
+        GeneralResponse<String> response = accountInformationService.getTransactionListAsString(accountId, requestHeaders, requestParams);
+
+        return ResponseEntity
+                   .status(HttpStatus.OK)
+                   .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                   .body(response.getResponseBody());
+    }
+
+    @Override
     public ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(String consentId, String authorisationId, Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 

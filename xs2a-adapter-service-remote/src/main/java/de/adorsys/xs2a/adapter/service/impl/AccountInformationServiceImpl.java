@@ -149,17 +149,16 @@ public class AccountInformationServiceImpl implements AccountInformationService 
 
     @Override
     public GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
-        Map<String, String> headersMap = requestHeaders.toMap();
         if (!requestHeaders.isAcceptJson()) {
-            throw new NotAcceptableException("Unsupported accept type: " + headersMap.get(RequestHeaders.ACCEPT));
+            throw new NotAcceptableException("Unsupported accept type: " + requestHeaders.get(RequestHeaders.ACCEPT));
         }
-        ResponseEntity<Object> responseEntity = getTransactionListFromClient(accountId, requestParams, headersMap);
+        ResponseEntity<Object> responseEntity = getTransactionListFromClient(accountId, requestParams, requestHeaders);
         TransactionsResponse200JsonTO transactionsResponse200JsonTO = objectMapper.convertValue(responseEntity.getBody(), TransactionsResponse200JsonTO.class);
         TransactionsReport transactionsReport = transactionsReportMapper.toTransactionsReport(transactionsResponse200JsonTO);
         return new GeneralResponse<>(responseEntity.getStatusCodeValue(), transactionsReport, getHeaders(responseEntity.getHeaders()));
     }
 
-    private ResponseEntity<Object> getTransactionListFromClient(String accountId, RequestParams requestParams, Map<String, String> headersMap) {
+    private <T> ResponseEntity<T> getTransactionListFromClient(String accountId, RequestParams requestParams, RequestHeaders requestHeaders) {
         Map<String, String> requestParamMap = requestParams.toMap();
         LocalDate dateFrom = strToLocalDate(requestParamMap.get(RequestParams.DATE_FROM));
         LocalDate dateTo = strToLocalDate(requestParamMap.get(RequestParams.DATE_TO));
@@ -167,15 +166,18 @@ public class AccountInformationServiceImpl implements AccountInformationService 
         BookingStatusTO bookingStatus = BookingStatusTO.fromValue(requestParamMap.get(RequestParams.BOOKING_STATUS));
         Boolean deltaList = Boolean.valueOf(requestParamMap.get(RequestParams.DELTA_LIST));
         Boolean withBalance = Boolean.valueOf(requestParamMap.get(RequestParams.WITH_BALANCE));
-        return client.getTransactionList(accountId, dateFrom, dateTo, entryReferenceFrom, bookingStatus, deltaList, withBalance, headersMap);
+        if (requestHeaders.isAcceptJson()) {
+            return (ResponseEntity<T>) client.getTransactionList(accountId, dateFrom, dateTo, entryReferenceFrom, bookingStatus, deltaList, withBalance, requestHeaders.toMap());
+
+        }
+        return (ResponseEntity<T>) client.getTransactionListAsString(accountId, dateFrom, dateTo, entryReferenceFrom, bookingStatus, deltaList, withBalance, requestHeaders.toMap());
     }
 
     @Override
     public GeneralResponse<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
-        Map<String, String> headersMap = requestHeaders.toMap();
-        ResponseEntity<Object> responseEntity = getTransactionListFromClient(accountId, requestParams, headersMap);
+        ResponseEntity<String> responseEntity = getTransactionListFromClient(accountId, requestParams, requestHeaders);
 
-        return new GeneralResponse<>(responseEntity.getStatusCodeValue(), (String) responseEntity.getBody(), getHeaders(responseEntity.getHeaders()));
+        return new GeneralResponse<>(responseEntity.getStatusCodeValue(), responseEntity.getBody(), getHeaders(responseEntity.getHeaders()));
     }
 
     @Override

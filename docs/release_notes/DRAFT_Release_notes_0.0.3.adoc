@@ -1,0 +1,11 @@
+= Draft Release notes for version 0.0.3 (release date: xx.xx.2019)
+
+.Added banks
+|===
+|Bank Name|approach
+
+|===
+
+== Features:
+
+== Fixes:
