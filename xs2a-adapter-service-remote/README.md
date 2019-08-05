@@ -2,7 +2,7 @@
 
 ### How to use
 
-- configure xs2a-dapter URL
+- configure xs2a-adapter URL
 ```
 xs2a-adapter:
   url: http://localhost:8999
