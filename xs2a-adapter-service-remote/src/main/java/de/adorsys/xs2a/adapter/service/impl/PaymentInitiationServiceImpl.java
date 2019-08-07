@@ -50,12 +50,23 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
 
     @Override
     public GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, RequestHeaders requestHeaders, Object o) {
-        ResponseEntity<PaymentInitationRequestResponse201TO> responseEntity = client.initiatePayment(
-            PaymentServiceTO.PAYMENTS,
-            PaymentProductTO.fromValue(paymentProduct),
-            requestHeaders.toMap(),
-            objectMapper.valueToTree(o)
-        );
+
+        ResponseEntity<PaymentInitationRequestResponse201TO> responseEntity;
+        if (o instanceof String) {
+            responseEntity = client.initiatePayment(
+                PaymentServiceTO.PAYMENTS,
+                PaymentProductTO.fromValue(paymentProduct),
+                requestHeaders.toMap(),
+                (String) o
+            );
+        } else {
+            responseEntity = client.initiatePayment(
+                PaymentServiceTO.PAYMENTS,
+                PaymentProductTO.fromValue(paymentProduct),
+                requestHeaders.toMap(),
+                objectMapper.valueToTree(o)
+            );
+        }
         PaymentInitiationRequestResponse paymentInitiationRequestResponse = initiationRequestResponseMapper.toPaymentInitiationRequestResponse(responseEntity.getBody());
         return new GeneralResponse<>(responseEntity.getStatusCodeValue(), paymentInitiationRequestResponse, getHeaders(responseEntity.getHeaders()));
     }

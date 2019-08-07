@@ -1141,7 +1141,7 @@ a40d9d83-5818-4faa-8c32-e8ab9da59f2d,Volksbank Köln Bonn eG,GENODED1BRS,https:/
 25a0abd5-48ea-4ec0-9226-5b4b466f3aa0,VOLKSBANK OSNABRUECK,GENODEF1OSV,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,26590025
 59a5484a-2a43-43b2-afb9-e40977608624,Stadt- und Kreissparkasse Leipzig,WELADE8LXXX,https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678,sparkasse-adapter,86055592
 b2c5f83a-f67b-4312-a5f5-a845179d57b0,Volksbank Beilstein-Ilsfeld-Abstatt,GENODES1BIA,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,62062215
-88544a23-906d-4fe1-bc9e-d5ee4ed8fe5b,DAB,DABBDEMMXXX,https://xs2a-sndbx.dab-bank.de,dab-bank-adapter,
+88544a23-906d-4fe1-bc9e-d5ee4ed8fe5b,DAB,DABBDEMMXXX,https://xs2a-sndbx.dab-bank.de,dab-bank-adapter,70120400
 69b2c4f8-75aa-4ccb-b35f-81b62420bdf2,Spar- und Kreditbank Hardt,GENODE61EGG,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,66062138
 b90a58d0-57bc-42d2-b013-0316bd877528,Bank für Kirche und Diakonie eG - KD-Bank,GENODED1KDM,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,81068106
 4ae6fabb-561b-40e4-b6ae-c5518d8bbc7a,Raiffeisenbank Greding - Thalmässing,GENODEF1GDG,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,76069462

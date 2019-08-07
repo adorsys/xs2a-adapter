@@ -23,7 +23,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return new SpringMvcContract(Collections.emptyList(), new CustomConversionService());
     }
 
-
     @Override
     public void addFormatters(FormatterRegistry registry) {
         DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
