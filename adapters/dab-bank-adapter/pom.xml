@@ -11,7 +11,6 @@
     </parent>
 
     <artifactId>dab-bank-adapter</artifactId>
-    <name>dab-bank-adapter</name>
 
     <dependencies>
 

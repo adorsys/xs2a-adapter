@@ -11,7 +11,6 @@
     </parent>
 
     <artifactId>deutsche-bank-adapter</artifactId>
-    <name>deutsche-bank-adapter</name>
 
     <dependencies>
 
