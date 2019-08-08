@@ -46,7 +46,7 @@ deploy:
   -provider: script
     script: bash ./devops/build/deploy.sh banking-gateway-dev
     on:
-      branch: KOA_add_deploy_to_bankng_gateway_dev
+      branch: develop
   # Deploy artifacts to the Sonatype registry
   - provider: script
     skip_cleanup: true
