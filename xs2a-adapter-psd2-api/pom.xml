@@ -5,7 +5,7 @@
     <parent>
         <artifactId>xs2a-adapter</artifactId>
         <groupId>de.adorsys.xs2a.adapter</groupId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.2</version>
         <relativePath>..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
