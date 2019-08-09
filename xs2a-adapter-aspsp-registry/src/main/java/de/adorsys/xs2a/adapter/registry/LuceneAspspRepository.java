@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.registry.exception.DuplicationAspspException;
 import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
 import de.adorsys.xs2a.adapter.service.AspspModifyRepository;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
+import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -56,6 +57,9 @@ public class LuceneAspspRepository implements AspspRepository, AspspModifyReposi
 
     @Override
     public void update(Aspsp aspsp) {
+        findById(aspsp.getId())
+            .orElseThrow(()->new AspspRegistrationNotFoundException("Aspsp with id="+aspsp.getId()+" was not found"));
+
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
         try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
             update(indexWriter, aspsp);
@@ -116,7 +120,7 @@ public class LuceneAspspRepository implements AspspRepository, AspspModifyReposi
     @Override
     public Optional<Aspsp> findById(String id) {
         List<Aspsp> aspsps = find(new TermQuery(new Term(ID_FIELD_NAME, id)), null, 1);
-        if (aspsps.size() == 0) {
+        if (aspsps.isEmpty()) {
             return Optional.empty();
         }
         return Optional.of(aspsps.get(0));

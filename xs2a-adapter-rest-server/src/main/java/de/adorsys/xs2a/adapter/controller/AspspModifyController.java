@@ -30,8 +30,8 @@ import java.net.URI;
 @Profile("dev")
 @RestController
 public class AspspModifyController {
-    private static final String ASPSP_ID = "{aspspId}";
-    private static final String V1_ASPSP_BY_ID = AspspService.V1_APSPS + "/" + ASPSP_ID;
+    static final String ASPSP_ID = "{aspspId}";
+    static final String V1_ASPSP_BY_ID = AspspService.V1_APSPS + "/" + ASPSP_ID;
     private final AspspModifyRepository aspspModifyRepository;
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
@@ -43,7 +43,7 @@ public class AspspModifyController {
     ResponseEntity<AspspTO> addAspsp(@RequestBody AspspTO to) {
         Aspsp aspsp = aspspModifyRepository.create(aspspMapper.toAspsp(to));
         String uri = V1_ASPSP_BY_ID.replace(ASPSP_ID, aspsp.getId());
-        return ResponseEntity.created(URI.create(uri)).build();
+        return ResponseEntity.created(URI.create(uri)).body(aspspMapper.toAspspTO(aspsp));
     }
 
     @PutMapping(AspspService.V1_APSPS)

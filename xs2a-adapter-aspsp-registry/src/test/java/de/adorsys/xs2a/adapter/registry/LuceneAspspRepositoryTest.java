@@ -1,6 +1,8 @@
 package de.adorsys.xs2a.adapter.registry;
 
+import de.adorsys.xs2a.adapter.registry.exception.DuplicationAspspException;
 import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
+import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.junit.Test;
@@ -13,6 +15,57 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LuceneAspspRepositoryTest {
 
     LuceneAspspRepository luceneAspspRepository = new LuceneAspspRepository(new ByteBuffersDirectory());
+
+    @Test
+    public void create() {
+        Aspsp aspsp = new Aspsp();
+        luceneAspspRepository.save(aspsp);
+
+        aspsp.setId("1");
+        luceneAspspRepository.create(aspsp);
+    }
+
+    @Test(expected = DuplicationAspspException.class)
+    public void create_Duplication() {
+        Aspsp aspsp = new Aspsp();
+        luceneAspspRepository.save(aspsp);
+
+        aspsp.setId("1");
+        luceneAspspRepository.create(aspsp);
+
+        luceneAspspRepository.create(aspsp);
+    }
+
+    @Test
+    public void delete() {
+        String aspspId = "1";
+        Aspsp aspsp = new Aspsp();
+        aspsp.setId(aspspId);
+        luceneAspspRepository.save(aspsp);
+
+        luceneAspspRepository.remove(aspspId);
+    }
+
+    @Test
+    public void update() {
+        String aspspId = "1";
+        Aspsp aspsp = new Aspsp();
+        aspsp.setId(aspspId);
+        luceneAspspRepository.save(aspsp);
+
+        aspsp.setBic("bic");
+        luceneAspspRepository.update(aspsp);
+    }
+
+    @Test(expected = AspspRegistrationNotFoundException.class)
+    public void update_NotFound() {
+        String aspspId = "1";
+        Aspsp aspsp = new Aspsp();
+        luceneAspspRepository.save(aspsp);
+
+        aspsp.setId(aspspId);
+        luceneAspspRepository.update(aspsp);
+    }
 
     @Test
     public void saveCanHandleNullProperties() {
