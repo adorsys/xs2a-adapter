@@ -1,10 +1,9 @@
 package de.adorsys.xs2a.adapter.registry;
 
-import de.adorsys.xs2a.adapter.registry.exception.DuplicationAspspException;
 import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
 import de.adorsys.xs2a.adapter.service.AspspModifyRepository;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
-import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
+import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -18,6 +17,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
 
@@ -36,52 +36,33 @@ public class LuceneAspspRepository implements AspspRepository, AspspModifyReposi
         this.directory = directory;
     }
 
-    public void save(Aspsp aspsp) {
-        IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
-        try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
-            save(indexWriter, aspsp);
-        } catch (IOException e) {
-            throw new RegistryIOException(e);
+    public Aspsp save(Aspsp aspsp) {
+        if (aspsp == null) {
+            throw new AspspRegistrationException("Aspsp must be not null");
         }
-    }
-
-    @Override
-    public Aspsp create(Aspsp aspsp) {
+        if (aspsp.getId() == null) {
+            aspsp.setId(UUID.randomUUID().toString());
+        }
         Optional<Aspsp> optional = findById(aspsp.getId());
-        if (optional.isPresent()){
-            throw new DuplicationAspspException("Aspsp with id="+aspsp.getId()+" already exists");
-        }
-        save(aspsp);
+
+        writeToIndex(index -> {
+            if (optional.isPresent()) {
+                update(index, aspsp);
+            } else {
+                save(index, aspsp);
+            }
+            return optional;
+        });
         return aspsp;
     }
 
     @Override
-    public void update(Aspsp aspsp) {
-        findById(aspsp.getId())
-            .orElseThrow(()->new AspspRegistrationNotFoundException("Aspsp with id="+aspsp.getId()+" was not found"));
-
-        IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
-        try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
-            update(indexWriter, aspsp);
-        } catch (IOException e) {
-            throw new RegistryIOException(e);
-        }
-    }
-
-    @Override
-    public void remove(String aspspId) {
+    public void deleteById(String aspspId) {
         Optional<Aspsp> aspsp = findById(aspspId);
-        if (aspsp.isPresent()) {
-            IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
-            try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
-                indexWriter.deleteDocuments(new Term(ID_FIELD_NAME, aspspId));
-            } catch (IOException e) {
-                throw new RegistryIOException(e);
-            }
-        }
+        aspsp.ifPresent(value -> writeToIndex(writer -> writer.deleteDocuments(new Term(ID_FIELD_NAME, aspspId))));
     }
 
-    private void save(IndexWriter indexWriter, Aspsp aspsp) throws IOException {
+    void save(IndexWriter indexWriter, Aspsp aspsp) throws IOException {
         Document document = buildDocument(aspsp);
         indexWriter.addDocument(document);
     }
@@ -107,14 +88,12 @@ public class LuceneAspspRepository implements AspspRepository, AspspModifyReposi
     }
 
     public void saveAll(List<Aspsp> aspsps) {
-        IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
-        try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
+        writeToIndex(writer -> {
             for (Aspsp aspsp : aspsps) {
-                save(indexWriter, aspsp);
+                save(writer, aspsp);
             }
-        } catch (IOException e) {
-            throw new RegistryIOException(e);
-        }
+            return aspsps;
+        });
     }
 
     @Override
@@ -127,15 +106,13 @@ public class LuceneAspspRepository implements AspspRepository, AspspModifyReposi
     }
 
     private Optional<Document> getDocument(int docId) {
-        try (IndexReader indexReader = DirectoryReader.open(directory)) {
-            if (docId < 0 || docId >= indexReader.maxDoc()) {
+        return readFromIndex(index -> {
+            if (docId < 0 || docId >= index.maxDoc()) {
                 return Optional.empty();  // index reader throws IllegalArgumentException if docID is out of bounds
             }
-            Document document = indexReader.document(docId);
+            Document document = index.document(docId);
             return Optional.of(document);
-        } catch (IOException e) {
-            throw new RegistryIOException(e);
-        }
+        });
     }
 
     private String deserialize(String s) {
@@ -156,8 +133,8 @@ public class LuceneAspspRepository implements AspspRepository, AspspModifyReposi
     }
 
     private List<Aspsp> find(Query query, String after, int size) {
-        try (IndexReader indexReader = DirectoryReader.open(directory)) {
-            IndexSearcher indexSearcher = new IndexSearcher(indexReader);
+        return readFromIndex(index -> {
+            IndexSearcher indexSearcher = new IndexSearcher(index);
             ScoreDoc afterDoc = parseScoreDoc(after);
             TopDocs topDocs = indexSearcher.searchAfter(afterDoc, query, size);
             ScoreDoc[] scoreDocs = topDocs.scoreDocs;
@@ -166,9 +143,8 @@ public class LuceneAspspRepository implements AspspRepository, AspspModifyReposi
                        .filter(Optional::isPresent)
                        .map(Optional::get)
                        .collect(toList());
-        } catch (IOException e) {
-            throw new RegistryIOException(e);
-        }
+
+        });
     }
 
     private Optional<Aspsp> getDocumentAsAspsp(ScoreDoc scoreDoc) {
@@ -244,5 +220,26 @@ public class LuceneAspspRepository implements AspspRepository, AspspModifyReposi
             queryBuilder.add(getBankCodeQuery(aspsp.getBankCode()), BooleanClause.Occur.SHOULD);
         }
         return find(queryBuilder.build(), after, size);
+    }
+
+    private <T> T readFromIndex(IndexExecutor<IndexReader, T> indexExecutor) {
+        try (IndexReader indexReader = DirectoryReader.open(directory)) {
+            return indexExecutor.execute(indexReader);
+        } catch (IOException e) {
+            throw new RegistryIOException(e);
+        }
+    }
+
+    <T> void writeToIndex(IndexExecutor<IndexWriter, T> indexExecutor) {
+        IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
+        try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
+            indexExecutor.execute(indexWriter);
+        } catch (IOException e) {
+            throw new RegistryIOException(e);
+        }
+    }
+
+    interface IndexExecutor<T, R> {
+        R execute(T index) throws IOException;
     }
 }

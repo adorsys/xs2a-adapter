@@ -57,7 +57,7 @@ public class AspspModifyControllerTest {
         aspsp.setId(id);
         aspsp.setBic("bic");
 
-        when(repository.create(any())).thenReturn(aspsp);
+        when(repository.save(any())).thenReturn(aspsp);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                                                   .post(AspspService.V1_APSPS)
@@ -85,7 +85,7 @@ public class AspspModifyControllerTest {
 
         String body = new ObjectMapper().writeValueAsString(aspsp);
 
-        when(repository.create(any())).thenReturn(aspsp);
+        when(repository.save(any())).thenReturn(aspsp);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                                                   .put(AspspService.V1_APSPS)
@@ -105,7 +105,7 @@ public class AspspModifyControllerTest {
     public void delete() throws Exception {
         String id = "1111";
 
-        doNothing().when(repository).remove(id);
+        doNothing().when(repository).deleteById(id);
 
         mockMvc.perform(MockMvcRequestBuilders
                             .delete(V1_ASPSP_BY_ID, id)

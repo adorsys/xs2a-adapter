@@ -21,8 +21,6 @@ import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.UUID;
-
 public class AspspModifyServiceImpl implements AspspModifyRepository {
 
     private final Logger log = LoggerFactory.getLogger(AspspModifyServiceImpl.class);
@@ -33,24 +31,14 @@ public class AspspModifyServiceImpl implements AspspModifyRepository {
     }
 
     @Override
-    public Aspsp create(Aspsp aspsp) {
-        if (aspsp.getId() == null) {
-            aspsp.setId(UUID.randomUUID().toString());
-        }
+    public Aspsp save(Aspsp aspsp) {
         log.debug("Save aspsp: {}", aspsp);
-        return luceneAspspRepository.create(aspsp);
+        return luceneAspspRepository.save(aspsp);
     }
 
     @Override
-    public void update(Aspsp aspsp) {
-        log.debug("Update aspsp: {}", aspsp);
-        luceneAspspRepository.update(aspsp);
-    }
-
-
-    @Override
-    public void remove(String aspspId) {
+    public void deleteById(String aspspId) {
         log.debug("Delete aspsp by id: {}", aspspId);
-        luceneAspspRepository.remove(aspspId);
+        luceneAspspRepository.deleteById(aspspId);
     }
 }

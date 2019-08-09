@@ -51,7 +51,7 @@ public class RestConfiguration {
 
     @Profile("dev")
     @Bean
-    AspspModifyRepository aspspModifyRepository(){
+    AspspModifyRepository aspspModifyRepository() {
         return new AspspModifyServiceImpl((AspspModifyRepository) aspspRepository());
     }
 }

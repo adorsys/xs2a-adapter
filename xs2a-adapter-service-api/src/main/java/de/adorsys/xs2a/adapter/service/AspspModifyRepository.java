@@ -20,9 +20,7 @@ import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public interface AspspModifyRepository {
 
-    Aspsp create(Aspsp aspsp);
+    Aspsp save(Aspsp aspsp);
 
-    void update(Aspsp aspsp);
-
-    void remove(String aspspId);
+    void deleteById(String aspspId);
 }

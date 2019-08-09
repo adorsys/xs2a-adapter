@@ -89,6 +89,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
+    ResponseEntity handle(AspspRegistrationException exception) {
+        return badRequestHandler(exception);
+    }
+
+    @ExceptionHandler
     ResponseEntity handle(AspspRegistrationNotFoundException exception) {
         return badRequestHandler(exception);
     }

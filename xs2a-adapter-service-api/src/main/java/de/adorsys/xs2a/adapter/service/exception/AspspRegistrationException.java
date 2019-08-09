@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.registry.exception;
+package de.adorsys.xs2a.adapter.service.exception;
 
-public class DuplicationAspspException extends RegistryIOException {
-    public DuplicationAspspException() {
+public class AspspRegistrationException extends RuntimeException {
+    public AspspRegistrationException() {
     }
 
-    public DuplicationAspspException(String message) {
+    public AspspRegistrationException(String message) {
         super(message);
+    }
+
+    public AspspRegistrationException(Throwable cause) {
+        super(cause);
     }
 }

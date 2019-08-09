@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-public interface AspspService {
+public interface AspspApi {
     @RequestMapping("/v1/aspsps")
     ResponseEntity<List<AspspTO>> getAspsps(@RequestParam(value = "name", required = false) String name,
                                             @RequestParam(value = "bic", required = false) String bic,

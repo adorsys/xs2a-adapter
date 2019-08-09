@@ -40,21 +40,21 @@ public class AspspModifyController {
     }
 
     @PostMapping(AspspService.V1_APSPS)
-    ResponseEntity<AspspTO> addAspsp(@RequestBody AspspTO to) {
-        Aspsp aspsp = aspspModifyRepository.create(aspspMapper.toAspsp(to));
+    ResponseEntity<AspspTO> create(@RequestBody AspspTO to) {
+        Aspsp aspsp = aspspModifyRepository.save(aspspMapper.toAspsp(to));
         String uri = V1_ASPSP_BY_ID.replace(ASPSP_ID, aspsp.getId());
         return ResponseEntity.created(URI.create(uri)).body(aspspMapper.toAspspTO(aspsp));
     }
 
     @PutMapping(AspspService.V1_APSPS)
-    ResponseEntity<AspspTO> updateAspsp(@RequestBody AspspTO aspsp){
-        aspspModifyRepository.update(aspspMapper.toAspsp(aspsp));
+    ResponseEntity<AspspTO> update(@RequestBody AspspTO aspsp) {
+        aspspModifyRepository.save(aspspMapper.toAspsp(aspsp));
         return ResponseEntity.ok(aspsp);
     }
 
     @DeleteMapping(V1_ASPSP_BY_ID)
-    ResponseEntity<Void> delete(@PathVariable("aspspId") String aspspId){
-        aspspModifyRepository.remove(aspspId);
+    ResponseEntity<Void> deleteById(@PathVariable("aspspId") String aspspId) {
+        aspspModifyRepository.deleteById(aspspId);
         return ResponseEntity.noContent().build();
     }
 }
