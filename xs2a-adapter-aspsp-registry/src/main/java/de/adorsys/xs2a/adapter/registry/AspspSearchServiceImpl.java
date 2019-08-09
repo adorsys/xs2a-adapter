@@ -32,7 +32,9 @@ public class AspspSearchServiceImpl implements AspspSearchService {
             throw new IbanException(e.getMessage());
         }
         if (bankCode == null) {
-            throw new IbanException("Failed to extract the bank code from the iban");
+            String errorMessage = "Failed to extract the bank code from the iban=" + iban;
+            log.error(errorMessage);
+            throw new IbanException(errorMessage);
         }
         return findByBankCode(bankCode, after, size);
     }

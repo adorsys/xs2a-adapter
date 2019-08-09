@@ -19,12 +19,16 @@ package de.adorsys.xs2a.adapter.controller;
 import de.adorsys.xs2a.adapter.model.AspspTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 public interface AspspService {
-    @RequestMapping("/v1/aspsps")
+
+    String V1_APSPS = "/v1/aspsps";
+
+    @RequestMapping(value = V1_APSPS, method = RequestMethod.GET)
     ResponseEntity<List<AspspTO>> getAspsps(@RequestParam(required = false) String name,
                                             @RequestParam(required = false) String bic,
                                             @RequestParam(required = false) String bankCode,

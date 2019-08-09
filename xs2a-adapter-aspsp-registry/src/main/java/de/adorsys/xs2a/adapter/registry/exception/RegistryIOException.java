@@ -5,6 +5,13 @@ import java.util.Objects;
 
 public class RegistryIOException extends RuntimeException {
 
+    public RegistryIOException() {
+    }
+
+    public RegistryIOException(String message) {
+        super(message);
+    }
+
     public RegistryIOException(IOException cause) {
         super(Objects.requireNonNull(cause));
     }

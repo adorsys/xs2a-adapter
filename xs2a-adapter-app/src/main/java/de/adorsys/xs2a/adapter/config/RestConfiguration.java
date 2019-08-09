@@ -1,8 +1,10 @@
 package de.adorsys.xs2a.adapter.config;
 
 import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
+import de.adorsys.xs2a.adapter.registry.AspspModifyServiceImpl;
 import de.adorsys.xs2a.adapter.registry.AspspSearchServiceImpl;
 import de.adorsys.xs2a.adapter.registry.LuceneAspspRepositoryFactory;
+import de.adorsys.xs2a.adapter.service.AspspModifyRepository;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.AspspSearchService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
@@ -12,6 +14,7 @@ import de.adorsys.xs2a.adapter.service.impl.AdapterServiceLoader;
 import de.adorsys.xs2a.adapter.service.impl.PaymentInitiationServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class RestConfiguration {
@@ -44,5 +47,11 @@ public class RestConfiguration {
     @Bean
     AspspSearchService aspspSearchService(AspspRepository aspspRepository) {
         return new AspspSearchServiceImpl(aspspRepository);
+    }
+
+    @Profile("dev")
+    @Bean
+    AspspModifyRepository aspspModifyRepository(){
+        return new AspspModifyServiceImpl((AspspModifyRepository) aspspRepository());
     }
 }

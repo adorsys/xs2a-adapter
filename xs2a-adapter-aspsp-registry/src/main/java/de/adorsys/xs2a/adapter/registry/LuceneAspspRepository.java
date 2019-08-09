@@ -1,6 +1,8 @@
 package de.adorsys.xs2a.adapter.registry;
 
+import de.adorsys.xs2a.adapter.registry.exception.DuplicationAspspException;
 import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
+import de.adorsys.xs2a.adapter.service.AspspModifyRepository;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.document.Document;
@@ -18,7 +20,7 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
-public class LuceneAspspRepository implements AspspRepository {
+public class LuceneAspspRepository implements AspspRepository, AspspModifyRepository {
 
     private static final String ID_FIELD_NAME = "id";
     private static final String NAME_FIELD_NAME = "name";
@@ -42,7 +44,50 @@ public class LuceneAspspRepository implements AspspRepository {
         }
     }
 
+    @Override
+    public Aspsp create(Aspsp aspsp) {
+        Optional<Aspsp> optional = findById(aspsp.getId());
+        if (optional.isPresent()){
+            throw new DuplicationAspspException("Aspsp with id="+aspsp.getId()+" already exists");
+        }
+        save(aspsp);
+        return aspsp;
+    }
+
+    @Override
+    public void update(Aspsp aspsp) {
+        IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
+        try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
+            update(indexWriter, aspsp);
+        } catch (IOException e) {
+            throw new RegistryIOException(e);
+        }
+    }
+
+    @Override
+    public void remove(String aspspId) {
+        Optional<Aspsp> aspsp = findById(aspspId);
+        if (aspsp.isPresent()) {
+            IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
+            try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
+                indexWriter.deleteDocuments(new Term(ID_FIELD_NAME, aspspId));
+            } catch (IOException e) {
+                throw new RegistryIOException(e);
+            }
+        }
+    }
+
     private void save(IndexWriter indexWriter, Aspsp aspsp) throws IOException {
+        Document document = buildDocument(aspsp);
+        indexWriter.addDocument(document);
+    }
+
+    private void update(IndexWriter indexWriter, Aspsp aspsp) throws IOException {
+        Document document = buildDocument(aspsp);
+        indexWriter.updateDocument(new Term(ID_FIELD_NAME, aspsp.getId()), document);
+    }
+
+    private Document buildDocument(Aspsp aspsp) {
         Document document = new Document();
         document.add(new StringField(ID_FIELD_NAME, serialize(aspsp.getId()), Field.Store.YES));
         document.add(new TextField(NAME_FIELD_NAME, serialize(aspsp.getName()), Field.Store.YES));
@@ -50,7 +95,7 @@ public class LuceneAspspRepository implements AspspRepository {
         document.add(new StringField(BIC_FIELD_NAME, serialize(aspsp.getBic()), Field.Store.YES));
         document.add(new StringField(BANK_CODE_FIELD_NAME, serialize(aspsp.getBankCode()), Field.Store.YES));
         document.add(new StringField(ADAPTER_ID_FIELD_NAME, serialize(aspsp.getAdapterId()), Field.Store.YES));
-        indexWriter.addDocument(document);
+        return document;
     }
 
     private String serialize(String s) {
@@ -113,10 +158,10 @@ public class LuceneAspspRepository implements AspspRepository {
             TopDocs topDocs = indexSearcher.searchAfter(afterDoc, query, size);
             ScoreDoc[] scoreDocs = topDocs.scoreDocs;
             return Arrays.stream(scoreDocs)
-                .map(this::getDocumentAsAspsp)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(toList());
+                       .map(this::getDocumentAsAspsp)
+                       .filter(Optional::isPresent)
+                       .map(Optional::get)
+                       .collect(toList());
         } catch (IOException e) {
             throw new RegistryIOException(e);
         }
@@ -124,17 +169,17 @@ public class LuceneAspspRepository implements AspspRepository {
 
     private Optional<Aspsp> getDocumentAsAspsp(ScoreDoc scoreDoc) {
         return getDocument(scoreDoc.doc)
-            .map(document -> {
-            Aspsp aspsp = new Aspsp();
-            aspsp.setId(deserialize(document.get(ID_FIELD_NAME)));
-            aspsp.setName(deserialize(document.get(NAME_FIELD_NAME)));
-            aspsp.setUrl(deserialize(document.get(URL_FIELD_NAME)));
-            aspsp.setBic(deserialize(document.get(BIC_FIELD_NAME)));
-            aspsp.setBankCode(deserialize(document.get(BANK_CODE_FIELD_NAME)));
-            aspsp.setAdapterId(deserialize(document.get(ADAPTER_ID_FIELD_NAME)));
-            aspsp.setPaginationId(scoreDoc.doc + ":" + scoreDoc.score);
-            return aspsp;
-        });
+                   .map(document -> {
+                       Aspsp aspsp = new Aspsp();
+                       aspsp.setId(deserialize(document.get(ID_FIELD_NAME)));
+                       aspsp.setName(deserialize(document.get(NAME_FIELD_NAME)));
+                       aspsp.setUrl(deserialize(document.get(URL_FIELD_NAME)));
+                       aspsp.setBic(deserialize(document.get(BIC_FIELD_NAME)));
+                       aspsp.setBankCode(deserialize(document.get(BANK_CODE_FIELD_NAME)));
+                       aspsp.setAdapterId(deserialize(document.get(ADAPTER_ID_FIELD_NAME)));
+                       aspsp.setPaginationId(scoreDoc.doc + ":" + scoreDoc.score);
+                       return aspsp;
+                   });
     }
 
     private ScoreDoc parseScoreDoc(String id) {
