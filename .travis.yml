@@ -43,7 +43,7 @@ deploy:
     on:
       branch: develop
   # Deploy to banking gateway dev
-  -provider: script
+  - provider: script
     script: bash ./devops/build/deploy.sh banking-gateway-dev
     on:
       branch: develop
