@@ -44,6 +44,7 @@ deploy:
       branch: develop
   # Deploy to banking gateway dev
   - provider: script
+    skip_cleanup: true
     script: bash ./devops/build/deploy.sh banking-gateway-dev
     on:
       branch: develop
