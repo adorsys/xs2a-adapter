@@ -15,26 +15,29 @@ public class LuceneAspspRepositoryTest {
     private static final String ASPSP_ID = "1";
 
     private LuceneAspspRepository luceneAspspRepository = new LuceneAspspRepository(new ByteBuffersDirectory());
-    private Aspsp aspsp;
 
     @Before
     public void setUp() {
-        aspsp = new Aspsp();
-        aspsp.setId(ASPSP_ID);
         luceneAspspRepository.writeToIndex(index -> {
-            luceneAspspRepository.save(index, aspsp);
-            return aspsp;
+            // do nothing, just for index creation
+            return null;
         });
     }
 
     @Test
     public void deleteById() {
-        luceneAspspRepository.deleteById(ASPSP_ID);
-    }
+        Aspsp aspsp = new Aspsp();
+        aspsp.setId(ASPSP_ID);
 
-    @Test
-    public void update() {
         luceneAspspRepository.save(aspsp);
+        List<Aspsp> all = luceneAspspRepository.findAll();
+
+        assertThat(all).hasSize(1);
+
+        luceneAspspRepository.deleteById(ASPSP_ID);
+
+        Optional<Aspsp> aspsp1 = luceneAspspRepository.findById(ASPSP_ID);
+        assertThat(aspsp1.isPresent()).isFalse();
     }
 
     @Test
@@ -56,6 +59,10 @@ public class LuceneAspspRepositoryTest {
 
     @Test
     public void findById_Found() {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setId(ASPSP_ID);
+
+        luceneAspspRepository.save(aspsp);
         Optional<Aspsp> found = luceneAspspRepository.findById(ASPSP_ID);
         assertThat(found).get().hasFieldOrPropertyWithValue("id", ASPSP_ID);
     }
@@ -125,7 +132,7 @@ public class LuceneAspspRepositoryTest {
         luceneAspspRepository.save(aspsp3);
 
         Iterable<Aspsp> found = luceneAspspRepository.findAll();
-        assertThat(found).hasSize(4);
+        assertThat(found).hasSize(3);
     }
 
     @Test
@@ -157,7 +164,7 @@ public class LuceneAspspRepositoryTest {
         List<Aspsp> firstPage = luceneAspspRepository.findAll(3);
         assertThat(firstPage).hasSize(3);
 
-        List<Aspsp> secondPage = luceneAspspRepository.findAll(firstPage.get(2).getPaginationId(), 2);
+        List<Aspsp> secondPage = luceneAspspRepository.findAll(firstPage.get(1).getPaginationId(), 2);
         assertThat(secondPage).hasSize(1);
     }
 

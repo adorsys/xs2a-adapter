@@ -5,7 +5,7 @@ import de.adorsys.xs2a.adapter.registry.AspspModifyServiceImpl;
 import de.adorsys.xs2a.adapter.registry.AspspSearchServiceImpl;
 import de.adorsys.xs2a.adapter.registry.LuceneAspspRepositoryFactory;
 import de.adorsys.xs2a.adapter.service.AspspModifyRepository;
-import de.adorsys.xs2a.adapter.service.AspspRepository;
+import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
 import de.adorsys.xs2a.adapter.service.AspspSearchService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
@@ -40,12 +40,12 @@ public class RestConfiguration {
     }
 
     @Bean
-    AspspRepository aspspRepository() {
+    AspspReadOnlyRepository aspspRepository() {
         return new LuceneAspspRepositoryFactory().newLuceneAspspRepository();
     }
 
     @Bean
-    AspspSearchService aspspSearchService(AspspRepository aspspRepository) {
+    AspspSearchService aspspSearchService(AspspReadOnlyRepository aspspRepository) {
         return new AspspSearchServiceImpl(aspspRepository);
     }
 

@@ -5,7 +5,7 @@ import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import java.util.List;
 import java.util.Optional;
 
-public interface AspspRepository {
+public interface AspspReadOnlyRepository {
 
     int DEFAULT_SIZE = 10;
 

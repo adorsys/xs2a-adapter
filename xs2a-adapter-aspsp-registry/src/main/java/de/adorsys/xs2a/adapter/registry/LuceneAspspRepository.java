@@ -2,7 +2,7 @@ package de.adorsys.xs2a.adapter.registry;
 
 import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
 import de.adorsys.xs2a.adapter.service.AspspModifyRepository;
-import de.adorsys.xs2a.adapter.service.AspspRepository;
+import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
 import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.document.Document;
@@ -21,7 +21,7 @@ import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
 
-public class LuceneAspspRepository implements AspspRepository, AspspModifyRepository {
+public class LuceneAspspRepository implements AspspReadOnlyRepository, AspspModifyRepository {
 
     private static final String ID_FIELD_NAME = "id";
     private static final String NAME_FIELD_NAME = "name";
@@ -53,7 +53,7 @@ public class LuceneAspspRepository implements AspspRepository, AspspModifyReposi
             }
             return optional;
         });
-        return aspsp;
+        return findById(aspsp.getId()).get();
     }
 
     @Override
