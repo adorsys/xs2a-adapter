@@ -23,6 +23,11 @@ if [ "$1" == "develop" ]; then
   docker build -t "$OPENSHIFT_IMAGE_NAME:develop" .
   docker push $OPENSHIFT_IMAGE_NAME:develop
   mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST -Dsonar.login=$SONAR_TOKEN
+# push latest to opensift banking gateway
+elif [ "$1" == "banking-gateway-dev" ]; then
+  docker login -u github-image-pusher -p $OPENSHIFT_TOKEN_BGT_DEV $OPENSHIFT_REGISTRY
+  docker build -t "$OPENSHIFT_IMAGE_NAME_BGT_DEV:latest" .
+  docker push $OPENSHIFT_IMAGE_NAME_BGT_DEV:latest
   # push tags to dockerhub
 elif checkSemver $(git2dockerTag $1); then
   echo $GPG_SECRET_KEY | base64 --decode | $GPG_EXECUTABLE --import || true

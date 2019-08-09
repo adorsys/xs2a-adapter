@@ -22,6 +22,8 @@ env:
     - OPENSHIFT_REGISTRY="openshift-registry.adorsys.de"
     - OPENSHIFT_NAMESPACE="xs2a-adapter-dev"
     - OPENSHIFT_IMAGE_NAME="${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${XS2A_ADAPTER_IMAGE}"
+    - OPENSHIFT_NAMESPACE_BGT_DEV="banking-gateway-dev"
+    - OPENSHIFT_IMAGE_NAME_BGT_DEV="${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE_BGT_DEV}/${XS2A_ADAPTER_IMAGE}"
 
 cache:
   directories:
@@ -38,6 +40,11 @@ deploy:
   - provider: script
     skip_cleanup: true
     script: bash ./devops/build/deploy.sh develop
+    on:
+      branch: develop
+  # Deploy to banking gateway dev
+  -provider: script
+    script: bash ./devops/build/deploy.sh banking-gateway-dev
     on:
       branch: develop
   # Deploy artifacts to the Sonatype registry
