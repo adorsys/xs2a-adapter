@@ -161,8 +161,8 @@ public class LuceneAspspRepositoryTest {
         Aspsp aspsp3 = new Aspsp();
         luceneAspspRepository.save(aspsp3);
 
-        List<Aspsp> firstPage = luceneAspspRepository.findAll(3);
-        assertThat(firstPage).hasSize(3);
+        List<Aspsp> firstPage = luceneAspspRepository.findAll(2);
+        assertThat(firstPage).hasSize(2);
 
         List<Aspsp> secondPage = luceneAspspRepository.findAll(firstPage.get(1).getPaginationId(), 2);
         assertThat(secondPage).hasSize(1);
