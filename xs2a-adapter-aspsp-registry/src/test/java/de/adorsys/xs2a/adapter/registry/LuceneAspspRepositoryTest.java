@@ -18,10 +18,8 @@ public class LuceneAspspRepositoryTest {
 
     @Before
     public void setUp() {
-        luceneAspspRepository.writeToIndex(index -> {
-            // do nothing, just for index creation
-            return null;
-        });
+        // do not delete. this operation is initialized index
+//        luceneAspspRepository.save(new Aspsp());
     }
 
     @Test

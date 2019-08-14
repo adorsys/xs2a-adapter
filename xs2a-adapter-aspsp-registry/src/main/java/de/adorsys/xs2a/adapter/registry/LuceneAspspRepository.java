@@ -3,7 +3,6 @@ package de.adorsys.xs2a.adapter.registry;
 import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
 import de.adorsys.xs2a.adapter.service.AspspModifyRepository;
 import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
-import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -37,29 +36,36 @@ public class LuceneAspspRepository implements AspspReadOnlyRepository, AspspModi
     }
 
     public Aspsp save(Aspsp aspsp) {
-        if (aspsp == null) {
-            throw new AspspRegistrationException("Aspsp must be not null");
-        }
+        Optional<Aspsp> optional = Optional.empty();
+
         if (aspsp.getId() == null) {
             aspsp.setId(UUID.randomUUID().toString());
+        } else {
+            optional = findById(aspsp.getId());
         }
-        Optional<Aspsp> optional = findById(aspsp.getId());
 
-        writeToIndex(index -> {
+        IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
+        try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
             if (optional.isPresent()) {
-                update(index, aspsp);
+                update(indexWriter, aspsp);
             } else {
-                save(index, aspsp);
+                save(indexWriter, aspsp);
             }
-            return optional;
-        });
-        return findById(aspsp.getId()).get();
+        } catch (IOException e) {
+            throw new RegistryIOException(e);
+        }
+
+        return aspsp;
     }
 
     @Override
     public void deleteById(String aspspId) {
-        Optional<Aspsp> aspsp = findById(aspspId);
-        aspsp.ifPresent(value -> writeToIndex(writer -> writer.deleteDocuments(new Term(ID_FIELD_NAME, aspspId))));
+        IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
+        try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
+            indexWriter.deleteDocuments(new Term(ID_FIELD_NAME, aspspId));
+        } catch (IOException e) {
+            throw new RegistryIOException(e);
+        }
     }
 
     void save(IndexWriter indexWriter, Aspsp aspsp) throws IOException {
@@ -88,12 +94,7 @@ public class LuceneAspspRepository implements AspspReadOnlyRepository, AspspModi
     }
 
     public void saveAll(List<Aspsp> aspsps) {
-        writeToIndex(writer -> {
-            for (Aspsp aspsp : aspsps) {
-                save(writer, aspsp);
-            }
-            return aspsps;
-        });
+        aspsps.forEach(this::save);
     }
 
     @Override
@@ -106,13 +107,16 @@ public class LuceneAspspRepository implements AspspReadOnlyRepository, AspspModi
     }
 
     private Optional<Document> getDocument(int docId) {
-        return readFromIndex(index -> {
-            if (docId < 0 || docId >= index.maxDoc()) {
+        try (IndexReader indexReader = DirectoryReader.open(directory)) {
+            if (docId < 0 || docId >= indexReader.maxDoc()) {
                 return Optional.empty();  // index reader throws IllegalArgumentException if docID is out of bounds
             }
-            Document document = index.document(docId);
+            Document document = indexReader.document(docId);
             return Optional.of(document);
-        });
+
+        } catch (IOException e) {
+            throw new RegistryIOException(e);
+        }
     }
 
     private String deserialize(String s) {
@@ -133,8 +137,8 @@ public class LuceneAspspRepository implements AspspReadOnlyRepository, AspspModi
     }
 
     private List<Aspsp> find(Query query, String after, int size) {
-        return readFromIndex(index -> {
-            IndexSearcher indexSearcher = new IndexSearcher(index);
+        try (IndexReader indexReader = DirectoryReader.open(directory)) {
+            IndexSearcher indexSearcher = new IndexSearcher(indexReader);
             ScoreDoc afterDoc = parseScoreDoc(after);
             TopDocs topDocs = indexSearcher.searchAfter(afterDoc, query, size);
             ScoreDoc[] scoreDocs = topDocs.scoreDocs;
@@ -144,7 +148,9 @@ public class LuceneAspspRepository implements AspspReadOnlyRepository, AspspModi
                        .map(Optional::get)
                        .collect(toList());
 
-        });
+        } catch (IOException e) {
+            throw new RegistryIOException(e);
+        }
     }
 
     private Optional<Aspsp> getDocumentAsAspsp(ScoreDoc scoreDoc) {
@@ -220,14 +226,6 @@ public class LuceneAspspRepository implements AspspReadOnlyRepository, AspspModi
             queryBuilder.add(getBankCodeQuery(aspsp.getBankCode()), BooleanClause.Occur.SHOULD);
         }
         return find(queryBuilder.build(), after, size);
-    }
-
-    private <T> T readFromIndex(IndexExecutor<IndexReader, T> indexExecutor) {
-        try (IndexReader indexReader = DirectoryReader.open(directory)) {
-            return indexExecutor.execute(indexReader);
-        } catch (IOException e) {
-            throw new RegistryIOException(e);
-        }
     }
 
     <T> void writeToIndex(IndexExecutor<IndexWriter, T> indexExecutor) {
