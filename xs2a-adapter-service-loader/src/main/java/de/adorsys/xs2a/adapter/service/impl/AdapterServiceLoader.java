@@ -36,8 +36,8 @@ public class AdapterServiceLoader {
     }
 
     private Aspsp getAspsp(RequestHeaders requestHeaders) {
-        Optional<String> aspspId = requestHeaders.get(RequestHeaders.X_GTW_ASPSP_ID);
-        Optional<String> bankCode = requestHeaders.get(RequestHeaders.X_GTW_BANK_CODE);
+        Optional<String> aspspId = requestHeaders.getAspspId();
+        Optional<String> bankCode = requestHeaders.getBankCode();
         if (aspspId.isPresent()) {
             return aspspRepository.findById(aspspId.get())
                 .orElseThrow(() -> new AspspRegistrationNotFoundException("No ASPSP was found with id: " + aspspId.get()));
