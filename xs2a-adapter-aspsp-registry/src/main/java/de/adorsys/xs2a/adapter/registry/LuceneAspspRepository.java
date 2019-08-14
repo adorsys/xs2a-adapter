@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.registry;
 
 import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
-import de.adorsys.xs2a.adapter.service.AspspModifyRepository;
 import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
+import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -20,7 +20,7 @@ import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
 
-public class LuceneAspspRepository implements AspspReadOnlyRepository, AspspModifyRepository {
+public class LuceneAspspRepository implements AspspReadOnlyRepository, AspspRepository {
 
     private static final String ID_FIELD_NAME = "id";
     private static final String NAME_FIELD_NAME = "name";
@@ -232,18 +232,5 @@ public class LuceneAspspRepository implements AspspReadOnlyRepository, AspspModi
             queryBuilder.add(getBankCodeQuery(aspsp.getBankCode()), BooleanClause.Occur.SHOULD);
         }
         return find(queryBuilder.build(), after, size);
-    }
-
-    <T> void writeToIndex(IndexExecutor<IndexWriter, T> indexExecutor) {
-        IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
-        try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
-            indexExecutor.execute(indexWriter);
-        } catch (IOException e) {
-            throw new RegistryIOException(e);
-        }
-    }
-
-    interface IndexExecutor<T, R> {
-        R execute(T index) throws IOException;
     }
 }

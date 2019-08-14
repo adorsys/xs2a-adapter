@@ -16,17 +16,18 @@
 
 package de.adorsys.xs2a.adapter.registry;
 
-import de.adorsys.xs2a.adapter.service.AspspModifyRepository;
+import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AspspModifyServiceImpl implements AspspModifyRepository {
+public class AspspServiceImpl extends AspspSearchServiceImpl implements AspspRepository {
 
-    private final Logger log = LoggerFactory.getLogger(AspspModifyServiceImpl.class);
-    private final AspspModifyRepository luceneAspspRepository;
+    private final Logger log = LoggerFactory.getLogger(AspspServiceImpl.class);
+    private final AspspRepository luceneAspspRepository;
 
-    public AspspModifyServiceImpl(AspspModifyRepository luceneAspspRepository) {
+    public AspspServiceImpl(AspspRepository luceneAspspRepository) {
+        super(luceneAspspRepository);
         this.luceneAspspRepository = luceneAspspRepository;
     }
 

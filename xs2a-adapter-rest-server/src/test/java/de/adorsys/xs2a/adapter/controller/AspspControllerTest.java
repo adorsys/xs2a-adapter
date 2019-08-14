@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.adapter.config.RestExceptionHandler;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.model.AspspTO;
-import de.adorsys.xs2a.adapter.service.AspspModifyRepository;
+import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pro.javatar.commons.reader.JsonReader;
 
-import static de.adorsys.xs2a.adapter.controller.AspspModifyController.V1_ASPSP_BY_ID;
+import static de.adorsys.xs2a.adapter.controller.AspspController.V1_ASPSP_BY_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -31,14 +31,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class AspspModifyControllerTest {
+public class AspspControllerTest {
     private MockMvc mockMvc;
 
     @InjectMocks
-    private AspspModifyController controller;
+    private AspspController controller;
 
     @Mock
-    private AspspModifyRepository repository;
+    private AspspRepository repository;
 
     @Before
     public void setUp() {

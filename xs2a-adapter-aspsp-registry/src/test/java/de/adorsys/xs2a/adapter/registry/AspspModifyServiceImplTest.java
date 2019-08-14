@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.registry;
 
-import de.adorsys.xs2a.adapter.service.AspspModifyRepository;
+import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,10 +14,10 @@ import static org.mockito.Mockito.*;
 public class AspspModifyServiceImplTest {
 
     @InjectMocks
-    private AspspModifyServiceImpl modifyService;
+    private AspspServiceImpl modifyService;
 
     @Mock
-    private AspspModifyRepository repository;
+    private AspspRepository repository;
 
     @Test
     public void save() {

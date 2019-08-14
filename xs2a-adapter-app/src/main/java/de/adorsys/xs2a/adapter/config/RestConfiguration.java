@@ -1,11 +1,11 @@
 package de.adorsys.xs2a.adapter.config;
 
 import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
-import de.adorsys.xs2a.adapter.registry.AspspModifyServiceImpl;
 import de.adorsys.xs2a.adapter.registry.AspspSearchServiceImpl;
+import de.adorsys.xs2a.adapter.registry.AspspServiceImpl;
 import de.adorsys.xs2a.adapter.registry.LuceneAspspRepositoryFactory;
-import de.adorsys.xs2a.adapter.service.AspspModifyRepository;
 import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
+import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.AspspSearchService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
@@ -51,7 +51,7 @@ public class RestConfiguration {
 
     @Profile("dev")
     @Bean
-    AspspModifyRepository aspspModifyRepository() {
-        return new AspspModifyServiceImpl((AspspModifyRepository) aspspRepository());
+    AspspRepository aspspModifyRepository() {
+        return new AspspServiceImpl((AspspRepository) aspspRepository());
     }
 }
