@@ -60,7 +60,7 @@ public class AspspControllerTest {
         when(repository.save(any())).thenReturn(aspsp);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                                                  .post(AspspReadOnlyApi.V1_APSPS)
+                                                  .post(AspspSearchApi.V1_APSPS)
                                                   .contentType(APPLICATION_JSON_UTF8_VALUE)
                                                   .content("{}"))
                                   .andExpect(status().is(HttpStatus.CREATED.value()))
@@ -88,7 +88,7 @@ public class AspspControllerTest {
         when(repository.save(any())).thenReturn(aspsp);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                                                  .put(AspspReadOnlyApi.V1_APSPS)
+                                                  .put(AspspSearchApi.V1_APSPS)
                                                   .contentType(APPLICATION_JSON_UTF8_VALUE)
                                                   .content(body))
                                   .andExpect(status().is(HttpStatus.OK.value()))

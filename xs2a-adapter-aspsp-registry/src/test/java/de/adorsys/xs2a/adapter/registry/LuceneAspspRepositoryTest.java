@@ -2,7 +2,6 @@ package de.adorsys.xs2a.adapter.registry;
 
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.store.ByteBuffersDirectory;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -14,12 +13,6 @@ public class LuceneAspspRepositoryTest {
     private static final String ASPSP_ID = "1";
 
     private LuceneAspspRepository luceneAspspRepository = new LuceneAspspRepository(new ByteBuffersDirectory());
-
-    @Before
-    public void setUp() {
-        // do not delete. this operation is initialized index
-//        luceneAspspRepository.save(new Aspsp());
-    }
 
     @Test
     public void deleteById() {

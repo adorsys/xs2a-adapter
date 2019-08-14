@@ -31,7 +31,7 @@ import java.net.URI;
 @RestController
 public class AspspController {
     static final String ASPSP_ID = "{aspspId}";
-    static final String V1_ASPSP_BY_ID = AspspReadOnlyApi.V1_APSPS + "/" + ASPSP_ID;
+    static final String V1_ASPSP_BY_ID = AspspSearchApi.V1_APSPS + "/" + ASPSP_ID;
     private final AspspRepository aspspRepository;
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
@@ -39,14 +39,14 @@ public class AspspController {
         this.aspspRepository = aspspRepository;
     }
 
-    @PostMapping(AspspReadOnlyApi.V1_APSPS)
+    @PostMapping(AspspSearchApi.V1_APSPS)
     ResponseEntity<AspspTO> create(@RequestBody AspspTO to) {
         Aspsp aspsp = aspspRepository.save(aspspMapper.toAspsp(to));
         String uri = V1_ASPSP_BY_ID.replace(ASPSP_ID, aspsp.getId());
         return ResponseEntity.created(URI.create(uri)).body(aspspMapper.toAspspTO(aspsp));
     }
 
-    @PutMapping(AspspReadOnlyApi.V1_APSPS)
+    @PutMapping(AspspSearchApi.V1_APSPS)
     ResponseEntity<AspspTO> update(@RequestBody AspspTO aspsp) {
         aspspRepository.save(aspspMapper.toAspsp(aspsp));
         return ResponseEntity.ok(aspsp);

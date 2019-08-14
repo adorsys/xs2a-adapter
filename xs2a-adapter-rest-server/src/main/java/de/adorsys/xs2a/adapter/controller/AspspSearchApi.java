@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-public interface AspspReadOnlyApi {
+public interface AspspSearchApi {
 
     String V1_APSPS = "/v1/aspsps";
 

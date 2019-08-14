@@ -18,7 +18,7 @@ package de.adorsys.xs2a.adapter.service;
 
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
-public interface AspspRepository extends AspspReadOnlyRepository{
+public interface AspspRepository extends AspspReadOnlyRepository {
 
     Aspsp save(Aspsp aspsp);
 

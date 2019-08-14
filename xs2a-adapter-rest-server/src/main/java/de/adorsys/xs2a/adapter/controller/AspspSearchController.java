@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class AspspReadOnlyController implements AspspReadOnlyApi {
+public class AspspSearchController implements AspspSearchApi {
     private final AspspSearchService aspspSearchService;
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
-    public AspspReadOnlyController(AspspSearchService aspspSearchService) {
+    public AspspSearchController(AspspSearchService aspspSearchService) {
         this.aspspSearchService = aspspSearchService;
     }
 
