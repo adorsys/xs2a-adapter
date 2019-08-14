@@ -33,6 +33,12 @@ public class LuceneAspspRepository implements AspspReadOnlyRepository, AspspModi
 
     public LuceneAspspRepository(Directory directory) {
         this.directory = directory;
+        IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
+        try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
+            indexWriter.commit();
+        } catch (IOException e) {
+            throw new RegistryIOException(e);
+        }
     }
 
     public Aspsp save(Aspsp aspsp) {
