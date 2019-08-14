@@ -55,7 +55,7 @@ deploy:
     skip_cleanup: true
     script:  env HARBOR_NAMESPACE=$HARBOR_NAMESPACE_BANKING_GATEWAY_DEV HARBOR_USER=$HARBOR_BANKING_GATEWAY_USER HARBOR_TOKEN=$HARBOR_BANKING_GATEWAY_TOKEN /bin/bash ./devops/build/deploy_harbor.sh
     on:
-      branch: KOA_add_deploy_to_harbor
+      branch: develop
   # Deploy artifacts to the Sonatype registry
   - provider: script
     skip_cleanup: true
