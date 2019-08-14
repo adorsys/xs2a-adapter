@@ -1,46 +1,60 @@
+/*
+ * Copyright 2018-2018 adorsys GmbH & Co KG
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package de.adorsys.xs2a.adapter.controller;
 
 import de.adorsys.xs2a.adapter.mapper.AspspMapper;
 import de.adorsys.xs2a.adapter.model.AspspTO;
-import de.adorsys.xs2a.adapter.service.AspspSearchService;
+import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.net.URI;
 
+@Profile("dev")
 @RestController
-public class AspspController implements AspspService {
-    private final AspspSearchService aspspSearchService;
+public class AspspController {
+    static final String ASPSP_ID = "{aspspId}";
+    static final String V1_ASPSP_BY_ID = AspspSearchApi.V1_APSPS + "/" + ASPSP_ID;
+    private final AspspRepository aspspRepository;
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
-    public AspspController(AspspSearchService aspspSearchService) {
-        this.aspspSearchService = aspspSearchService;
+    public AspspController(AspspRepository aspspRepository) {
+        this.aspspRepository = aspspRepository;
     }
 
-    @Override
-    public ResponseEntity<List<AspspTO>> getAspsps(@RequestParam(required = false) String name,
-                                                   @RequestParam(required = false) String bic,
-                                                   @RequestParam(required = false) String bankCode,
-                                                   @RequestParam(required = false) String iban, // if present - other params ignored
-                                                   @RequestParam(required = false) String after,
-                                                   @RequestParam(required = false, defaultValue = "10") int size) {
+    @PostMapping(AspspSearchApi.V1_APSPS)
+    ResponseEntity<AspspTO> create(@RequestBody AspspTO to) {
+        Aspsp aspsp = aspspRepository.save(aspspMapper.toAspsp(to));
+        String uri = V1_ASPSP_BY_ID.replace(ASPSP_ID, aspsp.getId());
+        return ResponseEntity.created(URI.create(uri)).body(aspspMapper.toAspspTO(aspsp));
+    }
 
-        List<Aspsp> aspsps;
-        if (iban != null) {
-            aspsps = aspspSearchService.findByIban(iban, after, size);
-        } else if (name == null && bic == null && bankCode == null) {
-            aspsps = aspspSearchService.findAll(after, size);
-        } else {
-            Aspsp aspsp = new Aspsp();
-            aspsp.setName(name);
-            aspsp.setBic(bic);
-            aspsp.setBankCode(bankCode);
-            aspsps = aspspSearchService.findLike(aspsp, after, size);
-        }
+    @PutMapping(AspspSearchApi.V1_APSPS)
+    ResponseEntity<AspspTO> update(@RequestBody AspspTO aspsp) {
+        aspspRepository.save(aspspMapper.toAspsp(aspsp));
+        return ResponseEntity.ok(aspsp);
+    }
 
-        return ResponseEntity.ok(aspspMapper.toAspspTOs(aspsps));
+    @DeleteMapping(V1_ASPSP_BY_ID)
+    ResponseEntity<Void> deleteById(@PathVariable("aspspId") String aspspId) {
+        aspspRepository.deleteById(aspspId);
+        return ResponseEntity.noContent().build();
     }
 }

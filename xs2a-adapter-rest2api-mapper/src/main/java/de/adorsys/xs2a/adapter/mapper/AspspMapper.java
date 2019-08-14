@@ -9,5 +9,9 @@ import java.util.List;
 @Mapper
 public interface AspspMapper {
 
+    AspspTO toAspspTO(Aspsp aspsp);
+
+    Aspsp toAspsp(AspspTO to);
+
     List<AspspTO> toAspspTOs(Iterable<Aspsp> aspsps);
 }

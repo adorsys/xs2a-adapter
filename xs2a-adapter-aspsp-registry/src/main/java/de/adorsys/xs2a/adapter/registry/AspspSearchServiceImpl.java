@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.registry;
 
 
-import de.adorsys.xs2a.adapter.service.AspspRepository;
+import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
 import de.adorsys.xs2a.adapter.service.AspspSearchService;
 import de.adorsys.xs2a.adapter.service.exception.IbanException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
@@ -16,9 +16,9 @@ import java.util.Optional;
 public class AspspSearchServiceImpl implements AspspSearchService {
 
     private final Logger log = LoggerFactory.getLogger(AspspSearchServiceImpl.class);
-    private final AspspRepository luceneAspspRepository;
+    private final AspspReadOnlyRepository luceneAspspRepository;
 
-    public AspspSearchServiceImpl(AspspRepository luceneAspspRepository) {
+    public AspspSearchServiceImpl(AspspReadOnlyRepository luceneAspspRepository) {
         this.luceneAspspRepository = luceneAspspRepository;
     }
 

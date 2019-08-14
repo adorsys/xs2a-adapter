@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
-import de.adorsys.xs2a.adapter.service.AspspRepository;
+import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
@@ -28,7 +28,7 @@ public class AdapterServiceLoaderTest {
     private static final String BANK_CODE = "test-bank-code";
     private static final RequestHeaders requestHeadersWithBankCode = fromMap(singletonMap(X_GTW_BANK_CODE, BANK_CODE));
 
-    private final AspspRepository aspspRepository = mock(AspspRepository.class);
+    private final AspspReadOnlyRepository aspspRepository = mock(AspspReadOnlyRepository.class);
     private final AdapterServiceLoader adapterServiceLoader = new AdapterServiceLoader(aspspRepository);
 
     @Test

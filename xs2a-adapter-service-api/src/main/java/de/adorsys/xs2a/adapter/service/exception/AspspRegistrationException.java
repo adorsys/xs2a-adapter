@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.service;
+package de.adorsys.xs2a.adapter.service.exception;
 
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
+public class AspspRegistrationException extends RuntimeException {
+    public AspspRegistrationException() {
+    }
 
-public interface AspspRepository extends AspspReadOnlyRepository {
+    public AspspRegistrationException(String message) {
+        super(message);
+    }
 
-    Aspsp save(Aspsp aspsp);
-
-    void deleteById(String aspspId);
+    public AspspRegistrationException(Throwable cause) {
+        super(cause);
+    }
 }

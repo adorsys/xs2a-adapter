@@ -16,9 +16,9 @@
 
 package de.adorsys.xs2a.adapter.api.remote;
 
-import de.adorsys.xs2a.adapter.service.AspspService;
+import de.adorsys.xs2a.adapter.service.AspspApi;
 import org.springframework.cloud.openfeign.FeignClient;
 
 @FeignClient(value = "aspsp-client", url = "${xs2a-adapter.url}")
-public interface AspspClient extends AspspService {
+public interface AspspClient extends AspspApi {
 }
