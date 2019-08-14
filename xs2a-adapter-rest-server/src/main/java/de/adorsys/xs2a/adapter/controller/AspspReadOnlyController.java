@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class AspspReadOnlyController implements AspspService {
+public class AspspReadOnlyController implements AspspReadOnlyApi {
     private final AspspSearchService aspspSearchService;
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
