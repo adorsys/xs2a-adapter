@@ -10,7 +10,7 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <artifactId>xs2a-adapter-rest-server</artifactId>
+    <artifactId>xs2a-adapter-rest-api</artifactId>
 
     <dependencies>
 
@@ -41,68 +41,6 @@
             <artifactId>spring-webmvc</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${servlet-api.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- swagger dependencies -->
-
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- other dependencies -->
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-        </dependency>
-
-        <!-- test dependencies -->
-
-        <dependency>
-            <groupId>pro.javatar.commons</groupId>
-            <artifactId>javatar-commons</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -124,6 +62,10 @@
                                         <!-- project dependencies -->
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-loader</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-app</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-aspsp-registry</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-impl</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-api-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-remote</exclude>
                                         <!-- 3rd party dependencies -->
                                         <exclude>joda-time:*</exclude>
                                         <exclude>org.projectlombok:lombok</exclude>

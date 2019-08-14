@@ -16,6 +16,7 @@
 
 package de.adorsys.xs2a.adapter.controller;
 
+import de.adorsys.xs2a.adapter.api.AspspSearchApi;
 import de.adorsys.xs2a.adapter.mapper.AspspMapper;
 import de.adorsys.xs2a.adapter.model.AspspTO;
 import de.adorsys.xs2a.adapter.service.AspspRepository;

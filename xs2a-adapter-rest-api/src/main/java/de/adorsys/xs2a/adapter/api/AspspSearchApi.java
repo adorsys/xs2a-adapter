@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.controller;
+package de.adorsys.xs2a.adapter.api;
 
 import de.adorsys.xs2a.adapter.model.AspspTO;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +29,10 @@ public interface AspspSearchApi {
     String V1_APSPS = "/v1/aspsps";
 
     @RequestMapping(value = V1_APSPS, method = RequestMethod.GET)
-    ResponseEntity<List<AspspTO>> getAspsps(@RequestParam(required = false) String name,
-                                            @RequestParam(required = false) String bic,
-                                            @RequestParam(required = false) String bankCode,
-                                            @RequestParam(required = false) String iban, // if present - other params ignored
-                                            @RequestParam(required = false) String after,
-                                            @RequestParam(required = false, defaultValue = "10") int size);
+    ResponseEntity<List<AspspTO>> getAspsps(@RequestParam(value = "name", required = false) String name,
+                                            @RequestParam(value = "bic", required = false) String bic,
+                                            @RequestParam(value = "bankCode", required = false) String bankCode,
+                                            @RequestParam(value = "iban", required = false) String iban, // if present - other params ignored
+                                            @RequestParam(value = "after", required = false) String after,
+                                            @RequestParam(value = "size", required = false, defaultValue = "10") int size);
 }

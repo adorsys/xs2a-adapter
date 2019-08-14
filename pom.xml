@@ -51,12 +51,13 @@
         <module>adapters</module>
         <module>xs2a-adapter-app</module>
         <module>xs2a-adapter-psd2-api</module>
-        <module>xs2a-adapter-rest-server</module>
-        <module>xs2a-adapter-service-api</module>
+        <module>xs2a-adapter-rest-api</module>
+        <module>xs2a-adapter-rest-impl</module>
+        <module>xs2a-adapter-rest2api-mapper</module>
         <module>xs2a-adapter-service-api-adapter</module>
         <module>xs2a-adapter-service-loader</module>
         <module>xs2a-adapter-service-remote</module>
-        <module>xs2a-adapter-rest2api-mapper</module>
+        <module>xs2a-adapter-service-api</module>
         <module>xs2a-adapter-aspsp-registry</module>
     </modules>
 
