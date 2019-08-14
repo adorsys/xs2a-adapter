@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.adapter.registry;
 
-import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.junit.Before;
@@ -44,9 +43,10 @@ public class LuceneAspspRepositoryTest {
         // expect no exceptions
     }
 
-    @Test(expected = RegistryIOException.class)
-    public void findByIdThrowsIOExceptionWhenIndexDoesntExist() {
-        new LuceneAspspRepository(new ByteBuffersDirectory()).findById("id");
+    @Test
+    public void findByIdReturnsEmptyWhenIndexDoesntExist() {
+        Optional<Aspsp> found = new LuceneAspspRepository(new ByteBuffersDirectory()).findById("id");
+        assertThat(found).isEmpty();
     }
 
     @Test
