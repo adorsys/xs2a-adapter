@@ -90,7 +90,7 @@ public enum MessageCodeTO {
         return e;
       }
     }
-    return null;
+    throw new IllegalArgumentException(value);
   }
 
   @Override

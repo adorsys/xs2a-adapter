@@ -5,16 +5,23 @@ import de.adorsys.xs2a.adapter.model.TppMessageCategoryTO;
 import de.adorsys.xs2a.adapter.service.ErrorResponse;
 import de.adorsys.xs2a.adapter.service.TppMessage;
 import de.adorsys.xs2a.adapter.service.exception.*;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.io.UncheckedIOException;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -88,28 +95,52 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponse, headers, httpStatus);
     }
 
-    @ExceptionHandler
-    ResponseEntity handle(AspspRegistrationException exception) {
-        return badRequestHandler(exception);
-    }
-
-    @ExceptionHandler
-    ResponseEntity handle(AspspRegistrationNotFoundException exception) {
-        return badRequestHandler(exception);
-    }
-
-    private ResponseEntity badRequestHandler(RuntimeException exception) {
+    @ExceptionHandler({
+        AspspRegistrationException.class,
+        AspspRegistrationNotFoundException.class,
+        IbanException.class
+    })
+    ResponseEntity<Object> handleAsBadRequest(Exception exception) {
         logger.error(exception.getMessage(), exception);
-        String errorText = exception.getMessage();
+        return handleAsBadRequest(exception.getMessage());
+    }
+
+    private ResponseEntity<Object> handleAsBadRequest(String errorText) {
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
         return new ResponseEntity<>(errorResponse, headers, httpStatus);
     }
 
-    @ExceptionHandler
-    ResponseEntity handle(IbanException exception) {
-        return badRequestHandler(exception);
+    @Override
+    protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
+                                                                          HttpHeaders headers,
+                                                                          HttpStatus status,
+                                                                          WebRequest request) {
+
+        logger.error(ex.getMessage(), ex);
+        return handleAsBadRequest("Required parameter '" + ex.getParameterName() + "' is missing");
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex,
+                                                        HttpHeaders headers,
+                                                        HttpStatus status,
+                                                        WebRequest request) {
+        if (ex instanceof MethodArgumentTypeMismatchException) {
+            logger.error(ex.getMessage(), ex);
+            MethodArgumentTypeMismatchException exception = (MethodArgumentTypeMismatchException) ex;
+            String errorMessage = "Illegal value '" + exception.getValue() + "' for parameter '" + exception.getName() + "'";
+            Class<?> parameterType = exception.getParameter().getParameterType();
+            if (parameterType.isEnum()) {
+                errorMessage += ", allowed values: " + Arrays.stream(parameterType.getEnumConstants())
+                    .map(Objects::toString)
+                    .collect(Collectors.joining(", "));
+            }
+
+            return handleAsBadRequest(errorMessage);
+        }
+        return super.handleTypeMismatch(ex, headers, status, request);
     }
 
     @ExceptionHandler

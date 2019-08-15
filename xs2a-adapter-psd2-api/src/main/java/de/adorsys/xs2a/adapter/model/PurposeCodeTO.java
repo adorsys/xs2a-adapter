@@ -592,7 +592,7 @@ public enum PurposeCodeTO {
         return e;
       }
     }
-    return null;
+    throw new IllegalArgumentException(value);
   }
 
   @Override

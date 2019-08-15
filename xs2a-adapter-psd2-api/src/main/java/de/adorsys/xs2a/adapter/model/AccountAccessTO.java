@@ -76,7 +76,7 @@ public class AccountAccessTO {
           return e;
         }
       }
-      return null;
+      throw new IllegalArgumentException(value);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class AccountAccessTO {
           return e;
         }
       }
-      return null;
+      throw new IllegalArgumentException(value);
     }
 
     @Override

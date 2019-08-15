@@ -48,7 +48,7 @@ public enum TransactionStatusTO {
         return e;
       }
     }
-    return null;
+    throw new IllegalArgumentException(value);
   }
 
   @Override
