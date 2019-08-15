@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.Map;
 
+//todo: remove it after the task https://git.adorsys.de/xs2a-gateway/xs2a-gateway/issues/325 will be completed
 public interface AccountApi {
     @RequestMapping(
         value = "/v1/consents",
