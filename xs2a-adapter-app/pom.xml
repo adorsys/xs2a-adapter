@@ -21,7 +21,7 @@
 
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>xs2a-adapter-rest-server</artifactId>
+            <artifactId>xs2a-adapter-rest-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
 

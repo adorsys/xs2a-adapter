@@ -10,21 +10,11 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <artifactId>xs2a-adapter-service-remote</artifactId>
+    <artifactId>xs2a-adapter-rest-api</artifactId>
 
     <dependencies>
 
-        <dependency>
-            <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>xs2a-adapter-rest-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>xs2a-adapter-psd2-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+        <!-- project dependencies -->
 
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
@@ -34,37 +24,16 @@
 
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>xs2a-adapter-rest2api-mapper</artifactId>
+            <artifactId>xs2a-adapter-psd2-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
+        <!-- spring dependencies -->
 
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <scope>test</scope>
-        </dependency>
-
 
     </dependencies>
 
@@ -85,11 +54,13 @@
                                 <bannedDependencies>
                                     <excludes>
                                         <!-- project dependencies -->
-                                        <exclude>de.adorsys.xs2a.adapter:adapters</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-app</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-server</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-api-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-loader</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-app</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-aspsp-registry</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest2api-mapper</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-impl</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-api-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-remote</exclude>
                                         <!-- 3rd party dependencies -->
                                         <exclude>joda-time:*</exclude>
                                         <exclude>org.projectlombok:lombok</exclude>
