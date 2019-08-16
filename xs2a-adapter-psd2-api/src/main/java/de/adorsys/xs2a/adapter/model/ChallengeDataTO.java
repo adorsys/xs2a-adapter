@@ -86,7 +86,7 @@ public class ChallengeDataTO {
           return e;
         }
       }
-      return null;
+      throw new IllegalArgumentException(value);
     }
 
     @Override

@@ -17,8 +17,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -35,10 +33,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
 public class ConsentControllerTest {
     private static final int HTTP_CODE_200 = 200;
 
@@ -104,5 +102,12 @@ public class ConsentControllerTest {
                                 .content("{}"))
                 .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))
                 .andReturn();
+    }
+
+    @Test
+    public void getTransactionWithoutBookingStatusParamRespondsWithBadRequestAndClearErrorMessage()  throws Exception{
+        mockMvc.perform(get("/v1/accounts/resource-id/transactions"))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.tppMessages[0].text").value("Required parameter 'bookingStatus' is missing"));
     }
 }

@@ -28,7 +28,7 @@ public enum AuthenticationTypeTO {
         return e;
       }
     }
-    return null;
+    throw new IllegalArgumentException(value);
   }
 
   @Override

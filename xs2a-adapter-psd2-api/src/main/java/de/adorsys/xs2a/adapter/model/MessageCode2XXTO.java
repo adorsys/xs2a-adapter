@@ -22,7 +22,7 @@ public enum MessageCode2XXTO {
         return e;
       }
     }
-    return null;
+    throw new IllegalArgumentException(value);
   }
 
   @Override

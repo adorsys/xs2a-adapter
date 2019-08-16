@@ -26,7 +26,7 @@ public enum AccountStatusTO {
         return e;
       }
     }
-    return null;
+    throw new IllegalArgumentException(value);
   }
 
   @Override

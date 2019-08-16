@@ -26,7 +26,7 @@ public enum BookingStatusTO {
         return e;
       }
     }
-    return null;
+    throw new IllegalArgumentException(value);
   }
 
   @Override
