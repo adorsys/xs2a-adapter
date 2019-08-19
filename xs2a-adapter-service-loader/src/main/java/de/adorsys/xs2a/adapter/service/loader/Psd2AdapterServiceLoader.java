@@ -1,0 +1,28 @@
+package de.adorsys.xs2a.adapter.service.loader;
+
+import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
+import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
+import de.adorsys.xs2a.adapter.service.impl.AdapterServiceLoader;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
+import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationServiceFactory;
+
+public class Psd2AdapterServiceLoader extends AdapterServiceLoader {
+    private final Pkcs12KeyStore keyStore;
+
+    public Psd2AdapterServiceLoader(AspspReadOnlyRepository aspspRepository, Pkcs12KeyStore keyStore) {
+        super(aspspRepository);
+        this.keyStore = keyStore;
+    }
+
+    public Psd2AccountInformationService getPsd2AccountInformationService(RequestHeaders requestHeaders) {
+        Aspsp aspsp = getAspsp(requestHeaders);
+        String adapterId = aspsp.getAdapterId();
+        String baseUrl = aspsp.getUrl();
+        return getServiceProvider(Psd2AccountInformationServiceFactory.class, adapterId)
+            .orElseThrow(() -> new AdapterNotFoundException(adapterId))
+            .getAccountInformationService(baseUrl, keyStore);
+    }
+}

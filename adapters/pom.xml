@@ -26,6 +26,7 @@
         <module>fiducia-adapter</module>
         <module>dkb-adapter</module>
         <module>commerzbank-adapter</module>
+        <module>ing-psd2-adapter</module>
     </modules>
 
     <dependencies>
@@ -87,6 +88,12 @@
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>commerzbank-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>ing-psd2-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 

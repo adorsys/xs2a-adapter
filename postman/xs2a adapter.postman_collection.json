@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d508ffcb-b968-41f9-861e-e22dcbb57c8a",
+		"_postman_id": "b0749478-8fb2-4bf3-9630-c074c5ae88f6",
 		"name": "xs2a adapter",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2774,6 +2774,343 @@
 							"pm.test(\"Response code is successful\", function () {",
 							"    pm.expect(pm.response.code).to.be.below(400);",
 							"});"
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "PSD2",
+			"item": [
+				{
+					"name": "AIS*",
+					"item": [
+						{
+							"name": "/v1/aspsps",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f4ac69de-a30e-4afd-a445-822601a8c1b9",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"pm.globals.set(\"aspspId\", jsonData[0].id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUri}}/v1/aspsps?bic={{bic}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"aspsps"
+									],
+									"query": [
+										{
+											"key": "bic",
+											"value": "{{bic}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/consents",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "356e187e-1fbe-4dec-b2d6-cb7a25feb9cf",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/consents",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"consents"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/oauth2/authorization-request-uri",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b16907b6-9767-4a8d-8060-d0d6e2cd6dbb",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUri}}/oauth2/authorization-request-uri?state=xyz&redirect_uri=https://client.example.com/cb",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"oauth2",
+										"authorization-request-uri"
+									],
+									"query": [
+										{
+											"key": "state",
+											"value": "xyz"
+										},
+										{
+											"key": "redirect_uri",
+											"value": "https://client.example.com/cb"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/oauth2/token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7e0253ed-1d20-4b48-89ab-06e3f2778ad9",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.globals.set(\"access_token\",  pm.response.json().access_token);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUri}}/oauth2/token?authorization_code={{authorization_code}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"oauth2",
+										"token"
+									],
+									"query": [
+										{
+											"key": "authorization_code",
+											"value": "{{authorization_code}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/accounts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "57a221c8-46cc-4628-a766-a4dda1b90cb2",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.globals.set(\"accountId\", pm.response.json().accounts[0].resourceId);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUri}}/accounts",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/accounts/{accountId}/transactions",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUri}}/accounts/{{accountId}}/transactions?dateFrom=2019-01-09&dateTo=2019-01-10",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"accounts",
+										"{{accountId}}",
+										"transactions"
+									],
+									"query": [
+										{
+											"key": "dateFrom",
+											"value": "2019-01-09"
+										},
+										{
+											"key": "dateTo",
+											"value": "2019-01-10"
+										},
+										{
+											"key": "limit",
+											"value": "10",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/accounts/{accountId}/balances",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUri}}/accounts/{{accountId}}/balances",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"accounts",
+										"{{accountId}}",
+										"balances"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "79d14ecc-7afa-47ab-b922-c7c226f6dcd7",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "8eb8a1a6-a33d-415f-9afd-a2cd3b1ede17",
+						"type": "text/javascript",
+						"exec": [
+							""
 						]
 					}
 				}
