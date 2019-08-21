@@ -16,21 +16,21 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
-import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
-import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.impl.UnicreditAccountInformationService;
+import de.adorsys.xs2a.adapter.service.impl.UnicreditPaymentInitiationService;
 
 public class UnicreditServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
     @Override
     public AccountInformationService getAccountInformationService(String baseUrl) {
-        return new BaseAccountInformationService(baseUrl);
+        return new UnicreditAccountInformationService(baseUrl);
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
-        return new BasePaymentInitiationService(baseUrl);
+        return new UnicreditPaymentInitiationService(baseUrl);
     }
 
     @Override

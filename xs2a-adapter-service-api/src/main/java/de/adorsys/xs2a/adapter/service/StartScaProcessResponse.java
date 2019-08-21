@@ -71,4 +71,12 @@ public class StartScaProcessResponse {
     public void setPsuMessage(String psuMessage) {
         this.psuMessage = psuMessage;
     }
+
+    public boolean isChosenScaMethodStage() {
+        return chosenScaMethod != null;
+    }
+
+    public boolean isSelectScaMethodStage() {
+        return scaMethods != null;
+    }
 }

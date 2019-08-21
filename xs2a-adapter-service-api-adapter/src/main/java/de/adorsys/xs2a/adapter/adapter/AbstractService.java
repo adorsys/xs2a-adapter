@@ -73,7 +73,7 @@ public abstract class AbstractService {
         return headers;
     }
 
-    <T> HttpClient.ResponseHandler<T> jsonResponseHandler(Class<T> klass) {
+    protected <T> HttpClient.ResponseHandler<T> jsonResponseHandler(Class<T> klass) {
         return (statusCode, responseBody, responseHeaders) -> {
             if (statusCode == 204) {
                 return null;
