@@ -25,6 +25,12 @@ public class Psd2DateTimeDeserializer extends JsonDeserializer<OffsetDateTime> {
 
     @Override
     public OffsetDateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException {
-        return OffsetDateTime.parse(parser.getText(), psd2Formatter);
+        String text = parser.getText();
+
+        if (text == null || text.isEmpty()) {
+            return null;
+        }
+
+        return OffsetDateTime.parse(text, psd2Formatter);
     }
 }
