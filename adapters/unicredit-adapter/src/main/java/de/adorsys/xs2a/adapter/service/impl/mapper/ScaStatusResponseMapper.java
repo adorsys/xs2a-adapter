@@ -6,12 +6,10 @@ import de.adorsys.xs2a.adapter.service.ais.ConsentStatus;
 import de.adorsys.xs2a.adapter.service.impl.model.UnicreditAccountScaStatusResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.UnicreditPaymentScaStatusResponse;
 import de.adorsys.xs2a.adapter.service.model.ScaStatusResponse;
-import org.mapstruct.Mapper;
 
-@Mapper
-public interface ScaStatusResponseMapper {
+public class ScaStatusResponseMapper {
 
-    default ScaStatusResponse toScaStatusResponse(UnicreditAccountScaStatusResponse unicreditAccountScaStatusResponse) {
+    public ScaStatusResponse toScaStatusResponse(UnicreditAccountScaStatusResponse unicreditAccountScaStatusResponse) {
         ConsentStatus consentStatus = unicreditAccountScaStatusResponse.getConsentStatus();
 
         ScaStatus scaStatus;
@@ -31,7 +29,7 @@ public interface ScaStatusResponseMapper {
         return scaStatusResponse;
     }
 
-    default ScaStatusResponse toScaStatusResponse(UnicreditPaymentScaStatusResponse unicreditPaymentScaStatusResponse) {
+    public ScaStatusResponse toScaStatusResponse(UnicreditPaymentScaStatusResponse unicreditPaymentScaStatusResponse) {
         TransactionStatus transactionStatus = unicreditPaymentScaStatusResponse.getTransactionStatus();
 
         ScaStatus scaStatus;

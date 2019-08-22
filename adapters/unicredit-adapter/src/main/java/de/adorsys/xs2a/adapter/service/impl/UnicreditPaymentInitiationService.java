@@ -15,7 +15,6 @@ import de.adorsys.xs2a.adapter.service.impl.model.UnicreditPaymentScaStatusRespo
 import de.adorsys.xs2a.adapter.service.model.ScaStatusResponse;
 import de.adorsys.xs2a.adapter.service.model.TransactionAuthorisation;
 import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
-import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
 
@@ -24,7 +23,7 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
 
     private final UnicreditInitiateSinglePaymentLinkMapper initiateSinglePaymentLinkMapper = new UnicreditInitiateSinglePaymentLinkMapper();
     private final UnicreditStartAuthorisationLinkMapper startAuthorisationLinkMapper = new UnicreditStartAuthorisationLinkMapper();
-    private final ScaStatusResponseMapper scaStatusResponseMapper = Mappers.getMapper(ScaStatusResponseMapper.class);
+    private final ScaStatusResponseMapper scaStatusResponseMapper = new ScaStatusResponseMapper();
 
     public UnicreditPaymentInitiationService(String baseUri) {
         super(baseUri);
