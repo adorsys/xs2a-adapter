@@ -1,9 +1,9 @@
-package de.adorsys.xs2a.adapter.service.mapper;
+package de.adorsys.xs2a.adapter.service.impl.mapper;
 
 import de.adorsys.xs2a.adapter.service.ScaStatus;
 import de.adorsys.xs2a.adapter.service.ais.ConsentStatus;
 import de.adorsys.xs2a.adapter.service.model.ScaStatusResponse;
-import de.adorsys.xs2a.adapter.service.model.UnicreditScaStatusResponse;
+import de.adorsys.xs2a.adapter.service.impl.model.UnicreditScaStatusResponse;
 import org.mapstruct.Mapper;
 
 @Mapper

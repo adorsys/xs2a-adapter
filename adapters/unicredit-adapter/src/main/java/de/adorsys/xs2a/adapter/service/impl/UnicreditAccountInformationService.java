@@ -7,22 +7,25 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.StartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.ais.ConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.ais.Consents;
-import de.adorsys.xs2a.adapter.service.mapper.ScaStatusResponseMapper;
-import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.service.impl.mapper.ScaStatusResponseMapper;
+import de.adorsys.xs2a.adapter.service.impl.mapper.UnicreditCreateConsentLinkMapper;
+import de.adorsys.xs2a.adapter.service.impl.mapper.UnicreditStartConsentAuthorisationLinkMapper;
+import de.adorsys.xs2a.adapter.service.impl.model.UnicreditScaStatusResponse;
+import de.adorsys.xs2a.adapter.service.model.ScaStatusResponse;
+import de.adorsys.xs2a.adapter.service.model.TransactionAuthorisation;
+import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
 import java.util.function.Function;
 
 public class UnicreditAccountInformationService extends BaseAccountInformationService {
-    private static final String AUTHORISE_TRANSACTION_LINK = "authoriseTransaction";
-    private static final String START_AUTHORISATION_WITH_PSU_AUTHENTICATION_LINK = "startAuthorisationWithPsuAuthentication";
-    private static final String SELECT_AUTHENTICATION_METHOD_LINK = "selectAuthenticationMethod";
-    private static final String NEXT_LINK = "next";
     private static final String AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM = "authenticationCurrentNumber";
     private static final String PSU_IP_ADDRESS = "PSU-IP-Address";
     private static final String MOCK_PSU_IP_ADDRESS = "0.0.0.0";    // TODO should be changed to a real data
 
+    private final UnicreditCreateConsentLinkMapper createConsentLinkMapper = new UnicreditCreateConsentLinkMapper();
+    private final UnicreditStartConsentAuthorisationLinkMapper startConsentAuthorisationLinkMapper = new UnicreditStartConsentAuthorisationLinkMapper();
     private final ScaStatusResponseMapper scaStatusResponseMapper = Mappers.getMapper(ScaStatusResponseMapper.class);
 
     public UnicreditAccountInformationService(String baseUri) {
@@ -30,21 +33,8 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     }
 
     @Override
-    protected <T> GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body, Class<T> klass, Function<T, ConsentCreationResponse> mapper) {
-        Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
-
-        String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
-
-        GeneralResponse<T> response = httpClient.post(getConsentBaseUri(), bodyString, headersMap, jsonResponseHandler(klass));
-        ConsentCreationResponse creationResponse = mapper.apply(response.getResponseBody());
-
-        Map<String, Link> links = creationResponse.getLinks();
-        // 1.1 is the obsolete version for now
-        if (isBerlinGroupVersionObsolete(links, AUTHORISE_TRANSACTION_LINK)) {
-            modifyLinksToActualVersion(links, AUTHORISE_TRANSACTION_LINK, START_AUTHORISATION_WITH_PSU_AUTHENTICATION_LINK, this::buildStartAuthorisationUri);
-        }
-
-        return new GeneralResponse<>(response.getStatusCode(), creationResponse, response.getResponseHeaders());
+    public GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
+        return createConsent(requestHeaders, body, ConsentCreationResponse.class, createConsentLinkMapper::modifyLinks);
     }
 
     @Override
@@ -56,20 +46,7 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
         GeneralResponse<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
         StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getResponseBody());
 
-        Map<String, Link> links = startScaProcessResponse.getLinks();
-        // 1.1 is the obsolete version for now
-        if (isBerlinGroupVersionObsolete(links, NEXT_LINK)) {
-            if (startScaProcessResponse.isSelectScaMethodStage()) {
-                modifyLinksToActualVersion(links, NEXT_LINK, SELECT_AUTHENTICATION_METHOD_LINK, this::buildUpdatePsuDataUri);
-            } else if (startScaProcessResponse.isChosenScaMethodStage()) {
-                modifyLinksToActualVersion(links, NEXT_LINK, AUTHORISE_TRANSACTION_LINK, this::buildUpdatePsuDataUri);
-            } else {
-                // TODO come up with better solution
-                throw new RuntimeException();
-            }
-        }
-
-        return new GeneralResponse<>(response.getStatusCode(), startScaProcessResponse, response.getResponseHeaders());
+        return new GeneralResponse<>(response.getStatusCode(), startConsentAuthorisationLinkMapper.modifyLinks(startScaProcessResponse), response.getResponseHeaders());
     }
 
     @Override
@@ -104,34 +81,5 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
         headers.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
         return headers;
-    }
-
-    private boolean isBerlinGroupVersionObsolete(Map<String, Link> links, String linkName) {
-        return links.containsKey(linkName);
-    }
-
-    private void modifyLinksToActualVersion(Map<String, Link> links, String linkToRemove, String linkToAdd, Function<String, String> linkModifier) {
-        Link authoriseTransactionLink = links.get(linkToRemove);
-        Link startAuthorisationLink = new Link(linkModifier.apply(authoriseTransactionLink.getHref()));
-
-        links.remove(linkToRemove);
-        links.put(linkToAdd, startAuthorisationLink);
-    }
-
-    private String buildStartAuthorisationUri(String baseUri) {
-        return StringUri.fromElements(baseUri, AUTHORISATIONS);
-    }
-
-    private String buildUpdatePsuDataUri(String baseUri) {
-        Map<String, String> queryParams = StringUri.getQueryParamsFromUri(baseUri);
-
-        String authenticationCurrentNumber = queryParams.get(AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM);
-
-        if (authenticationCurrentNumber == null) {
-            // TODO come up with better solution
-            throw new RuntimeException();
-        }
-
-        return StringUri.fromElements(baseUri, AUTHORISATIONS, authenticationCurrentNumber);
     }
 }

@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.service.model;
+package de.adorsys.xs2a.adapter.service.impl.model;
 
 import de.adorsys.xs2a.adapter.service.ais.ConsentStatus;
 
