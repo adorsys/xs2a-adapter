@@ -470,8 +470,15 @@
 									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3\");",
 									"});",
 									"",
-									"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
-									"pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());"
+									"// workaround for Unicredit Bank",
+									"if (jsonData._links.selectAuthenticationMethod) {",
+									"    var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
+									"    pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());",
+									"} else if (jsonData._links.authoriseTransaction) {",
+									"    var authoriseTransactionUri = jsonData._links.authoriseTransaction.href;",
+									"    pm.globals.set(\"authorisationId\", authoriseTransactionUri.split(\"/\").pop());",
+									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4\");",
+									"}"
 								],
 								"type": "text/javascript"
 							}
@@ -504,6 +511,11 @@
 							{
 								"key": "TPP-Redirect-Preferred",
 								"value": "false",
+								"type": "text"
+							},
+							{
+								"key": "PSU-ID-Type",
+								"value": "{{psuIdType_AIS}}",
 								"type": "text"
 							}
 						],
@@ -1707,8 +1719,15 @@
 											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers\");",
 											"});",
 											"",
-											"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
-											"pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());"
+											"// workaround for Unicredit Bank",
+											"if (jsonData._links.selectAuthenticationMethod) {",
+											"    var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
+											"    pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());",
+											"} else if (jsonData._links.authoriseTransaction) {",
+											"    var authoriseTransactionUri = jsonData._links.authoriseTransaction.href;",
+											"    pm.globals.set(\"authorisationId\", authoriseTransactionUri.split(\"/\").pop());",
+											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4_sepa_credit_transfers\");",
+											"}"
 										],
 										"type": "text/javascript"
 									}
