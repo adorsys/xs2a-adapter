@@ -23,6 +23,9 @@ import de.adorsys.xs2a.adapter.service.model.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import java.util.Map;
+import java.util.function.Function;
+
+import static java.util.function.Function.identity;
 
 public class BasePaymentInitiationService extends AbstractService implements PaymentInitiationService {
 
@@ -36,12 +39,14 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
     @Override
     public GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, RequestHeaders requestHeaders, Object body) {
-        return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct), body, requestHeaders);
+        return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct), body, requestHeaders, PaymentInitiationRequestResponse.class, identity());
     }
 
-    private GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(StandardPaymentProduct paymentProduct,
+    protected <T> GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(StandardPaymentProduct paymentProduct,
                                                                                     Object body,
-                                                                                    RequestHeaders requestHeaders) {
+                                                                                    RequestHeaders requestHeaders,
+                                                                                    Class<T> klass,
+                                                                                    Function<T, PaymentInitiationRequestResponse> mapper) {
 
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         String bodyString;
@@ -57,12 +62,15 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                 throw new IllegalArgumentException("Unsupported payment product media type");
         }
 
-        return httpClient.post(
-                StringUri.fromElements(baseUri, V1, PAYMENTS, paymentProduct.getSlug()),
-                bodyString,
-                headersMap,
-                jsonResponseHandler(PaymentInitiationRequestResponse.class)
+        GeneralResponse<T> response = httpClient.post(
+            StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug()),
+            bodyString,
+            headersMap,
+            jsonResponseHandler(klass)
         );
+
+        PaymentInitiationRequestResponse paymentInitiationResponse = mapper.apply(response.getResponseBody());
+        return new GeneralResponse<>(response.getStatusCode(), paymentInitiationResponse, response.getResponseHeaders());
     }
 
     @Override
@@ -75,7 +83,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     private GeneralResponse<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(StandardPaymentProduct paymentProduct,
                                                                                                               String paymentId,
                                                                                                               RequestHeaders requestHeaders) {
-        String uri = StringUri.fromElements(baseUri, V1, PAYMENTS, paymentProduct.getSlug(), paymentId);
+        String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug(), paymentId);
 
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
         return httpClient.get(uri, headersMap,
@@ -110,7 +118,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     private String getSinglePaymentInitiationStatusUri(String paymentProduct, String paymentId) {
-        return StringUri.fromElements(baseUri, V1, PAYMENTS, paymentProduct, paymentId, STATUS);
+        return StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct, paymentId, STATUS);
     }
 
     @Override
@@ -127,19 +135,19 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                 requestHeaders, updatePsuAuthentication);
     }
 
-    private GeneralResponse<StartScaProcessResponse> startSinglePaymentAuthorisation(PaymentProduct paymentProduct,
+    protected GeneralResponse<StartScaProcessResponse> startSinglePaymentAuthorisation(PaymentProduct paymentProduct,
                                                                              String paymentId,
                                                                              RequestHeaders requestHeaders,
                                                                              UpdatePsuAuthentication updatePsuAuthentication) {
-        String uri = StringUri.fromElements(baseUri, V1, PAYMENTS, paymentProduct.getSlug(), paymentId, AUTHORISATIONS);
-        Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
+        String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug(), paymentId, AUTHORISATIONS);
+        Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
         return httpClient.post(uri, body, headersMap, jsonResponseHandler(StartScaProcessResponse.class));
     }
 
     @Override
     public GeneralResponse<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
-        String uri = StringUri.fromElements(baseUri, V1, paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
+        String uri = StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
@@ -148,7 +156,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
     @Override
     public GeneralResponse<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
-        String uri = StringUri.fromElements(baseUri, V1, paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
+        String uri = StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
 
@@ -157,10 +165,18 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
     @Override
     public GeneralResponse<ScaStatusResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
-        String uri = StringUri.fromElements(baseUri, V1, paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
+        String uri = StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 
         return httpClient.put(uri, body, headersMap, jsonResponseHandler(ScaStatusResponse.class));
+    }
+
+    protected String getSinglePaymentBaseUri() {
+        return StringUri.fromElements(getPaymentBaseUri(), PAYMENTS);
+    }
+
+    protected String getPaymentBaseUri() {
+        return StringUri.fromElements(baseUri, V1);
     }
 }

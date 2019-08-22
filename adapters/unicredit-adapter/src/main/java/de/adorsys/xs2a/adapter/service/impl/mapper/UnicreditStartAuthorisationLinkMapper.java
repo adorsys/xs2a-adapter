@@ -7,7 +7,7 @@ import de.adorsys.xs2a.adapter.service.model.Link;
 
 import java.util.Map;
 
-public class UnicreditStartConsentAuthorisationLinkMapper implements UnicreditLinkMapper<StartScaProcessResponse> {
+public class UnicreditStartAuthorisationLinkMapper implements UnicreditLinkMapper<StartScaProcessResponse> {
     private static final String NEXT_LINK = "next";
     private static final String SELECT_AUTHENTICATION_METHOD_LINK = "selectAuthenticationMethod";
     private static final String AUTHORISE_TRANSACTION_LINK = "authoriseTransaction";

@@ -9,8 +9,8 @@ import de.adorsys.xs2a.adapter.service.ais.ConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.ais.Consents;
 import de.adorsys.xs2a.adapter.service.impl.mapper.ScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.service.impl.mapper.UnicreditCreateConsentLinkMapper;
-import de.adorsys.xs2a.adapter.service.impl.mapper.UnicreditStartConsentAuthorisationLinkMapper;
-import de.adorsys.xs2a.adapter.service.impl.model.UnicreditScaStatusResponse;
+import de.adorsys.xs2a.adapter.service.impl.mapper.UnicreditStartAuthorisationLinkMapper;
+import de.adorsys.xs2a.adapter.service.impl.model.UnicreditAccountScaStatusResponse;
 import de.adorsys.xs2a.adapter.service.model.ScaStatusResponse;
 import de.adorsys.xs2a.adapter.service.model.TransactionAuthorisation;
 import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
@@ -25,7 +25,7 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     private static final String MOCK_PSU_IP_ADDRESS = "0.0.0.0";    // TODO should be changed to a real data
 
     private final UnicreditCreateConsentLinkMapper createConsentLinkMapper = new UnicreditCreateConsentLinkMapper();
-    private final UnicreditStartConsentAuthorisationLinkMapper startConsentAuthorisationLinkMapper = new UnicreditStartConsentAuthorisationLinkMapper();
+    private final UnicreditStartAuthorisationLinkMapper startAuthorisationLinkMapper = new UnicreditStartAuthorisationLinkMapper();
     private final ScaStatusResponseMapper scaStatusResponseMapper = Mappers.getMapper(ScaStatusResponseMapper.class);
 
     public UnicreditAccountInformationService(String baseUri) {
@@ -46,7 +46,7 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
         GeneralResponse<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
         StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getResponseBody());
 
-        return new GeneralResponse<>(response.getStatusCode(), startConsentAuthorisationLinkMapper.modifyLinks(startScaProcessResponse), response.getResponseHeaders());
+        return new GeneralResponse<>(response.getStatusCode(), startAuthorisationLinkMapper.modifyLinks(startScaProcessResponse), response.getResponseHeaders());
     }
 
     @Override
@@ -56,7 +56,7 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 
-        GeneralResponse<UnicreditScaStatusResponse> response = httpClient.put(uriWithQueryParam, body, headersMap, jsonResponseHandler(UnicreditScaStatusResponse.class));
+        GeneralResponse<UnicreditAccountScaStatusResponse> response = httpClient.put(uriWithQueryParam, body, headersMap, jsonResponseHandler(UnicreditAccountScaStatusResponse.class));
         ScaStatusResponse scaStatusResponse = scaStatusResponseMapper.toScaStatusResponse(response.getResponseBody());
         return new GeneralResponse<>(response.getStatusCode(), scaStatusResponse, response.getResponseHeaders());
     }

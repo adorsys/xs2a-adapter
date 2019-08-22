@@ -2,7 +2,7 @@ package de.adorsys.xs2a.adapter.service.impl.model;
 
 import de.adorsys.xs2a.adapter.service.ais.ConsentStatus;
 
-public class UnicreditScaStatusResponse {
+public class UnicreditAccountScaStatusResponse {
     private ConsentStatus consentStatus;
 
     public ConsentStatus getConsentStatus() {
