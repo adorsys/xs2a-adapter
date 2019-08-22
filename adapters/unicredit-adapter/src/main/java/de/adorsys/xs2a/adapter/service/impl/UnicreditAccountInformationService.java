@@ -50,14 +50,13 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
 
     @Override
     public GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
-        String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
-        String uriWithQueryParam = StringUri.withQuery(uri, AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM, authorisationId);
-        Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
-        String body = jsonMapper.writeValueAsString(transactionAuthorisation);
+        return updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation, UnicreditAccountScaStatusResponse.class, scaStatusResponseMapper::toScaStatusResponse);
+    }
 
-        GeneralResponse<UnicreditAccountScaStatusResponse> response = httpClient.put(uriWithQueryParam, body, headersMap, jsonResponseHandler(UnicreditAccountScaStatusResponse.class));
-        ScaStatusResponse scaStatusResponse = scaStatusResponseMapper.toScaStatusResponse(response.getResponseBody());
-        return new GeneralResponse<>(response.getStatusCode(), scaStatusResponse, response.getResponseHeaders());
+    @Override
+    protected String getUpdateConsentPsuDataUri(String consentId, String authorisationId) {
+        String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
+        return StringUri.withQuery(uri, AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM, authorisationId);
     }
 
     @Override
