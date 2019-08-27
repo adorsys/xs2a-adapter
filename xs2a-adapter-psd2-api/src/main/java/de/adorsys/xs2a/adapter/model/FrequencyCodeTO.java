@@ -36,7 +36,7 @@ public enum FrequencyCodeTO {
         return e;
       }
     }
-    return null;
+    throw new IllegalArgumentException(value);
   }
 
   @Override

@@ -12,9 +12,7 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
@@ -33,16 +31,34 @@ public class LuceneAspspRepository implements AspspRepository {
         this.directory = directory;
     }
 
-    public void save(Aspsp aspsp) {
+    public Aspsp save(Aspsp aspsp) {
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
         try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
-            save(indexWriter, aspsp);
+            return save(indexWriter, aspsp);
         } catch (IOException e) {
             throw new RegistryIOException(e);
         }
     }
 
-    private void save(IndexWriter indexWriter, Aspsp aspsp) throws IOException {
+    @Override
+    public void deleteById(String aspspId) {
+        IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
+        try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
+            indexWriter.deleteDocuments(new Term(ID_FIELD_NAME, aspspId));
+        } catch (IOException e) {
+            throw new RegistryIOException(e);
+        }
+    }
+
+    Aspsp save(IndexWriter indexWriter, Aspsp aspsp) throws IOException {
+        Optional<Aspsp> storedAspsp = Optional.empty();
+
+        if (aspsp.getId() == null) {
+            aspsp.setId(UUID.randomUUID().toString());
+        } else {
+            storedAspsp = findById(aspsp.getId());
+        }
+
         Document document = new Document();
         document.add(new StringField(ID_FIELD_NAME, serialize(aspsp.getId()), Field.Store.YES));
         document.add(new TextField(NAME_FIELD_NAME, serialize(aspsp.getName()), Field.Store.YES));
@@ -50,7 +66,14 @@ public class LuceneAspspRepository implements AspspRepository {
         document.add(new StringField(BIC_FIELD_NAME, serialize(aspsp.getBic()), Field.Store.YES));
         document.add(new StringField(BANK_CODE_FIELD_NAME, serialize(aspsp.getBankCode()), Field.Store.YES));
         document.add(new StringField(ADAPTER_ID_FIELD_NAME, serialize(aspsp.getAdapterId()), Field.Store.YES));
-        indexWriter.addDocument(document);
+
+        if (storedAspsp.isPresent()) {
+            indexWriter.updateDocument(new Term(ID_FIELD_NAME, aspsp.getId()), document);
+        } else {
+            indexWriter.addDocument(document);
+        }
+
+        return aspsp;
     }
 
     private String serialize(String s) {
@@ -71,7 +94,7 @@ public class LuceneAspspRepository implements AspspRepository {
     @Override
     public Optional<Aspsp> findById(String id) {
         List<Aspsp> aspsps = find(new TermQuery(new Term(ID_FIELD_NAME, id)), null, 1);
-        if (aspsps.size() == 0) {
+        if (aspsps.isEmpty()) {
             return Optional.empty();
         }
         return Optional.of(aspsps.get(0));
@@ -84,6 +107,7 @@ public class LuceneAspspRepository implements AspspRepository {
             }
             Document document = indexReader.document(docId);
             return Optional.of(document);
+
         } catch (IOException e) {
             throw new RegistryIOException(e);
         }
@@ -117,6 +141,8 @@ public class LuceneAspspRepository implements AspspRepository {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(toList());
+        } catch (IndexNotFoundException e) {
+            return Collections.emptyList();
         } catch (IOException e) {
             throw new RegistryIOException(e);
         }
@@ -124,17 +150,17 @@ public class LuceneAspspRepository implements AspspRepository {
 
     private Optional<Aspsp> getDocumentAsAspsp(ScoreDoc scoreDoc) {
         return getDocument(scoreDoc.doc)
-            .map(document -> {
-            Aspsp aspsp = new Aspsp();
-            aspsp.setId(deserialize(document.get(ID_FIELD_NAME)));
-            aspsp.setName(deserialize(document.get(NAME_FIELD_NAME)));
-            aspsp.setUrl(deserialize(document.get(URL_FIELD_NAME)));
-            aspsp.setBic(deserialize(document.get(BIC_FIELD_NAME)));
-            aspsp.setBankCode(deserialize(document.get(BANK_CODE_FIELD_NAME)));
-            aspsp.setAdapterId(deserialize(document.get(ADAPTER_ID_FIELD_NAME)));
-            aspsp.setPaginationId(scoreDoc.doc + ":" + scoreDoc.score);
-            return aspsp;
-        });
+                   .map(document -> {
+                       Aspsp aspsp = new Aspsp();
+                       aspsp.setId(deserialize(document.get(ID_FIELD_NAME)));
+                       aspsp.setName(deserialize(document.get(NAME_FIELD_NAME)));
+                       aspsp.setUrl(deserialize(document.get(URL_FIELD_NAME)));
+                       aspsp.setBic(deserialize(document.get(BIC_FIELD_NAME)));
+                       aspsp.setBankCode(deserialize(document.get(BANK_CODE_FIELD_NAME)));
+                       aspsp.setAdapterId(deserialize(document.get(ADAPTER_ID_FIELD_NAME)));
+                       aspsp.setPaginationId(scoreDoc.doc + ":" + scoreDoc.score);
+                       return aspsp;
+                   });
     }
 
     private ScoreDoc parseScoreDoc(String id) {

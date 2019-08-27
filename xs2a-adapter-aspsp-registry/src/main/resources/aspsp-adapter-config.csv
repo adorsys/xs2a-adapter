@@ -1978,5 +1978,4 @@ afc87008-92c9-4890-9b3b-d7f31ab05800,Stadtsparkasse Bad Sachsa,NOLADE21SAC,https
 880687f8-a766-43eb-b22d-b73a29f97a84,RAIFF-VB VAREL-NORDENHAM,GENODEF1VAR,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,28262673
 6d40f1e2-255f-4dae-a7cf-565c4b18d1d9,Sparkasse Westholstein,NOLADE21WHO,https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678,sparkasse-adapter,22250020
 a68ca008-a1d7-46cd-90ac-514289c3e970,Raiffeisenbank,GENODEF1ZIR,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,76069669
-0d466a37-f506-4d60-b378-a7a0a2ee1e9a,Banking Gateway Sandbox xs2a,ADORSYS2019,https://dev-bankinggateway-sandbox-xs2a.cloud.adorsys.de,adorsys-integ-adapter,90000001
 c400eecb-d40b-4a0b-9a2b-176e24440541,Unicredit Bank,HYVEDEMMXXX,https://api-sandbox.unicredit.de,unicredit-adapter,70020270

@@ -18,7 +18,6 @@ package de.adorsys.xs2a.adapter.service;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import de.adorsys.xs2a.adapter.model.*;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.Map;
 
+//todo: remove it after the task https://git.adorsys.de/xs2a-gateway/xs2a-gateway/issues/325 will be completed
 public interface AccountApi {
     @RequestMapping(
         value = "/v1/consents",
@@ -103,8 +103,8 @@ public interface AccountApi {
         method = RequestMethod.GET
     )
     ResponseEntity<Object> getTransactionList(@PathVariable("account-id") String accountId,
-                                              @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom,
-                                              @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(value = "dateTo", required = false) LocalDate dateTo,
+                                              @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom,
+                                              @RequestParam(value = "dateTo", required = false) LocalDate dateTo,
                                               @RequestParam(value = "entryReferenceFrom", required = false)
                                                   String entryReferenceFrom,
                                               @RequestParam(value = "bookingStatus", required = true)
@@ -118,8 +118,8 @@ public interface AccountApi {
         method = RequestMethod.GET, produces = {MediaType.APPLICATION_XML_VALUE}
     )
     ResponseEntity<String> getTransactionListAsString(@PathVariable("account-id") String accountId,
-                                                      @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom,
-                                                      @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam(value = "dateTo", required = false) LocalDate dateTo,
+                                                      @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom,
+                                                      @RequestParam(value = "dateTo", required = false) LocalDate dateTo,
                                                       @RequestParam(value = "entryReferenceFrom", required = false)
                                                           String entryReferenceFrom,
                                                       @RequestParam(value = "bookingStatus", required = true)

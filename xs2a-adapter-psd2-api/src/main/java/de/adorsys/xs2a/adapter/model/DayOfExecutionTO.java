@@ -82,7 +82,7 @@ public enum DayOfExecutionTO {
         return e;
       }
     }
-    return null;
+    throw new IllegalArgumentException(value);
   }
 
   @Override

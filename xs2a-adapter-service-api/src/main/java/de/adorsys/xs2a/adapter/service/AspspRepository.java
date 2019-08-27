@@ -1,63 +1,26 @@
+/*
+ * Copyright 2018-2018 adorsys GmbH & Co KG
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package de.adorsys.xs2a.adapter.service;
 
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
-import java.util.List;
-import java.util.Optional;
+public interface AspspRepository extends AspspReadOnlyRepository {
 
-public interface AspspRepository {
+    Aspsp save(Aspsp aspsp);
 
-    int DEFAULT_SIZE = 10;
-
-    Optional<Aspsp> findById(String id);
-
-    default List<Aspsp> findByBic(String bic) {
-        return findByBic(bic, DEFAULT_SIZE);
-    }
-
-    default List<Aspsp> findByBic(String bic, int size) {
-        return findByBic(bic, null, size);
-    }
-
-    List<Aspsp> findByBic(String bic, String after, int size);
-
-    default List<Aspsp> findByBankCode(String bankCode) {
-        return findByBankCode(bankCode, DEFAULT_SIZE);
-    }
-
-    default List<Aspsp> findByBankCode(String bankCode, int size) {
-        return findByBankCode(bankCode, null, size);
-    }
-
-    List<Aspsp> findByBankCode(String bankCode, String after, int size);
-
-    default List<Aspsp> findByName(String name) {
-        return findByName(name, DEFAULT_SIZE);
-    }
-
-    default List<Aspsp> findByName(String name, int size) {
-        return findByName(name, null, size);
-    }
-
-    List<Aspsp> findByName(String name, String after, int size);
-
-    default  List<Aspsp> findAll() {
-        return findAll(DEFAULT_SIZE);
-    }
-
-    default List<Aspsp> findAll(int size) {
-        return findAll(null, size);
-    }
-
-    List<Aspsp> findAll(String after, int size);
-
-    default List<Aspsp> findLike(Aspsp aspsp) {
-        return findLike(aspsp, DEFAULT_SIZE);
-    }
-
-    default List<Aspsp> findLike(Aspsp aspsp, int size) {
-        return findLike(aspsp, null, size);
-    }
-
-    List<Aspsp> findLike(Aspsp aspsp, String after, int size);
+    void deleteById(String aspspId);
 }

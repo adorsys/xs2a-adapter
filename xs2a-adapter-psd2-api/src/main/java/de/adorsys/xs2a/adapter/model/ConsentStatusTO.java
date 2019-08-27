@@ -32,7 +32,7 @@ public enum ConsentStatusTO {
         return e;
       }
     }
-    return null;
+    throw new IllegalArgumentException(value);
   }
 
   @Override

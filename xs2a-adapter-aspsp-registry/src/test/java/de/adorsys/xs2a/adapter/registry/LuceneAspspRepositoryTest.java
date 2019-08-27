@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.adapter.registry;
 
-import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.junit.Test;
@@ -11,8 +10,25 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LuceneAspspRepositoryTest {
+    private static final String ASPSP_ID = "1";
 
-    LuceneAspspRepository luceneAspspRepository = new LuceneAspspRepository(new ByteBuffersDirectory());
+    private LuceneAspspRepository luceneAspspRepository = new LuceneAspspRepository(new ByteBuffersDirectory());
+
+    @Test
+    public void deleteById() {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setId(ASPSP_ID);
+
+        luceneAspspRepository.save(aspsp);
+        List<Aspsp> all = luceneAspspRepository.findAll();
+
+        assertThat(all).hasSize(1);
+
+        luceneAspspRepository.deleteById(ASPSP_ID);
+
+        Optional<Aspsp> aspsp1 = luceneAspspRepository.findById(ASPSP_ID);
+        assertThat(aspsp1.isPresent()).isFalse();
+    }
 
     @Test
     public void saveCanHandleNullProperties() {
@@ -20,14 +36,14 @@ public class LuceneAspspRepositoryTest {
         // expect no exceptions
     }
 
-    @Test(expected = RegistryIOException.class)
-    public void findByIdThrowsIOExceptionWhenIndexDoesntExist() {
-        luceneAspspRepository.findById("id");
+    @Test
+    public void findByIdReturnsEmptyWhenIndexDoesntExist() {
+        Optional<Aspsp> found = new LuceneAspspRepository(new ByteBuffersDirectory()).findById("id");
+        assertThat(found).isEmpty();
     }
 
     @Test
     public void findById_NotFound() {
-        luceneAspspRepository.save(new Aspsp());
         Optional<Aspsp> found = luceneAspspRepository.findById("id");
         assertThat(found).isEmpty();
     }
@@ -35,15 +51,15 @@ public class LuceneAspspRepositoryTest {
     @Test
     public void findById_Found() {
         Aspsp aspsp = new Aspsp();
-        aspsp.setId("id");
+        aspsp.setId(ASPSP_ID);
+
         luceneAspspRepository.save(aspsp);
-        Optional<Aspsp> found = luceneAspspRepository.findById("id");
-        assertThat(found).get().hasFieldOrPropertyWithValue("id", "id");
+        Optional<Aspsp> found = luceneAspspRepository.findById(ASPSP_ID);
+        assertThat(found).get().hasFieldOrPropertyWithValue("id", ASPSP_ID);
     }
 
     @Test
     public void findByBic_NotFound() {
-        luceneAspspRepository.save(new Aspsp());
         List<Aspsp> found = luceneAspspRepository.findByBic("bic");
         assertThat(found).isEmpty();
     }
@@ -153,10 +169,10 @@ public class LuceneAspspRepositoryTest {
         aspsp2.setBankCode("123446");
         luceneAspspRepository.save(aspsp2);
 
-        Aspsp aspsp = new Aspsp();
-        aspsp.setBic("ABC");
-        aspsp.setBankCode("123");
-        List<Aspsp> found = luceneAspspRepository.findLike(aspsp);
+        Aspsp aspsp3 = new Aspsp();
+        aspsp3.setBic("ABC");
+        aspsp3.setBankCode("123");
+        List<Aspsp> found = luceneAspspRepository.findLike(aspsp3);
         assertThat(found).hasSize(2);
     }
 }

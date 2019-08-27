@@ -24,7 +24,7 @@ public enum TppMessageCategoryTO {
         return e;
       }
     }
-    return null;
+    throw new IllegalArgumentException(value);
   }
 
   @Override

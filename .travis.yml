@@ -24,6 +24,8 @@ env:
     - OPENSHIFT_IMAGE_NAME="${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${XS2A_ADAPTER_IMAGE}"
     - OPENSHIFT_NAMESPACE_BGT_DEV="banking-gateway-dev"
     - OPENSHIFT_IMAGE_NAME_BGT_DEV="${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE_BGT_DEV}/${XS2A_ADAPTER_IMAGE}"
+    - HARBOR_REGISTRY="harbor.adorsys.de"
+    - HARBOR_NAMESPACE_BANKING_GATEWAY_DEV="teambank-banking-gateway"
 
 cache:
   directories:
@@ -46,6 +48,12 @@ deploy:
   - provider: script
     skip_cleanup: true
     script: bash ./devops/build/deploy.sh banking-gateway-dev
+    on:
+      branch: develop
+  # Deploy to harbor banking-gateway
+  - provider: script
+    skip_cleanup: true
+    script:  env HARBOR_NAMESPACE=$HARBOR_NAMESPACE_BANKING_GATEWAY_DEV HARBOR_USER=$HARBOR_BANKING_GATEWAY_USER HARBOR_TOKEN=$HARBOR_BANKING_GATEWAY_TOKEN /bin/bash ./devops/build/deploy_harbor.sh
     on:
       branch: develop
   # Deploy artifacts to the Sonatype registry

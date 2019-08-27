@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
-import de.adorsys.xs2a.adapter.service.AspspRepository;
+import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
@@ -19,10 +19,10 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.stream.StreamSupport;
 
 public class AdapterServiceLoader {
-    private final AspspRepository aspspRepository;
+    private final AspspReadOnlyRepository aspspRepository;
     private final ConcurrentMap<Class<?>, ServiceLoader<? extends AdapterServiceProvider>> serviceLoaders = new ConcurrentHashMap<>();
 
-    public AdapterServiceLoader(AspspRepository aspspRepository) {
+    public AdapterServiceLoader(AspspReadOnlyRepository aspspRepository) {
         this.aspspRepository = aspspRepository;
     }
 
