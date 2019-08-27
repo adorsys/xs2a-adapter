@@ -135,7 +135,7 @@
   },
   {
     "adapter": "adorsys-integ",
-    "bic": "ADORSYS2019",
+    "bic": "ADORSYS",
     "psuId_AIS": "01234567_Default-PSU-Private",
     "psuId_PIS": "01234567_Default-PSU-Private",
     "psuIdType_AIS": "",
