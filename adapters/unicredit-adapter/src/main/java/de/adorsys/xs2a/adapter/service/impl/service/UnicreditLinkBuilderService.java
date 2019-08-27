@@ -25,6 +25,10 @@ public class UnicreditLinkBuilderService {
             return uri;
         }
 
-        return StringUri.fromElements(uri, AUTHORISATIONS, authenticationCurrentNumber);
+        return StringUri.fromElements(removeQueryParamFromUri(uri), AUTHORISATIONS, authenticationCurrentNumber);
+    }
+
+    private String removeQueryParamFromUri(String uri) {
+        return uri.split("\\?")[0];
     }
 }
