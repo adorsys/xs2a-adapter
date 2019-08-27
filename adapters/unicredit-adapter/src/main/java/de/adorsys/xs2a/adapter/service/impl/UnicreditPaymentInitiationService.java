@@ -3,10 +3,8 @@ package de.adorsys.xs2a.adapter.service.impl;
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.adapter.StandardPaymentProduct;
 import de.adorsys.xs2a.adapter.http.StringUri;
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationRequestResponse;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.StartScaProcessResponse;
+import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.impl.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.service.impl.mapper.ScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.service.impl.mapper.UnicreditInitiateSinglePaymentResponseMapper;
 import de.adorsys.xs2a.adapter.service.impl.mapper.UnicreditStartAuthorisationResponseMapper;
@@ -20,10 +18,12 @@ import java.util.Map;
 
 public class UnicreditPaymentInitiationService extends BasePaymentInitiationService {
     private static final String AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM = "authenticationCurrentNumber";
+    private static final String SINGLE_PAYMENT_PAYMENT_SERVICE = "payments";
 
     private final UnicreditInitiateSinglePaymentResponseMapper initiateSinglePaymentResponseMapper = new UnicreditInitiateSinglePaymentResponseMapper();
     private final UnicreditStartAuthorisationResponseMapper startAuthorisationResponseMapper = new UnicreditStartAuthorisationResponseMapper();
     private final ScaStatusResponseMapper scaStatusResponseMapper = new ScaStatusResponseMapper();
+    private final PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper = new PaymentInitiationScaStatusResponseMapper();
 
     public UnicreditPaymentInitiationService(String baseUri) {
         super(baseUri);
@@ -53,6 +53,20 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
     protected String getUpdatePaymentPsuDataUri(String paymentService, String paymentProduct, String paymentId, String authorisationId) {
         String uri = StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct, paymentId);
         return StringUri.withQuery(uri, AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM, authorisationId);
+    }
+
+    @Override
+    public GeneralResponse<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders) {
+        if (!SINGLE_PAYMENT_PAYMENT_SERVICE.equals(paymentService)) {
+            throw new UnsupportedOperationException();
+        }
+
+        if (!requestHeaders.isAcceptJson()) {
+            throw new UnsupportedOperationException();
+        }
+
+        GeneralResponse<PaymentInitiationStatus> response = this.getSinglePaymentInitiationStatus(paymentProduct, paymentId, requestHeaders);
+        return new GeneralResponse<>(response.getStatusCode(), paymentInitiationScaStatusResponseMapper.toScaStatusResponse(response.getResponseBody()), response.getResponseHeaders());
     }
 
     @Override
