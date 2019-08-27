@@ -6,6 +6,7 @@ import de.adorsys.xs2a.adapter.service.GeneralResponse;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.StartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.ais.ConsentCreationResponse;
+import de.adorsys.xs2a.adapter.service.ais.ConsentStatusResponse;
 import de.adorsys.xs2a.adapter.service.ais.Consents;
 import de.adorsys.xs2a.adapter.service.impl.mapper.ScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.service.impl.mapper.UnicreditCreateConsentResponseMapper;
@@ -50,6 +51,12 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     @Override
     public GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
         return updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation, UnicreditAccountScaStatusResponse.class, scaStatusResponseMapper::toScaStatusResponse);
+    }
+
+    @Override
+    public GeneralResponse<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, RequestHeaders requestHeaders) {
+        GeneralResponse<ConsentStatusResponse> response = this.getConsentStatus(consentId, requestHeaders);
+        return new GeneralResponse<>(response.getStatusCode(), scaStatusResponseMapper.toScaStatusResponse(response.getResponseBody()), response.getResponseHeaders());
     }
 
     @Override
