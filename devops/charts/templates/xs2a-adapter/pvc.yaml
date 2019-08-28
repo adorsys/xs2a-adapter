@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: xs2a-adapter-custom-config
+  name: xs2a-adapter-config
   labels:
     app: xs2a-adapter
 spec:
