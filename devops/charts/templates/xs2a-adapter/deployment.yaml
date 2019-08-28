@@ -16,39 +16,6 @@ spec:
         app: xs2a-adapter
         deploymentconfig: xs2a-adapter
     spec:
-      {{- if .Values.adapter.customConfig }}
-      initContainers:
-        - name: xs2a-adapter-config
-          image: alpine:latest
-          env:
-            - name: ADAPTER_CONFIG_DEFAULT_URL
-              value: "https://raw.githubusercontent.com/\
-                      adorsys/xs2a-adapter/\
-                      develop/xs2a-adapter-aspsp-registry/\
-                      src/main/resources/aspsp-adapter-config.csv"
-            - name: ADAPTER_CONFIG_EXTENSION_URL
-              value: "https://git.adorsys.de/api/v4/projects/\
-                      1773/repository/files/\
-                      data%2Fxs2a-adapter%2F\
-                      aspsp%2Dadapter%2Dconfig%2Dextension%2Ecsv\
-                      /raw?ref=master"
-            - name: ADAPTER_CONFIG_EXTENSION_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: xs2a-adapter
-                  key: gitlab-token
-          command: ["/bin/sh", "-c"]
-          args:
-            - apk add --no-cache curl;
-              cd /custom-config;
-              wget ${ADAPTER_CONFIG_DEFAULT_URL} -O aspsp-adapter-config-default.csv;
-              cat aspsp-adapter-config-default.csv > aspsp-adapter-config.csv;
-              curl --request GET --header 'PRIVATE-TOKEN: ${ADAPTER_CONFIG_EXTENSION_TOKEN}' ${ADAPTER_CONFIG_EXTENSION_URL};
-              cat aspsp-adapter-config-extension.csv >> aspsp-adapter-config.csv
-          volumeMounts:
-          - name: xs2a-adapter-config
-            mountPath: /custom-config
-      {{- end }}
       containers:
         - env:
             - name: SPRING_PROFILES_ACTIVE
