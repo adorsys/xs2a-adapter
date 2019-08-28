@@ -3,18 +3,18 @@ package de.adorsys.xs2a.adapter.service.psd2.model;
 import java.util.List;
 import java.util.Map;
 
-public class UpdatePsuAuthenticationResponse {
+public class UpdateAuthorisationResponse {
     private AuthenticationObject chosenScaMethod;
 
     private ChallengeData challengeData;
 
     private List<AuthenticationObject> scaMethods;
 
-    private Map<String, HrefType> links;
-
     private String scaStatus;
 
     private String psuMessage;
+
+    private Map<String, HrefType> links;
 
     public AuthenticationObject getChosenScaMethod() {
         return chosenScaMethod;
@@ -40,14 +40,6 @@ public class UpdatePsuAuthenticationResponse {
         this.scaMethods = scaMethods;
     }
 
-    public Map<String, HrefType> getLinks() {
-        return links;
-    }
-
-    public void setLinks(Map<String, HrefType> links) {
-        this.links = links;
-    }
-
     public String getScaStatus() {
         return scaStatus;
     }
@@ -62,5 +54,13 @@ public class UpdatePsuAuthenticationResponse {
 
     public void setPsuMessage(String psuMessage) {
         this.psuMessage = psuMessage;
+    }
+
+    public Map<String, HrefType> getLinks() {
+        return links;
+    }
+
+    public void setLinks(Map<String, HrefType> links) {
+        this.links = links;
     }
 }

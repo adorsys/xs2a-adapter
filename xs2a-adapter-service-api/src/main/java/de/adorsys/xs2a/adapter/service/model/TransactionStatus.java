@@ -92,4 +92,9 @@ public enum TransactionStatus {
     public String getTransactionStatus() {
         return transactionStatus;
     }
+
+    @Override
+    public String toString() {
+        return transactionStatus;
+    }
 }

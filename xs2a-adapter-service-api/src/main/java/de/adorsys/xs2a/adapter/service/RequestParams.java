@@ -24,6 +24,17 @@ public class RequestParams {
     private RequestParams() {
     }
 
+    public static RequestParams fromMap(Map<String, String> map) {
+        RequestParams requestParams = new RequestParams();
+        requestParams.withBalance = Boolean.valueOf(map.get(WITH_BALANCE));
+        requestParams.bookingStatus = map.get(BOOKING_STATUS);
+        requestParams.dateFrom = map.get(DATE_FROM) == null ? null : LocalDate.parse(map.get(DATE_FROM));
+        requestParams.dateTo = map.get(DATE_TO) == null ? null : LocalDate.parse(map.get(DATE_TO));
+        requestParams.entryReferenceFrom = map.get(ENTRY_REFERENCE_FROM);
+        requestParams.deltaList = Boolean.valueOf(map.get(DELTA_LIST));
+        return requestParams;
+    }
+
     public Map<String, String> toMap() {
         if (requestParams == null) {
             requestParams = new HashMap<>();

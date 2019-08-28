@@ -9,6 +9,8 @@ import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationServiceFactory;
 
+import java.util.Optional;
+
 public class Psd2AdapterServiceLoader extends AdapterServiceLoader {
     private final Pkcs12KeyStore keyStore;
 
@@ -21,7 +23,11 @@ public class Psd2AdapterServiceLoader extends AdapterServiceLoader {
         Aspsp aspsp = getAspsp(requestHeaders);
         String adapterId = aspsp.getAdapterId();
         String baseUrl = aspsp.getUrl();
-        return getServiceProvider(Psd2AccountInformationServiceFactory.class, adapterId)
+        Optional<Psd2AccountInformationServiceFactory> serviceProvider = getServiceProvider(Psd2AccountInformationServiceFactory.class, adapterId);
+        if (!serviceProvider.isPresent()) {
+            return new Xs2aPsd2AccountInformationServiceAdapter(getAccountInformationService(requestHeaders));
+        }
+        return serviceProvider
             .orElseThrow(() -> new AdapterNotFoundException(adapterId))
             .getAccountInformationService(baseUrl, keyStore);
     }

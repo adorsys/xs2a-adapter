@@ -38,6 +38,6 @@ public enum AccountStatus {
     @Override
     @JsonValue
     public String toString() {
-        return String.valueOf(value);
+        return value;
     }
 }
