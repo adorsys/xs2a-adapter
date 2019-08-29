@@ -21,8 +21,7 @@ import java.util.Map;
 
 public class UnicreditAccountInformationService extends BaseAccountInformationService {
     private static final String AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM = "authenticationCurrentNumber";
-    private static final String PSU_IP_ADDRESS = "PSU-IP-Address";
-    private static final String MOCK_PSU_IP_ADDRESS = "0.0.0.0";    // TODO should be changed to a real data
+    private static final String DEFAULT_PSU_IP_ADDRESS = "0.0.0.0";
 
     private final UnicreditCreateConsentResponseMapper createConsentResponseMapper = new UnicreditCreateConsentResponseMapper();
     private final UnicreditStartAuthorisationResponseMapper startAuthorisationResponseMapper = new UnicreditStartAuthorisationResponseMapper();
@@ -69,7 +68,7 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     protected Map<String, String> populateGetHeaders(Map<String, String> map) {
         Map<String, String> headers = super.populateGetHeaders(map);
         headers.put(ACCEPT_HEADER, APPLICATION_JSON);
-        headers.put(PSU_IP_ADDRESS, MOCK_PSU_IP_ADDRESS);
+        headers.putIfAbsent(RequestHeaders.PSU_IP_ADDRESS, DEFAULT_PSU_IP_ADDRESS);
 
         return headers;
     }
