@@ -9,10 +9,6 @@ public interface UnicreditResponseMapper<T, R> {
 
     R modifyResponse(T t);
 
-    default boolean isBerlinGroupVersionObsolete(Map<String, Link> links, String linkName) {
-        return links.containsKey(linkName);
-    }
-
     default void modifyLinksToActualVersion(Map<String, Link> links, String linkToRemove, String linkToAdd, Function<String, String> linkModifier) {
         Link authoriseTransactionLink = links.get(linkToRemove);
         Link startAuthorisationLink = new Link(linkModifier.apply(authoriseTransactionLink.getHref()));

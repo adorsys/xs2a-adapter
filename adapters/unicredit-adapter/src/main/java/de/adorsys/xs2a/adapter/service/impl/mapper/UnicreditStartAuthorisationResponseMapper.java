@@ -23,8 +23,8 @@ public class UnicreditStartAuthorisationResponseMapper implements UnicreditRespo
         StartScaProcessResponse startScaProcessResponse = startScaProcessResponseMapper.toStartScaProcessResponse(unicreditResponse);
 
         Map<String, Link> links = startScaProcessResponse.getLinks();
-        // 1.1 is the obsolete version for now
-        if (isBerlinGroupVersionObsolete(links, NEXT_LINK)) {
+
+        if (links.containsKey(NEXT_LINK)) {
             if (startScaProcessResponse.isSelectScaMethodStage()) {
                 modifyLinksToActualVersion(links, NEXT_LINK, SELECT_AUTHENTICATION_METHOD_LINK, linkBuilderService::buildUpdatePsuDataUri);
             } else if (startScaProcessResponse.isChosenScaMethodStage()) {

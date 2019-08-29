@@ -15,8 +15,8 @@ public class UnicreditCreateConsentResponseMapper implements UnicreditResponseMa
     @Override
     public ConsentCreationResponse modifyResponse(ConsentCreationResponse consentCreationResponse) {
         Map<String, Link> links = consentCreationResponse.getLinks();
-        // 1.1 is the obsolete version for now
-        if (isBerlinGroupVersionObsolete(links, AUTHORISE_TRANSACTION_LINK)) {
+
+        if (links.containsKey(AUTHORISE_TRANSACTION_LINK)) {
             modifyLinksToActualVersion(links, AUTHORISE_TRANSACTION_LINK, START_AUTHORISATION_WITH_PSU_AUTHENTICATION_LINK, linkBuilderService::buildStartAuthorisationUri);
         }
 
