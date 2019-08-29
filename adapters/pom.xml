@@ -26,7 +26,7 @@
         <module>dkb-adapter</module>
         <module>commerzbank-adapter</module>
         <module>unicredit-adapter</module>
-  </modules>
+    </modules>
 
     <dependencies>
 
