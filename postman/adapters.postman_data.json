@@ -172,6 +172,13 @@
     "pain.001-sepa-credit-transfers-supported": "false"
   },
   {
+    "adapter": "ing",
+    "bic": "INGDDEFFXXX",
+    "authorization_code": "8b6cd77a-aa44-4527-ab08-a58d70cca286",
+    "sepa-credit-transfers-supported": "false",
+    "pain.001-sepa-credit-transfers-supported": "false"
+  },
+  {
     "adapter": "unicredit",
     "bic": "HYVEDEMMXXX",
     "psuId_AIS": "bgdemo",

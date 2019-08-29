@@ -16,10 +16,52 @@ spec:
         app: xs2a-adapter
         deploymentconfig: xs2a-adapter
     spec:
+      {{- if .Values.adapter.customConfig }}
+      initContainers:
+        - name: xs2a-adapter-config
+          image: alpine:latest
+          env:
+            - name: ADAPTER_CONFIG_DEFAULT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: xs2a-adapter
+                  key: github-url
+            - name: ADAPTER_CONFIG_EXTENSION_URL
+              valueFrom:
+                secretKeyRef:
+                  name: xs2a-adapter
+                  key: gitlab-url
+            - name: ADAPTER_CONFIG_EXTENSION_USER
+              valueFrom:
+                secretKeyRef:
+                  name: xs2a-adapter
+                  key: gitlab-user
+            - name: ADAPTER_CONFIG_EXTENSION_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: xs2a-adapter
+                  key: gitlab-token
+          command: ["/bin/sh","-c","\
+                    apk add --no-cache git &&\
+                    cd /custom-config &&\
+                    wget ${ADAPTER_CONFIG_DEFAULT_URL} -O aspsp-adapter-config-default.csv &&\
+                    cat aspsp-adapter-config-default.csv > aspsp-adapter-config.csv &&\
+                    git clone https://${ADAPTER_CONFIG_EXTENSION_USER}:${ADAPTER_CONFIG_EXTENSION_TOKEN}@${ADAPTER_CONFIG_EXTENSION_URL} &&\
+                    cp banking-gateway/data/xs2a-adapter/aspsp-adapter-config-extension.csv . &&\
+                    rm -rf banking-gateway/ &&\
+                    cat aspsp-adapter-config-extension.csv >> aspsp-adapter-config.csv"]
+          volumeMounts:
+          - name: xs2a-adapter-config
+            mountPath: /custom-config
+      {{- end }}
       containers:
         - env:
             - name: SPRING_PROFILES_ACTIVE
-              value: dev
+              value: dev,sandbox
+            {{- if .Values.adapter.customConfig }}
+            - name: CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH
+              value: /opt/xs2a-adapter/custom-config/aspsp-adapter-config.csv
+            {{- end }}
             - name: dkb.token.consumer_key
               valueFrom:
                 secretKeyRef:
@@ -40,11 +82,14 @@ spec:
                 secretKeyRef:
                   name: qwac-secret
                   key: key-store-password
-            - name: SSL_OPTS
+            - name: JAVA_OPTS
               value: >-
+                -Xmx1024m
+                -Dcom.sun.security.enableAIAcaIssuers=true
                 -Djavax.net.ssl.keyStoreType=$(KEY_STORE_TYPE)
                 -Djavax.net.ssl.keyStore=/qwac/key-store
                 -Djavax.net.ssl.keyStorePassword=$(KEY_STORE_PASSWORD)
+                -Dpkcs12.keyStore=/pkcs12/key-store.p12
           imagePullPolicy: Always
           name: xs2a-adapter
           ports:
@@ -56,6 +101,12 @@ spec:
           volumeMounts:
             - name: qwac-secret-volume
               mountPath: /qwac
+            - name: pkcs12-key-store-secret-volume
+              mountPath: /pkcs12
+            {{- if .Values.adapter.customConfig }}
+            - name: xs2a-adapter-config
+              mountPath: /opt/xs2a-adapter/custom-config
+            {{- end }}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -65,6 +116,14 @@ spec:
         - name: qwac-secret-volume
           secret:
             secretName: qwac-secret
+        - name: pkcs12-key-store-secret-volume
+          secret:
+            secretName: pkcs12-key-store-secret
+        {{- if .Values.adapter.customConfig }}
+        - name: xs2a-adapter-config
+          persistentVolumeClaim:
+            claimName: xs2a-adapter-config
+        {{- end }}
   test: false
   triggers:
     - type: ConfigChange

@@ -35,7 +35,7 @@ public class AdapterServiceLoader {
             .getAccountInformationService(baseUrl);
     }
 
-    private Aspsp getAspsp(RequestHeaders requestHeaders) {
+    protected Aspsp getAspsp(RequestHeaders requestHeaders) {
         Optional<String> aspspId = requestHeaders.getAspspId();
         Optional<String> bankCode = requestHeaders.getBankCode();
         if (aspspId.isPresent()) {
