@@ -16,50 +16,12 @@ spec:
         app: xs2a-adapter
         deploymentconfig: xs2a-adapter
     spec:
-      {{- if .Values.adapter.customConfig }}
-      initContainers:
-        - name: xs2a-adapter-config
-          image: alpine:latest
-          env:
-            - name: ADAPTER_CONFIG_DEFAULT_URL
-              valueFrom:
-                secretKeyRef:
-                  name: xs2a-adapter
-                  key: github-url
-            - name: ADAPTER_CONFIG_EXTENSION_URL
-              valueFrom:
-                secretKeyRef:
-                  name: xs2a-adapter
-                  key: gitlab-url
-            - name: ADAPTER_CONFIG_EXTENSION_USER
-              valueFrom:
-                secretKeyRef:
-                  name: xs2a-adapter
-                  key: gitlab-user
-            - name: ADAPTER_CONFIG_EXTENSION_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: xs2a-adapter
-                  key: gitlab-token
-          command: ["/bin/sh","-c","\
-                    apk add --no-cache git &&\
-                    cd /custom-config &&\
-                    wget ${ADAPTER_CONFIG_DEFAULT_URL} -O aspsp-adapter-config-default.csv &&\
-                    cat aspsp-adapter-config-default.csv > aspsp-adapter-config.csv &&\
-                    git clone https://${ADAPTER_CONFIG_EXTENSION_USER}:${ADAPTER_CONFIG_EXTENSION_TOKEN}@${ADAPTER_CONFIG_EXTENSION_URL} &&\
-                    cp banking-gateway/data/xs2a-adapter/aspsp-adapter-config-extension.csv . &&\
-                    rm -rf banking-gateway/ &&\
-                    cat aspsp-adapter-config-extension.csv >> aspsp-adapter-config.csv"]
-          volumeMounts:
-          - name: xs2a-adapter-config
-            mountPath: /custom-config
-      {{- end }}
       containers:
         - env:
             - name: SPRING_PROFILES_ACTIVE
               value: dev,sandbox
             {{- if .Values.adapter.customConfig }}
-            - name: CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH
+            - name: csv.aspsp.adapter.config.file.path
               value: /opt/xs2a-adapter/custom-config/aspsp-adapter-config.csv
             {{- end }}
             - name: dkb.token.consumer_key
