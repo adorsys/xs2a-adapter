@@ -4,14 +4,13 @@ import de.adorsys.xs2a.adapter.service.ScaStatus;
 import de.adorsys.xs2a.adapter.service.TransactionStatus;
 import de.adorsys.xs2a.adapter.service.ais.ConsentStatus;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 
 // Workaround for Berlin Group 1.1, as there is no Authorisation (SCA) as a separate model.
 // That's why we get consent status and have to map it to SCA status.
 class ScaStatusMapper {
-    private static final Map<ConsentStatus, ScaStatus> CONSENT_STATUS_TO_SCA_STATUS = new HashMap<>();
-    private static final Map<TransactionStatus, ScaStatus> TRANSACTION_STATUS_TO_SCA_STATUS = new HashMap<>();
+    private static final EnumMap<ConsentStatus, ScaStatus> CONSENT_STATUS_TO_SCA_STATUS = new EnumMap<>(ConsentStatus.class);
+    private static final EnumMap<TransactionStatus, ScaStatus> TRANSACTION_STATUS_TO_SCA_STATUS = new EnumMap<>(TransactionStatus.class);
 
     static {
         CONSENT_STATUS_TO_SCA_STATUS.put(ConsentStatus.RECEIVED, ScaStatus.RECEIVED);
