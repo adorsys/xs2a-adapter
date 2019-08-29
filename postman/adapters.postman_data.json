@@ -177,5 +177,24 @@
     "authorization_code": "8b6cd77a-aa44-4527-ab08-a58d70cca286",
     "sepa-credit-transfers-supported": "false",
     "pain.001-sepa-credit-transfers-supported": "false"
+  },
+  {
+    "adapter": "unicredit",
+    "bic": "HYVEDEMMXXX",
+    "psuId_AIS": "bgdemo",
+    "psuId_PIS": "bgdemo",
+    "psuIdType_AIS": "HVB_ONLINEBANKING",
+    "psuIdType_PIS": "HVB_ONLINEBANKING",
+    "iban_AIS": "DE49700202700123456785",
+    "iban_PIS": "DE49700202700123456785",
+    "password_AIS": "bgpassword",
+    "password_PIS": "bgpassword",
+    "authenticationMethodId_AIS": "",
+    "authenticationMethodId_PIS": "",
+    "scaAuthenticationData_AIS": "123456",
+    "scaAuthenticationData_PIS": "123456",
+    "creditorName": "Merchant123",
+    "sepa-credit-transfers-supported": "true",
+    "pain.001-sepa-credit-transfers-supported": "false"
   }
 ]

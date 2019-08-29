@@ -73,7 +73,7 @@ public abstract class AbstractService {
         return headers;
     }
 
-    <T> HttpClient.ResponseHandler<T> jsonResponseHandler(Class<T> klass) {
+    protected <T> HttpClient.ResponseHandler<T> jsonResponseHandler(Class<T> klass) {
         return (statusCode, responseBody, responseHeaders) -> {
             if (statusCode == 204) {
                 return null;
@@ -81,7 +81,7 @@ public abstract class AbstractService {
 
             String contentType = responseHeaders.getHeader(CONTENT_TYPE_HEADER);
 
-            if (!contentType.startsWith(APPLICATION_JSON)) {
+            if (contentType != null && !contentType.startsWith(APPLICATION_JSON)) {
                 NotAcceptableException notAcceptableException = new NotAcceptableException(buildNotAcceptableExceptionMessage(contentType, APPLICATION_JSON));
                 log.error(notAcceptableException.getMessage(), notAcceptableException);
                 throw notAcceptableException;

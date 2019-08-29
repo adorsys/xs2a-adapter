@@ -1979,3 +1979,4 @@ afc87008-92c9-4890-9b3b-d7f31ab05800,Stadtsparkasse Bad Sachsa,NOLADE21SAC,https
 6d40f1e2-255f-4dae-a7cf-565c4b18d1d9,Sparkasse Westholstein,NOLADE21WHO,https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678,sparkasse-adapter,22250020
 a68ca008-a1d7-46cd-90ac-514289c3e970,Raiffeisenbank,GENODEF1ZIR,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,76069669
 4c47e75a-760f-4d99-8d88-490221b39f98,Ing Bank N.V.,INGDDEFFXXX,https://api.sandbox.ing.com,ing-adapter,50010517
+c400eecb-d40b-4a0b-9a2b-176e24440541,Unicredit Bank,HYVEDEMMXXX,https://api-sandbox.unicredit.de,unicredit-adapter,70020270

@@ -1,25 +1,27 @@
-package de.adorsys.xs2a.adapter.service;
+package de.adorsys.xs2a.adapter.service.impl.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.adorsys.xs2a.adapter.service.AuthenticationObject;
+import de.adorsys.xs2a.adapter.service.ais.ConsentStatus;
 import de.adorsys.xs2a.adapter.service.model.Link;
 
 import java.util.List;
 import java.util.Map;
 
-public class StartScaProcessResponse {
-    private ScaStatus scaStatus;
+public class UnicreditStartScaProcessResponse {
+    private ConsentStatus consentStatus;
     private String authorisationId;
     private List<AuthenticationObject> scaMethods;
     private AuthenticationObject chosenScaMethod;
-    private ChallengeData challengeData;
+    private UnicreditChallengeData challengeData;
     @JsonProperty("_links")
     private Map<String, Link> links;
     private String psuMessage;
 
     @Override
     public String toString() {
-        return "StartScaProcessResponse{" +
-                   "scaStatus=" + scaStatus +
+        return "UnicreditStartScaProcessResponse{" +
+                   "consentStatus=" + consentStatus +
                    ", authorisationId='" + authorisationId + '\'' +
                    ", scaMethods=" + scaMethods +
                    ", chosenScaMethod=" + chosenScaMethod +
@@ -29,12 +31,12 @@ public class StartScaProcessResponse {
                    '}';
     }
 
-    public ScaStatus getScaStatus() {
-        return scaStatus;
+    public ConsentStatus getConsentStatus() {
+        return consentStatus;
     }
 
-    public void setScaStatus(ScaStatus scaStatus) {
-        this.scaStatus = scaStatus;
+    public void setConsentStatus(ConsentStatus consentStatus) {
+        this.consentStatus = consentStatus;
     }
 
     public String getAuthorisationId() {
@@ -61,11 +63,11 @@ public class StartScaProcessResponse {
         this.chosenScaMethod = chosenScaMethod;
     }
 
-    public ChallengeData getChallengeData() {
+    public UnicreditChallengeData getChallengeData() {
         return challengeData;
     }
 
-    public void setChallengeData(ChallengeData challengeData) {
+    public void setChallengeData(UnicreditChallengeData challengeData) {
         this.challengeData = challengeData;
     }
 

@@ -165,11 +165,27 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     @Override
     public GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
-        String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
+        return updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation, ScaStatusResponse.class, identity());
+    }
+
+    protected <T> GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String consentId,
+                                                                           String authorisationId,
+                                                                           RequestHeaders requestHeaders,
+                                                                           TransactionAuthorisation transactionAuthorisation,
+                                                                           Class<T> klass,
+                                                                           Function<T, ScaStatusResponse> mapper) {
+        String uri = getUpdateConsentPsuDataUri(consentId, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 
-        return httpClient.put(uri, body, headersMap, jsonResponseHandler(ScaStatusResponse.class));
+        GeneralResponse<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+
+        ScaStatusResponse scaStatusResponse = mapper.apply(response.getResponseBody());
+        return new GeneralResponse<>(response.getStatusCode(), scaStatusResponse, response.getResponseHeaders());
+    }
+
+    protected String getUpdateConsentPsuDataUri(String consentId, String authorisationId) {
+        return StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
     }
 
     @Override

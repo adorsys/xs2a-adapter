@@ -43,10 +43,10 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     protected <T> GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(StandardPaymentProduct paymentProduct,
-                                                                                          Object body,
-                                                                                          RequestHeaders requestHeaders,
-                                                                                          Class<T> klass,
-                                                                                          Function<T, PaymentInitiationRequestResponse> mapper) {
+                                                                                    Object body,
+                                                                                    RequestHeaders requestHeaders,
+                                                                                    Class<T> klass,
+                                                                                    Function<T, PaymentInitiationRequestResponse> mapper) {
 
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         String bodyString;
@@ -77,7 +77,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     private GeneralResponse<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(StandardPaymentProduct paymentProduct,
                                                                                                               String paymentId,
                                                                                                               RequestHeaders requestHeaders) {
-        String uri = StringUri.fromElements(baseUri, V1, PAYMENTS, paymentProduct.getSlug(), paymentId);
+        String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug(), paymentId);
 
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
         return httpClient.get(uri, headersMap,
@@ -112,7 +112,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     private String getSinglePaymentInitiationStatusUri(String paymentProduct, String paymentId) {
-        return StringUri.fromElements(baseUri, V1, PAYMENTS, paymentProduct, paymentId, STATUS);
+        return StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct, paymentId, STATUS);
     }
 
     @Override
@@ -134,8 +134,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                                            UpdatePsuAuthentication updatePsuAuthentication,
                                                                                            Class<T> klass,
                                                                                            Function<T, StartScaProcessResponse> mapper) {
-        String uri = StringUri.fromElements(baseUri, V1, PAYMENTS, paymentProduct.getSlug(), paymentId, AUTHORISATIONS);
-        Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
+        String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug(), paymentId, AUTHORISATIONS);
+        Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
         GeneralResponse<T> response = httpClient.post(uri, body, headersMap, jsonResponseHandler(klass));
@@ -156,7 +156,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                                         UpdatePsuAuthentication updatePsuAuthentication,
                                                                                         Class<T> klass,
                                                                                         Function<T, UpdatePsuAuthenticationResponse> mapper) {
-        String uri = StringUri.fromElements(baseUri, V1, paymentService, paymentProduct.getSlug(), paymentId, AUTHORISATIONS, authorisationId);
+        String uri = StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct.getSlug(), paymentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
@@ -178,7 +178,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                                               SelectPsuAuthenticationMethod selectPsuAuthenticationMethod,
                                                                                               Class<T> klass,
                                                                                               Function<T, SelectPsuAuthenticationMethodResponse> mapper) {
-        String uri = StringUri.fromElements(baseUri, V1, paymentService, paymentProduct.getSlug(), paymentId, AUTHORISATIONS, authorisationId);
+        String uri = StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct.getSlug(), paymentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
 
@@ -189,10 +189,36 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
     @Override
     public GeneralResponse<ScaStatusResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
-        String uri = StringUri.fromElements(baseUri, V1, paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
+        return updatePaymentPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, transactionAuthorisation, ScaStatusResponse.class, identity());
+    }
+
+    protected <T> GeneralResponse<ScaStatusResponse> updatePaymentPsuData(String paymentService,
+                                                                          String paymentProduct,
+                                                                          String paymentId,
+                                                                          String authorisationId,
+                                                                          RequestHeaders requestHeaders,
+                                                                          TransactionAuthorisation transactionAuthorisation,
+                                                                          Class<T> klass,
+                                                                          Function<T, ScaStatusResponse> mapper) {
+        String uri = getUpdatePaymentPsuDataUri(paymentService, paymentProduct, paymentId, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 
-        return httpClient.put(uri, body, headersMap, jsonResponseHandler(ScaStatusResponse.class));
+        GeneralResponse<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+
+        ScaStatusResponse scaStatusResponse = mapper.apply(response.getResponseBody());
+        return new GeneralResponse<>(response.getStatusCode(), scaStatusResponse, response.getResponseHeaders());
+    }
+
+    protected String getUpdatePaymentPsuDataUri(String paymentService, String paymentProduct, String paymentId, String authorisationId) {
+        return StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
+    }
+
+    protected String getSinglePaymentBaseUri() {
+        return StringUri.fromElements(getPaymentBaseUri(), PAYMENTS);
+    }
+
+    protected String getPaymentBaseUri() {
+        return StringUri.fromElements(baseUri, V1);
     }
 }

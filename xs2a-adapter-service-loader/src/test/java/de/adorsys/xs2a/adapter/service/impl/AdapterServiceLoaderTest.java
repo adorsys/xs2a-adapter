@@ -7,6 +7,7 @@ import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
 import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -24,12 +25,19 @@ public class AdapterServiceLoaderTest {
 
     private static final String ADAPTER_ID = "test-adapter";
     private static final String ASPSP_ID = "test-aspsp-id";
-    private static final RequestHeaders requestHeadersWithAspspId = fromMap(singletonMap(X_GTW_ASPSP_ID, ASPSP_ID));
     private static final String BANK_CODE = "test-bank-code";
-    private static final RequestHeaders requestHeadersWithBankCode = fromMap(singletonMap(X_GTW_BANK_CODE, BANK_CODE));
+
+    private static RequestHeaders requestHeadersWithAspspId;
+    private static RequestHeaders requestHeadersWithBankCode;
 
     private final AspspReadOnlyRepository aspspRepository = mock(AspspReadOnlyRepository.class);
     private final AdapterServiceLoader adapterServiceLoader = new AdapterServiceLoader(aspspRepository);
+
+    @Before
+    public void setUp() {
+        requestHeadersWithAspspId = fromMap(singletonMap(X_GTW_ASPSP_ID, ASPSP_ID));
+        requestHeadersWithBankCode = fromMap(singletonMap(X_GTW_BANK_CODE, BANK_CODE));
+    }
 
     @Test
     public void getServiceProvider() {
