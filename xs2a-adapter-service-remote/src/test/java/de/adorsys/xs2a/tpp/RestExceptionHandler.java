@@ -4,7 +4,9 @@ import de.adorsys.xs2a.adapter.api.remote.Xs2aAdapterClientParseException;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.model.TppMessageCategoryTO;
 import de.adorsys.xs2a.adapter.service.ErrorResponse;
+import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.TppMessage;
+import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.Collections;
+import java.util.Map;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -23,7 +26,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public RestExceptionHandler(HeadersMapper headersMapper) {
         this.headersMapper = headersMapper;
     }
-
 
     @ExceptionHandler
     ResponseEntity handle(Xs2aAdapterClientParseException exception) {
@@ -37,6 +39,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
         return new ResponseEntity<>(errorResponse, headers, httpStatus);
+    }
+
+
+    @ExceptionHandler
+    ResponseEntity handleErrorResponseException(ErrorResponseException exception) {
+        HttpStatus httpStatus = HttpStatus.valueOf(exception.getStatusCode());
+        HttpHeaders httpHeaders = headersMapper.toHttpHeaders(exception.getResponseHeaders());
+        ErrorResponse errorResponse = exception.getErrorResponse().orElse(null);
+
+        return new ResponseEntity(errorResponse, httpHeaders, httpStatus);
     }
 
     @ExceptionHandler
