@@ -1,5 +1,7 @@
 package de.adorsys.xs2a.adapter.service;
 
+import de.adorsys.xs2a.adapter.service.ResponseHeaders;
+
 public class GeneralResponse<T> {
     private final int statusCode;
     private final T responseBody;

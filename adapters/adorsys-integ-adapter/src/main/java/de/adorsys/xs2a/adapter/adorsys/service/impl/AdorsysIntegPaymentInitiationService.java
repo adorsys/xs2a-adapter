@@ -27,9 +27,9 @@ import de.adorsys.xs2a.adapter.adorsys.service.impl.model.AdorsysIntegSelectPsuA
 import de.adorsys.xs2a.adapter.adorsys.service.impl.model.AdorsysIntegStartScaProcessResponse;
 import de.adorsys.xs2a.adapter.adorsys.service.impl.model.AdorsysIntegUpdatePsuAuthenticationResponse;
 import de.adorsys.xs2a.adapter.service.GeneralResponse;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationRequestResponse;
+import de.adorsys.xs2a.adapter.service.model.PaymentInitiationRequestResponse;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.StartScaProcessResponse;
+import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.model.SelectPsuAuthenticationMethod;
 import de.adorsys.xs2a.adapter.service.model.SelectPsuAuthenticationMethodResponse;
 import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;

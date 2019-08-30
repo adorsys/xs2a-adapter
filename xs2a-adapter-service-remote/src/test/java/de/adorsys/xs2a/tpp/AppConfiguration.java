@@ -21,7 +21,7 @@ import de.adorsys.xs2a.adapter.api.remote.PaymentInitiationClient;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.AccountInformationServiceImpl;
 import de.adorsys.xs2a.adapter.service.impl.PaymentInitiationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

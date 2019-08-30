@@ -2,9 +2,9 @@ package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.AmountTO;
 import de.adorsys.xs2a.adapter.model.BalanceTO;
-import de.adorsys.xs2a.adapter.service.Amount;
-import de.adorsys.xs2a.adapter.service.account.Balance;
-import de.adorsys.xs2a.adapter.service.account.BalanceType;
+import de.adorsys.xs2a.adapter.service.model.Amount;
+import de.adorsys.xs2a.adapter.service.model.Balance;
+import de.adorsys.xs2a.adapter.service.model.BalanceType;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 

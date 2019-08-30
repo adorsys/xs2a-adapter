@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.service.impl.model;
 
-import de.adorsys.xs2a.adapter.service.TransactionStatus;
+import de.adorsys.xs2a.adapter.service.model.TransactionStatus;
 
 public class UnicreditPaymentScaStatusResponse {
     private TransactionStatus transactionStatus;

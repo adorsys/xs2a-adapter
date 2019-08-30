@@ -6,13 +6,9 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
-import de.adorsys.xs2a.adapter.service.account.AccountListHolder;
-import de.adorsys.xs2a.adapter.service.account.BalanceReport;
-import de.adorsys.xs2a.adapter.service.account.TransactionsReport;
+import de.adorsys.xs2a.adapter.service.model.*;
 import de.adorsys.xs2a.adapter.service.mapper.BalanceReportMapper;
 import de.adorsys.xs2a.adapter.service.mapper.TransactionsReportMapper;
-import de.adorsys.xs2a.adapter.service.model.CommerzbankBalanceReport;
-import de.adorsys.xs2a.adapter.service.model.CommerzbankTransactionsReport;
 import org.mapstruct.factory.Mappers;
 
 import java.io.IOException;

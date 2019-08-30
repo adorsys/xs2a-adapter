@@ -3,9 +3,9 @@ package de.adorsys.xs2a.adapter.mapper;
 import de.adorsys.xs2a.adapter.model.AccountReferenceTO;
 import de.adorsys.xs2a.adapter.model.BalanceTO;
 import de.adorsys.xs2a.adapter.model.ReadAccountBalanceResponse200TO;
-import de.adorsys.xs2a.adapter.service.AccountReference;
-import de.adorsys.xs2a.adapter.service.account.Balance;
-import de.adorsys.xs2a.adapter.service.account.BalanceReport;
+import de.adorsys.xs2a.adapter.service.model.AccountReference;
+import de.adorsys.xs2a.adapter.service.model.Balance;
+import de.adorsys.xs2a.adapter.service.model.BalanceReport;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 

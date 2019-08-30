@@ -17,8 +17,8 @@
 package de.adorsys.xs2a.adapter.service.impl.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.adorsys.xs2a.adapter.service.AuthenticationObject;
-import de.adorsys.xs2a.adapter.service.ais.ConsentStatus;
+import de.adorsys.xs2a.adapter.service.model.AuthenticationObject;
+import de.adorsys.xs2a.adapter.service.model.ConsentStatus;
 import de.adorsys.xs2a.adapter.service.model.Link;
 
 import java.util.List;

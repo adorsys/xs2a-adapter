@@ -1,7 +1,5 @@
 package de.adorsys.xs2a.adapter.service.model;
 
-import de.adorsys.xs2a.adapter.service.AccountReference;
-
 import java.util.List;
 
 public class CommerzbankBalanceReport {

@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.service.impl.mapper;
 
-import de.adorsys.xs2a.adapter.service.ChallengeData;
-import de.adorsys.xs2a.adapter.service.OtpFormat;
+import de.adorsys.xs2a.adapter.service.model.ChallengeData;
+import de.adorsys.xs2a.adapter.service.model.OtpFormat;
 import de.adorsys.xs2a.adapter.service.impl.model.UnicreditChallengeData;
 import org.junit.Before;
 import org.junit.Test;

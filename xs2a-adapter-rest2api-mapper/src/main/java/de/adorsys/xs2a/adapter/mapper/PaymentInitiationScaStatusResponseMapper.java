@@ -2,8 +2,8 @@ package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.ScaStatusResponseTO;
 import de.adorsys.xs2a.adapter.model.ScaStatusTO;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationScaStatusResponse;
-import de.adorsys.xs2a.adapter.service.ScaStatus;
+import de.adorsys.xs2a.adapter.service.model.PaymentInitiationScaStatusResponse;
+import de.adorsys.xs2a.adapter.service.model.ScaStatus;
 
 import java.util.Optional;
 

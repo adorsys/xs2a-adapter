@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.adapter.service.impl.mapper;
 
-import de.adorsys.xs2a.adapter.service.account.BalanceReport;
+import de.adorsys.xs2a.adapter.service.model.BalanceReport;
 import de.adorsys.xs2a.adapter.service.impl.model.DbBalanceReport;
 import org.mapstruct.Mapper;
 

@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
-import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.AccountInformationService;
 
 public interface AccountInformationServiceProvider extends AdapterServiceProvider {
 

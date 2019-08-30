@@ -2,9 +2,9 @@ package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.PurposeCodeTO;
 import de.adorsys.xs2a.adapter.model.TransactionDetailsTO;
-import de.adorsys.xs2a.adapter.service.account.BankTransactionCode;
-import de.adorsys.xs2a.adapter.service.account.PurposeCode;
-import de.adorsys.xs2a.adapter.service.account.Transactions;
+import de.adorsys.xs2a.adapter.service.model.BankTransactionCode;
+import de.adorsys.xs2a.adapter.service.model.PurposeCode;
+import de.adorsys.xs2a.adapter.service.model.Transactions;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

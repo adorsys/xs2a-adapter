@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.AccountAccessTO;
-import de.adorsys.xs2a.adapter.service.ais.AccountAccess;
+import de.adorsys.xs2a.adapter.service.model.AccountAccess;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 

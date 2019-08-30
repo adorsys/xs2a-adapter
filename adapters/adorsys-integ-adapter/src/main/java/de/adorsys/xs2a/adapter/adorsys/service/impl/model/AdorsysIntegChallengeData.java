@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.adapter.adorsys.service.impl.model;
 
-import de.adorsys.xs2a.adapter.service.OtpFormat;
+import de.adorsys.xs2a.adapter.service.model.OtpFormat;
 
 public class AdorsysIntegChallengeData {
     private byte[] image;

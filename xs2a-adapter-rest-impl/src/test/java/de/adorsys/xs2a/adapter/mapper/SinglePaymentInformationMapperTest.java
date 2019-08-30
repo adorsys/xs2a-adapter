@@ -4,7 +4,7 @@ import de.adorsys.xs2a.adapter.model.AccountReferenceTO;
 import de.adorsys.xs2a.adapter.model.AddressTO;
 import de.adorsys.xs2a.adapter.model.AmountTO;
 import de.adorsys.xs2a.adapter.model.PaymentInitiationWithStatusResponseTO;
-import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.model.*;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 

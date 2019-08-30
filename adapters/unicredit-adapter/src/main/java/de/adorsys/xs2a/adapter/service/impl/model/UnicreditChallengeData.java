@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.service.impl.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import de.adorsys.xs2a.adapter.service.OtpFormat;
+import de.adorsys.xs2a.adapter.service.model.OtpFormat;
 
 import java.util.List;
 

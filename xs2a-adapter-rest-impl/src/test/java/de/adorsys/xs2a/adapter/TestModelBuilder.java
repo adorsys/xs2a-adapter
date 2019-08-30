@@ -16,11 +16,11 @@
 
 package de.adorsys.xs2a.adapter;
 
-import de.adorsys.xs2a.adapter.service.AuthenticationObject;
-import de.adorsys.xs2a.adapter.service.ChallengeData;
-import de.adorsys.xs2a.adapter.service.OtpFormat;
-import de.adorsys.xs2a.adapter.service.ais.ConsentCreationResponse;
-import de.adorsys.xs2a.adapter.service.ais.ConsentStatus;
+import de.adorsys.xs2a.adapter.service.model.AuthenticationObject;
+import de.adorsys.xs2a.adapter.service.model.ChallengeData;
+import de.adorsys.xs2a.adapter.service.model.OtpFormat;
+import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
+import de.adorsys.xs2a.adapter.service.model.ConsentStatus;
 import de.adorsys.xs2a.adapter.service.model.Link;
 
 import java.util.Collections;

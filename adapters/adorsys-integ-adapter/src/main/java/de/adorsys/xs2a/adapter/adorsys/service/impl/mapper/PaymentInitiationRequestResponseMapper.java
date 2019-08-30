@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.adorsys.service.impl.mapper;
 
 import de.adorsys.xs2a.adapter.adorsys.service.impl.model.AdorsysIntegPaymentInitiationRequestResponse;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationRequestResponse;
+import de.adorsys.xs2a.adapter.service.model.PaymentInitiationRequestResponse;
 import org.mapstruct.Mapper;
 
 import java.util.Collections;

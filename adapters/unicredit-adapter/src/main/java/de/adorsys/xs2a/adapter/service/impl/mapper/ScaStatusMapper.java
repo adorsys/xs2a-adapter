@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.service.impl.mapper;
 
-import de.adorsys.xs2a.adapter.service.ScaStatus;
-import de.adorsys.xs2a.adapter.service.TransactionStatus;
-import de.adorsys.xs2a.adapter.service.ais.ConsentStatus;
+import de.adorsys.xs2a.adapter.service.model.ScaStatus;
+import de.adorsys.xs2a.adapter.service.model.TransactionStatus;
+import de.adorsys.xs2a.adapter.service.model.ConsentStatus;
 
 import java.util.EnumMap;
 

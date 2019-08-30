@@ -17,7 +17,7 @@
 package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.ChallengeDataTO;
-import de.adorsys.xs2a.adapter.service.ChallengeData;
+import de.adorsys.xs2a.adapter.service.model.ChallengeData;
 import org.mapstruct.Mapper;
 
 @Mapper

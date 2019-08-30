@@ -22,7 +22,7 @@ package ${package}.service.provider;
 import ${package}.adapter.BaseAccountInformationService;
 import ${package}.adapter.BasePaymentInitiationService;
 import ${package}.service.PaymentInitiationService;
-import ${package}.service.ais.AccountInformationService;
+import ${package}.service.AccountInformationService;
 
 public class ${classNamePrefix}ServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
