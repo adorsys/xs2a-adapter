@@ -98,4 +98,24 @@ public class RequestHeaders {
     public Optional<String> get(String headerName) {
         return Optional.ofNullable(headers.get(headerNamesLowerCased.get(headerName.toLowerCase())));
     }
+
+    public Optional<String> getAspspId() {
+        Optional<String> bankCode = get(X_GTW_ASPSP_ID);
+
+        if (bankCode.isPresent()) {
+            headers.remove(headerNamesLowerCased.get(X_GTW_ASPSP_ID.toLowerCase()));
+        }
+
+        return bankCode;
+    }
+
+    public Optional<String> getBankCode() {
+        Optional<String> bankCode = get(X_GTW_BANK_CODE);
+
+        if (bankCode.isPresent()) {
+            headers.remove(headerNamesLowerCased.get(X_GTW_BANK_CODE.toLowerCase()));
+        }
+
+        return bankCode;
+    }
 }

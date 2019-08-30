@@ -16,6 +16,19 @@ public class StartScaProcessResponse {
     private Map<String, Link> links;
     private String psuMessage;
 
+    @Override
+    public String toString() {
+        return "StartScaProcessResponse{" +
+                   "scaStatus=" + scaStatus +
+                   ", authorisationId='" + authorisationId + '\'' +
+                   ", scaMethods=" + scaMethods +
+                   ", chosenScaMethod=" + chosenScaMethod +
+                   ", challengeData=" + challengeData +
+                   ", links=" + links +
+                   ", psuMessage='" + psuMessage + '\'' +
+                   '}';
+    }
+
     public ScaStatus getScaStatus() {
         return scaStatus;
     }
@@ -70,5 +83,13 @@ public class StartScaProcessResponse {
 
     public void setPsuMessage(String psuMessage) {
         this.psuMessage = psuMessage;
+    }
+
+    public boolean isChosenScaMethodStage() {
+        return chosenScaMethod != null;
+    }
+
+    public boolean isSelectScaMethodStage() {
+        return scaMethods != null;
     }
 }

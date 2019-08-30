@@ -24,7 +24,7 @@ public class DeutscheBankPaymentInitiationService extends BasePaymentInitiationS
 
     @Override
     protected Map<String, String> populatePostHeaders(Map<String, String> map) {
-        Map<String, String> headers = super.populateGetHeaders(map);
+        Map<String, String> headers = super.populatePostHeaders(map);
         headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
         headers.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
 

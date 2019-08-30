@@ -19,7 +19,11 @@ spec:
       containers:
         - env:
             - name: SPRING_PROFILES_ACTIVE
-              value: dev
+              value: dev,sandbox
+            {{- if .Values.adapter.customConfig }}
+            - name: csv.aspsp.adapter.config.file.path
+              value: /opt/xs2a-adapter/custom-config/aspsp-adapter-config.csv
+            {{- end }}
             - name: dkb.token.consumer_key
               valueFrom:
                 secretKeyRef:
@@ -40,11 +44,14 @@ spec:
                 secretKeyRef:
                   name: qwac-secret
                   key: key-store-password
-            - name: SSL_OPTS
+            - name: JAVA_OPTS
               value: >-
+                -Xmx1024m
+                -Dcom.sun.security.enableAIAcaIssuers=true
                 -Djavax.net.ssl.keyStoreType=$(KEY_STORE_TYPE)
                 -Djavax.net.ssl.keyStore=/qwac/key-store
                 -Djavax.net.ssl.keyStorePassword=$(KEY_STORE_PASSWORD)
+                -Dpkcs12.keyStore=/pkcs12/key-store.p12
           imagePullPolicy: Always
           name: xs2a-adapter
           ports:
@@ -56,6 +63,12 @@ spec:
           volumeMounts:
             - name: qwac-secret-volume
               mountPath: /qwac
+            - name: pkcs12-key-store-secret-volume
+              mountPath: /pkcs12
+            {{- if .Values.adapter.customConfig }}
+            - name: xs2a-adapter-config
+              mountPath: /opt/xs2a-adapter/custom-config
+            {{- end }}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -65,6 +78,14 @@ spec:
         - name: qwac-secret-volume
           secret:
             secretName: qwac-secret
+        - name: pkcs12-key-store-secret-volume
+          secret:
+            secretName: pkcs12-key-store-secret
+        {{- if .Values.adapter.customConfig }}
+        - name: xs2a-adapter-config
+          persistentVolumeClaim:
+            claimName: xs2a-adapter-config
+        {{- end }}
   test: false
   triggers:
     - type: ConfigChange

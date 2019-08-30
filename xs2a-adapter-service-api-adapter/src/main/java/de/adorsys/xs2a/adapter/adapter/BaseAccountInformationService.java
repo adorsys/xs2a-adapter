@@ -125,29 +125,67 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     @Override
     public GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders,
                                                                                   UpdatePsuAuthentication updatePsuAuthentication) {
+        return updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication, UpdatePsuAuthenticationResponse.class, identity());
+    }
+
+    protected <T> GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
+                                                                                         String authorisationId,
+                                                                                         RequestHeaders requestHeaders,
+                                                                                         UpdatePsuAuthentication updatePsuAuthentication,
+                                                                                         Class<T> klass,
+                                                                                         Function<T, UpdatePsuAuthenticationResponse> mapper) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
-        return httpClient.put(uri, body, headersMap, jsonResponseHandler(UpdatePsuAuthenticationResponse.class));
+        GeneralResponse<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+        UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = mapper.apply(response.getResponseBody());
+        return new GeneralResponse<>(response.getStatusCode(), updatePsuAuthenticationResponse, response.getResponseHeaders());
     }
 
     @Override
     public GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+        return updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod, SelectPsuAuthenticationMethodResponse.class, identity());
+    }
+
+    protected <T> GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
+                                                                                               String authorisationId,
+                                                                                               RequestHeaders requestHeaders,
+                                                                                               SelectPsuAuthenticationMethod selectPsuAuthenticationMethod,
+                                                                                               Class<T> klass,
+                                                                                               Function<T, SelectPsuAuthenticationMethodResponse> mapper) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
 
-        return httpClient.put(uri, body, headersMap, jsonResponseHandler(SelectPsuAuthenticationMethodResponse.class));
+        GeneralResponse<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+        SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = mapper.apply(response.getResponseBody());
+        return new GeneralResponse<>(response.getStatusCode(), selectPsuAuthenticationMethodResponse, response.getResponseHeaders());
     }
 
     @Override
     public GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
-        String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
+        return updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation, ScaStatusResponse.class, identity());
+    }
+
+    protected <T> GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String consentId,
+                                                                           String authorisationId,
+                                                                           RequestHeaders requestHeaders,
+                                                                           TransactionAuthorisation transactionAuthorisation,
+                                                                           Class<T> klass,
+                                                                           Function<T, ScaStatusResponse> mapper) {
+        String uri = getUpdateConsentPsuDataUri(consentId, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 
-        return httpClient.put(uri, body, headersMap, jsonResponseHandler(ScaStatusResponse.class));
+        GeneralResponse<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+
+        ScaStatusResponse scaStatusResponse = mapper.apply(response.getResponseBody());
+        return new GeneralResponse<>(response.getStatusCode(), scaStatusResponse, response.getResponseHeaders());
+    }
+
+    protected String getUpdateConsentPsuDataUri(String consentId, String authorisationId) {
+        return StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
     }
 
     @Override
