@@ -105,6 +105,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return handleAsBadRequest(exception.getMessage());
     }
 
+    @ExceptionHandler
+    ResponseEntity handleErrorResponseException(ErrorResponseException exception) {
+        HttpStatus httpStatus = HttpStatus.valueOf(exception.getStatusCode());
+        HttpHeaders httpHeaders = headersMapper.toHttpHeaders(exception.getResponseHeaders());
+        ErrorResponse errorResponse = exception.getErrorResponse().orElse(null);
+
+        return new ResponseEntity<>(errorResponse, httpHeaders, httpStatus);
+    }
+
     private ResponseEntity<Object> handleAsBadRequest(String errorText) {
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
