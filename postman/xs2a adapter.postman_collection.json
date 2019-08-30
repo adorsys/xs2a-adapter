@@ -2249,7 +2249,7 @@
 											"const paymentProductSupportedIterationVar = pm.iterationData.get(\"pain.001-sepa-credit-transfers-supported\");   // get var from data file for the current iteration",
 											"",
 											"if (paymentProductSupportedEnvironmentVar !== \"true\" && paymentProductSupportedIterationVar !== \"true\") {",
-											"    postman.setNextRequest(null);",
+											"    postman.setNextRequest(\"/v1/aspsps\");",
 											"}"
 										],
 										"type": "text/javascript"
@@ -2764,7 +2764,7 @@
 								"type": "text/javascript",
 								"exec": [
 									"if (pm.response.code >= 400) {",
-									"    postman.setNextRequest(null);",
+									"    postman.setNextRequest(\"/v1/aspsps\");",
 									"}"
 								]
 							}
