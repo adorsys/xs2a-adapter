@@ -16,8 +16,6 @@
 
 package de.adorsys.xs2a.adapter.service.model;
 
-import de.adorsys.xs2a.adapter.service.model.Link;
-
 public class Links {
     private Link scaRedirect;
     private Link scaOAuth;

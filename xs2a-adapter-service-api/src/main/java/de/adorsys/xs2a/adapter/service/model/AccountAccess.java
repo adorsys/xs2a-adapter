@@ -17,7 +17,6 @@
 package de.adorsys.xs2a.adapter.service.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import de.adorsys.xs2a.adapter.service.model.AccountReference;
 
 import java.util.List;
 
@@ -123,4 +122,3 @@ public class AccountAccess {
         }
     }
 }
-

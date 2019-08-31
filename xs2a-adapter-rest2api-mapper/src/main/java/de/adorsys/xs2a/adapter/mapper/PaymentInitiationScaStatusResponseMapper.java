@@ -27,7 +27,7 @@ public class PaymentInitiationScaStatusResponseMapper {
         return ScaStatus.fromValue(to.toString());
     }
 
-    public PaymentInitiationScaStatusResponse toPaymentInitiationScaStatusResponse(ScaStatusResponseTO to){
+    public PaymentInitiationScaStatusResponse toPaymentInitiationScaStatusResponse(ScaStatusResponseTO to) {
         return Optional.ofNullable(to)
                    .map(r -> new PaymentInitiationScaStatusResponse(toScaStatus(r.getScaStatus())))
                    .orElse(null);
