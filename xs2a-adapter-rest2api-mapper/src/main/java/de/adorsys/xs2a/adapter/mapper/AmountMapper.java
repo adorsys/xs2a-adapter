@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.AmountTO;
-import de.adorsys.xs2a.adapter.service.Amount;
+import de.adorsys.xs2a.adapter.service.model.Amount;
 import org.mapstruct.Mapper;
 
 import java.util.Currency;

@@ -17,7 +17,7 @@
 package de.adorsys.xs2a.adapter.adorsys.service.impl.mapper;
 
 import de.adorsys.xs2a.adapter.adorsys.service.impl.model.AdorsysIntegStartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.StartScaProcessResponse;
+import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
 import org.mapstruct.Mapper;
 
 import java.util.Collections;

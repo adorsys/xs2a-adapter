@@ -1,10 +1,10 @@
 package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.*;
-import de.adorsys.xs2a.adapter.service.AccountReference;
-import de.adorsys.xs2a.adapter.service.account.AccountReport;
-import de.adorsys.xs2a.adapter.service.account.Balance;
-import de.adorsys.xs2a.adapter.service.account.TransactionsReport;
+import de.adorsys.xs2a.adapter.service.model.AccountReference;
+import de.adorsys.xs2a.adapter.service.model.AccountReport;
+import de.adorsys.xs2a.adapter.service.model.Balance;
+import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
 import de.adorsys.xs2a.adapter.service.model.Link;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;

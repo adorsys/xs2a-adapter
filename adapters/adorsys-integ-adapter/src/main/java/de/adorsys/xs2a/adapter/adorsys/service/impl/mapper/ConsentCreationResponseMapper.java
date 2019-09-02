@@ -17,7 +17,7 @@
 package de.adorsys.xs2a.adapter.adorsys.service.impl.mapper;
 
 import de.adorsys.xs2a.adapter.adorsys.service.impl.model.AdorsysIntegConsentCreationResponse;
-import de.adorsys.xs2a.adapter.service.ais.ConsentCreationResponse;
+import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import org.mapstruct.Mapper;
 
 import java.util.Collections;

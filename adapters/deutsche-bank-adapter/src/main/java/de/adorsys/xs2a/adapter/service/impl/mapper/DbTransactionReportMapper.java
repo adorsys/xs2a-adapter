@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.adapter.service.impl.mapper;
 
-import de.adorsys.xs2a.adapter.service.account.TransactionsReport;
+import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
 import de.adorsys.xs2a.adapter.service.impl.model.DbLinks;
 import de.adorsys.xs2a.adapter.service.impl.model.DbTransactionReport;
 import de.adorsys.xs2a.adapter.service.model.Link;

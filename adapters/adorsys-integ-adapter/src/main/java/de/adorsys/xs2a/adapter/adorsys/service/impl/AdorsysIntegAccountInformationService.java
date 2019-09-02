@@ -11,9 +11,9 @@ import de.adorsys.xs2a.adapter.adorsys.service.impl.model.AdorsysIntegStartScaPr
 import de.adorsys.xs2a.adapter.adorsys.service.impl.model.AdorsysIntegUpdatePsuAuthenticationResponse;
 import de.adorsys.xs2a.adapter.service.GeneralResponse;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.StartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.ais.ConsentCreationResponse;
-import de.adorsys.xs2a.adapter.service.ais.Consents;
+import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
+import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
+import de.adorsys.xs2a.adapter.service.model.Consents;
 import de.adorsys.xs2a.adapter.service.model.SelectPsuAuthenticationMethod;
 import de.adorsys.xs2a.adapter.service.model.SelectPsuAuthenticationMethodResponse;
 import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;

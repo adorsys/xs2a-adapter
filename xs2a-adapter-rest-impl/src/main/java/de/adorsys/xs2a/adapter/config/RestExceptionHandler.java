@@ -2,8 +2,8 @@ package de.adorsys.xs2a.adapter.config;
 
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.model.TppMessageCategoryTO;
-import de.adorsys.xs2a.adapter.service.ErrorResponse;
-import de.adorsys.xs2a.adapter.service.TppMessage;
+import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
+import de.adorsys.xs2a.adapter.service.model.TppMessage;
 import de.adorsys.xs2a.adapter.service.exception.*;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;

@@ -17,7 +17,7 @@
 package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.ConsentsTO;
-import de.adorsys.xs2a.adapter.service.ais.Consents;
+import de.adorsys.xs2a.adapter.service.model.Consents;
 import org.mapstruct.Mapper;
 
 @Mapper(uses = {AccountAccessMapper.class})

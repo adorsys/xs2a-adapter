@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.AddressTO;
-import de.adorsys.xs2a.adapter.service.Address;
+import de.adorsys.xs2a.adapter.service.model.Address;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 

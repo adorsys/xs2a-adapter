@@ -1,9 +1,6 @@
 package de.adorsys.xs2a.adapter.service.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.adorsys.xs2a.adapter.service.AuthenticationObject;
-import de.adorsys.xs2a.adapter.service.ChallengeData;
-import de.adorsys.xs2a.adapter.service.ScaStatus;
 
 import java.util.Map;
 

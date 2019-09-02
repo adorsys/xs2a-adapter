@@ -1,8 +1,5 @@
 package de.adorsys.xs2a.adapter.service.model;
 
-import de.adorsys.xs2a.adapter.service.Amount;
-import de.adorsys.xs2a.adapter.service.account.BalanceType;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 

@@ -10,9 +10,7 @@ import de.adorsys.xs2a.adapter.service.impl.mapper.UnicreditInitiateSinglePaymen
 import de.adorsys.xs2a.adapter.service.impl.mapper.UnicreditStartAuthorisationResponseMapper;
 import de.adorsys.xs2a.adapter.service.impl.model.UnicreditPaymentScaStatusResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.UnicreditStartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.model.ScaStatusResponse;
-import de.adorsys.xs2a.adapter.service.model.TransactionAuthorisation;
-import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.adapter.service.model.*;
 
 import java.util.Map;
 

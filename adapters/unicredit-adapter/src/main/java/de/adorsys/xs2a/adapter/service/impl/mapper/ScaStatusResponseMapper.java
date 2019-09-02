@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.service.impl.mapper;
 
-import de.adorsys.xs2a.adapter.service.ScaStatus;
-import de.adorsys.xs2a.adapter.service.ais.ConsentStatus;
-import de.adorsys.xs2a.adapter.service.ais.ConsentStatusResponse;
+import de.adorsys.xs2a.adapter.service.model.ScaStatus;
+import de.adorsys.xs2a.adapter.service.model.ConsentStatus;
+import de.adorsys.xs2a.adapter.service.model.ConsentStatusResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.UnicreditAccountScaStatusResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.UnicreditPaymentScaStatusResponse;
 import de.adorsys.xs2a.adapter.service.model.ScaStatusResponse;

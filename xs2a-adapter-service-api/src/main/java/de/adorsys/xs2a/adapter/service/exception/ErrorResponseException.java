@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.service.exception;
 
-import de.adorsys.xs2a.adapter.service.ErrorResponse;
+import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 
 import java.util.Optional;

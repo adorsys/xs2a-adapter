@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.ReadAccountBalanceResponse200TO;
-import de.adorsys.xs2a.adapter.service.account.BalanceReport;
+import de.adorsys.xs2a.adapter.service.model.BalanceReport;
 import org.mapstruct.Mapper;
 
 @Mapper

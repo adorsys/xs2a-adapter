@@ -1,8 +1,6 @@
 package de.adorsys.xs2a.adapter.service.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.adorsys.xs2a.adapter.service.AccountReference;
-import de.adorsys.xs2a.adapter.service.account.AccountReport;
 
 import java.util.List;
 import java.util.Map;

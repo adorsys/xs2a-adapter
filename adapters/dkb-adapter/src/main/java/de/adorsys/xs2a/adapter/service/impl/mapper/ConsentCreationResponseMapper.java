@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.adapter.service.impl.mapper;
 
-import de.adorsys.xs2a.adapter.service.ais.ConsentCreationResponse;
+import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbConsentCreationResponse;
 import org.mapstruct.Mapper;
 
