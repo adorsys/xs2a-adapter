@@ -1,9 +1,5 @@
 package de.adorsys.xs2a.adapter.service.model;
 
-import de.adorsys.xs2a.adapter.service.model.AccountReference;
-import de.adorsys.xs2a.adapter.service.model.Address;
-import de.adorsys.xs2a.adapter.service.model.Amount;
-
 public class SinglePaymentInitiationBody {
     // required
     private AccountReference debtorAccount;

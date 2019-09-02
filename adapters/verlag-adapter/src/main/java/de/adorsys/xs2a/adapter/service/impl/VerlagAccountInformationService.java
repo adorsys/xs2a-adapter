@@ -51,6 +51,6 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
     }
 
     private void addApiKey(Map<String, String> headers) {
-        headers.put("X-bvpsd2-test-apikey","tUfZ5KOHRTFrikZUsmSMUabKw09UIzGE");
+        headers.put("X-bvpsd2-test-apikey", "tUfZ5KOHRTFrikZUsmSMUabKw09UIzGE");
     }
 }

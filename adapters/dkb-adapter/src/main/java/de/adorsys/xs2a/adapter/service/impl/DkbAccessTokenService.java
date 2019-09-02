@@ -135,7 +135,7 @@ public class DkbAccessTokenService implements AccessTokenService {
     }
 
     private static String readProperty(String key) {
-        return readProperty(key,"");
+        return readProperty(key, "");
     }
 
     private static String buildBasicAuthorization(String key, String secret) {

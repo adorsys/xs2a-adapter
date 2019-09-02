@@ -1,7 +1,5 @@
 package de.adorsys.xs2a.adapter.service.model;
 
-import de.adorsys.xs2a.adapter.service.model.TransactionStatus;
-
 public class PaymentInitiationStatus {
     private TransactionStatus transactionStatus;
 

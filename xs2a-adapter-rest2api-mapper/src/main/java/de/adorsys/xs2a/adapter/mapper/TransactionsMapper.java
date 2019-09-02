@@ -27,7 +27,7 @@ public interface TransactionsMapper {
         return PurposeCodeTO.fromValue(purposeCode.getCode());
     }
 
-    default PurposeCode toPurposeCode(PurposeCodeTO to){
+    default PurposeCode toPurposeCode(PurposeCodeTO to) {
         if (Objects.isNull(to)) {
             return null;
         }
@@ -42,7 +42,7 @@ public interface TransactionsMapper {
     }
 
     default BankTransactionCode toBankTransactionCode(String code) {
-        if (Objects.isNull(code) || code.trim().isEmpty()){
+        if (Objects.isNull(code) || code.trim().isEmpty()) {
             return null;
         }
         return new BankTransactionCode(code);

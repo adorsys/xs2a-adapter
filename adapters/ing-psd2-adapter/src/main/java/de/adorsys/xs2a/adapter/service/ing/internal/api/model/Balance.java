@@ -1,8 +1,5 @@
 package de.adorsys.xs2a.adapter.service.ing.internal.api.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
@@ -47,4 +44,3 @@ public class Balance {
         this.referenceDate = referenceDate;
     }
 }
-

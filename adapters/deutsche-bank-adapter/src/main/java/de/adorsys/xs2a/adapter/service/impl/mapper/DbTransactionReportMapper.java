@@ -40,7 +40,7 @@ public interface DbTransactionReportMapper {
         linkMap.put("balance", balance);
         for (int i = 0; i < downloads.size(); i++) {
             Link download = downloads.get(i);
-            linkMap.put("download"+i, download);
+            linkMap.put("download" + i, download);
         }
         transactionsReport.setLinks(linkMap);
         return transactionsReport;

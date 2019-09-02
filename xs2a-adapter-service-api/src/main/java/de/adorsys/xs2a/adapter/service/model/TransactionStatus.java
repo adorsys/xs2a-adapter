@@ -22,19 +22,43 @@ import java.util.Map;
 
 public enum TransactionStatus {
 
-    ACCC("AcceptedSettlementCompletedCreditor", true), // Settlement on the creditor's account has been completed.
-    ACCP("AcceptedCustomerProfile", false),  //Preceding check of technical validation was successful. Customer profile check was also successful
-    ACSC("AcceptedSettlementCompleted", true),  //Settlement on the debtor's account has been completed. Usage : this can be used by the first agent to report to the debtor that the transaction has been completed. Warning : this status is provided for transaction status reasons, not for financial information. It can only be used after bilateral agreement"),
-    ACSP("AcceptedSettlementInProcess", false),  //All preceding checks such as technical validation and customer profile were successful and therefore the payment initiation has been accepted for execution
-    ACTC("AcceptedTechnicalValidation", false),  //AuthenticationObject and syntactical and semantical validation are successful"),
-    ACWC("AcceptedWithChange", false),  //Instruction is accepted but a change will be made, such as date or remittance not sent
-    ACWP("AcceptedWithoutPosting", false),  //Payment instruction included in the credit transfer is accepted without being posted to the creditor customer’s account
-    RCVD("Received", false),  //Payment initiation has been received by the receiving agent
-    PDNG("Pending", false),  //Payment initiation or individual transaction included in the payment initiation is pending. Further checks and status update will be performed
-    RJCT("Rejected", true),  //Payment initiation or individual transaction included in the payment initiation has been rejected
-    CANC("Canceled", true), //Canceled
-    ACFC("AcceptedFundsChecked", false), //Preceeding check of technical validation and customer profile was successful and an automatic funds check was positive
-    PATC("PartiallyAcceptedTechnicalCorrect", false), // The payment initiation needs multiple authentications, where some but not yet all have been performed. Syntactical and semantical validations are successful.
+    // Settlement on the creditor's account has been completed.
+    ACCC("AcceptedSettlementCompletedCreditor", true),
+    // Preceding check of technical validation was successful.
+    // Customer profile check was also successful
+    ACCP("AcceptedCustomerProfile", false),
+    // Settlement on the debtor's account has been completed. This can be used by
+    // the first agent to report to the debtor that the transaction has been completed.
+    // This status is provided for transaction status reasons, not for financial information.
+    // It can only be used after bilateral agreement
+    ACSC("AcceptedSettlementCompleted", true),
+    // All preceding checks such as technical validation and customer profile were
+    // successful and therefore the payment initiation has been accepted for execution
+    ACSP("AcceptedSettlementInProcess", false),
+    // AuthenticationObject and syntactical and semantical validation are successful
+    ACTC("AcceptedTechnicalValidation", false),
+    // Instruction is accepted but a change will be made, such as date or remittance not sent
+    ACWC("AcceptedWithChange", false),
+    // Payment instruction included in the credit transfer is accepted without
+    // being posted to the creditor customer’s account
+    ACWP("AcceptedWithoutPosting", false),
+    // Payment initiation has been received by the receiving agent
+    RCVD("Received", false),
+    // Payment initiation or individual transaction included in the payment
+    // initiation is pending. Further checks and status update will be performed
+    PDNG("Pending", false),
+    // Payment initiation or individual transaction included in the payment initiation
+    // has been rejected
+    RJCT("Rejected", true),
+    // Canceled
+    CANC("Canceled", true),
+    // Preceeding check of technical validation and customer profile was successful
+    // and an automatic funds check was positive
+    ACFC("AcceptedFundsChecked", false),
+    // The payment initiation needs multiple authentications, where some
+    // but not yet all have been performed. Syntactical and semantical validations
+    // are successful.
+    PATC("PartiallyAcceptedTechnicalCorrect", false),
     PART("PART", false);
 
 

@@ -77,7 +77,7 @@ class ApacheHttpClient implements HttpClient {
                 HttpEntity entity = response.getEntity();
                 Map<String, String> responseHeadersMap = toHeadersMap(response.getAllHeaders());
                 ResponseHeaders responseHeaders = ResponseHeaders.fromMap(responseHeadersMap);
-                InputStream content = entity != null? entity.getContent() : EmptyInputStream.INSTANCE;
+                InputStream content = entity != null ? entity.getContent() : EmptyInputStream.INSTANCE;
 
                 T responseBody = responseHandler.apply(statusCode, content, responseHeaders);
                 return new GeneralResponse<>(statusCode, responseBody, responseHeaders);

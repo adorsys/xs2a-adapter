@@ -12,7 +12,7 @@ import java.util.Optional;
 // Error429_NG_PIS
 // Error500_NG_PIS
 // Error503_NG_PIS
-public class ErrorResponseException extends RuntimeException{
+public class ErrorResponseException extends RuntimeException {
     private final int statusCode;
     private final ResponseHeaders responseHeaders;
     private final ErrorResponse errorResponse;
