@@ -47,7 +47,7 @@ So, we have to map it through the custom model `UnicreditChallengeData`.
 - for `GET SCA status` endpoints: by mapping it from the `ConsentStatus`/`TransactionStatus`;
 - for `Update PSU data` endpoints: by getting the status from the content of the response body.
 It leads to data non-consistency, as the result of these 2 mappings will be different for the same consent/transaction.
-Please, take it into the account and don't rely on `ScaStatus` value whenever possible!
+Please, take note and don't rely on `ScaStatus` value whenever possible!
 
 2)as the UniCredit PSD2 APIs documentation provide the test user with the only 1 SCA method available, 
 it means that there is no possibility to test the entire Embedded authorisation flow (0 and multiple SCA methods cases);
