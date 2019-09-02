@@ -4,6 +4,7 @@
 |===
 |Bank Name|approach
 
+|UniCredit Bank|embedded
 |===
 
 == Features:
