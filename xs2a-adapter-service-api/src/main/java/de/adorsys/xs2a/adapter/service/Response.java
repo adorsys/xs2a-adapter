@@ -2,12 +2,12 @@ package de.adorsys.xs2a.adapter.service;
 
 public class Response<T> {
     private final int statusCode;
-    private final T responseBody;
+    private final T body;
     private final ResponseHeaders headers;
 
-    public Response(int statusCode, T responseBody, ResponseHeaders headers) {
+    public Response(int statusCode, T body, ResponseHeaders headers) {
         this.statusCode = statusCode;
-        this.responseBody = responseBody;
+        this.body = body;
         this.headers = headers;
     }
 
@@ -15,8 +15,8 @@ public class Response<T> {
         return statusCode;
     }
 
-    public T getResponseBody() {
-        return responseBody;
+    public T getBody() {
+        return body;
     }
 
     public ResponseHeaders getHeaders() {

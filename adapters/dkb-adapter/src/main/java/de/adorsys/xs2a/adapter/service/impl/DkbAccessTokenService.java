@@ -98,7 +98,7 @@ public class DkbAccessTokenService implements AccessTokenService {
                     responseHandler()
             );
             logger.debug("New token is retrieved");
-            accessToken = new AccessToken(response.getResponseBody());
+            accessToken = new AccessToken(response.getBody());
         }
         return accessToken.token;
     }

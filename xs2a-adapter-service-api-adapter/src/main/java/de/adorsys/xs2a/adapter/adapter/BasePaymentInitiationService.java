@@ -63,7 +63,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         }
 
         Response<T> response = httpClient.post(StringUri.fromElements(baseUri, V1, PAYMENTS, paymentProduct.getSlug()), bodyString, headersMap, jsonResponseHandler(klass));
-        PaymentInitiationRequestResponse paymentInitiationRequestResponse = mapper.apply(response.getResponseBody());
+        PaymentInitiationRequestResponse paymentInitiationRequestResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), paymentInitiationRequestResponse, response.getHeaders());
     }
 
@@ -139,7 +139,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
         Response<T> response = httpClient.post(uri, body, headersMap, jsonResponseHandler(klass));
-        StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getResponseBody());
+        StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getHeaders());
     }
 
@@ -161,7 +161,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
         Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
-        UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = mapper.apply(response.getResponseBody());
+        UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), updatePsuAuthenticationResponse, response.getHeaders());
     }
 
@@ -183,7 +183,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
 
         Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
-        SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = mapper.apply(response.getResponseBody());
+        SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), selectPsuAuthenticationMethodResponse, response.getHeaders());
     }
 
@@ -206,7 +206,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
         Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
 
-        ScaStatusResponse scaStatusResponse = mapper.apply(response.getResponseBody());
+        ScaStatusResponse scaStatusResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), scaStatusResponse, response.getHeaders());
     }
 

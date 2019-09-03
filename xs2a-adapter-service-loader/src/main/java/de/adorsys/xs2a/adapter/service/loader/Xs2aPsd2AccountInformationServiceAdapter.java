@@ -29,14 +29,14 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
     @Override
     public AccountList getAccounts(Map<String, String> queryParameters,
                                    Map<String, String> headers) throws IOException {
-        return mapper.map(service.getAccountList(RequestHeaders.fromMap(headers), RequestParams.fromMap(queryParameters)).getResponseBody());
+        return mapper.map(service.getAccountList(RequestHeaders.fromMap(headers), RequestParams.fromMap(queryParameters)).getBody());
     }
 
     @Override
     public ReadAccountBalanceResponse getBalances(String accountId,
                                                   Map<String, String> queryParameters,
                                                   Map<String, String> headers) throws IOException {
-        return mapper.map(service.getBalances(accountId, RequestHeaders.fromMap(headers)).getResponseBody());
+        return mapper.map(service.getBalances(accountId, RequestHeaders.fromMap(headers)).getBody());
     }
 
     @Override
@@ -46,20 +46,20 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         RequestParams requestParams = RequestParams.fromMap(queryParameters);
         if (requestHeaders.isAcceptJson()) {
-            return mapper.map(service.getTransactionList(accountId, requestHeaders, requestParams).getResponseBody());
+            return mapper.map(service.getTransactionList(accountId, requestHeaders, requestParams).getBody());
         } else {
-            return service.getTransactionListAsString(accountId, requestHeaders, requestParams).getResponseBody();
+            return service.getTransactionListAsString(accountId, requestHeaders, requestParams).getBody();
         }
     }
 
     @Override
     public ConsentsResponse createConsent(Map<String, String> headers, Consents consents) {
-        return mapper.map(service.createConsent(RequestHeaders.fromMap(headers), mapper.map(consents)).getResponseBody());
+        return mapper.map(service.createConsent(RequestHeaders.fromMap(headers), mapper.map(consents)).getBody());
     }
 
     @Override
     public ConsentInformationResponse getConsentInformation(String consentId, Map<String, String> headers) {
-        return mapper.map(service.getConsentInformation(consentId, RequestHeaders.fromMap(headers)).getResponseBody());
+        return mapper.map(service.getConsentInformation(consentId, RequestHeaders.fromMap(headers)).getBody());
     }
 
     @Override
@@ -69,14 +69,14 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
 
     @Override
     public ConsentStatusResponse getConsentStatus(String consentId, Map<String, String> headers) {
-        return mapper.map(service.getConsentStatus(consentId, RequestHeaders.fromMap(headers)).getResponseBody());
+        return mapper.map(service.getConsentStatus(consentId, RequestHeaders.fromMap(headers)).getBody());
     }
 
     @Override
     public ScaStatusResponse getConsentScaStatus(String consentId,
                                                  String authorisationId,
                                                  Map<String, String> headers) {
-        return mapper.map(service.getConsentScaStatus(consentId, authorisationId, RequestHeaders.fromMap(headers)).getResponseBody());
+        return mapper.map(service.getConsentScaStatus(consentId, authorisationId, RequestHeaders.fromMap(headers)).getBody());
     }
 
     @Override
@@ -88,10 +88,10 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
                 updateAuthorisation.getAuthenticationMethodId() == null &&
                 updateAuthorisation.getScaAuthenticationData() == null) {
             res = service.startConsentAuthorisation(consentId, RequestHeaders.fromMap(headers))
-                .getResponseBody();
+                .getBody();
         } else {
             res = service.startConsentAuthorisation(consentId, RequestHeaders.fromMap(headers), mapper.map(updateAuthorisation))
-                .getResponseBody();
+                .getBody();
         }
 
         return mapper.map(res);
@@ -108,7 +108,7 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
             mapper.map(updateAuthorisation, selectPsuAuthenticationMethod);
             return mapper.map(
                 service.updateConsentsPsuData(consentId, authorisationId, RequestHeaders.fromMap(headers), selectPsuAuthenticationMethod)
-                    .getResponseBody()
+                    .getBody()
             );
         }
         if (updateAuthorisation.getPsuData() != null) {
@@ -116,7 +116,7 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
             mapper.map(updateAuthorisation, updatePsuAuthentication);
             return mapper.map(
                 service.updateConsentsPsuData(consentId, authorisationId, RequestHeaders.fromMap(headers), updatePsuAuthentication)
-                    .getResponseBody()
+                    .getBody()
             );
         }
         if (updateAuthorisation.getScaAuthenticationData() != null) {
@@ -124,7 +124,7 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
             mapper.map(updateAuthorisation, transactionAuthorisation);
             return mapper.toUpdateAuthorisationResponse(
                 service.updateConsentsPsuData(consentId, authorisationId, RequestHeaders.fromMap(headers), transactionAuthorisation)
-                    .getResponseBody()
+                    .getBody()
             );
         }
 

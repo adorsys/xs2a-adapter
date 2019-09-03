@@ -68,7 +68,7 @@ public class ConsentController extends AbstractController implements AccountApi 
         return ResponseEntity
                    .status(HttpStatus.CREATED)
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(creationResponseMapper.toConsentResponse201(response.getResponseBody()));
+                   .body(creationResponseMapper.toConsentResponse201(response.getBody()));
     }
 
     @Override
@@ -80,7 +80,7 @@ public class ConsentController extends AbstractController implements AccountApi 
         return ResponseEntity
                    .status(HttpStatus.OK)
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(consentInformationMapper.toConsentInformationResponse200Json(response.getResponseBody()));
+                   .body(consentInformationMapper.toConsentInformationResponse200Json(response.getBody()));
     }
 
     @Override
@@ -101,7 +101,7 @@ public class ConsentController extends AbstractController implements AccountApi 
         return ResponseEntity
                    .status(HttpStatus.OK)
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(consentStatusResponseMapper.toConsentStatusResponse200(response.getResponseBody()));
+                   .body(consentStatusResponseMapper.toConsentStatusResponse200(response.getBody()));
     }
 
     @Override
@@ -115,7 +115,7 @@ public class ConsentController extends AbstractController implements AccountApi 
         return ResponseEntity
                    .status(HttpStatus.CREATED)
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(startScaProcessResponseMapper.toStartScaprocessResponseTO((StartScaProcessResponse) response.getResponseBody()));
+                   .body(startScaProcessResponseMapper.toStartScaprocessResponseTO((StartScaProcessResponse) response.getBody()));
     }
 
     @Override
@@ -141,7 +141,7 @@ public class ConsentController extends AbstractController implements AccountApi 
         return ResponseEntity
                    .status(HttpStatus.OK)
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(response.getResponseBody());
+                   .body(response.getBody());
     }
 
     @Override
@@ -156,7 +156,7 @@ public class ConsentController extends AbstractController implements AccountApi 
 
         return ResponseEntity.status(HttpStatus.OK)
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(accountListHolderMapper.toAccountListTO(response.getResponseBody()));
+                   .body(accountListHolderMapper.toAccountListTO(response.getBody()));
     }
 
     @Override
@@ -182,7 +182,7 @@ public class ConsentController extends AbstractController implements AccountApi 
             Response<TransactionsReport> transactionList = accountInformationService.getTransactionList(accountId, requestHeaders, requestParams);
             return ResponseEntity.status(HttpStatus.OK)
                        .headers(headersMapper.toHttpHeaders(transactionList.getHeaders()))
-                       .body(transactionsReportMapper.toTransactionsResponse200Json(transactionList.getResponseBody()));
+                       .body(transactionsReportMapper.toTransactionsResponse200Json(transactionList.getBody()));
         }
 
         Response<String> response = accountInformationService.getTransactionListAsString(accountId, requestHeaders, requestParams);
@@ -190,7 +190,7 @@ public class ConsentController extends AbstractController implements AccountApi 
         return ResponseEntity
                    .status(HttpStatus.OK)
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(response.getResponseBody());
+                   .body(response.getBody());
     }
 
     @Override
@@ -211,7 +211,7 @@ public class ConsentController extends AbstractController implements AccountApi 
         return ResponseEntity
                    .status(HttpStatus.OK)
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(response.getResponseBody());
+                   .body(response.getBody());
     }
 
     @Override
@@ -223,7 +223,7 @@ public class ConsentController extends AbstractController implements AccountApi 
         return ResponseEntity
                    .status(HttpStatus.OK)
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(scaStatusResponseMapper.toScaStatusResponseTO(response.getResponseBody()));
+                   .body(scaStatusResponseMapper.toScaStatusResponseTO(response.getBody()));
     }
 
     @Override
@@ -235,6 +235,6 @@ public class ConsentController extends AbstractController implements AccountApi 
         return ResponseEntity
                    .status(HttpStatus.OK)
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(balanceReportMapper.toReadAccountBalanceResponse200TO(response.getResponseBody()));
+                   .body(balanceReportMapper.toReadAccountBalanceResponse200TO(response.getBody()));
     }
 }
