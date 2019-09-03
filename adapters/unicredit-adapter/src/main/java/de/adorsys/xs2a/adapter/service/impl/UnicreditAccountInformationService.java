@@ -44,7 +44,7 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
 
         Response<UnicreditStartScaProcessResponse> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(UnicreditStartScaProcessResponse.class));
 
-        return new Response<>(response.getStatusCode(), startAuthorisationResponseMapper.modifyResponse(response.getResponseBody()), response.getResponseHeaders());
+        return new Response<>(response.getStatusCode(), startAuthorisationResponseMapper.modifyResponse(response.getResponseBody()), response.getHeaders());
     }
 
     @Override
@@ -55,7 +55,7 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     @Override
     public Response<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, RequestHeaders requestHeaders) {
         Response<ConsentStatusResponse> response = this.getConsentStatus(consentId, requestHeaders);
-        return new Response<>(response.getStatusCode(), scaStatusResponseMapper.toScaStatusResponse(response.getResponseBody()), response.getResponseHeaders());
+        return new Response<>(response.getStatusCode(), scaStatusResponseMapper.toScaStatusResponse(response.getResponseBody()), response.getHeaders());
     }
 
     @Override

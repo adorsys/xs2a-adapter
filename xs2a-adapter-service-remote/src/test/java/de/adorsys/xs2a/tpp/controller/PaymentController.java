@@ -52,7 +52,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
                 this.paymentService.initiateSinglePayment(paymentProduct.toString(), requestHeaders, body);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                        .body(paymentInitiationRequestResponseMapper.toPaymentInitationRequestResponse201TO(response.getResponseBody()));
     }
 
@@ -75,7 +75,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
         Response<SinglePaymentInitiationInformationWithStatusResponse> response = this.paymentService.getSinglePaymentInformation(paymentProduct.toString(), paymentId, requestHeaders);
 
         return ResponseEntity.status(HttpStatus.OK)
-                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                        .body(singlePaymentInformationMapper.toPaymentInitiationSctWithStatusResponse(response.getResponseBody()));
     }
 
@@ -86,7 +86,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
         Response<PaymentInitiationScaStatusResponse> response = this.paymentService.getPaymentInitiationScaStatus(paymentService.toString(), paymentProduct.toString(), paymentId, authorisationId, requestHeaders);
 
         return ResponseEntity.status(HttpStatus.OK)
-                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                        .body(paymentInitiationScaStatusResponseMapper.mapToScaStatusResponse(response.getResponseBody()));
     }
 
@@ -99,7 +99,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
                     this.paymentService.getSinglePaymentInitiationStatus(paymentProduct.toString(), paymentId, requestHeaders);
 
             return ResponseEntity.status(HttpStatus.OK)
-                           .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                           .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                            .body(paymentInitiationStatusMapper.toPaymentInitiationStatusResponse200Json(response.getResponseBody()));
         }
 
@@ -108,7 +108,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
 
         return ResponseEntity
                        .status(HttpStatus.OK)
-                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                        .body(response.getResponseBody());
     }
 
@@ -120,7 +120,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
                 this.paymentService.getPaymentInitiationAuthorisation(paymentService.toString(), paymentProduct.toString(), paymentId, requestHeaders);
 
         return ResponseEntity.status(HttpStatus.OK)
-                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                        .body(paymentInitiationAuthorisationResponseMapper.toAuthorisationsTO(response.getResponseBody()));
     }
 
@@ -134,7 +134,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                 .body(startScaProcessResponseMapper.toStartScaprocessResponseTO((StartScaProcessResponse) response.getResponseBody()));
     }
 
@@ -150,7 +150,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
 
         return ResponseEntity
                        .status(HttpStatus.OK)
-                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                        .body(response.getResponseBody());
     }
 }

@@ -58,7 +58,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         Response<T> response = httpClient.post(getConsentBaseUri(), bodyString, headersMap, jsonResponseHandler(klass));
         ConsentCreationResponse creationResponse = mapper.apply(response.getResponseBody());
-        return new Response<>(response.getStatusCode(), creationResponse, response.getResponseHeaders());
+        return new Response<>(response.getStatusCode(), creationResponse, response.getHeaders());
     }
 
     @Override
@@ -72,7 +72,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Response<T> response = httpClient.get(uri, headersMap, jsonResponseHandler(klass));
         ConsentInformation consentInformation = mapper.apply(response.getResponseBody());
 
-        return new Response<>(response.getStatusCode(), consentInformation, response.getResponseHeaders());
+        return new Response<>(response.getStatusCode(), consentInformation, response.getHeaders());
     }
 
     @Override
@@ -104,7 +104,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         Response<T> response = httpClient.post(uri, headersMap, jsonResponseHandler(klass));
         StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getResponseBody());
-        return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getResponseHeaders());
+        return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getHeaders());
     }
 
     @Override
@@ -119,7 +119,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         Response<T> response = httpClient.post(uri, body, headersMap, jsonResponseHandler(klass));
         StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getResponseBody());
-        return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getResponseHeaders());
+        return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getHeaders());
     }
 
     @Override
@@ -140,7 +140,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
         UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = mapper.apply(response.getResponseBody());
-        return new Response<>(response.getStatusCode(), updatePsuAuthenticationResponse, response.getResponseHeaders());
+        return new Response<>(response.getStatusCode(), updatePsuAuthenticationResponse, response.getHeaders());
     }
 
     @Override
@@ -160,7 +160,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
         SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = mapper.apply(response.getResponseBody());
-        return new Response<>(response.getStatusCode(), selectPsuAuthenticationMethodResponse, response.getResponseHeaders());
+        return new Response<>(response.getStatusCode(), selectPsuAuthenticationMethodResponse, response.getHeaders());
     }
 
     @Override
@@ -181,7 +181,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
 
         ScaStatusResponse scaStatusResponse = mapper.apply(response.getResponseBody());
-        return new Response<>(response.getStatusCode(), scaStatusResponse, response.getResponseHeaders());
+        return new Response<>(response.getStatusCode(), scaStatusResponse, response.getHeaders());
     }
 
     protected String getUpdateConsentPsuDataUri(String consentId, String authorisationId) {
@@ -218,7 +218,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Response<T> response = httpClient.get(uri, headersMap, jsonResponseHandler(klass));
         TransactionsReport transactionsReport = mapper.apply(response.getResponseBody());
 
-        return new Response<>(response.getStatusCode(), transactionsReport, response.getResponseHeaders());
+        return new Response<>(response.getStatusCode(), transactionsReport, response.getHeaders());
     }
 
     @Override
@@ -245,7 +245,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
         Response<T> response = httpClient.get(uri, headers, jsonResponseHandler(klass));
         BalanceReport balanceReport = mapper.apply(response.getResponseBody());
-        return new Response<>(response.getStatusCode(), balanceReport, response.getResponseHeaders());
+        return new Response<>(response.getStatusCode(), balanceReport, response.getHeaders());
     }
 
 

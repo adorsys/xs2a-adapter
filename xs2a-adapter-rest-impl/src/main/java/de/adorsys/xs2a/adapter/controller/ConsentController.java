@@ -67,7 +67,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
         return ResponseEntity
                        .status(HttpStatus.CREATED)
-                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                        .body(creationResponseMapper.toConsentResponse201(response.getResponseBody()));
     }
 
@@ -79,7 +79,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
         return ResponseEntity
                        .status(HttpStatus.OK)
-                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                        .body(consentInformationMapper.toConsentInformationResponse200Json(response.getResponseBody()));
     }
 
@@ -89,7 +89,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
         Response<Void> response = accountInformationService.deleteConsent(consentId, requestHeaders);
 
-        return new ResponseEntity<>(headersMapper.toHttpHeaders(response.getResponseHeaders()), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(headersMapper.toHttpHeaders(response.getHeaders()), HttpStatus.NO_CONTENT);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
         return ResponseEntity
                        .status(HttpStatus.OK)
-                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                        .body(consentStatusResponseMapper.toConsentStatusResponse200(response.getResponseBody()));
     }
 
@@ -114,7 +114,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
         return ResponseEntity
                        .status(HttpStatus.CREATED)
-                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                        .body(startScaProcessResponseMapper.toStartScaprocessResponseTO((StartScaProcessResponse) response.getResponseBody()));
     }
 
@@ -140,7 +140,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                 .body(response.getResponseBody());
     }
 
@@ -155,7 +155,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
         Response<AccountListHolder> response = accountInformationService.getAccountList(requestHeaders, requestParams);
 
         return ResponseEntity.status(HttpStatus.OK)
-                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                        .body(accountListHolderMapper.toAccountListTO(response.getResponseBody()));
     }
 
@@ -181,7 +181,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
         if (requestHeaders.isAcceptJson()) {
             Response<TransactionsReport> transactionList = accountInformationService.getTransactionList(accountId, requestHeaders, requestParams);
             return ResponseEntity.status(HttpStatus.OK)
-                    .headers(headersMapper.toHttpHeaders(transactionList.getResponseHeaders()))
+                    .headers(headersMapper.toHttpHeaders(transactionList.getHeaders()))
                     .body(transactionsReportMapper.toTransactionsResponse200Json(transactionList.getResponseBody()));
         }
 
@@ -189,7 +189,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
         return ResponseEntity
                        .status(HttpStatus.OK)
-                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                        .body(response.getResponseBody());
     }
 
@@ -201,7 +201,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                 .body(scaStatusResponseMapper.toScaStatusResponseTO(response.getResponseBody()));
     }
 
@@ -213,7 +213,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
         return ResponseEntity
                        .status(HttpStatus.OK)
-                       .headers(headersMapper.toHttpHeaders(response.getResponseHeaders()))
+                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                        .body(balanceReportMapper.toReadAccountBalanceResponse200TO(response.getResponseBody()));
     }
 }

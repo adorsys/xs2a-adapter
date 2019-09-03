@@ -39,7 +39,7 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
         Response<UnicreditStartScaProcessResponse> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(UnicreditStartScaProcessResponse.class));
-        return new Response<>(response.getStatusCode(), startAuthorisationResponseMapper.modifyResponse(response.getResponseBody()), response.getResponseHeaders());
+        return new Response<>(response.getStatusCode(), startAuthorisationResponseMapper.modifyResponse(response.getResponseBody()), response.getHeaders());
     }
 
     @Override
@@ -64,7 +64,7 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
         }
 
         Response<PaymentInitiationStatus> response = this.getSinglePaymentInitiationStatus(paymentProduct, paymentId, requestHeaders);
-        return new Response<>(response.getStatusCode(), paymentInitiationScaStatusResponseMapper.toScaStatusResponse(response.getResponseBody()), response.getResponseHeaders());
+        return new Response<>(response.getStatusCode(), paymentInitiationScaStatusResponseMapper.toScaStatusResponse(response.getResponseBody()), response.getHeaders());
     }
 
     @Override
