@@ -1,5 +1,7 @@
 package de.adorsys.xs2a.adapter.service;
 
+import java.util.function.Function;
+
 public class Response<T> {
     private final int statusCode;
     private final T body;
@@ -21,5 +23,9 @@ public class Response<T> {
 
     public ResponseHeaders getHeaders() {
         return headers;
+    }
+
+    public <U> Response<U> map(Function<? super T, ? extends U> bodyMapper) {
+        return new Response<>(statusCode, bodyMapper.apply(body), headers);
     }
 }
