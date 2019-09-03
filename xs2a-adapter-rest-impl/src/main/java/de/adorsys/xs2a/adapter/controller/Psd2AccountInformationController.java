@@ -1,12 +1,12 @@
 package de.adorsys.xs2a.adapter.controller;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import de.adorsys.xs2a.adapter.rest.mapper.AccountInformationMapper;
+import de.adorsys.xs2a.adapter.rest.mapper.Psd2AccountInformationMapper;
 import de.adorsys.xs2a.adapter.rest.psd2.Psd2AccountInformationApi;
 import de.adorsys.xs2a.adapter.rest.psd2.model.*;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.model.ConsentsResponse;
 import de.adorsys.xs2a.adapter.service.psd2.model.HrefType;
+import de.adorsys.xs2a.adapter.service.psd2.model.TransactionsResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,10 +19,10 @@ import static java.util.Collections.singletonMap;
 public class Psd2AccountInformationController implements Psd2AccountInformationApi {
 
     private final Psd2AccountInformationService accountInformationService;
-    private final AccountInformationMapper mapper;
+    private final Psd2AccountInformationMapper mapper;
 
     public Psd2AccountInformationController(Psd2AccountInformationService accountInformationService,
-                                            AccountInformationMapper mapper) {
+                                            Psd2AccountInformationMapper mapper) {
         this.accountInformationService = accountInformationService;
         this.mapper = mapper;
     }
@@ -63,8 +63,12 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     @Override
     public ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(String consentId,
                                                                                Map<String, String> headers,
-                                                                               ObjectNode body) {
-        throw new UnsupportedOperationException(); // todo https://git.adorsys.de/xs2a-gateway/xs2a-gateway/issues/328
+                                                                               UpdateAuthorisationTO body) {
+
+
+        return ResponseEntity.ok(mapper.map(
+            accountInformationService.startConsentAuthorisation(consentId, headers, mapper.map(body))
+        ));
     }
 
     @Override
@@ -77,11 +81,13 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     }
 
     @Override
-    public ResponseEntity<Object> updateConsentsPsuData(String consentId,
+    public ResponseEntity<UpdateAuthorisationResponseTO> updateConsentsPsuData(String consentId,
                                                         String authorisationId,
                                                         Map<String, String> headers,
-                                                        ObjectNode body) {
-        throw new UnsupportedOperationException(); // todo https://git.adorsys.de/xs2a-gateway/xs2a-gateway/issues/328
+                                                        UpdateAuthorisationTO body) {
+        return ResponseEntity.ok(mapper.map(
+            accountInformationService.updateConsentsPsuData(consentId, authorisationId, headers, mapper.map(body))
+        ));
     }
 
     @Override
@@ -99,11 +105,13 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     }
 
     @Override
-    public ResponseEntity<TransactionsResponseTO> getTransactionList(String accountId,
-                                                                     Map<String, String> queryParameters,
-                                                                     Map<String, String> headers) throws IOException {
-        return ResponseEntity.ok(mapper.toTransactionsResponseTO(
-            accountInformationService.getTransactions(accountId, queryParameters, headers)
-        ));
+    public ResponseEntity<?> getTransactionList(String accountId,
+                                                Map<String, String> queryParameters,
+                                                Map<String, String> headers) throws IOException {
+        Object transactions = accountInformationService.getTransactions(accountId, queryParameters, headers);
+        if (transactions instanceof TransactionsResponse) {
+            return ResponseEntity.ok(mapper.toTransactionsResponseTO((TransactionsResponse) transactions));
+        }
+        return ResponseEntity.ok(transactions);
     }
 }

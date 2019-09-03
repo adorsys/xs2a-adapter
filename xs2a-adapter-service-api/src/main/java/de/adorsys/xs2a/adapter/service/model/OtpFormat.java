@@ -47,4 +47,9 @@ public enum OtpFormat {
     public static OtpFormat fromValue(String value) {
         return container.get(value);
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

@@ -40,4 +40,9 @@ public enum BalanceType {
     public static Optional<BalanceType> fromValue(String name) {
         return Optional.ofNullable(container.get(name));
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

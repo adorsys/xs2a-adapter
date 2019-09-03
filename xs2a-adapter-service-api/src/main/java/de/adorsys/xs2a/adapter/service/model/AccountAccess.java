@@ -83,7 +83,7 @@ public class AccountAccess {
 
         @Override
         public String toString() {
-            return String.valueOf(value);
+            return value;
         }
 
         @JsonCreator
@@ -108,7 +108,7 @@ public class AccountAccess {
 
         @Override
         public String toString() {
-            return String.valueOf(value);
+            return value;
         }
 
         @JsonCreator

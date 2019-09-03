@@ -52,6 +52,43 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     }
 
     @Override
+    public ConsentInformationResponse getConsentInformation(String consentId, Map<String, String> headers) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void deleteConsent(String consentId, Map<String, String> headers) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ConsentStatusResponse getConsentStatus(String consentId, Map<String, String> headers) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ScaStatusResponse getConsentScaStatus(String consentId,
+                                                 String authorisationId,
+                                                 Map<String, String> headers) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public StartScaprocessResponse startConsentAuthorisation(String consentId,
+                                                             Map<String, String> headers,
+                                                             UpdateAuthorisation updateAuthentication) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public UpdateAuthorisationResponse updateConsentsPsuData(String consentId,
+                                                             String authorisationId,
+                                                             Map<String, String> headers,
+                                                             UpdateAuthorisation updateAuthentication) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public URI getAuthorizationRequestUri(Map<String, String> headers, String state, URI redirectUri) throws IOException {
         try {
             return oauth2Service.getAuthorizationRequestUri(state, redirectUri);

@@ -1,5 +1,7 @@
 package de.adorsys.xs2a.adapter.service.ing;
 
+import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -16,7 +18,7 @@ class Headers {
     public String getAccessToken() {
         String authorization = headers.get("Authorization");
         if (authorization == null || !authorization.startsWith(BEARER_)) {
-            throw new IllegalArgumentException(authorization);
+            throw new BadRequestException("Authorization header value must have type \"Bearer\"");
         }
         return authorization.substring(BEARER_.length());
     }

@@ -2,19 +2,22 @@ package de.adorsys.xs2a.adapter.rest.psd2.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
 import java.util.Map;
 
-public class SelectPsuAuthenticationMethodResponseTO {
+public class UpdateAuthorisationResponseTO {
     private AuthenticationObjectTO chosenScaMethod;
 
     private ChallengeDataTO challengeData;
 
-    @JsonProperty("_links")
-    private Map<String, HrefTypeTO> links;
+    private List<AuthenticationObjectTO> scaMethods;
 
     private String scaStatus;
 
     private String psuMessage;
+
+    @JsonProperty("_links")
+    private Map<String, HrefTypeTO> links;
 
     public AuthenticationObjectTO getChosenScaMethod() {
         return chosenScaMethod;
@@ -32,12 +35,12 @@ public class SelectPsuAuthenticationMethodResponseTO {
         this.challengeData = challengeData;
     }
 
-    public Map<String, HrefTypeTO> getLinks() {
-        return links;
+    public List<AuthenticationObjectTO> getScaMethods() {
+        return scaMethods;
     }
 
-    public void setLinks(Map<String, HrefTypeTO> links) {
-        this.links = links;
+    public void setScaMethods(List<AuthenticationObjectTO> scaMethods) {
+        this.scaMethods = scaMethods;
     }
 
     public String getScaStatus() {
@@ -54,5 +57,13 @@ public class SelectPsuAuthenticationMethodResponseTO {
 
     public void setPsuMessage(String psuMessage) {
         this.psuMessage = psuMessage;
+    }
+
+    public Map<String, HrefTypeTO> getLinks() {
+        return links;
+    }
+
+    public void setLinks(Map<String, HrefTypeTO> links) {
+        this.links = links;
     }
 }

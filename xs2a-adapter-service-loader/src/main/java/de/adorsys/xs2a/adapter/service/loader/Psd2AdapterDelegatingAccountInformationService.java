@@ -28,6 +28,49 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
     }
 
     @Override
+    public ConsentInformationResponse getConsentInformation(String consentId, Map<String, String> headers) {
+        return getAccountInformationService(headers)
+            .getConsentInformation(consentId, headers);
+    }
+
+    @Override
+    public void deleteConsent(String consentId, Map<String, String> headers) {
+        getAccountInformationService(headers)
+            .deleteConsent(consentId, headers);
+    }
+
+    @Override
+    public ConsentStatusResponse getConsentStatus(String consentId, Map<String, String> headers) {
+        return getAccountInformationService(headers)
+            .getConsentStatus(consentId, headers);
+    }
+
+    @Override
+    public ScaStatusResponse getConsentScaStatus(String consentId,
+                                                 String authorisationId,
+                                                 Map<String, String> headers) {
+        return getAccountInformationService(headers)
+            .getConsentScaStatus(consentId, authorisationId, headers);
+    }
+
+    @Override
+    public StartScaprocessResponse startConsentAuthorisation(String consentId,
+                                                             Map<String, String> headers,
+                                                             UpdateAuthorisation updateAuthentication) {
+        return getAccountInformationService(headers)
+            .startConsentAuthorisation(consentId, headers, updateAuthentication);
+    }
+
+    @Override
+    public UpdateAuthorisationResponse updateConsentsPsuData(String consentId,
+                                                             String authorisationId,
+                                                             Map<String, String> headers,
+                                                             UpdateAuthorisation updateAuthentication) {
+        return getAccountInformationService(headers)
+            .updateConsentsPsuData(consentId, authorisationId, headers, updateAuthentication);
+    }
+
+    @Override
     public URI getAuthorizationRequestUri(Map<String, String> headers, String state, URI redirectUri) throws IOException {
         // fixme headers parameter is needed only for service loading
         return getAccountInformationService(headers)
@@ -56,7 +99,7 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
     }
 
     @Override
-    public TransactionsResponse getTransactions(String accountId,
+    public Object getTransactions(String accountId,
                                                 Map<String, String> queryParameters,
                                                 Map<String, String> headers) throws IOException {
         return getAccountInformationService(headers)

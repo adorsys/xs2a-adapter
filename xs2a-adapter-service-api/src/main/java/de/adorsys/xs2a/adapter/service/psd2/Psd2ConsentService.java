@@ -8,21 +8,22 @@ public interface Psd2ConsentService {
 
     ConsentsResponse createConsent(Map<String, String> headers, Consents consents);
 
-    default ConsentInformationResponse getConsentInformation(String consentId, Map<String, String> headers) {
-        throw new UnsupportedOperationException();
-    }
+    ConsentInformationResponse getConsentInformation(String consentId, Map<String, String> headers);
 
-    default void deleteConsent(String consentId, Map<String, String> headers) {
-        throw new UnsupportedOperationException();
-    }
+    void deleteConsent(String consentId, Map<String, String> headers);
 
-    default ConsentStatusResponse getConsentStatus(String consentId, Map<String, String> headers) {
-        throw new UnsupportedOperationException();
-    }
+    ConsentStatusResponse getConsentStatus(String consentId, Map<String, String> headers);
 
-    default ScaStatusResponse getConsentScaStatus(String consentId,
-                                                  String authorisationId,
-                                                  Map<String, String> headers) {
-        throw new UnsupportedOperationException();
-    }
+    ScaStatusResponse getConsentScaStatus(String consentId,
+                                          String authorisationId,
+                                          Map<String, String> headers);
+
+    StartScaprocessResponse startConsentAuthorisation(String consentId,
+                                                      Map<String, String> headers,
+                                                      UpdateAuthorisation updateAuthentication);
+
+    UpdateAuthorisationResponse updateConsentsPsuData(String consentId,
+                                                      String authorisationId,
+                                                      Map<String, String> headers,
+                                                      UpdateAuthorisation updateAuthentication);
 }

@@ -2,9 +2,9 @@ package de.adorsys.xs2a.adapter.config;
 
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.model.TppMessageCategoryTO;
+import de.adorsys.xs2a.adapter.service.exception.*;
 import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.service.model.TppMessage;
-import de.adorsys.xs2a.adapter.service.exception.*;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -96,6 +96,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({
+        BadRequestException.class,
         AspspRegistrationException.class,
         AspspRegistrationNotFoundException.class,
         IbanException.class

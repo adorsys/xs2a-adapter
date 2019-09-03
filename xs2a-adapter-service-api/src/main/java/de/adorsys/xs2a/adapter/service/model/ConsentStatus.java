@@ -58,7 +58,7 @@ public enum ConsentStatus {
     @Override
     @JsonValue
     public String toString() {
-        return String.valueOf(value);
+        return value;
     }
 
     @JsonCreator

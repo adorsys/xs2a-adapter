@@ -103,4 +103,9 @@ public enum ScaStatus {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }
