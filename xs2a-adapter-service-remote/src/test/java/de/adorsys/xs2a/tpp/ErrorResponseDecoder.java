@@ -5,11 +5,13 @@ import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import feign.Response;
+import feign.Util;
 import feign.codec.ErrorDecoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -27,8 +29,9 @@ public class ErrorResponseDecoder implements ErrorDecoder {
         );
 
         ErrorResponse errorResponse = null;
-        try {
-            errorResponse = objectMapper.readValue(response.body().toString(), ErrorResponse.class);
+        try (Reader bodyReader = response.body().asReader()) {
+            String responseBody = Util.toString(bodyReader);
+            errorResponse = objectMapper.readValue(responseBody, ErrorResponse.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
