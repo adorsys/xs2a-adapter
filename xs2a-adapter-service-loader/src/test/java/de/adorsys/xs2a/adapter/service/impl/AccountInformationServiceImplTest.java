@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
@@ -32,14 +32,14 @@ public class AccountInformationServiceImplTest {
 
     @Test
     public void createConsent() {
-        GeneralResponse<ConsentCreationResponse> response = new GeneralResponse<>(HTTP_CODE_200, new ConsentCreationResponse(), ResponseHeaders.fromMap(Collections.emptyMap()));
+        Response<ConsentCreationResponse> response = new Response<>(HTTP_CODE_200, new ConsentCreationResponse(), ResponseHeaders.fromMap(Collections.emptyMap()));
 
         when(adapterServiceLoader.getAccountInformationService(any()))
             .thenReturn(accountInformationService);
 
         when(accountInformationService.createConsent(any(), any())).thenReturn(response);
 
-        GeneralResponse<ConsentCreationResponse> consentResponse = service.createConsent(RequestHeaders.fromMap(Collections.singletonMap(RequestHeaders.X_GTW_ASPSP_ID, "BIC")), new Consents());
+        Response<ConsentCreationResponse> consentResponse = service.createConsent(RequestHeaders.fromMap(Collections.singletonMap(RequestHeaders.X_GTW_ASPSP_ID, "BIC")), new Consents());
 
         verify(accountInformationService, times(1)).createConsent(any(), any());
 

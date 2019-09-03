@@ -1,11 +1,11 @@
 package de.adorsys.xs2a.adapter.service;
 
-public class GeneralResponse<T> {
+public class Response<T> {
     private final int statusCode;
     private final T responseBody;
     private final ResponseHeaders responseHeaders;
 
-    public GeneralResponse(int statusCode, T responseBody, ResponseHeaders responseHeaders) {
+    public Response(int statusCode, T responseBody, ResponseHeaders responseHeaders) {
         this.statusCode = statusCode;
         this.responseBody = responseBody;
         this.responseHeaders = responseHeaders;

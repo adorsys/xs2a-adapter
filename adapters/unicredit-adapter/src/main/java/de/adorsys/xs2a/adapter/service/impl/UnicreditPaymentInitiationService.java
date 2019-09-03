@@ -28,22 +28,22 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
     }
 
     @Override
-    public GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, RequestHeaders requestHeaders, Object body) {
+    public Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, RequestHeaders requestHeaders, Object body) {
         return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct), body, requestHeaders, PaymentInitiationRequestResponse.class, initiateSinglePaymentResponseMapper::modifyResponse);
     }
 
     @Override
-    public GeneralResponse<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct, String paymentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct, String paymentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
         String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct, paymentId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
-        GeneralResponse<UnicreditStartScaProcessResponse> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(UnicreditStartScaProcessResponse.class));
-        return new GeneralResponse<>(response.getStatusCode(), startAuthorisationResponseMapper.modifyResponse(response.getResponseBody()), response.getResponseHeaders());
+        Response<UnicreditStartScaProcessResponse> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(UnicreditStartScaProcessResponse.class));
+        return new Response<>(response.getStatusCode(), startAuthorisationResponseMapper.modifyResponse(response.getResponseBody()), response.getResponseHeaders());
     }
 
     @Override
-    public GeneralResponse<ScaStatusResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
+    public Response<ScaStatusResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
         return updatePaymentPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, transactionAuthorisation, UnicreditPaymentScaStatusResponse.class, scaStatusResponseMapper::toScaStatusResponse);
     }
 
@@ -54,7 +54,7 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
     }
 
     @Override
-    public GeneralResponse<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders) {
+    public Response<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders) {
         if (!SINGLE_PAYMENT_PAYMENT_SERVICE.equals(paymentService)) {
             throw new UnsupportedOperationException();
         }
@@ -63,8 +63,8 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
             throw new UnsupportedOperationException();
         }
 
-        GeneralResponse<PaymentInitiationStatus> response = this.getSinglePaymentInitiationStatus(paymentProduct, paymentId, requestHeaders);
-        return new GeneralResponse<>(response.getStatusCode(), paymentInitiationScaStatusResponseMapper.toScaStatusResponse(response.getResponseBody()), response.getResponseHeaders());
+        Response<PaymentInitiationStatus> response = this.getSinglePaymentInitiationStatus(paymentProduct, paymentId, requestHeaders);
+        return new Response<>(response.getStatusCode(), paymentInitiationScaStatusResponseMapper.toScaStatusResponse(response.getResponseBody()), response.getResponseHeaders());
     }
 
     @Override

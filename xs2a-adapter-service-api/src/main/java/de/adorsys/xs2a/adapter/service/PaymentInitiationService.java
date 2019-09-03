@@ -4,60 +4,60 @@ import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
 import de.adorsys.xs2a.adapter.service.model.*;
 
 public interface PaymentInitiationService {
-    GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct,
-                                                                            RequestHeaders requestHeaders,
-                                                                            Object body);
+    Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct,
+                                                                     RequestHeaders requestHeaders,
+                                                                     Object body);
 
-    GeneralResponse<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,
-                                                                                                      String paymentId,
-                                                                                                      RequestHeaders requestHeaders);
+    Response<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,
+                                                                                               String paymentId,
+                                                                                               RequestHeaders requestHeaders);
 
-    GeneralResponse<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
-                                                                                      String paymentProduct,
-                                                                                      String paymentId,
-                                                                                      String authorisationId,
-                                                                                      RequestHeaders requestHeaders);
+    Response<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
+                                                                               String paymentProduct,
+                                                                               String paymentId,
+                                                                               String authorisationId,
+                                                                               RequestHeaders requestHeaders);
 
     /**
      * @throws NotAcceptableException if response content type is not json
      */
-    GeneralResponse<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct,
-                                                                              String paymentId,
-                                                                              RequestHeaders requestHeaders);
+    Response<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct,
+                                                                       String paymentId,
+                                                                       RequestHeaders requestHeaders);
 
-    GeneralResponse<String> getSinglePaymentInitiationStatusAsString(String paymentProduct,
-                                                                     String paymentId,
-                                                                     RequestHeaders requestHeaders);
+    Response<String> getSinglePaymentInitiationStatusAsString(String paymentProduct,
+                                                              String paymentId,
+                                                              RequestHeaders requestHeaders);
 
-    GeneralResponse<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService,
-                                                                                              String paymentProduct,
-                                                                                              String paymentId,
-                                                                                              RequestHeaders requestHeaders);
+    Response<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService,
+                                                                                       String paymentProduct,
+                                                                                       String paymentId,
+                                                                                       RequestHeaders requestHeaders);
 
-    GeneralResponse<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
-                                                                             String paymentId,
-                                                                             RequestHeaders requestHeaders,
-                                                                             UpdatePsuAuthentication updatePsuAuthentication);
+    Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
+                                                                      String paymentId,
+                                                                      RequestHeaders requestHeaders,
+                                                                      UpdatePsuAuthentication updatePsuAuthentication);
 
-    GeneralResponse<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
-                                                                                String paymentProduct,
-                                                                                String paymentId,
-                                                                                String authorisationId,
-                                                                                RequestHeaders requestHeaders,
-                                                                                SelectPsuAuthenticationMethod selectPsuAuthenticationMethod);
+    Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
+                                                                         String paymentProduct,
+                                                                         String paymentId,
+                                                                         String authorisationId,
+                                                                         RequestHeaders requestHeaders,
+                                                                         SelectPsuAuthenticationMethod selectPsuAuthenticationMethod);
 
-    GeneralResponse<ScaStatusResponse> updatePaymentPsuData(String paymentService,
-                                                            String paymentProduct,
-                                                            String paymentId,
-                                                            String authorisationId,
-                                                            RequestHeaders requestHeaders,
-                                                            TransactionAuthorisation transactionAuthorisation);
+    Response<ScaStatusResponse> updatePaymentPsuData(String paymentService,
+                                                     String paymentProduct,
+                                                     String paymentId,
+                                                     String authorisationId,
+                                                     RequestHeaders requestHeaders,
+                                                     TransactionAuthorisation transactionAuthorisation);
 
-    GeneralResponse<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
-                                                                          String paymentProduct,
-                                                                          String paymentId,
-                                                                          String authorisationId,
-                                                                          RequestHeaders requestHeaders,
-                                                                          UpdatePsuAuthentication updatePsuAuthentication
+    Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
+                                                                   String paymentProduct,
+                                                                   String paymentId,
+                                                                   String authorisationId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   UpdatePsuAuthentication updatePsuAuthentication
     );
 }

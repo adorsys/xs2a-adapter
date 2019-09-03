@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
@@ -37,7 +37,7 @@ public class DeutscheBankAccountInformationServiceTest {
                 anyString(),
                 headersCaptor.capture(),
                 any()
-        )).thenReturn(new GeneralResponse(HTTP_CODE_200, new ConsentCreationResponse(), ResponseHeaders.fromMap(Collections.emptyMap())));
+        )).thenReturn(new Response(HTTP_CODE_200, new ConsentCreationResponse(), ResponseHeaders.fromMap(Collections.emptyMap())));
 
         service.createConsent(RequestHeaders.fromMap(Collections.emptyMap()), new Consents());
 

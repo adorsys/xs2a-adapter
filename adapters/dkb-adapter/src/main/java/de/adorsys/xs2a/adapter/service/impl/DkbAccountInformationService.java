@@ -18,7 +18,7 @@ package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
@@ -43,17 +43,17 @@ public class DkbAccountInformationService extends BaseAccountInformationService 
     }
 
     @Override
-    public GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
+    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
         return createConsent(requestHeaders, body, DkbConsentCreationResponse.class, creationResponseMapper::toConsentCreationResponse);
     }
 
     @Override
-    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders) {
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders) {
         return startConsentAuthorisation(consentId, requestHeaders, DkbStartScaProcessResponse.class, startScaProcessResponseMapper::toStartScaProcessResponse);
     }
 
     @Override
-    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
         return startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication, DkbStartScaProcessResponse.class, startScaProcessResponseMapper::toStartScaProcessResponse);
     }
 
