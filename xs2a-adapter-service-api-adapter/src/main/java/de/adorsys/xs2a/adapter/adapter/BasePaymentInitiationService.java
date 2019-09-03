@@ -38,15 +38,15 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, RequestHeaders requestHeaders, Object body) {
+    public Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, RequestHeaders requestHeaders, Object body) {
         return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct), body, requestHeaders, PaymentInitiationRequestResponse.class, identity());
     }
 
-    protected <T> GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(StandardPaymentProduct paymentProduct,
-                                                                                    Object body,
-                                                                                    RequestHeaders requestHeaders,
-                                                                                    Class<T> klass,
-                                                                                    Function<T, PaymentInitiationRequestResponse> mapper) {
+    protected <T> Response<PaymentInitiationRequestResponse> initiateSinglePayment(StandardPaymentProduct paymentProduct,
+                                                                                   Object body,
+                                                                                   RequestHeaders requestHeaders,
+                                                                                   Class<T> klass,
+                                                                                   Function<T, PaymentInitiationRequestResponse> mapper) {
 
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         String bodyString;
@@ -62,21 +62,21 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                 throw new IllegalArgumentException("Unsupported payment product media type");
         }
 
-        GeneralResponse<T> response = httpClient.post(StringUri.fromElements(baseUri, V1, PAYMENTS, paymentProduct.getSlug()), bodyString, headersMap, jsonResponseHandler(klass));
-        PaymentInitiationRequestResponse paymentInitiationRequestResponse = mapper.apply(response.getResponseBody());
-        return new GeneralResponse<>(response.getStatusCode(), paymentInitiationRequestResponse, response.getResponseHeaders());
+        Response<T> response = httpClient.post(StringUri.fromElements(baseUri, V1, PAYMENTS, paymentProduct.getSlug()), bodyString, headersMap, jsonResponseHandler(klass));
+        PaymentInitiationRequestResponse paymentInitiationRequestResponse = mapper.apply(response.getBody());
+        return new Response<>(response.getStatusCode(), paymentInitiationRequestResponse, response.getHeaders());
     }
 
     @Override
-    public GeneralResponse<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,
-                                                                                            String paymentId,
-                                                                                            RequestHeaders requestHeaders) {
+    public Response<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,
+                                                                                                      String paymentId,
+                                                                                                      RequestHeaders requestHeaders) {
         return getSinglePaymentInformation(StandardPaymentProduct.fromSlug(paymentProduct), paymentId, requestHeaders);
     }
 
-    private GeneralResponse<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(StandardPaymentProduct paymentProduct,
-                                                                                                              String paymentId,
-                                                                                                              RequestHeaders requestHeaders) {
+    private Response<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(StandardPaymentProduct paymentProduct,
+                                                                                                       String paymentId,
+                                                                                                       RequestHeaders requestHeaders) {
         String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug(), paymentId);
 
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
@@ -85,18 +85,18 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public GeneralResponse<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders) {
+    public Response<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public GeneralResponse<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, RequestHeaders requestHeaders) {
+    public Response<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, RequestHeaders requestHeaders) {
         return getSinglePaymentInitiationStatus(StandardPaymentProduct.fromSlug(paymentProduct), paymentId, requestHeaders);
     }
 
-    private GeneralResponse<PaymentInitiationStatus> getSinglePaymentInitiationStatus(StandardPaymentProduct paymentProduct,
-                                                                                      String paymentId,
-                                                                                      RequestHeaders requestHeaders) {
+    private Response<PaymentInitiationStatus> getSinglePaymentInitiationStatus(StandardPaymentProduct paymentProduct,
+                                                                               String paymentId,
+                                                                               RequestHeaders requestHeaders) {
         String uri = getSinglePaymentInitiationStatusUri(paymentProduct.getSlug(), paymentId);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
@@ -104,7 +104,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public GeneralResponse<String> getSinglePaymentInitiationStatusAsString(String paymentProduct, String paymentId, RequestHeaders requestHeaders) {
+    public Response<String> getSinglePaymentInitiationStatusAsString(String paymentProduct, String paymentId, RequestHeaders requestHeaders) {
         String uri = getSinglePaymentInitiationStatusUri(paymentProduct, paymentId);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
@@ -116,98 +116,98 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public GeneralResponse<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService, String paymentProduct, String paymentId, RequestHeaders requestHeaders) {
+    public Response<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService, String paymentProduct, String paymentId, RequestHeaders requestHeaders) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public GeneralResponse<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
-                                                                                    String paymentId,
-                                                                                    RequestHeaders requestHeaders,
-                                                                                    UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
+                                                                             String paymentId,
+                                                                             RequestHeaders requestHeaders,
+                                                                             UpdatePsuAuthentication updatePsuAuthentication) {
         return startSinglePaymentAuthorisation(StandardPaymentProduct.fromSlug(paymentProduct), paymentId, requestHeaders, updatePsuAuthentication, StartScaProcessResponse.class, identity());
     }
 
-    protected <T> GeneralResponse<StartScaProcessResponse> startSinglePaymentAuthorisation(PaymentProduct paymentProduct,
-                                                                                           String paymentId,
-                                                                                           RequestHeaders requestHeaders,
-                                                                                           UpdatePsuAuthentication updatePsuAuthentication,
-                                                                                           Class<T> klass,
-                                                                                           Function<T, StartScaProcessResponse> mapper) {
+    protected <T> Response<StartScaProcessResponse> startSinglePaymentAuthorisation(PaymentProduct paymentProduct,
+                                                                                    String paymentId,
+                                                                                    RequestHeaders requestHeaders,
+                                                                                    UpdatePsuAuthentication updatePsuAuthentication,
+                                                                                    Class<T> klass,
+                                                                                    Function<T, StartScaProcessResponse> mapper) {
         String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug(), paymentId, AUTHORISATIONS);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
-        GeneralResponse<T> response = httpClient.post(uri, body, headersMap, jsonResponseHandler(klass));
-        StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getResponseBody());
-        return new GeneralResponse<>(response.getStatusCode(), startScaProcessResponse, response.getResponseHeaders());
+        Response<T> response = httpClient.post(uri, body, headersMap, jsonResponseHandler(klass));
+        StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getBody());
+        return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getHeaders());
     }
 
     @Override
-    public GeneralResponse<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
         return updatePaymentPsuData(paymentService, StandardPaymentProduct.fromSlug(paymentProduct), paymentId, authorisationId, requestHeaders, updatePsuAuthentication, UpdatePsuAuthenticationResponse.class, identity());
     }
 
-    protected <T> GeneralResponse<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
-                                                                                        PaymentProduct paymentProduct,
-                                                                                        String paymentId,
-                                                                                        String authorisationId,
-                                                                                        RequestHeaders requestHeaders,
-                                                                                        UpdatePsuAuthentication updatePsuAuthentication,
-                                                                                        Class<T> klass,
-                                                                                        Function<T, UpdatePsuAuthenticationResponse> mapper) {
+    protected <T> Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
+                                                                                 PaymentProduct paymentProduct,
+                                                                                 String paymentId,
+                                                                                 String authorisationId,
+                                                                                 RequestHeaders requestHeaders,
+                                                                                 UpdatePsuAuthentication updatePsuAuthentication,
+                                                                                 Class<T> klass,
+                                                                                 Function<T, UpdatePsuAuthenticationResponse> mapper) {
         String uri = StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct.getSlug(), paymentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
-        GeneralResponse<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
-        UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = mapper.apply(response.getResponseBody());
-        return new GeneralResponse<>(response.getStatusCode(), updatePsuAuthenticationResponse, response.getResponseHeaders());
+        Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+        UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = mapper.apply(response.getBody());
+        return new Response<>(response.getStatusCode(), updatePsuAuthenticationResponse, response.getHeaders());
     }
 
     @Override
-    public GeneralResponse<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         return updatePaymentPsuData(paymentService, StandardPaymentProduct.fromSlug(paymentProduct), paymentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod, SelectPsuAuthenticationMethodResponse.class, identity());
     }
 
-    protected <T> GeneralResponse<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
-                                                                                              PaymentProduct paymentProduct,
-                                                                                              String paymentId,
-                                                                                              String authorisationId,
-                                                                                              RequestHeaders requestHeaders,
-                                                                                              SelectPsuAuthenticationMethod selectPsuAuthenticationMethod,
-                                                                                              Class<T> klass,
-                                                                                              Function<T, SelectPsuAuthenticationMethodResponse> mapper) {
+    protected <T> Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
+                                                                                       PaymentProduct paymentProduct,
+                                                                                       String paymentId,
+                                                                                       String authorisationId,
+                                                                                       RequestHeaders requestHeaders,
+                                                                                       SelectPsuAuthenticationMethod selectPsuAuthenticationMethod,
+                                                                                       Class<T> klass,
+                                                                                       Function<T, SelectPsuAuthenticationMethodResponse> mapper) {
         String uri = StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct.getSlug(), paymentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
 
-        GeneralResponse<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
-        SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = mapper.apply(response.getResponseBody());
-        return new GeneralResponse<>(response.getStatusCode(), selectPsuAuthenticationMethodResponse, response.getResponseHeaders());
+        Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+        SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = mapper.apply(response.getBody());
+        return new Response<>(response.getStatusCode(), selectPsuAuthenticationMethodResponse, response.getHeaders());
     }
 
     @Override
-    public GeneralResponse<ScaStatusResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
+    public Response<ScaStatusResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
         return updatePaymentPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, transactionAuthorisation, ScaStatusResponse.class, identity());
     }
 
-    protected <T> GeneralResponse<ScaStatusResponse> updatePaymentPsuData(String paymentService,
-                                                                          String paymentProduct,
-                                                                          String paymentId,
-                                                                          String authorisationId,
-                                                                          RequestHeaders requestHeaders,
-                                                                          TransactionAuthorisation transactionAuthorisation,
-                                                                          Class<T> klass,
-                                                                          Function<T, ScaStatusResponse> mapper) {
+    protected <T> Response<ScaStatusResponse> updatePaymentPsuData(String paymentService,
+                                                                   String paymentProduct,
+                                                                   String paymentId,
+                                                                   String authorisationId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   TransactionAuthorisation transactionAuthorisation,
+                                                                   Class<T> klass,
+                                                                   Function<T, ScaStatusResponse> mapper) {
         String uri = getUpdatePaymentPsuDataUri(paymentService, paymentProduct, paymentId, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 
-        GeneralResponse<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+        Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
 
-        ScaStatusResponse scaStatusResponse = mapper.apply(response.getResponseBody());
-        return new GeneralResponse<>(response.getStatusCode(), scaStatusResponse, response.getResponseHeaders());
+        ScaStatusResponse scaStatusResponse = mapper.apply(response.getBody());
+        return new Response<>(response.getStatusCode(), scaStatusResponse, response.getHeaders());
     }
 
     protected String getUpdatePaymentPsuDataUri(String paymentService, String paymentProduct, String paymentId, String authorisationId) {

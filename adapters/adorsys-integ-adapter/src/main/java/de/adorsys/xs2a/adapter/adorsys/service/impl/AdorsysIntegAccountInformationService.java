@@ -9,7 +9,7 @@ import de.adorsys.xs2a.adapter.adorsys.service.impl.model.AdorsysIntegConsentCre
 import de.adorsys.xs2a.adapter.adorsys.service.impl.model.AdorsysIntegSelectPsuAuthenticationMethodResponse;
 import de.adorsys.xs2a.adapter.adorsys.service.impl.model.AdorsysIntegStartScaProcessResponse;
 import de.adorsys.xs2a.adapter.adorsys.service.impl.model.AdorsysIntegUpdatePsuAuthenticationResponse;
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
@@ -31,27 +31,27 @@ public class AdorsysIntegAccountInformationService extends BaseAccountInformatio
     }
 
     @Override
-    public GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
+    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
         return createConsent(requestHeaders, body, AdorsysIntegConsentCreationResponse.class, creationResponseMapper::toConsentCreationResponse);
     }
 
     @Override
-    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders) {
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders) {
         return startConsentAuthorisation(consentId, requestHeaders, AdorsysIntegStartScaProcessResponse.class, startScaProcessResponseMapper::toStartScaProcessResponse);
     }
 
     @Override
-    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
         return startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication, AdorsysIntegStartScaProcessResponse.class, startScaProcessResponseMapper::toStartScaProcessResponse);
     }
 
     @Override
-    public GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
         return updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication, AdorsysIntegUpdatePsuAuthenticationResponse.class, updatePsuAuthenticationResponseMapper::toUpdatePsuAuthenticationResponse);
     }
 
     @Override
-    public GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+    public Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         return updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod, AdorsysIntegSelectPsuAuthenticationMethodResponse.class, selectPsuAuthenticationMethodResponseMapper::toSelectPsuAuthenticationMethodResponse);
     }
 

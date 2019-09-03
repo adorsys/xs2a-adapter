@@ -2,7 +2,7 @@ package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +34,7 @@ public class DkbAccessTokenServiceTest {
     public void retrieveToken() {
         String accessToken = "accessToken";
         DkbAccessTokenService.TokenResponse tokenResponse = new DkbAccessTokenService.TokenResponse(accessToken, 3600);
-        when(httpClient.post(anyString(), anyString(), anyMap(), any())).thenReturn(new GeneralResponse<>(200, tokenResponse, ResponseHeaders.fromMap(Collections.emptyMap())));
+        when(httpClient.post(anyString(), anyString(), anyMap(), any())).thenReturn(new Response<>(200, tokenResponse, ResponseHeaders.fromMap(Collections.emptyMap())));
 
         String token = tokenService.retrieveToken();
 

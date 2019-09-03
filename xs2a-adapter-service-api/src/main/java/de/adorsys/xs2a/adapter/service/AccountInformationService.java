@@ -24,59 +24,59 @@ import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
 import de.adorsys.xs2a.adapter.service.model.*;
 
 public interface AccountInformationService {
-    GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
-                                  Consents body);
+    Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                    Consents body);
 
-    GeneralResponse<ConsentInformation> getConsentInformation(String consentId,
-                                                              RequestHeaders requestHeaders);
+    Response<ConsentInformation> getConsentInformation(String consentId,
+                                                       RequestHeaders requestHeaders);
 
-    GeneralResponse<Void> deleteConsent(String consentId,
-                                        RequestHeaders requestHeaders);
+    Response<Void> deleteConsent(String consentId,
+                                 RequestHeaders requestHeaders);
 
-    GeneralResponse<ConsentStatusResponse> getConsentStatus(String consentId,
-                                                            RequestHeaders requestHeaders);
+    Response<ConsentStatusResponse> getConsentStatus(String consentId,
+                                                     RequestHeaders requestHeaders);
 
-    GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId,
-                                                                       RequestHeaders requestHeaders);
+    Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                RequestHeaders requestHeaders);
 
-    GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId,
-                                                                       RequestHeaders requestHeaders,
-                                                                       UpdatePsuAuthentication updatePsuAuthentication);
+    Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                RequestHeaders requestHeaders,
+                                                                UpdatePsuAuthentication updatePsuAuthentication);
 
-    GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
-                                                                                 String authorisationId,
-                                                                                 RequestHeaders requestHeaders,
-                                                                                 SelectPsuAuthenticationMethod selectPsuAuthenticationMethod);
+    Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
+                                                                          String authorisationId,
+                                                                          RequestHeaders requestHeaders,
+                                                                          SelectPsuAuthenticationMethod selectPsuAuthenticationMethod);
 
-    GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String consentId,
-                                                             String authorisationId,
-                                                             RequestHeaders requestHeaders,
-                                                             TransactionAuthorisation transactionAuthorisation);
+    Response<ScaStatusResponse> updateConsentsPsuData(String consentId,
+                                                      String authorisationId,
+                                                      RequestHeaders requestHeaders,
+                                                      TransactionAuthorisation transactionAuthorisation);
 
-    GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
-                                                                           String authorisationId,
-                                                                           RequestHeaders requestHeaders,
-                                                                           UpdatePsuAuthentication updatePsuAuthentication
+    Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
+                                                                    String authorisationId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    UpdatePsuAuthentication updatePsuAuthentication
     );
 
-    GeneralResponse<AccountListHolder> getAccountList(RequestHeaders requestHeaders,
-                                                      RequestParams requestParams);
+    Response<AccountListHolder> getAccountList(RequestHeaders requestHeaders,
+                                               RequestParams requestParams);
 
     /**
      * @throws NotAcceptableException if response content type is not json
      */
-    GeneralResponse<TransactionsReport> getTransactionList(String accountId,
-                                                           RequestHeaders requestHeaders,
-                                                           RequestParams requestParams);
+    Response<TransactionsReport> getTransactionList(String accountId,
+                                                    RequestHeaders requestHeaders,
+                                                    RequestParams requestParams);
 
-    GeneralResponse<String> getTransactionListAsString(String accountId,
-                                                       RequestHeaders requestHeaders,
-                                                       RequestParams requestParams);
+    Response<String> getTransactionListAsString(String accountId,
+                                                RequestHeaders requestHeaders,
+                                                RequestParams requestParams);
 
-    GeneralResponse<ScaStatusResponse> getConsentScaStatus(String consentId,
-                                                           String authorisationId,
-                                                           RequestHeaders requestHeaders);
+    Response<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                    String authorisationId,
+                                                    RequestHeaders requestHeaders);
 
-    GeneralResponse<BalanceReport> getBalances(String accountId,
-                                               RequestHeaders requestHeaders);
+    Response<BalanceReport> getBalances(String accountId,
+                                        RequestHeaders requestHeaders);
 }
