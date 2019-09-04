@@ -1,24 +1,48 @@
 package de.adorsys.xs2a.adapter.service.psd2;
 
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
-import de.adorsys.xs2a.adapter.service.psd2.model.AccountList;
-import de.adorsys.xs2a.adapter.service.psd2.model.ReadAccountBalanceResponse;
+import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.psd2.model.*;
 
 import java.io.IOException;
 import java.util.Map;
 
-public interface Psd2AccountInformationService extends Psd2ConsentService, Oauth2Service {
+public interface Psd2AccountInformationService extends Oauth2Service {
 
-    AccountList getAccounts(Map<String, String> queryParameters, Map<String, String> headers) throws IOException;
+    Response<AccountList> getAccounts(Map<String, String> queryParameters,
+                                      Map<String, String> headers) throws IOException;
 
-    ReadAccountBalanceResponse getBalances(String accountId,
-                              Map<String, String> queryParameters,
-                              Map<String, String> headers) throws IOException;
+    Response<ReadAccountBalanceResponse> getBalances(String accountId,
+                                                     Map<String, String> queryParameters,
+                                                     Map<String, String> headers) throws IOException;
 
     /**
      * @return TransactionsResponse or String for xml response
      */
-    Object getTransactions(String accountId,
-                                       Map<String, String> queryParameters,
-                                       Map<String, String> headers) throws IOException;
+    Response<?> getTransactions(String accountId,
+                                Map<String, String> queryParameters,
+                                Map<String, String> headers) throws IOException;
+
+    Response<ConsentsResponse> createConsent(Map<String, String> headers, Consents consents);
+
+    Response<ConsentInformationResponse> getConsentInformation(String consentId,
+                                                               Map<String, String> headers);
+
+    Response<Void> deleteConsent(String consentId, Map<String, String> headers);
+
+    Response<ConsentStatusResponse> getConsentStatus(String consentId,
+                                                     Map<String, String> headers);
+
+    Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
+                                                                Map<String, String> headers,
+                                                                UpdateAuthorisation updateAuthentication);
+
+    Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId,
+                                                                String authorisationId,
+                                                                Map<String, String> headers,
+                                                                UpdateAuthorisation updateAuthentication);
+
+    Response<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                    String authorisationId,
+                                                    Map<String, String> headers);
 }

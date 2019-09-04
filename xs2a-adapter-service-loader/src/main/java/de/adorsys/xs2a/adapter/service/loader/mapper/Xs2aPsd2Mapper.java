@@ -7,15 +7,14 @@ import de.adorsys.xs2a.adapter.service.psd2.model.ScaStatusResponse;
 import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 
 @Mapper
 public interface Xs2aPsd2Mapper {
-    AccountList map(AccountListHolder value);
+    AccountList toAccountList(AccountListHolder value);
 
-    ReadAccountBalanceResponse map(BalanceReport value);
+    ReadAccountBalanceResponse toReadAccountBalanceResponse(BalanceReport value);
 
-    TransactionsResponse map(TransactionsReport value);
+    TransactionsResponse toTransactionsResponse(TransactionsReport value);
 
     @Mapping(target = "purposeCode", source = "purposeCode.code")
     @Mapping(target = "bankTransactionCode", source = "bankTransactionCode.code")
@@ -27,27 +26,27 @@ public interface Xs2aPsd2Mapper {
 
     de.adorsys.xs2a.adapter.service.model.Consents map(Consents value);
 
-    ConsentsResponse map(ConsentCreationResponse value);
+    ConsentsResponse toConsentsResponse(ConsentCreationResponse value);
 
-    ConsentInformationResponse map(ConsentInformation value);
+    ConsentInformationResponse toConsentInformationResponse(ConsentInformation value);
 
-    ConsentStatusResponse map(de.adorsys.xs2a.adapter.service.model.ConsentStatusResponse value);
+    ConsentStatusResponse toConsentStatusResponse(de.adorsys.xs2a.adapter.service.model.ConsentStatusResponse value);
 
-    ScaStatusResponse map(de.adorsys.xs2a.adapter.service.model.ScaStatusResponse value);
+    ScaStatusResponse toScaStatusResponse(de.adorsys.xs2a.adapter.service.model.ScaStatusResponse value);
 
     UpdatePsuAuthentication map(UpdateAuthorisation value);
 
-    StartScaprocessResponse map(StartScaProcessResponse value);
+    StartScaprocessResponse toStartScaprocessResponse(StartScaProcessResponse value);
 
-    void map(UpdateAuthorisation updateAuthentication, @MappingTarget SelectPsuAuthenticationMethod selectPsuAuthenticationMethod);
+    SelectPsuAuthenticationMethod toSelectPsuAuthenticationMethod(UpdateAuthorisation updateAuthentication);
 
-    void map(UpdateAuthorisation updateAuthentication, @MappingTarget UpdatePsuAuthentication updatePsuAuthentication);
+    UpdatePsuAuthentication toUpdatePsuAuthentication(UpdateAuthorisation updateAuthentication);
 
-    void map(UpdateAuthorisation updateAuthorisation, @MappingTarget TransactionAuthorisation transactionAuthorisation);
+    TransactionAuthorisation toTransactionAuthorisation(UpdateAuthorisation updateAuthorisation);
 
-    UpdateAuthorisationResponse map(de.adorsys.xs2a.adapter.service.model.SelectPsuAuthenticationMethodResponse value);
+    UpdateAuthorisationResponse toUpdateAuthorisationResponse(de.adorsys.xs2a.adapter.service.model.SelectPsuAuthenticationMethodResponse value);
 
-    UpdateAuthorisationResponse map(de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthenticationResponse value);
+    UpdateAuthorisationResponse toUpdateAuthorisationResponse(de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthenticationResponse value);
 
     UpdateAuthorisationResponse toUpdateAuthorisationResponse(de.adorsys.xs2a.adapter.service.model.ScaStatusResponse value);
 }

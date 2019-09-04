@@ -4,6 +4,7 @@ import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.*;
@@ -25,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.util.Collections.emptyMap;
+
 public class IngPsd2AccountInformationService implements Psd2AccountInformationService {
 
     private final Oauth2Service oauth2Service;
@@ -32,7 +35,7 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     private final IngMapper mapper = Mappers.getMapper(IngMapper.class);
 
     public IngPsd2AccountInformationService(String baseUri, Pkcs12KeyStore keyStore)
-            throws CertificateException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, UnrecoverableEntryException, IOException, InvalidKeyException {
+        throws CertificateException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, UnrecoverableEntryException, IOException, InvalidKeyException {
         Host host = new Host(baseUri);
         SSLContext sslContext = keyStore.getSslContext();
         HttpTransport transport = new NetHttpTransport.Builder()
@@ -47,44 +50,48 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     }
 
     @Override
-    public ConsentsResponse createConsent(Map<String, String> headers, Consents consents) {
-        return new ConsentsResponse();
+    public Response<ConsentsResponse> createConsent(Map<String, String> headers, Consents consents) {
+        return toResponse(new ConsentsResponse());
+    }
+
+    private <T> Response<T> toResponse(T body) {
+        return new Response<>(200, body, ResponseHeaders.fromMap(emptyMap()));
     }
 
     @Override
-    public ConsentInformationResponse getConsentInformation(String consentId, Map<String, String> headers) {
+    public Response<ConsentInformationResponse> getConsentInformation(String consentId, Map<String, String> headers) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void deleteConsent(String consentId, Map<String, String> headers) {
+    public Response<Void> deleteConsent(String consentId, Map<String, String> headers) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ConsentStatusResponse getConsentStatus(String consentId, Map<String, String> headers) {
+    public Response<ConsentStatusResponse> getConsentStatus(String consentId, Map<String, String> headers) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public ScaStatusResponse getConsentScaStatus(String consentId,
-                                                 String authorisationId,
-                                                 Map<String, String> headers) {
+    public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                           String authorisationId,
+                                                           Map<String, String> headers) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public StartScaprocessResponse startConsentAuthorisation(String consentId,
-                                                             Map<String, String> headers,
-                                                             UpdateAuthorisation updateAuthentication) {
+    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
+                                                                       Map<String, String> headers,
+                                                                       UpdateAuthorisation updateAuthentication) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public UpdateAuthorisationResponse updateConsentsPsuData(String consentId,
-                                                             String authorisationId,
-                                                             Map<String, String> headers,
-                                                             UpdateAuthorisation updateAuthentication) {
+    public Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId,
+                                                                       String authorisationId,
+                                                                       Map<String, String> headers,
+                                                                       UpdateAuthorisation updateAuthentication) {
         throw new UnsupportedOperationException();
     }
 
@@ -107,8 +114,9 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     }
 
     @Override
-    public AccountList getAccounts(Map<String, String> queryParameters, Map<String, String> headers) throws IOException {
-        return getAccounts(new Headers(headers));
+    public Response<AccountList> getAccounts(Map<String, String> queryParameters,
+                                   Map<String, String> headers) throws IOException {
+        return toResponse(getAccounts(new Headers(headers)));
     }
 
     private AccountList getAccounts(Headers headers) throws IOException {
@@ -121,11 +129,17 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     }
 
     @Override
-    public ReadAccountBalanceResponse getBalances(String accountId, Map<String, String> queryParameters, Map<String, String> headers) throws IOException {
-        return getBalances(accountId, new QueryParameters(queryParameters), new Headers(headers));
+    public Response<ReadAccountBalanceResponse> getBalances(String accountId,
+                                                            Map<String, String> queryParameters,
+                                                            Map<String, String> headers) throws IOException {
+        return toResponse(
+            getBalances(accountId, new QueryParameters(queryParameters), new Headers(headers))
+        );
     }
 
-    private ReadAccountBalanceResponse getBalances(String accountId, QueryParameters queryParameters, Headers headers) throws IOException {
+    private ReadAccountBalanceResponse getBalances(String accountId,
+                                                   QueryParameters queryParameters,
+                                                   Headers headers) throws IOException {
         String accessToken = headers.getAccessToken();
         ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         Currency currency = queryParameters.getCurrency();
@@ -147,13 +161,15 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     }
 
     @Override
-    public TransactionsResponse getTransactions(String accountId,
-                                                Map<String, String> queryParameters,
-                                                Map<String, String> headers) throws IOException {
-        return getTransactions(accountId, new QueryParameters(queryParameters), new Headers(headers));
+    public Response<TransactionsResponse> getTransactions(String accountId,
+                                                          Map<String, String> queryParameters,
+                                                          Map<String, String> headers) throws IOException {
+        return toResponse(getTransactions(accountId, new QueryParameters(queryParameters), new Headers(headers)));
     }
 
-    private TransactionsResponse getTransactions(String accountId, QueryParameters queryParameters, Headers headers) throws IOException {
+    private TransactionsResponse getTransactions(String accountId,
+                                                 QueryParameters queryParameters,
+                                                 Headers headers) throws IOException {
         String accessToken = headers.getAccessToken();
         ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         LocalDate dateFrom = queryParameters.getDateFrom();

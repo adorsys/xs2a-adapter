@@ -3,13 +3,14 @@ package de.adorsys.xs2a.adapter.service.loader;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.loader.mapper.Xs2aPsd2Mapper;
-import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.service.model.SelectPsuAuthenticationMethod;
+import de.adorsys.xs2a.adapter.service.model.TokenResponse;
+import de.adorsys.xs2a.adapter.service.model.TransactionAuthorisation;
+import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
-import de.adorsys.xs2a.adapter.service.psd2.model.ConsentStatusResponse;
-import de.adorsys.xs2a.adapter.service.psd2.model.Consents;
-import de.adorsys.xs2a.adapter.service.psd2.model.ScaStatusResponse;
 import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import org.mapstruct.factory.Mappers;
 
@@ -27,105 +28,105 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
     }
 
     @Override
-    public AccountList getAccounts(Map<String, String> queryParameters,
-                                   Map<String, String> headers) throws IOException {
-        return mapper.map(service.getAccountList(RequestHeaders.fromMap(headers), RequestParams.fromMap(queryParameters)).getBody());
+    public Response<AccountList> getAccounts(Map<String, String> queryParameters,
+                                             Map<String, String> headers) throws IOException {
+
+       return service.getAccountList(RequestHeaders.fromMap(headers), RequestParams.fromMap(queryParameters))
+           .map(mapper::toAccountList);
     }
 
     @Override
-    public ReadAccountBalanceResponse getBalances(String accountId,
-                                                  Map<String, String> queryParameters,
-                                                  Map<String, String> headers) throws IOException {
-        return mapper.map(service.getBalances(accountId, RequestHeaders.fromMap(headers)).getBody());
+    public Response<ReadAccountBalanceResponse> getBalances(String accountId,
+                                                            Map<String, String> queryParameters,
+                                                            Map<String, String> headers) throws IOException {
+        return service.getBalances(accountId, RequestHeaders.fromMap(headers))
+            .map(mapper::toReadAccountBalanceResponse);
     }
 
     @Override
-    public Object getTransactions(String accountId,
-                                                Map<String, String> queryParameters,
-                                                Map<String, String> headers) throws IOException {
+    public Response<?> getTransactions(String accountId,
+                                       Map<String, String> queryParameters,
+                                       Map<String, String> headers) throws IOException {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         RequestParams requestParams = RequestParams.fromMap(queryParameters);
         if (requestHeaders.isAcceptJson()) {
-            return mapper.map(service.getTransactionList(accountId, requestHeaders, requestParams).getBody());
+            return service.getTransactionList(accountId, requestHeaders, requestParams)
+                .map(mapper::toTransactionsResponse);
         } else {
-            return service.getTransactionListAsString(accountId, requestHeaders, requestParams).getBody();
+            return service.getTransactionListAsString(accountId, requestHeaders, requestParams);
         }
     }
 
     @Override
-    public ConsentsResponse createConsent(Map<String, String> headers, Consents consents) {
-        return mapper.map(service.createConsent(RequestHeaders.fromMap(headers), mapper.map(consents)).getBody());
+    public Response<ConsentsResponse> createConsent(Map<String, String> headers, Consents consents) {
+        return service.createConsent(RequestHeaders.fromMap(headers), mapper.map(consents))
+            .map(mapper::toConsentsResponse);
     }
 
     @Override
-    public ConsentInformationResponse getConsentInformation(String consentId, Map<String, String> headers) {
-        return mapper.map(service.getConsentInformation(consentId, RequestHeaders.fromMap(headers)).getBody());
+    public Response<ConsentInformationResponse> getConsentInformation(String consentId, Map<String, String> headers) {
+        return service.getConsentInformation(consentId, RequestHeaders.fromMap(headers))
+            .map(mapper::toConsentInformationResponse);
     }
 
     @Override
-    public void deleteConsent(String consentId, Map<String, String> headers) {
-        service.deleteConsent(consentId, RequestHeaders.fromMap(headers));
+    public Response<Void> deleteConsent(String consentId, Map<String, String> headers) {
+        return service.deleteConsent(consentId, RequestHeaders.fromMap(headers));
     }
 
     @Override
-    public ConsentStatusResponse getConsentStatus(String consentId, Map<String, String> headers) {
-        return mapper.map(service.getConsentStatus(consentId, RequestHeaders.fromMap(headers)).getBody());
+    public Response<ConsentStatusResponse> getConsentStatus(String consentId, Map<String, String> headers) {
+        return service.getConsentStatus(consentId, RequestHeaders.fromMap(headers))
+            .map(mapper::toConsentStatusResponse);
     }
 
     @Override
-    public ScaStatusResponse getConsentScaStatus(String consentId,
-                                                 String authorisationId,
-                                                 Map<String, String> headers) {
-        return mapper.map(service.getConsentScaStatus(consentId, authorisationId, RequestHeaders.fromMap(headers)).getBody());
+    public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                           String authorisationId,
+                                                           Map<String, String> headers) {
+        return service.getConsentScaStatus(consentId, authorisationId, RequestHeaders.fromMap(headers))
+            .map(mapper::toScaStatusResponse);
     }
 
     @Override
-    public StartScaprocessResponse startConsentAuthorisation(String consentId,
-                                                             Map<String, String> headers,
-                                                             UpdateAuthorisation updateAuthorisation) {
-        StartScaProcessResponse res;
+    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
+                                                                       Map<String, String> headers,
+                                                                       UpdateAuthorisation updateAuthorisation) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         if (updateAuthorisation.getPsuData() == null &&
                 updateAuthorisation.getAuthenticationMethodId() == null &&
                 updateAuthorisation.getScaAuthenticationData() == null) {
-            res = service.startConsentAuthorisation(consentId, RequestHeaders.fromMap(headers))
-                .getBody();
-        } else {
-            res = service.startConsentAuthorisation(consentId, RequestHeaders.fromMap(headers), mapper.map(updateAuthorisation))
-                .getBody();
+            return service.startConsentAuthorisation(consentId, requestHeaders)
+                .map(mapper::toStartScaprocessResponse);
         }
-
-        return mapper.map(res);
+        return service.startConsentAuthorisation(consentId, requestHeaders, mapper.map(updateAuthorisation))
+            .map(mapper::toStartScaprocessResponse);
     }
 
     @Override
-    public UpdateAuthorisationResponse updateConsentsPsuData(String consentId,
-                                                             String authorisationId,
-                                                             Map<String, String> headers,
-                                                             UpdateAuthorisation updateAuthorisation) {
+    public Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId,
+                                                                       String authorisationId,
+                                                                       Map<String, String> headers,
+                                                                       UpdateAuthorisation updateAuthorisation) {
 
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         if (updateAuthorisation.getAuthenticationMethodId() != null) {
-            SelectPsuAuthenticationMethod selectPsuAuthenticationMethod = new SelectPsuAuthenticationMethod();
-            mapper.map(updateAuthorisation, selectPsuAuthenticationMethod);
-            return mapper.map(
-                service.updateConsentsPsuData(consentId, authorisationId, RequestHeaders.fromMap(headers), selectPsuAuthenticationMethod)
-                    .getBody()
-            );
+            SelectPsuAuthenticationMethod selectPsuAuthenticationMethod =
+                mapper.toSelectPsuAuthenticationMethod(updateAuthorisation);
+            return service.updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod)
+                .map(mapper::toUpdateAuthorisationResponse);
         }
         if (updateAuthorisation.getPsuData() != null) {
-            UpdatePsuAuthentication updatePsuAuthentication = new UpdatePsuAuthentication();
-            mapper.map(updateAuthorisation, updatePsuAuthentication);
-            return mapper.map(
-                service.updateConsentsPsuData(consentId, authorisationId, RequestHeaders.fromMap(headers), updatePsuAuthentication)
-                    .getBody()
-            );
+            UpdatePsuAuthentication updatePsuAuthentication =
+                mapper.toUpdatePsuAuthentication(updateAuthorisation);
+            return service.updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication)
+                .map(mapper::toUpdateAuthorisationResponse);
         }
         if (updateAuthorisation.getScaAuthenticationData() != null) {
-            TransactionAuthorisation transactionAuthorisation = new TransactionAuthorisation();
-            mapper.map(updateAuthorisation, transactionAuthorisation);
-            return mapper.toUpdateAuthorisationResponse(
-                service.updateConsentsPsuData(consentId, authorisationId, RequestHeaders.fromMap(headers), transactionAuthorisation)
-                    .getBody()
-            );
+            TransactionAuthorisation transactionAuthorisation =
+                mapper.toTransactionAuthorisation(updateAuthorisation);
+            return service.updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation)
+                .map(mapper::toUpdateAuthorisationResponse);
         }
 
         throw new BadRequestException("Request body doesn't match any of the supported schemas");
