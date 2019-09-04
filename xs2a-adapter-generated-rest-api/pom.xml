@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>xs2a-adapter-psd2-api</artifactId>
+    <artifactId>xs2a-adapter-generated-rest-api</artifactId>
 
     <dependencies>
         <dependency>
