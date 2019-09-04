@@ -50,7 +50,7 @@
     <modules>
         <module>adapters</module>
         <module>xs2a-adapter-app</module>
-        <module>xs2a-adapter-psd2-api</module>
+        <module>xs2a-adapter-generated-rest-api</module>
         <module>xs2a-adapter-rest-api</module>
         <module>xs2a-adapter-rest-impl</module>
         <module>xs2a-adapter-rest2api-mapper</module>
