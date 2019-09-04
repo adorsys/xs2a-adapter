@@ -6,11 +6,11 @@ import de.adorsys.xs2a.adapter.config.RestExceptionHandler;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.model.ConsentStatusTO;
 import de.adorsys.xs2a.adapter.model.ConsentsResponse201TO;
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.ais.ConsentCreationResponse;
+import de.adorsys.xs2a.adapter.service.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,7 +67,7 @@ public class ConsentControllerTest {
         String body = new ObjectMapper().writeValueAsString(response);
 
         when(accountInformationService.createConsent(any(), any()))
-                .thenReturn(new GeneralResponse<>(HTTP_CODE_200, response, ResponseHeaders.fromMap(Collections.emptyMap())));
+                .thenReturn(new Response<>(HTTP_CODE_200, response, ResponseHeaders.fromMap(Collections.emptyMap())));
         when(headersMapper.toHttpHeaders(any()))
                 .thenReturn(new HttpHeaders());
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders

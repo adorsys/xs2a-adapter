@@ -2,7 +2,6 @@ package de.adorsys.xs2a.adapter.rest.psd2.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.annotation.Generated;
 import java.util.List;
 import java.util.Map;
 

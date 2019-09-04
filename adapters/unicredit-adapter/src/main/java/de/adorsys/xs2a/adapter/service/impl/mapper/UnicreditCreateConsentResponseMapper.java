@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.service.impl.mapper;
 
-import de.adorsys.xs2a.adapter.service.ais.ConsentCreationResponse;
+import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.impl.service.UnicreditLinkBuilderService;
 import de.adorsys.xs2a.adapter.service.model.Link;
 

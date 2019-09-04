@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.http;
 
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.exception.UncheckedSSLHandshakeException;
 import org.apache.http.Header;
@@ -37,37 +37,37 @@ class ApacheHttpClient implements HttpClient {
     }
 
     @Override
-    public <T> GeneralResponse<T> post(String uri, String body, Map<String, String> headers, ResponseHandler<T> responseHandler) {
+    public <T> Response<T> post(String uri, String body, Map<String, String> headers, ResponseHandler<T> responseHandler) {
         HttpPost post = new HttpPost(uri);
         post.setEntity(new StringEntity(body, ContentType.APPLICATION_JSON));
         return execute(post, headers, responseHandler);
     }
 
     @Override
-    public <T> GeneralResponse<T> post(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler) {
+    public <T> Response<T> post(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler) {
         HttpPost post = new HttpPost(uri);
         post.setEntity(new StringEntity("{}", ContentType.APPLICATION_JSON));
         return execute(post, headers, responseHandler);
     }
 
     @Override
-    public <T> GeneralResponse<T> get(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler) {
+    public <T> Response<T> get(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler) {
         return execute(new HttpGet(uri), headers, responseHandler);
     }
 
     @Override
-    public <T> GeneralResponse<T> put(String uri, String body, Map<String, String> headers, ResponseHandler<T> responseHandler) {
+    public <T> Response<T> put(String uri, String body, Map<String, String> headers, ResponseHandler<T> responseHandler) {
         HttpPut put = new HttpPut(uri);
         put.setEntity(new StringEntity(body, ContentType.APPLICATION_JSON));
         return execute(put, headers, responseHandler);
     }
 
     @Override
-    public <T> GeneralResponse<T> delete(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler) {
+    public <T> Response<T> delete(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler) {
         return execute(new HttpDelete(uri), headers, responseHandler);
     }
 
-    private <T> GeneralResponse<T> execute(HttpUriRequest request, Map<String, String> headers, ResponseHandler<T> responseHandler) {
+    private <T> Response<T> execute(HttpUriRequest request, Map<String, String> headers, ResponseHandler<T> responseHandler) {
         headers.forEach(request::addHeader);
 
         try (CloseableHttpClient httpClient = createHttpClient()) {
@@ -77,10 +77,10 @@ class ApacheHttpClient implements HttpClient {
                 HttpEntity entity = response.getEntity();
                 Map<String, String> responseHeadersMap = toHeadersMap(response.getAllHeaders());
                 ResponseHeaders responseHeaders = ResponseHeaders.fromMap(responseHeadersMap);
-                InputStream content = entity != null? entity.getContent() : EmptyInputStream.INSTANCE;
+                InputStream content = entity != null ? entity.getContent() : EmptyInputStream.INSTANCE;
 
                 T responseBody = responseHandler.apply(statusCode, content, responseHeaders);
-                return new GeneralResponse<>(statusCode, responseBody, responseHeaders);
+                return new Response<>(statusCode, responseBody, responseHeaders);
             }
         } catch (SSLHandshakeException e) {
             throw new UncheckedSSLHandshakeException(e);

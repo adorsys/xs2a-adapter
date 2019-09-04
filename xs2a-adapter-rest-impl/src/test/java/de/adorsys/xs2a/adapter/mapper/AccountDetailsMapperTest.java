@@ -3,8 +3,7 @@ package de.adorsys.xs2a.adapter.mapper;
 import de.adorsys.xs2a.adapter.model.AccountDetailsTO;
 import de.adorsys.xs2a.adapter.model.BalanceTO;
 import de.adorsys.xs2a.adapter.model.HrefTypeTO;
-import de.adorsys.xs2a.adapter.service.account.*;
-import de.adorsys.xs2a.adapter.service.model.Link;
+import de.adorsys.xs2a.adapter.service.model.*;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 

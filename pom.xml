@@ -50,7 +50,7 @@
     <modules>
         <module>adapters</module>
         <module>xs2a-adapter-app</module>
-        <module>xs2a-adapter-psd2-api</module>
+        <module>xs2a-adapter-generated-rest-api</module>
         <module>xs2a-adapter-rest-api</module>
         <module>xs2a-adapter-rest-impl</module>
         <module>xs2a-adapter-rest2api-mapper</module>
@@ -84,7 +84,7 @@
         <!-- other -->
         <servlet-api.version>4.0.0</servlet-api.version>
         <docker.image>${project.artifactId}</docker.image>
-        <org.mapstruct.version>1.2.0.Final</org.mapstruct.version>
+        <mapstruct.version>1.3.0.Final</mapstruct.version>
         <mockito.version>1.10.19</mockito.version>
         <javatar-commons.version>0.6</javatar-commons.version>
         <logback-gelf.version>1.1.0</logback-gelf.version>
@@ -101,6 +101,7 @@
         <sonar.coverage.exclusions>
             **/*Entity.java,**/*TO.java,**/*BO.java,**/*Application.java,**/*Exception.java,**/*Config.java
         </sonar.coverage.exclusions>
+        <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -164,8 +165,8 @@
 
             <dependency>
                 <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct-jdk8</artifactId>
-                <version>${org.mapstruct.version}</version>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
             </dependency>
 
             <dependency>
@@ -230,7 +231,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.2</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -238,7 +239,7 @@
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
-                            <version>${org.mapstruct.version}</version>
+                            <version>${mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
@@ -294,6 +295,23 @@
                         <phase>package</phase>
                         <goals>
                             <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven-checkstyle-plugin.version}</version>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>

@@ -2249,7 +2249,7 @@
 											"const paymentProductSupportedIterationVar = pm.iterationData.get(\"pain.001-sepa-credit-transfers-supported\");   // get var from data file for the current iteration",
 											"",
 											"if (paymentProductSupportedEnvironmentVar !== \"true\" && paymentProductSupportedIterationVar !== \"true\") {",
-											"    postman.setNextRequest(null);",
+											"    postman.setNextRequest(\"/v1/aspsps\");",
 											"}"
 										],
 										"type": "text/javascript"
@@ -2764,7 +2764,7 @@
 								"type": "text/javascript",
 								"exec": [
 									"if (pm.response.code >= 400) {",
-									"    postman.setNextRequest(null);",
+									"    postman.setNextRequest(\"/v1/aspsps\");",
 									"}"
 								]
 							}
@@ -2857,7 +2857,37 @@
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											""
+											"pm.globals.set(\"consentId\", pm.response.json().consentId);",
+											"",
+											"let links = pm.response.json()._links;",
+											"if (links.oauthConsent) {",
+											"    postman.setNextRequest(\"/oauth2/authorization-request-uri\");",
+											"} else if (links.startAuthorisationWithPsuAuthentication) {",
+											"    postman.setNextRequest(\"startAuthorisationWithPsuAuthentication\");",
+											"} else if (links.scaRedirect) {",
+											"    pm.globals.set(\"scaRedirect\", links.scaRedirect.href);",
+											"    postman.setNextRequest(\"scaRedirect\");",
+											"} else if (links.updatePsuAuthentication) {",
+											"    let matches = links.updatePsuAuthentication.href.match(/authorisations\\/(.+)/);",
+											"    pm.globals.set(\"authorisationId\", matches[1]);",
+											"    postman.setNextRequest(\"updatePsuAuthentication\");",
+											"} else {",
+											"    throw \"Unexpected SCA approach\";",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "5e435ab4-41a1-414e-898c-df98377e4a08",
+										"exec": [
+											"const date = new Date();",
+											"date.setDate(date.getDate() + 1);",
+											"const tomorrow = date.toISOString().split(\"T\")[0];",
+											"pm.globals.set(\"validUntil\", tomorrow);",
+											"pm.globals.unset(\"access_token\");"
 										],
 										"type": "text/javascript"
 									}
@@ -2876,11 +2906,26 @@
 										"name": "Content-Type",
 										"value": "application/json",
 										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{$guid}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-IP-Address",
+										"value": "0.0.0.0",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Redirect-URI",
+										"value": "https://example.com",
+										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{}"
+									"raw": "{\n    \"access\": {\n        \"balances\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ],\n        \"transactions\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ],\n        \"accounts\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ]\n    },\n    \"combinedServiceIndicator\": \"false\",\n    \"recurringIndicator\": \"true\",\n    \"validUntil\": \"{{validUntil}}\",\n    \"frequencyPerDay\": \"4\"\n}"
 								},
 								"url": {
 									"raw": "{{baseUri}}/consents",
@@ -2955,7 +3000,7 @@
 											"});",
 											"",
 											"pm.globals.set(\"access_token\",  pm.response.json().access_token);",
-											""
+											"postman.setNextRequest(\"/accounts\");"
 										],
 										"type": "text/javascript"
 									}
@@ -2990,6 +3035,226 @@
 							"response": []
 						},
 						{
+							"name": "startAuthorisationWithPsuAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "853e6f55-ac06-452c-bc23-c65e9a7db516",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"let links = pm.response.json()._links;",
+											"if (links.selectAuthenticationMethod) {",
+											"    let selectAuthenticationMethodUri = links.selectAuthenticationMethod.href;",
+											"    pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"value": "{{$guid}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psuId_AIS}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_AIS}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/consents/{{consentId}}/authorisations",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"consents",
+										"{{consentId}}",
+										"authorisations"
+									]
+								},
+								"description": "Processing of a service request that needs authentication. The PSU has not yet been authorised. Embedded SCA Approach selected. The PSU has more than one embedded method available. PSU authenticaton required for the SCA selection to be applied. Missing authorisation data may be delivered at the same time as an authorisation sub-resource is created."
+							},
+							"response": []
+						},
+						{
+							"name": "selectAuthenticationMethod",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "29966bea-2da5-4ef3-b1dc-502b3c3a5ecf",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"value": "{{$guid}}",
+										"type": "text"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId_AIS}}\"\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/consents/{{consentId}}/authorisations/{{authorisationId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"consents",
+										"{{consentId}}",
+										"authorisations",
+										"{{authorisationId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "authoriseTransaction",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "29966bea-2da5-4ef3-b1dc-502b3c3a5ecf",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"postman.setNextRequest(\"/accounts\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"value": "{{$guid}}",
+										"type": "text"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"scaAuthenticationData\": \"{{scaAuthenticationData_AIS}}\"\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/consents/{{consentId}}/authorisations/{{authorisationId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"consents",
+										"{{consentId}}",
+										"authorisations",
+										"{{authorisationId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "scaRedirect",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3620d4f5-d0c3-410c-ae18-a953317608ec",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Consent status has changed to valid\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"The consent status has changed to: valid\");",
+											"});",
+											"",
+											"postman.setNextRequest(\"/accounts\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{scaRedirect}}?psu-id=PSU-Successful",
+									"host": [
+										"{{scaRedirect}}"
+									],
+									"query": [
+										{
+											"key": "psu-id",
+											"value": "PSU-Successful"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "/accounts",
 							"event": [
 								{
@@ -3005,6 +3270,16 @@
 										],
 										"type": "text/javascript"
 									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "4100af53-8ea8-4dc2-bdac-41a20c049480",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
 							],
 							"request": {
@@ -3013,11 +3288,22 @@
 									{
 										"key": "Authorization",
 										"value": "Bearer {{access_token}}",
-										"type": "text"
+										"type": "text",
+										"disabled": true
 									},
 									{
 										"key": "X-GTW-ASPSP-ID",
 										"value": "{{aspspId}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{$guid}}",
+										"type": "text"
+									},
+									{
+										"key": "Consent-ID",
+										"value": "{{consentId}}",
 										"type": "text"
 									}
 								],
@@ -3035,6 +3321,20 @@
 						},
 						{
 							"name": "/accounts/{accountId}/transactions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "84e901d5-49a2-416d-8bcb-00b59a7b294e",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [
@@ -3046,11 +3346,22 @@
 									{
 										"key": "Authorization",
 										"value": "Bearer {{access_token}}",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "Consent-ID",
+										"value": "{{consentId}}",
+										"type": "text"
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{$guid}}",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "{{baseUri}}/accounts/{{accountId}}/transactions?dateFrom=2019-01-09&dateTo=2019-01-10",
+									"raw": "{{baseUri}}/accounts/{{accountId}}/transactions?dateFrom=2019-01-09&dateTo=2019-01-10&bookingStatus=booked",
 									"host": [
 										"{{baseUri}}"
 									],
@@ -3072,6 +3383,10 @@
 											"key": "limit",
 											"value": "10",
 											"disabled": true
+										},
+										{
+											"key": "bookingStatus",
+											"value": "booked"
 										}
 									]
 								}
@@ -3080,6 +3395,20 @@
 						},
 						{
 							"name": "/accounts/{accountId}/balances",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ae1e66df-305c-4f13-b6f9-a79f60fc8552",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [
@@ -3091,6 +3420,17 @@
 									{
 										"key": "Authorization",
 										"value": "Bearer {{access_token}}",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "X-Request-ID",
+										"value": "{{$guid}}",
+										"type": "text"
+									},
+									{
+										"key": "Consent-ID",
+										"value": "{{consentId}}",
 										"type": "text"
 									}
 								],
@@ -3107,6 +3447,97 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "updatePsuAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7ae7e14f-31f0-45c2-9004-47a64d28fe92",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"type": "text",
+										"value": "{{aspspId}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{$guid}}"
+									},
+									{
+										"key": "PSU-ID",
+										"type": "text",
+										"value": "{{psuId_AIS}}"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"type": "text",
+										"value": "{{psuIdType_AIS}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_AIS}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/consents/{{consentId}}/authorisations/{{authorisationId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"consents",
+										"{{consentId}}",
+										"authorisations",
+										"{{authorisationId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "77801481-d067-4680-a702-9afdec4aadc1",
+								"type": "text/javascript",
+								"exec": [
+									"pm.request.headers.upsert({",
+									"    key: \"Authorization\",",
+									"    value: \"Bearer {{access_token}}\",",
+									"    disabled: !pm.globals.has(\"access_token\")",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "17e1c850-e121-4b76-952e-4e174832808f",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
 						}
 					],
 					"_postman_isSubFolder": true

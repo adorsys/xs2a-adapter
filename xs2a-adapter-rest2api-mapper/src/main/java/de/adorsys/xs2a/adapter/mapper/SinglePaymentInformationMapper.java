@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.PaymentInitiationWithStatusResponseTO;
-import de.adorsys.xs2a.adapter.service.SinglePaymentInitiationInformationWithStatusResponse;
+import de.adorsys.xs2a.adapter.service.model.SinglePaymentInitiationInformationWithStatusResponse;
 import org.mapstruct.Mapper;
 
 @Mapper(uses = {AddressMapper.class, AmountMapper.class, AccountReferenceMapper.class})

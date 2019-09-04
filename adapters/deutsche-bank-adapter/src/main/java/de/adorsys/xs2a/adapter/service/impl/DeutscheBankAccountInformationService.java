@@ -17,11 +17,11 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.account.BalanceReport;
-import de.adorsys.xs2a.adapter.service.account.TransactionsReport;
+import de.adorsys.xs2a.adapter.service.model.BalanceReport;
+import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
 import de.adorsys.xs2a.adapter.service.impl.mapper.DbBalanceReportMapper;
 import de.adorsys.xs2a.adapter.service.impl.mapper.DbTransactionReportMapper;
 import de.adorsys.xs2a.adapter.service.impl.model.DbBalanceReport;
@@ -42,12 +42,12 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
     }
 
     @Override
-    public GeneralResponse<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
+    public Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
         return getBalances(accountId, requestHeaders, DbBalanceReport.class, balanceReportMapper::toBalanceReport);
     }
 
     @Override
-    public GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
+    public Response<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         return getTransactionList(accountId, requestHeaders, requestParams, DbTransactionReport.class, transactionReportMapper::toTransactionReport);
     }
 

@@ -6,13 +6,9 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
-import de.adorsys.xs2a.adapter.service.account.AccountListHolder;
-import de.adorsys.xs2a.adapter.service.account.BalanceReport;
-import de.adorsys.xs2a.adapter.service.account.TransactionsReport;
+import de.adorsys.xs2a.adapter.service.model.*;
 import de.adorsys.xs2a.adapter.service.mapper.BalanceReportMapper;
 import de.adorsys.xs2a.adapter.service.mapper.TransactionsReportMapper;
-import de.adorsys.xs2a.adapter.service.model.CommerzbankBalanceReport;
-import de.adorsys.xs2a.adapter.service.model.CommerzbankTransactionsReport;
 import org.mapstruct.factory.Mappers;
 
 import java.io.IOException;
@@ -29,8 +25,8 @@ public class CommerzbankAccountInformationService extends BaseAccountInformation
     }
 
     @Override
-    public GeneralResponse<AccountListHolder> getAccountList(RequestHeaders requestHeaders,
-                                                             RequestParams requestParams) {
+    public Response<AccountListHolder> getAccountList(RequestHeaders requestHeaders,
+                                                      RequestParams requestParams) {
         requestHeaders = withAuthorizationBearer(requestHeaders);
         return super.getAccountList(requestHeaders, requestParams);
     }
@@ -57,24 +53,24 @@ public class CommerzbankAccountInformationService extends BaseAccountInformation
     }
 
     @Override
-    public GeneralResponse<TransactionsReport> getTransactionList(String accountId,
-                                                                  RequestHeaders requestHeaders,
-                                                                  RequestParams requestParams) {
+    public Response<TransactionsReport> getTransactionList(String accountId,
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
         requestHeaders = withAuthorizationBearer(requestHeaders);
         return getTransactionList(accountId, requestHeaders, requestParams, CommerzbankTransactionsReport.class,
             transactionsReportMapper::toTransactionsReport);
     }
 
     @Override
-    public GeneralResponse<String> getTransactionListAsString(String accountId,
-                                                              RequestHeaders requestHeaders,
-                                                              RequestParams requestParams) {
+    public Response<String> getTransactionListAsString(String accountId,
+                                                       RequestHeaders requestHeaders,
+                                                       RequestParams requestParams) {
         requestHeaders = withAuthorizationBearer(requestHeaders);
         return super.getTransactionListAsString(accountId, requestHeaders, requestParams);
     }
 
     @Override
-    public GeneralResponse<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
+    public Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
         requestHeaders = withAuthorizationBearer(requestHeaders);
         return getBalances(accountId, requestHeaders, CommerzbankBalanceReport.class,
             balanceReportMapper::toBalanceReport);

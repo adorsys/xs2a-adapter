@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.service.impl.mapper;
 
-import de.adorsys.xs2a.adapter.service.PaymentInitiationScaStatusResponse;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationStatus;
-import de.adorsys.xs2a.adapter.service.TransactionStatus;
+import de.adorsys.xs2a.adapter.service.model.PaymentInitiationScaStatusResponse;
+import de.adorsys.xs2a.adapter.service.model.PaymentInitiationStatus;
+import de.adorsys.xs2a.adapter.service.model.TransactionStatus;
 
 import java.util.Optional;
 

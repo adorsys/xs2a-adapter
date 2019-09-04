@@ -17,14 +17,14 @@
 package de.adorsys.xs2a.adapter.adapter;
 
 import de.adorsys.xs2a.adapter.http.StringUri;
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
+import de.adorsys.xs2a.adapter.service.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.StartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.account.AccountListHolder;
-import de.adorsys.xs2a.adapter.service.account.BalanceReport;
-import de.adorsys.xs2a.adapter.service.account.TransactionsReport;
-import de.adorsys.xs2a.adapter.service.ais.*;
+import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
+import de.adorsys.xs2a.adapter.service.model.AccountListHolder;
+import de.adorsys.xs2a.adapter.service.model.BalanceReport;
+import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
 import de.adorsys.xs2a.adapter.service.model.*;
 
 import java.util.Map;
@@ -47,43 +47,43 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
+    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
         return createConsent(requestHeaders, body, ConsentCreationResponse.class, identity());
     }
 
-    protected <T> GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body, Class<T> klass, Function<T, ConsentCreationResponse> mapper){
+    protected <T> Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body, Class<T> klass, Function<T, ConsentCreationResponse> mapper) {
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
 
         String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
 
-        GeneralResponse<T> response = httpClient.post(getConsentBaseUri(), bodyString, headersMap, jsonResponseHandler(klass));
-        ConsentCreationResponse creationResponse = mapper.apply(response.getResponseBody());
-        return new GeneralResponse<>(response.getStatusCode(), creationResponse, response.getResponseHeaders());
+        Response<T> response = httpClient.post(getConsentBaseUri(), bodyString, headersMap, jsonResponseHandler(klass));
+        ConsentCreationResponse creationResponse = mapper.apply(response.getBody());
+        return new Response<>(response.getStatusCode(), creationResponse, response.getHeaders());
     }
 
     @Override
-    public GeneralResponse<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders) {
+    public Response<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders) {
         return getConsentInformation(consentId, requestHeaders, ConsentInformation.class, identity());
     }
 
-    protected <T> GeneralResponse<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders, Class<T> klass, Function<T, ConsentInformation> mapper) {
+    protected <T> Response<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders, Class<T> klass, Function<T, ConsentInformation> mapper) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
-        GeneralResponse<T> response = httpClient.get(uri, headersMap, jsonResponseHandler(klass));
-        ConsentInformation consentInformation = mapper.apply(response.getResponseBody());
+        Response<T> response = httpClient.get(uri, headersMap, jsonResponseHandler(klass));
+        ConsentInformation consentInformation = mapper.apply(response.getBody());
 
-        return new GeneralResponse<>(response.getStatusCode(), consentInformation, response.getResponseHeaders());
+        return new Response<>(response.getStatusCode(), consentInformation, response.getHeaders());
     }
 
     @Override
-    public GeneralResponse<Void> deleteConsent(String consentId, RequestHeaders requestHeaders) {
+    public Response<Void> deleteConsent(String consentId, RequestHeaders requestHeaders) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
         Map<String, String> headersMap = populateDeleteHeaders(requestHeaders.toMap());
         return httpClient.delete(uri, headersMap, jsonResponseHandler(Void.class));
     }
 
     @Override
-    public GeneralResponse<ConsentStatusResponse> getConsentStatus(String consentId, RequestHeaders requestHeaders) {
+    public Response<ConsentStatusResponse> getConsentStatus(String consentId, RequestHeaders requestHeaders) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, STATUS);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
@@ -91,97 +91,97 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders) {
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
 
         return httpClient.post(uri, headersMap, jsonResponseHandler(StartScaProcessResponse.class));
     }
 
-    protected <T> GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, Class<T> klass, Function<T, StartScaProcessResponse> mapper) {
+    protected <T> Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, Class<T> klass, Function<T, StartScaProcessResponse> mapper) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
 
-        GeneralResponse<T> response = httpClient.post(uri, headersMap, jsonResponseHandler(klass));
-        StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getResponseBody());
-        return new GeneralResponse<>(response.getStatusCode(), startScaProcessResponse, response.getResponseHeaders());
+        Response<T> response = httpClient.post(uri, headersMap, jsonResponseHandler(klass));
+        StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getBody());
+        return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getHeaders());
     }
 
     @Override
-    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
         return startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication, StartScaProcessResponse.class, identity());
     }
 
-    protected <T> GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication, Class<T> klass, Function<T, StartScaProcessResponse> mapper) {
+    protected <T> Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication, Class<T> klass, Function<T, StartScaProcessResponse> mapper) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
-        GeneralResponse<T> response = httpClient.post(uri, body, headersMap, jsonResponseHandler(klass));
-        StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getResponseBody());
-        return new GeneralResponse<>(response.getStatusCode(), startScaProcessResponse, response.getResponseHeaders());
+        Response<T> response = httpClient.post(uri, body, headersMap, jsonResponseHandler(klass));
+        StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getBody());
+        return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getHeaders());
     }
 
     @Override
-    public GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders,
-                                                                                  UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders,
+                                                                           UpdatePsuAuthentication updatePsuAuthentication) {
         return updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication, UpdatePsuAuthenticationResponse.class, identity());
     }
 
-    protected <T> GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
-                                                                                         String authorisationId,
-                                                                                         RequestHeaders requestHeaders,
-                                                                                         UpdatePsuAuthentication updatePsuAuthentication,
-                                                                                         Class<T> klass,
-                                                                                         Function<T, UpdatePsuAuthenticationResponse> mapper) {
+    protected <T> Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
+                                                                                  String authorisationId,
+                                                                                  RequestHeaders requestHeaders,
+                                                                                  UpdatePsuAuthentication updatePsuAuthentication,
+                                                                                  Class<T> klass,
+                                                                                  Function<T, UpdatePsuAuthenticationResponse> mapper) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
-        GeneralResponse<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
-        UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = mapper.apply(response.getResponseBody());
-        return new GeneralResponse<>(response.getStatusCode(), updatePsuAuthenticationResponse, response.getResponseHeaders());
+        Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+        UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = mapper.apply(response.getBody());
+        return new Response<>(response.getStatusCode(), updatePsuAuthenticationResponse, response.getHeaders());
     }
 
     @Override
-    public GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+    public Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         return updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod, SelectPsuAuthenticationMethodResponse.class, identity());
     }
 
-    protected <T> GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
-                                                                                               String authorisationId,
-                                                                                               RequestHeaders requestHeaders,
-                                                                                               SelectPsuAuthenticationMethod selectPsuAuthenticationMethod,
-                                                                                               Class<T> klass,
-                                                                                               Function<T, SelectPsuAuthenticationMethodResponse> mapper) {
+    protected <T> Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
+                                                                                        String authorisationId,
+                                                                                        RequestHeaders requestHeaders,
+                                                                                        SelectPsuAuthenticationMethod selectPsuAuthenticationMethod,
+                                                                                        Class<T> klass,
+                                                                                        Function<T, SelectPsuAuthenticationMethodResponse> mapper) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
 
-        GeneralResponse<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
-        SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = mapper.apply(response.getResponseBody());
-        return new GeneralResponse<>(response.getStatusCode(), selectPsuAuthenticationMethodResponse, response.getResponseHeaders());
+        Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+        SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = mapper.apply(response.getBody());
+        return new Response<>(response.getStatusCode(), selectPsuAuthenticationMethodResponse, response.getHeaders());
     }
 
     @Override
-    public GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
+    public Response<ScaStatusResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
         return updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation, ScaStatusResponse.class, identity());
     }
 
-    protected <T> GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String consentId,
-                                                                           String authorisationId,
-                                                                           RequestHeaders requestHeaders,
-                                                                           TransactionAuthorisation transactionAuthorisation,
-                                                                           Class<T> klass,
-                                                                           Function<T, ScaStatusResponse> mapper) {
+    protected <T> Response<ScaStatusResponse> updateConsentsPsuData(String consentId,
+                                                                    String authorisationId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    TransactionAuthorisation transactionAuthorisation,
+                                                                    Class<T> klass,
+                                                                    Function<T, ScaStatusResponse> mapper) {
         String uri = getUpdateConsentPsuDataUri(consentId, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 
-        GeneralResponse<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+        Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
 
-        ScaStatusResponse scaStatusResponse = mapper.apply(response.getResponseBody());
-        return new GeneralResponse<>(response.getStatusCode(), scaStatusResponse, response.getResponseHeaders());
+        ScaStatusResponse scaStatusResponse = mapper.apply(response.getBody());
+        return new Response<>(response.getStatusCode(), scaStatusResponse, response.getHeaders());
     }
 
     protected String getUpdateConsentPsuDataUri(String consentId, String authorisationId) {
@@ -189,7 +189,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public GeneralResponse<AccountListHolder> getAccountList(RequestHeaders requestHeaders, RequestParams requestParams) {
+    public Response<AccountListHolder> getAccountList(RequestHeaders requestHeaders, RequestParams requestParams) {
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
         headersMap = addConsentIdHeader(headersMap);
 
@@ -199,7 +199,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
+    public Response<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         return getTransactionList(accountId, requestHeaders, requestParams, TransactionsReport.class, identity());
     }
 
@@ -209,43 +209,43 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         return uri;
     }
 
-    protected <T> GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams, Class<T> klass, Function<T, TransactionsReport> mapper) {
+    protected <T> Response<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams, Class<T> klass, Function<T, TransactionsReport> mapper) {
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
         headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
 
         String uri = getTransactionListUri(accountId, requestParams);
 
-        GeneralResponse<T> response = httpClient.get(uri, headersMap, jsonResponseHandler(klass));
-        TransactionsReport transactionsReport = mapper.apply(response.getResponseBody());
+        Response<T> response = httpClient.get(uri, headersMap, jsonResponseHandler(klass));
+        TransactionsReport transactionsReport = mapper.apply(response.getBody());
 
-        return new GeneralResponse<>(response.getStatusCode(), transactionsReport, response.getResponseHeaders());
+        return new Response<>(response.getStatusCode(), transactionsReport, response.getHeaders());
     }
 
     @Override
-    public GeneralResponse<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
+    public Response<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         String uri = getTransactionListUri(accountId, requestParams);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
         return httpClient.get(uri, headers, stringResponseHandler());
     }
 
     @Override
-    public GeneralResponse<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, RequestHeaders requestHeaders) {
+    public Response<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, RequestHeaders requestHeaders) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
         return httpClient.get(uri, headers, jsonResponseHandler(ScaStatusResponse.class));
     }
 
     @Override
-    public GeneralResponse<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
+    public Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
         return getBalances(accountId, requestHeaders, BalanceReport.class, identity());
     }
 
-    protected <T> GeneralResponse<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders, Class<T> klass, Function<T, BalanceReport> mapper) {
+    protected <T> Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders, Class<T> klass, Function<T, BalanceReport> mapper) {
         String uri = StringUri.fromElements(getAccountsBaseUri(), accountId, BALANCES);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
-        GeneralResponse<T> response = httpClient.get(uri, headers, jsonResponseHandler(klass));
-        BalanceReport balanceReport = mapper.apply(response.getResponseBody());
-        return new GeneralResponse<>(response.getStatusCode(), balanceReport, response.getResponseHeaders());
+        Response<T> response = httpClient.get(uri, headers, jsonResponseHandler(klass));
+        BalanceReport balanceReport = mapper.apply(response.getBody());
+        return new Response<>(response.getStatusCode(), balanceReport, response.getHeaders());
     }
 
 

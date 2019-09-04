@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.service.impl.mapper;
 
-import de.adorsys.xs2a.adapter.service.PaymentInitiationRequestResponse;
+import de.adorsys.xs2a.adapter.service.model.PaymentInitiationRequestResponse;
 import de.adorsys.xs2a.adapter.service.impl.service.UnicreditLinkBuilderService;
 import de.adorsys.xs2a.adapter.service.model.Link;
 

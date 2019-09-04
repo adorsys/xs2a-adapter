@@ -17,7 +17,7 @@
 package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.AuthenticationObjectTO;
-import de.adorsys.xs2a.adapter.service.AuthenticationObject;
+import de.adorsys.xs2a.adapter.service.model.AuthenticationObject;
 import org.mapstruct.Mapper;
 
 @Mapper

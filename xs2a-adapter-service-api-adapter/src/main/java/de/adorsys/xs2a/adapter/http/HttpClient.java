@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.http;
 
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 
 import javax.net.ssl.SSLContext;
@@ -9,15 +9,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 public interface HttpClient {
-    <T> GeneralResponse<T> post(String uri, String body, Map<String, String> headers, ResponseHandler<T> responseHandler);
+    <T> Response<T> post(String uri, String body, Map<String, String> headers, ResponseHandler<T> responseHandler);
 
-    <T> GeneralResponse<T> post(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler);
+    <T> Response<T> post(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler);
 
-    <T> GeneralResponse<T> get(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler);
+    <T> Response<T> get(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler);
 
-    <T> GeneralResponse<T> put(String uri, String body, Map<String, String> headers, ResponseHandler<T> responseHandler);
+    <T> Response<T> put(String uri, String body, Map<String, String> headers, ResponseHandler<T> responseHandler);
 
-    <T> GeneralResponse<T> delete(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler);
+    <T> Response<T> delete(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler);
 
     @FunctionalInterface
     interface ResponseHandler<T> {

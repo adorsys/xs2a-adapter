@@ -2,8 +2,8 @@ package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.PaymentInitiationStatusResponse200JsonTO;
 import de.adorsys.xs2a.adapter.model.TransactionStatusTO;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationStatus;
-import de.adorsys.xs2a.adapter.service.TransactionStatus;
+import de.adorsys.xs2a.adapter.service.model.PaymentInitiationStatus;
+import de.adorsys.xs2a.adapter.service.model.TransactionStatus;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 

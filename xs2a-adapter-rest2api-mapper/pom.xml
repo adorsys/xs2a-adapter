@@ -29,12 +29,6 @@
         </dependency>
 
         <dependency>
-            <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>xs2a-adapter-psd2-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
@@ -46,7 +40,7 @@
 
         <dependency>
             <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-jdk8</artifactId>
+            <artifactId>mapstruct</artifactId>
         </dependency>
 
     </dependencies>

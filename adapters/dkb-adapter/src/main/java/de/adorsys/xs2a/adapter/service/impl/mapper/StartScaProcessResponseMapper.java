@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.adapter.service.impl.mapper;
 
-import de.adorsys.xs2a.adapter.service.StartScaProcessResponse;
+import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbStartScaProcessResponse;
 import org.mapstruct.Mapper;
 

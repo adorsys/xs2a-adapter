@@ -2,8 +2,8 @@ package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.ScaStatusResponseTO;
 import de.adorsys.xs2a.adapter.model.ScaStatusTO;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationScaStatusResponse;
-import de.adorsys.xs2a.adapter.service.ScaStatus;
+import de.adorsys.xs2a.adapter.service.model.PaymentInitiationScaStatusResponse;
+import de.adorsys.xs2a.adapter.service.model.ScaStatus;
 
 import java.util.Optional;
 
@@ -27,7 +27,7 @@ public class PaymentInitiationScaStatusResponseMapper {
         return ScaStatus.fromValue(to.toString());
     }
 
-    public PaymentInitiationScaStatusResponse toPaymentInitiationScaStatusResponse(ScaStatusResponseTO to){
+    public PaymentInitiationScaStatusResponse toPaymentInitiationScaStatusResponse(ScaStatusResponseTO to) {
         return Optional.ofNullable(to)
                    .map(r -> new PaymentInitiationScaStatusResponse(toScaStatus(r.getScaStatus())))
                    .orElse(null);

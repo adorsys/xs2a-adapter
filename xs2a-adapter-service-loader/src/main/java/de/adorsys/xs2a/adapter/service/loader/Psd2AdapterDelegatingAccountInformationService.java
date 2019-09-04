@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service.loader;
 
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.model.*;
@@ -18,13 +19,56 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
     }
 
     @Override
-    public ConsentsResponse createConsent(Map<String, String> headers, Consents consents) {
+    public Response<ConsentsResponse> createConsent(Map<String, String> headers, Consents consents) {
         return getAccountInformationService(headers)
             .createConsent(headers, consents);
     }
 
     private Psd2AccountInformationService getAccountInformationService(Map<String, String> headers) {
         return adapterServiceLoader.getPsd2AccountInformationService(RequestHeaders.fromMap(headers));
+    }
+
+    @Override
+    public Response<ConsentInformationResponse> getConsentInformation(String consentId, Map<String, String> headers) {
+        return getAccountInformationService(headers)
+            .getConsentInformation(consentId, headers);
+    }
+
+    @Override
+    public Response<Void> deleteConsent(String consentId, Map<String, String> headers) {
+        return getAccountInformationService(headers)
+            .deleteConsent(consentId, headers);
+    }
+
+    @Override
+    public Response<ConsentStatusResponse> getConsentStatus(String consentId, Map<String, String> headers) {
+        return getAccountInformationService(headers)
+            .getConsentStatus(consentId, headers);
+    }
+
+    @Override
+    public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                 String authorisationId,
+                                                 Map<String, String> headers) {
+        return getAccountInformationService(headers)
+            .getConsentScaStatus(consentId, authorisationId, headers);
+    }
+
+    @Override
+    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
+                                                             Map<String, String> headers,
+                                                             UpdateAuthorisation updateAuthentication) {
+        return getAccountInformationService(headers)
+            .startConsentAuthorisation(consentId, headers, updateAuthentication);
+    }
+
+    @Override
+    public Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId,
+                                                             String authorisationId,
+                                                             Map<String, String> headers,
+                                                             UpdateAuthorisation updateAuthentication) {
+        return getAccountInformationService(headers)
+            .updateConsentsPsuData(consentId, authorisationId, headers, updateAuthentication);
     }
 
     @Override
@@ -41,14 +85,14 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
     }
 
     @Override
-    public AccountList getAccounts(Map<String, String> queryParameters,
-                                   Map<String, String> headers) throws IOException {
+    public Response<AccountList> getAccounts(Map<String, String> queryParameters,
+                                            Map<String, String> headers) throws IOException {
         return getAccountInformationService(headers)
             .getAccounts(queryParameters, headers);
     }
 
     @Override
-    public ReadAccountBalanceResponse getBalances(String accountId,
+    public Response<ReadAccountBalanceResponse> getBalances(String accountId,
                                                   Map<String, String> queryParameters,
                                                   Map<String, String> headers) throws IOException {
         return getAccountInformationService(headers)
@@ -56,7 +100,7 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
     }
 
     @Override
-    public TransactionsResponse getTransactions(String accountId,
+    public Response<?> getTransactions(String accountId,
                                                 Map<String, String> queryParameters,
                                                 Map<String, String> headers) throws IOException {
         return getAccountInformationService(headers)

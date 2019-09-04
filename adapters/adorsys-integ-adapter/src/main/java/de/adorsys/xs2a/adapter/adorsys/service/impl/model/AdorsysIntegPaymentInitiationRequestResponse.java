@@ -1,8 +1,7 @@
 package de.adorsys.xs2a.adapter.adorsys.service.impl.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.adorsys.xs2a.adapter.service.*;
-import de.adorsys.xs2a.adapter.service.model.Link;
+import de.adorsys.xs2a.adapter.service.model.*;
 
 import java.util.List;
 import java.util.Map;

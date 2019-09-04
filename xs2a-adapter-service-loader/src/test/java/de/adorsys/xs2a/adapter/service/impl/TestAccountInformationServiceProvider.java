@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.adapter.service.impl;
 
-import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 
 public class TestAccountInformationServiceProvider implements AccountInformationServiceProvider {

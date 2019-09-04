@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.ReportExchangeRateTO;
-import de.adorsys.xs2a.adapter.service.account.ExchangeRate;
+import de.adorsys.xs2a.adapter.service.model.ExchangeRate;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 

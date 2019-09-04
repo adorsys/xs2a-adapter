@@ -16,14 +16,14 @@
 
 package de.adorsys.xs2a.adapter.service.impl;
 
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
+import de.adorsys.xs2a.adapter.service.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.StartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.account.AccountListHolder;
-import de.adorsys.xs2a.adapter.service.account.BalanceReport;
-import de.adorsys.xs2a.adapter.service.account.TransactionsReport;
-import de.adorsys.xs2a.adapter.service.ais.*;
+import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
+import de.adorsys.xs2a.adapter.service.model.AccountListHolder;
+import de.adorsys.xs2a.adapter.service.model.BalanceReport;
+import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
 import de.adorsys.xs2a.adapter.service.model.*;
 
 public class AccountInformationServiceImpl implements AccountInformationService {
@@ -34,8 +34,8 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     }
 
     @Override
-    public GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
-                                                                  Consents consents) {
+    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                           Consents consents) {
         return getAccountInformationService(requestHeaders)
                    .createConsent(requestHeaders, consents);
     }
@@ -45,99 +45,99 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     }
 
     @Override
-    public GeneralResponse<ConsentInformation> getConsentInformation(String consentId,
-                                                                     RequestHeaders requestHeaders) {
+    public Response<ConsentInformation> getConsentInformation(String consentId,
+                                                              RequestHeaders requestHeaders) {
         return getAccountInformationService(requestHeaders)
                    .getConsentInformation(consentId, requestHeaders);
     }
 
     @Override
-    public GeneralResponse<Void> deleteConsent(String consentId, RequestHeaders requestHeaders) {
+    public Response<Void> deleteConsent(String consentId, RequestHeaders requestHeaders) {
         return getAccountInformationService(requestHeaders)
                    .deleteConsent(consentId, requestHeaders);
     }
 
     @Override
-    public GeneralResponse<ConsentStatusResponse> getConsentStatus(String consentId,
-                                                                   RequestHeaders requestHeaders) {
+    public Response<ConsentStatusResponse> getConsentStatus(String consentId,
+                                                            RequestHeaders requestHeaders) {
         return getAccountInformationService(requestHeaders)
                    .getConsentStatus(consentId, requestHeaders);
     }
 
     @Override
-    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId,
-                                                                              RequestHeaders requestHeaders) {
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders) {
         return getAccountInformationService(requestHeaders)
                    .startConsentAuthorisation(consentId, requestHeaders);
     }
 
     @Override
-    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId,
-                                                                              RequestHeaders requestHeaders,
-                                                                              UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       UpdatePsuAuthentication updatePsuAuthentication) {
         return getAccountInformationService(requestHeaders)
                    .startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication);
     }
 
     @Override
-    public GeneralResponse<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
-                                                                                        String authorisationId,
-                                                                                        RequestHeaders requestHeaders,
-                                                                                        SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+    public Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
+                                                                                 String authorisationId,
+                                                                                 RequestHeaders requestHeaders,
+                                                                                 SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         return getAccountInformationService(requestHeaders)
                    .updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod);
     }
 
     @Override
-    public GeneralResponse<ScaStatusResponse> updateConsentsPsuData(String consentId,
-                                                                    String authorisationId,
-                                                                    RequestHeaders requestHeaders,
-                                                                    TransactionAuthorisation transactionAuthorisation) {
+    public Response<ScaStatusResponse> updateConsentsPsuData(String consentId,
+                                                             String authorisationId,
+                                                             RequestHeaders requestHeaders,
+                                                             TransactionAuthorisation transactionAuthorisation) {
         return getAccountInformationService(requestHeaders)
                    .updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation);
     }
 
     @Override
-    public GeneralResponse<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
-                                                                                  String authorisationId,
-                                                                                  RequestHeaders requestHeaders,
-                                                                                  UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
+                                                                           String authorisationId,
+                                                                           RequestHeaders requestHeaders,
+                                                                           UpdatePsuAuthentication updatePsuAuthentication) {
         return getAccountInformationService(requestHeaders)
                    .updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication);
     }
 
     @Override
-    public GeneralResponse<AccountListHolder> getAccountList(RequestHeaders requestHeaders,
-                                                             RequestParams requestParams) {
+    public Response<AccountListHolder> getAccountList(RequestHeaders requestHeaders,
+                                                      RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
                    .getAccountList(requestHeaders, requestParams);
     }
 
     @Override
-    public GeneralResponse<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders,
-                                                                  RequestParams requestParams) {
+    public Response<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
                    .getTransactionList(accountId, requestHeaders, requestParams);
     }
 
     @Override
-    public GeneralResponse<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders,
-                                                              RequestParams requestParams) {
+    public Response<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders,
+                                                       RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
                    .getTransactionListAsString(accountId, requestHeaders, requestParams);
     }
 
     @Override
-    public GeneralResponse<ScaStatusResponse> getConsentScaStatus(String consentId,
-                                                                  String authorisationId,
-                                                                  RequestHeaders requestHeaders) {
+    public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                           String authorisationId,
+                                                           RequestHeaders requestHeaders) {
         return getAccountInformationService(requestHeaders)
                    .getConsentScaStatus(consentId, authorisationId, requestHeaders);
     }
 
     @Override
-    public GeneralResponse<BalanceReport> getBalances(String accountId,
-                                                      RequestHeaders requestHeaders) {
+    public Response<BalanceReport> getBalances(String accountId,
+                                               RequestHeaders requestHeaders) {
         return getAccountInformationService(requestHeaders)
                    .getBalances(accountId, requestHeaders);
     }

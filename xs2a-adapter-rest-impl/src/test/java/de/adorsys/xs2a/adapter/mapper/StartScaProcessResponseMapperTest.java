@@ -2,10 +2,10 @@ package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.ScaStatusTO;
 import de.adorsys.xs2a.adapter.model.StartScaprocessResponseTO;
-import de.adorsys.xs2a.adapter.service.AuthenticationObject;
-import de.adorsys.xs2a.adapter.service.ChallengeData;
-import de.adorsys.xs2a.adapter.service.ScaStatus;
-import de.adorsys.xs2a.adapter.service.StartScaProcessResponse;
+import de.adorsys.xs2a.adapter.service.model.AuthenticationObject;
+import de.adorsys.xs2a.adapter.service.model.ChallengeData;
+import de.adorsys.xs2a.adapter.service.model.ScaStatus;
+import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 

@@ -21,7 +21,7 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.JsonMapper;
 import de.adorsys.xs2a.adapter.security.AccessTokenException;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
+import de.adorsys.xs2a.adapter.service.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,14 +91,14 @@ public class DkbAccessTokenService implements AccessTokenService {
     public String retrieveToken() {
         if (isNotValid()) {
             logger.debug("Token is not valid");
-            GeneralResponse<TokenResponse> response = httpClient.post(
+            Response<TokenResponse> response = httpClient.post(
                     tokenUrl,
                     TOKEN_GRANT_TYPE,
                     headers,
                     responseHandler()
             );
             logger.debug("New token is retrieved");
-            accessToken = new AccessToken(response.getResponseBody());
+            accessToken = new AccessToken(response.getBody());
         }
         return accessToken.token;
     }
@@ -135,7 +135,7 @@ public class DkbAccessTokenService implements AccessTokenService {
     }
 
     private static String readProperty(String key) {
-        return readProperty(key,"");
+        return readProperty(key, "");
     }
 
     private static String buildBasicAuthorization(String key, String secret) {

@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.adapter.service.impl.model;
 
-import de.adorsys.xs2a.adapter.service.account.BalanceReport;
+import de.adorsys.xs2a.adapter.service.model.BalanceReport;
 
 import java.util.List;
 

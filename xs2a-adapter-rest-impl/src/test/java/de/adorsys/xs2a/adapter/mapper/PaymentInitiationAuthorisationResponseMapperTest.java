@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.AuthorisationsTO;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationAuthorisationResponse;
+import de.adorsys.xs2a.adapter.service.model.PaymentInitiationAuthorisationResponse;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 

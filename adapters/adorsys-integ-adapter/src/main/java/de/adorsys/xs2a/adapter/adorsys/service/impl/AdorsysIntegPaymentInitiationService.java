@@ -26,10 +26,10 @@ import de.adorsys.xs2a.adapter.adorsys.service.impl.model.AdorsysIntegPaymentIni
 import de.adorsys.xs2a.adapter.adorsys.service.impl.model.AdorsysIntegSelectPsuAuthenticationMethodResponse;
 import de.adorsys.xs2a.adapter.adorsys.service.impl.model.AdorsysIntegStartScaProcessResponse;
 import de.adorsys.xs2a.adapter.adorsys.service.impl.model.AdorsysIntegUpdatePsuAuthenticationResponse;
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationRequestResponse;
+import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.model.PaymentInitiationRequestResponse;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.StartScaProcessResponse;
+import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.model.SelectPsuAuthenticationMethod;
 import de.adorsys.xs2a.adapter.service.model.SelectPsuAuthenticationMethodResponse;
 import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
@@ -47,22 +47,22 @@ public class AdorsysIntegPaymentInitiationService extends BasePaymentInitiationS
     }
 
     @Override
-    public GeneralResponse<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, RequestHeaders requestHeaders, Object body) {
+    public Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, RequestHeaders requestHeaders, Object body) {
         return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct), body, requestHeaders, AdorsysIntegPaymentInitiationRequestResponse.class, paymentInitiationRequestResponseMapper::toPaymentInitiationRequestResponse);
     }
 
     @Override
-    public GeneralResponse<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct, String paymentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct, String paymentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
         return startSinglePaymentAuthorisation(StandardPaymentProduct.fromSlug(paymentProduct), paymentId, requestHeaders, updatePsuAuthentication, AdorsysIntegStartScaProcessResponse.class, startScaProcessResponseMapper::toStartScaProcessResponse);
     }
 
     @Override
-    public GeneralResponse<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
         return updatePaymentPsuData(paymentService, StandardPaymentProduct.fromSlug(paymentProduct), paymentId, authorisationId, requestHeaders, updatePsuAuthentication, AdorsysIntegUpdatePsuAuthenticationResponse.class, updatePsuAuthenticationResponseMapper::toUpdatePsuAuthenticationResponse);
     }
 
     @Override
-    public GeneralResponse<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         return updatePaymentPsuData(paymentService, StandardPaymentProduct.fromSlug(paymentProduct), paymentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod, AdorsysIntegSelectPsuAuthenticationMethodResponse.class, selectPsuAuthenticationMethodResponseMapper::toSelectPsuAuthenticationMethodResponse);
     }
 }

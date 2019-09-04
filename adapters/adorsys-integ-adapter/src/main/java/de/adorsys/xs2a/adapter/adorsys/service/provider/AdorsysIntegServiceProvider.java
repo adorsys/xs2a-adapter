@@ -19,7 +19,7 @@ package de.adorsys.xs2a.adapter.adorsys.service.provider;
 import de.adorsys.xs2a.adapter.adorsys.service.impl.AdorsysIntegAccountInformationService;
 import de.adorsys.xs2a.adapter.adorsys.service.impl.AdorsysIntegPaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 

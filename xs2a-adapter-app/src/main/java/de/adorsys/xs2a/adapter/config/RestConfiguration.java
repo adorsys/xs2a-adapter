@@ -4,7 +4,7 @@ import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.registry.AspspSearchServiceImpl;
 import de.adorsys.xs2a.adapter.registry.LuceneAspspRepositoryFactory;
 import de.adorsys.xs2a.adapter.service.*;
-import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.AccountInformationServiceImpl;
 import de.adorsys.xs2a.adapter.service.impl.AdapterServiceLoader;
 import de.adorsys.xs2a.adapter.service.impl.PaymentInitiationServiceImpl;
