@@ -23,6 +23,9 @@ import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,5 +60,22 @@ public class AspspController {
     ResponseEntity<Void> deleteById(@PathVariable("aspspId") String aspspId) {
         aspspRepository.deleteById(aspspId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(value = AspspSearchApi.V1_APSPS + "/export", produces = "text/csv")
+    public ResponseEntity<byte[]> export() {
+        byte[] response = aspspRepository.getAllRecords();
+        String fileName = "aspsps.csv";
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentLength(response.length);
+        responseHeaders.setContentType(new MediaType("text", "csv"));
+        responseHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
+
+        if (response.length < 1) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(response, responseHeaders, HttpStatus.OK);
     }
 }

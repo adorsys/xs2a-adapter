@@ -222,4 +222,29 @@ public class LuceneAspspRepository implements AspspRepository {
         }
         return find(queryBuilder.build(), after, size);
     }
+
+    @Override
+    public byte[] getAllRecords() {
+        List<Aspsp> storage = findAllMaxPageSize();
+        byte[] response;
+        StringBuilder storeInString = new StringBuilder();
+
+        for (Aspsp aspsp : storage) {
+            storeInString.append(toCsvString(aspsp));
+        }
+
+        response = storeInString.toString().getBytes();
+
+        return response;
+    }
+
+
+    private String toCsvString(Aspsp aspsp) {
+        return aspsp.getId() + "," + checkStringForSpecialSymbol(aspsp.getName(), ",") + "," + aspsp.getBic() + "," + aspsp.getUrl() + ","
+            + aspsp.getAdapterId() + "," + aspsp.getBankCode() + "\n";
+    }
+
+    private String checkStringForSpecialSymbol(String target, String symbol) {
+        return target.contains(symbol) ? "\"" + target + "\"" : target;
+    }
 }

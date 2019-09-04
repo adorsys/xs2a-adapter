@@ -41,7 +41,11 @@ public interface AspspReadOnlyRepository {
 
     List<Aspsp> findByName(String name, String after, int size);
 
-    default  List<Aspsp> findAll() {
+    default List<Aspsp> findAllMaxPageSize() {
+        return findAll(Integer.MAX_VALUE);
+    }
+
+    default List<Aspsp> findAll() {
         return findAll(DEFAULT_SIZE);
     }
 
