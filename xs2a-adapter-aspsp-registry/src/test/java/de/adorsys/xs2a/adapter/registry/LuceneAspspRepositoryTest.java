@@ -143,12 +143,13 @@ public class LuceneAspspRepositoryTest {
 
     @Test
     public void findAllWithMaxPageSize() {
-        for (int i = 0; i < 20; i++) {
+        int size = 20;
+        for (int i = 0; i < size; i++) {
             luceneAspspRepository.save(new Aspsp());
         }
 
         Iterable<Aspsp> found = luceneAspspRepository.findAllMaxPageSize();
-        assertThat(found).hasSize(20);
+        assertThat(found).hasSize(size);
     }
 
     @Test
