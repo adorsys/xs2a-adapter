@@ -15,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -22,12 +23,15 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pro.javatar.commons.reader.JsonReader;
 
+import java.util.Arrays;
+
 import static de.adorsys.xs2a.adapter.controller.AspspController.V1_ASPSP_BY_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -113,5 +117,24 @@ public class AspspControllerTest {
                             .contentType(APPLICATION_JSON_UTF8_VALUE))
             .andExpect(status().is(HttpStatus.NO_CONTENT.value()))
             .andReturn();
+    }
+
+    @Test
+    public void export() throws Exception {
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).setMessageConverters().build();
+
+        byte[] bytes = "91d10225-f393-40e2-90be-92df43581068,VB Hellweg,GENODEM1SOE,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,41460116".getBytes();
+
+        when(repository.getAllRecords()).thenReturn(bytes);
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+            .get(AspspSearchApi.V1_APSPS + "/export")
+            .accept(MediaType.ALL))
+            .andExpect(status().is(HttpStatus.OK.value()))
+            .andReturn();
+
+        byte[] results = mvcResult.getResponse().getContentAsByteArray();
+
+        assertThat(Arrays.equals(results, bytes)).isTrue();
     }
 }

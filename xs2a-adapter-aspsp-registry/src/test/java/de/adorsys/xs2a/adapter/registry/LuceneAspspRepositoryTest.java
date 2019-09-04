@@ -128,24 +128,27 @@ public class LuceneAspspRepositoryTest {
 
     @Test
     public void findAllWithPageSize() {
-        for (int i = 0; i < 21; i++) {
+        Aspsp aspsp1 = new Aspsp();
+        luceneAspspRepository.save(aspsp1);
+
+        Aspsp aspsp2 = new Aspsp();
+        luceneAspspRepository.save(aspsp2);
+
+        Aspsp aspsp3 = new Aspsp();
+        luceneAspspRepository.save(aspsp3);
+
+        Iterable<Aspsp> found = luceneAspspRepository.findAll(2);
+        assertThat(found).hasSize(2);
+    }
+
+    @Test
+    public void findAllWithMaxPageSize() {
+        for (int i = 0; i < 20; i++) {
             luceneAspspRepository.save(new Aspsp());
         }
 
-        Iterable<Aspsp> found = luceneAspspRepository.findAll(Integer.MAX_VALUE);
+        Iterable<Aspsp> found = luceneAspspRepository.findAllMaxPageSize();
         assertThat(found).hasSize(20);
-
-//        Aspsp aspsp1 = new Aspsp();
-//        luceneAspspRepository.save(aspsp1);
-//
-//        Aspsp aspsp2 = new Aspsp();
-//        luceneAspspRepository.save(aspsp2);
-//
-//        Aspsp aspsp3 = new Aspsp();
-//        luceneAspspRepository.save(aspsp3);
-//
-//        Iterable<Aspsp> found = luceneAspspRepository.findAll(2);
-//        assertThat(found).hasSize(2);
     }
 
     @Test
