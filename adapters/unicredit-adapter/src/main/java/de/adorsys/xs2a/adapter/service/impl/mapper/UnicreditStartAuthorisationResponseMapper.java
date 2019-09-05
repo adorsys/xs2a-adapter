@@ -11,9 +11,9 @@ import java.util.Map;
 
 public class UnicreditStartAuthorisationResponseMapper implements UnicreditResponseMapper<UnicreditStartScaProcessResponse, StartScaProcessResponse> {
     private static final Logger LOG = LoggerFactory.getLogger(UnicreditStartAuthorisationResponseMapper.class);
-    private static final String NEXT_LINK = "next";
     private static final String SELECT_AUTHENTICATION_METHOD_LINK = "selectAuthenticationMethod";
     private static final String AUTHORISE_TRANSACTION_LINK = "authoriseTransaction";
+    private static final String AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM = "authenticationCurrentNumber";
 
     private final StartScaProcessResponseUnicreditMapper startScaProcessResponseMapper = new StartScaProcessResponseUnicreditMapper();
     private final UnicreditLinkBuilderService linkBuilderService = new UnicreditLinkBuilderService();
@@ -24,14 +24,16 @@ public class UnicreditStartAuthorisationResponseMapper implements UnicreditRespo
 
         Map<String, Link> links = startScaProcessResponse.getLinks();
 
-        if (links.containsKey(NEXT_LINK)) {
-            if (startScaProcessResponse.isSelectScaMethodStage()) {
-                modifyLinksToActualVersion(links, NEXT_LINK, SELECT_AUTHENTICATION_METHOD_LINK, linkBuilderService::buildUpdatePsuDataUri);
-            } else if (startScaProcessResponse.isChosenScaMethodStage()) {
-                modifyLinksToActualVersion(links, NEXT_LINK, AUTHORISE_TRANSACTION_LINK, linkBuilderService::buildUpdatePsuDataUri);
-            } else {
-                // else - do nothing, as this is an unexpected behaviour for us
-                LOG.warn("Unexpected embedded authorisation stage according to the response body: {}", startScaProcessResponse);
+        if (links.containsKey(AUTHORISE_TRANSACTION_LINK)) {
+            if (links.get(AUTHORISE_TRANSACTION_LINK).getHref().contains(AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM + "=")) {
+                if (startScaProcessResponse.isSelectScaMethodStage()) {
+                    modifyLinksToActualVersion(links, AUTHORISE_TRANSACTION_LINK, SELECT_AUTHENTICATION_METHOD_LINK, linkBuilderService::buildUpdatePsuDataUri);
+                } else if (startScaProcessResponse.isChosenScaMethodStage()) {
+                    modifyLinksToActualVersion(links, AUTHORISE_TRANSACTION_LINK, AUTHORISE_TRANSACTION_LINK, linkBuilderService::buildUpdatePsuDataUri);
+                } else {
+                    // else - do nothing, as this is an unexpected behaviour for us
+                    LOG.warn("Unexpected embedded authorisation stage according to the response body: {}", startScaProcessResponse);
+                }
             }
         }
 

@@ -1,14 +1,12 @@
 package de.adorsys.xs2a.adapter.service.impl.mapper;
 
+import de.adorsys.xs2a.adapter.service.impl.model.UnicreditStartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.model.ScaStatus;
 import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.impl.model.UnicreditStartScaProcessResponse;
-import org.mapstruct.factory.Mappers;
 
 import java.util.Optional;
 
 public class StartScaProcessResponseUnicreditMapper {
-    private final ChallengeDataMapper challengeDataMapper = Mappers.getMapper(ChallengeDataMapper.class);
 
     public StartScaProcessResponse toStartScaProcessResponse(UnicreditStartScaProcessResponse response) {
         return Optional.ofNullable(response)
@@ -19,7 +17,7 @@ public class StartScaProcessResponseUnicreditMapper {
                        startScaProcessResponse.setAuthorisationId(r.getAuthorisationId());
                        startScaProcessResponse.setScaMethods(r.getScaMethods());
                        startScaProcessResponse.setChosenScaMethod(r.getChosenScaMethod());
-                       startScaProcessResponse.setChallengeData(challengeDataMapper.toChallengeData(r.getChallengeData()));
+                       startScaProcessResponse.setChallengeData(r.getChallengeData());
                        startScaProcessResponse.setLinks(r.getLinks());
                        startScaProcessResponse.setPsuMessage(r.getPsuMessage());
 
