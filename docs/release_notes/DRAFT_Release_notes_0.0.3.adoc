@@ -5,9 +5,12 @@
 |Bank Name|approach
 
 |UniCredit Bank|embedded
+|ING bank|n/a
 |===
 
 == Features:
 - Added CREATE, UPDATE and DELETE endpoints to `aspsp-registry`. They are available only with `dev` profile
+- Added a new PSD2 adapter type and AIS interface that provides a unified API for ING and already connected banks.
+- Added feign client for the new AIS.
 
 == Fixes:

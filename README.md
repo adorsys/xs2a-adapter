@@ -70,6 +70,7 @@ Alternative commands:
   	-Dcom.sun.security.enableAIAcaIssuers=true \
   	-Ddkb.token.consumer_key=<key> \
   	-Ddkb.token.consumer_secret=<secret> \
+  	-Dpkcs12.keyStore=<key-store-file>
   	-jar xs2a-adapter-app/target/xs2a-adapter-app.jar
 
 ```
