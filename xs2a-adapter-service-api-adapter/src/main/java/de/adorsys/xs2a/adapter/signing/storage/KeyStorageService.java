@@ -35,8 +35,8 @@ public class KeyStorageService {
     private KeyStorageService() {
         initProperties();
         initKey();
-        initCertificate();
         initAlias();
+        initCertificate();
     }
 
     private void initProperties() {
@@ -61,7 +61,7 @@ public class KeyStorageService {
 
     private void initCertificate() {
         try {
-            certificate = (X509Certificate) keystore.getCertificate("privatekey");
+            certificate = (X509Certificate) keystore.getCertificate(keyAlias);
         } catch (KeyStoreException e) {
             throw new HttpRequestSigningException("Exception during the public key initialisation: " + e);
         }
@@ -92,7 +92,7 @@ public class KeyStorageService {
         if (publicKeyAsString == null) {
             try (StringWriter writer = new StringWriter();
                  JcaPEMWriter pemWriter = new JcaPEMWriter(writer)) {
-                pemWriter.writeObject(keystore.getCertificate(keyAlias));
+                pemWriter.writeObject(certificate);
                 pemWriter.flush();
 
                 publicKeyAsString = writer.toString()
@@ -100,7 +100,7 @@ public class KeyStorageService {
                                             .replace(END_CERTIFICATE_LABEL, "")
                                             .replaceAll(LINE_BREAK_SEPARATOR, "")
                                             .replaceAll(CARRIAGE_RETURN_SEPARATOR, "");
-            } catch (IOException | KeyStoreException e) {
+            } catch (IOException e) {
                 throw new HttpRequestSigningException("Exception during the getting public key as a string: " + e);
             }
         }
