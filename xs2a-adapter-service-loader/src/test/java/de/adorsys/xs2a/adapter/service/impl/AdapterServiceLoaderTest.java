@@ -119,4 +119,12 @@ public class AdapterServiceLoaderTest {
     public void getAccountInformationServiceThrowsIfNotAspspIdentifyingHeadersProvided() {
         adapterServiceLoader.getAccountInformationService(RequestHeaders.fromMap(emptyMap()));
     }
+
+    @Test(expected = AdapterNotFoundException.class)
+    public void getAccountInformationServiceThrowsAdapterNotFoundException() {
+        when(aspspRepository.findById(ASPSP_ID))
+            .thenReturn(Optional.of(new Aspsp()));
+
+        adapterServiceLoader.getAccountInformationService(requestHeadersWithAspspId);
+    }
 }
