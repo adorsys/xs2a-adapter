@@ -13,7 +13,3 @@ ij_visual_guides = 80, 100
 
 [{*.yml, *.yaml, *.json}]
 indent_size = 2
-
-[{Makefile.*, Makefile, makefile, GNUmakefile, *.mk}]
-indent_style = tab
-tab_width = 4
