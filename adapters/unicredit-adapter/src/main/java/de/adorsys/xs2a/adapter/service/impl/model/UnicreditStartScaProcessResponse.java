@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.service.impl.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.adapter.service.model.AuthenticationObject;
+import de.adorsys.xs2a.adapter.service.model.ChallengeData;
 import de.adorsys.xs2a.adapter.service.model.ConsentStatus;
 import de.adorsys.xs2a.adapter.service.model.Link;
 
@@ -13,7 +14,7 @@ public class UnicreditStartScaProcessResponse {
     private String authorisationId;
     private List<AuthenticationObject> scaMethods;
     private AuthenticationObject chosenScaMethod;
-    private UnicreditChallengeData challengeData;
+    private ChallengeData challengeData;
     @JsonProperty("_links")
     private Map<String, Link> links;
     private String psuMessage;
@@ -63,11 +64,11 @@ public class UnicreditStartScaProcessResponse {
         this.chosenScaMethod = chosenScaMethod;
     }
 
-    public UnicreditChallengeData getChallengeData() {
+    public ChallengeData getChallengeData() {
         return challengeData;
     }
 
-    public void setChallengeData(UnicreditChallengeData challengeData) {
+    public void setChallengeData(ChallengeData challengeData) {
         this.challengeData = challengeData;
     }
 
