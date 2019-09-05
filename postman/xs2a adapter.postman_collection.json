@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "56b63300-b5b5-421a-b220-5f030ab50330",
+		"_postman_id": "97b7739a-68d6-48d0-b3a6-c43d11610ce4",
 		"name": "xs2a adapter",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2897,6 +2897,16 @@
 										"key": "TPP-Redirect-URI",
 										"value": "https://example.com",
 										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psuId_AIS}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"value": "{{psuIdType_AIS}}",
+										"type": "text"
 									}
 								],
 								"body": {
@@ -3041,6 +3051,11 @@
 										"key": "X-GTW-ASPSP-ID",
 										"value": "{{aspspId}}",
 										"type": "text"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"value": "{{psuIdType_AIS}}",
+										"type": "text"
 									}
 								],
 								"body": {
@@ -3146,6 +3161,16 @@
 										"key": "Content-Type",
 										"name": "Content-Type",
 										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psuId_AIS}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"value": "{{psuIdType_AIS}}",
 										"type": "text"
 									}
 								],
@@ -3491,18 +3516,21 @@
 									"",
 									"if (links.oauthConsent) {",
 									"    postman.setNextRequest(\"/oauth2/authorization-request-uri\");",
-									"} else if (links.startAuthorisationWithPsuAuthentication) {",
-									"    postman.setNextRequest(\"startAuthorisationWithPsuAuthentication\");",
 									"} else if (links.scaRedirect) {",
 									"    pm.globals.set(\"scaRedirect\", links.scaRedirect.href);",
 									"    postman.setNextRequest(\"scaRedirect\");",
-									"} else if (links.updatePsuAuthentication) {",
+									"} else if (links.startAuthorisationWithPsuAuthentication && pm.info.requestName !== \"startAuthorisationWithPsuAuthentication\") {",
+									"    postman.setNextRequest(\"startAuthorisationWithPsuAuthentication\");",
+									"}  else if (links.updatePsuAuthentication && pm.info.requestName !== \"updatePsuAuthentication\") {",
 									"    let matches = links.updatePsuAuthentication.href.match(/authorisations\\/(.+)/);",
 									"    pm.globals.set(\"authorisationId\", matches[1]);",
 									"    postman.setNextRequest(\"updatePsuAuthentication\");",
-									"} else if (links.selectAuthenticationMethod) {",
+									"} else if (links.selectAuthenticationMethod && pm.info.requestName !== \"selectAuthenticationMethod\") {",
 									"    let selectAuthenticationMethodUri = links.selectAuthenticationMethod.href;",
 									"    pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());",
+									"    postman.setNextRequest(\"selectAuthenticationMethod\");",
+									"} else if (links.authoriseTransaction && pm.info.requestName !== \"authoriseTransaction\") {",
+									"    postman.setNextRequest(\"authoriseTransaction\");",
 									"}"
 								]
 							}
