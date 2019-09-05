@@ -6,10 +6,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StringUri {
+    private static final String SPACE = " ";
+    private static final String ENCODED_SPACE = "%20";
 
     public static String fromElements(String... elements) {
         return Arrays.stream(elements)
                 .map(StringUri::trimUri)
+                .map(StringUri::formatUri)
                 .collect(Collectors.joining("/"));
     }
 
@@ -58,5 +61,9 @@ public class StringUri {
         }
 
         return queryParams;
+    }
+
+    private static String formatUri(String uri) {
+        return uri.replace(SPACE, ENCODED_SPACE);
     }
 }
