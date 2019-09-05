@@ -99,6 +99,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         BadRequestException.class,
         AspspRegistrationException.class,
         AspspRegistrationNotFoundException.class,
+        AdapterNotFoundException.class,
         IbanException.class
     })
     ResponseEntity<Object> handleAsBadRequest(Exception exception) {
