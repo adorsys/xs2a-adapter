@@ -1,6 +1,5 @@
-package adapter.service.impl.service;
+package de.adorsys.xs2a.adapter.service.impl.service;
 
-import de.adorsys.xs2a.adapter.service.impl.service.UnicreditLinkBuilderService;
 import org.junit.Before;
 import org.junit.Test;
 
