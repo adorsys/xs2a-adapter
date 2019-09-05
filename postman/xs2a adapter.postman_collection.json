@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b0749478-8fb2-4bf3-9630-c074c5ae88f6",
+		"_postman_id": "56b63300-b5b5-421a-b220-5f030ab50330",
 		"name": "xs2a adapter",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2812,12 +2812,7 @@
 									"script": {
 										"id": "f4ac69de-a30e-4afd-a445-822601a8c1b9",
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"var jsonData = pm.response.json();",
-											"pm.globals.set(\"aspspId\", jsonData[0].id);"
+											"pm.globals.set(\"aspspId\", pm.response.json()[0].id);"
 										],
 										"type": "text/javascript"
 									}
@@ -2853,27 +2848,8 @@
 									"script": {
 										"id": "356e187e-1fbe-4dec-b2d6-cb7a25feb9cf",
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
 											"pm.globals.set(\"consentId\", pm.response.json().consentId);",
-											"",
-											"let links = pm.response.json()._links;",
-											"if (links.oauthConsent) {",
-											"    postman.setNextRequest(\"/oauth2/authorization-request-uri\");",
-											"} else if (links.startAuthorisationWithPsuAuthentication) {",
-											"    postman.setNextRequest(\"startAuthorisationWithPsuAuthentication\");",
-											"} else if (links.scaRedirect) {",
-											"    pm.globals.set(\"scaRedirect\", links.scaRedirect.href);",
-											"    postman.setNextRequest(\"scaRedirect\");",
-											"} else if (links.updatePsuAuthentication) {",
-											"    let matches = links.updatePsuAuthentication.href.match(/authorisations\\/(.+)/);",
-											"    pm.globals.set(\"authorisationId\", matches[1]);",
-											"    postman.setNextRequest(\"updatePsuAuthentication\");",
-											"} else {",
-											"    throw \"Unexpected SCA approach\";",
-											"}"
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -2947,9 +2923,7 @@
 									"script": {
 										"id": "b16907b6-9767-4a8d-8060-d0d6e2cd6dbb",
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});"
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -2995,10 +2969,6 @@
 									"script": {
 										"id": "7e0253ed-1d20-4b48-89ab-06e3f2778ad9",
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
 											"pm.globals.set(\"access_token\",  pm.response.json().access_token);",
 											"postman.setNextRequest(\"/accounts\");"
 										],
@@ -3042,15 +3012,6 @@
 									"script": {
 										"id": "853e6f55-ac06-452c-bc23-c65e9a7db516",
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"let links = pm.response.json()._links;",
-											"if (links.selectAuthenticationMethod) {",
-											"    let selectAuthenticationMethodUri = links.selectAuthenticationMethod.href;",
-											"    pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());",
-											"}",
 											""
 										],
 										"type": "text/javascript"
@@ -3109,10 +3070,6 @@
 									"script": {
 										"id": "29966bea-2da5-4ef3-b1dc-502b3c3a5ecf",
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
 											""
 										],
 										"type": "text/javascript"
@@ -3166,10 +3123,6 @@
 									"script": {
 										"id": "29966bea-2da5-4ef3-b1dc-502b3c3a5ecf",
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
 											"postman.setNextRequest(\"/accounts\");"
 										],
 										"type": "text/javascript"
@@ -3216,6 +3169,69 @@
 							"response": []
 						},
 						{
+							"name": "updatePsuAuthentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7ae7e14f-31f0-45c2-9004-47a64d28fe92",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"type": "text",
+										"value": "{{aspspId}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{$guid}}"
+									},
+									{
+										"key": "PSU-ID",
+										"type": "text",
+										"value": "{{psuId_AIS}}"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"type": "text",
+										"value": "{{psuIdType_AIS}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_AIS}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/consents/{{consentId}}/authorisations/{{authorisationId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"consents",
+										"{{consentId}}",
+										"authorisations",
+										"{{authorisationId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "scaRedirect",
 							"event": [
 								{
@@ -3223,9 +3239,6 @@
 									"script": {
 										"id": "3620d4f5-d0c3-410c-ae18-a953317608ec",
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
 											"pm.test(\"Consent status has changed to valid\", function () {",
 											"    pm.expect(pm.response.text()).to.include(\"The consent status has changed to: valid\");",
 											"});",
@@ -3262,10 +3275,6 @@
 									"script": {
 										"id": "57a221c8-46cc-4628-a766-a4dda1b90cb2",
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
 											"pm.globals.set(\"accountId\", pm.response.json().accounts[0].resourceId);"
 										],
 										"type": "text/javascript"
@@ -3327,9 +3336,7 @@
 									"script": {
 										"id": "84e901d5-49a2-416d-8bcb-00b59a7b294e",
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});"
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -3401,9 +3408,7 @@
 									"script": {
 										"id": "ae1e66df-305c-4f13-b6f9-a79f60fc8552",
 										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});"
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -3447,71 +3452,6 @@
 								}
 							},
 							"response": []
-						},
-						{
-							"name": "updatePsuAuthentication",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "7ae7e14f-31f0-45c2-9004-47a64d28fe92",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"type": "text",
-										"value": "application/json"
-									},
-									{
-										"key": "X-GTW-ASPSP-ID",
-										"type": "text",
-										"value": "{{aspspId}}"
-									},
-									{
-										"key": "X-Request-ID",
-										"type": "text",
-										"value": "{{$guid}}"
-									},
-									{
-										"key": "PSU-ID",
-										"type": "text",
-										"value": "{{psuId_AIS}}"
-									},
-									{
-										"key": "PSU-ID-Type",
-										"type": "text",
-										"value": "{{psuIdType_AIS}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_AIS}}\"\n    }\n}"
-								},
-								"url": {
-									"raw": "{{baseUri}}/consents/{{consentId}}/authorisations/{{authorisationId}}",
-									"host": [
-										"{{baseUri}}"
-									],
-									"path": [
-										"consents",
-										"{{consentId}}",
-										"authorisations",
-										"{{authorisationId}}"
-									]
-								}
-							},
-							"response": []
 						}
 					],
 					"event": [
@@ -3535,7 +3475,35 @@
 								"id": "17e1c850-e121-4b76-952e-4e174832808f",
 								"type": "text/javascript",
 								"exec": [
-									""
+									"if (pm.response.code >= 400) {",
+									"    postman.setNextRequest(null);",
+									"}",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"if (pm.response.contentInfo().mimeFormat !== \"json\") return;",
+									"",
+									"let links = pm.response.json()._links;",
+									"",
+									"if (!links) return;",
+									"",
+									"if (links.oauthConsent) {",
+									"    postman.setNextRequest(\"/oauth2/authorization-request-uri\");",
+									"} else if (links.startAuthorisationWithPsuAuthentication) {",
+									"    postman.setNextRequest(\"startAuthorisationWithPsuAuthentication\");",
+									"} else if (links.scaRedirect) {",
+									"    pm.globals.set(\"scaRedirect\", links.scaRedirect.href);",
+									"    postman.setNextRequest(\"scaRedirect\");",
+									"} else if (links.updatePsuAuthentication) {",
+									"    let matches = links.updatePsuAuthentication.href.match(/authorisations\\/(.+)/);",
+									"    pm.globals.set(\"authorisationId\", matches[1]);",
+									"    postman.setNextRequest(\"updatePsuAuthentication\");",
+									"} else if (links.selectAuthenticationMethod) {",
+									"    let selectAuthenticationMethodUri = links.selectAuthenticationMethod.href;",
+									"    pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());",
+									"}"
 								]
 							}
 						}
