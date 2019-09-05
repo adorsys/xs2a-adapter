@@ -1,8 +1,9 @@
-package de.adorsys.xs2a.adapter.service.impl.mapper;
+package adapter.service.impl.mapper;
 
+import de.adorsys.xs2a.adapter.service.impl.mapper.ScaStatusMapper;
+import de.adorsys.xs2a.adapter.service.model.ConsentStatus;
 import de.adorsys.xs2a.adapter.service.model.ScaStatus;
 import de.adorsys.xs2a.adapter.service.model.TransactionStatus;
-import de.adorsys.xs2a.adapter.service.model.ConsentStatus;
 import org.junit.Before;
 import org.junit.Test;
 
