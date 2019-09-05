@@ -2897,6 +2897,16 @@
 										"key": "TPP-Redirect-URI",
 										"value": "https://example.com",
 										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psuId_AIS}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"value": "{{psuIdType_AIS}}",
+										"type": "text"
 									}
 								],
 								"body": {
@@ -3041,6 +3051,11 @@
 										"key": "X-GTW-ASPSP-ID",
 										"value": "{{aspspId}}",
 										"type": "text"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"value": "{{psuIdType_AIS}}",
+										"type": "text"
 									}
 								],
 								"body": {
@@ -3146,6 +3161,16 @@
 										"key": "Content-Type",
 										"name": "Content-Type",
 										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psuId_AIS}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"value": "{{psuIdType_AIS}}",
 										"type": "text"
 									}
 								],
