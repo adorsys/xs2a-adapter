@@ -6,12 +6,12 @@ import de.adorsys.xs2a.adapter.config.RestExceptionHandler;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.model.ConsentStatusTO;
 import de.adorsys.xs2a.adapter.model.ConsentsResponse201TO;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
+import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -79,8 +79,8 @@ public class ConsentControllerTest {
                                       .andExpect(status().is(HttpStatus.CREATED.value()))
                                       .andReturn();
 
-        ConsentsResponse201TO response201 = JsonReader.getInstance().getObjectFromString(mvcResult.getResponse().getContentAsString()
-                , ConsentsResponse201TO.class);
+        ConsentsResponse201TO response201 = JsonReader.getInstance()
+            .getObjectFromString(mvcResult.getResponse().getContentAsString(), ConsentsResponse201TO.class);
 
         assertThat(response201.getConsentId()).isEqualTo(TestModelBuilder.CONSTENT_ID);
         assertThat(response201.getMessage()).isEqualTo(TestModelBuilder.MESSAGE);
@@ -105,7 +105,7 @@ public class ConsentControllerTest {
     }
 
     @Test
-    public void getTransactionWithoutBookingStatusParamRespondsWithBadRequestAndClearErrorMessage()  throws Exception{
+    public void getTransactionWithoutBookingStatusParamRespondsWithBadRequestAndClearErrorMessage() throws Exception {
         mockMvc.perform(get("/v1/accounts/resource-id/transactions"))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.tppMessages[0].text").value("Required parameter 'bookingStatus' is missing"));
