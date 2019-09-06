@@ -3,9 +3,9 @@ package de.adorsys.xs2a.adapter.registry;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import de.adorsys.xs2a.adapter.registry.mapper.AspspMapper;
 import de.adorsys.xs2a.adapter.service.AspspCsvService;
-import org.apache.lucene.store.ByteBuffersDirectory;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
+import org.mockito.Mock;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -14,8 +14,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AspspCsvServiceImplTest {
 
-    private LuceneAspspRepository luceneAspspRepository = new LuceneAspspRepository(new ByteBuffersDirectory());
+    @Mock
+    private LuceneAspspRepository luceneAspspRepository;
     private AspspCsvService aspspCsvService = new AspspCsvServiceImpl(luceneAspspRepository);
+
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
     @Test

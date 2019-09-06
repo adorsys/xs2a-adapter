@@ -70,7 +70,7 @@ public class RestConfiguration {
     }
 
     @Bean
-    AspspCsvService aspspCsvService() {
-        return new AspspCsvServiceImpl(new LuceneAspspRepositoryFactory().newLuceneAspspRepository());
+    AspspCsvService aspspCsvService(AspspRepository aspspRepository) {
+        return new AspspCsvServiceImpl(aspspRepository);
     }
 }

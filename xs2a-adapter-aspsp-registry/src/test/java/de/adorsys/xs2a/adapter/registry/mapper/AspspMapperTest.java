@@ -11,16 +11,19 @@ public class AspspMapperTest {
 
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
+    private static final String ID = "42";
+    private static final String ADAPTER_ID = "test-adapter";
+
     @Test
     public void toAspspCsvRecord() {
         Aspsp aspsp = new Aspsp();
-        aspsp.setId("42");
-        aspsp.setAdapterId("test-adapter");
+        aspsp.setId(ID);
+        aspsp.setAdapterId(ADAPTER_ID);
 
         AspspCsvRecord aspspCsvRecord = aspspMapper.toAspspCsvRecord(aspsp);
 
         assertThat(aspspCsvRecord).isNotNull();
-        assertThat(aspspCsvRecord).hasFieldOrPropertyWithValue("id", "42");
-        assertThat(aspspCsvRecord).hasFieldOrPropertyWithValue("adapterId", "test-adapter");
+        assertThat(aspspCsvRecord.getId()).isEqualTo(ID);
+        assertThat(aspspCsvRecord.getAdapterId()).isEqualTo(ADAPTER_ID);
     }
 }

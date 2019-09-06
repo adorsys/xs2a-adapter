@@ -6,24 +6,29 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import de.adorsys.xs2a.adapter.registry.mapper.AspspMapper;
 import de.adorsys.xs2a.adapter.service.AspspCsvService;
+import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class AspspCsvServiceImpl implements AspspCsvService {
 
-    private LuceneAspspRepository luceneAspspRepository;
+    private final Logger LOG = LoggerFactory.getLogger(AspspCsvServiceImpl.class.getName());
+
+    private AspspRepository aspspRepository;
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
-    public AspspCsvServiceImpl(LuceneAspspRepository luceneAspspRepository) {
-        this.luceneAspspRepository = luceneAspspRepository;
+    public AspspCsvServiceImpl(AspspRepository aspspRepository) {
+        this.aspspRepository = aspspRepository;
     }
 
     @Override
     public byte[] exportCsv() {
-        List<Aspsp> storage = luceneAspspRepository.findAll();
+        List<Aspsp> storage = aspspRepository.findAll();
 
         return storage
             .stream()
@@ -52,8 +57,8 @@ public class AspspCsvServiceImpl implements AspspCsvService {
         try {
             return mapper.writer(schema).writeValueAsString(aspsp);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return "Exception occurred";
+            LOG.warn("Exception occurred while indexes writing into a CSV" + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 }

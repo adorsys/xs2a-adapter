@@ -19,7 +19,6 @@ public interface AspspMapper {
     })
     Aspsp toAspsp(AspspCsvRecord aspspCsvRecord);
 
-
     @Mapping(source = "name", target = "aspspName")
     AspspCsvRecord toAspspCsvRecord(Aspsp aspsp);
 }

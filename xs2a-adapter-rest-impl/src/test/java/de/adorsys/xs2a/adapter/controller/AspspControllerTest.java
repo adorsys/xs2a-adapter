@@ -130,8 +130,7 @@ public class AspspControllerTest {
         when(aspspCsvService.exportCsv()).thenReturn(bytes);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-            .get(AspspSearchApi.V1_APSPS + "/export")
-            .accept(MediaType.ALL))
+            .get(AspspSearchApi.V1_APSPS + "/export"))
             .andExpect(status().is(HttpStatus.OK.value()))
             .andReturn();
 
