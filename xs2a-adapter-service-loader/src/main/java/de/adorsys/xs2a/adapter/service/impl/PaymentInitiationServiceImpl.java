@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.loader.AdapterServiceLoader;
 import de.adorsys.xs2a.adapter.service.model.*;
 
 public class PaymentInitiationServiceImpl implements PaymentInitiationService {

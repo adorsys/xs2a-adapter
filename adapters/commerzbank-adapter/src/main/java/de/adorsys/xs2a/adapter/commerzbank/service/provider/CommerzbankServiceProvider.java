@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.service.provider;
+package de.adorsys.xs2a.adapter.commerzbank.service.provider;
 
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.CommerzbankAccountInformationService;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.AccountInformationService;
+import de.adorsys.xs2a.adapter.commerzbank.service.CommerzbankAccountInformationService;
+import de.adorsys.xs2a.adapter.commerzbank.service.CommerzbankOauth2Service;
+import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
+import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 
-public class CommerzbankServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+public class CommerzbankServiceProvider
+    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceFactory {
 
     @Override
     public AccountInformationService getAccountInformationService(String baseUrl) {
@@ -36,5 +39,10 @@ public class CommerzbankServiceProvider implements AccountInformationServiceProv
     @Override
     public String getAdapterId() {
         return "commerzbank-adapter";
+    }
+
+    @Override
+    public Oauth2Service getOauth2Service(String baseUrl, Pkcs12KeyStore keyStore) {
+        return new CommerzbankOauth2Service(baseUrl);
     }
 }

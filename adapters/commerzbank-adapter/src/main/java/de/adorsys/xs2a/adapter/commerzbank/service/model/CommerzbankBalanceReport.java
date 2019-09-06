@@ -1,4 +1,6 @@
-package de.adorsys.xs2a.adapter.service.model;
+package de.adorsys.xs2a.adapter.commerzbank.service.model;
+
+import de.adorsys.xs2a.adapter.service.model.AccountReference;
 
 import java.util.List;
 

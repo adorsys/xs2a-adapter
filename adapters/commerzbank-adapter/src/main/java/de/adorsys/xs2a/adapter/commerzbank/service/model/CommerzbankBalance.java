@@ -1,4 +1,7 @@
-package de.adorsys.xs2a.adapter.service.model;
+package de.adorsys.xs2a.adapter.commerzbank.service.model;
+
+import de.adorsys.xs2a.adapter.service.model.Amount;
+import de.adorsys.xs2a.adapter.service.model.BalanceType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

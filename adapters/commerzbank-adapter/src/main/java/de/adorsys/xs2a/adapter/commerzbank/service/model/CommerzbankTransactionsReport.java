@@ -1,6 +1,9 @@
-package de.adorsys.xs2a.adapter.service.model;
+package de.adorsys.xs2a.adapter.commerzbank.service.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.adorsys.xs2a.adapter.service.model.AccountReference;
+import de.adorsys.xs2a.adapter.service.model.AccountReport;
+import de.adorsys.xs2a.adapter.service.model.Link;
 
 import java.util.List;
 import java.util.Map;
