@@ -8,7 +8,7 @@ import java.util.EnumMap;
 
 // Workaround for Berlin Group 1.1, as there is no Authorisation (SCA) as a separate model.
 // That's why we get consent status and have to map it to SCA status.
-class ScaStatusMapper {
+public class ScaStatusMapper {
     private static final EnumMap<ConsentStatus, ScaStatus> CONSENT_STATUS_TO_SCA_STATUS = new EnumMap<>(ConsentStatus.class);
     private static final EnumMap<TransactionStatus, ScaStatus> TRANSACTION_STATUS_TO_SCA_STATUS = new EnumMap<>(TransactionStatus.class);
 
@@ -36,7 +36,7 @@ class ScaStatusMapper {
         TRANSACTION_STATUS_TO_SCA_STATUS.put(TransactionStatus.CANC, ScaStatus.FAILED);
     }
 
-    ScaStatus toScaStatus(ConsentStatus consentStatus) {
+    public ScaStatus toScaStatus(ConsentStatus consentStatus) {
         ScaStatus scaStatus = CONSENT_STATUS_TO_SCA_STATUS.get(consentStatus);
 
         if (scaStatus == null) {
@@ -46,7 +46,7 @@ class ScaStatusMapper {
         return scaStatus;
     }
 
-    ScaStatus toScaStatus(TransactionStatus transactionStatus) {
+    public ScaStatus toScaStatus(TransactionStatus transactionStatus) {
         ScaStatus scaStatus = TRANSACTION_STATUS_TO_SCA_STATUS.get(transactionStatus);
 
         if (scaStatus == null) {

@@ -38,7 +38,6 @@ import java.util.Map;
 
 @RestController
 public class ConsentController extends AbstractController implements AccountApi {
-    public static String CONSENTS = "/v1/consents";
     private final HeadersMapper headersMapper;
 
     private final AccountInformationServiceImpl accountInformationService;

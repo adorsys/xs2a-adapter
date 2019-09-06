@@ -6,12 +6,13 @@ import de.adorsys.xs2a.adapter.config.RestExceptionHandler;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.model.ConsentStatusTO;
 import de.adorsys.xs2a.adapter.model.ConsentsResponse201TO;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.ResponseHeaders;
+import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
 import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
+import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -22,7 +23,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pro.javatar.commons.reader.JsonReader;
 
@@ -30,10 +30,12 @@ import java.util.Collections;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -70,8 +72,7 @@ public class ConsentControllerTest {
                 .thenReturn(new Response<>(HTTP_CODE_200, response, ResponseHeaders.fromMap(Collections.emptyMap())));
         when(headersMapper.toHttpHeaders(any()))
                 .thenReturn(new HttpHeaders());
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                                                      .post(ConsentController.CONSENTS)
+        MvcResult mvcResult = mockMvc.perform(post(ConsentController.CONSENTS)
                                                       .header(RequestHeaders.X_GTW_ASPSP_ID, "db")
                                                       .header(RequestHeaders.X_REQUEST_ID, UUID.randomUUID())
                                                       .contentType(APPLICATION_JSON_UTF8_VALUE)
@@ -79,8 +80,8 @@ public class ConsentControllerTest {
                                       .andExpect(status().is(HttpStatus.CREATED.value()))
                                       .andReturn();
 
-        ConsentsResponse201TO response201 = JsonReader.getInstance().getObjectFromString(mvcResult.getResponse().getContentAsString()
-                , ConsentsResponse201TO.class);
+        ConsentsResponse201TO response201 = JsonReader.getInstance()
+            .getObjectFromString(mvcResult.getResponse().getContentAsString(), ConsentsResponse201TO.class);
 
         assertThat(response201.getConsentId()).isEqualTo(TestModelBuilder.CONSTENT_ID);
         assertThat(response201.getMessage()).isEqualTo(TestModelBuilder.MESSAGE);
@@ -96,8 +97,7 @@ public class ConsentControllerTest {
         when(accountInformationService.createConsent(any(), any()))
                 .thenThrow(new AspspRegistrationNotFoundException(""));
 
-        mockMvc.perform(MockMvcRequestBuilders
-                                .post(ConsentController.CONSENTS)
+        mockMvc.perform(post(ConsentController.CONSENTS)
                                 .contentType(APPLICATION_JSON_UTF8_VALUE)
                                 .content("{}"))
                 .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))
@@ -105,9 +105,25 @@ public class ConsentControllerTest {
     }
 
     @Test
-    public void getTransactionWithoutBookingStatusParamRespondsWithBadRequestAndClearErrorMessage()  throws Exception{
+    public void getTransactionWithoutBookingStatusParamRespondsWithBadRequestAndClearErrorMessage() throws Exception {
         mockMvc.perform(get("/v1/accounts/resource-id/transactions"))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.tppMessages[0].text").value("Required parameter 'bookingStatus' is missing"));
+    }
+
+    @Test
+    public void createConsentsRespondsWithBadRequestIfAdapterNotFound() throws Exception {
+        String adpaterId = "test-psd2-adapter";
+
+        when(accountInformationService.createConsent(any(), any()))
+            .thenThrow(new AdapterNotFoundException(adpaterId));
+
+        mockMvc.perform(post(ConsentController.CONSENTS)
+                .header(RequestHeaders.X_GTW_ASPSP_ID, adpaterId)
+                .header(RequestHeaders.X_REQUEST_ID, UUID.randomUUID())
+                .contentType(APPLICATION_JSON_UTF8_VALUE)
+                .content("{}"))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.tppMessages[0].text", containsString(adpaterId)));
     }
 }

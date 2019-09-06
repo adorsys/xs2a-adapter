@@ -67,8 +67,8 @@ public class AspspControllerTest {
                                   .andExpect(status().is(HttpStatus.CREATED.value()))
                                   .andReturn();
 
-        AspspTO response = JsonReader.getInstance().getObjectFromString(mvcResult.getResponse().getContentAsString()
-            , AspspTO.class);
+        AspspTO response = JsonReader.getInstance()
+            .getObjectFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
         String location = mvcResult.getResponse().getHeader("Location");
 
         assertThat(location).endsWith("/" + id);
@@ -95,8 +95,8 @@ public class AspspControllerTest {
                                   .andExpect(status().is(HttpStatus.OK.value()))
                                   .andReturn();
 
-        AspspTO response = JsonReader.getInstance().getObjectFromString(mvcResult.getResponse().getContentAsString()
-            , AspspTO.class);
+        AspspTO response = JsonReader.getInstance()
+            .getObjectFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
 
         assertThat(response.getId()).isEqualTo(aspsp.getId());
         assertThat(response.getBic()).isEqualTo(aspsp.getBic());

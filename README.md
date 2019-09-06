@@ -23,84 +23,43 @@ The XS2A Adapter is a service component for Multi-Banking Applications. On one h
 ![High level architecture](docs/img/high%20level%20architecture.png)
 
 ## Running the XS2A Adapter
-0.For build and run xs2a-adapter requires GNU Make to be installed on your local machine. Please, make sure it is installed.
 
-1.Download the project and go to the project directory:
+1. Download the project and go to the project directory:
 
-```sh
-> git clone https://github.com/adorsys/xs2a-adapter
-> cd xs2a-adapter
-```
+    ```sh
+    > git clone https://github.com/adorsys/xs2a-adapter
+    > cd xs2a-adapter
+    ```
 
-2.This xs2a adapter runs with the docker and [Makefile](Makefile).
-But before you run this, first of all you should check if all build dependencies are installed:
+2. Build and run the project
 
-```sh
-> make check
-```
+    ```bash
+    > mvn clean package
+    > java \
+        -Djavax.net.ssl.keyStoreType=pkcs12 \
+        -Djavax.net.ssl.keyStore=<certificate-file> \
+        -Djavax.net.ssl.keyStorePassword=<certificate-password> \
+        -Dcom.sun.security.enableAIAcaIssuers=true \
+        -Ddkb.token.consumer_key=<key> \
+        -Ddkb.token.consumer_secret=<secret> \
+        -Dpkcs12.keyStore=<key-store-file>
+        -jar xs2a-adapter-app/target/xs2a-adapter-app.jar
+    
+    ```
 
-If something is missing, install it to your local machine, otherwise the build will fail. 
-List of dependencies that are required to use XS2A Adapter: **Java 8**, **nodeJs**, **docker**, **maven**, **newman**.
-Here are links where you can install needed dependencies:
+3. Open [xs2a-adapter swagger page](http://localhost:8999/swagger-ui.html) to get more details about REST Api.
 
-| Dependency         | Link                                    |                                                     
-|--------------------|-----------------------------------------|
-| Java 8             | https://openjdk.java.net/install/       | 
-| Node.js            | https://nodejs.org/en/download          | 
-| Docker 1.17        | https://www.docker.com/get-started      |
-| Maven 3.5          | https://maven.apache.org/download.cgi   |
-| Newman             | https://www.npmjs.com/package/newman    |
+4. Run postman tests for AIS and PIS flows:
 
-3.Build and run the project with Makefile:
-```text
- <certificate-file>, <certificate-password>, <key> and <secret> placeholders should be replaced by real values
-
-``` 
-
-```sh 
-> make run
-```
-Alternative commands:
-```bash
-> mvn clean package
-> 	java \
-  	-Djavax.net.ssl.keyStoreType=pkcs12 \
-  	-Djavax.net.ssl.keyStore=<certificate-file> \
-  	-Djavax.net.ssl.keyStorePassword=<certificate-password> \
-  	-Dcom.sun.security.enableAIAcaIssuers=true \
-  	-Ddkb.token.consumer_key=<key> \
-  	-Ddkb.token.consumer_secret=<secret> \
-  	-jar xs2a-adapter-app/target/xs2a-adapter-app.jar
-
-```
-
-4.Open [xs2a-adapter swagger page](http://localhost:8999/swagger-ui.html) to get more details about REST Api.
-
-6.Run postman tests for AIS and PIS flows against XS2ASandbox:
-  
-```sh 
-> make test
-```
-Alternative commands:
-```bash
-> newman run postman/xs2a\ adapter.postman_collection.json \
-        -d postman/adapters.postman_data.json \
-        --globals postman/postman_globals_local.json \
-        --folder AIS \
-        --folder sepa-credit-transfers \
-        --folder pain.001-sepa-credit-transfers \
-        --timeout-request 3000
-```
-
-6.Stop & clean the project with Makefile:
-  
-```sh 
-> make clean
-```
-Alternative commands:
-```bash
-> mvn clean
-```
+    ```bash
+    > newman run postman/xs2a\ adapter.postman_collection.json \
+            -d postman/adapters.postman_data.json \
+            --globals postman/postman_globals_local.json \
+            --folder AIS \
+            --folder sepa-credit-transfers \
+            --folder pain.001-sepa-credit-transfers \
+            --timeout-request 3000
+    ```
 
 ## How to write your own bank adapter
 Read this short [guideline](/docs/Adapter.md) to get more details
@@ -124,10 +83,10 @@ but only as a pre-request.
  For testing API of xs2a it is used Postman https://www.getpostman.com/
  Environment jsons with global parameter’s sets and Collections of jsons for imitation of processes flows are stored in /postman folder.
  To import Postman collections and environments follow next steps:
- 1.     Download Postman jsons with collections and environments to your local machine.
- 2.     Open Postman, press button “Import”.
- 3.     Choose “Import file” to import one json or “Import folder” to import all jsons within the folder, then press button “Choose Files” or “Choose Folders” and open necessary files/folders.
- 4.     To change settings of environments - go to “Manage Environments”, press the environment name and change variables.
+ 1. Download Postman jsons with collections and environments to your local machine.
+ 2. Open Postman, press button “Import”.
+ 3. Choose “Import file” to import one json or “Import folder” to import all jsons within the folder, then press button “Choose Files” or “Choose Folders” and open necessary files/folders.
+ 4. To change settings of environments - go to “Manage Environments”, press the environment name and change variables.
  
  To start testing with Postman collections it is necessary to have all services running.
  

@@ -11,7 +11,7 @@ public class StringUriTest {
         String uri = StringUri.fromElements("/a", "b/", "/c/");
         assertThat(uri).isEqualTo("a/b/c");
 
-        uri = StringUri.fromElements("/d/","e","/f/","g/");
+        uri = StringUri.fromElements("/d/", "e", "/f/", "g/");
         assertThat(uri).isEqualTo("d/e/f/g");
     }
 }
