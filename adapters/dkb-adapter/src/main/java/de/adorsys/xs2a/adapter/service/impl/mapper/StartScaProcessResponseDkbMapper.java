@@ -16,19 +16,12 @@
 
 package de.adorsys.xs2a.adapter.service.impl.mapper;
 
-import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbStartScaProcessResponse;
+import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
 import org.mapstruct.Mapper;
 
-import java.util.Collections;
-import java.util.List;
-
-@Mapper
-public interface StartScaProcessResponseMapper {
+@Mapper(uses = ChallengeDataDkbMapper.class)
+public interface StartScaProcessResponseDkbMapper {
 
     StartScaProcessResponse toStartScaProcessResponse(DkbStartScaProcessResponse response);
-
-    default List<String> toListOfString(String str) {
-        return Collections.singletonList(str);
-    }
 }

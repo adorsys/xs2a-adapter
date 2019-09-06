@@ -16,19 +16,12 @@
 
 package de.adorsys.xs2a.adapter.service.impl.mapper;
 
-import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbConsentCreationResponse;
+import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import org.mapstruct.Mapper;
 
-import java.util.Collections;
-import java.util.List;
-
-@Mapper
-public interface ConsentCreationResponseMapper {
+@Mapper(uses = ChallengeDataDkbMapper.class)
+public interface ConsentCreationResponseDkbMapper {
 
     ConsentCreationResponse toConsentCreationResponse(DkbConsentCreationResponse response);
-
-    default List<String> toListOfString(String str) {
-        return Collections.singletonList(str);
-    }
 }
