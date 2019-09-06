@@ -20,11 +20,11 @@ import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.impl.mapper.ConsentCreationResponseDkbMapper;
+import de.adorsys.xs2a.adapter.service.impl.mapper.StartScaProcessResponseDkbMapper;
 import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.model.Consents;
-import de.adorsys.xs2a.adapter.service.impl.mapper.ConsentCreationResponseMapper;
-import de.adorsys.xs2a.adapter.service.impl.mapper.StartScaProcessResponseMapper;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbStartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
@@ -33,8 +33,8 @@ import org.mapstruct.factory.Mappers;
 import java.util.Map;
 
 public class DkbAccountInformationService extends BaseAccountInformationService {
-    private final StartScaProcessResponseMapper startScaProcessResponseMapper = Mappers.getMapper(StartScaProcessResponseMapper.class);
-    private final ConsentCreationResponseMapper creationResponseMapper = Mappers.getMapper(ConsentCreationResponseMapper.class);
+    private final StartScaProcessResponseDkbMapper startScaProcessResponseMapper = Mappers.getMapper(StartScaProcessResponseDkbMapper.class);
+    private final ConsentCreationResponseDkbMapper creationResponseMapper = Mappers.getMapper(ConsentCreationResponseDkbMapper.class);
     private AccessTokenService accessService;
 
     public DkbAccountInformationService(String baseUri, AccessTokenService accessService) {
