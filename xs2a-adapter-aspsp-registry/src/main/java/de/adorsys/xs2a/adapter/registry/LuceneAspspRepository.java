@@ -13,7 +13,6 @@ import org.apache.lucene.store.Directory;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -222,25 +221,5 @@ public class LuceneAspspRepository implements AspspRepository {
             queryBuilder.add(getBankCodeQuery(aspsp.getBankCode()), BooleanClause.Occur.SHOULD);
         }
         return find(queryBuilder.build(), after, size);
-    }
-
-    @Override
-    public byte[] getAllRecords() {
-        List<Aspsp> storage = findAllMaxPageSize();
-
-        return storage.stream()
-            .map(this::toCsvString)
-            .collect(Collectors.joining("\n"))
-            .getBytes();
-    }
-
-
-    private String toCsvString(Aspsp aspsp) {
-        return aspsp.getId() + "," + checkStringForSpecialSymbol(aspsp.getName(), ",") + "," + aspsp.getBic() + "," + aspsp.getUrl() + ","
-            + aspsp.getAdapterId() + "," + aspsp.getBankCode();
-    }
-
-    private String checkStringForSpecialSymbol(String target, String symbol) {
-        return target.contains(symbol) ? "\"" + target + "\"" : target;
     }
 }

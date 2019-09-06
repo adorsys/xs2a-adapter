@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.api.AspspSearchApi;
 import de.adorsys.xs2a.adapter.config.RestExceptionHandler;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.model.AspspTO;
+import de.adorsys.xs2a.adapter.service.AspspCsvService;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.junit.Before;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -28,8 +30,7 @@ import java.util.Arrays;
 import static de.adorsys.xs2a.adapter.controller.AspspController.V1_ASPSP_BY_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,6 +45,9 @@ public class AspspControllerTest {
 
     @Mock
     private AspspRepository repository;
+
+    @Mock
+    private AspspCsvService aspspCsvService;
 
     @Before
     public void setUp() {
@@ -123,9 +127,9 @@ public class AspspControllerTest {
     public void export() throws Exception {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).setMessageConverters().build();
 
-        byte[] bytes = "91d10225-f393-40e2-90be-92df43581068,VB Hellweg,GENODEM1SOE,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,41460116".getBytes();
+        byte[] bytes = "81cecc67-6d1b-4169-b67c-2de52b99a0cc,\"BNP Paribas Germany, Consorsbank\",CSDBDE71XXX,https://xs2a-sndbx.consorsbank.de,consors-bank-adapter,76030080".getBytes();
 
-        when(repository.getAllRecords()).thenReturn(bytes);
+        when(aspspCsvService.exportCsv()).thenReturn(bytes);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
             .get(AspspSearchApi.V1_APSPS + "/export")

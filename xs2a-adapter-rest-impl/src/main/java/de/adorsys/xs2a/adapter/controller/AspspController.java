@@ -19,6 +19,7 @@ package de.adorsys.xs2a.adapter.controller;
 import de.adorsys.xs2a.adapter.api.AspspSearchApi;
 import de.adorsys.xs2a.adapter.mapper.AspspMapper;
 import de.adorsys.xs2a.adapter.model.AspspTO;
+import de.adorsys.xs2a.adapter.service.AspspCsvService;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
@@ -36,11 +37,14 @@ import java.net.URI;
 public class AspspController {
     static final String ASPSP_ID = "{aspspId}";
     static final String V1_ASPSP_BY_ID = AspspSearchApi.V1_APSPS + "/" + ASPSP_ID;
+    static final String V1_ASPSP_EXPORT = AspspSearchApi.V1_APSPS + "/export";
     private final AspspRepository aspspRepository;
+    private final AspspCsvService aspspCsvService;
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
-    public AspspController(AspspRepository aspspRepository) {
+    public AspspController(AspspRepository aspspRepository, AspspCsvService aspspCsvService) {
         this.aspspRepository = aspspRepository;
+        this.aspspCsvService = aspspCsvService;
     }
 
     @PostMapping(AspspSearchApi.V1_APSPS)
@@ -62,19 +66,15 @@ public class AspspController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value = AspspSearchApi.V1_APSPS + "/export", produces = "text/csv")
+    @GetMapping(value = V1_ASPSP_EXPORT, produces = "text/csv")
     public ResponseEntity<byte[]> export() {
-        byte[] response = aspspRepository.getAllRecords();
+        byte[] response = aspspCsvService.exportCsv();
         String fileName = "aspsps.csv";
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setContentLength(response.length);
         responseHeaders.setContentType(new MediaType("text", "csv"));
         responseHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
-
-        if (response.length < 1) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
 
         return new ResponseEntity<>(response, responseHeaders, HttpStatus.OK);
     }

@@ -23,6 +23,4 @@ public interface AspspRepository extends AspspReadOnlyRepository {
     Aspsp save(Aspsp aspsp);
 
     void deleteById(String aspspId);
-
-    byte[] getAllRecords();
 }

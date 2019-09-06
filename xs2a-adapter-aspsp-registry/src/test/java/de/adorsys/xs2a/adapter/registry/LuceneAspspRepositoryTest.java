@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.registry;
 
+import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class LuceneAspspRepositoryTest {
         aspsp.setId(ASPSP_ID);
 
         luceneAspspRepository.save(aspsp);
-        List<Aspsp> all = luceneAspspRepository.findAll();
+        List<Aspsp> all = luceneAspspRepository.findAll(AspspReadOnlyRepository.DEFAULT_SIZE);
 
         assertThat(all).hasSize(1);
 
@@ -139,17 +140,6 @@ public class LuceneAspspRepositoryTest {
 
         Iterable<Aspsp> found = luceneAspspRepository.findAll(2);
         assertThat(found).hasSize(2);
-    }
-
-    @Test
-    public void findAllWithMaxPageSize() {
-        int size = 20;
-        for (int i = 0; i < size; i++) {
-            luceneAspspRepository.save(new Aspsp());
-        }
-
-        Iterable<Aspsp> found = luceneAspspRepository.findAllMaxPageSize();
-        assertThat(found).hasSize(size);
     }
 
     @Test
