@@ -20,6 +20,7 @@ import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
+import de.adorsys.xs2a.adapter.service.loader.AdapterServiceLoader;
 import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.model.AccountListHolder;
 import de.adorsys.xs2a.adapter.service.model.BalanceReport;

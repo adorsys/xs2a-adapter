@@ -7,7 +7,6 @@ import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.loader.mapper.Xs2aPsd2Mapper;
 import de.adorsys.xs2a.adapter.service.model.SelectPsuAuthenticationMethod;
-import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import de.adorsys.xs2a.adapter.service.model.TransactionAuthorisation;
 import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
@@ -15,7 +14,6 @@ import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import org.mapstruct.factory.Mappers;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.Map;
 
 class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformationService {
@@ -130,17 +128,5 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
         }
 
         throw new BadRequestException("Request body doesn't match any of the supported schemas");
-    }
-
-    @Override
-    public URI getAuthorizationRequestUri(Map<String, String> headers,
-                                          String state,
-                                          URI redirectUri) throws IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public TokenResponse getToken(Map<String, String> headers, String authorizationCode) throws IOException {
-        throw new UnsupportedOperationException();
     }
 }

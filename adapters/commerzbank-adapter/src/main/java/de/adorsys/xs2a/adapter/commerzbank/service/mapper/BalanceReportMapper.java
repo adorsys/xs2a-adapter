@@ -1,7 +1,7 @@
-package de.adorsys.xs2a.adapter.service.mapper;
+package de.adorsys.xs2a.adapter.commerzbank.service.mapper;
 
+import de.adorsys.xs2a.adapter.commerzbank.service.model.CommerzbankBalanceReport;
 import de.adorsys.xs2a.adapter.service.model.BalanceReport;
-import de.adorsys.xs2a.adapter.service.model.CommerzbankBalanceReport;
 import org.mapstruct.Mapper;
 
 @Mapper

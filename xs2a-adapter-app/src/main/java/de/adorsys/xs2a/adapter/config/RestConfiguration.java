@@ -6,7 +6,8 @@ import de.adorsys.xs2a.adapter.registry.LuceneAspspRepositoryFactory;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.AccountInformationServiceImpl;
-import de.adorsys.xs2a.adapter.service.impl.AdapterServiceLoader;
+import de.adorsys.xs2a.adapter.service.loader.AdapterDelegatingOauth2Service;
+import de.adorsys.xs2a.adapter.service.loader.AdapterServiceLoader;
 import de.adorsys.xs2a.adapter.service.impl.PaymentInitiationServiceImpl;
 import de.adorsys.xs2a.adapter.service.loader.Psd2AdapterDelegatingAccountInformationService;
 import de.adorsys.xs2a.adapter.service.loader.Psd2AdapterServiceLoader;
@@ -23,8 +24,8 @@ import java.security.cert.CertificateException;
 public class RestConfiguration {
 
     @Bean
-    PaymentInitiationService paymentInitiationService() {
-        return new PaymentInitiationServiceImpl(adapterServiceLoader());
+    PaymentInitiationService paymentInitiationService(AdapterServiceLoader adapterServiceLoader) {
+        return new PaymentInitiationServiceImpl(adapterServiceLoader);
     }
 
     @Bean
@@ -33,13 +34,13 @@ public class RestConfiguration {
     }
 
     @Bean
-    AccountInformationService accountInformationService() {
-        return new AccountInformationServiceImpl(adapterServiceLoader());
+    AccountInformationService accountInformationService(AdapterServiceLoader adapterServiceLoader) {
+        return new AccountInformationServiceImpl(adapterServiceLoader);
     }
 
     @Bean
-    AdapterServiceLoader adapterServiceLoader() {
-        return new AdapterServiceLoader(aspspRepository());
+    AdapterServiceLoader adapterServiceLoader(Pkcs12KeyStore keyStore) {
+        return new AdapterServiceLoader(aspspRepository(), keyStore);
     }
 
     @Bean
@@ -55,6 +56,11 @@ public class RestConfiguration {
     @Bean
     Psd2AccountInformationService psd2AccountInformationService(AspspReadOnlyRepository aspspRepository, Pkcs12KeyStore keyStore) {
         return new Psd2AdapterDelegatingAccountInformationService(new Psd2AdapterServiceLoader(aspspRepository, keyStore));
+    }
+
+    @Bean
+    Oauth2Service oauth2Service(AdapterServiceLoader adapterServiceLoader) {
+        return new AdapterDelegatingOauth2Service(adapterServiceLoader);
     }
 
     @Bean

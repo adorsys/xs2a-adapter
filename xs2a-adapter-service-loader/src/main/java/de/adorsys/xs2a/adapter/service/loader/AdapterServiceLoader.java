@@ -1,9 +1,6 @@
-package de.adorsys.xs2a.adapter.service.impl;
+package de.adorsys.xs2a.adapter.service.loader;
 
-import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
 import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
@@ -20,10 +17,13 @@ import java.util.stream.StreamSupport;
 
 public class AdapterServiceLoader {
     private final AspspReadOnlyRepository aspspRepository;
+    protected final Pkcs12KeyStore keyStore;
     private final ConcurrentMap<Class<?>, ServiceLoader<? extends AdapterServiceProvider>> serviceLoaders = new ConcurrentHashMap<>();
 
-    public AdapterServiceLoader(AspspReadOnlyRepository aspspRepository) {
+    public AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
+                                Pkcs12KeyStore keyStore) {
         this.aspspRepository = aspspRepository;
+        this.keyStore = keyStore;
     }
 
     public AccountInformationService getAccountInformationService(RequestHeaders requestHeaders) {
@@ -76,5 +76,14 @@ public class AdapterServiceLoader {
         return getServiceProvider(PaymentInitiationServiceProvider.class, adapterId)
             .orElseThrow(() -> new AdapterNotFoundException(adapterId))
             .getPaymentInitiationService(baseUrl);
+    }
+
+    public Oauth2Service getOauth2Service(RequestHeaders requestHeaders) {
+        Aspsp aspsp = getAspsp(requestHeaders);
+        String adapterId = aspsp.getAdapterId();
+        String baseUrl = aspsp.getUrl();
+        return getServiceProvider(Oauth2ServiceFactory.class, adapterId)
+            .orElseThrow(() -> new AdapterNotFoundException(adapterId))
+            .getOauth2Service(baseUrl, keyStore);
     }
 }

@@ -1,8 +1,8 @@
-package de.adorsys.xs2a.adapter.service.impl;
+package de.adorsys.xs2a.adapter.service.loader;
 
+import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
 import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
@@ -31,7 +31,7 @@ public class AdapterServiceLoaderTest {
     private static RequestHeaders requestHeadersWithBankCode;
 
     private final AspspReadOnlyRepository aspspRepository = mock(AspspReadOnlyRepository.class);
-    private final AdapterServiceLoader adapterServiceLoader = new AdapterServiceLoader(aspspRepository);
+    private final AdapterServiceLoader adapterServiceLoader = new AdapterServiceLoader(aspspRepository, null);
 
     @Before
     public void setUp() {

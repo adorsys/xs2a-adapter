@@ -11,15 +11,15 @@ import de.adorsys.xs2a.adapter.service.ing.internal.api.model.AuthorizationURLRe
 import java.io.IOException;
 import java.net.URI;
 
-public class Oauth2Service {
+public class IngOauth2Service {
 
     private final Oauth2Api oauth2Api;
     private final ClientAuthenticationFactory clientAuthenticationFactory;
 
     private ApplicationTokenResponse applicationToken;
 
-    public Oauth2Service(Oauth2Api oauth2Api,
-                         ClientAuthenticationFactory clientAuthenticationFactory) {
+    public IngOauth2Service(Oauth2Api oauth2Api,
+                            ClientAuthenticationFactory clientAuthenticationFactory) {
         this.oauth2Api = oauth2Api;
         this.clientAuthenticationFactory = clientAuthenticationFactory;
     }
