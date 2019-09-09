@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.adapter.registry;
 
-import de.adorsys.xs2a.adapter.service.AspspCsvService;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.junit.Before;
