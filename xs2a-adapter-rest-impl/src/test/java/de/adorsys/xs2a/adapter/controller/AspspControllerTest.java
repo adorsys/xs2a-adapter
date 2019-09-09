@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.api.AspspSearchApi;
 import de.adorsys.xs2a.adapter.config.RestExceptionHandler;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.model.AspspTO;
+import de.adorsys.xs2a.adapter.service.AspspCsvService;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.junit.Before;
@@ -22,11 +23,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pro.javatar.commons.reader.JsonReader;
 
+import java.util.Arrays;
+
 import static de.adorsys.xs2a.adapter.controller.AspspController.V1_ASPSP_BY_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,6 +42,9 @@ public class AspspControllerTest {
 
     @Mock
     private AspspRepository repository;
+
+    @Mock
+    private AspspCsvService aspspCsvService;
 
     @Before
     public void setUp() {
@@ -113,5 +118,23 @@ public class AspspControllerTest {
                             .contentType(APPLICATION_JSON_UTF8_VALUE))
             .andExpect(status().is(HttpStatus.NO_CONTENT.value()))
             .andReturn();
+    }
+
+    @Test
+    public void export() throws Exception {
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).setMessageConverters().build();
+
+        byte[] bytes = "81cecc67-6d1b-4169-b67c-2de52b99a0cc,\"BNP Paribas Germany, Consorsbank\",CSDBDE71XXX,https://xs2a-sndbx.consorsbank.de,consors-bank-adapter,76030080".getBytes();
+
+        when(aspspCsvService.exportCsv()).thenReturn(bytes);
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+            .get(AspspSearchApi.V1_APSPS + "/export"))
+            .andExpect(status().is(HttpStatus.OK.value()))
+            .andReturn();
+
+        byte[] results = mvcResult.getResponse().getContentAsByteArray();
+
+        assertThat(Arrays.equals(results, bytes)).isTrue();
     }
 }

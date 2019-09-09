@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.registry;
 
+import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class LuceneAspspRepositoryTest {
         aspsp.setId(ASPSP_ID);
 
         luceneAspspRepository.save(aspsp);
-        List<Aspsp> all = luceneAspspRepository.findAll();
+        List<Aspsp> all = luceneAspspRepository.findAll(AspspReadOnlyRepository.DEFAULT_SIZE);
 
         assertThat(all).hasSize(1);
 
