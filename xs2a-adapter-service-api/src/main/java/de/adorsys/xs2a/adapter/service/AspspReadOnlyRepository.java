@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface AspspReadOnlyRepository {
 
     int DEFAULT_SIZE = 10;
+    int MAX_SIZE = Integer.MAX_VALUE;
 
     Optional<Aspsp> findById(String id);
 
@@ -41,8 +42,8 @@ public interface AspspReadOnlyRepository {
 
     List<Aspsp> findByName(String name, String after, int size);
 
-    default  List<Aspsp> findAll() {
-        return findAll(DEFAULT_SIZE);
+    default List<Aspsp> findAll() {
+        return findAll(MAX_SIZE);
     }
 
     default List<Aspsp> findAll(int size) {

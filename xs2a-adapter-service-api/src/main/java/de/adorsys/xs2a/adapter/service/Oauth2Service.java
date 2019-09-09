@@ -10,5 +10,8 @@ public interface Oauth2Service {
     // https://tools.ietf.org/html/rfc6749#section-4.1.1
     URI getAuthorizationRequestUri(Map<String, String> headers, String state, URI redirectUri) throws IOException;
 
-    TokenResponse getToken(Map<String, String> headers, String authorizationCode) throws IOException;
+    TokenResponse getToken(Map<String, String> headers,
+                           String authorizationCode,
+                           URI redirectUri,
+                           String clientId) throws IOException;
 }

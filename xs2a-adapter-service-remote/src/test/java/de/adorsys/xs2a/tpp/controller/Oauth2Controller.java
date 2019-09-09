@@ -24,7 +24,10 @@ public class Oauth2Controller implements Oauth2Api {
     }
 
     @Override
-    public TokenResponseTO getToken(Map<String, String> headers, String authorizationCode) throws IOException {
-        return client.getToken(headers, authorizationCode);
+    public TokenResponseTO getToken(Map<String, String> headers,
+                                    String authorizationCode,
+                                    String redirectUri,
+                                    String clientId) throws IOException {
+        return client.getToken(headers, authorizationCode, redirectUri, clientId);
     }
 }

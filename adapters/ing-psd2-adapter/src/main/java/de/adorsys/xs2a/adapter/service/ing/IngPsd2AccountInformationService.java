@@ -3,12 +3,13 @@ package de.adorsys.xs2a.adapter.service.ing;
 import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.*;
-import de.adorsys.xs2a.adapter.service.ing.internal.service.Oauth2Service;
+import de.adorsys.xs2a.adapter.service.ing.internal.service.IngOauth2Service;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.model.*;
@@ -28,9 +29,9 @@ import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyMap;
 
-public class IngPsd2AccountInformationService implements Psd2AccountInformationService {
+public class IngPsd2AccountInformationService implements Psd2AccountInformationService, Oauth2Service {
 
-    private final Oauth2Service oauth2Service;
+    private final IngOauth2Service oauth2Service;
     private final AccountInformationApi accountInformationApi;
     private final IngMapper mapper = Mappers.getMapper(IngMapper.class);
 
@@ -46,7 +47,7 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
         Oauth2Api oauth2Api = new Oauth2Api(host, transport, parser);
 
         ClientAuthenticationFactory clientAuthenticationFactory = new ClientAuthenticationFactory(keyStore.getQsealCertificate(), keyStore.getQsealPrivateKey());
-        oauth2Service = new Oauth2Service(oauth2Api, clientAuthenticationFactory);
+        oauth2Service = new IngOauth2Service(oauth2Api, clientAuthenticationFactory);
     }
 
     @Override
@@ -105,7 +106,10 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     }
 
     @Override
-    public TokenResponse getToken(Map<String, String> headers, String authorizationCode) throws IOException {
+    public TokenResponse getToken(Map<String, String> headers,
+                                  String authorizationCode,
+                                  URI redirectUri,
+                                  String clientId) throws IOException {
         try {
             return mapper.map(oauth2Service.getToken(authorizationCode));
         } catch (HttpResponseException e) {
