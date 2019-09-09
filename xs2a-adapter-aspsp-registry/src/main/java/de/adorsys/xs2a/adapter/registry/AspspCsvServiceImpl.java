@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class AspspCsvServiceImpl implements AspspCsvService {
 
-    private final Logger LOG = LoggerFactory.getLogger(AspspCsvServiceImpl.class.getName());
+    private final Logger LOG = LoggerFactory.getLogger(AspspCsvServiceImpl.class);
 
     private AspspRepository aspspRepository;
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
@@ -57,7 +57,7 @@ public class AspspCsvServiceImpl implements AspspCsvService {
         try {
             return mapper.writer(schema).writeValueAsString(aspsp);
         } catch (JsonProcessingException e) {
-            LOG.warn("Exception occurred while indexes writing into a CSV" + e.getMessage());
+            LOG.warn("Exception occurred while indexes were being written into a CSV" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
