@@ -31,7 +31,7 @@ public class AspspCsvServiceImplTest {
     private AspspRepository aspspRepository;
 
     @InjectMocks
-    private AspspCsvService aspspCsvService = new AspspCsvServiceImpl(aspspRepository);
+    private AspspCsvServiceImpl aspspCsvServiceImpl;
 
     @Before
     public void setUp() {
@@ -51,7 +51,7 @@ public class AspspCsvServiceImplTest {
 
         when(aspspRepository.findAll()).thenReturn(Collections.singletonList(aspsp));
 
-        byte[] output = aspspCsvService.exportCsv();
+        byte[] output = aspspCsvServiceImpl.exportCsv();
 
         assertThat(Arrays.equals(output, STORED_BYTES_TEMPLATE)).isTrue();
     }
