@@ -27,7 +27,8 @@
         <module>commerzbank-adapter</module>
         <module>ing-psd2-adapter</module>
         <module>unicredit-adapter</module>
-    </modules>
+        <module>comdirect-adapter</module>
+  </modules>
 
     <dependencies>
 
@@ -100,6 +101,12 @@
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>unicredit-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>comdirect-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
