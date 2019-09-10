@@ -1,10 +1,10 @@
-package de.adorsys.xs2a.adapter.rest.mapper;
+package de.adorsys.xs2a.adapter.mapper.psd2;
 
 import de.adorsys.xs2a.adapter.rest.psd2.model.*;
 import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface Psd2AccountInformationMapper {
     ConsentsResponseTO toConsentsResponseTO(ConsentsResponse consentsResponse);
 
