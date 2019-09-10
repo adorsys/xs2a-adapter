@@ -87,7 +87,7 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
     }
 
     @Override
-    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
                                                                        Map<String, String> headers,
                                                                        UpdateAuthorisation updateAuthorisation) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);

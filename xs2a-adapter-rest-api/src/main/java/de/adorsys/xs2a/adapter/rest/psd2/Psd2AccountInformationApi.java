@@ -66,7 +66,7 @@ public interface Psd2AccountInformationApi {
         method = RequestMethod.POST,
         consumes = "application/json"
     )
-    ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(
+    ResponseEntity<StartScaProcessResponseTO> startConsentAuthorisation(
         @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers,
         @RequestBody UpdateAuthorisationTO body);
 

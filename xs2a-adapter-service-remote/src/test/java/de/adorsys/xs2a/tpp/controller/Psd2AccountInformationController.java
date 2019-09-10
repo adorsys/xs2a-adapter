@@ -60,7 +60,7 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     }
 
     @Override
-    public ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(String consentId,
+    public ResponseEntity<StartScaProcessResponseTO> startConsentAuthorisation(String consentId,
                                                                                Map<String, String> headers,
                                                                                UpdateAuthorisationTO body) {
         return client.startConsentAuthorisation(consentId, headers, body);

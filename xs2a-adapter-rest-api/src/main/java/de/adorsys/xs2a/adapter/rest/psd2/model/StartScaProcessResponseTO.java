@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Map;
 
-public class StartScaprocessResponseTO {
+public class StartScaProcessResponseTO {
     private String scaStatus;
 
     private String authorisationId;

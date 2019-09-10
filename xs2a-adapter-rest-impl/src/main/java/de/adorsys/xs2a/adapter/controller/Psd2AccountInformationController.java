@@ -79,12 +79,12 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     }
 
     @Override
-    public ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(String consentId,
+    public ResponseEntity<StartScaProcessResponseTO> startConsentAuthorisation(String consentId,
                                                                                Map<String, String> headers,
                                                                                UpdateAuthorisationTO body) {
         return toResponseEntity(
-            accountInformationService.startConsentAuthorisation(consentId, headers, mapper.map(body)),
-            mapper::map
+            accountInformationService.startConsentAuthorisation(consentId, headers, mapper.toUpdateAuthorisation(body)),
+            mapper::toStartScaProcessResponseTO
         );
     }
 
@@ -104,8 +104,8 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
                                                         Map<String, String> headers,
                                                         UpdateAuthorisationTO body) {
         return toResponseEntity(
-            accountInformationService.updateConsentsPsuData(consentId, authorisationId, headers, mapper.map(body)),
-            mapper::map
+            accountInformationService.updateConsentsPsuData(consentId, authorisationId, headers, mapper.toUpdateAuthorisation(body)),
+            mapper::toUpdateAuthorisationResponseTO
         );
     }
 

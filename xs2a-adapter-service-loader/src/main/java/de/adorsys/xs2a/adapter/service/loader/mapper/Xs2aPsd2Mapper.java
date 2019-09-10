@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.service.psd2.model.ConsentStatusResponse;
 import de.adorsys.xs2a.adapter.service.psd2.model.Consents;
 import de.adorsys.xs2a.adapter.service.psd2.model.ScaStatusResponse;
 import de.adorsys.xs2a.adapter.service.psd2.model.*;
+import de.adorsys.xs2a.adapter.service.psd2.model.StartScaProcessResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -36,7 +37,7 @@ public interface Xs2aPsd2Mapper {
 
     UpdatePsuAuthentication map(UpdateAuthorisation value);
 
-    StartScaprocessResponse toStartScaprocessResponse(StartScaProcessResponse value);
+    StartScaProcessResponse toStartScaprocessResponse(de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse value);
 
     SelectPsuAuthenticationMethod toSelectPsuAuthenticationMethod(UpdateAuthorisation updateAuthentication);
 
