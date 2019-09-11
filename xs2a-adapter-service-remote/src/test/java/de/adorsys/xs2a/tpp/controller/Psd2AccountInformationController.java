@@ -19,9 +19,11 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
 
     private final Psd2AccountInformationService accountInformationService;
     private final HeadersMapper headersMapper;
-    private final Psd2AccountInformationMapper accountInformationMapper = Mappers.getMapper(Psd2AccountInformationMapper.class);
+    private final Psd2AccountInformationMapper accountInformationMapper
+        = Mappers.getMapper(Psd2AccountInformationMapper.class);
 
-    public Psd2AccountInformationController(Psd2AccountInformationService accountInformationService, HeadersMapper headersMapper) {
+    public Psd2AccountInformationController(Psd2AccountInformationService accountInformationService,
+                                            HeadersMapper headersMapper) {
         this.accountInformationService = accountInformationService;
         this.headersMapper = headersMapper;
     }
@@ -40,7 +42,8 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     public ResponseEntity<ReadAccountBalanceResponseTO> getBalances(String accountId,
                                                                     Map<String, String> queryParameters,
                                                                     Map<String, String> headers) throws IOException {
-        Response<ReadAccountBalanceResponse> response = accountInformationService.getBalances(accountId, queryParameters, headers);
+        Response<ReadAccountBalanceResponse> response
+            = accountInformationService.getBalances(accountId, queryParameters, headers);
 
         return ResponseEntity.status(response.getStatusCode())
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
@@ -67,7 +70,8 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
 
     @Override
     public ResponseEntity<ConsentsResponseTO> createConsent(Map<String, String> headers, ConsentsTO body) {
-        Response<ConsentsResponse> response = accountInformationService.createConsent(headers, accountInformationMapper.toConsents(body));
+        Response<ConsentsResponse> response
+            = accountInformationService.createConsent(headers, accountInformationMapper.toConsents(body));
 
         return ResponseEntity.status(response.getStatusCode())
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
@@ -77,7 +81,8 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     @Override
     public ResponseEntity<ConsentInformationResponseTO> getConsentInformation(String consentId,
                                                                               Map<String, String> headers) {
-        Response<ConsentInformationResponse> response = accountInformationService.getConsentInformation(consentId, headers);
+        Response<ConsentInformationResponse> response
+            = accountInformationService.getConsentInformation(consentId, headers);
 
         return ResponseEntity.status(response.getStatusCode())
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
@@ -106,7 +111,10 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     public ResponseEntity<StartScaProcessResponseTO> startConsentAuthorisation(String consentId,
                                                                                Map<String, String> headers,
                                                                                UpdateAuthorisationTO body) {
-        Response<StartScaProcessResponse> response = accountInformationService.startConsentAuthorisation(consentId, headers, accountInformationMapper.toUpdateAuthorisation(body));
+        Response<StartScaProcessResponse> response = accountInformationService.startConsentAuthorisation(
+            consentId, headers,
+            accountInformationMapper.toUpdateAuthorisation(body)
+        );
 
         return ResponseEntity.status(response.getStatusCode())
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
@@ -117,7 +125,8 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     public ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(String consentId,
                                                                    String authorisationId,
                                                                    Map<String, String> headers) {
-        Response<ScaStatusResponse> response = accountInformationService.getConsentScaStatus(consentId, authorisationId, headers);
+        Response<ScaStatusResponse> response
+            = accountInformationService.getConsentScaStatus(consentId, authorisationId, headers);
 
         return ResponseEntity.status(response.getStatusCode())
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
@@ -129,7 +138,10 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
                                                                                String authorisationId,
                                                                                Map<String, String> headers,
                                                                                UpdateAuthorisationTO body) {
-        Response<UpdateAuthorisationResponse> response = accountInformationService.updateConsentsPsuData(consentId, authorisationId, headers, accountInformationMapper.toUpdateAuthorisation(body));
+        Response<UpdateAuthorisationResponse> response = accountInformationService.updateConsentsPsuData(
+            consentId, authorisationId, headers,
+            accountInformationMapper.toUpdateAuthorisation(body)
+        );
 
         return ResponseEntity.status(response.getStatusCode())
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))

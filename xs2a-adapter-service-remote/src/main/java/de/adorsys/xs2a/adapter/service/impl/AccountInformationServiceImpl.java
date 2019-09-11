@@ -73,34 +73,54 @@ public class AccountInformationServiceImpl implements AccountInformationService 
         ConsentsTO consentsTO = consentMapper.toConsentsTO(consents);
         ResponseEntity<ConsentsResponse201TO> responseEntity = client.createConsent(requestHeaders.toMap(), consentsTO);
         ConsentCreationResponse consentCreationResponse = creationResponseMapper.toConsentCreationResponse(responseEntity.getBody());
-        return new Response<>(responseEntity.getStatusCodeValue(), consentCreationResponse, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+        return new Response<>(
+            responseEntity.getStatusCodeValue(),
+            consentCreationResponse,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders())
+        );
     }
 
     @Override
     public Response<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders) {
         ResponseEntity<ConsentInformationResponse200JsonTO> responseEntity = client.getConsentInformation(consentId, requestHeaders.toMap());
         ConsentInformation information = consentInformationMapper.toConsentInformation(responseEntity.getBody());
-        return new Response<>(responseEntity.getStatusCodeValue(), information, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+        return new Response<>(
+            responseEntity.getStatusCodeValue(),
+            information,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders())
+        );
     }
 
     @Override
     public Response<Void> deleteConsent(String consentId, RequestHeaders requestHeaders) {
         ResponseEntity<Void> responseEntity = client.deleteConsent(consentId, requestHeaders.toMap());
-        return new Response<>(responseEntity.getStatusCodeValue(), null, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+        return new Response<>(
+            responseEntity.getStatusCodeValue(),
+            null,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders())
+        );
     }
 
     @Override
     public Response<ConsentStatusResponse> getConsentStatus(String consentId, RequestHeaders requestHeaders) {
         ResponseEntity<ConsentStatusResponse200TO> responseEntity = client.getConsentStatus(consentId, requestHeaders.toMap());
         ConsentStatusResponse statusResponse = statusResponseMapper.toConsentStatusResponse(responseEntity.getBody());
-        return new Response<>(responseEntity.getStatusCodeValue(), statusResponse, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+        return new Response<>(
+            responseEntity.getStatusCodeValue(),
+            statusResponse,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders())
+        );
     }
 
     @Override
     public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders) {
         ResponseEntity<StartScaprocessResponseTO> responseEntity = client.startConsentAuthorisation(consentId, requestHeaders.toMap(), createEmptyBody());
         StartScaProcessResponse scaProcessResponse = scaProcessResponseMapper.toStartScaProcessResponse(responseEntity.getBody());
-        return new Response<>(responseEntity.getStatusCodeValue(), scaProcessResponse, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+        return new Response<>(
+            responseEntity.getStatusCodeValue(),
+            scaProcessResponse,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders())
+        );
     }
 
     private ObjectNode createEmptyBody() {
@@ -112,28 +132,44 @@ public class AccountInformationServiceImpl implements AccountInformationService 
         ResponseEntity<StartScaprocessResponseTO> responseEntity = client.startConsentAuthorisation(consentId, requestHeaders.toMap(), objectMapper.valueToTree(updatePsuAuthentication));
 
         StartScaProcessResponse scaProcessResponse = scaProcessResponseMapper.toStartScaProcessResponse(responseEntity.getBody());
-        return new Response<>(responseEntity.getStatusCodeValue(), scaProcessResponse, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+        return new Response<>(
+            responseEntity.getStatusCodeValue(),
+            scaProcessResponse,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders())
+        );
     }
 
     @Override
     public Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         ResponseEntity<Object> responseEntity = client.updateConsentsPsuData(consentId, authorisationId, requestHeaders.toMap(), objectMapper.valueToTree(selectPsuAuthenticationMethod));
         SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = objectMapper.convertValue(responseEntity.getBody(), SelectPsuAuthenticationMethodResponse.class);
-        return new Response<>(responseEntity.getStatusCodeValue(), selectPsuAuthenticationMethodResponse, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+        return new Response<>(
+            responseEntity.getStatusCodeValue(),
+            selectPsuAuthenticationMethodResponse,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders())
+        );
     }
 
     @Override
     public Response<ScaStatusResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
         ResponseEntity<Object> responseEntity = client.updateConsentsPsuData(consentId, authorisationId, requestHeaders.toMap(), objectMapper.valueToTree(transactionAuthorisation));
         ScaStatusResponse scaStatusResponse = objectMapper.convertValue(responseEntity.getBody(), ScaStatusResponse.class);
-        return new Response<>(responseEntity.getStatusCodeValue(), scaStatusResponse, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+        return new Response<>(
+            responseEntity.getStatusCodeValue(),
+            scaStatusResponse,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders())
+        );
     }
 
     @Override
     public Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
         ResponseEntity<Object> responseEntity = client.updateConsentsPsuData(consentId, authorisationId, requestHeaders.toMap(), objectMapper.valueToTree(updatePsuAuthentication));
         UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = objectMapper.convertValue(responseEntity.getBody(), UpdatePsuAuthenticationResponse.class);
-        return new Response<>(responseEntity.getStatusCodeValue(), updatePsuAuthenticationResponse, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+        return new Response<>(
+            responseEntity.getStatusCodeValue(),
+            updatePsuAuthenticationResponse,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders())
+        );
     }
 
     @Override
@@ -141,7 +177,11 @@ public class AccountInformationServiceImpl implements AccountInformationService 
         String withBalance = requestParams.toMap().getOrDefault(RequestParams.WITH_BALANCE, Boolean.FALSE.toString());
         ResponseEntity<AccountListTO> responseEntity = client.getAccountList(Boolean.valueOf(withBalance), requestHeaders.toMap());
         AccountListHolder accountListHolder = accountListHolderMapper.toAccountListHolder(responseEntity.getBody());
-        return new Response<>(responseEntity.getStatusCodeValue(), accountListHolder, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+        return new Response<>(
+            responseEntity.getStatusCodeValue(),
+            accountListHolder,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders())
+        );
     }
 
     @Override
@@ -152,7 +192,11 @@ public class AccountInformationServiceImpl implements AccountInformationService 
         ResponseEntity<Object> responseEntity = getTransactionListFromClient(accountId, requestParams, requestHeaders);
         TransactionsResponse200JsonTO transactionsResponse200JsonTO = objectMapper.convertValue(responseEntity.getBody(), TransactionsResponse200JsonTO.class);
         TransactionsReport transactionsReport = transactionsReportMapper.toTransactionsReport(transactionsResponse200JsonTO);
-        return new Response<>(responseEntity.getStatusCodeValue(), transactionsReport, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+        return new Response<>(
+            responseEntity.getStatusCodeValue(),
+            transactionsReport,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders())
+        );
     }
 
     private <T> ResponseEntity<T> getTransactionListFromClient(String accountId, RequestParams requestParams, RequestHeaders requestHeaders) {
@@ -174,21 +218,33 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     public Response<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         ResponseEntity<String> responseEntity = getTransactionListFromClient(accountId, requestParams, requestHeaders);
 
-        return new Response<>(responseEntity.getStatusCodeValue(), responseEntity.getBody(), responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+        return new Response<>(
+            responseEntity.getStatusCodeValue(),
+            responseEntity.getBody(),
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders())
+        );
     }
 
     @Override
     public Response<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, RequestHeaders requestHeaders) {
         ResponseEntity<ScaStatusResponseTO> responseEntity = client.getConsentScaStatus(consentId, authorisationId, requestHeaders.toMap());
         ScaStatusResponse scaStatusResponse = scaStatusResponseMapper.toScaStatusResponse(responseEntity.getBody());
-        return new Response<>(responseEntity.getStatusCodeValue(), scaStatusResponse, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+        return new Response<>(
+            responseEntity.getStatusCodeValue(),
+            scaStatusResponse,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders())
+        );
     }
 
     @Override
     public Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
         ResponseEntity<ReadAccountBalanceResponse200TO> responseEntity = client.getBalances(accountId, requestHeaders.toMap());
         BalanceReport balanceReport = balanceReportMapper.toBalanceReport(responseEntity.getBody());
-        return new Response<>(responseEntity.getStatusCodeValue(), balanceReport, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+        return new Response<>(
+            responseEntity.getStatusCodeValue(),
+            balanceReport,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders())
+        );
     }
 
     private LocalDate strToLocalDate(String date) {
