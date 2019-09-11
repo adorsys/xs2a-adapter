@@ -8,15 +8,12 @@ import de.adorsys.xs2a.adapter.service.mapper.ResponseHeadersMapper;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import org.mapstruct.factory.Mappers;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.util.Map;
 
 public class Psd2AccountInformationServiceImpl implements Psd2AccountInformationService {
-    private static final Logger log = LoggerFactory.getLogger(Psd2AccountInformationServiceImpl.class);
 
     private final Psd2AccountInformationClient client;
     private final Psd2AccountInformationMapper accountInformationMapper = Mappers.getMapper(Psd2AccountInformationMapper.class);
