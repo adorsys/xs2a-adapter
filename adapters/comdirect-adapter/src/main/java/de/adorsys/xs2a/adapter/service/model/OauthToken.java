@@ -16,31 +16,37 @@
 
 package de.adorsys.xs2a.adapter.service.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class OauthToken {
-    private String access_token;
+    @JsonProperty("access_token")
+    private String accessToken;
 
-    private String token_type;
+    @JsonProperty("token_type")
+    private String tokenType;
 
-    private Long expires_in;
+    @JsonProperty("expires_in")
+    private Long expiresInSeconds;
 
-    private String refresh_token;
+    @JsonProperty("refresh_token")
+    private String refreshToken;
 
     private String scope;
 
-    public String getAccess_token() {
-        return access_token;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public String getToken_type() {
-        return token_type;
+    public String getTokenType() {
+        return tokenType;
     }
 
-    public Long getExpires_in() {
-        return expires_in;
+    public Long getExpiresInSeconds() {
+        return expiresInSeconds;
     }
 
-    public String getRefresh_token() {
-        return refresh_token;
+    public String getRefreshToken() {
+        return refreshToken;
     }
 
     public String getScope() {

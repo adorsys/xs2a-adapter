@@ -22,16 +22,14 @@ import de.adorsys.xs2a.adapter.service.*;
 public class ComdirectServiceProvider
     implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceFactory {
 
-    private static final String BERLIN_GROUP_CONTEXT_PATH = "/berlingroup";
-
     @Override
     public AccountInformationService getAccountInformationService(String baseUrl) {
-        return new ComdirectAccountInformationService(wrapBaseUrl(baseUrl));
+        return new ComdirectAccountInformationService(baseUrl);
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
-        return new BasePaymentInitiationService(wrapBaseUrl(baseUrl));
+        return new BasePaymentInitiationService(baseUrl);
     }
 
     @Override
@@ -41,10 +39,6 @@ public class ComdirectServiceProvider
 
     @Override
     public Oauth2Service getOauth2Service(String baseUrl, Pkcs12KeyStore keyStore) {
-        return new ComdirectOauth2Service(wrapBaseUrl(baseUrl));
-    }
-
-    private static String wrapBaseUrl(String baseUrl) {
-        return baseUrl + BERLIN_GROUP_CONTEXT_PATH;
+        return new ComdirectOauth2Service(baseUrl);
     }
 }
