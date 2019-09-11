@@ -5,21 +5,27 @@ import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.exception.UncheckedSSLHandshakeException;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.io.EmptyInputStream;
+import org.apache.http.message.BasicNameValuePair;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLHandshakeException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 class ApacheHttpClient implements HttpClient {
 
@@ -47,6 +53,25 @@ class ApacheHttpClient implements HttpClient {
     public <T> Response<T> post(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler) {
         HttpPost post = new HttpPost(uri);
         post.setEntity(new StringEntity("{}", ContentType.APPLICATION_JSON));
+        return execute(post, headers, responseHandler);
+    }
+
+    @Override
+    public <T> Response<T> postForm(String uri,
+                                    Map<String, String> headers,
+                                    Map<String, String> params,
+                                    ResponseHandler<T> responseHandler) {
+
+        HttpPost post = new HttpPost(uri);
+        List<NameValuePair> list = params.keySet().stream()
+                                       .map(key -> new BasicNameValuePair(key, params.get(key)))
+                                       .collect(Collectors.toList());
+        try {
+            post.setEntity(new UrlEncodedFormEntity(list));
+        } catch (UnsupportedEncodingException e) {
+            throw new UncheckedIOException(e);
+        }
+
         return execute(post, headers, responseHandler);
     }
 
@@ -99,7 +124,7 @@ class ApacheHttpClient implements HttpClient {
         }
 
         return httpClientBuilder
-                       .build();
+                   .build();
     }
 
     private Map<String, String> toHeadersMap(Header[] headers) {
