@@ -2,10 +2,11 @@
 
 .Added banks
 |===
-|Bank Name|approach
+|Bank Name|approach|AIS, PIS
 
-|UniCredit Bank|embedded
-|ING bank|n/a
+|UniCredit Bank|embedded|AIS, PIS
+|ING bank|n/a|AIS
+|Comdirect|oauth2|AIS
 |===
 
 == Features:

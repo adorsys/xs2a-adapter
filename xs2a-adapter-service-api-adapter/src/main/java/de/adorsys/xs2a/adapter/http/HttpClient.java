@@ -13,6 +13,8 @@ public interface HttpClient {
 
     <T> Response<T> post(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler);
 
+    <T> Response<T> postForm(String uri, Map<String, String> headers, Map<String, String> params, ResponseHandler<T> responseHandler);
+
     <T> Response<T> get(String uri, Map<String, String> headers, ResponseHandler<T> responseHandler);
 
     <T> Response<T> put(String uri, String body, Map<String, String> headers, ResponseHandler<T> responseHandler);
