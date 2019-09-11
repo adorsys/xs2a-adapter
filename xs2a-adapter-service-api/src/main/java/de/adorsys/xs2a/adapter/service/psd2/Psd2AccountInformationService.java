@@ -32,7 +32,7 @@ public interface Psd2AccountInformationService {
     Response<ConsentStatusResponse> getConsentStatus(String consentId,
                                                      Map<String, String> headers);
 
-    Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
+    Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
                                                                 Map<String, String> headers,
                                                                 UpdateAuthorisation updateAuthentication);
 

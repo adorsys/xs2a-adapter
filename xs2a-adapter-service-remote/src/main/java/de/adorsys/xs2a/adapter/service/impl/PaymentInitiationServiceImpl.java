@@ -21,16 +21,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.adapter.api.remote.PaymentInitiationClient;
 import de.adorsys.xs2a.adapter.mapper.*;
 import de.adorsys.xs2a.adapter.model.*;
-import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.mapper.ResponseHeadersMapper;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.mapstruct.factory.Mappers;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class PaymentInitiationServiceImpl implements PaymentInitiationService {
 
@@ -42,6 +39,7 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     private final PaymentInitiationStatusMapper paymentInitiationStatusMapper = Mappers.getMapper(PaymentInitiationStatusMapper.class);
     private final PaymentInitiationAuthorisationResponseMapper authorisationResponseMapper = Mappers.getMapper(PaymentInitiationAuthorisationResponseMapper.class);
     private final StartScaProcessResponseMapper scaProcessResponseMapper = Mappers.getMapper(StartScaProcessResponseMapper.class);
+    private final ResponseHeadersMapper responseHeadersMapper = Mappers.getMapper(ResponseHeadersMapper.class);
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public PaymentInitiationServiceImpl(PaymentInitiationClient paymentInitiationClient) {
@@ -68,7 +66,7 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
             );
         }
         PaymentInitiationRequestResponse paymentInitiationRequestResponse = initiationRequestResponseMapper.toPaymentInitiationRequestResponse(responseEntity.getBody());
-        return new Response<>(responseEntity.getStatusCodeValue(), paymentInitiationRequestResponse, getHeaders(responseEntity.getHeaders()));
+        return new Response<>(responseEntity.getStatusCodeValue(), paymentInitiationRequestResponse, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
@@ -81,21 +79,21 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
         );
         PaymentInitiationWithStatusResponseTO responseTO = objectMapper.convertValue(responseEntity.getBody(), PaymentInitiationWithStatusResponseTO.class);
         SinglePaymentInitiationInformationWithStatusResponse paymentInitiationSctWithStatusResponse = singlePaymentInformationMapper.toSinglePaymentInitiationInformationWithStatusResponse(responseTO);
-        return new Response<>(responseEntity.getStatusCodeValue(), paymentInitiationSctWithStatusResponse, getHeaders(responseEntity.getHeaders()));
+        return new Response<>(responseEntity.getStatusCodeValue(), paymentInitiationSctWithStatusResponse, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
     public Response<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService, String spaymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders) {
         ResponseEntity<ScaStatusResponseTO> responseEntity = client.getPaymentInitiationScaStatus(PaymentServiceTO.PAYMENTS, PaymentProductTO.fromValue(paymentService), spaymentProduct, paymentId, requestHeaders.toMap());
         PaymentInitiationScaStatusResponse initiationScaStatusResponse = paymentInitiationScaStatusResponseMapper.toPaymentInitiationScaStatusResponse(responseEntity.getBody());
-        return new Response<>(responseEntity.getStatusCodeValue(), initiationScaStatusResponse, getHeaders(responseEntity.getHeaders()));
+        return new Response<>(responseEntity.getStatusCodeValue(), initiationScaStatusResponse, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
     public Response<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, RequestHeaders requestHeaders) {
         ResponseEntity<Object> responseEntity = client.getPaymentInitiationStatus(PaymentServiceTO.PAYMENTS, PaymentProductTO.fromValue(paymentProduct), paymentId, requestHeaders.toMap());
         PaymentInitiationStatus initiationStatus = paymentInitiationStatusMapper.toPaymentInitiationStatus((PaymentInitiationStatusResponse200JsonTO) responseEntity.getBody());
-        return new Response<>(responseEntity.getStatusCodeValue(), initiationStatus, getHeaders(responseEntity.getHeaders()));
+        return new Response<>(responseEntity.getStatusCodeValue(), initiationStatus, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
@@ -103,18 +101,18 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
         ResponseEntity<Object> responseEntity = client.getPaymentInitiationStatus(PaymentServiceTO.PAYMENTS, PaymentProductTO.fromValue(paymentProduct), paymentId, requestHeaders.toMap());
         try {
             String responseObject = objectMapper.writeValueAsString(responseEntity.getBody());
-            return new Response<>(responseEntity.getStatusCodeValue(), responseObject, getHeaders(responseEntity.getHeaders()));
+            return new Response<>(responseEntity.getStatusCodeValue(), responseObject, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        return new Response<>(responseEntity.getStatusCodeValue(), "{}", getHeaders(responseEntity.getHeaders()));
+        return new Response<>(responseEntity.getStatusCodeValue(), "{}", responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
     public Response<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService, String paymentProduct, String paymentId, RequestHeaders requestHeaders) {
         ResponseEntity<AuthorisationsTO> responseEntity = client.getPaymentInitiationAuthorisation(PaymentServiceTO.fromValue(paymentService), PaymentProductTO.fromValue(paymentProduct), paymentId, requestHeaders.toMap());
         PaymentInitiationAuthorisationResponse authorisationResponse = authorisationResponseMapper.toPaymentInitiationAuthorisationResponse(responseEntity.getBody());
-        return new Response<>(responseEntity.getStatusCodeValue(), authorisationResponse, getHeaders(responseEntity.getHeaders()));
+        return new Response<>(responseEntity.getStatusCodeValue(), authorisationResponse, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
@@ -126,37 +124,25 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
             objectMapper.valueToTree(updatePsuAuthentication)
         );
         StartScaProcessResponse scaProcessResponse = scaProcessResponseMapper.toStartScaProcessResponse(responseEntity.getBody());
-        return new Response<>(responseEntity.getStatusCodeValue(), scaProcessResponse, getHeaders(responseEntity.getHeaders()));
+        return new Response<>(responseEntity.getStatusCodeValue(), scaProcessResponse, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
     public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         ResponseEntity<Object> responseEntity = client.updatePaymentPsuData(PaymentServiceTO.fromValue(paymentService), PaymentProductTO.fromValue(paymentProduct), paymentId, authorisationId, requestHeaders.toMap(), objectMapper.valueToTree(selectPsuAuthenticationMethod));
-        return new Response<>(responseEntity.getStatusCodeValue(), objectMapper.convertValue(responseEntity.getBody(), SelectPsuAuthenticationMethodResponse.class), getHeaders(responseEntity.getHeaders()));
+        return new Response<>(responseEntity.getStatusCodeValue(), objectMapper.convertValue(responseEntity.getBody(), SelectPsuAuthenticationMethodResponse.class), responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
     public Response<ScaStatusResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
         ResponseEntity<Object> responseEntity = client.updatePaymentPsuData(PaymentServiceTO.fromValue(paymentService), PaymentProductTO.fromValue(paymentProduct), paymentId, authorisationId, requestHeaders.toMap(), objectMapper.valueToTree(transactionAuthorisation));
-        return new Response<>(responseEntity.getStatusCodeValue(), objectMapper.convertValue(responseEntity.getBody(), ScaStatusResponse.class), getHeaders(responseEntity.getHeaders()));
+        return new Response<>(responseEntity.getStatusCodeValue(), objectMapper.convertValue(responseEntity.getBody(), ScaStatusResponse.class), responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
 
     }
 
     @Override
     public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
         ResponseEntity<Object> responseEntity = client.updatePaymentPsuData(PaymentServiceTO.fromValue(paymentService), PaymentProductTO.fromValue(paymentProduct), paymentId, authorisationId, requestHeaders.toMap(), objectMapper.valueToTree(updatePsuAuthentication));
-        return new Response<>(responseEntity.getStatusCodeValue(), objectMapper.convertValue(responseEntity.getBody(), UpdatePsuAuthenticationResponse.class), getHeaders(responseEntity.getHeaders()));
-    }
-
-    private ResponseHeaders getHeaders(HttpHeaders httpHeaders) {
-        Set<Map.Entry<String, List<String>>> entrySet = httpHeaders.entrySet();
-        Map<String, String> headers = new HashMap<>(entrySet.size());
-        for (Map.Entry<String, List<String>> entry : entrySet) {
-            List<String> value = entry.getValue();
-            if (value != null && !value.isEmpty()) {
-                headers.put(entry.getKey(), value.get(0));
-            }
-        }
-        return ResponseHeaders.fromMap(headers);
+        return new Response<>(responseEntity.getStatusCodeValue(), objectMapper.convertValue(responseEntity.getBody(), UpdatePsuAuthenticationResponse.class), responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 }

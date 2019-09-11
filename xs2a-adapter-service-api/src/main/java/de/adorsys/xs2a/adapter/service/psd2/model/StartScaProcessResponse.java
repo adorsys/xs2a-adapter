@@ -3,7 +3,7 @@ package de.adorsys.xs2a.adapter.service.psd2.model;
 import java.util.List;
 import java.util.Map;
 
-public class StartScaprocessResponse {
+public class StartScaProcessResponse {
     private String scaStatus;
 
     private String authorisationId;

@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.controller;
 
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
-import de.adorsys.xs2a.adapter.rest.mapper.Psd2AccountInformationMapper;
+import de.adorsys.xs2a.adapter.mapper.psd2.Psd2AccountInformationMapper;
 import de.adorsys.xs2a.adapter.rest.psd2.Psd2AccountInformationApi;
 import de.adorsys.xs2a.adapter.rest.psd2.model.*;
 import de.adorsys.xs2a.adapter.service.Response;
@@ -9,6 +9,7 @@ import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.model.ConsentsResponse;
 import de.adorsys.xs2a.adapter.service.psd2.model.HrefType;
 import de.adorsys.xs2a.adapter.service.psd2.model.TransactionsResponse;
+import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,14 +24,12 @@ import static java.util.Collections.singletonMap;
 public class Psd2AccountInformationController implements Psd2AccountInformationApi {
 
     private final Psd2AccountInformationService accountInformationService;
-    private final Psd2AccountInformationMapper mapper;
     private final HeadersMapper headersMapper;
+    private final Psd2AccountInformationMapper mapper = Mappers.getMapper(Psd2AccountInformationMapper.class);
 
     public Psd2AccountInformationController(Psd2AccountInformationService accountInformationService,
-                                            Psd2AccountInformationMapper mapper,
                                             HeadersMapper headersMapper) {
         this.accountInformationService = accountInformationService;
-        this.mapper = mapper;
         this.headersMapper = headersMapper;
     }
 
@@ -80,12 +79,12 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     }
 
     @Override
-    public ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(String consentId,
+    public ResponseEntity<StartScaProcessResponseTO> startConsentAuthorisation(String consentId,
                                                                                Map<String, String> headers,
                                                                                UpdateAuthorisationTO body) {
         return toResponseEntity(
-            accountInformationService.startConsentAuthorisation(consentId, headers, mapper.map(body)),
-            mapper::map
+            accountInformationService.startConsentAuthorisation(consentId, headers, mapper.toUpdateAuthorisation(body)),
+            mapper::toStartScaProcessResponseTO
         );
     }
 
@@ -105,8 +104,8 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
                                                         Map<String, String> headers,
                                                         UpdateAuthorisationTO body) {
         return toResponseEntity(
-            accountInformationService.updateConsentsPsuData(consentId, authorisationId, headers, mapper.map(body)),
-            mapper::map
+            accountInformationService.updateConsentsPsuData(consentId, authorisationId, headers, mapper.toUpdateAuthorisation(body)),
+            mapper::toUpdateAuthorisationResponseTO
         );
     }
 
