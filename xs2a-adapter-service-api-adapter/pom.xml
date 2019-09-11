@@ -53,11 +53,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
@@ -65,6 +60,13 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+        </dependency>
+
+        <!-- other dependencies -->
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
         </dependency>
 
         <dependency>
@@ -102,4 +104,46 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${maven.enforce.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>enforce-banned-dependencies</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <bannedDependencies>
+                                    <excludes>
+                                        <!-- project dependencies -->
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-loader</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-remote</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-app</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-aspsp-registry</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-generated-rest-api</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-impl</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-api</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest2api-mapper</exclude>
+                                        <!-- 3rd party dependencies -->
+                                        <exclude>joda-time:*</exclude>
+                                        <exclude>org.projectlombok:lombok</exclude>
+                                    </excludes>
+                                    <includes>
+                                    </includes>
+                                </bannedDependencies>
+                            </rules>
+                            <fail>true</fail>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

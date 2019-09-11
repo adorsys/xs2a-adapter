@@ -117,7 +117,10 @@
                                     <excludes>
                                         <!-- project dependencies -->
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-loader</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-remote</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-api-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-app</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-aspsp-registry</exclude>
                                         <!-- 3rd party dependencies -->
                                         <exclude>joda-time:*</exclude>
                                         <exclude>org.projectlombok:lombok</exclude>

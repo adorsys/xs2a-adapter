@@ -28,6 +28,8 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!-- other dependencies -->
+
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
