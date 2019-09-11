@@ -12,6 +12,7 @@
     </parent>
 
     <packaging>pom</packaging>
+
     <artifactId>adapters</artifactId>
 
     <modules>
