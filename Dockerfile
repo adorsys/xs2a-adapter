@@ -9,9 +9,11 @@ ENV JAVA_TOOL_OPTIONS -Xmx1024m
 WORKDIR /opt/xs2a-adapter
 
 COPY xs2a-adapter-app/target/xs2a-adapter-app.jar /opt/xs2a-adapter/xs2a-adapter-app.jar
+COPY adapters/comdirect-adapter/xs2a_sandbox_comdirect_de.crt /etc/pki/ca-trust/source/anchors/xs2a_sandbox_comdirect_de.crt
 
 USER 0
 RUN chmod go+w /opt/xs2a-adapter
+RUN update-ca-trust extract
 USER 1001
 
 EXPOSE 8081
