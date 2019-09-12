@@ -1,0 +1,11 @@
+= DRAFT Release notes for version 0.0.4 (release date: xx.xx.2019)
+
+.Added banks
+|===
+|Bank Name|approach|AIS, PIS
+
+|===
+
+== Features:
+
+== Fixes:
