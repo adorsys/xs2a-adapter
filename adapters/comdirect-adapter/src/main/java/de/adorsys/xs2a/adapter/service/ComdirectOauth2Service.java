@@ -17,9 +17,9 @@
 package de.adorsys.xs2a.adapter.service;
 
 import de.adorsys.xs2a.adapter.adapter.AbstractService;
+import de.adorsys.xs2a.adapter.adapter.mapper.TokenResponseMapper;
+import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
 import de.adorsys.xs2a.adapter.http.StringUri;
-import de.adorsys.xs2a.adapter.service.mapper.TokenResponseMapper;
-import de.adorsys.xs2a.adapter.service.model.OauthToken;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import org.mapstruct.factory.Mappers;
 
@@ -52,7 +52,7 @@ public class ComdirectOauth2Service extends AbstractService implements Oauth2Ser
         params.put("redirect_uri", redirectUri.toString());
         params.put("client_id", clientId);
         params.put("grant_type", "authorization_code");
-        params.put("code", "AIS_VALID_CODE");
+        params.put("code", authorizationCode);
         params.put("code_verifier", "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk");
 
         Response<OauthToken> response = httpClient.postForm(url, Collections.emptyMap(), params,
