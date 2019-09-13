@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.service.model;
+package de.adorsys.xs2a.adapter.adapter.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

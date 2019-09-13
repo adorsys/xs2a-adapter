@@ -17,9 +17,9 @@
 package de.adorsys.xs2a.adapter.service;
 
 import de.adorsys.xs2a.adapter.adapter.AbstractService;
+import de.adorsys.xs2a.adapter.adapter.mapper.TokenResponseMapper;
+import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
 import de.adorsys.xs2a.adapter.http.StringUri;
-import de.adorsys.xs2a.adapter.service.mapper.TokenResponseMapper;
-import de.adorsys.xs2a.adapter.service.model.OauthToken;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import org.mapstruct.factory.Mappers;
 
