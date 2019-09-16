@@ -16,10 +16,10 @@
 
 package de.adorsys.xs2a.adapter.adorsys.service.provider;
 
-import de.adorsys.xs2a.adapter.adorsys.service.impl.AdorsysIntegAccountInformationService;
-import de.adorsys.xs2a.adapter.adorsys.service.impl.AdorsysIntegPaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 
@@ -27,12 +27,12 @@ public class AdorsysIntegServiceProvider implements AccountInformationServicePro
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
-        return new AdorsysIntegPaymentInitiationService(baseUrl);
+        return new BasePaymentInitiationService(baseUrl);
     }
 
     @Override
     public AccountInformationService getAccountInformationService(String baseUrl) {
-        return new AdorsysIntegAccountInformationService(baseUrl);
+        return new BaseAccountInformationService(baseUrl);
     }
 
     @Override
