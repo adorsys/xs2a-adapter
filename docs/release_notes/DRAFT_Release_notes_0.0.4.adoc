@@ -7,5 +7,6 @@
 |===
 
 == Features:
+- Adapters configuration moved to the link:../../xs2a-adapter-service-api/src/main/resources/adapter.config.properties[adapter.config.properties] file
 
 == Fixes:
