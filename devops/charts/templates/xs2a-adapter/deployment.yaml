@@ -20,9 +20,13 @@ spec:
         - env:
             - name: SPRING_PROFILES_ACTIVE
               value: dev,sandbox
-            {{- if .Values.adapter.customConfig }}
+            {{- if .Values.adapter.aspspConfig }}
             - name: csv.aspsp.adapter.config.file.path
               value: /opt/xs2a-adapter/custom-config/aspsp-adapter-config.csv
+            {{- end }}
+            {{- if .Values.adapter.customConfig }}
+            - name: csv.aspsp.adapter.config.file.path
+              value: /opt/xs2a-adapter/custom-config/adapter.config.properties
             {{- end }}
             - name: dkb.token.consumer_key
               valueFrom:
