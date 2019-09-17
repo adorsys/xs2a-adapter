@@ -27,9 +27,10 @@ public final class PropertyUtil {
 
     public static String readProperty(String key, String defaultValue) {
         String property = System.getProperty(key, "");
-        if (property.isEmpty()) {
-            property = System.getenv(key);
+        if (!property.isEmpty()) {
+            return property;
         }
+        property = System.getenv(key);
         return property == null || property.trim().isEmpty() ? defaultValue : property;
     }
 }
