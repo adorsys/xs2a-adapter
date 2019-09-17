@@ -18,7 +18,8 @@ package de.adorsys.xs2a.adapter.service;
 
 public final class PropertyUtil {
 
-    private PropertyUtil() {}
+    private PropertyUtil() {
+    }
 
     public static String readProperty(String key) {
         return readProperty(key, "");

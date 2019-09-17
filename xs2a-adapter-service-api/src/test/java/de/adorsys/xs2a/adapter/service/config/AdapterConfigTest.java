@@ -15,7 +15,9 @@ public class AdapterConfigTest {
 
     @Test
     public void externalConfigFile() {
-        System.setProperty("adapter.config.file.path","/Users/hiryu/projects/adorsys/xs2a-gateway/xs2a-adapter-service-api/src/test/resources/external.adapter.config.properties");
+        String file = getClass().getResource("/external.adapter.config.properties").getFile();
+        System.setProperty("adapter.config.file.path", file);
+
         AdapterConfig.reload();
 
         String property = AdapterConfig.readProperty("some-adapter-property");
