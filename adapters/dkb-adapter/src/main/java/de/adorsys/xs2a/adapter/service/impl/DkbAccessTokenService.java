@@ -30,6 +30,8 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+import static de.adorsys.xs2a.adapter.service.config.AdapterConfig.readProperty;
+
 public class DkbAccessTokenService implements AccessTokenService {
     private static final Logger logger = LoggerFactory.getLogger(DkbAccessTokenService.class);
 
@@ -64,8 +66,8 @@ public class DkbAccessTokenService implements AccessTokenService {
     }
 
     static {
-        String consumerKey = readProperty(DKB_TOKEN_CONSUMER_KEY_PROPERTY);
-        String consumerSecret = readProperty(DKB_TOKEN_CONSUMER_SECRET_PROPERTY);
+        String consumerKey = readProperty(DKB_TOKEN_CONSUMER_KEY_PROPERTY, "");
+        String consumerSecret = readProperty(DKB_TOKEN_CONSUMER_SECRET_PROPERTY, "");
 
         if (consumerKey.isEmpty() || consumerSecret.isEmpty()) {
             String message = "Consumer key or secret are not provided";
@@ -80,9 +82,9 @@ public class DkbAccessTokenService implements AccessTokenService {
         tokenUrl = readProperty(DKB_TOKEN_URL_PROPERTY, DEFAULT_TOKEN_URL);
         logger.debug("Token url is {}", tokenUrl);
 
-        secondsBeforeTokenExpiration = Integer.valueOf(readProperty(
-                DKB_TOKEN_SECONDS_BEFORE_TOKEN_EXPIRATION_PROPERTY,
-                DEFAULT_SECONDS_BEFORE_TOKEN_EXPIRATION
+        secondsBeforeTokenExpiration = Integer.parseInt(readProperty(
+            DKB_TOKEN_SECONDS_BEFORE_TOKEN_EXPIRATION_PROPERTY,
+            DEFAULT_SECONDS_BEFORE_TOKEN_EXPIRATION
         ));
         logger.debug("Seconds before token expiration is {}", secondsBeforeTokenExpiration);
     }
@@ -92,10 +94,10 @@ public class DkbAccessTokenService implements AccessTokenService {
         if (isNotValid()) {
             logger.debug("Token is not valid");
             Response<TokenResponse> response = httpClient.post(
-                    tokenUrl,
-                    TOKEN_GRANT_TYPE,
-                    headers,
-                    responseHandler()
+                tokenUrl,
+                TOKEN_GRANT_TYPE,
+                headers,
+                responseHandler()
             );
             logger.debug("New token is retrieved");
             accessToken = new AccessToken(response.getBody());
@@ -124,18 +126,6 @@ public class DkbAccessTokenService implements AccessTokenService {
             logger.error(message);
             throw new AccessTokenException(message);
         };
-    }
-
-    private static String readProperty(String key, String def) {
-        String property = System.getProperty(key, "");
-        if (property.isEmpty()) {
-            property = System.getenv(key);
-        }
-        return property == null || property.trim().isEmpty() ? def : property;
-    }
-
-    private static String readProperty(String key) {
-        return readProperty(key, "");
     }
 
     private static String buildBasicAuthorization(String key, String secret) {
