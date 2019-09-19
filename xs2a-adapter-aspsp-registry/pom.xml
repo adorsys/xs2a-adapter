@@ -2,13 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>xs2a-adapter</artifactId>
         <groupId>de.adorsys.xs2a.adapter</groupId>
-        <version>0.0.3-SNAPSHOT</version>
+        <version>0.0.4-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>xs2a-adapter-aspsp-registry</artifactId>
 
@@ -19,15 +21,19 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-csv</artifactId>
-        </dependency>
+        <!-- project dependencies -->
 
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>xs2a-adapter-service-api</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <!-- other dependencies -->
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-csv</artifactId>
         </dependency>
 
         <dependency>

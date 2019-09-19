@@ -82,7 +82,7 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     }
 
     @Override
-    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
                                                                        Map<String, String> headers,
                                                                        UpdateAuthorisation updateAuthentication) {
         throw new UnsupportedOperationException();

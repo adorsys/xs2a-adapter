@@ -6,13 +6,15 @@
     <parent>
         <groupId>de.adorsys.xs2a.adapter</groupId>
         <artifactId>xs2a-adapter</artifactId>
-        <version>0.0.3-SNAPSHOT</version>
+        <version>0.0.4-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
     <artifactId>xs2a-adapter-service-remote</artifactId>
 
     <dependencies>
+
+        <!-- project dependencies -->
 
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
@@ -32,6 +34,8 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!-- other dependencies -->
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -47,6 +51,8 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
 
+        <!-- test dependencies -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -58,7 +64,6 @@
             <artifactId>feign-httpclient</artifactId>
             <scope>test</scope>
         </dependency>
-
 
     </dependencies>
 
@@ -79,11 +84,13 @@
                                 <bannedDependencies>
                                     <excludes>
                                         <!-- project dependencies -->
-                                        <exclude>de.adorsys.xs2a.adapter:adapters</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-app</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-server</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-api-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-loader</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-remote</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-api-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-app</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-aspsp-registry</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-generated-rest-api</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-impl</exclude>
                                         <!-- 3rd party dependencies -->
                                         <exclude>joda-time:*</exclude>
                                         <exclude>org.projectlombok:lombok</exclude>

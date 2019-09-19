@@ -1,0 +1,13 @@
+= DRAFT Release notes for version 0.0.4 (release date: xx.xx.2019)
+
+.Added banks
+|===
+|Bank Name|approach|AIS, PIS
+
+|===
+
+== Features:
+- Adapters configuration moved to the link:../../xs2a-adapter-service-api/src/main/resources/adapter.config.properties[adapter.config.properties] file
+
+== Fixes:
+- UpdatePsuAuthenticationResponse mapping exception fixed

@@ -18,12 +18,15 @@ package de.adorsys.xs2a.tpp;
 
 import de.adorsys.xs2a.adapter.api.remote.AccountInformationClient;
 import de.adorsys.xs2a.adapter.api.remote.PaymentInitiationClient;
+import de.adorsys.xs2a.adapter.api.remote.psd2.Psd2AccountInformationClient;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.impl.AccountInformationServiceImpl;
 import de.adorsys.xs2a.adapter.service.impl.PaymentInitiationServiceImpl;
+import de.adorsys.xs2a.adapter.service.impl.psd2.Psd2AccountInformationServiceImpl;
+import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import feign.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -51,6 +54,9 @@ public class AppConfiguration {
     @Autowired
     PaymentInitiationClient paymentInitiationClient;
 
+    @Autowired
+    Psd2AccountInformationClient psd2AccountInformationClient;
+
     @Bean
     PaymentInitiationScaStatusResponseMapper getPaymentInitiationScaStatusResponseMapper() {
         return new PaymentInitiationScaStatusResponseMapper();
@@ -69,6 +75,11 @@ public class AppConfiguration {
     @Bean
     AccountInformationService accountInformationService() {
         return new AccountInformationServiceImpl(accountInformationClient);
+    }
+
+    @Bean
+    Psd2AccountInformationService psd2AccountInformationService() {
+        return new Psd2AccountInformationServiceImpl(psd2AccountInformationClient);
     }
 
     @Bean

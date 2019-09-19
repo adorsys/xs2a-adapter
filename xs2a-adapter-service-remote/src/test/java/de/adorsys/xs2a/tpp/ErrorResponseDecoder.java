@@ -7,6 +7,7 @@ import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import feign.Response;
 import feign.Util;
 import feign.codec.ErrorDecoder;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,7 +32,10 @@ public class ErrorResponseDecoder implements ErrorDecoder {
         ErrorResponse errorResponse = null;
         try (Reader bodyReader = response.body().asReader()) {
             String responseBody = Util.toString(bodyReader);
-            errorResponse = objectMapper.readValue(responseBody, ErrorResponse.class);
+
+            if (StringUtils.isNotBlank(responseBody)) {
+                errorResponse = objectMapper.readValue(responseBody, ErrorResponse.class);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

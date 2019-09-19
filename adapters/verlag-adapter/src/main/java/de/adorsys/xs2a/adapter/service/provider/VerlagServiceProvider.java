@@ -16,21 +16,35 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
-import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.impl.VerlagAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.VerlagPaymentInitiationService;
 
+import java.util.AbstractMap;
+
 public class VerlagServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+
+    private static final String VERLAG_API_KEY_NAME = "verlag.apikey.name";
+    private static final String VERLAG_API_KEY_VALUE = "verlag.apikey.value";
+
+    private static AbstractMap.SimpleImmutableEntry<String, String> apiKeyEntry;
+
+    static {
+        String apiKeyName = AdapterConfig.readProperty(VERLAG_API_KEY_NAME, "");
+        String apiKeyValue = AdapterConfig.readProperty(VERLAG_API_KEY_VALUE, "");
+        apiKeyEntry = new AbstractMap.SimpleImmutableEntry<>(apiKeyName, apiKeyValue);
+    }
 
     @Override
     public AccountInformationService getAccountInformationService(String baseUrl) {
-        return new VerlagAccountInformationService(baseUrl);
+        return new VerlagAccountInformationService(baseUrl, apiKeyEntry);
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
-        return new VerlagPaymentInitiationService(baseUrl);
+        return new VerlagPaymentInitiationService(baseUrl, apiKeyEntry);
     }
 
     @Override

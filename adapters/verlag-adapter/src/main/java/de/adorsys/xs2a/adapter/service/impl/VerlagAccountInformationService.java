@@ -18,12 +18,16 @@ package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 
+import java.util.AbstractMap;
 import java.util.Map;
 
 public class VerlagAccountInformationService extends BaseAccountInformationService {
 
-    public VerlagAccountInformationService(String baseUri) {
+    private AbstractMap.SimpleImmutableEntry<String, String> apiKey;
+
+    public VerlagAccountInformationService(String baseUri, AbstractMap.SimpleImmutableEntry<String, String> apiKey) {
         super(baseUri);
+        this.apiKey = apiKey;
     }
 
     @Override
@@ -51,6 +55,6 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
     }
 
     private void addApiKey(Map<String, String> headers) {
-        headers.put("X-bvpsd2-test-apikey", "tUfZ5KOHRTFrikZUsmSMUabKw09UIzGE");
+        headers.put(apiKey.getKey(), apiKey.getValue());
     }
 }
