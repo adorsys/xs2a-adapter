@@ -73,9 +73,9 @@
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
 
         <!-- spring -->
-        <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
-        <spring-cloud.version>Finchley.SR2</spring-cloud.version>
-        <spring-data-releasetrain.version>Lovelace-SR3</spring-data-releasetrain.version>
+        <spring-boot.version>2.1.8.RELEASE</spring-boot.version>
+        <spring-cloud.version>Greenwich.SR3</spring-cloud.version>
+        <spring-data-releasetrain.version>Lovelace-SR10</spring-data-releasetrain.version>
 
         <!-- swagger -->
         <springfox-swagger2.version>2.8.0</springfox-swagger2.version>
