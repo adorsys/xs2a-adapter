@@ -20,10 +20,12 @@ spec:
         - env:
             - name: SPRING_PROFILES_ACTIVE
               value: dev,sandbox
-            {{- if .Values.adapter.customConfig }}
+            {{- if .Values.adapter.aspspConfig }}
             - name: csv.aspsp.adapter.config.file.path
               value: /opt/xs2a-adapter/custom-config/aspsp-adapter-config.csv
             {{- end }}
+            - name: csv.aspsp.adapter.config.file.path
+              value: /opt/xs2a-adapter/custom-config/adapter.config.properties
             - name: dkb.token.consumer_key
               valueFrom:
                 secretKeyRef:
@@ -65,10 +67,8 @@ spec:
               mountPath: /qwac
             - name: pkcs12-key-store-secret-volume
               mountPath: /pkcs12
-            {{- if .Values.adapter.customConfig }}
             - name: xs2a-adapter-config
               mountPath: /opt/xs2a-adapter/custom-config
-            {{- end }}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -81,11 +81,9 @@ spec:
         - name: pkcs12-key-store-secret-volume
           secret:
             secretName: pkcs12-key-store-secret
-        {{- if .Values.adapter.customConfig }}
         - name: xs2a-adapter-config
           persistentVolumeClaim:
             claimName: xs2a-adapter-config
-        {{- end }}
   test: false
   triggers:
     - type: ConfigChange

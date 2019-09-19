@@ -17,10 +17,24 @@ However, being able to interact with many banks can be a time and cost consuming
 
 ### XS2A Adapter Solution by adorsys
 
-The XS2A Adapter is a service component for Multi-Banking Applications. On one hand, you can interact with the adapter through an own interface based on the Berlin Group Specification. On the other Hand, it can communicate with different PSD2-interfaces from various Banks in Germany and Europe. Our solution is Open Source and free of charge. It can easily be embedded in your application using either a java or a REST client. With the help of a growing community our adapter is kept up-to-date regarding the changes on the XS2A interfaces of the banks. Also, as part of our product vision, a core team will be interacting with the community in order to keep connecting new banks to the adapter. 
+The XS2A Adapter is a service component for Multi-Banking Applications. On one hand, you can interact with the adapter through an own interface based on the Berlin Group Specification. On the other Hand, it can communicate with different PSD2-interfaces from various Banks in Germany and Europe. Our solution is Open Source and free of charge. It can easily be embedded in your application using either a java or a REST client. With the help of a growing community our adapter is kept up-to-date regarding the changes on the XS2A interfaces of the banks. Also, as part of our product vision, a core team will be interacting with the community in order to keep connecting new banks to the adapter.
 
 ### High level architecture
 ![High level architecture](docs/img/high%20level%20architecture.png)
+
+## Configuring the XS2A Adapter
+
+For configuring adapter with your custom settings, just copy adapter configuration 
+file [adapter.config.properties](xs2a-adapter-service-api/src/main/resources/adapter.config.properties) 
+and replace with your values. Then provide the path to your custom config file 
+with `adapter.config.file.path` environment variable.
+```
+# Java property example
+-Dadapter.config.file.path=/opt/xs2a-adapter/custom-config/custom.adapter.config.properties
+
+# Environment variable example
+env "adapter.config.file.path=/opt/xs2a-adapter/custom-config/custom.adapter.config.properties"  perl -le 'print $ENV{"adapter.config.file.path"}'
+```
 
 ## Running the XS2A Adapter
 

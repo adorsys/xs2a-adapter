@@ -21,9 +21,8 @@ public class DkbAccessTokenServiceTest {
 
     @Before
     public void setUp() {
-        // these are required properties for correct working of dkb adapter
-        System.setProperty(DkbAccessTokenService.DKB_TOKEN_CONSUMER_KEY_PROPERTY, "111");
-        System.setProperty(DkbAccessTokenService.DKB_TOKEN_CONSUMER_SECRET_PROPERTY, "111");
+        String file = getClass().getResource("/external.adapter.config.properties").getFile();
+        System.setProperty("adapter.config.file.path", file);
 
         tokenService = DkbAccessTokenService.getInstance();
         httpClient = Mockito.mock(HttpClient.class);

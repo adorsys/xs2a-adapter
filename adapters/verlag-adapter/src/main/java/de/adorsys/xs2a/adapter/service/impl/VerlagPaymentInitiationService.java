@@ -18,12 +18,16 @@ package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 
+import java.util.AbstractMap;
 import java.util.Map;
 
 public class VerlagPaymentInitiationService extends BasePaymentInitiationService {
 
-    public VerlagPaymentInitiationService(String baseUri) {
+    private AbstractMap.SimpleImmutableEntry<String, String> apiKey;
+
+    public VerlagPaymentInitiationService(String baseUri, AbstractMap.SimpleImmutableEntry<String, String> apiKey) {
         super(baseUri);
+        this.apiKey = apiKey;
     }
 
     @Override
@@ -45,6 +49,6 @@ public class VerlagPaymentInitiationService extends BasePaymentInitiationService
     }
 
     private void addApiKey(Map<String, String> headers) {
-        headers.put("X-bvpsd2-test-apikey", "tUfZ5KOHRTFrikZUsmSMUabKw09UIzGE");
+        headers.put(apiKey.getKey(), apiKey.getValue());
     }
 }
