@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Profile("dev")
 @Controller
-public class ViewController {
+public class AspspManagerController {
 
-    private final String V1_ASPSP_MANAGER = "/manager";
+    private final String ASPSP_MANAGER_URL = "/manager";
 
-    @GetMapping(V1_ASPSP_MANAGER)
+    @GetMapping(ASPSP_MANAGER_URL)
     public String manage() {
-        return "./index.html";
+        return "index.html";
     }
 }

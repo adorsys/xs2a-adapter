@@ -21,7 +21,7 @@ public class ViewControllerTest {
     private MockMvc mockMvc;
 
     @Mock
-    private ViewController viewController;
+    private AspspManagerController viewController;
 
     @Before
     public void setUp() {
