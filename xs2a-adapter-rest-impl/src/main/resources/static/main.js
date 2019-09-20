@@ -124,7 +124,6 @@ function addRow() {
 }
 
 function uuid() {
-  console.log("generating uuid...");
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
       var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
@@ -154,7 +153,6 @@ function redButton(e) {
 
     if (tableRow.className) {
         purgeRow(e);
-        console.log("row purged off");
     } else {
         if (window.confirm("You you sure you want to delete this aspsp record?")) {
             deleteButton(e);
@@ -191,7 +189,6 @@ function deleteButton(e) {
             throw Error(response.statusText);
         }
         purgeRow(e);
-        console.log("data deleted");
         return response;
     }).catch(function (error) {
         console.log(error);
@@ -216,8 +213,6 @@ function updateButton(e) {
 
     let data = id + bankName + bic + url + adapterId + bankCode;
 
-    console.log(data);
-
     fetch(uri, {
         method: 'PUT',
         headers: {
@@ -228,7 +223,6 @@ function updateButton(e) {
         if (!response.ok) {
             throw Error(response.statusText);
         }
-        console.log("updated");
         return response;
     }).then(response => {
         if (response.ok) {
@@ -262,8 +256,6 @@ function saveButton(e) {
 
     let data = id + bankName + bic + url + adapterId + bankCode;
 
-    console.log(data);
-
     fetch(uri, {
         method: 'POST',
         headers: {
@@ -275,7 +267,6 @@ function saveButton(e) {
             throw Error(response.statusText);
         }
         row.removeAttribute("class");
-        console.log("saved");
         return response;
     }).then(response => {
         if (response.status === 201) {
