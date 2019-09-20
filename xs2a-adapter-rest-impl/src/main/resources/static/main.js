@@ -87,29 +87,29 @@ function addRow() {
         if (e.className) {
             if (e.className.indexOf("edit") > -1) {
                 let helper = e.parentNode.childNodes[7];
-
+    
                 e.addEventListener("click", () => { editButton(e) })
                 e.setAttribute("id", editId + COUNTER);
-
+    
                 helper.setAttribute("data-mdl-for", editId + COUNTER);
                 editButton(e);
             }
-
+    
             if (e.className.indexOf("update") > -1) {
                 let helper = e.parentNode.childNodes[9];
-
+    
                 e.addEventListener("click", () => { greenButton(e) })
                 e.setAttribute("id", updateId + COUNTER);
-
+    
                 helper.setAttribute("data-mdl-for", updateId + COUNTER);
             }
-
+    
             if (e.className.indexOf("delete") > -1) {
                 let helper = e.parentNode.childNodes[11];
-
+    
                 e.addEventListener("click", () => { redButton(e) })
                 e.setAttribute("id", deleteId + COUNTER);
-
+    
                 helper.setAttribute("data-mdl-for", deleteId + COUNTER);
             }
         }
@@ -196,29 +196,12 @@ function deleteButton(e) {
 }
 
 function updateButton(e) {
-    let editButton = e.parentNode.children[0];
-    let updateOrSaveButton = e.parentNode.children[1];
-    let deleteButton = e.parentNode.children[2];
-
-    let row = e.parentNode.parentNode;
-
-    let uri = "/v1/aspsps/";
-
-    let id = "{\"id\": \"" + row.cells[0].textContent + "\",\n";
-    let bankName = "\"name\": \"" + row.cells[1].textContent + "\",\n";
-    let bic = "\"bic\": \"" + row.cells[2].textContent + "\",\n";
-    let url = "\"url\": \"" + row.cells[3].textContent + "\",\n";
-    let adapterId = "\"adapterId\": \"" + row.cells[4].textContent + "\",\n";
-    let bankCode = "\"bankCode\": \"" + row.cells[5].textContent + "\"}";
-
-    let data = id + bankName + bic + url + adapterId + bankCode;
-
-    fetch(uri, {
+    fetch("/v1/aspsps/", {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: data
+        body: assembleRowData(e)
     }).then((response) => {
         if (!response.ok) {
             throw Error(response.statusText);
@@ -226,12 +209,7 @@ function updateButton(e) {
         return response;
     }).then(response => {
         if (response.ok) {
-            if (editButton.style.display === "none") {
-                editButton.style.display = "inherit";
-                updateOrSaveButton.style.display = "none";
-                deleteButton.style.display = "none";
-                uneditableCells(e);
-            }
+            toggleButtons(e);
         }
     }).catch(function (error) {
         console.log(error);
@@ -239,29 +217,12 @@ function updateButton(e) {
 }
 
 function saveButton(e) {
-    let editButton = e.parentNode.children[0];
-    let updateOrSaveButton = e.parentNode.children[1];
-    let deleteButton = e.parentNode.children[2];
-
-    let row = e.parentNode.parentNode;
-
-    let uri = "/v1/aspsps/";
-
-    let id = "{\"id\": \"" + row.cells[0].textContent + "\",\n";
-    let bankName = "\"name\": \"" + row.cells[1].textContent + "\",\n";
-    let bic = "\"bic\": \"" + row.cells[2].textContent + "\",\n";
-    let url = "\"url\": \"" + row.cells[3].textContent + "\",\n";
-    let adapterId = "\"adapterId\": \"" + row.cells[4].textContent + "\",\n";
-    let bankCode = "\"bankCode\": \"" + row.cells[5].textContent + "\"}";
-
-    let data = id + bankName + bic + url + adapterId + bankCode;
-
-    fetch(uri, {
+    fetch("/v1/aspsps/", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: data
+        body: assembleRowData(e)
     }).then((response) => {
         if (response.status !== 201) {
             throw Error(response.statusText);
@@ -270,12 +231,7 @@ function saveButton(e) {
         return response;
     }).then(response => {
         if (response.status === 201) {
-            if (editButton.style.display === "none") {
-                editButton.style.display = "inherit";
-                updateOrSaveButton.style.display = "none";
-                deleteButton.style.display = "none";
-                uneditableCells(e);
-            }
+            toggleButtons(e);
         }
     }).catch(function (error) {
         console.log(error);
@@ -295,7 +251,7 @@ function buildRow(data) {
 
     let clone = HIDDEN_ROW.cloneNode(true);
     clone.removeAttribute("class");
-
+    
     clone.cells[0].textContent = data.id;
     clone.cells[1].textContent = data.name;
     clone.cells[2].textContent = data.bic;
@@ -307,28 +263,28 @@ function buildRow(data) {
         if (e.className) {
             if (e.className.indexOf("edit") > -1) {
                 let helper = e.parentNode.childNodes[7];
-
+    
                 e.addEventListener("click", () => { editButton(e) })
                 e.setAttribute("id", editId + COUNTER);
-
+    
                 helper.setAttribute("data-mdl-for", editId + COUNTER);
             }
-
+    
             if (e.className.indexOf("update") > -1) {
                 let helper = e.parentNode.childNodes[9];
-
+    
                 e.addEventListener("click", () => { greenButton(e) })
                 e.setAttribute("id", updateId + COUNTER);
-
+    
                 helper.setAttribute("data-mdl-for", updateId + COUNTER);
             }
-
+    
             if (e.className.indexOf("delete") > -1) {
                 let helper = e.parentNode.childNodes[11];
-
+    
                 e.addEventListener("click", () => { redButton(e) })
                 e.setAttribute("id", deleteId + COUNTER);
-
+    
                 helper.setAttribute("data-mdl-for", deleteId + COUNTER);
             }
         }
@@ -354,4 +310,16 @@ function clearTable() {
     }
 }
 
+function assembleRowData(e) {
+    let row = e.parentNode.parentNode;
+
+    let id = "{\"id\": \"" + row.cells[0].textContent + "\",\n";
+    let bankName = "\"name\": \"" + row.cells[1].textContent + "\",\n";
+    let bic = "\"bic\": \"" + row.cells[2].textContent + "\",\n";
+    let url = "\"url\": \"" + row.cells[3].textContent + "\",\n";
+    let adapterId = "\"adapterId\": \"" + row.cells[4].textContent + "\",\n";
+    let bankCode = "\"bankCode\": \"" + row.cells[5].textContent + "\"}";
+
+    return id + bankName + bic + url + adapterId + bankCode;
+}
 //# sourceMappingURL=main.js.map
