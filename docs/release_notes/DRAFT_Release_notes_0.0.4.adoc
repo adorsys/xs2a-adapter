@@ -8,6 +8,7 @@
 
 == Features:
 - Adapters configuration moved to the link:../../xs2a-adapter-service-api/src/main/resources/adapter.config.properties[adapter.config.properties] file
+- Added UI for manual managing aspsps (/manager endpoint). It is available only via `dev` profile
 
 == Fixes:
 - UpdatePsuAuthenticationResponse mapping exception fixed
