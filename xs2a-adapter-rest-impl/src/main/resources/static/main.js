@@ -1,9 +1,13 @@
 setTimeout(function () {
     initGlobals();
     document.querySelector("#add>button").addEventListener("click", addRow);
+    document.querySelector("#import>button").addEventListener("click", () => FILE_UPLOAD_FIELD.click());
+    FILE_UPLOAD_FIELD.addEventListener("change", upload);
+    document.querySelectorAll(".mdl-textfield__input").orEach(field => field.addEventListener('keypress', onEnterPress(event)));
 }, 0)
 
 function initGlobals() {
+    window.FILE_UPLOAD_FIELD = document.querySelector("#import-field");
     window.HIDDEN_ROW = document.querySelector("tbody>tr.hidden");
     window.COUNTER = 0;
 }
@@ -87,29 +91,29 @@ function addRow() {
         if (e.className) {
             if (e.className.indexOf("edit") > -1) {
                 let helper = e.parentNode.childNodes[7];
-
+    
                 e.addEventListener("click", () => { editButton(e) })
                 e.setAttribute("id", editId + COUNTER);
-
+    
                 helper.setAttribute("data-mdl-for", editId + COUNTER);
                 editButton(e);
             }
-
+    
             if (e.className.indexOf("update") > -1) {
                 let helper = e.parentNode.childNodes[9];
-
+    
                 e.addEventListener("click", () => { greenButton(e) })
                 e.setAttribute("id", updateId + COUNTER);
-
+    
                 helper.setAttribute("data-mdl-for", updateId + COUNTER);
             }
-
+    
             if (e.className.indexOf("delete") > -1) {
                 let helper = e.parentNode.childNodes[11];
-
+    
                 e.addEventListener("click", () => { redButton(e) })
                 e.setAttribute("id", deleteId + COUNTER);
-
+    
                 helper.setAttribute("data-mdl-for", deleteId + COUNTER);
             }
         }
@@ -253,7 +257,7 @@ function buildRow(data) {
 
     let clone = HIDDEN_ROW.cloneNode(true);
     clone.removeAttribute("class");
-
+    
     clone.cells[0].textContent = data.id;
     clone.cells[1].textContent = data.name;
     clone.cells[2].textContent = data.bic;
@@ -265,28 +269,28 @@ function buildRow(data) {
         if (e.className) {
             if (e.className.indexOf("edit") > -1) {
                 let helper = e.parentNode.childNodes[7];
-
+    
                 e.addEventListener("click", () => { editButton(e) })
                 e.setAttribute("id", editId + COUNTER);
-
+    
                 helper.setAttribute("data-mdl-for", editId + COUNTER);
             }
-
+    
             if (e.className.indexOf("update") > -1) {
                 let helper = e.parentNode.childNodes[9];
-
+    
                 e.addEventListener("click", () => { greenButton(e) })
                 e.setAttribute("id", updateId + COUNTER);
-
+    
                 helper.setAttribute("data-mdl-for", updateId + COUNTER);
             }
-
+    
             if (e.className.indexOf("delete") > -1) {
                 let helper = e.parentNode.childNodes[11];
-
+    
                 e.addEventListener("click", () => { redButton(e) })
                 e.setAttribute("id", deleteId + COUNTER);
-
+    
                 helper.setAttribute("data-mdl-for", deleteId + COUNTER);
             }
         }
@@ -323,5 +327,23 @@ function assembleRowData(e) {
     let bankCode = "\"bankCode\": \"" + row.cells[5].textContent + "\"}";
 
     return id + bankName + bic + url + adapterId + bankCode;
+}
+
+function upload() {
+    let file = FILE_UPLOAD_FIELD.files[0];
+    let data = new FormData();
+
+    data.append("file", file);
+
+    fetch("/v1/aspsps/import", {
+        method: 'POST',
+        body: data
+    }).catch(error => console.log(error))
+}
+
+function onEnterPress(event) {
+    if (event.keyCode === 13) {
+        search();
+    }
 }
 //# sourceMappingURL=main.js.map

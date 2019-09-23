@@ -12,6 +12,7 @@ import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,7 @@ public class AspspCsvServiceImpl implements AspspCsvService {
     private final Logger log = LoggerFactory.getLogger(AspspCsvServiceImpl.class);
 
     private AspspRepository aspspRepository;
+    private LuceneAspspRepositoryFactory luceneAspspRepositoryFactory = new LuceneAspspRepositoryFactory();
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
     public AspspCsvServiceImpl(AspspRepository aspspRepository) {
@@ -39,8 +41,11 @@ public class AspspCsvServiceImpl implements AspspCsvService {
     }
 
     @Override
-    public void importCsv() {
+    public void importCsv(byte[] inputStream) throws IOException {
+        List<AspspCsvRecord> aspspCsvRecords = luceneAspspRepositoryFactory.readAllRecords(inputStream);
 
+        aspspRepository.deleteAll();
+        aspspRepository.saveAll(aspspMapper.toAspsps(aspspCsvRecords));
     }
 
     private String toCsvString(AspspCsvRecord aspsp) {

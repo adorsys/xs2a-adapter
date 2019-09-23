@@ -98,11 +98,11 @@ public class LuceneAspspRepositoryFactory {
         return new FileInputStream(filePath);
     }
 
-    private List<AspspCsvRecord> readAllRecords(byte[] csv) throws IOException {
+    List<AspspCsvRecord> readAllRecords(byte[] csv) throws IOException {
 
         List<AspspCsvRecord> records = new CsvMapper().readerWithTypedSchemaFor(AspspCsvRecord.class)
-                .<AspspCsvRecord>readValues(csv)
-                .readAll();
+            .<AspspCsvRecord>readValues(csv)
+            .readAll();
         return records;
     }
 }

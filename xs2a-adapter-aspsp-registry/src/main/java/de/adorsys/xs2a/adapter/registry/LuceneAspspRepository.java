@@ -50,6 +50,16 @@ public class LuceneAspspRepository implements AspspRepository {
         }
     }
 
+    @Override
+    public void deleteAll() {
+        IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
+        try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
+            indexWriter.deleteAll();
+        } catch (IOException e) {
+            throw new RegistryIOException(e);
+        }
+    }
+
     Aspsp save(IndexWriter indexWriter, Aspsp aspsp) throws IOException {
         Optional<Aspsp> storedAspsp = Optional.empty();
 
@@ -80,6 +90,7 @@ public class LuceneAspspRepository implements AspspRepository {
         return String.valueOf(s); // null -> "null"
     }
 
+    @Override
     public void saveAll(List<Aspsp> aspsps) {
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
         try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {

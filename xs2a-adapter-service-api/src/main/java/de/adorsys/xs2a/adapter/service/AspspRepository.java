@@ -18,9 +18,15 @@ package de.adorsys.xs2a.adapter.service;
 
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
+import java.util.List;
+
 public interface AspspRepository extends AspspReadOnlyRepository {
 
     Aspsp save(Aspsp aspsp);
 
+    void saveAll(List<Aspsp> aspsps);
+
     void deleteById(String aspspId);
+
+    void deleteAll();
 }

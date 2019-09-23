@@ -23,13 +23,18 @@ import de.adorsys.xs2a.adapter.service.AspspCsvService;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 
 @Profile("dev")
@@ -38,6 +43,7 @@ public class AspspController {
     static final String ASPSP_ID = "{aspspId}";
     static final String V1_ASPSP_BY_ID = AspspSearchApi.V1_APSPS + "/" + ASPSP_ID;
     static final String V1_ASPSP_EXPORT = AspspSearchApi.V1_APSPS + "/export";
+    static final String V1_ASPSP_IMPORT = AspspSearchApi.V1_APSPS + "/import";
     private final AspspRepository aspspRepository;
     private final AspspCsvService aspspCsvService;
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
@@ -77,5 +83,10 @@ public class AspspController {
         responseHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
 
         return new ResponseEntity<>(response, responseHeaders, HttpStatus.OK);
+    }
+
+    @PostMapping(value = V1_ASPSP_IMPORT, consumes = {"multipart/form-data"})
+    public void importCsv(@RequestParam MultipartFile file) throws IOException {
+        aspspCsvService.importCsv(file.getBytes());
     }
 }

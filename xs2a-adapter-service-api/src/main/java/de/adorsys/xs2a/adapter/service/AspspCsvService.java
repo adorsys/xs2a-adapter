@@ -1,5 +1,7 @@
 package de.adorsys.xs2a.adapter.service;
 
+import java.io.IOException;
+
 public interface AspspCsvService {
 
     /**
@@ -17,5 +19,5 @@ public interface AspspCsvService {
 
     byte[] exportCsv();
 
-    void importCsv();
+    void importCsv(byte[] file) throws IOException;
 }
