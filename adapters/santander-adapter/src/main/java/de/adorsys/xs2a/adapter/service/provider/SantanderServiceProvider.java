@@ -16,21 +16,24 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
-import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
-import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.impl.SantanderAccessTokenService;
+import de.adorsys.xs2a.adapter.service.impl.SantanderAccountInformationService;
+import de.adorsys.xs2a.adapter.service.impl.SantanderPaymentInitiationService;
 
 public class SantanderServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+    private final AccessTokenService tokenService = SantanderAccessTokenService.getInstance();
 
     @Override
     public AccountInformationService getAccountInformationService(String baseUrl) {
-        return new BaseAccountInformationService(baseUrl);
+        return new SantanderAccountInformationService(baseUrl, tokenService);
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
-        return new BasePaymentInitiationService(baseUrl);
+        return new SantanderPaymentInitiationService(baseUrl, tokenService);
     }
 
     @Override
