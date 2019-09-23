@@ -16,4 +16,6 @@ public interface AspspCsvService {
      */
 
     byte[] exportCsv();
+
+    void importCsv();
 }

@@ -38,6 +38,11 @@ public class AspspCsvServiceImpl implements AspspCsvService {
             .getBytes();
     }
 
+    @Override
+    public void importCsv() {
+
+    }
+
     private String toCsvString(AspspCsvRecord aspsp) {
 
         CsvMapper mapper = new CsvMapper();
