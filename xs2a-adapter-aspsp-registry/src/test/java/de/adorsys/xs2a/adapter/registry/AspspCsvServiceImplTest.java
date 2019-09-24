@@ -4,12 +4,13 @@ import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.io.IOException;
+import java.util.*;
 
 import static org.mockito.Mockito.*;
 
@@ -53,5 +54,33 @@ public class AspspCsvServiceImplTest {
         byte[] output = aspspCsvServiceImpl.exportCsv();
 
         assertThat(Arrays.equals(output, STORED_BYTES_TEMPLATE)).isTrue();
+    }
+
+    @Test
+    public void importCsv() throws IOException {
+        List<Aspsp> repository = new ArrayList<>();
+
+        ArgumentCaptor<ArrayList> captor = ArgumentCaptor.forClass(ArrayList.class);
+
+        Aspsp aspsp = new Aspsp();
+        aspsp.setId(ID);
+        aspsp.setName(ASPSP_NAME);
+        aspsp.setBic(BIC);
+        aspsp.setUrl(URL);
+        aspsp.setAdapterId(ADAPTER_ID);
+        aspsp.setBankCode(BANK_CODE);
+
+        repository.add(aspsp);
+
+        doNothing().when(aspspRepository).deleteAll();
+
+        doNothing().when(aspspRepository).saveAll(repository);
+
+        aspspCsvServiceImpl.importCsv(STORED_BYTES_TEMPLATE);
+
+        verify(aspspRepository, times(1)).deleteAll();
+        verify(aspspRepository, times(1)).saveAll(captor.capture());
+        assertThat(repository.getClass()).isEqualTo(captor.getValue().getClass());
+        assertThat(repository.get(0)).isEqualTo(aspsp);
     }
 }

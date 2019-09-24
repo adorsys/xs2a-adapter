@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.csv.CsvGenerator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
 import de.adorsys.xs2a.adapter.registry.mapper.AspspMapper;
 import de.adorsys.xs2a.adapter.service.AspspCsvService;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
@@ -41,8 +42,13 @@ public class AspspCsvServiceImpl implements AspspCsvService {
     }
 
     @Override
-    public void importCsv(byte[] inputStream) throws IOException {
-        List<AspspCsvRecord> aspspCsvRecords = luceneAspspRepositoryFactory.readAllRecords(inputStream);
+    public void importCsv(byte[] inputStream) {
+        List<AspspCsvRecord> aspspCsvRecords;
+        try {
+            aspspCsvRecords = luceneAspspRepositoryFactory.readAllRecords(inputStream);
+        } catch (IOException e) {
+            throw new RegistryIOException(e);
+        }
 
         aspspRepository.deleteAll();
         aspspRepository.saveAll(aspspMapper.toAspsps(aspspCsvRecords));

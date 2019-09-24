@@ -1,7 +1,5 @@
 package de.adorsys.xs2a.adapter.service;
 
-import java.io.IOException;
-
 public interface AspspCsvService {
 
     /**
@@ -15,9 +13,20 @@ public interface AspspCsvService {
      * if processing fails.
      *
      * @return array of bytes with all Lucene indexes
+     * @throws RuntimeException if Aspsp data writing into String fails
      */
-
     byte[] exportCsv();
 
-    void importCsv(byte[] file) throws IOException;
+    /**
+     * Saves uploaded Aspsps into the current Lucene storage.
+     * <p>
+     * Accepts a csv file as the array of bites. The method converts it into the list
+     * of aspsps, remove all existing records from Lucene and saves the pushed objects into the
+     * repository. Can produce RegistryIOException (a type of RuntimeException) while
+     * converting bites into objects.
+     *
+     * @param file is a csv file with aspsps details information
+     * @throws RegistryIOException if converting array of bytes into Aspsp object fails
+     */
+    void importCsv(byte[] file);
 }
