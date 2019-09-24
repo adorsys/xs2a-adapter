@@ -18,32 +18,46 @@ public class Pkcs12KeyStore {
     private static final char[] PASSWORD = new char[]{};
 
     private final KeyStore keyStore;
+    private final char[] password;
+    private final String qwacAlias;
+    private final String qsealAlias;
 
     public Pkcs12KeyStore(String filename) throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException {
-        keyStore = KeyStore.getInstance(KEY_STORE_TYPE);
+        this(filename, PASSWORD);
+    }
+
+    public Pkcs12KeyStore(String filename, char[] password) throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException {
+        this(filename, password, QWAC_ALIAS, QSEAL_ALIAS);
+    }
+
+    public Pkcs12KeyStore(String filename, char[] password, String qwacAlias, String qsealAlias) throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException {
+        this.keyStore = KeyStore.getInstance(KEY_STORE_TYPE);
+        this.password = password;
+        this.qwacAlias = qwacAlias;
+        this.qsealAlias = qsealAlias;
         FileInputStream inputStream = new FileInputStream(filename);
-        keyStore.load(inputStream, PASSWORD);
+        keyStore.load(inputStream, password);
     }
 
     public SSLContext getSslContext() throws NoSuchAlgorithmException, KeyStoreException, UnrecoverableEntryException, KeyManagementException, IOException, CertificateException {
         KeyStore qwacKeyStore = KeyStore.getInstance(KEY_STORE_TYPE);
-        qwacKeyStore.load(null, PASSWORD);
-        KeyStore.Entry entry = keyStore.getEntry(QWAC_ALIAS, new KeyStore.PasswordProtection(PASSWORD));
-        qwacKeyStore.setEntry("", entry, new KeyStore.PasswordProtection(PASSWORD));
+        qwacKeyStore.load(null, password);
+        KeyStore.Entry entry = keyStore.getEntry(qwacAlias, new KeyStore.PasswordProtection(password));
+        qwacKeyStore.setEntry("", entry, new KeyStore.PasswordProtection(password));
 
         SSLContext sslContext = SSLContext.getInstance("TLS");
         KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-        keyManagerFactory.init(qwacKeyStore, PASSWORD);
+        keyManagerFactory.init(qwacKeyStore, password);
         KeyManager[] keyManagers = keyManagerFactory.getKeyManagers();
         sslContext.init(keyManagers, null, null);
         return sslContext;
     }
 
     public X509Certificate getQsealCertificate() throws KeyStoreException {
-        return (X509Certificate) keyStore.getCertificate(QSEAL_ALIAS);
+        return (X509Certificate) keyStore.getCertificate(qsealAlias);
     }
 
     public PrivateKey getQsealPrivateKey() throws UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
-        return (PrivateKey) keyStore.getKey(QSEAL_ALIAS, PASSWORD);
+        return (PrivateKey) keyStore.getKey(qsealAlias, password);
     }
 }

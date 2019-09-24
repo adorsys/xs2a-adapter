@@ -84,7 +84,7 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
 
     @Override
     public Response<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService, String spaymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders) {
-        ResponseEntity<ScaStatusResponseTO> responseEntity = client.getPaymentInitiationScaStatus(PaymentServiceTO.PAYMENTS, PaymentProductTO.fromValue(paymentService), spaymentProduct, paymentId, requestHeaders.toMap());
+        ResponseEntity<ScaStatusResponseTO> responseEntity = client.getPaymentInitiationScaStatus(PaymentServiceTO.fromValue(paymentService), PaymentProductTO.fromValue(spaymentProduct), paymentId, authorisationId, requestHeaders.toMap());
         PaymentInitiationScaStatusResponse initiationScaStatusResponse = paymentInitiationScaStatusResponseMapper.toPaymentInitiationScaStatusResponse(responseEntity.getBody());
         return new Response<>(responseEntity.getStatusCodeValue(), initiationScaStatusResponse, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
@@ -92,7 +92,8 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     @Override
     public Response<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, RequestHeaders requestHeaders) {
         ResponseEntity<Object> responseEntity = client.getPaymentInitiationStatus(PaymentServiceTO.PAYMENTS, PaymentProductTO.fromValue(paymentProduct), paymentId, requestHeaders.toMap());
-        PaymentInitiationStatus initiationStatus = paymentInitiationStatusMapper.toPaymentInitiationStatus((PaymentInitiationStatusResponse200JsonTO) responseEntity.getBody());
+        PaymentInitiationStatusResponse200JsonTO responseTO = objectMapper.convertValue(responseEntity.getBody(), PaymentInitiationStatusResponse200JsonTO.class);
+        PaymentInitiationStatus initiationStatus = paymentInitiationStatusMapper.toPaymentInitiationStatus(responseTO);
         return new Response<>(responseEntity.getStatusCodeValue(), initiationStatus, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 

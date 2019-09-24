@@ -7,4 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface Oauth2Mapper {
     TokenResponseTO map(TokenResponse token);
+
+    TokenResponse toTokenResponse(TokenResponseTO tokenResponseTO);
 }
