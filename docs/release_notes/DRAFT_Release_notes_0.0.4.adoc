@@ -12,3 +12,4 @@
 
 == Fixes:
 - UpdatePsuAuthenticationResponse mapping exception fixed
+- `xs2a-adapter-service-remote`. PaymentInitiationServiceImpl fixed problem with payment initiation status
