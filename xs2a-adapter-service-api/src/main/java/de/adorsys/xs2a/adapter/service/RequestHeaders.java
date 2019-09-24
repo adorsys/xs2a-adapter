@@ -31,6 +31,7 @@ public class RequestHeaders {
     public static final String PSU_GEO_LOCATION = "PSU-Geo-Location";
     // technical
     public static final String ACCEPT = "Accept";
+    public static final String CONTENT_TYPE = "Content-Type";
     public static final String AUTHORIZATION = "Authorization";
     // gateway
     public static final String X_GTW_ASPSP_ID = "X-GTW-ASPSP-ID";
