@@ -21,6 +21,7 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.JsonMapper;
 import de.adorsys.xs2a.adapter.security.AccessTokenException;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +74,7 @@ public class SantanderAccessTokenService implements AccessTokenService {
         }
 
         headers = new HashMap<>();
-        headers.put("Content-type", "application/x-www-form-urlencoded");
+        headers.put(RequestHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded");
         headers.put("Authorization", "Basic " + buildBasicAuthorization(consumerKey, consumerSecret));
 
         tokenUrl = readProperty(SANTANDER_TOKEN_URL_PROPERTY, DEFAULT_TOKEN_URL);
