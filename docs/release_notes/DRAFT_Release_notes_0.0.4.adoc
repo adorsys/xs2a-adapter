@@ -12,6 +12,7 @@
 - Added UI for manual managing aspsps (/manager endpoint). It is available only via `dev` profile
 - Masking of sensitive data in the logs
 - Logging of Correlation-ID header as a part of the Layout
+- Added IMPORT endpoint to `aspsp-registry` for uploading and replacing Aspsp objects into Lucene repository. It is available only via `dev` profile
 
 == Fixes:
 - UpdatePsuAuthenticationResponse mapping exception fixed
