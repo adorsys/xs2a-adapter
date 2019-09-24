@@ -146,5 +146,7 @@ public class AspspControllerTest {
         mockMvc.perform(multipart(AspspSearchApi.V1_APSPS + "/import")
             .file("file", "content".getBytes()))
             .andExpect(status().is(HttpStatus.OK.value()));
+
+        verify(aspspCsvService, times(1)).importCsv(any());
     }
 }
