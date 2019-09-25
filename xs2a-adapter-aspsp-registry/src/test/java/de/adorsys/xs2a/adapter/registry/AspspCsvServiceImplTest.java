@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.io.IOException;
 import java.util.*;
 
 import static org.mockito.Mockito.*;
@@ -57,7 +56,7 @@ public class AspspCsvServiceImplTest {
     }
 
     @Test
-    public void importCsv() throws IOException {
+    public void importCsv() {
         List<Aspsp> repository = new ArrayList<>();
 
         ArgumentCaptor<ArrayList> captor = ArgumentCaptor.forClass(ArrayList.class);
@@ -80,7 +79,9 @@ public class AspspCsvServiceImplTest {
 
         verify(aspspRepository, times(1)).deleteAll();
         verify(aspspRepository, times(1)).saveAll(captor.capture());
-        assertThat(repository.getClass()).isEqualTo(captor.getValue().getClass());
-        assertThat(repository.get(0)).isEqualTo(aspsp);
+        assertThat(repository.size()).isEqualTo(captor.getValue().size());
+
+        Aspsp output = (Aspsp) captor.getValue().get(0);
+        assertThat(output.getId()).isEqualTo(aspsp.getId());
     }
 }

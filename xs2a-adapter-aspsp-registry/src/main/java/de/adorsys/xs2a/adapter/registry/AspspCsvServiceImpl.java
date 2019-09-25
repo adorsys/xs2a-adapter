@@ -22,7 +22,6 @@ public class AspspCsvServiceImpl implements AspspCsvService {
     private final Logger log = LoggerFactory.getLogger(AspspCsvServiceImpl.class);
 
     private AspspRepository aspspRepository;
-    private LuceneAspspRepositoryFactory luceneAspspRepositoryFactory = new LuceneAspspRepositoryFactory();
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
     public AspspCsvServiceImpl(AspspRepository aspspRepository) {
@@ -42,16 +41,16 @@ public class AspspCsvServiceImpl implements AspspCsvService {
     }
 
     @Override
-    public void importCsv(byte[] inputStream) {
-        List<AspspCsvRecord> aspspCsvRecords;
+    public void importCsv(byte[] bytes) {
+        List<Aspsp> aspsps;
         try {
-            aspspCsvRecords = luceneAspspRepositoryFactory.readAllRecords(inputStream);
+            aspsps = readAllRecords(bytes);
         } catch (IOException e) {
             throw new RegistryIOException(e);
         }
 
         aspspRepository.deleteAll();
-        aspspRepository.saveAll(aspspMapper.toAspsps(aspspCsvRecords));
+        aspspRepository.saveAll(aspsps);
     }
 
     private String toCsvString(AspspCsvRecord aspsp) {
@@ -76,5 +75,13 @@ public class AspspCsvServiceImpl implements AspspCsvService {
             log.warn("Exception occurred while indexes were being written into a CSV: {}", e.getMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    public List<Aspsp> readAllRecords(byte[] csv) throws IOException {
+        List<AspspCsvRecord> aspsps = new CsvMapper().readerWithTypedSchemaFor(AspspCsvRecord.class)
+            .<AspspCsvRecord>readValues(csv)
+            .readAll();
+
+        return aspspMapper.toAspsps(aspsps);
     }
 }

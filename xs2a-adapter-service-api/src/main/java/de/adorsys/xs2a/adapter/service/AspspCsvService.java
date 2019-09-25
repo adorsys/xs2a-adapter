@@ -1,5 +1,10 @@
 package de.adorsys.xs2a.adapter.service;
 
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
+
+import java.io.IOException;
+import java.util.List;
+
 public interface AspspCsvService {
 
     /**
@@ -29,4 +34,12 @@ public interface AspspCsvService {
      * @throws RegistryIOException if converting array of bytes into Aspsp object fails
      */
     void importCsv(byte[] file);
+
+    /**
+     *
+     *
+     * @param csv
+     * @return
+     */
+    List<Aspsp> readAllRecords(byte[] csv) throws IOException;
 }
