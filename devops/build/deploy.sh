@@ -17,13 +17,18 @@ if [ $# -ne 1 ]; then
   exit 2
 fi
 
-# push latest to openshift
+# push latest to openshift dev env
 if [ "$1" == "develop" ]; then
   docker login -u image-pusher -p $OPENSHIFT_TOKEN $OPENSHIFT_REGISTRY
   docker build -t "$OPENSHIFT_IMAGE_NAME:develop" .
   docker push $OPENSHIFT_IMAGE_NAME:develop
   mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST -Dsonar.login=$SONAR_TOKEN
-# push latest to opensift banking gateway
+# push latest to opensift integ env
+elif [ "$1" == "integ" ]; then
+  docker login -u github-image-pusher -p $OPENSHIFT_TOKEN_INTEG $OPENSHIFT_REGISTRY
+  docker build -t "$OPENSHIFT_IMAGE_NAME_INTEG:develop" .
+  docker push $OPENSHIFT_IMAGE_NAME_INTEG:develop
+  # push tags to dockerhub
 elif [ "$1" == "banking-gateway-dev" ]; then
   docker login -u github-image-pusher -p $OPENSHIFT_TOKEN_BGT_DEV $OPENSHIFT_REGISTRY
   docker build -t "$OPENSHIFT_IMAGE_NAME_BGT_DEV:latest" .
