@@ -220,5 +220,13 @@
     "creditorName": "Merchant123",
     "sepa-credit-transfers-supported": "true",
     "pain.001-sepa-credit-transfers-supported": "false"
+  },
+  {
+    "adapter": "santander",
+    "bic": "SCFBDE33XXX",
+    "iban_AIS": "DE74310108330000009001",
+    "iban_PIS": "DE74310108330000009001",
+    "sepa-credit-transfers-supported": "false",
+    "pain.001-sepa-credit-transfers-supported": "false"
   }
 ]

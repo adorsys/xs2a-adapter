@@ -19,12 +19,13 @@ package de.adorsys.xs2a.adapter.adapter;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.JsonMapper;
 import de.adorsys.xs2a.adapter.http.StringUri;
-import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import de.adorsys.xs2a.adapter.service.model.SinglePaymentInitiationBody;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
+import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
+import de.adorsys.xs2a.adapter.service.model.SinglePaymentInitiationBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +44,6 @@ public abstract class AbstractService {
     protected static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([^;]+)");
     protected static final String AUTHORISATIONS = "authorisations";
     protected static final String STATUS = "status";
-    protected static final String CONTENT_TYPE_HEADER = "Content-Type";
     protected static final String APPLICATION_JSON = "application/json";
     protected static final String ACCEPT_HEADER = "Accept";
     protected final JsonMapper jsonMapper = new JsonMapper();
@@ -79,7 +79,7 @@ public abstract class AbstractService {
                 return null;
             }
 
-            String contentType = responseHeaders.getHeader(CONTENT_TYPE_HEADER);
+            String contentType = responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE);
 
             if (contentType != null && !contentType.startsWith(APPLICATION_JSON)) {
                 NotAcceptableException notAcceptableException = new NotAcceptableException(buildNotAcceptableExceptionMessage(contentType, APPLICATION_JSON));
@@ -110,7 +110,7 @@ public abstract class AbstractService {
                         baos.write(buffer, 0, length);
                     }
 
-                    Matcher matcher = CHARSET_PATTERN.matcher(responseHeaders.getHeader(CONTENT_TYPE_HEADER));
+                    Matcher matcher = CHARSET_PATTERN.matcher(responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE));
 
                     String charset = StandardCharsets.UTF_8.name();
 

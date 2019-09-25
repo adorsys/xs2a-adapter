@@ -3,6 +3,7 @@
 .Added banks
 |===
 |Bank Name|approach|AIS, PIS
+|Santander Bank|n/a|AIS
 
 |===
 

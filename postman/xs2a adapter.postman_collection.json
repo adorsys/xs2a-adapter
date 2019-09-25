@@ -109,6 +109,10 @@
 									"    postman.setNextRequest(\"oauth2_token_static_code\");",
 									"}",
 									"",
+									"if (pm.variables.get(\"adapter\") === \"santander\") {",
+									"    postman.setNextRequest(\"AIS/Accounts/005c_MsgX+1\");",
+									"}",
+									"",
 									"pm.globals.set(\"consentId\", pm.response.json().consentId);"
 								],
 								"type": "text/javascript"

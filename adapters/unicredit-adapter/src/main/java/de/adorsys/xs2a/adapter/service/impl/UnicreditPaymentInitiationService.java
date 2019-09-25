@@ -3,7 +3,8 @@ package de.adorsys.xs2a.adapter.service.impl;
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.adapter.StandardPaymentProduct;
 import de.adorsys.xs2a.adapter.http.StringUri;
-import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.impl.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.service.impl.mapper.ScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.service.impl.mapper.UnicreditInitiateSinglePaymentResponseMapper;
@@ -78,14 +79,14 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
     @Override
     protected Map<String, String> populatePostHeaders(Map<String, String> map) {
         Map<String, String> headers = super.populatePostHeaders(map);
-        headers.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
+        headers.put(RequestHeaders.CONTENT_TYPE, APPLICATION_JSON);
 
         return headers;
     }
 
     @Override
     protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
-        headers.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
+        headers.put(RequestHeaders.CONTENT_TYPE, APPLICATION_JSON);
         return headers;
     }
 }

@@ -2,20 +2,14 @@ package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.http.StringUri;
-import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
-import de.adorsys.xs2a.adapter.service.model.ConsentStatusResponse;
-import de.adorsys.xs2a.adapter.service.model.Consents;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.impl.mapper.ScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.service.impl.mapper.UnicreditCreateConsentResponseMapper;
 import de.adorsys.xs2a.adapter.service.impl.mapper.UnicreditStartAuthorisationResponseMapper;
 import de.adorsys.xs2a.adapter.service.impl.model.UnicreditAccountScaStatusResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.UnicreditStartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.model.ScaStatusResponse;
-import de.adorsys.xs2a.adapter.service.model.TransactionAuthorisation;
-import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.adapter.service.model.*;
 
 import java.util.Map;
 
@@ -76,13 +70,13 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     @Override
     protected Map<String, String> populatePostHeaders(Map<String, String> map) {
         Map<String, String> headers = super.populatePostHeaders(map);
-        headers.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
+        headers.put(RequestHeaders.CONTENT_TYPE, APPLICATION_JSON);
         return headers;
     }
 
     @Override
     protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
-        headers.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
+        headers.put(RequestHeaders.CONTENT_TYPE, APPLICATION_JSON);
         return headers;
     }
 }
