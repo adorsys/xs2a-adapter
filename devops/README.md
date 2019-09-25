@@ -9,6 +9,10 @@
     --from-literal=consumer-key=<key value> \
     --from-literal=consumer-secret=<secret value>
     
+    oc create secret generic santander-token \
+    --from-literal=consumer-key=<key value> \
+    --from-literal=consumer-secret=<secret value>
+    
     oc create secret generic key-store-secret \
     --from-file=key-store.p12=example_eidas.p12
 

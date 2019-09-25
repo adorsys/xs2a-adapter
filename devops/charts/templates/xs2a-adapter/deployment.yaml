@@ -36,6 +36,16 @@ spec:
                 secretKeyRef:
                   name: dkb-token
                   key: consumer-secret
+            - name: santander.token.consumer_key
+                valueFrom:
+                  secretKeyRef:
+                    name: santander-token
+                    key: consumer-key
+            - name: santander.token.consumer_secret
+                valueFrom:
+                  secretKeyRef:
+                    name: santander-token
+                    key: consumer-secret
             - name: KEY_STORE_TYPE
               valueFrom:
                 secretKeyRef:
