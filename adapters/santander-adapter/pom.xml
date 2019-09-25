@@ -10,7 +10,7 @@
         <relativePath>../..</relativePath>
     </parent>
 
-    <artifactId>comdirect-adapter</artifactId>
+    <artifactId>santander-adapter</artifactId>
 
     <dependencies>
 
@@ -65,15 +65,15 @@
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-remote</exclude>
                                         <!-- adapters -->
                                         <exclude>de.adorsys.xs2a.adapter:adorsys-integ-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:comdirect-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:commerzbank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:consors-bank-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:dab-bank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:deutsche-bank-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:dkb-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:dkp-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:dab-bank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:fiducia-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:ing-psd2-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:maven-adapter-archetype</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:santander-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:sparda-bank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:sparkasse-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:unicredit-adapter</exclude>

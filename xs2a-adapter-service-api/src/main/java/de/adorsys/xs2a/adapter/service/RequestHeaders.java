@@ -31,7 +31,9 @@ public class RequestHeaders {
     public static final String PSU_GEO_LOCATION = "PSU-Geo-Location";
     // technical
     public static final String ACCEPT = "Accept";
+    public static final String CONTENT_TYPE = "Content-Type";
     public static final String AUTHORIZATION = "Authorization";
+    public static final String CORRELATION_ID = "Correlation-ID";
     // gateway
     public static final String X_GTW_ASPSP_ID = "X-GTW-ASPSP-ID";
     public static final String X_GTW_BANK_CODE = "X-GTW-Bank-Code";
@@ -66,6 +68,7 @@ public class RequestHeaders {
         headerNamesLowerCased.put(PSU_GEO_LOCATION.toLowerCase(), PSU_GEO_LOCATION);
         headerNamesLowerCased.put(ACCEPT.toLowerCase(), ACCEPT);
         headerNamesLowerCased.put(AUTHORIZATION.toLowerCase(), AUTHORIZATION);
+        headerNamesLowerCased.put(CORRELATION_ID.toLowerCase(), CORRELATION_ID);
     }
 
     private Map<String, String> headers;

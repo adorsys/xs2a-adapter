@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,7 +27,7 @@ public class DeutscheBankPaymentInitiationService extends BasePaymentInitiationS
     protected Map<String, String> populatePostHeaders(Map<String, String> map) {
         Map<String, String> headers = super.populatePostHeaders(map);
         headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        headers.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
+        headers.put(RequestHeaders.CONTENT_TYPE, APPLICATION_JSON);
 
         return headers;
     }
@@ -34,7 +35,7 @@ public class DeutscheBankPaymentInitiationService extends BasePaymentInitiationS
     @Override
     protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
         headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        headers.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
+        headers.put(RequestHeaders.CONTENT_TYPE, APPLICATION_JSON);
         return headers;
     }
 }

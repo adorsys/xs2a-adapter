@@ -74,6 +74,7 @@
                                         <exclude>de.adorsys.xs2a.adapter:fiducia-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:ing-psd2-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:maven-adapter-archetype</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:santander-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:sparda-bank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:sparkasse-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:verlag-adapter</exclude>
