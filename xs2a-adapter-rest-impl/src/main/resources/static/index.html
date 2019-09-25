@@ -22,17 +22,19 @@
         <form class="search-form">
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <label for="bank-name" class="mdl-textfield__label">Bank name</label>
-                <input class="mdl-textfield__input" type="text" name="bank-name" id="">
+                <input class="mdl-textfield__input" type="text" name="bank-name">
             </div>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <label for="bic" class="mdl-textfield__label">BIC</label>
-                <input class="mdl-textfield__input" type="text" name="bic" id="">
+                <input class="mdl-textfield__input" type="text" name="bic">
             </div>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <label for="bank-code" class="mdl-textfield__label">Bank code</label>
-                <input class="mdl-textfield__input" type="text" name="bank-code" id="">
+                <input class="mdl-textfield__input" type="text" name="bank-code">
             </div>
-            <input class="mdl-button mdl-js-button button__padding-top" type="button" value="SEARCH" id="search_button" onclick="search(this);">
+            <input class="mdl-button mdl-js-button button__padding-top" type="button" value="SEARCH" id="search_button"
+                onclick="search();">
+            <input class="mdl-button mdl-js-button button__padding-top" type="button" value="CLEAR" id="clear_button" onclick="clearContent();">
         </form>
     </div>
 </header>
@@ -63,13 +65,14 @@
                 </div>
             </div>
             <div class="import-button" id="import">
-                <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab mdl-button--primary" disabled>
+                <input type="file" name="import file" id="import-field" hidden>
+                <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab mdl-button--primary">
                     <i class="material-icons">
                         arrow_upward
                     </i>
                 </button>
                 <div class="mdl-tooltip" data-mdl-for="import">
-                    Sorry( Not implemeted yet
+                    Import Aspsps
                 </div>
             </div>
         </nav>

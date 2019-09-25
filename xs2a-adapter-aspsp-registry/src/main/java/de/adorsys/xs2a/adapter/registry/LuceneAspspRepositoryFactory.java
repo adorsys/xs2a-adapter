@@ -1,12 +1,10 @@
 package de.adorsys.xs2a.adapter.registry;
 
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
-import de.adorsys.xs2a.adapter.registry.mapper.AspspMapper;
+import de.adorsys.xs2a.adapter.service.AspspCsvService;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.mapstruct.factory.Mappers;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -21,8 +19,6 @@ public class LuceneAspspRepositoryFactory {
     private static final String CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH_PROPERTY = "csv.aspsp.adapter.config.file.path";
     private static final String DEFAULT_CSV_ASPSP_ADAPTER_CONFIG_FILE = "aspsp-adapter-config.csv";
     private static final String DEFAULT_LUCENE_DIR_PATH = "lucene";
-
-    private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
     public LuceneAspspRepository newLuceneAspspRepository() {
         try {
@@ -54,11 +50,12 @@ public class LuceneAspspRepositoryFactory {
 
         Directory directory = FSDirectory.open(Paths.get(DEFAULT_LUCENE_DIR_PATH, "index"));
         LuceneAspspRepository luceneAspspRepository = new LuceneAspspRepository(directory);
+        AspspCsvService aspspCsvService = new AspspCsvServiceImpl(luceneAspspRepository);
         if (changed) {
             for (String f : directory.listAll()) {
                 directory.deleteFile(f);
             }
-            List<Aspsp> aspsps = aspspMapper.toAspsps(readAllRecords(csv));
+            List<Aspsp> aspsps = aspspCsvService.readAllRecords(csv);
             luceneAspspRepository.saveAll(aspsps);
             Files.write(digestPath, computedDigest.getBytes());
         }
@@ -96,13 +93,5 @@ public class LuceneAspspRepositoryFactory {
 
     private InputStream getFileAsStream(String filePath) throws FileNotFoundException {
         return new FileInputStream(filePath);
-    }
-
-    private List<AspspCsvRecord> readAllRecords(byte[] csv) throws IOException {
-
-        List<AspspCsvRecord> records = new CsvMapper().readerWithTypedSchemaFor(AspspCsvRecord.class)
-                .<AspspCsvRecord>readValues(csv)
-                .readAll();
-        return records;
     }
 }
