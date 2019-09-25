@@ -26,16 +26,6 @@ spec:
             {{- end }}
             - name: csv.aspsp.adapter.config.file.path
               value: /opt/xs2a-adapter/custom-config/adapter.config.properties
-            - name: dkb.token.consumer_key
-              valueFrom:
-                secretKeyRef:
-                  name: dkb-token
-                  key: consumer-key
-            - name: dkb.token.consumer_secret
-              valueFrom:
-                secretKeyRef:
-                  name: dkb-token
-                  key: consumer-secret
             - name: KEY_STORE_TYPE
               valueFrom:
                 secretKeyRef:
