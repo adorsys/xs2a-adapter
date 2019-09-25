@@ -30,16 +30,21 @@ public interface AspspCsvService {
      * repository. Can produce RegistryIOException (a type of RuntimeException) while
      * converting bites into objects.
      *
-     * @param file is a csv file with aspsps details information
+     * @param file is a csv file with aspsp details information
      * @throws RegistryIOException if converting array of bytes into Aspsp object fails
      */
     void importCsv(byte[] file);
 
     /**
+     * Reads the input csv file and converts its content into a list of Aspsp objects.
+     * <p>
+     * Accepts a csv file as an array of bytes and creates AspspCsvRecord objects based
+     * on that data with the help of CsvMapper. Then it turns AspspCsvRecord objects
+     * into Aspsp entities by mapping the appropriate fields with AspspMapper.
      *
-     *
-     * @param csv
-     * @return
+     * @param csv is a file with aspsp details information
+     * @return list of Aspsp objects
+     * @throws IOException if reading bytes process fails
      */
     List<Aspsp> readAllRecords(byte[] csv) throws IOException;
 }
