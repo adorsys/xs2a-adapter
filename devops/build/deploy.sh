@@ -25,7 +25,7 @@ if [ "$1" == "develop" ]; then
   mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST -Dsonar.login=$SONAR_TOKEN
 # push latest to opensift integ env
 elif [ "$1" == "integ" ]; then
-  docker login -u github-image-pusher -p $OPENSHIFT_TOKEN_INTEG $OPENSHIFT_REGISTRY
+  docker login -u image-pusher -p $OPENSHIFT_TOKEN $OPENSHIFT_REGISTRY
   docker build -t "$OPENSHIFT_IMAGE_NAME_INTEG:develop" .
   docker push $OPENSHIFT_IMAGE_NAME_INTEG:develop
   # push tags to dockerhub
