@@ -54,9 +54,7 @@ env "adapter.config.file.path=/opt/xs2a-adapter/custom-config/custom.adapter.con
         -Djavax.net.ssl.keyStore=<certificate-file> \
         -Djavax.net.ssl.keyStorePassword=<certificate-password> \
         -Dcom.sun.security.enableAIAcaIssuers=true \
-        -Ddkb.token.consumer_key=<key> \
-        -Ddkb.token.consumer_secret=<secret> \
-        -Dpkcs12.keyStore=<key-store-file>
+        -Dpkcs12.keyStore=<key-store-file> \
         -jar xs2a-adapter-app/target/xs2a-adapter-app.jar
     
     ```
