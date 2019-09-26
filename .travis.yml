@@ -33,7 +33,7 @@ cache:
 
 script:
   # build service
-  - mvn clean install -B -Dbuild.number=${TRAVIS_JOB_ID}
+  - mvn clean install -B -Dbuild.number=${TRAVIS_BUILD_NUMBER}
   # build docker
   - docker build -t "$OPENSHIFT_IMAGE_NAME:test" .
 
