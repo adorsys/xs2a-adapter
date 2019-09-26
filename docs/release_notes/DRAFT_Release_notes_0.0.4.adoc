@@ -13,6 +13,7 @@
 - Masking of sensitive data in the logs
 - Logging of Correlation-ID header as a part of the Layout
 - Added IMPORT endpoint to `aspsp-registry` for uploading and replacing Aspsp objects into Lucene repository. It is available only via `dev` profile
+- Added endpoint for retrieving information about the application, such as name, version, description, etc (/actuator/info endpoint)
 
 == Fixes:
 - UpdatePsuAuthenticationResponse mapping exception fixed
