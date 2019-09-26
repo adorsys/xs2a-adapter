@@ -1,6 +1,14 @@
 server:
   port: 8999
 
+info:
+  app:
+    name: ${spring.application.name}
+    description: "Description"
+    version: @project.version@
+    build: '#@build.number@'
+    artifactId: @project.artifactId@
+
 spring:
   application:
     name: xs2a-adapter
