@@ -15,10 +15,12 @@ public interface AspspMapper {
 
     @Mappings({
         @Mapping(source = "aspspName", target = "name"),
-        @Mapping(target = "paginationId", ignore = true)
+        @Mapping(target = "scaApproaches", source = "aspspScaApproaches"),
+        @Mapping(target = "paginationId", ignore = true),
     })
     Aspsp toAspsp(AspspCsvRecord aspspCsvRecord);
 
+    @Mapping(target = "aspspScaApproaches", source = "scaApproaches")
     @Mapping(source = "name", target = "aspspName")
     AspspCsvRecord toAspspCsvRecord(Aspsp aspsp);
 }
