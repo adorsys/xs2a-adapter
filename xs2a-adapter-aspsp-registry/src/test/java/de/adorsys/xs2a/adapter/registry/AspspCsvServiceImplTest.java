@@ -38,6 +38,8 @@ public class AspspCsvServiceImplTest {
         = "81cecc67-6d1b-4169-b67c-2de52b99a0cc,\"BNP Paribas Germany, Consorsbank\",CSDBDE71XXX,https://xs2a-sndbx.consorsbank.de,consors-bank-adapter,76030080,https://example.com,embedded;redirect\n".getBytes();
     private static final byte[] STORED_BYTES_TEMPLATE_WITH_EMPTY_SCA_APPROACHES
         = "81cecc67-6d1b-4169-b67c-2de52b99a0cc,\"BNP Paribas Germany, Consorsbank\",CSDBDE71XXX,https://xs2a-sndbx.consorsbank.de,consors-bank-adapter,76030080,https://example.com,\n".getBytes();
+    private static final byte[] STORED_BYTES_TEMPLATE_OLD_SCHEMA
+        = "81cecc67-6d1b-4169-b67c-2de52b99a0cc,\"BNP Paribas Germany, Consorsbank\",CSDBDE71XXX,https://xs2a-sndbx.consorsbank.de,consors-bank-adapter,76030080\n".getBytes();
 
     @Mock
     private AspspRepository aspspRepository;
@@ -130,6 +132,26 @@ public class AspspCsvServiceImplTest {
         doNothing().when(aspspRepository).saveAll(repository);
 
         aspspCsvServiceImpl.importCsv(STORED_BYTES_TEMPLATE_WITH_EMPTY_SCA_APPROACHES);
+
+        verify(aspspRepository, times(1)).deleteAll();
+        verify(aspspRepository, times(1)).saveAll(captor.capture());
+        assertThat(repository.size()).isEqualTo(captor.getValue().size());
+
+        Aspsp output = (Aspsp) captor.getValue().get(0);
+        assertThat(output.getId()).isEqualTo(ASPSP.getId());
+    }
+
+    @Test
+    public void importCsv_oldSchema() {
+        List<Aspsp> repository = new ArrayList<>();
+
+        ArgumentCaptor<ArrayList> captor = ArgumentCaptor.forClass(ArrayList.class);
+
+        repository.add(ASPSP);
+        doNothing().when(aspspRepository).deleteAll();
+        doNothing().when(aspspRepository).saveAll(repository);
+
+        aspspCsvServiceImpl.importCsv(STORED_BYTES_TEMPLATE_OLD_SCHEMA);
 
         verify(aspspRepository, times(1)).deleteAll();
         verify(aspspRepository, times(1)).saveAll(captor.capture());
