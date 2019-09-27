@@ -28,8 +28,14 @@ public class AspspCsvServiceImplTest {
     private static final String BANK_CODE = "76030080";
     private static final String IDP_URL = "https://example.com";
     private static final List<AspspScaApproach> SCA_APPROACHES = Arrays.asList(AspspScaApproach.EMBEDDED, AspspScaApproach.REDIRECT);
+    private static final Aspsp ASPSP = buildAspsp();
 
-    private static final byte[] STORED_BYTES_TEMPLATE = "81cecc67-6d1b-4169-b67c-2de52b99a0cc,\"BNP Paribas Germany, Consorsbank\",CSDBDE71XXX,https://xs2a-sndbx.consorsbank.de,consors-bank-adapter,76030080,https://example.com,EMBEDDED;REDIRECT\n".getBytes();
+    private static final byte[] STORED_BYTES_TEMPLATE
+        = "81cecc67-6d1b-4169-b67c-2de52b99a0cc,\"BNP Paribas Germany, Consorsbank\",CSDBDE71XXX,https://xs2a-sndbx.consorsbank.de,consors-bank-adapter,76030080,https://example.com,EMBEDDED;REDIRECT\n".getBytes();
+    private static final byte[] STORED_BYTES_TEMPLATE_WITH_SPACES_IN_SCA_APPROACHES
+        = "81cecc67-6d1b-4169-b67c-2de52b99a0cc,\"BNP Paribas Germany, Consorsbank\",CSDBDE71XXX,https://xs2a-sndbx.consorsbank.de,consors-bank-adapter,76030080,https://example.com,EMBEDDED; REDIRECT\n".getBytes();
+    private static final byte[] STORED_BYTES_TEMPLATE_WITH_LOWERCASE_SCA_APPROACHES
+        = "81cecc67-6d1b-4169-b67c-2de52b99a0cc,\"BNP Paribas Germany, Consorsbank\",CSDBDE71XXX,https://xs2a-sndbx.consorsbank.de,consors-bank-adapter,76030080,https://example.com,embedded;redirect\n".getBytes();
 
     @Mock
     private AspspRepository aspspRepository;
@@ -44,18 +50,7 @@ public class AspspCsvServiceImplTest {
 
     @Test
     public void exportCsv() {
-        Aspsp aspsp = new Aspsp();
-
-        aspsp.setId(ID);
-        aspsp.setName(ASPSP_NAME);
-        aspsp.setBic(BIC);
-        aspsp.setUrl(URL);
-        aspsp.setAdapterId(ADAPTER_ID);
-        aspsp.setBankCode(BANK_CODE);
-        aspsp.setIdpUrl(IDP_URL);
-        aspsp.setScaApproaches(SCA_APPROACHES);
-
-        when(aspspRepository.findAll()).thenReturn(Collections.singletonList(aspsp));
+        when(aspspRepository.findAll()).thenReturn(Collections.singletonList(ASPSP));
 
         byte[] output = aspspCsvServiceImpl.exportCsv();
 
@@ -68,20 +63,8 @@ public class AspspCsvServiceImplTest {
 
         ArgumentCaptor<ArrayList> captor = ArgumentCaptor.forClass(ArrayList.class);
 
-        Aspsp aspsp = new Aspsp();
-        aspsp.setId(ID);
-        aspsp.setName(ASPSP_NAME);
-        aspsp.setBic(BIC);
-        aspsp.setUrl(URL);
-        aspsp.setAdapterId(ADAPTER_ID);
-        aspsp.setBankCode(BANK_CODE);
-        aspsp.setIdpUrl(IDP_URL);
-        aspsp.setScaApproaches(SCA_APPROACHES);
-
-        repository.add(aspsp);
-
+        repository.add(ASPSP);
         doNothing().when(aspspRepository).deleteAll();
-
         doNothing().when(aspspRepository).saveAll(repository);
 
         aspspCsvServiceImpl.importCsv(STORED_BYTES_TEMPLATE);
@@ -91,6 +74,61 @@ public class AspspCsvServiceImplTest {
         assertThat(repository.size()).isEqualTo(captor.getValue().size());
 
         Aspsp output = (Aspsp) captor.getValue().get(0);
-        assertThat(output.getId()).isEqualTo(aspsp.getId());
+        assertThat(output.getId()).isEqualTo(ASPSP.getId());
+    }
+
+    @Test
+    public void importCsv_scaApproachesWithSpaces() {
+        List<Aspsp> repository = new ArrayList<>();
+
+        ArgumentCaptor<ArrayList> captor = ArgumentCaptor.forClass(ArrayList.class);
+
+        repository.add(ASPSP);
+        doNothing().when(aspspRepository).deleteAll();
+        doNothing().when(aspspRepository).saveAll(repository);
+
+        aspspCsvServiceImpl.importCsv(STORED_BYTES_TEMPLATE_WITH_SPACES_IN_SCA_APPROACHES);
+
+        verify(aspspRepository, times(1)).deleteAll();
+        verify(aspspRepository, times(1)).saveAll(captor.capture());
+        assertThat(repository.size()).isEqualTo(captor.getValue().size());
+
+        Aspsp output = (Aspsp) captor.getValue().get(0);
+        assertThat(output.getId()).isEqualTo(ASPSP.getId());
+    }
+
+    @Test
+    public void importCsv_lowercaseScaApproaches() {
+        List<Aspsp> repository = new ArrayList<>();
+
+        ArgumentCaptor<ArrayList> captor = ArgumentCaptor.forClass(ArrayList.class);
+
+        repository.add(ASPSP);
+        doNothing().when(aspspRepository).deleteAll();
+        doNothing().when(aspspRepository).saveAll(repository);
+
+        aspspCsvServiceImpl.importCsv(STORED_BYTES_TEMPLATE_WITH_LOWERCASE_SCA_APPROACHES);
+
+        verify(aspspRepository, times(1)).deleteAll();
+        verify(aspspRepository, times(1)).saveAll(captor.capture());
+        assertThat(repository.size()).isEqualTo(captor.getValue().size());
+
+        Aspsp output = (Aspsp) captor.getValue().get(0);
+        assertThat(output.getId()).isEqualTo(ASPSP.getId());
+    }
+
+    private static Aspsp buildAspsp() {
+        Aspsp aspsp = new Aspsp();
+
+        aspsp.setId(ID);
+        aspsp.setName(ASPSP_NAME);
+        aspsp.setBic(BIC);
+        aspsp.setUrl(URL);
+        aspsp.setAdapterId(ADAPTER_ID);
+        aspsp.setBankCode(BANK_CODE);
+        aspsp.setIdpUrl(IDP_URL);
+        aspsp.setScaApproaches(SCA_APPROACHES);
+
+        return aspsp;
     }
 }
