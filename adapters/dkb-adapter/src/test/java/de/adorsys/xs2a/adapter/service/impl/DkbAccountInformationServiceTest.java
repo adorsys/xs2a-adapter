@@ -12,7 +12,7 @@ import static org.mockito.Mockito.*;
 
 public class DkbAccountInformationServiceTest {
     private final AccessTokenService accessService = Mockito.mock(AccessTokenService.class);
-    private DkbAccountInformationService service = new DkbAccountInformationService("url", accessService);
+    private DkbAccountInformationService service = new DkbAccountInformationService("url", accessService, null);
 
     @Test
     public void addBearerHeader() {

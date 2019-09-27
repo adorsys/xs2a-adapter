@@ -17,6 +17,8 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.Request;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,8 +28,10 @@ import static org.apache.http.protocol.HTTP.DATE_HEADER;
 
 public class FiduciaAccountInformationService extends BaseAccountInformationService {
 
-    public FiduciaAccountInformationService(String baseUri) {
-        super(baseUri);
+    public FiduciaAccountInformationService(String baseUri,
+                                            HttpClient httpClient,
+                                            Request.Builder.Interceptor requestBuilderInterceptor) {
+        super(baseUri, httpClient, requestBuilderInterceptor);
     }
 
     @Override

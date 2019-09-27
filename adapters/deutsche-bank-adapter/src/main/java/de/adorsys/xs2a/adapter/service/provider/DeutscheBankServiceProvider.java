@@ -16,6 +16,7 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.DeutscheBankAccountInformationService;
@@ -25,13 +26,13 @@ public class DeutscheBankServiceProvider implements AccountInformationServicePro
     private static final String SERVICE_GROUP_PLACEHOLDER = "{Service Group}";
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl) {
-        return new DeutscheBankAccountInformationService(baseUrl.replace(SERVICE_GROUP_PLACEHOLDER, "ais"));
+    public AccountInformationService getAccountInformationService(String baseUrl, HttpClient httpClient) {
+        return new DeutscheBankAccountInformationService(baseUrl.replace(SERVICE_GROUP_PLACEHOLDER, "ais"), httpClient);
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
-        return new DeutscheBankPaymentInitiationService(baseUrl.replace(SERVICE_GROUP_PLACEHOLDER, "pis"));
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClient httpClient) {
+        return new DeutscheBankPaymentInitiationService(baseUrl.replace(SERVICE_GROUP_PLACEHOLDER, "pis"), httpClient);
     }
 
     @Override

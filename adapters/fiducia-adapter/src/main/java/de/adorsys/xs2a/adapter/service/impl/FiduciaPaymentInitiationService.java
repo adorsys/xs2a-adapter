@@ -1,6 +1,8 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.Request;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,8 +12,10 @@ import static org.apache.http.protocol.HTTP.DATE_HEADER;
 
 public class FiduciaPaymentInitiationService extends BasePaymentInitiationService {
 
-    public FiduciaPaymentInitiationService(String baseUri) {
-        super(baseUri);
+    public FiduciaPaymentInitiationService(String baseUrl,
+                                           HttpClient httpClient,
+                                           Request.Builder.Interceptor requestBuilderInterceptor) {
+        super(baseUrl, httpClient, requestBuilderInterceptor);
     }
 
     @Override

@@ -28,17 +28,13 @@ public class FiduciaServiceProvider implements AccountInformationServiceProvider
     private final RequestSigningInterceptor requestSigningInterceptor = new RequestSigningInterceptor();
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl) {
-        FiduciaAccountInformationService accountInformationService = new FiduciaAccountInformationService(baseUrl);
-        accountInformationService.setHttpClient(HttpClient.newHttpClientWithSignature(requestSigningInterceptor));
-        return accountInformationService;
+    public AccountInformationService getAccountInformationService(String baseUrl, HttpClient httpClient) {
+        return new FiduciaAccountInformationService(baseUrl, httpClient, requestSigningInterceptor);
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
-        FiduciaPaymentInitiationService paymentInitiationService = new FiduciaPaymentInitiationService(baseUrl);
-        paymentInitiationService.setHttpClient(HttpClient.newHttpClientWithSignature(requestSigningInterceptor));
-        return paymentInitiationService;
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClient httpClient) {
+        return new FiduciaPaymentInitiationService(baseUrl, httpClient, requestSigningInterceptor);
     }
 
     @Override

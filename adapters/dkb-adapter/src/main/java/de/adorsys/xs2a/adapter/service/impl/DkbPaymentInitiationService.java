@@ -18,6 +18,7 @@ package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.adapter.StandardPaymentProduct;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.Response;
@@ -42,8 +43,8 @@ public class DkbPaymentInitiationService extends BasePaymentInitiationService {
 
     private AccessTokenService accessService;
 
-    public DkbPaymentInitiationService(String baseUri, AccessTokenService accessService) {
-        super(baseUri);
+    public DkbPaymentInitiationService(String baseUri, AccessTokenService accessService, HttpClient httpClient) {
+        super(baseUri, httpClient);
         this.accessService = accessService;
     }
 

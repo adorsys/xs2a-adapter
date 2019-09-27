@@ -21,13 +21,13 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.JsonMapper;
 import de.adorsys.xs2a.adapter.security.AccessTokenException;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,9 +43,8 @@ public class SantanderAccessTokenService implements AccessTokenService {
 
     private static final String DEFAULT_SECONDS_BEFORE_TOKEN_EXPIRATION = "60";
     private static final String DEFAULT_TOKEN_URL = "https://apigateway-sandbox.api.santander.de/scb-openapis/sx/oauthsos/password/token";
-    private static final String TOKEN_GRANT_TYPE = "grant_type=client_credentials";
 
-    private static AccessTokenService instance = new SantanderAccessTokenService();
+    private static SantanderAccessTokenService instance = new SantanderAccessTokenService();
     private static Map<String, String> headers;
     private static String tokenUrl;
     private static int secondsBeforeTokenExpiration;
@@ -56,10 +55,9 @@ public class SantanderAccessTokenService implements AccessTokenService {
 
     private SantanderAccessTokenService() {
         jsonMapper = new JsonMapper();
-        setHttpClient(HttpClient.newHttpClient());
     }
 
-    public static AccessTokenService getInstance() {
+    public static SantanderAccessTokenService getInstance() {
         return instance;
     }
 
@@ -74,7 +72,6 @@ public class SantanderAccessTokenService implements AccessTokenService {
         }
 
         headers = new HashMap<>();
-        headers.put(RequestHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded");
         headers.put("Authorization", "Basic " + buildBasicAuthorization(consumerKey, consumerSecret));
 
         tokenUrl = readProperty(SANTANDER_TOKEN_URL_PROPERTY, DEFAULT_TOKEN_URL);
@@ -91,19 +88,17 @@ public class SantanderAccessTokenService implements AccessTokenService {
     public String retrieveToken() {
         if (isNotValid()) {
             logger.debug("Token is not valid");
-            Response<TokenResponse> response = httpClient.post(
-                tokenUrl,
-                TOKEN_GRANT_TYPE,
-                headers,
-                responseHandler()
-            );
+            Response<TokenResponse> response = httpClient.post(tokenUrl)
+                .urlEncodedBody(Collections.singletonMap("grant_type", "client_credentials"))
+                .headers(headers)
+                .send(responseHandler());
             logger.debug("New token is retrieved");
             accessToken = new AccessToken(response.getBody());
         }
         return accessToken.token;
     }
 
-    void setHttpClient(HttpClient httpClient) {
+    public void setHttpClient(HttpClient httpClient) {
         this.httpClient = httpClient;
     }
 
