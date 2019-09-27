@@ -1,6 +1,9 @@
 package de.adorsys.xs2a.adapter.registry;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.deser.DeserializationProblemHandler;
 import com.fasterxml.jackson.dataformat.csv.CsvGenerator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
@@ -78,7 +81,20 @@ public class AspspCsvServiceImpl implements AspspCsvService {
     }
 
     public List<Aspsp> readAllRecords(byte[] csv) throws IOException {
-        List<AspspCsvRecord> aspsps = new CsvMapper().readerWithTypedSchemaFor(AspspCsvRecord.class)
+        ObjectReader objectReader = new CsvMapper()
+            .readerWithTypedSchemaFor(AspspCsvRecord.class)
+            .withHandler(new DeserializationProblemHandler() {
+                @Override
+                public Object handleWeirdStringValue(DeserializationContext ctxt, Class<?> targetType, String valueToConvert, String failureMsg) {
+                    if (targetType.isEnum()) {
+                        return Enum.valueOf((Class<Enum>) targetType, valueToConvert.trim().toUpperCase());
+                    }
+
+                    return DeserializationProblemHandler.NOT_HANDLED;
+                }
+            });
+
+        List<AspspCsvRecord> aspsps = objectReader
             .<AspspCsvRecord>readValues(csv)
             .readAll();
 
