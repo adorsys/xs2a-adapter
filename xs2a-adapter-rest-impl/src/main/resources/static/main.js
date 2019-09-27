@@ -85,10 +85,10 @@ function search() {
             return response;
         })
         .then(response => response.text())
-        .then(response => {JSON.parse(response).forEach((node) => buildRow(node))})
+        .then(response => JSON.parse(response).forEach((node) => buildRow(node)))
         .catch(error => console.log(error));
 
-    if (HIDDEN_ROW.parentElement.parentElement.hidden) {
+    if (HIDDEN_ROW.parentElement.parentElement.parentElement.hidden) {
         showTable();
     }
 }
@@ -107,7 +107,9 @@ function addRow() {
             if (e.className.indexOf("edit") > -1) {
                 let helper = e.parentNode.childNodes[7];
 
-                e.addEventListener("click", () => { editButton(e) })
+                e.addEventListener("click", () => {
+                    editButton(e)
+                })
                 e.setAttribute("id", editId + COUNTER);
 
                 helper.setAttribute("data-mdl-for", editId + COUNTER);
@@ -117,7 +119,9 @@ function addRow() {
             if (e.className.indexOf("update") > -1) {
                 let helper = e.parentNode.childNodes[9];
 
-                e.addEventListener("click", () => { greenButton(e) })
+                e.addEventListener("click", () => {
+                    greenButton(e)
+                })
                 e.setAttribute("id", updateId + COUNTER);
 
                 helper.setAttribute("data-mdl-for", updateId + COUNTER);
@@ -126,7 +130,9 @@ function addRow() {
             if (e.className.indexOf("delete") > -1) {
                 let helper = e.parentNode.childNodes[11];
 
-                e.addEventListener("click", () => { redButton(e) })
+                e.addEventListener("click", () => {
+                    redButton(e)
+                })
                 e.setAttribute("id", deleteId + COUNTER);
 
                 helper.setAttribute("data-mdl-for", deleteId + COUNTER);
@@ -143,11 +149,11 @@ function addRow() {
 }
 
 function uuid() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
     });
-  }
+}
 
 function greenButton(e) {
     let tableRow = e.parentElement.parentElement;
@@ -232,7 +238,8 @@ function updateButton(e) {
         }
     }).catch(function (error) {
         console.log(error);
-    });;
+    });
+    ;
 }
 
 function saveButton(e) {
@@ -280,14 +287,16 @@ function buildRow(data) {
     clone.cells[4].textContent = data.adapterId;
     clone.cells[5].textContent = data.bankCode;
     clone.cells[6].textContent = data.idpUrl;
-    approacheParser(data.approach, clone.cells[7]);
+    approacheParser(data.scaApproaches, clone.cells[7]);
 
     clone.lastElementChild.childNodes.forEach(e => {
         if (e.className) {
             if (e.className.indexOf("edit") > -1) {
                 let helper = e.parentNode.childNodes[7];
 
-                e.addEventListener("click", () => { editButton(e) })
+                e.addEventListener("click", () => {
+                    editButton(e)
+                })
                 e.setAttribute("id", editId + COUNTER);
 
                 helper.setAttribute("data-mdl-for", editId + COUNTER);
@@ -296,7 +305,9 @@ function buildRow(data) {
             if (e.className.indexOf("update") > -1) {
                 let helper = e.parentNode.childNodes[9];
 
-                e.addEventListener("click", () => { greenButton(e) })
+                e.addEventListener("click", () => {
+                    greenButton(e)
+                })
                 e.setAttribute("id", updateId + COUNTER);
 
                 helper.setAttribute("data-mdl-for", updateId + COUNTER);
@@ -305,7 +316,9 @@ function buildRow(data) {
             if (e.className.indexOf("delete") > -1) {
                 let helper = e.parentNode.childNodes[11];
 
-                e.addEventListener("click", () => { redButton(e) })
+                e.addEventListener("click", () => {
+                    redButton(e)
+                })
                 e.setAttribute("id", deleteId + COUNTER);
 
                 helper.setAttribute("data-mdl-for", deleteId + COUNTER);
@@ -317,6 +330,10 @@ function buildRow(data) {
     COUNTER++;
 
     function approacheParser(data, cell) {
+        if(!data) {
+            return;
+        }
+
         let inputs = cell.querySelectorAll("input");
 
         data.forEach(element => {
@@ -350,7 +367,11 @@ function clearTable() {
     let body = document.querySelectorAll("tbody>tr");
 
     if (body.length > 1) {
-        body.forEach(e => { if (!e.className) { e.remove(); } })
+        body.forEach(e => {
+            if (!e.className) {
+                e.remove();
+            }
+        })
     }
 }
 
@@ -364,21 +385,21 @@ function assembleRowData(e) {
     let adapterId = "\"adapterId\": \"" + row.cells[4].textContent + "\",\n";
     let bankCode = "\"bankCode\": \"" + row.cells[5].textContent + "\",\n";
     let idpUrl = "\"idpUrl\": \"" + row.cells[6].textContent + "\",\n";
-    let approache = "\"aspspScaApproaches\": \"" + approacheParser(row.cells[7]) + "\"}";
+    let approach = "\"scaApproaches\": " + approacheParser(row.cells[7]) + "}";
 
-    return id + bankName + bic + url + adapterId + bankCode + idpUrl + approache;
+    return id + bankName + bic + url + adapterId + bankCode + idpUrl + approach;
 
     function approacheParser(data) {
         let inputs = data.querySelectorAll("input");
-        let resultString = "";
+        let resultString = [];
 
         inputs.forEach((element) => {
-            if(element.checked){
-                resultString += element.name + ";";
+            if (element.checked) {
+                resultString.push(element.name);
             }
         })
 
-        return resultString.slice(0, -1);
+        return JSON.stringify(resultString);
     }
 }
 
@@ -412,31 +433,46 @@ function onEnterPress(event) {
 function clearContent() {
     clearTable();
 
-    document.querySelectorAll(".mdl-textfield__input").forEach(element => {element.value = ""; element.parentElement.classList.remove("is-dirty")});
+    document.querySelectorAll(".mdl-textfield__input").forEach(element => {
+        element.value = "";
+        element.parentElement.classList.remove("is-dirty")
+    });
 }
 
 function uploadFailed() {
     let failure = document.querySelector(".upload")
 
-    setTimeout(() => { failure.style.opacity = 1 }, 500);
+    setTimeout(() => {
+        failure.style.opacity = 1
+    }, 500);
 
-    setTimeout(() => { failure.style.opacity = 0 }, 8000);
+    setTimeout(() => {
+        failure.style.opacity = 0
+    }, 8000);
 }
 
 function searchFailed() {
     let failure = document.querySelector(".failure.search")
 
-    setTimeout(() => { failure.style.opacity = 1 }, 500);
+    setTimeout(() => {
+        failure.style.opacity = 1
+    }, 500);
 
-    setTimeout(() => { failure.style.opacity = 0 }, 8000);
+    setTimeout(() => {
+        failure.style.opacity = 0
+    }, 8000);
 }
 
 function success() {
     let success = document.querySelector(".success")
 
-    setTimeout(() => { success.style.opacity = 1 }, 500);
+    setTimeout(() => {
+        success.style.opacity = 1
+    }, 500);
 
-    setTimeout(() => { success.style.opacity = 0 }, 8000);
+    setTimeout(() => {
+        success.style.opacity = 0
+    }, 8000);
 }
 
 //# sourceMappingURL=main.js.map
