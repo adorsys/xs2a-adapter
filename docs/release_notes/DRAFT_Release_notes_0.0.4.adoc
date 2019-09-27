@@ -13,6 +13,7 @@
 - Masking of sensitive data in the logs
 - Logging of Correlation-ID header as a part of the Layout
 - Added IMPORT endpoint to `aspsp-registry` for uploading and replacing Aspsp objects into Lucene repository. It is available only via `dev` profile
+- Extended ASPSP schema with 2 new fields: IDP url and SCA approaches
 
 == Fixes:
 - UpdatePsuAuthenticationResponse mapping exception fixed
