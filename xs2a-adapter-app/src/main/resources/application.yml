@@ -1,11 +1,25 @@
 server:
   port: 8999
 
+info:
+  app:
+    name: ${spring.application.name}
+    description: "Description"
+    version: @project.version@
+    build: '#@build.number@'
+    artifactId: @project.artifactId@
+
 spring:
   application:
     name: xs2a-adapter
   jackson:
     default-property-inclusion: non_null
 
-logging.level.org.apache.http.wire: DEBUG
-logging.level.com.google.api.client.http: DEBUG
+---
+spring:
+  profiles: dev
+logging:
+  config: classpath:logback-dev.xml
+  level:
+    org.apache.http.wire: DEBUG
+    com.google.api.client.http: DEBUG
