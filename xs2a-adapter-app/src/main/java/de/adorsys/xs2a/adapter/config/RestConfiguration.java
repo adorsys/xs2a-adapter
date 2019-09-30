@@ -2,7 +2,6 @@ package de.adorsys.xs2a.adapter.config;
 
 import de.adorsys.xs2a.adapter.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.UserAgentRemovingInterceptor;
 import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.registry.AspspCsvServiceImpl;
 import de.adorsys.xs2a.adapter.registry.AspspSearchServiceImpl;
@@ -72,8 +71,8 @@ public class RestConfiguration {
 
     private HttpClientBuilder httpClientBuilder() throws NoSuchAlgorithmException {
         return HttpClientBuilder.create()
-                .setSSLContext(SSLContext.getDefault())
-                .addInterceptorLast(new UserAgentRemovingInterceptor());
+            .disableDefaultUserAgent()
+            .setSSLContext(SSLContext.getDefault());
     }
 
     @Bean
