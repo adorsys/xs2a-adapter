@@ -14,33 +14,8 @@
 
 <body>
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-<header class="registry-header">
-    <div class="header">
-        <h1 class="registry-header">Aspsp Registry Manager</h1>
-    </div>
-    <div class="search">
-        <form class="search-form">
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <label for="bank-name" class="mdl-textfield__label">Bank name</label>
-                <input class="mdl-textfield__input" type="text" name="bank-name">
-            </div>
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <label for="bic" class="mdl-textfield__label">BIC</label>
-                <input class="mdl-textfield__input" type="text" name="bic">
-            </div>
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <label for="bank-code" class="mdl-textfield__label">Bank code</label>
-                <input class="mdl-textfield__input" type="text" name="bank-code">
-            </div>
-            <input class="mdl-button mdl-js-button button__padding-top" type="button" value="SEARCH" id="search_button"
-                onclick="search();">
-            <input class="mdl-button mdl-js-button button__padding-top" type="button" value="CLEAR" id="clear_button" onclick="clearContent();">
-        </form>
-    </div>
-</header>
 <div class="mdl-layout--fixed-drawer mdl-layout mdl-js-layout">
     <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title">Menu</span>
         <nav class="mdl-navigatiion">
             <div class="add-button" id="add">
                 <button class="mdl-button mdl-js-button mdl-button--fab">
@@ -48,9 +23,6 @@
                         add
                     </i>
                 </button>
-                <div class="mdl-tooltip" data-mdl-for="add">
-                    Add new Aspsp
-                </div>
             </div>
             <div class="export-button" id="export">
                 <a href="/v1/aspsps/export" download="aspsps.csv">
@@ -60,9 +32,6 @@
                         </i>
                     </button>
                 </a>
-                <div class="mdl-tooltip" data-mdl-for="export">
-                    Export all Aspsps
-                </div>
             </div>
             <div class="import-button" id="import">
                 <input type="file" name="import file" id="import-field" hidden>
@@ -71,53 +40,115 @@
                         arrow_upward
                     </i>
                 </button>
-                <div class="mdl-tooltip" data-mdl-for="import">
-                    Import Aspsps
-                </div>
             </div>
         </nav>
     </div>
+    <div class="tooltips">
+        <div class="mdl-tooltip" data-mdl-for="add">
+            Add new Aspsp
+        </div>
+        <div class="mdl-tooltip" data-mdl-for="export">
+            Export all Aspsps
+        </div>
+        <div class="mdl-tooltip" data-mdl-for="import">
+            Import Aspsps
+        </div>
+    </div>
 </div>
+<div class="flex-containder">
+    <header class="registry-header">
+        <div class="header">
+            <h1 class="registry-header">Aspsp Registry Manager</h1>
+        </div>
+        <div class="search">
+            <form class="search-form">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <label for="bank-name" class="mdl-textfield__label">Bank name</label>
+                    <input class="mdl-textfield__input" type="text" name="bank-name">
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <label for="bic" class="mdl-textfield__label">BIC</label>
+                    <input class="mdl-textfield__input" type="text" name="bic">
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <label for="bank-code" class="mdl-textfield__label">Bank code</label>
+                    <input class="mdl-textfield__input" type="text" name="bank-code">
+                </div>
+                <!-- No need for now -->
+                <!-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <label for="approach" class="mdl-textfield__label">Approach</label>
+                    <input class="mdl-textfield__input" type="text" name="approach">
+                </div> -->
+                <input class="mdl-button mdl-js-button button__padding-top" type="button" value="SEARCH"
+                    id="search_button" onclick="search();">
+                <input class="mdl-button mdl-js-button button__padding-top" type="button" value="CLEAR"
+                    id="clear_button" onclick="clearContent();">
+            </form>
+        </div>
+    </header>
 
 <main class="main-container">
-    <div class="result-table">
-        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" hidden>
+    <div class="result-table" hidden>
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
             <thead>
                 <tr>
-                    <th class="mdl-data-table__cell--non-numeric">Id</th>
+                    <th class="mdl-data-table__cell--non-numeric text-align__right">Id</th>
                     <th class="mdl-data-table__cell--non-numeric">Bank Name</th>
                     <th class="mdl-data-table__cell--non-numeric">BIC</th>
                     <th class="mdl-data-table__cell--non-numeric">URL</th>
                     <th class="mdl-data-table__cell--non-numeric">Adapter Id</th>
                     <th>Bank Code</th>
+                    <th class="mdl-data-table__cell--non-numeric">IDP URL</th>
+                    <th class="mdl-data-table__cell--non-numeric text-align__right">Approach</th>
                     <th class="mdl-data-table__cell--non-numeric edit-cell"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr class="hidden">
+                    <td class="mdl-data-table__cell--non-numeric text-align__right"></td>
                     <td class="mdl-data-table__cell--non-numeric"></td>
                     <td class="mdl-data-table__cell--non-numeric"></td>
                     <td class="mdl-data-table__cell--non-numeric"></td>
                     <td class="mdl-data-table__cell--non-numeric"></td>
                     <td class="mdl-data-table__cell--non-numeric"></td>
                     <td></td>
+                    <td class="mdl-data-table__cell--non-numeric text-align__right">
+                        <div class="approaches">
+                            <div id="embedded">
+                                <input type="checkbox" name="EMBEDDED" disabled>
+                                <label for="EMBEDDED">EMBEDDED</label>
+                            </div>
+                            <div id="redirect">
+                                <input type="checkbox" name="REDIRECT" disabled>
+                                <label for="EMBEDDED">REDIRECT</label>
+                            </div>
+                            <div id="decoupled">
+                                <input type="checkbox" name="DECOUPLED" disabled>
+                                <label for="EMBEDDED">DECOUPLED</label>
+                            </div>
+                            <div id="oauth">
+                                <input type="checkbox" name="OAUTH" disabled>
+                                <label for="EMBEDDED">OAUTH</label>
+                            </div>
+                        </div>
+                    </td>
                     <td class="mdl-data-table__cell--non-numeric edit-cell">
-                        <button class="mdl-button mdl-js-button mdl-button--icon edit" >
+                        <button class="mdl-button mdl-js-button mdl-button--icon edit">
                             <i class="material-icons">edit</i>
                         </button>
-                        <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--primary update" >
+                        <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--primary update">
                             <i class="material-icons">done</i>
                         </button>
-                        <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent delete" >
+                        <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent delete">
                             <i class="material-icons">close</i>
                         </button>
-                        <div class="mdl-tooltip mdl-tooltip--top" >
+                        <div class="mdl-tooltip mdl-tooltip--top">
                             Edit
                         </div>
-                        <div class="mdl-tooltip mdl-tooltip--top" >
+                        <div class="mdl-tooltip mdl-tooltip--top">
                             Save / Update
                         </div>
-                        <div class="mdl-tooltip mdl-tooltip--top" >
+                        <div class="mdl-tooltip mdl-tooltip--top">
                             Delete
                         </div>
                     </td>
@@ -126,12 +157,26 @@
         </table>
     </div>
     <div class="welcome-message">
-        <h1>Hey! There is nothing to display right now :(</h1>
+        <h1>Nothing to display right now.<br>To start working with ASPSP Registry try searching for something or adding a new record</h1>
     </div>
 </main>
 
 <footer class="registry-footer">
     <h6 class="footer-text">Golden Dimention. Made with </h6>
 </footer>
+</div>
+<div class="allerts margin-top__zero">
+    <div class="alert failure upload">
+        <strong class="margin-top__zero">Failed to upload the file.</strong><br class="margin-top__zero"> It looks like
+        the file has an inappropriate format.
+    </div>
+    <div class="alert failure search">
+        <strong class="margin-top__zero">Failed to find any records.</strong><br class="margin-top__zero"> Please double check input parameters.
+    </div>
+    <div class="alert success">
+        <strong>Processed successfully!</strong>
+    </div>
+</div>
 </body>
+
 </html>

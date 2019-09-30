@@ -14,10 +14,15 @@ function initGlobals() {
 
 function uneditableCells(e) {
     let rowCells = e.parentElement.parentElement.cells;
+    let approach = e.parentElement.parentElement.querySelectorAll('input');
 
     for (let i = 1, till = (rowCells.length - 1); i < till; i++) {
         rowCells[i].removeAttribute("contenteditable");
     }
+
+    approach.forEach(element => {
+        element.disabled = true;
+    })
 }
 
 function toggleButtons(e) {
@@ -40,10 +45,16 @@ function toggleButtons(e) {
 
 function editableCells(e) {
     let rowCells = e.parentElement.parentElement.cells;
+    let approach = e.parentElement.parentElement.querySelectorAll('input');
 
-    for (let i = 1, till = (rowCells.length - 1); i < till; i++) {
+    for (let i = 1, till = (rowCells.length - 2); i < till; i++) {
         rowCells[i].setAttribute("contenteditable", true);
+
     }
+
+    approach.forEach(element => {
+        element.disabled = false;
+    })
 }
 
 function search() {
@@ -53,27 +64,31 @@ function search() {
     let url = "/v1/aspsps/?";
 
     if (data[0].value !== "")
-        url += "name=" + data[0].value + "&";
+        url += "name=" + data[0].value.toLowerCase() + "&";
 
     if (data[1].value !== "")
         url += "bic=" + data[1].value + "&";
 
     if (data[2].value !== "")
-        url += "bankCode=" + data[2].value;
+        url += "bankCode=" + data[2].value + "&";
+
+    //  no need for now
+    // if (data[3].value !== "")
+    //     url += "approache=" + data[3].value.toLowerCase();
 
     fetch(url)
         .then((response) => {
             if (!response.ok) {
+                searchFailed();
                 throw Error(response.statusText);
             }
             return response;
-        }).then(response => response.text())
+        })
+        .then(response => response.text())
         .then(response => JSON.parse(response).forEach((node) => buildRow(node)))
-        .catch(function (error) {
-            console.log(error);
-        });
+        .catch(error => console.log(error));
 
-    if (HIDDEN_ROW.parentElement.parentElement.hidden) {
+    if (HIDDEN_ROW.parentElement.parentElement.parentElement.hidden) {
         showTable();
     }
 }
@@ -91,29 +106,35 @@ function addRow() {
         if (e.className) {
             if (e.className.indexOf("edit") > -1) {
                 let helper = e.parentNode.childNodes[7];
-    
-                e.addEventListener("click", () => { editButton(e) })
+
+                e.addEventListener("click", () => {
+                    editButton(e)
+                })
                 e.setAttribute("id", editId + COUNTER);
-    
+
                 helper.setAttribute("data-mdl-for", editId + COUNTER);
                 editButton(e);
             }
-    
+
             if (e.className.indexOf("update") > -1) {
                 let helper = e.parentNode.childNodes[9];
-    
-                e.addEventListener("click", () => { greenButton(e) })
+
+                e.addEventListener("click", () => {
+                    greenButton(e)
+                })
                 e.setAttribute("id", updateId + COUNTER);
-    
+
                 helper.setAttribute("data-mdl-for", updateId + COUNTER);
             }
-    
+
             if (e.className.indexOf("delete") > -1) {
                 let helper = e.parentNode.childNodes[11];
-    
-                e.addEventListener("click", () => { redButton(e) })
+
+                e.addEventListener("click", () => {
+                    redButton(e)
+                })
                 e.setAttribute("id", deleteId + COUNTER);
-    
+
                 helper.setAttribute("data-mdl-for", deleteId + COUNTER);
             }
         }
@@ -122,17 +143,17 @@ function addRow() {
 
     COUNTER++;
 
-    if (HIDDEN_ROW.parentElement.parentElement.hidden) {
+    if (HIDDEN_ROW.parentElement.parentElement.parentElement.hidden) {
         showTable();
     }
 }
 
 function uuid() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
     });
-  }
+}
 
 function greenButton(e) {
     let tableRow = e.parentElement.parentElement;
@@ -217,7 +238,8 @@ function updateButton(e) {
         }
     }).catch(function (error) {
         console.log(error);
-    });;
+    });
+    ;
 }
 
 function saveButton(e) {
@@ -257,40 +279,48 @@ function buildRow(data) {
 
     let clone = HIDDEN_ROW.cloneNode(true);
     clone.removeAttribute("class");
-    
+
     clone.cells[0].textContent = data.id;
     clone.cells[1].textContent = data.name;
     clone.cells[2].textContent = data.bic;
     clone.cells[3].textContent = data.url;
     clone.cells[4].textContent = data.adapterId;
     clone.cells[5].textContent = data.bankCode;
+    clone.cells[6].textContent = data.idpUrl;
+    approacheParser(data.scaApproaches, clone.cells[7]);
 
     clone.lastElementChild.childNodes.forEach(e => {
         if (e.className) {
             if (e.className.indexOf("edit") > -1) {
                 let helper = e.parentNode.childNodes[7];
-    
-                e.addEventListener("click", () => { editButton(e) })
+
+                e.addEventListener("click", () => {
+                    editButton(e)
+                })
                 e.setAttribute("id", editId + COUNTER);
-    
+
                 helper.setAttribute("data-mdl-for", editId + COUNTER);
             }
-    
+
             if (e.className.indexOf("update") > -1) {
                 let helper = e.parentNode.childNodes[9];
-    
-                e.addEventListener("click", () => { greenButton(e) })
+
+                e.addEventListener("click", () => {
+                    greenButton(e)
+                })
                 e.setAttribute("id", updateId + COUNTER);
-    
+
                 helper.setAttribute("data-mdl-for", updateId + COUNTER);
             }
-    
+
             if (e.className.indexOf("delete") > -1) {
                 let helper = e.parentNode.childNodes[11];
-    
-                e.addEventListener("click", () => { redButton(e) })
+
+                e.addEventListener("click", () => {
+                    redButton(e)
+                })
                 e.setAttribute("id", deleteId + COUNTER);
-    
+
                 helper.setAttribute("data-mdl-for", deleteId + COUNTER);
             }
         }
@@ -298,10 +328,35 @@ function buildRow(data) {
     document.querySelector("table>tbody").appendChild(clone)
 
     COUNTER++;
+
+    function approacheParser(data, cell) {
+        if(!data) {
+            return;
+        }
+
+        let inputs = cell.querySelectorAll("input");
+
+        data.forEach(element => {
+            switch (element) {
+                case "EMBEDDED":
+                    inputs[0].checked = true;
+                    break;
+                case "REDIRECT":
+                    inputs[1].checked = true;
+                    break;
+                case "DECOUPLED":
+                    inputs[2].checked = true;
+                    break;
+                case "OAUTH":
+                    inputs[3].checked = true;
+                    break;
+            }
+        })
+    }
 }
 
 function showTable() {
-    let table = HIDDEN_ROW.parentElement.parentElement;
+    let table = HIDDEN_ROW.parentElement.parentElement.parentElement;
     let message = document.querySelector(".welcome-message");
 
     table.hidden = false;
@@ -312,7 +367,11 @@ function clearTable() {
     let body = document.querySelectorAll("tbody>tr");
 
     if (body.length > 1) {
-        body.forEach(e => { if (!e.className) { e.remove(); } })
+        body.forEach(e => {
+            if (!e.className) {
+                e.remove();
+            }
+        })
     }
 }
 
@@ -324,9 +383,24 @@ function assembleRowData(e) {
     let bic = "\"bic\": \"" + row.cells[2].textContent + "\",\n";
     let url = "\"url\": \"" + row.cells[3].textContent + "\",\n";
     let adapterId = "\"adapterId\": \"" + row.cells[4].textContent + "\",\n";
-    let bankCode = "\"bankCode\": \"" + row.cells[5].textContent + "\"}";
+    let bankCode = "\"bankCode\": \"" + row.cells[5].textContent + "\",\n";
+    let idpUrl = "\"idpUrl\": \"" + row.cells[6].textContent + "\",\n";
+    let approach = "\"scaApproaches\": " + approacheParser(row.cells[7]) + "}";
 
-    return id + bankName + bic + url + adapterId + bankCode;
+    return id + bankName + bic + url + adapterId + bankCode + idpUrl + approach;
+
+    function approacheParser(data) {
+        let inputs = data.querySelectorAll("input");
+        let resultString = [];
+
+        inputs.forEach((element) => {
+            if (element.checked) {
+                resultString.push(element.name);
+            }
+        })
+
+        return JSON.stringify(resultString);
+    }
 }
 
 function upload() {
@@ -338,7 +412,16 @@ function upload() {
     fetch("/v1/aspsps/import", {
         method: 'POST',
         body: data
-    }).catch(error => console.log(error))
+    })
+        .then(response => {
+            if (!response.ok) {
+                uploadFailed();
+                throw Error(response.statusText);
+            }
+            response;
+            success();
+        })
+        .catch(error => console.log(error))
 }
 
 function onEnterPress(event) {
@@ -350,7 +433,46 @@ function onEnterPress(event) {
 function clearContent() {
     clearTable();
 
-    document.querySelectorAll(".mdl-textfield__input").forEach(element => {element.value = ""; element.parentElement.classList.remove("is-dirty")});
+    document.querySelectorAll(".mdl-textfield__input").forEach(element => {
+        element.value = "";
+        element.parentElement.classList.remove("is-dirty")
+    });
+}
+
+function uploadFailed() {
+    let failure = document.querySelector(".upload")
+
+    setTimeout(() => {
+        failure.style.opacity = 1
+    }, 500);
+
+    setTimeout(() => {
+        failure.style.opacity = 0
+    }, 8000);
+}
+
+function searchFailed() {
+    let failure = document.querySelector(".failure.search")
+
+    setTimeout(() => {
+        failure.style.opacity = 1
+    }, 500);
+
+    setTimeout(() => {
+        failure.style.opacity = 0
+    }, 8000);
+}
+
+function success() {
+    let success = document.querySelector(".success")
+
+    setTimeout(() => {
+        success.style.opacity = 1
+    }, 500);
+
+    setTimeout(() => {
+        success.style.opacity = 0
+    }, 8000);
 }
 
 //# sourceMappingURL=main.js.map

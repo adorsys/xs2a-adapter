@@ -15,6 +15,7 @@
 - Added IMPORT endpoint to `aspsp-registry` for uploading and replacing Aspsp objects into Lucene repository. It is available only via `dev` profile
 - Added endpoint for retrieving information about the application, such as name, version, description, etc (/actuator/info endpoint)
 - Extended ASPSP schema with 2 new fields: IDP url and SCA approaches
+- Added SCA approaches and IDP url columns on the registry UI
 
 == Fixes:
 - UpdatePsuAuthenticationResponse mapping exception fixed
