@@ -1,12 +1,12 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.util.Collections;
 
@@ -25,20 +25,21 @@ public class DkbAccessTokenServiceTest {
         System.setProperty("adapter.config.file.path", file);
 
         tokenService = DkbAccessTokenService.getInstance();
-        httpClient = Mockito.mock(HttpClient.class);
+        httpClient = mock(HttpClient.class);
         ((DkbAccessTokenService) tokenService).setHttpClient(httpClient);
+
     }
 
     @Test
     public void retrieveToken() {
         String accessToken = "accessToken";
         DkbAccessTokenService.TokenResponse tokenResponse = new DkbAccessTokenService.TokenResponse(accessToken, 3600);
-        when(httpClient.post(anyString(), anyString(), anyMap(), any())).thenReturn(new Response<>(200, tokenResponse, ResponseHeaders.fromMap(Collections.emptyMap())));
+        when(httpClient.send(any(), any())).thenReturn(new Response<>(200, tokenResponse, ResponseHeaders.fromMap(Collections.emptyMap())));
+        when(httpClient.post(any())).thenReturn(new RequestBuilderImpl(httpClient, "POST", ""));
 
         String token = tokenService.retrieveToken();
 
-        verify(httpClient, times(1)).post(anyString(), anyString(), anyMap(), any());
-
+        verify(httpClient, times(1)).send(any(), any());
         assertThat(token).isEqualTo(accessToken);
     }
 

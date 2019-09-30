@@ -17,19 +17,20 @@
 package de.adorsys.xs2a.adapter.service.provider;
 
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.*;
 
 public class ComdirectServiceProvider
     implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceFactory {
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl) {
-        return new ComdirectAccountInformationService(baseUrl);
+    public AccountInformationService getAccountInformationService(String baseUrl, HttpClient httpClient) {
+        return new ComdirectAccountInformationService(baseUrl, httpClient);
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
-        return new BasePaymentInitiationService(baseUrl);
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClient httpClient) {
+        return new BasePaymentInitiationService(baseUrl, httpClient);
     }
 
     @Override
@@ -38,7 +39,7 @@ public class ComdirectServiceProvider
     }
 
     @Override
-    public Oauth2Service getOauth2Service(String baseUrl, Pkcs12KeyStore keyStore) {
-        return new ComdirectOauth2Service(baseUrl);
+    public Oauth2Service getOauth2Service(String baseUrl, Pkcs12KeyStore keyStore, HttpClient httpClient) {
+        return new ComdirectOauth2Service(baseUrl, httpClient);
     }
 }

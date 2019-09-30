@@ -16,23 +16,18 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
-import de.adorsys.xs2a.adapter.security.AccessTokenService;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.impl.SantanderAccessTokenService;
 import de.adorsys.xs2a.adapter.service.impl.SantanderAccountInformationService;
 
-public class SantanderServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
-    private final AccessTokenService tokenService = SantanderAccessTokenService.getInstance();
+public class SantanderServiceProvider implements AccountInformationServiceProvider {
+    private final SantanderAccessTokenService tokenService = SantanderAccessTokenService.getInstance();
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl) {
-        return new SantanderAccountInformationService(baseUrl, tokenService);
-    }
-
-    @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
-        throw new UnsupportedOperationException("PIS service is not supported for Santander adapter");
+    public AccountInformationService getAccountInformationService(String baseUrl, HttpClient httpClient) {
+        tokenService.setHttpClient(httpClient);
+        return new SantanderAccountInformationService(baseUrl, tokenService, httpClient);
     }
 
     @Override

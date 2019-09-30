@@ -31,7 +31,7 @@ public class AdapterServiceLoaderTest {
     private static RequestHeaders requestHeadersWithBankCode;
 
     private final AspspReadOnlyRepository aspspRepository = mock(AspspReadOnlyRepository.class);
-    private final AdapterServiceLoader adapterServiceLoader = new AdapterServiceLoader(aspspRepository, null);
+    private final AdapterServiceLoader adapterServiceLoader = new AdapterServiceLoader(aspspRepository, null, null);
 
     @Before
     public void setUp() {

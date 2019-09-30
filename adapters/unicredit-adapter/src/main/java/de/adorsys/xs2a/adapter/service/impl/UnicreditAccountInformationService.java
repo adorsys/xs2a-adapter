@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.Response;
@@ -21,8 +22,8 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     private final UnicreditStartAuthorisationResponseMapper startAuthorisationResponseMapper = new UnicreditStartAuthorisationResponseMapper();
     private final ScaStatusResponseMapper scaStatusResponseMapper = new ScaStatusResponseMapper();
 
-    public UnicreditAccountInformationService(String baseUri) {
-        super(baseUri);
+    public UnicreditAccountInformationService(String baseUri, HttpClient httpClient) {
+        super(baseUri, httpClient);
     }
 
     @Override
@@ -36,7 +37,10 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
-        Response<UnicreditStartScaProcessResponse> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(UnicreditStartScaProcessResponse.class));
+        Response<UnicreditStartScaProcessResponse> response = httpClient.put(uri)
+            .jsonBody(body)
+            .headers(headersMap)
+            .send(jsonResponseHandler(UnicreditStartScaProcessResponse.class));
 
         return new Response<>(response.getStatusCode(), startAuthorisationResponseMapper.modifyResponse(response.getBody()), response.getHeaders());
     }

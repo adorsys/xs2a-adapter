@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 
 import java.time.ZonedDateTime;
@@ -10,8 +11,8 @@ import java.util.Map;
 public class DeutscheBankPaymentInitiationService extends BasePaymentInitiationService {
     private static final String DATE_HEADER = "Date";
 
-    public DeutscheBankPaymentInitiationService(String baseUri) {
-        super(baseUri);
+    public DeutscheBankPaymentInitiationService(String baseUri, HttpClient httpClient) {
+        super(baseUri, httpClient);
     }
 
     @Override

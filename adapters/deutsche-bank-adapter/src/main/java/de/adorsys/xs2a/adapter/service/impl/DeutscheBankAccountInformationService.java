@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
@@ -37,8 +38,8 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
     private final DbBalanceReportMapper balanceReportMapper = Mappers.getMapper(DbBalanceReportMapper.class);
     private final DbTransactionReportMapper transactionReportMapper = Mappers.getMapper(DbTransactionReportMapper.class);
 
-    public DeutscheBankAccountInformationService(String baseUri) {
-        super(baseUri);
+    public DeutscheBankAccountInformationService(String baseUri, HttpClient httpClient) {
+        super(baseUri, httpClient);
     }
 
     @Override

@@ -16,8 +16,12 @@
 
 package de.adorsys.xs2a.adapter.adapter;
 
+import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.StringUri;
-import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.*;
 
 import javax.ws.rs.core.HttpHeaders;
@@ -32,9 +36,18 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     private static final String V1 = "v1";
     private static final String PAYMENTS = "payments";
     private final String baseUri;
+    private final Request.Builder.Interceptor requestBuilderInterceptor;
 
-    public BasePaymentInitiationService(String baseUri) {
+    public BasePaymentInitiationService(String baseUri, HttpClient httpClient) {
+        this(baseUri, httpClient, null);
+    }
+
+    public BasePaymentInitiationService(String baseUri,
+                                        HttpClient httpClient,
+                                        Request.Builder.Interceptor requestBuilderInterceptor) {
+        super(httpClient);
         this.baseUri = baseUri;
+        this.requestBuilderInterceptor = requestBuilderInterceptor;
     }
 
     @Override
@@ -62,7 +75,10 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                 throw new IllegalArgumentException("Unsupported payment product media type");
         }
 
-        Response<T> response = httpClient.post(StringUri.fromElements(baseUri, V1, PAYMENTS, paymentProduct.getSlug()), bodyString, headersMap, jsonResponseHandler(klass));
+        Response<T> response = httpClient.post(StringUri.fromElements(baseUri, V1, PAYMENTS, paymentProduct.getSlug()))
+            .jsonBody(bodyString)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         PaymentInitiationRequestResponse paymentInitiationRequestResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), paymentInitiationRequestResponse, response.getHeaders());
     }
@@ -80,8 +96,9 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug(), paymentId);
 
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
-        return httpClient.get(uri, headersMap,
-                jsonResponseHandler(SinglePaymentInitiationInformationWithStatusResponse.class));
+        return httpClient.get(uri)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(SinglePaymentInitiationInformationWithStatusResponse.class));
     }
 
     @Override
@@ -100,7 +117,9 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         String uri = getSinglePaymentInitiationStatusUri(paymentProduct.getSlug(), paymentId);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
-        return httpClient.get(uri, headersMap, jsonResponseHandler(PaymentInitiationStatus.class));
+        return httpClient.get(uri)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(PaymentInitiationStatus.class));
     }
 
     @Override
@@ -108,7 +127,9 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         String uri = getSinglePaymentInitiationStatusUri(paymentProduct, paymentId);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
-        return httpClient.get(uri, headersMap, stringResponseHandler());
+        return httpClient.get(uri)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, stringResponseHandler());
     }
 
     private String getSinglePaymentInitiationStatusUri(String paymentProduct, String paymentId) {
@@ -138,7 +159,10 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
-        Response<T> response = httpClient.post(uri, body, headersMap, jsonResponseHandler(klass));
+        Response<T> response = httpClient.post(uri)
+            .jsonBody(body)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getHeaders());
     }
@@ -160,7 +184,10 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
-        Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+        Response<T> response = httpClient.put(uri)
+            .jsonBody(body)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), updatePsuAuthenticationResponse, response.getHeaders());
     }
@@ -182,7 +209,10 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
 
-        Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+        Response<T> response = httpClient.put(uri)
+            .jsonBody(body)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), selectPsuAuthenticationMethodResponse, response.getHeaders());
     }
@@ -204,7 +234,10 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 
-        Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+        Response<T> response = httpClient.put(uri)
+            .jsonBody(body)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
 
         ScaStatusResponse scaStatusResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), scaStatusResponse, response.getHeaders());

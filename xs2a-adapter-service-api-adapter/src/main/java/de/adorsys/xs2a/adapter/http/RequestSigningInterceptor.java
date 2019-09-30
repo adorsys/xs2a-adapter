@@ -1,15 +1,10 @@
 package de.adorsys.xs2a.adapter.http;
 
-import de.adorsys.xs2a.adapter.service.exception.HttpRequestSigningException;
 import de.adorsys.xs2a.adapter.signing.RequestSigningService;
 import de.adorsys.xs2a.adapter.signing.header.Digest;
 import de.adorsys.xs2a.adapter.signing.header.Signature;
 import de.adorsys.xs2a.adapter.signing.header.TppSignatureCertificate;
-import org.apache.http.*;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +12,7 @@ import java.util.stream.Collectors;
 
 import static de.adorsys.xs2a.adapter.service.RequestHeaders.*;
 
-public class RequestSigningInterceptor implements HttpRequestInterceptor {
+public class RequestSigningInterceptor implements Request.Builder.Interceptor {
     // according to BG spec 1.3 (chapter 12.2)
     private static final List<String> SIGNATURE_HEADERS
             = Arrays.asList(DIGEST, X_REQUEST_ID, PSU_ID, PSU_CORPORATE_ID, DATE, TPP_REDIRECT_URI);
@@ -25,42 +20,37 @@ public class RequestSigningInterceptor implements HttpRequestInterceptor {
     private final RequestSigningService requestSigningService = new RequestSigningService();
 
     @Override
-    public void process(HttpRequest request, HttpContext context) {
+    public Request.Builder apply(Request.Builder requestBuilder) {
         // Digest header computing and adding MUST BE BEFORE the Signature header, as Digest is used in Signature header computation
-        populateDigest(request);
-        populateSignature(request);
-        populateTppSignatureCertificate(request);
+        populateDigest(requestBuilder);
+        populateSignature(requestBuilder);
+        populateTppSignatureCertificate(requestBuilder);
+
+        return requestBuilder;
     }
 
-    private void populateDigest(HttpRequest request) {
-        String requestBody = "";
+    private void populateDigest(Request.Builder requestBuilder) {
+        String requestBody = requestBuilder.jsonBody();
 
-        if (request instanceof HttpEntityEnclosingRequest) {
-            HttpEntity requestEntity = ((HttpEntityEnclosingRequest) request).getEntity();
-            try {
-                requestBody = EntityUtils.toString(requestEntity);
-            } catch (IOException e) {
-                throw new HttpRequestSigningException("Exception during the request body reading: " + e);
-            }
+        if (requestBody == null) {
+            requestBody = "";
         }
 
         Digest digest = requestSigningService.buildDigest(requestBody);
-        request.addHeader(digest.getHeaderName(), digest.getHeaderValue());
+        requestBuilder.header(digest.getHeaderName(), digest.getHeaderValue());
     }
 
-    private void populateSignature(HttpRequest request) {
-        Map<String, String> headersMap = SIGNATURE_HEADERS.stream()
-                                              .map(request::getHeaders)
-                                              .filter(headers -> headers.length > 0)
-                                              .map(headers -> headers[0])
-                                              .collect(Collectors.toMap(NameValuePair::getName, NameValuePair::getValue));
+    private void populateSignature(Request.Builder requestBuilder) {
+        Map<String, String> headersMap = requestBuilder.headers().entrySet().stream()
+            .filter(e -> SIGNATURE_HEADERS.contains(e.getKey()))
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         Signature signature = requestSigningService.buildSignature(headersMap);
-        request.addHeader(signature.getHeaderName(), signature.getHeaderValue());
+        requestBuilder.header(signature.getHeaderName(), signature.getHeaderValue());
     }
 
-    private void populateTppSignatureCertificate(HttpRequest request) {
+    private void populateTppSignatureCertificate(Request.Builder requestBuilder) {
         TppSignatureCertificate tppSignatureCertificate = requestSigningService.buildTppSignatureCertificate();
-        request.addHeader(tppSignatureCertificate.getHeaderName(), tppSignatureCertificate.getHeaderValue());
+        requestBuilder.header(tppSignatureCertificate.getHeaderName(), tppSignatureCertificate.getHeaderValue());
     }
 }

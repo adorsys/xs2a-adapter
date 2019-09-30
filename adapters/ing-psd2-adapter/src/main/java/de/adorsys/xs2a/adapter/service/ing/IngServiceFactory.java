@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.service.ing;
 
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Oauth2ServiceFactory;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
@@ -25,7 +26,7 @@ public class IngServiceFactory implements Psd2AccountInformationServiceFactory, 
     }
 
     @Override
-    public Oauth2Service getOauth2Service(String baseUrl, Pkcs12KeyStore keyStore) {
+    public Oauth2Service getOauth2Service(String baseUrl, Pkcs12KeyStore keyStore, HttpClient httpClient) {
         return getIngPsd2AccountInformationService(baseUrl, keyStore);
     }
 

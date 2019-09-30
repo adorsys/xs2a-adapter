@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.mapper.BalanceReportMapper;
 import de.adorsys.xs2a.adapter.service.model.BalanceReport;
 import de.adorsys.xs2a.adapter.service.model.ComdirectBalanceReport;
@@ -10,8 +11,8 @@ public class ComdirectAccountInformationService extends BaseAccountInformationSe
 
     private BalanceReportMapper balanceReportMapper = Mappers.getMapper(BalanceReportMapper.class);
 
-    public ComdirectAccountInformationService(String baseUrl) {
-        super(baseUrl);
+    public ComdirectAccountInformationService(String baseUrl, HttpClient httpClient) {
+        super(baseUrl, httpClient);
     }
 
     @Override
