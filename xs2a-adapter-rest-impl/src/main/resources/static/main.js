@@ -328,7 +328,7 @@ function assembleRowData(e) {
             }
         });
 
-        return JSON.stringify(resultString);
+        return resultString;
     }
 }
 
