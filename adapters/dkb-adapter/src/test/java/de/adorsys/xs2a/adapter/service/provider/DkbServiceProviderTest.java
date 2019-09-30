@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.service.provider;
 
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.impl.DkbAccountInformationService;
@@ -8,10 +9,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class DkbServiceProviderTest {
 
     private DkbServiceProvider provider;
+    private HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
 
     @Before
     public void setUp() {
@@ -23,7 +26,7 @@ public class DkbServiceProviderTest {
 
     @Test
     public void getPaymentInitiationService() {
-        PaymentInitiationService service = provider.getPaymentInitiationService(null, null);
+        PaymentInitiationService service = provider.getPaymentInitiationService(null, httpClientFactory);
 
         assertThat(service).isNotNull();
         assertThat(service).isInstanceOfAny(DkbPaymentInitiationService.class);
@@ -31,7 +34,7 @@ public class DkbServiceProviderTest {
 
     @Test
     public void getAccountInformationService() {
-        AccountInformationService service = provider.getAccountInformationService(null, null);
+        AccountInformationService service = provider.getAccountInformationService(null, httpClientFactory);
 
         assertThat(service).isNotNull();
         assertThat(service).isInstanceOfAny(DkbAccountInformationService.class);

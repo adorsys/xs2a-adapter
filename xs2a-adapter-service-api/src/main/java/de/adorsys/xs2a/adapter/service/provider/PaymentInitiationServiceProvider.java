@@ -16,10 +16,10 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
-import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 
 public interface PaymentInitiationServiceProvider extends AdapterServiceProvider {
 
-    PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClient httpClient);
+    PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory);
 }

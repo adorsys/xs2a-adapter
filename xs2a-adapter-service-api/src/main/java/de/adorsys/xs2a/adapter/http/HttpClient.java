@@ -17,9 +17,10 @@ public interface HttpClient {
 
     <T> Response<T> send(Request.Builder requestBuilder, ResponseHandler<T> responseHandler);
 
+    String content(Request.Builder requestBuilder);
+
     @FunctionalInterface
     interface ResponseHandler<T> {
         T apply(int statusCode, InputStream responseBody, ResponseHeaders responseHeaders);
     }
 }
-

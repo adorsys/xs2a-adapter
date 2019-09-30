@@ -19,7 +19,7 @@ package de.adorsys.xs2a.adapter.commerzbank.service.provider;
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.commerzbank.service.CommerzbankAccountInformationService;
 import de.adorsys.xs2a.adapter.commerzbank.service.CommerzbankOauth2Service;
-import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
@@ -28,13 +28,13 @@ public class CommerzbankServiceProvider
     implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceFactory {
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl, HttpClient httpClient) {
-        return new CommerzbankAccountInformationService(baseUrl, httpClient);
+    public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory) {
+        return new CommerzbankAccountInformationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClient httpClient) {
-        return new BasePaymentInitiationService(baseUrl, httpClient);
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory) {
+        return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
     }
 
     @Override
@@ -43,7 +43,7 @@ public class CommerzbankServiceProvider
     }
 
     @Override
-    public Oauth2Service getOauth2Service(String baseUrl, Pkcs12KeyStore keyStore, HttpClient httpClient) {
-        return new CommerzbankOauth2Service(baseUrl, httpClient);
+    public Oauth2Service getOauth2Service(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new CommerzbankOauth2Service(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
     }
 }

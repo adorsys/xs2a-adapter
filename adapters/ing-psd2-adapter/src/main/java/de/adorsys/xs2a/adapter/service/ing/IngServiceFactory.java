@@ -1,33 +1,40 @@
 package de.adorsys.xs2a.adapter.service.ing;
 
 import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Oauth2ServiceFactory;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationServiceFactory;
 
-import java.io.IOException;
-import java.security.*;
-import java.security.cert.CertificateException;
+import java.security.GeneralSecurityException;
 
 public class IngServiceFactory implements Psd2AccountInformationServiceFactory, Oauth2ServiceFactory {
     @Override
-    public Psd2AccountInformationService getAccountInformationService(String baseUrl, Pkcs12KeyStore keyStore) {
-        return getIngPsd2AccountInformationService(baseUrl, keyStore);
+    public Psd2AccountInformationService getAccountInformationService(String baseUrl,
+                                                                      HttpClientFactory httpClientFactory,
+                                                                      Pkcs12KeyStore keyStore) {
+        return getIngPsd2AccountInformationService(baseUrl, httpClientFactory, keyStore);
     }
 
-    private IngPsd2AccountInformationService getIngPsd2AccountInformationService(String baseUrl, Pkcs12KeyStore keyStore) {
+    private IngPsd2AccountInformationService getIngPsd2AccountInformationService(String baseUrl,
+                                                                                 HttpClientFactory httpClientFactory,
+                                                                                 Pkcs12KeyStore keyStore) {
+        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId(), AdapterConfig.readProperty("ing.qwac.alias"));
         try {
-            return new IngPsd2AccountInformationService(baseUrl, keyStore);
-        } catch (CertificateException | NoSuchAlgorithmException | KeyStoreException | KeyManagementException | UnrecoverableEntryException | IOException | InvalidKeyException e) {
+            return new IngPsd2AccountInformationService(baseUrl, httpClient, keyStore);
+        } catch (GeneralSecurityException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public Oauth2Service getOauth2Service(String baseUrl, Pkcs12KeyStore keyStore, HttpClient httpClient) {
-        return getIngPsd2AccountInformationService(baseUrl, keyStore);
+    public Oauth2Service getOauth2Service(String baseUrl,
+                                          HttpClientFactory httpClientFactory,
+                                          Pkcs12KeyStore keyStore) {
+        return getIngPsd2AccountInformationService(baseUrl, httpClientFactory, keyStore);
     }
 
     @Override

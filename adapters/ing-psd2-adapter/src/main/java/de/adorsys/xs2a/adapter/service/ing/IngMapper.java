@@ -2,10 +2,10 @@ package de.adorsys.xs2a.adapter.service.ing;
 
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.*;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
-import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import de.adorsys.xs2a.adapter.service.psd2.model.Balance;
 import de.adorsys.xs2a.adapter.service.psd2.model.HrefType;
 import de.adorsys.xs2a.adapter.service.psd2.model.TransactionsResponse;
+import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -98,5 +98,5 @@ public interface IngMapper {
     @Mapping(target = "links", ignore = true)
     TransactionDetails map(de.adorsys.xs2a.adapter.service.ing.internal.api.model.Transaction value);
 
-    TokenResponse map(com.google.api.client.auth.oauth2.TokenResponse value);
+    TokenResponse map(de.adorsys.xs2a.adapter.service.ing.internal.api.model.TokenResponse value);
 }

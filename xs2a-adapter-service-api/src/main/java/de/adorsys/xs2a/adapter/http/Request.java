@@ -37,6 +37,8 @@ public interface Request {
             return send(x -> x, responseHandler);
         }
 
+        String content();
+
         @FunctionalInterface
         interface Interceptor extends UnaryOperator<Builder> {
         }

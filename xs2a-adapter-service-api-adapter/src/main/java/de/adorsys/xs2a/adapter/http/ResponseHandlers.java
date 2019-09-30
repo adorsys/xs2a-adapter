@@ -1,0 +1,99 @@
+package de.adorsys.xs2a.adapter.http;
+
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.ResponseHeaders;
+import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
+import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
+import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PushbackInputStream;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static de.adorsys.xs2a.adapter.http.ContentType.APPLICATION_JSON;
+
+public class ResponseHandlers {
+    private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([^;]+)");
+
+    private static final JsonMapper jsonMapper = new JsonMapper();
+    private static final Logger log = LoggerFactory.getLogger(ResponseHandlers.class);
+
+    private ResponseHandlers() {
+    }
+
+    public static <T> HttpClient.ResponseHandler<T> jsonResponseHandler(Class<T> klass) {
+        return (statusCode, responseBody, responseHeaders) -> {
+            if (statusCode == 204) {
+                return null;
+            }
+
+            String contentType = responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE);
+
+            if (contentType != null && !contentType.startsWith(APPLICATION_JSON)) {
+                throw new NotAcceptableException(String.format(
+                    "Content type %s is not acceptable, has to start with %s", contentType, APPLICATION_JSON));
+            }
+
+            if (statusCode == 200 || statusCode == 201) {
+                return jsonMapper.readValue(responseBody, klass);
+            }
+
+            throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
+        };
+    }
+
+    private static ErrorResponseException responseException(int statusCode, PushbackInputStream responseBody, ResponseHeaders responseHeaders) {
+        if (isEmpty(responseBody)) {
+            return new ErrorResponseException(statusCode, responseHeaders);
+        }
+        return new ErrorResponseException(statusCode, responseHeaders, jsonMapper.readValue(responseBody, ErrorResponse.class));
+    }
+
+    private static boolean isEmpty(PushbackInputStream responseBody) {
+        try {
+            int nextByte = responseBody.read();
+            if (nextByte == -1) {
+                return true;
+            }
+            responseBody.unread(nextByte);
+            return false;
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    public static HttpClient.ResponseHandler<String> stringResponseHandler() {
+        return (statusCode, responseBody, responseHeaders) -> {
+            if (statusCode == 200) {
+                try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = responseBody.read(buffer)) != -1) {
+                        baos.write(buffer, 0, length);
+                    }
+
+                    Matcher matcher = CHARSET_PATTERN.matcher(responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE));
+
+                    String charset = StandardCharsets.UTF_8.name();
+
+                    if (matcher.find()) {
+                        charset = matcher.group(1);
+                    }
+
+                    log.debug("{} charset is used for response body parsing", charset);
+                    return baos.toString(charset);
+                } catch (IOException e) {
+                    throw new UncheckedIOException(e);
+                }
+            }
+
+            throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
+        };
+    }
+}

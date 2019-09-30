@@ -2,13 +2,14 @@ package de.adorsys.xs2a.adapter.http;
 
 import de.adorsys.xs2a.adapter.service.Response;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class RequestBuilderImpl implements Request.Builder {
     private final HttpClient httpClient;
     private String method;
     private String uri;
-    private Map<String, String> headers;
+    private Map<String, String> headers = new LinkedHashMap<>();
     private String body;
     private boolean emptyBody;
     private Map<String, String> formData;
@@ -82,5 +83,10 @@ public class RequestBuilderImpl implements Request.Builder {
     @Override
     public <T> Response<T> send(Interceptor interceptor, HttpClient.ResponseHandler<T> responseHandler) {
         return httpClient.send(interceptor != null ? interceptor.apply(this) : this, responseHandler);
+    }
+
+    @Override
+    public String content() {
+        return httpClient.content(this);
     }
 }

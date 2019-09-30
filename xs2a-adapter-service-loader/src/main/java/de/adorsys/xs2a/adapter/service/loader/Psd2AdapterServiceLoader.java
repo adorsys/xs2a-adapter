@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.service.loader;
 
-import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
@@ -15,8 +15,8 @@ public class Psd2AdapterServiceLoader extends AdapterServiceLoader {
 
     public Psd2AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
                                     Pkcs12KeyStore keyStore,
-                                    HttpClient httpClient) {
-        super(aspspRepository, keyStore, httpClient);
+                                    HttpClientFactory httpClientFactory) {
+        super(aspspRepository, keyStore, httpClientFactory);
     }
 
     public Psd2AccountInformationService getPsd2AccountInformationService(RequestHeaders requestHeaders) {
@@ -29,6 +29,6 @@ public class Psd2AdapterServiceLoader extends AdapterServiceLoader {
         }
         return serviceProvider
             .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-            .getAccountInformationService(baseUrl, keyStore);
+            .getAccountInformationService(baseUrl, httpClientFactory, keyStore);
     }
 }

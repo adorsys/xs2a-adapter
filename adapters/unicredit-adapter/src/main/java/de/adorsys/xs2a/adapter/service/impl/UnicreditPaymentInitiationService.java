@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.adapter.StandardPaymentProduct;
+import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
@@ -15,6 +16,8 @@ import de.adorsys.xs2a.adapter.service.impl.model.UnicreditStartScaProcessRespon
 import de.adorsys.xs2a.adapter.service.model.*;
 
 import java.util.Map;
+
+import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 
 public class UnicreditPaymentInitiationService extends BasePaymentInitiationService {
     private static final String AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM = "authenticationCurrentNumber";
@@ -75,7 +78,7 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
     @Override
     protected Map<String, String> populateGetHeaders(Map<String, String> map) {
         Map<String, String> headers = super.populateGetHeaders(map);
-        headers.put(ACCEPT_HEADER, APPLICATION_JSON);
+        headers.put(ACCEPT_HEADER, ContentType.APPLICATION_JSON);
 
         return headers;
     }
@@ -83,14 +86,14 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
     @Override
     protected Map<String, String> populatePostHeaders(Map<String, String> map) {
         Map<String, String> headers = super.populatePostHeaders(map);
-        headers.put(RequestHeaders.CONTENT_TYPE, APPLICATION_JSON);
+        headers.put(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON);
 
         return headers;
     }
 
     @Override
     protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
-        headers.put(RequestHeaders.CONTENT_TYPE, APPLICATION_JSON);
+        headers.put(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON);
         return headers;
     }
 }
