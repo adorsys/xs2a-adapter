@@ -3,9 +3,9 @@ package de.adorsys.xs2a.tpp;
 import de.adorsys.xs2a.adapter.api.remote.Xs2aAdapterClientParseException;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.model.TppMessageCategoryTO;
+import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.service.model.TppMessage;
-import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +27,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity handleErrorResponseException(ErrorResponseException exception) {
+        logError(exception);
         HttpStatus httpStatus = HttpStatus.valueOf(exception.getStatusCode());
         HttpHeaders httpHeaders = headersMapper.toHttpHeaders(exception.getResponseHeaders());
         ErrorResponse errorResponse = exception.getErrorResponse().orElse(null);
@@ -40,7 +41,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity badRequestHandler(RuntimeException exception) {
-        logger.error(exception.getMessage(), exception);
+        logError(exception);
         String errorText = exception.getMessage();
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
@@ -50,7 +51,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity handle(Exception exception) {
-        logger.error(exception.getMessage(), exception);
+        logError(exception);
         String errorText = "Server error";
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
@@ -72,6 +73,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     private HttpHeaders addErrorOriginationHeader(HttpHeaders httpHeaders, ErrorOrigination errorOrigination) {
         httpHeaders.add(ERROR_ORIGINATION_HEADER_NAME, errorOrigination.name());
         return httpHeaders;
+    }
+
+    private void logError(Exception exception) {
+        String errorMessage = exception.getMessage();
+        logger.error(errorMessage == null ? "" : errorMessage, exception);
     }
 
     private enum ErrorOrigination {
