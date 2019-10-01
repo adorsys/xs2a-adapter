@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.registry;
 
+import de.adorsys.xs2a.adapter.service.AspspCsvService;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.AspspScaApproach;
@@ -10,6 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -159,6 +163,26 @@ public class AspspCsvServiceImplTest {
 
         Aspsp output = (Aspsp) captor.getValue().get(0);
         assertThat(output.getId()).isEqualTo(ASPSP.getId());
+    }
+
+    @Test
+    public void persist() throws IOException {
+        AspspCsvService acs = mock(AspspCsvServiceImpl.class);
+        Path path = Files.createTempFile("tmp", null);
+        byte[] output, input = new byte[10];
+
+        doNothing().when(acs).rewriteOriginalCsv();
+        acs.rewriteOriginalCsv();
+
+        Files.write(path, input);
+
+        output = Files.readAllBytes(path);
+
+        verify(acs, times(1)).rewriteOriginalCsv();
+        assertThat(output).isNotNull();
+        assertThat(output).isEqualTo(input);
+
+        Files.deleteIfExists(path);
     }
 
     private static Aspsp buildAspsp() {
