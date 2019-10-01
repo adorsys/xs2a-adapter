@@ -61,7 +61,7 @@ public class AspspCsvServiceImpl implements AspspCsvService {
         CsvMapper mapper = new CsvMapper();
         CsvSchema schema = mapper.schemaFor(AspspCsvRecord.class).withoutQuoteChar();
 
-        if (aspsp.getAspspName().contains(",")) {
+        if (aspsp.getAspspName().contains(",") && aspsp.getAspspName() != null) {
             String columnName = "aspspName";
             int nameColumnIndex = schema.column(columnName).getIndex();
             schema = mapper
