@@ -111,7 +111,7 @@ function addRow() {
     if (HIDDEN_ROW.parentElement.parentElement.parentElement.hidden) {
         showTable();
     }
-    // updating MDL library for making it work
+    // updating MDL library for making Tooltips working
     componentHandler.upgradeAllRegistered();
 }
 
@@ -258,7 +258,7 @@ function buildRow(data) {
 
     COUNTER++;
 
-    // updating MDL library for making it work
+    // updating MDL library for making Tooltips working
     componentHandler.upgradeAllRegistered();
 
     function approachParser(data, cell) {
