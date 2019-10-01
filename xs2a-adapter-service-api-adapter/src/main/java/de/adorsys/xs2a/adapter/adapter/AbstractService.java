@@ -47,9 +47,9 @@ public abstract class AbstractService {
     protected static final String APPLICATION_JSON = "application/json";
     protected static final String ACCEPT_HEADER = "Accept";
     protected final JsonMapper jsonMapper = new JsonMapper();
-    protected HttpClient httpClient = HttpClient.newHttpClient();
+    protected final HttpClient httpClient;
 
-    public void setHttpClient(HttpClient httpClient) {
+    public AbstractService(HttpClient httpClient) {
         this.httpClient = httpClient;
     }
 

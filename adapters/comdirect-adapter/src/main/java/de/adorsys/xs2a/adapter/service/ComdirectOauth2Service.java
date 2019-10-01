@@ -19,12 +19,12 @@ package de.adorsys.xs2a.adapter.service;
 import de.adorsys.xs2a.adapter.adapter.AbstractService;
 import de.adorsys.xs2a.adapter.adapter.mapper.TokenResponseMapper;
 import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import org.mapstruct.factory.Mappers;
 
 import java.net.URI;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +32,8 @@ public class ComdirectOauth2Service extends AbstractService implements Oauth2Ser
     private final TokenResponseMapper tokenResponseMapper = Mappers.getMapper(TokenResponseMapper.class);
     private final String baseUrl;
 
-    public ComdirectOauth2Service(String baseUrl) {
+    public ComdirectOauth2Service(String baseUrl, HttpClient httpClient) {
+        super(httpClient);
         this.baseUrl = baseUrl;
     }
 
@@ -55,8 +56,9 @@ public class ComdirectOauth2Service extends AbstractService implements Oauth2Ser
         params.put("code", authorizationCode);
         params.put("code_verifier", "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk");
 
-        Response<OauthToken> response = httpClient.postForm(url, Collections.emptyMap(), params,
-                                                            jsonResponseHandler(OauthToken.class));
+        Response<OauthToken> response = httpClient.post(url)
+            .urlEncodedBody(params)
+            .send(jsonResponseHandler(OauthToken.class));
         return tokenResponseMapper.map(response.getBody());
     }
 }

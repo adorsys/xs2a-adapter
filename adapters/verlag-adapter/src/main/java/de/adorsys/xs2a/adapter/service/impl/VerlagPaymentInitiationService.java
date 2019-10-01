@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 
 import java.util.AbstractMap;
 import java.util.Map;
@@ -25,8 +26,8 @@ public class VerlagPaymentInitiationService extends BasePaymentInitiationService
 
     private AbstractMap.SimpleImmutableEntry<String, String> apiKey;
 
-    public VerlagPaymentInitiationService(String baseUri, AbstractMap.SimpleImmutableEntry<String, String> apiKey) {
-        super(baseUri);
+    public VerlagPaymentInitiationService(String baseUri, AbstractMap.SimpleImmutableEntry<String, String> apiKey, HttpClient httpClient) {
+        super(baseUri, httpClient);
         this.apiKey = apiKey;
     }
 

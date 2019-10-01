@@ -1,5 +1,7 @@
 package de.adorsys.xs2a.adapter.model;
 
+import java.util.List;
+
 public class AspspTO {
     private String id;
     private String name;
@@ -7,6 +9,8 @@ public class AspspTO {
     private String bankCode;
     private String url;
     private String adapterId;
+    private String idpUrl;
+    private List<AspspScaApproachTO> scaApproaches;
     private String paginationId;
 
     public String getId() {
@@ -55,6 +59,22 @@ public class AspspTO {
 
     public void setAdapterId(String adapterId) {
         this.adapterId = adapterId;
+    }
+
+    public String getIdpUrl() {
+        return idpUrl;
+    }
+
+    public void setIdpUrl(String idpUrl) {
+        this.idpUrl = idpUrl;
+    }
+
+    public List<AspspScaApproachTO> getScaApproaches() {
+        return scaApproaches;
+    }
+
+    public void setScaApproaches(List<AspspScaApproachTO> scaApproaches) {
+        this.scaApproaches = scaApproaches;
     }
 
     public String getPaginationId() {

@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.registry;
 import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.service.model.AspspScaApproach;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -13,10 +14,12 @@ import org.apache.lucene.store.Directory;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
 public class LuceneAspspRepository implements AspspRepository {
+    private static final String SEMICOLON_SEPARATOR = ";";
 
     private static final String ID_FIELD_NAME = "id";
     private static final String NAME_FIELD_NAME = "name";
@@ -24,6 +27,8 @@ public class LuceneAspspRepository implements AspspRepository {
     private static final String BIC_FIELD_NAME = "bic";
     private static final String BANK_CODE_FIELD_NAME = "bankCode";
     private static final String ADAPTER_ID_FIELD_NAME = "adapterId";
+    private static final String IDP_URL_FIELD_NAME = "idpUrl";
+    private static final String SCA_APPROACHES_FIELD_NAME = "scaApproaches";
 
     private Directory directory;
 
@@ -50,6 +55,16 @@ public class LuceneAspspRepository implements AspspRepository {
         }
     }
 
+    @Override
+    public void deleteAll() {
+        IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
+        try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
+            indexWriter.deleteAll();
+        } catch (IOException e) {
+            throw new RegistryIOException(e);
+        }
+    }
+
     Aspsp save(IndexWriter indexWriter, Aspsp aspsp) throws IOException {
         Optional<Aspsp> storedAspsp = Optional.empty();
 
@@ -66,6 +81,8 @@ public class LuceneAspspRepository implements AspspRepository {
         document.add(new StringField(BIC_FIELD_NAME, serialize(aspsp.getBic()), Field.Store.YES));
         document.add(new StringField(BANK_CODE_FIELD_NAME, serialize(aspsp.getBankCode()), Field.Store.YES));
         document.add(new StringField(ADAPTER_ID_FIELD_NAME, serialize(aspsp.getAdapterId()), Field.Store.YES));
+        document.add(new StringField(IDP_URL_FIELD_NAME, serialize(aspsp.getIdpUrl()), Field.Store.YES));
+        document.add(new StringField(SCA_APPROACHES_FIELD_NAME, serialize(aspsp.getScaApproaches()), Field.Store.YES));
 
         if (storedAspsp.isPresent()) {
             indexWriter.updateDocument(new Term(ID_FIELD_NAME, aspsp.getId()), document);
@@ -80,6 +97,17 @@ public class LuceneAspspRepository implements AspspRepository {
         return String.valueOf(s); // null -> "null"
     }
 
+    private <T extends Enum<T>> String serialize(List<T> data) {
+        if (data == null) {
+            return "null";
+        }
+
+        return data.stream()
+                   .map(Enum::toString)
+                   .collect(Collectors.joining(SEMICOLON_SEPARATOR));
+    }
+
+    @Override
     public void saveAll(List<Aspsp> aspsps) {
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
         try (IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig)) {
@@ -120,6 +148,34 @@ public class LuceneAspspRepository implements AspspRepository {
         return s;
     }
 
+    /*
+     * Possible incoming strings are:
+     * - "null"
+     * - ""
+     * - "DECOUPLED,REDIRECT"
+     * - "DECOUPLED, REDIRECT" (with space)
+     * - "decoupled,redirect"
+     * - "decoupled, redirect" (with space)
+     * - "decoupled,blablabla" (with unknown enum value)
+     */
+    private <T extends Enum<T>> List<T> deserialize(String s, Class<T> klass) {
+        if ("null".equals(s)) {
+            return null;
+        }
+
+        if (s == null || s.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        String[] values = s.split(SEMICOLON_SEPARATOR);
+
+        return Arrays.stream(values)
+                   // .trim() to handle strings with spaces (like "DECOUPLED, REDIRECT")
+                   // .toUpperCase() to handle lowercase strings (like "redirect")
+                   .map(value -> Enum.valueOf(klass, value.trim().toUpperCase()))
+                   .collect(Collectors.toList());
+    }
+
     @Override
     public List<Aspsp> findByBic(String bic, String after, int size) {
         Query query = getBicQuery(bic);
@@ -158,6 +214,8 @@ public class LuceneAspspRepository implements AspspRepository {
                        aspsp.setBic(deserialize(document.get(BIC_FIELD_NAME)));
                        aspsp.setBankCode(deserialize(document.get(BANK_CODE_FIELD_NAME)));
                        aspsp.setAdapterId(deserialize(document.get(ADAPTER_ID_FIELD_NAME)));
+                       aspsp.setIdpUrl(deserialize(document.get(IDP_URL_FIELD_NAME)));
+                       aspsp.setScaApproaches(deserialize(document.get(SCA_APPROACHES_FIELD_NAME), AspspScaApproach.class));
                        aspsp.setPaginationId(scoreDoc.doc + ":" + scoreDoc.score);
                        return aspsp;
                    });

@@ -16,15 +16,13 @@
 
 package de.adorsys.xs2a.adapter.adapter;
 
+import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.model.AccountListHolder;
-import de.adorsys.xs2a.adapter.service.model.BalanceReport;
-import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.*;
 
 import java.util.Map;
@@ -41,9 +39,18 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     private static final String BALANCES = "balances";
 
     private final String baseUri;
+    private final Request.Builder.Interceptor requestBuilderInterceptor;
 
-    public BaseAccountInformationService(String baseUri) {
+    public BaseAccountInformationService(String baseUri, HttpClient httpClient) {
+        this(baseUri, httpClient, null);
+    }
+
+    public BaseAccountInformationService(String baseUri,
+                                         HttpClient httpClient,
+                                         Request.Builder.Interceptor requestBuilderInterceptor) {
+        super(httpClient);
         this.baseUri = baseUri;
+        this.requestBuilderInterceptor = requestBuilderInterceptor;
     }
 
     @Override
@@ -56,7 +63,10 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
 
-        Response<T> response = httpClient.post(getConsentBaseUri(), bodyString, headersMap, jsonResponseHandler(klass));
+        Response<T> response = httpClient.post(getConsentBaseUri())
+            .jsonBody(bodyString)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         ConsentCreationResponse creationResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), creationResponse, response.getHeaders());
     }
@@ -69,7 +79,9 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     protected <T> Response<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders, Class<T> klass, Function<T, ConsentInformation> mapper) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
-        Response<T> response = httpClient.get(uri, headersMap, jsonResponseHandler(klass));
+        Response<T> response = httpClient.get(uri)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         ConsentInformation consentInformation = mapper.apply(response.getBody());
 
         return new Response<>(response.getStatusCode(), consentInformation, response.getHeaders());
@@ -79,7 +91,9 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     public Response<Void> deleteConsent(String consentId, RequestHeaders requestHeaders) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
         Map<String, String> headersMap = populateDeleteHeaders(requestHeaders.toMap());
-        return httpClient.delete(uri, headersMap, jsonResponseHandler(Void.class));
+        return httpClient.delete(uri)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(Void.class));
     }
 
     @Override
@@ -87,7 +101,9 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, STATUS);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
-        return httpClient.get(uri, headersMap, jsonResponseHandler(ConsentStatusResponse.class));
+        return httpClient.get(uri)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(ConsentStatusResponse.class));
     }
 
     @Override
@@ -95,14 +111,19 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
 
-        return httpClient.post(uri, headersMap, jsonResponseHandler(StartScaProcessResponse.class));
+        return httpClient.post(uri)
+            .headers(headersMap)
+            .emptyBody(true)
+            .send(requestBuilderInterceptor, jsonResponseHandler(StartScaProcessResponse.class));
     }
 
     protected <T> Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, Class<T> klass, Function<T, StartScaProcessResponse> mapper) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
 
-        Response<T> response = httpClient.post(uri, headersMap, jsonResponseHandler(klass));
+        Response<T> response = httpClient.post(uri)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getHeaders());
     }
@@ -117,7 +138,10 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
-        Response<T> response = httpClient.post(uri, body, headersMap, jsonResponseHandler(klass));
+        Response<T> response = httpClient.post(uri)
+            .jsonBody(body)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getHeaders());
     }
@@ -138,7 +162,10 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
-        Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+        Response<T> response = httpClient.put(uri)
+            .jsonBody(body)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), updatePsuAuthenticationResponse, response.getHeaders());
     }
@@ -158,7 +185,10 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
 
-        Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+        Response<T> response = httpClient.put(uri)
+            .jsonBody(body)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), selectPsuAuthenticationMethodResponse, response.getHeaders());
     }
@@ -178,7 +208,10 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 
-        Response<T> response = httpClient.put(uri, body, headersMap, jsonResponseHandler(klass));
+        Response<T> response = httpClient.put(uri)
+            .jsonBody(body)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
 
         ScaStatusResponse scaStatusResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), scaStatusResponse, response.getHeaders());
@@ -195,7 +228,9 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         String uri = buildUri(getAccountsBaseUri(), requestParams);
 
-        return httpClient.get(uri, headersMap, jsonResponseHandler(AccountListHolder.class));
+        return httpClient.get(uri)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(AccountListHolder.class));
     }
 
     @Override
@@ -215,7 +250,9 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         String uri = getTransactionListUri(accountId, requestParams);
 
-        Response<T> response = httpClient.get(uri, headersMap, jsonResponseHandler(klass));
+        Response<T> response = httpClient.get(uri)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         TransactionsReport transactionsReport = mapper.apply(response.getBody());
 
         return new Response<>(response.getStatusCode(), transactionsReport, response.getHeaders());
@@ -225,14 +262,18 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     public Response<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         String uri = getTransactionListUri(accountId, requestParams);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
-        return httpClient.get(uri, headers, stringResponseHandler());
+        return httpClient.get(uri)
+            .headers(headers)
+            .send(requestBuilderInterceptor, stringResponseHandler());
     }
 
     @Override
     public Response<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, RequestHeaders requestHeaders) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
-        return httpClient.get(uri, headers, jsonResponseHandler(ScaStatusResponse.class));
+        return httpClient.get(uri)
+            .headers(headers)
+            .send(requestBuilderInterceptor, jsonResponseHandler(ScaStatusResponse.class));
     }
 
     @Override
@@ -243,7 +284,9 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     protected <T> Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders, Class<T> klass, Function<T, BalanceReport> mapper) {
         String uri = StringUri.fromElements(getAccountsBaseUri(), accountId, BALANCES);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
-        Response<T> response = httpClient.get(uri, headers, jsonResponseHandler(klass));
+        Response<T> response = httpClient.get(uri)
+            .headers(headers)
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         BalanceReport balanceReport = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), balanceReport, response.getHeaders());
     }

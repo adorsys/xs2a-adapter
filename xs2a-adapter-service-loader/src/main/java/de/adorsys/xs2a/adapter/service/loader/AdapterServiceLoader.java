@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.service.loader;
 
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
 import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
@@ -18,12 +19,15 @@ import java.util.stream.StreamSupport;
 public class AdapterServiceLoader {
     private final AspspReadOnlyRepository aspspRepository;
     protected final Pkcs12KeyStore keyStore;
+    private final HttpClient httpClient;
     private final ConcurrentMap<Class<?>, ServiceLoader<? extends AdapterServiceProvider>> serviceLoaders = new ConcurrentHashMap<>();
 
     public AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
-                                Pkcs12KeyStore keyStore) {
+                                Pkcs12KeyStore keyStore,
+                                HttpClient httpClient) {
         this.aspspRepository = aspspRepository;
         this.keyStore = keyStore;
+        this.httpClient = httpClient;
     }
 
     public AccountInformationService getAccountInformationService(RequestHeaders requestHeaders) {
@@ -32,7 +36,7 @@ public class AdapterServiceLoader {
         String baseUrl = aspsp.getUrl();
         return getServiceProvider(AccountInformationServiceProvider.class, adapterId)
             .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-            .getAccountInformationService(baseUrl);
+            .getAccountInformationService(baseUrl, httpClient);
     }
 
     protected Aspsp getAspsp(RequestHeaders requestHeaders) {
@@ -75,7 +79,7 @@ public class AdapterServiceLoader {
         String baseUrl = aspsp.getUrl();
         return getServiceProvider(PaymentInitiationServiceProvider.class, adapterId)
             .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-            .getPaymentInitiationService(baseUrl);
+            .getPaymentInitiationService(baseUrl, httpClient);
     }
 
     public Oauth2Service getOauth2Service(RequestHeaders requestHeaders) {
@@ -84,6 +88,6 @@ public class AdapterServiceLoader {
         String baseUrl = aspsp.getUrl();
         return getServiceProvider(Oauth2ServiceFactory.class, adapterId)
             .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-            .getOauth2Service(baseUrl, keyStore);
+            .getOauth2Service(baseUrl, keyStore, httpClient);
     }
 }

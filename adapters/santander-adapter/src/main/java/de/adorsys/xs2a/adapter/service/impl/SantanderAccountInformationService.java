@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
@@ -38,8 +39,8 @@ public class SantanderAccountInformationService extends BaseAccountInformationSe
 
     private AccessTokenService accessService;
 
-    public SantanderAccountInformationService(String baseUri, AccessTokenService accessService) {
-        super(baseUri);
+    public SantanderAccountInformationService(String baseUri, AccessTokenService accessService, HttpClient httpClient) {
+        super(baseUri, httpClient);
         this.accessService = accessService;
     }
 

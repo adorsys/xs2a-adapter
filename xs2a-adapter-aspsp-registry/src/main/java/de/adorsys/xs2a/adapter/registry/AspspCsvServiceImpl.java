@@ -1,9 +1,13 @@
 package de.adorsys.xs2a.adapter.registry;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.deser.DeserializationProblemHandler;
 import com.fasterxml.jackson.dataformat.csv.CsvGenerator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
 import de.adorsys.xs2a.adapter.registry.mapper.AspspMapper;
 import de.adorsys.xs2a.adapter.service.AspspCsvService;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
@@ -12,6 +16,7 @@ import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +43,19 @@ public class AspspCsvServiceImpl implements AspspCsvService {
             .getBytes();
     }
 
+    @Override
+    public void importCsv(byte[] bytes) {
+        List<Aspsp> aspsps;
+        try {
+            aspsps = readAllRecords(bytes);
+        } catch (IOException e) {
+            throw new RegistryIOException(e);
+        }
+
+        aspspRepository.deleteAll();
+        aspspRepository.saveAll(aspsps);
+    }
+
     private String toCsvString(AspspCsvRecord aspsp) {
 
         CsvMapper mapper = new CsvMapper();
@@ -60,5 +78,26 @@ public class AspspCsvServiceImpl implements AspspCsvService {
             log.warn("Exception occurred while indexes were being written into a CSV: {}", e.getMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    public List<Aspsp> readAllRecords(byte[] csv) throws IOException {
+        ObjectReader objectReader = new CsvMapper()
+            .readerWithTypedSchemaFor(AspspCsvRecord.class)
+            .withHandler(new DeserializationProblemHandler() {
+                @Override
+                public Object handleWeirdStringValue(DeserializationContext ctxt, Class<?> targetType, String valueToConvert, String failureMsg) {
+                    if (targetType.isEnum()) {
+                        return Enum.valueOf((Class<Enum>) targetType, valueToConvert.trim().toUpperCase());
+                    }
+
+                    return DeserializationProblemHandler.NOT_HANDLED;
+                }
+            });
+
+        List<AspspCsvRecord> aspsps = objectReader
+            .<AspspCsvRecord>readValues(csv)
+            .readAll();
+
+        return aspspMapper.toAspsps(aspsps);
     }
 }

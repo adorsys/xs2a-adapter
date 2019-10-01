@@ -12,7 +12,7 @@ public class BaseAccountInformationServiceTest {
 
     @Before
     public void setUp() {
-        informationService = new BaseAccountInformationService(BASE_URI);
+        informationService = new BaseAccountInformationService(BASE_URI, null);
     }
 
     @Test

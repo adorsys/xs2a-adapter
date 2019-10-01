@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
@@ -37,8 +38,8 @@ public class DkbAccountInformationService extends BaseAccountInformationService 
     private final ConsentCreationResponseDkbMapper creationResponseMapper = Mappers.getMapper(ConsentCreationResponseDkbMapper.class);
     private AccessTokenService accessService;
 
-    public DkbAccountInformationService(String baseUri, AccessTokenService accessService) {
-        super(baseUri);
+    public DkbAccountInformationService(String baseUri, AccessTokenService accessService, HttpClient httpClient) {
+        super(baseUri, httpClient);
         this.accessService = accessService;
     }
 

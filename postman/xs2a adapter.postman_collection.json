@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "97b7739a-68d6-48d0-b3a6-c43d11610ce4",
+		"_postman_id": "ee5ac71f-8808-4cfe-a33b-130e67dc1de4",
 		"name": "xs2a adapter",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1387,7 +1387,8 @@
 						]
 					}
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "PIS",
@@ -2260,6 +2261,7 @@
 							}
 						}
 					],
+					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
 				},
 				{
@@ -2841,6 +2843,7 @@
 							}
 						}
 					],
+					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
 				}
 			],
@@ -2867,7 +2870,8 @@
 						]
 					}
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "PSD2",
@@ -3625,12 +3629,15 @@
 									"    pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());",
 									"    postman.setNextRequest(\"selectAuthenticationMethod\");",
 									"} else if (links.authoriseTransaction && pm.info.requestName !== \"authoriseTransaction\") {",
+									"    let matches = links.authoriseTransaction.href.match(/authorisations\\/(.+)/);",
+									"    pm.globals.set(\"authorisationId\", matches[1]);",
 									"    postman.setNextRequest(\"authoriseTransaction\");",
 									"}"
 								]
 							}
 						}
 					],
+					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
 				}
 			],
@@ -3655,7 +3662,9 @@
 						]
 					}
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }

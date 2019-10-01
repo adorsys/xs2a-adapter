@@ -1,5 +1,7 @@
 package de.adorsys.xs2a.adapter.service.model;
 
+import java.util.List;
+
 public class Aspsp {
     private String id;
     private String name;
@@ -7,6 +9,8 @@ public class Aspsp {
     private String bankCode;
     private String url;
     private String adapterId;
+    private String idpUrl;
+    private List<AspspScaApproach> scaApproaches;
     private String paginationId;
 
     public String getId() {
@@ -57,6 +61,22 @@ public class Aspsp {
         this.adapterId = adapterId;
     }
 
+    public String getIdpUrl() {
+        return idpUrl;
+    }
+
+    public void setIdpUrl(String idpUrl) {
+        this.idpUrl = idpUrl;
+    }
+
+    public List<AspspScaApproach> getScaApproaches() {
+        return scaApproaches;
+    }
+
+    public void setScaApproaches(List<AspspScaApproach> scaApproaches) {
+        this.scaApproaches = scaApproaches;
+    }
+
     public String getPaginationId() {
         return paginationId;
     }
@@ -68,13 +88,15 @@ public class Aspsp {
     @Override
     public String toString() {
         return "Aspsp{" +
-            "id='" + id + '\'' +
-            ", name='" + name + '\'' +
-            ", bic='" + bic + '\'' +
-            ", bankCode='" + bankCode + '\'' +
-            ", url='" + url + '\'' +
-            ", adapterId='" + adapterId + '\'' +
-            ", paginationId='" + paginationId + '\'' +
-            '}';
+                   "id='" + id + '\'' +
+                   ", name='" + name + '\'' +
+                   ", bic='" + bic + '\'' +
+                   ", bankCode='" + bankCode + '\'' +
+                   ", url='" + url + '\'' +
+                   ", adapterId='" + adapterId + '\'' +
+                   ", idpUrl='" + idpUrl + '\'' +
+                   ", scaApproaches=" + scaApproaches +
+                   ", paginationId='" + paginationId + '\'' +
+                   '}';
     }
 }

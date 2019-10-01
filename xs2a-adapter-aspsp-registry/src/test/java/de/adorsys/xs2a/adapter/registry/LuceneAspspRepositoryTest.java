@@ -32,6 +32,24 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
+    public void deleteAll() {
+        Aspsp aspsp1 = new Aspsp();
+        luceneAspspRepository.save(aspsp1);
+
+        Aspsp aspsp2 = new Aspsp();
+        luceneAspspRepository.save(aspsp2);
+
+        List<Aspsp> found = luceneAspspRepository.findAll();
+        assertThat(found).hasSize(2);
+
+        luceneAspspRepository.deleteAll();
+
+        found = luceneAspspRepository.findAll();
+
+        assertThat(found).isEmpty();
+    }
+
+    @Test
     public void saveCanHandleNullProperties() {
         luceneAspspRepository.save(new Aspsp());
         // expect no exceptions

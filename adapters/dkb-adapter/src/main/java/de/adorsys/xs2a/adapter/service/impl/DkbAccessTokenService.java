@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,9 +43,8 @@ public class DkbAccessTokenService implements AccessTokenService {
 
     private static final String DEFAULT_SECONDS_BEFORE_TOKEN_EXPIRATION = "60";
     private static final String DEFAULT_TOKEN_URL = "https://api.dkb.de/token";
-    private static final String TOKEN_GRANT_TYPE = "grant_type=client_credentials";
 
-    private static AccessTokenService instance = new DkbAccessTokenService();
+    private static DkbAccessTokenService instance = new DkbAccessTokenService();
     private static Map<String, String> headers;
     private static String tokenUrl;
     private static int secondsBeforeTokenExpiration;
@@ -58,10 +58,9 @@ public class DkbAccessTokenService implements AccessTokenService {
 
     private DkbAccessTokenService() {
         jsonMapper = new JsonMapper();
-        setHttpClient(HttpClient.newHttpClient());
     }
 
-    public static AccessTokenService getInstance() {
+    public static DkbAccessTokenService getInstance() {
         return instance;
     }
 
@@ -76,7 +75,6 @@ public class DkbAccessTokenService implements AccessTokenService {
         }
 
         headers = new HashMap<>();
-        headers.put("Content-type", "application/x-www-form-urlencoded");
         headers.put("Authorization", "Basic " + buildBasicAuthorization(consumerKey, consumerSecret));
 
         tokenUrl = readProperty(DKB_TOKEN_URL_PROPERTY, DEFAULT_TOKEN_URL);
@@ -93,19 +91,17 @@ public class DkbAccessTokenService implements AccessTokenService {
     public String retrieveToken() {
         if (isNotValid()) {
             logger.debug("Token is not valid");
-            Response<TokenResponse> response = httpClient.post(
-                tokenUrl,
-                TOKEN_GRANT_TYPE,
-                headers,
-                responseHandler()
-            );
+            Response<TokenResponse> response = httpClient.post(tokenUrl)
+                .urlEncodedBody(Collections.singletonMap("grant_type", "client_credentials"))
+                .headers(headers)
+                .send(responseHandler());
             logger.debug("New token is retrieved");
             accessToken = new AccessToken(response.getBody());
         }
         return accessToken.token;
     }
 
-    void setHttpClient(HttpClient httpClient) {
+    public void setHttpClient(HttpClient httpClient) {
         this.httpClient = httpClient;
     }
 

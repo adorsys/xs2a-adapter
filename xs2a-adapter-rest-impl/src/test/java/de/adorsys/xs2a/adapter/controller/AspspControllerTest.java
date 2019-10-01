@@ -30,6 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -51,9 +52,9 @@ public class AspspControllerTest {
         MockitoAnnotations.initMocks(this);
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
-                      .setMessageConverters(new MappingJackson2HttpMessageConverter())
-                      .setControllerAdvice(new RestExceptionHandler(new HeadersMapper()))
-                      .build();
+            .setMessageConverters(new MappingJackson2HttpMessageConverter())
+            .setControllerAdvice(new RestExceptionHandler(new HeadersMapper()))
+            .build();
     }
 
     @Test
@@ -66,11 +67,11 @@ public class AspspControllerTest {
         when(repository.save(any())).thenReturn(aspsp);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                                                  .post(AspspSearchApi.V1_APSPS)
-                                                  .contentType(APPLICATION_JSON_UTF8_VALUE)
-                                                  .content("{}"))
-                                  .andExpect(status().is(HttpStatus.CREATED.value()))
-                                  .andReturn();
+            .post(AspspSearchApi.V1_APSPS)
+            .contentType(APPLICATION_JSON_UTF8_VALUE)
+            .content("{}"))
+            .andExpect(status().is(HttpStatus.CREATED.value()))
+            .andReturn();
 
         AspspTO response = JsonReader.getInstance()
             .getObjectFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
@@ -94,11 +95,11 @@ public class AspspControllerTest {
         when(repository.save(any())).thenReturn(aspsp);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                                                  .put(AspspSearchApi.V1_APSPS)
-                                                  .contentType(APPLICATION_JSON_UTF8_VALUE)
-                                                  .content(body))
-                                  .andExpect(status().is(HttpStatus.OK.value()))
-                                  .andReturn();
+            .put(AspspSearchApi.V1_APSPS)
+            .contentType(APPLICATION_JSON_UTF8_VALUE)
+            .content(body))
+            .andExpect(status().is(HttpStatus.OK.value()))
+            .andReturn();
 
         AspspTO response = JsonReader.getInstance()
             .getObjectFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
@@ -114,8 +115,8 @@ public class AspspControllerTest {
         doNothing().when(repository).deleteById(id);
 
         mockMvc.perform(MockMvcRequestBuilders
-                            .delete(V1_ASPSP_BY_ID, id)
-                            .contentType(APPLICATION_JSON_UTF8_VALUE))
+            .delete(V1_ASPSP_BY_ID, id)
+            .contentType(APPLICATION_JSON_UTF8_VALUE))
             .andExpect(status().is(HttpStatus.NO_CONTENT.value()))
             .andReturn();
     }
@@ -136,5 +137,16 @@ public class AspspControllerTest {
         byte[] results = mvcResult.getResponse().getContentAsByteArray();
 
         assertThat(Arrays.equals(results, bytes)).isTrue();
+    }
+
+    @Test
+    public void importCsv() throws Exception {
+        doNothing().when(aspspCsvService).importCsv(any());
+
+        mockMvc.perform(multipart(AspspSearchApi.V1_APSPS + "/import")
+            .file("file", "content".getBytes()))
+            .andExpect(status().is(HttpStatus.OK.value()));
+
+        verify(aspspCsvService, times(1)).importCsv(any());
     }
 }

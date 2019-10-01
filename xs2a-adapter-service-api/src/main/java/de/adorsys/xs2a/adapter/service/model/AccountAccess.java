@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.adapter.service.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.List;
 
@@ -81,6 +82,7 @@ public class AccountAccess {
             this.value = value;
         }
 
+        @JsonValue
         @Override
         public String toString() {
             return value;
@@ -106,6 +108,7 @@ public class AccountAccess {
             this.value = value;
         }
 
+        @JsonValue
         @Override
         public String toString() {
             return value;

@@ -16,13 +16,14 @@
 
 package de.adorsys.xs2a.adapter.service.impl;
 
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 
 public class TestAccountInformationServiceProvider implements AccountInformationServiceProvider {
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl) {
+    public AccountInformationService getAccountInformationService(String baseUrl, HttpClient httpClient) {
         return new TestAccountInformationService();
     }
 
