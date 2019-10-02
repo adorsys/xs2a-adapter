@@ -61,5 +61,5 @@ public interface AspspCsvService {
      *
      * @throws RegistryIOException if writing a new CSV fails
      */
-    void rewriteOriginalCsv();
+    void saveCsv();
 }

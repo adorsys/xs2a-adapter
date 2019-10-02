@@ -85,7 +85,7 @@ public class AspspController {
 
     @PostMapping(V1_ASPSP_PERSIST)
     public ResponseEntity<Void> persist() {
-        aspspCsvService.rewriteOriginalCsv();
+        aspspCsvService.saveCsv();
         return ResponseEntity.noContent().build();
     }
 

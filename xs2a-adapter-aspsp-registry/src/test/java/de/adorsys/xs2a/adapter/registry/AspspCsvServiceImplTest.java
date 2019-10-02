@@ -171,14 +171,14 @@ public class AspspCsvServiceImplTest {
         Path path = Files.createTempFile("tmp", null);
         byte[] output, input = new byte[10];
 
-        doNothing().when(acs).rewriteOriginalCsv();
-        acs.rewriteOriginalCsv();
+        doNothing().when(acs).saveCsv();
+        acs.saveCsv();
 
         Files.write(path, input);
 
         output = Files.readAllBytes(path);
 
-        verify(acs, times(1)).rewriteOriginalCsv();
+        verify(acs, times(1)).saveCsv();
         assertThat(output).isNotNull();
         assertThat(output).isEqualTo(input);
 

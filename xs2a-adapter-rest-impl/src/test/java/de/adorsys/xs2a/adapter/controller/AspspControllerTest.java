@@ -52,9 +52,9 @@ public class AspspControllerTest {
         MockitoAnnotations.initMocks(this);
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
-                      .setMessageConverters(new MappingJackson2HttpMessageConverter())
-                      .setControllerAdvice(new RestExceptionHandler(new HeadersMapper()))
-                      .build();
+            .setMessageConverters(new MappingJackson2HttpMessageConverter())
+            .setControllerAdvice(new RestExceptionHandler(new HeadersMapper()))
+            .build();
     }
 
     @Test
@@ -67,14 +67,14 @@ public class AspspControllerTest {
         when(repository.save(any())).thenReturn(aspsp);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                                                  .post(AspspSearchApi.V1_APSPS)
-                                                  .contentType(APPLICATION_JSON_UTF8_VALUE)
-                                                  .content("{}"))
-                                  .andExpect(status().is(HttpStatus.CREATED.value()))
-                                  .andReturn();
+            .post(AspspSearchApi.V1_APSPS)
+            .contentType(APPLICATION_JSON_UTF8_VALUE)
+            .content("{}"))
+            .andExpect(status().is(HttpStatus.CREATED.value()))
+            .andReturn();
 
         AspspTO response = JsonReader.getInstance()
-                               .getObjectFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
+            .getObjectFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
         String location = mvcResult.getResponse().getHeader("Location");
 
         assertThat(location).endsWith("/" + id);
@@ -95,14 +95,14 @@ public class AspspControllerTest {
         when(repository.save(any())).thenReturn(aspsp);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                                                  .put(AspspSearchApi.V1_APSPS)
-                                                  .contentType(APPLICATION_JSON_UTF8_VALUE)
-                                                  .content(body))
-                                  .andExpect(status().is(HttpStatus.OK.value()))
-                                  .andReturn();
+            .put(AspspSearchApi.V1_APSPS)
+            .contentType(APPLICATION_JSON_UTF8_VALUE)
+            .content(body))
+            .andExpect(status().is(HttpStatus.OK.value()))
+            .andReturn();
 
         AspspTO response = JsonReader.getInstance()
-                               .getObjectFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
+            .getObjectFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
 
         assertThat(response.getId()).isEqualTo(aspsp.getId());
         assertThat(response.getBic()).isEqualTo(aspsp.getBic());
@@ -115,8 +115,8 @@ public class AspspControllerTest {
         doNothing().when(repository).deleteById(id);
 
         mockMvc.perform(MockMvcRequestBuilders
-                            .delete(V1_ASPSP_BY_ID, id)
-                            .contentType(APPLICATION_JSON_UTF8_VALUE))
+            .delete(V1_ASPSP_BY_ID, id)
+            .contentType(APPLICATION_JSON_UTF8_VALUE))
             .andExpect(status().is(HttpStatus.NO_CONTENT.value()))
             .andReturn();
     }
@@ -126,14 +126,14 @@ public class AspspControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).setMessageConverters().build();
 
         byte[] bytes = ("81cecc67-6d1b-4169-b67c-2de52b99a0cc,\"BNP Paribas Germany, Consorsbank\"," +
-                            "CSDBDE71XXX,https://xs2a-sndbx.consorsbank.de,consors-bank-adapter,76030080").getBytes();
+            "CSDBDE71XXX,https://xs2a-sndbx.consorsbank.de,consors-bank-adapter,76030080").getBytes();
 
         when(aspspCsvService.exportCsv()).thenReturn(bytes);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                                                  .get(AspspSearchApi.V1_APSPS + "/export"))
-                                  .andExpect(status().is(HttpStatus.OK.value()))
-                                  .andReturn();
+            .get(AspspSearchApi.V1_APSPS + "/export"))
+            .andExpect(status().is(HttpStatus.OK.value()))
+            .andReturn();
 
         byte[] results = mvcResult.getResponse().getContentAsByteArray();
 
@@ -145,7 +145,7 @@ public class AspspControllerTest {
         doNothing().when(aspspCsvService).importCsv(any());
 
         mockMvc.perform(multipart(AspspSearchApi.V1_APSPS + "/import")
-                            .file("file", "content".getBytes()))
+            .file("file", "content".getBytes()))
             .andExpect(status().is(HttpStatus.OK.value()));
 
         verify(aspspCsvService, times(1)).importCsv(any());
@@ -153,11 +153,11 @@ public class AspspControllerTest {
 
     @Test
     public void persist() throws Exception {
-        doNothing().when(aspspCsvService).rewriteOriginalCsv();
+        doNothing().when(aspspCsvService).saveCsv();
 
         mockMvc.perform(MockMvcRequestBuilders.post(AspspSearchApi.V1_APSPS + "/persist"))
             .andExpect(status().is(HttpStatus.NO_CONTENT.value()));
 
-        verify(aspspCsvService, times(1)).rewriteOriginalCsv();
+        verify(aspspCsvService, times(1)).saveCsv();
     }
 }
