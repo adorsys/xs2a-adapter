@@ -16,6 +16,7 @@
 - Added endpoint for retrieving information about the application, such as name, version, description, etc (/actuator/info endpoint)
 - Extended ASPSP schema with 2 new fields: IDP url and SCA approaches
 - Added SCA approaches and IDP url columns on the registry UI
+- Added swagger documentation for PSD2/Facade API, OAuth API and ASPSP Registry API
 
 == Fixes:
 - UpdatePsuAuthenticationResponse mapping exception fixed
