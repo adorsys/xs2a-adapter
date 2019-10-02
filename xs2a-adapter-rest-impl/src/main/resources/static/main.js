@@ -126,7 +126,7 @@ function greenButton(e) {
     let tableRow = e.parentElement.parentElement;
 
     if (tableRow.className) {
-        if (window.confirm("Are you sure an aspsp has been built right?")) {
+        if (window.confirm("Are you sure to save the new entry?")) {
             saveButton(e);
         }
     } else {
