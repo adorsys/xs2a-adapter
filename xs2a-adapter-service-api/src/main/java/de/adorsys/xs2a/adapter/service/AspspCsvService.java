@@ -59,7 +59,20 @@ public interface AspspCsvService {
      * {@link java.nio.file.Files} and {@link java.nio.file.Paths} are used for
      * re-writing the CSV
      *
-     * @throws RegistryIOException if writing a new CSV fails
+     * @throws RegistryIOException if writing a new CSV fails or if Configuration property
+     * is not defined or missing
      */
     void saveCsv();
+
+    /**
+     * Converts a file, set as the source of Aspsp details records, into the array of bytes.
+     * <p>
+     * Reads, specified within the Configuration Properties source, file using
+     * {@link java.io.InputStream} and converts it into bytes via
+     * {@link java.io.BufferedOutputStream}
+     *
+     * @return array of bytes converted from the specified source file
+     * @throws IOException if reading data from file fails
+     */
+    byte[] getCsvFileAsByteArray() throws IOException;
 }

@@ -16,7 +16,7 @@ import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -24,12 +24,13 @@ import java.util.stream.Collectors;
 
 public class AspspCsvServiceImpl implements AspspCsvService {
 
-    private static final String CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH_PROPERTY = "csv.aspsp.adapter.config.file.path";
+    private static final String CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH = System.getenv("csv.aspsp.adapter.config.file.path");
     private static final String DEFAULT_CSV_ASPSP_ADAPTER_CONFIG_FILE = "aspsp-adapter-config.csv";
 
     private final Logger log = LoggerFactory.getLogger(AspspCsvServiceImpl.class);
 
     private AspspRepository aspspRepository;
+
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
     public AspspCsvServiceImpl(AspspRepository aspspRepository) {
@@ -63,14 +64,14 @@ public class AspspCsvServiceImpl implements AspspCsvService {
 
     @Override
     public void saveCsv() {
-        String filePath = System.getenv(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH_PROPERTY);
-
-        if (filePath == null || filePath.isEmpty()) {
-            filePath = getClass().getClassLoader().getResource(DEFAULT_CSV_ASPSP_ADAPTER_CONFIG_FILE).getPath();
-        }
-
         try {
-            Files.write(Paths.get(filePath), exportCsv());
+            if (CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH == null || CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH.isEmpty()) {
+//                String filePath = getClass().getClassLoader().getResource(DEFAULT_CSV_ASPSP_ADAPTER_CONFIG_FILE).getPath();
+//                Files.write(Paths.get(filePath), exportCsv());
+                throw new RegistryIOException("Adapter config file path is not set or Configuration File does not exist");
+            } else {
+                Files.write(Paths.get(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH), exportCsv());
+            }
         } catch (IOException e) {
             log.error("Exception occurred while re-writing aspsps into the CSV: {}", e.getMessage());
             throw new RegistryIOException(e);
@@ -124,5 +125,37 @@ public class AspspCsvServiceImpl implements AspspCsvService {
             .readAll();
 
         return aspspMapper.toAspsps(aspsps);
+    }
+
+    @Override
+    public byte[] getCsvFileAsByteArray() throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int nRead;
+        byte[] data = new byte[8192];
+        try (InputStream is = getCsvFileAsStream()) {
+            while ((nRead = is.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+            return buffer.toByteArray();
+        }
+    }
+
+    private InputStream getCsvFileAsStream() throws FileNotFoundException {
+        InputStream inputStream;
+
+        if (CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH == null || CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH.isEmpty()) {
+            inputStream = getResourceAsStream(DEFAULT_CSV_ASPSP_ADAPTER_CONFIG_FILE);
+        } else {
+            inputStream = getFileAsStream(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH);
+        }
+        return inputStream;
+    }
+
+    private InputStream getResourceAsStream(String fileName) {
+        return Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
+    }
+
+    private InputStream getFileAsStream(String filePath) throws FileNotFoundException {
+        return new FileInputStream(filePath);
     }
 }

@@ -8,4 +8,8 @@ public class RegistryIOException extends RuntimeException {
     public RegistryIOException(IOException cause) {
         super(Objects.requireNonNull(cause));
     }
+
+    public RegistryIOException(String s) {
+        super(s);
+    }
 }
