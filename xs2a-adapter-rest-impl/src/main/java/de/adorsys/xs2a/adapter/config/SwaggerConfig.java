@@ -7,7 +7,7 @@ import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.Collections;
+import java.util.Arrays;
 
 @Configuration
 @EnableSwagger2
@@ -17,9 +17,19 @@ public class SwaggerConfig {
     @Primary
     public SwaggerResourcesProvider swaggerResourcesProvider() {
         return () -> {
-            SwaggerResource swaggerResource = new SwaggerResource();
-            swaggerResource.setLocation("/openapi.json");
-            return Collections.singletonList(swaggerResource);
+            SwaggerResource psd2Api = new SwaggerResource();
+            psd2Api.setLocation("/psd2api.json");
+            psd2Api.setName("PSD2 API");
+
+            SwaggerResource oauthApi = new SwaggerResource();
+            oauthApi.setLocation("/oauthapi.json");
+            oauthApi.setName("OAuth API");
+
+            SwaggerResource aspspApi = new SwaggerResource();
+            aspspApi.setLocation("/aspspapi.json");
+            aspspApi.setName("ASPSP Registry API");
+
+            return Arrays.asList(psd2Api, oauthApi, aspspApi);
         };
     }
 }
