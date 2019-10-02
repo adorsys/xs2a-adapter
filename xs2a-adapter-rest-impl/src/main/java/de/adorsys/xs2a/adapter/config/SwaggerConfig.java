@@ -30,7 +30,7 @@ public class SwaggerConfig {
             aspspApi.setName("ASPSP Registry API");
 
             SwaggerResource xs2aApi = new SwaggerResource();
-            xs2aApi.setLocation("/openapi.json");
+            xs2aApi.setLocation("/xs2aapi.json");
             xs2aApi.setName("XS2A API");
 
             return Arrays.asList(psd2Api, oauthApi, aspspApi, xs2aApi);
