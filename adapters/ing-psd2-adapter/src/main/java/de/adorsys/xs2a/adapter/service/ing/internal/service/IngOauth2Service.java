@@ -1,15 +1,16 @@
 package de.adorsys.xs2a.adapter.service.ing.internal.service;
 
-import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
-import com.google.api.client.auth.oauth2.TokenResponse;
-import de.adorsys.xs2a.adapter.service.ing.internal.api.ApplicationTokenResponse;
+import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.ClientAuthentication;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.ClientAuthenticationFactory;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.Oauth2Api;
+import de.adorsys.xs2a.adapter.service.ing.internal.api.model.ApplicationTokenResponse;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.AuthorizationURLResponse;
+import de.adorsys.xs2a.adapter.service.ing.internal.api.model.TokenResponse;
 
-import java.io.IOException;
 import java.net.URI;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class IngOauth2Service {
 
@@ -24,36 +25,44 @@ public class IngOauth2Service {
         this.clientAuthenticationFactory = clientAuthenticationFactory;
     }
 
-    public URI getAuthorizationRequestUri(String state, URI oauthRedirectUri) throws IOException {
-        ClientAuthentication clientAuthentication = clientAuthenticationFactory.newClientAuthentication(getApplicationToken());
-        AuthorizationURLResponse authorizationUrlResponse = oauth2Api.getAuthorizationUrl(clientAuthentication);
+    public URI getAuthorizationRequestUri(String state, URI oauthRedirectUri)  {
+        ClientAuthentication clientAuthentication =
+            clientAuthenticationFactory.newClientAuthentication(getApplicationToken());
+        AuthorizationURLResponse authorizationUrlResponse = oauth2Api.getAuthorizationUrl(clientAuthentication)
+            .getBody();
 
-        AuthorizationCodeRequestUrl authorizationUrl = new AuthorizationCodeRequestUrl(authorizationUrlResponse.getLocation(), getClientId())
-            .setState(state)
-            .setRedirectUri(oauthRedirectUri.toString());
-        return authorizationUrl.toURI();
+        Map<String, Object> queryParams = new LinkedHashMap<>();
+        queryParams.put("client_id", getClientId());
+        queryParams.put("state", state);
+        queryParams.put("redirect_uri", oauthRedirectUri);
+
+        return URI.create(StringUri.withQuery(authorizationUrlResponse.getLocation(), queryParams));
     }
 
-    private ApplicationTokenResponse getApplicationToken() throws IOException {
+    private ApplicationTokenResponse getApplicationToken() {
         if (applicationToken != null) {
             return applicationToken;
         }
 
-        ClientAuthentication clientAuthentication = clientAuthenticationFactory.newClientAuthenticationForApplicationToken();
-        applicationToken = oauth2Api.getApplicationToken(clientAuthentication);
+        ClientAuthentication clientAuthentication =
+            clientAuthenticationFactory.newClientAuthenticationForApplicationToken();
+        applicationToken = oauth2Api.getApplicationToken(clientAuthentication)
+            .getBody();
         return applicationToken;
     }
 
-    private String getClientId() throws IOException {
+    private String getClientId() {
         return getApplicationToken().getClientId();
     }
 
-    public TokenResponse getToken(String authorizationCode) throws IOException {
-        ClientAuthentication clientAuthentication = clientAuthenticationFactory.newClientAuthentication(getApplicationToken());
-        return oauth2Api.getCustomerToken(authorizationCode, clientAuthentication);
+    public TokenResponse getToken(String authorizationCode) {
+        ClientAuthentication clientAuthentication =
+            clientAuthenticationFactory.newClientAuthentication(getApplicationToken());
+        return oauth2Api.getCustomerToken(authorizationCode, clientAuthentication)
+            .getBody();
     }
 
-    public ClientAuthentication getClientAuthentication(String accessToken) throws IOException {
+    public ClientAuthentication getClientAuthentication(String accessToken) {
         return clientAuthenticationFactory.newClientAuthentication(getApplicationToken(), accessToken);
     }
 }

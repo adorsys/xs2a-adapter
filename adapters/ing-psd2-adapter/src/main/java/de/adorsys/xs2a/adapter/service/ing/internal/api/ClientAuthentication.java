@@ -1,11 +1,9 @@
 package de.adorsys.xs2a.adapter.service.ing.internal.api;
 
-import com.google.api.client.http.HttpContent;
-import com.google.api.client.http.HttpExecuteInterceptor;
-import com.google.api.client.http.HttpRequest;
+import de.adorsys.xs2a.adapter.http.Request;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.Signature;
 import java.security.SignatureException;
@@ -15,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Locale;
 
-public class ClientAuthentication implements HttpExecuteInterceptor {
+public class ClientAuthentication implements Request.Builder.Interceptor {
 
     // java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME doesn't pad single digit day-of-month with a zero
     private static final DateTimeFormatter RFC_1123_DATE_TIME_FORMATTER =
@@ -38,10 +36,10 @@ public class ClientAuthentication implements HttpExecuteInterceptor {
     }
 
     @Override
-    public void intercept(HttpRequest request) throws IOException {
+    public Request.Builder apply(Request.Builder requestBuilder) {
         String date = RFC_1123_DATE_TIME_FORMATTER.format(Instant.now());
-        String digest = "SHA-256=" + base64(digest(request.getContent()));
-        String signingString = "(request-target): " + requestTarget(request) + "\n"
+        String digest = "SHA-256=" + base64(digest(requestBuilder.content()));
+        String signingString = "(request-target): " + requestTarget(requestBuilder) + "\n"
             + "date: " + date + "\n"
             + "digest: " + digest;
         String signature = "keyId=\"" + keyId
@@ -49,43 +47,36 @@ public class ClientAuthentication implements HttpExecuteInterceptor {
             "signature=\"" + base64(sign(signingString)) + "\"";
 
         if (accessToken == null) {
-            request.getHeaders()
-                .setAuthorization("Signature " + signature);
+            requestBuilder.header("Authorization", "Signature " + signature);
         } else {
-            request.getHeaders()
-                .set("Signature", signature)
-                .setAuthorization("Bearer " + accessToken);
+            requestBuilder
+                .header("Signature", signature)
+                .header("Authorization", "Bearer " + accessToken);
         }
 
-        request.getHeaders()
-            .setDate(date)
-            .set("Digest", digest)
-            .set("TPP-Signature-Certificate", tppSignatureCertificate);
+        requestBuilder
+            .header("Date", date)
+            .header("Digest", digest)
+            .header("TPP-Signature-Certificate", tppSignatureCertificate);
+
+        return requestBuilder;
     }
 
     private String base64(byte[] data) {
         return Base64.getEncoder().encodeToString(data);
     }
 
-    private byte[] digest(HttpContent content) throws IOException {
-        if (content != null) {
-            content.writeTo(new OutputStream() {
-                @Override
-                public void write(int b) throws IOException {
-                    digest.update((byte) b);
-                }
-
-                @Override
-                public void write(byte[] b, int off, int len) throws IOException {
-                    digest.update(b, off, len);
-                }
-            });
-        }
+    private byte[] digest(String content) {
+        digest.update(content.getBytes());
         return digest.digest();
     }
 
-    private String requestTarget(HttpRequest request) {
-        return request.getRequestMethod().toLowerCase() + " " + request.getUrl().toURL().getFile();
+    private String requestTarget(Request.Builder requestBuilder) {
+        try {
+            return requestBuilder.method().toLowerCase() + " " + new URL(requestBuilder.uri()).getFile();
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     private byte[] sign(String signingString) {

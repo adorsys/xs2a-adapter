@@ -1,25 +1,25 @@
 package de.adorsys.xs2a.adapter.service.ing;
 
-import com.google.api.client.http.HttpResponseException;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
-import de.adorsys.xs2a.adapter.service.ing.internal.api.*;
+import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
+import de.adorsys.xs2a.adapter.service.ing.internal.api.AccountInformationApi;
+import de.adorsys.xs2a.adapter.service.ing.internal.api.ClientAuthentication;
+import de.adorsys.xs2a.adapter.service.ing.internal.api.ClientAuthenticationFactory;
+import de.adorsys.xs2a.adapter.service.ing.internal.api.Oauth2Api;
 import de.adorsys.xs2a.adapter.service.ing.internal.service.IngOauth2Service;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import org.mapstruct.factory.Mappers;
 
-import javax.net.ssl.SSLContext;
-import java.io.IOException;
 import java.net.URI;
-import java.security.*;
-import java.security.cert.CertificateException;
+import java.security.GeneralSecurityException;
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Currency;
@@ -35,18 +35,17 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     private final AccountInformationApi accountInformationApi;
     private final IngMapper mapper = Mappers.getMapper(IngMapper.class);
 
-    public IngPsd2AccountInformationService(String baseUri, Pkcs12KeyStore keyStore)
-        throws CertificateException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, UnrecoverableEntryException, IOException, InvalidKeyException {
-        Host host = new Host(baseUri);
-        SSLContext sslContext = keyStore.getSslContext();
-        HttpTransport transport = new NetHttpTransport.Builder()
-            .setSslSocketFactory(sslContext.getSocketFactory())
-            .build();
-        JacksonAnnotationAwareJsonParser parser = new JacksonAnnotationAwareJsonParser();
-        accountInformationApi = new AccountInformationApi(host, transport, parser);
-        Oauth2Api oauth2Api = new Oauth2Api(host, transport, parser);
+    public IngPsd2AccountInformationService(String baseUri, HttpClient httpClient, Pkcs12KeyStore keyStore)
+        throws GeneralSecurityException {
 
-        ClientAuthenticationFactory clientAuthenticationFactory = new ClientAuthenticationFactory(keyStore.getQsealCertificate(), keyStore.getQsealPrivateKey());
+        accountInformationApi = new AccountInformationApi(baseUri, httpClient);
+        Oauth2Api oauth2Api = new Oauth2Api(baseUri, httpClient);
+
+        String qsealAlias = AdapterConfig.readProperty("ing.qseal.alias");
+        X509Certificate qsealCertificate = keyStore.getQsealCertificate(qsealAlias);
+        PrivateKey qsealPrivateKey = keyStore.getQsealPrivateKey(qsealAlias);
+        ClientAuthenticationFactory clientAuthenticationFactory =
+            new ClientAuthenticationFactory(qsealCertificate, qsealPrivateKey);
         oauth2Service = new IngOauth2Service(oauth2Api, clientAuthenticationFactory);
     }
 
@@ -97,63 +96,46 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     }
 
     @Override
-    public URI getAuthorizationRequestUri(Map<String, String> headers, String state, URI redirectUri) throws IOException {
-        try {
-            return oauth2Service.getAuthorizationRequestUri(state, redirectUri);
-        } catch (HttpResponseException e) {
-            throw new ErrorResponseException(e.getStatusCode(), ResponseHeaders.emptyResponseHeaders());
-        }
+    public URI getAuthorizationRequestUri(Map<String, String> headers, String state, URI redirectUri) {
+        return oauth2Service.getAuthorizationRequestUri(state, redirectUri);
     }
 
     @Override
     public TokenResponse getToken(Map<String, String> headers,
                                   String authorizationCode,
                                   URI redirectUri,
-                                  String clientId) throws IOException {
-        try {
-            return mapper.map(oauth2Service.getToken(authorizationCode));
-        } catch (HttpResponseException e) {
-            throw new ErrorResponseException(e.getStatusCode(), ResponseHeaders.emptyResponseHeaders());
-        }
+                                  String clientId) {
+        return mapper.map(oauth2Service.getToken(authorizationCode));
     }
 
     @Override
-    public Response<AccountList> getAccounts(Map<String, String> queryParameters,
-                                   Map<String, String> headers) throws IOException {
-        return toResponse(getAccounts(new Headers(headers)));
+    public Response<AccountList> getAccounts(Map<String, String> queryParameters, Map<String, String> headers) {
+        String accessToken = getAccessToken(headers);
+        ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
+        return accountInformationApi.getAccounts(clientAuthentication)
+            .map(mapper::map);
     }
 
-    private AccountList getAccounts(Headers headers) throws IOException {
-        String accessToken = headers.getAccessToken();
-        try {
-            return mapper.map(accountInformationApi.getAccounts(oauth2Service.getClientAuthentication(accessToken)));
-        } catch (HttpResponseException e) {
-            throw new ErrorResponseException(e.getStatusCode(), ResponseHeaders.emptyResponseHeaders());
-        }
+    private String getAccessToken(Map<String, String> headers) {
+        return new Headers(headers).getAccessToken();
     }
 
     @Override
     public Response<ReadAccountBalanceResponse> getBalances(String accountId,
                                                             Map<String, String> queryParameters,
-                                                            Map<String, String> headers) throws IOException {
-        return toResponse(
-            getBalances(accountId, new QueryParameters(queryParameters), new Headers(headers))
-        );
+                                                            Map<String, String> headers) {
+        return getBalances(accountId, new QueryParameters(queryParameters), new Headers(headers));
     }
 
-    private ReadAccountBalanceResponse getBalances(String accountId,
-                                                   QueryParameters queryParameters,
-                                                   Headers headers) throws IOException {
+    private Response<ReadAccountBalanceResponse> getBalances(String accountId,
+                                                             QueryParameters queryParameters,
+                                                             Headers headers) {
         String accessToken = headers.getAccessToken();
         ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         Currency currency = queryParameters.getCurrency();
-        List<String> balanceTypes =
-            queryParameters.get("balanceTypes", this::parseBalanceTypes);
-        try {
-            return mapper.map(accountInformationApi.getBalances(accountId, balanceTypes, currency, clientAuthentication));
-        } catch (HttpResponseException e) {
-            throw new ErrorResponseException(e.getStatusCode(), ResponseHeaders.emptyResponseHeaders());
-        }
+        List<String> balanceTypes = queryParameters.get("balanceTypes", this::parseBalanceTypes);
+        return accountInformationApi.getBalances(accountId, balanceTypes, currency, clientAuthentication)
+            .map(mapper::map);
     }
 
     private List<String> parseBalanceTypes(String value) {
@@ -167,23 +149,20 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     @Override
     public Response<TransactionsResponse> getTransactions(String accountId,
                                                           Map<String, String> queryParameters,
-                                                          Map<String, String> headers) throws IOException {
-        return toResponse(getTransactions(accountId, new QueryParameters(queryParameters), new Headers(headers)));
+                                                          Map<String, String> headers) {
+        return getTransactions(accountId, new QueryParameters(queryParameters), new Headers(headers));
     }
 
-    private TransactionsResponse getTransactions(String accountId,
-                                                 QueryParameters queryParameters,
-                                                 Headers headers) throws IOException {
+    private Response<TransactionsResponse> getTransactions(String accountId,
+                                                           QueryParameters queryParameters,
+                                                           Headers headers) {
         String accessToken = headers.getAccessToken();
         ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         LocalDate dateFrom = queryParameters.getDateFrom();
         LocalDate dateTo = queryParameters.getDateTo();
         Currency currency = queryParameters.getCurrency();
         Integer limit = queryParameters.getLimit();
-        try {
-            return mapper.map(accountInformationApi.getTransactions(accountId, dateFrom, dateTo, currency, limit, clientAuthentication));
-        } catch (HttpResponseException e) {
-            throw new ErrorResponseException(e.getStatusCode(), ResponseHeaders.emptyResponseHeaders());
-        }
+        return accountInformationApi.getTransactions(accountId, dateFrom, dateTo, currency, limit, clientAuthentication)
+            .map(mapper::map);
     }
 }

@@ -27,4 +27,3 @@ logging:
   config: classpath:logback-dev.xml
   level:
     org.apache.http.wire: DEBUG
-    com.google.api.client.http: DEBUG

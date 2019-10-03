@@ -16,6 +16,7 @@
 
 package de.adorsys.xs2a.adapter.adapter;
 
+import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.StringUri;
@@ -28,6 +29,8 @@ import de.adorsys.xs2a.adapter.service.model.*;
 import java.util.Map;
 import java.util.function.Function;
 
+import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
+import static de.adorsys.xs2a.adapter.http.ResponseHandlers.stringResponseHandler;
 import static java.util.function.Function.identity;
 
 public class BaseAccountInformationService extends AbstractService implements AccountInformationService {
@@ -246,7 +249,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     protected <T> Response<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams, Class<T> klass, Function<T, TransactionsReport> mapper) {
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
-        headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
+        headersMap.put(ACCEPT_HEADER, ContentType.APPLICATION_JSON);
 
         String uri = getTransactionListUri(accountId, requestParams);
 

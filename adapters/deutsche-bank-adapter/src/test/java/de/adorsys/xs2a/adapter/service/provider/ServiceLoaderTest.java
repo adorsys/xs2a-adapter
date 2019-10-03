@@ -16,13 +16,17 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import org.junit.Test;
 
 import java.util.ServiceLoader;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class ServiceLoaderTest {
+
+    private HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
 
     @Test
     public void getPaymentInitiationServiceProvider() {
@@ -30,7 +34,7 @@ public class ServiceLoaderTest {
         PaymentInitiationServiceProvider provider = loader.iterator().next();
 
         assertThat(provider).isInstanceOf(DeutscheBankServiceProvider.class);
-        assertThat(provider.getPaymentInitiationService("", null)).isNotNull();
+        assertThat(provider.getPaymentInitiationService("", httpClientFactory)).isNotNull();
     }
 
     @Test
@@ -39,6 +43,6 @@ public class ServiceLoaderTest {
         AccountInformationServiceProvider provider = loader.iterator().next();
 
         assertThat(provider).isInstanceOf(DeutscheBankServiceProvider.class);
-        assertThat(provider.getAccountInformationService("", null)).isNotNull();
+        assertThat(provider.getAccountInformationService("", httpClientFactory)).isNotNull();
     }
 }

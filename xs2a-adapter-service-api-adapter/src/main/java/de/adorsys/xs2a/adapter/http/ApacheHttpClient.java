@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
@@ -12,6 +13,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.io.EmptyInputStream;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,9 +59,13 @@ public class ApacheHttpClient implements HttpClient {
 
     @Override
     public <T> Response<T> send(Request.Builder requestBuilder, ResponseHandler<T> responseHandler) {
+        return execute(createRequest(requestBuilder), requestBuilder.headers(), responseHandler);
+    }
+
+    private HttpUriRequest createRequest(Request.Builder requestBuilder) {
         switch (requestBuilder.method()) {
             case GET:
-                return execute(new HttpGet(requestBuilder.uri()), requestBuilder.headers(), responseHandler);
+                return new HttpGet(requestBuilder.uri());
             case POST:
                 HttpPost post = new HttpPost(requestBuilder.uri());
                 if (requestBuilder.jsonBody() != null) {
@@ -76,16 +82,31 @@ public class ApacheHttpClient implements HttpClient {
                         throw new UncheckedIOException(e);
                     }
                 }
-                return execute(post, requestBuilder.headers(), responseHandler);
+                return post;
             case PUT:
                 HttpPut put = new HttpPut(requestBuilder.uri());
                 put.setEntity(new StringEntity(requestBuilder.jsonBody(), ContentType.APPLICATION_JSON));
-                return execute(put, requestBuilder.headers(), responseHandler);
+                return put;
             case DELETE:
-                return execute(new HttpDelete(requestBuilder.uri()), requestBuilder.headers(), responseHandler);
+                return new HttpDelete(requestBuilder.uri());
             default:
                 throw new UnsupportedOperationException(requestBuilder.method());
         }
+    }
+
+    @Override
+    public String content(Request.Builder requestBuilder) {
+        HttpUriRequest request = createRequest(requestBuilder);
+        if (request instanceof HttpEntityEnclosingRequest) {
+            HttpEntity entity = ((HttpEntityEnclosingRequest) request).getEntity();
+
+            try {
+                return entity != null ? EntityUtils.toString(entity) : "";
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        }
+        return "";
     }
 
     private <T> Response<T> execute(HttpUriRequest request, Map<String, String> headers, ResponseHandler<T> responseHandler) {

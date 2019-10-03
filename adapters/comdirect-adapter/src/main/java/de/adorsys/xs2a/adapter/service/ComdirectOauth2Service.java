@@ -28,6 +28,8 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
+import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
+
 public class ComdirectOauth2Service extends AbstractService implements Oauth2Service {
     private final TokenResponseMapper tokenResponseMapper = Mappers.getMapper(TokenResponseMapper.class);
     private final String baseUrl;

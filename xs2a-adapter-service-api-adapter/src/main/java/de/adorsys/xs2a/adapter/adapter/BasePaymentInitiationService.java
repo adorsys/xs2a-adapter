@@ -29,6 +29,8 @@ import javax.ws.rs.core.MediaType;
 import java.util.Map;
 import java.util.function.Function;
 
+import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
+import static de.adorsys.xs2a.adapter.http.ResponseHandlers.stringResponseHandler;
 import static java.util.function.Function.identity;
 
 public class BasePaymentInitiationService extends AbstractService implements PaymentInitiationService {
