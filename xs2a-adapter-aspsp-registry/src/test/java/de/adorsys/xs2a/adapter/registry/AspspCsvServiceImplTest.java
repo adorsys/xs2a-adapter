@@ -166,23 +166,34 @@ public class AspspCsvServiceImplTest {
     }
 
     @Test
-    public void persist() throws IOException {
-        AspspCsvService acs = mock(AspspCsvServiceImpl.class);
+    public void saveCsv() throws IOException {
+        AspspCsvService aspspCsvService = mock(AspspCsvServiceImpl.class);
         Path path = Files.createTempFile("tmp", null);
         byte[] output, input = new byte[10];
 
-        doNothing().when(acs).saveCsv();
-        acs.saveCsv();
+        doNothing().when(aspspCsvService).saveCsv();
+        aspspCsvService.saveCsv();
 
         Files.write(path, input);
 
         output = Files.readAllBytes(path);
 
-        verify(acs, times(1)).saveCsv();
+        verify(aspspCsvService, times(1)).saveCsv();
         assertThat(output).isNotNull();
         assertThat(output).isEqualTo(input);
 
         Files.deleteIfExists(path);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void saveCsv_throwsException() throws IOException {
+        AspspCsvService aspspCsvService = mock(AspspCsvServiceImpl.class);
+
+        doThrow(new RuntimeException()).when(aspspCsvService).saveCsv();
+
+        aspspCsvService.saveCsv();
+
+        verify(aspspCsvService, times(1)).saveCsv();
     }
 
     private static Aspsp buildAspsp() {

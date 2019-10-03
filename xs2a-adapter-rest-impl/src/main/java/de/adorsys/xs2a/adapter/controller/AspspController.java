@@ -84,7 +84,7 @@ public class AspspController {
     }
 
     @PostMapping(V1_ASPSP_PERSIST)
-    public ResponseEntity<Void> persist() {
+    public ResponseEntity<Void> persist() throws IOException {
         aspspCsvService.saveCsv();
         return ResponseEntity.noContent().build();
     }

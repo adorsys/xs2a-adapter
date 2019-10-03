@@ -48,21 +48,21 @@ public interface AspspCsvService {
     List<Aspsp> readAllRecords(byte[] csv) throws IOException;
 
     /**
-     * Saves all changes within Lucene indexes, that were made via Registry Manager UI, into
-     * the current adapter configuration CSV.
+     * Saves all changes of Lucene indexes, that were made via Registry Manager UI, into
+     * the specified adapter configuration CSV of Aspsps.
      * <p>
-     * Replaces the current configuration of original Aspsps with new entries that were
-     * created via Registry UI (manually or by importing a new CSV). The original CSV
-     * file is searched under "csv.aspsp.adapter.config.file.path" property, if the property
-     * is not specified, the default file path is taken into consideration.
+     * Replaces the current records of Aspsps withing configured file with new entries
+     * that were created via Registry UI (manually or by importing a new CSV).
+     * The original file is searched under "csv.aspsp.adapter.config.file.path" property.
      * <p>
      * {@link java.nio.file.Files} and {@link java.nio.file.Paths} are used for
      * re-writing the CSV
      *
-     * @throws RegistryIOException if writing a new CSV fails or if Configuration property
-     * is not defined or missing
+     * @throws IOException if writing into the file fails
+     * @throws RuntimeException if "csv.aspsp.adapter.config.file.path" property does not
+     * exist or has an empty value
      */
-    void saveCsv();
+    void saveCsv() throws IOException;
 
     /**
      * Converts a file, set as the source of Aspsp details records, into the array of bytes.

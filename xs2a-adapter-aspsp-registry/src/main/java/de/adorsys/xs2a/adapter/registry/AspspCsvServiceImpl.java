@@ -11,6 +11,7 @@ import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
 import de.adorsys.xs2a.adapter.registry.mapper.AspspMapper;
 import de.adorsys.xs2a.adapter.service.AspspCsvService;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
+import de.adorsys.xs2a.adapter.service.PropertyUtil;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 
 public class AspspCsvServiceImpl implements AspspCsvService {
 
-    private static final String CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH = System.getenv("csv.aspsp.adapter.config.file.path");
+    private static final String CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH = PropertyUtil.readProperty("csv.aspsp.adapter.config.file.path");
     private static final String DEFAULT_CSV_ASPSP_ADAPTER_CONFIG_FILE = "aspsp-adapter-config.csv";
 
     private final Logger log = LoggerFactory.getLogger(AspspCsvServiceImpl.class);
@@ -63,18 +64,11 @@ public class AspspCsvServiceImpl implements AspspCsvService {
     }
 
     @Override
-    public void saveCsv() {
-        try {
-            if (CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH == null || CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH.isEmpty()) {
-//                String filePath = getClass().getClassLoader().getResource(DEFAULT_CSV_ASPSP_ADAPTER_CONFIG_FILE).getPath();
-//                Files.write(Paths.get(filePath), exportCsv());
-                throw new RegistryIOException("Adapter config file path is not set or Configuration File does not exist");
-            } else {
-                Files.write(Paths.get(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH), exportCsv());
-            }
-        } catch (IOException e) {
-            log.error("Exception occurred while re-writing aspsps into the CSV: {}", e.getMessage());
-            throw new RegistryIOException(e);
+    public void saveCsv() throws IOException {
+        if (CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH == null || CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH.isEmpty()) {
+            throw new RuntimeException("'csv.aspsp.adapter.config.file.path' property does not exist or has no value");
+        } else {
+            Files.write(Paths.get(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH), exportCsv());
         }
     }
 
@@ -84,7 +78,7 @@ public class AspspCsvServiceImpl implements AspspCsvService {
         CsvSchema schema = mapper.schemaFor(AspspCsvRecord.class).withoutQuoteChar();
 
         if (aspsp.getAspspName() == null) {
-                aspsp.setAspspName("");
+            aspsp.setAspspName("");
         }
 
         if (aspsp.getAspspName().contains(",")) {
