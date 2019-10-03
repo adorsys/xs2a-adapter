@@ -23,3 +23,4 @@
 - `xs2a-adapter-service-remote`. PaymentInitiationServiceImpl fixed problem with payment initiation status
 - `xs2a-adapter-service-api`. AccountDetails - add missing @JsonValue annotations for AvailableAccountsEnum and AllPsd2Enum
 - `xs2a-adapter-rest-impl`. index, main - fixed mdl-tooltip bug
+- `xs2a-adapter-service-api`. BasePaymentInitiationService - fix initiateSinglePayment URL, change path constants visibility so they can be reused in extensions

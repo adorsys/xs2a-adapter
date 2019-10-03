@@ -19,13 +19,36 @@ package de.adorsys.xs2a.adapter.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.adapter.api.remote.PaymentInitiationClient;
-import de.adorsys.xs2a.adapter.mapper.*;
-import de.adorsys.xs2a.adapter.model.*;
+import de.adorsys.xs2a.adapter.mapper.PaymentInitiationAuthorisationResponseMapper;
+import de.adorsys.xs2a.adapter.mapper.PaymentInitiationRequestResponseMapper;
+import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
+import de.adorsys.xs2a.adapter.mapper.PaymentInitiationStatusMapper;
+import de.adorsys.xs2a.adapter.mapper.SinglePaymentInformationMapper;
+import de.adorsys.xs2a.adapter.mapper.StartScaProcessResponseMapper;
+import de.adorsys.xs2a.adapter.model.AuthorisationsTO;
+import de.adorsys.xs2a.adapter.model.PaymentInitationRequestResponse201TO;
+import de.adorsys.xs2a.adapter.model.PaymentInitiationStatusResponse200JsonTO;
+import de.adorsys.xs2a.adapter.model.PaymentInitiationWithStatusResponseTO;
+import de.adorsys.xs2a.adapter.model.PaymentProductTO;
+import de.adorsys.xs2a.adapter.model.PaymentServiceTO;
+import de.adorsys.xs2a.adapter.model.ScaStatusResponseTO;
+import de.adorsys.xs2a.adapter.model.StartScaprocessResponseTO;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.mapper.ResponseHeadersMapper;
-import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.service.model.PaymentInitiationAuthorisationResponse;
+import de.adorsys.xs2a.adapter.service.model.PaymentInitiationRequestResponse;
+import de.adorsys.xs2a.adapter.service.model.PaymentInitiationScaStatusResponse;
+import de.adorsys.xs2a.adapter.service.model.PaymentInitiationStatus;
+import de.adorsys.xs2a.adapter.service.model.ScaStatusResponse;
+import de.adorsys.xs2a.adapter.service.model.SelectPsuAuthenticationMethod;
+import de.adorsys.xs2a.adapter.service.model.SelectPsuAuthenticationMethodResponse;
+import de.adorsys.xs2a.adapter.service.model.SinglePaymentInitiationInformationWithStatusResponse;
+import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
+import de.adorsys.xs2a.adapter.service.model.TransactionAuthorisation;
+import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthenticationResponse;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.ResponseEntity;
 
@@ -40,10 +63,15 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     private final PaymentInitiationAuthorisationResponseMapper authorisationResponseMapper = Mappers.getMapper(PaymentInitiationAuthorisationResponseMapper.class);
     private final StartScaProcessResponseMapper scaProcessResponseMapper = Mappers.getMapper(StartScaProcessResponseMapper.class);
     private final ResponseHeadersMapper responseHeadersMapper = Mappers.getMapper(ResponseHeadersMapper.class);
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
     public PaymentInitiationServiceImpl(PaymentInitiationClient paymentInitiationClient) {
+        this(paymentInitiationClient, new ObjectMapper());
+    }
+
+    public PaymentInitiationServiceImpl(PaymentInitiationClient paymentInitiationClient, ObjectMapper objectMapper) {
         this.client = paymentInitiationClient;
+        this.objectMapper = objectMapper;
     }
 
     @Override
