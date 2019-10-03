@@ -35,13 +35,13 @@ import static java.util.function.Function.identity;
 
 public class BaseAccountInformationService extends AbstractService implements AccountInformationService {
 
-    private static final String V1 = "v1";
-    private static final String CONSENTS = "consents";
-    private static final String ACCOUNTS = "accounts";
-    private static final String TRANSACTIONS = "transactions";
-    private static final String BALANCES = "balances";
+    protected static final String V1 = "v1";
+    protected static final String CONSENTS = "consents";
+    protected static final String ACCOUNTS = "accounts";
+    protected static final String TRANSACTIONS = "transactions";
+    protected static final String BALANCES = "balances";
 
-    private final String baseUri;
+    protected final String baseUri;
     private final Request.Builder.Interceptor requestBuilderInterceptor;
 
     public BaseAccountInformationService(String baseUri, HttpClient httpClient) {
