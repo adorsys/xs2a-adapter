@@ -25,14 +25,13 @@ import java.util.stream.Collectors;
 
 public class AspspCsvServiceImpl implements AspspCsvService {
 
-    private static final String CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH = PropertyUtil.readProperty("csv.aspsp.adapter.config.file.path");
+    static final String CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH = "csv.aspsp.adapter.config.file.path";
     private static final String DEFAULT_CSV_ASPSP_ADAPTER_CONFIG_FILE = "aspsp-adapter-config.csv";
 
     private final Logger log = LoggerFactory.getLogger(AspspCsvServiceImpl.class);
+    private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
     private AspspRepository aspspRepository;
-
-    private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
     public AspspCsvServiceImpl(AspspRepository aspspRepository) {
         this.aspspRepository = aspspRepository;
@@ -65,10 +64,12 @@ public class AspspCsvServiceImpl implements AspspCsvService {
 
     @Override
     public void saveCsv() throws IOException {
-        if (CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH == null || CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH.isEmpty()) {
-            throw new RuntimeException("'csv.aspsp.adapter.config.file.path' property does not exist or has no value");
+        String csvConfigFileProperty = PropertyUtil.readProperty(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH);
+
+        if (csvConfigFileProperty.isEmpty()) {
+            throw new RuntimeException(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH + " property does not exist or has no value");
         } else {
-            Files.write(Paths.get(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH), exportCsv());
+            Files.write(Paths.get(csvConfigFileProperty), exportCsv());
         }
     }
 
@@ -135,12 +136,14 @@ public class AspspCsvServiceImpl implements AspspCsvService {
     }
 
     private InputStream getCsvFileAsStream() throws FileNotFoundException {
+        String csvConfigFileProperty = PropertyUtil.readProperty(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH);
+
         InputStream inputStream;
 
-        if (CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH == null || CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH.isEmpty()) {
+        if (csvConfigFileProperty.isEmpty()) {
             inputStream = getResourceAsStream(DEFAULT_CSV_ASPSP_ADAPTER_CONFIG_FILE);
         } else {
-            inputStream = getFileAsStream(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH);
+            inputStream = getFileAsStream(csvConfigFileProperty);
         }
         return inputStream;
     }

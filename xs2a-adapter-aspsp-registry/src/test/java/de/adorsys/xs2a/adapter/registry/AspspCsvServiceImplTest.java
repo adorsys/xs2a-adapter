@@ -1,15 +1,11 @@
 package de.adorsys.xs2a.adapter.registry;
 
-import de.adorsys.xs2a.adapter.service.AspspCsvService;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.AspspScaApproach;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -48,6 +44,7 @@ public class AspspCsvServiceImplTest {
     @Mock
     private AspspRepository aspspRepository;
 
+    @Spy
     @InjectMocks
     private AspspCsvServiceImpl aspspCsvServiceImpl;
 
@@ -167,33 +164,25 @@ public class AspspCsvServiceImplTest {
 
     @Test
     public void saveCsv() throws IOException {
-        AspspCsvService aspspCsvService = mock(AspspCsvServiceImpl.class);
         Path path = Files.createTempFile("tmp", null);
-        byte[] output, input = new byte[10];
+        System.setProperty(AspspCsvServiceImpl.CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH, path.toFile().getAbsolutePath());
 
-        doNothing().when(aspspCsvService).saveCsv();
-        aspspCsvService.saveCsv();
+        byte[] output = new byte[10];
 
-        Files.write(path, input);
+        doReturn(output).when(aspspCsvServiceImpl).exportCsv();
 
-        output = Files.readAllBytes(path);
+        aspspCsvServiceImpl.saveCsv();
 
-        verify(aspspCsvService, times(1)).saveCsv();
-        assertThat(output).isNotNull();
-        assertThat(output).isEqualTo(input);
+        assertThat(Files.readAllBytes(path)).isEqualTo(output);
 
         Files.deleteIfExists(path);
     }
 
     @Test(expected = RuntimeException.class)
     public void saveCsv_throwsException() throws IOException {
-        AspspCsvService aspspCsvService = mock(AspspCsvServiceImpl.class);
+        System.setProperty(AspspCsvServiceImpl.CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH, "");
 
-        doThrow(new RuntimeException()).when(aspspCsvService).saveCsv();
-
-        aspspCsvService.saveCsv();
-
-        verify(aspspCsvService, times(1)).saveCsv();
+        aspspCsvServiceImpl.saveCsv();
     }
 
     private static Aspsp buildAspsp() {
