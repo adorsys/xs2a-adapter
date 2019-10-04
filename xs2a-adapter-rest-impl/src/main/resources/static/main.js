@@ -1,6 +1,5 @@
 setTimeout(function () {
     initGlobals();
-    document.querySelector("#add>button").addEventListener("click", addRow);
     document.querySelector("#import>button").addEventListener("click", () => FILE_UPLOAD_FIELD.click());
     FILE_UPLOAD_FIELD.addEventListener("change", upload);
     document.querySelectorAll(".mdl-textfield__input").forEach(field => field.addEventListener('keypress', event => onEnterPress(event)));
@@ -86,7 +85,10 @@ function search() {
         })
         .then(response => response.text())
         .then(response => JSON.parse(response).forEach((node) => buildRow(node)))
-        .catch(error => console.log(error));
+        .catch(error => {
+            console.log(error);
+            operationFailed();
+        });
 
     if (HIDDEN_ROW.parentElement.parentElement.parentElement.hidden) {
         showTable();
@@ -182,6 +184,7 @@ function deleteButton(e) {
         return response;
     }).catch(function (error) {
         console.log(error);
+        operationFailed();
     });
 }
 
@@ -203,6 +206,7 @@ function updateButton(e) {
         }
     }).catch(function (error) {
         console.log(error);
+        operationFailed();
     });
 }
 
@@ -227,6 +231,7 @@ function saveButton(e) {
         }
     }).catch(function (error) {
         console.log(error);
+        operationFailed();
     });
 }
 
@@ -257,7 +262,6 @@ function buildRow(data) {
     document.querySelector("table>tbody").appendChild(clone);
 
     COUNTER++;
-
     // updating MDL library for making Tooltips working
     componentHandler.upgradeAllRegistered();
 
@@ -350,7 +354,10 @@ function upload() {
             success();
             return response;
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            console.log(error);
+            operationFailed();
+        })
 }
 
 function onEnterPress(event) {
@@ -366,7 +373,7 @@ function clearContent() {
 }
 
 function uploadFailed() {
-    let failure = document.querySelector(".upload");
+    let failure = document.querySelector(".failure.upload");
 
     setTimeout(() => { failure.style.opacity = 1 }, 500);
 
@@ -381,12 +388,36 @@ function searchFailed() {
     setTimeout(() => { failure.style.opacity = 0 }, 8000);
 }
 
+function operationFailed() {
+    let failure = document.querySelector(".failure.operation");
+
+    setTimeout(() => { failure.style.opacity = 1 }, 500);
+
+    setTimeout(() => { failure.style.opacity = 0 }, 8000);
+}
+
 function success() {
     let success = document.querySelector(".success");
 
     setTimeout(() => { success.style.opacity = 1 }, 500);
 
     setTimeout(() => { success.style.opacity = 0 }, 8000);
+}
+
+function persist() {
+    fetch("v1/aspsps/persist", {
+        method: "POST"
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            success();
+        })
+        .catch(error => {
+            console.log(error);
+            operationFailed();
+        })
 }
 
 function addTooltips(e) {

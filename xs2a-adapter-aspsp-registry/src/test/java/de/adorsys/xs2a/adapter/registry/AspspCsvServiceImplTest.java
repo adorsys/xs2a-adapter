@@ -5,11 +5,11 @@ import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.AspspScaApproach;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -44,6 +44,7 @@ public class AspspCsvServiceImplTest {
     @Mock
     private AspspRepository aspspRepository;
 
+    @Spy
     @InjectMocks
     private AspspCsvServiceImpl aspspCsvServiceImpl;
 
@@ -159,6 +160,29 @@ public class AspspCsvServiceImplTest {
 
         Aspsp output = (Aspsp) captor.getValue().get(0);
         assertThat(output.getId()).isEqualTo(ASPSP.getId());
+    }
+
+    @Test
+    public void saveCsv() throws IOException {
+        Path path = Files.createTempFile("tmp", null);
+        System.setProperty(AspspCsvServiceImpl.CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH, path.toFile().getAbsolutePath());
+
+        byte[] output = new byte[10];
+
+        doReturn(output).when(aspspCsvServiceImpl).exportCsv();
+
+        aspspCsvServiceImpl.saveCsv();
+
+        assertThat(Files.readAllBytes(path)).isEqualTo(output);
+
+        Files.deleteIfExists(path);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void saveCsv_throwsException() throws IOException {
+        System.setProperty(AspspCsvServiceImpl.CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH, "");
+
+        aspspCsvServiceImpl.saveCsv();
     }
 
     private static Aspsp buildAspsp() {

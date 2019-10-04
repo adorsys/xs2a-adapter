@@ -11,11 +11,10 @@ public interface AspspCsvService {
      * Returns an array of bytes that contains all indexes which are currently
      * stored with Lucene.
      * <p>
-     * The method reads all Aspsp objects from the existing registry, maps it into
+     * The method reads all {@link Aspsp} objects from the existing registry, maps it into
      * AspspCsvRecord and converts those into an array of bytes for further transferring
      * to a front-end as a CSV file. Jackson is being used for turning an AspspCsvRecord
-     * object into a CSV line, RuntimeException can be thrown during this operation
-     * if processing fails.
+     * object into a CSV line.
      *
      * @return array of bytes with all Lucene indexes
      * @throws RuntimeException if Aspsp data writing into String fails
@@ -47,4 +46,33 @@ public interface AspspCsvService {
      * @throws IOException if reading bytes process fails
      */
     List<Aspsp> readAllRecords(byte[] csv) throws IOException;
+
+    /**
+     * Saves all changes of Lucene indexes, that were made via Registry Manager UI, into
+     * the specified adapter configuration CSV of Aspsps.
+     * <p>
+     * Replaces the current records of Aspsps withing configured file with new entries
+     * that were created via Registry UI (manually or by importing a new CSV).
+     * The original file is searched under "csv.aspsp.adapter.config.file.path" property.
+     * <p>
+     * {@link java.nio.file.Files} and {@link java.nio.file.Paths} are used for
+     * re-writing the CSV
+     *
+     * @throws IOException if writing into the file fails
+     * @throws RuntimeException if "csv.aspsp.adapter.config.file.path" property does not
+     * exist or has an empty value
+     */
+    void saveCsv() throws IOException;
+
+    /**
+     * Converts a file, set as the source of Aspsp details records, into the array of bytes.
+     * <p>
+     * Reads, specified within the Configuration Properties source, file using
+     * {@link java.io.InputStream} and converts it into bytes via
+     * {@link java.io.BufferedOutputStream}
+     *
+     * @return array of bytes converted from the specified source file
+     * @throws IOException if reading data from file fails
+     */
+    byte[] getCsvFileAsByteArray() throws IOException;
 }
