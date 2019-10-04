@@ -8,6 +8,7 @@ import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.AdapterServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
+import org.slf4j.MDC;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,6 +62,8 @@ public class AdapterServiceLoader {
     }
 
     public <T extends AdapterServiceProvider> Optional<T> getServiceProvider(Class<T> klass, String adapterId) {
+        MDC.put("adapterId", adapterId);
+
         ServiceLoader<T> serviceLoader = getServiceLoader(klass);
 
         return StreamSupport.stream(serviceLoader.spliterator(), false)
