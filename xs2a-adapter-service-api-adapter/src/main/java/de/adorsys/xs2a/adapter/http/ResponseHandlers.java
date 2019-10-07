@@ -8,10 +8,7 @@ import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PushbackInputStream;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,11 +45,15 @@ public class ResponseHandlers {
         };
     }
 
-    private static ErrorResponseException responseException(int statusCode, PushbackInputStream responseBody, ResponseHeaders responseHeaders) {
+    private static ErrorResponseException responseException(int statusCode,
+                                                            PushbackInputStream responseBody,
+                                                            ResponseHeaders responseHeaders) {
         if (isEmpty(responseBody)) {
             return new ErrorResponseException(statusCode, responseHeaders);
         }
-        return new ErrorResponseException(statusCode, responseHeaders, jsonMapper.readValue(responseBody, ErrorResponse.class));
+        String originalResponse = toString(responseBody, responseHeaders);
+        ErrorResponse errorResponse = jsonMapper.readValue(originalResponse, ErrorResponse.class);
+        return new ErrorResponseException(statusCode, responseHeaders, errorResponse, originalResponse);
     }
 
     private static boolean isEmpty(PushbackInputStream responseBody) {
@@ -71,29 +72,34 @@ public class ResponseHandlers {
     public static HttpClient.ResponseHandler<String> stringResponseHandler() {
         return (statusCode, responseBody, responseHeaders) -> {
             if (statusCode == 200) {
-                try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-                    byte[] buffer = new byte[1024];
-                    int length;
-                    while ((length = responseBody.read(buffer)) != -1) {
-                        baos.write(buffer, 0, length);
-                    }
-
-                    Matcher matcher = CHARSET_PATTERN.matcher(responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE));
-
-                    String charset = StandardCharsets.UTF_8.name();
-
-                    if (matcher.find()) {
-                        charset = matcher.group(1);
-                    }
-
-                    log.debug("{} charset is used for response body parsing", charset);
-                    return baos.toString(charset);
-                } catch (IOException e) {
-                    throw new UncheckedIOException(e);
-                }
+                return toString(responseBody, responseHeaders);
             }
 
             throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
         };
+    }
+
+    private static String toString(InputStream responseBody, ResponseHeaders responseHeaders) {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = responseBody.read(buffer)) != -1) {
+                baos.write(buffer, 0, length);
+            }
+
+            String charset = StandardCharsets.UTF_8.name();
+            String contentType = responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE);
+            if (contentType != null) {
+                Matcher matcher = CHARSET_PATTERN.matcher(contentType);
+                if (matcher.find()) {
+                    charset = matcher.group(1);
+                }
+            }
+
+            log.debug("{} charset is used for response body parsing", charset);
+            return baos.toString(charset);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

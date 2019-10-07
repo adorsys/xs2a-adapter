@@ -41,6 +41,14 @@ public class JsonMapper {
         }
     }
 
+    public <T> T readValue(String s, Class<T> klass) {
+        try {
+            return objectMapper.readValue(s, klass);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
     public <T> T convertValue(Object value, Class<T> klass) {
         return objectMapper.convertValue(value, klass);
     }
