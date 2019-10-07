@@ -41,6 +41,7 @@ public class AspspController {
     static final String V1_ASPSP_BY_ID = AspspSearchApi.V1_APSPS + "/" + ASPSP_ID;
     static final String V1_ASPSP_EXPORT = AspspSearchApi.V1_APSPS + "/export";
     static final String V1_ASPSP_IMPORT = AspspSearchApi.V1_APSPS + "/import";
+    static final String V1_ASPSP_PERSIST = AspspSearchApi.V1_APSPS + "/persist";
     private final AspspRepository aspspRepository;
     private final AspspCsvService aspspCsvService;
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
@@ -80,6 +81,12 @@ public class AspspController {
         responseHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
 
         return new ResponseEntity<>(response, responseHeaders, HttpStatus.OK);
+    }
+
+    @PostMapping(V1_ASPSP_PERSIST)
+    public ResponseEntity<Void> persist() throws IOException {
+        aspspCsvService.saveCsv();
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping(value = V1_ASPSP_IMPORT, consumes = {"multipart/form-data"})

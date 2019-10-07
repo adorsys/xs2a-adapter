@@ -18,7 +18,7 @@ package de.adorsys.xs2a.adapter.adorsys.service.provider;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
-import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
@@ -27,13 +27,13 @@ import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider
 public class AdorsysIntegServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClient httpClient) {
-        return new BasePaymentInitiationService(baseUrl, httpClient);
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory) {
+        return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
     }
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl, HttpClient httpClient) {
-        return new BaseAccountInformationService(baseUrl, httpClient);
+    public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory) {
+        return new BaseAccountInformationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
     }
 
     @Override

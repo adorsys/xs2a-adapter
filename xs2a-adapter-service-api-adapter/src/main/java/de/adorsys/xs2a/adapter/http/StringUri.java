@@ -24,16 +24,20 @@ public class StringUri {
         return str.endsWith("/") ? str.substring(0, str.length() - 1) : str;
     }
 
-    public static String withQuery(String uri, Map<String, String> requestParams) {
+    public static String withQuery(String uri, Map<String, ?> requestParams) {
         if (requestParams.isEmpty()) {
             return uri;
         }
 
         String requestParamsString = requestParams.entrySet().stream()
-                .map(entry -> entry.getKey() + "=" + entry.getValue())
-                .collect(Collectors.joining("&", "?", ""));
+            .filter(entry -> entry.getKey() != null && entry.getValue() != null)
+            .map(entry -> entry.getKey() + "=" + entry.getValue())
+            .collect(Collectors.joining("&"));
 
-        return uri + requestParamsString;
+        if (requestParamsString.isEmpty()) {
+            return uri;
+        }
+        return uri + "?" + requestParamsString;
     }
 
     public static String withQuery(String uri, String paramName, String paramValue) {

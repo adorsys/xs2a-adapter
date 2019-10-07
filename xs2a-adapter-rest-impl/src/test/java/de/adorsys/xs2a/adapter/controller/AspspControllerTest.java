@@ -125,7 +125,8 @@ public class AspspControllerTest {
     public void export() throws Exception {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).setMessageConverters().build();
 
-        byte[] bytes = "81cecc67-6d1b-4169-b67c-2de52b99a0cc,\"BNP Paribas Germany, Consorsbank\",CSDBDE71XXX,https://xs2a-sndbx.consorsbank.de,consors-bank-adapter,76030080".getBytes();
+        byte[] bytes = ("81cecc67-6d1b-4169-b67c-2de52b99a0cc,\"BNP Paribas Germany, Consorsbank\"," +
+            "CSDBDE71XXX,https://xs2a-sndbx.consorsbank.de,consors-bank-adapter,76030080").getBytes();
 
         when(aspspCsvService.exportCsv()).thenReturn(bytes);
 
@@ -148,5 +149,15 @@ public class AspspControllerTest {
             .andExpect(status().is(HttpStatus.OK.value()));
 
         verify(aspspCsvService, times(1)).importCsv(any());
+    }
+
+    @Test
+    public void persist() throws Exception {
+        doNothing().when(aspspCsvService).saveCsv();
+
+        mockMvc.perform(MockMvcRequestBuilders.post(AspspSearchApi.V1_APSPS + "/persist"))
+            .andExpect(status().is(HttpStatus.NO_CONTENT.value()));
+
+        verify(aspspCsvService, times(1)).saveCsv();
     }
 }

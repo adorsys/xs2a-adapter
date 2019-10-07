@@ -16,8 +16,12 @@
 - Added endpoint for retrieving information about the application, such as name, version, description, etc (/actuator/info endpoint)
 - Extended ASPSP schema with 2 new fields: IDP url and SCA approaches
 - Added SCA approaches and IDP url columns on the registry UI
+- Added swagger documentation for PSD2/Facade API, OAuth API and ASPSP Registry API
+- Added PERSIST endpoint to `aspsp-registry` for replacing an original CSV of Aspsps with a new updated one. It is available only via `dev` profile
 
 == Fixes:
 - UpdatePsuAuthenticationResponse mapping exception fixed
 - `xs2a-adapter-service-remote`. PaymentInitiationServiceImpl fixed problem with payment initiation status
 - `xs2a-adapter-service-api`. AccountDetails - add missing @JsonValue annotations for AvailableAccountsEnum and AllPsd2Enum
+- `xs2a-adapter-rest-impl`. index, main - fixed mdl-tooltip bug
+- `xs2a-adapter-service-api`. BasePaymentInitiationService - fix initiateSinglePayment URL, change path constants visibility so they can be reused in extensions

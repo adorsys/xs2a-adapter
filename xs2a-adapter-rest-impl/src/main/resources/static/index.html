@@ -18,9 +18,16 @@
     <div class="mdl-layout__drawer">
         <nav class="mdl-navigatiion">
             <div class="add-button" id="add">
-                <button class="mdl-button mdl-js-button mdl-button--fab">
+                <button class="mdl-button mdl-js-button mdl-button--fab" onclick="addRow();">
                     <i class="material-icons">
                         add
+                    </i>
+                </button>
+            </div>
+            <div class="import-button" id="save">
+                <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab" onclick="persist();">
+                    <i class="material-icons">
+                        save
                     </i>
                 </button>
             </div>
@@ -46,6 +53,9 @@
     <div class="tooltips">
         <div class="mdl-tooltip" data-mdl-for="add">
             Add new Aspsp
+        </div>
+        <div class="mdl-tooltip" data-mdl-for="save">
+            Save
         </div>
         <div class="mdl-tooltip" data-mdl-for="export">
             Export all Aspsps
@@ -142,13 +152,13 @@
                         <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent delete">
                             <i class="material-icons">close</i>
                         </button>
-                        <div class="mdl-tooltip mdl-tooltip--top">
+                        <div>
                             Edit
                         </div>
-                        <div class="mdl-tooltip mdl-tooltip--top">
+                        <div>
                             Save / Update
                         </div>
-                        <div class="mdl-tooltip mdl-tooltip--top">
+                        <div>
                             Delete
                         </div>
                     </td>
@@ -157,7 +167,7 @@
         </table>
     </div>
     <div class="welcome-message">
-        <h1>Nothing to display right now.<br>To start working with ASPSP Registry try searching for something or adding a new record</h1>
+        <h1>To start working with ASPSP Registry try searching for something or adding a new record</h1>
     </div>
 </main>
 
@@ -167,11 +177,14 @@
 </div>
 <div class="allerts margin-top__zero">
     <div class="alert failure upload">
-        <strong class="margin-top__zero">Failed to upload the file.</strong><br class="margin-top__zero"> It looks like
+        <strong>Failed to upload the file.</strong><br> It looks like
         the file has an inappropriate format.
     </div>
     <div class="alert failure search">
-        <strong class="margin-top__zero">Failed to find any records.</strong><br class="margin-top__zero"> Please double check input parameters.
+        <strong>Failed to find any records.</strong><br> Please double check input parameters.
+    </div>
+    <div class="alert failure operation">
+        <strong>Operation failed.</strong>
     </div>
     <div class="alert success">
         <strong>Processed successfully!</strong>

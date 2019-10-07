@@ -11,21 +11,27 @@ import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
 import de.adorsys.xs2a.adapter.registry.mapper.AspspMapper;
 import de.adorsys.xs2a.adapter.service.AspspCsvService;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
+import de.adorsys.xs2a.adapter.service.PropertyUtil;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class AspspCsvServiceImpl implements AspspCsvService {
 
+    static final String CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH = "csv.aspsp.adapter.config.file.path";
+    private static final String DEFAULT_CSV_ASPSP_ADAPTER_CONFIG_FILE = "aspsp-adapter-config.csv";
+
     private final Logger log = LoggerFactory.getLogger(AspspCsvServiceImpl.class);
+    private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
     private AspspRepository aspspRepository;
-    private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
     public AspspCsvServiceImpl(AspspRepository aspspRepository) {
         this.aspspRepository = aspspRepository;
@@ -56,10 +62,25 @@ public class AspspCsvServiceImpl implements AspspCsvService {
         aspspRepository.saveAll(aspsps);
     }
 
+    @Override
+    public void saveCsv() throws IOException {
+        String csvConfigFileProperty = PropertyUtil.readProperty(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH);
+
+        if (csvConfigFileProperty.isEmpty()) {
+            throw new RuntimeException(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH + " property does not exist or has no value");
+        } else {
+            Files.write(Paths.get(csvConfigFileProperty), exportCsv());
+        }
+    }
+
     private String toCsvString(AspspCsvRecord aspsp) {
 
         CsvMapper mapper = new CsvMapper();
         CsvSchema schema = mapper.schemaFor(AspspCsvRecord.class).withoutQuoteChar();
+
+        if (aspsp.getAspspName() == null) {
+            aspsp.setAspspName("");
+        }
 
         if (aspsp.getAspspName().contains(",")) {
             String columnName = "aspspName";
@@ -99,5 +120,39 @@ public class AspspCsvServiceImpl implements AspspCsvService {
             .readAll();
 
         return aspspMapper.toAspsps(aspsps);
+    }
+
+    @Override
+    public byte[] getCsvFileAsByteArray() throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int nRead;
+        byte[] data = new byte[8192];
+        try (InputStream is = getCsvFileAsStream()) {
+            while ((nRead = is.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+            return buffer.toByteArray();
+        }
+    }
+
+    private InputStream getCsvFileAsStream() throws FileNotFoundException {
+        String csvConfigFileProperty = PropertyUtil.readProperty(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH);
+
+        InputStream inputStream;
+
+        if (csvConfigFileProperty.isEmpty()) {
+            inputStream = getResourceAsStream(DEFAULT_CSV_ASPSP_ADAPTER_CONFIG_FILE);
+        } else {
+            inputStream = getFileAsStream(csvConfigFileProperty);
+        }
+        return inputStream;
+    }
+
+    private InputStream getResourceAsStream(String fileName) {
+        return Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
+    }
+
+    private InputStream getFileAsStream(String filePath) throws FileNotFoundException {
+        return new FileInputStream(filePath);
     }
 }

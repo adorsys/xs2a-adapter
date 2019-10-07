@@ -1,5 +1,7 @@
 package de.adorsys.xs2a.adapter.service.ing.internal.api;
 
+import de.adorsys.xs2a.adapter.service.ing.internal.api.model.ApplicationTokenResponse;
+
 import javax.security.auth.x500.X500Principal;
 import java.security.*;
 import java.security.cert.CertificateEncodingException;

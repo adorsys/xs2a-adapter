@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
-import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
@@ -39,13 +39,17 @@ public class VerlagServiceProvider implements AccountInformationServiceProvider,
     }
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl, HttpClient httpClient) {
-        return new VerlagAccountInformationService(baseUrl, apiKeyEntry, httpClient);
+    public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory) {
+        return new VerlagAccountInformationService(baseUrl,
+            apiKeyEntry,
+            httpClientFactory.getHttpClient(getAdapterId()));
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClient httpClient) {
-        return new VerlagPaymentInitiationService(baseUrl, apiKeyEntry, httpClient);
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory) {
+        return new VerlagPaymentInitiationService(baseUrl,
+            apiKeyEntry,
+            httpClientFactory.getHttpClient(getAdapterId()));
     }
 
     @Override

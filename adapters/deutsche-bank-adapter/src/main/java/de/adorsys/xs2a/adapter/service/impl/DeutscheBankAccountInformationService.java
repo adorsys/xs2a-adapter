@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
@@ -56,7 +57,7 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
     protected Map<String, String> populateGetHeaders(Map<String, String> map) {
         Map<String, String> headers = super.populateGetHeaders(map);
         headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        headers.put(ACCEPT_HEADER, APPLICATION_JSON);
+        headers.put(ACCEPT_HEADER, ContentType.APPLICATION_JSON);
 
         return headers;
     }
@@ -64,14 +65,14 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
     @Override
     protected Map<String, String> populatePostHeaders(Map<String, String> map) {
         map.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        map.put(RequestHeaders.CONTENT_TYPE, APPLICATION_JSON);
+        map.put(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON);
         return map;
     }
 
     @Override
     protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
         headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        headers.put(RequestHeaders.CONTENT_TYPE, APPLICATION_JSON);
+        headers.put(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON);
         return headers;
     }
 }

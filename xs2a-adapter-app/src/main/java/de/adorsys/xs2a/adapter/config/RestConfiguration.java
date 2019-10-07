@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.config;
 
-import de.adorsys.xs2a.adapter.http.ApacheHttpClient;
-import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.ApacheHttpClientFactory;
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.registry.AspspCsvServiceImpl;
 import de.adorsys.xs2a.adapter.registry.AspspSearchServiceImpl;
@@ -14,7 +14,6 @@ import de.adorsys.xs2a.adapter.service.loader.AdapterServiceLoader;
 import de.adorsys.xs2a.adapter.service.loader.Psd2AdapterDelegatingAccountInformationService;
 import de.adorsys.xs2a.adapter.service.loader.Psd2AdapterServiceLoader;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,31 +44,29 @@ public class RestConfiguration {
     }
 
     @Bean
-    AdapterServiceLoader adapterServiceLoader(Pkcs12KeyStore keyStore, HttpClient httpClient) {
-        return new AdapterServiceLoader(aspspRepository(), keyStore, httpClient);
+    AdapterServiceLoader adapterServiceLoader(Pkcs12KeyStore keyStore, HttpClientFactory httpClientFactory) {
+        return new AdapterServiceLoader(aspspRepository(), keyStore, httpClientFactory);
     }
 
     @Bean
-    HttpClient httpClient(CloseableHttpClient closeableHttpClient) {
-        return new ApacheHttpClient(closeableHttpClient);
+    HttpClientFactory httpClientFactory(HttpClientBuilder httpClientBuilder, Pkcs12KeyStore pkcs12KeyStore) {
+        return new ApacheHttpClientFactory(httpClientBuilder, pkcs12KeyStore);
     }
 
     @Bean
     @Profile("!dev")
-    CloseableHttpClient closeableHttpClient() throws NoSuchAlgorithmException {
-        return httpClientBuilder()
-            .build();
+    HttpClientBuilder httpClientBuilder() throws NoSuchAlgorithmException {
+        return httpClientBuilderWithSharedConfiguration();
     }
 
     @Bean
     @Profile("dev")
-    CloseableHttpClient closeableHttpClientWithDisabledCompression() throws NoSuchAlgorithmException {
-        return httpClientBuilder()
-            .disableContentCompression()
-            .build();
+    HttpClientBuilder httpClientBuilderWithDisabledCompression() throws NoSuchAlgorithmException {
+        return httpClientBuilderWithSharedConfiguration()
+            .disableContentCompression();
     }
 
-    private HttpClientBuilder httpClientBuilder() throws NoSuchAlgorithmException {
+    private HttpClientBuilder httpClientBuilderWithSharedConfiguration() throws NoSuchAlgorithmException {
         return HttpClientBuilder.create()
             .disableDefaultUserAgent()
             .setSSLContext(SSLContext.getDefault());
@@ -88,9 +85,9 @@ public class RestConfiguration {
     @Bean
     Psd2AccountInformationService psd2AccountInformationService(AspspReadOnlyRepository aspspRepository,
                                                                 Pkcs12KeyStore keyStore,
-                                                                HttpClient httpClient) {
+                                                                HttpClientFactory httpClientFactory) {
         return new Psd2AdapterDelegatingAccountInformationService(
-            new Psd2AdapterServiceLoader(aspspRepository, keyStore, httpClient));
+            new Psd2AdapterServiceLoader(aspspRepository, keyStore, httpClientFactory));
     }
 
     @Bean

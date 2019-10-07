@@ -29,13 +29,15 @@ import javax.ws.rs.core.MediaType;
 import java.util.Map;
 import java.util.function.Function;
 
+import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
+import static de.adorsys.xs2a.adapter.http.ResponseHandlers.stringResponseHandler;
 import static java.util.function.Function.identity;
 
 public class BasePaymentInitiationService extends AbstractService implements PaymentInitiationService {
 
-    private static final String V1 = "v1";
-    private static final String PAYMENTS = "payments";
-    private final String baseUri;
+    protected static final String V1 = "v1";
+    protected static final String PAYMENTS = "payments";
+    protected final String baseUri;
     private final Request.Builder.Interceptor requestBuilderInterceptor;
 
     public BasePaymentInitiationService(String baseUri, HttpClient httpClient) {
@@ -75,7 +77,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                 throw new IllegalArgumentException("Unsupported payment product media type");
         }
 
-        Response<T> response = httpClient.post(StringUri.fromElements(baseUri, V1, PAYMENTS, paymentProduct.getSlug()))
+        Response<T> response = httpClient.post(StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug()))
             .jsonBody(bodyString)
             .headers(headersMap)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));

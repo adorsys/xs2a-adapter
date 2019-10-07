@@ -16,6 +16,7 @@
 
 package de.adorsys.xs2a.adapter.adapter;
 
+import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.StringUri;
@@ -28,17 +29,19 @@ import de.adorsys.xs2a.adapter.service.model.*;
 import java.util.Map;
 import java.util.function.Function;
 
+import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
+import static de.adorsys.xs2a.adapter.http.ResponseHandlers.stringResponseHandler;
 import static java.util.function.Function.identity;
 
 public class BaseAccountInformationService extends AbstractService implements AccountInformationService {
 
-    private static final String V1 = "v1";
-    private static final String CONSENTS = "consents";
-    private static final String ACCOUNTS = "accounts";
-    private static final String TRANSACTIONS = "transactions";
-    private static final String BALANCES = "balances";
+    protected static final String V1 = "v1";
+    protected static final String CONSENTS = "consents";
+    protected static final String ACCOUNTS = "accounts";
+    protected static final String TRANSACTIONS = "transactions";
+    protected static final String BALANCES = "balances";
 
-    private final String baseUri;
+    protected final String baseUri;
     private final Request.Builder.Interceptor requestBuilderInterceptor;
 
     public BaseAccountInformationService(String baseUri, HttpClient httpClient) {
@@ -246,7 +249,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     protected <T> Response<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams, Class<T> klass, Function<T, TransactionsReport> mapper) {
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
-        headersMap.put(ACCEPT_HEADER, APPLICATION_JSON);
+        headersMap.put(ACCEPT_HEADER, ContentType.APPLICATION_JSON);
 
         String uri = getTransactionListUri(accountId, requestParams);
 

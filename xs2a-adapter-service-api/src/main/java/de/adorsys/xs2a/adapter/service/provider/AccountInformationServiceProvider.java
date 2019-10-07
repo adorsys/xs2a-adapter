@@ -16,10 +16,10 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
-import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 
 public interface AccountInformationServiceProvider extends AdapterServiceProvider {
 
-    AccountInformationService getAccountInformationService(String baseUrl, HttpClient httpClient);
+    AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory);
 }
