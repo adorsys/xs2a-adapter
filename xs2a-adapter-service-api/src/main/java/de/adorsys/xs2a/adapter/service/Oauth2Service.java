@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface Oauth2Service {
     // https://tools.ietf.org/html/rfc6749#section-4.1.1
-    URI getAuthorizationRequestUri(Map<String, String> headers, String state, URI redirectUri) throws IOException;
+    URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) throws IOException;
 
     TokenResponse getToken(Map<String, String> headers, Parameters parameters) throws IOException;
 
@@ -70,6 +70,14 @@ public interface Oauth2Service {
 
         public void setCodeVerifier(String value) {
             set("code_verifier", value);
+        }
+
+        public String getState() {
+            return get("state");
+        }
+
+        public void setState(String value) {
+            set("state", value);
         }
     }
 }

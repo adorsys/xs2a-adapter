@@ -10,8 +10,6 @@ import de.adorsys.xs2a.adapter.service.ing.internal.api.model.AuthorizationURLRe
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.TokenResponse;
 
 import java.net.URI;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class IngOauth2Service {
 
@@ -26,18 +24,15 @@ public class IngOauth2Service {
         this.clientAuthenticationFactory = clientAuthenticationFactory;
     }
 
-    public URI getAuthorizationRequestUri(String state, URI oauthRedirectUri)  {
+    public URI getAuthorizationRequestUri(Oauth2Service.Parameters parameters)  {
         ClientAuthentication clientAuthentication =
             clientAuthenticationFactory.newClientAuthentication(getApplicationToken());
         AuthorizationURLResponse authorizationUrlResponse = oauth2Api.getAuthorizationUrl(clientAuthentication)
             .getBody();
 
-        Map<String, Object> queryParams = new LinkedHashMap<>();
-        queryParams.put("client_id", getClientId());
-        queryParams.put("state", state);
-        queryParams.put("redirect_uri", oauthRedirectUri);
+        parameters.setClientId(getClientId());
 
-        return URI.create(StringUri.withQuery(authorizationUrlResponse.getLocation(), queryParams));
+        return URI.create(StringUri.withQuery(authorizationUrlResponse.getLocation(), parameters.asMap()));
     }
 
     private ApplicationTokenResponse getApplicationToken() {

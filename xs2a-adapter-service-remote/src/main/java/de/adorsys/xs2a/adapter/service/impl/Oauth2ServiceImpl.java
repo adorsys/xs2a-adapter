@@ -21,9 +21,9 @@ public class Oauth2ServiceImpl implements Oauth2Service {
     }
 
     @Override
-    public URI getAuthorizationRequestUri(Map<String, String> headers, String state, URI redirectUri) throws IOException {
+    public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) throws IOException {
         try {
-            return new URI(this.oauth2Client.getAuthorizationUrl(headers, state, redirectUri.toString()).getHref());
+            return new URI(this.oauth2Client.getAuthorizationUrl(headers, parameters.asMap()).getHref());
         } catch (URISyntaxException e) {
             throw new IOException(e);
         }

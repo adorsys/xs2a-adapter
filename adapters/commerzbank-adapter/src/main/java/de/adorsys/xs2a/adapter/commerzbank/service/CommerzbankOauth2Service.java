@@ -26,9 +26,7 @@ public class CommerzbankOauth2Service extends AbstractService implements Oauth2S
     }
 
     @Override
-    public URI getAuthorizationRequestUri(Map<String, String> headers,
-                                          String state,
-                                          URI redirectUri) {
+    public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) {
         throw new UnsupportedOperationException();
     }
 

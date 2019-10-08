@@ -39,8 +39,7 @@ public class ComdirectOauth2Service extends AbstractService implements Oauth2Ser
     }
 
     @Override
-    public URI getAuthorizationRequestUri(Map<String, String> headers, String state,
-                                          URI redirectUri) {
+    public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) {
         throw new UnsupportedOperationException();
     }
 

@@ -19,8 +19,8 @@ public class Oauth2Controller implements Oauth2Api {
     }
 
     @Override
-    public HrefType getAuthorizationUrl(Map<String, String> headers, String state, String redirectUri) throws IOException {
-        return client.getAuthorizationUrl(headers, state, redirectUri);
+    public HrefType getAuthorizationUrl(Map<String, String> headers, Map<String, String> parameters) throws IOException {
+        return client.getAuthorizationUrl(headers, parameters);
     }
 
     @Override
