@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.service.exception;
 
-import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
+import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
 
 import java.util.Optional;
 
@@ -17,10 +17,18 @@ public class ErrorResponseException extends RuntimeException {
     private final ResponseHeaders responseHeaders;
     private final ErrorResponse errorResponse;
 
-    public ErrorResponseException(int statusCode, ResponseHeaders responseHeaders, ErrorResponse errorResponse) {
+    public ErrorResponseException(int statusCode,
+                                  ResponseHeaders responseHeaders,
+                                  ErrorResponse errorResponse,
+                                  String response) {
+        super(response);
         this.statusCode = statusCode;
         this.responseHeaders = responseHeaders;
         this.errorResponse = errorResponse;
+    }
+
+    public ErrorResponseException(int statusCode, ResponseHeaders responseHeaders, ErrorResponse errorResponse) {
+        this(statusCode, responseHeaders, errorResponse, null);
     }
 
     public ErrorResponseException(int statusCode, ResponseHeaders responseHeaders) {
