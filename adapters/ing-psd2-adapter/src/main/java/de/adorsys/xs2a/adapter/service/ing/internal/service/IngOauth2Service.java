@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service.ing.internal.service;
 
 import de.adorsys.xs2a.adapter.http.StringUri;
+import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.ClientAuthentication;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.ClientAuthenticationFactory;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.Oauth2Api;
@@ -55,10 +56,10 @@ public class IngOauth2Service {
         return getApplicationToken().getClientId();
     }
 
-    public TokenResponse getToken(String authorizationCode) {
+    public TokenResponse getToken(Oauth2Service.Parameters parameters) {
         ClientAuthentication clientAuthentication =
             clientAuthenticationFactory.newClientAuthentication(getApplicationToken());
-        return oauth2Api.getCustomerToken(authorizationCode, clientAuthentication)
+        return oauth2Api.getCustomerToken(parameters, clientAuthentication)
             .getBody();
     }
 

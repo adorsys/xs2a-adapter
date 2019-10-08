@@ -56,12 +56,18 @@
       "post" : {
         "description" : "Exchange autorization code by bearer token endpoint",
         "parameters" : [ {
-          "name" : "authorization_code",
+          "name" : "grant_type",
           "in" : "query",
           "schema" : {
             "type" : "string"
           },
           "example" : "authorization_code"
+        },{
+          "name" : "code",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
         }, {
           "name" : "redirect_uri",
           "in" : "query",
@@ -74,8 +80,19 @@
           "in" : "query",
           "schema" : {
             "type" : "string"
-          },
-          "example" : "client_id"
+          }
+        }, {
+          "name" : "refresh_token",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "scope",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
         }, {
           "name" : "X-GTW-ASPSP-ID",
           "in" : "header",

@@ -30,11 +30,8 @@ public class AdapterDelegatingOauth2Service implements Oauth2Service {
     }
 
     @Override
-    public TokenResponse getToken(Map<String, String> headers,
-                                  String authorizationCode,
-                                  URI redirectUri,
-                                  String clientId) throws IOException {
+    public TokenResponse getToken(Map<String, String> headers, Parameters parameters) throws IOException {
         return getOauth2Service(headers)
-            .getToken(headers, authorizationCode, redirectUri, clientId);
+            .getToken(headers, parameters);
     }
 }

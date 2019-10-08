@@ -11,7 +11,6 @@ import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import org.mapstruct.factory.Mappers;
 
 import java.net.URI;
-import java.util.HashMap;
 import java.util.Map;
 
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
@@ -34,21 +33,13 @@ public class CommerzbankOauth2Service extends AbstractService implements Oauth2S
     }
 
     @Override
-    public TokenResponse getToken(Map<String, String> headers,
-                                  String authorizationCode,
-                                  URI redirectUri,
-                                  String clientId) {
+    public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
         String url = StringUri.fromElements(baseUrl, "/v1/token");
 
-        Map<String, String> params = new HashMap<>();
-        params.put("redirect_uri", redirectUri.toString());
-        params.put("client_id", clientId);
-        params.put("grant_type", "authorization_code");
-        params.put("code", authorizationCode);
-        params.put("code_verifier", "sha256");
+        parameters.setCodeVerifier("sha256");
 
         Response<OauthToken> response = httpClient.post(url)
-            .urlEncodedBody(params)
+            .urlEncodedBody(parameters.asMap())
             .send(jsonResponseHandler(OauthToken.class));
         return tokenResponseMapper.map(response.getBody());
     }

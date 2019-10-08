@@ -25,7 +25,6 @@ import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import org.mapstruct.factory.Mappers;
 
 import java.net.URI;
-import java.util.HashMap;
 import java.util.Map;
 
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
@@ -46,20 +45,13 @@ public class ComdirectOauth2Service extends AbstractService implements Oauth2Ser
     }
 
     @Override
-    public TokenResponse getToken(Map<String, String> headers, String authorizationCode, URI redirectUri,
-                                  String clientId) {
-
+    public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
         String url = StringUri.fromElements(baseUrl, "/v1/token");
 
-        Map<String, String> params = new HashMap<>();
-        params.put("redirect_uri", redirectUri.toString());
-        params.put("client_id", clientId);
-        params.put("grant_type", "authorization_code");
-        params.put("code", authorizationCode);
-        params.put("code_verifier", "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk");
+        parameters.setCodeVerifier("dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk");
 
         Response<OauthToken> response = httpClient.post(url)
-            .urlEncodedBody(params)
+            .urlEncodedBody(parameters.asMap())
             .send(jsonResponseHandler(OauthToken.class));
         return tokenResponseMapper.map(response.getBody());
     }

@@ -41,10 +41,7 @@ public class Oauth2Controller implements Oauth2Api {
     }
 
     @Override
-    public TokenResponseTO getToken(Map<String, String> headers,
-                                    String authorizationCode,
-                                    String redirectUri,
-                                    String clientId) throws IOException {
-        return mapper.map(oauth2Service.getToken(headers, authorizationCode, asUri(redirectUri), clientId));
+    public TokenResponseTO getToken(Map<String, String> headers, Map<String, String> parameters) throws IOException {
+        return mapper.map(oauth2Service.getToken(headers, new Oauth2Service.Parameters(parameters)));
     }
 }

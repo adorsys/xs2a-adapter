@@ -21,7 +21,5 @@ public interface Oauth2Api {
 
     @PostMapping("/oauth2/token")
     TokenResponseTO getToken(@RequestHeader Map<String, String> headers,
-                             @RequestParam("authorization_code") String authorizationCode,
-                             @RequestParam("redirect_uri") String redirectUri,
-                             @RequestParam("client_id") String clientId) throws IOException;
+                             @RequestParam Map<String, String> parameters) throws IOException;
 }
