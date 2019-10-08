@@ -2,13 +2,11 @@ package de.adorsys.xs2a.adapter.service.ing.internal.api;
 
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
+import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.ApplicationTokenResponse;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.AuthorizationURLResponse;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.TokenResponse;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 import static java.util.Collections.singletonMap;
@@ -35,14 +33,11 @@ public class Oauth2Api {
             .send(clientAuthentication, jsonResponseHandler(ApplicationTokenResponse.class));
     }
 
-    public Response<TokenResponse> getCustomerToken(String authorizationCode,
+    public Response<TokenResponse> getCustomerToken(Oauth2Service.Parameters parameters,
                                                     Request.Builder.Interceptor clientAuthentication) {
 
-        Map<String, String> formData = new LinkedHashMap<>();
-        formData.put("code", authorizationCode);
-        formData.put("grant_type", "authorization_code"); // fixme
         return httpClient.post(baseUri + TOKEN_ENDPOINT)
-            .urlEncodedBody(formData)
+            .urlEncodedBody(parameters.asMap())
             .send(clientAuthentication, jsonResponseHandler(TokenResponse.class));
     }
 
