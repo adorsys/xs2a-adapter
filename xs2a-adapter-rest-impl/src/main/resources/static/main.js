@@ -73,28 +73,28 @@ function search() {
 
     //  no need for now
     // if (data[3].value !== "")
-    //     url += "scaApproaches=" + data[3].value.toLowerCase();
+    //     url += "approach=" + data[3].value.toLowerCase();
+
+    url += "size=9999";
 
     fetch(url)
         .then((response) => {
             if (!response.ok) {
-                searchFailed();
                 throw Error(response.statusText);
             }
             return response;
         })
         .then(response => response.text())
-        .then(response => JSON.parse(response).forEach((node) => buildRow(node)))
+        .then(response => paginate(JSON.parse(response)))
         .catch(error => {
             console.log(error);
-            operationFailed();
+            searchFailed();
         });
 
     if (HIDDEN_ROW.parentElement.parentElement.parentElement.hidden) {
         showTable();
     }
 }
-
 function addRow() {
     let clone = HIDDEN_ROW.cloneNode(true);
     clone.cells[0].textContent = uuid();
@@ -113,7 +113,7 @@ function addRow() {
     if (HIDDEN_ROW.parentElement.parentElement.parentElement.hidden) {
         showTable();
     }
-    // updating MDL library for making Tooltips working
+    // updating MDL library for making it work
     componentHandler.upgradeAllRegistered();
 }
 
@@ -262,7 +262,8 @@ function buildRow(data) {
     document.querySelector("table>tbody").appendChild(clone);
 
     COUNTER++;
-    // updating MDL library for making Tooltips working
+
+    // updating MDL library for making it work
     componentHandler.upgradeAllRegistered();
 
     function approachParser(data, cell) {
@@ -352,7 +353,6 @@ function upload() {
                 throw Error(response.statusText);
             }
             success();
-            return response;
         })
         .catch(error => {
             console.log(error);
@@ -369,6 +369,7 @@ function onEnterPress(event) {
 function clearContent() {
     clearTable();
 
+    document.querySelector(".show-more").hidden = true;
     document.querySelectorAll(".mdl-textfield__input").forEach(element => {element.value = ""; element.parentElement.classList.remove("is-dirty")});
 }
 
@@ -402,22 +403,6 @@ function success() {
     setTimeout(() => { success.style.opacity = 1 }, 500);
 
     setTimeout(() => { success.style.opacity = 0 }, 8000);
-}
-
-function persist() {
-    fetch("v1/aspsps/persist", {
-        method: "POST"
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw Error(response.statusText);
-            }
-            success();
-        })
-        .catch(error => {
-            console.log(error);
-            operationFailed();
-        })
 }
 
 function addTooltips(e) {
@@ -455,4 +440,40 @@ function addTooltips(e) {
         helper.setAttribute("class", "mdl-tooltip mdl-tooltip--top");
     }
 }
+function persist() {
+    fetch("v1/aspsps/persist", {
+        method: "POST"
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            success();
+        })
+        .catch(error => {
+            console.log(error);
+            operationFailed();
+        })
+}
+
+function paginate(data) {
+    let dataLength = data.length;
+    let step = 10;
+    let current = 0;
+    let button = document.querySelector(".show-more");
+    let total = document.querySelector(".total");
+
+    addPage();
+    total.innerHTML = dataLength;
+
+    function addPage() {
+        for (limit = current + (step > dataLength ? dataLength : step); current < limit; current++) {
+            buildRow(data[current]);
+        }
+        current < dataLength ? button.hidden = false : button.hidden = true;
+    }
+
+    button.addEventListener('click', addPage);
+}
+
 //# sourceMappingURL=main.js.map
