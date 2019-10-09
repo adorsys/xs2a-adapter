@@ -18,6 +18,7 @@
 - Added SCA approaches and IDP url columns on the registry UI
 - Added swagger documentation for PSD2/Facade API, OAuth API and ASPSP Registry API
 - Added PERSIST endpoint to `aspsp-registry` for replacing an original CSV of Aspsps with a new updated one. It is available only via `dev` profile
+- Added Pagination feature on UI for `aspsp-registry`
 
 == Fixes:
 - UpdatePsuAuthenticationResponse mapping exception fixed

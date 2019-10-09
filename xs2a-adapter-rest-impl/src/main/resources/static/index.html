@@ -84,11 +84,6 @@
                     <label for="bank-code" class="mdl-textfield__label">Bank code</label>
                     <input class="mdl-textfield__input" type="text" name="bank-code">
                 </div>
-                <!-- No need for now -->
-                <!-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <label for="approach" class="mdl-textfield__label">Approach</label>
-                    <input class="mdl-textfield__input" type="text" name="approach">
-                </div> -->
                 <input class="mdl-button mdl-js-button button__padding-top" type="button" value="SEARCH"
                     id="search_button" onclick="search();">
                 <input class="mdl-button mdl-js-button button__padding-top" type="button" value="CLEAR"
@@ -102,7 +97,7 @@
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
             <thead>
                 <tr>
-                    <th class="mdl-data-table__cell--non-numeric text-align__right">Id</th>
+                    <th class="mdl-data-table__cell--non-numeric text-align__right column__short">Id</th>
                     <th class="mdl-data-table__cell--non-numeric">Bank Name</th>
                     <th class="mdl-data-table__cell--non-numeric">BIC</th>
                     <th class="mdl-data-table__cell--non-numeric">URL</th>
@@ -115,7 +110,7 @@
             </thead>
             <tbody>
                 <tr class="hidden">
-                    <td class="mdl-data-table__cell--non-numeric text-align__right"></td>
+                    <td class="mdl-data-table__cell--non-numeric text-align__right column__short"></td>
                     <td class="mdl-data-table__cell--non-numeric"></td>
                     <td class="mdl-data-table__cell--non-numeric"></td>
                     <td class="mdl-data-table__cell--non-numeric"></td>
@@ -170,6 +165,12 @@
         <h1>To start working with ASPSP Registry try searching for something or adding a new record</h1>
     </div>
 </main>
+<div class="show-more" hidden>
+    <button class="more mdl-button mdl-js-button mdl-js-ripple-effect">Show 10 more</button>
+    <div>
+        Total: <span class="total"></span>
+    </div>
+</div>
 
 <footer class="registry-footer">
     <h6 class="footer-text">Golden Dimention. Made with </h6>
