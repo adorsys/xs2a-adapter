@@ -12,6 +12,10 @@ spec:
     deploymentconfig: xs2a-adapter
   template:
     metadata:
+      {{- if .Values.logback.enabled }}
+      annotations:
+      checksum/config: {{ include (print $.Template.BasePath "/configmap-logback.xml") . | sha256sum }}
+      {{- end }}
       labels:
         app: xs2a-adapter
         deploymentconfig: xs2a-adapter
@@ -23,6 +27,10 @@ spec:
             {{- if .Values.adapter.aspspConfig }}
             - name: csv.aspsp.adapter.config.file.path
               value: /opt/xs2a-adapter/custom-config/aspsp-adapter-config.csv
+            {{- end }}
+            {{- if .Values.logback.enabled }}
+            - name: LOGGING_CONFIG
+              value: /data/logback.xml
             {{- end }}
             - name: csv.aspsp.adapter.config.file.path
               value: /opt/xs2a-adapter/custom-config/adapter.config.properties
@@ -59,6 +67,11 @@ spec:
               mountPath: /pkcs12
             - name: xs2a-adapter-config
               mountPath: /opt/xs2a-adapter/custom-config
+            {{- if .Values.logback.enabled }}
+            - name: logging-config
+              mountPath: /data/logback.xml
+              subPath: logback.xml
+            {{- end }}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -74,6 +87,12 @@ spec:
         - name: xs2a-adapter-config
           persistentVolumeClaim:
             claimName: xs2a-adapter-config
+        {{- if .Values.adapter.aspspConfig }}
+        - configMap:
+            defaultMode: 292
+            name: xs2a-adapter-logging-config
+          name: logging-config
+        {{- end }}
   test: false
   triggers:
     - type: ConfigChange
