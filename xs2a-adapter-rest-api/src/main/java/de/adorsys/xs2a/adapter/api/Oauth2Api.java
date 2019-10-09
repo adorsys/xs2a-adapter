@@ -16,12 +16,9 @@ public interface Oauth2Api {
 
     @GetMapping(AUTHORIZATION_REQUEST_URI)
     HrefType getAuthorizationUrl(@RequestHeader Map<String, String> headers,
-                                 @RequestParam("state") String state,
-                                 @RequestParam("redirect_uri") String redirectUri) throws IOException;
+                                 @RequestParam Map<String, String> parameters) throws IOException;
 
     @PostMapping("/oauth2/token")
     TokenResponseTO getToken(@RequestHeader Map<String, String> headers,
-                             @RequestParam("authorization_code") String authorizationCode,
-                             @RequestParam("redirect_uri") String redirectUri,
-                             @RequestParam("client_id") String clientId) throws IOException;
+                             @RequestParam Map<String, String> parameters) throws IOException;
 }

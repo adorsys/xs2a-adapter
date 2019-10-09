@@ -19,15 +19,12 @@ public class Oauth2Controller implements Oauth2Api {
     }
 
     @Override
-    public HrefType getAuthorizationUrl(Map<String, String> headers, String state, String redirectUri) throws IOException {
-        return client.getAuthorizationUrl(headers, state, redirectUri);
+    public HrefType getAuthorizationUrl(Map<String, String> headers, Map<String, String> parameters) throws IOException {
+        return client.getAuthorizationUrl(headers, parameters);
     }
 
     @Override
-    public TokenResponseTO getToken(Map<String, String> headers,
-                                    String authorizationCode,
-                                    String redirectUri,
-                                    String clientId) throws IOException {
-        return client.getToken(headers, authorizationCode, redirectUri, clientId);
+    public TokenResponseTO getToken(Map<String, String> headers, Map<String, String> parameters) throws IOException {
+        return client.getToken(headers, parameters);
     }
 }

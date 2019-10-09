@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service.ing.internal.service;
 
 import de.adorsys.xs2a.adapter.http.StringUri;
+import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.ClientAuthentication;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.ClientAuthenticationFactory;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.Oauth2Api;
@@ -9,8 +10,6 @@ import de.adorsys.xs2a.adapter.service.ing.internal.api.model.AuthorizationURLRe
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.TokenResponse;
 
 import java.net.URI;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class IngOauth2Service {
 
@@ -25,18 +24,15 @@ public class IngOauth2Service {
         this.clientAuthenticationFactory = clientAuthenticationFactory;
     }
 
-    public URI getAuthorizationRequestUri(String state, URI oauthRedirectUri)  {
+    public URI getAuthorizationRequestUri(Oauth2Service.Parameters parameters)  {
         ClientAuthentication clientAuthentication =
             clientAuthenticationFactory.newClientAuthentication(getApplicationToken());
         AuthorizationURLResponse authorizationUrlResponse = oauth2Api.getAuthorizationUrl(clientAuthentication)
             .getBody();
 
-        Map<String, Object> queryParams = new LinkedHashMap<>();
-        queryParams.put("client_id", getClientId());
-        queryParams.put("state", state);
-        queryParams.put("redirect_uri", oauthRedirectUri);
+        parameters.setClientId(getClientId());
 
-        return URI.create(StringUri.withQuery(authorizationUrlResponse.getLocation(), queryParams));
+        return URI.create(StringUri.withQuery(authorizationUrlResponse.getLocation(), parameters.asMap()));
     }
 
     private ApplicationTokenResponse getApplicationToken() {
@@ -55,10 +51,10 @@ public class IngOauth2Service {
         return getApplicationToken().getClientId();
     }
 
-    public TokenResponse getToken(String authorizationCode) {
+    public TokenResponse getToken(Oauth2Service.Parameters parameters) {
         ClientAuthentication clientAuthentication =
             clientAuthenticationFactory.newClientAuthentication(getApplicationToken());
-        return oauth2Api.getCustomerToken(authorizationCode, clientAuthentication)
+        return oauth2Api.getCustomerToken(parameters, clientAuthentication)
             .getBody();
     }
 

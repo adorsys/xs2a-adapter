@@ -1,15 +1,15 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Map;
-
 import de.adorsys.xs2a.adapter.api.remote.Oauth2Client;
 import de.adorsys.xs2a.adapter.mapper.psd2.Oauth2Mapper;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import org.mapstruct.factory.Mappers;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Map;
 
 public class Oauth2ServiceImpl implements Oauth2Service {
 
@@ -21,17 +21,17 @@ public class Oauth2ServiceImpl implements Oauth2Service {
     }
 
     @Override
-    public URI getAuthorizationRequestUri(Map<String, String> headers, String state, URI redirectUri) throws IOException {
+    public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) throws IOException {
         try {
-            return new URI(this.oauth2Client.getAuthorizationUrl(headers, state, redirectUri.toString()).getHref());
+            return new URI(this.oauth2Client.getAuthorizationUrl(headers, parameters.asMap()).getHref());
         } catch (URISyntaxException e) {
             throw new IOException(e);
         }
     }
 
     @Override
-    public TokenResponse getToken(Map<String, String> headers, String authorizationCode, URI redirectUri, String clientId) throws IOException {
-        return this.oauth2Mapper.toTokenResponse(this.oauth2Client.getToken(headers, authorizationCode, redirectUri.toString(), clientId));
+    public TokenResponse getToken(Map<String, String> headers, Parameters parameters) throws IOException {
+        return this.oauth2Mapper.toTokenResponse(this.oauth2Client.getToken(headers, parameters.asMap()));
     }
 
 }

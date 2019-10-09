@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ee5ac71f-8808-4cfe-a33b-130e67dc1de4",
+		"_postman_id": "c7a11838-7ef4-4314-b273-d11272a59de4",
 		"name": "xs2a adapter",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -3080,7 +3080,7 @@
 									"mode": "urlencoded",
 									"urlencoded": [
 										{
-											"key": "authorization_code",
+											"key": "code",
 											"value": "{{authorization_code}}",
 											"type": "text"
 										},
@@ -3092,6 +3092,11 @@
 										{
 											"key": "client_id",
 											"value": "{{client_id}}",
+											"type": "text"
+										},
+										{
+											"key": "grant_type",
+											"value": "authorization_code",
 											"type": "text"
 										}
 									]

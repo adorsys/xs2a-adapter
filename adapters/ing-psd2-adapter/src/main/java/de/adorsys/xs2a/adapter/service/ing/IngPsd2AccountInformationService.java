@@ -96,16 +96,13 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     }
 
     @Override
-    public URI getAuthorizationRequestUri(Map<String, String> headers, String state, URI redirectUri) {
-        return oauth2Service.getAuthorizationRequestUri(state, redirectUri);
+    public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) {
+        return oauth2Service.getAuthorizationRequestUri(parameters);
     }
 
     @Override
-    public TokenResponse getToken(Map<String, String> headers,
-                                  String authorizationCode,
-                                  URI redirectUri,
-                                  String clientId) {
-        return mapper.map(oauth2Service.getToken(authorizationCode));
+    public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
+        return mapper.map(oauth2Service.getToken(parameters));
     }
 
     @Override
