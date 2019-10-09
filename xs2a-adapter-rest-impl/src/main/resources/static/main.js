@@ -463,7 +463,7 @@ function paginate(data) {
     total.innerHTML = dataLength;
 
     function addPage() {
-        for (limit = current + (step > dataLength ? dataLength : step); current < limit; current++) {
+        for (limit = current + Math.min(step, dataLength); current < limit; current++) {
             buildRow(data[current]);
         }
         button.hidden = current >= dataLength;
