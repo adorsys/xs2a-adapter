@@ -71,10 +71,6 @@ function search() {
     if (data[2].value !== "")
         url += "bankCode=" + data[2].value + "&";
 
-    //  no need for now
-    // if (data[3].value !== "")
-    //     url += "approach=" + data[3].value.toLowerCase();
-
     url += "size=9999";
 
     fetch(url)
@@ -470,7 +466,7 @@ function paginate(data) {
         for (limit = current + (step > dataLength ? dataLength : step); current < limit; current++) {
             buildRow(data[current]);
         }
-        current < dataLength ? button.hidden = false : button.hidden = true;
+        button.hidden = current >= dataLength;
     }
 
     button.addEventListener('click', addPage);
