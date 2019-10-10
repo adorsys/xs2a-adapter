@@ -14,7 +14,7 @@ spec:
     metadata:
       {{- if .Values.logback.enabled }}
       annotations:
-      checksum/config: {{ include (print $.Template.BasePath "/configmap-logback.xml") . | sha256sum }}
+      checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
       {{- end }}
       labels:
         app: xs2a-adapter
