@@ -39,7 +39,7 @@ public class ApacheHttpClientFactory implements HttpClientFactory {
     private SSLContext getSslContext(String qwacAlias) {
         try {
             if (qwacAlias == null) {
-                return SSLContext.getDefault(); // fixme
+                return keyStore.getSslContext();
             }
             return keyStore.getSslContext(qwacAlias);
         } catch (GeneralSecurityException e) {

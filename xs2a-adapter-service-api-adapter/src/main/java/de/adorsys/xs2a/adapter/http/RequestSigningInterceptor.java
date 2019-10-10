@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.http;
 
+import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.signing.RequestSigningService;
 import de.adorsys.xs2a.adapter.signing.header.Digest;
 import de.adorsys.xs2a.adapter.signing.header.Signature;
@@ -17,7 +18,11 @@ public class RequestSigningInterceptor implements Request.Builder.Interceptor {
     private static final List<String> SIGNATURE_HEADERS
             = Arrays.asList(DIGEST, X_REQUEST_ID, PSU_ID, PSU_CORPORATE_ID, DATE, TPP_REDIRECT_URI);
 
-    private final RequestSigningService requestSigningService = new RequestSigningService();
+    private final RequestSigningService requestSigningService;
+
+    public RequestSigningInterceptor(Pkcs12KeyStore keyStore) {
+        requestSigningService = new RequestSigningService(keyStore);
+    }
 
     @Override
     public Request.Builder apply(Request.Builder requestBuilder) {

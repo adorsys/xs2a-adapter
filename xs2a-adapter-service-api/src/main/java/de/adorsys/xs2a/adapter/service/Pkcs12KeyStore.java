@@ -9,10 +9,26 @@ import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
+/**
+ * A PKCS #12 {@code java.security.KeyStore} that holds certificates and keys
+ * used for signing http messages (QSEAL) and client tls authentication (QWAC).
+ * By default a key store is expected to have two bags named "default_qwac" and
+ * "default_qseal" and an empty password.
+ * <p>
+ * A key store file may be created using {@code openssl} and {@code keytool}
+ * command line tools. First create a p12 file for each certificate/key pair
+ * with a specific alias.
+ * <pre>
+ * openssl pkcs12 -export -out &lt;p12_file&gt; -in &lt;cert_file&gt; -inkey &lt;key_file&gt; -name &lt;alias&gt;
+ * </pre>
+ * And then combine all p12 files into one.
+ * <pre>
+ * keytool -importkeystore -srckeystore &lt;src_p12&gt; -destkeystore &lt;dest_p12&gt; -srcstorepass '' -deststorepass ''
+ * </pre>
+ */
 public class Pkcs12KeyStore {
     private static final String KEY_STORE_TYPE = "PKCS12";
 
-    // todo https://git.adorsys.de/xs2a-gateway/xs2a-gateway/issues/327
     private static final String DEFAULT_QWAC_ALIAS = "default_qwac";
     private static final String DEFAULT_QSEAL_ALIAS = "default_qseal";
     private static final char[] DEFAULT_PASSWORD = new char[]{};
