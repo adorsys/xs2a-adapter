@@ -26,14 +26,16 @@ import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider
 
 public class AdorsysIntegServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
+    private final OauthHeaderInterceptor oauthHeaderInterceptor = new OauthHeaderInterceptor();
+
     @Override
     public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory) {
-        return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
+        return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()), oauthHeaderInterceptor);
     }
 
     @Override
     public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory) {
-        return new BaseAccountInformationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
+        return new BaseAccountInformationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()), oauthHeaderInterceptor);
     }
 
     @Override
