@@ -18,7 +18,7 @@ public class OauthHeaderInterceptorTest {
         String value = AdapterConfig.readProperty(OAUTH_HEADER_VALUE);
 
         RequestBuilderImpl builder = new RequestBuilderImpl(null, null, null);
-        builder.header(RequestHeaders.X_GTW_BANK_CODE,"9001001");
+        builder.header(RequestHeaders.X_GTW_BANK_CODE, "9001001");
         OauthHeaderInterceptor interceptor = new OauthHeaderInterceptor();
 
         assertThat(interceptor.apply(builder).headers().get(header), is(value));
