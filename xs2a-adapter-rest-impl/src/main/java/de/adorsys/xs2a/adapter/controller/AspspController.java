@@ -19,19 +19,13 @@ package de.adorsys.xs2a.adapter.controller;
 import de.adorsys.xs2a.adapter.api.AspspSearchApi;
 import de.adorsys.xs2a.adapter.mapper.AspspMapper;
 import de.adorsys.xs2a.adapter.model.AspspTO;
-import de.adorsys.xs2a.adapter.service.AspspCsvService;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.net.URI;
 
 @Profile("dev")
@@ -39,16 +33,11 @@ import java.net.URI;
 public class AspspController {
     static final String ASPSP_ID = "{aspspId}";
     static final String V1_ASPSP_BY_ID = AspspSearchApi.V1_APSPS + "/" + ASPSP_ID;
-    static final String V1_ASPSP_EXPORT = AspspSearchApi.V1_APSPS + "/export";
-    static final String V1_ASPSP_IMPORT = AspspSearchApi.V1_APSPS + "/import";
-    static final String V1_ASPSP_PERSIST = AspspSearchApi.V1_APSPS + "/persist";
     private final AspspRepository aspspRepository;
-    private final AspspCsvService aspspCsvService;
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
-    public AspspController(AspspRepository aspspRepository, AspspCsvService aspspCsvService) {
+    public AspspController(AspspRepository aspspRepository) {
         this.aspspRepository = aspspRepository;
-        this.aspspCsvService = aspspCsvService;
     }
 
     @PostMapping(AspspSearchApi.V1_APSPS)
@@ -68,29 +57,5 @@ public class AspspController {
     ResponseEntity<Void> deleteById(@PathVariable("aspspId") String aspspId) {
         aspspRepository.deleteById(aspspId);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping(value = V1_ASPSP_EXPORT, produces = "text/csv")
-    public ResponseEntity<byte[]> export() {
-        byte[] response = aspspCsvService.exportCsv();
-        String fileName = "aspsps.csv";
-
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setContentLength(response.length);
-        responseHeaders.setContentType(new MediaType("text", "csv"));
-        responseHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
-
-        return new ResponseEntity<>(response, responseHeaders, HttpStatus.OK);
-    }
-
-    @PostMapping(V1_ASPSP_PERSIST)
-    public ResponseEntity<Void> persist() throws IOException {
-        aspspCsvService.saveCsv();
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping(value = V1_ASPSP_IMPORT, consumes = {"multipart/form-data"})
-    public void importCsv(@RequestParam MultipartFile file) throws IOException {
-        aspspCsvService.importCsv(file.getBytes());
     }
 }
