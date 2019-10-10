@@ -37,7 +37,7 @@ public class AdapterServiceLoader {
         String baseUrl = aspsp.getUrl();
         return getServiceProvider(AccountInformationServiceProvider.class, adapterId)
             .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-            .getAccountInformationService(baseUrl, httpClientFactory);
+            .getAccountInformationService(baseUrl, httpClientFactory, keyStore);
     }
 
     protected Aspsp getAspsp(RequestHeaders requestHeaders) {
@@ -82,7 +82,7 @@ public class AdapterServiceLoader {
         String baseUrl = aspsp.getUrl();
         return getServiceProvider(PaymentInitiationServiceProvider.class, adapterId)
             .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-            .getPaymentInitiationService(baseUrl, httpClientFactory);
+            .getPaymentInitiationService(baseUrl, httpClientFactory, keyStore);
     }
 
     public Oauth2Service getOauth2Service(RequestHeaders requestHeaders) {

@@ -20,23 +20,28 @@ import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.http.RequestSigningInterceptor;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.impl.FiduciaAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.FiduciaPaymentInitiationService;
 
 public class FiduciaServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory) {
+    public AccountInformationService getAccountInformationService(String baseUrl,
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  Pkcs12KeyStore keyStore) {
         return new FiduciaAccountInformationService(baseUrl,
             httpClientFactory.getHttpClient(getAdapterId()),
-            new RequestSigningInterceptor());
+            new RequestSigningInterceptor(keyStore));
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory) {
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl,
+                                                                HttpClientFactory httpClientFactory,
+                                                                Pkcs12KeyStore keyStore) {
         return new FiduciaPaymentInitiationService(baseUrl,
             httpClientFactory.getHttpClient(getAdapterId()),
-            new RequestSigningInterceptor());
+            new RequestSigningInterceptor(keyStore));
     }
 
     @Override

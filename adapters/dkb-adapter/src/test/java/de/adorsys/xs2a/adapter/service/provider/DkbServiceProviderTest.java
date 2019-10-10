@@ -26,7 +26,7 @@ public class DkbServiceProviderTest {
 
     @Test
     public void getPaymentInitiationService() {
-        PaymentInitiationService service = provider.getPaymentInitiationService(null, httpClientFactory);
+        PaymentInitiationService service = provider.getPaymentInitiationService(null, httpClientFactory, null);
 
         assertThat(service).isNotNull();
         assertThat(service).isInstanceOfAny(DkbPaymentInitiationService.class);
@@ -34,7 +34,7 @@ public class DkbServiceProviderTest {
 
     @Test
     public void getAccountInformationService() {
-        AccountInformationService service = provider.getAccountInformationService(null, httpClientFactory);
+        AccountInformationService service = provider.getAccountInformationService(null, httpClientFactory, null);
 
         assertThat(service).isNotNull();
         assertThat(service).isInstanceOfAny(DkbAccountInformationService.class);

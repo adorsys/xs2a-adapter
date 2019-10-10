@@ -34,7 +34,7 @@ public class ServiceLoaderTest {
         PaymentInitiationServiceProvider provider = loader.iterator().next();
 
         assertThat(provider).isInstanceOf(DeutscheBankServiceProvider.class);
-        assertThat(provider.getPaymentInitiationService("", httpClientFactory)).isNotNull();
+        assertThat(provider.getPaymentInitiationService("", httpClientFactory, null)).isNotNull();
     }
 
     @Test
@@ -43,6 +43,6 @@ public class ServiceLoaderTest {
         AccountInformationServiceProvider provider = loader.iterator().next();
 
         assertThat(provider).isInstanceOf(DeutscheBankServiceProvider.class);
-        assertThat(provider.getAccountInformationService("", httpClientFactory)).isNotNull();
+        assertThat(provider.getAccountInformationService("", httpClientFactory, null)).isNotNull();
     }
 }
