@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 
 @Profile("dev")
 @RestController
@@ -39,13 +40,17 @@ public class AspspCsvController {
     }
 
     @PostMapping(V1_ASPSP_CSV_PERSIST)
-    public ResponseEntity<Void> persist() throws IOException {
+    public ResponseEntity<Void> persist() {
         aspspCsvService.saveCsv();
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping(value = V1_ASPSP_CSV_IMPORT, consumes = {"multipart/form-data"})
-    public void importCsv(@RequestParam MultipartFile file) throws IOException {
-        aspspCsvService.importCsv(file.getBytes());
+    public void importCsv(@RequestParam MultipartFile file) {
+        try {
+            aspspCsvService.importCsv(file.getBytes());
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }
