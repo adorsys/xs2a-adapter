@@ -27,12 +27,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @Profile("dev")
 @RestController
 public class AspspController {
     static final String ASPSP_ID = "{aspspId}";
     static final String V1_ASPSP_BY_ID = AspspSearchApi.V1_APSPS + "/" + ASPSP_ID;
+    static final String V1_ASPSP_EXPORT = AspspSearchApi.V1_APSPS + "/export";
+    static final String V1_ASPSP_IMPORT = AspspSearchApi.V1_APSPS + "/import";
+
     private final AspspRepository aspspRepository;
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
@@ -57,5 +61,11 @@ public class AspspController {
     ResponseEntity<Void> deleteById(@PathVariable("aspspId") String aspspId) {
         aspspRepository.deleteById(aspspId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(V1_ASPSP_EXPORT)
+    ResponseEntity<List<AspspTO>> readAll() {
+        List<Aspsp> aspsps = aspspRepository.findAll();
+        return ResponseEntity.ok(aspspMapper.toAspspTOs(aspsps));
     }
 }

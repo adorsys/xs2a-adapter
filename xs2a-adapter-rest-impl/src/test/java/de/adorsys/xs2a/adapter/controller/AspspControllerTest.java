@@ -22,17 +22,23 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pro.javatar.commons.reader.JsonReader;
 
+import java.util.Collections;
+import java.util.List;
+
 import static de.adorsys.xs2a.adapter.controller.AspspController.V1_ASPSP_BY_ID;
+import static de.adorsys.xs2a.adapter.controller.AspspController.V1_ASPSP_EXPORT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 public class AspspControllerTest {
+    private static final String ID = "1111";
+    private static final String BIC = "bic";
+
     private MockMvc mockMvc;
 
     @InjectMocks
@@ -53,10 +59,7 @@ public class AspspControllerTest {
 
     @Test
     public void addAspsp() throws Exception {
-        String id = "1111";
-        Aspsp aspsp = new Aspsp();
-        aspsp.setId(id);
-        aspsp.setBic("bic");
+        Aspsp aspsp = buildAspsp();
 
         when(repository.save(any())).thenReturn(aspsp);
 
@@ -71,7 +74,7 @@ public class AspspControllerTest {
             .getObjectFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
         String location = mvcResult.getResponse().getHeader("Location");
 
-        assertThat(location).endsWith("/" + id);
+        assertThat(location).endsWith("/" + ID);
         assertThat(response.getId()).isEqualTo(aspsp.getId());
         assertThat(response.getBic()).isEqualTo(aspsp.getBic());
 
@@ -79,10 +82,7 @@ public class AspspControllerTest {
 
     @Test
     public void updateAspsp() throws Exception {
-        String id = "1111";
-        Aspsp aspsp = new Aspsp();
-        aspsp.setId(id);
-        aspsp.setBic("bic");
+        Aspsp aspsp = buildAspsp();
 
         String body = new ObjectMapper().writeValueAsString(aspsp);
 
@@ -104,14 +104,44 @@ public class AspspControllerTest {
 
     @Test
     public void delete() throws Exception {
-        String id = "1111";
-
-        doNothing().when(repository).deleteById(id);
+        doNothing().when(repository).deleteById(ID);
 
         mockMvc.perform(MockMvcRequestBuilders
-            .delete(V1_ASPSP_BY_ID, id)
+            .delete(V1_ASPSP_BY_ID, ID)
             .contentType(APPLICATION_JSON_UTF8_VALUE))
             .andExpect(status().is(HttpStatus.NO_CONTENT.value()))
             .andReturn();
+    }
+
+    @Test
+    public void readAll() throws Exception {
+        Aspsp aspsp = buildAspsp();
+
+        when(repository.findAll()).thenReturn(Collections.singletonList(aspsp));
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                                                  .get(V1_ASPSP_EXPORT)
+                                                  .contentType(APPLICATION_JSON_UTF8_VALUE))
+                                  .andExpect(status().isOk())
+                                  .andReturn();
+
+        verify(repository, times(1)).findAll();
+
+        List<AspspTO> tos = JsonReader
+                                .getInstance()
+                                .getListFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
+
+        assertThat(tos).isNotNull();
+        assertThat(tos.size()).isEqualTo(1);
+        assertThat(tos.get(0)).isEqualToComparingFieldByField(aspsp);
+    }
+
+    private Aspsp buildAspsp() {
+        Aspsp aspsp = new Aspsp();
+
+        aspsp.setId(ID);
+        aspsp.setBic(BIC);
+
+        return aspsp;
     }
 }
