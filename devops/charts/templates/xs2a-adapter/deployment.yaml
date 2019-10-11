@@ -32,7 +32,7 @@ spec:
             - name: LOGGING_CONFIG
               value: /data/logback.xml
             {{- end }}
-            - name: csv.aspsp.adapter.config.file.path
+            - name: adapter.config.file.path
               value: /opt/xs2a-adapter/custom-config/adapter.config.properties
             - name: KEY_STORE_TYPE
               valueFrom:
