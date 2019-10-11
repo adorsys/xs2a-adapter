@@ -22,11 +22,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pro.javatar.commons.reader.JsonReader;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static de.adorsys.xs2a.adapter.controller.AspspController.V1_ASPSP_BY_ID;
-import static de.adorsys.xs2a.adapter.controller.AspspController.V1_ASPSP_EXPORT;
+import static de.adorsys.xs2a.adapter.controller.AspspController.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -136,6 +136,22 @@ public class AspspControllerTest {
         assertThat(tos.get(0)).isEqualToComparingFieldByField(aspsp);
     }
 
+    @Test
+    public void importAll() throws Exception {
+        List<Aspsp> aspsps = new ArrayList<>(Collections.singletonList(buildAspsp()));
+
+        doNothing().when(service).importAspsps(aspsps);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                            .put(V1_ASPSP_IMPORT)
+                            .contentType(APPLICATION_JSON_UTF8_VALUE)
+                            .content(new ObjectMapper().writeValueAsString(Collections.singletonList(buildAspspTO()))))
+            .andExpect(status().isNoContent())
+            .andReturn();
+
+        verify(service, times(1)).importAspsps(aspsps);
+    }
+
     private Aspsp buildAspsp() {
         Aspsp aspsp = new Aspsp();
 
@@ -143,5 +159,14 @@ public class AspspControllerTest {
         aspsp.setBic(BIC);
 
         return aspsp;
+    }
+
+    private AspspTO buildAspspTO() {
+        AspspTO to = new AspspTO();
+
+        to.setId(ID);
+        to.setBic(BIC);
+
+        return to;
     }
 }

@@ -70,7 +70,7 @@ public class AspspController {
     }
 
     @PutMapping(V1_ASPSP_IMPORT)
-    ResponseEntity<Void> update(@RequestBody List<AspspTO> aspsps) {
+    ResponseEntity<Void> importAll(@RequestBody List<AspspTO> aspsps) {
         aspspService.importAspsps(aspspMapper.toAspsps(aspsps));
         return ResponseEntity.noContent().build();
     }

@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service.model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Aspsp {
     private String id;
@@ -98,5 +99,26 @@ public class Aspsp {
                    ", scaApproaches=" + scaApproaches +
                    ", paginationId='" + paginationId + '\'' +
                    '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Aspsp aspsp = (Aspsp) o;
+        return Objects.equals(id, aspsp.id) &&
+                   Objects.equals(name, aspsp.name) &&
+                   Objects.equals(bic, aspsp.bic) &&
+                   Objects.equals(bankCode, aspsp.bankCode) &&
+                   Objects.equals(url, aspsp.url) &&
+                   Objects.equals(adapterId, aspsp.adapterId) &&
+                   Objects.equals(idpUrl, aspsp.idpUrl) &&
+                   Objects.equals(scaApproaches, aspsp.scaApproaches) &&
+                   Objects.equals(paginationId, aspsp.paginationId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, bic, bankCode, url, adapterId, idpUrl, scaApproaches, paginationId);
     }
 }
