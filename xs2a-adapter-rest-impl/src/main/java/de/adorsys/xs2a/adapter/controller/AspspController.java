@@ -20,6 +20,7 @@ import de.adorsys.xs2a.adapter.api.AspspSearchApi;
 import de.adorsys.xs2a.adapter.mapper.AspspMapper;
 import de.adorsys.xs2a.adapter.model.AspspTO;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
+import de.adorsys.xs2a.adapter.service.AspspService;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Profile;
@@ -38,10 +39,12 @@ public class AspspController {
     static final String V1_ASPSP_IMPORT = AspspSearchApi.V1_APSPS + "/import";
 
     private final AspspRepository aspspRepository;
+    private final AspspService aspspService;
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
-    public AspspController(AspspRepository aspspRepository) {
+    public AspspController(AspspRepository aspspRepository, AspspService aspspService) {
         this.aspspRepository = aspspRepository;
+        this.aspspService = aspspService;
     }
 
     @PostMapping(AspspSearchApi.V1_APSPS)
@@ -67,5 +70,11 @@ public class AspspController {
     ResponseEntity<List<AspspTO>> readAll() {
         List<Aspsp> aspsps = aspspRepository.findAll();
         return ResponseEntity.ok(aspspMapper.toAspspTOs(aspsps));
+    }
+
+    @PutMapping(V1_ASPSP_IMPORT)
+    ResponseEntity<Void> update(@RequestBody List<AspspTO> aspsps) {
+        aspspService.importAspsps(aspspMapper.toAspsps(aspsps));
+        return ResponseEntity.noContent().build();
     }
 }
