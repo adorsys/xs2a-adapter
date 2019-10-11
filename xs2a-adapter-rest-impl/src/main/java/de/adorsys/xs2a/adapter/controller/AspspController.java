@@ -19,7 +19,6 @@ package de.adorsys.xs2a.adapter.controller;
 import de.adorsys.xs2a.adapter.api.AspspSearchApi;
 import de.adorsys.xs2a.adapter.mapper.AspspMapper;
 import de.adorsys.xs2a.adapter.model.AspspTO;
-import de.adorsys.xs2a.adapter.service.AspspRepository;
 import de.adorsys.xs2a.adapter.service.AspspService;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
@@ -38,37 +37,35 @@ public class AspspController {
     static final String V1_ASPSP_EXPORT = AspspSearchApi.V1_APSPS + "/export";
     static final String V1_ASPSP_IMPORT = AspspSearchApi.V1_APSPS + "/import";
 
-    private final AspspRepository aspspRepository;
     private final AspspService aspspService;
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
-    public AspspController(AspspRepository aspspRepository, AspspService aspspService) {
-        this.aspspRepository = aspspRepository;
+    public AspspController(AspspService aspspService) {
         this.aspspService = aspspService;
     }
 
     @PostMapping(AspspSearchApi.V1_APSPS)
     ResponseEntity<AspspTO> create(@RequestBody AspspTO to) {
-        Aspsp aspsp = aspspRepository.save(aspspMapper.toAspsp(to));
+        Aspsp aspsp = aspspService.create(aspspMapper.toAspsp(to));
         String uri = V1_ASPSP_BY_ID.replace(ASPSP_ID, aspsp.getId());
         return ResponseEntity.created(URI.create(uri)).body(aspspMapper.toAspspTO(aspsp));
     }
 
     @PutMapping(AspspSearchApi.V1_APSPS)
     ResponseEntity<AspspTO> update(@RequestBody AspspTO aspsp) {
-        aspspRepository.save(aspspMapper.toAspsp(aspsp));
+        aspspService.update(aspspMapper.toAspsp(aspsp));
         return ResponseEntity.ok(aspsp);
     }
 
     @DeleteMapping(V1_ASPSP_BY_ID)
     ResponseEntity<Void> deleteById(@PathVariable("aspspId") String aspspId) {
-        aspspRepository.deleteById(aspspId);
+        aspspService.deleteById(aspspId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping(V1_ASPSP_EXPORT)
     ResponseEntity<List<AspspTO>> readAll() {
-        List<Aspsp> aspsps = aspspRepository.findAll();
+        List<Aspsp> aspsps = aspspService.readAll();
         return ResponseEntity.ok(aspspMapper.toAspspTOs(aspsps));
     }
 

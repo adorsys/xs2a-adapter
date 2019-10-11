@@ -6,5 +6,13 @@ import java.util.List;
 
 public interface AspspService {
 
+    Aspsp create(Aspsp aspsp);
+
+    Aspsp update(Aspsp aspsp);
+
+    void deleteById(String aspspId);
+
+    List<Aspsp> readAll();
+
     void importAspsps(List<Aspsp> aspsps);
 }

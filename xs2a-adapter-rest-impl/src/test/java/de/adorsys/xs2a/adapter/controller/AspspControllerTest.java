@@ -5,7 +5,7 @@ import de.adorsys.xs2a.adapter.api.AspspSearchApi;
 import de.adorsys.xs2a.adapter.config.RestExceptionHandler;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.model.AspspTO;
-import de.adorsys.xs2a.adapter.service.AspspRepository;
+import de.adorsys.xs2a.adapter.service.AspspService;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +45,7 @@ public class AspspControllerTest {
     private AspspController controller;
 
     @Mock
-    private AspspRepository repository;
+    private AspspService service;
 
     @Before
     public void setUp() {
@@ -61,7 +61,7 @@ public class AspspControllerTest {
     public void addAspsp() throws Exception {
         Aspsp aspsp = buildAspsp();
 
-        when(repository.save(any())).thenReturn(aspsp);
+        when(service.create(any())).thenReturn(aspsp);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
             .post(AspspSearchApi.V1_APSPS)
@@ -86,7 +86,7 @@ public class AspspControllerTest {
 
         String body = new ObjectMapper().writeValueAsString(aspsp);
 
-        when(repository.save(any())).thenReturn(aspsp);
+        when(service.update(any())).thenReturn(aspsp);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
             .put(AspspSearchApi.V1_APSPS)
@@ -104,7 +104,7 @@ public class AspspControllerTest {
 
     @Test
     public void delete() throws Exception {
-        doNothing().when(repository).deleteById(ID);
+        doNothing().when(service).deleteById(ID);
 
         mockMvc.perform(MockMvcRequestBuilders
             .delete(V1_ASPSP_BY_ID, ID)
@@ -117,7 +117,7 @@ public class AspspControllerTest {
     public void readAll() throws Exception {
         Aspsp aspsp = buildAspsp();
 
-        when(repository.findAll()).thenReturn(Collections.singletonList(aspsp));
+        when(service.readAll()).thenReturn(Collections.singletonList(aspsp));
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                                                   .get(V1_ASPSP_EXPORT)
@@ -125,7 +125,7 @@ public class AspspControllerTest {
                                   .andExpect(status().isOk())
                                   .andReturn();
 
-        verify(repository, times(1)).findAll();
+        verify(service, times(1)).readAll();
 
         List<AspspTO> tos = JsonReader
                                 .getInstance()

@@ -17,6 +17,26 @@ public class AspspServiceImpl implements AspspService {
     }
 
     @Override
+    public Aspsp create(Aspsp aspsp) {
+        return aspspRepository.save(aspsp);
+    }
+
+    @Override
+    public Aspsp update(Aspsp aspsp) {
+        return aspspRepository.save(aspsp);
+    }
+
+    @Override
+    public void deleteById(String aspspId) {
+        aspspRepository.deleteById(aspspId);
+    }
+
+    @Override
+    public List<Aspsp> readAll() {
+        return aspspRepository.findAll();
+    }
+
+    @Override
     public void importAspsps(List<Aspsp> aspsps) {
         aspspRepository.deleteAll();
         aspspRepository.saveAll(aspsps);
