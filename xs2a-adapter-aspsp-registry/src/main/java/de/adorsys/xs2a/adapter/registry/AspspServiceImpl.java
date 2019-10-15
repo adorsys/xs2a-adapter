@@ -10,9 +10,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static de.adorsys.xs2a.adapter.registry.AspspCsvServiceImpl.CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH;
-
 public class AspspServiceImpl implements AspspService {
+    static final String CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH = "csv.aspsp.adapter.config.file.path";
+
     private final AspspRepository aspspRepository;
     private final AspspCsvService aspspCsvService;
 
