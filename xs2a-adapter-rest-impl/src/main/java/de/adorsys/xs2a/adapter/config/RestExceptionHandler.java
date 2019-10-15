@@ -5,8 +5,6 @@ import de.adorsys.xs2a.adapter.model.TppMessageCategoryTO;
 import de.adorsys.xs2a.adapter.service.exception.*;
 import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.service.model.TppMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
@@ -30,8 +28,6 @@ import java.util.stream.Collectors;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String ERROR_ORIGINATION_HEADER_NAME = "X-GTW-Error-Origination";
 
-    private static final Logger auditLogger = LoggerFactory.getLogger("audit");
-
     private final HeadersMapper headersMapper;
 
     public RestExceptionHandler(HeadersMapper headersMapper) {
@@ -40,9 +36,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity handle(ErrorResponseException exception) {
-        auditLogger.error("{} {}", exception.getStatusCode(), exception.getMessage());
-        MDC.clear();
-
         logError(exception);
         Optional<ErrorResponse> errorResponse = exception.getErrorResponse();
         HttpHeaders responseHeaders = addErrorOriginationHeader(
@@ -181,8 +174,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private void logError(Exception exception) {
-        String errorMessage = exception.getMessage();
-        logger.error(errorMessage == null ? "" : errorMessage, exception);
+        String errorMessage = exception.getMessage() == null ? "" : exception.getMessage();
+        logger.error(errorMessage, exception);
+
+        MDC.put("errorMessage", errorMessage);
     }
 
     private enum ErrorOrigination {
