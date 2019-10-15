@@ -87,7 +87,7 @@ spec:
         - name: xs2a-adapter-config
           persistentVolumeClaim:
             claimName: xs2a-adapter-config
-        {{- if .Values.adapter.aspspConfig }}
+        {{- if .Values.logback.enabled }}
         - configMap:
             defaultMode: 292
             name: xs2a-adapter-logging-config
