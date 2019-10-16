@@ -5,7 +5,6 @@ import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,13 +38,20 @@ public class AuditHandlerInterceptor extends HandlerInterceptorAdapter {
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
+    public
+    void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         String approach = response.getHeader(ResponseHeaders.ASPSP_SCA_APPROACH);
         if (approach != null) {
             MDC.put("approach", approach);
         }
 
-        logger.info("{}", response.getStatus());
+        String errorMessage = MDC.get("errorMessage");
+        if (errorMessage != null) {
+            logger.error("{} {}", response.getStatus(), errorMessage);
+        } else {
+            logger.info("{}", response.getStatus());
+        }
+
         MDC.clear();
     }
 }
