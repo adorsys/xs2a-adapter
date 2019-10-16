@@ -37,6 +37,18 @@ public class AspspCsvServiceImpl implements AspspCsvService {
         this.aspspRepository = aspspRepository;
     }
 
+    /**
+     * Returns an array of bytes that contains all indexes which are currently
+     * stored with Lucene.
+     * <p>
+     * The method reads all {@link Aspsp} objects from the existing registry, maps it into
+     * AspspCsvRecord and converts those into an array of bytes for further transferring
+     * to a front-end as a CSV file. Jackson is being used for turning an AspspCsvRecord
+     * object into a CSV line.
+     *
+     * @return array of bytes with all Lucene indexes
+     * @throws RuntimeException if Aspsp data writing into String fails
+     */
     @Override
     public byte[] exportCsv() {
         List<Aspsp> storage = aspspRepository.findAll();
@@ -49,27 +61,50 @@ public class AspspCsvServiceImpl implements AspspCsvService {
             .getBytes();
     }
 
+    /**
+     * Saves uploaded Aspsps into the current Lucene storage.
+     * <p>
+     * Accepts a csv file as the array of bites. The method converts it into the list
+     * of aspsps, remove all existing records from Lucene and saves the pushed objects into the
+     * Lucene. Can produce RegistryIOException (a type of RuntimeException) while
+     * converting bites into objects.
+     *
+     * @param file is a csv file with aspsp details information
+     * @throws RegistryIOException if converting array of bytes into Aspsp object fails
+     */
     @Override
-    public void importCsv(byte[] bytes) {
-        List<Aspsp> aspsps;
-        try {
-            aspsps = readAllRecords(bytes);
-        } catch (IOException e) {
-            throw new RegistryIOException(e);
-        }
-
+    public void importCsv(byte[] file) {
+        List<Aspsp> aspsps = readAllRecords(file);
         aspspRepository.deleteAll();
         aspspRepository.saveAll(aspsps);
     }
 
+    /**
+     * Saves all changes of Lucene indexes into the specified adapter configuration CSV of Aspsps.
+     * <p>
+     * Replaces the current records of Aspsps withing configured file with new entries
+     * that were created via Registry UI (manually or by importing a new CSV).
+     * The original file is searched under "csv.aspsp.adapter.config.file.path" property.
+     * <p>
+     * {@link java.nio.file.Files} and {@link java.nio.file.Paths} are used for
+     * re-writing the CSV
+     *
+     * @throws RegistryIOException if writing into the file fails
+     * @throws RuntimeException if "csv.aspsp.adapter.config.file.path" property does not
+     * exist or has an empty value
+     */
     @Override
-    public void saveCsv() throws IOException {
+    public void saveCsv() {
         String csvConfigFileProperty = PropertyUtil.readProperty(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH);
 
         if (csvConfigFileProperty.isEmpty()) {
             throw new RuntimeException(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH + " property does not exist or has no value");
         } else {
-            Files.write(Paths.get(csvConfigFileProperty), exportCsv());
+            try {
+                Files.write(Paths.get(csvConfigFileProperty), exportCsv());
+            } catch (IOException e) {
+                throw new RegistryIOException(e);
+            }
         }
     }
 
@@ -101,7 +136,18 @@ public class AspspCsvServiceImpl implements AspspCsvService {
         }
     }
 
-    public List<Aspsp> readAllRecords(byte[] csv) throws IOException {
+    /**
+     * Reads the input csv file and converts its content into a list of Aspsp objects.
+     * <p>
+     * Accepts a csv file as an array of bytes and creates AspspCsvRecord objects based
+     * on that data with the help of CsvMapper. Then it turns AspspCsvRecord objects
+     * into Aspsp entities by mapping the appropriate fields with AspspMapper.
+     *
+     * @param csv is a file with aspsp details information
+     * @return list of Aspsp objects
+     * @throws RegistryIOException if reading bytes process fails
+     */
+    public List<Aspsp> readAllRecords(byte[] csv) {
         ObjectReader objectReader = new CsvMapper()
             .readerWithTypedSchemaFor(AspspCsvRecord.class)
             .withHandler(new DeserializationProblemHandler() {
@@ -115,15 +161,30 @@ public class AspspCsvServiceImpl implements AspspCsvService {
                 }
             });
 
-        List<AspspCsvRecord> aspsps = objectReader
-            .<AspspCsvRecord>readValues(csv)
-            .readAll();
+        List<AspspCsvRecord> aspsps;
+        try {
+            aspsps = objectReader
+                .<AspspCsvRecord>readValues(csv)
+                .readAll();
+        } catch (IOException e) {
+            throw new RegistryIOException(e);
+        }
 
         return aspspMapper.toAspsps(aspsps);
     }
 
+    /**
+     * Converts a file, set as the source of Aspsp details records, into the array of bytes.
+     * <p>
+     * Reads, specified within the Configuration Properties source, file using
+     * {@link java.io.InputStream} and converts it into bytes via
+     * {@link java.io.BufferedOutputStream}
+     *
+     * @return array of bytes converted from the specified source file
+     * @throws RegistryIOException if reading data from file fails
+     */
     @Override
-    public byte[] getCsvFileAsByteArray() throws IOException {
+    public byte[] getCsvFileAsByteArray() {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         int nRead;
         byte[] data = new byte[8192];
@@ -132,10 +193,12 @@ public class AspspCsvServiceImpl implements AspspCsvService {
                 buffer.write(data, 0, nRead);
             }
             return buffer.toByteArray();
+        } catch (IOException e) {
+            throw new RegistryIOException(e);
         }
     }
 
-    private InputStream getCsvFileAsStream() throws FileNotFoundException {
+    private InputStream getCsvFileAsStream() {
         String csvConfigFileProperty = PropertyUtil.readProperty(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH);
 
         InputStream inputStream;
@@ -152,7 +215,11 @@ public class AspspCsvServiceImpl implements AspspCsvService {
         return Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
     }
 
-    private InputStream getFileAsStream(String filePath) throws FileNotFoundException {
-        return new FileInputStream(filePath);
+    private InputStream getFileAsStream(String filePath) {
+        try {
+            return new FileInputStream(filePath);
+        } catch (FileNotFoundException e) {
+            throw new RegistryIOException(e);
+        }
     }
 }

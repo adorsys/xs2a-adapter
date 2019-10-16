@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.registry.AspspCsvServiceImpl;
 import de.adorsys.xs2a.adapter.registry.AspspSearchServiceImpl;
+import de.adorsys.xs2a.adapter.registry.AspspServiceImpl;
 import de.adorsys.xs2a.adapter.registry.LuceneAspspRepositoryFactory;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.impl.AccountInformationServiceImpl;
@@ -103,5 +104,10 @@ public class RestConfiguration {
     @Bean
     AspspCsvService aspspCsvService(AspspRepository aspspRepository) {
         return new AspspCsvServiceImpl(aspspRepository);
+    }
+
+    @Bean
+    AspspService aspspService(AspspRepository aspspRepository, AspspCsvService aspspCsvService) {
+        return new AspspServiceImpl(aspspRepository, aspspCsvService);
     }
 }

@@ -14,4 +14,6 @@ public interface AspspMapper {
     Aspsp toAspsp(AspspTO to);
 
     List<AspspTO> toAspspTOs(Iterable<Aspsp> aspsps);
+
+    List<Aspsp> toAspsps(Iterable<AspspTO> aspsps);
 }
