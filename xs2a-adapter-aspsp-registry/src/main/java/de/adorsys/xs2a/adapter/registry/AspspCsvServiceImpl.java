@@ -66,7 +66,7 @@ public class AspspCsvServiceImpl implements AspspCsvService {
      * <p>
      * Accepts a csv file as the array of bites. The method converts it into the list
      * of aspsps, remove all existing records from Lucene and saves the pushed objects into the
-     * repository. Can produce RegistryIOException (a type of RuntimeException) while
+     * Lucene. Can produce RegistryIOException (a type of RuntimeException) while
      * converting bites into objects.
      *
      * @param file is a csv file with aspsp details information
@@ -80,8 +80,7 @@ public class AspspCsvServiceImpl implements AspspCsvService {
     }
 
     /**
-     * Saves all changes of Lucene indexes, that were made via Registry Manager UI, into
-     * the specified adapter configuration CSV of Aspsps.
+     * Saves all changes of Lucene indexes into the specified adapter configuration CSV of Aspsps.
      * <p>
      * Replaces the current records of Aspsps withing configured file with new entries
      * that were created via Registry UI (manually or by importing a new CSV).

@@ -31,8 +31,7 @@ public interface AspspCsvService {
     List<Aspsp> readAllRecords(byte[] csv);
 
     /**
-     * Saves all changes of Lucene indexes, that were made via Registry Manager UI, into
-     * the specified adapter configuration CSV of Aspsps.
+     * Saves all changes of Lucene indexes into the specified adapter configuration CSV of Aspsps.
      */
     void saveCsv();
 
