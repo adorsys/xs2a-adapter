@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.service.impl;
+package de.adorsys.xs2a.adapter.remote.service.impl;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -23,16 +23,16 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import de.adorsys.xs2a.adapter.api.remote.AccountInformationClient;
-import de.adorsys.xs2a.adapter.api.remote.Xs2aAdapterClientParseException;
 import de.adorsys.xs2a.adapter.mapper.*;
 import de.adorsys.xs2a.adapter.model.*;
+import de.adorsys.xs2a.adapter.remote.api.AccountInformationClient;
+import de.adorsys.xs2a.adapter.remote.api.Xs2aAdapterClientParseException;
+import de.adorsys.xs2a.adapter.remote.service.mapper.ResponseHeadersMapper;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
-import de.adorsys.xs2a.adapter.service.mapper.ResponseHeadersMapper;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
@@ -43,8 +43,8 @@ import org.springframework.http.ResponseEntity;
 import java.time.LocalDate;
 import java.util.Map;
 
-public class AccountInformationServiceImpl implements AccountInformationService {
-    private static final Logger log = LoggerFactory.getLogger(AccountInformationServiceImpl.class);
+public class RemoteAccountInformationService implements AccountInformationService {
+    private static final Logger log = LoggerFactory.getLogger(RemoteAccountInformationService.class);
 
     private final AccountInformationClient client;
     private final ConsentMapper consentMapper = Mappers.getMapper(ConsentMapper.class);
@@ -59,7 +59,7 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     private final ResponseHeadersMapper responseHeadersMapper = Mappers.getMapper(ResponseHeadersMapper.class);
     private final ObjectMapper objectMapper;
 
-    public AccountInformationServiceImpl(AccountInformationClient client) {
+    public RemoteAccountInformationService(AccountInformationClient client) {
         this.client = client;
         this.objectMapper = new ObjectMapper();
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -68,7 +68,7 @@ public class AccountInformationServiceImpl implements AccountInformationService 
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
-    public AccountInformationServiceImpl(AccountInformationClient client, ObjectMapper objectMapper) {
+    public RemoteAccountInformationService(AccountInformationClient client, ObjectMapper objectMapper) {
         this.client = client;
         this.objectMapper = objectMapper;
     }

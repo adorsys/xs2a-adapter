@@ -16,16 +16,16 @@
 
 package de.adorsys.xs2a.tpp;
 
-import de.adorsys.xs2a.adapter.api.remote.AccountInformationClient;
-import de.adorsys.xs2a.adapter.api.remote.PaymentInitiationClient;
-import de.adorsys.xs2a.adapter.api.remote.psd2.Psd2AccountInformationClient;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
+import de.adorsys.xs2a.adapter.remote.api.AccountInformationClient;
+import de.adorsys.xs2a.adapter.remote.api.PaymentInitiationClient;
+import de.adorsys.xs2a.adapter.remote.api.psd2.Psd2AccountInformationClient;
+import de.adorsys.xs2a.adapter.remote.service.impl.RemoteAccountInformationService;
+import de.adorsys.xs2a.adapter.remote.service.impl.RemotePaymentInitiationService;
+import de.adorsys.xs2a.adapter.remote.service.impl.psd2.RemotePsd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.impl.AccountInformationServiceImpl;
-import de.adorsys.xs2a.adapter.service.impl.PaymentInitiationServiceImpl;
-import de.adorsys.xs2a.adapter.service.impl.psd2.Psd2AccountInformationServiceImpl;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import feign.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,17 +69,17 @@ public class AppConfiguration {
 
     @Bean
     PaymentInitiationService paymentInitiationService() {
-        return new PaymentInitiationServiceImpl(paymentInitiationClient);
+        return new RemotePaymentInitiationService(paymentInitiationClient);
     }
 
     @Bean
     AccountInformationService accountInformationService() {
-        return new AccountInformationServiceImpl(accountInformationClient);
+        return new RemoteAccountInformationService(accountInformationClient);
     }
 
     @Bean
     Psd2AccountInformationService psd2AccountInformationService() {
-        return new Psd2AccountInformationServiceImpl(psd2AccountInformationClient);
+        return new RemotePsd2AccountInformationService(psd2AccountInformationClient);
     }
 
     @Bean

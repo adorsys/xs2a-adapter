@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.api.remote;
+package de.adorsys.xs2a.adapter.remote.api;
 
-import de.adorsys.xs2a.adapter.api.AspspSearchApi;
 import org.springframework.cloud.openfeign.FeignClient;
 
-@FeignClient(value = "aspsp-client", url = "${xs2a-adapter.url}")
-public interface AspspClient extends AspspSearchApi {
+@FeignClient(value = "account-information-client", url = "${xs2a-adapter.url}")
+public interface AccountInformationClient extends AccountApi {
 }

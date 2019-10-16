@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.api.remote;
+package de.adorsys.xs2a.adapter.remote.api;
 
 import de.adorsys.xs2a.adapter.api.Oauth2Api;
 import org.springframework.cloud.openfeign.FeignClient;

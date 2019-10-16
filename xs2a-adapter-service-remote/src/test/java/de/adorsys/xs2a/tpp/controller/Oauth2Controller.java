@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.tpp.controller;
 
 import de.adorsys.xs2a.adapter.api.Oauth2Api;
-import de.adorsys.xs2a.adapter.api.remote.Oauth2Client;
+import de.adorsys.xs2a.adapter.remote.api.Oauth2Client;
 import de.adorsys.xs2a.adapter.rest.psd2.model.TokenResponseTO;
 import de.adorsys.xs2a.adapter.service.psd2.model.HrefType;
 import org.springframework.web.bind.annotation.RestController;

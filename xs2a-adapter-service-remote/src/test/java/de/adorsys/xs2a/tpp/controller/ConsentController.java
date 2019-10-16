@@ -18,16 +18,15 @@ package de.adorsys.xs2a.tpp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import de.adorsys.xs2a.adapter.api.remote.AccountInformationClient;
 import de.adorsys.xs2a.adapter.mapper.*;
 import de.adorsys.xs2a.adapter.model.*;
-import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.remote.api.AccountApi;
+import de.adorsys.xs2a.adapter.remote.api.AccountInformationClient;
+import de.adorsys.xs2a.adapter.remote.service.impl.RemoteAccountInformationService;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.RequestParams;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.*;
-import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
-import de.adorsys.xs2a.adapter.service.model.ConsentInformation;
-import de.adorsys.xs2a.adapter.service.model.ConsentStatusResponse;
-import de.adorsys.xs2a.adapter.service.model.Consents;
-import de.adorsys.xs2a.adapter.service.impl.AccountInformationServiceImpl;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +39,7 @@ import java.util.Map;
 public class ConsentController extends AbstractController implements AccountApi {
     private final HeadersMapper headersMapper;
 
-    private final AccountInformationServiceImpl accountInformationService;
+    private final RemoteAccountInformationService accountInformationService;
 
     private final ConsentMapper consentMapper = Mappers.getMapper(ConsentMapper.class);
     private final ConsentCreationResponseMapper creationResponseMapper = Mappers.getMapper(ConsentCreationResponseMapper.class);
@@ -53,7 +52,7 @@ public class ConsentController extends AbstractController implements AccountApi 
 
     public ConsentController(AccountInformationClient client, ObjectMapper objectMapper, HeadersMapper headersMapper) {
         super(objectMapper);
-        this.accountInformationService = new AccountInformationServiceImpl(client);
+        this.accountInformationService = new RemoteAccountInformationService(client);
         this.headersMapper = headersMapper;
     }
 
