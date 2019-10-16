@@ -20,6 +20,7 @@
 - Added PERSIST endpoint to `aspsp-registry` for replacing an original CSV of Aspsps with a new updated one. It is available only via `dev` profile
 - Added Pagination feature on UI for `aspsp-registry`
 - Added export and import endpoints to `aspsp-registry` module that accept JSON requests and produce JSON response.
+- Moved to a single PKCS12 keystore for management of certificates, instead of relying on JVM wide default `javax.net.ssl.keyStore`
 
 == Fixes:
 - UpdatePsuAuthenticationResponse mapping exception fixed
