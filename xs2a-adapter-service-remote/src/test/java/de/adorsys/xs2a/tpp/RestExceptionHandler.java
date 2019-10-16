@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.tpp;
 
-import de.adorsys.xs2a.adapter.api.remote.Xs2aAdapterClientParseException;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.model.TppMessageCategoryTO;
+import de.adorsys.xs2a.adapter.remote.api.Xs2aAdapterClientParseException;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.service.model.TppMessage;

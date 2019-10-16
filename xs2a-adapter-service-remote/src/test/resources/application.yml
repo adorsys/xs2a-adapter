@@ -12,8 +12,7 @@ spring:
 
 logging.level.org.apache.http.wire: DEBUG
 
-logging.level.de.adorsys.xs2a.adapter.api.remote.AccountInformationClient: DEBUG
-logging.level.de.adorsys.xs2a.adapter.api.remote.PaymentInitiationClient : DEBUG
+logging.level.de.adorsys.xs2a.adapter.remote: DEBUG
 
 feign:
   client:

@@ -8,5 +8,5 @@ xs2a-adapter:
   url: http://localhost:8999
 ```
 - add client `xs2a-adapter-service-remote` into your application dependencies
-- enable feign clients in your sprintBoot application with next annotation `@EnableFeignClients(basePackages = "de.adorsys.xs2a.adapter.api.remote")`
+- enable feign clients in your sprintBoot application with next annotation `@EnableFeignClients(basePackages = "de.adorsys.xs2a.adapter.remote.api")`
 - configure converters. See example in the test sources `de.adorsys.xs2a.tpp.WebMvcConfig`
