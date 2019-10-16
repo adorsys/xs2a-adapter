@@ -34,11 +34,17 @@ spec:
             {{- end }}
             - name: adapter.config.file.path
               value: /opt/xs2a-adapter/custom-config/adapter.config.properties
+            - name: PKCS12_KEY_STORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pkcs12-key-store-secret
+                  key: key-store-password
             - name: JAVA_OPTS
               value: >-
                 -Xmx1024m
                 -Dcom.sun.security.enableAIAcaIssuers=true
                 -Dpkcs12.keyStore=/pkcs12/key-store.p12
+                -Dpkcs12.keyStorePassword=${PKCS12_KEY_STORE_PASSWORD}
           imagePullPolicy: Always
           name: xs2a-adapter
           ports:

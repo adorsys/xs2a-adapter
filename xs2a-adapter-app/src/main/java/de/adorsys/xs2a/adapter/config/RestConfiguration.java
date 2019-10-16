@@ -96,7 +96,8 @@ public class RestConfiguration {
 
     @Bean
     Pkcs12KeyStore pkcs12KeyStore() throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
-        return new Pkcs12KeyStore(System.getProperty("pkcs12.keyStore"));
+        char[] keyStorePassword = System.getProperty("pkcs12.keyStorePassword", "").toCharArray();
+        return new Pkcs12KeyStore(System.getProperty("pkcs12.keyStore"), keyStorePassword);
     }
 
     @Bean

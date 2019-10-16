@@ -1,7 +1,8 @@
 ## Secrets
 
-    oc create secret generic key-store-secret \
-    --from-file=key-store.p12=example_eidas.p12
+    oc create secret generic pkcs12-key-store-secret \
+    --from-file=key-store.p12=<filename>.p12 \
+    --from-literal=key-store-password=<password>
 
     oc get secrets
     
