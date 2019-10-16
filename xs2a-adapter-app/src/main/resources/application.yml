@@ -4,7 +4,7 @@ server:
 info:
   app:
     name: ${spring.application.name}
-    description: "Description"
+    description: @project.description@
     version: @project.version@
     build: '#@build.number@'
     artifactId: @project.artifactId@
