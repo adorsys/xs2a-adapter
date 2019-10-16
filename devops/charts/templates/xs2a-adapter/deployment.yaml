@@ -44,7 +44,7 @@ spec:
                 -Xmx1024m
                 -Dcom.sun.security.enableAIAcaIssuers=true
                 -Dpkcs12.keyStore=/pkcs12/key-store.p12
-                -Dpkcs12.keyStorePassword=${PKCS12_KEY_STORE_PASSWORD}
+                -Dpkcs12.keyStorePassword=$(PKCS12_KEY_STORE_PASSWORD)
           imagePullPolicy: Always
           name: xs2a-adapter
           ports:
