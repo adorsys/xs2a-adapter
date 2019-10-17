@@ -485,7 +485,6 @@ function search() {
     ).then(response => paginate(JSON.parse(response))
     ).catch(() => {
         fail("Failed to find any records. Please double check input parameters.");
-        paginate(DEFAULT_DATA);
     });
 
     if (HIDDEN_ROW.parentElement.parentElement.parentElement.hidden) {
