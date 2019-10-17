@@ -111,12 +111,12 @@
             <tbody>
                 <tr class="hidden">
                     <td class="mdl-data-table__cell--non-numeric text-align__right column__short"></td>
-                    <td class="mdl-data-table__cell--non-numeric"></td>
-                    <td class="mdl-data-table__cell--non-numeric"></td>
-                    <td class="mdl-data-table__cell--non-numeric"></td>
-                    <td class="mdl-data-table__cell--non-numeric"></td>
-                    <td class="mdl-data-table__cell--non-numeric"></td>
-                    <td></td>
+                    <td class="mdl-data-table__cell--non-numeric" onfocusout="validateBankName(this);"></td>
+                    <td class="mdl-data-table__cell--non-numeric" onfocusout="validateBic(this);"></td>
+                    <td class="mdl-data-table__cell--non-numeric" onfocusout="validateUrl(this);"></td>
+                    <td class="mdl-data-table__cell--non-numeric" onfocusout="validateAdapterId(this);"></td>
+                    <td onfocusout="validateBankCode(this);"></td>
+                    <td class="mdl-data-table__cell--non-numeric" onfocusout="validateUrl(this);"></td>
                     <td class="mdl-data-table__cell--non-numeric text-align__right">
                         <div class="approaches">
                             <div id="embedded">
@@ -177,18 +177,18 @@
 </footer>
 </div>
 <div class="allerts margin-top__zero">
-    <div class="alert failure upload">
-        <strong>Failed to upload the file.</strong><br> It looks like
-        the file has an inappropriate format.
-    </div>
-    <div class="alert failure search">
-        <strong>Failed to find any records.</strong><br> Please double check input parameters.
-    </div>
-    <div class="alert failure operation">
+    <div class="alert failure">
         <strong>Operation failed.</strong>
+        <br>
+        <span class="message"></span>
     </div>
     <div class="alert success">
         <strong>Processed successfully!</strong>
+    </div>
+    <div class="alert warning">
+        <strong>Warning!</strong>
+        <br>
+        <span class="message"></span>
     </div>
 </div>
 </body>
