@@ -14,7 +14,6 @@ function initGlobals() {
     window.COUNTER = 0;
 }
 
-//=require addEventListeners.js
 function validateBankName(element) {
     let target = element.textContent;
     let regex = /^[a-zA-Z0-9-\s]*$/;
