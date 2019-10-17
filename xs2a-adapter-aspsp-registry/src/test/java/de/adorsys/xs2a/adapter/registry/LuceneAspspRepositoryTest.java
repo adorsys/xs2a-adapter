@@ -126,7 +126,7 @@ public class LuceneAspspRepositoryTest {
         aspsp3.setName("Commerzbank");
         luceneAspspRepository.save(aspsp3);
 
-        Iterable<Aspsp> found = luceneAspspRepository.findByName("nurnberg");
+        Iterable<Aspsp> found = luceneAspspRepository.findByName("nürnberg");
         assertThat(found).hasSize(2);
     }
 
