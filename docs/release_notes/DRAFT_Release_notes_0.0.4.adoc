@@ -21,6 +21,7 @@
 - Added Pagination feature on UI for `aspsp-registry`
 - Added export and import endpoints to `aspsp-registry` module that accept JSON requests and produce JSON response.
 - Moved to a single PKCS12 keystore for management of certificates, instead of relying on JVM wide default `javax.net.ssl.keyStore`
+- Updated Fiducia `GET transactions` flow to make it respond with `400` on unsupported booking status in request
 
 == Fixes:
 - UpdatePsuAuthenticationResponse mapping exception fixed
