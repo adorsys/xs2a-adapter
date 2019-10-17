@@ -1,10 +1,3 @@
-function uuid() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      let r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-  }
-
 setTimeout(function () {
     initGlobals();
     document.querySelector("#import>button").addEventListener("click", () => FILE_UPLOAD_FIELD.click());
@@ -97,6 +90,13 @@ function validateBankCode(element) {
 
 function toUpper(element) {
     element.innerText = element.innerText.toUpperCase();
+}
+
+function uuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        let r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
 }
 
 function forceValidation() {
@@ -295,6 +295,7 @@ function buildRow(data) {
     }
 }
 // End of row part
+
 function fail(message) {
     let messageBlock = FAILURE.querySelector(".message");
     messageBlock.textContent = message;
@@ -321,6 +322,7 @@ function warning(message) {
 
     setTimeout(() => { WARNING.style.opacity = 0 }, 8000);
 }
+
 function addRow() {
     let clone = HIDDEN_ROW.cloneNode(true);
     clone.cells[0].textContent = uuid();
@@ -426,18 +428,16 @@ function deleteButton(e) {
 }
 
 function persist() {
-    fetch("v1/aspsps/persist", {
+    fetch("v1/aspsps/csv/persist", {
         method: "POST"
+    }).then(response => {
+        if (!response.ok) {
+            throw Error(response.statusText);
+        }
+        success();
+    }).catch(() => {
+        fail("Could not update Lucene indexes");
     })
-        .then(response => {
-            if (!response.ok) {
-                throw Error(response.statusText);
-            }
-            success();
-        })
-        .catch(() => {
-            fail("Could not update Lucene indexes");
-        })
 }
 
 function upload() {
@@ -446,19 +446,17 @@ function upload() {
 
     data.append("file", file);
 
-    fetch("/v1/aspsps/import", {
+    fetch("/v1/aspsps/csv/import", {
         method: 'POST',
         body: data
+    }).then(response => {
+        if (!response.ok) {
+            throw Error(response.statusText);
+        }
+        success();
+    }).catch(() => {
+        fail("Failed to upload the file. It looks like the file has an inappropriate format.");
     })
-        .then(response => {
-            if (!response.ok) {
-                throw Error(response.statusText);
-            }
-            success();
-        })
-        .catch(() => {
-            fail("Failed to upload the file. It looks like the file has an inappropriate format.");
-        })
 }
 
 function search() {
@@ -476,18 +474,19 @@ function search() {
     if (data[2].value !== "")
         url += "bankCode=" + data[2].value + "&";
 
-    fetch(url)
-        .then((response) => {
-            if (!response.ok) {
-                throw Error(response.statusText);
-            }
-            return response;
-        })
-        .then(response => response.text())
-        .then(response => JSON.parse(response).forEach((node) => buildRow(node)))
-        .catch(() => {
-            fail("Failed to find any records. Please double check input parameters.");
-        });
+    url += "size=9999";
+
+    fetch(url).then((response) => {
+        if (!response.ok) {
+            throw Error(response.statusText);
+        }
+        return response;
+    }).then(response => response.text()
+    ).then(response => paginate(JSON.parse(response))
+    ).catch(() => {
+        fail("Failed to find any records. Please double check input parameters.");
+        paginate(DEFAULT_DATA);
+    });
 
     if (HIDDEN_ROW.parentElement.parentElement.parentElement.hidden) {
         showTable();
@@ -556,4 +555,22 @@ function redButton(e) {
     }
 }
 
+function paginate(data) {
+    let dataLength = data.length;
+    let step = 10;
+    let current = 0;
+    let button = document.querySelector(".show-more");
+    let total = document.querySelector(".total");
 
+    addPage();
+    total.innerHTML = dataLength;
+
+    function addPage() {
+        for (limit = current + (step > dataLength ? dataLength : step); current < limit; current++) {
+            buildRow(data[current]);
+        }
+        current < dataLength ? button.hidden = false : button.hidden = true;
+    }
+
+    button.addEventListener('click', addPage);
+}

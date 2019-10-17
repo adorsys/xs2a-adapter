@@ -32,7 +32,7 @@
                 </button>
             </div>
             <div class="export-button" id="export">
-                <a href="/v1/aspsps/export" download="aspsps.csv">
+                <a href="/v1/aspsps/csv/export" download="aspsps.csv">
                     <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--fab mdl-button--colored">
                         <i class="material-icons">
                             arrow_downward
@@ -97,7 +97,7 @@
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
             <thead>
                 <tr>
-                    <th class="mdl-data-table__cell--non-numeric text-align__right">Id</th>
+                    <th class="mdl-data-table__cell--non-numeric text-align__right column__short">Id</th>
                     <th class="mdl-data-table__cell--non-numeric">Bank Name</th>
                     <th class="mdl-data-table__cell--non-numeric">BIC</th>
                     <th class="mdl-data-table__cell--non-numeric">URL</th>
@@ -110,13 +110,14 @@
             </thead>
             <tbody>
                 <tr class="hidden">
-                    <td class="mdl-data-table__cell--non-numeric text-align__right"></td>
+                    <td class="mdl-data-table__cell--non-numeric text-align__right column__short"></td>
                     <td class="mdl-data-table__cell--non-numeric" onfocusout="validateBankName(this);"></td>
                     <td class="mdl-data-table__cell--non-numeric" onfocusout="validateBic(this);"></td>
                     <td class="mdl-data-table__cell--non-numeric" onfocusout="validateUrl(this);"></td>
                     <td class="mdl-data-table__cell--non-numeric" onfocusout="validateAdapterId(this);"></td>
                     <td onfocusout="validateBankCode(this);"></td>
                     <td class="mdl-data-table__cell--non-numeric" onfocusout="validateUrl(this);"></td>
+
                     <td class="mdl-data-table__cell--non-numeric text-align__right">
                         <div class="approaches">
                             <div id="embedded">
@@ -165,6 +166,12 @@
         <h1>To start working with ASPSP Registry try searching for something or adding a new record</h1>
     </div>
 </main>
+<div class="show-more" hidden>
+    <button class="more mdl-button mdl-js-button mdl-js-ripple-effect">Show 10 more</button>
+    <div>
+        Total: <span class="total"></span>
+    </div>
+</div>
 
 <footer class="registry-footer">
     <h6 class="footer-text">Golden Dimention. Made with </h6>
