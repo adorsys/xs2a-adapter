@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 
 public class LuceneAspspRepository implements AspspRepository {
     private static final String SEMICOLON_SEPARATOR = ";";
+    private static final String ZERO_OR_MORE_OF_ANY_CHARS_REGEX = ".*";
 
     private static final String ID_FIELD_NAME = "id";
     private static final String NAME_FIELD_NAME = "name";
@@ -257,7 +258,12 @@ public class LuceneAspspRepository implements AspspRepository {
     }
 
     private Query getNameQuery(String name) {
-        return new FuzzyQuery(new Term(NAME_FIELD_NAME, name));
+        return new RegexpQuery(
+            new Term(
+                NAME_FIELD_NAME,
+                name + ZERO_OR_MORE_OF_ANY_CHARS_REGEX
+            )
+        );
     }
 
     @Override

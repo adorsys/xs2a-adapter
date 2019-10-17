@@ -32,6 +32,8 @@ public class AspspSearchController implements AspspSearchApi {
         List<Aspsp> aspsps;
         if (iban != null) {
             aspsps = aspspSearchService.findByIban(iban, after, size);
+        } else if (name != null && !name.isEmpty()) {
+            aspsps = aspspSearchService.findByName(name, after, size);
         } else if (name == null && bic == null && bankCode == null) {
             aspsps = aspspSearchService.findAll(after, size);
         } else {
