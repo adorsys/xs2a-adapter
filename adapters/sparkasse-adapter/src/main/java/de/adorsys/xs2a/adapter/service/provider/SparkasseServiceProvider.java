@@ -21,16 +21,17 @@ import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 
 public class SparkasseServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory) {
+    public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
         return new BaseAccountInformationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory) {
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
         return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
     }
 

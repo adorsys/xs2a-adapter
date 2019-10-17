@@ -5,4 +5,8 @@ public class HttpRequestSigningException extends RuntimeException {
     public HttpRequestSigningException(String message) {
         super(message);
     }
+
+    public HttpRequestSigningException(Throwable cause) {
+        super(cause);
+    }
 }

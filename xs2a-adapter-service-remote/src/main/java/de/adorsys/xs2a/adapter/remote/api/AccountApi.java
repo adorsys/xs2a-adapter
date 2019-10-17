@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.service;
+package de.adorsys.xs2a.adapter.remote.api;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import de.adorsys.xs2a.adapter.model.*;

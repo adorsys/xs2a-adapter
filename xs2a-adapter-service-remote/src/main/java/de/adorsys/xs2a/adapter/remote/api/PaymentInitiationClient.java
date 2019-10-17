@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.api.remote;
+package de.adorsys.xs2a.adapter.remote.api;
 
-import de.adorsys.xs2a.adapter.service.AccountApi;
+import de.adorsys.xs2a.adapter.api.PaymentApi;
 import org.springframework.cloud.openfeign.FeignClient;
 
-@FeignClient(value = "account-information-client", url = "${xs2a-adapter.url}")
-public interface AccountInformationClient extends AccountApi {
+@FeignClient(value = "payment-initiation-client", url = "${xs2a-adapter.url}")
+public interface PaymentInitiationClient extends PaymentApi {
 }

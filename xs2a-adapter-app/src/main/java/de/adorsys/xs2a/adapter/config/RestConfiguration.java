@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.registry.AspspCsvServiceImpl;
 import de.adorsys.xs2a.adapter.registry.AspspSearchServiceImpl;
+import de.adorsys.xs2a.adapter.registry.AspspServiceImpl;
 import de.adorsys.xs2a.adapter.registry.LuceneAspspRepositoryFactory;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.impl.AccountInformationServiceImpl;
@@ -19,7 +20,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -55,21 +55,20 @@ public class RestConfiguration {
 
     @Bean
     @Profile("!dev")
-    HttpClientBuilder httpClientBuilder() throws NoSuchAlgorithmException {
+    HttpClientBuilder httpClientBuilder() {
         return httpClientBuilderWithSharedConfiguration();
     }
 
     @Bean
     @Profile("dev")
-    HttpClientBuilder httpClientBuilderWithDisabledCompression() throws NoSuchAlgorithmException {
+    HttpClientBuilder httpClientBuilderWithDisabledCompression() {
         return httpClientBuilderWithSharedConfiguration()
             .disableContentCompression();
     }
 
-    private HttpClientBuilder httpClientBuilderWithSharedConfiguration() throws NoSuchAlgorithmException {
+    private HttpClientBuilder httpClientBuilderWithSharedConfiguration() {
         return HttpClientBuilder.create()
-            .disableDefaultUserAgent()
-            .setSSLContext(SSLContext.getDefault());
+            .disableDefaultUserAgent();
     }
 
     @Bean
@@ -97,11 +96,17 @@ public class RestConfiguration {
 
     @Bean
     Pkcs12KeyStore pkcs12KeyStore() throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
-        return new Pkcs12KeyStore(System.getProperty("pkcs12.keyStore"));
+        char[] keyStorePassword = System.getProperty("pkcs12.keyStorePassword", "").toCharArray();
+        return new Pkcs12KeyStore(System.getProperty("pkcs12.keyStore"), keyStorePassword);
     }
 
     @Bean
     AspspCsvService aspspCsvService(AspspRepository aspspRepository) {
         return new AspspCsvServiceImpl(aspspRepository);
+    }
+
+    @Bean
+    AspspService aspspService(AspspRepository aspspRepository, AspspCsvService aspspCsvService) {
+        return new AspspServiceImpl(aspspRepository, aspspCsvService);
     }
 }

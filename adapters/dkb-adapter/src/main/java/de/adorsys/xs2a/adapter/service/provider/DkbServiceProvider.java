@@ -20,6 +20,7 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.impl.DkbAccessTokenService;
 import de.adorsys.xs2a.adapter.service.impl.DkbAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.DkbPaymentInitiationService;
@@ -29,14 +30,14 @@ public class DkbServiceProvider implements AccountInformationServiceProvider, Pa
     private final DkbAccessTokenService tokenService = DkbAccessTokenService.getInstance();
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory) {
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
         tokenService.setHttpClient(httpClient);
         return new DkbPaymentInitiationService(baseUrl, tokenService, httpClient);
     }
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory) {
+    public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
         tokenService.setHttpClient(httpClient);
         return new DkbAccountInformationService(baseUrl, tokenService, httpClient);

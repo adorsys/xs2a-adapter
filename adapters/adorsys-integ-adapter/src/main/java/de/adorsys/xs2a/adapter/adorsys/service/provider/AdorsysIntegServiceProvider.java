@@ -21,6 +21,7 @@ import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 
@@ -29,12 +30,12 @@ public class AdorsysIntegServiceProvider implements AccountInformationServicePro
     private final OauthHeaderInterceptor oauthHeaderInterceptor = new OauthHeaderInterceptor();
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory) {
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
         return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()), oauthHeaderInterceptor);
     }
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory) {
+    public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
         return new BaseAccountInformationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()), oauthHeaderInterceptor);
     }
 

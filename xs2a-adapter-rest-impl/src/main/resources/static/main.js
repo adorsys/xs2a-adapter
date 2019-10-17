@@ -339,7 +339,7 @@ function upload() {
 
     data.append("file", file);
 
-    fetch("/v1/aspsps/import", {
+    fetch("/v1/aspsps/csv/import", {
         method: 'POST',
         body: data
     })
@@ -437,7 +437,7 @@ function addTooltips(e) {
     }
 }
 function persist() {
-    fetch("v1/aspsps/persist", {
+    fetch("v1/aspsps/csv/persist", {
         method: "POST"
     })
         .then(response => {

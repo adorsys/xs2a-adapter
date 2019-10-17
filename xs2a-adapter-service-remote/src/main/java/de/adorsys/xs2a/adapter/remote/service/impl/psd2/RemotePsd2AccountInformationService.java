@@ -1,10 +1,10 @@
-package de.adorsys.xs2a.adapter.service.impl.psd2;
+package de.adorsys.xs2a.adapter.remote.service.impl.psd2;
 
-import de.adorsys.xs2a.adapter.api.remote.psd2.Psd2AccountInformationClient;
 import de.adorsys.xs2a.adapter.mapper.psd2.Psd2AccountInformationMapper;
+import de.adorsys.xs2a.adapter.remote.api.psd2.Psd2AccountInformationClient;
+import de.adorsys.xs2a.adapter.remote.service.mapper.ResponseHeadersMapper;
 import de.adorsys.xs2a.adapter.rest.psd2.model.*;
 import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.mapper.ResponseHeadersMapper;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import org.mapstruct.factory.Mappers;
@@ -13,13 +13,13 @@ import org.springframework.http.ResponseEntity;
 import java.io.IOException;
 import java.util.Map;
 
-public class Psd2AccountInformationServiceImpl implements Psd2AccountInformationService {
+public class RemotePsd2AccountInformationService implements Psd2AccountInformationService {
 
     private final Psd2AccountInformationClient client;
     private final Psd2AccountInformationMapper accountInformationMapper = Mappers.getMapper(Psd2AccountInformationMapper.class);
     private final ResponseHeadersMapper responseHeadersMapper = Mappers.getMapper(ResponseHeadersMapper.class);
 
-    public Psd2AccountInformationServiceImpl(Psd2AccountInformationClient client) {
+    public RemotePsd2AccountInformationService(Psd2AccountInformationClient client) {
         this.client = client;
     }
 
