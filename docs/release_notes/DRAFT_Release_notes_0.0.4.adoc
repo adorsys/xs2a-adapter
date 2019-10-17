@@ -29,3 +29,4 @@
 - `xs2a-adapter-service-api`. AccountDetails - add missing @JsonValue annotations for AvailableAccountsEnum and AllPsd2Enum
 - `xs2a-adapter-rest-impl`. index, main - fixed mdl-tooltip bug
 - `xs2a-adapter-service-api`. BasePaymentInitiationService - fix initiateSinglePayment URL, change path constants visibility so they can be reused in extensions
+- fixed searching of ASPSP by name by making it elastic (possibility to search by the part of the name)
