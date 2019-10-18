@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.mapper.psd2.Psd2AccountInformationMapper;
 import de.adorsys.xs2a.adapter.rest.psd2.Psd2AccountInformationApi;
 import de.adorsys.xs2a.adapter.rest.psd2.model.*;
 import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.model.ConsentsResponse;
 import de.adorsys.xs2a.adapter.service.psd2.model.HrefType;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.function.Function;
 
+import static de.adorsys.xs2a.adapter.service.ResponseHeaders.emptyResponseHeaders;
 import static java.util.Collections.singletonMap;
 
 @RestController
@@ -36,6 +38,21 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     @Override
     public ResponseEntity<ConsentsResponseTO> createConsent(Map<String, String> headers, ConsentsTO body) {
 
+        try {
+            return createConsent0(headers, body);
+        } catch (ErrorResponseException ex) {
+            if (ex.getStatusCode() == 403 && ex.getMessage() != null && ex.getMessage().contains("TOKEN_INVALID")) {
+                ConsentsResponse consentsResponse = new ConsentsResponse();
+                consentsResponse.setLinks(singletonMap("preOauth",
+                    new HrefType(Oauth2Controller.AUTHORIZATION_REQUEST_URI)));
+                return toResponseEntity(new Response<>(200, consentsResponse, emptyResponseHeaders()),
+                    mapper::toConsentsResponseTO);
+            }
+            throw ex;
+        }
+    }
+
+    private ResponseEntity<ConsentsResponseTO> createConsent0(Map<String, String> headers, ConsentsTO body) {
         Response<ConsentsResponse> response = accountInformationService.createConsent(headers, mapper.toConsents(body));
         ConsentsResponse consentsResponse = response.getBody();
         if (consentsResponse.getConsentId() == null &&  consentsResponse.getLinks() == null) {
