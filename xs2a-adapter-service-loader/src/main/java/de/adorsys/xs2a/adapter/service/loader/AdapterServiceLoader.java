@@ -88,7 +88,7 @@ public class AdapterServiceLoader {
     public Oauth2Service getOauth2Service(RequestHeaders requestHeaders) {
         Aspsp aspsp = getAspsp(requestHeaders);
         String adapterId = aspsp.getAdapterId();
-        String baseUrl = aspsp.getUrl();
+        String baseUrl = aspsp.getIdpUrl() != null ? aspsp.getIdpUrl() : aspsp.getUrl();
         return getServiceProvider(Oauth2ServiceFactory.class, adapterId)
             .orElseThrow(() -> new AdapterNotFoundException(adapterId))
             .getOauth2Service(baseUrl, httpClientFactory, keyStore);

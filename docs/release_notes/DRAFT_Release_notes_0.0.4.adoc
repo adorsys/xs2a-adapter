@@ -22,6 +22,8 @@
 - Added export and import endpoints to `aspsp-registry` module that accept JSON requests and produce JSON response.
 - Moved to a single PKCS12 keystore for management of certificates, instead of relying on JVM wide default `javax.net.ssl.keyStore`
 - Updated Fiducia `GET transactions` flow to make it respond with `400` on unsupported booking status in request
+- Pre-step OAuth - a non standard flow in PSD2 API which requires PSU authorization to create consent.
+A "preOauth" link will be returned on create consent to indicate this approach.
 
 == Fixes:
 - UpdatePsuAuthenticationResponse mapping exception fixed
