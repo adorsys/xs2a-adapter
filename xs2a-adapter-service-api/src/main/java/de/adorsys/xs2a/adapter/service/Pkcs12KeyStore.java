@@ -64,11 +64,15 @@ public class Pkcs12KeyStore {
     public SSLContext getSslContext()
         throws NoSuchAlgorithmException, KeyStoreException, UnrecoverableEntryException, KeyManagementException, IOException, CertificateException {
 
-        return getSslContext(defaultQwacAlias);
+        return getSslContext(null);
     }
 
     public SSLContext getSslContext(String qwacAlias)
         throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, UnrecoverableEntryException, KeyManagementException {
+
+        if (qwacAlias == null) {
+            qwacAlias = defaultQwacAlias;
+        }
 
         KeyStore qwacKeyStore = KeyStore.getInstance(KEY_STORE_TYPE);
         qwacKeyStore.load(null, password);
@@ -84,21 +88,28 @@ public class Pkcs12KeyStore {
     }
 
     public X509Certificate getQsealCertificate() throws KeyStoreException {
-        return getQsealCertificate(defaultQsealAlias);
+        return getQsealCertificate(null);
     }
 
     public X509Certificate getQsealCertificate(String qsealAlias) throws KeyStoreException {
+        if (qsealAlias == null) {
+            qsealAlias = defaultQsealAlias;
+        }
         return (X509Certificate) keyStore.getCertificate(qsealAlias);
     }
 
     public PrivateKey getQsealPrivateKey()
         throws UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
 
-        return getQsealPrivateKey(defaultQsealAlias);
+        return getQsealPrivateKey(null);
     }
 
     public PrivateKey getQsealPrivateKey(String qsealAlias)
         throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
+
+        if (qsealAlias == null) {
+            qsealAlias = defaultQsealAlias;
+        }
 
         return (PrivateKey) keyStore.getKey(qsealAlias, password);
     }

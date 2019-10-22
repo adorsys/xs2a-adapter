@@ -21,7 +21,6 @@ import java.io.UncheckedIOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -37,15 +36,21 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     ResponseEntity handle(ErrorResponseException exception) {
         logError(exception);
-        Optional<ErrorResponse> errorResponse = exception.getErrorResponse();
         HttpHeaders responseHeaders = addErrorOriginationHeader(
                 headersMapper.toHttpHeaders(exception.getResponseHeaders()),
                 ErrorOrigination.BANK
         );
+        HttpStatus status = HttpStatus.valueOf(exception.getStatusCode());
 
-        return errorResponse
-                       .map(response -> new ResponseEntity<>(response, responseHeaders, HttpStatus.valueOf(exception.getStatusCode())))
-                       .orElseGet(() -> new ResponseEntity<>(responseHeaders, HttpStatus.valueOf(exception.getStatusCode())));
+        return exception.getErrorResponse()
+                       .map(response -> {
+                           String originalResponse = exception.getMessage();
+                           if (response.getTppMessages() == null && response.getLinks() == null && originalResponse != null && !originalResponse.isEmpty()) {
+                               return new ResponseEntity<>(originalResponse, responseHeaders, status);
+                           }
+                           return new ResponseEntity<>(response, responseHeaders, status);
+                       })
+                       .orElseGet(() -> new ResponseEntity<>(responseHeaders, status));
     }
 
     @ExceptionHandler
