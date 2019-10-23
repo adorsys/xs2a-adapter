@@ -15,4 +15,8 @@ public class PaymentInitiationAuthorisationResponse {
     public List<String> getAuthorisationIds() {
         return authorisationIds;
     }
+
+    public void setAuthorisationIds(List<String> authorisationIds) {
+        this.authorisationIds = authorisationIds;
+    }
 }
