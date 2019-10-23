@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 
 public class LuceneAspspRepository implements AspspRepository {
     private static final String SEMICOLON_SEPARATOR = ";";
+    private static final String ZERO_OR_MORE_OF_ANY_CHARS_REGEX = ".*";
 
     private static final String ID_FIELD_NAME = "id";
     private static final String NAME_FIELD_NAME = "name";
@@ -252,12 +253,23 @@ public class LuceneAspspRepository implements AspspRepository {
 
     @Override
     public List<Aspsp> findByName(String name, String after, int size) {
-        Query query = getNameQuery(name);
-        return find(query, after, size);
+        BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
+        queryBuilder.add(getNameFuzzyQuery(name), BooleanClause.Occur.SHOULD);
+        queryBuilder.add(getNameRegexpQuery(name), BooleanClause.Occur.SHOULD);
+        return find(queryBuilder.build(), after, size);
     }
 
-    private Query getNameQuery(String name) {
+    private Query getNameFuzzyQuery(String name) {
         return new FuzzyQuery(new Term(NAME_FIELD_NAME, name));
+    }
+
+    private Query getNameRegexpQuery(String name) {
+        return new RegexpQuery(
+            new Term(
+                NAME_FIELD_NAME,
+                name + ZERO_OR_MORE_OF_ANY_CHARS_REGEX
+            )
+        );
     }
 
     @Override
@@ -270,7 +282,8 @@ public class LuceneAspspRepository implements AspspRepository {
     public List<Aspsp> findLike(Aspsp aspsp, String after, int size) {
         BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
         if (aspsp.getName() != null) {
-            queryBuilder.add(getNameQuery(aspsp.getName()), BooleanClause.Occur.SHOULD);
+            queryBuilder.add(getNameFuzzyQuery(aspsp.getName()), BooleanClause.Occur.SHOULD);
+            queryBuilder.add(getNameRegexpQuery(aspsp.getName()), BooleanClause.Occur.SHOULD);
         }
         if (aspsp.getBic() != null) {
             queryBuilder.add(getBicQuery(aspsp.getBic()), BooleanClause.Occur.SHOULD);
