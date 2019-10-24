@@ -24,6 +24,7 @@
 - Updated Fiducia `GET transactions` flow to make it respond with `400` on unsupported booking status in request
 - Pre-step OAuth - a non standard flow in PSD2 API which requires PSU authorization to create consent.
 A "preOauth" link will be returned on create consent to indicate this approach.
+- Integration with psd2-oauth-service can be activated with a parameter `integration.psd2-oauth-service.enabled=true` in the link:../../xs2a-adapter-service-api/src/main/resources/adapter.config.properties[adapter.config.properties]
 
 == Fixes:
 - UpdatePsuAuthenticationResponse mapping exception fixed

@@ -31,6 +31,12 @@ public final class AdapterConfig {
     private static final String ADAPTER_CONFIG_FILE_PATH_PROPERTY = "adapter.config.file.path";
     private static final String DEFAULT_ADAPTER_CONFIG_FILE = "adapter.config.properties";
     private static final Properties properties = new Properties();
+    private static final String PSD2_OAUTH_SERVICE_ENABLED = "integration.psd2-oauth-service.enabled";
+
+    public static boolean isPsd2OauthModuleIntegrationEnabled() {
+        return Boolean.parseBoolean(readProperty(PSD2_OAUTH_SERVICE_ENABLED, "false"));
+    }
+
 
     static {
         reload();
