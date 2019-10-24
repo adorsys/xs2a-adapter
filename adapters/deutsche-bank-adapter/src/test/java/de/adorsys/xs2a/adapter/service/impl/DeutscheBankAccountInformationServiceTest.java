@@ -37,8 +37,10 @@ public class DeutscheBankAccountInformationServiceTest {
 
         verify(httpClient, times(1)).post(eq(CONSENT_URL));
         Map<String, String> headers = requestBuilder.headers();
-        assertThat(headers).hasSize(2);
-        assertThat(headers).containsKey("Date");
-        assertThat(headers.get("Content-Type")).isEqualTo("application/json");
+        assertThat(headers).isNotNull();
+        assertThat(headers).isNotEmpty();
+        assertThat(headers).containsKey(RequestHeaders.DATE);
+        assertThat(headers).containsKey(RequestHeaders.PSU_ID);
+        assertThat(headers.get(RequestHeaders.CONTENT_TYPE)).isEqualTo("application/json");
     }
 }

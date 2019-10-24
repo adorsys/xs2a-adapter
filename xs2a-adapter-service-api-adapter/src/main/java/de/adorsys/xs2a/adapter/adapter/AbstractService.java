@@ -19,6 +19,7 @@ package de.adorsys.xs2a.adapter.adapter;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.JsonMapper;
 import de.adorsys.xs2a.adapter.http.StringUri;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.model.SinglePaymentInitiationBody;
 
@@ -33,6 +34,14 @@ public abstract class AbstractService {
 
     public AbstractService(HttpClient httpClient) {
         this.httpClient = httpClient;
+    }
+
+    protected Map<String, String> addPsuIdHeader(Map<String, String> headers) {
+        if (!headers.containsKey(RequestHeaders.PSU_ID)) {
+            headers.put(RequestHeaders.PSU_ID, "");
+        }
+
+        return headers;
     }
 
     protected Map<String, String> addConsentIdHeader(Map<String, String> headers) {
