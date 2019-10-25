@@ -1,10 +1,13 @@
 package de.adorsys.xs2a.adapter.http;
 
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.security.GeneralSecurityException;
@@ -23,14 +26,18 @@ public class ApacheHttpClientFactory implements HttpClientFactory {
     }
 
     @Override
-    public HttpClient getHttpClient(String adapterId, String qwacAlias) {
-        return cache.computeIfAbsent(adapterId, key -> createHttpClient(qwacAlias));
+    public HttpClient getHttpClient(String adapterId, String qwacAlias, String[] supportedCipherSuites) {
+        return cache.computeIfAbsent(adapterId, key -> createHttpClient(qwacAlias, supportedCipherSuites));
     }
 
-    private HttpClient createHttpClient(String qwacAlias) {
+    private HttpClient createHttpClient(String qwacAlias, String[] supportedCipherSuites) {
         synchronized (this) {
             CloseableHttpClient httpClient;
-            httpClientBuilder.setSSLContext(getSslContext(qwacAlias));
+            SSLContext sslContext = getSslContext(qwacAlias);
+            SSLSocketFactory socketFactory = sslContext.getSocketFactory();
+            SSLConnectionSocketFactory sslSocketFactory =
+                new SSLConnectionSocketFactory(socketFactory, null, supportedCipherSuites, (HostnameVerifier) null);
+            httpClientBuilder.setSSLSocketFactory(sslSocketFactory);
             httpClient = httpClientBuilder.build();
             return new ApacheHttpClient(httpClient);
         }

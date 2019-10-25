@@ -30,6 +30,8 @@ public class VerlagServiceProvider implements AccountInformationServiceProvider,
 
     private static final String VERLAG_API_KEY_NAME = "verlag.apikey.name";
     private static final String VERLAG_API_KEY_VALUE = "verlag.apikey.value";
+    private static final String[] SUPPORTED_CIPHER_SUITES =
+        {"TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384", "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"};
 
     private static AbstractMap.SimpleImmutableEntry<String, String> apiKeyEntry;
 
@@ -43,14 +45,14 @@ public class VerlagServiceProvider implements AccountInformationServiceProvider,
     public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
         return new VerlagAccountInformationService(baseUrl,
             apiKeyEntry,
-            httpClientFactory.getHttpClient(getAdapterId()));
+            httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES));
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
         return new VerlagPaymentInitiationService(baseUrl,
             apiKeyEntry,
-            httpClientFactory.getHttpClient(getAdapterId()));
+            httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES));
     }
 
     @Override

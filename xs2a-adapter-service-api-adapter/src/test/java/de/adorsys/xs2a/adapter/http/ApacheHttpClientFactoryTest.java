@@ -5,17 +5,23 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.net.ssl.SSLContext;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ApacheHttpClientFactoryTest {
 
     private ApacheHttpClientFactory factory;
 
     @Before
-    public void setUp() {
-        Pkcs12KeyStore mock = mock(Pkcs12KeyStore.class);
-        factory = new ApacheHttpClientFactory(HttpClientBuilder.create(), mock);
+    public void setUp() throws Exception {
+        Pkcs12KeyStore pkcs12KeyStore = mock(Pkcs12KeyStore.class);
+        when(pkcs12KeyStore.getSslContext(any()))
+            .thenReturn(SSLContext.getDefault());
+        factory = new ApacheHttpClientFactory(HttpClientBuilder.create(), pkcs12KeyStore);
     }
 
     @Test
