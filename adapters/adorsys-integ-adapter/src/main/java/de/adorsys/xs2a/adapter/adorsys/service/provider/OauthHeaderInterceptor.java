@@ -41,15 +41,21 @@ public class OauthHeaderInterceptor implements Request.Builder.Interceptor {
             return builder;
         }
 
-        int idx = bankCodes.indexOf(requestBankCode);
-        String oauthHeader = AdapterConfig.readProperty(OAUTH_HEADER_NAME, "");
-        String headerValue = AdapterConfig.readProperty(OAUTH_HEADER_VALUE, "true");
-        List<String> headerValues = Arrays.stream(headerValue.split(","))
-                                        .map(String::trim).collect(Collectors.toList());
-        if (!oauthHeader.isEmpty() && headerValues.size() > idx) {
-            builder.header(oauthHeader, headerValues.get(idx));
+        String oauthHeaderName = AdapterConfig.readProperty(OAUTH_HEADER_NAME, "");
+        String headerValue = getOauthHeaderValue(bankCodes, requestBankCode);
+
+        if (!oauthHeaderName.isEmpty() && !headerValue.isEmpty()) {
+            builder.header(oauthHeaderName, headerValue);
         }
 
         return builder;
+    }
+
+    private String getOauthHeaderValue(List<String> oauthBankCodes, String requestBankCode) {
+        int idx = oauthBankCodes.indexOf(requestBankCode);
+        String headerValue = AdapterConfig.readProperty(OAUTH_HEADER_VALUE, "true");
+        List<String> headerValues = Arrays.stream(headerValue.split(","))
+                                        .map(String::trim).collect(Collectors.toList());
+        return headerValues.size() > idx ? headerValues.get(idx) : "";
     }
 }
