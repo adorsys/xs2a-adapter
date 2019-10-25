@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
 public class OauthHeaderInterceptor implements Request.Builder.Interceptor {
 
     private static final String BANK_CODE_FOR_OAUTH = "adorsys.oauth_approach.bank_code";
+    private static final String OAUTH_HEADER_VALUE = "adorsys.oauth_approach.header_value";
     static final String OAUTH_HEADER_NAME = "adorsys.oauth_approach.header_name";
-    static final String OAUTH_HEADER_VALUE = "adorsys.oauth_approach.header_value";
 
     @Override
     public Request.Builder apply(Request.Builder builder) {
