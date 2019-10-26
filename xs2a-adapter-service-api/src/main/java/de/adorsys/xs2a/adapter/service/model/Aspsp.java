@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.service.model;
 import java.util.List;
 import java.util.Objects;
 
+// all setters should treat an empty value as null
 public class Aspsp {
     private String id;
     private String name;
@@ -19,7 +20,14 @@ public class Aspsp {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = emptyAsNull(id);
+    }
+
+    private String emptyAsNull(String s) {
+        if (s == null || s.trim().isEmpty()) {
+            return null;
+        }
+        return s;
     }
 
     public String getName() {
@@ -27,7 +35,7 @@ public class Aspsp {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = emptyAsNull(name);
     }
 
     public String getBic() {
@@ -35,7 +43,7 @@ public class Aspsp {
     }
 
     public void setBic(String bic) {
-        this.bic = bic;
+        this.bic = emptyAsNull(bic);
     }
 
     public String getBankCode() {
@@ -43,7 +51,7 @@ public class Aspsp {
     }
 
     public void setBankCode(String bankCode) {
-        this.bankCode = bankCode;
+        this.bankCode = emptyAsNull(bankCode);
     }
 
     public String getUrl() {
@@ -51,7 +59,7 @@ public class Aspsp {
     }
 
     public void setUrl(String url) {
-        this.url = url;
+        this.url = emptyAsNull(url);
     }
 
     public String getAdapterId() {
@@ -59,7 +67,7 @@ public class Aspsp {
     }
 
     public void setAdapterId(String adapterId) {
-        this.adapterId = adapterId;
+        this.adapterId = emptyAsNull(adapterId);
     }
 
     public String getIdpUrl() {
@@ -67,7 +75,7 @@ public class Aspsp {
     }
 
     public void setIdpUrl(String idpUrl) {
-        this.idpUrl = idpUrl;
+        this.idpUrl = emptyAsNull(idpUrl);
     }
 
     public List<AspspScaApproach> getScaApproaches() {
@@ -75,7 +83,14 @@ public class Aspsp {
     }
 
     public void setScaApproaches(List<AspspScaApproach> scaApproaches) {
-        this.scaApproaches = scaApproaches;
+        this.scaApproaches = emptyAsNull(scaApproaches);
+    }
+
+    private List<AspspScaApproach> emptyAsNull(List<AspspScaApproach> list) {
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+        return list;
     }
 
     public String getPaginationId() {

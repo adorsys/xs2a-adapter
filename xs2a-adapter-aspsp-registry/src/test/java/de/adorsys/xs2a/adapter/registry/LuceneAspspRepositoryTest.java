@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LuceneAspspRepositoryTest {
@@ -193,5 +194,27 @@ public class LuceneAspspRepositoryTest {
         aspsp3.setBankCode("123");
         List<Aspsp> found = luceneAspspRepository.findLike(aspsp3);
         assertThat(found).hasSize(2);
+    }
+
+    @Test
+    public void saveAllTreatsEmptyFieldsAsNull() {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setId(ASPSP_ID);
+        aspsp.setIdpUrl("");
+
+        luceneAspspRepository.saveAll(singletonList(aspsp));
+
+        Optional<Aspsp> found = luceneAspspRepository.findById(ASPSP_ID);
+        assertThat(found).get().extracting(Aspsp::getIdpUrl).isNull();
+    }
+
+    @Test
+    public void saveTreatsEmptyIdAsNull() {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setId("");
+
+        Aspsp saved = luceneAspspRepository.save(aspsp);
+
+        assertThat(saved.getId()).isNotEmpty();
     }
 }
