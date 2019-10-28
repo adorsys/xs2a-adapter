@@ -66,7 +66,7 @@ public class LuceneAspspRepository implements AspspRepository {
         }
     }
 
-    Aspsp save(IndexWriter indexWriter, Aspsp aspsp) throws IOException {
+    private Aspsp save(IndexWriter indexWriter, Aspsp aspsp) throws IOException {
         Optional<Aspsp> storedAspsp = Optional.empty();
 
         if (aspsp.getId() == null) {
