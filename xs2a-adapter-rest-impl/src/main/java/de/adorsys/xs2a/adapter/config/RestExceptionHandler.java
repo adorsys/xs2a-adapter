@@ -45,7 +45,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return exception.getErrorResponse()
                        .map(response -> {
                            String originalResponse = exception.getMessage();
-                           if (response.getTppMessages() == null && response.getLinks() == null && originalResponse != null && !originalResponse.isEmpty()) {
+                           if (response.isEmpty() && originalResponse != null && !originalResponse.isEmpty()) {
                                return new ResponseEntity<>(originalResponse, responseHeaders, status);
                            }
                            return new ResponseEntity<>(response, responseHeaders, status);
