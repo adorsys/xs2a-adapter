@@ -9,6 +9,7 @@ import de.adorsys.xs2a.adapter.registry.AspspServiceImpl;
 import de.adorsys.xs2a.adapter.registry.LuceneAspspRepositoryFactory;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.impl.AccountInformationServiceImpl;
+import de.adorsys.xs2a.adapter.service.impl.DownloadServiceImpl;
 import de.adorsys.xs2a.adapter.service.impl.PaymentInitiationServiceImpl;
 import de.adorsys.xs2a.adapter.service.loader.AdapterDelegatingOauth2Service;
 import de.adorsys.xs2a.adapter.service.loader.AdapterServiceLoader;
@@ -108,5 +109,10 @@ public class RestConfiguration {
     @Bean
     AspspService aspspService(AspspRepository aspspRepository, AspspCsvService aspspCsvService) {
         return new AspspServiceImpl(aspspRepository, aspspCsvService);
+    }
+
+    @Bean
+    DownloadService downloadService(AdapterServiceLoader adapterServiceLoader) {
+        return new DownloadServiceImpl(adapterServiceLoader);
     }
 }
