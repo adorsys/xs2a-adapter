@@ -33,17 +33,21 @@ public class ResponseHandlers {
             }
 
             PushbackInputStream pushbackResponseBody = new PushbackInputStream(responseBody);
+            String contentType = responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE);
 
             if (statusCode >= 400) {
-                if (isNotJson(pushbackResponseBody)) {
+                // this statement is needed as error response handling is different from the successful response
+                if (contentType == null || !contentType.startsWith(APPLICATION_JSON)) {
+                    if (isNotJson(pushbackResponseBody)) {
+                        throw responseException(statusCode, pushbackResponseBody, responseHeaders,
+                            ResponseHandlers::buildEmptyErrorResponse);
+                    }
                     throw responseException(statusCode, pushbackResponseBody, responseHeaders,
-                        ResponseHandlers::buildEmptyErrorResponse);
+                        ResponseHandlers::buildErrorResponseFromString);
                 }
-                throw responseException(statusCode, pushbackResponseBody, responseHeaders,
-                    ResponseHandlers::buildErrorResponseFromString);
+                throw new NotAcceptableException(String.format(
+                    "Content type %s is not acceptable, has to start with %s", contentType, APPLICATION_JSON));
             }
-
-            String contentType = responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE);
 
             if (contentType != null && !contentType.startsWith(APPLICATION_JSON)) {
                 throw new NotAcceptableException(String.format(
