@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +18,7 @@ import static de.adorsys.xs2a.adapter.http.ContentType.APPLICATION_JSON;
 
 public class ResponseHandlers {
     private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([^;]+)");
+    private static final ErrorResponse EMPTY_ERROR_RESPONSE = new ErrorResponse();
 
     private static final JsonMapper jsonMapper = new JsonMapper();
     private static final Logger log = LoggerFactory.getLogger(ResponseHandlers.class);
@@ -30,7 +32,22 @@ public class ResponseHandlers {
                 return null;
             }
 
+            PushbackInputStream pushbackResponseBody = new PushbackInputStream(responseBody);
             String contentType = responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE);
+
+            if (statusCode >= 400) {
+                // this statement is needed as error response handling is different from the successful response
+                if (contentType == null || !contentType.startsWith(APPLICATION_JSON)) {
+                    if (isNotJson(pushbackResponseBody)) {
+                        throw responseException(statusCode, pushbackResponseBody, responseHeaders,
+                            ResponseHandlers::buildEmptyErrorResponse);
+                    }
+                    throw responseException(statusCode, pushbackResponseBody, responseHeaders,
+                        ResponseHandlers::buildErrorResponseFromString);
+                }
+                throw new NotAcceptableException(String.format(
+                    "Content type %s is not acceptable, has to start with %s", contentType, APPLICATION_JSON));
+            }
 
             if (contentType != null && !contentType.startsWith(APPLICATION_JSON)) {
                 throw new NotAcceptableException(String.format(
@@ -41,19 +58,49 @@ public class ResponseHandlers {
                 return jsonMapper.readValue(responseBody, klass);
             }
 
-            throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
+            // will be invoked for not expected 2xx and 3xx statuses
+            throw responseException(statusCode, pushbackResponseBody, responseHeaders,
+                ResponseHandlers::buildErrorResponseFromString);
         };
+    }
+
+    private static boolean isNotJson(PushbackInputStream responseBody) {
+        try {
+            int data = responseBody.read();
+            responseBody.unread(data);
+
+            if (data != -1) {
+                char firstChar = (char) data;
+                // There are only 2 possible char options here: '{' (JSON) and '<' (XML and HTML).
+                // ASCII code of '{' is 123 and ASCII code of '<' is 66,
+                // so the scope of the byte is enough for this purpose.
+                return firstChar != '{';
+            }
+
+            return true;
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     private static ErrorResponseException responseException(int statusCode,
                                                             PushbackInputStream responseBody,
-                                                            ResponseHeaders responseHeaders) {
+                                                            ResponseHeaders responseHeaders,
+                                                            Function<String, ErrorResponse> errorResponseBuilder) {
         if (isEmpty(responseBody)) {
             return new ErrorResponseException(statusCode, responseHeaders);
         }
         String originalResponse = toString(responseBody, responseHeaders);
-        ErrorResponse errorResponse = jsonMapper.readValue(originalResponse, ErrorResponse.class);
+        ErrorResponse errorResponse = errorResponseBuilder.apply(originalResponse);
         return new ErrorResponseException(statusCode, responseHeaders, errorResponse, originalResponse);
+    }
+
+    private static ErrorResponse buildErrorResponseFromString(String originalResponse) {
+        return jsonMapper.readValue(originalResponse, ErrorResponse.class);
+    }
+
+    private static ErrorResponse buildEmptyErrorResponse(String originalResponse) {
+        return EMPTY_ERROR_RESPONSE;
     }
 
     private static boolean isEmpty(PushbackInputStream responseBody) {
@@ -75,7 +122,8 @@ public class ResponseHandlers {
                 return toString(responseBody, responseHeaders);
             }
 
-            throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
+            throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders,
+                ResponseHandlers::buildEmptyErrorResponse);
         };
     }
 

@@ -38,4 +38,8 @@ public class ErrorResponse {
     public void setLinks(Links links) {
         this.links = links;
     }
+
+    public boolean isEmpty() {
+        return tppMessages == null && links == null;
+    }
 }

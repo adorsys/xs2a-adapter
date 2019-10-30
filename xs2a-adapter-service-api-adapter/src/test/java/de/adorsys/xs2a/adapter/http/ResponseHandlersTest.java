@@ -35,6 +35,18 @@ public class ResponseHandlersTest {
     }
 
     @Test
+    public void jsonResponseHandlerThrowsErrorOnUnsupportedFormatBody() {
+        try {
+            ResponseHandlers.jsonResponseHandler(Amount.class).apply(400,
+                new ByteArrayInputStream("<response>" .getBytes()),
+                ResponseHeaders.emptyResponseHeaders());
+            fail();
+        } catch (ErrorResponseException e) {
+            assertThat(e.getMessage()).isEqualTo("<response>");
+        }
+    }
+
+    @Test
     public void stringResponseHandlerReturnsResponseBodyAsStringOnSuccessfulResponse() {
         String response = ResponseHandlers.stringResponseHandler().apply(200,
             new ByteArrayInputStream("<response>" .getBytes()),
