@@ -26,7 +26,7 @@ public class DownloadController {
     }
 
     @GetMapping(V1_DOWNLOAD)
-    public ResponseEntity<byte[]> download(@RequestParam String downloadUrl,
+    public ResponseEntity<byte[]> download(@RequestParam("url") String downloadUrl,
                                            @RequestHeader Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
