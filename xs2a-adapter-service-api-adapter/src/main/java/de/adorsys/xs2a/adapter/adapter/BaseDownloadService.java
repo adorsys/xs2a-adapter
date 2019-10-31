@@ -6,6 +6,7 @@ import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.DownloadService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 
 import java.util.Map;
 
@@ -33,9 +34,15 @@ public class BaseDownloadService extends AbstractService implements DownloadServ
     public Response<byte[]> download(String downloadUrl, RequestHeaders requestHeaders) {
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
-        return httpClient.get(modifyDownloadUrl(downloadUrl))
-                   .headers(headersMap)
-                   .send(requestBuilderInterceptor, byteArrayResponseHandler());
+        Response<byte[]> response = httpClient.get(modifyDownloadUrl(downloadUrl))
+                                    .headers(headersMap)
+                                    .send(requestBuilderInterceptor, byteArrayResponseHandler());
+
+        return new Response<>(
+            response.getStatusCode(),
+            response.getBody(),
+            modifyResponseHeaders(response.getHeaders())
+        );
     }
 
     protected String modifyDownloadUrl(String downloadUrl) {
@@ -48,5 +55,11 @@ public class BaseDownloadService extends AbstractService implements DownloadServ
         }
 
         return downloadUrl;
+    }
+
+    protected ResponseHeaders modifyResponseHeaders(ResponseHeaders responseHeaders) {
+        Map<String, String> headersMap = responseHeaders.getHeadersMap();
+        headersMap.put(ResponseHeaders.CONTENT_TYPE, "application/octet-stream");
+        return ResponseHeaders.fromMap(headersMap);
     }
 }
