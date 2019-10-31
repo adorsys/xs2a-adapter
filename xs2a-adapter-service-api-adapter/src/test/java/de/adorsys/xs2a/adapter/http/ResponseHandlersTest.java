@@ -54,4 +54,26 @@ public class ResponseHandlersTest {
             assertThat(e.getMessage()).isEqualTo("{}");
         }
     }
+
+    @Test
+    public void byteArrayResponseHandlerThrowsOnErrorResponse() {
+        try {
+            ResponseHandlers.byteArrayResponseHandler().apply(400,
+                new ByteArrayInputStream("{}" .getBytes()),
+                ResponseHeaders.emptyResponseHeaders());
+            fail();
+        } catch (ErrorResponseException e) {
+            assertThat(e.getMessage()).isEqualTo("{}");
+        }
+    }
+
+
+    @Test
+    public void byteArrayResponseHandlerReturnsResponseBodyAsByteArrayOnSuccessfulResponse() {
+        byte[] response = ResponseHandlers.byteArrayResponseHandler().apply(200,
+            new ByteArrayInputStream("<response>" .getBytes()),
+            ResponseHeaders.emptyResponseHeaders());
+
+        assertThat(response).isEqualTo("<response>".getBytes());
+    }
 }
