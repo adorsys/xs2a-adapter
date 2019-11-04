@@ -7,6 +7,7 @@ import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundExcept
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.AdapterServiceProvider;
+import de.adorsys.xs2a.adapter.service.provider.DownloadServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 import org.slf4j.MDC;
 
@@ -92,5 +93,14 @@ public class AdapterServiceLoader {
         return getServiceProvider(Oauth2ServiceFactory.class, adapterId)
             .orElseThrow(() -> new AdapterNotFoundException(adapterId))
             .getOauth2Service(baseUrl, httpClientFactory, keyStore);
+    }
+
+    public DownloadService getDownloadService(RequestHeaders requestHeaders) {
+        Aspsp aspsp = getAspsp(requestHeaders);
+        String adapterId = aspsp.getAdapterId();
+        String baseUrl = Optional.ofNullable(aspsp.getIdpUrl()).orElseGet(aspsp::getUrl);
+        return getServiceProvider(DownloadServiceProvider.class, adapterId)
+                   .orElseThrow(() -> new AdapterNotFoundException(adapterId))
+                   .getDownloadService(baseUrl, httpClientFactory, keyStore);
     }
 }

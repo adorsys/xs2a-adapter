@@ -127,25 +127,50 @@ public class ResponseHandlers {
         };
     }
 
+    public static HttpClient.ResponseHandler<byte[]> byteArrayResponseHandler() {
+        return (statusCode, responseBody, responseHeaders) -> {
+            if (statusCode == 200) {
+                return toByteArray(responseBody);
+            }
+
+            throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders,
+                ResponseHandlers::buildEmptyErrorResponse);
+        };
+    }
+
     private static String toString(InputStream responseBody, ResponseHeaders responseHeaders) {
+        String charset = StandardCharsets.UTF_8.name();
+        String contentType = responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE);
+        if (contentType != null) {
+            Matcher matcher = CHARSET_PATTERN.matcher(contentType);
+            if (matcher.find()) {
+                charset = matcher.group(1);
+            }
+        }
+
+        log.debug("{} charset will be used for response body parsing", charset);
+
+        try {
+            return readResponseBodyAsByteArrayOutputStream(responseBody)
+                       .toString(charset);
+        } catch (UnsupportedEncodingException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    private static byte[] toByteArray(InputStream responseBody) {
+        return readResponseBodyAsByteArrayOutputStream(responseBody)
+            .toByteArray();
+    }
+
+    private static ByteArrayOutputStream readResponseBodyAsByteArrayOutputStream(InputStream responseBody) {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[1024];
             int length;
             while ((length = responseBody.read(buffer)) != -1) {
                 baos.write(buffer, 0, length);
             }
-
-            String charset = StandardCharsets.UTF_8.name();
-            String contentType = responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE);
-            if (contentType != null) {
-                Matcher matcher = CHARSET_PATTERN.matcher(contentType);
-                if (matcher.find()) {
-                    charset = matcher.group(1);
-                }
-            }
-
-            log.debug("{} charset is used for response body parsing", charset);
-            return baos.toString(charset);
+            return baos;
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

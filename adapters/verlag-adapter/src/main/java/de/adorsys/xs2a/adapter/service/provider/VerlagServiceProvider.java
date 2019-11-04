@@ -16,8 +16,10 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
+import de.adorsys.xs2a.adapter.adapter.BaseDownloadService;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.DownloadService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
@@ -26,7 +28,8 @@ import de.adorsys.xs2a.adapter.service.impl.VerlagPaymentInitiationService;
 
 import java.util.AbstractMap;
 
-public class VerlagServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+public class VerlagServiceProvider
+    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, DownloadServiceProvider {
 
     private static final String VERLAG_API_KEY_NAME = "verlag.apikey.name";
     private static final String VERLAG_API_KEY_VALUE = "verlag.apikey.value";
@@ -53,6 +56,11 @@ public class VerlagServiceProvider implements AccountInformationServiceProvider,
         return new VerlagPaymentInitiationService(baseUrl,
             apiKeyEntry,
             httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES));
+    }
+
+    @Override
+    public DownloadService getDownloadService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new BaseDownloadService(baseUrl, httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES));
     }
 
     @Override

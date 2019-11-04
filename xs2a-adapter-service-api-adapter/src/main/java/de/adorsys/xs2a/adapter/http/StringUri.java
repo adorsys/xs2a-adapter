@@ -3,9 +3,11 @@ package de.adorsys.xs2a.adapter.http;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class StringUri {
+    private static final Pattern VERSION_PATTERN = Pattern.compile("\\bv\\d+");
     private static final String SPACE = " ";
     private static final String ENCODED_SPACE = "%20";
 
@@ -69,5 +71,17 @@ public class StringUri {
 
     private static String formatUri(String uri) {
         return uri.replace(SPACE, ENCODED_SPACE);
+    }
+
+    public static boolean isUri(String stringToCheck) {
+        return stringToCheck.startsWith("/") || startsWithVersion(stringToCheck);
+    }
+
+    private static boolean startsWithVersion(String stringToCheck) {
+        return VERSION_PATTERN.matcher(stringToCheck.split("/")[0]).find();
+    }
+
+    public static boolean containsProtocol(String urlToCheck) {
+        return urlToCheck.contains("://");
     }
 }

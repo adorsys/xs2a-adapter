@@ -16,14 +16,17 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
+import de.adorsys.xs2a.adapter.adapter.BaseDownloadService;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.DownloadService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.impl.DeutscheBankAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.DeutscheBankPaymentInitiationService;
 
-public class DeutscheBankServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+public class DeutscheBankServiceProvider
+    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, DownloadServiceProvider {
     private static final String SERVICE_GROUP_PLACEHOLDER = "{Service Group}";
 
     @Override
@@ -36,6 +39,11 @@ public class DeutscheBankServiceProvider implements AccountInformationServicePro
     public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
         return new DeutscheBankPaymentInitiationService(baseUrl.replace(SERVICE_GROUP_PLACEHOLDER, "pis"),
             httpClientFactory.getHttpClient(getAdapterId()));
+    }
+
+    @Override
+    public DownloadService getDownloadService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new BaseDownloadService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
     }
 
     @Override
