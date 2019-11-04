@@ -27,6 +27,7 @@ public class DownloadServiceImplTest {
 
     @Mock
     private AdapterServiceLoader adapterServiceLoader;
+
     @Mock
     private DownloadService downloadService;
 

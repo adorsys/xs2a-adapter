@@ -98,7 +98,7 @@ public class AdapterServiceLoader {
     public DownloadService getDownloadService(RequestHeaders requestHeaders) {
         Aspsp aspsp = getAspsp(requestHeaders);
         String adapterId = aspsp.getAdapterId();
-        String baseUrl = aspsp.getIdpUrl() != null ? aspsp.getIdpUrl() : aspsp.getUrl();
+        String baseUrl = Optional.ofNullable(aspsp.getIdpUrl()).orElseGet(aspsp::getUrl);
         return getServiceProvider(DownloadServiceProvider.class, adapterId)
                    .orElseThrow(() -> new AdapterNotFoundException(adapterId))
                    .getDownloadService(baseUrl, httpClientFactory, keyStore);

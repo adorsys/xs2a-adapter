@@ -49,9 +49,9 @@ public class ConsentControllerTest {
 
     @Mock
     private AccountInformationService accountInformationService;
+
     @Mock
     private HeadersMapper headersMapper;
-
 
     @Before
     public void setUp() {
