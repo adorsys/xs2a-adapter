@@ -6,11 +6,14 @@ import de.adorsys.xs2a.adapter.service.model.Amount;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
 public class ResponseHandlersTest {
+    private static final String CONTENT_TYPE_HEADER = "Content-Type";
 
     @Test
     public void jsonResponseHandlerParsesOnSuccessfulResponse() {
@@ -43,6 +46,36 @@ public class ResponseHandlersTest {
             fail();
         } catch (ErrorResponseException e) {
             assertThat(e.getMessage()).isEqualTo("<response>");
+        }
+    }
+
+    @Test
+    public void jsonResponseHandlerThrowsErrorOnUnsupportedContentType() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put(CONTENT_TYPE_HEADER, "application/xml");
+
+        try {
+            ResponseHandlers.jsonResponseHandler(Amount.class).apply(400,
+                new ByteArrayInputStream("<response>" .getBytes()),
+                ResponseHeaders.fromMap(headers));
+            fail();
+        } catch (ErrorResponseException e) {
+            assertThat(e.getMessage()).isEqualTo("<response>");
+        }
+    }
+
+    @Test
+    public void jsonResponseHandlerThrowsErrorInJsonFormat() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put(CONTENT_TYPE_HEADER, "application/json");
+
+        try {
+            ResponseHandlers.jsonResponseHandler(Amount.class).apply(400,
+                new ByteArrayInputStream("{}" .getBytes()),
+                ResponseHeaders.fromMap(headers));
+            fail();
+        } catch (ErrorResponseException e) {
+            assertThat(e.getMessage()).isEqualTo("{}");
         }
     }
 
