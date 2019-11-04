@@ -133,7 +133,8 @@ public class ResponseHandlers {
                 return toByteArray(responseBody);
             }
 
-            throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders);
+            throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders,
+                ResponseHandlers::buildEmptyErrorResponse);
         };
     }
 
