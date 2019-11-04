@@ -42,11 +42,9 @@ public class ResponseHandlers {
                         throw responseException(statusCode, pushbackResponseBody, responseHeaders,
                             ResponseHandlers::buildEmptyErrorResponse);
                     }
-                    throw responseException(statusCode, pushbackResponseBody, responseHeaders,
-                        ResponseHandlers::buildErrorResponseFromString);
                 }
-                throw new NotAcceptableException(String.format(
-                    "Content type %s is not acceptable, has to start with %s", contentType, APPLICATION_JSON));
+                throw responseException(statusCode, pushbackResponseBody, responseHeaders,
+                    ResponseHandlers::buildErrorResponseFromString);
             }
 
             if (contentType != null && !contentType.startsWith(APPLICATION_JSON)) {
