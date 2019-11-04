@@ -24,6 +24,7 @@
 - Updated Fiducia `GET transactions` flow to make it respond with `400` on unsupported booking status in request
 - Pre-step OAuth - a non standard flow in PSD2 API which requires PSU authorization to create consent.
 A "preOauth" link will be returned on create consent to indicate this approach.
+- Added `download url` endpoint, that receives download url as a request param, downloads the data from that url and returns it as a byte array withtin the response body.
 
 == Fixes:
 - UpdatePsuAuthenticationResponse mapping exception fixed
