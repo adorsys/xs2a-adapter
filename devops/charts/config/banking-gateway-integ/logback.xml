@@ -16,7 +16,7 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>custom-config/audit.log</file>
+        <file>logs/audit.log</file>
         <encoder>
             <pattern>%date %X{operation} [%X{correlationId}] [%X{bankCode}] [%X{iban}] [%X{adapterId}] [%X{approach}] [%X{consentModel}] %msg%n</pattern>
         </encoder>

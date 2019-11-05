@@ -1,8 +1,8 @@
----
+{{- if and .Values.logback.enabled }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: xs2a-adapter-config
+  name: xs2a-adapter-pvc
   labels:
     app: xs2a-adapter
 spec:
@@ -11,3 +11,4 @@ spec:
   resources:
     requests:
       storage: 1Gi
+{{- end }}
