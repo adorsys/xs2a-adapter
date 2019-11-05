@@ -23,6 +23,8 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
+import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
+import de.adorsys.xs2a.adapter.service.model.Consents;
 import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
 
 import java.time.ZonedDateTime;
@@ -70,6 +72,17 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
     protected Map<String, String> populateDeleteHeaders(Map<String, String> headers) {
         headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
         return headers;
+    }
+
+    @Override
+    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
+        modifyRecurringIndicator(body);
+        return super.createConsent(requestHeaders, body);
+    }
+
+    // Needed to fix the issue on Fiducia side: ASPSP doesn't accept recurring indicator being equal to false.
+    private void modifyRecurringIndicator(Consents body) {
+        body.setRecurringIndicator(true);
     }
 
     @Override
