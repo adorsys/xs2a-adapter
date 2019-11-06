@@ -76,7 +76,7 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
 
     private RequestHeaders modifyAcceptHeader(RequestHeaders requestHeaders, String acceptHeader) {
         Map<String, String> headersMap = requestHeaders.toMap();
-        headersMap.put(RequestHeaders.ACCEPT, ACCEPT_XML);
+        headersMap.put(RequestHeaders.ACCEPT, acceptHeader);
         return RequestHeaders.fromMap(headersMap);
     }
 
