@@ -7,3 +7,6 @@
     oc get secrets
     
     oc delete secret <secret name>
+
+## Chart deployment and configuration files
+https://git.adorsys.de/adorsys/xs2a-adapter

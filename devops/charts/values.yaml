@@ -1,2 +1,10 @@
 ---
 timezone: Europe/Berlin
+
+adapter:
+  # external aspsp config indicator
+  aspspConfig: false
+
+logback:
+  # external logging config indicator
+  enabled: false

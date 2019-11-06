@@ -12,10 +12,8 @@ spec:
     deploymentconfig: xs2a-adapter
   template:
     metadata:
-      {{- if .Values.logback.enabled }}
       annotations:
-      checksum/config: {{ include (print $.Template.BasePath "/xs2a-adapter/configmap.yaml") . | sha256sum }}
-      {{- end }}
+        checksum/config: {{ include (print $.Template.BasePath "/xs2a-adapter/configmap.yaml") . | sha256sum }}
       labels:
         app: xs2a-adapter
         deploymentconfig: xs2a-adapter
@@ -26,14 +24,14 @@ spec:
               value: dev,sandbox
             {{- if .Values.adapter.aspspConfig }}
             - name: csv.aspsp.adapter.config.file.path
-              value: /opt/xs2a-adapter/custom-config/aspsp-adapter-config.csv
+              value: /opt/xs2a-adapter/conf/aspsp-adapter-config.csv
             {{- end }}
             {{- if .Values.logback.enabled }}
             - name: LOGGING_CONFIG
-              value: /data/logback.xml
+              value: /opt/xs2a-adapter/conf/logback.xml
             {{- end }}
             - name: adapter.config.file.path
-              value: /opt/xs2a-adapter/custom-config/adapter.config.properties
+              value: /opt/xs2a-adapter/conf/adapter.config.properties
             - name: PKCS12_KEY_STORE_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -56,13 +54,12 @@ spec:
           volumeMounts:
             - name: pkcs12-key-store-secret-volume
               mountPath: /pkcs12
-            - name: xs2a-adapter-config
-              mountPath: /opt/xs2a-adapter/custom-config
-            {{- if .Values.logback.enabled }}
-            - name: logging-config
-              mountPath: /data/logback.xml
-              subPath: logback.xml
+            {{- if and .Values.logback.enabled }}
+            - name: persistent-volume
+              mountPath: /opt/xs2a-adapter/logs
             {{- end }}
+            - name: configmap-volume
+              mountPath: /opt/xs2a-adapter/conf
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -72,15 +69,15 @@ spec:
         - name: pkcs12-key-store-secret-volume
           secret:
             secretName: pkcs12-key-store-secret
-        - name: xs2a-adapter-config
+        {{- if and .Values.logback.enabled }}
+        - name: persistent-volume
           persistentVolumeClaim:
-            claimName: xs2a-adapter-config
-        {{- if .Values.logback.enabled }}
+            claimName: xs2a-adapter-pvc
+        {{- end }}
         - configMap:
             defaultMode: 292
-            name: xs2a-adapter-logging-config
-          name: logging-config
-        {{- end }}
+            name: xs2a-adapter-config
+          name: configmap-volume
   test: false
   triggers:
     - type: ConfigChange

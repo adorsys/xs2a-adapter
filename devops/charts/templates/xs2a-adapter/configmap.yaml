@@ -1,11 +1,17 @@
-{{- if and .Values.logback.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: xs2a-adapter-logging-config
+  name: xs2a-adapter-config
   labels:
-    app: xs2a-adapter 
+    app: xs2a-adapter
 data:
+  {{- if and .Values.logback.enabled }}
   logback.xml: |
     {{- (.Files.Get (.Values.logback.file)) | nindent 4 }}
-{{- end }}
+  {{- end }}
+  {{- if .Values.adapter.aspspConfig }}
+  aspsp-adapter-config.csv: |
+    {{- (.Files.Get (.Values.adapter.aspspConfigFile)) | nindent 4 }}
+  {{- end }}
+  adapter.config.properties: |
+    {{- (.Files.Get (.Values.adapter.adapterConfigFile)) | nindent 4 }}
