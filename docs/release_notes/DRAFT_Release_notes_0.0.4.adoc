@@ -35,3 +35,4 @@ A "preOauth" link will be returned on create consent to indicate this approach.
 - `xs2a-adapter-service-api`. BasePaymentInitiationService - fix initiateSinglePayment URL, change path constants visibility so they can be reused in extensions
 - `xs2a-adapter-rest-impl`. index, main - fixed bug with copy-pasted values from data tables
 - fixed searching of ASPSP by name by making it elastic (possibility to search by the part of the name)
+- provided mapping of `Accept` header for Verlag adapter.
