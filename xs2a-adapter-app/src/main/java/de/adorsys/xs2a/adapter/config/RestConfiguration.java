@@ -3,9 +3,7 @@ package de.adorsys.xs2a.adapter.config;
 import de.adorsys.xs2a.adapter.http.ApacheHttpClientFactory;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
-import de.adorsys.xs2a.adapter.registry.AspspCsvServiceImpl;
 import de.adorsys.xs2a.adapter.registry.AspspSearchServiceImpl;
-import de.adorsys.xs2a.adapter.registry.AspspServiceImpl;
 import de.adorsys.xs2a.adapter.registry.LuceneAspspRepositoryFactory;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.impl.AccountInformationServiceImpl;
@@ -99,16 +97,6 @@ public class RestConfiguration {
     Pkcs12KeyStore pkcs12KeyStore() throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
         char[] keyStorePassword = System.getProperty("pkcs12.keyStorePassword", "").toCharArray();
         return new Pkcs12KeyStore(System.getProperty("pkcs12.keyStore"), keyStorePassword);
-    }
-
-    @Bean
-    AspspCsvService aspspCsvService(AspspRepository aspspRepository) {
-        return new AspspCsvServiceImpl(aspspRepository);
-    }
-
-    @Bean
-    AspspService aspspService(AspspRepository aspspRepository, AspspCsvService aspspCsvService) {
-        return new AspspServiceImpl(aspspRepository, aspspCsvService);
     }
 
     @Bean
