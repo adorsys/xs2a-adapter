@@ -25,6 +25,7 @@ import de.adorsys.xs2a.adapter.service.Response;
 import java.util.AbstractMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class VerlagAccountInformationService extends BaseAccountInformationService {
     private static final String ACCEPT_ALL = "*/*";
@@ -43,19 +44,40 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
     }
 
     // Needed to deal with the behaviour of ASPSP, that responds with 406
-    // on non existing, empty or equal to */* Accept header
+    // on non existing, empty, equal to */* or list formatted Accept header
     private RequestHeaders modifyAcceptHeader(RequestHeaders requestHeaders) {
         Optional<String> acceptHeaderOptional = requestHeaders.get(RequestHeaders.ACCEPT);
 
         if (!acceptHeaderOptional.isPresent()
                 || acceptHeaderOptional.get().isEmpty()
                 || acceptHeaderOptional.get().equals(ACCEPT_ALL)) {
-            Map<String, String> headersMap = requestHeaders.toMap();
-            headersMap.put(RequestHeaders.ACCEPT, ACCEPT_XML);
-            requestHeaders = RequestHeaders.fromMap(headersMap);
+            requestHeaders = modifyAcceptHeader(requestHeaders, ACCEPT_XML);
+        } else if (acceptHeaderIsAListOfValues(acceptHeaderOptional.get())) {
+            String[] acceptHeaderValues = acceptHeaderOptional.get().split(",");
+
+            if (containsXml(acceptHeaderValues)) {
+                requestHeaders = modifyAcceptHeader(requestHeaders, ACCEPT_XML);
+            } else {
+                requestHeaders = modifyAcceptHeader(requestHeaders, acceptHeaderValues[0]);
+            }
         }
 
         return requestHeaders;
+    }
+
+    private boolean acceptHeaderIsAListOfValues(String acceptHeader) {
+        return acceptHeader.contains(",");
+    }
+
+    private boolean containsXml(String[] acceptHeaderValues) {
+        return Stream.of(acceptHeaderValues)
+                   .anyMatch(accept -> accept.contains(ACCEPT_XML));
+    }
+
+    private RequestHeaders modifyAcceptHeader(RequestHeaders requestHeaders, String acceptHeader) {
+        Map<String, String> headersMap = requestHeaders.toMap();
+        headersMap.put(RequestHeaders.ACCEPT, ACCEPT_XML);
+        return RequestHeaders.fromMap(headersMap);
     }
 
     @Override
