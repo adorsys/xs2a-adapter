@@ -22,6 +22,12 @@ import java.util.function.Function;
 import static de.adorsys.xs2a.adapter.service.ResponseHeaders.emptyResponseHeaders;
 import static java.util.Collections.singletonMap;
 
+/**
+ * @deprecated
+ * This controller is no longer acceptable and will be removed in future releases.
+ * <p>Use {@link ConsentController} instead.</p>
+ */
+@Deprecated
 @RestController
 public class Psd2AccountInformationController implements Psd2AccountInformationApi {
 
