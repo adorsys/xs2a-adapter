@@ -1,4 +1,4 @@
-language: generic
+language: java
 
 # Build only commits on master and release tags for the "Build pushed branches" feature.
 # This prevents building twice on PRs originating from our repo ("Build pushed pull requests)".
