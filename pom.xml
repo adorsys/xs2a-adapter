@@ -5,7 +5,7 @@
 
     <groupId>de.adorsys.xs2a.adapter</groupId>
     <artifactId>xs2a-adapter</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.4</version>
     <packaging>pom</packaging>
 
     <name>xs2a-adapter</name>
