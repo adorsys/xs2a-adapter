@@ -7,6 +7,10 @@
 
 |===
 
+== Notices:
+- *ING* adapter marked as `deprecated` and will be removed in future releases
+- *PSD2 API* marked as `deprecated` and will be removed in future releases
+
 == Features:
 - Adapters configuration moved to the link:../../xs2a-adapter-service-api/src/main/resources/adapter.config.properties[adapter.config.properties] file
 - Masking of sensitive data in the logs
