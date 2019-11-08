@@ -71,7 +71,7 @@ public class AdapterServiceLoader {
             aspsps = aspspRepository.findByBic(bic.get());
         }
 
-        if (aspsps.size() == 0) {
+        if (aspsps.isEmpty()) {
             throw new AspspRegistrationNotFoundException(
                 buildAspspNotFoundErrorMessage(bankCode.orElse(EMPTY_STRING), bic.orElse(EMPTY_STRING))
             );
