@@ -9,5 +9,7 @@
 == Notices:
 
 == Features:
+- Introduce `aspsp_registry.support_multiple_records` parameter for supporting multiple records
+in the search result. Get more details from link:../../xs2a-adapter-service-api/src/main/resources/adapter.config.properties[adapter.config.properties]
 
 == Fixes:

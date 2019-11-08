@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.service.loader;
 
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
 import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
@@ -52,7 +53,7 @@ public class AdapterServiceLoader {
             List<Aspsp> aspsps = aspspRepository.findByBankCode(bankCode.get());
             if (aspsps.size() == 0) {
                 throw new AspspRegistrationNotFoundException("No ASPSP was found with bank code: " + bankCode.get());
-            } else if (aspsps.size() > 1) {
+            } else if (aspsps.size() > 1 && !AdapterConfig.multipleRecordsSupported()) {
                 throw new AspspRegistrationNotFoundException("The ASPSP could not be identified: " + aspsps.size()
                     + " registry entries found for bank code " + bankCode.get());
             }
