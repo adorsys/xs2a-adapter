@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -194,6 +195,70 @@ public class LuceneAspspRepositoryTest {
         aspsp3.setBankCode("123");
         List<Aspsp> found = luceneAspspRepository.findLike(aspsp3);
         assertThat(found).hasSize(2);
+    }
+
+    @Test
+    public void findLikeShouldFollowTheStrictOrder() {
+        List<Aspsp> expected = Arrays.asList(
+            buildAspsp("TESTBICA", "111111", "SomeBank"),
+            buildAspsp("TESTBICA", "111111"),
+            buildAspsp("TESTBICA", "111111"),
+            buildAspsp("TESTBICA", "111111"),
+            buildAspsp("TESTBICA", "111111"),
+            buildAspsp("TESTBICA", "111111"),
+            buildAspsp("TESTBICA", null),
+            buildAspsp("TESTBICA", null),
+            buildAspsp(null, "111111"),
+            buildAspsp(null, "111111")
+        );
+
+        luceneAspspRepository.save(buildAspsp("TESTBICA", "111111"));
+        luceneAspspRepository.save(buildAspsp("TESTBICA", "111111"));
+        luceneAspspRepository.save(buildAspsp("TESTBICA", "111111"));
+        luceneAspspRepository.save(buildAspsp("TESTBICA", "111111"));
+        luceneAspspRepository.save(buildAspsp("TESTBICA", "111111"));
+        luceneAspspRepository.save(buildAspsp("TESTBICB", "222222"));
+        luceneAspspRepository.save(buildAspsp("TESTBICC", "333333"));
+        luceneAspspRepository.save(buildAspsp("TESTBICD", "444444"));
+        luceneAspspRepository.save(buildAspsp("TESTBICE", "555555"));
+        luceneAspspRepository.save(buildAspsp(null, "111111"));
+        luceneAspspRepository.save(buildAspsp(null, "111111"));
+        luceneAspspRepository.save(buildAspsp(null, "111111"));
+        luceneAspspRepository.save(buildAspsp(null, "111111"));
+        luceneAspspRepository.save(buildAspsp("TESTBICA", null));
+        luceneAspspRepository.save(buildAspsp("TESTBICA", null));
+        luceneAspspRepository.save(buildAspsp("TESTBICA", "111111", "SomeBank"));
+
+        List<Aspsp> actual = luceneAspspRepository.findLike(buildAspsp("TESTBICA", "111111", "SomeBank"));
+
+        assertThat(actual).hasSize(10);
+        assertThatOrderIsTheSame(actual, expected);
+    }
+
+    private Aspsp buildAspsp(String bic, String bankCode) {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setBic(bic);
+        aspsp.setBankCode(bankCode);
+        return aspsp;
+    }
+
+    private Aspsp buildAspsp(String bic, String bankCode, String name) {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setBic(bic);
+        aspsp.setBankCode(bankCode);
+        aspsp.setName(name);
+        return aspsp;
+    }
+
+    private void assertThatOrderIsTheSame(List<Aspsp> actual, List<Aspsp> expected) {
+        for (int i = 0; i < actual.size(); i++) {
+            Aspsp actualAspsp = actual.get(i);
+            Aspsp expectedAspsp = expected.get(i);
+
+            assertThat(actualAspsp.getBic()).isEqualTo(expectedAspsp.getBic());
+            assertThat(actualAspsp.getBankCode()).isEqualTo(expectedAspsp.getBankCode());
+            assertThat(actualAspsp.getName()).isEqualTo(expectedAspsp.getName());
+        }
     }
 
     @Test
