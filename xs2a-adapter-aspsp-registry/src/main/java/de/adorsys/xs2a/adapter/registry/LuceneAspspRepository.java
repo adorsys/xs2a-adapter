@@ -21,6 +21,9 @@ import static java.util.stream.Collectors.toList;
 public class LuceneAspspRepository implements AspspRepository {
     private static final String SEMICOLON_SEPARATOR = ";";
     private static final String ZERO_OR_MORE_OF_ANY_CHARS_REGEX = ".*";
+    private static final float HIGH_PRIORITY = 1.5f;
+    private static final float MEDIUM_PRIORITY = 1;
+    private static final float LOW_PRIORITY = 0.5f;
 
     private static final String ID_FIELD_NAME = "id";
     private static final String NAME_FIELD_NAME = "name";
@@ -282,15 +285,50 @@ public class LuceneAspspRepository implements AspspRepository {
     public List<Aspsp> findLike(Aspsp aspsp, String after, int size) {
         BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
         if (aspsp.getName() != null) {
-            queryBuilder.add(getNameFuzzyQuery(aspsp.getName()), BooleanClause.Occur.SHOULD);
-            queryBuilder.add(getNameRegexpQuery(aspsp.getName()), BooleanClause.Occur.SHOULD);
+            queryBuilder.add(buildQueueWithPriority(getNameFuzzyQuery(aspsp.getName()), LOW_PRIORITY), BooleanClause.Occur.SHOULD);
+            queryBuilder.add(buildQueueWithPriority(getNameRegexpQuery(aspsp.getName()), LOW_PRIORITY), BooleanClause.Occur.SHOULD);
         }
-        if (aspsp.getBic() != null) {
-            queryBuilder.add(getBicQuery(aspsp.getBic()), BooleanClause.Occur.SHOULD);
+        if (aspsp.getBic() != null && aspsp.getBankCode() != null) {
+            String bic = aspsp.getBic();
+            String bankCode = aspsp.getBankCode();
+
+            queryBuilder.add(buildQueueWithPriority(getBicAndBankCodeQuery(bic, bankCode), HIGH_PRIORITY), BooleanClause.Occur.SHOULD);
+            queryBuilder.add(buildQueueWithPriority(getBicAndEmptyBankCodeQuery(bic), MEDIUM_PRIORITY), BooleanClause.Occur.SHOULD);
+            queryBuilder.add(buildQueueWithPriority(getEmptyBicAndBankCodeQuery(bankCode), LOW_PRIORITY), BooleanClause.Occur.SHOULD);
+        } else {
+            if (aspsp.getBic() != null) {
+                queryBuilder.add(buildQueueWithPriority(getBicQuery(aspsp.getBic()), MEDIUM_PRIORITY), BooleanClause.Occur.SHOULD);
+            }
+            if (aspsp.getBankCode() != null) {
+                queryBuilder.add(buildQueueWithPriority(getBankCodeQuery(aspsp.getBankCode()), MEDIUM_PRIORITY), BooleanClause.Occur.SHOULD);
+            }
         }
-        if (aspsp.getBankCode() != null) {
-            queryBuilder.add(getBankCodeQuery(aspsp.getBankCode()), BooleanClause.Occur.SHOULD);
-        }
+
         return find(queryBuilder.build(), after, size);
+    }
+
+    private BoostQuery buildQueueWithPriority(Query query, float priority) {
+        return new BoostQuery(query, priority);
+    }
+
+    private Query getBicAndBankCodeQuery(String bic, String bankCode) {
+        return new BooleanQuery.Builder()
+                   .add(getBicQuery(bic), BooleanClause.Occur.MUST)
+                   .add(getBankCodeQuery(bankCode), BooleanClause.Occur.MUST)
+                   .build();
+    }
+
+    private Query getBicAndEmptyBankCodeQuery(String bic) {
+        return new BooleanQuery.Builder()
+                   .add(getBicQuery(bic), BooleanClause.Occur.MUST)
+                   .add(getBankCodeQuery("null"), BooleanClause.Occur.MUST)
+                   .build();
+    }
+
+    private Query getEmptyBicAndBankCodeQuery(String bankCode) {
+        return new BooleanQuery.Builder()
+                   .add(getBicQuery("null"), BooleanClause.Occur.MUST)
+                   .add(getBankCodeQuery(bankCode), BooleanClause.Occur.MUST)
+                   .build();
     }
 }
