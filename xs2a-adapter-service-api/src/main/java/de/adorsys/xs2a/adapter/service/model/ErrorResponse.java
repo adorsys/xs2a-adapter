@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.service.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class ErrorResponse {
         this.links = links;
     }
 
+    @JsonIgnore
     public boolean isEmpty() {
         return tppMessages == null && links == null;
     }
