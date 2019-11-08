@@ -198,7 +198,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findLikeShouldFollowTheStrictOrder() {
+    public void findLikeShouldFollowOrder() {
         List<Aspsp> expected = Arrays.asList(
             buildAspsp("TESTBICA", "111111", "SomeBank"),
             buildAspsp("TESTBICA", "111111"),
