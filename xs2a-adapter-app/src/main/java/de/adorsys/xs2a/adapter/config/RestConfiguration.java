@@ -28,8 +28,8 @@ import java.security.cert.CertificateException;
 @Configuration
 public class RestConfiguration {
 
-    @Value("${aspsp-registry.support-multiple-records:false}")
-    private boolean supportMultipleRecords;
+    @Value("${xs2a-adapter.loader.choose-first-from-multiple-aspsps:false}")
+    private boolean chooseFirstFromMultipleAspsps;
 
     @Bean
     PaymentInitiationService paymentInitiationService(AdapterServiceLoader adapterServiceLoader) {
@@ -48,7 +48,7 @@ public class RestConfiguration {
 
     @Bean
     AdapterServiceLoader adapterServiceLoader(Pkcs12KeyStore keyStore, HttpClientFactory httpClientFactory) {
-        return new AdapterServiceLoader(aspspRepository(), keyStore, httpClientFactory, supportMultipleRecords);
+        return new AdapterServiceLoader(aspspRepository(), keyStore, httpClientFactory, chooseFirstFromMultipleAspsps);
     }
 
     @Bean
@@ -89,7 +89,7 @@ public class RestConfiguration {
                                                                 Pkcs12KeyStore keyStore,
                                                                 HttpClientFactory httpClientFactory) {
         return new Psd2AdapterDelegatingAccountInformationService(
-            new Psd2AdapterServiceLoader(aspspRepository, keyStore, httpClientFactory, supportMultipleRecords));
+            new Psd2AdapterServiceLoader(aspspRepository, keyStore, httpClientFactory, chooseFirstFromMultipleAspsps));
     }
 
     @Bean

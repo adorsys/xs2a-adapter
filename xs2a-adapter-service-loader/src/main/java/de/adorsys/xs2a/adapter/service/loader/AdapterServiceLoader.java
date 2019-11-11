@@ -23,15 +23,15 @@ public class AdapterServiceLoader {
     protected final Pkcs12KeyStore keyStore;
     protected final HttpClientFactory httpClientFactory;
     private final ConcurrentMap<Class<?>, ServiceLoader<? extends AdapterServiceProvider>> serviceLoaders = new ConcurrentHashMap<>();
-    protected final boolean supportMultipleRecords;
+    protected final boolean chooseFirstFromMultipleAspsps;
 
     public AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
                                 Pkcs12KeyStore keyStore,
-                                HttpClientFactory httpClientFactory, boolean supportMultipleRecords) {
+                                HttpClientFactory httpClientFactory, boolean chooseFirstFromMultipleAspsps) {
         this.aspspRepository = aspspRepository;
         this.keyStore = keyStore;
         this.httpClientFactory = httpClientFactory;
-        this.supportMultipleRecords = supportMultipleRecords;
+        this.chooseFirstFromMultipleAspsps = chooseFirstFromMultipleAspsps;
     }
 
     public AccountInformationService getAccountInformationService(RequestHeaders requestHeaders) {
@@ -54,7 +54,7 @@ public class AdapterServiceLoader {
             List<Aspsp> aspsps = aspspRepository.findByBankCode(bankCode.get());
             if (aspsps.size() == 0) {
                 throw new AspspRegistrationNotFoundException("No ASPSP was found with bank code: " + bankCode.get());
-            } else if (aspsps.size() > 1 && !supportMultipleRecords) {
+            } else if (aspsps.size() > 1 && !chooseFirstFromMultipleAspsps) {
                 throw new AspspRegistrationNotFoundException("The ASPSP could not be identified: " + aspsps.size()
                                                                  + " registry entries found for bank code " + bankCode.get());
             }

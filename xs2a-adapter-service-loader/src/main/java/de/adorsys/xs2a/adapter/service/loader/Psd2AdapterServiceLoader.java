@@ -15,8 +15,8 @@ public class Psd2AdapterServiceLoader extends AdapterServiceLoader {
 
     public Psd2AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
                                     Pkcs12KeyStore keyStore,
-                                    HttpClientFactory httpClientFactory, boolean supportMultipleRecords) {
-        super(aspspRepository, keyStore, httpClientFactory, supportMultipleRecords);
+                                    HttpClientFactory httpClientFactory, boolean chooseFirstFromMultipleAspsps) {
+        super(aspspRepository, keyStore, httpClientFactory, chooseFirstFromMultipleAspsps);
     }
 
     public Psd2AccountInformationService getPsd2AccountInformationService(RequestHeaders requestHeaders) {

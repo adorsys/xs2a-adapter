@@ -21,8 +21,9 @@ spring:
       FAIL_ON_UNKNOWN_PROPERTIES: false
 
 
-aspsp-registry:
-  support-multiple-records: true
+xs2a-adapter:
+  loader:
+    choose-first-from-multiple-aspsps: true
 ---
 spring:
   profiles: dev
