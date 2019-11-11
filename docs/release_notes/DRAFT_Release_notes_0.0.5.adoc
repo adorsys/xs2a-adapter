@@ -9,5 +9,7 @@
 == Notices:
 
 == Features:
+- Add support multiple records from ASPSP registry. It can be configured via `AdapterServiceLoader`
+constructor parameter
 
 == Fixes:

@@ -36,7 +36,7 @@ public class Psd2AdapterServiceLoaderTest {
         when(aspspRepository.findByBankCode(BANK_CODE))
             .thenReturn(singletonList(aspsp));
 
-        psd2AdapterServiceLoader = new Psd2AdapterServiceLoader(aspspRepository, null, null);
+        psd2AdapterServiceLoader = new Psd2AdapterServiceLoader(aspspRepository, null, null, false);
         requestHeadersWithAspspId = RequestHeaders.fromMap(singletonMap(RequestHeaders.X_GTW_ASPSP_ID, ASPSP_ID));
         requestHeadersWithBankCode = RequestHeaders.fromMap(singletonMap(RequestHeaders.X_GTW_BANK_CODE, BANK_CODE));
     }

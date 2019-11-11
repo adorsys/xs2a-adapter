@@ -36,7 +36,7 @@ public final class AdapterConfig {
         reload();
     }
 
-    static void reload() {
+    public static void reload() {
         try {
             properties.clear();
             InputStream configFileAsStream = getConfigFileAsStream();
