@@ -297,10 +297,10 @@ public class LuceneAspspRepository implements AspspRepository {
             queryBuilder.add(buildQueryWithPriority(getEmptyBicAndBankCodeQuery(bankCode), LOW_PRIORITY), BooleanClause.Occur.SHOULD);
         } else {
             if (aspsp.getBic() != null) {
-                queryBuilder.add(buildQueryWithPriority(getBicQuery(aspsp.getBic()), MEDIUM_PRIORITY), BooleanClause.Occur.SHOULD);
+                queryBuilder.add(getBicQuery(aspsp.getBic()), BooleanClause.Occur.SHOULD);
             }
             if (aspsp.getBankCode() != null) {
-                queryBuilder.add(buildQueryWithPriority(getBankCodeQuery(aspsp.getBankCode()), MEDIUM_PRIORITY), BooleanClause.Occur.SHOULD);
+                queryBuilder.add(getBankCodeQuery(aspsp.getBankCode()), BooleanClause.Occur.SHOULD);
             }
         }
 
