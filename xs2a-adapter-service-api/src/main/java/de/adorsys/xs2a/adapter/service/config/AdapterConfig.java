@@ -30,7 +30,6 @@ public final class AdapterConfig {
     private static final Logger logger = LoggerFactory.getLogger(AdapterConfig.class);
     private static final String ADAPTER_CONFIG_FILE_PATH_PROPERTY = "adapter.config.file.path";
     private static final String DEFAULT_ADAPTER_CONFIG_FILE = "adapter.config.properties";
-    private static final String SUPPORT_MULTIPLE_RECORDS = "aspsp_registry.support_multiple_records";
     private static final Properties properties = new Properties();
 
     static {
@@ -49,10 +48,6 @@ public final class AdapterConfig {
     }
 
     private AdapterConfig() {
-    }
-
-    public static boolean multipleRecordsSupported() {
-        return Boolean.parseBoolean(readProperty(SUPPORT_MULTIPLE_RECORDS, "false"));
     }
 
     public static String readProperty(String property) {

@@ -20,6 +20,9 @@ spring:
     deserialization:
       FAIL_ON_UNKNOWN_PROPERTIES: false
 
+
+aspsp-registry:
+  support-multiple-records: true
 ---
 spring:
   profiles: dev

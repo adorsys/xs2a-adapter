@@ -15,6 +15,7 @@ import de.adorsys.xs2a.adapter.service.loader.Psd2AdapterDelegatingAccountInform
 import de.adorsys.xs2a.adapter.service.loader.Psd2AdapterServiceLoader;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -26,6 +27,9 @@ import java.security.cert.CertificateException;
 
 @Configuration
 public class RestConfiguration {
+
+    @Value("${aspsp-registry.support-multiple-records:false}")
+    private boolean supportMultipleRecords;
 
     @Bean
     PaymentInitiationService paymentInitiationService(AdapterServiceLoader adapterServiceLoader) {
@@ -44,7 +48,7 @@ public class RestConfiguration {
 
     @Bean
     AdapterServiceLoader adapterServiceLoader(Pkcs12KeyStore keyStore, HttpClientFactory httpClientFactory) {
-        return new AdapterServiceLoader(aspspRepository(), keyStore, httpClientFactory);
+        return new AdapterServiceLoader(aspspRepository(), keyStore, httpClientFactory, supportMultipleRecords);
     }
 
     @Bean
@@ -85,7 +89,7 @@ public class RestConfiguration {
                                                                 Pkcs12KeyStore keyStore,
                                                                 HttpClientFactory httpClientFactory) {
         return new Psd2AdapterDelegatingAccountInformationService(
-            new Psd2AdapterServiceLoader(aspspRepository, keyStore, httpClientFactory));
+            new Psd2AdapterServiceLoader(aspspRepository, keyStore, httpClientFactory, supportMultipleRecords));
     }
 
     @Bean

@@ -2,7 +2,6 @@ package de.adorsys.xs2a.adapter.service.loader;
 
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;
-import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
 import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
@@ -24,13 +23,15 @@ public class AdapterServiceLoader {
     protected final Pkcs12KeyStore keyStore;
     protected final HttpClientFactory httpClientFactory;
     private final ConcurrentMap<Class<?>, ServiceLoader<? extends AdapterServiceProvider>> serviceLoaders = new ConcurrentHashMap<>();
+    protected final boolean supportMultipleRecords;
 
     public AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
                                 Pkcs12KeyStore keyStore,
-                                HttpClientFactory httpClientFactory) {
+                                HttpClientFactory httpClientFactory, boolean supportMultipleRecords) {
         this.aspspRepository = aspspRepository;
         this.keyStore = keyStore;
         this.httpClientFactory = httpClientFactory;
+        this.supportMultipleRecords = supportMultipleRecords;
     }
 
     public AccountInformationService getAccountInformationService(RequestHeaders requestHeaders) {
@@ -38,8 +39,8 @@ public class AdapterServiceLoader {
         String adapterId = aspsp.getAdapterId();
         String baseUrl = aspsp.getUrl();
         return getServiceProvider(AccountInformationServiceProvider.class, adapterId)
-            .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-            .getAccountInformationService(baseUrl, httpClientFactory, keyStore);
+                   .orElseThrow(() -> new AdapterNotFoundException(adapterId))
+                   .getAccountInformationService(baseUrl, httpClientFactory, keyStore);
     }
 
     protected Aspsp getAspsp(RequestHeaders requestHeaders) {
@@ -47,20 +48,20 @@ public class AdapterServiceLoader {
         Optional<String> bankCode = requestHeaders.getBankCode();
         if (aspspId.isPresent()) {
             return aspspRepository.findById(aspspId.get())
-                .orElseThrow(() -> new AspspRegistrationNotFoundException("No ASPSP was found with id: " + aspspId.get()));
+                       .orElseThrow(() -> new AspspRegistrationNotFoundException("No ASPSP was found with id: " + aspspId.get()));
         }
         if (bankCode.isPresent()) {
             List<Aspsp> aspsps = aspspRepository.findByBankCode(bankCode.get());
             if (aspsps.size() == 0) {
                 throw new AspspRegistrationNotFoundException("No ASPSP was found with bank code: " + bankCode.get());
-            } else if (aspsps.size() > 1 && !AdapterConfig.multipleRecordsSupported()) {
+            } else if (aspsps.size() > 1 && !supportMultipleRecords) {
                 throw new AspspRegistrationNotFoundException("The ASPSP could not be identified: " + aspsps.size()
-                    + " registry entries found for bank code " + bankCode.get());
+                                                                 + " registry entries found for bank code " + bankCode.get());
             }
             return aspsps.get(0);
         }
         throw new AspspRegistrationNotFoundException("Neither " + RequestHeaders.X_GTW_ASPSP_ID + " or "
-            + RequestHeaders.X_GTW_BANK_CODE + " headers were provided to identify the ASPSP");
+                                                         + RequestHeaders.X_GTW_BANK_CODE + " headers were provided to identify the ASPSP");
     }
 
     public <T extends AdapterServiceProvider> Optional<T> getServiceProvider(Class<T> klass, String adapterId) {
@@ -69,8 +70,8 @@ public class AdapterServiceLoader {
         ServiceLoader<T> serviceLoader = getServiceLoader(klass);
 
         return StreamSupport.stream(serviceLoader.spliterator(), false)
-            .filter(provider -> provider.getAdapterId().equalsIgnoreCase(adapterId))
-            .findFirst();
+                   .filter(provider -> provider.getAdapterId().equalsIgnoreCase(adapterId))
+                   .findFirst();
     }
 
     @SuppressWarnings("unchecked")
@@ -83,8 +84,8 @@ public class AdapterServiceLoader {
         String adapterId = aspsp.getAdapterId();
         String baseUrl = aspsp.getUrl();
         return getServiceProvider(PaymentInitiationServiceProvider.class, adapterId)
-            .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-            .getPaymentInitiationService(baseUrl, httpClientFactory, keyStore);
+                   .orElseThrow(() -> new AdapterNotFoundException(adapterId))
+                   .getPaymentInitiationService(baseUrl, httpClientFactory, keyStore);
     }
 
     public Oauth2Service getOauth2Service(RequestHeaders requestHeaders) {
@@ -92,8 +93,8 @@ public class AdapterServiceLoader {
         String adapterId = aspsp.getAdapterId();
         String baseUrl = aspsp.getIdpUrl() != null ? aspsp.getIdpUrl() : aspsp.getUrl();
         return getServiceProvider(Oauth2ServiceFactory.class, adapterId)
-            .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-            .getOauth2Service(baseUrl, httpClientFactory, keyStore);
+                   .orElseThrow(() -> new AdapterNotFoundException(adapterId))
+                   .getOauth2Service(baseUrl, httpClientFactory, keyStore);
     }
 
     public DownloadService getDownloadService(RequestHeaders requestHeaders) {

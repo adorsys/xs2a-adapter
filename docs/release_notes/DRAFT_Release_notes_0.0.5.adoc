@@ -9,7 +9,7 @@
 == Notices:
 
 == Features:
-- Introduce `aspsp_registry.support_multiple_records` parameter for supporting multiple records
-in the search result. Get more details from link:../../xs2a-adapter-service-api/src/main/resources/adapter.config.properties[adapter.config.properties]
+- Add support multiple records from ASPSP registry. It can be configured via `AdapterServiceLoader`
+constructor parameter
 
 == Fixes:
