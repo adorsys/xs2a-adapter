@@ -198,7 +198,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findLikeShouldFollowOrder() {
+    public void findLikeShouldBeOrderedByPriorities_BicBankCodeName_BicBankCode_Bic_BankCode_Name() {
         List<Aspsp> expected = Arrays.asList(
             buildAspsp("TESTBICA", "111111", "SomeBank"),
             buildAspsp("TESTBICA", "111111"),
@@ -232,7 +232,7 @@ public class LuceneAspspRepositoryTest {
         List<Aspsp> actual = luceneAspspRepository.findLike(buildAspsp("TESTBICA", "111111", "SomeBank"));
 
         assertThat(actual).hasSize(10);
-        assertThatOrderIsTheSame(actual, expected);
+        assertThat(actual).isEqualTo(expected);
     }
 
     private Aspsp buildAspsp(String bic, String bankCode) {
@@ -248,17 +248,6 @@ public class LuceneAspspRepositoryTest {
         aspsp.setBankCode(bankCode);
         aspsp.setName(name);
         return aspsp;
-    }
-
-    private void assertThatOrderIsTheSame(List<Aspsp> actual, List<Aspsp> expected) {
-        for (int i = 0; i < actual.size(); i++) {
-            Aspsp actualAspsp = actual.get(i);
-            Aspsp expectedAspsp = expected.get(i);
-
-            assertThat(actualAspsp.getBic()).isEqualTo(expectedAspsp.getBic());
-            assertThat(actualAspsp.getBankCode()).isEqualTo(expectedAspsp.getBankCode());
-            assertThat(actualAspsp.getName()).isEqualTo(expectedAspsp.getName());
-        }
     }
 
     @Test

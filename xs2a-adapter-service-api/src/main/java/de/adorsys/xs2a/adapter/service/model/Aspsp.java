@@ -121,19 +121,17 @@ public class Aspsp {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Aspsp aspsp = (Aspsp) o;
-        return Objects.equals(id, aspsp.id) &&
-                   Objects.equals(name, aspsp.name) &&
+        return Objects.equals(name, aspsp.name) &&
                    Objects.equals(bic, aspsp.bic) &&
                    Objects.equals(bankCode, aspsp.bankCode) &&
                    Objects.equals(url, aspsp.url) &&
                    Objects.equals(adapterId, aspsp.adapterId) &&
                    Objects.equals(idpUrl, aspsp.idpUrl) &&
-                   Objects.equals(scaApproaches, aspsp.scaApproaches) &&
-                   Objects.equals(paginationId, aspsp.paginationId);
+                   Objects.equals(scaApproaches, aspsp.scaApproaches);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, bic, bankCode, url, adapterId, idpUrl, scaApproaches, paginationId);
+        return Objects.hash(name, bic, bankCode, url, adapterId, idpUrl, scaApproaches);
     }
 }
