@@ -27,7 +27,8 @@ public class AdapterServiceLoader {
 
     public AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
                                 Pkcs12KeyStore keyStore,
-                                HttpClientFactory httpClientFactory, boolean chooseFirstFromMultipleAspsps) {
+                                HttpClientFactory httpClientFactory,
+                                boolean chooseFirstFromMultipleAspsps) {
         this.aspspRepository = aspspRepository;
         this.keyStore = keyStore;
         this.httpClientFactory = httpClientFactory;
