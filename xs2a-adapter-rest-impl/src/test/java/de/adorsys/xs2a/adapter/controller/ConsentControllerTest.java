@@ -112,6 +112,7 @@ public class ConsentControllerTest {
     }
 
     @Test
+    @SuppressWarnings("squid:S2699")
     public void createConsentsRespondsWithBadRequestIfAdapterNotFound() throws Exception {
         String adpaterId = "test-psd2-adapter";
 
