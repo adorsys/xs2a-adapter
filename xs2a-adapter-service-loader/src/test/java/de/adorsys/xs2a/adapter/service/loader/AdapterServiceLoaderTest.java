@@ -11,10 +11,7 @@ import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvide
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
 
 import static de.adorsys.xs2a.adapter.service.RequestHeaders.*;
 import static java.util.Collections.emptyMap;
@@ -27,9 +24,12 @@ public class AdapterServiceLoaderTest {
     private static final String ADAPTER_ID = "test-adapter";
     private static final String ASPSP_ID = "test-aspsp-id";
     private static final String BANK_CODE = "test-bank-code";
+    private static final String BIC = "test-bic";
 
     private static RequestHeaders requestHeadersWithAspspId;
     private static RequestHeaders requestHeadersWithBankCode;
+    private static RequestHeaders requestHeadersWithBic;
+    private static RequestHeaders requestHeadersWithBankCodeAndBic;
 
     private final AspspReadOnlyRepository aspspRepository = mock(AspspReadOnlyRepository.class);
     private AdapterServiceLoader adapterServiceLoader = new AdapterServiceLoader(aspspRepository, null, null, false);
@@ -38,6 +38,13 @@ public class AdapterServiceLoaderTest {
     public void setUp() {
         requestHeadersWithAspspId = fromMap(singletonMap(X_GTW_ASPSP_ID, ASPSP_ID));
         requestHeadersWithBankCode = fromMap(singletonMap(X_GTW_BANK_CODE, BANK_CODE));
+        requestHeadersWithBic = fromMap(singletonMap(X_GTW_BIC, BIC));
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put(X_GTW_BANK_CODE, BANK_CODE);
+        headers.put(X_GTW_BIC, BIC);
+
+        requestHeadersWithBankCodeAndBic = fromMap(headers);
     }
 
     @Test
@@ -83,6 +90,16 @@ public class AdapterServiceLoaderTest {
         adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCode);
     }
 
+    @Test(expected = AspspRegistrationNotFoundException.class)
+    public void getAccountInformationServiceThrowsIfNothingFoundByBic() {
+        adapterServiceLoader.getAccountInformationService(requestHeadersWithBic);
+    }
+
+    @Test(expected = AspspRegistrationNotFoundException.class)
+    public void getAccountInformationServiceThrowsIfNothingFoundByBankCodeAndBic() {
+        adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCodeAndBic);
+    }
+
     @Test
     public void getAccountInformationServiceFindsAdapterByBankCode() {
         Aspsp aspsp = new Aspsp();
@@ -92,6 +109,29 @@ public class AdapterServiceLoaderTest {
         AccountInformationService ais = adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCode);
         assertThat(ais).isNotNull();
         verify(aspspRepository, times(1)).findByBankCode(BANK_CODE);
+    }
+
+    @Test
+    public void getAccountInformationServiceFindsAdapterByBic() {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setAdapterId(ADAPTER_ID);
+        when(aspspRepository.findByBic(BIC))
+            .thenReturn(Collections.singletonList(aspsp));
+        AccountInformationService ais = adapterServiceLoader.getAccountInformationService(requestHeadersWithBic);
+        assertThat(ais).isNotNull();
+        verify(aspspRepository, times(1)).findByBic(BIC);
+    }
+
+    @Test
+    public void getAccountInformationServiceFindsAdapterByBankCodeAndBic() {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setAdapterId(ADAPTER_ID);
+
+        when(aspspRepository.findLike(buildAspsp(BANK_CODE, BIC)))
+            .thenReturn(Collections.singletonList(aspsp));
+        AccountInformationService ais = adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCodeAndBic);
+        assertThat(ais).isNotNull();
+        verify(aspspRepository, times(1)).findLike(buildAspsp(BANK_CODE, BIC));
     }
 
     @Test
@@ -138,6 +178,20 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test(expected = AspspRegistrationNotFoundException.class)
+    public void getAccountInformationServiceThrowsIfMoreThanOneAspspFoundByBic() {
+        when(aspspRepository.findByBic(BIC))
+            .thenReturn(Arrays.asList(new Aspsp(), new Aspsp()));
+        adapterServiceLoader.getAccountInformationService(requestHeadersWithBic);
+    }
+
+    @Test(expected = AspspRegistrationNotFoundException.class)
+    public void getAccountInformationServiceThrowsIfMoreThanOneAspspFoundByBankCodeAndBic() {
+        when(aspspRepository.findLike(buildAspsp(BANK_CODE, BIC)))
+            .thenReturn(Arrays.asList(new Aspsp(), new Aspsp()));
+        adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCodeAndBic);
+    }
+
+    @Test(expected = AspspRegistrationNotFoundException.class)
     public void getAccountInformationServiceThrowsIfNotAspspIdentifyingHeadersProvided() {
         adapterServiceLoader.getAccountInformationService(RequestHeaders.fromMap(emptyMap()));
     }
@@ -148,5 +202,12 @@ public class AdapterServiceLoaderTest {
             .thenReturn(Optional.of(new Aspsp()));
 
         adapterServiceLoader.getAccountInformationService(requestHeadersWithAspspId);
+    }
+
+    private Aspsp buildAspsp(String bankCode, String bic) {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setBankCode(bankCode);
+        aspsp.setBic(bic);
+        return aspsp;
     }
 }

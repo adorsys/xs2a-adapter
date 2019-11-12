@@ -19,6 +19,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.stream.StreamSupport;
 
 public class AdapterServiceLoader {
+    private static final String EMPTY_STRING = "";
+
     private final AspspReadOnlyRepository aspspRepository;
     protected final Pkcs12KeyStore keyStore;
     protected final HttpClientFactory httpClientFactory;
@@ -47,22 +49,41 @@ public class AdapterServiceLoader {
     protected Aspsp getAspsp(RequestHeaders requestHeaders) {
         Optional<String> aspspId = requestHeaders.getAspspId();
         Optional<String> bankCode = requestHeaders.getBankCode();
+        Optional<String> bic = requestHeaders.getBic();
         if (aspspId.isPresent()) {
             return aspspRepository.findById(aspspId.get())
                        .orElseThrow(() -> new AspspRegistrationNotFoundException("No ASPSP was found with id: " + aspspId.get()));
         }
-        if (bankCode.isPresent()) {
-            List<Aspsp> aspsps = aspspRepository.findByBankCode(bankCode.get());
-            if (aspsps.size() == 0) {
-                throw new AspspRegistrationNotFoundException("No ASPSP was found with bank code: " + bankCode.get());
-            } else if (aspsps.size() > 1 && !chooseFirstFromMultipleAspsps) {
-                throw new AspspRegistrationNotFoundException("The ASPSP could not be identified: " + aspsps.size()
-                                                                 + " registry entries found for bank code " + bankCode.get());
-            }
-            return aspsps.get(0);
+        if (!bankCode.isPresent() && !bic.isPresent()) {
+            throw new AspspRegistrationNotFoundException("None of " + RequestHeaders.X_GTW_ASPSP_ID + ", "
+                + RequestHeaders.X_GTW_BIC + ", " + RequestHeaders.X_GTW_BANK_CODE
+                + " headers were provided to identify the ASPSP");
         }
-        throw new AspspRegistrationNotFoundException("Neither " + RequestHeaders.X_GTW_ASPSP_ID + " or "
-                                                         + RequestHeaders.X_GTW_BANK_CODE + " headers were provided to identify the ASPSP");
+
+        List<Aspsp> aspsps;
+
+        if (bankCode.isPresent() && bic.isPresent()) {
+            Aspsp aspsp = new Aspsp();
+            aspsp.setBankCode(bankCode.get());
+            aspsp.setBic(bic.get());
+
+            aspsps = aspspRepository.findLike(aspsp);
+        } else if (bankCode.isPresent()) {
+            aspsps = aspspRepository.findByBankCode(bankCode.get());
+        } else {
+            aspsps = aspspRepository.findByBic(bic.get());
+        }
+
+        if (aspsps.isEmpty()) {
+            throw new AspspRegistrationNotFoundException(
+                buildAspspNotFoundErrorMessage(bankCode.orElse(EMPTY_STRING), bic.orElse(EMPTY_STRING))
+            );
+        } else if (aspsps.size() > 1 && !chooseFirstFromMultipleAspsps) {
+            throw new AspspRegistrationNotFoundException(
+                buildAspspCouldNotBeIdentifiedErrorMessage(aspsps.size(), bankCode.orElse(EMPTY_STRING), bic.orElse(EMPTY_STRING))
+            );
+        }
+        return aspsps.get(0);
     }
 
     public <T extends AdapterServiceProvider> Optional<T> getServiceProvider(Class<T> klass, String adapterId) {
@@ -105,5 +126,42 @@ public class AdapterServiceLoader {
         return getServiceProvider(DownloadServiceProvider.class, adapterId)
                    .orElseThrow(() -> new AdapterNotFoundException(adapterId))
                    .getDownloadService(baseUrl, httpClientFactory, keyStore);
+    }
+
+    private String buildAspspNotFoundErrorMessage(String bankCode, String bic) {
+        return appendNotEmptyBankCodeAndBic(new StringBuilder("No ASPSP was found with "), bankCode, bic);
+    }
+
+    private String buildAspspCouldNotBeIdentifiedErrorMessage(int numberOfEntries, String bankCode, String bic) {
+        return appendNotEmptyBankCodeAndBic(
+            new StringBuilder(String.format("The ASPSP could not be identified: %s registry entries found for ", numberOfEntries)),
+            bankCode, bic
+        );
+    }
+
+    private String appendNotEmptyBankCodeAndBic(StringBuilder errorMessageBuilder,
+                                                String bankCode, String bic) {
+        if (!bankCode.isEmpty() && !bic.isEmpty()) {
+            return errorMessageBuilder.append("bank code ")
+                       .append(bankCode)
+                       .append(" and ")
+                       .append("BIC ")
+                       .append(bic)
+                       .toString();
+        }
+
+        if (!bankCode.isEmpty()) {
+            return errorMessageBuilder.append("bank code ")
+                       .append(bankCode)
+                       .toString();
+        }
+
+        if (!bic.isEmpty()) {
+            return errorMessageBuilder.append("BIC ")
+                       .append(bic)
+                       .toString();
+        }
+
+        return EMPTY_STRING;
     }
 }
