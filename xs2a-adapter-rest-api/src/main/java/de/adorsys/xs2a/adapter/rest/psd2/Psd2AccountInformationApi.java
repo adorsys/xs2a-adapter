@@ -7,6 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * @deprecated
+ * This api is no longer acceptable and will be removed in future releases.
+ * <p>Use {@link de.adorsys.xs2a.adapter.api.AccountApi} instead.</p>
+ */
+@Deprecated
 public interface Psd2AccountInformationApi {
     @RequestMapping(
         value = "/accounts",

@@ -20,6 +20,10 @@ spring:
     deserialization:
       FAIL_ON_UNKNOWN_PROPERTIES: false
 
+
+xs2a-adapter:
+  loader:
+    choose-first-from-multiple-aspsps: true
 ---
 spring:
   profiles: dev

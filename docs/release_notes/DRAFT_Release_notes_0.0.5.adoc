@@ -1,0 +1,15 @@
+= DRAFT Release notes for version 0.0.5 (release date: 0x.12.2019)
+
+.Added banks
+|===
+|Bank Name|approach|AIS, PIS
+
+|===
+
+== Notices:
+
+== Features:
+- Add support multiple records from ASPSP registry. It can be configured via `AdapterServiceLoader`
+constructor parameter
+
+== Fixes:

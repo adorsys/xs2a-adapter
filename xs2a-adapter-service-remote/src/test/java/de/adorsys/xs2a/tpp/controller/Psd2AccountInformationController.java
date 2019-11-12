@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * @deprecated
+ * This controller is no longer acceptable and will be removed in future releases.
+ * <p>Use {@link ConsentController} instead.</p>
+ */
+@Deprecated
 @RestController
 public class Psd2AccountInformationController implements Psd2AccountInformationApi {
 

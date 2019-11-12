@@ -6,6 +6,12 @@ import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * @deprecated
+ * This service is no longer acceptable and will be removed in future releases.
+ * <p>Use {@link de.adorsys.xs2a.adapter.service.AccountInformationService} instead.</p>
+ */
+@Deprecated
 public interface Psd2AccountInformationService {
 
     Response<AccountList> getAccounts(Map<String, String> queryParameters,

@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.service.loader;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
 import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
@@ -31,7 +32,7 @@ public class AdapterServiceLoaderTest {
     private static RequestHeaders requestHeadersWithBankCodeAndBic;
 
     private final AspspReadOnlyRepository aspspRepository = mock(AspspReadOnlyRepository.class);
-    private final AdapterServiceLoader adapterServiceLoader = new AdapterServiceLoader(aspspRepository, null, null);
+    private AdapterServiceLoader adapterServiceLoader = new AdapterServiceLoader(aspspRepository, null, null, false);
 
     @Before
     public void setUp() {
@@ -150,9 +151,30 @@ public class AdapterServiceLoaderTest {
 
     @Test(expected = AspspRegistrationNotFoundException.class)
     public void getAccountInformationServiceThrowsIfMoreThanOneAspspFoundByBankCode() {
+        String file = getClass().getResource("/external.adapter.config.properties").getFile();
+        System.setProperty("adapter.config.file.path", file);
+        AdapterConfig.reload();
+
         when(aspspRepository.findByBankCode(BANK_CODE))
             .thenReturn(Arrays.asList(new Aspsp(), new Aspsp()));
         adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCode);
+    }
+
+    @Test
+    public void getAccountInformationServiceReturnFirst() {
+        adapterServiceLoader = new AdapterServiceLoader(aspspRepository, null, null, true);
+        Aspsp aspsp1 = new Aspsp();
+        aspsp1.setId("1");
+
+        Aspsp aspsp2 = new Aspsp();
+        aspsp2.setId("2");
+
+        when(aspspRepository.findByBankCode(BANK_CODE))
+            .thenReturn(Arrays.asList(aspsp1, aspsp2));
+
+        Aspsp aspsp = adapterServiceLoader.getAspsp(requestHeadersWithBankCode);
+
+        assertThat(aspsp).isSameAs(aspsp1);
     }
 
     @Test(expected = AspspRegistrationNotFoundException.class)
