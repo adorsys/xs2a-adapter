@@ -14,8 +14,8 @@ import java.util.Optional;
 // Error503_NG_PIS
 public class ErrorResponseException extends RuntimeException {
     private final int statusCode;
-    private final ResponseHeaders responseHeaders;
-    private final ErrorResponse errorResponse;
+    private final transient ResponseHeaders responseHeaders;
+    private final transient ErrorResponse errorResponse;
 
     public ErrorResponseException(int statusCode,
                                   ResponseHeaders responseHeaders,
