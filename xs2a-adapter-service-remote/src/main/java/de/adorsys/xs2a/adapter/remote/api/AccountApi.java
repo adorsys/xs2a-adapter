@@ -100,7 +100,7 @@ public interface AccountApi {
 
     @RequestMapping(
         value = "/v1/accounts/{account-id}/transactions",
-        method = RequestMethod.GET
+        method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     ResponseEntity<Object> getTransactionList(@PathVariable("account-id") String accountId,
                                               @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom,
@@ -115,7 +115,7 @@ public interface AccountApi {
 
     @RequestMapping(
         value = "/v1/accounts/{account-id}/transactions",
-        method = RequestMethod.GET, produces = {MediaType.APPLICATION_XML_VALUE}
+        method = RequestMethod.GET
     )
     ResponseEntity<String> getTransactionListAsString(@PathVariable("account-id") String accountId,
                                                       @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom,

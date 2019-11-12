@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.adapter.remote.service.impl;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -38,6 +39,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.ResponseEntity;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Map;
 
@@ -191,8 +193,13 @@ public class RemoteAccountInformationService implements AccountInformationServic
         if (!requestHeaders.isAcceptJson()) {
             throw new NotAcceptableException("Unsupported accept type: " + requestHeaders.get(RequestHeaders.ACCEPT));
         }
-        ResponseEntity<Object> responseEntity = getTransactionListFromClient(accountId, requestParams, requestHeaders);
-        TransactionsResponse200JsonTO transactionsResponse200JsonTO = objectMapper.convertValue(responseEntity.getBody(), TransactionsResponse200JsonTO.class);
+        ResponseEntity<String> responseEntity = getTransactionListFromClient(accountId, requestParams, requestHeaders);
+        TransactionsResponse200JsonTO transactionsResponse200JsonTO = null;
+        try {
+            transactionsResponse200JsonTO = objectMapper.readValue(responseEntity.getBody(), TransactionsResponse200JsonTO.class);
+        } catch (IOException e) {
+            throw new Xs2aAdapterClientParseException(e.getMessage());
+        }
         TransactionsReport transactionsReport = transactionsReportMapper.toTransactionsReport(transactionsResponse200JsonTO);
         return new Response<>(
             responseEntity.getStatusCodeValue(),
@@ -209,10 +216,7 @@ public class RemoteAccountInformationService implements AccountInformationServic
         BookingStatusTO bookingStatus = BookingStatusTO.fromValue(requestParamMap.get(RequestParams.BOOKING_STATUS));
         Boolean deltaList = Boolean.valueOf(requestParamMap.get(RequestParams.DELTA_LIST));
         Boolean withBalance = Boolean.valueOf(requestParamMap.get(RequestParams.WITH_BALANCE));
-        if (requestHeaders.isAcceptJson()) {
-            return (ResponseEntity<T>) client.getTransactionList(accountId, dateFrom, dateTo, entryReferenceFrom, bookingStatus, deltaList, withBalance, requestHeaders.toMap());
 
-        }
         return (ResponseEntity<T>) client.getTransactionListAsString(accountId, dateFrom, dateTo, entryReferenceFrom, bookingStatus, deltaList, withBalance, requestHeaders.toMap());
     }
 
@@ -220,9 +224,21 @@ public class RemoteAccountInformationService implements AccountInformationServic
     public Response<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         ResponseEntity<String> responseEntity = getTransactionListFromClient(accountId, requestParams, requestHeaders);
 
+        String body;
+
+        if (responseEntity.getBody() instanceof String) {
+            body = responseEntity.getBody();
+        } else {
+            try {
+                body = objectMapper.writeValueAsString(responseEntity.getBody());
+            } catch (JsonProcessingException e) {
+                throw new Xs2aAdapterClientParseException(e.getMessage());
+            }
+        }
+
         return new Response<>(
             responseEntity.getStatusCodeValue(),
-            responseEntity.getBody(),
+            body,
             responseHeadersMapper.getHeaders(responseEntity.getHeaders())
         );
     }

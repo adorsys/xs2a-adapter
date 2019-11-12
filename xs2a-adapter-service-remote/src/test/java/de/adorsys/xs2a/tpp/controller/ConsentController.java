@@ -176,13 +176,6 @@ public class ConsentController extends AbstractController implements AccountApi 
                                           .withBalance(withBalance)
                                           .build();
 
-        if (requestHeaders.isAcceptJson()) {
-            Response<TransactionsReport> transactionList = accountInformationService.getTransactionList(accountId, requestHeaders, requestParams);
-            return ResponseEntity.status(HttpStatus.OK)
-                       .headers(headersMapper.toHttpHeaders(transactionList.getHeaders()))
-                       .body(transactionsReportMapper.toTransactionsResponse200Json(transactionList.getBody()));
-        }
-
         Response<String> response = accountInformationService.getTransactionListAsString(accountId, requestHeaders, requestParams);
 
         return ResponseEntity
