@@ -4,7 +4,6 @@ import de.adorsys.xs2a.adapter.registry.AspspCsvRecord;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
 import java.util.List;
 
@@ -13,11 +12,9 @@ public interface AspspMapper {
 
     List<Aspsp> toAspsps(List<AspspCsvRecord> aspspCsvRecords);
 
-    @Mappings({
-        @Mapping(source = "aspspName", target = "name"),
-        @Mapping(target = "scaApproaches", source = "aspspScaApproaches"),
-        @Mapping(target = "paginationId", ignore = true),
-    })
+    @Mapping(source = "aspspName", target = "name")
+    @Mapping(target = "scaApproaches", source = "aspspScaApproaches")
+    @Mapping(target = "paginationId", ignore = true)
     Aspsp toAspsp(AspspCsvRecord aspspCsvRecord);
 
     @Mapping(target = "aspspScaApproaches", source = "scaApproaches")
