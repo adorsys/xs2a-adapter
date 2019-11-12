@@ -79,7 +79,7 @@ public class Pkcs12KeyStore {
         KeyStore.Entry entry = keyStore.getEntry(qwacAlias, new KeyStore.PasswordProtection(password));
         qwacKeyStore.setEntry("", entry, new KeyStore.PasswordProtection(password));
 
-        SSLContext sslContext = SSLContext.getInstance("TLS");
+        SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
         KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         keyManagerFactory.init(qwacKeyStore, password);
         KeyManager[] keyManagers = keyManagerFactory.getKeyManagers();
