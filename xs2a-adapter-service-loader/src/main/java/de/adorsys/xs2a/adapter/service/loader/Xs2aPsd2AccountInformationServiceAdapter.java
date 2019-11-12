@@ -42,9 +42,9 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
     }
 
     @Override
-    public Response<?> getTransactions(String accountId,
-                                       Map<String, String> queryParameters,
-                                       Map<String, String> headers) throws IOException {
+    public Response getTransactions(String accountId,
+                                    Map<String, String> queryParameters,
+                                    Map<String, String> headers) throws IOException {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         RequestParams requestParams = RequestParams.fromMap(queryParameters);
         if (requestHeaders.isAcceptJson()) {

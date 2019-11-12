@@ -24,9 +24,9 @@ public interface Psd2AccountInformationService {
     /**
      * @return TransactionsResponse or String for xml response
      */
-    Response<?> getTransactions(String accountId,
-                                Map<String, String> queryParameters,
-                                Map<String, String> headers) throws IOException;
+    Response getTransactions(String accountId,
+                             Map<String, String> queryParameters,
+                             Map<String, String> headers) throws IOException;
 
     Response<ConsentsResponse> createConsent(Map<String, String> headers, Consents consents);
 

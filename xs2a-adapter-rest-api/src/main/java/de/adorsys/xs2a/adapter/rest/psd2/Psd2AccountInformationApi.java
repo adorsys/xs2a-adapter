@@ -34,7 +34,7 @@ public interface Psd2AccountInformationApi {
         value = "/accounts/{account-id}/transactions",
         method = RequestMethod.GET
     )
-    ResponseEntity<?> getTransactionList(@PathVariable("account-id") String accountId,
+    ResponseEntity getTransactionList(@PathVariable("account-id") String accountId,
                                          @RequestParam Map<String, String> queryParameters,
                                          @RequestHeader Map<String, String> headers) throws IOException;
 

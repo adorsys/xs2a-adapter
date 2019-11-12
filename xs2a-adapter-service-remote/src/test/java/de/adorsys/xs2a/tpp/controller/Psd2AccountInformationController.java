@@ -57,9 +57,9 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     }
 
     @Override
-    public ResponseEntity<?> getTransactionList(String accountId,
-                                                Map<String, String> queryParameters,
-                                                Map<String, String> headers) throws IOException {
+    public ResponseEntity getTransactionList(String accountId,
+                                             Map<String, String> queryParameters,
+                                             Map<String, String> headers) throws IOException {
         Response<?> response = accountInformationService.getTransactions(accountId, queryParameters, headers);
         Object responseBody = response.getBody();
 
