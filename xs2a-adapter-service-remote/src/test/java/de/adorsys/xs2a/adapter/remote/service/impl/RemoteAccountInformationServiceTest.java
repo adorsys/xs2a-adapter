@@ -1,7 +1,6 @@
 package de.adorsys.xs2a.adapter.remote.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.adapter.mapper.TransactionsReportMapper;
 import de.adorsys.xs2a.adapter.model.BookingStatusTO;
 import de.adorsys.xs2a.adapter.model.TransactionsResponse200JsonTO;
@@ -11,13 +10,13 @@ import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.AccountReference;
 import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
+import org.junit.Before;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -28,15 +27,21 @@ import static org.mockito.Mockito.when;
 
 public class RemoteAccountInformationServiceTest {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private RemoteAccountInformationService service;
+    private AccountInformationClient client;
+
+    @Before
+    public void setUp() {
+        client = mock(AccountInformationClient.class);
+        service = new RemoteAccountInformationService(client);
+    }
 
     @Test
-    public void getTransactionListAsString() {
-        AccountInformationClient client = mock(AccountInformationClient.class);
-        RemoteAccountInformationService service = new RemoteAccountInformationService(client);
-
-        when(client.getTransactionListAsString(any(), any(), any(), anyString(), any(), anyBoolean(), anyBoolean(), anyMap()))
-            .thenReturn(buildResponseEntity());
+    public void getTransactionListAsString() throws JsonProcessingException {
+        TransactionsReport report = buildTransactionReport();
+        when(client.getTransactionListAsString(
+            any(), any(), any(), anyString(), any(), anyBoolean(), anyBoolean(), anyMap())
+        ).thenReturn(buildResponseEntity(report));
 
         Response<String> response = service.getTransactionListAsString(
             "accountId",
@@ -44,7 +49,7 @@ public class RemoteAccountInformationServiceTest {
             RequestParams.fromMap(buildRequestParams())
         );
 
-        assertThat("{\"bookingStatus\":\"booked\"}", is(response.getBody()));
+        assertThat(service.objectMapper.writeValueAsString(report), is(response.getBody()));
     }
 
     @Test
@@ -55,8 +60,9 @@ public class RemoteAccountInformationServiceTest {
         TransactionsReport report = buildTransactionReport();
         ResponseEntity<String> responseEntity = buildResponseEntity(report);
 
-        when(client.getTransactionListAsString(any(), any(), any(), anyString(), any(), anyBoolean(), anyBoolean(), anyMap()))
-            .thenReturn(responseEntity);
+        when(client.getTransactionListAsString(
+            any(), any(), any(), anyString(), any(), anyBoolean(), anyBoolean(), anyMap())
+        ).thenReturn(responseEntity);
 
         Response<TransactionsReport> response = service.getTransactionList(
             "accountId",
@@ -68,10 +74,10 @@ public class RemoteAccountInformationServiceTest {
     }
 
     private ResponseEntity<String> buildResponseEntity(TransactionsReport report) {
-        TransactionsResponse200JsonTO transactionsResponse200JsonTO = Mappers.getMapper(TransactionsReportMapper.class)
-                                                                          .toTransactionsResponse200Json(report);
+        TransactionsResponse200JsonTO transactionsResponse200JsonTO =
+            Mappers.getMapper(TransactionsReportMapper.class).toTransactionsResponse200Json(report);
         try {
-            String body = objectMapper.writeValueAsString(transactionsResponse200JsonTO);
+            String body = service.objectMapper.writeValueAsString(transactionsResponse200JsonTO);
             return new ResponseEntity<>(body, HttpStatus.OK);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -97,15 +103,5 @@ public class RemoteAccountInformationServiceTest {
         Map<String, String> headers = new HashMap<>();
         headers.put("Accept", "application/json");
         return headers;
-    }
-
-    private ResponseEntity<String> buildResponseEntity() {
-        Map<String, BookingStatusTO> map = new LinkedHashMap<>();
-        map.put("bookingStatus", BookingStatusTO.BOOKED);
-        try {
-            return new ResponseEntity<>(objectMapper.writeValueAsString(map), HttpStatus.OK);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
