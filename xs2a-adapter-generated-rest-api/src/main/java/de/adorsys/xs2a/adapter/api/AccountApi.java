@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.api;
 
 import de.adorsys.xs2a.adapter.model.AccountListTO;
 import de.adorsys.xs2a.adapter.model.BookingStatusTO;
+import de.adorsys.xs2a.adapter.model.OK200TransactionDetailsTO;
 import de.adorsys.xs2a.adapter.model.ReadAccountBalanceResponse200TO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,11 +35,18 @@ public interface AccountApi {
     ResponseEntity<Object> getTransactionList(@PathVariable("account-id") String accountId,
                                               @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom,
                                               @RequestParam(value = "dateTo", required = false) LocalDate dateTo,
-                                              @RequestParam(value = "entryReferenceFrom", required = false)
-                                                  String entryReferenceFrom,
-                                              @RequestParam(value = "bookingStatus", required = true)
-                                                  BookingStatusTO bookingStatus,
+                                              @RequestParam(value = "entryReferenceFrom", required = false) String entryReferenceFrom,
+                                              @RequestParam(value = "bookingStatus", required = true) BookingStatusTO bookingStatus,
                                               @RequestParam(value = "deltaList", required = false) Boolean deltaList,
                                               @RequestParam(value = "withBalance", required = false) Boolean withBalance,
                                               @RequestHeader Map<String, String> headers);
+
+    @RequestMapping(
+        value = "/v1/accounts/{account-id}/transactions/{transactionId}",
+        method = RequestMethod.GET
+    )
+    ResponseEntity<OK200TransactionDetailsTO> getTransactionDetails(
+        @PathVariable("account-id") String accountId,
+        @PathVariable("transactionId") String transactionId,
+        @RequestHeader Map<String, String> headers);
 }

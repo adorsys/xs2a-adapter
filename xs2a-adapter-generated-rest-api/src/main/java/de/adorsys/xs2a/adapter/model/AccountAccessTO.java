@@ -16,6 +16,8 @@ public class AccountAccessTO {
 
     private AvailableAccountsTO availableAccounts;
 
+    private AvailableAccountsWithBalanceTO availableAccountsWithBalance;
+
     private AllPsd2TO allPsd2;
 
     public List<AccountReferenceTO> getAccounts() {
@@ -50,6 +52,15 @@ public class AccountAccessTO {
         this.availableAccounts = availableAccounts;
     }
 
+    public AvailableAccountsWithBalanceTO getAvailableAccountsWithBalance() {
+        return availableAccountsWithBalance;
+    }
+
+    public void setAvailableAccountsWithBalance(
+        AvailableAccountsWithBalanceTO availableAccountsWithBalance) {
+        this.availableAccountsWithBalance = availableAccountsWithBalance;
+    }
+
     public AllPsd2TO getAllPsd2() {
         return allPsd2;
     }
@@ -59,9 +70,7 @@ public class AccountAccessTO {
     }
 
     public enum AvailableAccountsTO {
-        ALLACCOUNTS("allAccounts"),
-
-        ALLACCOUNTSWITHBALANCES("allAccountsWithBalances");
+        ALLACCOUNTS("allAccounts");
 
         private String value;
 
@@ -72,6 +81,32 @@ public class AccountAccessTO {
         @JsonCreator
         public static AvailableAccountsTO fromValue(String value) {
             for (AvailableAccountsTO e : AvailableAccountsTO.values()) {
+                if (e.value.equals(value)) {
+                    return e;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+
+        @Override
+        @JsonValue
+        public String toString() {
+            return value;
+        }
+    }
+
+    public enum AvailableAccountsWithBalanceTO {
+        ALLACCOUNTS("allAccounts");
+
+        private String value;
+
+        AvailableAccountsWithBalanceTO(String value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static AvailableAccountsWithBalanceTO fromValue(String value) {
+            for (AvailableAccountsWithBalanceTO e : AvailableAccountsWithBalanceTO.values()) {
                 if (e.value.equals(value)) {
                     return e;
                 }
