@@ -18,7 +18,7 @@ public abstract class AbstractController {
         this.objectMapper = objectMapper;
     }
 
-    Response<?> handleAuthorisationBody(ObjectNode body, AuthorisationBodyHandler... handlers) {
+    Response handleAuthorisationBody(ObjectNode body, AuthorisationBodyHandler... handlers) {
         for (AuthorisationBodyHandler handler : handlers) {
             if (handler.isApplicable(body)) {
                 return handler.apply(body, objectMapper);
@@ -31,9 +31,9 @@ public abstract class AbstractController {
     interface AuthorisationBodyHandler<T> {
         boolean isApplicable(ObjectNode body);
 
-        Response<?> apply(ObjectNode body, ObjectMapper objectMapper);
+        Response apply(ObjectNode body, ObjectMapper objectMapper);
 
-        Response<?> apply(T t);
+        Response apply(T t);
     }
 
     @FunctionalInterface
@@ -43,7 +43,7 @@ public abstract class AbstractController {
             return body.has("psuData");
         }
 
-        default Response<?> apply(ObjectNode body, ObjectMapper objectMapper) {
+        default Response apply(ObjectNode body, ObjectMapper objectMapper) {
             return apply(objectMapper.convertValue(body, UpdatePsuAuthentication.class));
         }
     }
@@ -55,7 +55,7 @@ public abstract class AbstractController {
             return body.has("authenticationMethodId");
         }
 
-        default Response<?> apply(ObjectNode body, ObjectMapper objectMapper) {
+        default Response apply(ObjectNode body, ObjectMapper objectMapper) {
             return apply(objectMapper.convertValue(body, SelectPsuAuthenticationMethod.class));
         }
     }
@@ -67,7 +67,7 @@ public abstract class AbstractController {
             return body.has("scaAuthenticationData");
         }
 
-        default Response<?> apply(ObjectNode body, ObjectMapper objectMapper) {
+        default Response apply(ObjectNode body, ObjectMapper objectMapper) {
             return apply(objectMapper.convertValue(body, TransactionAuthorisation.class));
         }
     }
@@ -82,7 +82,7 @@ public abstract class AbstractController {
             return !body.fields().hasNext();
         }
 
-        default Response<?> apply(ObjectNode body, ObjectMapper objectMapper) {
+        default Response apply(ObjectNode body, ObjectMapper objectMapper) {
             return apply(new EmptyAuthorisationBody());
         }
     }

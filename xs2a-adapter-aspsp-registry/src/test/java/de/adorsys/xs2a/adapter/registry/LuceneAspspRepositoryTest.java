@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.registry;
 import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.store.ByteBuffersDirectory;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -53,8 +54,11 @@ public class LuceneAspspRepositoryTest {
 
     @Test
     public void saveCanHandleNullProperties() {
-        luceneAspspRepository.save(new Aspsp());
-        // expect no exceptions
+        try {
+            luceneAspspRepository.save(new Aspsp());
+        } catch (Throwable e) {
+            Assert.fail("expect no exceptions");
+        }
     }
 
     @Test

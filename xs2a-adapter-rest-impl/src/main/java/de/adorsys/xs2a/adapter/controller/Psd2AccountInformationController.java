@@ -149,12 +149,14 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     }
 
     @Override
-    public ResponseEntity<?> getTransactionList(String accountId,
-                                                Map<String, String> queryParameters,
-                                                Map<String, String> headers) throws IOException {
-        Response<?> response = accountInformationService.getTransactions(accountId, queryParameters, headers);
+    @SuppressWarnings("unchecked")
+    public ResponseEntity getTransactionList(String accountId,
+                                             Map<String, String> queryParameters,
+                                             Map<String, String> headers) throws IOException {
+        Response response = accountInformationService.getTransactions(accountId, queryParameters, headers);
         if (response.getBody() instanceof TransactionsResponse) {
             return toResponseEntity(
+
                 (Response<TransactionsResponse>) response,
                 mapper::toTransactionsResponseTO
             );

@@ -36,15 +36,12 @@ import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
 import java.util.Map;
 
 public class RemoteAccountInformationService implements AccountInformationService {
-    private static final Logger log = LoggerFactory.getLogger(RemoteAccountInformationService.class);
 
     private final AccountInformationClient client;
     private final ConsentMapper consentMapper = Mappers.getMapper(ConsentMapper.class);
@@ -257,8 +254,7 @@ public class RemoteAccountInformationService implements AccountInformationServic
             try {
                 return LocalDate.parse(date);
             } catch (Exception e) {
-                log.error(e.getMessage(), e);
-                throw new Xs2aAdapterClientParseException(e.getMessage());
+                throw new Xs2aAdapterClientParseException(e);
             }
         }
         return null;

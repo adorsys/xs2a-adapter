@@ -17,10 +17,7 @@
 package de.adorsys.xs2a.adapter.remote.api;
 
 public class Xs2aAdapterClientParseException extends RuntimeException {
-    public Xs2aAdapterClientParseException() {
-    }
-
-    public Xs2aAdapterClientParseException(String message) {
-        super(message);
+    public Xs2aAdapterClientParseException(Throwable cause) {
+        super(cause);
     }
 }

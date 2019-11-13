@@ -6,7 +6,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 class Headers {
-    public static final String BEARER_ = "Bearer ";
+    @SuppressWarnings("squid:S00115")
+    private static final String BEARER_ = "Bearer ";
 
     private Map<String, String> headers;
 

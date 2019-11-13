@@ -85,9 +85,9 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
     }
 
     @Override
-    public Response<?> getTransactions(String accountId,
-                                                Map<String, String> queryParameters,
-                                                Map<String, String> headers) throws IOException {
+    public Response getTransactions(String accountId,
+                                    Map<String, String> queryParameters,
+                                    Map<String, String> headers) throws IOException {
         return getAccountInformationService(headers)
             .getTransactions(accountId, queryParameters, headers);
     }

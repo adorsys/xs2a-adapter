@@ -46,7 +46,7 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     }
 
     @Override
-    public Response<?> getTransactions(String accountId, Map<String, String> queryParameters, Map<String, String> headers) throws IOException {
+    public Response getTransactions(String accountId, Map<String, String> queryParameters, Map<String, String> headers) throws IOException {
         ResponseEntity<?> responseEntity = client.getTransactionList(accountId, queryParameters, headers);
 
         Object responseBody = responseEntity.getBody();

@@ -27,9 +27,13 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.mapstruct.factory.Mappers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 
 public class RemotePaymentInitiationService implements PaymentInitiationService {
+
+    private static final Logger log = LoggerFactory.getLogger(RemotePaymentInitiationService.class);
 
     private final PaymentInitiationClient client;
 
@@ -109,7 +113,7 @@ public class RemotePaymentInitiationService implements PaymentInitiationService 
             String responseObject = objectMapper.writeValueAsString(responseEntity.getBody());
             return new Response<>(responseEntity.getStatusCodeValue(), responseObject, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.error("Failed to convert the response body into a string", e);
         }
         return new Response<>(responseEntity.getStatusCodeValue(), "{}", responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }

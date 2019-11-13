@@ -5,16 +5,13 @@ import de.adorsys.xs2a.adapter.service.model.ExchangeRate;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
 @Mapper
 public interface ExchangeRateMapper {
 
-    @Mappings({
-        @Mapping(source = "rate", target = "exchangeRate"),
-        @Mapping(source = "rateDate", target = "quotationDate"),
-        @Mapping(source = "rateContract", target = "contractIdentification")
-    })
+    @Mapping(source = "rate", target = "exchangeRate")
+    @Mapping(source = "rateDate", target = "quotationDate")
+    @Mapping(source = "rateContract", target = "contractIdentification")
     ReportExchangeRateTO toExchangeRateTO(ExchangeRate exchangeRate);
 
     @InheritInverseConfiguration
