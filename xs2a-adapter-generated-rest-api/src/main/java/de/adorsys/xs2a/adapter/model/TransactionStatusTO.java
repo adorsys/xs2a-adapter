@@ -7,53 +7,53 @@ import javax.annotation.Generated;
 
 @Generated("xs2a-codegen")
 public enum TransactionStatusTO {
-  ACCC("ACCC"),
+    ACCC("ACCC"),
 
-  ACCP("ACCP"),
+    ACCP("ACCP"),
 
-  ACSC("ACSC"),
+    ACSC("ACSC"),
 
-  ACSP("ACSP"),
+    ACSP("ACSP"),
 
-  ACTC("ACTC"),
+    ACTC("ACTC"),
 
-  ACWC("ACWC"),
+    ACWC("ACWC"),
 
-  ACWP("ACWP"),
+    ACWP("ACWP"),
 
-  RCVD("RCVD"),
+    RCVD("RCVD"),
 
-  PDNG("PDNG"),
+    PDNG("PDNG"),
 
-  RJCT("RJCT"),
+    RJCT("RJCT"),
 
-  CANC("CANC"),
+    CANC("CANC"),
 
-  ACFC("ACFC"),
+    ACFC("ACFC"),
 
-  PATC("PATC"),
+    PATC("PATC"),
 
-  PART("PART");
+    PART("PART");
 
-  private String value;
+    private String value;
 
-  TransactionStatusTO(String value) {
-    this.value = value;
-  }
-
-  @JsonCreator
-  public static TransactionStatusTO fromValue(String value) {
-    for (TransactionStatusTO e : TransactionStatusTO.values()) {
-      if (e.value.equals(value)) {
-        return e;
-      }
+    TransactionStatusTO(String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException(value);
-  }
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return value;
-  }
+    @JsonCreator
+    public static TransactionStatusTO fromValue(String value) {
+        for (TransactionStatusTO e : TransactionStatusTO.values()) {
+            if (e.value.equals(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException(value);
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return value;
+    }
 }

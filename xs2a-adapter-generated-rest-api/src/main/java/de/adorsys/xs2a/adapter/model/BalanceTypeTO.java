@@ -7,41 +7,41 @@ import javax.annotation.Generated;
 
 @Generated("xs2a-codegen")
 public enum BalanceTypeTO {
-  CLOSINGBOOKED("closingBooked"),
+    CLOSINGBOOKED("closingBooked"),
 
-  EXPECTED("expected"),
+    EXPECTED("expected"),
 
-  AUTHORISED("authorised"),
+    AUTHORISED("authorised"),
 
-  OPENINGBOOKED("openingBooked"),
+    OPENINGBOOKED("openingBooked"),
 
-  INTERIMAVAILABLE("interimAvailable"),
+    INTERIMAVAILABLE("interimAvailable"),
 
-  INTERIMBOOKED("interimBooked"),
+    INTERIMBOOKED("interimBooked"),
 
-  FORWARDAVAILABLE("forwardAvailable"),
+    FORWARDAVAILABLE("forwardAvailable"),
 
-  NONINVOICED("nonInvoiced");
+    NONINVOICED("nonInvoiced");
 
-  private String value;
+    private String value;
 
-  BalanceTypeTO(String value) {
-    this.value = value;
-  }
-
-  @JsonCreator
-  public static BalanceTypeTO fromValue(String value) {
-    for (BalanceTypeTO e : BalanceTypeTO.values()) {
-      if (e.value.equals(value)) {
-        return e;
-      }
+    BalanceTypeTO(String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException(value);
-  }
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return value;
-  }
+    @JsonCreator
+    public static BalanceTypeTO fromValue(String value) {
+        for (BalanceTypeTO e : BalanceTypeTO.values()) {
+            if (e.value.equals(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException(value);
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return value;
+    }
 }

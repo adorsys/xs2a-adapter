@@ -7,37 +7,37 @@ import javax.annotation.Generated;
 
 @Generated("xs2a-codegen")
 public enum ConsentStatusTO {
-  RECEIVED("received"),
+    RECEIVED("received"),
 
-  REJECTED("rejected"),
+    REJECTED("rejected"),
 
-  VALID("valid"),
+    VALID("valid"),
 
-  REVOKEDBYPSU("revokedByPsu"),
+    REVOKEDBYPSU("revokedByPsu"),
 
-  EXPIRED("expired"),
+    EXPIRED("expired"),
 
-  TERMINATEDBYTPP("terminatedByTpp");
+    TERMINATEDBYTPP("terminatedByTpp");
 
-  private String value;
+    private String value;
 
-  ConsentStatusTO(String value) {
-    this.value = value;
-  }
-
-  @JsonCreator
-  public static ConsentStatusTO fromValue(String value) {
-    for (ConsentStatusTO e : ConsentStatusTO.values()) {
-      if (e.value.equals(value)) {
-        return e;
-      }
+    ConsentStatusTO(String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException(value);
-  }
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return value;
-  }
+    @JsonCreator
+    public static ConsentStatusTO fromValue(String value) {
+        for (ConsentStatusTO e : ConsentStatusTO.values()) {
+            if (e.value.equals(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException(value);
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return value;
+    }
 }

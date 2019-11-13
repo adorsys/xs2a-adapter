@@ -7,31 +7,31 @@ import javax.annotation.Generated;
 
 @Generated("xs2a-codegen")
 public enum AccountStatusTO {
-  ENABLED("enabled"),
+    ENABLED("enabled"),
 
-  DELETED("deleted"),
+    DELETED("deleted"),
 
-  BLOCKED("blocked");
+    BLOCKED("blocked");
 
-  private String value;
+    private String value;
 
-  AccountStatusTO(String value) {
-    this.value = value;
-  }
-
-  @JsonCreator
-  public static AccountStatusTO fromValue(String value) {
-    for (AccountStatusTO e : AccountStatusTO.values()) {
-      if (e.value.equals(value)) {
-        return e;
-      }
+    AccountStatusTO(String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException(value);
-  }
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return value;
-  }
+    @JsonCreator
+    public static AccountStatusTO fromValue(String value) {
+        for (AccountStatusTO e : AccountStatusTO.values()) {
+            if (e.value.equals(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException(value);
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return value;
+    }
 }

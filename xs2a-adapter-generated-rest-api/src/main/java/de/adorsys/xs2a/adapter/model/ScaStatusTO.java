@@ -7,41 +7,41 @@ import javax.annotation.Generated;
 
 @Generated("xs2a-codegen")
 public enum ScaStatusTO {
-  RECEIVED("received"),
+    RECEIVED("received"),
 
-  PSUIDENTIFIED("psuIdentified"),
+    PSUIDENTIFIED("psuIdentified"),
 
-  PSUAUTHENTICATED("psuAuthenticated"),
+    PSUAUTHENTICATED("psuAuthenticated"),
 
-  SCAMETHODSELECTED("scaMethodSelected"),
+    SCAMETHODSELECTED("scaMethodSelected"),
 
-  STARTED("started"),
+    STARTED("started"),
 
-  FINALISED("finalised"),
+    FINALISED("finalised"),
 
-  FAILED("failed"),
+    FAILED("failed"),
 
-  EXEMPTED("exempted");
+    EXEMPTED("exempted");
 
-  private String value;
+    private String value;
 
-  ScaStatusTO(String value) {
-    this.value = value;
-  }
-
-  @JsonCreator
-  public static ScaStatusTO fromValue(String value) {
-    for (ScaStatusTO e : ScaStatusTO.values()) {
-      if (e.value.equals(value)) {
-        return e;
-      }
+    ScaStatusTO(String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException(value);
-  }
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return value;
-  }
+    @JsonCreator
+    public static ScaStatusTO fromValue(String value) {
+        for (ScaStatusTO e : ScaStatusTO.values()) {
+            if (e.value.equals(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException(value);
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return value;
+    }
 }

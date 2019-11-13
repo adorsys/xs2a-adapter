@@ -5,13 +5,13 @@ import java.util.List;
 
 @Generated("xs2a-codegen")
 public class AuthorisationsTO {
-  private List<String> authorisationIds;
+    private List<String> authorisationIds;
 
-  public List<String> getAuthorisationIds() {
-    return authorisationIds;
-  }
+    public List<String> getAuthorisationIds() {
+        return authorisationIds;
+    }
 
-  public void setAuthorisationIds(List<String> authorisationIds) {
-    this.authorisationIds = authorisationIds;
-  }
+    public void setAuthorisationIds(List<String> authorisationIds) {
+        this.authorisationIds = authorisationIds;
+    }
 }

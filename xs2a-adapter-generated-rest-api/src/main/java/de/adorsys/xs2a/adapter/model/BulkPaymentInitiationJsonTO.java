@@ -7,53 +7,53 @@ import java.util.List;
 
 @Generated("xs2a-codegen")
 public class BulkPaymentInitiationJsonTO {
-  private Boolean batchBookingPreferred;
+    private Boolean batchBookingPreferred;
 
-  private AccountReferenceTO debtorAccount;
+    private AccountReferenceTO debtorAccount;
 
-  private LocalDate requestedExecutionDate;
+    private LocalDate requestedExecutionDate;
 
-  private OffsetDateTime requestedExecutionTime;
+    private OffsetDateTime requestedExecutionTime;
 
-  private List<PaymentInitiationBulkElementJsonTO> payments;
+    private List<PaymentInitiationBulkElementJsonTO> payments;
 
-  public Boolean getBatchBookingPreferred() {
-    return batchBookingPreferred;
-  }
+    public Boolean getBatchBookingPreferred() {
+        return batchBookingPreferred;
+    }
 
-  public void setBatchBookingPreferred(Boolean batchBookingPreferred) {
-    this.batchBookingPreferred = batchBookingPreferred;
-  }
+    public void setBatchBookingPreferred(Boolean batchBookingPreferred) {
+        this.batchBookingPreferred = batchBookingPreferred;
+    }
 
-  public AccountReferenceTO getDebtorAccount() {
-    return debtorAccount;
-  }
+    public AccountReferenceTO getDebtorAccount() {
+        return debtorAccount;
+    }
 
-  public void setDebtorAccount(AccountReferenceTO debtorAccount) {
-    this.debtorAccount = debtorAccount;
-  }
+    public void setDebtorAccount(AccountReferenceTO debtorAccount) {
+        this.debtorAccount = debtorAccount;
+    }
 
-  public LocalDate getRequestedExecutionDate() {
-    return requestedExecutionDate;
-  }
+    public LocalDate getRequestedExecutionDate() {
+        return requestedExecutionDate;
+    }
 
-  public void setRequestedExecutionDate(LocalDate requestedExecutionDate) {
-    this.requestedExecutionDate = requestedExecutionDate;
-  }
+    public void setRequestedExecutionDate(LocalDate requestedExecutionDate) {
+        this.requestedExecutionDate = requestedExecutionDate;
+    }
 
-  public OffsetDateTime getRequestedExecutionTime() {
-    return requestedExecutionTime;
-  }
+    public OffsetDateTime getRequestedExecutionTime() {
+        return requestedExecutionTime;
+    }
 
-  public void setRequestedExecutionTime(OffsetDateTime requestedExecutionTime) {
-    this.requestedExecutionTime = requestedExecutionTime;
-  }
+    public void setRequestedExecutionTime(OffsetDateTime requestedExecutionTime) {
+        this.requestedExecutionTime = requestedExecutionTime;
+    }
 
-  public List<PaymentInitiationBulkElementJsonTO> getPayments() {
-    return payments;
-  }
+    public List<PaymentInitiationBulkElementJsonTO> getPayments() {
+        return payments;
+    }
 
-  public void setPayments(List<PaymentInitiationBulkElementJsonTO> payments) {
-    this.payments = payments;
-  }
+    public void setPayments(List<PaymentInitiationBulkElementJsonTO> payments) {
+        this.payments = payments;
+    }
 }

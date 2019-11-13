@@ -4,23 +4,23 @@ import javax.annotation.Generated;
 
 @Generated("xs2a-codegen")
 public class PaymentInitiationStatusResponse200JsonTO {
-  private TransactionStatusTO transactionStatus;
+    private TransactionStatusTO transactionStatus;
 
-  private Boolean fundsAvailable;
+    private Boolean fundsAvailable;
 
-  public TransactionStatusTO getTransactionStatus() {
-    return transactionStatus;
-  }
+    public TransactionStatusTO getTransactionStatus() {
+        return transactionStatus;
+    }
 
-  public void setTransactionStatus(TransactionStatusTO transactionStatus) {
-    this.transactionStatus = transactionStatus;
-  }
+    public void setTransactionStatus(TransactionStatusTO transactionStatus) {
+        this.transactionStatus = transactionStatus;
+    }
 
-  public Boolean getFundsAvailable() {
-    return fundsAvailable;
-  }
+    public Boolean getFundsAvailable() {
+        return fundsAvailable;
+    }
 
-  public void setFundsAvailable(Boolean fundsAvailable) {
-    this.fundsAvailable = fundsAvailable;
-  }
+    public void setFundsAvailable(Boolean fundsAvailable) {
+        this.fundsAvailable = fundsAvailable;
+    }
 }

@@ -7,29 +7,29 @@ import javax.annotation.Generated;
 
 @Generated("xs2a-codegen")
 public enum ExecutionRuleTO {
-  FOLLOWING("following"),
+    FOLLOWING("following"),
 
-  PRECEDING("preceding");
+    PRECEDING("preceding");
 
-  private String value;
+    private String value;
 
-  ExecutionRuleTO(String value) {
-    this.value = value;
-  }
-
-  @JsonCreator
-  public static ExecutionRuleTO fromValue(String value) {
-    for (ExecutionRuleTO e : ExecutionRuleTO.values()) {
-      if (e.value.equals(value)) {
-        return e;
-      }
+    ExecutionRuleTO(String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException(value);
-  }
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return value;
-  }
+    @JsonCreator
+    public static ExecutionRuleTO fromValue(String value) {
+        for (ExecutionRuleTO e : ExecutionRuleTO.values()) {
+            if (e.value.equals(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException(value);
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return value;
+    }
 }
