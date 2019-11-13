@@ -13,3 +13,4 @@
 constructor parameter
 
 == Fixes:
+- Remote client: fixed bug in `getTransactionListAsString` with accept type `application/json`

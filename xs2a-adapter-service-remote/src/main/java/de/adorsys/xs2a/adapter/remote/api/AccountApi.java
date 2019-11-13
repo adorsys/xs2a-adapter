@@ -18,6 +18,7 @@ package de.adorsys.xs2a.adapter.remote.api;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import de.adorsys.xs2a.adapter.model.*;
+import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -100,22 +101,22 @@ public interface AccountApi {
 
     @RequestMapping(
         value = "/v1/accounts/{account-id}/transactions",
-        method = RequestMethod.GET
+        method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    ResponseEntity<Object> getTransactionList(@PathVariable("account-id") String accountId,
-                                              @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom,
-                                              @RequestParam(value = "dateTo", required = false) LocalDate dateTo,
-                                              @RequestParam(value = "entryReferenceFrom", required = false)
+    ResponseEntity<TransactionsReport> getTransactionList(@PathVariable("account-id") String accountId,
+                                                          @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom,
+                                                          @RequestParam(value = "dateTo", required = false) LocalDate dateTo,
+                                                          @RequestParam(value = "entryReferenceFrom", required = false)
                                                   String entryReferenceFrom,
-                                              @RequestParam(value = "bookingStatus", required = true)
+                                                          @RequestParam(value = "bookingStatus", required = true)
                                                   BookingStatusTO bookingStatus,
-                                              @RequestParam(value = "deltaList", required = false) Boolean deltaList,
-                                              @RequestParam(value = "withBalance", required = false) Boolean withBalance,
-                                              @RequestHeader Map<String, String> headers);
+                                                          @RequestParam(value = "deltaList", required = false) Boolean deltaList,
+                                                          @RequestParam(value = "withBalance", required = false) Boolean withBalance,
+                                                          @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/v1/accounts/{account-id}/transactions",
-        method = RequestMethod.GET, produces = {MediaType.APPLICATION_XML_VALUE}
+        method = RequestMethod.GET
     )
     ResponseEntity<String> getTransactionListAsString(@PathVariable("account-id") String accountId,
                                                       @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom,

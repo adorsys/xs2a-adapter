@@ -1,5 +1,7 @@
 package de.adorsys.xs2a.adapter.service.model;
 
+import java.util.Objects;
+
 public class AccountReference {
     private String iban;
     private String bban;
@@ -54,5 +56,35 @@ public class AccountReference {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AccountReference that = (AccountReference) o;
+        return Objects.equals(iban, that.iban) &&
+                   Objects.equals(bban, that.bban) &&
+                   Objects.equals(pan, that.pan) &&
+                   Objects.equals(maskedPan, that.maskedPan) &&
+                   Objects.equals(msisdn, that.msisdn) &&
+                   Objects.equals(currency, that.currency);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(iban, bban, pan, maskedPan, msisdn, currency);
+    }
+
+    @Override
+    public String toString() {
+        return "AccountReference{" +
+                   "iban='" + iban + '\'' +
+                   ", bban='" + bban + '\'' +
+                   ", pan='" + pan + '\'' +
+                   ", maskedPan='" + maskedPan + '\'' +
+                   ", msisdn='" + msisdn + '\'' +
+                   ", currency='" + currency + '\'' +
+                   '}';
     }
 }

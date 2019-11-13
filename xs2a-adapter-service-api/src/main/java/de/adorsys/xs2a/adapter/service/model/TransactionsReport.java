@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class TransactionsReport {
     private AccountReference accountReference;
@@ -42,5 +43,31 @@ public class TransactionsReport {
 
     public void setLinks(Map<String, Link> links) {
         this.links = links;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TransactionsReport that = (TransactionsReport) o;
+        return Objects.equals(accountReference, that.accountReference) &&
+                   Objects.equals(transactions, that.transactions) &&
+                   Objects.equals(balances, that.balances) &&
+                   Objects.equals(links, that.links);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountReference, transactions, balances, links);
+    }
+
+    @Override
+    public String toString() {
+        return "TransactionsReport{" +
+                   "accountReference=" + accountReference +
+                   ", transactions=" + transactions +
+                   ", balances=" + balances +
+                   ", links=" + links +
+                   '}';
     }
 }
