@@ -294,7 +294,7 @@ public class RemoteAccountInformationService implements AccountInformationServic
                 TransactionsResponse200JsonTO.class
             );
         } catch (IOException e) {
-            throw new Xs2aAdapterClientParseException(e.getMessage());
+            throw new Xs2aAdapterClientParseException(e);
         }
         TransactionsReport transactionsReport =
             transactionsReportMapper.toTransactionsReport(transactionsResponse200JsonTO);
@@ -348,7 +348,7 @@ public class RemoteAccountInformationService implements AccountInformationServic
                 TransactionsReport report = transactionsReportMapper.toTransactionsReport(json);
                 body = objectMapper.writeValueAsString(report);
             } catch (IOException e) {
-                throw new Xs2aAdapterClientParseException(e.getMessage());
+                throw new Xs2aAdapterClientParseException(e);
             }
         }
 
