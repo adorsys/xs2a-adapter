@@ -28,12 +28,15 @@ import static org.mockito.Mockito.when;
 
 public class RemoteAccountInformationServiceTest {
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     @Test
     public void getTransactionListAsString() {
         AccountInformationClient client = mock(AccountInformationClient.class);
         RemoteAccountInformationService service = new RemoteAccountInformationService(client);
 
-        when(client.getTransactionListAsString(any(), any(), any(), anyString(), any(), anyBoolean(), anyBoolean(), anyMap())).thenReturn(buildResponseEntity());
+        when(client.getTransactionListAsString(any(), any(), any(), anyString(), any(), anyBoolean(), anyBoolean(), anyMap()))
+            .thenReturn(buildResponseEntity());
 
         Response<String> response = service.getTransactionListAsString(
             "accountId",
@@ -65,9 +68,10 @@ public class RemoteAccountInformationServiceTest {
     }
 
     private ResponseEntity<String> buildResponseEntity(TransactionsReport report) {
-        TransactionsResponse200JsonTO transactionsResponse200JsonTO = Mappers.getMapper(TransactionsReportMapper.class).toTransactionsResponse200Json(report);
+        TransactionsResponse200JsonTO transactionsResponse200JsonTO = Mappers.getMapper(TransactionsReportMapper.class)
+                                                                          .toTransactionsResponse200Json(report);
         try {
-            String body = new ObjectMapper().writeValueAsString(transactionsResponse200JsonTO);
+            String body = objectMapper.writeValueAsString(transactionsResponse200JsonTO);
             return new ResponseEntity<>(body, HttpStatus.OK);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -95,9 +99,13 @@ public class RemoteAccountInformationServiceTest {
         return headers;
     }
 
-    private ResponseEntity buildResponseEntity() {
-        Map map = new LinkedHashMap();
+    private ResponseEntity<String> buildResponseEntity() {
+        Map<String, BookingStatusTO> map = new LinkedHashMap<>();
         map.put("bookingStatus", BookingStatusTO.BOOKED);
-        return new ResponseEntity(map, HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(objectMapper.writeValueAsString(map), HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

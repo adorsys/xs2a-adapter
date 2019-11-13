@@ -158,7 +158,7 @@ public class ConsentController extends AbstractController implements AccountApi 
     }
 
     @Override
-    public ResponseEntity<Object> getTransactionList(String accountId,
+    public ResponseEntity<TransactionsReport> getTransactionList(String accountId,
                                                      LocalDate dateFrom,
                                                      LocalDate dateTo, String entryReferenceFrom,
                                                      BookingStatusTO bookingStatus,
@@ -176,7 +176,7 @@ public class ConsentController extends AbstractController implements AccountApi 
                                           .withBalance(withBalance)
                                           .build();
 
-        Response<String> response = accountInformationService.getTransactionListAsString(accountId, requestHeaders, requestParams);
+        Response<TransactionsReport> response = accountInformationService.getTransactionList(accountId, requestHeaders, requestParams);
 
         return ResponseEntity
                    .status(HttpStatus.OK)

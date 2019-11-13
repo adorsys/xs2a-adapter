@@ -17,7 +17,6 @@
 package de.adorsys.xs2a.adapter.remote.service.impl;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -224,21 +223,9 @@ public class RemoteAccountInformationService implements AccountInformationServic
     public Response<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         ResponseEntity<String> responseEntity = getTransactionListFromClient(accountId, requestParams, requestHeaders);
 
-        String body;
-
-        if (responseEntity.getBody() instanceof String) {
-            body = responseEntity.getBody();
-        } else {
-            try {
-                body = objectMapper.writeValueAsString(responseEntity.getBody());
-            } catch (JsonProcessingException e) {
-                throw new Xs2aAdapterClientParseException(e.getMessage());
-            }
-        }
-
         return new Response<>(
             responseEntity.getStatusCodeValue(),
-            body,
+            responseEntity.getBody(),
             responseHeadersMapper.getHeaders(responseEntity.getHeaders())
         );
     }
