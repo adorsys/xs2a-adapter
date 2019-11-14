@@ -1,13 +1,9 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.model.AccountListHolder;
-import de.adorsys.xs2a.adapter.service.model.BalanceReport;
-import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.*;
 
 public class TestAccountInformationService implements AccountInformationService {
@@ -97,6 +93,13 @@ public class TestAccountInformationService implements AccountInformationService 
 
     @Override
     public Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
+        return null;
+    }
+
+    @Override
+    public Response<TransactionDetails> getTransactionDetails(String accountId,
+                                                              String transactionId,
+                                                              RequestHeaders requestHeaders) {
         return null;
     }
 }

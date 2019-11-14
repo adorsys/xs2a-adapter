@@ -4,8 +4,9 @@ import de.adorsys.xs2a.adapter.service.model.*;
 import de.adorsys.xs2a.adapter.service.psd2.model.ConsentStatusResponse;
 import de.adorsys.xs2a.adapter.service.psd2.model.Consents;
 import de.adorsys.xs2a.adapter.service.psd2.model.ScaStatusResponse;
-import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import de.adorsys.xs2a.adapter.service.psd2.model.StartScaProcessResponse;
+import de.adorsys.xs2a.adapter.service.psd2.model.TransactionDetails;
+import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

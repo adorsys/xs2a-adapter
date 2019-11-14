@@ -64,6 +64,7 @@ public class RemoteAccountInformationService implements AccountInformationServic
         Mappers.getMapper(StartScaProcessResponseMapper.class);
     private final ResponseHeadersMapper responseHeadersMapper =
         Mappers.getMapper(ResponseHeadersMapper.class);
+    private final TransactionDetailsMapper transactionDetailsMapper = Mappers.getMapper(TransactionDetailsMapper.class);
     final ObjectMapper objectMapper;
 
     public RemoteAccountInformationService(AccountInformationClient client) {
@@ -303,6 +304,17 @@ public class RemoteAccountInformationService implements AccountInformationServic
             transactionsReport,
             responseHeadersMapper.getHeaders(responseEntity.getHeaders())
         );
+    }
+
+    @Override
+    public Response<TransactionDetails> getTransactionDetails(String accountId,
+                                                              String transactionId,
+                                                              RequestHeaders requestHeaders) {
+        ResponseEntity<OK200TransactionDetailsTO> response =
+            client.getTransactionDetails(accountId, transactionId, requestHeaders.toMap());
+        return new Response<>(response.getStatusCodeValue(),
+            transactionDetailsMapper.map(response.getBody()),
+            responseHeadersMapper.getHeaders(response.getHeaders()));
     }
 
     private ResponseEntity<String> getTransactionListFromClient(

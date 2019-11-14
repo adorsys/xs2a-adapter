@@ -23,11 +23,10 @@ import de.adorsys.xs2a.adapter.api.ConsentApi;
 import de.adorsys.xs2a.adapter.mapper.*;
 import de.adorsys.xs2a.adapter.model.*;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.model.*;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
+import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.model.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +50,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
     private final ScaStatusResponseMapper scaStatusResponseMapper = Mappers.getMapper(ScaStatusResponseMapper.class);
     private final BalanceReportMapper balanceReportMapper = Mappers.getMapper(BalanceReportMapper.class);
     private final TransactionsReportMapper transactionsReportMapper = Mappers.getMapper(TransactionsReportMapper.class);
+    private final TransactionDetailsMapper transactionDetailsMapper = Mappers.getMapper(TransactionDetailsMapper.class);
 
     public ConsentController(AccountInformationService accountInformationService, ObjectMapper objectMapper, HeadersMapper headersMapper) {
         super(objectMapper);
@@ -191,6 +191,15 @@ public class ConsentController extends AbstractController implements ConsentApi,
                        .status(HttpStatus.OK)
                        .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                        .body(response.getBody());
+    }
+
+    @Override
+    public ResponseEntity<OK200TransactionDetailsTO> getTransactionDetails(String accountId, String transactionId, Map<String, String> headers) {
+        Response<TransactionDetails> response =
+            accountInformationService.getTransactionDetails(accountId, transactionId, RequestHeaders.fromMap(headers));
+        return ResponseEntity.status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(transactionDetailsMapper.map(response.getBody()));
     }
 
     @Override

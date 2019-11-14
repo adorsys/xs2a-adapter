@@ -10,5 +10,6 @@
 
 == Features:
 - Updated XS2A API version to 1.3.4_2019-07-17v1
+- Added "getTransactionDetails" operation
 
 == Fixes:

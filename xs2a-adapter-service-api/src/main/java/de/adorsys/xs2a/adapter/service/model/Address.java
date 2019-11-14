@@ -1,28 +1,18 @@
 package de.adorsys.xs2a.adapter.service.model;
 
 public class Address {
-    // required
-    private String country; //pattern [A-Z]{2}
-    // optional
-    private String street;
+    private String streetName;
     private String buildingNumber;
-    private String city;
-    private String postalCode;
+    private String townName;
+    private String postCode;
+    private String country;
 
-    public String getCountry() {
-        return country;
+    public String getStreetName() {
+        return streetName;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
     }
 
     public String getBuildingNumber() {
@@ -33,19 +23,27 @@ public class Address {
         this.buildingNumber = buildingNumber;
     }
 
-    public String getCity() {
-        return city;
+    public String getTownName() {
+        return townName;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setTownName(String townName) {
+        this.townName = townName;
     }
 
-    public String getPostalCode() {
-        return postalCode;
+    public String getPostCode() {
+        return postCode;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }
