@@ -19,20 +19,20 @@ public class AddressMapperTest {
         AddressTO addressTO = Mappers.getMapper(AddressMapper.class).toAddressTO(buildAddress());
 
         assertThat(addressTO).isNotNull();
-        assertThat(addressTO.getPostalCode()).isEqualTo(POSTAL_CODE);
+        assertThat(addressTO.getPostCode()).isEqualTo(POSTAL_CODE);
         assertThat(addressTO.getCountry()).isEqualTo(COUNTRY);
-        assertThat(addressTO.getCity()).isEqualTo(CITY);
-        assertThat(addressTO.getStreet()).isEqualTo(STREET);
+        assertThat(addressTO.getTownName()).isEqualTo(CITY);
+        assertThat(addressTO.getStreetName()).isEqualTo(STREET);
         assertThat(addressTO.getBuildingNumber()).isEqualTo(BUILDING_NUMBER);
     }
 
     static Address buildAddress() {
         Address address = new Address();
 
-        address.setPostalCode(POSTAL_CODE);
+        address.setPostCode(POSTAL_CODE);
         address.setCountry(COUNTRY);
-        address.setCity(CITY);
-        address.setStreet(STREET);
+        address.setTownName(CITY);
+        address.setStreetName(STREET);
         address.setBuildingNumber(BUILDING_NUMBER);
 
         return address;

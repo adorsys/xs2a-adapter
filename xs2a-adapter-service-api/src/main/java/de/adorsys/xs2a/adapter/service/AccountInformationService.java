@@ -16,10 +16,6 @@
 
 package de.adorsys.xs2a.adapter.service;
 
-import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.model.AccountListHolder;
-import de.adorsys.xs2a.adapter.service.model.BalanceReport;
-import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
 import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
 import de.adorsys.xs2a.adapter.service.model.*;
 
@@ -68,6 +64,10 @@ public interface AccountInformationService {
     Response<TransactionsReport> getTransactionList(String accountId,
                                                     RequestHeaders requestHeaders,
                                                     RequestParams requestParams);
+
+    Response<TransactionDetails> getTransactionDetails(String accountId,
+                                                       String transactionId,
+                                                       RequestHeaders requestHeaders);
 
     Response<String> getTransactionListAsString(String accountId,
                                                 RequestHeaders requestHeaders,

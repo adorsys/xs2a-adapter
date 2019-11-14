@@ -8,24 +8,24 @@ import java.util.Map;
 
 @Generated("xs2a-codegen")
 public class ErrorResponseTO {
-  private List<TppMessageTO> tppMessages;
+    private List<TppMessageTO> tppMessages;
 
-  @JsonProperty("_links")
-  private Map<String, HrefTypeTO> links;
+    @JsonProperty("_links")
+    private Map<String, HrefTypeTO> links;
 
-  public List<TppMessageTO> getTppMessages() {
-    return tppMessages;
-  }
+    public List<TppMessageTO> getTppMessages() {
+        return tppMessages;
+    }
 
-  public void setTppMessages(List<TppMessageTO> tppMessages) {
-    this.tppMessages = tppMessages;
-  }
+    public void setTppMessages(List<TppMessageTO> tppMessages) {
+        this.tppMessages = tppMessages;
+    }
 
-  public Map<String, HrefTypeTO> getLinks() {
-    return links;
-  }
+    public Map<String, HrefTypeTO> getLinks() {
+        return links;
+    }
 
-  public void setLinks(Map<String, HrefTypeTO> links) {
-    this.links = links;
-  }
+    public void setLinks(Map<String, HrefTypeTO> links) {
+        this.links = links;
+    }
 }

@@ -7,29 +7,29 @@ import javax.annotation.Generated;
 
 @Generated("xs2a-codegen")
 public enum TppMessageCategoryTO {
-  ERROR("ERROR"),
+    ERROR("ERROR"),
 
-  WARNING("WARNING");
+    WARNING("WARNING");
 
-  private String value;
+    private String value;
 
-  TppMessageCategoryTO(String value) {
-    this.value = value;
-  }
-
-  @JsonCreator
-  public static TppMessageCategoryTO fromValue(String value) {
-    for (TppMessageCategoryTO e : TppMessageCategoryTO.values()) {
-      if (e.value.equals(value)) {
-        return e;
-      }
+    TppMessageCategoryTO(String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException(value);
-  }
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return value;
-  }
+    @JsonCreator
+    public static TppMessageCategoryTO fromValue(String value) {
+        for (TppMessageCategoryTO e : TppMessageCategoryTO.values()) {
+            if (e.value.equals(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException(value);
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return value;
+    }
 }

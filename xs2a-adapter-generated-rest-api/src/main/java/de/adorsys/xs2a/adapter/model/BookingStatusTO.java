@@ -7,31 +7,31 @@ import javax.annotation.Generated;
 
 @Generated("xs2a-codegen")
 public enum BookingStatusTO {
-  BOOKED("booked"),
+    BOOKED("booked"),
 
-  PENDING("pending"),
+    PENDING("pending"),
 
-  BOTH("both");
+    BOTH("both");
 
-  private String value;
+    private String value;
 
-  BookingStatusTO(String value) {
-    this.value = value;
-  }
-
-  @JsonCreator
-  public static BookingStatusTO fromValue(String value) {
-    for (BookingStatusTO e : BookingStatusTO.values()) {
-      if (e.value.equals(value)) {
-        return e;
-      }
+    BookingStatusTO(String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException(value);
-  }
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return value;
-  }
+    @JsonCreator
+    public static BookingStatusTO fromValue(String value) {
+        for (BookingStatusTO e : BookingStatusTO.values()) {
+            if (e.value.equals(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException(value);
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return value;
+    }
 }

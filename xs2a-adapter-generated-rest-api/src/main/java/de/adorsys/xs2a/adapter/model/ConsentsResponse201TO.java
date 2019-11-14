@@ -8,74 +8,74 @@ import java.util.Map;
 
 @Generated("xs2a-codegen")
 public class ConsentsResponse201TO {
-  private ConsentStatusTO consentStatus;
+    private ConsentStatusTO consentStatus;
 
-  private String consentId;
+    private String consentId;
 
-  private List<AuthenticationObjectTO> scaMethods;
+    private List<AuthenticationObjectTO> scaMethods;
 
-  private AuthenticationObjectTO chosenScaMethod;
+    private AuthenticationObjectTO chosenScaMethod;
 
-  private ChallengeDataTO challengeData;
+    private ChallengeDataTO challengeData;
 
-  @JsonProperty("_links")
-  private Map<String, HrefTypeTO> links;
+    @JsonProperty("_links")
+    private Map<String, HrefTypeTO> links;
 
-  private String message;
+    private String message;
 
-  public ConsentStatusTO getConsentStatus() {
-    return consentStatus;
-  }
+    public ConsentStatusTO getConsentStatus() {
+        return consentStatus;
+    }
 
-  public void setConsentStatus(ConsentStatusTO consentStatus) {
-    this.consentStatus = consentStatus;
-  }
+    public void setConsentStatus(ConsentStatusTO consentStatus) {
+        this.consentStatus = consentStatus;
+    }
 
-  public String getConsentId() {
-    return consentId;
-  }
+    public String getConsentId() {
+        return consentId;
+    }
 
-  public void setConsentId(String consentId) {
-    this.consentId = consentId;
-  }
+    public void setConsentId(String consentId) {
+        this.consentId = consentId;
+    }
 
-  public List<AuthenticationObjectTO> getScaMethods() {
-    return scaMethods;
-  }
+    public List<AuthenticationObjectTO> getScaMethods() {
+        return scaMethods;
+    }
 
-  public void setScaMethods(List<AuthenticationObjectTO> scaMethods) {
-    this.scaMethods = scaMethods;
-  }
+    public void setScaMethods(List<AuthenticationObjectTO> scaMethods) {
+        this.scaMethods = scaMethods;
+    }
 
-  public AuthenticationObjectTO getChosenScaMethod() {
-    return chosenScaMethod;
-  }
+    public AuthenticationObjectTO getChosenScaMethod() {
+        return chosenScaMethod;
+    }
 
-  public void setChosenScaMethod(AuthenticationObjectTO chosenScaMethod) {
-    this.chosenScaMethod = chosenScaMethod;
-  }
+    public void setChosenScaMethod(AuthenticationObjectTO chosenScaMethod) {
+        this.chosenScaMethod = chosenScaMethod;
+    }
 
-  public ChallengeDataTO getChallengeData() {
-    return challengeData;
-  }
+    public ChallengeDataTO getChallengeData() {
+        return challengeData;
+    }
 
-  public void setChallengeData(ChallengeDataTO challengeData) {
-    this.challengeData = challengeData;
-  }
+    public void setChallengeData(ChallengeDataTO challengeData) {
+        this.challengeData = challengeData;
+    }
 
-  public Map<String, HrefTypeTO> getLinks() {
-    return links;
-  }
+    public Map<String, HrefTypeTO> getLinks() {
+        return links;
+    }
 
-  public void setLinks(Map<String, HrefTypeTO> links) {
-    this.links = links;
-  }
+    public void setLinks(Map<String, HrefTypeTO> links) {
+        this.links = links;
+    }
 
-  public String getMessage() {
-    return message;
-  }
+    public String getMessage() {
+        return message;
+    }
 
-  public void setMessage(String message) {
-    this.message = message;
-  }
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

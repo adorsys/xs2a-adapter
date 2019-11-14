@@ -7,41 +7,41 @@ import javax.annotation.Generated;
 
 @Generated("xs2a-codegen")
 public enum FrequencyCodeTO {
-  DAILY("Daily"),
+    DAILY("Daily"),
 
-  WEEKLY("Weekly"),
+    WEEKLY("Weekly"),
 
-  EVERYTWOWEEKS("EveryTwoWeeks"),
+    EVERYTWOWEEKS("EveryTwoWeeks"),
 
-  MONTHLY("Monthly"),
+    MONTHLY("Monthly"),
 
-  EVERYTWOMONTHS("EveryTwoMonths"),
+    EVERYTWOMONTHS("EveryTwoMonths"),
 
-  QUARTERLY("Quarterly"),
+    QUARTERLY("Quarterly"),
 
-  SEMIANNUAL("SemiAnnual"),
+    SEMIANNUAL("SemiAnnual"),
 
-  ANNUAL("Annual");
+    ANNUAL("Annual");
 
-  private String value;
+    private String value;
 
-  FrequencyCodeTO(String value) {
-    this.value = value;
-  }
-
-  @JsonCreator
-  public static FrequencyCodeTO fromValue(String value) {
-    for (FrequencyCodeTO e : FrequencyCodeTO.values()) {
-      if (e.value.equals(value)) {
-        return e;
-      }
+    FrequencyCodeTO(String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException(value);
-  }
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return value;
-  }
+    @JsonCreator
+    public static FrequencyCodeTO fromValue(String value) {
+        for (FrequencyCodeTO e : FrequencyCodeTO.values()) {
+            if (e.value.equals(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException(value);
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return value;
+    }
 }

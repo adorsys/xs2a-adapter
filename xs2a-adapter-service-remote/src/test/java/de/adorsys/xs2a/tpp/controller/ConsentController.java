@@ -49,6 +49,8 @@ public class ConsentController extends AbstractController implements AccountApi 
     private final ScaStatusResponseMapper scaStatusResponseMapper = Mappers.getMapper(ScaStatusResponseMapper.class);
     private final BalanceReportMapper balanceReportMapper = Mappers.getMapper(BalanceReportMapper.class);
     private final TransactionsReportMapper transactionsReportMapper = Mappers.getMapper(TransactionsReportMapper.class);
+    private final TransactionDetailsMapper transactionDetailsMapper = Mappers.getMapper(TransactionDetailsMapper.class);
+
 
     public ConsentController(AccountInformationClient client, ObjectMapper objectMapper, HeadersMapper headersMapper) {
         super(objectMapper);
@@ -203,6 +205,15 @@ public class ConsentController extends AbstractController implements AccountApi 
                    .status(HttpStatus.OK)
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
                    .body(response.getBody());
+    }
+
+    @Override
+    public ResponseEntity<OK200TransactionDetailsTO> getTransactionDetails(String accountId, String transactionId, Map<String, String> headers) {
+        Response<TransactionDetails> response =
+            accountInformationService.getTransactionDetails(accountId, transactionId, RequestHeaders.fromMap(headers));
+        return ResponseEntity.status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(transactionDetailsMapper.map(response.getBody()));
     }
 
     @Override

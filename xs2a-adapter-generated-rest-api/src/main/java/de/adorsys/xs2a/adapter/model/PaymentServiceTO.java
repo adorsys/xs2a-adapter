@@ -7,31 +7,31 @@ import javax.annotation.Generated;
 
 @Generated("xs2a-codegen")
 public enum PaymentServiceTO {
-  PAYMENTS("payments"),
+    PAYMENTS("payments"),
 
-  BULK_PAYMENTS("bulk-payments"),
+    BULK_PAYMENTS("bulk-payments"),
 
-  PERIODIC_PAYMENTS("periodic-payments");
+    PERIODIC_PAYMENTS("periodic-payments");
 
-  private String value;
+    private String value;
 
-  PaymentServiceTO(String value) {
-    this.value = value;
-  }
-
-  @JsonCreator
-  public static PaymentServiceTO fromValue(String value) {
-    for (PaymentServiceTO e : PaymentServiceTO.values()) {
-      if (e.value.equals(value)) {
-        return e;
-      }
+    PaymentServiceTO(String value) {
+        this.value = value;
     }
-    throw new IllegalArgumentException(value);
-  }
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return value;
-  }
+    @JsonCreator
+    public static PaymentServiceTO fromValue(String value) {
+        for (PaymentServiceTO e : PaymentServiceTO.values()) {
+            if (e.value.equals(value)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException(value);
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return value;
+    }
 }

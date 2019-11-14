@@ -17,7 +17,7 @@ public class AccountAccessMapperTest {
         AccountAccessMapper mapper = Mappers.getMapper(AccountAccessMapper.class);
         AccountAccess access = mapper.toAccountAccess(buildAccountAccess());
         assertThat(access.getAllPsd2().name()).isEqualTo(AccountAccess.AllPsd2Enum.ALLACCOUNTS.name());
-        assertThat(access.getAvailableAccounts().name()).isEqualTo(AccountAccess.AvailableAccountsEnum.ALLACCOUNTSWITHBALANCES.name());
+        assertThat(access.getAvailableAccounts().name()).isEqualTo(AccountAccess.AvailableAccountsWithBalance.ALLACCOUNTS.name());
         assertThat(access.getAccounts()).hasSize(1);
         assertThat(access.getBalances()).hasSize(1);
         assertThat(access.getTransactions()).hasSize(1);
@@ -26,7 +26,7 @@ public class AccountAccessMapperTest {
     static AccountAccessTO buildAccountAccess() {
         AccountAccessTO access = new AccountAccessTO();
         access.setAllPsd2(AccountAccessTO.AllPsd2TO.ALLACCOUNTS);
-        access.setAvailableAccounts(AccountAccessTO.AvailableAccountsTO.ALLACCOUNTSWITHBALANCES);
+        access.setAvailableAccounts(AccountAccessTO.AvailableAccountsTO.ALLACCOUNTS);
         access.setAccounts(Collections.singletonList(buildAccountReferenceTO()));
         access.setBalances(Collections.singletonList(buildAccountReferenceTO()));
         access.setTransactions(Collections.singletonList(buildAccountReferenceTO()));

@@ -29,6 +29,7 @@ public class AccountAccess {
     private List<AccountReference> balances;
     private List<AccountReference> transactions;
     private AvailableAccountsEnum availableAccounts;
+    private AvailableAccountsWithBalance availableAccountsWithBalance;
     private AllPsd2Enum allPsd2;
 
     public List<AccountReference> getAccounts() {
@@ -63,6 +64,14 @@ public class AccountAccess {
         this.availableAccounts = availableAccounts;
     }
 
+    public AvailableAccountsWithBalance getAvailableAccountsWithBalance() {
+        return availableAccountsWithBalance;
+    }
+
+    public void setAvailableAccountsWithBalance(AvailableAccountsWithBalance availableAccountsWithBalance) {
+        this.availableAccountsWithBalance = availableAccountsWithBalance;
+    }
+
     public AllPsd2Enum getAllPsd2() {
         return allPsd2;
     }
@@ -72,9 +81,7 @@ public class AccountAccess {
     }
 
     public enum AvailableAccountsEnum {
-        ALLACCOUNTS("allAccounts"),
-
-        ALLACCOUNTSWITHBALANCES("allAccountsWithBalances");
+        ALLACCOUNTS("allAccounts");
 
         private String value;
 
@@ -96,6 +103,32 @@ public class AccountAccess {
                 }
             }
             return null;
+        }
+    }
+
+    public enum AvailableAccountsWithBalance {
+        ALLACCOUNTS("allAccounts");
+
+        private String value;
+
+        AvailableAccountsWithBalance(String value) {
+            this.value = value;
+        }
+
+        @JsonCreator
+        public static AvailableAccountsWithBalance fromValue(String value) {
+            for (AvailableAccountsWithBalance e : AvailableAccountsWithBalance.values()) {
+                if (e.value.equals(value)) {
+                    return e;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+
+        @Override
+        @JsonValue
+        public String toString() {
+            return value;
         }
     }
 

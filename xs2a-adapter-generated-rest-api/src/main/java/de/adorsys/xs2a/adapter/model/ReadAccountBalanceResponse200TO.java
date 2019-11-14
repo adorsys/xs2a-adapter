@@ -5,23 +5,23 @@ import java.util.List;
 
 @Generated("xs2a-codegen")
 public class ReadAccountBalanceResponse200TO {
-  private AccountReferenceTO account;
+    private AccountReferenceTO account;
 
-  private List<BalanceTO> balances;
+    private List<BalanceTO> balances;
 
-  public AccountReferenceTO getAccount() {
-    return account;
-  }
+    public AccountReferenceTO getAccount() {
+        return account;
+    }
 
-  public void setAccount(AccountReferenceTO account) {
-    this.account = account;
-  }
+    public void setAccount(AccountReferenceTO account) {
+        this.account = account;
+    }
 
-  public List<BalanceTO> getBalances() {
-    return balances;
-  }
+    public List<BalanceTO> getBalances() {
+        return balances;
+    }
 
-  public void setBalances(List<BalanceTO> balances) {
-    this.balances = balances;
-  }
+    public void setBalances(List<BalanceTO> balances) {
+        this.balances = balances;
+    }
 }

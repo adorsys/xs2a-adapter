@@ -57,10 +57,10 @@ public class SinglePaymentInformationMapperTest {
 
         AddressTO creditorAddress = response.getCreditorAddress();
         assertThat(creditorAddress).isNotNull();
-        assertThat(creditorAddress.getPostalCode()).isEqualTo(CREDITOR_ADDRESS.getPostalCode());
+        assertThat(creditorAddress.getPostCode()).isEqualTo(CREDITOR_ADDRESS.getPostCode());
         assertThat(creditorAddress.getCountry()).isEqualTo(CREDITOR_ADDRESS.getCountry());
-        assertThat(creditorAddress.getCity()).isEqualTo(CREDITOR_ADDRESS.getCity());
-        assertThat(creditorAddress.getStreet()).isEqualTo(CREDITOR_ADDRESS.getStreet());
+        assertThat(creditorAddress.getTownName()).isEqualTo(CREDITOR_ADDRESS.getTownName());
+        assertThat(creditorAddress.getStreetName()).isEqualTo(CREDITOR_ADDRESS.getStreetName());
         assertThat(creditorAddress.getBuildingNumber()).isEqualTo(CREDITOR_ADDRESS.getBuildingNumber());
 
         assertThat(response.getRemittanceInformationUnstructured()).isEqualTo(REMITTANCE_INFORMATION_UNSTRUCTURED);

@@ -129,4 +129,12 @@ public interface AccountApi {
                                                       @RequestParam(value = "withBalance", required = false) Boolean withBalance,
                                                       @RequestHeader Map<String, String> headers);
 
+    @RequestMapping(
+        value = "/v1/accounts/{account-id}/transactions/{transactionId}",
+        method = RequestMethod.GET
+    )
+    ResponseEntity<OK200TransactionDetailsTO> getTransactionDetails(
+        @PathVariable("account-id") String accountId,
+        @PathVariable("transactionId") String transactionId,
+        @RequestHeader Map<String, String> headers);
 }
