@@ -20,6 +20,8 @@ spec:
     spec:
       containers:
         - env:
+            - name: XS2A-ADAPTER_LOADER_CHOOSE-FIRST-FROM-MULTIPLE-ASPSPS
+              value: true
             - name: SPRING_PROFILES_ACTIVE
               value: dev,sandbox
             {{- if .Values.adapter.aspspConfig }}
