@@ -116,4 +116,11 @@ public class StringUriTest {
         String uri = "www.example.com";
         assertThat(StringUri.containsProtocol(uri)).isFalse();
     }
+
+    @Test
+    public void isNotBlank() {
+        assertThat(StringUri.isNotBlank(" a ")).isTrue();
+        assertThat(StringUri.isNotBlank("  ")).isFalse();
+        assertThat(StringUri.isNotBlank(null)).isFalse();
+    }
 }
