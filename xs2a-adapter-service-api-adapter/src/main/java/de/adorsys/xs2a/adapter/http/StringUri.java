@@ -84,8 +84,4 @@ public class StringUri {
     public static boolean containsProtocol(String urlToCheck) {
         return urlToCheck.contains("://");
     }
-
-    public static boolean isNotBlank(String requestBody) {
-        return requestBody != null && !requestBody.trim().isEmpty();
-    }
 }

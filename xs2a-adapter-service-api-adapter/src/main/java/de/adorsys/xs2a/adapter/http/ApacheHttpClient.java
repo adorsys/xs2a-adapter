@@ -1,7 +1,5 @@
 package de.adorsys.xs2a.adapter.http;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import org.apache.http.Header;
@@ -23,7 +21,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ApacheHttpClient implements HttpClient {
@@ -32,7 +33,6 @@ public class ApacheHttpClient implements HttpClient {
     private static final String POST = "POST";
     private static final String PUT = "PUT";
     private static final String DELETE = "DELETE";
-    private static final String RESPONSE_BODY = "<-- Response body: {}";
 
     private final CloseableHttpClient httpClient;
 
@@ -130,47 +130,24 @@ public class ApacheHttpClient implements HttpClient {
             InputStream content = entity != null ? entity.getContent() : EmptyInputStream.INSTANCE;
 
             T responseBody = responseHandler.apply(statusCode, content, responseHeaders);
-            logResponse(response, responseHeadersMap, responseBody);
+            logResponse(response, responseHeadersMap);
             return new Response<>(statusCode, responseBody, responseHeaders);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
-    private <T> void logResponse(
-        CloseableHttpResponse response,
-        Map<String, String> headers,
-        T responseBody
-    ) {
+    private void logResponse(CloseableHttpResponse response, Map<String, String> headers) {
         logger.debug("<-- {}", response.getStatusLine());
-        headers.keySet().forEach(
-            key -> logger.debug("<-- {}: {}", key, headers.get(key))
-        );
+        headers.forEach((key, value) -> logger.debug("<-- {}: {}", key, value));
         logger.debug("<--");
-        Optional<String> contentType = Optional.ofNullable(
-            headers.get(ResponseHeaders.CONTENT_TYPE)
-        );
-        if (contentType.isPresent() && contentType.get().startsWith("application/json")) {
-            try {
-                logger.debug(RESPONSE_BODY, new ObjectMapper().writeValueAsString(responseBody));
-            } catch (JsonProcessingException e) {
-                logger.debug(RESPONSE_BODY, responseBody);
-            }
-        } else {
-            logger.debug(RESPONSE_BODY, "*******");
-        }
     }
 
     private void logRequest(HttpUriRequest request, Map<String, String> headers) {
         logger.debug("--> {}", request.getRequestLine());
-        headers.keySet().forEach(
-            headerName -> logger.debug("--> {}: {}", headerName, headers.get(headerName))
-        );
+        headers.forEach((key, value) -> logger.debug("--> {}: {}", key, value));
         logger.debug("-->");
-        String requestBody = getContent(request);
-        if (StringUri.isNotBlank(requestBody)) {
-            logger.debug("--> Request body: {}", requestBody);
-        }
+        logger.debug("--> Request body: {}", getContent(request));
     }
 
     private Map<String, String> toHeadersMap(Header[] headers) {
