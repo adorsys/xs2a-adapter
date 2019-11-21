@@ -51,6 +51,10 @@ spec:
             - containerPort: 8081
               protocol: TCP
           resources: {}
+          livenessProbe:
+{{ toYaml .Values.adapter.livenessProbe | indent 12 }}
+          readinessProbe:
+{{ toYaml .Values.adapter.readinessProbe | indent 12 }}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
