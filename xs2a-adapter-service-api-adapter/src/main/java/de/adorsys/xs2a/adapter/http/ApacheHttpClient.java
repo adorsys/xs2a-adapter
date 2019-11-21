@@ -14,6 +14,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.io.EmptyInputStream;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +28,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ApacheHttpClient implements HttpClient {
+    private static final Logger logger = LoggerFactory.getLogger(ApacheHttpClient.class);
     private static final String GET = "GET";
     private static final String POST = "POST";
     private static final String PUT = "PUT";
@@ -96,7 +99,10 @@ public class ApacheHttpClient implements HttpClient {
 
     @Override
     public String content(Request.Builder requestBuilder) {
-        HttpUriRequest request = createRequest(requestBuilder);
+        return getContent(createRequest(requestBuilder));
+    }
+
+    private String getContent(HttpUriRequest request) {
         if (request instanceof HttpEntityEnclosingRequest) {
             HttpEntity entity = ((HttpEntityEnclosingRequest) request).getEntity();
 
@@ -109,9 +115,13 @@ public class ApacheHttpClient implements HttpClient {
         return "";
     }
 
-    private <T> Response<T> execute(HttpUriRequest request, Map<String, String> headers, ResponseHandler<T> responseHandler) {
+    private <T> Response<T> execute(
+        HttpUriRequest request,
+        Map<String, String> headers,
+        ResponseHandler<T> responseHandler
+    ) {
         headers.forEach(request::addHeader);
-
+        logRequest(request, headers);
         try (CloseableHttpResponse response = httpClient.execute(request)) {
             int statusCode = response.getStatusLine().getStatusCode();
             HttpEntity entity = response.getEntity();
@@ -120,10 +130,25 @@ public class ApacheHttpClient implements HttpClient {
             InputStream content = entity != null ? entity.getContent() : EmptyInputStream.INSTANCE;
 
             T responseBody = responseHandler.apply(statusCode, content, responseHeaders);
+            logResponse(response, responseHeadersMap);
             return new Response<>(statusCode, responseBody, responseHeaders);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    private void logResponse(CloseableHttpResponse response, Map<String, String> headers) {
+        logHttpEvent(headers, response.getStatusLine(), "<--");
+    }
+
+    private void logRequest(HttpUriRequest request, Map<String, String> headers) {
+        logHttpEvent(headers, request.getRequestLine(), "-->");
+    }
+
+    private <T> void logHttpEvent(Map<String, String> headers, T httpLine, String direction) {
+        logger.debug("{} {}", direction, httpLine);
+        headers.forEach((key, value) -> logger.debug("{} {}: {}", direction, key, value));
+        logger.debug(direction);
     }
 
     private Map<String, String> toHeadersMap(Header[] headers) {

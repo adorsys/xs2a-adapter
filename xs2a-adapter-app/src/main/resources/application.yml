@@ -30,4 +30,4 @@ spring:
 logging:
   config: classpath:logback-dev.xml
   level:
-    org.apache.http.wire: DEBUG
+    de.adorsys.xs2a.adapter.http.ApacheHttpClient: DEBUG
