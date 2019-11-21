@@ -265,9 +265,17 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     private void logTransactionsSize(TransactionsReport transactionsReport) {
-        AccountReport transactions = transactionsReport.getTransactions();
-        int size = transactions.getBooked().size() + transactions.getPending().size();
-        logger.info("<-- There are {} transactions received with the response", size);
+        int size = 0;
+        if (transactionsReport != null && transactionsReport.getTransactions() != null) {
+            AccountReport transactions = transactionsReport.getTransactions();
+            if (transactions.getPending() != null) {
+                size += transactions.getPending().size();
+            }
+            if (transactions.getBooked() != null) {
+                size += transactions.getBooked().size();
+            }
+        }
+        logger.info("<-- There are {} transactions in the response", size);
     }
 
     @Override

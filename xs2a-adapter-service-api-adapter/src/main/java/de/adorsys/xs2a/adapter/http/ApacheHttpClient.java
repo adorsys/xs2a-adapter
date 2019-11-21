@@ -138,16 +138,17 @@ public class ApacheHttpClient implements HttpClient {
     }
 
     private void logResponse(CloseableHttpResponse response, Map<String, String> headers) {
-        logger.debug("<-- {}", response.getStatusLine());
-        headers.forEach((key, value) -> logger.debug("<-- {}: {}", key, value));
-        logger.debug("<--");
+        logHttpEvent(headers, response.getStatusLine(), "<--");
     }
 
     private void logRequest(HttpUriRequest request, Map<String, String> headers) {
-        logger.debug("--> {}", request.getRequestLine());
-        headers.forEach((key, value) -> logger.debug("--> {}: {}", key, value));
-        logger.debug("-->");
-        logger.debug("--> Request body: {}", getContent(request));
+        logHttpEvent(headers, request.getRequestLine(), "-->");
+    }
+
+    private <T> void logHttpEvent(Map<String, String> headers, T httpLine, String direction) {
+        logger.debug("{} {}", direction, httpLine);
+        headers.forEach((key, value) -> logger.debug("{} {}: {}", direction, key, value));
+        logger.debug(direction);
     }
 
     private Map<String, String> toHeadersMap(Header[] headers) {
