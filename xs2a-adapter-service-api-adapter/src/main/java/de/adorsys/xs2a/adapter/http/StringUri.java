@@ -1,5 +1,8 @@
 package de.adorsys.xs2a.adapter.http;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,6 +70,14 @@ public class StringUri {
         }
 
         return queryParams;
+    }
+
+    public static String decodeUrl(String url) {
+        try {
+            return URLDecoder.decode(url, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalArgumentException("The Character Encoding is not supported", e);
+        }
     }
 
     private static String formatUri(String uri) {

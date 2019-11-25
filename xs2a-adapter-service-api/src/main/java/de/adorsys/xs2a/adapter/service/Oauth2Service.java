@@ -79,5 +79,13 @@ public interface Oauth2Service {
         public void setState(String value) {
             set("state", value);
         }
+
+        public String getScaOAuthLink() {
+            return get("sca_oauth_link");
+        }
+
+        public void setScaOAuthLink(String value) {
+            set("sca_oauth_link", value);
+        }
     }
 }
