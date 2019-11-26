@@ -23,14 +23,15 @@ import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.impl.FiduciaAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.FiduciaPaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public class FiduciaServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl,
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore) {
-        return new FiduciaAccountInformationService(baseUrl,
+        return new FiduciaAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             new RequestSigningInterceptor(keyStore));
     }

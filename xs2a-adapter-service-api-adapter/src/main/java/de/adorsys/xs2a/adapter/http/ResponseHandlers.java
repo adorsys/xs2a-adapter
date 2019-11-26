@@ -4,7 +4,10 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
+import de.adorsys.xs2a.adapter.service.exception.OAuthException;
 import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
+import de.adorsys.xs2a.adapter.service.model.Link;
+import de.adorsys.xs2a.adapter.service.model.Links;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +63,35 @@ public class ResponseHandlers {
             throw responseException(statusCode, pushbackResponseBody, responseHeaders,
                 ResponseHandlers::buildErrorResponseFromString);
         };
+    }
+
+    public static <T> HttpClient.ResponseHandler<T> consentCreationResponseHandler(String scaOAuthUrl, Class<T> klass) {
+        return (statusCode, responseBody, responseHeaders) -> {
+            if (statusCode == 403) {
+                throw oAuthException(new PushbackInputStream(responseBody), responseHeaders, scaOAuthUrl, ResponseHandlers::buildErrorResponseFromString);
+            }
+
+            return jsonResponseHandler(klass).apply(statusCode, responseBody, responseHeaders);
+        };
+    }
+
+    private static OAuthException oAuthException(PushbackInputStream responseBody,
+                                                 ResponseHeaders responseHeaders,
+                                                 String scaOAuthUrl,
+                                                 Function<String, ErrorResponse> errorResponseBuilder) {
+        ErrorResponse errorResponse;
+
+        if (isEmpty(responseBody)) {
+            errorResponse = new ErrorResponse();
+        } else {
+            errorResponse = errorResponseBuilder.apply(toString(responseBody, responseHeaders));
+        }
+
+        Links links = new Links();
+        links.setScaOAuth(new Link(scaOAuthUrl));
+        errorResponse.setLinks(links);
+
+        return new OAuthException(responseHeaders, errorResponse);
     }
 
     private static boolean isNotJson(PushbackInputStream responseBody) {

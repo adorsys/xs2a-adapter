@@ -42,35 +42,43 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     protected static final String BALANCES = "balances";
 
     protected final String baseUri;
-    private final Request.Builder.Interceptor requestBuilderInterceptor;
+    protected final String idpUri;
+    protected final Request.Builder.Interceptor requestBuilderInterceptor;
 
-    public BaseAccountInformationService(String baseUri, HttpClient httpClient) {
-        this(baseUri, httpClient, null);
+    public BaseAccountInformationService(Aspsp aspsp, HttpClient httpClient) {
+        this(aspsp, httpClient, null);
     }
 
-    public BaseAccountInformationService(String baseUri,
+    public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
                                          Request.Builder.Interceptor requestBuilderInterceptor) {
         super(httpClient);
-        this.baseUri = baseUri;
+        this.baseUri = aspsp.getUrl();
+        this.idpUri = aspsp.getIdpUrl();
         this.requestBuilderInterceptor = requestBuilderInterceptor;
     }
 
     @Override
     public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
-        return createConsent(requestHeaders, body, ConsentCreationResponse.class, identity());
+        return createConsent(requestHeaders, body, identity(), jsonResponseHandler(ConsentCreationResponse.class));
     }
 
     protected <T> Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body, Class<T> klass, Function<T, ConsentCreationResponse> mapper) {
+        return createConsent(requestHeaders, body, mapper, jsonResponseHandler(klass));
+    }
+
+    protected <T> Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body,
+                                                                  Function<T, ConsentCreationResponse> mapper,
+                                                                  HttpClient.ResponseHandler<T> responseHandler) {
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         headersMap = addPsuIdHeader(headersMap);
 
         String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
 
         Response<T> response = httpClient.post(getConsentBaseUri())
-            .jsonBody(bodyString)
-            .headers(headersMap)
-            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
+                                   .jsonBody(bodyString)
+                                   .headers(headersMap)
+                                   .send(requestBuilderInterceptor, responseHandler);
         ConsentCreationResponse creationResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), creationResponse, response.getHeaders());
     }

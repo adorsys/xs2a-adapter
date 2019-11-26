@@ -66,7 +66,7 @@ public class StringUri {
 
         for (String paramWithValueString : paramsWithValues) {
             String[] paramAndValue = paramWithValueString.split("=");
-            queryParams.put(paramAndValue[0], paramAndValue[1]);
+            queryParams.put(paramAndValue[0], paramAndValue.length > 1 ? paramAndValue[1] : null);
         }
 
         return queryParams;
@@ -94,5 +94,20 @@ public class StringUri {
 
     public static boolean containsProtocol(String urlToCheck) {
         return urlToCheck.contains("://");
+    }
+
+    public static boolean containsQueryParam(String uri, String paramName) {
+        return getQueryParamsFromUri(uri)
+            .containsKey(paramName);
+    }
+
+    public static String appendQueryParam(String uri, String paramName, String paramValue) {
+        Map<String, String> params = getQueryParamsFromUri(uri);
+        params.put(paramName, paramValue);
+        return withQuery(removeAllQueryParams(uri), params);
+    }
+
+    public static String removeAllQueryParams(String uri) {
+        return uri.split("\\?")[0];
     }
 }

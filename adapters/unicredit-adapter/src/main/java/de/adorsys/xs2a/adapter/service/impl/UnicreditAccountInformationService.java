@@ -25,8 +25,8 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     private final UnicreditStartAuthorisationResponseMapper startAuthorisationResponseMapper = new UnicreditStartAuthorisationResponseMapper();
     private final ScaStatusResponseMapper scaStatusResponseMapper = new ScaStatusResponseMapper();
 
-    public UnicreditAccountInformationService(String baseUri, HttpClient httpClient) {
-        super(baseUri, httpClient);
+    public UnicreditAccountInformationService(Aspsp aspsp, HttpClient httpClient) {
+        super(aspsp, httpClient);
     }
 
     @Override

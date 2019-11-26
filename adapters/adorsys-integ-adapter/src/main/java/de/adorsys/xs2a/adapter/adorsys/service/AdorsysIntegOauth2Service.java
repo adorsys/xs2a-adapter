@@ -18,19 +18,17 @@ import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 
 public class AdorsysIntegOauth2Service implements Oauth2Service {
     private static final String SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE
-        = "SCA OAuth link is missing: it has to be either provided as a request parameter or preconfigured for the current ASPSP";
+        = "SCA OAuth link is missing or has a wrong format: " +
+              "it has to be either provided as a request parameter or preconfigured for the current ASPSP";
 
-    private final String authorizationRequestBaseUrl;
-    private final String tokenRequestBaseUrl;
+    private final String scaOAuthUrl;
     private final HttpClient httpClient;
     private final Oauth2Api oauth2Api;
     private final TokenResponseMapper tokenResponseMapper = Mappers.getMapper(TokenResponseMapper.class);
 
-    public AdorsysIntegOauth2Service(String authorizationRequestBaseUrl,
-                                     String tokenRequestBaseUrl,
+    public AdorsysIntegOauth2Service(String scaOAuthUrl,
                                      HttpClient httpClient) {
-        this.authorizationRequestBaseUrl = authorizationRequestBaseUrl;
-        this.tokenRequestBaseUrl = tokenRequestBaseUrl;
+        this.scaOAuthUrl = scaOAuthUrl;
         this.httpClient = httpClient;
         this.oauth2Api = new Oauth2Api(this.httpClient);
     }
@@ -40,29 +38,35 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
         String scaOAuthUrl = getScaOAuthUrl(parameters);
 
         if (scaOAuthUrl == null || scaOAuthUrl.trim().isEmpty()) {
-            if (authorizationRequestBaseUrl != null && !authorizationRequestBaseUrl.trim().isEmpty()) {
-                String url = authorizationRequestBaseUrl + "/auth/authorize";
-                return URI.create(StringUri.withQuery(url, parameters.asMap()));
-            }
             throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
         }
 
-        return URI.create(oauth2Api.getAuthorisationUri(scaOAuthUrl));
+        String authorisationUri = oauth2Api.getAuthorisationUri(scaOAuthUrl);
+
+        if (!StringUri.containsQueryParam(authorisationUri, "redirectId")) {
+            authorisationUri = StringUri.appendQueryParam(
+                authorisationUri,
+                "redirect_uri", parameters.getRedirectUri()
+            );
+        }
+
+        return URI.create(authorisationUri);
     }
 
     @Override
     public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
         String scaOAuthUrl = getScaOAuthUrl(parameters);
 
-        String url;
-        if (scaOAuthUrl == null || scaOAuthUrl.trim().isEmpty()) {
-            if (tokenRequestBaseUrl == null || tokenRequestBaseUrl.trim().isEmpty()) {
-                throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
-            }
-            url = tokenRequestBaseUrl + "/oauth/token";
-        } else {
-            url = StringUri.withQuery(oauth2Api.getTokenUri(scaOAuthUrl), "code", parameters.getAuthorizationCode());
+        if (scaOAuthUrl == null
+                || scaOAuthUrl.trim().isEmpty()
+                || !StringUri.containsProtocol(scaOAuthUrl)) {
+            throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
         }
+
+        String url = StringUri.withQuery(
+            oauth2Api.getTokenUri(scaOAuthUrl),
+            "code", parameters.getAuthorizationCode()
+        );
 
         Response<OauthToken> response = httpClient.post(url)
             .send(jsonResponseHandler(OauthToken.class));
@@ -70,12 +74,12 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
     }
 
     private String getScaOAuthUrl(Parameters parameters) {
-        String scaOAuthLink = parameters.getScaOAuthLink();
+        String scaOAuthLinkParam = parameters.getScaOAuthLink();
 
-        if (scaOAuthLink != null && !scaOAuthLink.trim().isEmpty()) {
-            return StringUri.decodeUrl(scaOAuthLink);
+        if (scaOAuthLinkParam != null && !scaOAuthLinkParam.trim().isEmpty()) {
+            return StringUri.decodeUrl(scaOAuthLinkParam);
         }
 
-        return null;
+        return this.scaOAuthUrl;
     }
 }

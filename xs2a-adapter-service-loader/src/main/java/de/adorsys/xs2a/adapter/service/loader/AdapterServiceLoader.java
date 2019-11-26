@@ -40,10 +40,9 @@ public class AdapterServiceLoader {
     public AccountInformationService getAccountInformationService(RequestHeaders requestHeaders) {
         Aspsp aspsp = getAspsp(requestHeaders);
         String adapterId = aspsp.getAdapterId();
-        String baseUrl = aspsp.getUrl();
         return getServiceProvider(AccountInformationServiceProvider.class, adapterId)
                    .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-                   .getAccountInformationService(baseUrl, httpClientFactory, keyStore);
+                   .getAccountInformationService(aspsp, httpClientFactory, keyStore);
     }
 
     protected Aspsp getAspsp(RequestHeaders requestHeaders) {

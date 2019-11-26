@@ -16,11 +16,12 @@
 
 package de.adorsys.xs2a.adapter.adorsys.service.provider;
 
-import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.adorsys.service.AdorsysAccountInformationService;
 import de.adorsys.xs2a.adapter.adorsys.service.AdorsysIntegOauth2Service;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 
@@ -35,18 +36,13 @@ public class AdorsysIntegServiceProvider
     }
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new BaseAccountInformationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()), oauthHeaderInterceptor);
+    public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new AdorsysAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()), oauthHeaderInterceptor);
     }
 
     @Override
     public Oauth2Service getOauth2Service(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        // a crutch for two distinct hosts for authorization and token endpoints using single field in the config
-        String[] urls = baseUrl.split("\\s+");
-        if (urls.length > 2) {
-            throw new IllegalArgumentException("Maximum of two space separated urls is expected");
-        }
-        return new AdorsysIntegOauth2Service(urls[0], urls[urls.length - 1], httpClientFactory.getHttpClient(getAdapterId()));
+        return new AdorsysIntegOauth2Service(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
     }
 
     @Override

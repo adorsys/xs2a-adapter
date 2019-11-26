@@ -22,12 +22,13 @@ import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.impl.UnicreditAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.UnicreditPaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public class UnicreditServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new UnicreditAccountInformationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
+    public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new UnicreditAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()));
     }
 
     @Override
