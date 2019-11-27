@@ -62,10 +62,25 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             ErrorOrigination.BANK
         );
 
-        return ResponseEntity
-                   .status(HttpStatus.FORBIDDEN)
-                   .headers(responseHeaders)
-                   .body(exception.getErrorResponse());
+        String originalResponse = exception.getMessage();
+        ErrorResponse errorResponse = exception.getErrorResponse();
+
+        ResponseEntity.BodyBuilder responseBuilder = ResponseEntity
+                                                 .status(HttpStatus.FORBIDDEN)
+                                                 .headers(responseHeaders);
+
+        if (errorResponse != null && !errorResponse.isEmpty()) {
+            return responseBuilder
+                       .body(errorResponse);
+        }
+
+        if (originalResponse != null && !originalResponse.trim().isEmpty()) {
+            return responseBuilder
+                       .body(originalResponse);
+        }
+
+        return responseBuilder
+                   .build();
     }
 
     @ExceptionHandler
