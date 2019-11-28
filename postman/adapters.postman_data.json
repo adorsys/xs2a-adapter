@@ -125,7 +125,7 @@
     "iban_PIS": "DE47500105173944365833",
     "password_AIS": "PISPWD12",
     "password_PIS": "PISPWD12",
-    "authenticationMethodId_AIS": "authMethodId3",
+    "authenticationMethodId_AIS": "smsOTP",
     "authenticationMethodId_PIS": "mTAN",
     "scaAuthenticationData_AIS": "123654",
     "scaAuthenticationData_PIS": "325614",
