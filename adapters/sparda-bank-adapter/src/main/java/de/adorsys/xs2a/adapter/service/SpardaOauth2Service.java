@@ -53,7 +53,7 @@ public class SpardaOauth2Service implements Oauth2Service {
     public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
         String scaOAuthUrl = getScaOAuthUrl(parameters);
 
-        if (scaOAuthUrl == null || scaOAuthUrl.trim().isEmpty()) {
+        if (scaOAuthUrl == null || scaOAuthUrl.trim().isEmpty() || !StringUri.containsProtocol(scaOAuthUrl)) {
             throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
         }
 

@@ -20,6 +20,9 @@ public class SpardaOauthParamsAdjustingService {
     private static final String DEFAULT_RESPONSE_TYPE_PARAM_VALUE = "code";
     private static final String DEFAULT_GRANT_TYPE_PARAM_VALUE_FOR_GET_TOKEN_REQUEST = "authorization_code";
 
+    private static final Set<String> SUPPORTED_CODE_CHALLENGE_METHODS
+        = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("S256")));
+
     private static final String CODE_VERIFIER_REGEX = "^[\\w\\-._~]{44,127}$";
     private static final Pattern CODE_VERIFIER_PATTERN = Pattern.compile(CODE_VERIFIER_REGEX);
     private static final String SPARDA_DEFAULT_CODE_VERIFIER_PROPERTY
@@ -162,7 +165,7 @@ public class SpardaOauthParamsAdjustingService {
 
     private void adjustCodeChallengeMethod(String codeChallengeMethodFromTpp,
                                            Map<String, String> parametersMap) {
-        if (codeChallengeMethodFromTpp != null && !codeChallengeMethodFromTpp.trim().isEmpty()) {
+        if (SUPPORTED_CODE_CHALLENGE_METHODS.contains(codeChallengeMethodFromTpp)) {
             parametersMap.put(Parameters.CODE_CHALLENGE_METHOD, codeChallengeMethodFromTpp);
         }
     }
