@@ -28,10 +28,11 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
     private final TokenResponseMapper tokenResponseMapper = Mappers.getMapper(TokenResponseMapper.class);
 
     public AdorsysIntegOauth2Service(Aspsp aspsp,
-                                     HttpClient httpClient) {
+                                     HttpClient httpClient,
+                                     Oauth2Api oauth2Api) {
         this.aspsp = aspsp;
         this.httpClient = httpClient;
-        this.oauth2Api = new Oauth2Api(this.httpClient);
+        this.oauth2Api = oauth2Api;
     }
 
     @Override

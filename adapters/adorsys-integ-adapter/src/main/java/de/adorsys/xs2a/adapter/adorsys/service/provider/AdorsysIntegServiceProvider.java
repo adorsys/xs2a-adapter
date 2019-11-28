@@ -19,6 +19,8 @@ package de.adorsys.xs2a.adapter.adorsys.service.provider;
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.adorsys.service.AdorsysAccountInformationService;
 import de.adorsys.xs2a.adapter.adorsys.service.AdorsysIntegOauth2Service;
+import de.adorsys.xs2a.adapter.adorsys.service.api.Oauth2Api;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
@@ -42,7 +44,8 @@ public class AdorsysIntegServiceProvider
 
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new AdorsysIntegOauth2Service(aspsp, httpClientFactory.getHttpClient(getAdapterId()));
+        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
+        return new AdorsysIntegOauth2Service(aspsp, httpClient, new Oauth2Api(httpClient));
     }
 
     @Override
