@@ -2,6 +2,9 @@ package de.adorsys.xs2a.adapter.http;
 
 import org.junit.Test;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.Map;
 
@@ -115,5 +118,61 @@ public class StringUriTest {
     public void containsProtocolWithoutProtocol() {
         String uri = "www.example.com";
         assertThat(StringUri.containsProtocol(uri)).isFalse();
+    }
+
+    @Test
+    public void decodeUri() throws UnsupportedEncodingException {
+        String uri = "http://example.com/path?param1=value1&param2=value2";
+
+        String actual = StringUri.decodeUrl(URLEncoder.encode(uri, StandardCharsets.UTF_8.name()));
+        assertThat(actual).isEqualTo(uri);
+    }
+
+    @Test
+    public void containsQueryParam() {
+        String uri = "http://example.com/path?param1=value1&param2=value2";
+
+        assertThat(StringUri.containsQueryParam(uri, "param1")).isTrue();
+        assertThat(StringUri.containsQueryParam(uri, "param2")).isTrue();
+        assertThat(StringUri.containsQueryParam(uri, "param3")).isFalse();
+    }
+
+    @Test
+    public void appendQueryParam() {
+        String uri1 = "http://example.com/path?param1=value1&param2=value2";
+        String uri2 = "http://example.com/path";
+
+        String actual1 = StringUri.appendQueryParam(uri1, "param3", "value3");
+        Map<String, String> params1 = StringUri.getQueryParamsFromUri(actual1);
+        assertThat(params1.size()).isEqualTo(3);
+        assertThat(params1.get("param1")).isEqualTo("value1");
+        assertThat(params1.get("param2")).isEqualTo("value2");
+        assertThat(params1.get("param3")).isEqualTo("value3");
+
+        String actual2 = StringUri.appendQueryParam(uri1, "param2", "value2");
+        Map<String, String> params2 = StringUri.getQueryParamsFromUri(actual2);
+        assertThat(params2.size()).isEqualTo(2);
+        assertThat(params2.get("param1")).isEqualTo("value1");
+        assertThat(params2.get("param2")).isEqualTo("value2");
+
+        String actual3 = StringUri.appendQueryParam(uri1, "param2", "value3");
+        Map<String, String> params3 = StringUri.getQueryParamsFromUri(actual3);
+        assertThat(params3.size()).isEqualTo(2);
+        assertThat(params3.get("param1")).isEqualTo("value1");
+        assertThat(params3.get("param2")).isEqualTo("value3");
+
+        String actual4 = StringUri.appendQueryParam(uri2, "param", "value");
+        Map<String, String> params4 = StringUri.getQueryParamsFromUri(actual4);
+        assertThat(params4.size()).isEqualTo(1);
+        assertThat(params4.get("param")).isEqualTo("value");
+    }
+
+    @Test
+    public void removeAllQueryParams() {
+        String uri1 = "http://example.com/path?param1=value1&param2=value2";
+        String uri2 = "http://example.com/path";
+
+        assertThat(StringUri.removeAllQueryParams(uri1)).isEqualTo("http://example.com/path");
+        assertThat(StringUri.removeAllQueryParams(uri2)).isEqualTo("http://example.com/path");
     }
 }
