@@ -41,8 +41,8 @@ public class AdorsysIntegServiceProvider
     }
 
     @Override
-    public Oauth2Service getOauth2Service(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new AdorsysIntegOauth2Service(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new AdorsysIntegOauth2Service(aspsp, httpClientFactory.getHttpClient(getAdapterId()));
     }
 
     @Override

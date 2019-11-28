@@ -7,6 +7,7 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import org.mapstruct.factory.Mappers;
 
@@ -18,11 +19,11 @@ import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 public class CommerzbankOauth2Service extends AbstractService implements Oauth2Service {
 
     private final TokenResponseMapper tokenResponseMapper = Mappers.getMapper(TokenResponseMapper.class);
-    private final String baseUrl;
+    private final Aspsp aspsp;
 
-    public CommerzbankOauth2Service(String baseUrl, HttpClient httpClient) {
+    public CommerzbankOauth2Service(Aspsp aspsp, HttpClient httpClient) {
         super(httpClient);
-        this.baseUrl = baseUrl;
+        this.aspsp = aspsp;
     }
 
     @Override
@@ -32,7 +33,7 @@ public class CommerzbankOauth2Service extends AbstractService implements Oauth2S
 
     @Override
     public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
-        String url = StringUri.fromElements(baseUrl, "/v1/token");
+        String url = StringUri.fromElements(getBaseUrl(), "/v1/token");
 
         parameters.setCodeVerifier("sha256");
 
@@ -40,5 +41,9 @@ public class CommerzbankOauth2Service extends AbstractService implements Oauth2S
             .urlEncodedBody(parameters.asMap())
             .send(jsonResponseHandler(OauthToken.class));
         return tokenResponseMapper.map(response.getBody());
+    }
+
+    private String getBaseUrl() {
+        return aspsp.getIdpUrl() != null ? aspsp.getIdpUrl() : aspsp.getUrl();
     }
 }

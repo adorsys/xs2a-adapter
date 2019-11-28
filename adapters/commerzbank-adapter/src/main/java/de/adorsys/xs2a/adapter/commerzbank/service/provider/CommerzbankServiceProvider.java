@@ -44,7 +44,7 @@ public class CommerzbankServiceProvider
     }
 
     @Override
-    public Oauth2Service getOauth2Service(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new CommerzbankOauth2Service(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new CommerzbankOauth2Service(aspsp, httpClientFactory.getHttpClient(getAdapterId()));
     }
 }

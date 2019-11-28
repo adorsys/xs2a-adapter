@@ -49,7 +49,7 @@ public class ServiceLoaderTest {
 
     private static Aspsp buildAspspWithUrl() {
         Aspsp aspsp = new Aspsp();
-        aspsp.setUrl("");
+        aspsp.setUrl("url");
         return aspsp;
     }
 }

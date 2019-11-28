@@ -22,7 +22,7 @@ public class AdorsysAccountInformationService extends BaseAccountInformationServ
     public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
         return createConsent(
             requestHeaders, body, identity(),
-            consentCreationResponseHandler(idpUri, ConsentCreationResponse.class)
+            consentCreationResponseHandler(getIdpUri(), ConsentCreationResponse.class)
         );
     }
 }

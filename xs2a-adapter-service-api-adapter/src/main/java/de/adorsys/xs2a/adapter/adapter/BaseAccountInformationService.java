@@ -41,8 +41,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     protected static final String TRANSACTIONS = "transactions";
     protected static final String BALANCES = "balances";
 
-    protected final String baseUri;
-    protected final String idpUri;
+    protected final Aspsp aspsp;
     protected final Request.Builder.Interceptor requestBuilderInterceptor;
 
     public BaseAccountInformationService(Aspsp aspsp, HttpClient httpClient) {
@@ -53,8 +52,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                          HttpClient httpClient,
                                          Request.Builder.Interceptor requestBuilderInterceptor) {
         super(httpClient);
-        this.baseUri = aspsp.getUrl();
-        this.idpUri = aspsp.getIdpUrl();
+        this.aspsp = aspsp;
         this.requestBuilderInterceptor = requestBuilderInterceptor;
     }
 
@@ -316,12 +314,19 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         return new Response<>(response.getStatusCode(), balanceReport, response.getHeaders());
     }
 
+    protected String getBaseUri() {
+        return aspsp.getUrl();
+    }
+
+    protected String getIdpUri() {
+        return aspsp.getIdpUrl();
+    }
 
     protected String getConsentBaseUri() {
-        return StringUri.fromElements(baseUri, V1, CONSENTS);
+        return StringUri.fromElements(getBaseUri(), V1, CONSENTS);
     }
 
     protected String getAccountsBaseUri() {
-        return StringUri.fromElements(baseUri, V1, ACCOUNTS);
+        return StringUri.fromElements(getBaseUri(), V1, ACCOUNTS);
     }
 }

@@ -1,15 +1,13 @@
-package de.adorsys.xs2a.adapter.adorsys.service;
+package de.adorsys.xs2a.adapter.service;
 
 import de.adorsys.xs2a.adapter.adapter.mapper.TokenResponseMapper;
 import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
-import de.adorsys.xs2a.adapter.adorsys.service.api.Oauth2Api;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
-import de.adorsys.xs2a.adapter.service.Oauth2Service;
-import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
+import de.adorsys.xs2a.adapter.service.util.SpardaOauthParamsAdjustingService;
 import org.mapstruct.factory.Mappers;
 
 import java.net.URI;
@@ -17,21 +15,24 @@ import java.util.Map;
 
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 
-public class AdorsysIntegOauth2Service implements Oauth2Service {
+public class SpardaOauth2Service implements Oauth2Service {
+    private static final String AUTHORISATION_REQUEST_URI_SUFFIX = "/authorise";
+    private static final String TOKEN_REQUEST_URI_SUFFIX = "/token";
     private static final String SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE
         = "SCA OAuth link is missing or has a wrong format: " +
               "it has to be either provided as a request parameter or preconfigured for the current ASPSP";
 
     private final Aspsp aspsp;
     private final HttpClient httpClient;
-    private final Oauth2Api oauth2Api;
+    private final SpardaOauthParamsAdjustingService paramsAdjustingService;
     private final TokenResponseMapper tokenResponseMapper = Mappers.getMapper(TokenResponseMapper.class);
 
-    public AdorsysIntegOauth2Service(Aspsp aspsp,
-                                     HttpClient httpClient) {
+    public SpardaOauth2Service(Aspsp aspsp,
+                               HttpClient httpClient,
+                               SpardaOauthParamsAdjustingService paramsAdjustingService) {
         this.aspsp = aspsp;
         this.httpClient = httpClient;
-        this.oauth2Api = new Oauth2Api(this.httpClient);
+        this.paramsAdjustingService = paramsAdjustingService;
     }
 
     @Override
@@ -42,45 +43,38 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
             throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
         }
 
-        String authorisationUri = oauth2Api.getAuthorisationUri(scaOAuthUrl);
+        String authorisationRequestUri = StringUri.fromElements(scaOAuthUrl, AUTHORISATION_REQUEST_URI_SUFFIX);
+        Parameters parametersForGetAuthorizationRequest = paramsAdjustingService.adjustForGetAuthorizationRequest(parameters);
 
-        if (!StringUri.containsQueryParam(authorisationUri, "redirectId")) {
-            authorisationUri = StringUri.appendQueryParam(
-                authorisationUri,
-                "redirect_uri", parameters.getRedirectUri()
-            );
-        }
-
-        return URI.create(authorisationUri);
+        return URI.create(StringUri.withQuery(authorisationRequestUri, parametersForGetAuthorizationRequest.asMap()));
     }
 
     @Override
     public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
         String scaOAuthUrl = getScaOAuthUrl(parameters);
 
-        if (scaOAuthUrl == null
-                || scaOAuthUrl.trim().isEmpty()
-                || !StringUri.containsProtocol(scaOAuthUrl)) {
+        if (scaOAuthUrl == null || scaOAuthUrl.trim().isEmpty()) {
             throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
         }
 
-        String url = StringUri.withQuery(
-            oauth2Api.getTokenUri(scaOAuthUrl),
-            "code", parameters.getAuthorizationCode()
-        );
+        String tokenRequestUri = StringUri.fromElements(scaOAuthUrl, TOKEN_REQUEST_URI_SUFFIX);
+        Parameters parametersForGetTokenRequest = paramsAdjustingService.adjustForGetTokenRequest(parameters);
 
-        Response<OauthToken> response = httpClient.post(url)
-            .send(jsonResponseHandler(OauthToken.class));
+        Response<OauthToken> response
+            = httpClient.post(StringUri.withQuery(tokenRequestUri, parametersForGetTokenRequest.asMap()))
+                  .send(jsonResponseHandler(OauthToken.class));
+
         return tokenResponseMapper.map(response.getBody());
     }
 
     private String getScaOAuthUrl(Parameters parameters) {
-        String scaOAuthLinkParam = parameters.getScaOAuthLink();
+        String baseScaOAuthUrl = parameters.getScaOAuthLink();
 
-        if (scaOAuthLinkParam != null && !scaOAuthLinkParam.trim().isEmpty()) {
-            return StringUri.decodeUrl(scaOAuthLinkParam);
+        if (baseScaOAuthUrl == null || baseScaOAuthUrl.trim().isEmpty()) {
+            baseScaOAuthUrl = aspsp.getIdpUrl();
         }
 
-        return aspsp.getIdpUrl();
+        return baseScaOAuthUrl;
     }
+
 }

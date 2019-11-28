@@ -6,6 +6,7 @@ import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Oauth2ServiceFactory;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationServiceFactory;
 
@@ -31,9 +32,10 @@ public class IngServiceFactory implements Psd2AccountInformationServiceFactory, 
     }
 
     @Override
-    public Oauth2Service getOauth2Service(String baseUrl,
+    public Oauth2Service getOauth2Service(Aspsp aspsp,
                                           HttpClientFactory httpClientFactory,
                                           Pkcs12KeyStore keyStore) {
+        String baseUrl = aspsp.getIdpUrl() != null ? aspsp.getIdpUrl() : aspsp.getUrl();
         return getIngPsd2AccountInformationService(baseUrl, httpClientFactory, keyStore);
     }
 
