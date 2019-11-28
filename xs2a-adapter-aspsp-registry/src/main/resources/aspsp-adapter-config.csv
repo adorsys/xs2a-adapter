@@ -1991,5 +1991,3 @@ eead159e-8a39-43db-ac9c-c704b2d83a4a,Santander Consumer Bank AG,SCFBDE33XXX,http
 d41eda75-bdcc-49d9-ab4f-3e5a5f93a8c0,Santander Consumer Bank,SCFBDE33XXX,https://apigateway-sandbox.api.santander.de/scb-openapis/sx/,santander-adapter,60133300
 2bcb8ce7-8aca-45b1-81de-bca85ba88bc3,Santander Consumer Bank,SCFBDE33XXX,https://apigateway-sandbox.api.santander.de/scb-openapis/sx/,santander-adapter,70133300
 85e77bb8-db43-4010-92d2-d60f8a41e0d1,Santander Consumer Bank,SCFBDE33XXX,https://apigateway-sandbox.api.santander.de/scb-openapis/sx/,santander-adapter,86033300
-66eba2b7-3a82-42ae-aff5-7a186cd3d8e4,Banking Gateway Sandbox OAuth,ADORSYS2019,https://dev-bankinggateway-sandbox-xs2a.cloud.adorsys.de,adorsys-integ-adapter,90001001,https://dev-bankinggateway-sandbox-onlinebanking.cloud.adorsys.de/oauth/authorization-server
-2c2d2e6e-3f02-435e-b291-8d90a53a96bf,Banking Gateway Sandbox OAuth,ADORSYS2019,https://dev-bankinggateway-sandbox-xs2a.cloud.adorsys.de,adorsys-integ-adapter,90001002,https://dev-bankinggateway-sandbox-onlinebanking.cloud.adorsys.de/oauth/authorization-server
