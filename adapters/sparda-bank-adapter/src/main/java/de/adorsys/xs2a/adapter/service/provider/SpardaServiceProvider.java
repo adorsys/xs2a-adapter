@@ -16,7 +16,6 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
-import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;
@@ -28,7 +27,7 @@ public class SpardaServiceProvider implements AccountInformationServiceProvider,
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new BaseAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()));
+        return new SpardaAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()));
     }
 
     @Override
