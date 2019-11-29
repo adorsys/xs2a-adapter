@@ -21,3 +21,5 @@ adapter:
 logback:
   # external logging config indicator
   enabled: false
+monitoring:
+  enabled: false

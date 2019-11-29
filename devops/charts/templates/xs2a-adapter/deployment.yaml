@@ -32,6 +32,12 @@ spec:
             - name: LOGGING_CONFIG
               value: /opt/xs2a-adapter/conf/logback.xml
             {{- end }}
+            {{- if .Values.monitoring.enabled }}
+            - name: BG_MONITORING_CLIENT_ENABLED
+              value: "true"
+            - name: SPRING_RABBITMQ_HOST
+              value: {{ .Values.monitoring.rabbitmq.host }}
+            {{- end }}
             - name: adapter.config.file.path
               value: /opt/xs2a-adapter/conf/adapter.config.properties
             - name: PKCS12_KEY_STORE_PASSWORD
