@@ -13,57 +13,37 @@ import de.adorsys.xs2a.adapter.service.impl.model.UnicreditAccountScaStatusRespo
 import de.adorsys.xs2a.adapter.service.impl.model.UnicreditStartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.model.*;
 
+import javax.ws.rs.core.HttpHeaders;
 import java.util.Map;
 
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 
 public class UnicreditAccountInformationService extends BaseAccountInformationService {
-    private static final String AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM = "authenticationCurrentNumber";
+//    private static final String AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM = "authenticationCurrentNumber";
     private static final String DEFAULT_PSU_IP_ADDRESS = "0.0.0.0";
 
-    private final UnicreditCreateConsentResponseMapper createConsentResponseMapper = new UnicreditCreateConsentResponseMapper();
-    private final UnicreditStartAuthorisationResponseMapper startAuthorisationResponseMapper = new UnicreditStartAuthorisationResponseMapper();
-    private final ScaStatusResponseMapper scaStatusResponseMapper = new ScaStatusResponseMapper();
+//    private final ScaStatusResponseMapper scaStatusResponseMapper = new ScaStatusResponseMapper();
 
     public UnicreditAccountInformationService(String baseUri, HttpClient httpClient) {
         super(baseUri, httpClient);
     }
 
-    @Override
-    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
-        return createConsent(requestHeaders, body, ConsentCreationResponse.class, createConsentResponseMapper::modifyResponse);
-    }
-
-    @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
-        String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
-        Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
-        String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
-
-        Response<UnicreditStartScaProcessResponse> response = httpClient.put(uri)
-            .jsonBody(body)
-            .headers(headersMap)
-            .send(jsonResponseHandler(UnicreditStartScaProcessResponse.class));
-
-        return new Response<>(response.getStatusCode(), startAuthorisationResponseMapper.modifyResponse(response.getBody()), response.getHeaders());
-    }
-
-    @Override
-    public Response<ScaStatusResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
-        return updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation, UnicreditAccountScaStatusResponse.class, scaStatusResponseMapper::toScaStatusResponse);
-    }
-
-    @Override
-    public Response<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, RequestHeaders requestHeaders) {
-        Response<ConsentStatusResponse> response = this.getConsentStatus(consentId, requestHeaders);
-        return new Response<>(response.getStatusCode(), scaStatusResponseMapper.toScaStatusResponse(response.getBody()), response.getHeaders());
-    }
-
-    @Override
-    protected String getUpdateConsentPsuDataUri(String consentId, String authorisationId) {
-        String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
-        return StringUri.withQuery(uri, AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM, authorisationId);
-    }
+//    @Override
+//    public Response<ScaStatusResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
+//        return updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation, UnicreditAccountScaStatusResponse.class, scaStatusResponseMapper::toScaStatusResponse);
+//    }
+//
+//    @Override
+//    public Response<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, RequestHeaders requestHeaders) {
+//        Response<ConsentStatusResponse> response = this.getConsentStatus(consentId, requestHeaders);
+//        return new Response<>(response.getStatusCode(), scaStatusResponseMapper.toScaStatusResponse(response.getBody()), response.getHeaders());
+//    }
+//
+//    @Override
+//    protected String getUpdateConsentPsuDataUri(String consentId, String authorisationId) {
+//        String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
+//        return StringUri.withQuery(uri, AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM, authorisationId);
+//    }
 
     @Override
     protected Map<String, String> populateGetHeaders(Map<String, String> map) {
@@ -76,9 +56,8 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
 
     @Override
     protected Map<String, String> populatePostHeaders(Map<String, String> map) {
-        Map<String, String> headers = super.populatePostHeaders(map);
-        headers.put(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON);
-        return headers;
+        map.put(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON);
+        return map;
     }
 
     @Override

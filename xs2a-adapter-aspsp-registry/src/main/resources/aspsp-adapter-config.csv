@@ -1980,6 +1980,7 @@ afc87008-92c9-4890-9b3b-d7f31ab05800,Stadtsparkasse Bad Sachsa,NOLADE21SAC,https
 a68ca008-a1d7-46cd-90ac-514289c3e970,Raiffeisenbank,GENODEF1ZIR,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,76069669
 4c47e75a-760f-4d99-8d88-490221b39f98,Ing Bank N.V.,INGDDEFFXXX,https://api.sandbox.ing.com,ing-adapter,50010517
 c400eecb-d40b-4a0b-9a2b-176e24440541,Unicredit Bank,HYVEDEMMXXX,https://api-sandbox.unicredit.de,unicredit-adapter,70020270
+116f1110-1292-11ea-8d71-362b9e155667,Unicredit Bank,HYVEDEMMXX1,https://api-sandbox.unicredit.de/hydrogen,unicredit-adapter,70020271
 00ec0be1-4b13-4c82-8926-b23d1c8a0d2c,Comdirect bank AG,COBADEHDXXX,https://xs2a-sandbox.comdirect.de/berlingroup,comdirect-adapter,20041111
 14a0c2ad-b9bf-4200-853a-a7abe541b714,Santander Consumer Bank AG,SCFBDE33XXX,https://apigateway-sandbox.api.santander.de/scb-openapis/sx/,santander-adapter,10033300
 fdf27aa0-8ca3-4349-8ea9-5f720833542b,Santander Consumer Bank AG,SCFBDE33XXX,https://apigateway-sandbox.api.santander.de/scb-openapis/sx/,santander-adapter,20133300
