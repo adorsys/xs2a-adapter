@@ -6,10 +6,10 @@ import de.adorsys.xs2a.adapter.service.util.adjuster.ParamAdjustingResultHolder;
 import static de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 
 public class ClientIdParamAdjuster implements ParamAdjuster {
-    private final String organizationIdentifier;
+    private final String clientIdFromCertificate;
 
-    public ClientIdParamAdjuster(String organizationIdentifier) {
-        this.organizationIdentifier = organizationIdentifier;
+    public ClientIdParamAdjuster(String clientIdFromCertificate) {
+        this.clientIdFromCertificate = clientIdFromCertificate;
     }
 
     @Override
@@ -18,7 +18,7 @@ public class ClientIdParamAdjuster implements ParamAdjuster {
         String clientId = parametersFromTpp.getClientId();
 
         if (clientId == null || clientId.trim().isEmpty()) {
-            clientId = organizationIdentifier;
+            clientId = clientIdFromCertificate;
         }
 
         adjustingResultHolder.addAdjustedParam(Parameters.CLIENT_ID, clientId);

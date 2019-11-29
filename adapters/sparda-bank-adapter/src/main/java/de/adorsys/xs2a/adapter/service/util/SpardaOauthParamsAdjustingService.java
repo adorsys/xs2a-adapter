@@ -15,7 +15,7 @@ public class SpardaOauthParamsAdjustingService {
     private static final String DEFAULT_GRANT_TYPE_PARAM_VALUE_FOR_GET_TOKEN_REQUEST
         = "authorization_code";
     private static final String QUERY_PARAMETERS_MISSING_ERROR_MESSAGE
-        = "The following query parameters are missing: %s";
+        = "The following query parameters are missing or not valid: %s";
 
     private final ParamAdjuster authorisationRequestParamAdjuster;
     private final ParamAdjuster tokenRequestParamAdjuster;
