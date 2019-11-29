@@ -25,6 +25,8 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -34,7 +36,7 @@ import static de.adorsys.xs2a.adapter.http.ResponseHandlers.stringResponseHandle
 import static java.util.function.Function.identity;
 
 public class BaseAccountInformationService extends AbstractService implements AccountInformationService {
-
+    protected static final Logger logger = LoggerFactory.getLogger(BaseAccountInformationService.class);
     protected static final String V1 = "v1";
     protected static final String CONSENTS = "consents";
     protected static final String ACCOUNTS = "accounts";
@@ -173,9 +175,9 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
         Response<T> response = httpClient.put(uri)
-            .jsonBody(body)
-            .headers(headersMap)
-            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
+                                   .jsonBody(body)
+                                   .headers(headersMap)
+                                   .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), updatePsuAuthenticationResponse, response.getHeaders());
     }
@@ -264,8 +266,22 @@ public class BaseAccountInformationService extends AbstractService implements Ac
             .headers(headersMap)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         TransactionsReport transactionsReport = mapper.apply(response.getBody());
-
+        logTransactionsSize(transactionsReport);
         return new Response<>(response.getStatusCode(), transactionsReport, response.getHeaders());
+    }
+
+    private void logTransactionsSize(TransactionsReport transactionsReport) {
+        int size = 0;
+        if (transactionsReport != null && transactionsReport.getTransactions() != null) {
+            AccountReport transactions = transactionsReport.getTransactions();
+            if (transactions.getPending() != null) {
+                size += transactions.getPending().size();
+            }
+            if (transactions.getBooked() != null) {
+                size += transactions.getBooked().size();
+            }
+        }
+        logger.info("<-- There are {} transactions in the response", size);
     }
 
     @Override
@@ -285,9 +301,11 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     public Response<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         String uri = getTransactionListUri(accountId, requestParams);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
-        return httpClient.get(uri)
-            .headers(headers)
-            .send(requestBuilderInterceptor, stringResponseHandler());
+        Response<String> response = httpClient.get(uri)
+                                    .headers(headers)
+                                    .send(requestBuilderInterceptor, stringResponseHandler());
+        logger.info("<-- There is no information about transactions");
+        return response;
     }
 
     @Override

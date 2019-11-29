@@ -42,11 +42,9 @@ public class ResponseHandlers {
 
             if (statusCode >= 400) {
                 // this statement is needed as error response handling is different from the successful response
-                if (contentType == null || !contentType.startsWith(APPLICATION_JSON)) {
-                    if (isNotJson(pushbackResponseBody)) {
+                if ((contentType == null || !contentType.startsWith(APPLICATION_JSON)) && isNotJson(pushbackResponseBody)) {
                         throw responseException(statusCode, pushbackResponseBody, responseHeaders,
                             ResponseHandlers::buildEmptyErrorResponse);
-                    }
                 }
                 throw responseException(statusCode, pushbackResponseBody, responseHeaders,
                     ResponseHandlers::buildErrorResponseFromString);
@@ -57,13 +55,15 @@ public class ResponseHandlers {
                     "Content type %s is not acceptable, has to start with %s", contentType, APPLICATION_JSON));
             }
 
-            if (statusCode == 200 || statusCode == 201) {
-                return jsonMapper.readValue(responseBody, klass);
+            switch (statusCode) {
+                case 200:
+                case 201:
+                case 202:
+                    return jsonMapper.readValue(responseBody, klass);
+                default:
+                    throw responseException(statusCode, pushbackResponseBody, responseHeaders,
+                                            ResponseHandlers::buildErrorResponseFromString);
             }
-
-            // will be invoked for not expected 2xx and 3xx statuses
-            throw responseException(statusCode, pushbackResponseBody, responseHeaders,
-                ResponseHandlers::buildErrorResponseFromString);
         };
     }
 
@@ -191,12 +191,16 @@ public class ResponseHandlers {
 
     public static HttpClient.ResponseHandler<byte[]> byteArrayResponseHandler() {
         return (statusCode, responseBody, responseHeaders) -> {
-            if (statusCode == 200) {
-                return toByteArray(responseBody);
+            switch (statusCode) {
+                case 200:
+                case 201:
+                case 202:
+                case 204:
+                    return toByteArray(responseBody);
+                default:
+                    throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders,
+                                            ResponseHandlers::buildEmptyErrorResponse);
             }
-
-            throw responseException(statusCode, new PushbackInputStream(responseBody), responseHeaders,
-                ResponseHandlers::buildEmptyErrorResponse);
         };
     }
 
