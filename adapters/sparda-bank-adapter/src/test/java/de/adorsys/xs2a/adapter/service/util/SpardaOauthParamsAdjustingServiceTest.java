@@ -40,7 +40,7 @@ public class SpardaOauthParamsAdjustingServiceTest {
     @Mock
     private Pkcs12KeyStore keyStore;
 
-    private SpardaOauthParamsAdjustingService paramsAdjustingService ;
+    private SpardaOauthParamsAdjustingService paramsAdjustingService;
 
     @Test(expected = BadRequestException.class)
     public void adjustForGetAuthorizationRequest_Failure_emptyParamsFromTpp() throws KeyStoreException {
