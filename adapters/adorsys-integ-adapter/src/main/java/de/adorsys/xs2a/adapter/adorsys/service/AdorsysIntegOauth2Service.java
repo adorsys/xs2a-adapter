@@ -10,6 +10,7 @@ import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 
 import java.net.URI;
@@ -39,7 +40,7 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
     public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) {
         String scaOAuthUrl = getScaOAuthUrl(parameters);
 
-        if (scaOAuthUrl == null || scaOAuthUrl.trim().isEmpty()) {
+        if (StringUtils.isBlank(scaOAuthUrl)) {
             throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
         }
 
@@ -59,8 +60,7 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
     public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
         String scaOAuthUrl = getScaOAuthUrl(parameters);
 
-        if (scaOAuthUrl == null
-                || scaOAuthUrl.trim().isEmpty()
+        if (StringUtils.isBlank(scaOAuthUrl)
                 || !StringUri.containsProtocol(scaOAuthUrl)) {
             throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
         }
@@ -78,7 +78,7 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
     private String getScaOAuthUrl(Parameters parameters) {
         String scaOAuthLinkParam = parameters.getScaOAuthLink();
 
-        if (scaOAuthLinkParam != null && !scaOAuthLinkParam.trim().isEmpty()) {
+        if (StringUtils.isNotBlank(scaOAuthLinkParam)) {
             return StringUri.decodeUrl(scaOAuthLinkParam);
         }
 

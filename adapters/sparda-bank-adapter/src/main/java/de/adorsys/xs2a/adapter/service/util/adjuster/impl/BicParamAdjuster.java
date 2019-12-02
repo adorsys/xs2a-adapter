@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.service.util.adjuster.impl;
 
 import de.adorsys.xs2a.adapter.service.util.adjuster.ParamAdjuster;
 import de.adorsys.xs2a.adapter.service.util.adjuster.ParamAdjustingResultHolder;
+import org.apache.commons.lang3.StringUtils;
 
 import static de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 
@@ -17,11 +18,11 @@ public class BicParamAdjuster implements ParamAdjuster {
                                                   Parameters parametersFromTpp) {
         String bic = parametersFromTpp.getBic();
 
-        if (bic == null || bic.trim().isEmpty()) {
+        if (StringUtils.isBlank(bic)) {
             bic = bicFromAspsp;
         }
 
-        if (bic != null && !bic.trim().isEmpty()) {
+        if (StringUtils.isNotBlank(bic)) {
             adjustingResultHolder.addAdjustedParam(Parameters.BIC, bic);
         } else {
             adjustingResultHolder.addMissingParam(Parameters.BIC);

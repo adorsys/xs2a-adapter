@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.service.util.adjuster.impl;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.util.adjuster.ParamAdjuster;
 import de.adorsys.xs2a.adapter.service.util.adjuster.ParamAdjustingResultHolder;
+import org.apache.commons.lang3.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -25,17 +26,17 @@ public class CodeChallengeParamAdjuster implements ParamAdjuster {
                                                   Parameters parametersFromTpp) {
         String codeChallenge = parametersFromTpp.getCodeChallenge();
 
-        if (codeChallenge == null || codeChallenge.trim().isEmpty()) {
+        if (StringUtils.isBlank(codeChallenge)) {
             String codeVerifier = parametersFromTpp.getCodeVerifier();
 
-            if (codeVerifier == null || codeVerifier.trim().isEmpty()) {
+            if (StringUtils.isBlank(codeVerifier)) {
                 codeVerifier = AdapterConfig.readProperty(SPARDA_DEFAULT_CODE_VERIFIER_PROPERTY);
             }
 
             codeChallenge = computeCodeChallenge(codeVerifier);
         }
 
-        if (codeChallenge != null && !codeChallenge.trim().isEmpty()) {
+        if (StringUtils.isNotBlank(codeChallenge)) {
             adjustingResultHolder.addAdjustedParam(Parameters.CODE_CHALLENGE, codeChallenge);
         } else {
             adjustingResultHolder.addMissingParam(Parameters.CODE_CHALLENGE);

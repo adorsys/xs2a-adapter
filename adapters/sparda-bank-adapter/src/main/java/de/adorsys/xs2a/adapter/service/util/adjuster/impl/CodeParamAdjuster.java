@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.service.util.adjuster.impl;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.util.adjuster.ParamAdjuster;
 import de.adorsys.xs2a.adapter.service.util.adjuster.ParamAdjustingResultHolder;
+import org.apache.commons.lang3.StringUtils;
 
 public class CodeParamAdjuster implements ParamAdjuster {
 
@@ -11,7 +12,7 @@ public class CodeParamAdjuster implements ParamAdjuster {
                                                   Parameters parametersFromTpp) {
         String codeFromTpp = parametersFromTpp.getAuthorizationCode();
 
-        if (codeFromTpp != null && !codeFromTpp.trim().isEmpty()) {
+        if (StringUtils.isNotBlank(codeFromTpp)) {
             adjustingResultHolder.addAdjustedParam(Parameters.CODE, codeFromTpp);
         } else {
             adjustingResultHolder.addMissingParam(Parameters.CODE);

@@ -8,6 +8,7 @@ import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import de.adorsys.xs2a.adapter.service.util.SpardaOauthParamsAdjustingService;
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 
 import java.net.URI;
@@ -39,7 +40,7 @@ public class SpardaOauth2Service implements Oauth2Service {
     public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) {
         String scaOAuthUrl = getScaOAuthUrl(parameters);
 
-        if (scaOAuthUrl == null || scaOAuthUrl.trim().isEmpty()) {
+        if (StringUtils.isBlank(scaOAuthUrl)) {
             throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
         }
 
@@ -53,7 +54,7 @@ public class SpardaOauth2Service implements Oauth2Service {
     public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
         String scaOAuthUrl = getScaOAuthUrl(parameters);
 
-        if (scaOAuthUrl == null || scaOAuthUrl.trim().isEmpty() || !StringUri.containsProtocol(scaOAuthUrl)) {
+        if (StringUtils.isBlank(scaOAuthUrl) || !StringUri.containsProtocol(scaOAuthUrl)) {
             throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
         }
 
@@ -70,7 +71,7 @@ public class SpardaOauth2Service implements Oauth2Service {
     private String getScaOAuthUrl(Parameters parameters) {
         String baseScaOAuthUrl = parameters.getScaOAuthLink();
 
-        if (baseScaOAuthUrl == null || baseScaOAuthUrl.trim().isEmpty()) {
+        if (StringUtils.isBlank(baseScaOAuthUrl)) {
             baseScaOAuthUrl = aspsp.getIdpUrl();
         }
 

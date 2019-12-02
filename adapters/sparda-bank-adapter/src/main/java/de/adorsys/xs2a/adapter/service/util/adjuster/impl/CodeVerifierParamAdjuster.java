@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.util.adjuster.ParamAdjuster;
 import de.adorsys.xs2a.adapter.service.util.adjuster.ParamAdjustingResultHolder;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.regex.Pattern;
 
@@ -19,7 +20,7 @@ public class CodeVerifierParamAdjuster implements ParamAdjuster {
                                                   Parameters parametersFromTpp) {
         String codeVerifier = parametersFromTpp.getCodeVerifier();
 
-        if (codeVerifier == null || codeVerifier.trim().isEmpty()) {
+        if (StringUtils.isBlank(codeVerifier)) {
             codeVerifier = AdapterConfig.readProperty(SPARDA_DEFAULT_CODE_VERIFIER_PROPERTY);
         }
 

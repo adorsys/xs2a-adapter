@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.service.util.adjuster.impl;
 
 import de.adorsys.xs2a.adapter.service.util.adjuster.ParamAdjuster;
 import de.adorsys.xs2a.adapter.service.util.adjuster.ParamAdjustingResultHolder;
+import org.apache.commons.lang3.StringUtils;
 
 import static de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 
@@ -13,7 +14,7 @@ public class ScopeParamAdjuster implements ParamAdjuster {
                                                   Parameters parametersFromTpp) {
         String scope = parametersFromTpp.getScope();
 
-        if (scope == null || scope.trim().isEmpty()) {
+        if (StringUtils.isBlank(scope)) {
             scope = DEFAULT_SCOPE_PARAM_VALUE;
         }
 
