@@ -21,22 +21,19 @@ package ${package}.service.provider;
 
 import ${package}.adapter.BaseAccountInformationService;
 import ${package}.adapter.BasePaymentInitiationService;
-import ${package}.http.HttpClientFactory;
 import ${package}.service.PaymentInitiationService;
 import ${package}.service.AccountInformationService;
-import ${package}.service.Pkcs12KeyStore;
-import ${package}.service.model.Aspsp;
 
 public class ${classNamePrefix}ServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
     @Override
-    public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new BaseAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()));
+    public AccountInformationService getAccountInformationService(String baseUrl) {
+        return new BaseAccountInformationService(baseUrl);
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
+        return new BasePaymentInitiationService(baseUrl);
     }
 
     @Override
