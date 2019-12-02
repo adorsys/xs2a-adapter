@@ -79,7 +79,7 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
         String scaOAuthLinkParam = parameters.getScaOAuthLink();
 
         if (StringUtils.isNotBlank(scaOAuthLinkParam)) {
-            return StringUri.decodeUrl(scaOAuthLinkParam);
+            return StringUri.decode(scaOAuthLinkParam);
         }
 
         return aspsp.getIdpUrl();

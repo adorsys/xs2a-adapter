@@ -121,10 +121,10 @@ public class StringUriTest {
     }
 
     @Test
-    public void decodeUri() throws UnsupportedEncodingException {
+    public void decode() throws UnsupportedEncodingException {
         String uri = "http://example.com/path?param1=value1&param2=value2";
 
-        String actual = StringUri.decodeUrl(URLEncoder.encode(uri, StandardCharsets.UTF_8.name()));
+        String actual = StringUri.decode(URLEncoder.encode(uri, StandardCharsets.UTF_8.name()));
         assertThat(actual).isEqualTo(uri);
     }
 

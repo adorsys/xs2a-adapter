@@ -72,7 +72,7 @@ public class StringUri {
         return queryParams;
     }
 
-    public static String decodeUrl(String url) {
+    public static String decode(String url) {
         try {
             return URLDecoder.decode(url, StandardCharsets.UTF_8.name());
         } catch (UnsupportedEncodingException e) {
