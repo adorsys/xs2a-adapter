@@ -63,25 +63,12 @@ public class AdorsysIntegOauth2ServiceTest {
     }
 
     @Test
-    public void getAuthorizationRequestUri_Success_RedirectIdIsMissingInTheResponseFromIdp() {
-        Parameters parameters = new Parameters(new HashMap<>());
-        parameters.setRedirectUri(REDIRECT_URI);
-
-        when(aspsp.getIdpUrl()).thenReturn(IDP_URL);
-        when(oauth2Api.getAuthorisationUri(IDP_URL)).thenReturn(AUTH_URL);
-
-        URI actual = oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters);
-
-        assertThat(actual).isEqualTo(AUTH_REQUEST_URI);
-    }
-
-    @Test
     public void getAuthorizationRequestUri_Success() {
         Parameters parameters = new Parameters(new HashMap<>());
         parameters.setRedirectUri(REDIRECT_URI);
 
         when(aspsp.getIdpUrl()).thenReturn(IDP_URL);
-        when(oauth2Api.getAuthorisationUri(IDP_URL)).thenReturn(AUTH_URL_WITH_REDIRECT_URI_PARAM);
+        when(oauth2Api.getAuthorisationUri(IDP_URL)).thenReturn(AUTH_URL);
 
         URI actual = oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters);
 
