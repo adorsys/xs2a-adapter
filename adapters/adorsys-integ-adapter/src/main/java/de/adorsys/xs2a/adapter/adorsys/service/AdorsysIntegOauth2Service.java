@@ -46,12 +46,10 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
 
         String authorisationUri = oauth2Api.getAuthorisationUri(scaOAuthUrl);
 
-        if (!StringUri.containsQueryParam(authorisationUri, "redirectId")) {
-            authorisationUri = StringUri.appendQueryParam(
-                authorisationUri,
-                "redirect_uri", parameters.getRedirectUri()
-            );
-        }
+        authorisationUri = StringUri.appendQueryParam(
+            authorisationUri,
+            "redirect_uri", parameters.getRedirectUri()
+        );
 
         return URI.create(authorisationUri);
     }
@@ -71,7 +69,7 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
         );
 
         Response<OauthToken> response = httpClient.post(url)
-            .send(jsonResponseHandler(OauthToken.class));
+                                            .send(jsonResponseHandler(OauthToken.class));
         return tokenResponseMapper.map(response.getBody());
     }
 

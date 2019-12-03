@@ -102,9 +102,16 @@ public class StringUri {
     }
 
     public static String appendQueryParam(String uri, String paramName, String paramValue) {
-        Map<String, String> params = getQueryParamsFromUri(uri);
-        params.put(paramName, paramValue);
-        return withQuery(removeAllQueryParams(uri), params);
+        if (containsQueryParams(uri)) {
+            uri += "&";
+        } else {
+            uri += "?";
+        }
+        return uri + paramName + "=" + paramValue;
+    }
+
+    private static boolean containsQueryParams(String uri) {
+        return uri.contains("?");
     }
 
     public static String removeAllQueryParams(String uri) {
