@@ -43,36 +43,42 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     protected static final String TRANSACTIONS = "transactions";
     protected static final String BALANCES = "balances";
 
-    protected final String baseUri;
-    private final Request.Builder.Interceptor requestBuilderInterceptor;
+    protected final Aspsp aspsp;
+    protected final Request.Builder.Interceptor requestBuilderInterceptor;
 
-    public BaseAccountInformationService(String baseUri, HttpClient httpClient) {
-        this(baseUri, httpClient, null);
+    public BaseAccountInformationService(Aspsp aspsp, HttpClient httpClient) {
+        this(aspsp, httpClient, null);
     }
 
-    public BaseAccountInformationService(String baseUri,
+    public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
                                          Request.Builder.Interceptor requestBuilderInterceptor) {
         super(httpClient);
-        this.baseUri = baseUri;
+        this.aspsp = aspsp;
         this.requestBuilderInterceptor = requestBuilderInterceptor;
     }
 
     @Override
     public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
-        return createConsent(requestHeaders, body, ConsentCreationResponse.class, identity());
+        return createConsent(requestHeaders, body, identity(), jsonResponseHandler(ConsentCreationResponse.class));
     }
 
     protected <T> Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body, Class<T> klass, Function<T, ConsentCreationResponse> mapper) {
+        return createConsent(requestHeaders, body, mapper, jsonResponseHandler(klass));
+    }
+
+    protected <T> Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body,
+                                                                  Function<T, ConsentCreationResponse> mapper,
+                                                                  HttpClient.ResponseHandler<T> responseHandler) {
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         headersMap = addPsuIdHeader(headersMap);
 
         String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
 
         Response<T> response = httpClient.post(getConsentBaseUri())
-            .jsonBody(bodyString)
-            .headers(headersMap)
-            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
+                                   .jsonBody(bodyString)
+                                   .headers(headersMap)
+                                   .send(requestBuilderInterceptor, responseHandler);
         ConsentCreationResponse creationResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), creationResponse, response.getHeaders());
     }
@@ -326,12 +332,19 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         return new Response<>(response.getStatusCode(), balanceReport, response.getHeaders());
     }
 
+    protected String getBaseUri() {
+        return aspsp.getUrl();
+    }
+
+    protected String getIdpUri() {
+        return aspsp.getIdpUrl();
+    }
 
     protected String getConsentBaseUri() {
-        return StringUri.fromElements(baseUri, V1, CONSENTS);
+        return StringUri.fromElements(getBaseUri(), V1, CONSENTS);
     }
 
     protected String getAccountsBaseUri() {
-        return StringUri.fromElements(baseUri, V1, ACCOUNTS);
+        return StringUri.fromElements(getBaseUri(), V1, ACCOUNTS);
     }
 }

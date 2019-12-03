@@ -22,15 +22,16 @@ import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.impl.SantanderAccessTokenService;
 import de.adorsys.xs2a.adapter.service.impl.SantanderAccountInformationService;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public class SantanderServiceProvider implements AccountInformationServiceProvider {
     private final SantanderAccessTokenService tokenService = SantanderAccessTokenService.getInstance();
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+    public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
         tokenService.setHttpClient(httpClient);
-        return new SantanderAccountInformationService(baseUrl, tokenService, httpClient);
+        return new SantanderAccountInformationService(aspsp, tokenService, httpClient);
     }
 
     @Override

@@ -25,6 +25,7 @@ import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.impl.VerlagAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.VerlagPaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 import java.util.AbstractMap;
 
@@ -45,8 +46,8 @@ public class VerlagServiceProvider
     }
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new VerlagAccountInformationService(baseUrl,
+    public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new VerlagAccountInformationService(aspsp,
             apiKeyEntry,
             httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES));
     }

@@ -1,5 +1,8 @@
 package de.adorsys.xs2a.adapter.http;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,10 +66,18 @@ public class StringUri {
 
         for (String paramWithValueString : paramsWithValues) {
             String[] paramAndValue = paramWithValueString.split("=");
-            queryParams.put(paramAndValue[0], paramAndValue[1]);
+            queryParams.put(paramAndValue[0], paramAndValue.length > 1 ? paramAndValue[1] : null);
         }
 
         return queryParams;
+    }
+
+    public static String decode(String url) {
+        try {
+            return URLDecoder.decode(url, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalArgumentException("The Character Encoding is not supported", e);
+        }
     }
 
     private static String formatUri(String uri) {
@@ -83,5 +94,27 @@ public class StringUri {
 
     public static boolean containsProtocol(String urlToCheck) {
         return urlToCheck.contains("://");
+    }
+
+    public static boolean containsQueryParam(String uri, String paramName) {
+        return getQueryParamsFromUri(uri)
+            .containsKey(paramName);
+    }
+
+    public static String appendQueryParam(String uri, String paramName, String paramValue) {
+        if (containsQueryParams(uri)) {
+            uri += "&";
+        } else {
+            uri += "?";
+        }
+        return uri + paramName + "=" + paramValue;
+    }
+
+    private static boolean containsQueryParams(String uri) {
+        return uri.contains("?");
+    }
+
+    public static String removeAllQueryParams(String uri) {
+        return uri.split("\\?")[0];
     }
 }

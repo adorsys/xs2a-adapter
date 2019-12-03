@@ -113,4 +113,14 @@ public class Pkcs12KeyStore {
 
         return (PrivateKey) keyStore.getKey(qsealAlias, password);
     }
+
+    public String getOrganizationIdentifier() throws KeyStoreException {
+        return getOrganizationIdentifier(null);
+    }
+
+    public String getOrganizationIdentifier(String qsealAlias) throws KeyStoreException {
+        return getQsealCertificate(qsealAlias)
+                   .getSubjectX500Principal()
+                   .getName();
+    }
 }

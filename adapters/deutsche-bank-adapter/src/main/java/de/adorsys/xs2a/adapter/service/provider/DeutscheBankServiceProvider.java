@@ -24,14 +24,16 @@ import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.impl.DeutscheBankAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.DeutscheBankPaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public class DeutscheBankServiceProvider
     implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, DownloadServiceProvider {
     private static final String SERVICE_GROUP_PLACEHOLDER = "{Service Group}";
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new DeutscheBankAccountInformationService(baseUrl.replace(SERVICE_GROUP_PLACEHOLDER, "ais"),
+    public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "ais"));
+        return new DeutscheBankAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()));
     }
 

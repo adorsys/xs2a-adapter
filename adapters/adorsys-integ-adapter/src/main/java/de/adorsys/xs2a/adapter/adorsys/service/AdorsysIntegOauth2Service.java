@@ -2,11 +2,15 @@ package de.adorsys.xs2a.adapter.adorsys.service;
 
 import de.adorsys.xs2a.adapter.adapter.mapper.TokenResponseMapper;
 import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
+import de.adorsys.xs2a.adapter.adorsys.service.api.Oauth2Api;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 
 import java.net.URI;
@@ -15,33 +19,67 @@ import java.util.Map;
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 
 public class AdorsysIntegOauth2Service implements Oauth2Service {
-    private final String authorizationRequestBaseUrl;
-    private final String tokenRequestBaseUrl;
+    private static final String SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE
+        = "SCA OAuth link is missing or has a wrong format: " +
+              "it has to be either provided as a request parameter or preconfigured for the current ASPSP";
+
+    private final Aspsp aspsp;
     private final HttpClient httpClient;
+    private final Oauth2Api oauth2Api;
     private final TokenResponseMapper tokenResponseMapper = Mappers.getMapper(TokenResponseMapper.class);
 
-    public AdorsysIntegOauth2Service(String authorizationRequestBaseUrl,
-                                     String tokenRequestBaseUrl,
-                                     HttpClient httpClient) {
-        this.authorizationRequestBaseUrl = authorizationRequestBaseUrl;
-        this.tokenRequestBaseUrl = tokenRequestBaseUrl;
+    public AdorsysIntegOauth2Service(Aspsp aspsp,
+                                     HttpClient httpClient,
+                                     Oauth2Api oauth2Api) {
+        this.aspsp = aspsp;
         this.httpClient = httpClient;
+        this.oauth2Api = oauth2Api;
     }
 
     @Override
     public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) {
-        String url = authorizationRequestBaseUrl + "/auth/authorize";
+        String scaOAuthUrl = getScaOAuthUrl(parameters);
 
-        return URI.create(StringUri.withQuery(url, parameters.asMap()));
+        if (StringUtils.isBlank(scaOAuthUrl)) {
+            throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
+        }
+
+        String authorisationUri = oauth2Api.getAuthorisationUri(scaOAuthUrl);
+
+        authorisationUri = StringUri.appendQueryParam(
+            authorisationUri,
+            "redirect_uri", parameters.getRedirectUri()
+        );
+
+        return URI.create(authorisationUri);
     }
 
     @Override
     public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
-        String url = tokenRequestBaseUrl + "/oauth/token";
+        String scaOAuthUrl = getScaOAuthUrl(parameters);
+
+        if (StringUtils.isBlank(scaOAuthUrl)
+                || !StringUri.containsProtocol(scaOAuthUrl)) {
+            throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
+        }
+
+        String url = StringUri.withQuery(
+            oauth2Api.getTokenUri(scaOAuthUrl),
+            "code", parameters.getAuthorizationCode()
+        );
 
         Response<OauthToken> response = httpClient.post(url)
-            .header("code", parameters.getAuthorizationCode())
-            .send(jsonResponseHandler(OauthToken.class));
+                                            .send(jsonResponseHandler(OauthToken.class));
         return tokenResponseMapper.map(response.getBody());
+    }
+
+    private String getScaOAuthUrl(Parameters parameters) {
+        String scaOAuthLinkParam = parameters.getScaOAuthLink();
+
+        if (StringUtils.isNotBlank(scaOAuthLinkParam)) {
+            return StringUri.decode(scaOAuthLinkParam);
+        }
+
+        return aspsp.getIdpUrl();
     }
 }
