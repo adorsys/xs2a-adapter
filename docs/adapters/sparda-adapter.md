@@ -90,7 +90,7 @@ According to Sparda documentation, there is a list of query params for refresh t
 The adapter is going to help the TPP with adjusting some of these params:
 
 - grant_type:
-    - the value `authorization_code` will always be used
+    - the value `refresh_token` will always be used
 - client_id:
     - if TPP provides it within the request, the provided value will be used
     - otherwise, the value will be taken from the certificate
