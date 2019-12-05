@@ -22,6 +22,7 @@ public class SpardaOauth2Service implements Oauth2Service {
     private static final String SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE
         = "SCA OAuth link is missing or has a wrong format: " +
               "it has to be either provided as a request parameter or preconfigured for the current ASPSP";
+    private static final String REFRESH_TOKEN_GRANT_TYPE = "refresh_token";
 
     private final Aspsp aspsp;
     private final HttpClient httpClient;
@@ -59,10 +60,17 @@ public class SpardaOauth2Service implements Oauth2Service {
         }
 
         String tokenRequestUri = StringUri.fromElements(scaOAuthUrl, TOKEN_REQUEST_URI_SUFFIX);
-        Parameters parametersForGetTokenRequest = paramsAdjustingService.adjustForGetTokenRequest(parameters);
+
+        Parameters tokenRequestParams;
+
+        if (isRefreshTokenRequest(parameters)) {
+            tokenRequestParams = paramsAdjustingService.adjustForRefreshTokenRequest(parameters);
+        } else {
+            tokenRequestParams = paramsAdjustingService.adjustForGetTokenRequest(parameters);
+        }
 
         Response<OauthToken> response
-            = httpClient.post(StringUri.withQuery(tokenRequestUri, parametersForGetTokenRequest.asMap()))
+            = httpClient.post(StringUri.withQuery(tokenRequestUri, tokenRequestParams.asMap()))
                   .send(jsonResponseHandler(OauthToken.class));
 
         return tokenResponseMapper.map(response.getBody());
@@ -78,4 +86,7 @@ public class SpardaOauth2Service implements Oauth2Service {
         return baseScaOAuthUrl;
     }
 
+    private boolean isRefreshTokenRequest(Parameters parameters) {
+        return REFRESH_TOKEN_GRANT_TYPE.equals(parameters.getGrantType());
+    }
 }
