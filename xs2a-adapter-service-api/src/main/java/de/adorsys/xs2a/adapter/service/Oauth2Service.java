@@ -25,6 +25,7 @@ public interface Oauth2Service {
         public static final String RESPONSE_TYPE = "response_type";
         public static final String CODE_CHALLENGE = "code_challenge";
         public static final String CODE_CHALLENGE_METHOD = "code_challenge_method";
+        public static final String REFRESH_TOKEN = "refresh_token";
 
         private final Map<String, String> parameters;
 
@@ -138,6 +139,14 @@ public interface Oauth2Service {
 
         public void setCodeChallengeMethod(String value) {
             set(CODE_CHALLENGE_METHOD, value);
+        }
+
+        public String getRefreshToken() {
+            return get(REFRESH_TOKEN);
+        }
+
+        public void setRefreshToken(String value) {
+            set(REFRESH_TOKEN, value);
         }
     }
 }
