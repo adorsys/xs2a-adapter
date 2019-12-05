@@ -81,6 +81,20 @@ public class StringUriTest {
     }
 
     @Test
+    public void getQueryParamsFromUriWithEqualSignInsideParamValue() {
+        String key = "q";
+        String value = "2012=12=21";
+        String uri = String.format("http://example.com?%s=%s", key, value);
+
+        Map<String, String> params = StringUri.getQueryParamsFromUri(uri);
+
+        assertThat(params.size()).isEqualTo(1);
+
+        String actualValue = params.get(key);
+        assertThat(actualValue).isEqualTo(value);
+    }
+
+    @Test
     public void isUriStartsWithSlash() {
         String uri = "/some/uri";
         assertThat(StringUri.isUri(uri)).isTrue();
@@ -141,6 +155,7 @@ public class StringUriTest {
     public void appendQueryParam() {
         String uri1 = "http://example.com/path?param1=value1&param2=value2";
         String uri2 = "http://example.com/path";
+        String uri3 = "http://example.com/path?param=";
 
         String actual1 = StringUri.appendQueryParam(uri1, "param3", "value3");
         Map<String, String> params1 = StringUri.getQueryParamsFromUri(actual1);
@@ -165,6 +180,11 @@ public class StringUriTest {
         Map<String, String> params4 = StringUri.getQueryParamsFromUri(actual4);
         assertThat(params4.size()).isEqualTo(1);
         assertThat(params4.get("param")).isEqualTo("value");
+
+        String actual5 = StringUri.appendQueryParam(uri3, "param", "value");
+        Map<String, String> params5 = StringUri.getQueryParamsFromUri(actual5);
+        assertThat(params5.size()).isEqualTo(1);
+        assertThat(params5.get("param")).isEqualTo("value");
     }
 
     @Test
