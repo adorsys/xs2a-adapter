@@ -65,7 +65,7 @@ public class StringUri {
         String[] paramsWithValues = paramsString.split("&");
 
         for (String paramWithValueString : paramsWithValues) {
-            String[] paramAndValue = paramWithValueString.split("=");
+            String[] paramAndValue = paramWithValueString.split("=", 2);
             queryParams.put(paramAndValue[0], paramAndValue.length > 1 ? paramAndValue[1] : null);
         }
 
@@ -102,16 +102,9 @@ public class StringUri {
     }
 
     public static String appendQueryParam(String uri, String paramName, String paramValue) {
-        if (containsQueryParams(uri)) {
-            uri += "&";
-        } else {
-            uri += "?";
-        }
-        return uri + paramName + "=" + paramValue;
-    }
-
-    private static boolean containsQueryParams(String uri) {
-        return uri.contains("?");
+        Map<String, String> params = getQueryParamsFromUri(uri);
+        params.put(paramName, paramValue);
+        return withQuery(removeAllQueryParams(uri), params);
     }
 
     public static String removeAllQueryParams(String uri) {
