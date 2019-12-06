@@ -17,6 +17,8 @@ import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 
 public class UnicreditAccountInformationService extends BaseAccountInformationService {
 
+    private static final String REDIRECT_URI = "https://example.com";
+
     private UpdatePsuAuthenticationResponseUnicreditMapper unicreditMapper = new UpdatePsuAuthenticationResponseUnicreditMapper();
 
     public UnicreditAccountInformationService(Aspsp aspsp, HttpClient httpClient) {
@@ -45,6 +47,7 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     @Override
     protected Map<String, String> populatePostHeaders(Map<String, String> map) {
         map.put(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON);
+        map.put(RequestHeaders.TPP_REDIRECT_URI, REDIRECT_URI);
         return map;
     }
 
