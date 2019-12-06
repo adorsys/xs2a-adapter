@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c7a11838-7ef4-4314-b273-d11272a59de4",
+		"_postman_id": "a6e61518-5a72-4157-b226-e85fedb3c43b",
 		"name": "xs2a adapter",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1386,6 +1386,50 @@
 							"});"
 						]
 					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "AIS_X",
+			"item": [
+				{
+					"name": "{{baseUri}}/v1/accounts/{{accountId}}/transactions/{{transactionId}}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Consent-ID",
+								"value": "{{consentId}}"
+							},
+							{
+								"key": "X-GTW-ASPSP-ID",
+								"value": "{{aspspId}}"
+							},
+							{
+								"key": "X-Request-ID",
+								"value": "{{$guid}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUri}}/v1/accounts/{{accountId}}/transactions/{{transactionId}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"v1",
+								"accounts",
+								"{{accountId}}",
+								"transactions",
+								"{{transactionId}}"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
