@@ -20,8 +20,8 @@ import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 
 public class UnicreditAccountInformationService extends BaseAccountInformationService {
 
-    public UnicreditAccountInformationService(String baseUri, HttpClient httpClient) {
-        super(baseUri, httpClient);
+    public UnicreditAccountInformationService(Aspsp aspsp, HttpClient httpClient) {
+        super(aspsp, httpClient);
     }
 
     @Override

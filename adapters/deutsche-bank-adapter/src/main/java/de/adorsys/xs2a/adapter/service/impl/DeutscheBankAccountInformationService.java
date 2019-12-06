@@ -20,6 +20,7 @@ import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,8 +29,8 @@ import java.util.Map;
 public class DeutscheBankAccountInformationService extends BaseAccountInformationService {
     private static final String DATE_HEADER = "Date";
 
-    public DeutscheBankAccountInformationService(String baseUri, HttpClient httpClient) {
-        super(baseUri, httpClient);
+    public DeutscheBankAccountInformationService(Aspsp aspsp, HttpClient httpClient) {
+        super(aspsp, httpClient);
     }
 
     @Override

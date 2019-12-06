@@ -54,6 +54,36 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
+    ResponseEntity handle(OAuthException exception) {
+        logError(exception);
+
+        HttpHeaders responseHeaders = addErrorOriginationHeader(
+            headersMapper.toHttpHeaders(exception.getResponseHeaders()),
+            ErrorOrigination.BANK
+        );
+
+        String originalResponse = exception.getMessage();
+        ErrorResponse errorResponse = exception.getErrorResponse();
+
+        ResponseEntity.BodyBuilder responseBuilder = ResponseEntity
+                                                 .status(HttpStatus.FORBIDDEN)
+                                                 .headers(responseHeaders);
+
+        if (errorResponse != null && !errorResponse.isEmpty()) {
+            return responseBuilder
+                       .body(errorResponse);
+        }
+
+        if (originalResponse != null && !originalResponse.trim().isEmpty()) {
+            return responseBuilder
+                       .body(originalResponse);
+        }
+
+        return responseBuilder
+                   .build();
+    }
+
+    @ExceptionHandler
     ResponseEntity handle(NotAcceptableException exception) {
         logError(exception);
         return ResponseEntity

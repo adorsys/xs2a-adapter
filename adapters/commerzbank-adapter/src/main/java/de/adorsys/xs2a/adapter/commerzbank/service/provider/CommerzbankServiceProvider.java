@@ -21,6 +21,7 @@ import de.adorsys.xs2a.adapter.commerzbank.service.CommerzbankAccountInformation
 import de.adorsys.xs2a.adapter.commerzbank.service.CommerzbankOauth2Service;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 
@@ -28,8 +29,8 @@ public class CommerzbankServiceProvider
     implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceFactory {
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new CommerzbankAccountInformationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
+    public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new CommerzbankAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()));
     }
 
     @Override
@@ -43,7 +44,7 @@ public class CommerzbankServiceProvider
     }
 
     @Override
-    public Oauth2Service getOauth2Service(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new CommerzbankOauth2Service(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new CommerzbankOauth2Service(aspsp, httpClientFactory.getHttpClient(getAdapterId()));
     }
 }

@@ -40,10 +40,9 @@ public class AdapterServiceLoader {
     public AccountInformationService getAccountInformationService(RequestHeaders requestHeaders) {
         Aspsp aspsp = getAspsp(requestHeaders);
         String adapterId = aspsp.getAdapterId();
-        String baseUrl = aspsp.getUrl();
         return getServiceProvider(AccountInformationServiceProvider.class, adapterId)
                    .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-                   .getAccountInformationService(baseUrl, httpClientFactory, keyStore);
+                   .getAccountInformationService(aspsp, httpClientFactory, keyStore);
     }
 
     protected Aspsp getAspsp(RequestHeaders requestHeaders) {
@@ -113,10 +112,9 @@ public class AdapterServiceLoader {
     public Oauth2Service getOauth2Service(RequestHeaders requestHeaders) {
         Aspsp aspsp = getAspsp(requestHeaders);
         String adapterId = aspsp.getAdapterId();
-        String baseUrl = aspsp.getIdpUrl() != null ? aspsp.getIdpUrl() : aspsp.getUrl();
         return getServiceProvider(Oauth2ServiceFactory.class, adapterId)
                    .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-                   .getOauth2Service(baseUrl, httpClientFactory, keyStore);
+                   .getOauth2Service(aspsp, httpClientFactory, keyStore);
     }
 
     public DownloadService getDownloadService(RequestHeaders requestHeaders) {

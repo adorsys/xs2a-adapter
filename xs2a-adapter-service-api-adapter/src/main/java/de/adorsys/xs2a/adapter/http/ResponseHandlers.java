@@ -4,12 +4,17 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
+import de.adorsys.xs2a.adapter.service.exception.OAuthException;
 import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
+import de.adorsys.xs2a.adapter.service.model.Link;
+import de.adorsys.xs2a.adapter.service.model.Links;
+import de.adorsys.xs2a.adapter.service.model.TppMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -62,6 +67,52 @@ public class ResponseHandlers {
         };
     }
 
+    public static <T> HttpClient.ResponseHandler<T> consentCreationResponseHandler(String scaOAuthUrl, Class<T> klass) {
+        return (statusCode, responseBody, responseHeaders) -> {
+            if (statusCode == 403) {
+                String contentType = responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE);
+                PushbackInputStream pushbackResponseBody = new PushbackInputStream(responseBody);
+
+                // this statement is needed as error response handling is different from the successful response
+                if (contentType == null || !contentType.startsWith(APPLICATION_JSON)) {
+                    if (isNotJson(pushbackResponseBody)) {
+                        throw oAuthException(pushbackResponseBody, responseHeaders, scaOAuthUrl,
+                            ResponseHandlers::buildErrorResponseForOAuthNonJsonCase);
+                    }
+                }
+
+                throw oAuthException(pushbackResponseBody, responseHeaders, scaOAuthUrl,
+                    ResponseHandlers::buildErrorResponseFromString);
+            }
+
+            return jsonResponseHandler(klass)
+                       .apply(statusCode, responseBody, responseHeaders);
+        };
+    }
+
+    private static OAuthException oAuthException(PushbackInputStream responseBody,
+                                                 ResponseHeaders responseHeaders,
+                                                 String scaOAuthUrl,
+                                                 Function<String, ErrorResponse> errorResponseBuilder) {
+        ErrorResponse errorResponse;
+        String originalResponse = null;
+
+        if (isEmpty(responseBody)) {
+            errorResponse = new ErrorResponse();
+        } else {
+            originalResponse = toString(responseBody, responseHeaders);
+            errorResponse = errorResponseBuilder.apply(originalResponse);
+        }
+
+        if (scaOAuthUrl != null) {
+            Links links = new Links();
+            links.setScaOAuth(new Link(scaOAuthUrl));
+            errorResponse.setLinks(links);
+        }
+
+        return new OAuthException(responseHeaders, errorResponse, originalResponse);
+    }
+
     private static boolean isNotJson(PushbackInputStream responseBody) {
         try {
             int data = responseBody.read();
@@ -99,6 +150,19 @@ public class ResponseHandlers {
 
     private static ErrorResponse buildEmptyErrorResponse(String originalResponse) {
         return EMPTY_ERROR_RESPONSE;
+    }
+
+    private static ErrorResponse buildErrorResponseForOAuthNonJsonCase(String originalResponse) {
+        ErrorResponse errorResponse = new ErrorResponse();
+
+        TppMessage tppMessage = new TppMessage();
+        tppMessage.setCategory("ERROR");
+        tppMessage.setCode("UNAUTHORIZED");
+        tppMessage.setText(originalResponse);
+
+        errorResponse.setTppMessages(Collections.singletonList(tppMessage));
+
+        return errorResponse;
     }
 
     private static boolean isEmpty(PushbackInputStream responseBody) {

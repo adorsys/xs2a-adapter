@@ -19,16 +19,13 @@ package de.adorsys.xs2a.adapter.service.impl;
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
-import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.impl.mapper.ConsentCreationResponseDkbMapper;
 import de.adorsys.xs2a.adapter.service.impl.mapper.StartScaProcessResponseDkbMapper;
-import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
-import de.adorsys.xs2a.adapter.service.model.Consents;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbStartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.adapter.service.model.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
@@ -38,8 +35,8 @@ public class DkbAccountInformationService extends BaseAccountInformationService 
     private final ConsentCreationResponseDkbMapper creationResponseMapper = Mappers.getMapper(ConsentCreationResponseDkbMapper.class);
     private AccessTokenService accessService;
 
-    public DkbAccountInformationService(String baseUri, AccessTokenService accessService, HttpClient httpClient) {
-        super(baseUri, httpClient);
+    public DkbAccountInformationService(Aspsp aspsp, AccessTokenService accessService, HttpClient httpClient) {
+        super(aspsp, httpClient);
         this.accessService = accessService;
     }
 

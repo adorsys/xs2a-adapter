@@ -9,6 +9,7 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.BalanceReport;
 import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
 import org.mapstruct.factory.Mappers;
@@ -18,8 +19,8 @@ public class CommerzbankAccountInformationService extends BaseAccountInformation
     private TransactionsReportMapper transactionsReportMapper = Mappers.getMapper(TransactionsReportMapper.class);
     private BalanceReportMapper balanceReportMapper = Mappers.getMapper(BalanceReportMapper.class);
 
-    public CommerzbankAccountInformationService(String baseUrl, HttpClient httpClient) {
-        super(baseUrl, httpClient);
+    public CommerzbankAccountInformationService(Aspsp aspsp, HttpClient httpClient) {
+        super(aspsp, httpClient);
     }
 
     @Override

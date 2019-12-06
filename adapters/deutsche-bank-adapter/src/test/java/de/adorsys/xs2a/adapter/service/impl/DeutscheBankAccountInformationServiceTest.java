@@ -6,6 +6,7 @@ import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.model.Consents;
 import org.junit.Test;
@@ -20,12 +21,13 @@ import static org.mockito.Mockito.*;
 public class DeutscheBankAccountInformationServiceTest {
 
     private static final String BASE_URL = "https://simulator-xs2a.db.com/ais/DE/SB-DB";
+    private static final Aspsp ASPSP = buildAspspWithUrl();
     private static final String CONSENT_URL = BASE_URL + "/v1/consents";
 
     @Test
     public void createConsent() {
         HttpClient httpClient = mock(HttpClient.class);
-        DeutscheBankAccountInformationService service = new DeutscheBankAccountInformationService(BASE_URL, httpClient);
+        DeutscheBankAccountInformationService service = new DeutscheBankAccountInformationService(ASPSP, httpClient);
 
         Request.Builder requestBuilder = new RequestBuilderImpl(httpClient, "POST", CONSENT_URL);
         when(httpClient.post(eq(CONSENT_URL)))
@@ -42,5 +44,11 @@ public class DeutscheBankAccountInformationServiceTest {
         assertThat(headers).containsKey(RequestHeaders.DATE);
         assertThat(headers).containsKey(RequestHeaders.PSU_ID);
         assertThat(headers.get(RequestHeaders.CONTENT_TYPE)).isEqualTo("application/json");
+    }
+
+    private static Aspsp buildAspspWithUrl() {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setUrl(BASE_URL);
+        return aspsp;
     }
 }
