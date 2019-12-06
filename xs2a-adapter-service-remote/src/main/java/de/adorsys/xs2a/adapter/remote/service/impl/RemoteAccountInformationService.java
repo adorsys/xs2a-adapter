@@ -227,29 +227,6 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
-    public Response<ScaStatusResponse> updateConsentsPsuData(
-        String consentId,
-        String authorisationId,
-        RequestHeaders requestHeaders,
-        TransactionAuthorisation transactionAuthorisation,
-        Map<String, String> params
-    ) {
-        ResponseEntity<Object> responseEntity = client.updateConsentsPsuData(
-            consentId,
-            authorisationId,
-            requestHeaders.toMap(),
-            objectMapper.valueToTree(transactionAuthorisation)
-        );
-        ScaStatusResponse scaStatusResponse =
-            objectMapper.convertValue(responseEntity.getBody(), ScaStatusResponse.class);
-        return new Response<>(
-            responseEntity.getStatusCodeValue(),
-            scaStatusResponse,
-            responseHeadersMapper.getHeaders(responseEntity.getHeaders())
-        );
-    }
-
-    @Override
     public Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(
         String consentId,
         String authorisationId,
