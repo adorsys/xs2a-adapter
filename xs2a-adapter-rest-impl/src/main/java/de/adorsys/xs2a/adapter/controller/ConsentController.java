@@ -119,7 +119,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
-    public ResponseEntity<Object> updateConsentsPsuData(String consentId, String authorisationId, Map<String, String> headers, ObjectNode body) {
+    public ResponseEntity<Object> updateConsentsPsuData(String consentId, String authorisationId, Map<String, String> headers, ObjectNode body, Map<String, String> params) {
 //        oneOf: #Different Authorisation Bodies
 //                - {}
 //                - $ref: "#/components/schemas/updatePsuAuthentication"
@@ -132,11 +132,23 @@ public class ConsentController extends AbstractController implements ConsentApi,
 //              - $ref: "#/components/schemas/scaStatusResponse" #Transaction Authorisation
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
+        if (params != null && !params.isEmpty()) {
+            StringBuilder parameters = new StringBuilder("?");
+
+            for (String key : params.keySet()) {
+                parameters.append(key).append("=").append(params.get(key)).append("&");
+            }
+
+            authorisationId += parameters.delete(parameters.length() - 1, parameters.length()).toString();
+        }
+
+        String finalAuthId = authorisationId;
+
         Response<?> response = handleAuthorisationBody(body,
-                (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication),
-                (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod -> accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod),
-                (TransactionAuthorisationHandler) transactionAuthorisation -> accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation)
-        );
+                (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> accountInformationService.updateConsentsPsuData(consentId, finalAuthId, requestHeaders, updatePsuAuthentication),
+                (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod -> accountInformationService.updateConsentsPsuData(consentId, finalAuthId, requestHeaders, selectPsuAuthenticationMethod),
+                (TransactionAuthorisationHandler) transactionAuthorisation -> accountInformationService.updateConsentsPsuData(consentId, finalAuthId, requestHeaders, transactionAuthorisation)
+            );
 
         return ResponseEntity
                 .status(HttpStatus.OK)
