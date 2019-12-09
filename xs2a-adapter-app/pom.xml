@@ -94,6 +94,12 @@
             <artifactId>jaxb-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>de.adorsys.bg.monitoring</groupId>
+            <artifactId>bg-monitoring-client</artifactId>
+            <version>0.1.0-rc1</version>
+        </dependency>
+
         <!-- tests dependencies -->
 
         <dependency>
