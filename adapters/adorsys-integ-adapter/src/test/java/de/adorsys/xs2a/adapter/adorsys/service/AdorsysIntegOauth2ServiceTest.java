@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.adorsys.service;
 
-import de.adorsys.xs2a.adapter.adorsys.service.api.Oauth2Api;
+import de.adorsys.xs2a.adapter.adorsys.service.api.AdorsysOauth2Api;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
@@ -32,7 +32,7 @@ public class AdorsysIntegOauth2ServiceTest {
     @Mock
     private Aspsp aspsp;
     @Mock
-    private Oauth2Api oauth2Api;
+    private AdorsysOauth2Api oauth2Api;
 
     @Test(expected = BadRequestException.class)
     public void getAuthorizationRequestUri_Failure_ScaOauthUrlIsNotProvided() {

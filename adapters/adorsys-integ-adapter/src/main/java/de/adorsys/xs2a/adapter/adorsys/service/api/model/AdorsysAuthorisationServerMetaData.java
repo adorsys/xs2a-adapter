@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Objects;
 
-public class AuthorisationServerMetaData {
+public class AdorsysAuthorisationServerMetaData {
     @JsonProperty("authorization_endpoint")
     private String authorisationEndpoint;
     @JsonProperty("token_endpoint")
@@ -61,7 +61,7 @@ public class AuthorisationServerMetaData {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AuthorisationServerMetaData that = (AuthorisationServerMetaData) o;
+        AdorsysAuthorisationServerMetaData that = (AdorsysAuthorisationServerMetaData) o;
         return Objects.equals(authorisationEndpoint, that.authorisationEndpoint) &&
                    Objects.equals(tokenEndpoint, that.tokenEndpoint) &&
                    Objects.equals(responseTypesSupported, that.responseTypesSupported) &&
