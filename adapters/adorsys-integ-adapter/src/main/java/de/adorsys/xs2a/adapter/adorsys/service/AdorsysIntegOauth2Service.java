@@ -2,7 +2,7 @@ package de.adorsys.xs2a.adapter.adorsys.service;
 
 import de.adorsys.xs2a.adapter.adapter.mapper.TokenResponseMapper;
 import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
-import de.adorsys.xs2a.adapter.adorsys.service.api.AdorsysOauth2Api;
+import de.adorsys.xs2a.adapter.adapter.oauth2.api.Oauth2Api;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
@@ -25,12 +25,12 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
 
     private final Aspsp aspsp;
     private final HttpClient httpClient;
-    private final AdorsysOauth2Api oauth2Api;
+    private final Oauth2Api oauth2Api;
     private final TokenResponseMapper tokenResponseMapper = Mappers.getMapper(TokenResponseMapper.class);
 
     public AdorsysIntegOauth2Service(Aspsp aspsp,
                                      HttpClient httpClient,
-                                     AdorsysOauth2Api oauth2Api) {
+                                     Oauth2Api oauth2Api) {
         this.aspsp = aspsp;
         this.httpClient = httpClient;
         this.oauth2Api = oauth2Api;

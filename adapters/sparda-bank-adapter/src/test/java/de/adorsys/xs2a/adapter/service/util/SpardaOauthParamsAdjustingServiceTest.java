@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.service.oauth.SpardaOauthParamsAdjustingService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
