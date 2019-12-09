@@ -64,6 +64,5 @@ public interface ConsentApi {
     )
     ResponseEntity<Object> updateConsentsPsuData(@PathVariable("consentId") String consentId,
                                                  @PathVariable("authorisationId") String authorisationId,
-                                                 @RequestHeader Map<String, String> headers, @RequestBody ObjectNode body,
-                                                 @RequestParam(required = false) final Map<String, String> params);
+                                                 @RequestHeader Map<String, String> headers, @RequestBody ObjectNode body);
 }

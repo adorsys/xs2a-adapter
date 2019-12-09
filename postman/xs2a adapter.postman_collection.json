@@ -545,8 +545,11 @@
 									"    var authoriseTransactionUri = jsonData._links.authoriseTransaction.href;",
 									"    pm.globals.set(\"authorisationId\", authoriseTransactionUri.split(\"/\").pop());",
 									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4\");",
-									"}"
-								],
+									"} else if (jsonData._links.updatePsuAuthentication) {",
+                  "    pm.globals.set(\"authorisationId\", jsonData.authorisationId);",
+                  "    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3\");",
+                  "}"
+                ],
 								"type": "text/javascript"
 							}
 						}
@@ -707,7 +710,12 @@
 									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 									"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
 									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3\");",
-									"});"
+									"});",
+                  "",
+                  "// workaround for Unicredit",
+                  "if (jsonData._links.authoriseTransaction) {",
+                  "    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4\");",
+                  "}"
 								],
 								"type": "text/javascript"
 							}
