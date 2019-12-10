@@ -19,7 +19,11 @@ spring:
       write-dates-as-timestamps: false
     deserialization:
       FAIL_ON_UNKNOWN_PROPERTIES: false
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
 
 xs2a-adapter:
   loader:
