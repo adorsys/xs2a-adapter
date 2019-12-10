@@ -18,13 +18,16 @@ package de.adorsys.xs2a.adapter.service.provider;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.adapter.oauth2.api.BaseOauth2Api;
+import de.adorsys.xs2a.adapter.adapter.oauth2.api.model.AuthorisationServerMetaData;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.service.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.service.oauth.SparkasseOauthParamsAdjustingService;
 
-public class SparkasseServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+public class SparkasseServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider,
+                                                     Oauth2ServiceFactory {
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
@@ -34,6 +37,14 @@ public class SparkasseServiceProvider implements AccountInformationServiceProvid
     @Override
     public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
         return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
+    }
+
+    @Override
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
+        return new SparkasseOauth2Service(aspsp, httpClient,
+            new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class),
+            new SparkasseOauthParamsAdjustingService(keyStore));
     }
 
     @Override
