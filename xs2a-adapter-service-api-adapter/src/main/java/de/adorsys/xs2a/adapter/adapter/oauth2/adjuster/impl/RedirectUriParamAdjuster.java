@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.impl;
 
-import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.ParamAdjuster;
-import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.model.ParamAdjustingResultHolder;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
+import de.adorsys.xs2a.adapter.service.oauth.ParamAdjuster;
+import de.adorsys.xs2a.adapter.service.oauth.ParamAdjustingResultHolder;
 import org.apache.commons.lang3.StringUtils;
 
 public class RedirectUriParamAdjuster implements ParamAdjuster {

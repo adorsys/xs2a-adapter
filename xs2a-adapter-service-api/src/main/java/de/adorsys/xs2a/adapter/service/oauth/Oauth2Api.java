@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.adapter.oauth2.api;
+package de.adorsys.xs2a.adapter.service.oauth;
 
 public interface Oauth2Api {
 

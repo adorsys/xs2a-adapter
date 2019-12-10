@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.adapter.oauth2.impl;
 
 import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.impl.ResponseTypeParamAdjuster;
-import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.model.ParamAdjustingResultHolder;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
+import de.adorsys.xs2a.adapter.service.oauth.ParamAdjustingResultHolder;
 import org.junit.Test;
 
 import java.util.HashMap;

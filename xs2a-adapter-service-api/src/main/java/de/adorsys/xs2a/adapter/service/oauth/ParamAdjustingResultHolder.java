@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.model;
+package de.adorsys.xs2a.adapter.service.oauth;
 
 import java.util.HashMap;
 import java.util.HashSet;

@@ -2,7 +2,6 @@ package de.adorsys.xs2a.adapter.adorsys.service;
 
 import de.adorsys.xs2a.adapter.adapter.mapper.TokenResponseMapper;
 import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
-import de.adorsys.xs2a.adapter.adapter.oauth2.api.Oauth2Api;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
@@ -10,6 +9,7 @@ import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
+import de.adorsys.xs2a.adapter.service.oauth.Oauth2Api;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 

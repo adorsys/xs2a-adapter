@@ -1,6 +1,5 @@
-package de.adorsys.xs2a.adapter.adapter.oauth2.adjuster;
+package de.adorsys.xs2a.adapter.service.oauth;
 
-import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.model.ParamAdjustingResultHolder;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 
 public interface ParamAdjuster {
