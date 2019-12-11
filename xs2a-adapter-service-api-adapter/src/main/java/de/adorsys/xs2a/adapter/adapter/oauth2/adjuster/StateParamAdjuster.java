@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.impl;
+package de.adorsys.xs2a.adapter.adapter.oauth2.adjuster;
 
 import de.adorsys.xs2a.adapter.service.oauth.ParamAdjuster;
 import de.adorsys.xs2a.adapter.service.oauth.ParamAdjustingResultHolder;
@@ -6,19 +6,16 @@ import org.apache.commons.lang3.StringUtils;
 
 import static de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 
-public class ScopeParamAdjuster implements ParamAdjuster {
-    private static final String DEFAULT_SCOPE_PARAM_VALUE = "ais";
+public class StateParamAdjuster implements ParamAdjuster {
 
     @Override
     public ParamAdjustingResultHolder adjustParam(ParamAdjustingResultHolder adjustingResultHolder,
                                                   Parameters parametersFromTpp) {
-        String scope = parametersFromTpp.getScope();
+        String stateFromTpp = parametersFromTpp.getState();
 
-        if (StringUtils.isBlank(scope)) {
-            scope = DEFAULT_SCOPE_PARAM_VALUE;
+        if (StringUtils.isNotBlank(stateFromTpp)) {
+            adjustingResultHolder.addAdjustedParam(Parameters.STATE, stateFromTpp);
         }
-
-        adjustingResultHolder.addAdjustedParam(Parameters.SCOPE, scope);
 
         return adjustingResultHolder;
     }
