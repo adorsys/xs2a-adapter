@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.adapter.oauth2.impl;
 
+import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.ParamConstraint;
 import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.impl.CodeParamAdjuster;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.oauth.ParamAdjustingResultHolder;
@@ -19,7 +20,9 @@ public class CodeParamAdjusterTest {
         Parameters parameters = new Parameters(new HashMap<>());
         parameters.setAuthorizationCode(CODE_FROM_TPP);
 
-        CodeParamAdjuster paramAdjuster = new CodeParamAdjuster();
+        CodeParamAdjuster paramAdjuster = CodeParamAdjuster.builder()
+                                              .constraint(ParamConstraint.REQUIRED)
+                                              .build();
 
         ParamAdjustingResultHolder actual
             = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);
@@ -32,10 +35,28 @@ public class CodeParamAdjusterTest {
     }
 
     @Test
-    public void adjustParam_Failure_TppCodeIsAbsent() {
+    public void adjustParam_Success_TppCodeIsAbsent_ParamOptional() {
         Parameters parameters = new Parameters(new HashMap<>());
 
-        CodeParamAdjuster paramAdjuster = new CodeParamAdjuster();
+        CodeParamAdjuster paramAdjuster = CodeParamAdjuster.builder()
+                                              .constraint(ParamConstraint.OPTIONAL)
+                                              .build();
+
+        ParamAdjustingResultHolder actual
+            = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);
+
+        assertThat(actual.containsMissingParams()).isFalse();
+        assertThat(actual.getParametersMap()).isEmpty();
+        assertThat(actual.getMissingParameters()).isEmpty();
+    }
+
+    @Test
+    public void adjustParam_Failure_TppCodeIsAbsent_ParamRequired() {
+        Parameters parameters = new Parameters(new HashMap<>());
+
+        CodeParamAdjuster paramAdjuster = CodeParamAdjuster.builder()
+                                              .constraint(ParamConstraint.REQUIRED)
+                                              .build();
 
         ParamAdjustingResultHolder actual
             = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);

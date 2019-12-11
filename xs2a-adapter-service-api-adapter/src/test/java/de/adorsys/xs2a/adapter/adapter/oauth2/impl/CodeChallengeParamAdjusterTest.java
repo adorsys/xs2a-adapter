@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.adapter.oauth2.impl;
 
+import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.ParamConstraint;
 import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.impl.CodeChallengeParamAdjuster;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.oauth.ParamAdjustingResultHolder;
@@ -22,6 +23,7 @@ public class CodeChallengeParamAdjusterTest {
     private static final String CODE_VERIFIER_FROM_TPP_VALID = "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
     private static final String CODE_CHALLENGE_FOR_TPP_CODE_VERIFIER = "rSh9QTmLK8aq40PSR2e97ZeVuILzgrWr9ICm/Au9398=";
     private static final String CODE_CHALLENGE_FOR_CONFIG_CODE_VERIFIER = "v8X+DjYBUsqYxQ+rTtfjB4wX3rwpF3QNUACRO2hsoSk=";
+    private static final String CODE_CHALLENGE_FOR_NOT_VALID_CONFIG_CODE_VERIFIER = "4pCaf7olsMuXP+0EELbJXLBM30PupHCdlx4TCJ1m2WE=";
     private static final String CODE_VERIFIER_FROM_TPP_INVALID = "zzz42";
 
     @Test
@@ -29,7 +31,10 @@ public class CodeChallengeParamAdjusterTest {
         Parameters parameters = new Parameters(new HashMap<>());
         parameters.setCodeChallenge(CODE_CHALLENGE_FROM_TPP);
 
-        CodeChallengeParamAdjuster paramAdjuster = new CodeChallengeParamAdjuster();
+        CodeChallengeParamAdjuster paramAdjuster = CodeChallengeParamAdjuster.builder()
+                                                       .aspspDefaultCodeVerifierProperty(PROPERTY)
+                                                       .constraint(ParamConstraint.REQUIRED)
+                                                       .build();
 
         ParamAdjustingResultHolder actual = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);
 
@@ -45,7 +50,10 @@ public class CodeChallengeParamAdjusterTest {
         Parameters parameters = new Parameters(new HashMap<>());
         parameters.setCodeVerifier(CODE_VERIFIER_FROM_TPP_VALID);
 
-        CodeChallengeParamAdjuster paramAdjuster = new CodeChallengeParamAdjuster();
+        CodeChallengeParamAdjuster paramAdjuster = CodeChallengeParamAdjuster.builder()
+                                                       .aspspDefaultCodeVerifierProperty(PROPERTY)
+                                                       .constraint(ParamConstraint.REQUIRED)
+                                                       .build();
 
         ParamAdjustingResultHolder actual = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);
 
@@ -61,7 +69,10 @@ public class CodeChallengeParamAdjusterTest {
         Parameters parameters = new Parameters(new HashMap<>());
         parameters.setCodeVerifier(CODE_VERIFIER_FROM_TPP_INVALID);
 
-        CodeChallengeParamAdjuster paramAdjuster = new CodeChallengeParamAdjuster();
+        CodeChallengeParamAdjuster paramAdjuster = CodeChallengeParamAdjuster.builder()
+                                                       .aspspDefaultCodeVerifierProperty(PROPERTY)
+                                                       .constraint(ParamConstraint.REQUIRED)
+                                                       .build();
 
         ParamAdjustingResultHolder actual = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);
 
@@ -78,7 +89,10 @@ public class CodeChallengeParamAdjusterTest {
         Parameters parameters = new Parameters(new HashMap<>());
         setExternalConfigFile(VALID_CONFIG_FILE_PATH);
 
-        CodeChallengeParamAdjuster paramAdjuster = new CodeChallengeParamAdjuster(PROPERTY);
+        CodeChallengeParamAdjuster paramAdjuster = CodeChallengeParamAdjuster.builder()
+                                                       .aspspDefaultCodeVerifierProperty(PROPERTY)
+                                                       .constraint(ParamConstraint.REQUIRED)
+                                                       .build();
 
         ParamAdjustingResultHolder actual = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);
 
@@ -90,11 +104,51 @@ public class CodeChallengeParamAdjusterTest {
     }
 
     @Test
+    public void adjustParam_Success_TppCodeChallengeIsAbsent_TppCodeVerifierIsAbsent_ConfigCodeVerifierIsPresentAndInvalid_WithoutPattern() {
+        Parameters parameters = new Parameters(new HashMap<>());
+        setExternalConfigFile(INVALID_CONFIG_FILE_PATH);
+
+        CodeChallengeParamAdjuster paramAdjuster = CodeChallengeParamAdjuster.builder()
+                                                       .aspspDefaultCodeVerifierProperty(PROPERTY)
+                                                       .constraint(ParamConstraint.REQUIRED)
+                                                       .withoutPattern()
+                                                       .build();
+
+        ParamAdjustingResultHolder actual = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);
+
+        assertThat(actual.containsMissingParams()).isFalse();
+
+        Map<String, String> parametersMap = actual.getParametersMap();
+        assertThat(parametersMap).hasSize(1);
+        assertThat(parametersMap.get(Parameters.CODE_CHALLENGE)).isEqualTo(CODE_CHALLENGE_FOR_NOT_VALID_CONFIG_CODE_VERIFIER);
+    }
+
+    @Test
+    public void adjustParam_Success_TppCodeChallengeIsAbsent_TppCodeVerifierIsAbsent_ConfigCodeVerifierIsPresentAndInvalid_ParamOptional() {
+        Parameters parameters = new Parameters(new HashMap<>());
+        setExternalConfigFile(INVALID_CONFIG_FILE_PATH);
+
+        CodeChallengeParamAdjuster paramAdjuster = CodeChallengeParamAdjuster.builder()
+                                                       .aspspDefaultCodeVerifierProperty(PROPERTY)
+                                                       .constraint(ParamConstraint.OPTIONAL)
+                                                       .build();
+
+        ParamAdjustingResultHolder actual = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);
+
+        assertThat(actual.containsMissingParams()).isFalse();
+        assertThat(actual.getParametersMap()).isEmpty();
+        assertThat(actual.getMissingParameters()).isEmpty();
+    }
+
+    @Test
     public void adjustParam_Failure_TppCodeChallengeIsAbsent_TppCodeVerifierIsAbsent_ConfigCodeVerifierIsPresentAndInvalid() {
         Parameters parameters = new Parameters(new HashMap<>());
         setExternalConfigFile(INVALID_CONFIG_FILE_PATH);
 
-        CodeChallengeParamAdjuster paramAdjuster = new CodeChallengeParamAdjuster(PROPERTY);
+        CodeChallengeParamAdjuster paramAdjuster = CodeChallengeParamAdjuster.builder()
+                                                       .aspspDefaultCodeVerifierProperty(PROPERTY)
+                                                       .constraint(ParamConstraint.REQUIRED)
+                                                       .build();
 
         ParamAdjustingResultHolder actual = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);
 
@@ -107,11 +161,31 @@ public class CodeChallengeParamAdjusterTest {
     }
 
     @Test
+    public void adjustParam_Success_TppCodeChallengeIsAbsent_TppCodeVerifierIsAbsent_ConfigCodeVerifierIsNotPresent_ParamOptional() {
+        Parameters parameters = new Parameters(new HashMap<>());
+        setExternalConfigFile(EMPTY_CONFIG_FILE_PATH);
+
+        CodeChallengeParamAdjuster paramAdjuster = CodeChallengeParamAdjuster.builder()
+                                                       .aspspDefaultCodeVerifierProperty(PROPERTY)
+                                                       .constraint(ParamConstraint.OPTIONAL)
+                                                       .build();
+
+        ParamAdjustingResultHolder actual = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);
+
+        assertThat(actual.containsMissingParams()).isFalse();
+        assertThat(actual.getParametersMap()).isEmpty();
+        assertThat(actual.getMissingParameters()).isEmpty();
+    }
+
+    @Test
     public void adjustParam_Failure_TppCodeChallengeIsAbsent_TppCodeVerifierIsAbsent_ConfigCodeVerifierIsAbsent() {
         Parameters parameters = new Parameters(new HashMap<>());
         setExternalConfigFile(EMPTY_CONFIG_FILE_PATH);
 
-        CodeChallengeParamAdjuster paramAdjuster = new CodeChallengeParamAdjuster(PROPERTY);
+        CodeChallengeParamAdjuster paramAdjuster = CodeChallengeParamAdjuster.builder()
+                                                       .aspspDefaultCodeVerifierProperty(PROPERTY)
+                                                       .constraint(ParamConstraint.REQUIRED)
+                                                       .build();
 
         ParamAdjustingResultHolder actual = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);
 

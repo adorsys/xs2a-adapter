@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.impl;
 
+import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.ParamConstraint;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.oauth.ParamAdjuster;
 import de.adorsys.xs2a.adapter.service.oauth.ParamAdjustingResultHolder;
@@ -15,46 +16,20 @@ import java.util.regex.Pattern;
 import static de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 
 public class CodeChallengeParamAdjuster implements ParamAdjuster {
-    private static final String DEFAULT_CODE_VERIFIER_REGEX = "^[\\w\\-._~]{44,127}$";
-    private static final Pattern DEFAULT_CODE_VERIFIER_PATTERN
-        = Pattern.compile(DEFAULT_CODE_VERIFIER_REGEX);
-
     private final String aspspDefaultCodeVerifierProperty;
     private final Function<String, String> codeChallengeComputingService;
     private final Pattern codeVerifierPattern;
+    private final ParamConstraint constraint;
 
-    public CodeChallengeParamAdjuster(String aspspDefaultCodeVerifierProperty,
-                                      Function<String, String> codeChallengeComputingService,
-                                      Pattern codeVerifierPattern) {
-        this.aspspDefaultCodeVerifierProperty = aspspDefaultCodeVerifierProperty;
-        this.codeChallengeComputingService = codeChallengeComputingService;
-        this.codeVerifierPattern = codeVerifierPattern;
+    private CodeChallengeParamAdjuster(CodeChallengeParamAdjusterBuilder builder) {
+        this.aspspDefaultCodeVerifierProperty = builder.aspspDefaultCodeVerifierProperty;
+        this.codeChallengeComputingService = builder.codeChallengeComputingService;
+        this.codeVerifierPattern = builder.codeVerifierPattern;
+        this.constraint = builder.constraint;
     }
 
-    public CodeChallengeParamAdjuster(String aspspDefaultCodeVerifierProperty,
-                                      Function<String, String> codeChallengeComputingService) {
-        this(aspspDefaultCodeVerifierProperty, codeChallengeComputingService, null);
-    }
-
-    public CodeChallengeParamAdjuster(Function<String, String> codeChallengeComputingService,
-                                      Pattern codeVerifierPattern) {
-        this(null, codeChallengeComputingService, codeVerifierPattern);
-    }
-
-    public CodeChallengeParamAdjuster(String aspspDefaultCodeVerifierProperty) {
-        this(aspspDefaultCodeVerifierProperty, new Sha256CodeChallengeComputingService(), DEFAULT_CODE_VERIFIER_PATTERN);
-    }
-
-    public CodeChallengeParamAdjuster(Function<String, String> codeChallengeComputingService) {
-        this(null, codeChallengeComputingService, DEFAULT_CODE_VERIFIER_PATTERN);
-    }
-
-    public CodeChallengeParamAdjuster(Pattern codeVerifierPattern) {
-        this(null, new Sha256CodeChallengeComputingService(), codeVerifierPattern);
-    }
-
-    public CodeChallengeParamAdjuster() {
-        this(null, new Sha256CodeChallengeComputingService(), DEFAULT_CODE_VERIFIER_PATTERN);
+    public static CodeChallengeParamAdjusterBuilder builder() {
+        return new CodeChallengeParamAdjusterBuilder();
     }
 
     @Override
@@ -72,7 +47,7 @@ public class CodeChallengeParamAdjuster implements ParamAdjuster {
             }
 
             if (codeVerifier != null
-                    && codeVerifierPattern.matcher(codeVerifier).find()) {
+                    && (codeVerifierPattern == null || codeVerifierPattern.matcher(codeVerifier).find())) {
                 codeChallenge = codeChallengeComputingService.apply(codeVerifier);
             }
         }
@@ -80,7 +55,9 @@ public class CodeChallengeParamAdjuster implements ParamAdjuster {
         if (StringUtils.isNotBlank(codeChallenge)) {
             adjustingResultHolder.addAdjustedParam(Parameters.CODE_CHALLENGE, codeChallenge);
         } else {
-            adjustingResultHolder.addMissingParam(Parameters.CODE_CHALLENGE);
+            if (constraint == ParamConstraint.REQUIRED) {
+                adjustingResultHolder.addMissingParam(Parameters.CODE_CHALLENGE);
+            }
         }
 
         return adjustingResultHolder;
@@ -103,6 +80,62 @@ public class CodeChallengeParamAdjuster implements ParamAdjuster {
             md.update(bytes, 0, bytes.length);
             byte[] digest = md.digest();
             return Base64.getEncoder().encodeToString(digest);
+        }
+    }
+
+    public static final class CodeChallengeParamAdjusterBuilder {
+        private static final String DEFAULT_CODE_VERIFIER_REGEX = "^[\\w\\-._~]{44,127}$";
+        private static final Pattern DEFAULT_CODE_VERIFIER_PATTERN
+            = Pattern.compile(DEFAULT_CODE_VERIFIER_REGEX);
+
+        private String aspspDefaultCodeVerifierProperty;
+        private Function<String, String> codeChallengeComputingService;
+        private Pattern codeVerifierPattern;
+        private ParamConstraint constraint;
+        private boolean withoutPattern;
+
+        private CodeChallengeParamAdjusterBuilder() {
+        }
+
+        public CodeChallengeParamAdjusterBuilder aspspDefaultCodeVerifierProperty(String aspspDefaultCodeVerifierProperty) {
+            this.aspspDefaultCodeVerifierProperty = aspspDefaultCodeVerifierProperty;
+            return this;
+        }
+
+        public CodeChallengeParamAdjusterBuilder codeChallengeComputingService(Function<String, String> codeChallengeComputingService) {
+            this.codeChallengeComputingService = codeChallengeComputingService;
+            return this;
+        }
+
+        public CodeChallengeParamAdjusterBuilder codeVerifierPattern(Pattern codeVerifierPattern) {
+            this.codeVerifierPattern = codeVerifierPattern;
+            return this;
+        }
+
+        public CodeChallengeParamAdjusterBuilder withoutPattern() {
+            this.withoutPattern = true;
+            return this;
+        }
+
+        public CodeChallengeParamAdjusterBuilder constraint(ParamConstraint constraint) {
+            this.constraint = constraint;
+            return this;
+        }
+
+        public CodeChallengeParamAdjuster build() {
+            if (codeVerifierPattern == null && !withoutPattern) {
+                codeVerifierPattern = DEFAULT_CODE_VERIFIER_PATTERN;
+            }
+
+            if (codeChallengeComputingService == null) {
+                codeChallengeComputingService = new Sha256CodeChallengeComputingService();
+            }
+
+            if (constraint == null) {
+                constraint = ParamConstraint.REQUIRED;
+            }
+
+            return new CodeChallengeParamAdjuster(this);
         }
     }
 }

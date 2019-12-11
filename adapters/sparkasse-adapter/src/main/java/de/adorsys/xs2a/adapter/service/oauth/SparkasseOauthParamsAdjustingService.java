@@ -5,13 +5,20 @@ import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 
 import java.security.KeyStoreException;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
+
+import static de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.ParamConstraint.REQUIRED;
 
 public class SparkasseOauthParamsAdjustingService implements OauthParamsAdjustingService {
     private static final String SPARKASSE_DEFAULT_CODE_VERIFIER_PROPERTY
         = "sparkasse.oauth_approach.default_code_verifier";
     private static final String GRANT_TYPE_PARAM_VALUE_FOR_GET_TOKEN_REQUEST
         = "authorization_code";
+    private static final String DEFAULT_RESPONSE_TYPE_PARAM_VALUE = "code";
+    private static final String DEFAULT_SCOPE_PARAM_VALUE = "ais";
+    private static final String DEFAULT_CODE_CHALLENGE_METHOD = "S256";
     private static final String CLIENT_ID_PARAM_NAME_FOR_GET_AUTHORISATION_REQUEST
         = "clientId";
     private static final String RESPONSE_TYPE_PARAM_NAME_FOR_GET_AUTHORISATION_REQUEST
@@ -28,19 +35,68 @@ public class SparkasseOauthParamsAdjustingService implements OauthParamsAdjustin
             throw new RuntimeException(e);
         }
 
+        ResponseTypeParamAdjuster responseTypeParamAdjuster
+            = ResponseTypeParamAdjuster.builder()
+                  .defaultResponseTypeParamValue(DEFAULT_RESPONSE_TYPE_PARAM_VALUE)
+                  .constraint(REQUIRED)
+                  .build();
+
+        ClientIdParamAdjuster clientIdParamAdjuster = ClientIdParamAdjuster.builder()
+                                                          .clientIdFromCertificate(organizationIdentifier)
+                                                          .constraint(REQUIRED)
+                                                          .build();
+
+        ScopeParamAdjuster scopeParamAdjuster = ScopeParamAdjuster.builder()
+                                                    .defaultScopeParamValue(DEFAULT_SCOPE_PARAM_VALUE)
+                                                    .constraint(REQUIRED)
+                                                    .build();
+
+        StateParamAdjuster stateParamAdjuster = StateParamAdjuster.builder()
+                                                    .constraint(REQUIRED)
+                                                    .build();
+
+        CodeChallengeParamAdjuster codeChallengeParamAdjuster
+            = CodeChallengeParamAdjuster.builder()
+                  .aspspDefaultCodeVerifierProperty(SPARKASSE_DEFAULT_CODE_VERIFIER_PROPERTY)
+                  .constraint(REQUIRED)
+                  .build();
+
+        CodeChallengeMethodParamAdjuster codeChallengeMethodParamAdjuster
+            = CodeChallengeMethodParamAdjuster.builder()
+                  .supportedCodeChallengeMethods(new HashSet<>(Collections.singletonList("S256")))
+                  .defaultCodeChallengeMethod(DEFAULT_CODE_CHALLENGE_METHOD)
+                  .constraint(REQUIRED)
+                  .build();
+
+        CodeParamAdjuster codeParamAdjuster = CodeParamAdjuster.builder()
+                                                  .constraint(REQUIRED)
+                                                  .build();
+
+        CodeVerifierParamAdjuster codeVerifierParamAdjuster
+            = CodeVerifierParamAdjuster.builder()
+                  .aspspDefaultCodeVerifierProperty(SPARKASSE_DEFAULT_CODE_VERIFIER_PROPERTY)
+                  .constraint(REQUIRED)
+                  .build();
+
+        GrantTypeParamAdjuster grantTypeParamAdjusterForGetTokenRequest
+            = GrantTypeParamAdjuster.builder()
+                  .grantTypeRequiredValue(GRANT_TYPE_PARAM_VALUE_FOR_GET_TOKEN_REQUEST)
+                  .constraint(REQUIRED)
+                  .build();
+
         this.authorisationRequestParamAdjuster
-            = new ResponseTypeParamAdjuster()
-                  .andThen(new ClientIdParamAdjuster(organizationIdentifier))
-                  .andThen(new ScopeParamAdjuster())
-                  .andThen(new StateParamAdjuster())
-                  .andThen(new CodeChallengeParamAdjuster(SPARKASSE_DEFAULT_CODE_VERIFIER_PROPERTY))
-                  .andThen(new CodeChallengeMethodParamAdjuster());
+            = responseTypeParamAdjuster
+                  .andThen(clientIdParamAdjuster)
+                  .andThen(scopeParamAdjuster)
+                  .andThen(stateParamAdjuster)
+                  .andThen(codeChallengeParamAdjuster)
+                  .andThen(codeChallengeMethodParamAdjuster);
 
         this.tokenRequestParamAdjuster
-            = new CodeParamAdjuster()
-                  .andThen(new ClientIdParamAdjuster(organizationIdentifier))
-                  .andThen(new CodeVerifierParamAdjuster(SPARKASSE_DEFAULT_CODE_VERIFIER_PROPERTY))
-                  .andThen(new GrantTypeParamAdjuster(GRANT_TYPE_PARAM_VALUE_FOR_GET_TOKEN_REQUEST));
+            = codeParamAdjuster
+                  .andThen(clientIdParamAdjuster)
+                  .andThen(codeVerifierParamAdjuster)
+                  .andThen(grantTypeParamAdjusterForGetTokenRequest);
     }
 
     @Override

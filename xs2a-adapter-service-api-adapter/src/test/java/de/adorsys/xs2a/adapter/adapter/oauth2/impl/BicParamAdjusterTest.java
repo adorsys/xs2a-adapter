@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.adapter.oauth2.impl;
 
+import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.ParamConstraint;
 import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.impl.BicParamAdjuster;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.oauth.ParamAdjustingResultHolder;
@@ -20,7 +21,10 @@ public class BicParamAdjusterTest {
         Parameters parameters = new Parameters(new HashMap<>());
         parameters.setBic(BIC_FROM_TPP);
 
-        BicParamAdjuster paramAdjuster = new BicParamAdjuster(BIC_FROM_ASPSP);
+        BicParamAdjuster paramAdjuster = BicParamAdjuster.builder()
+                                             .bicFromAspsp(BIC_FROM_ASPSP)
+                                             .constraint(ParamConstraint.REQUIRED)
+                                             .build();
 
         ParamAdjustingResultHolder actual
             = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);
@@ -36,7 +40,10 @@ public class BicParamAdjusterTest {
     public void adjustParam_Success_TppBicIsAbsent_AspspBicIsPresent() {
         Parameters parameters = new Parameters(new HashMap<>());
 
-        BicParamAdjuster paramAdjuster = new BicParamAdjuster(BIC_FROM_ASPSP);
+        BicParamAdjuster paramAdjuster = BicParamAdjuster.builder()
+                                             .bicFromAspsp(BIC_FROM_ASPSP)
+                                             .constraint(ParamConstraint.REQUIRED)
+                                             .build();
 
         ParamAdjustingResultHolder actual
             = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);
@@ -53,7 +60,9 @@ public class BicParamAdjusterTest {
         Parameters parameters = new Parameters(new HashMap<>());
         parameters.setBic(BIC_FROM_TPP);
 
-        BicParamAdjuster paramAdjuster = new BicParamAdjuster(null);
+        BicParamAdjuster paramAdjuster = BicParamAdjuster.builder()
+                                             .constraint(ParamConstraint.REQUIRED)
+                                             .build();
 
         ParamAdjustingResultHolder actual
             = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);
@@ -66,10 +75,28 @@ public class BicParamAdjusterTest {
     }
 
     @Test
-    public void adjustParam_Failure_TppBicIsAbsent_AspspBicIsAbsent() {
+    public void adjustParam_Success_TppBicIsAbsent_AspspBicIsAbsent_ParamOptional() {
         Parameters parameters = new Parameters(new HashMap<>());
 
-        BicParamAdjuster paramAdjuster = new BicParamAdjuster(null);
+        BicParamAdjuster paramAdjuster = BicParamAdjuster.builder()
+                                             .constraint(ParamConstraint.OPTIONAL)
+                                             .build();
+
+        ParamAdjustingResultHolder actual
+            = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);
+
+        assertThat(actual.containsMissingParams()).isFalse();
+        assertThat(actual.getParametersMap()).isEmpty();
+        assertThat(actual.getMissingParameters()).isEmpty();
+    }
+
+    @Test
+    public void adjustParam_Failure_TppBicIsAbsent_AspspBicIsAbsent_ParamRequired() {
+        Parameters parameters = new Parameters(new HashMap<>());
+
+        BicParamAdjuster paramAdjuster = BicParamAdjuster.builder()
+                                             .constraint(ParamConstraint.REQUIRED)
+                                             .build();
 
         ParamAdjustingResultHolder actual
             = paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), parameters);
