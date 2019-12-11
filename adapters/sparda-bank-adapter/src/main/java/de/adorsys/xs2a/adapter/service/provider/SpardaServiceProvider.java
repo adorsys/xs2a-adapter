@@ -20,7 +20,7 @@ import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.util.SpardaOauthParamsAdjustingService;
+import de.adorsys.xs2a.adapter.service.oauth.SpardaOauthParamsAdjustingService;
 
 public class SpardaServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider,
                                                   Oauth2ServiceFactory {

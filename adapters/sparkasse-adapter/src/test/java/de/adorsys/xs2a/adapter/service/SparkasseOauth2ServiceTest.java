@@ -1,10 +1,12 @@
 package de.adorsys.xs2a.adapter.service;
 
+import de.adorsys.xs2a.adapter.adapter.oauth2.api.BaseOauth2Api;
+import de.adorsys.xs2a.adapter.adapter.oauth2.api.model.AuthorisationServerMetaData;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.oauth.SpardaOauthParamsAdjustingService;
+import de.adorsys.xs2a.adapter.service.oauth.SparkasseOauthParamsAdjustingService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -18,12 +20,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SpardaOauth2ServiceTest {
+public class SparkasseOauth2ServiceTest {
+    private static final String SPARKASSE_RESPONSE_TYPE_PARAM_NAME = "responseType";
+    private static final String SPARKASSE_CLIENT_ID_PARAM_NAME = "clientId";
+
     private static final String IDP_URL = "https://example.com";
     private static final String AUTH_URL = "https://example.com/authorise";
-    private static final String BIC = "TESTBIC1XXX";
     private static final String CLIENT_ID = "testClientId";
-    private static final String REDIRECT_URI = "https://example.com/redirect";
     private static final String SCOPE = "ais";
     private static final String STATE = "testState";
     private static final String RESPONSE_TYPE = "code";
@@ -34,12 +37,14 @@ public class SpardaOauth2ServiceTest {
     private static final URI GET_AUTHORISATION_REQUEST_URI = buildGetAuthorizationRequestURI();
 
     @InjectMocks
-    private SpardaOauth2Service oauth2Service;
+    private SparkasseOauth2Service oauth2Service;
 
     @Mock
     private Aspsp aspsp;
     @Mock
-    private SpardaOauthParamsAdjustingService paramsAdjustingService;
+    private SparkasseOauthParamsAdjustingService paramsAdjustingService;
+    @Mock
+    private BaseOauth2Api<AuthorisationServerMetaData> oauth2Api;
 
     @Test(expected = BadRequestException.class)
     public void getAuthorizationRequestUri_Failure_ScaOauthUrlIsNotProvided() {
@@ -77,6 +82,8 @@ public class SpardaOauth2ServiceTest {
             .thenReturn(IDP_URL);
         when(paramsAdjustingService.adjustForGetAuthorizationRequest(parameters))
             .thenReturn(PARAMETERS_FOR_GET_AUTHORISATION_REQUEST);
+        when(oauth2Api.getAuthorisationUri(IDP_URL))
+            .thenReturn(AUTH_URL);
 
         URI actual = oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters);
 
@@ -123,12 +130,10 @@ public class SpardaOauth2ServiceTest {
     private static Parameters buildParametersForGetAuthorizationRequest() {
         Parameters parameters = new Parameters(new HashMap<>());
 
-        parameters.setBic(BIC);
-        parameters.setClientId(CLIENT_ID);
-        parameters.setRedirectUri(REDIRECT_URI);
+        parameters.set(SPARKASSE_CLIENT_ID_PARAM_NAME, CLIENT_ID);
         parameters.setScope(SCOPE);
         parameters.setState(STATE);
-        parameters.setResponseType(RESPONSE_TYPE);
+        parameters.set(SPARKASSE_RESPONSE_TYPE_PARAM_NAME, RESPONSE_TYPE);
         parameters.setCodeChallenge(CODE_CHALLENGE);
         parameters.setCodeChallengeMethod(CODE_CHALLENGE_METHOD);
 

@@ -7,7 +7,7 @@ import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
-import de.adorsys.xs2a.adapter.service.util.SpardaOauthParamsAdjustingService;
+import de.adorsys.xs2a.adapter.service.oauth.OauthParamsAdjustingService;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 
@@ -26,12 +26,12 @@ public class SpardaOauth2Service implements Oauth2Service {
 
     private final Aspsp aspsp;
     private final HttpClient httpClient;
-    private final SpardaOauthParamsAdjustingService paramsAdjustingService;
+    private final OauthParamsAdjustingService paramsAdjustingService;
     private final TokenResponseMapper tokenResponseMapper = Mappers.getMapper(TokenResponseMapper.class);
 
     public SpardaOauth2Service(Aspsp aspsp,
                                HttpClient httpClient,
-                               SpardaOauthParamsAdjustingService paramsAdjustingService) {
+                               OauthParamsAdjustingService paramsAdjustingService) {
         this.aspsp = aspsp;
         this.httpClient = httpClient;
         this.paramsAdjustingService = paramsAdjustingService;

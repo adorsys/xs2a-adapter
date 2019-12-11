@@ -12,7 +12,7 @@
 - Updated XS2A API version to 1.3.4_2019-07-17v1
 - Added "getTransactionDetails" operation
 - Add detailed logs of request/response for adapter http client
-- Provided OAuth2 support for `adorsys-integ-adapter` and `sparda-bank-adapter`
+- Provided OAuth2 support for `adorsys-integ-adapter`, `sparda-bank-adapter` and `sparkasse-adapter`
 - Provided refresh token flow for `sparda-bank-adapter`
 
 == Fixes:
