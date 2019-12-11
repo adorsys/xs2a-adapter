@@ -1,21 +1,21 @@
-package de.adorsys.xs2a.adapter.adapter.oauth2.adjuster;
+package de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.impl;
 
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.oauth.ParamAdjuster;
 import de.adorsys.xs2a.adapter.service.oauth.ParamAdjustingResultHolder;
 import org.apache.commons.lang3.StringUtils;
 
-public class CodeParamAdjuster implements ParamAdjuster {
+public class RefreshTokenParamAdjuster implements ParamAdjuster {
 
     @Override
     public ParamAdjustingResultHolder adjustParam(ParamAdjustingResultHolder adjustingResultHolder,
                                                   Parameters parametersFromTpp) {
-        String codeFromTpp = parametersFromTpp.getAuthorizationCode();
+        String refreshToken = parametersFromTpp.getRefreshToken();
 
-        if (StringUtils.isNotBlank(codeFromTpp)) {
-            adjustingResultHolder.addAdjustedParam(Parameters.CODE, codeFromTpp);
+        if (StringUtils.isNotBlank(refreshToken)) {
+            adjustingResultHolder.addAdjustedParam(Parameters.REFRESH_TOKEN, refreshToken);
         } else {
-            adjustingResultHolder.addMissingParam(Parameters.CODE);
+            adjustingResultHolder.addMissingParam(Parameters.REFRESH_TOKEN);
         }
 
         return adjustingResultHolder;

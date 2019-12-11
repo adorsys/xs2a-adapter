@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.adapter.service.oauth;
 
-import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.*;
 import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.impl.*;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
