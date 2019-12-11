@@ -12,15 +12,18 @@ import static de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 public class CodeChallengeMethodParamAdjuster implements ParamAdjuster {
     private static final Set<String> SUPPORTED_CODE_CHALLENGE_METHODS
         = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList("S256")));
+    private static final String DEFAULT_CODE_CHALLENGE_METHOD = "S256";
 
     @Override
     public ParamAdjustingResultHolder adjustParam(ParamAdjustingResultHolder adjustingResultHolder,
                                                   Parameters parametersFromTpp) {
-        String codeChallengeMethodFromTpp = parametersFromTpp.getCodeChallengeMethod();
+        String codeChallengeMethod = parametersFromTpp.getCodeChallengeMethod();
 
-        if (SUPPORTED_CODE_CHALLENGE_METHODS.contains(codeChallengeMethodFromTpp)) {
-            adjustingResultHolder.addAdjustedParam(Parameters.CODE_CHALLENGE_METHOD, codeChallengeMethodFromTpp);
+        if (!SUPPORTED_CODE_CHALLENGE_METHODS.contains(codeChallengeMethod)) {
+            codeChallengeMethod = DEFAULT_CODE_CHALLENGE_METHOD;
         }
+
+        adjustingResultHolder.addAdjustedParam(Parameters.CODE_CHALLENGE_METHOD, codeChallengeMethod);
 
         return adjustingResultHolder;
     }
