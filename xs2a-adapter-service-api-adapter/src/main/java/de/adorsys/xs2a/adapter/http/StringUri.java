@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.http;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class StringUri {
 
         String requestParamsString = requestParams.entrySet().stream()
             .filter(entry -> entry.getKey() != null && entry.getValue() != null)
-            .map(entry -> entry.getKey() + "=" + entry.getValue())
+            .map(entry -> entry.getKey() + "=" + encode(entry.getValue().toString()))
             .collect(Collectors.joining("&"));
 
         if (requestParamsString.isEmpty()) {
@@ -51,7 +52,7 @@ public class StringUri {
             return uri;
         }
 
-        return uri + "?" + paramName + "=" + paramValue;
+        return uri + "?" + paramName + "=" + encode(paramValue);
     }
 
     public static Map<String, String> getQueryParamsFromUri(String uri) {
@@ -66,7 +67,7 @@ public class StringUri {
 
         for (String paramWithValueString : paramsWithValues) {
             String[] paramAndValue = paramWithValueString.split("=", 2);
-            queryParams.put(paramAndValue[0], paramAndValue.length > 1 ? paramAndValue[1] : null);
+            queryParams.put(paramAndValue[0], paramAndValue.length > 1 ? decode(paramAndValue[1]) : null);
         }
 
         return queryParams;
@@ -75,6 +76,14 @@ public class StringUri {
     public static String decode(String url) {
         try {
             return URLDecoder.decode(url, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalArgumentException("The Character Encoding is not supported", e);
+        }
+    }
+
+    private static String encode(String param) {
+        try {
+            return URLEncoder.encode(param, StandardCharsets.UTF_8.name());
         } catch (UnsupportedEncodingException e) {
             throw new IllegalArgumentException("The Character Encoding is not supported", e);
         }
