@@ -14,6 +14,7 @@
 - Add detailed logs of request/response for adapter http client
 - Provided OAuth2 support for `adorsys-integ-adapter`, `sparda-bank-adapter` and `sparkasse-adapter`
 - Provided refresh token flow for `sparda-bank-adapter`
+- deutsche-bank-adapter sets PSU-ID-Type for German banks
 
 == Fixes:
 - Add support http status `202` for delete consent operation
