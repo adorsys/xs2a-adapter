@@ -1,13 +1,17 @@
 package de.adorsys.xs2a.adapter.service;
 
+import javax.naming.InvalidNameException;
+import javax.naming.ldap.LdapName;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
+import javax.security.auth.x500.X500Principal;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.stream.Collectors;
 
 /**
  * A PKCS #12 {@code java.security.KeyStore} that holds certificates and keys
@@ -32,6 +36,8 @@ public class Pkcs12KeyStore {
     private static final String DEFAULT_QWAC_ALIAS = "default_qwac";
     private static final String DEFAULT_QSEAL_ALIAS = "default_qseal";
     private static final char[] DEFAULT_PASSWORD = new char[]{};
+
+    private static final String ORGANIZATION_IDENTIFIER_ATTRIBUTE = "OID.2.5.4.97";
 
     private final KeyStore keyStore;
     private final char[] password;
@@ -119,8 +125,17 @@ public class Pkcs12KeyStore {
     }
 
     public String getOrganizationIdentifier(String qsealAlias) throws KeyStoreException {
-        return getQsealCertificate(qsealAlias)
-                   .getSubjectX500Principal()
-                   .getName();
+        String name = getQsealCertificate(qsealAlias)
+                          .getSubjectX500Principal()
+                          .getName(X500Principal.RFC1779);
+
+        try {
+            return new LdapName(name).getRdns().stream()
+                       .filter(rdn -> ORGANIZATION_IDENTIFIER_ATTRIBUTE.equals(rdn.getType()))
+                       .map(rdn -> rdn.getValue().toString())
+                       .collect(Collectors.joining());
+        } catch (InvalidNameException e) {
+            throw new RuntimeException();
+        }
     }
 }
