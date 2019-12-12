@@ -38,6 +38,7 @@ public class RequestHeaders {
     public static final String X_GTW_ASPSP_ID = "X-GTW-ASPSP-ID";
     public static final String X_GTW_BANK_CODE = "X-GTW-Bank-Code";
     public static final String X_GTW_BIC = "X-GTW-BIC";
+    public static final String X_GTW_IBAN = "X-GTW-IBAN";
 
     private static Map<String, String> headerNamesLowerCased = new HashMap<>();
 
@@ -45,6 +46,7 @@ public class RequestHeaders {
         headerNamesLowerCased.put(X_GTW_ASPSP_ID.toLowerCase(), X_GTW_ASPSP_ID);
         headerNamesLowerCased.put(X_GTW_BANK_CODE.toLowerCase(), X_GTW_BANK_CODE);
         headerNamesLowerCased.put(X_GTW_BIC.toLowerCase(), X_GTW_BIC);
+        headerNamesLowerCased.put(X_GTW_IBAN.toLowerCase(), X_GTW_IBAN);
         headerNamesLowerCased.put(X_REQUEST_ID.toLowerCase(), X_REQUEST_ID);
         headerNamesLowerCased.put(PSU_IP_ADDRESS.toLowerCase(), PSU_IP_ADDRESS);
         headerNamesLowerCased.put(DIGEST.toLowerCase(), DIGEST);
@@ -114,5 +116,9 @@ public class RequestHeaders {
 
     public Optional<String> getBic() {
         return get(X_GTW_BIC);
+    }
+
+    public Optional<String> getIban() {
+        return get(X_GTW_IBAN);
     }
 }

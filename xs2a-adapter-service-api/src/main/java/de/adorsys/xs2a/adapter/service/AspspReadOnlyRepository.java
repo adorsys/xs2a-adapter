@@ -61,4 +61,14 @@ public interface AspspReadOnlyRepository {
     }
 
     List<Aspsp> findLike(Aspsp aspsp, String after, int size);
+
+    default List<Aspsp> findByIban(String iban) {
+        return findByIban(iban, DEFAULT_SIZE);
+    }
+
+    default List<Aspsp> findByIban(String iban, int size) {
+        return findByIban(iban, null, size);
+    }
+
+    List<Aspsp> findByIban(String iban, String after, int size);
 }

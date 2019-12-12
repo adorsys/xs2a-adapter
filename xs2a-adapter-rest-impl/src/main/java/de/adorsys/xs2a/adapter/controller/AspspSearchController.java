@@ -3,7 +3,7 @@ package de.adorsys.xs2a.adapter.controller;
 import de.adorsys.xs2a.adapter.api.AspspSearchApi;
 import de.adorsys.xs2a.adapter.mapper.AspspMapper;
 import de.adorsys.xs2a.adapter.model.AspspTO;
-import de.adorsys.xs2a.adapter.service.AspspSearchService;
+import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +14,10 @@ import java.util.List;
 
 @RestController
 public class AspspSearchController implements AspspSearchApi {
-    private final AspspSearchService aspspSearchService;
+    private final AspspReadOnlyRepository aspspSearchService;
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
-    public AspspSearchController(AspspSearchService aspspSearchService) {
+    public AspspSearchController(AspspReadOnlyRepository aspspSearchService) {
         this.aspspSearchService = aspspSearchService;
     }
 
