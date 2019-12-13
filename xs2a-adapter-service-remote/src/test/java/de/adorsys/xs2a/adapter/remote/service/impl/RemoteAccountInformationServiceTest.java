@@ -10,8 +10,8 @@ import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.AccountReference;
 import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +30,7 @@ public class RemoteAccountInformationServiceTest {
     private RemoteAccountInformationService service;
     private AccountInformationClient client;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         client = mock(AccountInformationClient.class);
         service = new RemoteAccountInformationService(client);

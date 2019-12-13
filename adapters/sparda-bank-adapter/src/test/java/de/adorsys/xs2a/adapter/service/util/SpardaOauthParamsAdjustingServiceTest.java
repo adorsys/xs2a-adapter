@@ -5,10 +5,11 @@ import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.oauth.SpardaOauthParamsAdjustingService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.security.KeyStoreException;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SpardaOauthParamsAdjustingServiceTest {
     private static final String ORGANIZATION_IDENTIFIER = "Test ID";
     private static final String BIC = "TESTBIC1XXX";
@@ -47,13 +48,16 @@ public class SpardaOauthParamsAdjustingServiceTest {
 
     private SpardaOauthParamsAdjustingService paramsAdjustingService;
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void adjustForGetAuthorizationRequest_Failure_emptyParamsFromTpp() throws KeyStoreException {
         when(keyStore.getOrganizationIdentifier()).thenReturn(ORGANIZATION_IDENTIFIER);
 
         paramsAdjustingService = new SpardaOauthParamsAdjustingService(ASPSP_EMPTY, keyStore);
 
-        paramsAdjustingService.adjustForGetAuthorizationRequest(PARAMETERS_EMPTY);
+        Assertions.assertThrows(
+            BadRequestException.class,
+            () -> paramsAdjustingService.adjustForGetAuthorizationRequest(PARAMETERS_EMPTY)
+        );
     }
 
     @Test
@@ -73,13 +77,16 @@ public class SpardaOauthParamsAdjustingServiceTest {
         assertThat(parameters.getCodeChallengeMethod()).isEqualTo(CODE_CHALLENGE_METHOD);
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void adjustForGetTokenRequest_Failure_emptyParamsFromTpp() throws KeyStoreException {
         when(keyStore.getOrganizationIdentifier()).thenReturn(ORGANIZATION_IDENTIFIER);
 
         paramsAdjustingService = new SpardaOauthParamsAdjustingService(ASPSP_EMPTY, keyStore);
 
-        paramsAdjustingService.adjustForGetTokenRequest(PARAMETERS_EMPTY);
+        Assertions.assertThrows(
+            BadRequestException.class,
+            () -> paramsAdjustingService.adjustForGetTokenRequest(PARAMETERS_EMPTY)
+        );
     }
 
     @Test
@@ -96,13 +103,16 @@ public class SpardaOauthParamsAdjustingServiceTest {
         assertThat(parameters.getCodeVerifier()).isEqualTo(CODE_VERIFIER);
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void adjustForRefreshTokenRequest_Failure_emptyParamsFromTpp() throws KeyStoreException {
         when(keyStore.getOrganizationIdentifier()).thenReturn(ORGANIZATION_IDENTIFIER);
 
         paramsAdjustingService = new SpardaOauthParamsAdjustingService(ASPSP_EMPTY, keyStore);
 
-        paramsAdjustingService.adjustForRefreshTokenRequest(PARAMETERS_EMPTY);
+        Assertions.assertThrows(
+            BadRequestException.class,
+            () -> paramsAdjustingService.adjustForGetTokenRequest(PARAMETERS_EMPTY)
+        );
     }
 
     @Test

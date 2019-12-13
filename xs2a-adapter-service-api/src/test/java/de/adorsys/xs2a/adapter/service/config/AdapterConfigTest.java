@@ -1,16 +1,15 @@
 package de.adorsys.xs2a.adapter.service.config;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AdapterConfigTest {
 
     @Test
     public void readProperty() {
         String property = AdapterConfig.readProperty("adorsys.oauth_approach.header_name");
-        assertThat(property, is("X-OAUTH-PREFERRED"));
+        assertThat(property).isEqualTo("X-OAUTH-PREFERRED");
     }
 
     @Test
@@ -21,6 +20,6 @@ public class AdapterConfigTest {
         AdapterConfig.reload();
 
         String property = AdapterConfig.readProperty("some-adapter-property");
-        assertThat(property, is("test"));
+        assertThat(property).isEqualTo("test");
     }
 }

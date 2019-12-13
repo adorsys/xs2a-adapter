@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.service.impl.service;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -17,7 +17,7 @@ public class UnicreditLinkBuilderServiceTest {
 
     private UnicreditLinkBuilderService linkBuilderService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         linkBuilderService = new UnicreditLinkBuilderService();
     }

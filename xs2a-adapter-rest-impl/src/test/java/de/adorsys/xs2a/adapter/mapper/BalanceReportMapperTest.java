@@ -6,7 +6,7 @@ import de.adorsys.xs2a.adapter.model.ReadAccountBalanceResponse200TO;
 import de.adorsys.xs2a.adapter.service.model.AccountReference;
 import de.adorsys.xs2a.adapter.service.model.Balance;
 import de.adorsys.xs2a.adapter.service.model.BalanceReport;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Collections;

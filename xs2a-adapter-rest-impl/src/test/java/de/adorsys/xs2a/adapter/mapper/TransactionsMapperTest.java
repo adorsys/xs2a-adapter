@@ -1,14 +1,8 @@
 package de.adorsys.xs2a.adapter.mapper;
 
 import de.adorsys.xs2a.adapter.model.*;
-import de.adorsys.xs2a.adapter.service.model.AccountReference;
-import de.adorsys.xs2a.adapter.service.model.Amount;
-import de.adorsys.xs2a.adapter.service.model.BankTransactionCode;
-import de.adorsys.xs2a.adapter.service.model.ExchangeRate;
-import de.adorsys.xs2a.adapter.service.model.PurposeCode;
-import de.adorsys.xs2a.adapter.service.model.Transactions;
-import de.adorsys.xs2a.adapter.service.model.Link;
-import org.junit.Test;
+import de.adorsys.xs2a.adapter.service.model.*;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;

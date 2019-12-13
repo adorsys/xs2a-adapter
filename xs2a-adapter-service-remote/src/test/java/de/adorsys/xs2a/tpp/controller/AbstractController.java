@@ -3,14 +3,10 @@ package de.adorsys.xs2a.tpp.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import de.adorsys.xs2a.adapter.mapper.StartScaProcessResponseMapper;
-import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import de.adorsys.xs2a.adapter.service.model.TppMessage;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
-import de.adorsys.xs2a.adapter.service.model.SelectPsuAuthenticationMethod;
-import de.adorsys.xs2a.adapter.service.model.TransactionAuthorisation;
-import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.adapter.service.model.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Collections;

@@ -5,7 +5,7 @@ import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.exception.OAuthException;
 import de.adorsys.xs2a.adapter.service.model.Amount;
 import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;

@@ -4,7 +4,7 @@ import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.ParamConstraint;
 import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.impl.CodeChallengeParamAdjuster;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.oauth.ParamAdjustingResultHolder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;

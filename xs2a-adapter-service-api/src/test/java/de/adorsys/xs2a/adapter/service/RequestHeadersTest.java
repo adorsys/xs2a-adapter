@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.service;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 

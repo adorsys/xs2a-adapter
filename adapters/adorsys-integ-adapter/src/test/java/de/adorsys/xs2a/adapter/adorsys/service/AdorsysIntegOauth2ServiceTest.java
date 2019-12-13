@@ -5,11 +5,12 @@ import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.oauth.Oauth2Api;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class AdorsysIntegOauth2ServiceTest {
     private static final String IDP_URL = "https://example.com";
     private static final String AUTH_URL = "https://example.com/auth";
@@ -34,32 +35,41 @@ public class AdorsysIntegOauth2ServiceTest {
     @Mock
     private Oauth2Api oauth2Api;
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void getAuthorizationRequestUri_Failure_ScaOauthUrlIsNotProvided() {
         Parameters parameters = new Parameters(new HashMap<>());
 
         when(aspsp.getIdpUrl()).thenReturn(null);
 
-        oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters);
+        Assertions.assertThrows(
+            BadRequestException.class,
+            () -> oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters)
+        );
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void getAuthorizationRequestUri_Failure_ScaOauthUrlIsEmptyParam() {
         Parameters parameters = new Parameters(new HashMap<>());
         parameters.setScaOAuthLink("  ");
 
         when(aspsp.getIdpUrl()).thenReturn(null);
 
-        oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters);
+        Assertions.assertThrows(
+            BadRequestException.class,
+            () -> oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters)
+        );
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void getAuthorizationRequestUri_Failure_ScaOauthUrlIsEmpty() {
         Parameters parameters = new Parameters(new HashMap<>());
 
         when(aspsp.getIdpUrl()).thenReturn("    ");
 
-        oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters);
+        Assertions.assertThrows(
+            BadRequestException.class,
+            () -> oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters)
+        );
     }
 
     @Test
@@ -75,41 +85,53 @@ public class AdorsysIntegOauth2ServiceTest {
         assertThat(actual).isEqualTo(AUTH_REQUEST_URI);
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void getToken_Failure_ScaOauthUrlIsNotProvided() {
         Parameters parameters = new Parameters(new HashMap<>());
 
         when(aspsp.getIdpUrl()).thenReturn(null);
 
-        oauth2Service.getToken(new HashMap<>(), parameters);
+        Assertions.assertThrows(
+            BadRequestException.class,
+            () -> oauth2Service.getToken(new HashMap<>(), parameters)
+        );
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void getToken_Failure_ScaOauthUrlIsEmptyParam() {
         Parameters parameters = new Parameters(new HashMap<>());
         parameters.setScaOAuthLink("  ");
 
         when(aspsp.getIdpUrl()).thenReturn(null);
 
-        oauth2Service.getToken(new HashMap<>(), parameters);
+        Assertions.assertThrows(
+            BadRequestException.class,
+            () -> oauth2Service.getToken(new HashMap<>(), parameters)
+        );
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void getToken_Failure_ScaOauthUrlIsEmpty() {
         Parameters parameters = new Parameters(new HashMap<>());
 
         when(aspsp.getIdpUrl()).thenReturn("    ");
 
-        oauth2Service.getToken(new HashMap<>(), parameters);
+        Assertions.assertThrows(
+            BadRequestException.class,
+            () -> oauth2Service.getToken(new HashMap<>(), parameters)
+        );
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void getToken_Failure_ScaOauthUrlHasWrongFormat() {
         Parameters parameters = new Parameters(new HashMap<>());
 
         when(aspsp.getIdpUrl()).thenReturn("wrong-idp-url");
 
-        oauth2Service.getToken(new HashMap<>(), parameters);
+        Assertions.assertThrows(
+            BadRequestException.class,
+            () -> oauth2Service.getToken(new HashMap<>(), parameters)
+        );
     }
 
     private static URI buildAuthRequestURI() {

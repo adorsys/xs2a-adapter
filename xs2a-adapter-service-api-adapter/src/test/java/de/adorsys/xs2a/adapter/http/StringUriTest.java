@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.http;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

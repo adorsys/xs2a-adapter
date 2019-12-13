@@ -5,7 +5,7 @@ import de.adorsys.xs2a.adapter.model.AccountListTO;
 import de.adorsys.xs2a.adapter.model.BalanceTO;
 import de.adorsys.xs2a.adapter.service.model.AccountDetails;
 import de.adorsys.xs2a.adapter.service.model.AccountListHolder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Collections;

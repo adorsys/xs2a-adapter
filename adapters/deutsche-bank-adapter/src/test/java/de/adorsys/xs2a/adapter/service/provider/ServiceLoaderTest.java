@@ -18,7 +18,7 @@ package de.adorsys.xs2a.adapter.service.provider;
 
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ServiceLoader;
 
