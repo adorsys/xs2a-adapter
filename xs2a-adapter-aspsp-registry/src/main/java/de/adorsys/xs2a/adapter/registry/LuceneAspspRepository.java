@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.registry;
 
 import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
 import de.adorsys.xs2a.adapter.service.AspspRepository;
+import de.adorsys.xs2a.adapter.service.exception.IbanException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.AspspScaApproach;
 import org.apache.lucene.document.Document;
@@ -11,6 +12,8 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
+import org.iban4j.Iban;
+import org.iban4j.Iban4jException;
 
 import java.io.IOException;
 import java.util.*;
@@ -305,6 +308,20 @@ public class LuceneAspspRepository implements AspspRepository {
         }
 
         return find(queryBuilder.build(), after, size);
+    }
+
+    @Override
+    public List<Aspsp> findByIban(String iban, String after, int size) {
+        String bankCode;
+        try {
+            bankCode = Iban.valueOf(iban).getBankCode();
+        } catch (Iban4jException e) {
+            throw new IbanException(e);
+        }
+        if (bankCode == null) {
+            throw new IbanException("Failed to extract the bank code from the iban");
+        }
+        return findByBankCode(bankCode, after, size);
     }
 
     private BoostQuery buildQueryWithPriority(Query query, float priority) {

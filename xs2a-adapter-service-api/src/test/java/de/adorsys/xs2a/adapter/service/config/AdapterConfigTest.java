@@ -9,8 +9,8 @@ public class AdapterConfigTest {
 
     @Test
     public void readProperty() {
-        String property = AdapterConfig.readProperty("verlag.apikey.name");
-        assertThat(property, is("X-bvpsd2-test-apikey"));
+        String property = AdapterConfig.readProperty("adorsys.oauth_approach.header_name");
+        assertThat(property, is("X-OAUTH-PREFERRED"));
     }
 
     @Test
