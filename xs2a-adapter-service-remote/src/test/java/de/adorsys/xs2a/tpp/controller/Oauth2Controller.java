@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.tpp.controller;
 
 import de.adorsys.xs2a.adapter.api.Oauth2Api;
+import de.adorsys.xs2a.adapter.model.HrefTypeTO;
+import de.adorsys.xs2a.adapter.model.TokenResponseTO;
 import de.adorsys.xs2a.adapter.remote.api.Oauth2Client;
-import de.adorsys.xs2a.adapter.rest.psd2.model.TokenResponseTO;
-import de.adorsys.xs2a.adapter.service.psd2.model.HrefType;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class Oauth2Controller implements Oauth2Api {
     }
 
     @Override
-    public HrefType getAuthorizationUrl(Map<String, String> headers, Map<String, String> parameters) throws IOException {
+    public HrefTypeTO getAuthorizationUrl(Map<String, String> headers, Map<String, String> parameters) throws IOException {
         return client.getAuthorizationUrl(headers, parameters);
     }
 
