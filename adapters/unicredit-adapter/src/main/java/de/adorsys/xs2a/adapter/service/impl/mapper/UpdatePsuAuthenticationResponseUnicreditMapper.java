@@ -34,6 +34,10 @@ public class UpdatePsuAuthenticationResponseUnicreditMapper {
     }
 
     private Map<String, HrefType> toHrefType(Map<String, Link> links) {
+        if (links == null) {
+            return null;
+        }
+
         return links.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, value -> new HrefType(value.getValue().getHref())));
     }
 }
