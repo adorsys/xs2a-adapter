@@ -3,7 +3,6 @@ package de.adorsys.xs2a.adapter.config;
 import de.adorsys.xs2a.adapter.http.ApacheHttpClientFactory;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
-import de.adorsys.xs2a.adapter.registry.AspspSearchServiceImpl;
 import de.adorsys.xs2a.adapter.registry.LuceneAspspRepositoryFactory;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.impl.AccountInformationServiceImpl;
@@ -77,11 +76,6 @@ public class RestConfiguration {
     @Bean
     AspspRepository aspspRepository() {
         return new LuceneAspspRepositoryFactory().newLuceneAspspRepository();
-    }
-
-    @Bean
-    AspspSearchService aspspSearchService(AspspReadOnlyRepository aspspRepository) {
-        return new AspspSearchServiceImpl(aspspRepository);
     }
 
     @Bean

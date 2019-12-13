@@ -112,6 +112,19 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
+    public void getAccountInformationServiceFindsAdapterByIban() {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setAdapterId(ADAPTER_ID);
+        String iban = "DE91100000000123456789";
+        when(aspspRepository.findByIban(iban))
+            .thenReturn(Collections.singletonList(aspsp));
+        RequestHeaders requestHeaders = fromMap(singletonMap(X_GTW_IBAN, iban));
+        AccountInformationService ais = adapterServiceLoader.getAccountInformationService(requestHeaders);
+        assertThat(ais).isNotNull();
+        verify(aspspRepository, times(1)).findByIban(iban);
+    }
+
+    @Test
     public void getAccountInformationServiceFindsAdapterByBic() {
         Aspsp aspsp = new Aspsp();
         aspsp.setAdapterId(ADAPTER_ID);

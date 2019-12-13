@@ -49,19 +49,22 @@ public class AdapterServiceLoader {
         Optional<String> aspspId = requestHeaders.getAspspId();
         Optional<String> bankCode = requestHeaders.getBankCode();
         Optional<String> bic = requestHeaders.getBic();
+        Optional<String> iban = requestHeaders.getIban();
         if (aspspId.isPresent()) {
             return aspspRepository.findById(aspspId.get())
                        .orElseThrow(() -> new AspspRegistrationNotFoundException("No ASPSP was found with id: " + aspspId.get()));
         }
-        if (!bankCode.isPresent() && !bic.isPresent()) {
+        if (!bankCode.isPresent() && !bic.isPresent() && !iban.isPresent()) {
             throw new AspspRegistrationNotFoundException("None of " + RequestHeaders.X_GTW_ASPSP_ID + ", "
-                + RequestHeaders.X_GTW_BIC + ", " + RequestHeaders.X_GTW_BANK_CODE
+                + RequestHeaders.X_GTW_BIC + ", " + RequestHeaders.X_GTW_BANK_CODE + ", " + RequestHeaders.X_GTW_IBAN
                 + " headers were provided to identify the ASPSP");
         }
 
         List<Aspsp> aspsps;
 
-        if (bankCode.isPresent() && bic.isPresent()) {
+        if (iban.isPresent()) {
+            aspsps = aspspRepository.findByIban(iban.get());
+        } else if (bankCode.isPresent() && bic.isPresent()) {
             Aspsp aspsp = new Aspsp();
             aspsp.setBankCode(bankCode.get());
             aspsp.setBic(bic.get());
