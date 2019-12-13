@@ -19,6 +19,7 @@ package de.adorsys.xs2a.adapter.service.impl;
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.Request.Builder.Interceptor;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
@@ -29,8 +30,8 @@ import java.util.Map;
 public class DeutscheBankAccountInformationService extends BaseAccountInformationService {
     private static final String DATE_HEADER = "Date";
 
-    public DeutscheBankAccountInformationService(Aspsp aspsp, HttpClient httpClient) {
-        super(aspsp, httpClient);
+    public DeutscheBankAccountInformationService(Aspsp aspsp, HttpClient httpClient, Interceptor interceptor) {
+        super(aspsp, httpClient, interceptor);
     }
 
     @Override

@@ -30,6 +30,11 @@ public class RequestBuilderImpl implements Request.Builder {
         return uri;
     }
 
+    public Request.Builder uri(String uri) {
+        this.uri = uri;
+        return this;
+    }
+
     @Override
     public Request.Builder headers(Map<String, String> headers) {
         this.headers = headers;
