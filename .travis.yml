@@ -14,6 +14,11 @@ branches:
 jdk:
   - openjdk8
 
+addons:
+  sonarcloud:
+    organization: "adorsys"
+    token: ${SONAR_TOKEN}
+
 services: docker
 
 env:
