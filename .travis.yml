@@ -17,7 +17,7 @@ jdk:
 addons:
   sonarcloud:
     organization: "adorsys"
-    token: ${SONAR_TOKEN}
+    token: ${SONARCLOUD_TOKEN}
 
 services: docker
 
