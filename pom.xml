@@ -74,7 +74,7 @@
 
         <!-- spring -->
         <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
-        <spring-cloud.version>Greenwich.SR3</spring-cloud.version>
+        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <spring-data-releasetrain.version>Lovelace-SR10</spring-data-releasetrain.version>
 
         <!-- swagger -->
@@ -172,6 +172,8 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+
+            <!-- test dependencies -->
 
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
