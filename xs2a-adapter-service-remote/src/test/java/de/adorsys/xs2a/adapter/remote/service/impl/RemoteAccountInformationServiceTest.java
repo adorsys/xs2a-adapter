@@ -21,7 +21,7 @@ import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -40,7 +40,7 @@ public class RemoteAccountInformationServiceTest {
     public void getTransactionListAsString() throws JsonProcessingException {
         TransactionsReport report = buildTransactionReport();
         when(client.getTransactionListAsString(
-            any(), any(), any(), anyString(), any(), anyBoolean(), anyBoolean(), anyMap())
+            any(), any(), any(), any(), any(), any(), any(), any())
         ).thenReturn(buildResponseEntity(report));
 
         Response<String> response = service.getTransactionListAsString(
@@ -61,7 +61,7 @@ public class RemoteAccountInformationServiceTest {
         ResponseEntity<String> responseEntity = buildResponseEntity(report);
 
         when(client.getTransactionListAsString(
-            any(), any(), any(), anyString(), any(), anyBoolean(), anyBoolean(), anyMap())
+            any(), any(), any(), any(), any(), any(), any(), any())
         ).thenReturn(responseEntity);
 
         Response<TransactionsReport> response = service.getTransactionList(

@@ -73,7 +73,7 @@
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
 
         <!-- spring -->
-        <spring-boot.version>2.1.8.RELEASE</spring-boot.version>
+        <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
         <spring-cloud.version>Greenwich.SR3</spring-cloud.version>
         <spring-data-releasetrain.version>Lovelace-SR10</spring-data-releasetrain.version>
 
@@ -87,10 +87,9 @@
         <mapstruct.version>1.3.0.Final</mapstruct.version>
         <javatar-commons.version>0.6</javatar-commons.version>
         <bouncycastle.version>1.61</bouncycastle.version>
-        <powermock.version>2.0.2</powermock.version>
         <apache.commons.lang.version>3.9</apache.commons.lang.version>
-        <junit.jupiter.version>5.5.2</junit.jupiter.version>
-        <mockito.version>3.2.0</mockito.version>
+        <junit-jupiter.version>5.5.2</junit-jupiter.version>
+        <mockito.version>3.2.4</mockito.version>
 
         <!-- Sonar dependencies -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
@@ -175,25 +174,10 @@
                 </exclusions>
             </dependency>
 
-            <!-- test dependencies -->
-
-<!--            <dependency>-->
-<!--                <groupId>org.junit.jupiter</groupId>-->
-<!--                <artifactId>junit-jupiter-engine</artifactId>-->
-<!--                <version>${junit.jupiter.version}</version>-->
-<!--                <scope>test</scope>-->
-<!--            </dependency>-->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
-                <version>${junit.jupiter.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${mockito.version}</version>
+                <version>${junit-jupiter.version}</version>
                 <scope>test</scope>
             </dependency>
 
@@ -213,7 +197,7 @@
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -225,13 +209,8 @@
 
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -247,6 +226,11 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
