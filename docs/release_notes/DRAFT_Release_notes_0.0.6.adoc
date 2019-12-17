@@ -16,6 +16,7 @@
 - Provided refresh token flow for `sparda-bank-adapter`
 - deutsche-bank-adapter sets PSU-ID-Type for German banks
 - X-GTW-IBAN header for request routing
+- Upgraded versions of JUnit to 5.x and Mockito to 3.x
 
 == Fixes:
 - Add support http status `202` for delete consent operation
