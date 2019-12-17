@@ -5,8 +5,8 @@ import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
@@ -19,7 +19,7 @@ public class DkbAccessTokenServiceTest {
     private AccessTokenService tokenService;
     private HttpClient httpClient;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         String file = getClass().getResource("/external.adapter.config.properties").getFile();
         System.setProperty("adapter.config.file.path", file);

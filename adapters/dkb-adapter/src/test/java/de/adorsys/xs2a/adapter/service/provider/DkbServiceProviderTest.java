@@ -5,8 +5,8 @@ import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.impl.DkbAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.DkbPaymentInitiationService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -16,7 +16,7 @@ public class DkbServiceProviderTest {
     private DkbServiceProvider provider;
     private HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
 
-    @Before
+    @BeforeEach
     public void setUp() {
         String file = getClass().getResource("/external.adapter.config.properties").getFile();
         System.setProperty("adapter.config.file.path", file);

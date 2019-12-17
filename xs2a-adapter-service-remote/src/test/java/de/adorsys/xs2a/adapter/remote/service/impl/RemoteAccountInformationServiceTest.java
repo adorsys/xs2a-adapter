@@ -10,8 +10,8 @@ import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.AccountReference;
 import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -30,7 +30,7 @@ public class RemoteAccountInformationServiceTest {
     private RemoteAccountInformationService service;
     private AccountInformationClient client;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         client = mock(AccountInformationClient.class);
         service = new RemoteAccountInformationService(client);
@@ -40,7 +40,7 @@ public class RemoteAccountInformationServiceTest {
     public void getTransactionListAsString() throws JsonProcessingException {
         TransactionsReport report = buildTransactionReport();
         when(client.getTransactionListAsString(
-            any(), any(), any(), anyString(), any(), anyBoolean(), anyBoolean(), anyMap())
+            any(), any(), any(), any(), any(), any(), any(), any())
         ).thenReturn(buildResponseEntity(report));
 
         Response<String> response = service.getTransactionListAsString(
@@ -61,7 +61,7 @@ public class RemoteAccountInformationServiceTest {
         ResponseEntity<String> responseEntity = buildResponseEntity(report);
 
         when(client.getTransactionListAsString(
-            any(), any(), any(), anyString(), any(), anyBoolean(), anyBoolean(), anyMap())
+            any(), any(), any(), any(), any(), any(), any(), any())
         ).thenReturn(responseEntity);
 
         Response<TransactionsReport> response = service.getTransactionList(

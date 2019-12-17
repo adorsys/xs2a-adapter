@@ -3,18 +3,17 @@ package de.adorsys.xs2a.adapter.service.impl;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PsuIdTypeHeaderInterceptorTest {
 
     private PsuIdTypeHeaderInterceptor interceptor;
     private RequestBuilderImpl builder;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         interceptor = new PsuIdTypeHeaderInterceptor();
         builder = new RequestBuilderImpl(null, null, null);

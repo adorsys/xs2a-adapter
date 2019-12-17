@@ -3,10 +3,11 @@ package de.adorsys.xs2a.adapter.service.oauth;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.security.KeyStoreException;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SparkasseOauthParamsAdjustingServiceTest {
     private static final String ORGANIZATION_IDENTIFIER = "Test ID";
     private static final String CLIENT_ID = "TestClientId";
@@ -41,13 +42,16 @@ public class SparkasseOauthParamsAdjustingServiceTest {
 
     private SparkasseOauthParamsAdjustingService paramsAdjustingService;
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void adjustForGetAuthorizationRequest_Failure_emptyParamsFromTpp() throws KeyStoreException {
         when(keyStore.getOrganizationIdentifier()).thenReturn(ORGANIZATION_IDENTIFIER);
 
         paramsAdjustingService = new SparkasseOauthParamsAdjustingService(keyStore);
 
-        paramsAdjustingService.adjustForGetAuthorizationRequest(PARAMETERS_EMPTY);
+        Assertions.assertThrows(
+            BadRequestException.class,
+            () -> paramsAdjustingService.adjustForGetAuthorizationRequest(PARAMETERS_EMPTY)
+        );
     }
 
     @Test
@@ -65,13 +69,16 @@ public class SparkasseOauthParamsAdjustingServiceTest {
         assertThat(parameters.getCodeChallengeMethod()).isEqualTo(CODE_CHALLENGE_METHOD);
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void adjustForGetTokenRequest_Failure_emptyParamsFromTpp() throws KeyStoreException {
         when(keyStore.getOrganizationIdentifier()).thenReturn(ORGANIZATION_IDENTIFIER);
 
         paramsAdjustingService = new SparkasseOauthParamsAdjustingService(keyStore);
 
-        paramsAdjustingService.adjustForGetTokenRequest(PARAMETERS_EMPTY);
+        Assertions.assertThrows(
+            BadRequestException.class,
+            () -> paramsAdjustingService.adjustForGetTokenRequest(PARAMETERS_EMPTY)
+        );
     }
 
     @Test

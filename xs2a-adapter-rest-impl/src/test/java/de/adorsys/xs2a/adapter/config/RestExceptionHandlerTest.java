@@ -3,7 +3,7 @@ package de.adorsys.xs2a.adapter.config;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
 import static de.adorsys.xs2a.adapter.service.ResponseHeaders.emptyResponseHeaders;

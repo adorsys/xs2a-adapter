@@ -5,11 +5,12 @@ import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.Map;
 import static org.apache.http.protocol.HTTP.DATE_HEADER;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class FiduciaAccountInformationServiceTest {
     private static final String ACCOUNT_ID = "1234567890";
     private static final String UNSUPPORTED_BOOKING_STATUS = "unsupported";
@@ -59,21 +60,27 @@ public class FiduciaAccountInformationServiceTest {
         assertThat(deleteHeaders).containsKeys(DATE_HEADER);
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void getTransactionList_failure_notSupportedBookingStatus() {
-        service.getTransactionList(
-            ACCOUNT_ID,
-            RequestHeaders.fromMap(new HashMap<>()),
-            RequestParams.fromMap(buildRequestParamsMapWithBookingStatus(UNSUPPORTED_BOOKING_STATUS))
+        Assertions.assertThrows(
+            BadRequestException.class,
+            () -> service.getTransactionList(
+                ACCOUNT_ID,
+                RequestHeaders.fromMap(new HashMap<>()),
+                RequestParams.fromMap(buildRequestParamsMapWithBookingStatus(UNSUPPORTED_BOOKING_STATUS))
+            )
         );
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void getTransactionListAsString_failure_notSupportedBookingStatus() {
-        service.getTransactionListAsString(
-            ACCOUNT_ID,
-            RequestHeaders.fromMap(new HashMap<>()),
-            RequestParams.fromMap(buildRequestParamsMapWithBookingStatus(UNSUPPORTED_BOOKING_STATUS))
+        Assertions.assertThrows(
+            BadRequestException.class,
+            () -> service.getTransactionListAsString(
+                ACCOUNT_ID,
+                RequestHeaders.fromMap(new HashMap<>()),
+                RequestParams.fromMap(buildRequestParamsMapWithBookingStatus(UNSUPPORTED_BOOKING_STATUS))
+            )
         );
     }
 

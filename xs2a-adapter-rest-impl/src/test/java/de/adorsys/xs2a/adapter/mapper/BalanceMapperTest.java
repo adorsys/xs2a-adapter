@@ -5,7 +5,7 @@ import de.adorsys.xs2a.adapter.model.BalanceTO;
 import de.adorsys.xs2a.adapter.service.model.Amount;
 import de.adorsys.xs2a.adapter.service.model.Balance;
 import de.adorsys.xs2a.adapter.service.model.BalanceType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;

@@ -5,7 +5,7 @@ import de.adorsys.xs2a.adapter.model.ConsentStatusTO;
 import de.adorsys.xs2a.adapter.service.model.AccountAccess;
 import de.adorsys.xs2a.adapter.service.model.ConsentInformation;
 import de.adorsys.xs2a.adapter.service.model.ConsentStatus;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;

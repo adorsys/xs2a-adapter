@@ -3,8 +3,7 @@ package de.adorsys.xs2a.adapter.registry;
 import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.store.ByteBuffersDirectory;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +11,7 @@ import java.util.Optional;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 public class LuceneAspspRepositoryTest {
     private static final String ASPSP_ID = "1";
@@ -57,7 +57,7 @@ public class LuceneAspspRepositoryTest {
         try {
             luceneAspspRepository.save(new Aspsp());
         } catch (Throwable e) {
-            Assert.fail("expect no exceptions");
+            fail("expect no exceptions");
         }
     }
 

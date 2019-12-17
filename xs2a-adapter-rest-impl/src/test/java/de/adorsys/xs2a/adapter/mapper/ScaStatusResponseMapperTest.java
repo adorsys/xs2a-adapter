@@ -4,7 +4,7 @@ import de.adorsys.xs2a.adapter.model.ScaStatusResponseTO;
 import de.adorsys.xs2a.adapter.model.ScaStatusTO;
 import de.adorsys.xs2a.adapter.service.model.ScaStatus;
 import de.adorsys.xs2a.adapter.service.model.ScaStatusResponse;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import static org.assertj.core.api.Assertions.assertThat;

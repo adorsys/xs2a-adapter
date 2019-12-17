@@ -4,7 +4,7 @@ import de.adorsys.xs2a.adapter.model.ConsentStatusResponse200TO;
 import de.adorsys.xs2a.adapter.model.ConsentStatusTO;
 import de.adorsys.xs2a.adapter.service.model.ConsentStatus;
 import de.adorsys.xs2a.adapter.service.model.ConsentStatusResponse;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import static org.assertj.core.api.Assertions.assertThat;
