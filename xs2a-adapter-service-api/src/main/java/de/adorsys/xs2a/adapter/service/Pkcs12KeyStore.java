@@ -135,7 +135,7 @@ public class Pkcs12KeyStore {
                        .map(rdn -> rdn.getValue().toString())
                        .collect(Collectors.joining());
         } catch (InvalidNameException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 }

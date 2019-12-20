@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public interface Oauth2Service {
@@ -26,11 +27,17 @@ public interface Oauth2Service {
         public static final String CODE_CHALLENGE = "code_challenge";
         public static final String CODE_CHALLENGE_METHOD = "code_challenge_method";
         public static final String REFRESH_TOKEN = "refresh_token";
+        public static final String CONSENT_ID = "consent_id";
+        public static final String PAYMENT_ID = "payment_id";
 
         private final Map<String, String> parameters;
 
         public Parameters(Map<String, String> parameters) {
             this.parameters = parameters;
+        }
+
+        public Parameters() {
+            this(new LinkedHashMap<>());
         }
 
         public Map<String, String> asMap() {
@@ -147,6 +154,22 @@ public interface Oauth2Service {
 
         public void setRefreshToken(String value) {
             set(REFRESH_TOKEN, value);
+        }
+
+        public String getConsentId() {
+            return get(CONSENT_ID);
+        }
+
+        public void setConsentId(String value) {
+            set(CONSENT_ID, value);
+        }
+
+        public String getPaymentId() {
+            return get(PAYMENT_ID);
+        }
+
+        public void setPaymentId(String value) {
+            set(PAYMENT_ID, value);
         }
     }
 }

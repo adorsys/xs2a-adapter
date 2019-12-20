@@ -1,83 +1,58 @@
 package de.adorsys.xs2a.adapter.service;
 
-import de.adorsys.xs2a.adapter.adapter.mapper.TokenResponseMapper;
-import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
+import de.adorsys.xs2a.adapter.adapter.BaseOauth2Service;
+import de.adorsys.xs2a.adapter.adapter.PkceOauth2Service;
 import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.StringUri;
-import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
+import de.adorsys.xs2a.adapter.http.UriBuilder;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
-import de.adorsys.xs2a.adapter.service.oauth.Oauth2Api;
-import de.adorsys.xs2a.adapter.service.oauth.OauthParamsAdjustingService;
-import org.apache.commons.lang3.StringUtils;
-import org.mapstruct.factory.Mappers;
 
+import java.io.IOException;
 import java.net.URI;
+import java.security.KeyStoreException;
 import java.util.Map;
 
-import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
+public class SparkasseOauth2Service implements Oauth2Service, PkceOauth2Extension {
 
-public class SparkasseOauth2Service implements Oauth2Service {
-    private static final String SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE
-        = "SCA OAuth link is missing or has a wrong format: " +
-              "it has to be either provided as a request parameter or preconfigured for the current ASPSP";
+    private final Oauth2Service oauth2Service;
+    private final Pkcs12KeyStore keyStore;
 
-    private final Aspsp aspsp;
-    private final HttpClient httpClient;
-    private final Oauth2Api oauth2Api;
-    private final OauthParamsAdjustingService paramsAdjustingService;
-    private final TokenResponseMapper tokenResponseMapper = Mappers.getMapper(TokenResponseMapper.class);
+    private SparkasseOauth2Service(Oauth2Service oauth2Service, Pkcs12KeyStore keyStore) {
+        this.oauth2Service = oauth2Service;
+        this.keyStore = keyStore;
+    }
 
-    public SparkasseOauth2Service(Aspsp aspsp, HttpClient httpClient, Oauth2Api oauth2Api,
-                                  OauthParamsAdjustingService paramsAdjustingService) {
-        this.aspsp = aspsp;
-        this.httpClient = httpClient;
-        this.oauth2Api = oauth2Api;
-        this.paramsAdjustingService = paramsAdjustingService;
+    public static SparkasseOauth2Service create(Aspsp aspsp, HttpClient httpClient, Pkcs12KeyStore keyStore) {
+        return new SparkasseOauth2Service(new PkceOauth2Service(new BaseOauth2Service(aspsp, httpClient)), keyStore);
     }
 
     @Override
-    public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) {
-        String scaOAuthUrl = getScaOAuthUrl(parameters);
+    public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) throws IOException {
 
-        if (StringUtils.isBlank(scaOAuthUrl)) {
-            throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
+        return UriBuilder.fromUri(oauth2Service.getAuthorizationRequestUri(headers, parameters))
+            .queryParam("responseType", "code")
+            .queryParam("clientId", clientId())
+            .queryParam("scope", scope(parameters))
+            .build();
+    }
+
+    private String scope(Parameters parameters) {
+        if (parameters.getConsentId() != null) {
+            return "AIS: " + parameters.getConsentId();
         }
+        return null;
+    }
 
-        String authorisationUri = oauth2Api.getAuthorisationUri(scaOAuthUrl);
-        Parameters parametersForGetAuthorizationRequest
-            = paramsAdjustingService.adjustForGetAuthorizationRequest(parameters);
-
-        return URI.create(StringUri.withQuery(authorisationUri, parametersForGetAuthorizationRequest.asMap()));
+    private String clientId() {
+        try {
+            return keyStore.getOrganizationIdentifier();
+        } catch (KeyStoreException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
-        String scaOAuthUrl = getScaOAuthUrl(parameters);
-
-        if (StringUtils.isBlank(scaOAuthUrl) || !StringUri.containsProtocol(scaOAuthUrl)) {
-            throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
-        }
-
-        Parameters tokenRequestParams = paramsAdjustingService.adjustForGetTokenRequest(parameters);
-
-        String url = StringUri.withQuery(
-            oauth2Api.getTokenUri(scaOAuthUrl),
-            tokenRequestParams.asMap()
-        );
-
-        Response<OauthToken> response = httpClient.post(url)
-                                            .send(jsonResponseHandler(OauthToken.class));
-        return tokenResponseMapper.map(response.getBody());
-    }
-
-    private String getScaOAuthUrl(Parameters parameters) {
-        String scaOAuthLinkParam = parameters.getScaOAuthLink();
-
-        if (StringUtils.isNotBlank(scaOAuthLinkParam)) {
-            return StringUri.decode(scaOAuthLinkParam);
-        }
-
-        return aspsp.getIdpUrl();
+        throw new UnsupportedOperationException();
     }
 }

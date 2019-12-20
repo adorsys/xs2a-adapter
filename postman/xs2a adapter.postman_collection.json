@@ -106,6 +106,7 @@
 									"} else if (jsonData._links.startAuthorization) {",
 									"    postman.setNextRequest(\"SCA/Redirect/001a_Msg2\");",
 									"} else if (jsonData._links.scaOAuth) {",
+									"    pm.globals.set(\"scaOAuth\", jsonData._links.scaOAuth.href);",
 									"    postman.setNextRequest(\"oauth2_token_static_code\");",
 									"}",
 									"",
@@ -164,8 +165,9 @@
 							},
 							{
 								"key": "TPP-Redirect-Preferred",
-								"value": "false",
-								"type": "text"
+								"value": "true",
+								"type": "text",
+								"disabled": true
 							},
 							{
 								"key": "TPP-Redirect-URI",
@@ -1394,7 +1396,7 @@
 			"name": "AIS_X",
 			"item": [
 				{
-					"name": "{{baseUri}}/v1/accounts/{{accountId}}/transactions/{{transactionId}}",
+					"name": "/v1/accounts/{{accountId}}/transactions/{{transactionId}}",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -1426,6 +1428,60 @@
 								"{{accountId}}",
 								"transactions",
 								"{{transactionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/oauth2/authorization-request-uri",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b16907b6-9767-4a8d-8060-d0d6e2cd6dbb",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-GTW-ASPSP-ID",
+								"value": "40885a41-339e-4c92-a43f-77264bc6059c",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUri}}/oauth2/authorization-request-uri?state=xyz&redirect_uri=https://client.example.com/cb&sca_oauth_link={{scaOAuth}}&consent_id={{consentId}}",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"oauth2",
+								"authorization-request-uri"
+							],
+							"query": [
+								{
+									"key": "state",
+									"value": "xyz"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "https://client.example.com/cb"
+								},
+								{
+									"key": "sca_oauth_link",
+									"value": "{{scaOAuth}}"
+								},
+								{
+									"key": "consent_id",
+									"value": "{{consentId}}"
+								}
 							]
 						}
 					},
