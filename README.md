@@ -1,7 +1,8 @@
 # XS2A Adapter
 [![Build Status](https://travis-ci.com/adorsys/xs2a-adapter.svg?branch=develop)](https://travis-ci.com/adorsys/xs2a-adapter)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=adorsys_xs2a-adapter&metric=alert_status)](https://sonarcloud.io/dashboard?id=adorsys_xs2a-adapter)
 
-There are various ways for a bank to implement a PSD2 compliant XS2A interface. Don’t waste time in connecting different banks with different approaches into your application. Use the free of charge XS2A adapter and concentrate on your true value proposition! 
+There are various ways for a bank to implement a PSD2 compliant XS2A interface. Don’t waste time in connecting different banks with different approaches into your application. Use the free of charge XS2A adapter and concentrate on your true value proposition!
 ## Who we are
 [adorsys](https://adorsys.de/en/index.html) is a company who works ever since the very beginning of PSD2 with its requirements and implicit tasks.
 We help banks to be PSD2 complaint (technical and legal terms). To speed up the process we provide this open source XS2A interface,
@@ -12,8 +13,8 @@ You can check your readiness for PSD2 Compliance and other information via [our 
 
 ### Key Challenge for a TPP in Europe
 
-PSD2 as the first regulatory driven Open Banking initiative offers many opportunities for both Banks and Third Party Providers. TPPs can use the account information and payment services provided by the banks in order to offer new innovative services to the end users. The more banks a TPP can interact with the more users it can reach with its application, which in consequence raises the value of the application itself.  
-However, being able to interact with many banks can be a time and cost consuming challenge when developing and maintaining an application. Even though PSD2 sets a standard for bank interfaces, much space for implementation options remains. A bank, therefore, can have an own PSD2 compliant solution or have implemented one of the mayor PSD2 standards, like Open Banking UK, Berlin Group or STET. A PSD2 adapter must be able to process the different messages correctly and react fast to changes on the XS2A interfaces. 
+PSD2 as the first regulatory driven Open Banking initiative offers many opportunities for both Banks and Third Party Providers. TPPs can use the account information and payment services provided by the banks in order to offer new innovative services to the end users. The more banks a TPP can interact with the more users it can reach with its application, which in consequence raises the value of the application itself.
+However, being able to interact with many banks can be a time and cost consuming challenge when developing and maintaining an application. Even though PSD2 sets a standard for bank interfaces, much space for implementation options remains. A bank, therefore, can have an own PSD2 compliant solution or have implemented one of the mayor PSD2 standards, like Open Banking UK, Berlin Group or STET. A PSD2 adapter must be able to process the different messages correctly and react fast to changes on the XS2A interfaces.
 
 
 ### High level architecture
@@ -21,9 +22,9 @@ However, being able to interact with many banks can be a time and cost consuming
 
 ## Configuring the XS2A Adapter
 
-For configuring adapter with your custom settings, just copy adapter configuration 
-file [adapter.config.properties](xs2a-adapter-service-api/src/main/resources/adapter.config.properties) 
-and replace with your values. Then provide the path to your custom config file 
+For configuring adapter with your custom settings, just copy adapter configuration
+file [adapter.config.properties](xs2a-adapter-service-api/src/main/resources/adapter.config.properties)
+and replace with your values. Then provide the path to your custom config file
 with `adapter.config.file.path` environment variable.
 ```
 # Java property example
@@ -53,7 +54,7 @@ env "adapter.config.file.path=/opt/xs2a-adapter/custom-config/custom.adapter.con
         -Dcom.sun.security.enableAIAcaIssuers=true \
         -Dpkcs12.keyStore=<key-store-file> \
         -jar xs2a-adapter-app/target/xs2a-adapter-app.jar
-    
+
     ```
 
 3. Open [xs2a-adapter swagger page](http://localhost:8999/swagger-ui.html) to get more details about REST Api.
@@ -75,20 +76,20 @@ Read this short [guideline](/docs/Adapter.md) to get more details
 
 ## Routing and ASPSP Registry
 `xs2a-adapter` relies on presence of `X-GTW-ASPSP-ID` or `X-GTW-Bank-Code` request header for routing.
-The former uniquely identifies an XS2A API provider in the `aspsp-registry`. 
+The former uniquely identifies an XS2A API provider in the `aspsp-registry`.
 The later is a shorthand for performing a lookup in the registry using a bank code.
 Note that the `aspsp-registry` supports lookup by attributes other than bank code including full-text search by name,
-but only as a pre-request. 
+but only as a pre-request.
 
 ## Releases and versions
 
 * [Versioning, Release and Support policy](doc/Version_Policy.md)
- 
-* [Release notes](doc/releasenotes.md) 
+
+* [Release notes](doc/releasenotes.md)
 * [Roadmap for next features development](doc/roadmap.md)
- 
+
 ### Testing API with Postman json collections
- 
+
  For testing API of xs2a it is used Postman https://www.getpostman.com/
  Environment jsons with global parameter’s sets and Collections of jsons for imitation of processes flows are stored in /postman folder.
  To import Postman collections and environments follow next steps:
@@ -96,10 +97,10 @@ but only as a pre-request.
  2. Open Postman, press button “Import”.
  3. Choose “Import file” to import one json or “Import folder” to import all jsons within the folder, then press button “Choose Files” or “Choose Folders” and open necessary files/folders.
  4. To change settings of environments - go to “Manage Environments”, press the environment name and change variables.
- 
+
  To start testing with Postman collections it is necessary to have all services running.
- 
- 
+
+
 ## Authors & Contact
 
 * **[Francis Pouatcha](mailto:fpo@adorsys.de)** - *Initial work* - [adorsys](https://www.adorsys.de)
