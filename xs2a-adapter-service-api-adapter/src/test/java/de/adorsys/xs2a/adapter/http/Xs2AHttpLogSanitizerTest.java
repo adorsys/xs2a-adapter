@@ -2,14 +2,13 @@ package de.adorsys.xs2a.adapter.http;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class Xs2AHttpLogSanitizerTest {
 
@@ -22,12 +21,12 @@ public class Xs2AHttpLogSanitizerTest {
         String data = "https://xs2a-sndbx.consorsbank.de/v1/consents/a9b2d4e9-91da-4a1b-bf9b-d7619aa67462/authorisations";
         String sanitizedString = anonymizer.sanitize(data);
 
-        assertThat(sanitizedString, is("https://xs2a-sndbx.consorsbank.de/v1/consents/******/authorisations"));
+        assertThat(sanitizedString).isEqualTo("https://xs2a-sndbx.consorsbank.de/v1/consents/******/authorisations");
 
         data = "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents/3e91db48-6d2e-44d3-b281-3a650d0292c3/authorisations/e15b3267-572e-400b-b87a-fb242eb52bb5";
         sanitizedString = anonymizer.sanitize(data);
 
-        assertThat(sanitizedString, is("https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents/******/authorisations/******"));
+        assertThat(sanitizedString).isEqualTo("https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents/******/authorisations/******");
     }
 
     @Test
@@ -35,7 +34,7 @@ public class Xs2AHttpLogSanitizerTest {
         List<String> headers = Arrays.asList("Authorization", "PSU-ID", "PSU-Corporate-ID", "Consent-ID");
         for (String header : headers) {
             String sanitizedHeader = anonymizer.sanitizeHeader(header, "1234567");
-            assertThat(sanitizedHeader, is(REPLACEMENT));
+            assertThat(sanitizedHeader).isEqualTo(REPLACEMENT);
         }
     }
 
@@ -44,7 +43,7 @@ public class Xs2AHttpLogSanitizerTest {
         List<String> headers = Arrays.asList("Content-type", "Accept", "Correlation-ID");
         for (String header : headers) {
             String sanitizedHeader = anonymizer.sanitizeHeader(header, "1234567");
-            assertThat(sanitizedHeader, is("1234567"));
+            assertThat(sanitizedHeader).isEqualTo("1234567");
         }
     }
 
@@ -97,18 +96,18 @@ public class Xs2AHttpLogSanitizerTest {
 
         String body = anonymizer.sanitizeResponseBody(consentCreationResponse, ContentType.APPLICATION_JSON);
 
-        assertThat(body, is(expectedJson));
+        assertThat(body).isEqualTo(expectedJson);
     }
 
     @Test
     public void sanitizeResponseBodyNotJsonContentType() {
         String body = anonymizer.sanitizeResponseBody(new Object(), "application/xml");
-        assertThat(body, is(REPLACEMENT));
+        assertThat(body).isEqualTo(REPLACEMENT);
     }
 
     @Test
     public void sanitizeResponseBodyWithSerializationError() {
         String body = anonymizer.sanitizeResponseBody(Arrays.asList("abc", "123"), "application/json");
-        assertThat(body, is(REPLACEMENT));
+        assertThat(body).isEqualTo(REPLACEMENT);
     }
 }
