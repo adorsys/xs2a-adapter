@@ -74,34 +74,29 @@ class Xs2aHttpLogSanitizer {
         return REPLACEMENT;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     private Map<String, Object> sanitizeMap(Map<String, Object> responseMap) {
         for (Map.Entry<String, Object> entry : responseMap.entrySet()) {
-            Object value = entry.getValue();
-            String key = entry.getKey();
-            if (value instanceof Map) {
-                responseMap.replace(key, sanitizeMap((Map<String, Object>) value));
-            } else if (value instanceof List) {
-                responseMap.replace(key, sanitizeList((List) value));
-            } else {
-                responseMap.replace(key, REPLACEMENT);
-            }
+            responseMap.replace(entry.getKey(), sanitizeObject(entry.getValue()));
         }
         return responseMap;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({"rawtypes", "unchecked"})
     private List sanitizeList(List list) {
         for (int i = 0; i < list.size(); i++) {
-            Object item = list.get(i);
-            if (item instanceof Map) {
-                list.set(i, sanitizeMap((Map<String, Object>) item));
-            } else if (item instanceof List) {
-                list.set(i, sanitizeList((List) item));
-            } else {
-                list.set(i, REPLACEMENT);
-            }
+            list.set(i, sanitizeObject(list.get(i)));
         }
         return list;
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private Object sanitizeObject(Object item) {
+        if (item instanceof Map) {
+            return sanitizeMap((Map<String, Object>) item);
+        }
+        if (item instanceof List) {
+            return sanitizeList((List) item);
+        }
+        return REPLACEMENT;
     }
 }
