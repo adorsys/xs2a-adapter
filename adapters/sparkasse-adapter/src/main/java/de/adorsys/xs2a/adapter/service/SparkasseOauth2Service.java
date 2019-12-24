@@ -52,7 +52,8 @@ public class SparkasseOauth2Service implements Oauth2Service, PkceOauth2Extensio
     }
 
     @Override
-    public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
-        throw new UnsupportedOperationException();
+    public TokenResponse getToken(Map<String, String> headers, Parameters parameters) throws IOException {
+        parameters.setClientId(clientId());
+        return oauth2Service.getToken(headers, parameters);
     }
 }

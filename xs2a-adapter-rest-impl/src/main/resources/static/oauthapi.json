@@ -107,6 +107,13 @@
           "example": "http://localhost:8999"
         },
         {
+          "name": "sca_oauth_link",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
           "name": "client_id",
           "in": "query",
           "schema": {

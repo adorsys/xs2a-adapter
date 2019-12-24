@@ -49,7 +49,13 @@ public interface Oauth2Service {
         }
 
         public void set(String key, String value) {
-            parameters.put(key, value);
+            if (key != null && value != null) {
+                parameters.put(key, value);
+            }
+        }
+
+        public String remove(String key) {
+            return parameters.remove(key);
         }
 
         public String getAuthorizationCode() {
@@ -106,6 +112,10 @@ public interface Oauth2Service {
 
         public void setScaOAuthLink(String value) {
             set(SCA_OAUTH_LINK, value);
+        }
+
+        public String removeScaOAuthLink() {
+            return remove(SCA_OAUTH_LINK);
         }
 
         public String getBic() {
@@ -170,6 +180,22 @@ public interface Oauth2Service {
 
         public void setPaymentId(String value) {
             set(PAYMENT_ID, value);
+        }
+    }
+
+    enum GrantType {
+        AUTHORIZATION_CODE("authorization_code"),
+        REFRESH_TOKEN("refresh_token");
+
+        private final String value;
+
+        GrantType(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
         }
     }
 }

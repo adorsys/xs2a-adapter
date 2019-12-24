@@ -30,6 +30,9 @@ public class PkceOauth2Service implements Oauth2Service, PkceOauth2Extension {
 
     @Override
     public TokenResponse getToken(Map<String, String> headers, Parameters parameters) throws IOException {
+        if (GrantType.AUTHORIZATION_CODE.toString().equals(parameters.getGrantType())) {
+            parameters.setCodeVerifier(codeVerifier());
+        }
         return oauth2Service.getToken(headers, parameters);
     }
 }
