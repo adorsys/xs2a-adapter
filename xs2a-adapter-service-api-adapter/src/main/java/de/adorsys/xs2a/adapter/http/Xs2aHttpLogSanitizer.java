@@ -34,8 +34,7 @@ class Xs2aHttpLogSanitizer {
     private JsonMapper objectMapper = new JsonMapper();
 
     Xs2aHttpLogSanitizer() {
-        patterns.add(Pattern.compile("(consents|accounts)/[^/?\\s\\[\"]+(.*)"));
-        patterns.add(Pattern.compile("(authorisations)/[^/?\\s\\[\"]+(.*)"));
+        patterns.add(Pattern.compile("(consents|accounts|authorisations)/[^/?\\s\\[\"]+(.*?)"));
 
         sanitizedHeaders.addAll(Arrays.asList("Authorization", "PSU-ID", "PSU-Corporate-ID", "Consent-ID"));
     }
@@ -52,7 +51,7 @@ class Xs2aHttpLogSanitizer {
         for (Pattern pattern : patterns) {
             Matcher matcher = pattern.matcher(replacedData);
             if (matcher.find()) {
-                replacedData = matcher.replaceFirst("$1/" + REPLACEMENT + "$2");
+                replacedData = matcher.replaceAll("$1/" + REPLACEMENT + "$2");
             }
         }
         return replacedData;
