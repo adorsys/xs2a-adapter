@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public interface Oauth2Service {
@@ -26,11 +27,17 @@ public interface Oauth2Service {
         public static final String CODE_CHALLENGE = "code_challenge";
         public static final String CODE_CHALLENGE_METHOD = "code_challenge_method";
         public static final String REFRESH_TOKEN = "refresh_token";
+        public static final String CONSENT_ID = "consent_id";
+        public static final String PAYMENT_ID = "payment_id";
 
         private final Map<String, String> parameters;
 
         public Parameters(Map<String, String> parameters) {
             this.parameters = parameters;
+        }
+
+        public Parameters() {
+            this(new LinkedHashMap<>());
         }
 
         public Map<String, String> asMap() {
@@ -42,7 +49,13 @@ public interface Oauth2Service {
         }
 
         public void set(String key, String value) {
-            parameters.put(key, value);
+            if (key != null && value != null) {
+                parameters.put(key, value);
+            }
+        }
+
+        public String remove(String key) {
+            return parameters.remove(key);
         }
 
         public String getAuthorizationCode() {
@@ -101,6 +114,10 @@ public interface Oauth2Service {
             set(SCA_OAUTH_LINK, value);
         }
 
+        public String removeScaOAuthLink() {
+            return remove(SCA_OAUTH_LINK);
+        }
+
         public String getBic() {
             return get(BIC);
         }
@@ -147,6 +164,38 @@ public interface Oauth2Service {
 
         public void setRefreshToken(String value) {
             set(REFRESH_TOKEN, value);
+        }
+
+        public String getConsentId() {
+            return get(CONSENT_ID);
+        }
+
+        public void setConsentId(String value) {
+            set(CONSENT_ID, value);
+        }
+
+        public String getPaymentId() {
+            return get(PAYMENT_ID);
+        }
+
+        public void setPaymentId(String value) {
+            set(PAYMENT_ID, value);
+        }
+    }
+
+    enum GrantType {
+        AUTHORIZATION_CODE("authorization_code"),
+        REFRESH_TOKEN("refresh_token");
+
+        private final String value;
+
+        GrantType(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
         }
     }
 }

@@ -1,167 +1,211 @@
 {
-  "openapi" : "3.0.1",
-  "info" : {
-    "title" : "OAuth API",
-    "description" : "This is API for supporting OAuth flow",
-    "version" : "0.1"
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OAuth API",
+    "description": "This is API for supporting OAuth flow",
+    "version": "0.1"
   },
-  "paths" : {
-    "/oauth2/authorization-request-uri" : {
-      "get" : {
-        "description" : "Get authorization uri",
-        "parameters" : [ {
-          "name" : "state",
-          "in" : "query",
-          "schema" : {
-            "type" : "string"
+  "paths": {
+    "/oauth2/authorization-request-uri": {
+      "get": {
+        "description": "Get authorization uri",
+        "parameters": [
+        {
+          "name": "state",
+          "in": "query",
+          "schema": {
+            "type": "string"
           },
-          "example" : "my_state"
-        }, {
-          "name" : "redirect_uri",
-          "in" : "query",
-          "schema" : {
-            "type" : "string"
+          "example": "my_state"
+        },
+        {
+          "name": "redirect_uri",
+          "in": "query",
+          "schema": {
+            "type": "string"
           },
-          "example" : "http://localhost:8999/exchange-token"
-        }, {
-          "name" : "X-GTW-ASPSP-ID",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
+          "example": "http://localhost:8999/exchange-token"
+        },
+        {
+          "name": "sca_oauth_link",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "consent_id",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "payment_id",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "X-GTW-ASPSP-ID",
+          "in": "header",
+          "schema": {
+            "type": "string"
           },
-          "example" : "f60271e2-7157-41fd-97f6-84844f28e637"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "IDP URI will be returned",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/idpUri"
+          "example": "f60271e2-7157-41fd-97f6-84844f28e637"
+        }
+        ],
+        "responses": {
+          "200": {
+            "description": "IDP URI will be returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/idpUri"
                 },
-                "example" : {
-                  "href" : "https://link-to-the-idp/login-page"
+                "example": {
+                  "href": "https://link-to-the-idp/login-page"
                 }
               }
             }
           },
-          "400" : {
-            "description" : "When operation doesn't supported by the adapter"
+          "400": {
+            "description": "When operation doesn't supported by the adapter"
           }
         },
-        "tags" : [ "OAuth operations" ]
+        "tags": [
+          "OAuth operations"
+        ]
       }
     },
-    "/oauth2/token" : {
-      "post" : {
-        "description" : "Exchange autorization code by bearer token endpoint",
-        "parameters" : [ {
-          "name" : "grant_type",
-          "in" : "query",
-          "schema" : {
-            "type" : "string"
+    "/oauth2/token": {
+      "post": {
+        "description": "Exchange autorization code by bearer token endpoint",
+        "parameters": [
+        {
+          "name": "grant_type",
+          "in": "query",
+          "schema": {
+            "type": "string"
           },
-          "example" : "authorization_code"
-        },{
-          "name" : "code",
-          "in" : "query",
-          "schema" : {
-            "type" : "string"
+          "example": "authorization_code"
+        },
+        {
+          "name": "code",
+          "in": "query",
+          "schema": {
+            "type": "string"
           }
-        }, {
-          "name" : "redirect_uri",
-          "in" : "query",
-          "schema" : {
-            "type" : "string"
+        },
+        {
+          "name": "redirect_uri",
+          "in": "query",
+          "schema": {
+            "type": "string"
           },
-          "example" : "http://localhost:8999"
-        }, {
-          "name" : "client_id",
-          "in" : "query",
-          "schema" : {
-            "type" : "string"
+          "example": "http://localhost:8999"
+        },
+        {
+          "name": "sca_oauth_link",
+          "in": "query",
+          "schema": {
+            "type": "string"
           }
-        }, {
-          "name" : "refresh_token",
-          "in" : "query",
-          "schema" : {
-            "type" : "string"
+        },
+        {
+          "name": "client_id",
+          "in": "query",
+          "schema": {
+            "type": "string"
           }
-        }, {
-          "name" : "scope",
-          "in" : "query",
-          "schema" : {
-            "type" : "string"
+        },
+        {
+          "name": "refresh_token",
+          "in": "query",
+          "schema": {
+            "type": "string"
           }
-        }, {
-          "name" : "X-GTW-ASPSP-ID",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
+        },
+        {
+          "name": "scope",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "X-GTW-ASPSP-ID",
+          "in": "header",
+          "schema": {
+            "type": "string"
           },
-          "example" : "f60271e2-7157-41fd-97f6-84844f28e637"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/accessToken"
+          "example": "f60271e2-7157-41fd-97f6-84844f28e637"
+        }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accessToken"
                 },
-                "example" : {
-                  "scope" : "AIS:VALID_CONSENT_ID",
-                  "access_token" : "4496e9e2e82b4aa182db8f994a361c46a6736914cd4843d68eab166d4a41cf5c510d087cb1b946ff83b2494a1f5228a0",
-                  "token_type" : "Bearer",
-                  "expires_in" : 3600,
-                  "refresh_token" : "a10149d1b74b4108acb632e61f9efeb7d03a76deb8d840539b5219ebb486f213bed1c159ccd04234b9794f8da9ed69a4"
+                "example": {
+                  "scope": "AIS:VALID_CONSENT_ID",
+                  "access_token": "4496e9e2e82b4aa182db8f994a361c46a6736914cd4843d68eab166d4a41cf5c510d087cb1b946ff83b2494a1f5228a0",
+                  "token_type": "Bearer",
+                  "expires_in": 3600,
+                  "refresh_token": "a10149d1b74b4108acb632e61f9efeb7d03a76deb8d840539b5219ebb486f213bed1c159ccd04234b9794f8da9ed69a4"
                 }
               }
             }
           },
-          "403" : {
-            "description" : "When authorization code is wrong or expired"
+          "403": {
+            "description": "When authorization code is wrong or expired"
           }
         },
-        "tags" : [ "OAuth operations" ]
+        "tags": [
+          "OAuth operations"
+        ]
       }
     }
   },
-  "components" : {
-    "schemas" : {
-      "idpUri" : {
-        "description" : "IDP uri",
-        "type" : "object",
-        "properties" : {
-          "href" : {
-            "type" : "string",
-            "example" : "/v1/payments/sepa-credit-transfers/1234-wertiq-983"
+  "components": {
+    "schemas": {
+      "idpUri": {
+        "description": "IDP uri",
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string",
+            "example": "/v1/payments/sepa-credit-transfers/1234-wertiq-983"
           }
         }
       },
-      "accessToken" : {
-        "description" : "Bearer token object",
-        "type" : "object",
-        "properties" : {
-          "scope" : {
-            "type" : "string",
-            "example" : "AIS PIS"
+      "accessToken": {
+        "description": "Bearer token object",
+        "type": "object",
+        "properties": {
+          "scope": {
+            "type": "string",
+            "example": "AIS PIS"
           },
-          "access_token" : {
-            "type" : "string",
-            "example" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+          "access_token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
           },
-          "token_type" : {
-            "type" : "string",
-            "example" : "Bearer"
+          "token_type": {
+            "type": "string",
+            "example": "Bearer"
           },
-          "expires_in" : {
-            "type" : "integer",
-            "example" : 3600
+          "expires_in": {
+            "type": "integer",
+            "example": 3600
           },
-          "refresh_token" : {
-            "type" : "string",
-            "example" : "refresh-token"
+          "refresh_token": {
+            "type": "string",
+            "example": "refresh-token"
           }
         }
       }
