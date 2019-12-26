@@ -29,6 +29,7 @@ public interface Oauth2Service {
         public static final String REFRESH_TOKEN = "refresh_token";
         public static final String CONSENT_ID = "consent_id";
         public static final String PAYMENT_ID = "payment_id";
+        public static final String AUTHORISATION_ID = "authorisation_id";
 
         private final Map<String, String> parameters;
 
@@ -181,6 +182,18 @@ public interface Oauth2Service {
         public void setPaymentId(String value) {
             set(PAYMENT_ID, value);
         }
+
+        public String getAuthorisationId() {
+            return get(AUTHORISATION_ID);
+        }
+
+        public void setAuthorisationId(String value) {
+            set(AUTHORISATION_ID, value);
+        }
+
+        public String removeAuthorisationId() {
+            return remove(AUTHORISATION_ID);
+        }
     }
 
     enum GrantType {
@@ -190,6 +203,21 @@ public interface Oauth2Service {
         private final String value;
 
         GrantType(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
+        }
+    }
+
+    enum ResponseType {
+        CODE("code");
+
+        private final String value;
+
+        ResponseType(String value) {
             this.value = value;
         }
 

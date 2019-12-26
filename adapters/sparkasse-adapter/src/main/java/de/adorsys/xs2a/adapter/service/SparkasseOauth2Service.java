@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service;
 
 import de.adorsys.xs2a.adapter.adapter.BaseOauth2Service;
+import de.adorsys.xs2a.adapter.adapter.CertificateSubjectClientIdOauth2Service;
 import de.adorsys.xs2a.adapter.adapter.PkceOauth2Service;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.UriBuilder;
@@ -9,29 +10,30 @@ import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 
 import java.io.IOException;
 import java.net.URI;
-import java.security.KeyStoreException;
 import java.util.Map;
 
 public class SparkasseOauth2Service implements Oauth2Service, PkceOauth2Extension {
 
     private final Oauth2Service oauth2Service;
-    private final Pkcs12KeyStore keyStore;
 
-    private SparkasseOauth2Service(Oauth2Service oauth2Service, Pkcs12KeyStore keyStore) {
+    private SparkasseOauth2Service(Oauth2Service oauth2Service) {
         this.oauth2Service = oauth2Service;
-        this.keyStore = keyStore;
     }
 
     public static SparkasseOauth2Service create(Aspsp aspsp, HttpClient httpClient, Pkcs12KeyStore keyStore) {
-        return new SparkasseOauth2Service(new PkceOauth2Service(new BaseOauth2Service(aspsp, httpClient)), keyStore);
+        BaseOauth2Service baseOauth2Service = new BaseOauth2Service(aspsp, httpClient);
+        CertificateSubjectClientIdOauth2Service clientIdOauth2Service =
+            new CertificateSubjectClientIdOauth2Service(baseOauth2Service, keyStore);
+        PkceOauth2Service pkceOauth2Service = new PkceOauth2Service(clientIdOauth2Service);
+        return new SparkasseOauth2Service(pkceOauth2Service);
     }
 
     @Override
     public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) throws IOException {
 
         return UriBuilder.fromUri(oauth2Service.getAuthorizationRequestUri(headers, parameters))
-            .queryParam("responseType", "code")
-            .queryParam("clientId", clientId())
+            .renameQueryParam(Parameters.RESPONSE_TYPE, "responseType")
+            .renameQueryParam(Parameters.CLIENT_ID, "clientId")
             .queryParam("scope", scope(parameters))
             .build();
     }
@@ -43,17 +45,8 @@ public class SparkasseOauth2Service implements Oauth2Service, PkceOauth2Extensio
         return null;
     }
 
-    private String clientId() {
-        try {
-            return keyStore.getOrganizationIdentifier();
-        } catch (KeyStoreException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public TokenResponse getToken(Map<String, String> headers, Parameters parameters) throws IOException {
-        parameters.setClientId(clientId());
         return oauth2Service.getToken(headers, parameters);
     }
 }

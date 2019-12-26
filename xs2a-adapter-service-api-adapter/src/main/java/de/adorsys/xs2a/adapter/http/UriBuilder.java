@@ -24,5 +24,7 @@ public abstract class UriBuilder {
 
     public abstract UriBuilder queryParam(String name, String value);
 
+    public abstract UriBuilder renameQueryParam(String currentName, String newName);
+
     public abstract URI build();
 }

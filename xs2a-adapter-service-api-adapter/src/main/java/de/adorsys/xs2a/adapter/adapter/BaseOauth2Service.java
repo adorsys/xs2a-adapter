@@ -23,22 +23,34 @@ public class BaseOauth2Service implements Oauth2Service {
     private final HttpClient httpClient;
     private final Aspsp aspsp;
     private final TokenResponseMapper tokenResponseMapper = Mappers.getMapper(TokenResponseMapper.class);
+    private final String authorizationEndpoint;
+    private final String tokenEndpoint;
 
-    public BaseOauth2Service(Aspsp aspsp, HttpClient httpClient) {
+    public BaseOauth2Service(Aspsp aspsp, HttpClient httpClient, String authorizationEndpoint, String tokenEndpoint) {
         this.httpClient = httpClient;
         this.aspsp = aspsp;
+        this.authorizationEndpoint = authorizationEndpoint;
+        this.tokenEndpoint = tokenEndpoint;
+    }
+
+    public BaseOauth2Service(Aspsp aspsp, HttpClient httpClient) {
+        this(aspsp, httpClient, null, null);
     }
 
     @Override
     public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) throws IOException {
 
         return UriBuilder.fromUri(getAuthorizationEndpoint(parameters))
+            .queryParam(Parameters.RESPONSE_TYPE, ResponseType.CODE.toString())
             .queryParam(Parameters.STATE, parameters.getState())
             .queryParam(Parameters.REDIRECT_URI, parameters.getRedirectUri())
             .build();
     }
 
     private String getAuthorizationEndpoint(Parameters parameters) {
+        if (authorizationEndpoint != null) {
+            return authorizationEndpoint;
+        }
         AuthorisationServerMetaData metadata = getAuthorizationServerMetadata(parameters);
         return metadata.getAuthorisationEndpoint();
     }
@@ -61,6 +73,9 @@ public class BaseOauth2Service implements Oauth2Service {
     }
 
     private String getTokenEndpoint(Parameters parameters) {
+        if (tokenEndpoint != null) {
+            return tokenEndpoint;
+        }
         return getAuthorizationServerMetadata(parameters).getTokenEndpoint();
     }
 }

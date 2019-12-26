@@ -1,11 +1,13 @@
 package de.adorsys.xs2a.adapter.http;
 
+import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
+import java.util.List;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -22,6 +24,20 @@ class ApacheUriBuilder extends UriBuilder {
     public UriBuilder queryParam(String name, String value) {
         if (name != null && value != null) {
             uriBuilder.setParameter(name, value);
+        }
+        return this;
+    }
+
+    @Override
+    public UriBuilder renameQueryParam(String currentName, String newName) {
+        List<NameValuePair> queryParams = uriBuilder.getQueryParams();
+        uriBuilder.removeQuery();
+        for (NameValuePair queryParam : queryParams) {
+            if (queryParam.getName().equals(currentName)) {
+                uriBuilder.addParameter(newName, queryParam.getValue());
+            } else {
+                uriBuilder.addParameter(queryParam.getName(), queryParam.getValue());
+            }
         }
         return this;
     }
