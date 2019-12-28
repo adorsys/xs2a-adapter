@@ -11,7 +11,7 @@ import java.security.KeyStoreException;
 import java.util.Map;
 
 /**
- * Sets client_id parameter to organization identifier from eIDAS certificate
+ * Sets client_id parameter to organization identifier from eIDAS certificate.
  */
 public class CertificateSubjectClientIdOauth2Service implements Oauth2Service {
     private final Oauth2Service oauth2Service;
