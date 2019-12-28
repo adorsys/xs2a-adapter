@@ -69,11 +69,11 @@ public class SparkasseOauth2ServiceTest {
         URI uri = oauth2Service.getAuthorizationRequestUri(null, parameters);
 
         assertEquals(AUTHORIZATION_ENDPOINT + "?" +
+            "responseType=code&" +
             "state=xyz&" +
+            "clientId=" + ORG_ID + "&" +
             "code_challenge_method=S256&" +
             "code_challenge=" + oauth2Service.codeChallenge() + "&" +
-            "responseType=code&" +
-            "clientId=" + ORG_ID + "&" +
             "scope=AIS:%20" + CONSENT_ID, uri.toString());
     }
 

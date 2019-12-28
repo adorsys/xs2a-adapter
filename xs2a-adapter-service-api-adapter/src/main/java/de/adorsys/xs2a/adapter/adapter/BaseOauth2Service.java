@@ -33,12 +33,17 @@ public class BaseOauth2Service implements Oauth2Service {
     public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) throws IOException {
 
         return UriBuilder.fromUri(getAuthorizationEndpoint(parameters))
+            .queryParam(Parameters.RESPONSE_TYPE, ResponseType.CODE.toString())
             .queryParam(Parameters.STATE, parameters.getState())
             .queryParam(Parameters.REDIRECT_URI, parameters.getRedirectUri())
             .build();
     }
 
     private String getAuthorizationEndpoint(Parameters parameters) {
+        String authorizationEndpoint = parameters.getAuthorizationEndpoint();
+        if (authorizationEndpoint != null) {
+            return authorizationEndpoint;
+        }
         AuthorisationServerMetaData metadata = getAuthorizationServerMetadata(parameters);
         return metadata.getAuthorisationEndpoint();
     }
@@ -61,6 +66,10 @@ public class BaseOauth2Service implements Oauth2Service {
     }
 
     private String getTokenEndpoint(Parameters parameters) {
+        String tokenEndpoint = parameters.removeTokenEndpoint();
+        if (tokenEndpoint != null) {
+            return tokenEndpoint;
+        }
         return getAuthorizationServerMetadata(parameters).getTokenEndpoint();
     }
 }

@@ -1452,7 +1452,7 @@
 						"header": [
 							{
 								"key": "X-GTW-ASPSP-ID",
-								"value": "40885a41-339e-4c92-a43f-77264bc6059c",
+								"value": "{{aspspId}}",
 								"type": "text"
 							}
 						],
@@ -1538,6 +1538,11 @@
 								{
 									"key": "grant_type",
 									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "sca_oauth_link",
+									"value": "{{scaOAuth}}",
 									"type": "text"
 								}
 							]
