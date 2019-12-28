@@ -14,22 +14,26 @@ public interface Oauth2Service {
     TokenResponse getToken(Map<String, String> headers, Parameters parameters) throws IOException;
 
     class Parameters {
+        // rfc6749
         public static final String CODE = "code";
+        public static final String REFRESH_TOKEN = "refresh_token";
+        public static final String GRANT_TYPE = "grant_type";
         public static final String REDIRECT_URI = "redirect_uri";
         public static final String CLIENT_ID = "client_id";
-        public static final String GRANT_TYPE = "grant_type";
-        public static final String CODE_VERIFIER = "code_verifier";
         public static final String STATE = "state";
-        public static final String SCA_OAUTH_LINK = "sca_oauth_link";
-        public static final String BIC = "bic";
         public static final String SCOPE = "scope";
         public static final String RESPONSE_TYPE = "response_type";
-        public static final String CODE_CHALLENGE = "code_challenge";
+        // PKCE
         public static final String CODE_CHALLENGE_METHOD = "code_challenge_method";
-        public static final String REFRESH_TOKEN = "refresh_token";
+        public static final String CODE_CHALLENGE = "code_challenge";
+        public static final String CODE_VERIFIER = "code_verifier";
+        // additional
+        public static final String BIC = "bic";
         public static final String CONSENT_ID = "consent_id";
         public static final String PAYMENT_ID = "payment_id";
-        public static final String AUTHORISATION_ID = "authorisation_id";
+        public static final String SCA_OAUTH_LINK = "sca_oauth_link";
+        public static final String AUTHORIZATION_ENDPOINT = "authorization_endpoint";
+        public static final String TOKEN_ENDPOINT = "token_endpoint";
 
         private final Map<String, String> parameters;
 
@@ -183,16 +187,24 @@ public interface Oauth2Service {
             set(PAYMENT_ID, value);
         }
 
-        public String getAuthorisationId() {
-            return get(AUTHORISATION_ID);
+        public String getAuthorizationEndpoint() {
+            return get(AUTHORIZATION_ENDPOINT);
         }
 
-        public void setAuthorisationId(String value) {
-            set(AUTHORISATION_ID, value);
+        public void setAuthorizationEndpoint(String value) {
+            set(AUTHORIZATION_ENDPOINT, value);
         }
 
-        public String removeAuthorisationId() {
-            return remove(AUTHORISATION_ID);
+        public String getTokenEndpoint() {
+            return get(TOKEN_ENDPOINT);
+        }
+
+        public void setTokenEndpoint(String value) {
+            set(TOKEN_ENDPOINT, value);
+        }
+
+        public String removeTokenEndpoint() {
+            return remove(TOKEN_ENDPOINT);
         }
     }
 

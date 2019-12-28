@@ -23,18 +23,10 @@ public class BaseOauth2Service implements Oauth2Service {
     private final HttpClient httpClient;
     private final Aspsp aspsp;
     private final TokenResponseMapper tokenResponseMapper = Mappers.getMapper(TokenResponseMapper.class);
-    private final String authorizationEndpoint;
-    private final String tokenEndpoint;
-
-    public BaseOauth2Service(Aspsp aspsp, HttpClient httpClient, String authorizationEndpoint, String tokenEndpoint) {
-        this.httpClient = httpClient;
-        this.aspsp = aspsp;
-        this.authorizationEndpoint = authorizationEndpoint;
-        this.tokenEndpoint = tokenEndpoint;
-    }
 
     public BaseOauth2Service(Aspsp aspsp, HttpClient httpClient) {
-        this(aspsp, httpClient, null, null);
+        this.httpClient = httpClient;
+        this.aspsp = aspsp;
     }
 
     @Override
@@ -48,6 +40,7 @@ public class BaseOauth2Service implements Oauth2Service {
     }
 
     private String getAuthorizationEndpoint(Parameters parameters) {
+        String authorizationEndpoint = parameters.getAuthorizationEndpoint();
         if (authorizationEndpoint != null) {
             return authorizationEndpoint;
         }
@@ -73,6 +66,7 @@ public class BaseOauth2Service implements Oauth2Service {
     }
 
     private String getTokenEndpoint(Parameters parameters) {
+        String tokenEndpoint = parameters.removeTokenEndpoint();
         if (tokenEndpoint != null) {
             return tokenEndpoint;
         }

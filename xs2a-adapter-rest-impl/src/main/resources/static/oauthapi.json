@@ -48,13 +48,6 @@
           }
         },
         {
-          "name": "authorisation_id",
-          "in": "query",
-          "schema": {
-            "type": "string"
-          }
-        },
-        {
           "name": "X-GTW-ASPSP-ID",
           "in": "header",
           "schema": {

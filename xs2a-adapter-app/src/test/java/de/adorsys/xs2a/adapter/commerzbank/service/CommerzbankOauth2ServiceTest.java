@@ -25,10 +25,10 @@ class CommerzbankOauth2ServiceTest {
     private static final String ORG_ID = "PSDDE-BAFIN-999999";
     private static final String BASE_URL = "https://psd2.api-sandbox.commerzbank.com/berlingroup";
     private static final String CONSENT_ID = "consent-id";
-    private static final String AUTHORISATION_ID = "authorisation-id";
     private static final String STATE = "test";
     private static final String REDIRECT_URI = "https://example.com/cb";
-    private static final String AUTHORIZATION_ENDPOINT = BASE_URL + "/authorize/" + AUTHORISATION_ID;
+    private static final String AUTHORIZATION_ENDPOINT =
+        "https://psd2.api-sandbox.commerzbank.com/public/berlingroup/authorize/authorisation-id";
     private static final String TOKEN_ENDPOINT = BASE_URL + "/v1/token";
     private static final String AUTHORIZATION_CODE = "authorization-code";
 
@@ -57,7 +57,7 @@ class CommerzbankOauth2ServiceTest {
     @Test
     void getAuthorizationRequestUri() throws IOException {
         Parameters parameters = new Parameters();
-        parameters.setAuthorisationId(AUTHORISATION_ID);
+        parameters.setScaOAuthLink(AUTHORIZATION_ENDPOINT);
         parameters.setState(STATE);
         parameters.setRedirectUri(REDIRECT_URI);
         parameters.setConsentId(CONSENT_ID);

@@ -16,7 +16,6 @@ import org.mapstruct.factory.Mappers;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Map;
 
 /**
@@ -27,17 +26,15 @@ public class CommerzbankOauth2Service implements Oauth2Service, PkceOauth2Extens
 
     private final TokenResponseMapper tokenResponseMapper = Mappers.getMapper(TokenResponseMapper.class);
     private final Oauth2Service oauth2Service;
+    private static String baseUrl;
 
     private CommerzbankOauth2Service(Oauth2Service oauth2Service) {
         this.oauth2Service = oauth2Service;
     }
 
     public static CommerzbankOauth2Service create(Aspsp aspsp, HttpClient httpClient, Pkcs12KeyStore keyStore) {
-        String baseUrl = aspsp.getIdpUrl() != null ? aspsp.getIdpUrl() : aspsp.getUrl();
-        String authorizationEndpoint = StringUri.fromElements(baseUrl, "/authorize");
-        String tokenEndpoint = StringUri.fromElements(baseUrl, "/v1/token");
-        BaseOauth2Service baseOauth2Service =
-            new BaseOauth2Service(aspsp, httpClient, authorizationEndpoint, tokenEndpoint);
+        baseUrl = aspsp.getIdpUrl() != null ? aspsp.getIdpUrl() : aspsp.getUrl();
+        BaseOauth2Service baseOauth2Service = new BaseOauth2Service(aspsp, httpClient);
         CertificateSubjectClientIdOauth2Service clientIdOauth2Service =
             new CertificateSubjectClientIdOauth2Service(baseOauth2Service, keyStore);
         return new CommerzbankOauth2Service(new PkceOauth2Service(clientIdOauth2Service));
@@ -45,9 +42,8 @@ public class CommerzbankOauth2Service implements Oauth2Service, PkceOauth2Extens
 
     @Override
     public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) throws IOException {
-
-        URI url = oauth2Service.getAuthorizationRequestUri(headers, parameters);
-        return UriBuilder.fromUri(appendAuthorisationIdToPath(parameters, url))
+        parameters.setAuthorizationEndpoint(parameters.removeScaOAuthLink());
+        return UriBuilder.fromUri(oauth2Service.getAuthorizationRequestUri(headers, parameters))
             .queryParam(Parameters.SCOPE, scope(parameters))
             .build();
     }
@@ -59,17 +55,10 @@ public class CommerzbankOauth2Service implements Oauth2Service, PkceOauth2Extens
         return null;
     }
 
-    private URI appendAuthorisationIdToPath(Parameters parameters, URI url) {
-        try {
-            return new URI(url.getScheme(), url.getUserInfo(), url.getHost(), url.getPort(),
-                    url.getPath() + "/" + parameters.removeAuthorisationId(), url.getQuery(), url.getFragment());
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public TokenResponse getToken(Map<String, String> headers, Parameters parameters) throws IOException {
+        parameters.removeScaOAuthLink();
+        parameters.setTokenEndpoint(StringUri.fromElements(baseUrl, "/v1/token"));
         return oauth2Service.getToken(headers, parameters);
     }
 }
