@@ -70,6 +70,7 @@
         <maven.enforce.plugin.version>1.4.1</maven.enforce.plugin.version>
         <sonar-maven-plugin.version>3.6.0.1398</sonar-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+        <jacoco.skip>true</jacoco.skip>
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
 
         <!-- spring -->
