@@ -6,13 +6,6 @@ import java.security.SecureRandom;
 import java.util.Base64;
 
 public interface PkceOauth2Extension {
-    // The client SHOULD create a "code_verifier" with a minimum of 256 bits
-    // of entropy.  This can be done by having a suitable random number
-    // generator create a 32-octet sequence.  The octet sequence can then be
-    // base64url-encoded to produce a 43-octet URL safe string to use as a
-    // "code_challenge" that has the required entropy.
-
-    byte[] codeVerifier = random(32);
 
     static byte[] random(int numBytes) {
         try {
@@ -25,7 +18,7 @@ public interface PkceOauth2Extension {
     }
 
     default byte[] octetSequence() {
-        return codeVerifier;
+        return StaticCodeVerifier.codeVerifier;
     }
 
     default String codeVerifier() {
@@ -47,5 +40,15 @@ public interface PkceOauth2Extension {
             // Every implementation of the Java platform is required to support SHA-256
             throw new RuntimeException(e);
         }
+    }
+
+    class StaticCodeVerifier {
+        // The client SHOULD create a "code_verifier" with a minimum of 256 bits
+        // of entropy.  This can be done by having a suitable random number
+        // generator create a 32-octet sequence.  The octet sequence can then be
+        // base64url-encoded to produce a 43-octet URL safe string to use as a
+        // "code_challenge" that has the required entropy.
+
+        private static final byte[] codeVerifier = random(32);
     }
 }
