@@ -69,7 +69,7 @@ public class ResponseHandlers {
 
     public static <T> HttpClient.ResponseHandler<T> consentCreationResponseHandler(String scaOAuthUrl, Class<T> klass) {
         return (statusCode, responseBody, responseHeaders) -> {
-            if (statusCode == 403) {
+            if (statusCode == 401 || statusCode == 403) {
                 String contentType = responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE);
                 PushbackInputStream pushbackResponseBody = new PushbackInputStream(responseBody);
 
