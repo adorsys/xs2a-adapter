@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,7 +77,13 @@ public class ResponseHandlers {
                 // this statement is needed as error response handling is different from the successful response
                 if (contentType == null || !contentType.startsWith(APPLICATION_JSON)) {
                     if (isNotJson(pushbackResponseBody)) {
-                        throw oAuthException(pushbackResponseBody, responseHeaders, scaOAuthUrl,
+                        // needed to avoid org.springframework.http.converter.HttpMessageNotWritableException:
+                        // No converter for [class de.adorsys.xs2a.adapter.service.model.ErrorResponse]
+                        // with preset Content-Type 'application/xml;charset=UTF-8'
+                        Map<String, String> headersMap = responseHeaders.getHeadersMap();
+                        headersMap.put(ResponseHeaders.CONTENT_TYPE, APPLICATION_JSON);
+
+                        throw oAuthException(pushbackResponseBody, ResponseHeaders.fromMap(headersMap), scaOAuthUrl,
                             ResponseHandlers::buildErrorResponseForOAuthNonJsonCase);
                     }
                 }
