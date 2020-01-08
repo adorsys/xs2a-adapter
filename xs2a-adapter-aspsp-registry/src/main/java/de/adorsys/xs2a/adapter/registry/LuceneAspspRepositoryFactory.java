@@ -43,13 +43,13 @@ public class LuceneAspspRepositoryFactory {
 
         MessageDigest messageDigest = null;
         try {
-            messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
         String computedDigest = new BigInteger(1, messageDigest.digest(csv)).toString(16);
 
-        Path digestPath = Paths.get(DEFAULT_LUCENE_DIR_PATH, "digest.md5");
+        Path digestPath = Paths.get(DEFAULT_LUCENE_DIR_PATH, "digest.sha256");
         boolean changed;
         if (Files.exists(digestPath)) {
             String storedDigest = new String(Files.readAllBytes(digestPath));
