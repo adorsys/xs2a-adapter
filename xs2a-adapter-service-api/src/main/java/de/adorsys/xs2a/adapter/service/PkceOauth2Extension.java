@@ -30,7 +30,7 @@ public interface PkceOauth2Extension {
     }
 
     default String codeChallenge() {
-        return base64urlNoPadding(sha256(octetSequence()));
+        return base64urlNoPadding(sha256(codeVerifier().getBytes()));
     }
 
     static byte[] sha256(byte[] bytes) {
