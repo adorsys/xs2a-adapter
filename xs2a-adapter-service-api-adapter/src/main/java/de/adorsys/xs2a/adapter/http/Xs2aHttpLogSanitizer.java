@@ -36,7 +36,11 @@ class Xs2aHttpLogSanitizer {
     Xs2aHttpLogSanitizer() {
         patterns.add(Pattern.compile("(consents|accounts|authorisations)/[^/?\\s\\[\"]+(.*?)"));
 
-        sanitizedHeaders.addAll(Arrays.asList("Authorization", "PSU-ID", "PSU-Corporate-ID", "Consent-ID"));
+        sanitizedHeaders.addAll(Arrays.asList("Authorization",
+                                              "PSU-ID",
+                                              "PSU-Corporate-ID",
+                                              "Consent-ID",
+                                              "X-GTW-IBAN"));
     }
 
     public String sanitizeHeader(String name, String value) {
