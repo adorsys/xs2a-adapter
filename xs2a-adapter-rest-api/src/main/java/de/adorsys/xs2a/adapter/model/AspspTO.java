@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class AspspTO {
     private String id;
@@ -83,5 +84,26 @@ public class AspspTO {
 
     public void setPaginationId(String paginationId) {
         this.paginationId = paginationId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AspspTO aspspTO = (AspspTO) o;
+        return Objects.equals(id, aspspTO.id) &&
+                   Objects.equals(name, aspspTO.name) &&
+                   Objects.equals(bic, aspspTO.bic) &&
+                   Objects.equals(bankCode, aspspTO.bankCode) &&
+                   Objects.equals(url, aspspTO.url) &&
+                   Objects.equals(adapterId, aspspTO.adapterId) &&
+                   Objects.equals(idpUrl, aspspTO.idpUrl) &&
+                   Objects.equals(scaApproaches, aspspTO.scaApproaches) &&
+                   Objects.equals(paginationId, aspspTO.paginationId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, bic, bankCode, url, adapterId, idpUrl, scaApproaches, paginationId);
     }
 }
