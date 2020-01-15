@@ -18,6 +18,7 @@ package de.adorsys.xs2a.adapter.api;
 
 import de.adorsys.xs2a.adapter.model.AspspTO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +28,7 @@ import java.util.List;
 public interface AspspSearchApi {
 
     String V1_APSPS = "/v1/aspsps";
+    String V1_APSPS_BY_ID = V1_APSPS + "/{aspsp-id}";
 
     @RequestMapping(value = V1_APSPS, method = RequestMethod.GET)
     ResponseEntity<List<AspspTO>> getAspsps(@RequestParam(value = "name", required = false) String name,
@@ -35,4 +37,7 @@ public interface AspspSearchApi {
                                             @RequestParam(value = "iban", required = false) String iban, // if present - other params ignored
                                             @RequestParam(value = "after", required = false) String after,
                                             @RequestParam(value = "size", required = false, defaultValue = "10") int size);
+
+    @RequestMapping(value = V1_APSPS_BY_ID, method = RequestMethod.GET)
+    ResponseEntity<AspspTO> getById(@PathVariable("aspsp-id") String id);
 }
