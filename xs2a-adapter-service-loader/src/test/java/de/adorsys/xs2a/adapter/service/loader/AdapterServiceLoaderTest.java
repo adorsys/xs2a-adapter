@@ -8,8 +8,9 @@ import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
 import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
@@ -34,7 +35,7 @@ public class AdapterServiceLoaderTest {
     private final AspspReadOnlyRepository aspspRepository = mock(AspspReadOnlyRepository.class);
     private AdapterServiceLoader adapterServiceLoader = new AdapterServiceLoader(aspspRepository, null, null, false);
 
-    @Before
+    @BeforeEach
     public void setUp() {
         requestHeadersWithAspspId = fromMap(singletonMap(X_GTW_ASPSP_ID, ASPSP_ID));
         requestHeadersWithBankCode = fromMap(singletonMap(X_GTW_BANK_CODE, BANK_CODE));
@@ -71,33 +72,50 @@ public class AdapterServiceLoaderTest {
         verify(aspspRepository, times(1)).findById(ASPSP_ID);
     }
 
-    @Test(expected = AspspRegistrationNotFoundException.class)
+    @Test
     public void getAccountInformationServiceThrowsWhenAspspNotFound() {
         when(aspspRepository.findById(ASPSP_ID))
             .thenReturn(Optional.empty());
-        adapterServiceLoader.getAccountInformationService(requestHeadersWithAspspId);
+
+        Assertions.assertThrows(
+            AspspRegistrationNotFoundException.class,
+            () -> adapterServiceLoader.getAccountInformationService(requestHeadersWithAspspId)
+        );
     }
 
-    @Test(expected = AdapterNotFoundException.class)
+    @Test
     public void getServiceProviderThrowsExceptionWhenAdapterNotFound() {
         when(aspspRepository.findById(ASPSP_ID))
             .thenReturn(Optional.of(new Aspsp()));
-        adapterServiceLoader.getAccountInformationService(requestHeadersWithAspspId);
+
+        Assertions.assertThrows(
+            AdapterNotFoundException.class,
+            () -> adapterServiceLoader.getAccountInformationService(requestHeadersWithAspspId)
+        );
     }
 
-    @Test(expected = AspspRegistrationNotFoundException.class)
+    @Test
     public void getAccountInformationServiceThrowsIfNothingFoundByBankCode() {
-        adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCode);
+        Assertions.assertThrows(
+            AspspRegistrationNotFoundException.class,
+            () -> adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCode)
+        );
     }
 
-    @Test(expected = AspspRegistrationNotFoundException.class)
+    @Test
     public void getAccountInformationServiceThrowsIfNothingFoundByBic() {
-        adapterServiceLoader.getAccountInformationService(requestHeadersWithBic);
+        Assertions.assertThrows(
+            AspspRegistrationNotFoundException.class,
+            () -> adapterServiceLoader.getAccountInformationService(requestHeadersWithBic)
+        );
     }
 
-    @Test(expected = AspspRegistrationNotFoundException.class)
+    @Test
     public void getAccountInformationServiceThrowsIfNothingFoundByBankCodeAndBic() {
-        adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCodeAndBic);
+        Assertions.assertThrows(
+            AspspRegistrationNotFoundException.class,
+            () -> adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCodeAndBic)
+        );
     }
 
     @Test
@@ -162,7 +180,7 @@ public class AdapterServiceLoaderTest {
         verify(aspspRepository, times(1)).findById(ASPSP_ID);
     }
 
-    @Test(expected = AspspRegistrationNotFoundException.class)
+    @Test
     public void getAccountInformationServiceThrowsIfMoreThanOneAspspFoundByBankCode() {
         String file = getClass().getResource("/external.adapter.config.properties").getFile();
         System.setProperty("adapter.config.file.path", file);
@@ -170,7 +188,11 @@ public class AdapterServiceLoaderTest {
 
         when(aspspRepository.findByBankCode(BANK_CODE))
             .thenReturn(Arrays.asList(new Aspsp(), new Aspsp()));
-        adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCode);
+
+        Assertions.assertThrows(
+            AspspRegistrationNotFoundException.class,
+            () -> adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCode)
+        );
     }
 
     @Test
@@ -190,31 +212,44 @@ public class AdapterServiceLoaderTest {
         assertThat(aspsp).isSameAs(aspsp1);
     }
 
-    @Test(expected = AspspRegistrationNotFoundException.class)
+    @Test
     public void getAccountInformationServiceThrowsIfMoreThanOneAspspFoundByBic() {
         when(aspspRepository.findByBic(BIC))
             .thenReturn(Arrays.asList(new Aspsp(), new Aspsp()));
-        adapterServiceLoader.getAccountInformationService(requestHeadersWithBic);
+
+        Assertions.assertThrows(
+            AspspRegistrationNotFoundException.class,
+            () -> adapterServiceLoader.getAccountInformationService(requestHeadersWithBic)
+        );
     }
 
-    @Test(expected = AspspRegistrationNotFoundException.class)
+    @Test
     public void getAccountInformationServiceThrowsIfMoreThanOneAspspFoundByBankCodeAndBic() {
         when(aspspRepository.findLike(buildAspsp(BANK_CODE, BIC)))
             .thenReturn(Arrays.asList(new Aspsp(), new Aspsp()));
-        adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCodeAndBic);
+
+        Assertions.assertThrows(
+            AspspRegistrationNotFoundException.class,
+            () -> adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCodeAndBic)
+        );
     }
 
-    @Test(expected = AspspRegistrationNotFoundException.class)
+    @Test
     public void getAccountInformationServiceThrowsIfNotAspspIdentifyingHeadersProvided() {
-        adapterServiceLoader.getAccountInformationService(RequestHeaders.fromMap(emptyMap()));
+        Assertions.assertThrows(
+            AspspRegistrationNotFoundException.class,
+            () -> adapterServiceLoader.getAccountInformationService(RequestHeaders.fromMap(emptyMap()))
+        );
     }
 
-    @Test(expected = AdapterNotFoundException.class)
+    @Test
     public void getAccountInformationServiceThrowsAdapterNotFoundException() {
         when(aspspRepository.findById(ASPSP_ID))
             .thenReturn(Optional.of(new Aspsp()));
 
-        adapterServiceLoader.getAccountInformationService(requestHeadersWithAspspId);
+        Assertions.assertThrows(AdapterNotFoundException.class,
+            () -> adapterServiceLoader.getAccountInformationService(requestHeadersWithAspspId)
+        );
     }
 
     private Aspsp buildAspsp(String bankCode, String bic) {

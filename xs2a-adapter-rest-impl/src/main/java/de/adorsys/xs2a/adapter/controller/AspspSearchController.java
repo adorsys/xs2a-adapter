@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class AspspSearchController implements AspspSearchApi {
@@ -43,5 +44,12 @@ public class AspspSearchController implements AspspSearchApi {
         }
 
         return ResponseEntity.ok(aspspMapper.toAspspTOs(aspsps));
+    }
+
+    @Override
+    public ResponseEntity<AspspTO> getById(String id) {
+        Optional<Aspsp> aspsp = aspspSearchService.findById(id);
+        return aspsp.map(value -> ResponseEntity.ok(aspspMapper.toAspspTO(value)))
+                   .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

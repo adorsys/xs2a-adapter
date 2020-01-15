@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 
 public class ApacheHttpClient implements HttpClient {
     private static final Logger logger = LoggerFactory.getLogger(ApacheHttpClient.class);
+    private final Xs2aHttpLogSanitizer logSanitizer = new Xs2aHttpLogSanitizer();
     private static final String GET = "GET";
     private static final String POST = "POST";
     private static final String PUT = "PUT";
@@ -130,24 +131,31 @@ public class ApacheHttpClient implements HttpClient {
             InputStream content = entity != null ? entity.getContent() : EmptyInputStream.INSTANCE;
 
             T responseBody = responseHandler.apply(statusCode, content, responseHeaders);
-            logResponse(response, responseHeadersMap);
+
+            logResponse(responseBody, response, responseHeadersMap);
             return new Response<>(statusCode, responseBody, responseHeaders);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
-    private void logResponse(CloseableHttpResponse response, Map<String, String> headers) {
-        logHttpEvent(headers, response.getStatusLine(), "<--");
+    private <T> void logResponse(T responseBody, CloseableHttpResponse response, Map<String, String> headers) {
+        String direction = "<--";
+        logHttpEvent(headers, response.getStatusLine().toString(), direction);
+        HttpEntity entity = response.getEntity();
+        String contentType = entity != null && entity.getContentType() != null ? entity.getContentType().getValue() : "";
+        String sanitizedResponseBody = logSanitizer.sanitizeResponseBody(responseBody, contentType);
+        logger.debug("{} Response body [{}]: {}", direction, contentType, sanitizedResponseBody);
+        logger.debug(direction);
     }
 
     private void logRequest(HttpUriRequest request, Map<String, String> headers) {
-        logHttpEvent(headers, request.getRequestLine(), "-->");
+        logHttpEvent(headers, request.getRequestLine().toString(), "-->");
     }
 
-    private <T> void logHttpEvent(Map<String, String> headers, T httpLine, String direction) {
-        logger.debug("{} {}", direction, httpLine);
-        headers.forEach((key, value) -> logger.debug("{} {}: {}", direction, key, value));
+    private void logHttpEvent(Map<String, String> headers, String httpLine, String direction) {
+        logger.debug("{} {}", direction, logSanitizer.sanitize(httpLine));
+        headers.forEach((key, value) -> logger.debug("{} {}: {}", direction, key, logSanitizer.sanitizeHeader(key, value)));
         logger.debug(direction);
     }
 

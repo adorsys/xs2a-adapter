@@ -22,7 +22,7 @@ if [ "$1" == "develop" ]; then
   docker login -u image-pusher -p $OPENSHIFT_TOKEN $OPENSHIFT_REGISTRY
   docker build -t "$OPENSHIFT_IMAGE_NAME:develop" .
   docker push $OPENSHIFT_IMAGE_NAME:develop
-  mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST -Dsonar.login=$SONAR_TOKEN
+  mvn jacoco:prepare-agent sonar:sonar -Dsonar.projectKey=adorsys_xs2a-adapter -Djacoco.skip=false
 # push latest to opensift integ env
 elif [ "$1" == "integ" ]; then
   docker login -u builder -p $OPENSHIFT_TOKEN_INTEG $OPENSHIFT_REGISTRY

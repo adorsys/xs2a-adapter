@@ -3,8 +3,9 @@ package de.adorsys.xs2a.adapter.service.impl.mapper;
 import de.adorsys.xs2a.adapter.service.model.ConsentStatus;
 import de.adorsys.xs2a.adapter.service.model.ScaStatus;
 import de.adorsys.xs2a.adapter.service.model.TransactionStatus;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -19,7 +20,7 @@ public class ScaStatusMapperTest {
 
     private ScaStatusMapper scaStatusMapper;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         scaStatusMapper = new ScaStatusMapper();
     }
@@ -30,9 +31,12 @@ public class ScaStatusMapperTest {
         assertThat(scaStatus).isEqualTo(EXPECTED_SCA_STATUS_FOR_CONSENT_STATUS);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void toScaStatus_fromConsentStatus_Fail_exceptionIsThrown() {
-        scaStatusMapper.toScaStatus(NULL_CONSENT_STATUS);
+        Assertions.assertThrows(
+            RuntimeException.class,
+            () -> scaStatusMapper.toScaStatus(NULL_CONSENT_STATUS)
+        );
     }
 
     @Test
@@ -41,8 +45,11 @@ public class ScaStatusMapperTest {
         assertThat(scaStatus).isEqualTo(EXPECTED_SCA_STATUS_FOR_TRANSACTION_STATUS);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void toScaStatus_fromTransactionStatus_Fail_exceptionIsThrown() {
-        scaStatusMapper.toScaStatus(NULL_TRANSACTION_STATUS);
+        Assertions.assertThrows(
+            RuntimeException.class,
+            () -> scaStatusMapper.toScaStatus(NULL_TRANSACTION_STATUS)
+        );
     }
 }

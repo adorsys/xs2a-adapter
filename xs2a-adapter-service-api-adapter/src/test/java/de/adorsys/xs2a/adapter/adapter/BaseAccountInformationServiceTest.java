@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.adapter;
 
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,7 +12,7 @@ public class BaseAccountInformationServiceTest {
     private static final Aspsp ASPSP = buildAspspWithUrl();
     private BaseAccountInformationService informationService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         informationService = new BaseAccountInformationService(ASPSP, null);
     }

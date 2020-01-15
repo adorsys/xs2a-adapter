@@ -14,6 +14,11 @@ branches:
 jdk:
   - openjdk8
 
+addons:
+  sonarcloud:
+    organization: "adorsys"
+    token: ${SONARCLOUD_TOKEN}
+
 services: docker
 
 env:
@@ -33,7 +38,7 @@ cache:
 
 script:
   # build service
-  - mvn clean install -B -Dbuild.number=${TRAVIS_BUILD_NUMBER}
+  - mvn clean install -B -Dbuild.number=${TRAVIS_BUILD_NUMBER} -Djacoco.skip=false
   # build docker
   - docker build -t "$OPENSHIFT_IMAGE_NAME:test" .
 

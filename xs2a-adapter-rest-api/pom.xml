@@ -18,12 +18,6 @@
 
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>xs2a-adapter-service-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>xs2a-adapter-generated-rest-api</artifactId>
             <version>${project.version}</version>
         </dependency>

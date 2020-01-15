@@ -4,9 +4,9 @@ import de.adorsys.xs2a.adapter.model.AccountReportTO;
 import de.adorsys.xs2a.adapter.model.HrefTypeTO;
 import de.adorsys.xs2a.adapter.model.TransactionDetailsTO;
 import de.adorsys.xs2a.adapter.service.model.AccountReport;
-import de.adorsys.xs2a.adapter.service.model.Transactions;
 import de.adorsys.xs2a.adapter.service.model.Link;
-import org.junit.Test;
+import de.adorsys.xs2a.adapter.service.model.Transactions;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Collections;

@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public interface Oauth2Service {
@@ -13,24 +14,35 @@ public interface Oauth2Service {
     TokenResponse getToken(Map<String, String> headers, Parameters parameters) throws IOException;
 
     class Parameters {
+        // rfc6749
         public static final String CODE = "code";
+        public static final String REFRESH_TOKEN = "refresh_token";
+        public static final String GRANT_TYPE = "grant_type";
         public static final String REDIRECT_URI = "redirect_uri";
         public static final String CLIENT_ID = "client_id";
-        public static final String GRANT_TYPE = "grant_type";
-        public static final String CODE_VERIFIER = "code_verifier";
         public static final String STATE = "state";
-        public static final String SCA_OAUTH_LINK = "sca_oauth_link";
-        public static final String BIC = "bic";
         public static final String SCOPE = "scope";
         public static final String RESPONSE_TYPE = "response_type";
-        public static final String CODE_CHALLENGE = "code_challenge";
+        // PKCE
         public static final String CODE_CHALLENGE_METHOD = "code_challenge_method";
-        public static final String REFRESH_TOKEN = "refresh_token";
+        public static final String CODE_CHALLENGE = "code_challenge";
+        public static final String CODE_VERIFIER = "code_verifier";
+        // additional
+        public static final String BIC = "bic";
+        public static final String CONSENT_ID = "consent_id";
+        public static final String PAYMENT_ID = "payment_id";
+        public static final String SCA_OAUTH_LINK = "sca_oauth_link";
+        public static final String AUTHORIZATION_ENDPOINT = "authorization_endpoint";
+        public static final String TOKEN_ENDPOINT = "token_endpoint";
 
         private final Map<String, String> parameters;
 
         public Parameters(Map<String, String> parameters) {
             this.parameters = parameters;
+        }
+
+        public Parameters() {
+            this(new LinkedHashMap<>());
         }
 
         public Map<String, String> asMap() {
@@ -42,7 +54,13 @@ public interface Oauth2Service {
         }
 
         public void set(String key, String value) {
-            parameters.put(key, value);
+            if (key != null && value != null) {
+                parameters.put(key, value);
+            }
+        }
+
+        public String remove(String key) {
+            return parameters.remove(key);
         }
 
         public String getAuthorizationCode() {
@@ -101,6 +119,10 @@ public interface Oauth2Service {
             set(SCA_OAUTH_LINK, value);
         }
 
+        public String removeScaOAuthLink() {
+            return remove(SCA_OAUTH_LINK);
+        }
+
         public String getBic() {
             return get(BIC);
         }
@@ -147,6 +169,73 @@ public interface Oauth2Service {
 
         public void setRefreshToken(String value) {
             set(REFRESH_TOKEN, value);
+        }
+
+        public String getConsentId() {
+            return get(CONSENT_ID);
+        }
+
+        public void setConsentId(String value) {
+            set(CONSENT_ID, value);
+        }
+
+        public String getPaymentId() {
+            return get(PAYMENT_ID);
+        }
+
+        public void setPaymentId(String value) {
+            set(PAYMENT_ID, value);
+        }
+
+        public String getAuthorizationEndpoint() {
+            return get(AUTHORIZATION_ENDPOINT);
+        }
+
+        public void setAuthorizationEndpoint(String value) {
+            set(AUTHORIZATION_ENDPOINT, value);
+        }
+
+        public String getTokenEndpoint() {
+            return get(TOKEN_ENDPOINT);
+        }
+
+        public void setTokenEndpoint(String value) {
+            set(TOKEN_ENDPOINT, value);
+        }
+
+        public String removeTokenEndpoint() {
+            return remove(TOKEN_ENDPOINT);
+        }
+    }
+
+    enum GrantType {
+        AUTHORIZATION_CODE("authorization_code"),
+        REFRESH_TOKEN("refresh_token");
+
+        private final String value;
+
+        GrantType(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
+        }
+    }
+
+    enum ResponseType {
+        CODE("code");
+
+        private final String value;
+
+        ResponseType(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
         }
     }
 }

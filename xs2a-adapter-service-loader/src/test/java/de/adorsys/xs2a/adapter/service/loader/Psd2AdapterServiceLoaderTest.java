@@ -4,8 +4,8 @@ import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
@@ -23,7 +23,7 @@ public class Psd2AdapterServiceLoaderTest {
     private RequestHeaders requestHeadersWithAspspId;
     private RequestHeaders requestHeadersWithBankCode;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         AspspReadOnlyRepository aspspRepository = mock(AspspReadOnlyRepository.class);
 

@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.signing.service.hashing;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;

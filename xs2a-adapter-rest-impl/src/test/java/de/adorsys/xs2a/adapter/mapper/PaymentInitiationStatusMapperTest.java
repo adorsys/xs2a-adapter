@@ -4,7 +4,7 @@ import de.adorsys.xs2a.adapter.model.PaymentInitiationStatusResponse200JsonTO;
 import de.adorsys.xs2a.adapter.model.TransactionStatusTO;
 import de.adorsys.xs2a.adapter.service.model.PaymentInitiationStatus;
 import de.adorsys.xs2a.adapter.service.model.TransactionStatus;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import static org.assertj.core.api.Assertions.assertThat;

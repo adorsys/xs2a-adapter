@@ -2,8 +2,8 @@ package de.adorsys.xs2a.adapter.http;
 
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.net.ssl.SSLContext;
 
@@ -16,7 +16,7 @@ public class ApacheHttpClientFactoryTest {
 
     private ApacheHttpClientFactory factory;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         Pkcs12KeyStore pkcs12KeyStore = mock(Pkcs12KeyStore.class);
         when(pkcs12KeyStore.getSslContext(any()))

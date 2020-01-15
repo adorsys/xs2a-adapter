@@ -4,7 +4,7 @@ import de.adorsys.xs2a.adapter.model.AccountDetailsTO;
 import de.adorsys.xs2a.adapter.model.BalanceTO;
 import de.adorsys.xs2a.adapter.model.HrefTypeTO;
 import de.adorsys.xs2a.adapter.service.model.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Collections;
