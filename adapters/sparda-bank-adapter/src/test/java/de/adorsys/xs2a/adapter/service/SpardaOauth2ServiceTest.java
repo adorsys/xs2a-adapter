@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class SpardaOauth2ServiceTest {
     private static final String IDP_URL = "https://example.com";
-    private static final String AUTH_URL = "https://example.com/authorise";
+    private static final String AUTH_URL = "https://example.com/authorize";
     private static final String BIC = "TESTBIC1XXX";
     private static final String CLIENT_ID = "testClientId";
     private static final String REDIRECT_URI = "https://example.com/redirect";
