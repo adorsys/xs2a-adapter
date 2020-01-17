@@ -17,7 +17,7 @@ import java.util.Map;
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 
 public class SpardaOauth2Service implements Oauth2Service {
-    private static final String AUTHORISATION_REQUEST_URI_SUFFIX = "/authorise";
+    private static final String AUTHORISATION_REQUEST_URI_SUFFIX = "/authorize";
     private static final String TOKEN_REQUEST_URI_SUFFIX = "/token";
     private static final String SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE
         = "SCA OAuth link is missing or has a wrong format: " +
