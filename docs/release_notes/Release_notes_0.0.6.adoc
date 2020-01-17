@@ -1,12 +1,4 @@
-= DRAFT Release notes for version 0.0.6 (release date: 0x.12.2019)
-
-.Added banks
-|===
-|Bank Name|approach|AIS, PIS
-
-|===
-
-== Notices:
+= Release notes for version 0.0.6 (release date: 17.01.2020)
 
 == Features:
 - Updated XS2A API version to 1.3.4_2019-07-17v1
