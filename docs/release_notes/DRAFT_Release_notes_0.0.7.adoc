@@ -12,4 +12,5 @@
 
 == Fixes:
 - Fixed Sparda authorisation URL
+- Revised OAuth2 implementation of comdirect adapter
 - Fixed missing PSU-Id_type header for Unicredit
