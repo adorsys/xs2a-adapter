@@ -23,8 +23,8 @@ import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 public class UnicreditAccountInformationService extends BaseAccountInformationService {
     private static final String AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM = "authenticationCurrentNumber";
     private static final String DEFAULT_PSU_IP_ADDRESS = "0.0.0.0";
-    private static final Set<String> POSSIBLE_PSU_ID_TYPE_VALUES = new HashSet<>(Arrays.asList("HVB_ONLINEBANKING", "UCEBANKINGGLOBAL"));
     private static final String DEFAULT_PSU_ID_TYPE = "HVB_ONLINEBANKING";
+    private static final Set<String> POSSIBLE_PSU_ID_TYPE_VALUES = new HashSet<>(Arrays.asList(DEFAULT_PSU_ID_TYPE, "UCEBANKINGGLOBAL"));
 
     private final UnicreditCreateConsentResponseMapper createConsentResponseMapper = new UnicreditCreateConsentResponseMapper();
     private final UnicreditStartAuthorisationResponseMapper startAuthorisationResponseMapper = new UnicreditStartAuthorisationResponseMapper();
