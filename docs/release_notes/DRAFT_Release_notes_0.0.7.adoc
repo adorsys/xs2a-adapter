@@ -12,3 +12,4 @@
 
 == Fixes:
 - Fixed Sparda authorisation URL
+- Fixed missing PSU-Id_type header for Unicredit
