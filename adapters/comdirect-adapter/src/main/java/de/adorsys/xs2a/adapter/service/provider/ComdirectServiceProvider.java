@@ -41,6 +41,6 @@ public class ComdirectServiceProvider
 
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new ComdirectOauth2Service(aspsp, httpClientFactory.getHttpClient(getAdapterId()));
+        return ComdirectOauth2Service.create(aspsp, httpClientFactory.getHttpClient(getAdapterId()), keyStore);
     }
 }
