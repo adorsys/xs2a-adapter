@@ -108,6 +108,6 @@ public class Xs2AHttpLogSanitizerTest {
     @Test
     public void sanitizeResponseBodyWithSerializationError() {
         String body = anonymizer.sanitizeResponseBody(Arrays.asList("abc", "123"), "application/json");
-        assertThat(body).isEqualTo(REPLACEMENT);
+        assertThat(body).isEqualTo("[\"" + REPLACEMENT + "\",\"" + REPLACEMENT + "\"]");
     }
 }
