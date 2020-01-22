@@ -66,8 +66,8 @@ class Xs2aHttpLogSanitizer {
         if (contentType.startsWith("application/json")) {
             try {
                 String json = objectMapper.writeValueAsString(responseBody);
-                Map<String, Object> responseMap = objectMapper.readValue(json, Map.class);
-                sanitizeMap(responseMap);
+                Object responseMap = objectMapper.readValue(json, Object.class);
+                sanitizeObject(responseMap);
                 return objectMapper.writeValueAsString(responseMap);
             } catch (Exception e) {
                 logger.error("Can't parse response as json. It will be replaced with {}", REPLACEMENT);
