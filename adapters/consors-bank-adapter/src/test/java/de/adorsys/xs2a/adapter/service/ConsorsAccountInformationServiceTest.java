@@ -63,7 +63,7 @@ public class ConsorsAccountInformationServiceTest {
 
     @Test
     void createConsent_noPsuId() {
-        headerMap.put(RequestHeaders.PSU_ID, "");
+        headerMap.put(RequestHeaders.PSU_ID, "\"\"");
         RequestHeaders headers = RequestHeaders.fromMap(headerMap);
         Request.Builder builder = spy(new RequestBuilderImpl(httpClient, HttpMethod.POST, null));
 

@@ -18,7 +18,7 @@ public class ConsorsAccountInformationService extends BaseAccountInformationServ
     @Override
     protected <T> Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body, Function<T, ConsentCreationResponse> mapper, HttpClient.ResponseHandler<T> responseHandler) {
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
-        headersMap = managePsuIdHeader(headersMap);
+        headersMap = checkPsuIdHeaderForQuotes(headersMap);
 
         String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
 
@@ -30,8 +30,8 @@ public class ConsorsAccountInformationService extends BaseAccountInformationServ
         return new Response<>(response.getStatusCode(), creationResponse, response.getHeaders());
     }
 
-    private Map<String, String> managePsuIdHeader(Map<String, String> headers) {
-        if (headers.containsKey(RequestHeaders.PSU_ID) && headers.get(RequestHeaders.PSU_ID) != null && headers.get(RequestHeaders.PSU_ID).isEmpty()) {
+    private Map<String, String> checkPsuIdHeaderForQuotes(Map<String, String> headers) {
+        if (headers.containsKey(RequestHeaders.PSU_ID) && headers.get(RequestHeaders.PSU_ID) != null && headers.get(RequestHeaders.PSU_ID).contains("\"\"")) {
             headers.replace(RequestHeaders.PSU_ID, null);
         }
 
