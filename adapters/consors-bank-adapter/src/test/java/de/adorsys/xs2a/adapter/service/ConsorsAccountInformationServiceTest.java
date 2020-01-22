@@ -26,6 +26,7 @@ import static org.mockito.Mockito.*;
 public class ConsorsAccountInformationServiceTest {
 
     private static final String PSU_ID = "psu id";
+    private static final String QUOTES = "\"\"";
 
     private ConsorsAccountInformationService service;
     private Map<String, String> headerMap;
@@ -63,7 +64,7 @@ public class ConsorsAccountInformationServiceTest {
 
     @Test
     void createConsent_noPsuId() {
-        headerMap.put(RequestHeaders.PSU_ID, "\"\"");
+        headerMap.put(RequestHeaders.PSU_ID, QUOTES);
         RequestHeaders headers = RequestHeaders.fromMap(headerMap);
         Request.Builder builder = spy(new RequestBuilderImpl(httpClient, HttpMethod.POST, null));
 

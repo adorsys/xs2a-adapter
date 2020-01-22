@@ -44,6 +44,14 @@ public abstract class AbstractService {
         return headers;
     }
 
+    protected Map<String, String> checkPsuIdHeaderForQuotes(Map<String, String> headers) {
+        return headers;
+    }
+
+    protected Map<String, String> addPsuIdTypeHeader(Map<String, String> headers) {
+        return headers;
+    }
+
     protected Map<String, String> addConsentIdHeader(Map<String, String> headers) {
         return headers;
     }

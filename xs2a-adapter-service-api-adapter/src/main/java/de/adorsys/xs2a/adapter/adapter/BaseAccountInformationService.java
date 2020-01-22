@@ -72,6 +72,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                                                   HttpClient.ResponseHandler<T> responseHandler) {
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         headersMap = addPsuIdHeader(headersMap);
+        headersMap = addPsuIdTypeHeader(headersMap);
+        headersMap = checkPsuIdHeaderForQuotes(headersMap);
 
         String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
 

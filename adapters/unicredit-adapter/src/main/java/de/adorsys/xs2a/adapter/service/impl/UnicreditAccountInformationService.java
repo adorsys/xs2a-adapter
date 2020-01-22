@@ -13,13 +13,18 @@ import de.adorsys.xs2a.adapter.service.impl.model.UnicreditAccountScaStatusRespo
 import de.adorsys.xs2a.adapter.service.impl.model.UnicreditStartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.model.*;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 
 public class UnicreditAccountInformationService extends BaseAccountInformationService {
     private static final String AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM = "authenticationCurrentNumber";
     private static final String DEFAULT_PSU_IP_ADDRESS = "0.0.0.0";
+    private static final String DEFAULT_PSU_ID_TYPE = "HVB_ONLINEBANKING";
+    private static final Set<String> POSSIBLE_PSU_ID_TYPE_VALUES = new HashSet<>(Arrays.asList(DEFAULT_PSU_ID_TYPE, "UCEBANKINGGLOBAL"));
 
     private final UnicreditCreateConsentResponseMapper createConsentResponseMapper = new UnicreditCreateConsentResponseMapper();
     private final UnicreditStartAuthorisationResponseMapper startAuthorisationResponseMapper = new UnicreditStartAuthorisationResponseMapper();
@@ -32,6 +37,15 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     @Override
     public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
         return createConsent(requestHeaders, body, ConsentCreationResponse.class, createConsentResponseMapper::modifyResponse);
+    }
+
+    @Override
+    protected Map<String, String> addPsuIdTypeHeader(Map<String, String> headers) {
+        if (!POSSIBLE_PSU_ID_TYPE_VALUES.contains(headers.get(RequestHeaders.PSU_ID_TYPE))) {
+            headers.put(RequestHeaders.PSU_ID_TYPE, DEFAULT_PSU_ID_TYPE);
+        }
+
+        return headers;
     }
 
     @Override

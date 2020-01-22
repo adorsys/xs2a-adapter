@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.service.impl.mapper;
 
-import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.impl.service.UnicreditLinkBuilderService;
+import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.model.Link;
 
 import java.util.Map;
@@ -16,7 +16,7 @@ public class UnicreditCreateConsentResponseMapper implements UnicreditResponseMa
     public ConsentCreationResponse modifyResponse(ConsentCreationResponse consentCreationResponse) {
         Map<String, Link> links = consentCreationResponse.getLinks();
 
-        if (links.containsKey(AUTHORISE_TRANSACTION_LINK)) {
+        if (links != null && links.containsKey(AUTHORISE_TRANSACTION_LINK)) {
             modifyLinksToActualVersion(links, AUTHORISE_TRANSACTION_LINK, START_AUTHORISATION_WITH_PSU_AUTHENTICATION_LINK, linkBuilderService::buildStartAuthorisationUri);
         }
 
