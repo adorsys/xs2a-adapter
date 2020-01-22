@@ -63,7 +63,7 @@ public class ConsorsAccountInformationServiceTest {
     }
 
     @Test
-    void createConsent_noPsuId() {
+    void createConsent_psuIdQuotes() {
         headerMap.put(RequestHeaders.PSU_ID, QUOTES);
         RequestHeaders headers = RequestHeaders.fromMap(headerMap);
         Request.Builder builder = spy(new RequestBuilderImpl(httpClient, HttpMethod.POST, null));
@@ -98,23 +98,5 @@ public class ConsorsAccountInformationServiceTest {
 
         assertNotNull(captor.getValue());
         assertNull(captor.getValue().get(RequestHeaders.PSU_ID));
-    }
-
-    @Test
-    void createConsent_noPsuIdHeader() {
-        RequestHeaders headers = RequestHeaders.fromMap(headerMap);
-        Request.Builder builder = spy(new RequestBuilderImpl(httpClient, HttpMethod.POST, null));
-
-        when(httpClient.post(anyString())).thenReturn(builder);
-        when(httpClient.send(any(), any())).thenReturn(new Response<>(201, null, null));
-
-        service.createConsent(headers, new Consents());
-
-        verify(httpClient, times(1)).post(anyString());
-        verify(builder, times(1)).headers(captor.capture());
-        verify(httpClient, times(1)).send(any(), any());
-
-        assertNotNull(captor.getValue());
-        assertTrue(captor.getValue().isEmpty());
     }
 }
