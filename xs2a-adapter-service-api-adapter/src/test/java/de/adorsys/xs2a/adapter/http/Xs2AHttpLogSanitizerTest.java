@@ -1,12 +1,15 @@
 package de.adorsys.xs2a.adapter.http;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -109,5 +112,15 @@ public class Xs2AHttpLogSanitizerTest {
     public void sanitizeResponseBodyWithSerializationError() {
         String body = anonymizer.sanitizeResponseBody(Arrays.asList("abc", "123"), "application/json");
         assertThat(body).isEqualTo("[\"" + REPLACEMENT + "\",\"" + REPLACEMENT + "\"]");
+    }
+
+    @Test
+    public void sanitizeResponseBodyAsString() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> map = new HashMap<>();
+        map.put("key", "value");
+
+        String body = anonymizer.sanitizeResponseBody(mapper.writeValueAsString(map), "application/json");
+        assertThat(body).isEqualTo("{\"key\":\"" + REPLACEMENT + "\"}");
     }
 }
