@@ -65,7 +65,12 @@ class Xs2aHttpLogSanitizer {
     public String sanitizeResponseBody(Object responseBody, String contentType) {
         if (contentType.startsWith("application/json")) {
             try {
-                String json = objectMapper.writeValueAsString(responseBody);
+                String json;
+                if (responseBody instanceof String) {
+                    json = (String) responseBody;
+                } else {
+                    json = objectMapper.writeValueAsString(responseBody);
+                }
                 Object responseMap = objectMapper.readValue(json, Object.class);
                 sanitizeObject(responseMap);
                 return objectMapper.writeValueAsString(responseMap);
