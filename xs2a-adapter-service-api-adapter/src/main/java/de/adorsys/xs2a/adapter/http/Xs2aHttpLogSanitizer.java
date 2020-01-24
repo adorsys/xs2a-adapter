@@ -40,7 +40,8 @@ class Xs2aHttpLogSanitizer {
                                               "PSU-ID",
                                               "PSU-Corporate-ID",
                                               "Consent-ID",
-                                              "X-GTW-IBAN"));
+                                              "X-GTW-IBAN",
+                                              "Location"));
     }
 
     public String sanitizeHeader(String name, String value) {
