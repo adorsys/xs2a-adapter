@@ -5,7 +5,7 @@ import com.nimbusds.jose.crypto.RSAEncrypter;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.util.Base64;
 import de.adorsys.xs2a.adapter.service.PsuPasswordEncryptionService;
-import de.adorsys.xs2a.adapter.service.exception.PasswordEncodingException;
+import de.adorsys.xs2a.adapter.service.exception.PsuPasswordEncodingException;
 import org.bouncycastle.jcajce.provider.asymmetric.x509.CertificateFactory;
 
 import java.io.IOException;
@@ -50,7 +50,7 @@ public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncr
         try {
             jweObject.encrypt(jweEncrypter);
         } catch (JOSEException e) {
-            throw new PasswordEncodingException("Exception during Deutsche bank adapter PSU password encryption", e);
+            throw new PsuPasswordEncodingException("Exception during Deutsche bank adapter PSU password encryption", e);
         }
 
         return jweObject.serialize();
@@ -70,7 +70,7 @@ public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncr
             Collection<Certificate> certificates = certificateFactory.engineGenerateCertificates(certificateUri.toURL().openStream());
 
             if (certificates.isEmpty()) {
-                throw new PasswordEncodingException("No certificates have been provided by bank for PSU password encryption");
+                throw new PsuPasswordEncodingException("No certificates have been provided by bank for PSU password encryption");
             }
 
             List<X509Certificate> x509Certificates = toX509Certificates(certificates);
@@ -86,7 +86,7 @@ public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncr
 
             jweEncrypter = new RSAEncrypter(RSAKey.parse(getBankCertificate(x509Certificates)));
         } catch (IOException | CertificateException | URISyntaxException | JOSEException e) {
-            throw new PasswordEncodingException("Exception during Deutsche bank adapter PSU password encryption", e);
+            throw new PsuPasswordEncodingException("Exception during Deutsche bank adapter PSU password encryption", e);
         }
     }
 
@@ -94,7 +94,7 @@ public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncr
         return certificates.stream()
                    .map(certificate -> {
                        if (!(certificate instanceof X509Certificate)) {
-                           throw new PasswordEncodingException("Certificate provided by bank is not a X509 type");
+                           throw new PsuPasswordEncodingException("Certificate provided by bank is not a X509 type");
                        }
                        return (X509Certificate) certificate;
                    })
@@ -105,7 +105,7 @@ public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncr
         try {
             return Base64.encode(certificate.getEncoded());
         } catch (CertificateEncodingException e) {
-            throw new PasswordEncodingException("Exception during Deutsche bank adapter PSU password encryption", e);
+            throw new PsuPasswordEncodingException("Exception during Deutsche bank adapter PSU password encryption", e);
         }
     }
 
