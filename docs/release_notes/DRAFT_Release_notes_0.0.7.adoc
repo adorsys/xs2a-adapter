@@ -9,6 +9,7 @@
 == Notices:
 
 == Features:
+- Deutsche bank PSU password encryption flow for Embedded approach
 
 == Fixes:
 - Fixed Sparda authorisation URL
