@@ -22,13 +22,41 @@ import java.util.stream.Collectors;
 /*
  * Deutsche bank password encryption flow is based on JWE (RFC7516 - https://tools.ietf.org/html/rfc7516)
  */
+// TODO adjust this logic on the additional information from Deutsche bank about the certificates API
 public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncryptionService {
     private static final String URL_TO_CERTIFICATE = "https://xs2a.db.com/pb/aspsp-certificates/tpp-pb-password_cert.pem";
 
+    private static DeutscheBankPsuPasswordEncryptionService encryptionService;
+
+    private JWEHeader jweHeader;
+    private JWEEncrypter jweEncrypter;
+
+    public static DeutscheBankPsuPasswordEncryptionService getInstance() {
+        if (encryptionService == null) {
+            encryptionService = new DeutscheBankPsuPasswordEncryptionService();
+        }
+
+        return encryptionService;
+    }
+
+    private DeutscheBankPsuPasswordEncryptionService() {
+        init();
+    }
+
     @Override
     public String encrypt(String password) {
-        Payload passwordPayload = new Payload(password);
+        JWEObject jweObject = new JWEObject(jweHeader, new Payload(password));
 
+        try {
+            jweObject.encrypt(jweEncrypter);
+        } catch (JOSEException e) {
+            throw new PasswordEncodingException("Exception during Deutsche bank adapter PSU password encryption", e);
+        }
+
+        return jweObject.serialize();
+    }
+
+    private void init() {
         CertificateFactory certificateFactory = new CertificateFactory();
 
         try {
@@ -37,7 +65,7 @@ public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncr
             // Warning for unchecked assignment can be ignored,
             // as under the hood CertificateFactory#engineGenerateCertificates returns ArrayList<java.security.cert.Certificate>,
             // even though java.util.Collection is mentioned as a return type.
-            // See CertificateFactory#engineGenerateCertificates implementation for further details.
+            // See org.bouncycastle.jcajce.provider.asymmetric.x509.CertificateFactory#engineGenerateCertificates implementation for further details.
             @SuppressWarnings("unchecked")
             Collection<Certificate> certificates = certificateFactory.engineGenerateCertificates(certificateUri.toURL().openStream());
 
@@ -51,17 +79,12 @@ public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncr
                                                            .map(this::toBase64)
                                                            .collect(Collectors.toList());
 
-            JWEHeader jweHeader = new JWEHeader.Builder(JWEAlgorithm.RSA_OAEP_256, EncryptionMethod.A256GCM)
-                                      .x509CertURL(certificateUri)
-                                      .x509CertChain(x509CertificateChainEncoded)
-                                      .build();
+            jweHeader = new JWEHeader.Builder(JWEAlgorithm.RSA_OAEP_256, EncryptionMethod.A256GCM)
+                            .x509CertURL(certificateUri)
+                            .x509CertChain(x509CertificateChainEncoded)
+                            .build();
 
-            JWEObject jweObject = new JWEObject(jweHeader, passwordPayload);
-            JWEEncrypter jweEncrypter = new RSAEncrypter(RSAKey.parse(getBankCertificate(x509Certificates)));
-
-            jweObject.encrypt(jweEncrypter);
-
-            return jweObject.serialize();
+            jweEncrypter = new RSAEncrypter(RSAKey.parse(getBankCertificate(x509Certificates)));
         } catch (IOException | CertificateException | URISyntaxException | JOSEException e) {
             throw new PasswordEncodingException("Exception during Deutsche bank adapter PSU password encryption", e);
         }

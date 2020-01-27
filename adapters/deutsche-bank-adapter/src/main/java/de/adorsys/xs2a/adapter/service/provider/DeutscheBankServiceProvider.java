@@ -29,7 +29,7 @@ public class DeutscheBankServiceProvider
     implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, DownloadServiceProvider {
     private static final String SERVICE_GROUP_PLACEHOLDER = "{Service Group}";
     private static final PsuIdTypeHeaderInterceptor psuIdTypeHeaderInterceptor = new PsuIdTypeHeaderInterceptor();
-    private static final PsuPasswordEncryptionService PSU_PASSWORD_ENCRYPTION_SERVICE = new DeutscheBankPsuPasswordEncryptionService();
+    private static final PsuPasswordEncryptionService psuPasswordEncryptionService = DeutscheBankPsuPasswordEncryptionService.getInstance();
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
@@ -39,7 +39,7 @@ public class DeutscheBankServiceProvider
         return new DeutscheBankAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             psuIdTypeHeaderInterceptor,
-            PSU_PASSWORD_ENCRYPTION_SERVICE);
+            psuPasswordEncryptionService);
     }
 
     @Override
