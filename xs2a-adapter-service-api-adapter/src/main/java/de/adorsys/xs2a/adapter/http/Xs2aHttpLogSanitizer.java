@@ -41,7 +41,10 @@ class Xs2aHttpLogSanitizer {
                                               "PSU-Corporate-ID",
                                               "Consent-ID",
                                               "X-GTW-IBAN",
-                                              "Location"));
+                                              "Location",
+                                              "Signature",
+                                              "TPP-Signature-Certificate",
+                                              "Digest"));
     }
 
     public String sanitizeHeader(String name, String value) {
