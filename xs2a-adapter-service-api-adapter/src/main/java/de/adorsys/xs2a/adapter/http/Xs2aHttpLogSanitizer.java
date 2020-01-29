@@ -19,17 +19,14 @@ package de.adorsys.xs2a.adapter.http;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class Xs2aHttpLogSanitizer {
     private static final Logger logger = LoggerFactory.getLogger(Xs2aHttpLogSanitizer.class);
     private static final String REPLACEMENT = "******";
-    private final List<String> sanitizedHeaders = new ArrayList<>();
+    private final Set<String> sanitizedHeaders = new HashSet<>();
     private final List<Pattern> patterns = new ArrayList<>();
     private JsonMapper objectMapper = new JsonMapper();
 
