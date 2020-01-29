@@ -35,3 +35,4 @@ logging:
   config: classpath:logback-dev.xml
   level:
     de.adorsys.xs2a.adapter.http.ApacheHttpClient: DEBUG
+    de.adorsys.xs2a.adapter.registry.LuceneAspspRepository: DEBUG
