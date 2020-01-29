@@ -10,6 +10,8 @@
 
 == Features:
 - Deutsche bank PSU password encryption flow for Embedded approach
+- Removed audit logging on the xs2a-adapter application side
+- Provided logging for the calls being resolved on adapter side without interaction with bank
 
 == Fixes:
 - Fixed Sparda authorisation URL
