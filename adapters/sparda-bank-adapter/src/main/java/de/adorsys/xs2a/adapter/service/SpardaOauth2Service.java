@@ -10,13 +10,18 @@ import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import de.adorsys.xs2a.adapter.service.oauth.OauthParamsAdjustingService;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.util.Map;
 
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 
+// TODO refactor this class the way as other OAuth2 services
 public class SpardaOauth2Service implements Oauth2Service {
+    private static final Logger logger = LoggerFactory.getLogger(SpardaOauth2Service.class);
+
     private static final String AUTHORISATION_REQUEST_URI_SUFFIX = "/authorize";
     private static final String TOKEN_REQUEST_URI_SUFFIX = "/token";
     private static final String SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE
@@ -48,6 +53,7 @@ public class SpardaOauth2Service implements Oauth2Service {
         String authorisationRequestUri = StringUri.fromElements(scaOAuthUrl, AUTHORISATION_REQUEST_URI_SUFFIX);
         Parameters parametersForGetAuthorizationRequest = paramsAdjustingService.adjustForGetAuthorizationRequest(parameters);
 
+        logger.debug("Get Authorisation Request URI: resolved on the adapter side");
         return URI.create(StringUri.withQuery(authorisationRequestUri, parametersForGetAuthorizationRequest.asMap()));
     }
 

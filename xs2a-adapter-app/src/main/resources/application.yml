@@ -36,3 +36,6 @@ logging:
   level:
     de.adorsys.xs2a.adapter.http.ApacheHttpClient: DEBUG
     de.adorsys.xs2a.adapter.registry.LuceneAspspRepository: DEBUG
+    de.adorsys.xs2a.adapter.adapter.BaseOauth2Service: DEBUG
+    # TODO remove this after SpardaOauth2Service refactoring
+    de.adorsys.xs2a.adapter.service.SpardaOauth2Service: DEBUG
