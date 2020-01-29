@@ -11,6 +11,8 @@ import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import org.mapstruct.factory.Mappers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
@@ -19,6 +21,7 @@ import java.util.Map;
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 
 public class BaseOauth2Service implements Oauth2Service {
+    private static final Logger logger = LoggerFactory.getLogger(BaseOauth2Service.class);
 
     private final HttpClient httpClient;
     private final Aspsp aspsp;
@@ -42,6 +45,7 @@ public class BaseOauth2Service implements Oauth2Service {
     private String getAuthorizationEndpoint(Parameters parameters) {
         String authorizationEndpoint = parameters.getAuthorizationEndpoint();
         if (authorizationEndpoint != null) {
+            logger.debug("Get Authorisation Request URI: resolved on the adapter side");
             return authorizationEndpoint;
         }
         AuthorisationServerMetaData metadata = getAuthorizationServerMetadata(parameters);

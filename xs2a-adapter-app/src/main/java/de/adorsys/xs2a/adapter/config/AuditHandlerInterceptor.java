@@ -2,8 +2,6 @@ package de.adorsys.xs2a.adapter.config;
 
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -11,8 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AuditHandlerInterceptor extends HandlerInterceptorAdapter {
-
-    private static final Logger logger = LoggerFactory.getLogger("audit");
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -43,13 +39,6 @@ public class AuditHandlerInterceptor extends HandlerInterceptorAdapter {
         String approach = response.getHeader(ResponseHeaders.ASPSP_SCA_APPROACH);
         if (approach != null) {
             MDC.put("approach", approach);
-        }
-
-        String errorMessage = MDC.get("errorMessage");
-        if (errorMessage != null) {
-            logger.error("{} {}", response.getStatus(), errorMessage);
-        } else {
-            logger.info("{}", response.getStatus());
         }
 
         MDC.clear();

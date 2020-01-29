@@ -8,17 +8,6 @@
         </encoder>
     </appender>
 
-    <appender name="AUDIT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <!-- <pattern>%date %X{operation} [%X{correlationId}] [%X{bankCode}] [%X{iban}] [%X{adapterId}] [%X{approach}] [%X{consentModel}] %msg%n</pattern> -->
-            <pattern>%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %replace(%replace(%X{operation}){'(consents|accounts)\/[^\/?\s]+(.*)','$1/******$2'}){'(authorisations)\/[^\/?\s\[]+(.*)','$1/******$2'} [%X{aspspId}/%X{bankCode}] [%X{adapterId}] [%X{approach}] %replace(%replace(%msg){'(consents|accounts)\/[^\/?\s]+(.*)','$1/******$2'}){'(authorisations)\/[^\/?\s\[]+(.*)','$1/******$2'}%n</pattern>
-        </encoder>
-    </appender>
-
-    <logger name="audit" additivity="false">
-        <appender-ref ref="AUDIT" />
-    </logger>
-
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
     </root>
