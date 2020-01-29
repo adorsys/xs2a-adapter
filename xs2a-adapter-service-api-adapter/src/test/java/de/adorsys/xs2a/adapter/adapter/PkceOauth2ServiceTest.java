@@ -13,7 +13,12 @@ import java.net.URI;
 class PkceOauth2ServiceTest {
 
     Oauth2Service oauth2Service = Mockito.mock(Oauth2Service.class);
-    PkceOauth2Service pkceOauth2Service = new PkceOauth2Service(oauth2Service);
+    PkceOauth2Service pkceOauth2Service = new PkceOauth2Service(oauth2Service){
+        @Override
+        public String codeChallenge() {
+            return "1234";
+        }
+    };
     Parameters parameters = new Parameters();
 
     @Test
@@ -41,6 +46,10 @@ class PkceOauth2ServiceTest {
     void getAuthorizationRequestUri() throws IOException {
         String authorisationRequestUri = "https://authorisation.endpoint?" +
             "response_type=code&state=state&redirect_uri=https://redirect.uri";
+        String expectedOutput = authorisationRequestUri + "&" +
+            Parameters.CODE_CHALLENGE_METHOD + "=S256&" +
+            Parameters.CODE_CHALLENGE + "=" + pkceOauth2Service.codeChallenge();
+
         Mockito.when(oauth2Service.getAuthorizationRequestUri(Mockito.any(), Mockito.any()))
             .thenReturn(URI.create(authorisationRequestUri));
 
@@ -49,7 +58,6 @@ class PkceOauth2ServiceTest {
         Mockito.verify(oauth2Service, Mockito.times(1))
             .getAuthorizationRequestUri(Mockito.any(), Mockito.any());
 
-        // no way to match whole URI because codeChallenge() will always produce unique output
-        Assertions.assertTrue(actual.toString().contains(authorisationRequestUri));
+        Assertions.assertEquals(actual.toString(), expectedOutput);
     }
 }
