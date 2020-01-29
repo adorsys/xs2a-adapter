@@ -97,15 +97,13 @@ class BaseOauth2ServiceTest {
     }
 
     @Test
-    void getToken_withoutScaOauthLink() throws IOException {
-        Mockito.doReturn(authorizationServerMetadata())
-            .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(IDP_URL)), Mockito.any());
-        Mockito.doReturn(getOauthToken())
-            .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), Mockito.any());
+    void getToken_withAvailableTokenEndpoint() throws IOException {
+        parameters.setTokenEndpoint(TOKEN_ENDPOINT);
+        Mockito.doReturn(getOauthToken()).when(httpClient).send(Mockito.any(), Mockito.any());
 
-        TokenResponse actual = oauth2Service.getToken(null, new Parameters());
+        TokenResponse actual = oauth2Service.getToken(null, parameters);
 
-        Mockito.verify(httpClient, Mockito.times(2))
+        Mockito.verify(httpClient, Mockito.times(1))
             .send(Mockito.any(), Mockito.any());
 
         assertEquals(actual.getAccessToken(), ACCESS_TOKEN);
