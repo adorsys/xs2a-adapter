@@ -28,6 +28,7 @@ public class ResponseHandlers {
 
     private static final JsonMapper jsonMapper = new JsonMapper();
     private static final Logger log = LoggerFactory.getLogger(ResponseHandlers.class);
+    private static final Xs2aHttpLogSanitizer logSanitizer = new Xs2aHttpLogSanitizer();
 
     private ResponseHandlers() {
     }
@@ -108,6 +109,7 @@ public class ResponseHandlers {
             errorResponse = new ErrorResponse();
         } else {
             originalResponse = toString(responseBody, responseHeaders);
+            originalResponse = logSanitizer.sanitize(originalResponse);
             errorResponse = errorResponseBuilder.apply(originalResponse);
         }
 
@@ -147,6 +149,7 @@ public class ResponseHandlers {
             return new ErrorResponseException(statusCode, responseHeaders);
         }
         String originalResponse = toString(responseBody, responseHeaders);
+        originalResponse = logSanitizer.sanitize(originalResponse);
         ErrorResponse errorResponse = errorResponseBuilder.apply(originalResponse);
         return new ErrorResponseException(statusCode, responseHeaders, errorResponse, originalResponse);
     }
