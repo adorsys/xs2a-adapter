@@ -3,8 +3,12 @@ package de.adorsys.xs2a.adapter.http;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 class UriBuilderTest {
 
@@ -30,5 +34,10 @@ class UriBuilderTest {
             .build();
         assertEquals("q=two words", uri.getQuery());
         assertEquals("q=two%20words", uri.getRawQuery());
+    }
+
+    @Test
+    void uriBuilder_throwsException() {
+        assertThrows(IllegalArgumentException.class, () -> UriBuilder.fromUri("??"));
     }
 }
