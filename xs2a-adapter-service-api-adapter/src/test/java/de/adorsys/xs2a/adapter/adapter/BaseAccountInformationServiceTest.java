@@ -11,6 +11,7 @@ import org.mockito.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
@@ -65,7 +66,7 @@ public class BaseAccountInformationServiceTest {
     void createConsent() {
         ConsentCreationResponse example = new ConsentCreationResponse();
         when(httpClient.post(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<ConsentCreationResponse> response = informationService.createConsent(headers, body);
 
@@ -84,7 +85,7 @@ public class BaseAccountInformationServiceTest {
     void getConsentInformation() {
         ConsentInformation example = new ConsentInformation();
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<ConsentInformation> response = informationService.getConsentInformation(CONSENTID, headers);
 
@@ -100,7 +101,7 @@ public class BaseAccountInformationServiceTest {
     @Test
     void deleteConsent() {
         when(httpClient.delete(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(Void.class)).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse(Void.class)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         informationService.deleteConsent(CONSENTID, headers);
 
@@ -116,7 +117,7 @@ public class BaseAccountInformationServiceTest {
     void getConsentStatus() {
         ConsentStatusResponse example = new ConsentStatusResponse();
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<ConsentStatusResponse> response = informationService.getConsentStatus(CONSENTID, headers);
 
@@ -134,7 +135,7 @@ public class BaseAccountInformationServiceTest {
         StartScaProcessResponse example = new StartScaProcessResponse();
 
         when(httpClient.post(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<StartScaProcessResponse> response = informationService.startConsentAuthorisation(CONSENTID, headers);
 
@@ -154,7 +155,7 @@ public class BaseAccountInformationServiceTest {
         StartScaProcessResponse example = new StartScaProcessResponse();
 
         when(httpClient.post(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<StartScaProcessResponse> response = informationService.startConsentAuthorisation(CONSENTID, headers, updatePsuAuthentication);
 
@@ -174,7 +175,7 @@ public class BaseAccountInformationServiceTest {
         UpdatePsuAuthenticationResponse example = new UpdatePsuAuthenticationResponse();
 
         when(httpClient.put(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<UpdatePsuAuthenticationResponse> response
             = informationService.updateConsentsPsuData(CONSENTID, AUTHORISATIONID, headers, updatePsuAuthentication);
@@ -196,7 +197,7 @@ public class BaseAccountInformationServiceTest {
         SelectPsuAuthenticationMethodResponse example = new SelectPsuAuthenticationMethodResponse();
 
         when(httpClient.put(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<SelectPsuAuthenticationMethodResponse> response
             = informationService.updateConsentsPsuData(CONSENTID, AUTHORISATIONID, headers, selectPsuAuthenticationMethod);
@@ -218,7 +219,7 @@ public class BaseAccountInformationServiceTest {
         ScaStatusResponse example = new ScaStatusResponse();
 
         when(httpClient.put(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<ScaStatusResponse> response
             = informationService.updateConsentsPsuData(CONSENTID, AUTHORISATIONID, headers, transactionAuthorisation);
@@ -239,7 +240,7 @@ public class BaseAccountInformationServiceTest {
         AccountListHolder example = new AccountListHolder();
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<AccountListHolder> response
             = informationService.getAccountList(headers, params);
@@ -260,7 +261,7 @@ public class BaseAccountInformationServiceTest {
         transactionHeaders.put(RequestHeaders.ACCEPT, ContentType.APPLICATION_JSON);
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<TransactionsReport> response
             = informationService.getTransactionList(ACCOUNTID, headers, params);
@@ -280,7 +281,7 @@ public class BaseAccountInformationServiceTest {
         String transactionId = "transactionId";
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<TransactionDetails> response
             = informationService.getTransactionDetails(ACCOUNTID, transactionId, headers);
@@ -299,7 +300,7 @@ public class BaseAccountInformationServiceTest {
         String example = "list of transactions";
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<String> response
             = informationService.getTransactionListAsString(ACCOUNTID, headers, params);
@@ -318,7 +319,7 @@ public class BaseAccountInformationServiceTest {
         ScaStatusResponse example = new ScaStatusResponse();
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<ScaStatusResponse> response
             = informationService.getConsentScaStatus(CONSENTID, AUTHORISATIONID, headers);
@@ -337,7 +338,7 @@ public class BaseAccountInformationServiceTest {
         BalanceReport example = new BalanceReport();
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<BalanceReport> response
             = informationService.getBalances(ACCOUNTID, headers);
