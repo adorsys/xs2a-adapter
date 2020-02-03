@@ -40,18 +40,10 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     }
 
     @Override
-    protected Map<String, String> addPsuIdTypeHeader(Map<String, String> headers) {
-        if (!POSSIBLE_PSU_ID_TYPE_VALUES.contains(headers.get(RequestHeaders.PSU_ID_TYPE))) {
-            headers.put(RequestHeaders.PSU_ID_TYPE, DEFAULT_PSU_ID_TYPE);
-        }
-
-        return headers;
-    }
-
-    @Override
     public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
+        headersMap = addPsuIdTypeHeader(headersMap);
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
         Response<UnicreditStartScaProcessResponse> response = httpClient.put(uri)
@@ -77,6 +69,15 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     protected String getUpdateConsentPsuDataUri(String consentId, String authorisationId) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
         return StringUri.withQuery(uri, AUTHENTICATION_CURRENT_NUMBER_QUERY_PARAM, authorisationId);
+    }
+
+    @Override
+    protected Map<String, String> addPsuIdTypeHeader(Map<String, String> headers) {
+        if (!POSSIBLE_PSU_ID_TYPE_VALUES.contains(headers.get(RequestHeaders.PSU_ID_TYPE))) {
+            headers.put(RequestHeaders.PSU_ID_TYPE, DEFAULT_PSU_ID_TYPE);
+        }
+
+        return headers;
     }
 
     @Override
