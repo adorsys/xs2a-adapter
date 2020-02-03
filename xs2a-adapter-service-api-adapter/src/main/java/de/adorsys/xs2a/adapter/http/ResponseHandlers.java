@@ -148,8 +148,11 @@ public class ResponseHandlers {
         if (isEmpty(responseBody)) {
             return new ErrorResponseException(statusCode, responseHeaders);
         }
+        log.debug("preparing original response");
         String originalResponse = toString(responseBody, responseHeaders);
+        log.debug("original response: {}", originalResponse);
         originalResponse = logSanitizer.sanitize(originalResponse);
+        log.debug("sanitized response: {}", originalResponse);
         ErrorResponse errorResponse = errorResponseBuilder.apply(originalResponse);
         return new ErrorResponseException(statusCode, responseHeaders, errorResponse, originalResponse);
     }

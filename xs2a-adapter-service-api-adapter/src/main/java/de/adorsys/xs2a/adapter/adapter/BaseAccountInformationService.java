@@ -173,6 +173,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                                                                   Function<T, UpdatePsuAuthenticationResponse> mapper) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
+        headersMap = addPsuIdTypeHeader(headersMap);
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
         Response<T> response = httpClient.put(uri)
@@ -196,6 +197,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                                                                         Function<T, SelectPsuAuthenticationMethodResponse> mapper) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
+        headersMap = addPsuIdTypeHeader(headersMap);
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
 
         Response<T> response = httpClient.put(uri)
@@ -219,6 +221,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                                                     Function<T, ScaStatusResponse> mapper) {
         String uri = getUpdateConsentPsuDataUri(consentId, authorisationId);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
+        headersMap = addPsuIdTypeHeader(headersMap);
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 
         Response<T> response = httpClient.put(uri)
