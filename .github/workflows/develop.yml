@@ -16,12 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     container: "adorsys/ci-build"
     steps:
+      - name: Git checkout
       - uses: actions/checkout@v1
         with:
           ref: ${{ github.ref }}
-      - name: Checkout branch
-        shell: bash
-        run: git checkout ${github.ref#refs/heads/}
+      - name: Branch name
+          run: echo running on branch ${GITHUB_REF##*/}
       - name: Build project
         run: mvn clean install -B -Dbuild.number="${GITHUB_RUN_NUMBER}" -Djacoco.skip=false
       - name: Build docker image
