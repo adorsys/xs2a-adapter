@@ -1,0 +1,16 @@
+on:
+  push:
+    branches:
+      - develop
+      - 'spe/gitHub-actions' # remove after testing will be done
+    pull_request:
+      branches:
+        - develop
+
+jobs:
+  build:
+    name: Build project and docker image
+  docker:
+    name: Deploy docker image to the registry
+  sonar:
+    name: Send code coverage to sonar
