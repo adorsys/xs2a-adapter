@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     container: "adorsys/ci-build"
     steps:
+      - name: Checkout branch $GITHUB_REF
+        run: git checkout $GITHUB_REF
       - name: Build project
         run: mvn clean install -B -Dbuild.number=$GITHUB_RUN_NUMBER -Djacoco.skip=false
       - name: Build docker image
