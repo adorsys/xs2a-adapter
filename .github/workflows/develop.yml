@@ -18,7 +18,7 @@ jobs:
     container: "adorsys/ci-build"
     steps:
       - name: Git checkout
-      - uses: actions/checkout@v1
+        uses: actions/checkout@v1
         with:
           ref: ${{ github.ref }}
       - name: Build project
