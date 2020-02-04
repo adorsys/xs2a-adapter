@@ -19,8 +19,8 @@ jobs:
       - uses: actions/checkout@v1
         with:
           ref: ${{ github.ref }}
-      - name: Checkout branch ${{ github.ref }}
-        run: git checkout ${{ github.ref }}
+      - name: Checkout branch ${{ github.ref#refs/heads/ }}
+        run: git checkout ${{ github.ref#refs/heads/ }}
       - name: Build project
         run: mvn clean install -B -Dbuild.number="${GITHUB_RUN_NUMBER}" -Djacoco.skip=false
       - name: Build docker image
