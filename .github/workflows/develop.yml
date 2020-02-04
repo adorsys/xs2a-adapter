@@ -9,7 +9,6 @@ env:
   OPENSHIFT_REGISTRY: openshift-registry.adorsys.de
   OPENSHIFT_NAMESPACE: xs2a-adapter-dev
   OPENSHIFT_IMAGE_NAME: ${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${XS2A_ADAPTER_IMAGE}
-  GITHUB_RUN_NUMBER: ${{ GITHUB_RUN_NUMBER }}
 
 jobs:
   build:
@@ -17,10 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     container: "adorsys/ci-build"
     steps:
-      - name: Checkout branch ${{ GITHUB_REF }}
-        run: git checkout ${{ GITHUB_REF }}
+      - name: Checkout branch "${GITHUB_REF}"
+        run: git checkout "${GITHUB_REF}"
       - name: Build project
-        run: mvn clean install -B -Dbuild.number=${GITHUB_RUN_NUMBER} -Djacoco.skip=false
+        run: mvn clean install -B -Dbuild.number="${GITHUB_RUN_NUMBER}" -Djacoco.skip=false
       - name: Build docker image
         run: docker build -t "${OPENSHIFT_IMAGE_NAME}:test" .
       - name: Deploy docker image to the registry
