@@ -16,6 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     container: "adorsys/ci-build"
     steps:
+      - uses: actions/checkout@v1
+        with:
+          ref: ${{ github.ref }}
       - name: Checkout branch ${{ github.ref }}
         run: git checkout ${{ github.ref }}
       - name: Build project
