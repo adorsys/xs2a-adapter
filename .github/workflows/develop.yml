@@ -15,11 +15,9 @@ jobs:
     name: Build project, deploy docker image, publish code coverage to Sonar
     runs-on: ubuntu-latest
     container: "adorsys/ci-build"
-    env:
-        branch_name: ${GITHUB_REF##*/}
     steps:
-      - name: Checkout branch ${env.branch_name}
-        run: git checkout $branch_name
+      - name: Checkout branch ${{ github.ref }}
+        run: git checkout ${{ github.ref }}
       - name: Build project
         run: mvn clean install -B -Dbuild.number="${GITHUB_RUN_NUMBER}" -Djacoco.skip=false
       - name: Build docker image
