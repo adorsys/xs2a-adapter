@@ -8,7 +8,7 @@ env:
   XS2A_ADAPTER_IMAGE: xs2a-adapter
   OPENSHIFT_REGISTRY: openshift-registry.adorsys.de
   OPENSHIFT_NAMESPACE: xs2a-adapter-dev
-  OPENSHIFT_IMAGE_NAME: $OPENSHIFT_REGISTRY/$OPENSHIFT_NAMESPACE/$XS2A_ADAPTER_IMAGE
+  OPENSHIFT_IMAGE_NAME: ${OPENSHIFT_REGISTRY}/${OPENSHIFT_NAMESPACE}/${XS2A_ADAPTER_IMAGE}
 
 jobs:
   build:
@@ -16,16 +16,16 @@ jobs:
     runs-on: ubuntu-latest
     container: "adorsys/ci-build"
     steps:
-      - name: Checkout branch $GITHUB_REF
-        run: git checkout $GITHUB_REF
+      - name: Checkout branch ${GITHUB_REF}
+        run: git checkout ${GITHUB_REF}
       - name: Build project
-        run: mvn clean install -B -Dbuild.number=$GITHUB_RUN_NUMBER -Djacoco.skip=false
+        run: mvn clean install -B -Dbuild.number=${GITHUB_RUN_NUMBER} -Djacoco.skip=false
       - name: Build docker image
-        run: docker build -t "$OPENSHIFT_IMAGE_NAME:test" .
+        run: docker build -t "${OPENSHIFT_IMAGE_NAME}:test" .
       - name: Deploy docker image to the registry
         run: |
-          docker login -u image-pusher -p $OPENSHIFT_TOKEN $OPENSHIFT_REGISTRY
-          docker build -t "$OPENSHIFT_IMAGE_NAME:develop" .
-          docker push $OPENSHIFT_IMAGE_NAME:develop
+          docker login -u image-pusher -p ${OPENSHIFT_TOKEN} ${OPENSHIFT_REGISTRY}
+          docker build -t "${OPENSHIFT_IMAGE_NAME}:develop" .
+          docker push ${OPENSHIFT_IMAGE_NAME}:develop
       - name: Publish code coverage to Sonar
         run: mvn jacoco:prepare-agent sonar:sonar -Dsonar.projectKey=adorsys_xs2a-adapter -Djacoco.skip=false
