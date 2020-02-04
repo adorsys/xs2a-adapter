@@ -4,12 +4,19 @@ on:
       - develop
       - 'spe/gitHub-actions' # remove after testing will be done
 
+env:
+  XS2A_ADAPTER_IMAGE: xs2a-adapter
+  OPENSHIFT_REGISTRY: openshift-registry.adorsys.de
+  OPENSHIFT_NAMESPACE: xs2a-adapter-dev
+  OPENSHIFT_IMAGE_NAME: $OPENSHIFT_REGISTRY/$OPENSHIFT_NAMESPACE/$XS2A_ADAPTER_IMAGE
+
 jobs:
   build:
     name: Build project, deploy docker image, publish code coverage to Sonar
+    container: "adorsys/ci-build"
     steps:
       - name: Build project
-        run: mvn clean install -B -Dbuild.number=${TRAVIS_BUILD_NUMBER} -Djacoco.skip=false
+        run: mvn clean install -B -Dbuild.number=$GITHUB_RUN_NUMBER -Djacoco.skip=false
       - name: Build docker image
         run: docker build -t "$OPENSHIFT_IMAGE_NAME:test" .
       - name: Deploy docker image to the registry
