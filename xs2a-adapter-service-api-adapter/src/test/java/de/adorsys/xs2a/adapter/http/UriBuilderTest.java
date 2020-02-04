@@ -3,12 +3,9 @@ package de.adorsys.xs2a.adapter.http;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 
 class UriBuilderTest {
 

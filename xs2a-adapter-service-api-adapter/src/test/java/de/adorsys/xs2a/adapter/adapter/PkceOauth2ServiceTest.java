@@ -13,7 +13,7 @@ import java.net.URI;
 class PkceOauth2ServiceTest {
 
     Oauth2Service oauth2Service = Mockito.mock(Oauth2Service.class);
-    PkceOauth2Service pkceOauth2Service = new PkceOauth2Service(oauth2Service){
+    PkceOauth2Service pkceOauth2Service = new PkceOauth2Service(oauth2Service) {
         @Override
         public String codeChallenge() {
             return "1234";

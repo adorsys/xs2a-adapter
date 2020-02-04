@@ -31,7 +31,7 @@ class ApacheHttpClientTest {
     }
 
     @Test
-    void content_getMethod(){
+    void content_getMethod() {
         String actual = client.content(new RequestBuilderImpl(client, "GET", URI));
 
         assertNotNull(actual);
@@ -61,7 +61,7 @@ class ApacheHttpClientTest {
     }
 
     @Test
-    void content_deleteMethod(){
+    void content_deleteMethod() {
         String actual = client.content(new RequestBuilderImpl(client, "DELETE", URI));
 
         assertNotNull(actual);

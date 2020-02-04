@@ -89,7 +89,7 @@ class RequestSigningServiceTest {
 
         InputStream is = new ByteArrayInputStream(b64.getBytes(StandardCharsets.UTF_8));
         CertificateFactory cf = CertificateFactory.getInstance("X.509");
-        return (X509Certificate)cf.generateCertificate(is);
+        return (X509Certificate) cf.generateCertificate(is);
     }
 
     private PrivateKey genereatePrivateKey() throws NoSuchAlgorithmException {
