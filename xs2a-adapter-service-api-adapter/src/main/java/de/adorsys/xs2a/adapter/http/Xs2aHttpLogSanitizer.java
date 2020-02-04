@@ -16,6 +16,8 @@
 
 package de.adorsys.xs2a.adapter.http;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +27,8 @@ import java.util.regex.Pattern;
 
 class Xs2aHttpLogSanitizer {
     private static final Logger logger = LoggerFactory.getLogger(Xs2aHttpLogSanitizer.class);
-    private static final String REPLACEMENT = "******";
+    private static final String APPLICATION_JSON = "application/json";
+    static final String REPLACEMENT = "******";
     private final Set<String> sanitizedHeaders = new HashSet<>();
     private final List<Pattern> patterns = new ArrayList<>();
     private JsonMapper objectMapper = new JsonMapper();
@@ -62,9 +65,20 @@ class Xs2aHttpLogSanitizer {
         return replacedData;
     }
 
-    @SuppressWarnings("unchecked")
+    public String sanitizeRequestBody(HttpEntity entity, String contentType) {
+        if (contentType.startsWith(APPLICATION_JSON)) {
+            try {
+                return sanitizeStringifiedJsonBody(EntityUtils.toString(entity));
+            } catch (Exception e) {
+                logger.error("Can't parse request as json. It will be replaced with {}", REPLACEMENT);
+            }
+
+        }
+        return REPLACEMENT;
+    }
+
     public String sanitizeResponseBody(Object responseBody, String contentType) {
-        if (contentType.startsWith("application/json")) {
+        if (contentType.startsWith(APPLICATION_JSON)) {
             try {
                 String json;
                 if (responseBody instanceof String) {
@@ -72,15 +86,19 @@ class Xs2aHttpLogSanitizer {
                 } else {
                     json = objectMapper.writeValueAsString(responseBody);
                 }
-                Object responseMap = objectMapper.readValue(json, Object.class);
-                sanitizeObject(responseMap);
-                return objectMapper.writeValueAsString(responseMap);
+                return sanitizeStringifiedJsonBody(json);
             } catch (Exception e) {
                 logger.error("Can't parse response as json. It will be replaced with {}", REPLACEMENT);
             }
 
         }
         return REPLACEMENT;
+    }
+
+    private String sanitizeStringifiedJsonBody(String body) {
+        Object responseMap = objectMapper.readValue(body, Object.class);
+        sanitizeObject(responseMap);
+        return objectMapper.writeValueAsString(responseMap);
     }
 
     private Map<String, Object> sanitizeMap(Map<String, Object> responseMap) {

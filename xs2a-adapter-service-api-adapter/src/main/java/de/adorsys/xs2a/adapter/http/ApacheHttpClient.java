@@ -21,10 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ApacheHttpClient implements HttpClient {
@@ -104,16 +101,22 @@ public class ApacheHttpClient implements HttpClient {
     }
 
     private String getContent(HttpUriRequest request) {
-        if (request instanceof HttpEntityEnclosingRequest) {
-            HttpEntity entity = ((HttpEntityEnclosingRequest) request).getEntity();
-
-            try {
-                return entity != null ? EntityUtils.toString(entity) : "";
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
-            }
+        Optional<HttpEntity> requestEntity = getRequestEntity(request);
+        try {
+            return requestEntity.isPresent() ? EntityUtils.toString(requestEntity.get()) : "";
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
         }
-        return "";
+    }
+
+    private Optional<HttpEntity> getRequestEntity(HttpUriRequest request) {
+        HttpEntity entity = null;
+
+        if (request instanceof HttpEntityEnclosingRequest) {
+            entity = ((HttpEntityEnclosingRequest) request).getEntity();
+        }
+
+        return Optional.ofNullable(entity);
     }
 
     private <T> Response<T> execute(
@@ -150,7 +153,18 @@ public class ApacheHttpClient implements HttpClient {
     }
 
     private void logRequest(HttpUriRequest request, Map<String, String> headers) {
-        logHttpEvent(headers, request.getRequestLine().toString(), "-->");
+        String direction = "-->";
+        logHttpEvent(headers, request.getRequestLine().toString(), direction);
+
+        Optional<HttpEntity> requestEntityOptional = getRequestEntity(request);
+
+        if (requestEntityOptional.isPresent()) {
+            HttpEntity entity = requestEntityOptional.get();
+            String contentType = entity.getContentType() != null ? entity.getContentType().getValue() : "";
+            String sanitizedResponseBody = logSanitizer.sanitizeRequestBody(entity, contentType);
+            logger.debug("{} Request body [{}]: {}", direction, contentType, sanitizedResponseBody);
+            logger.debug(direction);
+        }
     }
 
     private void logHttpEvent(Map<String, String> headers, String httpLine, String direction) {
