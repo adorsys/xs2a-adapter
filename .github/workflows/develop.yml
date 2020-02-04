@@ -23,6 +23,7 @@ jobs:
         run: |
             pwd
             ls -la
+            git branch
       - uses: rlespinasse/github-slug-action@master
       - name: Checkout branch ${{ env.GITHUB_REF_SLUG }}
         run: git checkout ${{ env.GITHUB_REF_SLUG }}
