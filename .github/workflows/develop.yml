@@ -18,8 +18,8 @@ jobs:
     env:
         branch_name: ${GITHUB_REF##*/}
     steps:
-      - name: Checkout branch $branch_name
-        run: git checkout $branch_name
+      - name: Checkout branch ${env.branch_name}
+        run: git checkout ${env.branch_name}
       - name: Build project
         run: mvn clean install -B -Dbuild.number="${GITHUB_RUN_NUMBER}" -Djacoco.skip=false
       - name: Build docker image
