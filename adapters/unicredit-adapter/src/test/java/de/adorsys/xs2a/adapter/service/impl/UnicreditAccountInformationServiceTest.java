@@ -32,7 +32,7 @@ class UnicreditAccountInformationServiceTest {
     private static final String DEFAULT_PSU_ID_TYPE = "HVB_ONLINEBANKING";
     private static final String ALTERNATIVE_PSU_ID_TYPE = "UCEBANKINGGLOBAL";
     public static final String AUTHORISATION_ID = "authorisation-id";
-    public static final String AUTHORISATION_URL = CONSENT_ID_URL+"?authenticationCurrentNumber="+AUTHORISATION_ID;
+    public static final String AUTHORISATION_URL = CONSENT_ID_URL + "?authenticationCurrentNumber=" + AUTHORISATION_ID;
     private HttpClient httpClient;
     private UnicreditAccountInformationService accountInformationService;
 
