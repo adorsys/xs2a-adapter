@@ -3,14 +3,19 @@ on:
     branches:
       - develop
       - 'spe/gitHub-actions' # remove after testing will be done
-    pull_request:
-      branches:
-        - develop
 
 jobs:
   build:
-    name: Build project and docker image
-  docker:
-    name: Deploy docker image to the registry
-  sonar:
-    name: Send code coverage to sonar
+    name: Build project, deploy docker image, publish code coverage to Sonar
+    steps:
+      - name: Build project
+        run: mvn clean install -B -Dbuild.number=${TRAVIS_BUILD_NUMBER} -Djacoco.skip=false
+      - name: Build docker image
+        run: docker build -t "$OPENSHIFT_IMAGE_NAME:test" .
+      - name: Deploy docker image to the registry
+        run: |
+          docker login -u image-pusher -p $OPENSHIFT_TOKEN $OPENSHIFT_REGISTRY
+          docker build -t "$OPENSHIFT_IMAGE_NAME:develop" .
+          docker push $OPENSHIFT_IMAGE_NAME:develop
+      - name: Publish code coverage to Sonar
+        run: mvn jacoco:prepare-agent sonar:sonar -Dsonar.projectKey=adorsys_xs2a-adapter -Djacoco.skip=false
