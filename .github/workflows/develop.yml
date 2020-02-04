@@ -10,11 +10,10 @@ env:
   OPENSHIFT_NAMESPACE: xs2a-adapter-dev
   OPENSHIFT_IMAGE_NAME: $OPENSHIFT_REGISTRY/$OPENSHIFT_NAMESPACE/$XS2A_ADAPTER_IMAGE
 
-runs-on: ubuntu-latest
-
 jobs:
   build:
     name: Build project, deploy docker image, publish code coverage to Sonar
+    runs-on: ubuntu-latest
     container: "adorsys/ci-build"
     steps:
       - name: Build project
