@@ -28,6 +28,8 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class RequestSigningServiceTest {
 
+    private static final X509Certificate certificate = generateCertificate();
+
     @Mock
     private Pkcs12KeyStore keyStore;
 
@@ -48,8 +50,8 @@ class RequestSigningServiceTest {
         Map<String, String> headers = new HashMap<>();
         headers.put("header", "header");
 
-        when(keyStore.getQsealCertificate()).thenReturn(generateCertificate());
-        when(keyStore.getQsealPrivateKey()).thenReturn(genereatePrivateKey());
+        when(keyStore.getQsealCertificate()).thenReturn(certificate);
+        when(keyStore.getQsealPrivateKey()).thenReturn(generatePrivateKey());
 
         Signature actual = service.buildSignature(headers);
 
@@ -64,7 +66,7 @@ class RequestSigningServiceTest {
 
     @Test
     void buildTppSignatureCertificate() throws KeyStoreException, UnsupportedEncodingException, CertificateException {
-        when(keyStore.getQsealCertificate()).thenReturn(generateCertificate());
+        when(keyStore.getQsealCertificate()).thenReturn(certificate);
 
         TppSignatureCertificate actual = service.buildTppSignatureCertificate();
 
@@ -75,7 +77,10 @@ class RequestSigningServiceTest {
         assertTrue(actual.getHeaderValue().contains("MIIBLTCB2KADAgECAgEDMA0GCSqGSI"));
     }
 
-    private X509Certificate generateCertificate() throws UnsupportedEncodingException, CertificateException {
+    private static X509Certificate generateCertificate() {
+        X509Certificate certificate = null;
+        CertificateFactory cf = null;
+
         String b64 =
             "-----BEGIN CERTIFICATE-----\n" +
                 "MIIBLTCB2KADAgECAgEDMA0GCSqGSIb3DQEBBAUAMA0xCzAJBgNVBAMTAkNBMB4X\n" +
@@ -88,11 +93,18 @@ class RequestSigningServiceTest {
                 "-----END CERTIFICATE-----";
 
         InputStream is = new ByteArrayInputStream(b64.getBytes(StandardCharsets.UTF_8));
-        CertificateFactory cf = CertificateFactory.getInstance("X.509");
-        return (X509Certificate) cf.generateCertificate(is);
+
+        try {
+            cf = CertificateFactory.getInstance("X.509");
+            certificate = (X509Certificate) cf.generateCertificate(is);
+        } catch (CertificateException e) {
+            throw new RuntimeException(e);
+        }
+
+        return certificate;
     }
 
-    private PrivateKey genereatePrivateKey() throws NoSuchAlgorithmException {
+    private PrivateKey generatePrivateKey() throws NoSuchAlgorithmException {
         KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
         KeyPair keyPair = generator.genKeyPair();
 
