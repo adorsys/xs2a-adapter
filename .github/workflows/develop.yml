@@ -92,6 +92,8 @@ jobs:
 
       - name: Collect code coverage data
         run: |
+          pwd
+          ls -la target
           mvn clean install -Pcoverage -B
           mvn \
           -Pcoverage \
