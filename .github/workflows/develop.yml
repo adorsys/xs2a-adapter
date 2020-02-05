@@ -17,6 +17,11 @@ jobs:
     runs-on: ubuntu-latest
     container: "adorsys/ci-build"
     steps:
+      - name: Debug
+          run: |
+            echo "${{ github.run.number}}"
+            echo "${{ github.run_number}}"
+
       - name: Git checkout
         uses: actions/checkout@v2
         with:
