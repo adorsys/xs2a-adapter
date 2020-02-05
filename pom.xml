@@ -70,7 +70,6 @@
         <maven.enforce.plugin.version>1.4.1</maven.enforce.plugin.version>
         <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
-        <jacoco.skip>true</jacoco.skip>
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
 
         <!-- spring -->
@@ -94,6 +93,11 @@
         <nimbus-jose-jwt.version>8.4</nimbus-jose-jwt.version>
 
         <!-- Sonar dependencies -->
+        <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.language>java</sonar.language>
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.exclusions>file:**/generated-sources/**, **/model/*, /xs2a-adapter-generated-rest-api/**/*</sonar.exclusions>
         <sonar.coverage.exclusions>
             **/*Entity.java,**/*TO.java,**/*BO.java,**/*Application.java,**/*Exception.java,**/*Config.java
@@ -300,29 +304,26 @@
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
                         <version>${jacoco-maven-plugin.version}</version>
+                        <configuration>
+                            <destFile>${sonar.jacoco.reportPath}</destFile>
+                            <dataFile>${sonar.jacoco.reportPath}</dataFile>
+                            <append>true</append>
+                            <excludes>
+                                <exclude>**/generated-sources/**</exclude>
+                            </excludes>
+                        </configuration>
                         <executions>
                             <execution>
-                                <id>default-prepare-agent</id>
+                                <id>jacoco-initialize</id>
                                 <goals>
                                     <goal>prepare-agent</goal>
                                 </goals>
                             </execution>
                             <execution>
-                                <id>default-prepare-agent-integration</id>
-                                <goals>
-                                    <goal>prepare-agent-integration</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>default-report</id>
+                                <id>jacoco-site</id>
+                                <phase>package</phase>
                                 <goals>
                                     <goal>report</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>default-report-integration</id>
-                                <goals>
-                                    <goal>report-integration</goal>
                                 </goals>
                             </execution>
                         </executions>
