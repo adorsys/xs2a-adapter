@@ -11,6 +11,9 @@ env:
   OPENSHIFT_NAMESPACE: xs2a-adapter-dev
   OPENSHIFT_IMAGE_NAME: openshift-registry.adorsys.de/xs2a-adapter-dev/xs2a-adapter
   GITHUB_RUN_NUMBER: ${{ github.run_number }}
+  SONAR_HOST: https://sonarcloud.io
+  SONAR_ORG: adorsys
+  SONAR_PRJ_KEY: adorsys_xs2a-adapter
 
 jobs:
   build:
@@ -50,7 +53,7 @@ jobs:
 #          docker push ${{ env.OPENSHIFT_IMAGE_NAME }}:develop-test
 
       - name: Publish code coverage to Sonar Cloud
-        run: mvn clean verify -P sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.projectKey=adorsys_xs2a-adapter
+        run: mvn clean verify -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.host.url=${{ env.SONAR_HOST }} -Dsonar.projectKey=${{ env.SONAR_PRJ_KEY }} -Dsonar.organization=${{ env.SONAR_ORG }}
 
 #      - name: Publish code coverage to Sonar Cloud
 #        uses: sonarsource/sonarcloud-github-action@master
