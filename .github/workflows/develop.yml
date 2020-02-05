@@ -48,7 +48,7 @@ jobs:
 
       - name: Deploy docker image to the registry
         run: |
-          docker login -u image-pusher -p ${{ secrets.OPENSHIFT_USER }} ${{ env.OPENSHIFT_REGISTRY }}
+          docker login -u image-pusher -p ${{ secrets.OPENSHIFT_TOKEN }} ${{ env.OPENSHIFT_REGISTRY }}
           docker build -t "${{ env.OPENSHIFT_IMAGE_NAME }}:develop" .
           docker push ${{ env.OPENSHIFT_IMAGE_NAME }}:develop
 
