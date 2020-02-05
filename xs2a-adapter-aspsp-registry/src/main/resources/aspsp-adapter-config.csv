@@ -50,7 +50,7 @@ e83c8c44-1fa0-4795-b60d-65dcff71d6a5,Raiffeisenbank Aschaffenburg,GENODEF1HAC,ht
 4a522043-b3fa-46b5-8f2c-acc447e0406a,VR-Bank Lichtenfels-Ebern eG,GENODEF1LIF,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,77091800
 125646d8-2e0e-47ea-8cfc-0775f54f5302,SPAR- UND KREDITBANK HAMMAH,GENODEF1HAA,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,20069800
 b61743a9-12dc-471d-86c2-78940ec6f72e,Genossenschaftsbank Weil im Schönbuch,GENODES1GWS,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,60069224
-608c77dd-ab76-4ba1-b10f-a3480acea88c,Deutsche Bank AG,DEUTDE,https://simulator-xs2a.db.com/{Service Group}/DE/SB-DB,deutsche-bank-adapter,
+608c77dd-ab76-4ba1-b10f-a3480acea88c,Deutsche Bank AG,DEUTDE,https://simulator-xs2a.db.com/{Service Group}/DE/SB-DB,deutsche-bank-adapter,21573014
 cb742447-0df0-44f4-8ec4-ed81ee75176f,Volksbank,GENODEF1LIA,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,73369826
 35d21e8a-338f-40d8-b873-f45a19603b8f,Raiffeisenbank Elztal,GENODE61ELZ,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,66069103
 b4df15d4-d67f-4ab0-87e1-edb9a2779808,Sparkasse Neuwied,MALADE51NWD,https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678,sparkasse-adapter,57450120
@@ -1000,7 +1000,7 @@ cd48fb10-0b10-432e-9efe-8f275e790464,Taunus-Sparkasse,HELADEF1TSK,https://xs2a-s
 ed28fcd2-f7d3-4c44-a4f9-ca2bac29e617,Raiffeisenbank Wimsheim-Mönsheim,GENODES1WIM,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,60661906
 3ff15431-5bdb-471b-8fe5-8f53ab02795d,Raiffeisenbank,GENODEF1GLU,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,53062035
 1adbc2a4-acd1-4486-8bf9-4e0dba35ea05,Raiffeisenbank Bad Saulgau,GENODES1SAG,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,65063086
-65697cb7-61dc-44aa-acf4-e69aabd4578f,Sparkasse Fürth,BYLADEM1SFU,https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678,sparkasse-adapter,76250000
+65697cb7-61dc-44aa-acf4-e69aabd4578f,Sparkasse Fürth,BYLADEM1SFU,https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678,sparkasse-adapter,99999999
 ba43c44c-3c8d-47cc-b7fd-dac9790a5549,VR-Bank in Mittelbaden,GENODE61IFF,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,66562300
 4f838d45-f3a3-4127-9645-c0dd8d5f8077,Raiffeisenbank Steinheim,GENODES1SAA,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,60069158
 28998cb7-3f2e-4afa-ba8c-1f1e8eb606dd,Raiffeisenbank Kirchweihtal,GENODEF1GMG,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,
@@ -1315,11 +1315,11 @@ b0d1f4b3-7e3c-46ab-8a77-6e2009d435dc,Raiffeisenbank Adelzhausen-Sielenbach,GENOD
 f3b98d05-3b22-4b02-b616-f64a28a1a8b0,VR-Bank eG im Altkreis Bersenbrück,GENODEF1VNK,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,
 0de9d941-1fc4-4317-8278-f3bc4112addc,VR-Bank Kreis Steinfurt eG,GENODEM1HRI,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,
 0bcd9740-06e2-43cb-8bec-435fd5d93f46,Sparkasse Hilden-Ratingen-Velbert,WELADED1VEL,https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678,sparkasse-adapter,33450000
-53c47f54-b9a4-465a-8f77-bc6cd5f0cf46,adorsys xs2a,ADORSYS,https://demo-dynamicsandbox-xs2a.cloud.adorsys.de,adorsys-integ-adapter,
+53c47f54-b9a4-465a-8f77-bc6cd5f0cf46,adorsys xs2a,ADORSYS,https://xs2a.umweltbank.de/SANDBOX/api,adorsys-integ-adapter,76070024,
 fa956605-d548-4622-8e0f-781bb25b5aad,Raiffeisenbank Sondelfingen,GENODES1RSF,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,60069147
 60370c70-760e-459e-b5f8-f84c67dcc5aa,VOLKSBANK EMSTEK,GENODEF1EMK,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,28069109
 fe3f105b-ff9b-490a-a608-0d212b359321,Sparkasse Münsterland Ost,WELADED1MST,https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678,sparkasse-adapter,40050150
-fe6a266d-a88a-451b-8529-f4c5a277a1aa,Sparkasse Gießen,SKGIDE5FXXX,https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678,sparkasse-adapter,51350025
+fe6a266d-a88a-451b-8529-f4c5a277a1aa,Sparkasse Gießen,SKGIDE5FXXX,https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678,sparkasse-adapter,513500іті 25
 a195fcb7-cadd-4a85-9cd2-d5925c6e04a7,Sparkasse Merzig-Wadern,MERZDE55XXX,https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678,sparkasse-adapter,59351040
 6f9a6391-eb57-41b0-961c-486ad44f0601,VR-Bank Ismaning Hallbergmoos Neufahrn,GENODEF1ISV,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,70093400
 f32bc2cf-e5d2-44bb-90b0-3472cb3df6b7,Raiffeisenbank Augsburger Land West,GENODEF1ZUS,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,72069274
