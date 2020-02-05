@@ -90,8 +90,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Collect code coverage
-        run: >
+      - name: Collect code coverage data
+        run: |
+          mvn clean install -B
+          >
           mvn
           -Pcoverage
           jacoco:prepare-agent
