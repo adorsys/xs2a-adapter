@@ -17,18 +17,42 @@ env:
 
 jobs:
   build:
-    name: Build project, deploy docker image, publish code coverage to Sonar
+    name: Build project & docker file
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.ref }}
 
       - name: Setup java
         uses: actions/setup-java@v1
         with:
-          java-version: 8.0.192
+          java-version: 8
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build project
+        run: mvn clean verify
+
+      - name: Build docker image
+        run: docker build -t ${{ env.OPENSHIFT_IMAGE_NAME }}:test .
+
+  deploy:
+    name: Deploy docker image to the registry
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Setup java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
 
       - uses: actions/cache@v1
         with:
@@ -39,17 +63,34 @@ jobs:
 
       - name: Build project
         run: mvn clean install -B -Dbuild.number="${{ env.GITHUB_RUN_NUMBER }}"
-#
-#      - name: Build docker image
-#        run: docker build -t ${{ env.OPENSHIFT_IMAGE_NAME }}:test .
-#
-#      - name: Deploy docker image to the registry
-#        run: |
-#          docker login -u image-pusher -p ${{ secrets.OPENSHIFT_TOKEN }} ${{ env.OPENSHIFT_REGISTRY }}
-#          docker build -t "${{ env.OPENSHIFT_IMAGE_NAME }}:develop-test" .
-#          docker push ${{ env.OPENSHIFT_IMAGE_NAME }}:develop-test
 
-      - name: Publish code coverage to Sonar Cloud
+      - name: Build & deploy docker image
+        run: |
+          docker login -u image-pusher -p ${{ secrets.OPENSHIFT_TOKEN }} ${{ env.OPENSHIFT_REGISTRY }}
+          docker build -t "${{ env.OPENSHIFT_IMAGE_NAME }}:develop-test" .
+          docker push ${{ env.OPENSHIFT_IMAGE_NAME }}:develop-test
+
+  sonar:
+    name: Publish code coverage to Sonar Cloud
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Setup java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Collect code coverage
         run: >
           mvn
           -Pcoverage
@@ -58,7 +99,7 @@ jobs:
           -Dsonar.host.url=${{ env.SONAR_HOST }}
           -Dsonar.projectKey=${{ env.SONAR_PRJ_KEY }}
           -Dsonar.organization=${{ env.SONAR_ORG }}
-#          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml,target/site/jacoco-it/jacoco.xml
+          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml,target/site/jacoco-it/jacoco.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

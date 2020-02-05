@@ -94,7 +94,6 @@
         <nimbus-jose-jwt.version>8.4</nimbus-jose-jwt.version>
 
         <!-- Sonar dependencies -->
-        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../target/jacoco.exec</sonar.coverage.jacoco.xmlReportPaths>
         <sonar.exclusions>file:**/generated-sources/**, **/model/*, /xs2a-adapter-generated-rest-api/**/*</sonar.exclusions>
         <sonar.coverage.exclusions>
             **/*Entity.java,**/*TO.java,**/*BO.java,**/*Application.java,**/*Exception.java,**/*Config.java
