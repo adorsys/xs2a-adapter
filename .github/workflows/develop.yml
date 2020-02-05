@@ -58,7 +58,7 @@ jobs:
           -Dsonar.host.url=${{ env.SONAR_HOST }}
           -Dsonar.projectKey=${{ env.SONAR_PRJ_KEY }}
           -Dsonar.organization=${{ env.SONAR_ORG }}
-          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml,target/site/jacoco-it/jacoco.xml
+#          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml,target/site/jacoco-it/jacoco.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
