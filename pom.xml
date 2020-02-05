@@ -98,7 +98,7 @@
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
-<!--        <sonar.coverage.jacoco.xmlReportPaths>${sonar.jacoco.reportPath}</sonar.coverage.jacoco.xmlReportPaths>-->
+        <sonar.coverage.jacoco.xmlReportPaths>${sonar.jacoco.reportPath}</sonar.coverage.jacoco.xmlReportPaths>
         <sonar.language>java</sonar.language>
         <sonar.exclusions>file:**/generated-sources/**, **/model/*, /xs2a-adapter-generated-rest-api/**/*</sonar.exclusions>
         <sonar.coverage.exclusions>
@@ -226,6 +226,14 @@
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
                     <version>${sonar-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sonar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
