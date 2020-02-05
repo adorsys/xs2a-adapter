@@ -15,12 +15,7 @@ jobs:
   build:
     name: Build project, deploy docker image, publish code coverage to Sonar
     runs-on: ubuntu-latest
-#    container: "adorsys/ci-build"
     steps:
-      - name: Debug
-        run: |
-          echo "${{ github.run_number }}"
-
       - name: Git checkout
         uses: actions/checkout@v2
         with:
@@ -42,18 +37,18 @@ jobs:
         env:
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
         run: mvn clean install -B -Dbuild.number="${GITHUB_RUN_NUMBER}" -Djacoco.skip=false
+#
+#      - name: Build docker image
+#        run: docker build -t ${{ env.OPENSHIFT_IMAGE_NAME }}:test .
+#
+#      - name: Deploy docker image to the registry
+#        run: |
+#          docker login -u image-pusher -p ${{ secrets.OPENSHIFT_TOKEN }} ${{ env.OPENSHIFT_REGISTRY }}
+#          docker build -t "${{ env.OPENSHIFT_IMAGE_NAME }}:develop-test" .
+#          docker push ${{ env.OPENSHIFT_IMAGE_NAME }}:develop-test
 
-      - name: Build docker image
-        run: docker build -t ${{ env.OPENSHIFT_IMAGE_NAME }}:test .
-
-      - name: Deploy docker image to the registry
-        run: |
-          docker login -u image-pusher -p ${{ secrets.OPENSHIFT_TOKEN }} ${{ env.OPENSHIFT_REGISTRY }}
-          docker build -t "${{ env.OPENSHIFT_IMAGE_NAME }}:develop" .
-          docker push ${{ env.OPENSHIFT_IMAGE_NAME }}:develop
-
-      - name: Collect sonar data
-        run: mvn sonar:sonar -Dsonar.projectKey=adorsys_xs2a-adapter -Djacoco.skip=false
+#      - name: Collect sonar data
+#        run: mvn maven:sonar -Djacoco.skip=false
 
       - name: Publish code coverage to Sonar
         uses: sonarsource/sonarcloud-github-action@master
