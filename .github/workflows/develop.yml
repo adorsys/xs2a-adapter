@@ -47,8 +47,8 @@ jobs:
 #          docker build -t "${{ env.OPENSHIFT_IMAGE_NAME }}:develop-test" .
 #          docker push ${{ env.OPENSHIFT_IMAGE_NAME }}:develop-test
 
-#      - name: Collect sonar data
-#        run: mvn maven:sonar -Djacoco.skip=false
+      - name: Collect sonar data
+        run: mvn maven:sonar -Djacoco.skip=false
 
       - name: Publish code coverage to Sonar
         uses: sonarsource/sonarcloud-github-action@master
