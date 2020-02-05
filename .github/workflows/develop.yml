@@ -49,8 +49,11 @@ jobs:
       - name: Deploy docker image to the registry
         run: |
           docker login -u image-pusher -p ${{ secrets.OPENSHIFT_TOKEN }} ${{ env.OPENSHIFT_REGISTRY }}
-          docker build -t "${{ env.OPENSHIFT_IMAGE_NAME }}:develop" .
-          docker push ${{ env.OPENSHIFT_IMAGE_NAME }}:develop
+          docker build -t "${{ env.OPENSHIFT_IMAGE_NAME }}:develop-test" .
+          docker push ${{ env.OPENSHIFT_IMAGE_NAME }}:develop-test
 
       - name: Publish code coverage to Sonar
-        run: mvn jacoco:prepare-agent sonar:sonar -Dsonar.projectKey=adorsys_xs2a-adapter -Djacoco.skip=false
+        uses: sonarsource/sonarcloud-github-action@master
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
