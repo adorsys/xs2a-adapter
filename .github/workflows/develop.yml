@@ -10,12 +10,16 @@ env:
   OPENSHIFT_REGISTRY: openshift-registry.adorsys.de
   OPENSHIFT_NAMESPACE: xs2a-adapter-dev
   OPENSHIFT_IMAGE_NAME: openshift-registry.adorsys.de/xs2a-adapter-dev/xs2a-adapter
+  GITHUB_RUN_NUMBER: ${{ github.run_number }}
 
 jobs:
   build:
     name: Build project, deploy docker image, publish code coverage to Sonar
     runs-on: ubuntu-latest
     steps:
+      - name: Debug
+        run: |
+          echo "${{ env.GITHUB_RUN_NUMBER }}"
       - name: Git checkout
         uses: actions/checkout@v2
         with:
@@ -48,7 +52,7 @@ jobs:
 #          docker push ${{ env.OPENSHIFT_IMAGE_NAME }}:develop-test
 
       - name: Collect sonar data
-        run: mvn maven:sonar -Djacoco.skip=false
+        run: mvn org.sonarsource.scanner.maven:sonar -Djacoco.skip=false
 
       - name: Publish code coverage to Sonar
         uses: sonarsource/sonarcloud-github-action@master
