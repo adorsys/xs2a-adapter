@@ -94,6 +94,7 @@ jobs:
         run: |
           pwd
           mvn clean install -Pcoverage -B
+          pwd
           ls -la target
           mvn \
           -Pcoverage \
