@@ -92,7 +92,7 @@ jobs:
 
       - name: Collect code coverage data
         run: |
-          mvn clean package -Pcoverage -B
+          mvn clean install -Pcoverage -B
           mvn \
           -Pcoverage \
           jacoco:prepare-agent \
