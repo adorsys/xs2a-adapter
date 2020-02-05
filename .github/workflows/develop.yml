@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - develop
+      - sonar-coverage
 
 env:
   XS2A_ADAPTER_IMAGE: xs2a-adapter
