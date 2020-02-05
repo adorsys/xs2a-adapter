@@ -36,11 +36,11 @@ jobs:
 
       - name: Build project
         env:
-          GITHUB_RUN_NUMBER: ${{ env.GITHUB_RUN_NUMBER }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
         run: mvn clean install -B -Dbuild.number="${GITHUB_RUN_NUMBER}" -Djacoco.skip=false
 
       - name: Build docker image
-        run: docker build -t ${{ env.OPENSHIFT_IMAGE_NAME }}:test .
+        run: sudo docker build -t ${{ env.OPENSHIFT_IMAGE_NAME }}:test .
 
       - name: Deploy docker image to the registry
         run: |
