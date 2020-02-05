@@ -1,4 +1,4 @@
-name: Pull request CI
+name: Pull Request CI
 on:
   pull_request:
     branches:
@@ -18,13 +18,11 @@ jobs:
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.ref }}
 
       - name: Setup java
         uses: actions/setup-java@v1
         with:
-          java-version: 8.0.192
+          java-version: 8
 
       - uses: actions/cache@v1
         with:
@@ -34,7 +32,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Build project
-        run: mvn clean install -B -Dbuild.number="${{ env.GITHUB_RUN_NUMBER }}" -Djacoco.skip=false
+        run: mvn clean verify
 
       - name: Build docker image
         run: docker build -t ${{ env.OPENSHIFT_IMAGE_NAME }}:test .

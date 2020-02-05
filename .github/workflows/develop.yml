@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - develop
-      - 'spe/gitHub-actions' # remove after testing will be done
 
 env:
   XS2A_ADAPTER_IMAGE: xs2a-adapter
@@ -67,8 +66,8 @@ jobs:
       - name: Build & deploy docker image
         run: |
           docker login -u image-pusher -p ${{ secrets.OPENSHIFT_TOKEN }} ${{ env.OPENSHIFT_REGISTRY }}
-          docker build -t "${{ env.OPENSHIFT_IMAGE_NAME }}:develop-test" .
-          docker push ${{ env.OPENSHIFT_IMAGE_NAME }}:develop-test
+          docker build -t "${{ env.OPENSHIFT_IMAGE_NAME }}:develop" .
+          docker push ${{ env.OPENSHIFT_IMAGE_NAME }}:develop
 
   sonar:
     name: Publish code coverage to Sonar Cloud
