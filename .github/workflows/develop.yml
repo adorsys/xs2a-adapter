@@ -19,8 +19,8 @@ jobs:
     steps:
       - name: Debug
           run: |
-            echo "${{ github.run.number}}"
-            echo "${{ github.run_number}}"
+            echo "${{ github.run.number }}"
+            echo "${{ github.run_number }}"
 
       - name: Git checkout
         uses: actions/checkout@v2
