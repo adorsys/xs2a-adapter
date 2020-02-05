@@ -93,13 +93,14 @@ jobs:
       - name: Collect code coverage data
         run: |
           pwd
-          mvn clean install -Pcoverage -B
-          pwd
           ls -la target
           mvn \
-          -Pcoverage \
-          jacoco:prepare-agent \
+          clean \
+          org.jacoco:jacoco-maven-plugin:prepare-agent \
+          install \
           sonar:sonar \
+          -B \
+          -Pcoverage \
           -Dsonar.host.url=${{ env.SONAR_HOST }} \
           -Dsonar.projectKey=${{ env.SONAR_PRJ_KEY }} \
           -Dsonar.organization=${{ env.SONAR_ORG }}
