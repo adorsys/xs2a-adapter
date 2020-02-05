@@ -50,4 +50,4 @@ jobs:
 #          docker push ${{ env.OPENSHIFT_IMAGE_NAME }}:develop-test
 
       - name: Publish code coverage to Sonar Cloud
-        run: mvn clean verify -Djacoco.skip=false -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.host.url=${{ env.SONAR_HOST }} -Dsonar.projectKey=${{ env.SONAR_PRJ_KEY }} -Dsonar.organization=${{ env.SONAR_ORG }}
+        run: mvn jacoco:prepare-agent sonar:sonar -Djacoco.skip=false -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.host.url=${{ env.SONAR_HOST }} -Dsonar.projectKey=${{ env.SONAR_PRJ_KEY }} -Dsonar.organization=${{ env.SONAR_ORG }}
