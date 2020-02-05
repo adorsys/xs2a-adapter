@@ -94,6 +94,10 @@
         <nimbus-jose-jwt.version>8.4</nimbus-jose-jwt.version>
 
         <!-- Sonar dependencies -->
+        <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../target/jacoco.exec</sonar.coverage.jacoco.xmlReportPaths>
         <sonar.exclusions>file:**/generated-sources/**, **/model/*, /xs2a-adapter-generated-rest-api/**/*</sonar.exclusions>
         <sonar.coverage.exclusions>
             **/*Entity.java,**/*TO.java,**/*BO.java,**/*Application.java,**/*Exception.java,**/*Config.java
@@ -300,6 +304,14 @@
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
                         <version>${jacoco-maven-plugin.version}</version>
+                        <configuration>
+                            <destFile>${sonar.coverage.jacoco.xmlReportPaths}</destFile>
+                            <dataFile>${sonar.coverage.jacoco.xmlReportPaths}</dataFile>
+                            <append>true</append>
+                            <excludes>
+                                <exclude>**/generated-sources/**</exclude>
+                            </excludes>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>default-prepare-agent</id>
