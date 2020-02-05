@@ -32,7 +32,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Build project
-        run: mvn clean verify
+        run: mvn clean verify -B
 
       - name: Build docker image
         run: docker build -t ${{ env.OPENSHIFT_IMAGE_NAME }}:test .
