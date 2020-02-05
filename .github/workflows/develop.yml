@@ -94,7 +94,7 @@ jobs:
         run: >
           mvn
           -Pcoverage
-          verify
+          jacoco:prepare-agent
           sonar:sonar
           -Dsonar.host.url=${{ env.SONAR_HOST }}
           -Dsonar.projectKey=${{ env.SONAR_PRJ_KEY }}
