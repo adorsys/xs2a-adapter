@@ -19,7 +19,6 @@ jobs:
     steps:
       - name: Debug
         run: |
-          echo "${{ github.run.number }}"
           echo "${{ github.run_number }}"
 
       - name: Git checkout
@@ -49,9 +48,9 @@ jobs:
 
       - name: Deploy docker image to the registry
         run: |
-          docker login -u image-pusher -p ${OPENSHIFT_TOKEN} ${OPENSHIFT_REGISTRY}
-          docker build -t "${OPENSHIFT_IMAGE_NAME}:develop" .
-          docker push ${OPENSHIFT_IMAGE_NAME}:develop
+          docker login -u image-pusher -p ${{ secrets.OPENSHIFT_USER }} ${{ env.OPENSHIFT_REGISTRY }}
+          docker build -t "${{ env.OPENSHIFT_IMAGE_NAME }}:develop" .
+          docker push ${{ env.OPENSHIFT_IMAGE_NAME }}:develop
 
       - name: Publish code coverage to Sonar
         run: mvn jacoco:prepare-agent sonar:sonar -Dsonar.projectKey=adorsys_xs2a-adapter -Djacoco.skip=false
