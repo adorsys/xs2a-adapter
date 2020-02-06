@@ -38,7 +38,8 @@ jobs:
         run: mvn clean verify -B
 
       - name: Build docker image
-        IMAGE_TAG: test
+        env:
+          IMAGE_TAG: test
         run: docker build -t ${{ env.XS2A_ADAPTER_IMAGE }}:${IMAGE_TAG} .
 
   deploy:
