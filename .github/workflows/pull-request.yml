@@ -4,13 +4,6 @@ on:
     branches:
       - develop
 
-env:
-  XS2A_ADAPTER_IMAGE: xs2a-adapter
-  OPENSHIFT_REGISTRY: openshift-registry.adorsys.de
-  OPENSHIFT_NAMESPACE: xs2a-adapter-dev
-  OPENSHIFT_IMAGE_NAME: openshift-registry.adorsys.de/xs2a-adapter-dev/xs2a-adapter
-  GITHUB_RUN_NUMBER: ${{ github.run_number }}
-
 jobs:
   build:
     name: Build project, build docker image
@@ -32,7 +25,10 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Build project
-        run: mvn clean verify -B
+        run: mvn clean package -B
 
       - name: Build docker image
-        run: docker build -t ${{ env.OPENSHIFT_IMAGE_NAME }}:test .
+        env:
+          XS2A_ADAPTER_IMAGE: xs2a-adapter
+          IMAGE_TAG: test
+        run: docker build -t ${XS2A_ADAPTER_IMAGE}:${IMAGE_TAG} .
