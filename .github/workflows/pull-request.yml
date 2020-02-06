@@ -30,5 +30,5 @@ jobs:
       - name: Build docker image
         env:
           XS2A_ADAPTER_IMAGE: xs2a-adapter
-          IMAGE_TAG: develop
+          IMAGE_TAG: test
         run: docker build -t ${XS2A_ADAPTER_IMAGE}:${IMAGE_TAG} .

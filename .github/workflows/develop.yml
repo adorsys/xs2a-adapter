@@ -38,7 +38,8 @@ jobs:
         run: mvn clean verify -B
 
       - name: Build docker image
-        run: docker build -t ${{ env.XS2A_ADAPTER_IMAGE }}:test .
+        IMAGE_TAG: test
+        run: docker build -t ${{ env.XS2A_ADAPTER_IMAGE }}:${IMAGE_TAG} .
 
   deploy:
     name: Deploy docker image to the registry
