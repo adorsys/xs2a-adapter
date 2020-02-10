@@ -27,7 +27,7 @@ jobs:
 #            ${{ runner.os }}-maven-
 
       - name: Debug
-        run: echo "${SHA7}"
+        run: echo "${SHA7} - ${GITHUB_SHA} - ${{ github.sha }}"
 
 #      - name: Build project
 #        run: mvn clean package -B
