@@ -9,7 +9,6 @@ env:
   OPENSHIFT_REGISTRY: openshift-registry.adorsys.de
   OPENSHIFT_NAMESPACE: xs2a-adapter-dev
   OPENSHIFT_NAMESPACE_INTEG: xs2a-adapter-integ
-  GITHUB_RUN_NUMBER: ${{ github.run_number }}
   SONAR_HOST: https://sonarcloud.io
   SONAR_ORG: adorsys
   SONAR_PRJ_KEY: adorsys_xs2a-adapter
@@ -63,7 +62,8 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Build project
-        run: mvn clean install -B -Dbuild.number="${{ env.GITHUB_RUN_NUMBER }}"
+        run: mvn clean install -B -Dbuild.number=${GITHUB_SHA::7}
+        shell: bash
 
       - name: DEV. Build & deploy docker image
         env:
