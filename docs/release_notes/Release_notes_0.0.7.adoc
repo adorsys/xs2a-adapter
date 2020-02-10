@@ -1,12 +1,4 @@
-= DRAFT Release notes for version 0.0.7 (release date: xx.02.2020)
-
-.Added banks
-|===
-|Bank Name|approach|AIS, PIS
-
-|===
-
-== Notices:
+= Release notes for version 0.0.7 (release date: 10.02.2020)
 
 == Features:
 - Deutsche bank PSU password encryption flow for Embedded approach
@@ -17,4 +9,4 @@
 == Fixes:
 - Fixed Sparda authorisation URL
 - Revised OAuth2 implementation of comdirect adapter
-- Fixed missing PSU-Id_type header for Unicredit
+- Fixed missing PSU-ID-TYPE header for Unicredit
