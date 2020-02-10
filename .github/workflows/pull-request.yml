@@ -26,7 +26,7 @@ jobs:
 
       - name: Debug
         env:
-          SHA7: ${github.sha:7}
+          SHA7: ${GITHUB_SHA::7}
         run: echo ${SHA7}
 
 #      - name: Build project
