@@ -26,7 +26,6 @@ jobs:
 
       - name: Build & Publish
         run: |
-          export GPG_TTY=$(tty)
           echo ${{ secrets.GPG_SECRET_KEY }} | base64 --decode | gpg --batch --import
           echo ${{ secrets.GPG_OWNERTRUST }} | base64 --decode | gpg --batch --import-ownertrust
           mvn --settings scripts/mvn-release-settings.xml -Prelease -DskipTests -B -U deploy
