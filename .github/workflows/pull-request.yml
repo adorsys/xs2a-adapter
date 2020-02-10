@@ -26,8 +26,8 @@ jobs:
 
       - name: Debug
         env:
-          SHA8: ${github.sha::8}
-        run: echo $SHA8
+          SHA7: ${github.sha::7}
+        run: echo ${SHA7}
 
 #      - name: Build project
 #        run: mvn clean package -B
