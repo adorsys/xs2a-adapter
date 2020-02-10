@@ -8,6 +8,8 @@ jobs:
   build:
     name: Build project, build docker image
     runs-on: ubuntu-latest
+    env:
+      SHA7: ${GITHUB_SHA::7}
     steps:
 #      - name: Git checkout
 #        uses: actions/checkout@v2
@@ -25,9 +27,7 @@ jobs:
 #            ${{ runner.os }}-maven-
 
       - name: Debug
-        env:
-          SHA7: ${GITHUB_SHA::7}
-        run: echo ${SHA7}
+        run: echo "${SHA7}"
 
 #      - name: Build project
 #        run: mvn clean package -B
