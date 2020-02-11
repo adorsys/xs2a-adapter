@@ -75,8 +75,7 @@ jobs:
           OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_DEV }}/${{ env.XS2A_ADAPTER_IMAGE }}
           OPENSHIFT_IMAGE_TAG: develop
         run: |
-          docker tag ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }} "${OPENSHIFT_IMAGE_NAME}:${OPENSHIFT_IMAGE_TAG}" .
-          docker login -u image-pusher -p ${{ secrets.OPENSHIFT_TOKEN }} ${{ env.OPENSHIFT_REGISTRY }}
+          docker tag ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }} ${OPENSHIFT_IMAGE_NAME}:${OPENSHIFT_IMAGE_TAG}
           docker push ${OPENSHIFT_IMAGE_NAME}:${OPENSHIFT_IMAGE_TAG}
 
       - name: INTEG. Deploy docker image
@@ -84,8 +83,7 @@ jobs:
           OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_INTEG }}/${{ env.XS2A_ADAPTER_IMAGE }}
           OPENSHIFT_IMAGE_TAG: develop
         run: |
-          docker tag ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }} "${OPENSHIFT_IMAGE_NAME}:${OPENSHIFT_IMAGE_TAG}" .
-          docker login -u image-pusher -p ${{ secrets.OPENSHIFT_TOKEN_INTEG }} ${{ env.OPENSHIFT_REGISTRY }}
+          docker tag ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }} ${OPENSHIFT_IMAGE_NAME}:${OPENSHIFT_IMAGE_TAG}
           docker push ${OPENSHIFT_IMAGE_NAME}:${OPENSHIFT_IMAGE_TAG}
 
       - name: Docker logout
