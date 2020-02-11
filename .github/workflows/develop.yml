@@ -6,7 +6,7 @@ on:
 
 env:
   XS2A_ADAPTER_IMAGE_NAME: xs2a-adapter
-  XS2A_ADAPTER_IMAGE_TAG: test
+  XS2A_ADAPTER_IMAGE_TAG: develop
   OPENSHIFT_REGISTRY: openshift-registry.adorsys.de
   OPENSHIFT_NAMESPACE_DEV: xs2a-adapter-dev
   OPENSHIFT_NAMESPACE_INTEG: xs2a-adapter-integ
