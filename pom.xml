@@ -78,8 +78,7 @@
         <spring-data-releasetrain.version>Lovelace-SR10</spring-data-releasetrain.version>
 
         <!-- swagger -->
-        <springfox-swagger2.version>2.8.0</springfox-swagger2.version>
-        <swagger-annotations.version>1.5.17</swagger-annotations.version>
+        <swagger-ui.version>3.25.0</swagger-ui.version>
 
         <!-- other -->
         <servlet-api.version>4.0.0</servlet-api.version>
@@ -137,21 +136,9 @@
             <!-- swagger dependencies -->
 
             <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger-annotations.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${springfox-swagger2.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox-swagger2.version}</version>
+                <groupId>org.webjars</groupId>
+                <artifactId>swagger-ui</artifactId>
+                <version>${swagger-ui.version}</version>
             </dependency>
 
             <!-- other dependencies -->

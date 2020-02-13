@@ -45,18 +45,8 @@
         <!-- swagger dependencies -->
 
         <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
+            <groupId>org.webjars</groupId>
+            <artifactId>swagger-ui</artifactId>
             <scope>runtime</scope>
         </dependency>
 
