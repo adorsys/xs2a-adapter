@@ -65,26 +65,28 @@ jobs:
         shell: bash
 
       - name: Build docker image
-        run: docker build -t ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }} .
+        env:
+          LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+        run: docker build -t ${LOCAL_IMAGE_NAME} .
 
       - name: Docker login
         run: docker login -u image-pusher -p ${{ secrets.OPENSHIFT_TOKEN }} ${{ env.OPENSHIFT_REGISTRY }}
 
       - name: DEV. Deploy docker image
         env:
-          OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_DEV }}/${{ env.XS2A_ADAPTER_IMAGE }}
-          OPENSHIFT_IMAGE_TAG: develop
+          LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+          OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_DEV }}/${{ env.XS2A_ADAPTER_IMAGE }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
         run: |
-          docker tag ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }} ${OPENSHIFT_IMAGE_NAME}:${OPENSHIFT_IMAGE_TAG}
-          docker push ${OPENSHIFT_IMAGE_NAME}:${OPENSHIFT_IMAGE_TAG}
+          docker tag ${LOCAL_IMAGE_NAME} ${OPENSHIFT_IMAGE_NAME}
+          docker push ${OPENSHIFT_IMAGE_NAME}
 
       - name: INTEG. Deploy docker image
         env:
-          OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_INTEG }}/${{ env.XS2A_ADAPTER_IMAGE }}
-          OPENSHIFT_IMAGE_TAG: develop
+          LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+          OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_INTEG }}/${{ env.XS2A_ADAPTER_IMAGE }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
         run: |
-          docker tag ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }} ${OPENSHIFT_IMAGE_NAME}:${OPENSHIFT_IMAGE_TAG}
-          docker push ${OPENSHIFT_IMAGE_NAME}:${OPENSHIFT_IMAGE_TAG}
+          docker tag ${LOCAL_IMAGE_NAME} ${OPENSHIFT_IMAGE_NAME}
+          docker push ${OPENSHIFT_IMAGE_NAME}
 
       - name: Docker logout
         run: docker logout ${{ env.OPENSHIFT_REGISTRY }}
