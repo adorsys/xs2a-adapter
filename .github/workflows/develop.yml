@@ -5,9 +5,10 @@ on:
       - develop
 
 env:
-  XS2A_ADAPTER_IMAGE: xs2a-adapter
+  XS2A_ADAPTER_IMAGE_NAME: xs2a-adapter
+  XS2A_ADAPTER_IMAGE_TAG: develop
   OPENSHIFT_REGISTRY: openshift-registry.adorsys.de
-  OPENSHIFT_NAMESPACE: xs2a-adapter-dev
+  OPENSHIFT_NAMESPACE_DEV: xs2a-adapter-dev
   OPENSHIFT_NAMESPACE_INTEG: xs2a-adapter-integ
   SONAR_HOST: https://sonarcloud.io
   SONAR_ORG: adorsys
@@ -37,9 +38,7 @@ jobs:
         run: mvn clean verify -B
 
       - name: Build docker image
-        env:
-          IMAGE_TAG: test
-        run: docker build -t ${{ env.XS2A_ADAPTER_IMAGE }}:${IMAGE_TAG} .
+        run: docker build -t ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }} .
 
   deploy:
     name: Deploy docker image to the registry
@@ -65,23 +64,32 @@ jobs:
         run: mvn clean install -B -Dbuild.number=${GITHUB_SHA::7}
         shell: bash
 
-      - name: DEV. Build & deploy docker image
+      - name: Build docker image
         env:
-          OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE }}/${{ env.XS2A_ADAPTER_IMAGE }}
-          IMAGE_TAG: develop
-        run: |
-          docker login -u image-pusher -p ${{ secrets.OPENSHIFT_TOKEN }} ${{ env.OPENSHIFT_REGISTRY }}
-          docker build -t "${OPENSHIFT_IMAGE_NAME}:${IMAGE_TAG}" .
-          docker push ${OPENSHIFT_IMAGE_NAME}:${IMAGE_TAG}
+          LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+        run: docker build -t ${LOCAL_IMAGE_NAME} .
 
-      - name: INTEG. Build & deploy docker image
+      - name: Docker login
+        run: docker login -u image-pusher -p ${{ secrets.OPENSHIFT_TOKEN }} ${{ env.OPENSHIFT_REGISTRY }}
+
+      - name: DEV. Deploy docker image
         env:
-          OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_INTEG }}/${{ env.XS2A_ADAPTER_IMAGE }}
-          IMAGE_TAG: develop
+          LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+          OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_DEV }}/${{ env.XS2A_ADAPTER_IMAGE }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
         run: |
-          docker login -u image-pusher -p ${{ secrets.OPENSHIFT_TOKEN_INTEG }} ${{ env.OPENSHIFT_REGISTRY }}
-          docker build -t "${OPENSHIFT_IMAGE_NAME}:${IMAGE_TAG}" .
-          docker push ${OPENSHIFT_IMAGE_NAME}:${IMAGE_TAG}
+          docker tag ${LOCAL_IMAGE_NAME} ${OPENSHIFT_IMAGE_NAME}
+          docker push ${OPENSHIFT_IMAGE_NAME}
+
+      - name: INTEG. Deploy docker image
+        env:
+          LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+          OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_INTEG }}/${{ env.XS2A_ADAPTER_IMAGE }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+        run: |
+          docker tag ${LOCAL_IMAGE_NAME} ${OPENSHIFT_IMAGE_NAME}
+          docker push ${OPENSHIFT_IMAGE_NAME}
+
+      - name: Docker logout
+        run: docker logout ${{ env.OPENSHIFT_REGISTRY }}
 
   sonar:
     name: Publish code coverage to Sonar Cloud
