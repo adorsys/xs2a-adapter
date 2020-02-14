@@ -38,7 +38,9 @@ jobs:
         run: mvn clean verify -B
 
       - name: Build docker image
-        run: docker build -t ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }} .
+        env:
+          LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:test
+        run: docker build -t ${LOCAL_IMAGE_NAME} .
 
   deploy:
     name: Deploy docker image to the registry
@@ -75,7 +77,7 @@ jobs:
       - name: DEV. Deploy docker image
         env:
           LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
-          OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_DEV }}/${{ env.XS2A_ADAPTER_IMAGE }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+          OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_DEV }}/${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
         run: |
           docker tag ${LOCAL_IMAGE_NAME} ${OPENSHIFT_IMAGE_NAME}
           docker push ${OPENSHIFT_IMAGE_NAME}
@@ -83,7 +85,7 @@ jobs:
       - name: INTEG. Deploy docker image
         env:
           LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
-          OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_INTEG }}/${{ env.XS2A_ADAPTER_IMAGE }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+          OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_INTEG }}/${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
         run: |
           docker tag ${LOCAL_IMAGE_NAME} ${OPENSHIFT_IMAGE_NAME}
           docker push ${OPENSHIFT_IMAGE_NAME}
