@@ -71,7 +71,7 @@ jobs:
           LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
         run: docker build -t ${LOCAL_IMAGE_NAME} .
 
-      - name: Docker login
+      - name: DEV. Docker login
         uses: azure/docker-login@v1
         with:
           login-server: ${{ env.OPENSHIFT_REGISTRY }}
@@ -86,7 +86,7 @@ jobs:
           docker tag ${LOCAL_IMAGE_NAME} ${OPENSHIFT_IMAGE_NAME}
           docker push ${OPENSHIFT_IMAGE_NAME}
 
-      - name: Docker login
+      - name: INTEG. Docker login
         uses: azure/docker-login@v1
         with:
           login-server: ${{ env.OPENSHIFT_REGISTRY }}
