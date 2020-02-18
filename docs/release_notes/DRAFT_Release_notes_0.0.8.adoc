@@ -11,4 +11,5 @@
 == Features:
 
 == Fixes:
-
+- Fixed NPE in the Comdirect adapter, BadRequestException is throwing instead if there are
+no ScaOAuthLink or IdpUrl provided.
