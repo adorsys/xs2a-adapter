@@ -90,6 +90,7 @@
         <junit-jupiter.version>5.5.2</junit-jupiter.version>
         <mockito.version>3.2.4</mockito.version>
         <nimbus-jose-jwt.version>8.4</nimbus-jose-jwt.version>
+        <webjars-locator.version>0.38</webjars-locator.version>
 
         <!-- Sonar dependencies -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
@@ -159,6 +160,12 @@
                         <artifactId>junit</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>webjars-locator</artifactId>
+                <version>${webjars-locator.version}</version>
             </dependency>
 
             <!-- test dependencies -->
