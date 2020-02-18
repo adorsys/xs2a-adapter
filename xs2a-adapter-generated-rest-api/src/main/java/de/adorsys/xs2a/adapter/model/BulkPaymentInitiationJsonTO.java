@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-@Generated("xs2a-codegen")
+@Generated("xs2a-adapter-codegen")
 public class BulkPaymentInitiationJsonTO {
     private Boolean batchBookingPreferred;
 

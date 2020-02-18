@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import javax.annotation.Generated;
 import java.util.List;
 
-@Generated("xs2a-codegen")
+@Generated("xs2a-adapter-codegen")
 public class AccountAccessTO {
     private List<AccountReferenceTO> accounts;
 

@@ -75,6 +75,7 @@
         <module name="MethodLength"/>
         <module name="ParameterNumber">
             <property name="max" value="8"/>
+            <property name="ignoreOverriddenMethods" value="true"/>
         </module>
 
         <!-- Checks for whitespace                               -->
@@ -121,6 +122,7 @@
         <module name="TodoComment"/>
         <module name="UpperEll"/>
 
+        <module name="SuppressWarningsHolder" />
     </module>
-
+    <module name="SuppressWarningsFilter" />
 </module>

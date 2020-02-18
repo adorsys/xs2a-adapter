@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 import java.time.LocalDate;
 import java.util.Map;
 
-@Generated("xs2a-codegen")
+@Generated("xs2a-adapter-codegen")
 public class ConsentInformationResponse200JsonTO {
     private AccountAccessTO access;
 

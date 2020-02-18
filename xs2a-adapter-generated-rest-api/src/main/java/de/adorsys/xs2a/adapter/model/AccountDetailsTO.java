@@ -8,7 +8,7 @@ import javax.annotation.Generated;
 import java.util.List;
 import java.util.Map;
 
-@Generated("xs2a-codegen")
+@Generated("xs2a-adapter-codegen")
 public class AccountDetailsTO {
     private String resourceId;
 

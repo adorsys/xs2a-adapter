@@ -3,7 +3,7 @@ package de.adorsys.xs2a.adapter.model;
 import javax.annotation.Generated;
 import java.util.List;
 
-@Generated("xs2a-codegen")
+@Generated("xs2a-adapter-codegen")
 public class ReadAccountBalanceResponse200TO {
     private AccountReferenceTO account;
 
