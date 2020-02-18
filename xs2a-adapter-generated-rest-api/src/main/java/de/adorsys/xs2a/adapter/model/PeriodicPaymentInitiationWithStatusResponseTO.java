@@ -3,7 +3,7 @@ package de.adorsys.xs2a.adapter.model;
 import javax.annotation.Generated;
 import java.time.LocalDate;
 
-@Generated("xs2a-codegen")
+@Generated("xs2a-adapter-codegen")
 public class PeriodicPaymentInitiationWithStatusResponseTO {
     private String endToEndIdentification;
 

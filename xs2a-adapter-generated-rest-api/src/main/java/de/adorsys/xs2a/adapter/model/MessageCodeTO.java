@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 import javax.annotation.Generated;
 
-@Generated("xs2a-codegen")
+@Generated("xs2a-adapter-codegen")
 public enum MessageCodeTO {
     FORMAT_ERROR("FORMAT_ERROR"),
 
