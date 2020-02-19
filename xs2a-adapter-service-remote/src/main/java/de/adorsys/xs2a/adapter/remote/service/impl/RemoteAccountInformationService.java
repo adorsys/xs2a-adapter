@@ -144,11 +144,14 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(
-        String consentId, RequestHeaders requestHeaders
-    ) {
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams) {
         ResponseEntity<StartScaprocessResponseTO> responseEntity =
-            client.startConsentAuthorisation(consentId, requestHeaders.toMap(), createEmptyBody());
+            client.startConsentAuthorisation(consentId,
+                requestParams.toMap(),
+                requestHeaders.toMap(),
+                createEmptyBody());
         StartScaProcessResponse scaProcessResponse =
             scaProcessResponseMapper.toStartScaProcessResponse(responseEntity.getBody());
         return new Response<>(
@@ -163,14 +166,15 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(
-        String consentId,
-        RequestHeaders requestHeaders,
-        UpdatePsuAuthentication updatePsuAuthentication
-    ) {
-        ResponseEntity<StartScaprocessResponseTO> responseEntity = client.startConsentAuthorisation(
-            consentId, requestHeaders.toMap(), objectMapper.valueToTree(updatePsuAuthentication)
-        );
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
+                                                                       UpdatePsuAuthentication updatePsuAuthentication) {
+        ResponseEntity<StartScaprocessResponseTO> responseEntity =
+            client.startConsentAuthorisation(consentId,
+                requestParams.toMap(),
+                requestHeaders.toMap(),
+                objectMapper.valueToTree(updatePsuAuthentication));
 
         StartScaProcessResponse scaProcessResponse =
             scaProcessResponseMapper.toStartScaProcessResponse(responseEntity.getBody());

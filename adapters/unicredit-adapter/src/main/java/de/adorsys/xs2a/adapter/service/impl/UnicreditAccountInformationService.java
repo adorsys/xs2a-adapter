@@ -47,8 +47,12 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
+                                                                       UpdatePsuAuthentication updatePsuAuthentication) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
+        uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         headersMap = addPsuIdTypeHeader(headersMap);
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);

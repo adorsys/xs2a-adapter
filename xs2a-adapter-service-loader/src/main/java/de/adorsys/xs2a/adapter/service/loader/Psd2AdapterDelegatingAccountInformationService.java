@@ -62,10 +62,11 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
 
     @Override
     public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       Map<String, String> queryParameters,
                                                                        Map<String, String> headers,
                                                                        UpdateAuthorisation updateAuthentication) {
         return getAccountInformationService(headers)
-            .startConsentAuthorisation(consentId, headers, updateAuthentication);
+            .startConsentAuthorisation(consentId, queryParameters, headers, updateAuthentication);
     }
 
     @Override

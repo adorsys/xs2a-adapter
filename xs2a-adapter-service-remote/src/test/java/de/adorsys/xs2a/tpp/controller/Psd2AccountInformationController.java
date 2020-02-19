@@ -125,12 +125,14 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
 
     @Override
     public ResponseEntity<StartScaProcessResponseTO> startConsentAuthorisation(String consentId,
+                                                                               Map<String, String> queryParameters,
                                                                                Map<String, String> headers,
                                                                                UpdateAuthorisationTO body) {
-        Response<StartScaProcessResponse> response = accountInformationService.startConsentAuthorisation(
-            consentId, headers,
-            accountInformationMapper.toUpdateAuthorisation(body)
-        );
+        Response<StartScaProcessResponse> response =
+            accountInformationService.startConsentAuthorisation(consentId,
+                queryParameters,
+                headers,
+                accountInformationMapper.toUpdateAuthorisation(body));
 
         return ResponseEntity.status(response.getStatusCode())
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))

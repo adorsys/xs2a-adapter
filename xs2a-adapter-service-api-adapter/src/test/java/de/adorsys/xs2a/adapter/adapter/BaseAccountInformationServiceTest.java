@@ -141,7 +141,8 @@ public class BaseAccountInformationServiceTest {
         when(httpClient.post(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<StartScaProcessResponse> response = informationService.startConsentAuthorisation(CONSENTID, headers);
+        Response<StartScaProcessResponse> response =
+            informationService.startConsentAuthorisation(CONSENTID, headers, params);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
@@ -161,7 +162,8 @@ public class BaseAccountInformationServiceTest {
         when(httpClient.post(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<StartScaProcessResponse> response = informationService.startConsentAuthorisation(CONSENTID, headers, updatePsuAuthentication);
+        Response<StartScaProcessResponse> response =
+            informationService.startConsentAuthorisation(CONSENTID, headers, params, updatePsuAuthentication);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());

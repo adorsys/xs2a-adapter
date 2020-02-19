@@ -124,8 +124,15 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, Map<String, String> headers, UpdateAuthorisation updateAuthentication) {
-        ResponseEntity<StartScaProcessResponseTO> responseEntity = client.startConsentAuthorisation(consentId, headers, accountInformationMapper.toUpdateAuthorisationTO(updateAuthentication));
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       Map<String, String> queryParameters,
+                                                                       Map<String, String> headers,
+                                                                       UpdateAuthorisation updateAuthentication) {
+        ResponseEntity<StartScaProcessResponseTO> responseEntity =
+            client.startConsentAuthorisation(consentId,
+                queryParameters,
+                headers,
+                accountInformationMapper.toUpdateAuthorisationTO(updateAuthentication));
         StartScaProcessResponse startScaProcessResponse = accountInformationMapper.toStartScaProcessResponse(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),

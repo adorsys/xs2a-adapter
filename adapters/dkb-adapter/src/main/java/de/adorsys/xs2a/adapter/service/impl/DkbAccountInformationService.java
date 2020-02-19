@@ -53,13 +53,27 @@ public class DkbAccountInformationService extends BaseAccountInformationService 
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders) {
-        return startConsentAuthorisation(consentId, requestHeaders, DkbStartScaProcessResponse.class, startScaProcessResponseMapper::toStartScaProcessResponse);
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams) {
+        return startConsentAuthorisation(consentId,
+            requestHeaders,
+            requestParams,
+            DkbStartScaProcessResponse.class,
+            startScaProcessResponseMapper::toStartScaProcessResponse);
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
-        return startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication, DkbStartScaProcessResponse.class, startScaProcessResponseMapper::toStartScaProcessResponse);
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
+                                                                       UpdatePsuAuthentication updatePsuAuthentication) {
+        return startConsentAuthorisation(consentId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication,
+            DkbStartScaProcessResponse.class,
+            startScaProcessResponseMapper::toStartScaProcessResponse);
     }
 
     @Override

@@ -22,6 +22,7 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request.Builder.Interceptor;
 import de.adorsys.xs2a.adapter.service.PsuPasswordEncryptionService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.apache.commons.lang3.StringUtils;
@@ -35,20 +36,26 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
 
     private final PsuPasswordEncryptionService psuPasswordEncryptionService;
 
-    public DeutscheBankAccountInformationService(Aspsp aspsp, HttpClient httpClient, Interceptor interceptor, PsuPasswordEncryptionService psuPasswordEncryptionService) {
+    public DeutscheBankAccountInformationService(Aspsp aspsp,
+                                                 HttpClient httpClient,
+                                                 Interceptor interceptor,
+                                                 PsuPasswordEncryptionService psuPasswordEncryptionService) {
         super(aspsp, httpClient, interceptor);
         this.psuPasswordEncryptionService = psuPasswordEncryptionService;
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
+                                                                       UpdatePsuAuthentication updatePsuAuthentication) {
         PsuData psuData = updatePsuAuthentication.getPsuData();
 
         if (passwordEncryptionRequired(psuData)) {
             encryptPassword(psuData);
         }
 
-        return super.startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication);
+        return super.startConsentAuthorisation(consentId, requestHeaders, requestParams, updatePsuAuthentication);
     }
 
     @Override

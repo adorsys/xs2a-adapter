@@ -37,13 +37,15 @@ public class TestAccountInformationService implements AccountInformationService 
 
     @Override
     public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
-                                                                       RequestHeaders requestHeaders) {
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams) {
         return null;
     }
 
     @Override
     public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
                                                                        UpdatePsuAuthentication updatePsuAuthentication) {
         return null;
     }

@@ -60,11 +60,26 @@ public interface AccountInformationService {
                                                      RequestHeaders requestHeaders,
                                                      RequestParams requestParams);
 
-    Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
-                                                                RequestHeaders requestHeaders);
+    @Deprecated
+    default Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                RequestHeaders requestHeaders) {
+        return startConsentAuthorisation(consentId, requestHeaders, RequestParams.empty());
+    }
 
     Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
                                                                 RequestHeaders requestHeaders,
+                                                                RequestParams requestParams);
+
+    @Deprecated
+    default Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                RequestHeaders requestHeaders,
+                                                                UpdatePsuAuthentication updatePsuAuthentication) {
+        return startConsentAuthorisation(consentId, requestHeaders, RequestParams.empty(), updatePsuAuthentication);
+    }
+
+    Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                RequestHeaders requestHeaders,
+                                                                RequestParams requestParams,
                                                                 UpdatePsuAuthentication updatePsuAuthentication);
 
     Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
