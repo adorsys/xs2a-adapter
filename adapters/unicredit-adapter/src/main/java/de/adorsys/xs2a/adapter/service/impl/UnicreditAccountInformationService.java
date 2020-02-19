@@ -67,9 +67,14 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     }
 
     @Override
-    public Response<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, RequestHeaders requestHeaders) {
-        Response<ConsentStatusResponse> response = this.getConsentStatus(consentId, requestHeaders);
-        return new Response<>(response.getStatusCode(), scaStatusResponseMapper.toScaStatusResponse(response.getBody()), response.getHeaders());
+    public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                           String authorisationId,
+                                                           RequestHeaders requestHeaders) {
+        Response<ConsentStatusResponse> response =
+            this.getConsentStatus(consentId, requestHeaders, RequestParams.empty()); // fixme
+        return new Response<>(response.getStatusCode(),
+            scaStatusResponseMapper.toScaStatusResponse(response.getBody()),
+            response.getHeaders());
     }
 
     @Override

@@ -133,8 +133,11 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public Response<ConsentStatusResponse> getConsentStatus(String consentId, RequestHeaders requestHeaders) {
+    public Response<ConsentStatusResponse> getConsentStatus(String consentId,
+                                                            RequestHeaders requestHeaders,
+                                                            RequestParams requestParams) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, STATUS);
+        uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
         return httpClient.get(uri)

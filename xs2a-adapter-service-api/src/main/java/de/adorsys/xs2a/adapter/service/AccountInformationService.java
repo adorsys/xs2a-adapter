@@ -50,8 +50,15 @@ public interface AccountInformationService {
                                  RequestHeaders requestHeaders,
                                  RequestParams requestParams);
 
+    @Deprecated
+    default Response<ConsentStatusResponse> getConsentStatus(String consentId,
+                                                     RequestHeaders requestHeaders) {
+        return getConsentStatus(consentId, requestHeaders, RequestParams.empty());
+    }
+
     Response<ConsentStatusResponse> getConsentStatus(String consentId,
-                                                     RequestHeaders requestHeaders);
+                                                     RequestHeaders requestHeaders,
+                                                     RequestParams requestParams);
 
     Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
                                                                 RequestHeaders requestHeaders);

@@ -41,6 +41,7 @@ public interface Psd2AccountInformationService {
                                  Map<String, String> headers);
 
     Response<ConsentStatusResponse> getConsentStatus(String consentId,
+                                                     Map<String, String> queryParameters,
                                                      Map<String, String> headers);
 
     Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,

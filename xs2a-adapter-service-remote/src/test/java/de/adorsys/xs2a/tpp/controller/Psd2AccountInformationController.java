@@ -101,17 +101,22 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     }
 
     @Override
-    public ResponseEntity<Void> deleteConsent(String consentId, Map<String, String> queryParameters, Map<String, String> headers) {
+    public ResponseEntity<Void> deleteConsent(String consentId,
+                                              Map<String, String> queryParameters,
+                                              Map<String, String> headers) {
         Response<Void> response = accountInformationService.deleteConsent(consentId, queryParameters, headers);
 
         return ResponseEntity.status(response.getStatusCode())
-                   .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(response.getBody());
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(response.getBody());
     }
 
     @Override
-    public ResponseEntity<ConsentStatusResponseTO> getConsentStatus(String consentId, Map<String, String> headers) {
-        Response<ConsentStatusResponse> response = accountInformationService.getConsentStatus(consentId, headers);
+    public ResponseEntity<ConsentStatusResponseTO> getConsentStatus(String consentId,
+                                                                    Map<String, String> queryParameters,
+                                                                    Map<String, String> headers) {
+        Response<ConsentStatusResponse> response =
+            accountInformationService.getConsentStatus(consentId, queryParameters, headers);
 
         return ResponseEntity.status(response.getStatusCode())
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
