@@ -83,9 +83,10 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
 
     @Override
     public ResponseEntity<ConsentInformationResponseTO> getConsentInformation(String consentId,
+                                                                              Map<String, String> queryParameters,
                                                                               Map<String, String> headers) {
         return toResponseEntity(
-            accountInformationService.getConsentInformation(consentId, headers),
+            accountInformationService.getConsentInformation(consentId, queryParameters, headers),
             mapper::toConsentInformationResponseTO
         );
     }

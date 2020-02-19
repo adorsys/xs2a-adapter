@@ -91,7 +91,7 @@ public class BaseAccountInformationServiceTest {
         when(httpClient.get(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<ConsentInformation> response = informationService.getConsentInformation(CONSENTID, headers);
+        Response<ConsentInformation> response = informationService.getConsentInformation(CONSENTID, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());

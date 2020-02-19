@@ -101,11 +101,11 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
-    public Response<ConsentInformation> getConsentInformation(
-        String consentId, RequestHeaders requestHeaders
-    ) {
+    public Response<ConsentInformation> getConsentInformation(String consentId,
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams) {
         ResponseEntity<ConsentInformationResponse200JsonTO> responseEntity =
-            client.getConsentInformation(consentId, requestHeaders.toMap());
+            client.getConsentInformation(consentId, requestParams.toMap(), requestHeaders.toMap());
         ConsentInformation information =
             consentInformationMapper.toConsentInformation(responseEntity.getBody());
         return new Response<>(

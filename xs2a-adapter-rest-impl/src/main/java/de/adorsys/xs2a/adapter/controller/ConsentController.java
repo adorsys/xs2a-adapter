@@ -80,9 +80,11 @@ public class ConsentController extends AbstractController implements ConsentApi,
     public ResponseEntity<ConsentInformationResponse200JsonTO> getConsentInformation(String consentId,
                                                                                      Map<String, String> parameters,
                                                                                      Map<String, String> headers) {
+        RequestParams requestParams = RequestParams.fromMap(parameters);
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
-        Response<ConsentInformation> response = accountInformationService.getConsentInformation(consentId, requestHeaders);
+        Response<ConsentInformation> response =
+            accountInformationService.getConsentInformation(consentId, requestHeaders, requestParams);
 
         return ResponseEntity
                        .status(HttpStatus.OK)

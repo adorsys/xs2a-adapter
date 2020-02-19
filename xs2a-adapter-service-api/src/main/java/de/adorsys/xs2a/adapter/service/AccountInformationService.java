@@ -30,8 +30,15 @@ public interface AccountInformationService {
                                                     RequestParams requestParams,
                                                     Consents body);
 
+    @Deprecated
+    default Response<ConsentInformation> getConsentInformation(String consentId,
+                                                               RequestHeaders requestHeaders) {
+        return getConsentInformation(consentId, requestHeaders, RequestParams.empty());
+    }
+
     Response<ConsentInformation> getConsentInformation(String consentId,
-                                                       RequestHeaders requestHeaders);
+                                                       RequestHeaders requestHeaders,
+                                                       RequestParams requestParams);
 
     Response<Void> deleteConsent(String consentId,
                                  RequestHeaders requestHeaders);
