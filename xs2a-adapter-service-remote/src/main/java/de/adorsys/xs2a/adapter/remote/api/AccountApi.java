@@ -42,7 +42,9 @@ public interface AccountApi {
         method = RequestMethod.GET
     )
     ResponseEntity<ConsentInformationResponse200JsonTO> getConsentInformation(
-        @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers);
+        @PathVariable("consentId") String consentId,
+        @RequestParam Map<String, String> parameters,
+        @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/v1/consents/{consentId}",

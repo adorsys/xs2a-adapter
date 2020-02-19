@@ -90,9 +90,10 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
 
     @Override
     public ResponseEntity<ConsentInformationResponseTO> getConsentInformation(String consentId,
+                                                                              Map<String, String> queryParameters,
                                                                               Map<String, String> headers) {
         Response<ConsentInformationResponse> response
-            = accountInformationService.getConsentInformation(consentId, headers);
+            = accountInformationService.getConsentInformation(consentId, queryParameters, headers);
 
         return ResponseEntity.status(response.getStatusCode())
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))

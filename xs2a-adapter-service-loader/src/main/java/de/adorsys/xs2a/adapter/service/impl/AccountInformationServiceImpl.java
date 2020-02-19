@@ -44,9 +44,10 @@ public class AccountInformationServiceImpl implements AccountInformationService 
 
     @Override
     public Response<ConsentInformation> getConsentInformation(String consentId,
-                                                              RequestHeaders requestHeaders) {
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
-                   .getConsentInformation(consentId, requestHeaders);
+                   .getConsentInformation(consentId, requestHeaders, requestParams);
     }
 
     @Override

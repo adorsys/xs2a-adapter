@@ -82,9 +82,13 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     }
 
     @Override
-    public Response<ConsentInformationResponse> getConsentInformation(String consentId, Map<String, String> headers) {
-        ResponseEntity<ConsentInformationResponseTO> responseEntity = client.getConsentInformation(consentId, headers);
-        ConsentInformationResponse consentInformationResponse = accountInformationMapper.toConsentInformationResponse(responseEntity.getBody());
+    public Response<ConsentInformationResponse> getConsentInformation(String consentId,
+                                                                      Map<String, String> queryParameters,
+                                                                      Map<String, String> headers) {
+        ResponseEntity<ConsentInformationResponseTO> responseEntity =
+            client.getConsentInformation(consentId, queryParameters, headers);
+        ConsentInformationResponse consentInformationResponse =
+            accountInformationMapper.toConsentInformationResponse(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
             consentInformationResponse,

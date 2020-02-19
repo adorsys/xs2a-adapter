@@ -98,12 +98,19 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public Response<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders) {
-        return getConsentInformation(consentId, requestHeaders, ConsentInformation.class, identity());
+    public Response<ConsentInformation> getConsentInformation(String consentId,
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams) {
+        return getConsentInformation(consentId, requestHeaders, requestParams, ConsentInformation.class, identity());
     }
 
-    protected <T> Response<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders, Class<T> klass, Function<T, ConsentInformation> mapper) {
+    protected <T> Response<ConsentInformation> getConsentInformation(String consentId,
+                                                                     RequestHeaders requestHeaders,
+                                                                     RequestParams requestParams,
+                                                                     Class<T> klass,
+                                                                     Function<T, ConsentInformation> mapper) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
+        uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
         Response<T> response = httpClient.get(uri)
             .headers(headersMap)

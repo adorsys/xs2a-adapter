@@ -15,7 +15,9 @@ public class TestAccountInformationService implements AccountInformationService 
     }
 
     @Override
-    public Response<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders) {
+    public Response<ConsentInformation> getConsentInformation(String consentId,
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams) {
         return null;
     }
 

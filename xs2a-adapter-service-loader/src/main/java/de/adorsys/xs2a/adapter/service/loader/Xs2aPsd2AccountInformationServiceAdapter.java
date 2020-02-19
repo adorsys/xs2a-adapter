@@ -66,8 +66,12 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
     }
 
     @Override
-    public Response<ConsentInformationResponse> getConsentInformation(String consentId, Map<String, String> headers) {
-        return service.getConsentInformation(consentId, RequestHeaders.fromMap(headers))
+    public Response<ConsentInformationResponse> getConsentInformation(String consentId,
+                                                                      Map<String, String> queryParameters,
+                                                                      Map<String, String> headers) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(queryParameters);
+        return service.getConsentInformation(consentId, requestHeaders, requestParams)
             .map(mapper::toConsentInformationResponse);
     }
 

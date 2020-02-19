@@ -61,7 +61,9 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     }
 
     @Override
-    public Response<ConsentInformationResponse> getConsentInformation(String consentId, Map<String, String> headers) {
+    public Response<ConsentInformationResponse> getConsentInformation(String consentId,
+                                                                      Map<String, String> queryParameters,
+                                                                      Map<String, String> headers) {
         throw new UnsupportedOperationException();
     }
 

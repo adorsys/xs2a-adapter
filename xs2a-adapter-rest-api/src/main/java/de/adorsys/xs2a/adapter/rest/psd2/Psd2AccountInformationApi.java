@@ -52,7 +52,9 @@ public interface Psd2AccountInformationApi {
         method = RequestMethod.GET
     )
     ResponseEntity<ConsentInformationResponseTO> getConsentInformation(
-        @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers);
+        @PathVariable("consentId") String consentId,
+        @RequestParam Map<String, String> queryParameters,
+        @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/consents/{consentId}",
