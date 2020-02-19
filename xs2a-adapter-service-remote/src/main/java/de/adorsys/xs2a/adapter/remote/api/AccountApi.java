@@ -33,7 +33,8 @@ public interface AccountApi {
         method = RequestMethod.POST,
         consumes = "application/json"
     )
-    ResponseEntity<ConsentsResponse201TO> createConsent(@RequestHeader Map<String, String> headers,
+    ResponseEntity<ConsentsResponse201TO> createConsent(@RequestParam Map<String, String> parameters,
+                                                        @RequestHeader Map<String, String> headers,
                                                         @RequestBody ConsentsTO body);
 
     @RequestMapping(

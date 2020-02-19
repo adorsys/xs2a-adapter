@@ -59,15 +59,27 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
-        return createConsent(requestHeaders, body, identity(), jsonResponseHandler(ConsentCreationResponse.class));
+    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                           RequestParams requestParams,
+                                                           Consents body) {
+        return createConsent(requestHeaders,
+            requestParams,
+            body,
+            identity(),
+            jsonResponseHandler(ConsentCreationResponse.class));
     }
 
-    protected <T> Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body, Class<T> klass, Function<T, ConsentCreationResponse> mapper) {
-        return createConsent(requestHeaders, body, mapper, jsonResponseHandler(klass));
+    protected <T> Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                                  RequestParams requestParams,
+                                                                  Consents body,
+                                                                  Class<T> klass,
+                                                                  Function<T, ConsentCreationResponse> mapper) {
+        return createConsent(requestHeaders, requestParams, body, mapper, jsonResponseHandler(klass));
     }
 
-    protected <T> Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body,
+    protected <T> Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                                  RequestParams requestParams,
+                                                                  Consents body,
                                                                   Function<T, ConsentCreationResponse> mapper,
                                                                   HttpClient.ResponseHandler<T> responseHandler) {
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
@@ -76,10 +88,11 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));
 
-        Response<T> response = httpClient.post(getConsentBaseUri())
-                                   .jsonBody(bodyString)
-                                   .headers(headersMap)
-                                   .send(requestBuilderInterceptor, responseHandler);
+        String uri = buildUri(getConsentBaseUri(), requestParams);
+        Response<T> response = httpClient.post(uri)
+            .jsonBody(bodyString)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, responseHandler);
         ConsentCreationResponse creationResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), creationResponse, response.getHeaders());
     }

@@ -1,9 +1,6 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
-import de.adorsys.xs2a.adapter.service.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
+import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.loader.AdapterServiceLoader;
 import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.model.Consents;
@@ -38,11 +35,14 @@ public class AccountInformationServiceImplTest {
         when(adapterServiceLoader.getAccountInformationService(any()))
             .thenReturn(accountInformationService);
 
-        when(accountInformationService.createConsent(any(), any())).thenReturn(response);
+        when(accountInformationService.createConsent(any(), any(), any())).thenReturn(response);
 
-        Response<ConsentCreationResponse> consentResponse = service.createConsent(RequestHeaders.fromMap(Collections.singletonMap(RequestHeaders.X_GTW_ASPSP_ID, "BIC")), new Consents());
+        Response<ConsentCreationResponse> consentResponse =
+            service.createConsent(RequestHeaders.fromMap(Collections.singletonMap(RequestHeaders.X_GTW_ASPSP_ID, "BIC")),
+                RequestParams.empty(),
+                new Consents());
 
-        verify(accountInformationService, times(1)).createConsent(any(), any());
+        verify(accountInformationService, times(1)).createConsent(any(), any(), any());
 
         assertThat(consentResponse).isEqualTo(response);
     }

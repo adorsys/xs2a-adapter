@@ -75,13 +75,17 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     }
 
     @Override
-    public ResponseEntity<ConsentsResponseTO> createConsent(Map<String, String> headers, ConsentsTO body) {
+    public ResponseEntity<ConsentsResponseTO> createConsent(Map<String, String> queryParameters,
+                                                            Map<String, String> headers,
+                                                            ConsentsTO body) {
         Response<ConsentsResponse> response
-            = accountInformationService.createConsent(headers, accountInformationMapper.toConsents(body));
+            = accountInformationService.createConsent(queryParameters,
+            headers,
+            accountInformationMapper.toConsents(body));
 
         return ResponseEntity.status(response.getStatusCode())
-                   .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(accountInformationMapper.toConsentsResponseTO(response.getBody()));
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(accountInformationMapper.toConsentsResponseTO(response.getBody()));
     }
 
     @Override

@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
@@ -36,7 +37,7 @@ public class DeutscheBankAccountInformationServiceTest {
         when(httpClient.send(any(), any()))
             .thenReturn(new Response<>(200, new ConsentCreationResponse(), ResponseHeaders.fromMap(emptyMap())));
 
-        service.createConsent(RequestHeaders.fromMap(emptyMap()), new Consents());
+        service.createConsent(RequestHeaders.fromMap(emptyMap()), RequestParams.empty(), new Consents());
 
         verify(httpClient, times(1)).post(eq(CONSENT_URL));
         Map<String, String> headers = requestBuilder.headers();
