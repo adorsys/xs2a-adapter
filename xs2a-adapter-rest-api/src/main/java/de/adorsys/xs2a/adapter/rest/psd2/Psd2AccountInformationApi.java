@@ -43,7 +43,8 @@ public interface Psd2AccountInformationApi {
         method = RequestMethod.POST,
         consumes = "application/json"
     )
-    ResponseEntity<ConsentsResponseTO> createConsent(@RequestHeader Map<String, String> headers,
+    ResponseEntity<ConsentsResponseTO> createConsent(@RequestParam Map<String, String> queryParameters,
+                                                     @RequestHeader Map<String, String> headers,
                                                      @RequestBody ConsentsTO body);
 
     @RequestMapping(

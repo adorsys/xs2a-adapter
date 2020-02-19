@@ -16,10 +16,13 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
     }
 
     @Override
-    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
-        return createConsent(
-            requestHeaders, body, identity(),
-            consentCreationResponseHandler(getIdpUri(), ConsentCreationResponse.class)
-        );
+    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                           RequestParams requestParams,
+                                                           Consents body) {
+        return createConsent(requestHeaders,
+            requestParams,
+            body,
+            identity(),
+            consentCreationResponseHandler(getIdpUri(), ConsentCreationResponse.class));
     }
 }

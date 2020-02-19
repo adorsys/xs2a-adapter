@@ -8,7 +8,9 @@ import de.adorsys.xs2a.adapter.service.model.*;
 
 public class TestAccountInformationService implements AccountInformationService {
     @Override
-    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
+    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                           RequestParams requestParams,
+                                                           Consents body) {
         return null;
     }
 

@@ -63,9 +63,12 @@ public class ConsentController extends AbstractController implements ConsentApi,
                                                                Map<String, String> headers,
                                                                ConsentsTO body) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
         Consents consents = consentMapper.toConsents(body);
 
-        Response<ConsentCreationResponse> response = accountInformationService.createConsent(requestHeaders, consents);
+        Response<ConsentCreationResponse> response = accountInformationService.createConsent(requestHeaders,
+            requestParams,
+            consents);
 
         return ResponseEntity
                        .status(HttpStatus.CREATED)

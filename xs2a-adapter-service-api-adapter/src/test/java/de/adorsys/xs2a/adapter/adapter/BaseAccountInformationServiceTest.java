@@ -1,6 +1,9 @@
 package de.adorsys.xs2a.adapter.adapter;
 
-import de.adorsys.xs2a.adapter.http.*;
+import de.adorsys.xs2a.adapter.http.ContentType;
+import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.Request;
+import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
@@ -14,7 +17,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 public class BaseAccountInformationServiceTest {
@@ -68,7 +72,7 @@ public class BaseAccountInformationServiceTest {
         when(httpClient.post(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<ConsentCreationResponse> response = informationService.createConsent(headers, body);
+        Response<ConsentCreationResponse> response = informationService.createConsent(headers, params, body);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());

@@ -76,9 +76,11 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
     }
 
     @Override
-    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
+    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                           RequestParams requestParams,
+                                                           Consents body) {
         modifyRecurringIndicator(body);
-        return super.createConsent(requestHeaders, body);
+        return super.createConsent(requestHeaders, requestParams, body);
     }
 
     // Needed to fix the issue on Fiducia side: ASPSP doesn't accept recurring indicator being equal to false.

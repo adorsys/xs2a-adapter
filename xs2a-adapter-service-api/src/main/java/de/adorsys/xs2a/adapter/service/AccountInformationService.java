@@ -20,7 +20,14 @@ import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
 import de.adorsys.xs2a.adapter.service.model.*;
 
 public interface AccountInformationService {
+    @Deprecated
+    default Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                            Consents body) {
+        return createConsent(requestHeaders, RequestParams.empty(), body);
+    }
+
     Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                    RequestParams requestParams,
                                                     Consents body);
 
     Response<ConsentInformation> getConsentInformation(String consentId,

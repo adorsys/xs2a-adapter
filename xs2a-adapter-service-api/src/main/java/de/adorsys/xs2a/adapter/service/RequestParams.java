@@ -15,6 +15,8 @@ public class RequestParams {
     public static final String ENTRY_REFERENCE_FROM = "entryReferenceFrom";
     public static final String DELTA_LIST = "deltaList";
 
+    private static final RequestParams EMPTY = new RequestParams(Collections.emptyMap());
+
     private final Map<String, String> requestParams;
 
     private RequestParams(Map<String, String> requestParams) {
@@ -46,6 +48,10 @@ public class RequestParams {
                 throw new IllegalArgumentException(value + " is not a boolean");
             }
         }
+    }
+
+    public static RequestParams empty() {
+        return EMPTY;
     }
 
     public Map<String, String> toMap() {

@@ -32,9 +32,10 @@ public class AccountInformationServiceImpl implements AccountInformationService 
 
     @Override
     public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                           RequestParams requestParams,
                                                            Consents consents) {
         return getAccountInformationService(requestHeaders)
-                   .createConsent(requestHeaders, consents);
+                   .createConsent(requestHeaders, requestParams, consents);
     }
 
     private AccountInformationService getAccountInformationService(RequestHeaders requestHeaders) {

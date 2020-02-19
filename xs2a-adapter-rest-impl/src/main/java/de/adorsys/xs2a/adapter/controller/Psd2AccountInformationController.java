@@ -42,10 +42,12 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     }
 
     @Override
-    public ResponseEntity<ConsentsResponseTO> createConsent(Map<String, String> headers, ConsentsTO body) {
+    public ResponseEntity<ConsentsResponseTO> createConsent(Map<String, String> queryParameters,
+                                                            Map<String, String> headers,
+                                                            ConsentsTO body) {
 
         try {
-            return createConsent0(headers, body);
+            return createConsent0(queryParameters, headers, body);
         } catch (ErrorResponseException ex) {
             if (ex.getStatusCode() == 403 && ex.getMessage() != null && ex.getMessage().contains("TOKEN_INVALID")) {
                 ConsentsResponse consentsResponse = new ConsentsResponse();
@@ -58,8 +60,11 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
         }
     }
 
-    private ResponseEntity<ConsentsResponseTO> createConsent0(Map<String, String> headers, ConsentsTO body) {
-        Response<ConsentsResponse> response = accountInformationService.createConsent(headers, mapper.toConsents(body));
+    private ResponseEntity<ConsentsResponseTO> createConsent0(Map<String, String> queryParameters,
+                                                              Map<String, String> headers,
+                                                              ConsentsTO body) {
+        Response<ConsentsResponse> response =
+            accountInformationService.createConsent(queryParameters, headers, mapper.toConsents(body));
         ConsentsResponse consentsResponse = response.getBody();
         if (consentsResponse.getConsentId() == null &&  consentsResponse.getLinks() == null) {
             consentsResponse.setLinks(

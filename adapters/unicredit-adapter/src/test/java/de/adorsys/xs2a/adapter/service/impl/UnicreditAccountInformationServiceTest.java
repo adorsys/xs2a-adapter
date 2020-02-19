@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.impl.model.UnicreditAccountScaStatusResponse;
@@ -53,7 +54,9 @@ class UnicreditAccountInformationServiceTest {
         when(httpClient.send(any(), any()))
             .thenReturn(new Response<>(200, new ConsentCreationResponse(), ResponseHeaders.fromMap(headersMap)));
 
-        accountInformationService.createConsent(RequestHeaders.fromMap(headersMap), new Consents());
+        accountInformationService.createConsent(RequestHeaders.fromMap(headersMap),
+            RequestParams.empty(),
+            new Consents());
 
         verify(httpClient, times(1)).post(eq(CONSENT_URL));
         Map<String, String> headers = requestBuilder.headers();
@@ -73,7 +76,9 @@ class UnicreditAccountInformationServiceTest {
         when(httpClient.send(any(), any()))
             .thenReturn(new Response<>(200, new ConsentCreationResponse(), ResponseHeaders.fromMap(headersMap)));
 
-        accountInformationService.createConsent(RequestHeaders.fromMap(headersMap), new Consents());
+        accountInformationService.createConsent(RequestHeaders.fromMap(headersMap),
+            RequestParams.empty(),
+            new Consents());
 
         verify(httpClient, times(1)).post(eq(CONSENT_URL));
         Map<String, String> headers = requestBuilder.headers();
@@ -93,7 +98,9 @@ class UnicreditAccountInformationServiceTest {
         when(httpClient.send(any(), any()))
             .thenReturn(new Response<>(200, new ConsentCreationResponse(), ResponseHeaders.fromMap(headersMap)));
 
-        accountInformationService.createConsent(RequestHeaders.fromMap(headersMap), new Consents());
+        accountInformationService.createConsent(RequestHeaders.fromMap(headersMap),
+            RequestParams.empty(),
+            new Consents());
 
         verify(httpClient, times(1)).post(eq(CONSENT_URL));
         Map<String, String> headers = requestBuilder.headers();

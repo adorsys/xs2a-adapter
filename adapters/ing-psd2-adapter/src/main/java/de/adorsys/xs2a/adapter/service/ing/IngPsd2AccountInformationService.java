@@ -50,7 +50,9 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     }
 
     @Override
-    public Response<ConsentsResponse> createConsent(Map<String, String> headers, Consents consents) {
+    public Response<ConsentsResponse> createConsent(Map<String, String> queryParameters,
+                                                    Map<String, String> headers,
+                                                    Consents consents) {
         return toResponse(new ConsentsResponse());
     }
 

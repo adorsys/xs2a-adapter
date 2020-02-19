@@ -68,7 +68,7 @@ public class ConsentControllerTest {
         ConsentCreationResponse response = TestModelBuilder.buildConsentCreationResponse();
         String body = new ObjectMapper().writeValueAsString(response);
 
-        when(accountInformationService.createConsent(any(), any()))
+        when(accountInformationService.createConsent(any(), any(), any()))
                 .thenReturn(new Response<>(HTTP_CODE_200, response, ResponseHeaders.fromMap(Collections.emptyMap())));
         when(headersMapper.toHttpHeaders(any()))
                 .thenReturn(new HttpHeaders());
@@ -94,7 +94,7 @@ public class ConsentControllerTest {
 
     @Test
     public void createConsentRequiredFieldIsMissing() throws Exception {
-        when(accountInformationService.createConsent(any(), any()))
+        when(accountInformationService.createConsent(any(), any(), any()))
                 .thenThrow(new AspspRegistrationNotFoundException(""));
 
         mockMvc.perform(post(ConsentController.CONSENTS)
@@ -116,7 +116,7 @@ public class ConsentControllerTest {
     public void createConsentsRespondsWithBadRequestIfAdapterNotFound() throws Exception {
         String adpaterId = "test-psd2-adapter";
 
-        when(accountInformationService.createConsent(any(), any()))
+        when(accountInformationService.createConsent(any(), any(), any()))
             .thenThrow(new AdapterNotFoundException(adpaterId));
 
         mockMvc.perform(post(ConsentController.CONSENTS)

@@ -84,13 +84,13 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
-    public Response<ConsentCreationResponse> createConsent(
-        RequestHeaders requestHeaders, Consents consents
-    ) {
+    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                           RequestParams requestParams,
+                                                           Consents consents) {
         ConsentsTO consentsTO = consentMapper.toConsentsTO(consents);
-        ResponseEntity<ConsentsResponse201TO> responseEntity = client.createConsent(
-            requestHeaders.toMap(), consentsTO
-        );
+        ResponseEntity<ConsentsResponse201TO> responseEntity = client.createConsent(requestParams.toMap(),
+            requestHeaders.toMap(),
+            consentsTO);
         ConsentCreationResponse consentCreationResponse =
             creationResponseMapper.toConsentCreationResponse(responseEntity.getBody());
         return new Response<>(

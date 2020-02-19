@@ -28,7 +28,9 @@ public interface Psd2AccountInformationService {
                              Map<String, String> queryParameters,
                              Map<String, String> headers) throws IOException;
 
-    Response<ConsentsResponse> createConsent(Map<String, String> headers, Consents consents);
+    Response<ConsentsResponse> createConsent(Map<String, String> queryParameters,
+                                             Map<String, String> headers,
+                                             Consents consents);
 
     Response<ConsentInformationResponse> getConsentInformation(String consentId,
                                                                Map<String, String> headers);
