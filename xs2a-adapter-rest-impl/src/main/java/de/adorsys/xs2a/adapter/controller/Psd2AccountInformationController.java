@@ -92,8 +92,10 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     }
 
     @Override
-    public ResponseEntity<Void> deleteConsent(String consentId, Map<String, String> headers) {
-        Response<Void> response = accountInformationService.deleteConsent(consentId, headers);
+    public ResponseEntity<Void> deleteConsent(String consentId,
+                                              Map<String, String> queryParameters,
+                                              Map<String, String> headers) {
+        Response<Void> response = accountInformationService.deleteConsent(consentId, queryParameters, headers);
         return ResponseEntity.noContent()
             .headers(headersMapper.toHttpHeaders(response.getHeaders()))
             .build();

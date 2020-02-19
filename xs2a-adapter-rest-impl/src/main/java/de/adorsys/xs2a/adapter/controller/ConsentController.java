@@ -97,8 +97,9 @@ public class ConsentController extends AbstractController implements ConsentApi,
                                               Map<String, String> parameters,
                                               Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
 
-        Response<Void> response = accountInformationService.deleteConsent(consentId, requestHeaders);
+        Response<Void> response = accountInformationService.deleteConsent(consentId, requestHeaders, requestParams);
 
         return new ResponseEntity<>(headersMapper.toHttpHeaders(response.getHeaders()), HttpStatus.NO_CONTENT);
     }

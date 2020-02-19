@@ -121,8 +121,11 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public Response<Void> deleteConsent(String consentId, RequestHeaders requestHeaders) {
+    public Response<Void> deleteConsent(String consentId,
+                                        RequestHeaders requestHeaders,
+                                        RequestParams requestParams) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
+        uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populateDeleteHeaders(requestHeaders.toMap());
         return httpClient.delete(uri)
             .headers(headersMap)

@@ -116,9 +116,11 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
-    public Response<Void> deleteConsent(String consentId, RequestHeaders requestHeaders) {
+    public Response<Void> deleteConsent(String consentId,
+                                        RequestHeaders requestHeaders,
+                                        RequestParams requestParams) {
         ResponseEntity<Void> responseEntity =
-            client.deleteConsent(consentId, requestHeaders.toMap());
+            client.deleteConsent(consentId, requestParams.toMap(), requestHeaders.toMap());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
             null,

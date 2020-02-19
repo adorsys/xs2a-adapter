@@ -22,7 +22,9 @@ public class TestAccountInformationService implements AccountInformationService 
     }
 
     @Override
-    public Response<Void> deleteConsent(String consentId, RequestHeaders requestHeaders) {
+    public Response<Void> deleteConsent(String consentId,
+                                        RequestHeaders requestHeaders,
+                                        RequestParams requestParams) {
         return null;
     }
 
