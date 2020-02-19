@@ -1,7 +1,10 @@
 package de.adorsys.xs2a.adapter.service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class RequestParams {
@@ -12,48 +15,41 @@ public class RequestParams {
     public static final String ENTRY_REFERENCE_FROM = "entryReferenceFrom";
     public static final String DELTA_LIST = "deltaList";
 
-    private Map<String, String> requestParams;
+    private final Map<String, String> requestParams;
 
-    private Boolean withBalance;
-    private String bookingStatus;
-    private LocalDate dateFrom;
-    private LocalDate dateTo;
-    private String entryReferenceFrom;
-    private Boolean deltaList;
-
-    private RequestParams() {
+    private RequestParams(Map<String, String> requestParams) {
+        this.requestParams = Collections.unmodifiableMap(new LinkedHashMap<>(requestParams));
     }
 
     public static RequestParams fromMap(Map<String, String> map) {
-        RequestParams requestParams = new RequestParams();
-        requestParams.withBalance = map.get(WITH_BALANCE) == null ? null : Boolean.valueOf(map.get(WITH_BALANCE));
-        requestParams.bookingStatus = map.get(BOOKING_STATUS);
-        requestParams.dateFrom = map.get(DATE_FROM) == null ? null : LocalDate.parse(map.get(DATE_FROM));
-        requestParams.dateTo = map.get(DATE_TO) == null ? null : LocalDate.parse(map.get(DATE_TO));
-        requestParams.entryReferenceFrom = map.get(ENTRY_REFERENCE_FROM);
-        requestParams.deltaList = map.get(DELTA_LIST) == null ? null : Boolean.valueOf(map.get(DELTA_LIST));
+        RequestParams requestParams = new RequestParams(map);
+        verifyTypeBoolean(map.get(WITH_BALANCE));
+        verifyTypeLocalDate(map.get(DATE_FROM));
+        verifyTypeLocalDate(map.get(DATE_TO));
+        verifyTypeBoolean(map.get(DELTA_LIST));
         return requestParams;
     }
 
-    public Map<String, String> toMap() {
-        if (requestParams == null) {
-            requestParams = new HashMap<>();
-
-            putIntoAs(withBalance, requestParams, WITH_BALANCE);
-            putIntoAs(bookingStatus, requestParams, BOOKING_STATUS);
-            putIntoAs(dateFrom, requestParams, DATE_FROM);
-            putIntoAs(dateTo, requestParams, DATE_TO);
-            putIntoAs(entryReferenceFrom, requestParams, ENTRY_REFERENCE_FROM);
-            putIntoAs(deltaList, requestParams, DELTA_LIST);
+    private static void verifyTypeLocalDate(String value) {
+        if (value != null) {
+            try {
+                LocalDate.parse(value);
+            } catch (DateTimeParseException e) {
+                throw new IllegalArgumentException(e);
+            }
         }
-
-        return new HashMap<>(requestParams);
     }
 
-    private void putIntoAs(Object requestParamValue, Map<String, String> requestParams, String requestParamName) {
-        if (requestParamValue != null) {
-            requestParams.put(requestParamName, requestParamValue.toString());
+    private static void verifyTypeBoolean(String value) {
+        if (value != null) {
+            if (!"true".equalsIgnoreCase(value) && !"false".equalsIgnoreCase(value)) {
+                throw new IllegalArgumentException(value + " is not a boolean");
+            }
         }
+    }
+
+    public Map<String, String> toMap() {
+        return requestParams;
     }
 
     public static RequestParamsBuilder builder() {
@@ -73,7 +69,7 @@ public class RequestParams {
         }
 
         public RequestParamsBuilder requestParams(Map<String, String> requestParams) {
-            this.requestParams = requestParams;
+            this.requestParams = new LinkedHashMap<>(requestParams);
             return this;
         }
 
@@ -108,15 +104,23 @@ public class RequestParams {
         }
 
         public RequestParams build() {
-            RequestParams requestParams = new RequestParams();
-            requestParams.dateTo = this.dateTo;
-            requestParams.dateFrom = this.dateFrom;
-            requestParams.deltaList = this.deltaList;
-            requestParams.requestParams = this.requestParams;
-            requestParams.withBalance = this.withBalance;
-            requestParams.entryReferenceFrom = this.entryReferenceFrom;
-            requestParams.bookingStatus = this.bookingStatus;
-            return requestParams;
+            if (requestParams == null) {
+                requestParams = new HashMap<>();
+            }
+            putIntoAs(withBalance, requestParams, WITH_BALANCE);
+            putIntoAs(bookingStatus, requestParams, BOOKING_STATUS);
+            putIntoAs(dateFrom, requestParams, DATE_FROM);
+            putIntoAs(dateTo, requestParams, DATE_TO);
+            putIntoAs(entryReferenceFrom, requestParams, ENTRY_REFERENCE_FROM);
+            putIntoAs(deltaList, requestParams, DELTA_LIST);
+
+            return new RequestParams(requestParams);
+        }
+
+        private void putIntoAs(Object requestParamValue, Map<String, String> requestParams, String requestParamName) {
+            if (requestParamValue != null) {
+                requestParams.put(requestParamName, requestParamValue.toString());
+            }
         }
     }
 }
