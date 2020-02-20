@@ -106,7 +106,9 @@ public class TestAccountInformationService implements AccountInformationService 
     }
 
     @Override
-    public Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
+    public Response<BalanceReport> getBalances(String accountId,
+                                               RequestHeaders requestHeaders,
+                                               RequestParams requestParams) {
         return null;
     }
 

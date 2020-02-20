@@ -401,9 +401,11 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
-    public Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
+    public Response<BalanceReport> getBalances(String accountId,
+                                               RequestHeaders requestHeaders,
+                                               RequestParams requestParams) {
         ResponseEntity<ReadAccountBalanceResponse200TO> responseEntity =
-            client.getBalances(accountId, requestHeaders.toMap());
+            client.getBalances(accountId, requestParams.toMap(), requestHeaders.toMap());
         BalanceReport balanceReport = balanceReportMapper.toBalanceReport(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),

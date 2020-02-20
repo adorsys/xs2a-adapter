@@ -170,6 +170,13 @@ public interface AccountInformationService {
                                                     RequestHeaders requestHeaders,
                                                     RequestParams requestParams);
 
+    @Deprecated
+    default Response<BalanceReport> getBalances(String accountId,
+                                        RequestHeaders requestHeaders) {
+        return getBalances(accountId, requestHeaders, RequestParams.empty());
+    }
+
     Response<BalanceReport> getBalances(String accountId,
-                                        RequestHeaders requestHeaders);
+                                        RequestHeaders requestHeaders,
+                                        RequestParams requestParams);
 }

@@ -17,8 +17,10 @@ public class ComdirectAccountInformationService extends BaseAccountInformationSe
     }
 
     @Override
-    public Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
-        return getBalances(accountId, requestHeaders, ComdirectBalanceReport.class,
-                           balanceReportMapper::toBalanceReport);
+    public Response<BalanceReport> getBalances(String accountId,
+                                               RequestHeaders requestHeaders,
+                                               RequestParams requestParams) {
+        return getBalances(accountId, requestHeaders, requestParams, ComdirectBalanceReport.class,
+            balanceReportMapper::toBalanceReport);
     }
 }

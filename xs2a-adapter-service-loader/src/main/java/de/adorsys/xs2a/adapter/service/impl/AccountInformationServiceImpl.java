@@ -166,8 +166,9 @@ public class AccountInformationServiceImpl implements AccountInformationService 
 
     @Override
     public Response<BalanceReport> getBalances(String accountId,
-                                               RequestHeaders requestHeaders) {
+                                               RequestHeaders requestHeaders,
+                                               RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
-                   .getBalances(accountId, requestHeaders);
+                   .getBalances(accountId, requestHeaders, requestParams);
     }
 }

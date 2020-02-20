@@ -37,7 +37,7 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
     public Response<ReadAccountBalanceResponse> getBalances(String accountId,
                                                             Map<String, String> queryParameters,
                                                             Map<String, String> headers) throws IOException {
-        return service.getBalances(accountId, RequestHeaders.fromMap(headers))
+        return service.getBalances(accountId, RequestHeaders.fromMap(headers), RequestParams.fromMap(queryParameters))
             .map(mapper::toReadAccountBalanceResponse);
     }
 

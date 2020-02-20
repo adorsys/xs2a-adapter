@@ -411,12 +411,19 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
-        return getBalances(accountId, requestHeaders, BalanceReport.class, identity());
+    public Response<BalanceReport> getBalances(String accountId,
+                                               RequestHeaders requestHeaders,
+                                               RequestParams requestParams) {
+        return getBalances(accountId, requestHeaders, requestParams, BalanceReport.class, identity());
     }
 
-    protected <T> Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders, Class<T> klass, Function<T, BalanceReport> mapper) {
+    protected <T> Response<BalanceReport> getBalances(String accountId,
+                                                      RequestHeaders requestHeaders,
+                                                      RequestParams requestParams,
+                                                      Class<T> klass,
+                                                      Function<T, BalanceReport> mapper) {
         String uri = StringUri.fromElements(getAccountsBaseUri(), accountId, BALANCES);
+        uri = buildUri(uri, requestParams);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
         Response<T> response = httpClient.get(uri)
             .headers(headers)
