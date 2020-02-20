@@ -59,14 +59,22 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
     }
 
     @Override
-    public Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
+                                                                           String authorisationId,
+                                                                           RequestHeaders requestHeaders,
+                                                                           RequestParams requestParams,
+                                                                           UpdatePsuAuthentication updatePsuAuthentication) {
         PsuData psuData = updatePsuAuthentication.getPsuData();
 
         if (passwordEncryptionRequired(psuData)) {
             encryptPassword(psuData);
         }
 
-        return super.updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication);
+        return super.updateConsentsPsuData(consentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication);
     }
 
     private boolean passwordEncryptionRequired(PsuData psuData) {

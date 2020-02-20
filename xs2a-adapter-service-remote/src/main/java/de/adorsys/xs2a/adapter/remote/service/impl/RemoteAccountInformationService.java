@@ -186,15 +186,15 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
-    public Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(
-        String consentId,
-        String authorisationId,
-        RequestHeaders requestHeaders,
-        SelectPsuAuthenticationMethod selectPsuAuthenticationMethod
-    ) {
+    public Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
+                                                                                 String authorisationId,
+                                                                                 RequestHeaders requestHeaders,
+                                                                                 RequestParams requestParams,
+                                                                                 SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         ResponseEntity<Object> responseEntity = client.updateConsentsPsuData(
             consentId,
             authorisationId,
+            requestParams.toMap(),
             requestHeaders.toMap(),
             objectMapper.valueToTree(selectPsuAuthenticationMethod)
         );
@@ -215,11 +215,13 @@ public class RemoteAccountInformationService implements AccountInformationServic
         String consentId,
         String authorisationId,
         RequestHeaders requestHeaders,
+        RequestParams requestParams,
         TransactionAuthorisation transactionAuthorisation
     ) {
         ResponseEntity<Object> responseEntity = client.updateConsentsPsuData(
             consentId,
             authorisationId,
+            requestParams.toMap(),
             requestHeaders.toMap(),
             objectMapper.valueToTree(transactionAuthorisation)
         );
@@ -237,11 +239,13 @@ public class RemoteAccountInformationService implements AccountInformationServic
         String consentId,
         String authorisationId,
         RequestHeaders requestHeaders,
+        RequestParams requestParams,
         UpdatePsuAuthentication updatePsuAuthentication
     ) {
         ResponseEntity<Object> responseEntity = client.updateConsentsPsuData(
             consentId,
             authorisationId,
+            requestParams.toMap(),
             requestHeaders.toMap(),
             objectMapper.valueToTree(updatePsuAuthentication)
         );

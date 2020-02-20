@@ -51,6 +51,7 @@ public interface Psd2AccountInformationService {
 
     Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId,
                                                                 String authorisationId,
+                                                                Map<String, String> queryParameters,
                                                                 Map<String, String> headers,
                                                                 UpdateAuthorisation updateAuthentication);
 

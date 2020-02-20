@@ -123,26 +123,40 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
     @Override
     public Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId,
                                                                        String authorisationId,
+                                                                       Map<String, String> queryParameters,
                                                                        Map<String, String> headers,
                                                                        UpdateAuthorisation updateAuthorisation) {
 
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(queryParameters);
         if (updateAuthorisation.getAuthenticationMethodId() != null) {
             SelectPsuAuthenticationMethod selectPsuAuthenticationMethod =
                 mapper.toSelectPsuAuthenticationMethod(updateAuthorisation);
-            return service.updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod)
+            return service.updateConsentsPsuData(consentId,
+                authorisationId,
+                requestHeaders,
+                requestParams,
+                selectPsuAuthenticationMethod)
                 .map(mapper::toUpdateAuthorisationResponse);
         }
         if (updateAuthorisation.getPsuData() != null) {
             UpdatePsuAuthentication updatePsuAuthentication =
                 mapper.toUpdatePsuAuthentication(updateAuthorisation);
-            return service.updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication)
+            return service.updateConsentsPsuData(consentId,
+                authorisationId,
+                requestHeaders,
+                requestParams,
+                updatePsuAuthentication)
                 .map(mapper::toUpdateAuthorisationResponse);
         }
         if (updateAuthorisation.getScaAuthenticationData() != null) {
             TransactionAuthorisation transactionAuthorisation =
                 mapper.toTransactionAuthorisation(updateAuthorisation);
-            return service.updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation)
+            return service.updateConsentsPsuData(consentId,
+                authorisationId,
+                requestHeaders,
+                requestParams,
+                transactionAuthorisation)
                 .map(mapper::toUpdateAuthorisationResponse);
         }
 

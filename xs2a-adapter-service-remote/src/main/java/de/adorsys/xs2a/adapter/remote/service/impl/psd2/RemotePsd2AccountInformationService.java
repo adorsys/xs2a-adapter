@@ -142,9 +142,18 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     }
 
     @Override
-    public Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId, String authorisationId, Map<String, String> headers, UpdateAuthorisation updateAuthentication) {
-        ResponseEntity<UpdateAuthorisationResponseTO> responseEntity = client.updateConsentsPsuData(consentId, authorisationId, headers, accountInformationMapper.toUpdateAuthorisationTO(updateAuthentication));
-        UpdateAuthorisationResponse updateAuthorisationResponse = accountInformationMapper.toUpdateAuthorisationResponse(responseEntity.getBody());
+    public Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId,
+                                                                       String authorisationId,
+                                                                       Map<String, String> queryParameters,
+                                                                       Map<String, String> headers,
+                                                                       UpdateAuthorisation updateAuthentication) {
+        ResponseEntity<UpdateAuthorisationResponseTO> responseEntity = client.updateConsentsPsuData(consentId,
+            authorisationId,
+            queryParameters,
+            headers,
+            accountInformationMapper.toUpdateAuthorisationTO(updateAuthentication));
+        UpdateAuthorisationResponse updateAuthorisationResponse =
+            accountInformationMapper.toUpdateAuthorisationResponse(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
             updateAuthorisationResponse,

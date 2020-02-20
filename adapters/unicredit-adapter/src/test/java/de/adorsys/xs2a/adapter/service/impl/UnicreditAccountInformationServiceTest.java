@@ -145,6 +145,7 @@ class UnicreditAccountInformationServiceTest {
         accountInformationService.updateConsentsPsuData(CONSENT_ID,
                                                         AUTHORISATION_ID,
                                                         RequestHeaders.fromMap(Collections.emptyMap()),
+                                                        RequestParams.empty(),
                                                         new TransactionAuthorisation());
 
         Map<String, String> headers = requestBuilder.headers();

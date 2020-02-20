@@ -99,6 +99,7 @@ public interface Psd2AccountInformationApi {
     ResponseEntity<UpdateAuthorisationResponseTO> updateConsentsPsuData(@PathVariable("consentId") String consentId,
                                                                         @PathVariable("authorisationId")
                                                                             String authorisationId,
+                                                                        @RequestParam Map<String, String> queryParameters,
                                                                         @RequestHeader Map<String, String> headers,
                                                                         @RequestBody UpdateAuthorisationTO body);
 }

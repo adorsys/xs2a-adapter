@@ -54,6 +54,7 @@ public class TestAccountInformationService implements AccountInformationService 
     public Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
                                                                                  String authorisationId,
                                                                                  RequestHeaders requestHeaders,
+                                                                                 RequestParams requestParams,
                                                                                  SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         return null;
     }
@@ -62,6 +63,7 @@ public class TestAccountInformationService implements AccountInformationService 
     public Response<ScaStatusResponse> updateConsentsPsuData(String consentId,
                                                              String authorisationId,
                                                              RequestHeaders requestHeaders,
+                                                             RequestParams requestParams,
                                                              TransactionAuthorisation transactionAuthorisation) {
         return null;
     }
@@ -70,6 +72,7 @@ public class TestAccountInformationService implements AccountInformationService 
     public Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
                                                                            String authorisationId,
                                                                            RequestHeaders requestHeaders,
+                                                                           RequestParams requestParams,
                                                                            UpdatePsuAuthentication updatePsuAuthentication) {
         return null;
     }

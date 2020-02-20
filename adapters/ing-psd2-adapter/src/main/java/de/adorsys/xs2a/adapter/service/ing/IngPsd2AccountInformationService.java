@@ -99,6 +99,7 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     @Override
     public Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId,
                                                                        String authorisationId,
+                                                                       Map<String, String> queryParameters,
                                                                        Map<String, String> headers,
                                                                        UpdateAuthorisation updateAuthentication) {
         throw new UnsupportedOperationException();

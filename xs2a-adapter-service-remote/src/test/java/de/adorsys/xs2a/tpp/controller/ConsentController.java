@@ -144,7 +144,11 @@ public class ConsentController extends AbstractController implements AccountApi 
     }
 
     @Override
-    public ResponseEntity<Object> updateConsentsPsuData(String consentId, String authorisationId, Map<String, String> headers, ObjectNode body) {
+    public ResponseEntity<Object> updateConsentsPsuData(String consentId,
+                                                        String authorisationId,
+                                                        Map<String, String> parameters,
+                                                        Map<String, String> headers,
+                                                        ObjectNode body) {
 //        oneOf: #Different Authorisation Bodies
 //                - {}
 //                - $ref: "#/components/schemas/updatePsuAuthentication"
@@ -156,17 +160,32 @@ public class ConsentController extends AbstractController implements AccountApi 
 //              - $ref: "#/components/schemas/selectPsuAuthenticationMethodResponse" #Select Authentication Method
 //              - $ref: "#/components/schemas/scaStatusResponse" #Transaction Authorisation
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
 
         Response<?> response = handleAuthorisationBody(body,
-                                                              (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication),
-                                                              (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod -> accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod),
-                                                              (TransactionAuthorisationHandler) transactionAuthorisation -> accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation)
-        );
+            (UpdatePsuAuthenticationHandler) updatePsuAuthentication ->
+                accountInformationService.updateConsentsPsuData(consentId,
+                    authorisationId,
+                    requestHeaders,
+                    requestParams,
+                    updatePsuAuthentication),
+            (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod ->
+                accountInformationService.updateConsentsPsuData(consentId,
+                    authorisationId,
+                    requestHeaders,
+                    requestParams,
+                    selectPsuAuthenticationMethod),
+            (TransactionAuthorisationHandler) transactionAuthorisation ->
+                accountInformationService.updateConsentsPsuData(consentId,
+                    authorisationId,
+                    requestHeaders,
+                    requestParams,
+                    transactionAuthorisation));
 
         return ResponseEntity
-                   .status(HttpStatus.OK)
-                   .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(response.getBody());
+            .status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(response.getBody());
     }
 
     @Override

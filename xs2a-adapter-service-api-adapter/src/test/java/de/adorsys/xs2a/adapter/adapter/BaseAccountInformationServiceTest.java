@@ -183,8 +183,11 @@ public class BaseAccountInformationServiceTest {
         when(httpClient.put(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<UpdatePsuAuthenticationResponse> response
-            = informationService.updateConsentsPsuData(CONSENTID, AUTHORISATIONID, headers, updatePsuAuthentication);
+        Response<UpdatePsuAuthenticationResponse> response = informationService.updateConsentsPsuData(CONSENTID,
+            AUTHORISATIONID,
+            headers,
+            params,
+            updatePsuAuthentication);
 
         verify(httpClient, times(1)).put(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
@@ -205,8 +208,11 @@ public class BaseAccountInformationServiceTest {
         when(httpClient.put(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<SelectPsuAuthenticationMethodResponse> response
-            = informationService.updateConsentsPsuData(CONSENTID, AUTHORISATIONID, headers, selectPsuAuthenticationMethod);
+        Response<SelectPsuAuthenticationMethodResponse> response = informationService.updateConsentsPsuData(CONSENTID,
+            AUTHORISATIONID,
+            headers,
+            params,
+            selectPsuAuthenticationMethod);
 
         verify(httpClient, times(1)).put(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
@@ -227,8 +233,11 @@ public class BaseAccountInformationServiceTest {
         when(httpClient.put(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<ScaStatusResponse> response
-            = informationService.updateConsentsPsuData(CONSENTID, AUTHORISATIONID, headers, transactionAuthorisation);
+        Response<ScaStatusResponse> response = informationService.updateConsentsPsuData(CONSENTID,
+            AUTHORISATIONID,
+            headers,
+            params,
+            transactionAuthorisation);
 
         verify(httpClient, times(1)).put(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());

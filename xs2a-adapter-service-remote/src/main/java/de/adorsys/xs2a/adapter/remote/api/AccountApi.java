@@ -88,7 +88,9 @@ public interface AccountApi {
     )
     ResponseEntity<Object> updateConsentsPsuData(@PathVariable("consentId") String consentId,
                                                  @PathVariable("authorisationId") String authorisationId,
-                                                 @RequestHeader Map<String, String> headers, @RequestBody ObjectNode body);
+                                                 @RequestParam Map<String, String> parameters,
+                                                 @RequestHeader Map<String, String> headers,
+                                                 @RequestBody ObjectNode body);
 
     @RequestMapping(
         value = "/v1/accounts",
