@@ -112,7 +112,8 @@ public class TestAccountInformationService implements AccountInformationService 
     @Override
     public Response<TransactionDetails> getTransactionDetails(String accountId,
                                                               String transactionId,
-                                                              RequestHeaders requestHeaders) {
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams) {
         return null;
     }
 }

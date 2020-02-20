@@ -144,5 +144,6 @@ public interface AccountApi {
     ResponseEntity<OK200TransactionDetailsTO> getTransactionDetails(
         @PathVariable("account-id") String accountId,
         @PathVariable("transactionId") String transactionId,
+        @RequestParam Map<String, String> parameters,
         @RequestHeader Map<String, String> headers);
 }

@@ -142,9 +142,17 @@ public interface AccountInformationService {
                                                     RequestHeaders requestHeaders,
                                                     RequestParams requestParams);
 
+    @Deprecated
+    default Response<TransactionDetails> getTransactionDetails(String accountId,
+                                                       String transactionId,
+                                                       RequestHeaders requestHeaders) {
+        return getTransactionDetails(accountId, transactionId, requestHeaders, RequestParams.empty());
+    }
+
     Response<TransactionDetails> getTransactionDetails(String accountId,
                                                        String transactionId,
-                                                       RequestHeaders requestHeaders);
+                                                       RequestHeaders requestHeaders,
+                                                       RequestParams requestParams);
 
     Response<String> getTransactionListAsString(String accountId,
                                                 RequestHeaders requestHeaders,

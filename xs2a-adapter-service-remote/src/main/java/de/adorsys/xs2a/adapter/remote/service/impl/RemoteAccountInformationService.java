@@ -319,9 +319,12 @@ public class RemoteAccountInformationService implements AccountInformationServic
     @Override
     public Response<TransactionDetails> getTransactionDetails(String accountId,
                                                               String transactionId,
-                                                              RequestHeaders requestHeaders) {
-        ResponseEntity<OK200TransactionDetailsTO> response =
-            client.getTransactionDetails(accountId, transactionId, requestHeaders.toMap());
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams) {
+        ResponseEntity<OK200TransactionDetailsTO> response = client.getTransactionDetails(accountId,
+            transactionId,
+            requestParams.toMap(),
+            requestHeaders.toMap());
         return new Response<>(response.getStatusCodeValue(),
             transactionDetailsMapper.map(response.getBody()),
             responseHeadersMapper.getHeaders(response.getHeaders()));

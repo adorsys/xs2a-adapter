@@ -374,8 +374,10 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     @Override
     public Response<TransactionDetails> getTransactionDetails(String accountId,
                                                               String transactionId,
-                                                              RequestHeaders requestHeaders) {
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams) {
         String uri = StringUri.fromElements(getAccountsBaseUri(), accountId, TRANSACTIONS, transactionId);
+        uri = buildUri(uri, requestParams);
 
         Response<TransactionDetails> response = httpClient.get(uri)
             .headers(populateGetHeaders(requestHeaders.toMap()))
