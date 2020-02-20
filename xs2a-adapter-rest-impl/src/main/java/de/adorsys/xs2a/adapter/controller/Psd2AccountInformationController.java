@@ -137,11 +137,16 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
 
     @Override
     public ResponseEntity<UpdateAuthorisationResponseTO> updateConsentsPsuData(String consentId,
-                                                        String authorisationId,
-                                                        Map<String, String> headers,
-                                                        UpdateAuthorisationTO body) {
+                                                                               String authorisationId,
+                                                                               Map<String, String> queryParameters,
+                                                                               Map<String, String> headers,
+                                                                               UpdateAuthorisationTO body) {
         return toResponseEntity(
-            accountInformationService.updateConsentsPsuData(consentId, authorisationId, headers, mapper.toUpdateAuthorisation(body)),
+            accountInformationService.updateConsentsPsuData(consentId,
+                authorisationId,
+                queryParameters,
+                headers,
+                mapper.toUpdateAuthorisation(body)),
             mapper::toUpdateAuthorisationResponseTO
         );
     }

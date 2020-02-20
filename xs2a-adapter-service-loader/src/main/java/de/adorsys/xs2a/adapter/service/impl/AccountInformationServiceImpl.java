@@ -87,27 +87,42 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     public Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
                                                                                  String authorisationId,
                                                                                  RequestHeaders requestHeaders,
+                                                                                 RequestParams requestParams,
                                                                                  SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         return getAccountInformationService(requestHeaders)
-                   .updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod);
+            .updateConsentsPsuData(consentId,
+                authorisationId,
+                requestHeaders,
+                requestParams,
+                selectPsuAuthenticationMethod);
     }
 
     @Override
     public Response<ScaStatusResponse> updateConsentsPsuData(String consentId,
                                                              String authorisationId,
                                                              RequestHeaders requestHeaders,
+                                                             RequestParams requestParams,
                                                              TransactionAuthorisation transactionAuthorisation) {
         return getAccountInformationService(requestHeaders)
-                   .updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation);
+            .updateConsentsPsuData(consentId,
+                authorisationId,
+                requestHeaders,
+                requestParams,
+                transactionAuthorisation);
     }
 
     @Override
     public Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
                                                                            String authorisationId,
                                                                            RequestHeaders requestHeaders,
+                                                                           RequestParams requestParams,
                                                                            UpdatePsuAuthentication updatePsuAuthentication) {
         return getAccountInformationService(requestHeaders)
-                   .updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication);
+            .updateConsentsPsuData(consentId,
+                authorisationId,
+                requestHeaders,
+                requestParams,
+                updatePsuAuthentication);
     }
 
     @Override

@@ -160,14 +160,27 @@ public class ConsentController extends AbstractController implements ConsentApi,
 //              - $ref: "#/components/schemas/selectPsuAuthenticationMethodResponse" #Select Authentication Method
 //              - $ref: "#/components/schemas/scaStatusResponse" #Transaction Authorisation
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
 
         Response<?> response = handleAuthorisationBody(body,
                 (UpdatePsuAuthenticationHandler) updatePsuAuthentication ->
-                    accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication),
+                    accountInformationService.updateConsentsPsuData(consentId,
+                        authorisationId,
+                        requestHeaders,
+                        requestParams,
+                        updatePsuAuthentication),
                 (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod ->
-                    accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod),
+                    accountInformationService.updateConsentsPsuData(consentId,
+                        authorisationId,
+                        requestHeaders,
+                        requestParams,
+                        selectPsuAuthenticationMethod),
                 (TransactionAuthorisationHandler) transactionAuthorisation ->
-                    accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation)
+                    accountInformationService.updateConsentsPsuData(consentId,
+                        authorisationId,
+                        requestHeaders,
+                        requestParams,
+                        transactionAuthorisation)
         );
 
         return ResponseEntity

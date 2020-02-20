@@ -82,21 +82,55 @@ public interface AccountInformationService {
                                                                 RequestParams requestParams,
                                                                 UpdatePsuAuthentication updatePsuAuthentication);
 
+    @Deprecated
+    default Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
+                                                                                  String authorisationId,
+                                                                                  RequestHeaders requestHeaders,
+                                                                                  SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+        return updateConsentsPsuData(consentId, authorisationId, requestHeaders, RequestParams.empty(), selectPsuAuthenticationMethod);
+    }
+
     Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
                                                                           String authorisationId,
                                                                           RequestHeaders requestHeaders,
+                                                                          RequestParams requestParams,
                                                                           SelectPsuAuthenticationMethod selectPsuAuthenticationMethod);
+
+    @Deprecated
+    default Response<ScaStatusResponse> updateConsentsPsuData(String consentId,
+                                                      String authorisationId,
+                                                      RequestHeaders requestHeaders,
+                                                      TransactionAuthorisation transactionAuthorisation) {
+        return updateConsentsPsuData(consentId,
+            authorisationId,
+            requestHeaders,
+            RequestParams.empty(),
+            transactionAuthorisation);
+    }
 
     Response<ScaStatusResponse> updateConsentsPsuData(String consentId,
                                                       String authorisationId,
                                                       RequestHeaders requestHeaders,
+                                                      RequestParams requestParams,
                                                       TransactionAuthorisation transactionAuthorisation);
+
+    @Deprecated
+    default Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
+                                                                    String authorisationId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    UpdatePsuAuthentication updatePsuAuthentication) {
+        return updateConsentsPsuData(consentId,
+            authorisationId,
+            requestHeaders,
+            RequestParams.empty(),
+            updatePsuAuthentication);
+    }
 
     Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
                                                                     String authorisationId,
                                                                     RequestHeaders requestHeaders,
-                                                                    UpdatePsuAuthentication updatePsuAuthentication
-    );
+                                                                    RequestParams requestParams,
+                                                                    UpdatePsuAuthentication updatePsuAuthentication);
 
     Response<AccountListHolder> getAccountList(RequestHeaders requestHeaders,
                                                RequestParams requestParams);

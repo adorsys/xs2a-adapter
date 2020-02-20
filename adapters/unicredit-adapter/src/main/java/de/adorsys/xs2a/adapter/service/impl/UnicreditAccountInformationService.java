@@ -66,8 +66,18 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     }
 
     @Override
-    public Response<ScaStatusResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
-        return updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation, UnicreditAccountScaStatusResponse.class, scaStatusResponseMapper::toScaStatusResponse);
+    public Response<ScaStatusResponse> updateConsentsPsuData(String consentId,
+                                                             String authorisationId,
+                                                             RequestHeaders requestHeaders,
+                                                             RequestParams requestParams,
+                                                             TransactionAuthorisation transactionAuthorisation) {
+        return updateConsentsPsuData(consentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            transactionAuthorisation,
+            UnicreditAccountScaStatusResponse.class,
+            scaStatusResponseMapper::toScaStatusResponse);
     }
 
     @Override

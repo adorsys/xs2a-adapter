@@ -71,11 +71,12 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
 
     @Override
     public Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId,
-                                                             String authorisationId,
-                                                             Map<String, String> headers,
-                                                             UpdateAuthorisation updateAuthentication) {
+                                                                       String authorisationId,
+                                                                       Map<String, String> queryParameters,
+                                                                       Map<String, String> headers,
+                                                                       UpdateAuthorisation updateAuthentication) {
         return getAccountInformationService(headers)
-            .updateConsentsPsuData(consentId, authorisationId, headers, updateAuthentication);
+            .updateConsentsPsuData(consentId, authorisationId, queryParameters, headers, updateAuthentication);
     }
 
     @Override
