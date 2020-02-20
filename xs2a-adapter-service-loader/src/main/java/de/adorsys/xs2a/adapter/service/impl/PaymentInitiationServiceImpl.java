@@ -74,9 +74,14 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     public Response<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService,
                                                                                               String paymentProduct,
                                                                                               String paymentId,
-                                                                                              RequestHeaders requestHeaders) {
+                                                                                              RequestHeaders requestHeaders,
+                                                                                              RequestParams requestParams) {
         return getPaymentInitiationService(requestHeaders)
-                   .getPaymentInitiationAuthorisation(paymentService, paymentProduct, paymentId, requestHeaders);
+            .getPaymentInitiationAuthorisation(paymentService,
+                paymentProduct,
+                paymentId,
+                requestHeaders,
+                requestParams);
     }
 
     @Override

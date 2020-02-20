@@ -177,7 +177,7 @@ public class BasePaymentInitiationServiceTest {
     void getPaymentInitiationAuthorisation_exceptionExpected() {
 
         assertThrows(UnsupportedOperationException.class,
-            () -> initiationService.getPaymentInitiationAuthorisation(null, null, null, null));
+            () -> initiationService.getPaymentInitiationAuthorisation(null, null, null, null, null));
     }
 
     @Test

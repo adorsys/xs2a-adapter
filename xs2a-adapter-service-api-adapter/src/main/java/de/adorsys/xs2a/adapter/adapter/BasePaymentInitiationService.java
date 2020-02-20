@@ -174,7 +174,11 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService, String paymentProduct, String paymentId, RequestHeaders requestHeaders) {
+    public Response<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService,
+                                                                                              String paymentProduct,
+                                                                                              String paymentId,
+                                                                                              RequestHeaders requestHeaders,
+                                                                                              RequestParams requestParams) {
         throw new UnsupportedOperationException();
     }
 

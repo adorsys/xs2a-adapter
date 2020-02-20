@@ -80,10 +80,23 @@ public interface PaymentInitiationService {
                                                               RequestHeaders requestHeaders,
                                                               RequestParams requestParams);
 
+    @Deprecated
+    default Response<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService,
+                                                                                       String paymentProduct,
+                                                                                       String paymentId,
+                                                                                       RequestHeaders requestHeaders) {
+        return getPaymentInitiationAuthorisation(paymentService,
+            paymentProduct,
+            paymentId,
+            requestHeaders,
+            RequestParams.empty());
+    }
+
     Response<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService,
                                                                                        String paymentProduct,
                                                                                        String paymentId,
-                                                                                       RequestHeaders requestHeaders);
+                                                                                       RequestHeaders requestHeaders,
+                                                                                       RequestParams requestParams);
 
     Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
                                                                       String paymentId,
