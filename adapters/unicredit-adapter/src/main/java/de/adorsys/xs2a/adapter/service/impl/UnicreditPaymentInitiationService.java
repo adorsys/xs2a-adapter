@@ -71,7 +71,12 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
     }
 
     @Override
-    public Response<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders) {
+    public Response<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
+                                                                                      String paymentProduct,
+                                                                                      String paymentId,
+                                                                                      String authorisationId,
+                                                                                      RequestHeaders requestHeaders,
+                                                                                      RequestParams requestParams) {
         if (!SINGLE_PAYMENT_PAYMENT_SERVICE.equals(paymentService)) {
             throw new UnsupportedOperationException();
         }
@@ -80,8 +85,12 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
             throw new UnsupportedOperationException();
         }
 
-        Response<PaymentInitiationStatus> response = this.getSinglePaymentInitiationStatus(paymentProduct, paymentId, requestHeaders);
-        return new Response<>(response.getStatusCode(), paymentInitiationScaStatusResponseMapper.toScaStatusResponse(response.getBody()), response.getHeaders());
+        Response<PaymentInitiationStatus> response = this.getSinglePaymentInitiationStatus(paymentProduct,
+            paymentId,
+            requestHeaders); // fixme
+        return new Response<>(response.getStatusCode(),
+            paymentInitiationScaStatusResponseMapper.toScaStatusResponse(response.getBody()),
+            response.getHeaders());
     }
 
     @Override

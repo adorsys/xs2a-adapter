@@ -128,7 +128,7 @@ public class BasePaymentInitiationServiceTest {
     void getPaymentInitiationScaStatus_exceptionExpected() {
 
         assertThrows(UnsupportedOperationException.class,
-            () -> initiationService.getPaymentInitiationScaStatus(null, null, null, null, null));
+            () -> initiationService.getPaymentInitiationScaStatus(null, null, null, null, null, null));
     }
 
     @Test

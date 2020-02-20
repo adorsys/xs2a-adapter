@@ -29,11 +29,26 @@ public interface PaymentInitiationService {
         RequestHeaders requestHeaders,
         RequestParams requestParams);
 
+    @Deprecated
+    default Response<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
+                                                                                       String paymentProduct,
+                                                                                       String paymentId,
+                                                                                       String authorisationId,
+                                                                                       RequestHeaders requestHeaders) {
+        return getPaymentInitiationScaStatus(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            RequestParams.empty());
+    }
+
     Response<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
                                                                                String paymentProduct,
                                                                                String paymentId,
                                                                                String authorisationId,
-                                                                               RequestHeaders requestHeaders);
+                                                                               RequestHeaders requestHeaders,
+                                                                               RequestParams requestParams);
 
     /**
      * @throws NotAcceptableException if response content type is not json

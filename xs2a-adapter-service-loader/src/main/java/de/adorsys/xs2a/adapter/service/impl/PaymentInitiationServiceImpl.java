@@ -41,9 +41,15 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
                                                                                       String paymentProduct,
                                                                                       String paymentId,
                                                                                       String authorisationId,
-                                                                                      RequestHeaders requestHeaders) {
+                                                                                      RequestHeaders requestHeaders,
+                                                                                      RequestParams requestParams) {
         return getPaymentInitiationService(requestHeaders)
-                   .getPaymentInitiationScaStatus(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders);
+            .getPaymentInitiationScaStatus(paymentService,
+                paymentProduct,
+                paymentId,
+                authorisationId,
+                requestHeaders,
+                requestParams);
     }
 
     @Override
