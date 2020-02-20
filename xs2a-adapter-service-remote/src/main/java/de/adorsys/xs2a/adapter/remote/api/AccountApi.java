@@ -58,8 +58,9 @@ public interface AccountApi {
         value = "/v1/consents/{consentId}/status",
         method = RequestMethod.GET
     )
-    ResponseEntity<ConsentStatusResponse200TO> getConsentStatus(
-        @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers);
+    ResponseEntity<ConsentStatusResponse200TO> getConsentStatus(@PathVariable("consentId") String consentId,
+                                                                @RequestParam Map<String, String> parameters,
+                                                                @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/v1/consents/{consentId}/authorisations",

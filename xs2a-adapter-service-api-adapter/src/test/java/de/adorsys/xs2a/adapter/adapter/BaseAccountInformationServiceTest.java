@@ -123,7 +123,7 @@ public class BaseAccountInformationServiceTest {
         when(httpClient.get(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<ConsentStatusResponse> response = informationService.getConsentStatus(CONSENTID, headers);
+        Response<ConsentStatusResponse> response = informationService.getConsentStatus(CONSENTID, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());

@@ -45,9 +45,11 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
     }
 
     @Override
-    public Response<ConsentStatusResponse> getConsentStatus(String consentId, Map<String, String> headers) {
+    public Response<ConsentStatusResponse> getConsentStatus(String consentId,
+                                                            Map<String, String> queryParameters,
+                                                            Map<String, String> headers) {
         return getAccountInformationService(headers)
-            .getConsentStatus(consentId, headers);
+            .getConsentStatus(consentId, queryParameters, headers);
     }
 
     @Override
