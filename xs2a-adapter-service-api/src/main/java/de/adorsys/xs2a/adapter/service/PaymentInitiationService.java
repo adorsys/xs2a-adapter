@@ -98,9 +98,22 @@ public interface PaymentInitiationService {
                                                                                        RequestHeaders requestHeaders,
                                                                                        RequestParams requestParams);
 
+    @Deprecated
+    default Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
+                                                                      String paymentId,
+                                                                      RequestHeaders requestHeaders,
+                                                                      UpdatePsuAuthentication updatePsuAuthentication) {
+        return startSinglePaymentAuthorisation(paymentProduct,
+            paymentId,
+            requestHeaders,
+            RequestParams.empty(),
+            updatePsuAuthentication);
+    }
+
     Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
                                                                       String paymentId,
                                                                       RequestHeaders requestHeaders,
+                                                                      RequestParams requestParams,
                                                                       UpdatePsuAuthentication updatePsuAuthentication);
 
     Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,

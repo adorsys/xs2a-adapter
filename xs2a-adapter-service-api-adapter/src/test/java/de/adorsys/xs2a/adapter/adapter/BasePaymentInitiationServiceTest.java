@@ -188,8 +188,12 @@ public class BasePaymentInitiationServiceTest {
         when(httpClient.post(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<StartScaProcessResponse> response
-            = initiationService.startSinglePaymentAuthorisation(SEPA_CREDIT_TRANSFERS, PAYMENTID, headers, body);
+        Response<StartScaProcessResponse> response =
+            initiationService.startSinglePaymentAuthorisation(SEPA_CREDIT_TRANSFERS,
+                PAYMENTID,
+                headers,
+                RequestParams.empty(),
+                body);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());

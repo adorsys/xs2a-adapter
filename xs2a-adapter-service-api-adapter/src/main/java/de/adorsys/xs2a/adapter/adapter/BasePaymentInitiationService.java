@@ -186,17 +186,26 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     public Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
                                                                              String paymentId,
                                                                              RequestHeaders requestHeaders,
+                                                                             RequestParams requestParams,
                                                                              UpdatePsuAuthentication updatePsuAuthentication) {
-        return startSinglePaymentAuthorisation(StandardPaymentProduct.fromSlug(paymentProduct), paymentId, requestHeaders, updatePsuAuthentication, StartScaProcessResponse.class, identity());
+        return startSinglePaymentAuthorisation(StandardPaymentProduct.fromSlug(paymentProduct),
+            paymentId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication,
+            StartScaProcessResponse.class,
+            identity());
     }
 
     protected <T> Response<StartScaProcessResponse> startSinglePaymentAuthorisation(PaymentProduct paymentProduct,
                                                                                     String paymentId,
                                                                                     RequestHeaders requestHeaders,
+                                                                                    RequestParams requestParams,
                                                                                     UpdatePsuAuthentication updatePsuAuthentication,
                                                                                     Class<T> klass,
                                                                                     Function<T, StartScaProcessResponse> mapper) {
         String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug(), paymentId, AUTHORISATIONS);
+        uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
