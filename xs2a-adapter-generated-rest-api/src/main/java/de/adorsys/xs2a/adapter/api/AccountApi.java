@@ -33,7 +33,6 @@ public interface AccountApi {
         value = "/v1/accounts/{account-id}/transactions",
         method = RequestMethod.GET
     )
-    @SuppressWarnings({"checkstyle:ParameterNumber"})
     ResponseEntity<Object> getTransactionList(@PathVariable("account-id") String accountId,
                                               @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom,
                                               @RequestParam(value = "dateTo", required = false) LocalDate dateTo,
