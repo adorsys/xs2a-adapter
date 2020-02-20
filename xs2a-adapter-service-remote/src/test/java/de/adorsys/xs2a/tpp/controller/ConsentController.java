@@ -121,17 +121,26 @@ public class ConsentController extends AbstractController implements AccountApi 
     }
 
     @Override
-    public ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(String consentId, Map<String, String> headers, ObjectNode body) {
+    public ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(String consentId,
+                                                                               Map<String, String> parameters,
+                                                                               Map<String, String> headers,
+                                                                               ObjectNode body) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
 
         Response<?> response = handleAuthorisationBody(body,
-                                                              (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> accountInformationService.startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication),
-                                                              (StartAuthorisationHandler) emptyAuthorisationBody -> accountInformationService.startConsentAuthorisation(consentId, requestHeaders));
+            (UpdatePsuAuthenticationHandler) updatePsuAuthentication ->
+                accountInformationService.startConsentAuthorisation(consentId,
+                    requestHeaders,
+                    requestParams,
+                    updatePsuAuthentication),
+            (StartAuthorisationHandler) emptyAuthorisationBody ->
+                accountInformationService.startConsentAuthorisation(consentId, requestHeaders, requestParams));
 
         return ResponseEntity
-                   .status(HttpStatus.CREATED)
-                   .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(startScaProcessResponseMapper.toStartScaprocessResponseTO((StartScaProcessResponse) response.getBody()));
+            .status(HttpStatus.CREATED)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(startScaProcessResponseMapper.toStartScaprocessResponseTO((StartScaProcessResponse) response.getBody()));
     }
 
     @Override

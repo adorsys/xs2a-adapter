@@ -68,17 +68,19 @@ public class AccountInformationServiceImpl implements AccountInformationService 
 
     @Override
     public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
-                                                                       RequestHeaders requestHeaders) {
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
-                   .startConsentAuthorisation(consentId, requestHeaders);
+                   .startConsentAuthorisation(consentId, requestHeaders, requestParams);
     }
 
     @Override
     public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
                                                                        UpdatePsuAuthentication updatePsuAuthentication) {
         return getAccountInformationService(requestHeaders)
-                   .startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication);
+                   .startConsentAuthorisation(consentId, requestHeaders, requestParams, updatePsuAuthentication);
     }
 
     @Override

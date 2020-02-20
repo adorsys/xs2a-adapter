@@ -67,9 +67,10 @@ public interface AccountApi {
         method = RequestMethod.POST,
         consumes = "application/json"
     )
-    ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(
-        @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers,
-        @RequestBody ObjectNode body);
+    ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(@PathVariable("consentId") String consentId,
+                                                                        @RequestParam Map<String, String> parameters,
+                                                                        @RequestHeader Map<String, String> headers,
+                                                                        @RequestBody ObjectNode body);
 
     @RequestMapping(
         value = "/v1/consents/{consentId}/authorisations/{authorisationId}",

@@ -122,6 +122,7 @@ class UnicreditAccountInformationServiceTest {
 
         accountInformationService.startConsentAuthorisation(CONSENT_ID,
                                                             RequestHeaders.fromMap(Collections.emptyMap()),
+                                                            RequestParams.empty(),
                                                             new UpdatePsuAuthentication());
 
         Map<String, String> headers = requestBuilder.headers();
