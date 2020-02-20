@@ -116,25 +116,75 @@ public interface PaymentInitiationService {
                                                                       RequestParams requestParams,
                                                                       UpdatePsuAuthentication updatePsuAuthentication);
 
+    @Deprecated
+    default Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
+                                                                         String paymentProduct,
+                                                                         String paymentId,
+                                                                         String authorisationId,
+                                                                         RequestHeaders requestHeaders,
+                                                                         SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+        return updatePaymentPsuData(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            RequestParams.empty(),
+            selectPsuAuthenticationMethod);
+    }
+
     Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
                                                                          String paymentProduct,
                                                                          String paymentId,
                                                                          String authorisationId,
                                                                          RequestHeaders requestHeaders,
+                                                                         RequestParams requestParams,
                                                                          SelectPsuAuthenticationMethod selectPsuAuthenticationMethod);
+
+    @Deprecated
+    default Response<ScaStatusResponse> updatePaymentPsuData(String paymentService,
+                                                     String paymentProduct,
+                                                     String paymentId,
+                                                     String authorisationId,
+                                                     RequestHeaders requestHeaders,
+                                                     TransactionAuthorisation transactionAuthorisation) {
+        return updatePaymentPsuData(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            RequestParams.empty(),
+            transactionAuthorisation);
+    }
 
     Response<ScaStatusResponse> updatePaymentPsuData(String paymentService,
                                                      String paymentProduct,
                                                      String paymentId,
                                                      String authorisationId,
                                                      RequestHeaders requestHeaders,
+                                                     RequestParams requestParams,
                                                      TransactionAuthorisation transactionAuthorisation);
+
+    @Deprecated
+    default Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
+                                                                   String paymentProduct,
+                                                                   String paymentId,
+                                                                   String authorisationId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   UpdatePsuAuthentication updatePsuAuthentication) {
+        return updatePaymentPsuData(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            RequestParams.empty(),
+            updatePsuAuthentication);
+    }
 
     Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
                                                                    String paymentProduct,
                                                                    String paymentId,
                                                                    String authorisationId,
                                                                    RequestHeaders requestHeaders,
-                                                                   UpdatePsuAuthentication updatePsuAuthentication
-    );
+                                                                   RequestParams requestParams,
+                                                                   UpdatePsuAuthentication updatePsuAuthentication);
 }

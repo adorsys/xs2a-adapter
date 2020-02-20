@@ -65,8 +65,22 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
     }
 
     @Override
-    public Response<ScaStatusResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
-        return updatePaymentPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, transactionAuthorisation, UnicreditPaymentScaStatusResponse.class, scaStatusResponseMapper::toScaStatusResponse);
+    public Response<ScaStatusResponse> updatePaymentPsuData(String paymentService,
+                                                            String paymentProduct,
+                                                            String paymentId,
+                                                            String authorisationId,
+                                                            RequestHeaders requestHeaders,
+                                                            RequestParams requestParams,
+                                                            TransactionAuthorisation transactionAuthorisation) {
+        return updatePaymentPsuData(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            transactionAuthorisation,
+            UnicreditPaymentScaStatusResponse.class,
+            scaStatusResponseMapper::toScaStatusResponse);
     }
 
     @Override

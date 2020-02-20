@@ -213,17 +213,33 @@ public class PaymentController extends AbstractController implements PaymentApi 
                                                        Map<String, String> headers,
                                                        ObjectNode body) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
 
         Response<?> response = handleAuthorisationBody(body,
                 (UpdatePsuAuthenticationHandler) updatePsuAuthentication ->
-                    this.paymentService.updatePaymentPsuData(paymentService.toString(), paymentProduct.toString(),
-                        paymentId, authorisationId, requestHeaders, updatePsuAuthentication),
+                    this.paymentService.updatePaymentPsuData(paymentService.toString(),
+                        paymentProduct.toString(),
+                        paymentId,
+                        authorisationId,
+                        requestHeaders,
+                        requestParams,
+                        updatePsuAuthentication),
                 (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod ->
-                    this.paymentService.updatePaymentPsuData(paymentService.toString(), paymentProduct.toString(),
-                        paymentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod),
+                    this.paymentService.updatePaymentPsuData(paymentService.toString(),
+                        paymentProduct.toString(),
+                        paymentId,
+                        authorisationId,
+                        requestHeaders,
+                        requestParams,
+                        selectPsuAuthenticationMethod),
                 (TransactionAuthorisationHandler) transactionAuthorisation ->
-                    this.paymentService.updatePaymentPsuData(paymentService.toString(), paymentProduct.toString(),
-                        paymentId, authorisationId, requestHeaders, transactionAuthorisation)
+                    this.paymentService.updatePaymentPsuData(paymentService.toString(),
+                        paymentProduct.toString(),
+                        paymentId,
+                        authorisationId,
+                        requestHeaders,
+                        requestParams,
+                        transactionAuthorisation)
         );
 
         return ResponseEntity

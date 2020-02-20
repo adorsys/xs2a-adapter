@@ -214,8 +214,14 @@ public class BasePaymentInitiationServiceTest {
         when(httpClient.put(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<UpdatePsuAuthenticationResponse> response
-            = initiationService.updatePaymentPsuData(PAYMENT_SERVICE, SEPA_CREDIT_TRANSFERS, PAYMENTID, AUTHORISATIONID, headers, body);
+        Response<UpdatePsuAuthenticationResponse> response =
+            initiationService.updatePaymentPsuData(PAYMENT_SERVICE,
+                SEPA_CREDIT_TRANSFERS,
+                PAYMENTID,
+                AUTHORISATIONID,
+                headers,
+                RequestParams.empty(),
+                body);
 
         verify(httpClient, times(1)).put(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
@@ -236,8 +242,14 @@ public class BasePaymentInitiationServiceTest {
         when(httpClient.put(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<SelectPsuAuthenticationMethodResponse> response
-            = initiationService.updatePaymentPsuData(PAYMENT_SERVICE, SEPA_CREDIT_TRANSFERS, PAYMENTID, AUTHORISATIONID, headers, body);
+        Response<SelectPsuAuthenticationMethodResponse> response =
+            initiationService.updatePaymentPsuData(PAYMENT_SERVICE,
+                SEPA_CREDIT_TRANSFERS,
+                PAYMENTID,
+                AUTHORISATIONID,
+                headers,
+                RequestParams.empty(),
+                body);
 
         verify(httpClient, times(1)).put(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
@@ -258,8 +270,14 @@ public class BasePaymentInitiationServiceTest {
         when(httpClient.put(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<ScaStatusResponse> response
-            = initiationService.updatePaymentPsuData(PAYMENT_SERVICE, SEPA_CREDIT_TRANSFERS, PAYMENTID, AUTHORISATIONID, headers, body);
+        Response<ScaStatusResponse> response =
+            initiationService.updatePaymentPsuData(PAYMENT_SERVICE,
+                SEPA_CREDIT_TRANSFERS,
+                PAYMENTID,
+                AUTHORISATIONID,
+                headers,
+                RequestParams.empty(),
+                body);
 
         verify(httpClient, times(1)).put(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());

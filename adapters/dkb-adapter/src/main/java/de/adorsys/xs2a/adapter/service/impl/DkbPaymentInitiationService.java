@@ -82,13 +82,41 @@ public class DkbPaymentInitiationService extends BasePaymentInitiationService {
     }
 
     @Override
-    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
-        return updatePaymentPsuData(paymentService, StandardPaymentProduct.fromSlug(paymentProduct), paymentId, authorisationId, requestHeaders, updatePsuAuthentication, DkbUpdatePsuAuthenticationResponse.class, updatePsuAuthenticationResponseMapper::toUpdatePsuAuthenticationResponse);
+    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
+                                                                          String paymentProduct,
+                                                                          String paymentId,
+                                                                          String authorisationId,
+                                                                          RequestHeaders requestHeaders,
+                                                                          RequestParams requestParams,
+                                                                          UpdatePsuAuthentication updatePsuAuthentication) {
+        return updatePaymentPsuData(paymentService,
+            StandardPaymentProduct.fromSlug(paymentProduct),
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication,
+            DkbUpdatePsuAuthenticationResponse.class,
+            updatePsuAuthenticationResponseMapper::toUpdatePsuAuthenticationResponse);
     }
 
     @Override
-    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
-        return updatePaymentPsuData(paymentService, StandardPaymentProduct.fromSlug(paymentProduct), paymentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod, DkbSelectPsuAuthenticationMethodResponse.class, selectPsuAuthenticationMethodResponseMapper::toSelectPsuAuthenticationMethodResponse);
+    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
+                                                                                String paymentProduct,
+                                                                                String paymentId,
+                                                                                String authorisationId,
+                                                                                RequestHeaders requestHeaders,
+                                                                                RequestParams requestParams,
+                                                                                SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+        return updatePaymentPsuData(paymentService,
+            StandardPaymentProduct.fromSlug(paymentProduct),
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            selectPsuAuthenticationMethod,
+            DkbSelectPsuAuthenticationMethodResponse.class,
+            selectPsuAuthenticationMethodResponseMapper::toSelectPsuAuthenticationMethodResponse);
     }
 
     @Override

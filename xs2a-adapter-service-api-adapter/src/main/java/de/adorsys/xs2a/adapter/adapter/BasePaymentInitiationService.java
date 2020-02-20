@@ -218,8 +218,22 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
-        return updatePaymentPsuData(paymentService, StandardPaymentProduct.fromSlug(paymentProduct), paymentId, authorisationId, requestHeaders, updatePsuAuthentication, UpdatePsuAuthenticationResponse.class, identity());
+    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
+                                                                          String paymentProduct,
+                                                                          String paymentId,
+                                                                          String authorisationId,
+                                                                          RequestHeaders requestHeaders,
+                                                                          RequestParams requestParams,
+                                                                          UpdatePsuAuthentication updatePsuAuthentication) {
+        return updatePaymentPsuData(paymentService,
+            StandardPaymentProduct.fromSlug(paymentProduct),
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication,
+            UpdatePsuAuthenticationResponse.class,
+            identity());
     }
 
     protected <T> Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
@@ -227,10 +241,12 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                                  String paymentId,
                                                                                  String authorisationId,
                                                                                  RequestHeaders requestHeaders,
+                                                                                 RequestParams requestParams,
                                                                                  UpdatePsuAuthentication updatePsuAuthentication,
                                                                                  Class<T> klass,
                                                                                  Function<T, UpdatePsuAuthenticationResponse> mapper) {
         String uri = StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct.getSlug(), paymentId, AUTHORISATIONS, authorisationId);
+        uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
@@ -243,8 +259,22 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
-        return updatePaymentPsuData(paymentService, StandardPaymentProduct.fromSlug(paymentProduct), paymentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod, SelectPsuAuthenticationMethodResponse.class, identity());
+    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
+                                                                                String paymentProduct,
+                                                                                String paymentId,
+                                                                                String authorisationId,
+                                                                                RequestHeaders requestHeaders,
+                                                                                RequestParams requestParams,
+                                                                                SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+        return updatePaymentPsuData(paymentService,
+            StandardPaymentProduct.fromSlug(paymentProduct),
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            selectPsuAuthenticationMethod,
+            SelectPsuAuthenticationMethodResponse.class,
+            identity());
     }
 
     protected <T> Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
@@ -252,10 +282,12 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                                        String paymentId,
                                                                                        String authorisationId,
                                                                                        RequestHeaders requestHeaders,
+                                                                                       RequestParams requestParams,
                                                                                        SelectPsuAuthenticationMethod selectPsuAuthenticationMethod,
                                                                                        Class<T> klass,
                                                                                        Function<T, SelectPsuAuthenticationMethodResponse> mapper) {
         String uri = StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct.getSlug(), paymentId, AUTHORISATIONS, authorisationId);
+        uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
 
@@ -268,8 +300,22 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<ScaStatusResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
-        return updatePaymentPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, transactionAuthorisation, ScaStatusResponse.class, identity());
+    public Response<ScaStatusResponse> updatePaymentPsuData(String paymentService,
+                                                            String paymentProduct,
+                                                            String paymentId,
+                                                            String authorisationId,
+                                                            RequestHeaders requestHeaders,
+                                                            RequestParams requestParams,
+                                                            TransactionAuthorisation transactionAuthorisation) {
+        return updatePaymentPsuData(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            transactionAuthorisation,
+            ScaStatusResponse.class,
+            identity());
     }
 
     protected <T> Response<ScaStatusResponse> updatePaymentPsuData(String paymentService,
@@ -277,10 +323,12 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                    String paymentId,
                                                                    String authorisationId,
                                                                    RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams,
                                                                    TransactionAuthorisation transactionAuthorisation,
                                                                    Class<T> klass,
                                                                    Function<T, ScaStatusResponse> mapper) {
         String uri = getUpdatePaymentPsuDataUri(paymentService, paymentProduct, paymentId, authorisationId);
+        uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 

@@ -104,9 +104,16 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
                                                                                 String paymentId,
                                                                                 String authorisationId,
                                                                                 RequestHeaders requestHeaders,
+                                                                                RequestParams requestParams,
                                                                                 SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         return getPaymentInitiationService(requestHeaders)
-                   .updatePaymentPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod);
+            .updatePaymentPsuData(paymentService,
+                paymentProduct,
+                paymentId,
+                authorisationId,
+                requestHeaders,
+                requestParams,
+                selectPsuAuthenticationMethod);
     }
 
     @Override
@@ -115,9 +122,16 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
                                                             String paymentId,
                                                             String authorisationId,
                                                             RequestHeaders requestHeaders,
+                                                            RequestParams requestParams,
                                                             TransactionAuthorisation transactionAuthorisation) {
         return getPaymentInitiationService(requestHeaders)
-                   .updatePaymentPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, transactionAuthorisation);
+            .updatePaymentPsuData(paymentService,
+                paymentProduct,
+                paymentId,
+                authorisationId,
+                requestHeaders,
+                requestParams,
+                transactionAuthorisation);
     }
 
     @Override
@@ -126,8 +140,15 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
                                                                           String paymentId,
                                                                           String authorisationId,
                                                                           RequestHeaders requestHeaders,
+                                                                          RequestParams requestParams,
                                                                           UpdatePsuAuthentication updatePsuAuthentication) {
         return getPaymentInitiationService(requestHeaders)
-                   .updatePaymentPsuData(paymentService, paymentProduct, paymentId, authorisationId, requestHeaders, updatePsuAuthentication);
+            .updatePaymentPsuData(paymentService,
+                paymentProduct,
+                paymentId,
+                authorisationId,
+                requestHeaders,
+                requestParams,
+                updatePsuAuthentication);
     }
 }
