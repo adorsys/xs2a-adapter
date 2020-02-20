@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +68,7 @@ public class BasePaymentInitiationServiceTest {
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<PaymentInitiationRequestResponse> response
-            = initiationService.initiateSinglePayment(SEPA_CREDIT_TRANSFERS, headers, body);
+            = initiationService.initiateSinglePayment(SEPA_CREDIT_TRANSFERS, headers, RequestParams.empty(), body);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
@@ -91,7 +92,7 @@ public class BasePaymentInitiationServiceTest {
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<PaymentInitiationRequestResponse> response
-            = initiationService.initiateSinglePayment(PAIN_SEPA_CREDIT_TRANSFERS, headers, body);
+            = initiationService.initiateSinglePayment(PAIN_SEPA_CREDIT_TRANSFERS, headers, RequestParams.empty(), body);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());

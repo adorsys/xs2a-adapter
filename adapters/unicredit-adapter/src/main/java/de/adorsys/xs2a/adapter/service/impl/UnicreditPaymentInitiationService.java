@@ -6,6 +6,7 @@ import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.impl.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.service.impl.mapper.ScaStatusResponseMapper;
@@ -33,8 +34,16 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
     }
 
     @Override
-    public Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, RequestHeaders requestHeaders, Object body) {
-        return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct), body, requestHeaders, PaymentInitiationRequestResponse.class, initiateSinglePaymentResponseMapper::modifyResponse);
+    public Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct,
+                                                                            RequestHeaders requestHeaders,
+                                                                            RequestParams requestParams,
+                                                                            Object body) {
+        return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct),
+            body,
+            requestHeaders,
+            requestParams,
+            PaymentInitiationRequestResponse.class,
+            initiateSinglePaymentResponseMapper::modifyResponse);
     }
 
     @Override

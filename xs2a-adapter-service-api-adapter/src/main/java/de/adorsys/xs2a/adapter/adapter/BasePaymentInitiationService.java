@@ -21,6 +21,7 @@ import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.*;
 
@@ -53,13 +54,22 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, RequestHeaders requestHeaders, Object body) {
-        return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct), body, requestHeaders, PaymentInitiationRequestResponse.class, identity());
+    public Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct,
+                                                                            RequestHeaders requestHeaders,
+                                                                            RequestParams requestParams,
+                                                                            Object body) {
+        return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct),
+            body,
+            requestHeaders,
+            requestParams,
+            PaymentInitiationRequestResponse.class,
+            identity());
     }
 
     protected <T> Response<PaymentInitiationRequestResponse> initiateSinglePayment(StandardPaymentProduct paymentProduct,
                                                                                    Object body,
                                                                                    RequestHeaders requestHeaders,
+                                                                                   RequestParams requestParams,
                                                                                    Class<T> klass,
                                                                                    Function<T, PaymentInitiationRequestResponse> mapper) {
 
@@ -77,7 +87,9 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                 throw new IllegalArgumentException("Unsupported payment product media type");
         }
 
-        Response<T> response = httpClient.post(StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug()))
+        String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug());
+        uri = buildUri(uri, requestParams);
+        Response<T> response = httpClient.post(uri)
             .jsonBody(bodyString)
             .headers(headersMap)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));

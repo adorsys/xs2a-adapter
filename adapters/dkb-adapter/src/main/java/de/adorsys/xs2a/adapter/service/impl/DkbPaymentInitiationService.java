@@ -21,6 +21,7 @@ import de.adorsys.xs2a.adapter.adapter.StandardPaymentProduct;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.impl.mapper.PaymentInitiationRequestResponseDkbMapper;
 import de.adorsys.xs2a.adapter.service.impl.mapper.SelectPsuAuthenticationMethodResponseDkbMapper;
@@ -36,10 +37,14 @@ import org.mapstruct.factory.Mappers;
 import java.util.Map;
 
 public class DkbPaymentInitiationService extends BasePaymentInitiationService {
-    private final PaymentInitiationRequestResponseDkbMapper paymentInitiationRequestResponseMapper = Mappers.getMapper(PaymentInitiationRequestResponseDkbMapper.class);
-    private final StartScaProcessResponseDkbMapper startScaProcessResponseMapper = Mappers.getMapper(StartScaProcessResponseDkbMapper.class);
-    private final UpdatePsuAuthenticationResponseDkbMapper updatePsuAuthenticationResponseMapper = Mappers.getMapper(UpdatePsuAuthenticationResponseDkbMapper.class);
-    private final SelectPsuAuthenticationMethodResponseDkbMapper selectPsuAuthenticationMethodResponseMapper = Mappers.getMapper(SelectPsuAuthenticationMethodResponseDkbMapper.class);
+    private final PaymentInitiationRequestResponseDkbMapper paymentInitiationRequestResponseMapper =
+        Mappers.getMapper(PaymentInitiationRequestResponseDkbMapper.class);
+    private final StartScaProcessResponseDkbMapper startScaProcessResponseMapper =
+        Mappers.getMapper(StartScaProcessResponseDkbMapper.class);
+    private final UpdatePsuAuthenticationResponseDkbMapper updatePsuAuthenticationResponseMapper =
+        Mappers.getMapper(UpdatePsuAuthenticationResponseDkbMapper.class);
+    private final SelectPsuAuthenticationMethodResponseDkbMapper selectPsuAuthenticationMethodResponseMapper =
+        Mappers.getMapper(SelectPsuAuthenticationMethodResponseDkbMapper.class);
 
     private AccessTokenService accessService;
 
@@ -49,8 +54,16 @@ public class DkbPaymentInitiationService extends BasePaymentInitiationService {
     }
 
     @Override
-    public Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, RequestHeaders requestHeaders, Object body) {
-        return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct), body, requestHeaders, DkbPaymentInitiationRequestResponse.class, paymentInitiationRequestResponseMapper::toPaymentInitiationRequestResponse);
+    public Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct,
+                                                                            RequestHeaders requestHeaders,
+                                                                            RequestParams requestParams,
+                                                                            Object body) {
+        return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct),
+            body,
+            requestHeaders,
+            requestParams,
+            DkbPaymentInitiationRequestResponse.class,
+            paymentInitiationRequestResponseMapper::toPaymentInitiationRequestResponse);
     }
 
     @Override

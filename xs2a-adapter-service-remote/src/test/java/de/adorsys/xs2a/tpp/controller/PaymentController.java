@@ -7,6 +7,7 @@ import de.adorsys.xs2a.adapter.mapper.*;
 import de.adorsys.xs2a.adapter.model.*;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.mapstruct.factory.Mappers;
@@ -43,18 +44,23 @@ public class PaymentController extends AbstractController implements PaymentApi 
                                                                                 Map<String, String> parameters,
                                                                                 Map<String, String> headers,
                                                                                 ObjectNode body) {
-        return initiatePaymentInternal(paymentService, paymentProduct, headers, body);
+        return initiatePaymentInternal(paymentService, paymentProduct, parameters, headers, body);
     }
 
     private ResponseEntity<PaymentInitationRequestResponse201TO> initiatePaymentInternal(PaymentServiceTO paymentService,
-                                                                                 PaymentProductTO paymentProduct,
-                                                                                 Map<String, String> headers,
-                                                                                 Object body) {
+                                                                                         PaymentProductTO paymentProduct,
+                                                                                         Map<String, String> parameters,
+                                                                                         Map<String, String> headers,
+                                                                                         Object body) {
         requireSinglePayment(paymentService);
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
 
         Response<PaymentInitiationRequestResponse> response =
-                this.paymentService.initiateSinglePayment(paymentProduct.toString(), requestHeaders, body);
+            this.paymentService.initiateSinglePayment(paymentProduct.toString(),
+                requestHeaders,
+                requestParams,
+                body);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                        .headers(headersMapper.toHttpHeaders(response.getHeaders()))
@@ -73,7 +79,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
                                                                                 Map<String, String> parameters,
                                                                                 Map<String, String> headers,
                                                                                 String body) {
-        return initiatePaymentInternal(paymentService, paymentProduct, headers, body);
+        return initiatePaymentInternal(paymentService, paymentProduct, parameters, headers, body);
     }
 
     @Override

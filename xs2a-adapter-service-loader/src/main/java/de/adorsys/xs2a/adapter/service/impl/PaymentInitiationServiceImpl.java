@@ -1,6 +1,9 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
-import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.RequestParams;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.loader.AdapterServiceLoader;
 import de.adorsys.xs2a.adapter.service.model.*;
 
@@ -14,9 +17,10 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     @Override
     public Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct,
                                                                             RequestHeaders requestHeaders,
+                                                                            RequestParams requestParams,
                                                                             Object body) {
         return getPaymentInitiationService(requestHeaders)
-                   .initiateSinglePayment(paymentProduct, requestHeaders, body);
+                   .initiateSinglePayment(paymentProduct, requestHeaders, requestParams, body);
     }
 
     private PaymentInitiationService getPaymentInitiationService(RequestHeaders requestHeaders) {

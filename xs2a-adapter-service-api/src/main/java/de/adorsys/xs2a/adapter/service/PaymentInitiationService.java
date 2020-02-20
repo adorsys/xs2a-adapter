@@ -4,8 +4,16 @@ import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
 import de.adorsys.xs2a.adapter.service.model.*;
 
 public interface PaymentInitiationService {
+    @Deprecated
+    default Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct,
+                                                                             RequestHeaders requestHeaders,
+                                                                             Object body) {
+        return initiateSinglePayment(paymentProduct, requestHeaders, RequestParams.empty(), body);
+    }
+
     Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct,
                                                                      RequestHeaders requestHeaders,
+                                                                     RequestParams requestParams,
                                                                      Object body);
 
     Response<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,

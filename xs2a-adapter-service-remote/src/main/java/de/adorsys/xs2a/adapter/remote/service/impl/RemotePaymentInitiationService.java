@@ -24,6 +24,7 @@ import de.adorsys.xs2a.adapter.remote.api.PaymentInitiationClient;
 import de.adorsys.xs2a.adapter.remote.service.mapper.ResponseHeadersMapper;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.mapstruct.factory.Mappers;
@@ -58,14 +59,17 @@ public class RemotePaymentInitiationService implements PaymentInitiationService 
     }
 
     @Override
-    public Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, RequestHeaders requestHeaders, Object o) {
+    public Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct,
+                                                                            RequestHeaders requestHeaders,
+                                                                            RequestParams requestParams,
+                                                                            Object o) {
 
         ResponseEntity<PaymentInitationRequestResponse201TO> responseEntity;
         if (o instanceof String) {
             responseEntity = client.initiatePayment(
                 PaymentServiceTO.PAYMENTS,
                 PaymentProductTO.fromValue(paymentProduct),
-                Collections.emptyMap(), // fixme
+                requestParams.toMap(),
                 requestHeaders.toMap(),
                 (String) o
             );
@@ -73,13 +77,16 @@ public class RemotePaymentInitiationService implements PaymentInitiationService 
             responseEntity = client.initiatePayment(
                 PaymentServiceTO.PAYMENTS,
                 PaymentProductTO.fromValue(paymentProduct),
-                Collections.emptyMap(), // fixme
+                requestParams.toMap(),
                 requestHeaders.toMap(),
                 objectMapper.valueToTree(o)
             );
         }
-        PaymentInitiationRequestResponse paymentInitiationRequestResponse = initiationRequestResponseMapper.toPaymentInitiationRequestResponse(responseEntity.getBody());
-        return new Response<>(responseEntity.getStatusCodeValue(), paymentInitiationRequestResponse, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+        PaymentInitiationRequestResponse paymentInitiationRequestResponse =
+            initiationRequestResponseMapper.toPaymentInitiationRequestResponse(responseEntity.getBody());
+        return new Response<>(responseEntity.getStatusCodeValue(),
+            paymentInitiationRequestResponse,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
