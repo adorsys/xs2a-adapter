@@ -147,7 +147,10 @@ public class PaymentController extends AbstractController implements PaymentApi 
         }
 
         Response<String> response =
-                this.paymentService.getSinglePaymentInitiationStatusAsString(paymentProduct.toString(), paymentId, requestHeaders);
+            this.paymentService.getSinglePaymentInitiationStatusAsString(paymentProduct.toString(),
+                paymentId,
+                requestHeaders,
+                requestParams);
 
         return ResponseEntity
                        .status(HttpStatus.OK)

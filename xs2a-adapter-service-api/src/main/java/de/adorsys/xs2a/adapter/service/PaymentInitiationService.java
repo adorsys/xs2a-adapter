@@ -65,10 +65,20 @@ public interface PaymentInitiationService {
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams);
 
+    @Deprecated
+    default Response<String> getSinglePaymentInitiationStatusAsString(String paymentProduct,
+                                                              String paymentId,
+                                                              RequestHeaders requestHeaders) {
+        return getSinglePaymentInitiationStatusAsString(paymentProduct,
+            paymentId,
+            requestHeaders,
+            RequestParams.empty());
+    }
 
     Response<String> getSinglePaymentInitiationStatusAsString(String paymentProduct,
                                                               String paymentId,
-                                                              RequestHeaders requestHeaders);
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams);
 
     Response<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService,
                                                                                        String paymentProduct,
