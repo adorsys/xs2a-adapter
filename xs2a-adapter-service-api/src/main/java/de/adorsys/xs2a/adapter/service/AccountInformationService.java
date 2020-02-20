@@ -142,18 +142,41 @@ public interface AccountInformationService {
                                                     RequestHeaders requestHeaders,
                                                     RequestParams requestParams);
 
+    @Deprecated
+    default Response<TransactionDetails> getTransactionDetails(String accountId,
+                                                       String transactionId,
+                                                       RequestHeaders requestHeaders) {
+        return getTransactionDetails(accountId, transactionId, requestHeaders, RequestParams.empty());
+    }
+
     Response<TransactionDetails> getTransactionDetails(String accountId,
                                                        String transactionId,
-                                                       RequestHeaders requestHeaders);
+                                                       RequestHeaders requestHeaders,
+                                                       RequestParams requestParams);
 
     Response<String> getTransactionListAsString(String accountId,
                                                 RequestHeaders requestHeaders,
                                                 RequestParams requestParams);
 
+    @Deprecated
+    default Response<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                            String authorisationId,
+                                                            RequestHeaders requestHeaders) {
+        return getConsentScaStatus(consentId, authorisationId, requestHeaders, RequestParams.empty());
+    }
+
     Response<ScaStatusResponse> getConsentScaStatus(String consentId,
                                                     String authorisationId,
-                                                    RequestHeaders requestHeaders);
+                                                    RequestHeaders requestHeaders,
+                                                    RequestParams requestParams);
+
+    @Deprecated
+    default Response<BalanceReport> getBalances(String accountId,
+                                        RequestHeaders requestHeaders) {
+        return getBalances(accountId, requestHeaders, RequestParams.empty());
+    }
 
     Response<BalanceReport> getBalances(String accountId,
-                                        RequestHeaders requestHeaders);
+                                        RequestHeaders requestHeaders,
+                                        RequestParams requestParams);
 }

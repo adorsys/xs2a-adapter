@@ -319,9 +319,12 @@ public class RemoteAccountInformationService implements AccountInformationServic
     @Override
     public Response<TransactionDetails> getTransactionDetails(String accountId,
                                                               String transactionId,
-                                                              RequestHeaders requestHeaders) {
-        ResponseEntity<OK200TransactionDetailsTO> response =
-            client.getTransactionDetails(accountId, transactionId, requestHeaders.toMap());
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams) {
+        ResponseEntity<OK200TransactionDetailsTO> response = client.getTransactionDetails(accountId,
+            transactionId,
+            requestParams.toMap(),
+            requestHeaders.toMap());
         return new Response<>(response.getStatusCodeValue(),
             transactionDetailsMapper.map(response.getBody()),
             responseHeadersMapper.getHeaders(response.getHeaders()));
@@ -382,13 +385,14 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
-    public Response<ScaStatusResponse> getConsentScaStatus(
-        String consentId, String authorisationId, RequestHeaders requestHeaders
-    ) {
+    public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                           String authorisationId,
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
         ResponseEntity<ScaStatusResponseTO> responseEntity =
-            client.getConsentScaStatus(consentId, authorisationId, requestHeaders.toMap());
+            client.getConsentScaStatus(consentId, authorisationId, requestParams.toMap(), requestHeaders.toMap());
         ScaStatusResponse scaStatusResponse = scaStatusResponseMapper
-                                                  .toScaStatusResponse(responseEntity.getBody());
+            .toScaStatusResponse(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
             scaStatusResponse,
@@ -397,9 +401,11 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
-    public Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
+    public Response<BalanceReport> getBalances(String accountId,
+                                               RequestHeaders requestHeaders,
+                                               RequestParams requestParams) {
         ResponseEntity<ReadAccountBalanceResponse200TO> responseEntity =
-            client.getBalances(accountId, requestHeaders.toMap());
+            client.getBalances(accountId, requestParams.toMap(), requestHeaders.toMap());
         BalanceReport balanceReport = balanceReportMapper.toBalanceReport(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),

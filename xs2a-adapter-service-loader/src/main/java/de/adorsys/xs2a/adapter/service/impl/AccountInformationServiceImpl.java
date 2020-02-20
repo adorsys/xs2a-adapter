@@ -142,9 +142,10 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     @Override
     public Response<TransactionDetails> getTransactionDetails(String accountId,
                                                               String transactionId,
-                                                              RequestHeaders requestHeaders) {
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
-            .getTransactionDetails(accountId, transactionId, requestHeaders);
+            .getTransactionDetails(accountId, transactionId, requestHeaders, requestParams);
     }
 
     @Override
@@ -157,15 +158,17 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     @Override
     public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
                                                            String authorisationId,
-                                                           RequestHeaders requestHeaders) {
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
-                   .getConsentScaStatus(consentId, authorisationId, requestHeaders);
+                   .getConsentScaStatus(consentId, authorisationId, requestHeaders, requestParams);
     }
 
     @Override
     public Response<BalanceReport> getBalances(String accountId,
-                                               RequestHeaders requestHeaders) {
+                                               RequestHeaders requestHeaders,
+                                               RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
-                   .getBalances(accountId, requestHeaders);
+                   .getBalances(accountId, requestHeaders, requestParams);
     }
 }

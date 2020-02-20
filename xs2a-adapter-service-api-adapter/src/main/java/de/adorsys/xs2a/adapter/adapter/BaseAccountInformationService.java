@@ -374,8 +374,10 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     @Override
     public Response<TransactionDetails> getTransactionDetails(String accountId,
                                                               String transactionId,
-                                                              RequestHeaders requestHeaders) {
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams) {
         String uri = StringUri.fromElements(getAccountsBaseUri(), accountId, TRANSACTIONS, transactionId);
+        uri = buildUri(uri, requestParams);
 
         Response<TransactionDetails> response = httpClient.get(uri)
             .headers(populateGetHeaders(requestHeaders.toMap()))
@@ -396,8 +398,12 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public Response<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, RequestHeaders requestHeaders) {
+    public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                           String authorisationId,
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
+        uri = buildUri(uri, requestParams);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
         return httpClient.get(uri)
             .headers(headers)
@@ -405,12 +411,19 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
-        return getBalances(accountId, requestHeaders, BalanceReport.class, identity());
+    public Response<BalanceReport> getBalances(String accountId,
+                                               RequestHeaders requestHeaders,
+                                               RequestParams requestParams) {
+        return getBalances(accountId, requestHeaders, requestParams, BalanceReport.class, identity());
     }
 
-    protected <T> Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders, Class<T> klass, Function<T, BalanceReport> mapper) {
+    protected <T> Response<BalanceReport> getBalances(String accountId,
+                                                      RequestHeaders requestHeaders,
+                                                      RequestParams requestParams,
+                                                      Class<T> klass,
+                                                      Function<T, BalanceReport> mapper) {
         String uri = StringUri.fromElements(getAccountsBaseUri(), accountId, BALANCES);
+        uri = buildUri(uri, requestParams);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
         Response<T> response = httpClient.get(uri)
             .headers(headers)

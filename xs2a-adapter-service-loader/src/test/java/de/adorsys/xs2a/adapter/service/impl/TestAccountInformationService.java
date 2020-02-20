@@ -100,19 +100,23 @@ public class TestAccountInformationService implements AccountInformationService 
     @Override
     public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
                                                            String authorisationId,
-                                                           RequestHeaders requestHeaders) {
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
         return null;
     }
 
     @Override
-    public Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
+    public Response<BalanceReport> getBalances(String accountId,
+                                               RequestHeaders requestHeaders,
+                                               RequestParams requestParams) {
         return null;
     }
 
     @Override
     public Response<TransactionDetails> getTransactionDetails(String accountId,
                                                               String transactionId,
-                                                              RequestHeaders requestHeaders) {
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams) {
         return null;
     }
 }

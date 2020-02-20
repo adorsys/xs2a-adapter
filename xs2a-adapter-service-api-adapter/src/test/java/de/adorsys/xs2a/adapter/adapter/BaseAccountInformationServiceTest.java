@@ -299,7 +299,7 @@ public class BaseAccountInformationServiceTest {
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<TransactionDetails> response
-            = informationService.getTransactionDetails(ACCOUNTID, transactionId, headers);
+            = informationService.getTransactionDetails(ACCOUNTID, transactionId, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
@@ -337,7 +337,7 @@ public class BaseAccountInformationServiceTest {
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<ScaStatusResponse> response
-            = informationService.getConsentScaStatus(CONSENTID, AUTHORISATIONID, headers);
+            = informationService.getConsentScaStatus(CONSENTID, AUTHORISATIONID, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
@@ -356,7 +356,7 @@ public class BaseAccountInformationServiceTest {
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<BalanceReport> response
-            = informationService.getBalances(ACCOUNTID, headers);
+            = informationService.getBalances(ACCOUNTID, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());

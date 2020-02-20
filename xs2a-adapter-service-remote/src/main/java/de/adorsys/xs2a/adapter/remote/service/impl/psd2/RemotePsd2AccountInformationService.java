@@ -162,8 +162,12 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     }
 
     @Override
-    public Response<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, Map<String, String> headers) {
-        ResponseEntity<ScaStatusResponseTO> responseEntity = client.getConsentScaStatus(consentId, authorisationId, headers);
+    public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                           String authorisationId,
+                                                           Map<String, String> queryParameters,
+                                                           Map<String, String> headers) {
+        ResponseEntity<ScaStatusResponseTO> responseEntity =
+            client.getConsentScaStatus(consentId, authorisationId, queryParameters, headers);
         ScaStatusResponse scaStatusResponse = accountInformationMapper.toScaStatusResponse(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),

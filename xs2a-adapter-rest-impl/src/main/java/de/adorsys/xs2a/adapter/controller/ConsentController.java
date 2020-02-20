@@ -246,8 +246,10 @@ public class ConsentController extends AbstractController implements ConsentApi,
                                                                            String transactionId,
                                                                            Map<String, String> parameters,
                                                                            Map<String, String> headers) {
-        Response<TransactionDetails> response =
-            accountInformationService.getTransactionDetails(accountId, transactionId, RequestHeaders.fromMap(headers));
+        Response<TransactionDetails> response = accountInformationService.getTransactionDetails(accountId,
+            transactionId,
+            RequestHeaders.fromMap(headers),
+            RequestParams.fromMap(parameters));
         return ResponseEntity.status(HttpStatus.OK)
             .headers(headersMapper.toHttpHeaders(response.getHeaders()))
             .body(transactionDetailsMapper.map(response.getBody()));
@@ -259,8 +261,12 @@ public class ConsentController extends AbstractController implements ConsentApi,
                                                                    Map<String, String> parameters,
                                                                    Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
 
-        Response<ScaStatusResponse> response = accountInformationService.getConsentScaStatus(consentId, authorisationId, requestHeaders);
+        Response<ScaStatusResponse> response = accountInformationService.getConsentScaStatus(consentId,
+            authorisationId,
+            requestHeaders,
+            requestParams);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -273,8 +279,10 @@ public class ConsentController extends AbstractController implements ConsentApi,
                                                                        Map<String, String> parameters,
                                                                        Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
 
-        Response<BalanceReport> response = accountInformationService.getBalances(accountId, requestHeaders);
+        Response<BalanceReport> response =
+            accountInformationService.getBalances(accountId, requestHeaders, requestParams);
 
         return ResponseEntity
                        .status(HttpStatus.OK)

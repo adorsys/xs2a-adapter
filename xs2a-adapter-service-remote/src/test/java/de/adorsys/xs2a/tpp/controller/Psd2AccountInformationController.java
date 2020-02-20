@@ -142,9 +142,10 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     @Override
     public ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(String consentId,
                                                                    String authorisationId,
+                                                                   Map<String, String> queryParameters,
                                                                    Map<String, String> headers) {
         Response<ScaStatusResponse> response
-            = accountInformationService.getConsentScaStatus(consentId, authorisationId, headers);
+            = accountInformationService.getConsentScaStatus(consentId, authorisationId, queryParameters, headers);
 
         return ResponseEntity.status(response.getStatusCode())
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
