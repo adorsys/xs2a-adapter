@@ -16,9 +16,18 @@ public interface PaymentInitiationService {
                                                                      RequestParams requestParams,
                                                                      Object body);
 
-    Response<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,
-                                                                                               String paymentId,
-                                                                                               RequestHeaders requestHeaders);
+    @Deprecated
+    default Response<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,
+                                                                                                       String paymentId,
+                                                                                                       RequestHeaders requestHeaders) {
+        return getSinglePaymentInformation(paymentProduct, paymentId, requestHeaders, RequestParams.empty());
+    }
+
+    Response<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(
+        String paymentProduct,
+        String paymentId,
+        RequestHeaders requestHeaders,
+        RequestParams requestParams);
 
     Response<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
                                                                                String paymentProduct,

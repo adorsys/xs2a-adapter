@@ -89,9 +89,13 @@ public class PaymentController extends AbstractController implements PaymentApi 
                                                         Map<String, String> parameters,
                                                         Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
 
         Response<SinglePaymentInitiationInformationWithStatusResponse> response =
-            this.paymentService.getSinglePaymentInformation(paymentProduct.toString(), paymentId, requestHeaders);
+            this.paymentService.getSinglePaymentInformation(paymentProduct.toString(),
+                paymentId,
+                requestHeaders,
+                requestParams);
 
         return ResponseEntity.status(HttpStatus.OK)
                        .headers(headersMapper.toHttpHeaders(response.getHeaders()))
