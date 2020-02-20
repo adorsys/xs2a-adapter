@@ -36,7 +36,9 @@ public interface Psd2AccountInformationService {
                                                                Map<String, String> queryParameters,
                                                                Map<String, String> headers);
 
-    Response<Void> deleteConsent(String consentId, Map<String, String> headers);
+    Response<Void> deleteConsent(String consentId,
+                                 Map<String, String> queryParameters,
+                                 Map<String, String> headers);
 
     Response<ConsentStatusResponse> getConsentStatus(String consentId,
                                                      Map<String, String> headers);

@@ -37,9 +37,11 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
     }
 
     @Override
-    public Response<Void> deleteConsent(String consentId, Map<String, String> headers) {
+    public Response<Void> deleteConsent(String consentId,
+                                        Map<String, String> queryParameters,
+                                        Map<String, String> headers) {
         return getAccountInformationService(headers)
-            .deleteConsent(consentId, headers);
+            .deleteConsent(consentId, queryParameters, headers);
     }
 
     @Override

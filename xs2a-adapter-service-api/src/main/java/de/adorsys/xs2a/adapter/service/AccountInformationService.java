@@ -40,8 +40,15 @@ public interface AccountInformationService {
                                                        RequestHeaders requestHeaders,
                                                        RequestParams requestParams);
 
+    @Deprecated
+    default Response<Void> deleteConsent(String consentId,
+                                 RequestHeaders requestHeaders) {
+        return deleteConsent(consentId, requestHeaders, RequestParams.empty());
+    }
+
     Response<Void> deleteConsent(String consentId,
-                                 RequestHeaders requestHeaders);
+                                 RequestHeaders requestHeaders,
+                                 RequestParams requestParams);
 
     Response<ConsentStatusResponse> getConsentStatus(String consentId,
                                                      RequestHeaders requestHeaders);

@@ -68,7 +68,9 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     }
 
     @Override
-    public Response<Void> deleteConsent(String consentId, Map<String, String> headers) {
+    public Response<Void> deleteConsent(String consentId,
+                                        Map<String, String> queryParameters,
+                                        Map<String, String> headers) {
         throw new UnsupportedOperationException();
     }
 

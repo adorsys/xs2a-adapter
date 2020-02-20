@@ -76,8 +76,12 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
     }
 
     @Override
-    public Response<Void> deleteConsent(String consentId, Map<String, String> headers) {
-        return service.deleteConsent(consentId, RequestHeaders.fromMap(headers));
+    public Response<Void> deleteConsent(String consentId,
+                                        Map<String, String> queryParameters,
+                                        Map<String, String> headers) {
+        return service.deleteConsent(consentId,
+            RequestHeaders.fromMap(headers),
+            RequestParams.fromMap(queryParameters));
     }
 
     @Override

@@ -61,6 +61,7 @@ public interface Psd2AccountInformationApi {
         method = RequestMethod.DELETE
     )
     ResponseEntity<Void> deleteConsent(@PathVariable("consentId") String consentId,
+                                       @RequestParam Map<String, String> queryParameters,
                                        @RequestHeader Map<String, String> headers);
 
     @RequestMapping(

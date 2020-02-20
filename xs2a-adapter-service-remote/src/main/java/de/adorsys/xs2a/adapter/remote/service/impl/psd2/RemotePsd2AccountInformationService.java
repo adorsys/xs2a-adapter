@@ -97,8 +97,10 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     }
 
     @Override
-    public Response<Void> deleteConsent(String consentId, Map<String, String> headers) {
-        ResponseEntity<Void> responseEntity = client.deleteConsent(consentId, headers);
+    public Response<Void> deleteConsent(String consentId,
+                                        Map<String, String> queryParameters,
+                                        Map<String, String> headers) {
+        ResponseEntity<Void> responseEntity = client.deleteConsent(consentId, queryParameters, headers);
         return new Response<>(
             responseEntity.getStatusCodeValue(),
             null,

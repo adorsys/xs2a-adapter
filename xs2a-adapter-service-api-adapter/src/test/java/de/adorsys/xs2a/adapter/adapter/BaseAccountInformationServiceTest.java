@@ -107,7 +107,7 @@ public class BaseAccountInformationServiceTest {
         when(httpClient.delete(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(Void.class)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        informationService.deleteConsent(CONSENTID, headers);
+        informationService.deleteConsent(CONSENTID, headers, params);
 
         verify(httpClient, times(1)).delete(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
