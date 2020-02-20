@@ -337,7 +337,7 @@ public class BaseAccountInformationServiceTest {
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<ScaStatusResponse> response
-            = informationService.getConsentScaStatus(CONSENTID, AUTHORISATIONID, headers);
+            = informationService.getConsentScaStatus(CONSENTID, AUTHORISATIONID, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());

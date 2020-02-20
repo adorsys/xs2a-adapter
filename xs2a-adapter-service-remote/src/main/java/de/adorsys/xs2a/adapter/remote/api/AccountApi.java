@@ -79,6 +79,7 @@ public interface AccountApi {
     ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(
         @PathVariable("consentId") String consentId,
         @PathVariable("authorisationId") String authorisationId,
+        @RequestParam Map<String, String> parameters,
         @RequestHeader Map<String, String> headers);
 
     @RequestMapping(

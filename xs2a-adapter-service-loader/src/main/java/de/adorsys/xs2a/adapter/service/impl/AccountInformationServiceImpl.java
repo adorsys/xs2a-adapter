@@ -158,9 +158,10 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     @Override
     public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
                                                            String authorisationId,
-                                                           RequestHeaders requestHeaders) {
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
-                   .getConsentScaStatus(consentId, authorisationId, requestHeaders);
+                   .getConsentScaStatus(consentId, authorisationId, requestHeaders, requestParams);
     }
 
     @Override

@@ -100,7 +100,8 @@ public class TestAccountInformationService implements AccountInformationService 
     @Override
     public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
                                                            String authorisationId,
-                                                           RequestHeaders requestHeaders) {
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
         return null;
     }
 

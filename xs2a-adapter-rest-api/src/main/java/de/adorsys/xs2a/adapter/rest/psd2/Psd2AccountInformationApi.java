@@ -89,6 +89,7 @@ public interface Psd2AccountInformationApi {
     ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(
         @PathVariable("consentId") String consentId,
         @PathVariable("authorisationId") String authorisationId,
+        @RequestParam Map<String, String> queryParameters,
         @RequestHeader Map<String, String> headers);
 
     @RequestMapping(

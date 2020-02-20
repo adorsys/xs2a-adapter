@@ -385,13 +385,14 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
-    public Response<ScaStatusResponse> getConsentScaStatus(
-        String consentId, String authorisationId, RequestHeaders requestHeaders
-    ) {
+    public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                           String authorisationId,
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
         ResponseEntity<ScaStatusResponseTO> responseEntity =
-            client.getConsentScaStatus(consentId, authorisationId, requestHeaders.toMap());
+            client.getConsentScaStatus(consentId, authorisationId, requestParams.toMap(), requestHeaders.toMap());
         ScaStatusResponse scaStatusResponse = scaStatusResponseMapper
-                                                  .toScaStatusResponse(responseEntity.getBody());
+            .toScaStatusResponse(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
             scaStatusResponse,

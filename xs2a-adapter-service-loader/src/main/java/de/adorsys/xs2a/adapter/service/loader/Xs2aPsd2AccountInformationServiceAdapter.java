@@ -97,8 +97,12 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
     @Override
     public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
                                                            String authorisationId,
+                                                           Map<String, String> queryParameters,
                                                            Map<String, String> headers) {
-        return service.getConsentScaStatus(consentId, authorisationId, RequestHeaders.fromMap(headers))
+        return service.getConsentScaStatus(consentId,
+            authorisationId,
+            RequestHeaders.fromMap(headers),
+            RequestParams.fromMap(queryParameters))
             .map(mapper::toScaStatusResponse);
     }
 

@@ -158,9 +158,17 @@ public interface AccountInformationService {
                                                 RequestHeaders requestHeaders,
                                                 RequestParams requestParams);
 
+    @Deprecated
+    default Response<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                            String authorisationId,
+                                                            RequestHeaders requestHeaders) {
+        return getConsentScaStatus(consentId, authorisationId, requestHeaders, RequestParams.empty());
+    }
+
     Response<ScaStatusResponse> getConsentScaStatus(String consentId,
                                                     String authorisationId,
-                                                    RequestHeaders requestHeaders);
+                                                    RequestHeaders requestHeaders,
+                                                    RequestParams requestParams);
 
     Response<BalanceReport> getBalances(String accountId,
                                         RequestHeaders requestHeaders);

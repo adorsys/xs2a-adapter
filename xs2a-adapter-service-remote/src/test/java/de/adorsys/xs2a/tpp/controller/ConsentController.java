@@ -273,15 +273,22 @@ public class ConsentController extends AbstractController implements AccountApi 
     }
 
     @Override
-    public ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(String consentId, String authorisationId, Map<String, String> headers) {
+    public ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(String consentId,
+                                                                   String authorisationId,
+                                                                   Map<String, String> queryParameters,
+                                                                   Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(queryParameters);
 
-        Response<ScaStatusResponse> response = accountInformationService.getConsentScaStatus(consentId, authorisationId, requestHeaders);
+        Response<ScaStatusResponse> response = accountInformationService.getConsentScaStatus(consentId,
+            authorisationId,
+            requestHeaders,
+            requestParams);
 
         return ResponseEntity
-                   .status(HttpStatus.OK)
-                   .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(scaStatusResponseMapper.toScaStatusResponseTO(response.getBody()));
+            .status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(scaStatusResponseMapper.toScaStatusResponseTO(response.getBody()));
     }
 
     @Override
