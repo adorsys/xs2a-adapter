@@ -87,7 +87,8 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
 
         Response<PaymentInitiationStatus> response = this.getSinglePaymentInitiationStatus(paymentProduct,
             paymentId,
-            requestHeaders); // fixme
+            requestHeaders,
+            requestParams);
         return new Response<>(response.getStatusCode(),
             paymentInitiationScaStatusResponseMapper.toScaStatusResponse(response.getBody()),
             response.getHeaders());

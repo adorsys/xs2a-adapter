@@ -132,14 +132,22 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, RequestHeaders requestHeaders) {
-        return getSinglePaymentInitiationStatus(StandardPaymentProduct.fromSlug(paymentProduct), paymentId, requestHeaders);
+    public Response<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct,
+                                                                              String paymentId,
+                                                                              RequestHeaders requestHeaders,
+                                                                              RequestParams requestParams) {
+        return getSinglePaymentInitiationStatus(StandardPaymentProduct.fromSlug(paymentProduct),
+            paymentId,
+            requestHeaders,
+            requestParams);
     }
 
     private Response<PaymentInitiationStatus> getSinglePaymentInitiationStatus(StandardPaymentProduct paymentProduct,
                                                                                String paymentId,
-                                                                               RequestHeaders requestHeaders) {
+                                                                               RequestHeaders requestHeaders,
+                                                                               RequestParams requestParams) {
         String uri = getSinglePaymentInitiationStatusUri(paymentProduct.getSlug(), paymentId);
+        uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
         return httpClient.get(uri)

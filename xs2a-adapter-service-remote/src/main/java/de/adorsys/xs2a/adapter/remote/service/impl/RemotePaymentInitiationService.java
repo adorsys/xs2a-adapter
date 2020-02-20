@@ -125,11 +125,14 @@ public class RemotePaymentInitiationService implements PaymentInitiationService 
     }
 
     @Override
-    public Response<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct, String paymentId, RequestHeaders requestHeaders) {
+    public Response<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct,
+                                                                              String paymentId,
+                                                                              RequestHeaders requestHeaders,
+                                                                              RequestParams requestParams) {
         ResponseEntity<Object> responseEntity = client.getPaymentInitiationStatus(PaymentServiceTO.PAYMENTS,
             PaymentProductTO.fromValue(paymentProduct),
             paymentId,
-            Collections.emptyMap(), // fixme
+            requestParams.toMap(),
             requestHeaders.toMap());
         PaymentInitiationStatusResponse200JsonTO responseTO = objectMapper.convertValue(responseEntity.getBody(), PaymentInitiationStatusResponse200JsonTO.class);
         PaymentInitiationStatus initiationStatus = paymentInitiationStatusMapper.toPaymentInitiationStatus(responseTO);

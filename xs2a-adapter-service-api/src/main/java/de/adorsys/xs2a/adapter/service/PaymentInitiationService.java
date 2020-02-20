@@ -50,12 +50,21 @@ public interface PaymentInitiationService {
                                                                                RequestHeaders requestHeaders,
                                                                                RequestParams requestParams);
 
+    @Deprecated
+    default Response<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct,
+                                                                               String paymentId,
+                                                                               RequestHeaders requestHeaders) {
+        return getSinglePaymentInitiationStatus(paymentProduct, paymentId, requestHeaders, RequestParams.empty());
+    }
+
     /**
      * @throws NotAcceptableException if response content type is not json
      */
     Response<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct,
                                                                        String paymentId,
-                                                                       RequestHeaders requestHeaders);
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams);
+
 
     Response<String> getSinglePaymentInitiationStatusAsString(String paymentProduct,
                                                               String paymentId,
