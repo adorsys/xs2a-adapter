@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +68,7 @@ public class BasePaymentInitiationServiceTest {
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<PaymentInitiationRequestResponse> response
-            = initiationService.initiateSinglePayment(SEPA_CREDIT_TRANSFERS, headers, body);
+            = initiationService.initiateSinglePayment(SEPA_CREDIT_TRANSFERS, headers, RequestParams.empty(), body);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
@@ -91,7 +92,7 @@ public class BasePaymentInitiationServiceTest {
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<PaymentInitiationRequestResponse> response
-            = initiationService.initiateSinglePayment(PAIN_SEPA_CREDIT_TRANSFERS, headers, body);
+            = initiationService.initiateSinglePayment(PAIN_SEPA_CREDIT_TRANSFERS, headers, RequestParams.empty(), body);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
@@ -112,7 +113,7 @@ public class BasePaymentInitiationServiceTest {
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<SinglePaymentInitiationInformationWithStatusResponse> response
-            = initiationService.getSinglePaymentInformation(SEPA_CREDIT_TRANSFERS, PAYMENTID, headers);
+            = initiationService.getSinglePaymentInformation(SEPA_CREDIT_TRANSFERS, PAYMENTID, headers, RequestParams.empty());
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
@@ -127,7 +128,7 @@ public class BasePaymentInitiationServiceTest {
     void getPaymentInitiationScaStatus_exceptionExpected() {
 
         assertThrows(UnsupportedOperationException.class,
-            () -> initiationService.getPaymentInitiationScaStatus(null, null, null, null, null));
+            () -> initiationService.getPaymentInitiationScaStatus(null, null, null, null, null, null));
     }
 
     @Test
@@ -137,8 +138,10 @@ public class BasePaymentInitiationServiceTest {
         when(httpClient.get(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<PaymentInitiationStatus> response
-            = initiationService.getSinglePaymentInitiationStatus(SEPA_CREDIT_TRANSFERS, PAYMENTID, headers);
+        Response<PaymentInitiationStatus> response = initiationService.getSinglePaymentInitiationStatus(SEPA_CREDIT_TRANSFERS,
+            PAYMENTID,
+            headers,
+            RequestParams.empty());
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
@@ -156,8 +159,10 @@ public class BasePaymentInitiationServiceTest {
         when(httpClient.get(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<String> response
-            = initiationService.getSinglePaymentInitiationStatusAsString(SEPA_CREDIT_TRANSFERS, PAYMENTID, headers);
+        Response<String> response = initiationService.getSinglePaymentInitiationStatusAsString(SEPA_CREDIT_TRANSFERS,
+            PAYMENTID,
+            headers,
+            RequestParams.empty());
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
@@ -172,7 +177,7 @@ public class BasePaymentInitiationServiceTest {
     void getPaymentInitiationAuthorisation_exceptionExpected() {
 
         assertThrows(UnsupportedOperationException.class,
-            () -> initiationService.getPaymentInitiationAuthorisation(null, null, null, null));
+            () -> initiationService.getPaymentInitiationAuthorisation(null, null, null, null, null));
     }
 
     @Test
@@ -183,8 +188,12 @@ public class BasePaymentInitiationServiceTest {
         when(httpClient.post(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<StartScaProcessResponse> response
-            = initiationService.startSinglePaymentAuthorisation(SEPA_CREDIT_TRANSFERS, PAYMENTID, headers, body);
+        Response<StartScaProcessResponse> response =
+            initiationService.startSinglePaymentAuthorisation(SEPA_CREDIT_TRANSFERS,
+                PAYMENTID,
+                headers,
+                RequestParams.empty(),
+                body);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
@@ -205,8 +214,14 @@ public class BasePaymentInitiationServiceTest {
         when(httpClient.put(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<UpdatePsuAuthenticationResponse> response
-            = initiationService.updatePaymentPsuData(PAYMENT_SERVICE, SEPA_CREDIT_TRANSFERS, PAYMENTID, AUTHORISATIONID, headers, body);
+        Response<UpdatePsuAuthenticationResponse> response =
+            initiationService.updatePaymentPsuData(PAYMENT_SERVICE,
+                SEPA_CREDIT_TRANSFERS,
+                PAYMENTID,
+                AUTHORISATIONID,
+                headers,
+                RequestParams.empty(),
+                body);
 
         verify(httpClient, times(1)).put(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
@@ -227,8 +242,14 @@ public class BasePaymentInitiationServiceTest {
         when(httpClient.put(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<SelectPsuAuthenticationMethodResponse> response
-            = initiationService.updatePaymentPsuData(PAYMENT_SERVICE, SEPA_CREDIT_TRANSFERS, PAYMENTID, AUTHORISATIONID, headers, body);
+        Response<SelectPsuAuthenticationMethodResponse> response =
+            initiationService.updatePaymentPsuData(PAYMENT_SERVICE,
+                SEPA_CREDIT_TRANSFERS,
+                PAYMENTID,
+                AUTHORISATIONID,
+                headers,
+                RequestParams.empty(),
+                body);
 
         verify(httpClient, times(1)).put(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
@@ -249,8 +270,14 @@ public class BasePaymentInitiationServiceTest {
         when(httpClient.put(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<ScaStatusResponse> response
-            = initiationService.updatePaymentPsuData(PAYMENT_SERVICE, SEPA_CREDIT_TRANSFERS, PAYMENTID, AUTHORISATIONID, headers, body);
+        Response<ScaStatusResponse> response =
+            initiationService.updatePaymentPsuData(PAYMENT_SERVICE,
+                SEPA_CREDIT_TRANSFERS,
+                PAYMENTID,
+                AUTHORISATIONID,
+                headers,
+                RequestParams.empty(),
+                body);
 
         verify(httpClient, times(1)).put(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());

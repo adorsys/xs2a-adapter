@@ -21,6 +21,7 @@ import de.adorsys.xs2a.adapter.adapter.StandardPaymentProduct;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.impl.mapper.PaymentInitiationRequestResponseDkbMapper;
 import de.adorsys.xs2a.adapter.service.impl.mapper.SelectPsuAuthenticationMethodResponseDkbMapper;
@@ -36,10 +37,14 @@ import org.mapstruct.factory.Mappers;
 import java.util.Map;
 
 public class DkbPaymentInitiationService extends BasePaymentInitiationService {
-    private final PaymentInitiationRequestResponseDkbMapper paymentInitiationRequestResponseMapper = Mappers.getMapper(PaymentInitiationRequestResponseDkbMapper.class);
-    private final StartScaProcessResponseDkbMapper startScaProcessResponseMapper = Mappers.getMapper(StartScaProcessResponseDkbMapper.class);
-    private final UpdatePsuAuthenticationResponseDkbMapper updatePsuAuthenticationResponseMapper = Mappers.getMapper(UpdatePsuAuthenticationResponseDkbMapper.class);
-    private final SelectPsuAuthenticationMethodResponseDkbMapper selectPsuAuthenticationMethodResponseMapper = Mappers.getMapper(SelectPsuAuthenticationMethodResponseDkbMapper.class);
+    private final PaymentInitiationRequestResponseDkbMapper paymentInitiationRequestResponseMapper =
+        Mappers.getMapper(PaymentInitiationRequestResponseDkbMapper.class);
+    private final StartScaProcessResponseDkbMapper startScaProcessResponseMapper =
+        Mappers.getMapper(StartScaProcessResponseDkbMapper.class);
+    private final UpdatePsuAuthenticationResponseDkbMapper updatePsuAuthenticationResponseMapper =
+        Mappers.getMapper(UpdatePsuAuthenticationResponseDkbMapper.class);
+    private final SelectPsuAuthenticationMethodResponseDkbMapper selectPsuAuthenticationMethodResponseMapper =
+        Mappers.getMapper(SelectPsuAuthenticationMethodResponseDkbMapper.class);
 
     private AccessTokenService accessService;
 
@@ -49,23 +54,69 @@ public class DkbPaymentInitiationService extends BasePaymentInitiationService {
     }
 
     @Override
-    public Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct, RequestHeaders requestHeaders, Object body) {
-        return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct), body, requestHeaders, DkbPaymentInitiationRequestResponse.class, paymentInitiationRequestResponseMapper::toPaymentInitiationRequestResponse);
+    public Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct,
+                                                                            RequestHeaders requestHeaders,
+                                                                            RequestParams requestParams,
+                                                                            Object body) {
+        return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct),
+            body,
+            requestHeaders,
+            requestParams,
+            DkbPaymentInitiationRequestResponse.class,
+            paymentInitiationRequestResponseMapper::toPaymentInitiationRequestResponse);
     }
 
     @Override
-    public Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct, String paymentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
-        return startSinglePaymentAuthorisation(StandardPaymentProduct.fromSlug(paymentProduct), paymentId, requestHeaders, updatePsuAuthentication, DkbStartScaProcessResponse.class, startScaProcessResponseMapper::toStartScaProcessResponse);
+    public Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
+                                                                             String paymentId,
+                                                                             RequestHeaders requestHeaders,
+                                                                             RequestParams requestParams,
+                                                                             UpdatePsuAuthentication updatePsuAuthentication) {
+        return startSinglePaymentAuthorisation(StandardPaymentProduct.fromSlug(paymentProduct),
+            paymentId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication,
+            DkbStartScaProcessResponse.class,
+            startScaProcessResponseMapper::toStartScaProcessResponse);
     }
 
     @Override
-    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
-        return updatePaymentPsuData(paymentService, StandardPaymentProduct.fromSlug(paymentProduct), paymentId, authorisationId, requestHeaders, updatePsuAuthentication, DkbUpdatePsuAuthenticationResponse.class, updatePsuAuthenticationResponseMapper::toUpdatePsuAuthenticationResponse);
+    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
+                                                                          String paymentProduct,
+                                                                          String paymentId,
+                                                                          String authorisationId,
+                                                                          RequestHeaders requestHeaders,
+                                                                          RequestParams requestParams,
+                                                                          UpdatePsuAuthentication updatePsuAuthentication) {
+        return updatePaymentPsuData(paymentService,
+            StandardPaymentProduct.fromSlug(paymentProduct),
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication,
+            DkbUpdatePsuAuthenticationResponse.class,
+            updatePsuAuthenticationResponseMapper::toUpdatePsuAuthenticationResponse);
     }
 
     @Override
-    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService, String paymentProduct, String paymentId, String authorisationId, RequestHeaders requestHeaders, SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
-        return updatePaymentPsuData(paymentService, StandardPaymentProduct.fromSlug(paymentProduct), paymentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod, DkbSelectPsuAuthenticationMethodResponse.class, selectPsuAuthenticationMethodResponseMapper::toSelectPsuAuthenticationMethodResponse);
+    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
+                                                                                String paymentProduct,
+                                                                                String paymentId,
+                                                                                String authorisationId,
+                                                                                RequestHeaders requestHeaders,
+                                                                                RequestParams requestParams,
+                                                                                SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+        return updatePaymentPsuData(paymentService,
+            StandardPaymentProduct.fromSlug(paymentProduct),
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            selectPsuAuthenticationMethod,
+            DkbSelectPsuAuthenticationMethodResponse.class,
+            selectPsuAuthenticationMethodResponseMapper::toSelectPsuAuthenticationMethodResponse);
     }
 
     @Override

@@ -32,9 +32,10 @@ public class AccountInformationServiceImpl implements AccountInformationService 
 
     @Override
     public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                           RequestParams requestParams,
                                                            Consents consents) {
         return getAccountInformationService(requestHeaders)
-                   .createConsent(requestHeaders, consents);
+                   .createConsent(requestHeaders, requestParams, consents);
     }
 
     private AccountInformationService getAccountInformationService(RequestHeaders requestHeaders) {
@@ -43,64 +44,85 @@ public class AccountInformationServiceImpl implements AccountInformationService 
 
     @Override
     public Response<ConsentInformation> getConsentInformation(String consentId,
-                                                              RequestHeaders requestHeaders) {
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
-                   .getConsentInformation(consentId, requestHeaders);
+                   .getConsentInformation(consentId, requestHeaders, requestParams);
     }
 
     @Override
-    public Response<Void> deleteConsent(String consentId, RequestHeaders requestHeaders) {
+    public Response<Void> deleteConsent(String consentId,
+                                        RequestHeaders requestHeaders,
+                                        RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
-                   .deleteConsent(consentId, requestHeaders);
+            .deleteConsent(consentId, requestHeaders, requestParams);
     }
 
     @Override
     public Response<ConsentStatusResponse> getConsentStatus(String consentId,
-                                                            RequestHeaders requestHeaders) {
+                                                            RequestHeaders requestHeaders,
+                                                            RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
-                   .getConsentStatus(consentId, requestHeaders);
-    }
-
-    @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
-                                                                       RequestHeaders requestHeaders) {
-        return getAccountInformationService(requestHeaders)
-                   .startConsentAuthorisation(consentId, requestHeaders);
+                   .getConsentStatus(consentId, requestHeaders, requestParams);
     }
 
     @Override
     public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams) {
+        return getAccountInformationService(requestHeaders)
+                   .startConsentAuthorisation(consentId, requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
                                                                        UpdatePsuAuthentication updatePsuAuthentication) {
         return getAccountInformationService(requestHeaders)
-                   .startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication);
+                   .startConsentAuthorisation(consentId, requestHeaders, requestParams, updatePsuAuthentication);
     }
 
     @Override
     public Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
                                                                                  String authorisationId,
                                                                                  RequestHeaders requestHeaders,
+                                                                                 RequestParams requestParams,
                                                                                  SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         return getAccountInformationService(requestHeaders)
-                   .updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod);
+            .updateConsentsPsuData(consentId,
+                authorisationId,
+                requestHeaders,
+                requestParams,
+                selectPsuAuthenticationMethod);
     }
 
     @Override
     public Response<ScaStatusResponse> updateConsentsPsuData(String consentId,
                                                              String authorisationId,
                                                              RequestHeaders requestHeaders,
+                                                             RequestParams requestParams,
                                                              TransactionAuthorisation transactionAuthorisation) {
         return getAccountInformationService(requestHeaders)
-                   .updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation);
+            .updateConsentsPsuData(consentId,
+                authorisationId,
+                requestHeaders,
+                requestParams,
+                transactionAuthorisation);
     }
 
     @Override
     public Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
                                                                            String authorisationId,
                                                                            RequestHeaders requestHeaders,
+                                                                           RequestParams requestParams,
                                                                            UpdatePsuAuthentication updatePsuAuthentication) {
         return getAccountInformationService(requestHeaders)
-                   .updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication);
+            .updateConsentsPsuData(consentId,
+                authorisationId,
+                requestHeaders,
+                requestParams,
+                updatePsuAuthentication);
     }
 
     @Override
@@ -120,9 +142,10 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     @Override
     public Response<TransactionDetails> getTransactionDetails(String accountId,
                                                               String transactionId,
-                                                              RequestHeaders requestHeaders) {
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
-            .getTransactionDetails(accountId, transactionId, requestHeaders);
+            .getTransactionDetails(accountId, transactionId, requestHeaders, requestParams);
     }
 
     @Override
@@ -135,15 +158,17 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     @Override
     public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
                                                            String authorisationId,
-                                                           RequestHeaders requestHeaders) {
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
-                   .getConsentScaStatus(consentId, authorisationId, requestHeaders);
+                   .getConsentScaStatus(consentId, authorisationId, requestHeaders, requestParams);
     }
 
     @Override
     public Response<BalanceReport> getBalances(String accountId,
-                                               RequestHeaders requestHeaders) {
+                                               RequestHeaders requestHeaders,
+                                               RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
-                   .getBalances(accountId, requestHeaders);
+                   .getBalances(accountId, requestHeaders, requestParams);
     }
 }

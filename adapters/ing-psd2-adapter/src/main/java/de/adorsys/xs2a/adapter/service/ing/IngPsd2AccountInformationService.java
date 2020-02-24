@@ -50,7 +50,9 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     }
 
     @Override
-    public Response<ConsentsResponse> createConsent(Map<String, String> headers, Consents consents) {
+    public Response<ConsentsResponse> createConsent(Map<String, String> queryParameters,
+                                                    Map<String, String> headers,
+                                                    Consents consents) {
         return toResponse(new ConsentsResponse());
     }
 
@@ -59,29 +61,37 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     }
 
     @Override
-    public Response<ConsentInformationResponse> getConsentInformation(String consentId, Map<String, String> headers) {
+    public Response<ConsentInformationResponse> getConsentInformation(String consentId,
+                                                                      Map<String, String> queryParameters,
+                                                                      Map<String, String> headers) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Response<Void> deleteConsent(String consentId, Map<String, String> headers) {
+    public Response<Void> deleteConsent(String consentId,
+                                        Map<String, String> queryParameters,
+                                        Map<String, String> headers) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Response<ConsentStatusResponse> getConsentStatus(String consentId, Map<String, String> headers) {
+    public Response<ConsentStatusResponse> getConsentStatus(String consentId,
+                                                            Map<String, String> queryParameters,
+                                                            Map<String, String> headers) {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
                                                            String authorisationId,
+                                                           Map<String, String> queryParameters,
                                                            Map<String, String> headers) {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       Map<String, String> queryParameters,
                                                                        Map<String, String> headers,
                                                                        UpdateAuthorisation updateAuthentication) {
         throw new UnsupportedOperationException();
@@ -90,6 +100,7 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     @Override
     public Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId,
                                                                        String authorisationId,
+                                                                       Map<String, String> queryParameters,
                                                                        Map<String, String> headers,
                                                                        UpdateAuthorisation updateAuthentication) {
         throw new UnsupportedOperationException();

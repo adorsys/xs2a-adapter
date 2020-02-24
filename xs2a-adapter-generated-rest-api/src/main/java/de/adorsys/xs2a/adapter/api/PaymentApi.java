@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Generated;
 import java.util.Map;
 
-@Generated("xs2a-codegen")
+@Generated("xs2a-adapter-codegen")
 public interface PaymentApi {
     @RequestMapping(
         value = "/v1/{payment-service}/{payment-product}",
@@ -18,7 +18,8 @@ public interface PaymentApi {
     ResponseEntity<PaymentInitationRequestResponse201TO> initiatePayment(
         @PathVariable("payment-service") PaymentServiceTO paymentService,
         @PathVariable("payment-product") PaymentProductTO paymentProduct,
-        @RequestHeader Map<String, String> headers, @RequestBody ObjectNode body);
+        @RequestParam Map<String, String> parameters, @RequestHeader Map<String, String> headers,
+        @RequestBody ObjectNode body);
 
     @RequestMapping(
         value = "/v1/{payment-service}/{payment-product}",
@@ -28,7 +29,8 @@ public interface PaymentApi {
     ResponseEntity<PaymentInitationRequestResponse201TO> initiatePayment(
         @PathVariable("payment-service") PaymentServiceTO paymentService,
         @PathVariable("payment-product") PaymentProductTO paymentProduct,
-        @RequestHeader Map<String, String> headers, @RequestBody String body);
+        @RequestParam Map<String, String> parameters, @RequestHeader Map<String, String> headers,
+        @RequestBody String body);
 
     @RequestMapping(
         value = "/v1/{payment-service}/{payment-product}/{paymentId}",
@@ -37,7 +39,8 @@ public interface PaymentApi {
     ResponseEntity<Object> getPaymentInformation(
         @PathVariable("payment-service") PaymentServiceTO paymentService,
         @PathVariable("payment-product") PaymentProductTO paymentProduct,
-        @PathVariable("paymentId") String paymentId, @RequestHeader Map<String, String> headers);
+        @PathVariable("paymentId") String paymentId, @RequestParam Map<String, String> parameters,
+        @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/v1/{payment-service}/{payment-product}/{paymentId}/status",
@@ -46,7 +49,8 @@ public interface PaymentApi {
     ResponseEntity<Object> getPaymentInitiationStatus(
         @PathVariable("payment-service") PaymentServiceTO paymentService,
         @PathVariable("payment-product") PaymentProductTO paymentProduct,
-        @PathVariable("paymentId") String paymentId, @RequestHeader Map<String, String> headers);
+        @PathVariable("paymentId") String paymentId, @RequestParam Map<String, String> parameters,
+        @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/v1/{payment-service}/{payment-product}/{paymentId}/authorisations",
@@ -55,7 +59,8 @@ public interface PaymentApi {
     ResponseEntity<AuthorisationsTO> getPaymentInitiationAuthorisation(
         @PathVariable("payment-service") PaymentServiceTO paymentService,
         @PathVariable("payment-product") PaymentProductTO paymentProduct,
-        @PathVariable("paymentId") String paymentId, @RequestHeader Map<String, String> headers);
+        @PathVariable("paymentId") String paymentId, @RequestParam Map<String, String> parameters,
+        @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/v1/{payment-service}/{payment-product}/{paymentId}/authorisations",
@@ -65,8 +70,8 @@ public interface PaymentApi {
     ResponseEntity<StartScaprocessResponseTO> startPaymentAuthorisation(
         @PathVariable("payment-service") PaymentServiceTO paymentService,
         @PathVariable("payment-product") PaymentProductTO paymentProduct,
-        @PathVariable("paymentId") String paymentId, @RequestHeader Map<String, String> headers,
-        @RequestBody ObjectNode body);
+        @PathVariable("paymentId") String paymentId, @RequestParam Map<String, String> parameters,
+        @RequestHeader Map<String, String> headers, @RequestBody ObjectNode body);
 
     @RequestMapping(
         value = "/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}",
@@ -77,7 +82,7 @@ public interface PaymentApi {
         @PathVariable("payment-product") PaymentProductTO paymentProduct,
         @PathVariable("paymentId") String paymentId,
         @PathVariable("authorisationId") String authorisationId,
-        @RequestHeader Map<String, String> headers);
+        @RequestParam Map<String, String> parameters, @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/v1/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}",
@@ -89,5 +94,6 @@ public interface PaymentApi {
         @PathVariable("payment-product") PaymentProductTO paymentProduct,
         @PathVariable("paymentId") String paymentId,
         @PathVariable("authorisationId") String authorisationId,
-        @RequestHeader Map<String, String> headers, @RequestBody ObjectNode body);
+        @RequestParam Map<String, String> parameters, @RequestHeader Map<String, String> headers,
+        @RequestBody ObjectNode body);
 }

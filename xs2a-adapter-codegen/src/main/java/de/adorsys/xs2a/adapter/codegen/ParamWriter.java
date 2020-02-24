@@ -5,17 +5,17 @@ import org.antlr.v4.runtime.TokenStreamRewriter;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public class HeaderWriter extends JSONBaseListener {
+public class ParamWriter extends JSONBaseListener {
     private final TokenStreamRewriter rewriter;
     private final String paramRef;
     private final String paramSchema;
 
     private boolean insidePaths;
 
-    public HeaderWriter(TokenStreamRewriter rewriter, Header... header) {
+    public ParamWriter(TokenStreamRewriter rewriter, Param... param) {
         this.rewriter = rewriter;
-        paramRef = Arrays.stream(header).map(Header::getParamRef).collect(Collectors.joining());
-        paramSchema = Arrays.stream(header).map(Header::getParamSchema).collect(Collectors.joining());
+        paramRef = Arrays.stream(param).map(Param::getParamRef).collect(Collectors.joining());
+        paramSchema = Arrays.stream(param).map(Param::getParamSchema).collect(Collectors.joining());
     }
 
     @Override

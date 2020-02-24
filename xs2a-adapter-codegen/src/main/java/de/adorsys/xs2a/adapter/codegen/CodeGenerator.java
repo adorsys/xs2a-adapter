@@ -136,6 +136,10 @@ public class CodeGenerator {
             if (parameter.get$ref() != null) {
                 parameter = api.getComponents().getParameters().get(getSimpleName(parameter.get$ref()));
             }
+            // custom param, added manually before headers
+            if ("additionalQueryParameters".equals(parameter.getName())) {
+                continue;
+            }
             Schema parameterSchema = parameter.getSchema();
             if (parameterSchema.get$ref() != null) {
                 parameterSchema = api.getComponents().getSchemas().get(getSimpleName(parameterSchema.get$ref()));
@@ -164,6 +168,10 @@ public class CodeGenerator {
                     throw new RuntimeException();
             }
         }
+        ParameterSpec paramsParameter = ParameterSpec.builder(ParameterizedTypeName.get(Map.class, String.class, String.class), "parameters")
+            .addAnnotation(RequestParam.class)
+            .build();
+        parameterSpecs.add(paramsParameter);
         ParameterSpec headersParameter = ParameterSpec.builder(ParameterizedTypeName.get(Map.class, String.class, String.class), "headers")
             .addAnnotation(RequestHeader.class)
             .build();

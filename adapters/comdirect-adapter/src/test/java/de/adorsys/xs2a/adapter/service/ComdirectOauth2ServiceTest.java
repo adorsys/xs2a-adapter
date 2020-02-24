@@ -1,8 +1,12 @@
 package de.adorsys.xs2a.adapter.service;
 
 import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
+import de.adorsys.xs2a.adapter.adapter.oauth2.api.model.AuthorisationServerMetaData;
 import de.adorsys.xs2a.adapter.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.Request;
+import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
+import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,11 +20,17 @@ import java.util.Map;
 
 import static de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 class ComdirectOauth2ServiceTest {
 
     private static final String SCA_OAUTH_LINK =
         "https://psd.comdirect.de/public/berlingroup/authorize/a437c154-d926-48c6-ae71-7e52b402bf51";
+    private static final String IDP_URL =
+        "https://psd.comdirect.de/public/berlingroup/idp";
     private static final String ORG_ID = "PSDDE-BAFIN-999999";
     private static final String STATE = "test";
     private static final String REDIRECT_URI = "https://example.com/cb";
@@ -34,7 +44,7 @@ class ComdirectOauth2ServiceTest {
     @BeforeEach
     void setUp() throws Exception {
         keyStore = Mockito.mock(Pkcs12KeyStore.class);
-        Mockito.when(keyStore.getOrganizationIdentifier())
+        when(keyStore.getOrganizationIdentifier())
             .thenReturn(ORG_ID);
     }
 
@@ -60,11 +70,52 @@ class ComdirectOauth2ServiceTest {
     }
 
     @Test
+    void getAuthorizationRequestUri_noScaOAuthLink() throws IOException {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setIdpUrl(IDP_URL);
+        AuthorisationServerMetaData metaData = new AuthorisationServerMetaData();
+        metaData.setAuthorisationEndpoint(IDP_URL);
+
+        HttpClient httpClient = Mockito.mock(HttpClient.class);
+        Request.Builder requestBuilder = Mockito.spy(new RequestBuilderImpl(httpClient, null, null));
+        oauth2Service = ComdirectOauth2Service.create(aspsp, httpClient, keyStore);
+
+        Parameters parameters = new Parameters();
+        parameters.setState(STATE);
+        parameters.setConsentId(CONSENT_ID);
+        parameters.setRedirectUri(REDIRECT_URI);
+
+        when(httpClient.get(anyString())).thenReturn(requestBuilder);
+        doReturn(new Response<>(200, metaData, null)).when(requestBuilder).send(any());
+
+        URI uri = oauth2Service.getAuthorizationRequestUri(null, parameters);
+
+        verify(httpClient, times(1)).get(anyString());
+        verify(requestBuilder, times(1)).send(any());
+
+        assertEquals(IDP_URL + "?" +
+            "response_type=code&" +
+            "state=" + STATE + "&" +
+            "redirect_uri=" + REDIRECT_URI + "&" +
+            "client_id=" + ORG_ID + "&" +
+            "code_challenge_method=S256&" +
+            "code_challenge=" + oauth2Service.codeChallenge() + "&" +
+            "scope=AIS:" + CONSENT_ID, uri.toString());
+    }
+
+    @Test
+    void getAuthorizationRequestUri_noScaOAuthLinkNoIdpUrl() {
+        oauth2Service = ComdirectOauth2Service.create(new Aspsp(), null, keyStore);
+
+        assertThrows(BadRequestException.class, () -> oauth2Service.getAuthorizationRequestUri(null, new Parameters()));
+    }
+
+    @Test
     void getToken() throws IOException {
         Aspsp aspsp = new Aspsp();
         aspsp.setUrl(BASE_URI);
         HttpClient httpClient = Mockito.spy(new ApacheHttpClient(null));
-        Mockito.doReturn(new Response<>(200, new OauthToken(), ResponseHeaders.emptyResponseHeaders()))
+        doReturn(new Response<>(200, new OauthToken(), ResponseHeaders.emptyResponseHeaders()))
             .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), Mockito.any());
         oauth2Service = ComdirectOauth2Service.create(aspsp, httpClient, keyStore);
         Parameters parameters = new Parameters();

@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.impl.mapper.ScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.service.impl.mapper.UnicreditCreateConsentResponseMapper;
@@ -35,13 +36,23 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     }
 
     @Override
-    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
-        return createConsent(requestHeaders, body, ConsentCreationResponse.class, createConsentResponseMapper::modifyResponse);
+    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                           RequestParams requestParams,
+                                                           Consents body) {
+        return createConsent(requestHeaders,
+            requestParams,
+            body,
+            ConsentCreationResponse.class,
+            createConsentResponseMapper::modifyResponse);
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
+                                                                       UpdatePsuAuthentication updatePsuAuthentication) {
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
+        uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
         headersMap = addPsuIdTypeHeader(headersMap);
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
@@ -55,14 +66,30 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     }
 
     @Override
-    public Response<ScaStatusResponse> updateConsentsPsuData(String consentId, String authorisationId, RequestHeaders requestHeaders, TransactionAuthorisation transactionAuthorisation) {
-        return updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation, UnicreditAccountScaStatusResponse.class, scaStatusResponseMapper::toScaStatusResponse);
+    public Response<ScaStatusResponse> updateConsentsPsuData(String consentId,
+                                                             String authorisationId,
+                                                             RequestHeaders requestHeaders,
+                                                             RequestParams requestParams,
+                                                             TransactionAuthorisation transactionAuthorisation) {
+        return updateConsentsPsuData(consentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            transactionAuthorisation,
+            UnicreditAccountScaStatusResponse.class,
+            scaStatusResponseMapper::toScaStatusResponse);
     }
 
     @Override
-    public Response<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, RequestHeaders requestHeaders) {
-        Response<ConsentStatusResponse> response = this.getConsentStatus(consentId, requestHeaders);
-        return new Response<>(response.getStatusCode(), scaStatusResponseMapper.toScaStatusResponse(response.getBody()), response.getHeaders());
+    public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                           String authorisationId,
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
+        Response<ConsentStatusResponse> response =
+            this.getConsentStatus(consentId, requestHeaders, requestParams);
+        return new Response<>(response.getStatusCode(),
+            scaStatusResponseMapper.toScaStatusResponse(response.getBody()),
+            response.getHeaders());
     }
 
     @Override

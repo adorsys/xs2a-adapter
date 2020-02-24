@@ -44,7 +44,7 @@ public class Main {
             Map.entry("updatePaymentPsuData", "PaymentApi"));
 
         String modifiedSpec = filterOperations("src/main/resources/psd2-api 1.3.4 20190717v1.json", operationToInterface.keySet());
-        modifiedSpec = insertRoutingHeaders(modifiedSpec);
+        modifiedSpec = addCustomParams(modifiedSpec);
         modifiedSpec = removeServers(modifiedSpec);
 
         Files.writeString(Paths.get("target", "xs2aapi.json"), modifiedSpec);
@@ -97,18 +97,20 @@ public class Main {
         return rewriter.getText();
     }
 
-    private static String insertRoutingHeaders(String jsonString) {
+    private static String addCustomParams(String jsonString) {
         JSONLexer lexer = new JSONLexer(CharStreams.fromString(jsonString));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         JSONParser parser = new JSONParser(tokens);
         JSONParser.JsonContext json = parser.json();
         ParseTreeWalker parseTreeWalker = new ParseTreeWalker();
         TokenStreamRewriter rewriter = new TokenStreamRewriter(tokens);
-        HeaderWriter bankCodeHeaderWriter = new HeaderWriter(rewriter,
+        ParamWriter paramWriter = new ParamWriter(rewriter,
             new Header("X-GTW-ASPSP-ID", "ASPSP ID in the registry for the request routing"),
             new Header("X-GTW-Bank-Code", "Bank code of bank to which the request addressed"),
-            new Header("X-GTW-BIC", "Business Identifier Code for the request routing"));
-        parseTreeWalker.walk(bankCodeHeaderWriter, json);
+            new Header("X-GTW-BIC", "Business Identifier Code for the request routing"),
+            new Header("X-GTW-IBAN", "IBAN for the request routing"),
+            new AdditionalQueryParams("additionalQueryParameters", "Additional query parameters"));
+        parseTreeWalker.walk(paramWriter, json);
         return rewriter.getText();
     }
 

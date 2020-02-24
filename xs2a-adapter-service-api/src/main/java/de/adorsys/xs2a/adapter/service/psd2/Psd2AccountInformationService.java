@@ -28,26 +28,35 @@ public interface Psd2AccountInformationService {
                              Map<String, String> queryParameters,
                              Map<String, String> headers) throws IOException;
 
-    Response<ConsentsResponse> createConsent(Map<String, String> headers, Consents consents);
+    Response<ConsentsResponse> createConsent(Map<String, String> queryParameters,
+                                             Map<String, String> headers,
+                                             Consents consents);
 
     Response<ConsentInformationResponse> getConsentInformation(String consentId,
+                                                               Map<String, String> queryParameters,
                                                                Map<String, String> headers);
 
-    Response<Void> deleteConsent(String consentId, Map<String, String> headers);
+    Response<Void> deleteConsent(String consentId,
+                                 Map<String, String> queryParameters,
+                                 Map<String, String> headers);
 
     Response<ConsentStatusResponse> getConsentStatus(String consentId,
+                                                     Map<String, String> queryParameters,
                                                      Map<String, String> headers);
 
     Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                Map<String, String> queryParameters,
                                                                 Map<String, String> headers,
                                                                 UpdateAuthorisation updateAuthentication);
 
     Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId,
                                                                 String authorisationId,
+                                                                Map<String, String> queryParameters,
                                                                 Map<String, String> headers,
                                                                 UpdateAuthorisation updateAuthentication);
 
     Response<ScaStatusResponse> getConsentScaStatus(String consentId,
                                                     String authorisationId,
+                                                    Map<String, String> queryParameters,
                                                     Map<String, String> headers);
 }

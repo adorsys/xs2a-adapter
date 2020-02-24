@@ -75,20 +75,25 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     }
 
     @Override
-    public ResponseEntity<ConsentsResponseTO> createConsent(Map<String, String> headers, ConsentsTO body) {
+    public ResponseEntity<ConsentsResponseTO> createConsent(Map<String, String> queryParameters,
+                                                            Map<String, String> headers,
+                                                            ConsentsTO body) {
         Response<ConsentsResponse> response
-            = accountInformationService.createConsent(headers, accountInformationMapper.toConsents(body));
+            = accountInformationService.createConsent(queryParameters,
+            headers,
+            accountInformationMapper.toConsents(body));
 
         return ResponseEntity.status(response.getStatusCode())
-                   .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(accountInformationMapper.toConsentsResponseTO(response.getBody()));
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(accountInformationMapper.toConsentsResponseTO(response.getBody()));
     }
 
     @Override
     public ResponseEntity<ConsentInformationResponseTO> getConsentInformation(String consentId,
+                                                                              Map<String, String> queryParameters,
                                                                               Map<String, String> headers) {
         Response<ConsentInformationResponse> response
-            = accountInformationService.getConsentInformation(consentId, headers);
+            = accountInformationService.getConsentInformation(consentId, queryParameters, headers);
 
         return ResponseEntity.status(response.getStatusCode())
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
@@ -96,17 +101,22 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     }
 
     @Override
-    public ResponseEntity<Void> deleteConsent(String consentId, Map<String, String> headers) {
-        Response<Void> response = accountInformationService.deleteConsent(consentId, headers);
+    public ResponseEntity<Void> deleteConsent(String consentId,
+                                              Map<String, String> queryParameters,
+                                              Map<String, String> headers) {
+        Response<Void> response = accountInformationService.deleteConsent(consentId, queryParameters, headers);
 
         return ResponseEntity.status(response.getStatusCode())
-                   .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(response.getBody());
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(response.getBody());
     }
 
     @Override
-    public ResponseEntity<ConsentStatusResponseTO> getConsentStatus(String consentId, Map<String, String> headers) {
-        Response<ConsentStatusResponse> response = accountInformationService.getConsentStatus(consentId, headers);
+    public ResponseEntity<ConsentStatusResponseTO> getConsentStatus(String consentId,
+                                                                    Map<String, String> queryParameters,
+                                                                    Map<String, String> headers) {
+        Response<ConsentStatusResponse> response =
+            accountInformationService.getConsentStatus(consentId, queryParameters, headers);
 
         return ResponseEntity.status(response.getStatusCode())
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
@@ -115,12 +125,14 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
 
     @Override
     public ResponseEntity<StartScaProcessResponseTO> startConsentAuthorisation(String consentId,
+                                                                               Map<String, String> queryParameters,
                                                                                Map<String, String> headers,
                                                                                UpdateAuthorisationTO body) {
-        Response<StartScaProcessResponse> response = accountInformationService.startConsentAuthorisation(
-            consentId, headers,
-            accountInformationMapper.toUpdateAuthorisation(body)
-        );
+        Response<StartScaProcessResponse> response =
+            accountInformationService.startConsentAuthorisation(consentId,
+                queryParameters,
+                headers,
+                accountInformationMapper.toUpdateAuthorisation(body));
 
         return ResponseEntity.status(response.getStatusCode())
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
@@ -130,9 +142,10 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     @Override
     public ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(String consentId,
                                                                    String authorisationId,
+                                                                   Map<String, String> queryParameters,
                                                                    Map<String, String> headers) {
         Response<ScaStatusResponse> response
-            = accountInformationService.getConsentScaStatus(consentId, authorisationId, headers);
+            = accountInformationService.getConsentScaStatus(consentId, authorisationId, queryParameters, headers);
 
         return ResponseEntity.status(response.getStatusCode())
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))
@@ -142,12 +155,16 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     @Override
     public ResponseEntity<UpdateAuthorisationResponseTO> updateConsentsPsuData(String consentId,
                                                                                String authorisationId,
+                                                                               Map<String, String> queryParameters,
                                                                                Map<String, String> headers,
                                                                                UpdateAuthorisationTO body) {
         Response<UpdateAuthorisationResponse> response = accountInformationService.updateConsentsPsuData(
-            consentId, authorisationId, headers,
-            accountInformationMapper.toUpdateAuthorisation(body)
-        );
+                consentId,
+                authorisationId,
+                queryParameters,
+                headers,
+                accountInformationMapper.toUpdateAuthorisation(body)
+            );
 
         return ResponseEntity.status(response.getStatusCode())
                    .headers(headersMapper.toHttpHeaders(response.getHeaders()))

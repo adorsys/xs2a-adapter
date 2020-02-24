@@ -1,19 +1,22 @@
 package de.adorsys.xs2a.adapter.codegen;
 
-class Header extends Param {
-    public Header(String name, String description) {
+public class AdditionalQueryParams extends Param {
+
+    public AdditionalQueryParams(String name, String description) {
         super(name, description);
     }
 
-    @Override
-    public String getParamSchema()  {
+    public String getParamSchema() {
         return "\n" +
             "      \"" + name + "\": {\n" +
             "        \"name\": \"" + name + "\",\n" +
-            "        \"in\": \"header\",\n" +
+            "        \"in\": \"query\",\n" +
             "        \"description\": \"" + description + "\",\n" +
             "        \"schema\": {\n" +
-            "          \"type\": \"string\"\n" +
+            "          \"type\": \"object\",\n" +
+            "          \"additionalProperties\": {\n" +
+            "            \"type\": \"string\"\n" +
+            "          }\n" +
             "        },\n" +
             "        \"required\": false\n" +
             "      },";
