@@ -10,6 +10,7 @@
 - XS2A API extended with additional query parameters.
 This is needed for Unicredit that has unspecified required parameters.
 Their design is based on the premise of TPPs traversing exact links in the preceding response.
+Old methods without query parameters are deprecated.
 
 == Features:
 
