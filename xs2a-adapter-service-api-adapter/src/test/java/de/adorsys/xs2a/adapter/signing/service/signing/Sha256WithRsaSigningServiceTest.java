@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.signing.service.signing;
 
+import de.adorsys.xs2a.adapter.service.exception.HttpRequestSigningException;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.security.cert.CertificateException;
 import java.util.Properties;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class Sha256WithRsaSigningServiceTest {
     private static final String STRING_TO_SIGN = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
@@ -41,6 +43,13 @@ public class Sha256WithRsaSigningServiceTest {
         byte[] actualSignedValue = signingService.sign(PRIVATE_KEY, STRING_TO_SIGN, UTF8_CHARSET);
 
         assertThat(toHex(actualSignedValue)).isEqualTo(EXPECTED_SIGNED_VALUE);
+    }
+
+    @Test
+    void sign_throwsException() {
+        SigningService signingService = new Sha256WithRsaSigningService();
+
+        assertThrows(HttpRequestSigningException.class, () -> signingService.sign(null, "data", UTF8_CHARSET));
     }
 
     private static Properties readCertificateProperties() {

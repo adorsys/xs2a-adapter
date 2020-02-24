@@ -59,67 +59,96 @@ public class ConsentController extends AbstractController implements AccountApi 
     }
 
     @Override
-    public ResponseEntity<ConsentsResponse201TO> createConsent(Map<String, String> headers, ConsentsTO body) {
+    public ResponseEntity<ConsentsResponse201TO> createConsent(Map<String, String> parameters,
+                                                               Map<String, String> headers,
+                                                               ConsentsTO body) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
         Consents consents = consentMapper.toConsents(body);
 
-        Response<ConsentCreationResponse> response = accountInformationService.createConsent(requestHeaders, consents);
+        Response<ConsentCreationResponse> response = accountInformationService.createConsent(requestHeaders,
+            requestParams,
+            consents);
 
         return ResponseEntity
-                   .status(HttpStatus.CREATED)
-                   .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(creationResponseMapper.toConsentResponse201(response.getBody()));
+            .status(HttpStatus.CREATED)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(creationResponseMapper.toConsentResponse201(response.getBody()));
     }
 
     @Override
-    public ResponseEntity<ConsentInformationResponse200JsonTO> getConsentInformation(String consentId, Map<String, String> headers) {
+    public ResponseEntity<ConsentInformationResponse200JsonTO> getConsentInformation(String consentId,
+                                                                                     Map<String, String> parameters,
+                                                                                     Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
 
-        Response<ConsentInformation> response = accountInformationService.getConsentInformation(consentId, requestHeaders);
+        Response<ConsentInformation> response =
+            accountInformationService.getConsentInformation(consentId, requestHeaders, requestParams);
 
         return ResponseEntity
-                   .status(HttpStatus.OK)
-                   .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(consentInformationMapper.toConsentInformationResponse200Json(response.getBody()));
+            .status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(consentInformationMapper.toConsentInformationResponse200Json(response.getBody()));
     }
 
     @Override
-    public ResponseEntity<Void> deleteConsent(String consentId, Map<String, String> headers) {
+    public ResponseEntity<Void> deleteConsent(String consentId,
+                                              Map<String, String> parameters,
+                                              Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
 
-        Response<Void> response = accountInformationService.deleteConsent(consentId, requestHeaders);
+        Response<Void> response = accountInformationService.deleteConsent(consentId, requestHeaders, requestParams);
 
         return new ResponseEntity<>(headersMapper.toHttpHeaders(response.getHeaders()), HttpStatus.NO_CONTENT);
     }
 
     @Override
-    public ResponseEntity<ConsentStatusResponse200TO> getConsentStatus(String consentId, Map<String, String> headers) {
+    public ResponseEntity<ConsentStatusResponse200TO> getConsentStatus(String consentId,
+                                                                       Map<String, String> parameters,
+                                                                       Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
 
-        Response<ConsentStatusResponse> response = accountInformationService.getConsentStatus(consentId, requestHeaders);
+        Response<ConsentStatusResponse> response =
+            accountInformationService.getConsentStatus(consentId, requestHeaders, requestParams);
 
         return ResponseEntity
-                   .status(HttpStatus.OK)
-                   .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(consentStatusResponseMapper.toConsentStatusResponse200(response.getBody()));
+            .status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(consentStatusResponseMapper.toConsentStatusResponse200(response.getBody()));
     }
 
     @Override
-    public ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(String consentId, Map<String, String> headers, ObjectNode body) {
+    public ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(String consentId,
+                                                                               Map<String, String> parameters,
+                                                                               Map<String, String> headers,
+                                                                               ObjectNode body) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
 
         Response<?> response = handleAuthorisationBody(body,
-                                                              (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> accountInformationService.startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication),
-                                                              (StartAuthorisationHandler) emptyAuthorisationBody -> accountInformationService.startConsentAuthorisation(consentId, requestHeaders));
+            (UpdatePsuAuthenticationHandler) updatePsuAuthentication ->
+                accountInformationService.startConsentAuthorisation(consentId,
+                    requestHeaders,
+                    requestParams,
+                    updatePsuAuthentication),
+            (StartAuthorisationHandler) emptyAuthorisationBody ->
+                accountInformationService.startConsentAuthorisation(consentId, requestHeaders, requestParams));
 
         return ResponseEntity
-                   .status(HttpStatus.CREATED)
-                   .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(startScaProcessResponseMapper.toStartScaprocessResponseTO((StartScaProcessResponse) response.getBody()));
+            .status(HttpStatus.CREATED)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(startScaProcessResponseMapper.toStartScaprocessResponseTO((StartScaProcessResponse) response.getBody()));
     }
 
     @Override
-    public ResponseEntity<Object> updateConsentsPsuData(String consentId, String authorisationId, Map<String, String> headers, ObjectNode body) {
+    public ResponseEntity<Object> updateConsentsPsuData(String consentId,
+                                                        String authorisationId,
+                                                        Map<String, String> parameters,
+                                                        Map<String, String> headers,
+                                                        ObjectNode body) {
 //        oneOf: #Different Authorisation Bodies
 //                - {}
 //                - $ref: "#/components/schemas/updatePsuAuthentication"
@@ -131,17 +160,32 @@ public class ConsentController extends AbstractController implements AccountApi 
 //              - $ref: "#/components/schemas/selectPsuAuthenticationMethodResponse" #Select Authentication Method
 //              - $ref: "#/components/schemas/scaStatusResponse" #Transaction Authorisation
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
 
         Response<?> response = handleAuthorisationBody(body,
-                                                              (UpdatePsuAuthenticationHandler) updatePsuAuthentication -> accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication),
-                                                              (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod -> accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod),
-                                                              (TransactionAuthorisationHandler) transactionAuthorisation -> accountInformationService.updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation)
-        );
+            (UpdatePsuAuthenticationHandler) updatePsuAuthentication ->
+                accountInformationService.updateConsentsPsuData(consentId,
+                    authorisationId,
+                    requestHeaders,
+                    requestParams,
+                    updatePsuAuthentication),
+            (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod ->
+                accountInformationService.updateConsentsPsuData(consentId,
+                    authorisationId,
+                    requestHeaders,
+                    requestParams,
+                    selectPsuAuthenticationMethod),
+            (TransactionAuthorisationHandler) transactionAuthorisation ->
+                accountInformationService.updateConsentsPsuData(consentId,
+                    authorisationId,
+                    requestHeaders,
+                    requestParams,
+                    transactionAuthorisation));
 
         return ResponseEntity
-                   .status(HttpStatus.OK)
-                   .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(response.getBody());
+            .status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(response.getBody());
     }
 
     @Override
@@ -187,56 +231,79 @@ public class ConsentController extends AbstractController implements AccountApi 
     }
 
     @Override
-    public ResponseEntity<String> getTransactionListAsString(String accountId, LocalDate dateFrom, LocalDate dateTo, String entryReferenceFrom, BookingStatusTO bookingStatus, Boolean deltaList, Boolean withBalance, Map<String, String> headers) {
+    public ResponseEntity<String> getTransactionListAsString(String accountId,
+                                                             LocalDate dateFrom,
+                                                             LocalDate dateTo,
+                                                             String entryReferenceFrom,
+                                                             BookingStatusTO bookingStatus,
+                                                             Boolean deltaList,
+                                                             Boolean withBalance,
+                                                             Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
         RequestParams requestParams = RequestParams.builder()
-                                          .bookingStatus(bookingStatus.toString())
-                                          .dateFrom(dateFrom)
-                                          .dateTo(dateTo)
-                                          .entryReferenceFrom(entryReferenceFrom)
-                                          .deltaList(deltaList)
-                                          .withBalance(withBalance)
-                                          .build();
+            .bookingStatus(bookingStatus.toString())
+            .dateFrom(dateFrom)
+            .dateTo(dateTo)
+            .entryReferenceFrom(entryReferenceFrom)
+            .deltaList(deltaList)
+            .withBalance(withBalance)
+            .build();
 
         Response<String> response = accountInformationService.getTransactionListAsString(accountId, requestHeaders, requestParams);
 
         return ResponseEntity
-                   .status(HttpStatus.OK)
-                   .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(response.getBody());
+            .status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(response.getBody());
     }
 
     @Override
-    public ResponseEntity<OK200TransactionDetailsTO> getTransactionDetails(String accountId, String transactionId, Map<String, String> headers) {
-        Response<TransactionDetails> response =
-            accountInformationService.getTransactionDetails(accountId, transactionId, RequestHeaders.fromMap(headers));
+    public ResponseEntity<OK200TransactionDetailsTO> getTransactionDetails(String accountId,
+                                                                           String transactionId,
+                                                                           Map<String, String> parameters,
+                                                                           Map<String, String> headers) {
+        Response<TransactionDetails> response = accountInformationService.getTransactionDetails(accountId,
+            transactionId,
+            RequestHeaders.fromMap(headers),
+            RequestParams.fromMap(parameters));
         return ResponseEntity.status(HttpStatus.OK)
             .headers(headersMapper.toHttpHeaders(response.getHeaders()))
             .body(transactionDetailsMapper.map(response.getBody()));
     }
 
     @Override
-    public ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(String consentId, String authorisationId, Map<String, String> headers) {
+    public ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(String consentId,
+                                                                   String authorisationId,
+                                                                   Map<String, String> queryParameters,
+                                                                   Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(queryParameters);
 
-        Response<ScaStatusResponse> response = accountInformationService.getConsentScaStatus(consentId, authorisationId, requestHeaders);
+        Response<ScaStatusResponse> response = accountInformationService.getConsentScaStatus(consentId,
+            authorisationId,
+            requestHeaders,
+            requestParams);
 
         return ResponseEntity
-                   .status(HttpStatus.OK)
-                   .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(scaStatusResponseMapper.toScaStatusResponseTO(response.getBody()));
+            .status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(scaStatusResponseMapper.toScaStatusResponseTO(response.getBody()));
     }
 
     @Override
-    public ResponseEntity<ReadAccountBalanceResponse200TO> getBalances(String accountId, Map<String, String> headers) {
+    public ResponseEntity<ReadAccountBalanceResponse200TO> getBalances(String accountId,
+                                                                       Map<String, String> parameters,
+                                                                       Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
 
-        Response<BalanceReport> response = accountInformationService.getBalances(accountId, requestHeaders);
+        Response<BalanceReport> response =
+            accountInformationService.getBalances(accountId, requestHeaders, requestParams);
 
         return ResponseEntity
-                   .status(HttpStatus.OK)
-                   .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                   .body(balanceReportMapper.toReadAccountBalanceResponse200TO(response.getBody()));
+            .status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(balanceReportMapper.toReadAccountBalanceResponse200TO(response.getBody()));
     }
 }

@@ -4,7 +4,7 @@ import javax.annotation.Generated;
 import java.time.LocalDate;
 import java.util.List;
 
-@Generated("xs2a-codegen")
+@Generated("xs2a-adapter-codegen")
 public class BulkPaymentInitiationWithStatusResponseTO {
     private Boolean batchBookingPreferred;
 

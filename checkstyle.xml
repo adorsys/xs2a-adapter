@@ -70,11 +70,12 @@
         <!-- Checks for Size Violations.                    -->
         <!-- See http://checkstyle.sourceforge.net/config_sizes.html -->
         <module name="LineLength">
-            <property name="max" value="319"/>
+            <property name="max" value="224"/>
         </module>
         <module name="MethodLength"/>
         <module name="ParameterNumber">
-            <property name="max" value="8"/>
+            <property name="max" value="9"/>
+            <property name="ignoreOverriddenMethods" value="true"/>
         </module>
 
         <!-- Checks for whitespace                               -->
@@ -120,7 +121,5 @@
         <module name="ArrayTypeStyle"/>
         <module name="TodoComment"/>
         <module name="UpperEll"/>
-
     </module>
-
 </module>

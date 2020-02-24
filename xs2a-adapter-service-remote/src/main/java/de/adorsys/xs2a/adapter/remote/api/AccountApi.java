@@ -33,7 +33,8 @@ public interface AccountApi {
         method = RequestMethod.POST,
         consumes = "application/json"
     )
-    ResponseEntity<ConsentsResponse201TO> createConsent(@RequestHeader Map<String, String> headers,
+    ResponseEntity<ConsentsResponse201TO> createConsent(@RequestParam Map<String, String> parameters,
+                                                        @RequestHeader Map<String, String> headers,
                                                         @RequestBody ConsentsTO body);
 
     @RequestMapping(
@@ -41,30 +42,35 @@ public interface AccountApi {
         method = RequestMethod.GET
     )
     ResponseEntity<ConsentInformationResponse200JsonTO> getConsentInformation(
-        @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers);
+        @PathVariable("consentId") String consentId,
+        @RequestParam Map<String, String> parameters,
+        @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/v1/consents/{consentId}",
         method = RequestMethod.DELETE
     )
-    ResponseEntity<Void> deleteConsent(
-        @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers);
+    ResponseEntity<Void> deleteConsent(@PathVariable("consentId") String consentId,
+                                       @RequestParam Map<String, String> parameters,
+                                       @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/v1/consents/{consentId}/status",
         method = RequestMethod.GET
     )
-    ResponseEntity<ConsentStatusResponse200TO> getConsentStatus(
-        @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers);
+    ResponseEntity<ConsentStatusResponse200TO> getConsentStatus(@PathVariable("consentId") String consentId,
+                                                                @RequestParam Map<String, String> parameters,
+                                                                @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/v1/consents/{consentId}/authorisations",
         method = RequestMethod.POST,
         consumes = "application/json"
     )
-    ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(
-        @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers,
-        @RequestBody ObjectNode body);
+    ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(@PathVariable("consentId") String consentId,
+                                                                        @RequestParam Map<String, String> parameters,
+                                                                        @RequestHeader Map<String, String> headers,
+                                                                        @RequestBody ObjectNode body);
 
     @RequestMapping(
         value = "/v1/consents/{consentId}/authorisations/{authorisationId}",
@@ -73,6 +79,7 @@ public interface AccountApi {
     ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(
         @PathVariable("consentId") String consentId,
         @PathVariable("authorisationId") String authorisationId,
+        @RequestParam Map<String, String> parameters,
         @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
@@ -82,7 +89,9 @@ public interface AccountApi {
     )
     ResponseEntity<Object> updateConsentsPsuData(@PathVariable("consentId") String consentId,
                                                  @PathVariable("authorisationId") String authorisationId,
-                                                 @RequestHeader Map<String, String> headers, @RequestBody ObjectNode body);
+                                                 @RequestParam Map<String, String> parameters,
+                                                 @RequestHeader Map<String, String> headers,
+                                                 @RequestBody ObjectNode body);
 
     @RequestMapping(
         value = "/v1/accounts",
@@ -97,7 +106,9 @@ public interface AccountApi {
         method = RequestMethod.GET
     )
     ResponseEntity<ReadAccountBalanceResponse200TO> getBalances(
-        @PathVariable("account-id") String accountId, @RequestHeader Map<String, String> headers);
+        @PathVariable("account-id") String accountId,
+        @RequestParam Map<String, String> parameters,
+        @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/v1/accounts/{account-id}/transactions",
@@ -136,5 +147,6 @@ public interface AccountApi {
     ResponseEntity<OK200TransactionDetailsTO> getTransactionDetails(
         @PathVariable("account-id") String accountId,
         @PathVariable("transactionId") String transactionId,
+        @RequestParam Map<String, String> parameters,
         @RequestHeader Map<String, String> headers);
 }

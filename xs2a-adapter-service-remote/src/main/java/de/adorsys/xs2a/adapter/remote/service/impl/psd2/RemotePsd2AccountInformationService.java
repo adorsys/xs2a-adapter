@@ -68,8 +68,11 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     }
 
     @Override
-    public Response<ConsentsResponse> createConsent(Map<String, String> headers, Consents consents) {
-        ResponseEntity<ConsentsResponseTO> responseEntity = client.createConsent(headers, accountInformationMapper.toConsentsTO(consents));
+    public Response<ConsentsResponse> createConsent(Map<String, String> queryParameters,
+                                                    Map<String, String> headers,
+                                                    Consents consents) {
+        ResponseEntity<ConsentsResponseTO> responseEntity =
+            client.createConsent(queryParameters, headers, accountInformationMapper.toConsentsTO(consents));
         ConsentsResponse consentsResponse = accountInformationMapper.toConsentsResponse(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
@@ -79,9 +82,13 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     }
 
     @Override
-    public Response<ConsentInformationResponse> getConsentInformation(String consentId, Map<String, String> headers) {
-        ResponseEntity<ConsentInformationResponseTO> responseEntity = client.getConsentInformation(consentId, headers);
-        ConsentInformationResponse consentInformationResponse = accountInformationMapper.toConsentInformationResponse(responseEntity.getBody());
+    public Response<ConsentInformationResponse> getConsentInformation(String consentId,
+                                                                      Map<String, String> queryParameters,
+                                                                      Map<String, String> headers) {
+        ResponseEntity<ConsentInformationResponseTO> responseEntity =
+            client.getConsentInformation(consentId, queryParameters, headers);
+        ConsentInformationResponse consentInformationResponse =
+            accountInformationMapper.toConsentInformationResponse(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
             consentInformationResponse,
@@ -90,8 +97,10 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     }
 
     @Override
-    public Response<Void> deleteConsent(String consentId, Map<String, String> headers) {
-        ResponseEntity<Void> responseEntity = client.deleteConsent(consentId, headers);
+    public Response<Void> deleteConsent(String consentId,
+                                        Map<String, String> queryParameters,
+                                        Map<String, String> headers) {
+        ResponseEntity<Void> responseEntity = client.deleteConsent(consentId, queryParameters, headers);
         return new Response<>(
             responseEntity.getStatusCodeValue(),
             null,
@@ -100,9 +109,13 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     }
 
     @Override
-    public Response<ConsentStatusResponse> getConsentStatus(String consentId, Map<String, String> headers) {
-        ResponseEntity<ConsentStatusResponseTO> responseEntity = client.getConsentStatus(consentId, headers);
-        ConsentStatusResponse consentStatusResponse = accountInformationMapper.toConsentStatusResponse(responseEntity.getBody());
+    public Response<ConsentStatusResponse> getConsentStatus(String consentId,
+                                                            Map<String, String> queryParameters,
+                                                            Map<String, String> headers) {
+        ResponseEntity<ConsentStatusResponseTO> responseEntity =
+            client.getConsentStatus(consentId, queryParameters, headers);
+        ConsentStatusResponse consentStatusResponse =
+            accountInformationMapper.toConsentStatusResponse(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
             consentStatusResponse,
@@ -111,8 +124,15 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId, Map<String, String> headers, UpdateAuthorisation updateAuthentication) {
-        ResponseEntity<StartScaProcessResponseTO> responseEntity = client.startConsentAuthorisation(consentId, headers, accountInformationMapper.toUpdateAuthorisationTO(updateAuthentication));
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       Map<String, String> queryParameters,
+                                                                       Map<String, String> headers,
+                                                                       UpdateAuthorisation updateAuthentication) {
+        ResponseEntity<StartScaProcessResponseTO> responseEntity =
+            client.startConsentAuthorisation(consentId,
+                queryParameters,
+                headers,
+                accountInformationMapper.toUpdateAuthorisationTO(updateAuthentication));
         StartScaProcessResponse startScaProcessResponse = accountInformationMapper.toStartScaProcessResponse(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
@@ -122,9 +142,18 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     }
 
     @Override
-    public Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId, String authorisationId, Map<String, String> headers, UpdateAuthorisation updateAuthentication) {
-        ResponseEntity<UpdateAuthorisationResponseTO> responseEntity = client.updateConsentsPsuData(consentId, authorisationId, headers, accountInformationMapper.toUpdateAuthorisationTO(updateAuthentication));
-        UpdateAuthorisationResponse updateAuthorisationResponse = accountInformationMapper.toUpdateAuthorisationResponse(responseEntity.getBody());
+    public Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId,
+                                                                       String authorisationId,
+                                                                       Map<String, String> queryParameters,
+                                                                       Map<String, String> headers,
+                                                                       UpdateAuthorisation updateAuthentication) {
+        ResponseEntity<UpdateAuthorisationResponseTO> responseEntity = client.updateConsentsPsuData(consentId,
+            authorisationId,
+            queryParameters,
+            headers,
+            accountInformationMapper.toUpdateAuthorisationTO(updateAuthentication));
+        UpdateAuthorisationResponse updateAuthorisationResponse =
+            accountInformationMapper.toUpdateAuthorisationResponse(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
             updateAuthorisationResponse,
@@ -133,8 +162,12 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     }
 
     @Override
-    public Response<ScaStatusResponse> getConsentScaStatus(String consentId, String authorisationId, Map<String, String> headers) {
-        ResponseEntity<ScaStatusResponseTO> responseEntity = client.getConsentScaStatus(consentId, authorisationId, headers);
+    public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                           String authorisationId,
+                                                           Map<String, String> queryParameters,
+                                                           Map<String, String> headers) {
+        ResponseEntity<ScaStatusResponseTO> responseEntity =
+            client.getConsentScaStatus(consentId, authorisationId, queryParameters, headers);
         ScaStatusResponse scaStatusResponse = accountInformationMapper.toScaStatusResponse(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),

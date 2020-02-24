@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.net.URI;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class UriBuilderTest {
 
@@ -30,5 +31,10 @@ class UriBuilderTest {
             .build();
         assertEquals("q=two words", uri.getQuery());
         assertEquals("q=two%20words", uri.getRawQuery());
+    }
+
+    @Test
+    void uriBuilder_throwsException() {
+        assertThrows(IllegalArgumentException.class, () -> UriBuilder.fromUri("??"));
     }
 }

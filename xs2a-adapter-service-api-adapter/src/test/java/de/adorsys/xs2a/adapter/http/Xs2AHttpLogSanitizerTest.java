@@ -1,12 +1,17 @@
 package de.adorsys.xs2a.adapter.http;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
+import org.apache.http.entity.StringEntity;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,7 +36,8 @@ public class Xs2AHttpLogSanitizerTest {
 
     @Test
     public void sanitizeSensitiveHeaders() {
-        List<String> headers = Arrays.asList("Authorization", "PSU-ID", "PSU-Corporate-ID", "Consent-ID", "X-GTW-IBAN");
+        List<String> headers = Arrays.asList("Authorization", "PSU-ID", "PSU-Corporate-ID", "Consent-ID", "X-GTW-IBAN",
+            "Location");
         for (String header : headers) {
             String sanitizedHeader = anonymizer.sanitizeHeader(header, "1234567");
             assertThat(sanitizedHeader).isEqualTo(REPLACEMENT);
@@ -108,6 +114,92 @@ public class Xs2AHttpLogSanitizerTest {
     @Test
     public void sanitizeResponseBodyWithSerializationError() {
         String body = anonymizer.sanitizeResponseBody(Arrays.asList("abc", "123"), "application/json");
-        assertThat(body).isEqualTo(REPLACEMENT);
+        assertThat(body).isEqualTo("[\"" + REPLACEMENT + "\",\"" + REPLACEMENT + "\"]");
+    }
+
+    @Test
+    public void sanitizeResponseBodyAsString() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> map = new HashMap<>();
+        map.put("key", "value");
+
+        String body = anonymizer.sanitizeResponseBody(mapper.writeValueAsString(map), "application/json");
+        assertThat(body).isEqualTo("{\"key\":\"" + REPLACEMENT + "\"}");
+    }
+
+    @Test
+    void sanitizeRequestBody() throws UnsupportedEncodingException {
+        String json = "{" +
+                          "\"access\":{" +
+                          "\"balances\":[" +
+                          "{" +
+                          "\"iban\":\"\"," +
+                          "\"currency\":\"EUR\"" +
+                          "}" +
+                          "]," +
+                          "\"transactions\":[" +
+                          "{" +
+                          "\"iban\":\"DE82500105176963379138\"," +
+                          "\"currency\":\"EUR\"" +
+                          "}" +
+                          "]," +
+                          "\"accounts\":[" +
+                          "{" +
+                          "\"iban\":\"DE82500105176963379138\"," +
+                          "\"currency\":\"EUR\"" +
+                          "}" +
+                          "]" +
+                          "}," +
+                          "\"combinedServiceIndicator\":\"false\"," +
+                          "\"recurringIndicator\":\"true\"," +
+                          "\"validUntil\":\"01-01-2020\"," +
+                          "\"frequencyPerDay\":\"4\"" +
+                          "}";
+
+        String expectedSanitizedJson = "{" +
+                                           "\"access\":{" +
+                                           "\"balances\":[" +
+                                           "{" +
+                                           "\"iban\":\"******\"," +
+                                           "\"currency\":\"******\"" +
+                                           "}" +
+                                           "]," +
+                                           "\"transactions\":[" +
+                                           "{" +
+                                           "\"iban\":\"******\"," +
+                                           "\"currency\":\"******\"" +
+                                           "}" +
+                                           "]," +
+                                           "\"accounts\":[" +
+                                           "{" +
+                                           "\"iban\":\"******\"," +
+                                           "\"currency\":\"******\"" +
+                                           "}" +
+                                           "]" +
+                                           "}," +
+                                           "\"combinedServiceIndicator\":\"******\"," +
+                                           "\"recurringIndicator\":\"******\"," +
+                                           "\"validUntil\":\"******\"," +
+                                           "\"frequencyPerDay\":\"******\"" +
+                                           "}";
+
+
+        String actualSanitizedJson = anonymizer.sanitizeRequestBody(new StringEntity(json), "application/json");
+
+        assertThat(actualSanitizedJson).isEqualTo(expectedSanitizedJson);
+    }
+
+    @Test
+    void sanitizeRequestBodyNotJsonContentType() throws UnsupportedEncodingException {
+        String actualSanitizedJson = anonymizer.sanitizeRequestBody(new StringEntity("<xml>"), "application/xml");
+
+        assertThat(actualSanitizedJson).isEqualTo(REPLACEMENT);
+    }
+
+    @Test
+    void sanitizeRequestBodyEmptyBody() throws UnsupportedEncodingException {
+        String actualSanitizedJson = anonymizer.sanitizeRequestBody(new StringEntity(""), "application/json");
+
+        assertThat(actualSanitizedJson).isEqualTo(REPLACEMENT);
     }
 }

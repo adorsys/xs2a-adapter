@@ -20,8 +20,12 @@ import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request.Builder.Interceptor;
+import de.adorsys.xs2a.adapter.service.PsuPasswordEncryptionService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.service.RequestParams;
+import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.model.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -30,8 +34,57 @@ import java.util.Map;
 public class DeutscheBankAccountInformationService extends BaseAccountInformationService {
     private static final String DATE_HEADER = "Date";
 
-    public DeutscheBankAccountInformationService(Aspsp aspsp, HttpClient httpClient, Interceptor interceptor) {
+    private final PsuPasswordEncryptionService psuPasswordEncryptionService;
+
+    public DeutscheBankAccountInformationService(Aspsp aspsp,
+                                                 HttpClient httpClient,
+                                                 Interceptor interceptor,
+                                                 PsuPasswordEncryptionService psuPasswordEncryptionService) {
         super(aspsp, httpClient, interceptor);
+        this.psuPasswordEncryptionService = psuPasswordEncryptionService;
+    }
+
+    @Override
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
+                                                                       UpdatePsuAuthentication updatePsuAuthentication) {
+        PsuData psuData = updatePsuAuthentication.getPsuData();
+
+        if (passwordEncryptionRequired(psuData)) {
+            encryptPassword(psuData);
+        }
+
+        return super.startConsentAuthorisation(consentId, requestHeaders, requestParams, updatePsuAuthentication);
+    }
+
+    @Override
+    public Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
+                                                                           String authorisationId,
+                                                                           RequestHeaders requestHeaders,
+                                                                           RequestParams requestParams,
+                                                                           UpdatePsuAuthentication updatePsuAuthentication) {
+        PsuData psuData = updatePsuAuthentication.getPsuData();
+
+        if (passwordEncryptionRequired(psuData)) {
+            encryptPassword(psuData);
+        }
+
+        return super.updateConsentsPsuData(consentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication);
+    }
+
+    private boolean passwordEncryptionRequired(PsuData psuData) {
+        return StringUtils.isNotBlank(psuData.getEncryptedPassword());
+    }
+
+    private void encryptPassword(PsuData psuData) {
+        String password = psuData.getEncryptedPassword();
+        String encryptedPassword = psuPasswordEncryptionService.encrypt(password);
+        psuData.setEncryptedPassword(encryptedPassword);
     }
 
     @Override

@@ -32,8 +32,10 @@ public class CommerzbankAccountInformationService extends BaseAccountInformation
     }
 
     @Override
-    public Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
-        return getBalances(accountId, requestHeaders, CommerzbankBalanceReport.class,
+    public Response<BalanceReport> getBalances(String accountId,
+                                               RequestHeaders requestHeaders,
+                                               RequestParams requestParams) {
+        return getBalances(accountId, requestHeaders, requestParams, CommerzbankBalanceReport.class,
             balanceReportMapper::toBalanceReport);
     }
 }

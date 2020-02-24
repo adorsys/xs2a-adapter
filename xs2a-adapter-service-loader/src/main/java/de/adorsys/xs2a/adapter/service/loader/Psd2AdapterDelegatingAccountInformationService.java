@@ -17,9 +17,11 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
     }
 
     @Override
-    public Response<ConsentsResponse> createConsent(Map<String, String> headers, Consents consents) {
+    public Response<ConsentsResponse> createConsent(Map<String, String> queryParameters,
+                                                    Map<String, String> headers,
+                                                    Consents consents) {
         return getAccountInformationService(headers)
-            .createConsent(headers, consents);
+            .createConsent(queryParameters, headers, consents);
     }
 
     private Psd2AccountInformationService getAccountInformationService(Map<String, String> headers) {
@@ -27,46 +29,55 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
     }
 
     @Override
-    public Response<ConsentInformationResponse> getConsentInformation(String consentId, Map<String, String> headers) {
+    public Response<ConsentInformationResponse> getConsentInformation(String consentId,
+                                                                      Map<String, String> queryParameters,
+                                                                      Map<String, String> headers) {
         return getAccountInformationService(headers)
-            .getConsentInformation(consentId, headers);
+            .getConsentInformation(consentId, queryParameters, headers);
     }
 
     @Override
-    public Response<Void> deleteConsent(String consentId, Map<String, String> headers) {
+    public Response<Void> deleteConsent(String consentId,
+                                        Map<String, String> queryParameters,
+                                        Map<String, String> headers) {
         return getAccountInformationService(headers)
-            .deleteConsent(consentId, headers);
+            .deleteConsent(consentId, queryParameters, headers);
     }
 
     @Override
-    public Response<ConsentStatusResponse> getConsentStatus(String consentId, Map<String, String> headers) {
+    public Response<ConsentStatusResponse> getConsentStatus(String consentId,
+                                                            Map<String, String> queryParameters,
+                                                            Map<String, String> headers) {
         return getAccountInformationService(headers)
-            .getConsentStatus(consentId, headers);
+            .getConsentStatus(consentId, queryParameters, headers);
     }
 
     @Override
     public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
-                                                 String authorisationId,
-                                                 Map<String, String> headers) {
+                                                           String authorisationId,
+                                                           Map<String, String> queryParameters,
+                                                           Map<String, String> headers) {
         return getAccountInformationService(headers)
-            .getConsentScaStatus(consentId, authorisationId, headers);
+            .getConsentScaStatus(consentId, authorisationId, queryParameters, headers);
     }
 
     @Override
     public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       Map<String, String> queryParameters,
                                                                        Map<String, String> headers,
                                                                        UpdateAuthorisation updateAuthentication) {
         return getAccountInformationService(headers)
-            .startConsentAuthorisation(consentId, headers, updateAuthentication);
+            .startConsentAuthorisation(consentId, queryParameters, headers, updateAuthentication);
     }
 
     @Override
     public Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId,
-                                                             String authorisationId,
-                                                             Map<String, String> headers,
-                                                             UpdateAuthorisation updateAuthentication) {
+                                                                       String authorisationId,
+                                                                       Map<String, String> queryParameters,
+                                                                       Map<String, String> headers,
+                                                                       UpdateAuthorisation updateAuthentication) {
         return getAccountInformationService(headers)
-            .updateConsentsPsuData(consentId, authorisationId, headers, updateAuthentication);
+            .updateConsentsPsuData(consentId, authorisationId, queryParameters, headers, updateAuthentication);
     }
 
     @Override

@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
@@ -24,11 +25,14 @@ public class AdorsysAccountInformationService extends BaseAccountInformationServ
     }
 
     @Override
-    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
-        return createConsent(
-            requestHeaders, body, identity(),
-            consentCreationResponseHandler(getIdpUri(), ConsentCreationResponse.class)
-        );
+    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                           RequestParams requestParams,
+                                                           Consents body) {
+        return createConsent(requestHeaders,
+            requestParams,
+            body,
+            identity(),
+            consentCreationResponseHandler(getIdpUri(), ConsentCreationResponse.class));
     }
 
     @Override

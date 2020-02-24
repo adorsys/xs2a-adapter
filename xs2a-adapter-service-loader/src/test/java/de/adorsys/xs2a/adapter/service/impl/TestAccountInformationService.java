@@ -8,34 +8,44 @@ import de.adorsys.xs2a.adapter.service.model.*;
 
 public class TestAccountInformationService implements AccountInformationService {
     @Override
-    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
+    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                           RequestParams requestParams,
+                                                           Consents body) {
         return null;
     }
 
     @Override
-    public Response<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders) {
+    public Response<ConsentInformation> getConsentInformation(String consentId,
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams) {
         return null;
     }
 
     @Override
-    public Response<Void> deleteConsent(String consentId, RequestHeaders requestHeaders) {
+    public Response<Void> deleteConsent(String consentId,
+                                        RequestHeaders requestHeaders,
+                                        RequestParams requestParams) {
         return null;
     }
 
     @Override
-    public Response<ConsentStatusResponse> getConsentStatus(String consentId, RequestHeaders requestHeaders) {
-        return null;
-    }
-
-    @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
-                                                                       RequestHeaders requestHeaders) {
+    public Response<ConsentStatusResponse> getConsentStatus(String consentId,
+                                                            RequestHeaders requestHeaders,
+                                                            RequestParams requestParams) {
         return null;
     }
 
     @Override
     public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams) {
+        return null;
+    }
+
+    @Override
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
                                                                        UpdatePsuAuthentication updatePsuAuthentication) {
         return null;
     }
@@ -44,6 +54,7 @@ public class TestAccountInformationService implements AccountInformationService 
     public Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
                                                                                  String authorisationId,
                                                                                  RequestHeaders requestHeaders,
+                                                                                 RequestParams requestParams,
                                                                                  SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         return null;
     }
@@ -52,6 +63,7 @@ public class TestAccountInformationService implements AccountInformationService 
     public Response<ScaStatusResponse> updateConsentsPsuData(String consentId,
                                                              String authorisationId,
                                                              RequestHeaders requestHeaders,
+                                                             RequestParams requestParams,
                                                              TransactionAuthorisation transactionAuthorisation) {
         return null;
     }
@@ -60,6 +72,7 @@ public class TestAccountInformationService implements AccountInformationService 
     public Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
                                                                            String authorisationId,
                                                                            RequestHeaders requestHeaders,
+                                                                           RequestParams requestParams,
                                                                            UpdatePsuAuthentication updatePsuAuthentication) {
         return null;
     }
@@ -87,19 +100,23 @@ public class TestAccountInformationService implements AccountInformationService 
     @Override
     public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
                                                            String authorisationId,
-                                                           RequestHeaders requestHeaders) {
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
         return null;
     }
 
     @Override
-    public Response<BalanceReport> getBalances(String accountId, RequestHeaders requestHeaders) {
+    public Response<BalanceReport> getBalances(String accountId,
+                                               RequestHeaders requestHeaders,
+                                               RequestParams requestParams) {
         return null;
     }
 
     @Override
     public Response<TransactionDetails> getTransactionDetails(String accountId,
                                                               String transactionId,
-                                                              RequestHeaders requestHeaders) {
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams) {
         return null;
     }
 }

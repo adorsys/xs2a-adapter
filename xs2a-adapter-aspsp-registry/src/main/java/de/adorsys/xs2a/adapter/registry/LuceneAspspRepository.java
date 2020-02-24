@@ -14,6 +14,8 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.iban4j.Iban;
 import org.iban4j.Iban4jException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 
 public class LuceneAspspRepository implements AspspRepository {
+    private static final Logger logger = LoggerFactory.getLogger(LuceneAspspRepository.class);
+
     private static final String SEMICOLON_SEPARATOR = ";";
     private static final String ZERO_OR_MORE_OF_ANY_CHARS_REGEX = ".*";
     private static final float HIGH_PRIORITY = 1.5f;
@@ -128,6 +132,7 @@ public class LuceneAspspRepository implements AspspRepository {
 
     @Override
     public Optional<Aspsp> findById(String id) {
+        logger.debug("Searching for ASPSPs: by ID [{}]", id);
         List<Aspsp> aspsps = find(new TermQuery(new Term(ID_FIELD_NAME, id)), null, 1);
         if (aspsps.isEmpty()) {
             return Optional.empty();
@@ -185,6 +190,7 @@ public class LuceneAspspRepository implements AspspRepository {
 
     @Override
     public List<Aspsp> findByBic(String bic, String after, int size) {
+        logger.debug("Searching for ASPSPs: by BIC [{}]", bic);
         Query query = getBicQuery(bic);
         return find(query, after, size);
     }
@@ -199,12 +205,15 @@ public class LuceneAspspRepository implements AspspRepository {
             ScoreDoc afterDoc = parseScoreDoc(after);
             TopDocs topDocs = indexSearcher.searchAfter(afterDoc, query, size);
             ScoreDoc[] scoreDocs = topDocs.scoreDocs;
-            return Arrays.stream(scoreDocs)
-                .map(this::getDocumentAsAspsp)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(toList());
+            List<Aspsp> aspsps = Arrays.stream(scoreDocs)
+                                      .map(this::getDocumentAsAspsp)
+                                      .filter(Optional::isPresent)
+                                      .map(Optional::get)
+                                      .collect(toList());
+            logger.debug("Searching for ASPSPs: {} record(s) have been found", aspsps.size());
+            return aspsps;
         } catch (IndexNotFoundException e) {
+            logger.debug("Searching for ASPSPs: no records have been found");
             return Collections.emptyList();
         } catch (IOException e) {
             throw new RegistryIOException(e);
@@ -249,6 +258,7 @@ public class LuceneAspspRepository implements AspspRepository {
 
     @Override
     public List<Aspsp> findByBankCode(String bankCode, String after, int size) {
+        logger.debug("Searching for ASPSPs: by bank code [{}}", bankCode);
         Query query = getBankCodeQuery(bankCode);
         return find(query, after, size);
     }
@@ -259,6 +269,7 @@ public class LuceneAspspRepository implements AspspRepository {
 
     @Override
     public List<Aspsp> findByName(String name, String after, int size) {
+        logger.debug("Searching for ASPSPs: by name [{}]", name);
         BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
         queryBuilder.add(getNameFuzzyQuery(name), BooleanClause.Occur.SHOULD);
         queryBuilder.add(getNameRegexpQuery(name), BooleanClause.Occur.SHOULD);
@@ -280,12 +291,14 @@ public class LuceneAspspRepository implements AspspRepository {
 
     @Override
     public List<Aspsp> findAll(String after, int size) {
+        logger.debug("Searching for ASPSPs: any {} records", size);
         Query query = new MatchAllDocsQuery();
         return find(query, after, size);
     }
 
     @Override
     public List<Aspsp> findLike(Aspsp aspsp, String after, int size) {
+        logger.debug(buildFindLikeLoggingMessage(aspsp));
         BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
         if (aspsp.getName() != null) {
             queryBuilder.add(buildQueryWithPriority(getNameFuzzyQuery(aspsp.getName()), LOW_PRIORITY), BooleanClause.Occur.SHOULD);
@@ -308,6 +321,31 @@ public class LuceneAspspRepository implements AspspRepository {
         }
 
         return find(queryBuilder.build(), after, size);
+    }
+
+    private String buildFindLikeLoggingMessage(Aspsp aspsp) {
+        StringBuilder messageBuilder = new StringBuilder("Searching for ASPSPs: by");
+
+        if (aspsp.getName() != null) {
+            messageBuilder.append(" name [")
+                .append(aspsp.getName())
+                .append("] ,");
+        }
+
+        if (aspsp.getBic() != null) {
+            messageBuilder.append(" BIC [")
+                .append(aspsp.getBic())
+                .append("] ,");
+        }
+
+        if (aspsp.getBankCode() != null) {
+            messageBuilder.append(" bank code [")
+                .append(aspsp.getBankCode())
+                .append("] ,");
+        }
+
+        // .substring(0, messageBuilder.length() - 1) to remove the comma
+        return messageBuilder.toString().substring(0, messageBuilder.length() - 1);
     }
 
     @Override

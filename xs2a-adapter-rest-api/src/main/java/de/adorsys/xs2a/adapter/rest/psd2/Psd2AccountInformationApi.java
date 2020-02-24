@@ -43,7 +43,8 @@ public interface Psd2AccountInformationApi {
         method = RequestMethod.POST,
         consumes = "application/json"
     )
-    ResponseEntity<ConsentsResponseTO> createConsent(@RequestHeader Map<String, String> headers,
+    ResponseEntity<ConsentsResponseTO> createConsent(@RequestParam Map<String, String> queryParameters,
+                                                     @RequestHeader Map<String, String> headers,
                                                      @RequestBody ConsentsTO body);
 
     @RequestMapping(
@@ -51,30 +52,35 @@ public interface Psd2AccountInformationApi {
         method = RequestMethod.GET
     )
     ResponseEntity<ConsentInformationResponseTO> getConsentInformation(
-        @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers);
+        @PathVariable("consentId") String consentId,
+        @RequestParam Map<String, String> queryParameters,
+        @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/consents/{consentId}",
         method = RequestMethod.DELETE
     )
     ResponseEntity<Void> deleteConsent(@PathVariable("consentId") String consentId,
+                                       @RequestParam Map<String, String> queryParameters,
                                        @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/consents/{consentId}/status",
         method = RequestMethod.GET
     )
-    ResponseEntity<ConsentStatusResponseTO> getConsentStatus(
-        @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers);
+    ResponseEntity<ConsentStatusResponseTO> getConsentStatus(@PathVariable("consentId") String consentId,
+                                                             @RequestParam Map<String, String> queryParameters,
+                                                             @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/consents/{consentId}/authorisations",
         method = RequestMethod.POST,
         consumes = "application/json"
     )
-    ResponseEntity<StartScaProcessResponseTO> startConsentAuthorisation(
-        @PathVariable("consentId") String consentId, @RequestHeader Map<String, String> headers,
-        @RequestBody UpdateAuthorisationTO body);
+    ResponseEntity<StartScaProcessResponseTO> startConsentAuthorisation(@PathVariable("consentId") String consentId,
+                                                                        @RequestParam Map<String, String> queryParameters,
+                                                                        @RequestHeader Map<String, String> headers,
+                                                                        @RequestBody UpdateAuthorisationTO body);
 
     @RequestMapping(
         value = "/consents/{consentId}/authorisations/{authorisationId}",
@@ -83,6 +89,7 @@ public interface Psd2AccountInformationApi {
     ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(
         @PathVariable("consentId") String consentId,
         @PathVariable("authorisationId") String authorisationId,
+        @RequestParam Map<String, String> queryParameters,
         @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
@@ -93,6 +100,7 @@ public interface Psd2AccountInformationApi {
     ResponseEntity<UpdateAuthorisationResponseTO> updateConsentsPsuData(@PathVariable("consentId") String consentId,
                                                                         @PathVariable("authorisationId")
                                                                             String authorisationId,
+                                                                        @RequestParam Map<String, String> queryParameters,
                                                                         @RequestHeader Map<String, String> headers,
                                                                         @RequestBody UpdateAuthorisationTO body);
 }

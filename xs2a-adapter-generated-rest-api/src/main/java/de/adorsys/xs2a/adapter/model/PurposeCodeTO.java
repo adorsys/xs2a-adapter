@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 import javax.annotation.Generated;
 
-@Generated("xs2a-codegen")
+@Generated("xs2a-adapter-codegen")
 public enum PurposeCodeTO {
     BKDF("BKDF"),
 

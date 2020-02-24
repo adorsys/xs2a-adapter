@@ -2,7 +2,7 @@ package de.adorsys.xs2a.adapter.model;
 
 import javax.annotation.Generated;
 
-@Generated("xs2a-codegen")
+@Generated("xs2a-adapter-codegen")
 public class PsuDataTO {
     private String password;
 

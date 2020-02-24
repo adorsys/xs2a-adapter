@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.adorsys.xs2a.adapter</groupId>
         <artifactId>xs2a-adapter</artifactId>
-        <version>0.0.6-SNAPSHOT</version>
+        <version>0.0.8-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
 
@@ -20,6 +20,12 @@
             <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>xs2a-adapter-service-api-adapter</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>${nimbus-jose-jwt.version}</version>
         </dependency>
 
         <!-- test dependencies -->

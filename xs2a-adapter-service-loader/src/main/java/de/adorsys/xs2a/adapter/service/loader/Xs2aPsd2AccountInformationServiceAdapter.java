@@ -37,7 +37,7 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
     public Response<ReadAccountBalanceResponse> getBalances(String accountId,
                                                             Map<String, String> queryParameters,
                                                             Map<String, String> headers) throws IOException {
-        return service.getBalances(accountId, RequestHeaders.fromMap(headers))
+        return service.getBalances(accountId, RequestHeaders.fromMap(headers), RequestParams.fromMap(queryParameters))
             .map(mapper::toReadAccountBalanceResponse);
     }
 
@@ -56,74 +56,111 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
     }
 
     @Override
-    public Response<ConsentsResponse> createConsent(Map<String, String> headers, Consents consents) {
-        return service.createConsent(RequestHeaders.fromMap(headers), mapper.map(consents))
+    public Response<ConsentsResponse> createConsent(Map<String, String> queryParameters,
+                                                    Map<String, String> headers,
+                                                    Consents consents) {
+        return service.createConsent(RequestHeaders.fromMap(headers),
+            RequestParams.fromMap(queryParameters),
+            mapper.map(consents))
             .map(mapper::toConsentsResponse);
     }
 
     @Override
-    public Response<ConsentInformationResponse> getConsentInformation(String consentId, Map<String, String> headers) {
-        return service.getConsentInformation(consentId, RequestHeaders.fromMap(headers))
+    public Response<ConsentInformationResponse> getConsentInformation(String consentId,
+                                                                      Map<String, String> queryParameters,
+                                                                      Map<String, String> headers) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(queryParameters);
+        return service.getConsentInformation(consentId, requestHeaders, requestParams)
             .map(mapper::toConsentInformationResponse);
     }
 
     @Override
-    public Response<Void> deleteConsent(String consentId, Map<String, String> headers) {
-        return service.deleteConsent(consentId, RequestHeaders.fromMap(headers));
+    public Response<Void> deleteConsent(String consentId,
+                                        Map<String, String> queryParameters,
+                                        Map<String, String> headers) {
+        return service.deleteConsent(consentId,
+            RequestHeaders.fromMap(headers),
+            RequestParams.fromMap(queryParameters));
     }
 
     @Override
-    public Response<ConsentStatusResponse> getConsentStatus(String consentId, Map<String, String> headers) {
-        return service.getConsentStatus(consentId, RequestHeaders.fromMap(headers))
+    public Response<ConsentStatusResponse> getConsentStatus(String consentId,
+                                                            Map<String, String> queryParameters,
+                                                            Map<String, String> headers) {
+        RequestParams requestParams = RequestParams.fromMap(queryParameters);
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        return service.getConsentStatus(consentId, requestHeaders, requestParams)
             .map(mapper::toConsentStatusResponse);
     }
 
     @Override
     public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
                                                            String authorisationId,
+                                                           Map<String, String> queryParameters,
                                                            Map<String, String> headers) {
-        return service.getConsentScaStatus(consentId, authorisationId, RequestHeaders.fromMap(headers))
+        return service.getConsentScaStatus(consentId,
+            authorisationId,
+            RequestHeaders.fromMap(headers),
+            RequestParams.fromMap(queryParameters))
             .map(mapper::toScaStatusResponse);
     }
 
     @Override
     public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       Map<String, String> queryParameters,
                                                                        Map<String, String> headers,
                                                                        UpdateAuthorisation updateAuthorisation) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(queryParameters);
         if (updateAuthorisation.getPsuData() == null &&
                 updateAuthorisation.getAuthenticationMethodId() == null &&
                 updateAuthorisation.getScaAuthenticationData() == null) {
-            return service.startConsentAuthorisation(consentId, requestHeaders)
+            return service.startConsentAuthorisation(consentId, requestHeaders, requestParams)
                 .map(mapper::toStartScaprocessResponse);
         }
-        return service.startConsentAuthorisation(consentId, requestHeaders, mapper.map(updateAuthorisation))
+        UpdatePsuAuthentication updatePsuAuthentication = mapper.map(updateAuthorisation);
+        return service.startConsentAuthorisation(consentId, requestHeaders, requestParams, updatePsuAuthentication)
             .map(mapper::toStartScaprocessResponse);
     }
 
     @Override
     public Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId,
                                                                        String authorisationId,
+                                                                       Map<String, String> queryParameters,
                                                                        Map<String, String> headers,
                                                                        UpdateAuthorisation updateAuthorisation) {
 
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(queryParameters);
         if (updateAuthorisation.getAuthenticationMethodId() != null) {
             SelectPsuAuthenticationMethod selectPsuAuthenticationMethod =
                 mapper.toSelectPsuAuthenticationMethod(updateAuthorisation);
-            return service.updateConsentsPsuData(consentId, authorisationId, requestHeaders, selectPsuAuthenticationMethod)
+            return service.updateConsentsPsuData(consentId,
+                authorisationId,
+                requestHeaders,
+                requestParams,
+                selectPsuAuthenticationMethod)
                 .map(mapper::toUpdateAuthorisationResponse);
         }
         if (updateAuthorisation.getPsuData() != null) {
             UpdatePsuAuthentication updatePsuAuthentication =
                 mapper.toUpdatePsuAuthentication(updateAuthorisation);
-            return service.updateConsentsPsuData(consentId, authorisationId, requestHeaders, updatePsuAuthentication)
+            return service.updateConsentsPsuData(consentId,
+                authorisationId,
+                requestHeaders,
+                requestParams,
+                updatePsuAuthentication)
                 .map(mapper::toUpdateAuthorisationResponse);
         }
         if (updateAuthorisation.getScaAuthenticationData() != null) {
             TransactionAuthorisation transactionAuthorisation =
                 mapper.toTransactionAuthorisation(updateAuthorisation);
-            return service.updateConsentsPsuData(consentId, authorisationId, requestHeaders, transactionAuthorisation)
+            return service.updateConsentsPsuData(consentId,
+                authorisationId,
+                requestHeaders,
+                requestParams,
+                transactionAuthorisation)
                 .map(mapper::toUpdateAuthorisationResponse);
         }
 
