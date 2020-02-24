@@ -14,9 +14,9 @@ import java.util.*;
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 
 public class AccountInformationApi {
-    private static final String ACCOUNTS_ENDPOINT = "/v2/accounts";
+    private static final String ACCOUNTS_ENDPOINT = "/v3/accounts";
     private static final String TRANSACTIONS_ENDPOINT = "/v2/accounts/{{accountId}}/transactions";
-    private static final String BALANCES_ENDPOINT = "/v2/accounts/{{accountId}}/balances";
+    private static final String BALANCES_ENDPOINT = "/v3/accounts/{{accountId}}/balances";
 
     private final String baseUri;
     private final HttpClient httpClient;

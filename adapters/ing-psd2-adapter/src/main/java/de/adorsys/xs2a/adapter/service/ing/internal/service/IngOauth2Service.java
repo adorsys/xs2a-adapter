@@ -25,14 +25,26 @@ public class IngOauth2Service {
     }
 
     public URI getAuthorizationRequestUri(Oauth2Service.Parameters parameters)  {
+        ParametersValidationService.validateScope(parameters);
         ClientAuthentication clientAuthentication =
             clientAuthenticationFactory.newClientAuthentication(getApplicationToken());
-        AuthorizationURLResponse authorizationUrlResponse = oauth2Api.getAuthorizationUrl(clientAuthentication)
+        AuthorizationURLResponse authorizationUrlResponse = oauth2Api.getAuthorizationUrl(clientAuthentication, parameters.getScope())
             .getBody();
 
         parameters.setClientId(getClientId());
+        clearParameters(parameters);
 
         return URI.create(StringUri.withQuery(authorizationUrlResponse.getLocation(), parameters.asMap()));
+    }
+
+    private void clearParameters(Oauth2Service.Parameters parameters) {
+        if (parameters.get("limit") != null) {
+            parameters.remove("limit");
+        }
+
+        if (parameters.get("balanceTypes") != null) {
+            parameters.remove("balanceTypes");
+        }
     }
 
     private ApplicationTokenResponse getApplicationToken() {

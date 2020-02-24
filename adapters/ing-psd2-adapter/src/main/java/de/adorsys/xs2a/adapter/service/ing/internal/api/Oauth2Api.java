@@ -2,6 +2,8 @@ package de.adorsys.xs2a.adapter.service.ing.internal.api;
 
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
+import de.adorsys.xs2a.adapter.http.StringUri;
+import de.adorsys.xs2a.adapter.http.UriBuilder;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.ApplicationTokenResponse;
@@ -41,8 +43,9 @@ public class Oauth2Api {
             .send(clientAuthentication, jsonResponseHandler(TokenResponse.class));
     }
 
-    public Response<AuthorizationURLResponse> getAuthorizationUrl(Request.Builder.Interceptor clientAuthentication) {
-        return httpClient.get(baseUri + AUTHORIZATION_ENDPOINT)
+    public Response<AuthorizationURLResponse> getAuthorizationUrl(Request.Builder.Interceptor clientAuthentication, String scope) {
+        String uri = StringUri.fromElements(baseUri + AUTHORIZATION_ENDPOINT + "?scope=" + scope);
+        return httpClient.get(uri)
             .send(clientAuthentication, jsonResponseHandler(AuthorizationURLResponse.class));
     }
 }
