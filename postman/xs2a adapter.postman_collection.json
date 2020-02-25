@@ -103,8 +103,12 @@
 									"        pm.globals.set(\"authorisationId\", scaRedirect.split('/').pop());",
 									"        postman.setNextRequest(\"SCA/Redirect/DAB&Consors&Sparda_AIS\");",
 									"    }",
-									"} else if (jsonData._links.startAuthorization) {",
-									"    postman.setNextRequest(\"SCA/Redirect/001a_Msg2\");",
+									"} else if (jsonData._links.startAuthorisation) {",
+									"    if (pm.variables.get(\"adapter\") === \"unicredit\") {",
+									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2\");",
+									"    } else {",
+									"        postman.setNextRequest(\"SCA/Redirect/001a_Msg2\");",
+									"    }",
 									"} else if (jsonData._links.scaOAuth) {",
 									"    pm.globals.set(\"scaOAuth\", jsonData._links.scaOAuth.href);",
 									"    postman.setNextRequest(\"oauth2_token_static_code\");",
@@ -540,18 +544,26 @@
 									"});",
 									"",
 									"// workaround for Unicredit Bank",
-									"if (jsonData._links.selectAuthenticationMethod) {",
-									"    var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
-									"    pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());",
-									"} else if (jsonData._links.authoriseTransaction) {",
-									"    var authoriseTransactionUri = jsonData._links.authoriseTransaction.href;",
-									"    pm.globals.set(\"authorisationId\", authoriseTransactionUri.split(\"/\").pop());",
-									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4\");",
-									"} else if (jsonData._links.updatePsuAuthentication) {",
-                  "    pm.globals.set(\"authorisationId\", jsonData.authorisationId);",
-                  "    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3\");",
-                  "}"
-                ],
+									"if (jsonData._links.updatePsuAuthentication) {",
+									"    pm.globals.set(\"authorisationId\", jsonData.authorisationId);",
+									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "3e2956bc-2b53-4b7e-b01c-74d9b28ffa88",
+								"exec": [
+									"if (pm.variables.get(\"adapter\") === \"unicredit\") {",
+									"    pm.request.headers.add({",
+									"        key: \"TPP-Redirect-URI\",",
+									"        value: \"https://example.com\"",
+									"    });",
+									"}"
+								],
 								"type": "text/javascript"
 							}
 						}
@@ -700,24 +712,32 @@
 								"id": "7ae7e14f-31f0-45c2-9004-47a64d28fe92",
 								"exec": [
 									"var jsonData = pm.response.json();",
-									"pm.test(\"scaStatus is psuAuthenticated\", function () {",
-									"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
-									"});",
 									"",
-									"pm.test(\"SCA methods are available\", function () {",
-									"    pm.response.to.have.jsonBody(\"scaMethods\");",
-									"    postman.setGlobalVariable(\"authenticationMethodId_AIS\",jsonData.scaMethods[0].authenticationMethodId);",
-									"});",
+									"if (pm.variables.get(\"adapter\") === \"unicredit\") {",
+									"    var href = jsonData._links.authoriseTransaction.href;",
+									"    var queryParams = href.slice(href.indexOf(\"?\"), href.length);",
+									"    pm.globals.set(\"queryParams\", queryParams);",
+									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4\");",
+									"} else {",
+									"    pm.test(\"scaStatus is psuAuthenticated\", function () {",
+									"        pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
+									"    });",
 									"",
-									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
-									"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3\");",
-									"});",
-                  "",
-                  "// workaround for Unicredit",
-                  "if (jsonData._links.authoriseTransaction) {",
-                  "    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4\");",
-                  "}"
+									"    pm.test(\"SCA methods are available\", function () {",
+									"        pm.response.to.have.jsonBody(\"scaMethods\");",
+									"        postman.setGlobalVariable(\"authenticationMethodId_AIS\",jsonData.scaMethods[0].authenticationMethodId);",
+									"    });",
+									"",
+									"    pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
+									"        pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3\");",
+									"    });",
+									"}",
+									"",
+									"// workaround for Unicredit",
+									"if (jsonData._links.authoriseTransaction) {",
+									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4\");",
+									"}"
 								],
 								"type": "text/javascript"
 							}
@@ -937,6 +957,18 @@
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
 									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "844b64ae-d4b1-47af-a55a-6475a88c0967",
+								"exec": [
+									"if (pm.variables.get(\"adapter\") === \"unicredit\") {",
+									"    pm.request.url = request.url + pm.variables.get(\"queryParams\");",
+									"}"
 								],
 								"type": "text/javascript"
 							}
