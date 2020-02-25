@@ -14,6 +14,9 @@ public interface FiduciaResponseMapper {
     SelectPsuAuthenticationMethodResponse toSelectPsuAuthenticationMethodResponse(FiduciaUpdatePsuDataResponse value);
 
     default List<String> toListOfStrings(String challengeData) {
+        if (challengeData == null) {
+            return null;
+        }
         return Collections.singletonList(challengeData);
     }
 
