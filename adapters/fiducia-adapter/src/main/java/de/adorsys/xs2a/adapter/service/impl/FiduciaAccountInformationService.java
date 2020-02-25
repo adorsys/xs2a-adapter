@@ -17,16 +17,17 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.fiducia.mapper.FiduciaResponseMapper;
+import de.adorsys.xs2a.adapter.fiducia.model.FiduciaStartScaProcessResponse;
+import de.adorsys.xs2a.adapter.fiducia.model.FiduciaUpdatePsuDataResponse;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
-import de.adorsys.xs2a.adapter.service.model.Consents;
-import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
+import de.adorsys.xs2a.adapter.service.model.*;
+import org.mapstruct.factory.Mappers;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -44,6 +45,7 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
             "The booking status from the request has to be changed to the supported ones.",
         SUPPORTED_BOOKING_STATUSES
     );
+    private static final FiduciaResponseMapper responseMapper = Mappers.getMapper(FiduciaResponseMapper.class);
 
     public FiduciaAccountInformationService(Aspsp aspsp,
                                             HttpClient httpClient,
@@ -109,5 +111,37 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
     private boolean notSupportedBookingStatus(RequestParams requestParams) {
         String bookingStatus = requestParams.toMap().get(RequestParams.BOOKING_STATUS);
         return bookingStatus != null && !SUPPORTED_BOOKING_STATUSES.contains(bookingStatus);
+    }
+
+    @Override
+    public Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(
+        String consentId,
+        String authorisationId,
+        RequestHeaders requestHeaders,
+        RequestParams requestParams,
+        SelectPsuAuthenticationMethod selectPsuAuthenticationMethod
+    ) {
+        return super.updateConsentsPsuData(consentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            selectPsuAuthenticationMethod,
+            FiduciaUpdatePsuDataResponse.class,
+            responseMapper::toSelectPsuAuthenticationMethodResponse);
+    }
+
+    @Override
+    public Response<StartScaProcessResponse> startConsentAuthorisation(
+        String consentId,
+        RequestHeaders requestHeaders,
+        RequestParams requestParams,
+        UpdatePsuAuthentication updatePsuAuthentication
+    ) {
+        return super.startConsentAuthorisation(consentId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication,
+            FiduciaStartScaProcessResponse.class,
+            responseMapper::toStartScaProcessResponse);
     }
 }
