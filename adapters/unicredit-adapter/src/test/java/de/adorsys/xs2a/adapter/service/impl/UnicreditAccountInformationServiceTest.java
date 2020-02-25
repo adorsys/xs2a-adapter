@@ -32,6 +32,7 @@ class UnicreditAccountInformationServiceTest {
     private static final String ALTERNATIVE_PSU_ID_TYPE = "UCEBANKINGGLOBAL";
     public static final String AUTHORISATION_ID = "authorisation-id";
     public static final String AUTHORISATION_URL = CONSENT_ID_URL + "?authenticationCurrentNumber=" + AUTHORISATION_ID;
+    private static final String TPP_REDIRECT_URI = "http://example.com";
     private HttpClient httpClient;
     private UnicreditAccountInformationService accountInformationService;
 
@@ -45,6 +46,7 @@ class UnicreditAccountInformationServiceTest {
     void createConsent_wrongPsuIdTypeValue() {
         Map<String, String> headersMap = new HashMap<>();
         headersMap.put(RequestHeaders.PSU_ID_TYPE, WRONG_PSU_ID_TYPE);
+        headersMap.put(RequestHeaders.TPP_REDIRECT_URI, TPP_REDIRECT_URI);
 
         Request.Builder requestBuilder = new RequestBuilderImpl(httpClient, "POST", CONSENT_URL);
         when(httpClient.post(eq(CONSENT_URL)))
@@ -67,6 +69,7 @@ class UnicreditAccountInformationServiceTest {
     void createConsent_defaultPsuIdTypeValue() {
         Map<String, String> headersMap = new HashMap<>();
         headersMap.put(RequestHeaders.PSU_ID_TYPE, DEFAULT_PSU_ID_TYPE);
+        headersMap.put(RequestHeaders.TPP_REDIRECT_URI, TPP_REDIRECT_URI);
 
         Request.Builder requestBuilder = new RequestBuilderImpl(httpClient, "POST", CONSENT_URL);
         when(httpClient.post(eq(CONSENT_URL)))
@@ -89,6 +92,7 @@ class UnicreditAccountInformationServiceTest {
     void createConsent_alternativeAcceptedPsuIdTypeValue() {
         Map<String, String> headersMap = new HashMap<>();
         headersMap.put(RequestHeaders.PSU_ID_TYPE, ALTERNATIVE_PSU_ID_TYPE);
+        headersMap.put(RequestHeaders.TPP_REDIRECT_URI, TPP_REDIRECT_URI);
 
         Request.Builder requestBuilder = new RequestBuilderImpl(httpClient, "POST", CONSENT_URL);
         when(httpClient.post(eq(CONSENT_URL)))
