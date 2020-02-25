@@ -17,3 +17,5 @@ Old methods without query parameters are deprecated.
 == Fixes:
 - Fixed NPE in the Comdirect adapter, BadRequestException is throwing instead if there are
 no ScaOAuthLink or IdpUrl provided.
+
+- Fixed missing scopes issue for ING. Default scope is provided if none or wrong scope is received.
