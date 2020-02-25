@@ -7,8 +7,6 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import de.adorsys.xs2a.adapter.service.impl.model.UnicreditAccountScaStatusResponse;
-import de.adorsys.xs2a.adapter.service.impl.model.UnicreditStartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -110,37 +108,14 @@ class UnicreditAccountInformationServiceTest {
     }
 
     @Test
-    void startConsentAuthorisation() {
-        UnicreditStartScaProcessResponse scaProcessResponse = new UnicreditStartScaProcessResponse();
-        scaProcessResponse.setLinks(Collections.emptyMap());
-        Request.Builder requestBuilder = new RequestBuilderImpl(httpClient, "PUT", CONSENT_ID_URL);
-
-        when(httpClient.put(eq(CONSENT_ID_URL))).thenReturn(requestBuilder);
-        when(httpClient.send(any(), any())).thenReturn(new Response<>(200,
-                                                                      scaProcessResponse,
-                                                                      ResponseHeaders.fromMap(Collections.emptyMap())));
-
-        accountInformationService.startConsentAuthorisation(CONSENT_ID,
-                                                            RequestHeaders.fromMap(Collections.emptyMap()),
-                                                            RequestParams.empty(),
-                                                            new UpdatePsuAuthentication());
-
-        Map<String, String> headers = requestBuilder.headers();
-        assertThat(headers).isNotNull();
-        assertThat(headers).isNotEmpty();
-        assertThat(headers.get(RequestHeaders.PSU_ID_TYPE)).isEqualTo(DEFAULT_PSU_ID_TYPE);
-    }
-
-    @Test
     void updateConsentsPsuData() {
-        Request.Builder requestBuilder = new RequestBuilderImpl(httpClient, "PUT", AUTHORISATION_URL);
-        UnicreditAccountScaStatusResponse statusResponse = new UnicreditAccountScaStatusResponse();
-        statusResponse.setConsentStatus(ConsentStatus.VALID);
+        Request.Builder requestBuilder = spy(new RequestBuilderImpl(httpClient, "PUT", AUTHORISATION_URL));
+        ScaStatusResponse statusResponse = new ScaStatusResponse();
 
-        when(httpClient.put(eq(AUTHORISATION_URL))).thenReturn(requestBuilder);
-        when(httpClient.send(any(), any())).thenReturn(new Response<>(200,
-                                                                      statusResponse,
-                                                                      ResponseHeaders.fromMap(Collections.emptyMap())));
+        when(httpClient.put(anyString())).thenReturn(requestBuilder);
+        doReturn(new Response<>(200,
+            statusResponse,
+            ResponseHeaders.fromMap(Collections.emptyMap()))).when(requestBuilder).send(any(), any());
 
         accountInformationService.updateConsentsPsuData(CONSENT_ID,
                                                         AUTHORISATION_ID,
