@@ -11,10 +11,11 @@ public class ParametersValidationService {
 
     private static final String SCOPE = Oauth2Service.Parameters.SCOPE;
     private static final String DEFAULT_SCOPE = "payment-accounts:transactions:view";
+    // todo add 'payment-accounts:orders:create' scope when PIS flow will be implemented
     private static final List<String> availableScopes = Arrays.asList(DEFAULT_SCOPE, "payment-accounts:balances:view");
 
     public static Oauth2Service.Parameters validateScope(Oauth2Service.Parameters params) {
-        if (params.get(SCOPE) == null) {
+        if (StringUtils.isBlank(params.get(SCOPE))) {
             params.set(SCOPE, DEFAULT_SCOPE);
             return params;
         }
@@ -37,6 +38,6 @@ public class ParametersValidationService {
     }
 
     private static List<String> scopesAsList(Oauth2Service.Parameters params) {
-        return Arrays.asList(params.getScope().split(" "));
+        return Arrays.asList(params.getScope().split("\\s+"));
     }
 }

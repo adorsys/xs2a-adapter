@@ -8,6 +8,7 @@ import de.adorsys.xs2a.adapter.service.ing.internal.api.Oauth2Api;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.ApplicationTokenResponse;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.AuthorizationURLResponse;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.TokenResponse;
+import org.apache.commons.lang3.StringUtils;
 
 import java.net.URI;
 
@@ -38,11 +39,11 @@ public class IngOauth2Service {
     }
 
     private void clearParameters(Oauth2Service.Parameters parameters) {
-        if (parameters.get("limit") != null) {
+        if (!StringUtils.isBlank(parameters.get("limit"))) {
             parameters.remove("limit");
         }
 
-        if (parameters.get("balanceTypes") != null) {
+        if (!StringUtils.isBlank(parameters.get("balanceTypes"))) {
             parameters.remove("balanceTypes");
         }
     }
