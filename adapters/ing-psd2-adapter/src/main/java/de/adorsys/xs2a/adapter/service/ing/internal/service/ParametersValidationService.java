@@ -4,7 +4,9 @@ import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ParametersValidationService {
@@ -12,7 +14,7 @@ public class ParametersValidationService {
     private static final String SCOPE = Oauth2Service.Parameters.SCOPE;
     private static final String DEFAULT_SCOPE = "payment-accounts:transactions:view";
     // todo add 'payment-accounts:orders:create' scope when PIS flow will be implemented
-    private static final List<String> availableScopes = Arrays.asList(DEFAULT_SCOPE, "payment-accounts:balances:view");
+    private static final Set<String> availableScopes = new HashSet<>(Arrays.asList(DEFAULT_SCOPE, "payment-accounts:balances:view"));
 
     public static Oauth2Service.Parameters validateScope(Oauth2Service.Parameters params) {
         if (StringUtils.isBlank(params.get(SCOPE))) {

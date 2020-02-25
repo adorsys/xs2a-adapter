@@ -38,6 +38,12 @@ public class IngOauth2Service {
         return URI.create(StringUri.withQuery(authorizationUrlResponse.getLocation(), parameters.asMap()));
     }
 
+    /**
+     *  For sandbox environment.
+     *  {@link IngOptionalParametersFilter} adds 'limit' and 'balanceTypes' to fulfill request
+     *  requirements for getTransactions and getBalances calls but they are not needed
+     *  for getAuthorizationRequestUri.
+     */
     private void clearParameters(Oauth2Service.Parameters parameters) {
         if (!StringUtils.isBlank(parameters.get("limit"))) {
             parameters.remove("limit");
