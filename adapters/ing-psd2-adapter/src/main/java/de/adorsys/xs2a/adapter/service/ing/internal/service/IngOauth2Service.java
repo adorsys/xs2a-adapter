@@ -8,7 +8,6 @@ import de.adorsys.xs2a.adapter.service.ing.internal.api.Oauth2Api;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.ApplicationTokenResponse;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.AuthorizationURLResponse;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.TokenResponse;
-import org.apache.commons.lang3.StringUtils;
 
 import java.net.URI;
 
@@ -33,25 +32,8 @@ public class IngOauth2Service {
             .getBody();
 
         parameters.setClientId(getClientId());
-        clearParameters(parameters);
 
         return URI.create(StringUri.withQuery(authorizationUrlResponse.getLocation(), parameters.asMap()));
-    }
-
-    /**
-     *  For sandbox environment.
-     *  {@link IngOptionalParametersFilter} adds 'limit' and 'balanceTypes' to fulfill request
-     *  requirements for getTransactions and getBalances calls but they are not needed
-     *  for getAuthorizationRequestUri.
-     */
-    private void clearParameters(Oauth2Service.Parameters parameters) {
-        if (!StringUtils.isBlank(parameters.get("limit"))) {
-            parameters.remove("limit");
-        }
-
-        if (!StringUtils.isBlank(parameters.get("balanceTypes"))) {
-            parameters.remove("balanceTypes");
-        }
     }
 
     private ApplicationTokenResponse getApplicationToken() {

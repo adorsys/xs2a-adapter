@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.ing.internal.service.ParametersValidationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,7 +44,8 @@ class ParametersValidationServiceTest {
 
         Oauth2Service.Parameters actual = ParametersValidationService.validateScope(parameters);
 
-        assertEquals(actual, parameters);
+        // Oauth2Service.Parameters doesn't have override equals()
+        assertTrue(new ReflectionEquals(parameters).matches(actual));
     }
 
     @Test
