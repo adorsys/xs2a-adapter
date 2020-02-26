@@ -6,14 +6,13 @@ import de.adorsys.xs2a.adapter.signing.service.algorithm.EncodingAlgorithm;
 import de.adorsys.xs2a.adapter.signing.service.algorithm.SigningAlgorithm;
 import de.adorsys.xs2a.adapter.signing.service.encoding.EncodingService;
 import de.adorsys.xs2a.adapter.signing.service.signing.SigningService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -22,9 +21,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({EncodingAlgorithm.class, SigningAlgorithm.class})
+@ExtendWith(MockitoExtension.class)
 public class SignatureTest {
     private static final String KEY_ID = "keyIdValue";
     private static final Map<String, String> HEADERS_MAP = new HashMap<>();
@@ -50,7 +49,7 @@ public class SignatureTest {
     @Mock
     private PrivateKey privateKey;
 
-    @Before
+    @BeforeEach
     public void setup() {
         HEADERS_MAP.put(HELLO_HEADER_NAME, HELLO_HEADER_VALUE);
         HEADERS_MAP.put(BYE_HEADER_NAME, BYE_HEADER_VALUE);
@@ -58,76 +57,88 @@ public class SignatureTest {
 
     @Test
     public void build() {
-        PowerMockito.when(signingAlgorithm.getSigningService())
-                .thenReturn(signingService);
+        when(signingAlgorithm.getSigningService())
+            .thenReturn(signingService);
 
-        Mockito.when(signingService.sign(Mockito.eq(privateKey), Mockito.anyString(), Mockito.eq(UTF8_CHARSET)))
-                .thenReturn(SIGNED_VALUE);
+        when(signingService.sign(Mockito.eq(privateKey), Mockito.anyString(), Mockito.eq(UTF8_CHARSET)))
+            .thenReturn(SIGNED_VALUE);
 
-        PowerMockito.when(encodingAlgorithm.getEncodingService())
-                .thenReturn(encodingService);
+        when(encodingAlgorithm.getEncodingService())
+            .thenReturn(encodingService);
 
-        Mockito.when(encodingService.encode(SIGNED_VALUE))
-                .thenReturn(SIGNATURE_ATTRIBUTE_VALUE);
+        when(encodingService.encode(SIGNED_VALUE))
+            .thenReturn(SIGNATURE_ATTRIBUTE_VALUE);
 
-        PowerMockito.when(signingAlgorithm.getAlgorithmName())
-                .thenReturn(SIGNING_ALGORITHM_NAME);
+        when(signingAlgorithm.getAlgorithmName())
+            .thenReturn(SIGNING_ALGORITHM_NAME);
 
         Signature signature = Signature.builder()
-                .keyId(KEY_ID)
-                .headers(HEADERS_MAP)
-                .signingAlgorithm(signingAlgorithm)
-                .encodingAlgorithm(encodingAlgorithm)
-                .charset(UTF8_CHARSET)
-                .privateKey(privateKey)
-                .build();
+                                  .keyId(KEY_ID)
+                                  .headers(HEADERS_MAP)
+                                  .signingAlgorithm(signingAlgorithm)
+                                  .encodingAlgorithm(encodingAlgorithm)
+                                  .charset(UTF8_CHARSET)
+                                  .privateKey(privateKey)
+                                  .build();
 
         assertThat(signature.getHeaderName()).isEqualTo(RequestHeaders.SIGNATURE);
         assertThat(signature.getHeaderValue()).isEqualTo(EXPECTED_SIGNATURE_VALUE);
     }
 
-    @Test(expected = HttpRequestSigningException.class)
+    @Test
     public void build_failure_privateKeyIsMissing() {
-        Signature signature = Signature.builder()
-                                      .keyId(KEY_ID)
-                                      .headers(HEADERS_MAP)
-                                      .signingAlgorithm(signingAlgorithm)
-                                      .encodingAlgorithm(encodingAlgorithm)
-                                      .charset(UTF8_CHARSET)
-                                      .build();
+        Assertions.assertThrows(
+            HttpRequestSigningException.class,
+            () -> Signature.builder()
+                      .keyId(KEY_ID)
+                      .headers(HEADERS_MAP)
+                      .signingAlgorithm(signingAlgorithm)
+                      .encodingAlgorithm(encodingAlgorithm)
+                      .charset(UTF8_CHARSET)
+                      .build()
+        );
     }
 
-    @Test(expected = HttpRequestSigningException.class)
+    @Test
     public void build_failure_keyIdIsMissing() {
-        Signature signature = Signature.builder()
-                                      .headers(HEADERS_MAP)
-                                      .signingAlgorithm(signingAlgorithm)
-                                      .encodingAlgorithm(encodingAlgorithm)
-                                      .charset(UTF8_CHARSET)
-                                      .privateKey(privateKey)
-                                      .build();
+        Assertions.assertThrows(
+            HttpRequestSigningException.class,
+            () -> Signature.builder()
+                      .headers(HEADERS_MAP)
+                      .signingAlgorithm(signingAlgorithm)
+                      .encodingAlgorithm(encodingAlgorithm)
+                      .charset(UTF8_CHARSET)
+                      .privateKey(privateKey)
+                      .build()
+        );
     }
 
-    @Test(expected = HttpRequestSigningException.class)
+    @Test
     public void build_failure_headersAreMissing() {
-        Signature signature = Signature.builder()
-                                      .keyId(KEY_ID)
-                                      .signingAlgorithm(signingAlgorithm)
-                                      .encodingAlgorithm(encodingAlgorithm)
-                                      .charset(UTF8_CHARSET)
-                                      .privateKey(privateKey)
-                                      .build();
+        Assertions.assertThrows(
+            HttpRequestSigningException.class,
+            () -> Signature.builder()
+                      .keyId(KEY_ID)
+                      .signingAlgorithm(signingAlgorithm)
+                      .encodingAlgorithm(encodingAlgorithm)
+                      .charset(UTF8_CHARSET)
+                      .privateKey(privateKey)
+                      .build()
+        );
     }
 
-    @Test(expected = HttpRequestSigningException.class)
+    @Test
     public void build_failure_signingAlgorithmIsMissing() {
-        Signature signature = Signature.builder()
-                                      .keyId(KEY_ID)
-                                      .headers(HEADERS_MAP)
-                                      .signingAlgorithm(null)
-                                      .encodingAlgorithm(encodingAlgorithm)
-                                      .charset(UTF8_CHARSET)
-                                      .privateKey(privateKey)
-                                      .build();
+        Assertions.assertThrows(
+            HttpRequestSigningException.class,
+            () -> Signature.builder()
+                      .keyId(KEY_ID)
+                      .headers(HEADERS_MAP)
+                      .signingAlgorithm(null)
+                      .encodingAlgorithm(encodingAlgorithm)
+                      .charset(UTF8_CHARSET)
+                      .privateKey(privateKey)
+                      .build()
+        );
     }
 }

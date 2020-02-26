@@ -16,21 +16,52 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
+import de.adorsys.xs2a.adapter.adapter.BaseDownloadService;
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.service.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.DownloadService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.impl.VerlagAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.VerlagPaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
-public class VerlagServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+import java.util.AbstractMap;
 
-    @Override
-    public AccountInformationService getAccountInformationService(String baseUrl) {
-        return new VerlagAccountInformationService(baseUrl);
+public class VerlagServiceProvider
+    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, DownloadServiceProvider {
+
+    private static final String VERLAG_API_KEY_NAME = "verlag.apikey.name";
+    private static final String VERLAG_API_KEY_VALUE = "verlag.apikey.value";
+    private static final String[] SUPPORTED_CIPHER_SUITES =
+        {"TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384", "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"};
+
+    private static AbstractMap.SimpleImmutableEntry<String, String> apiKeyEntry;
+
+    static {
+        String apiKeyName = AdapterConfig.readProperty(VERLAG_API_KEY_NAME, "");
+        String apiKeyValue = AdapterConfig.readProperty(VERLAG_API_KEY_VALUE, "");
+        apiKeyEntry = new AbstractMap.SimpleImmutableEntry<>(apiKeyName, apiKeyValue);
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
-        return new VerlagPaymentInitiationService(baseUrl);
+    public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new VerlagAccountInformationService(aspsp,
+            apiKeyEntry,
+            httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES));
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new VerlagPaymentInitiationService(baseUrl,
+            apiKeyEntry,
+            httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES));
+    }
+
+    @Override
+    public DownloadService getDownloadService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new BaseDownloadService(baseUrl, httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES));
     }
 
     @Override

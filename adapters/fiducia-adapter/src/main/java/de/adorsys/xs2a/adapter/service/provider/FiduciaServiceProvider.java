@@ -16,29 +16,33 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
-import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.http.RequestSigningInterceptor;
+import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.impl.FiduciaAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.FiduciaPaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public class FiduciaServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
-    private final RequestSigningInterceptor requestSigningInterceptor = new RequestSigningInterceptor();
-
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl) {
-        FiduciaAccountInformationService accountInformationService = new FiduciaAccountInformationService(baseUrl);
-        accountInformationService.setHttpClient(HttpClient.newHttpClientWithSignature(requestSigningInterceptor));
-        return accountInformationService;
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  Pkcs12KeyStore keyStore) {
+        return new FiduciaAccountInformationService(aspsp,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            new RequestSigningInterceptor(keyStore));
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
-        FiduciaPaymentInitiationService paymentInitiationService = new FiduciaPaymentInitiationService(baseUrl);
-        paymentInitiationService.setHttpClient(HttpClient.newHttpClientWithSignature(requestSigningInterceptor));
-        return paymentInitiationService;
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl,
+                                                                HttpClientFactory httpClientFactory,
+                                                                Pkcs12KeyStore keyStore) {
+        return new FiduciaPaymentInitiationService(baseUrl,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            new RequestSigningInterceptor(keyStore));
     }
 
     @Override

@@ -10,7 +10,7 @@
       <validationRegex>.{2,}-adapter</validationRegex>
     </requiredProperty>
     <requiredProperty key="version">
-      <defaultValue>0.0.2-SNAPSHOT</defaultValue>
+      <defaultValue>0.0.6-SNAPSHOT</defaultValue>
     </requiredProperty>
     <requiredProperty key="package">
       <defaultValue>de.adorsys.xs2a.adapter</defaultValue>

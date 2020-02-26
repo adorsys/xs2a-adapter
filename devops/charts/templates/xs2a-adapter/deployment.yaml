@@ -12,59 +12,84 @@ spec:
     deploymentconfig: xs2a-adapter
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/xs2a-adapter/configmap.yaml") . | sha256sum }}
       labels:
         app: xs2a-adapter
         deploymentconfig: xs2a-adapter
     spec:
       containers:
         - env:
+            - name: XS2A-ADAPTER_LOADER_CHOOSE-FIRST-FROM-MULTIPLE-ASPSPS
+              value: "true"
             - name: SPRING_PROFILES_ACTIVE
-              value: dev
-            - name: dkb.token.consumer_key
+              value: dev,sandbox
+            {{- if .Values.adapter.aspspConfig }}
+            - name: csv.aspsp.adapter.config.file.path
+              value: /opt/xs2a-adapter/conf/aspsp-adapter-config.csv
+            {{- end }}
+            {{- if .Values.logback.enabled }}
+            - name: LOGGING_CONFIG
+              value: /opt/xs2a-adapter/conf/logback.xml
+            {{- end }}
+            {{- if .Values.monitoring.enabled }}
+            - name: BG_MONITORING_CLIENT_ENABLED
+              value: "true"
+            - name: SPRING_RABBITMQ_HOST
+              value: {{ .Values.monitoring.rabbitmq.host }}
+            {{- end }}
+            - name: adapter.config.file.path
+              value: /opt/xs2a-adapter/conf/adapter.config.properties
+            - name: PKCS12_KEY_STORE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: dkb-token
-                  key: consumer-key
-            - name: dkb.token.consumer_secret
-              valueFrom:
-                secretKeyRef:
-                  name: dkb-token
-                  key: consumer-secret
-            - name: KEY_STORE_TYPE
-              valueFrom:
-                secretKeyRef:
-                  name: qwac-secret
-                  key: key-store-type
-            - name: KEY_STORE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: qwac-secret
+                  name: pkcs12-key-store-secret
                   key: key-store-password
-            - name: SSL_OPTS
+            - name: JAVA_OPTS
               value: >-
-                -Djavax.net.ssl.keyStoreType=$(KEY_STORE_TYPE)
-                -Djavax.net.ssl.keyStore=/qwac/key-store
-                -Djavax.net.ssl.keyStorePassword=$(KEY_STORE_PASSWORD)
+                -Xmx1024m
+                -Dcom.sun.security.enableAIAcaIssuers=true
+                -Dpkcs12.keyStore=/pkcs12/key-store.p12
+                -Dpkcs12.keyStorePassword=$(PKCS12_KEY_STORE_PASSWORD)
           imagePullPolicy: Always
           name: xs2a-adapter
           ports:
             - containerPort: 8081
               protocol: TCP
           resources: {}
+          livenessProbe:
+{{ toYaml .Values.adapter.livenessProbe | indent 12 }}
+          readinessProbe:
+{{ toYaml .Values.adapter.readinessProbe | indent 12 }}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
-            - name: qwac-secret-volume
-              mountPath: /qwac
+            - name: pkcs12-key-store-secret-volume
+              mountPath: /pkcs12
+            {{- if and .Values.logback.enabled }}
+            - name: persistent-volume
+              mountPath: /opt/xs2a-adapter/logs
+            {{- end }}
+            - name: configmap-volume
+              mountPath: /opt/xs2a-adapter/conf
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: qwac-secret-volume
+        - name: pkcs12-key-store-secret-volume
           secret:
-            secretName: qwac-secret
+            secretName: pkcs12-key-store-secret
+        {{- if and .Values.logback.enabled }}
+        - name: persistent-volume
+          persistentVolumeClaim:
+            claimName: xs2a-adapter-pvc
+        {{- end }}
+        - configMap:
+            defaultMode: 292
+            name: xs2a-adapter-config
+          name: configmap-volume
   test: false
   triggers:
     - type: ConfigChange

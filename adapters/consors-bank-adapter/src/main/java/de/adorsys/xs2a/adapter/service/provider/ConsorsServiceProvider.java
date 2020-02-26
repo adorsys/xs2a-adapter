@@ -18,19 +18,21 @@ package de.adorsys.xs2a.adapter.service.provider;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public class ConsorsServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+    private PsuIdHeaderInterceptor psuIdHeaderInterceptor = new PsuIdHeaderInterceptor();
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl) {
-        return new BaseAccountInformationService(baseUrl);
+    public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new BaseAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()), psuIdHeaderInterceptor);
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
-        return new BasePaymentInitiationService(baseUrl);
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
     }
 
     @Override

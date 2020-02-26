@@ -17,12 +17,15 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
+import de.adorsys.xs2a.adapter.http.ContentType;
+import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.Request.Builder.Interceptor;
+import de.adorsys.xs2a.adapter.service.PsuPasswordEncryptionService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.ais.ConsentInformation;
-import de.adorsys.xs2a.adapter.service.impl.mapper.DeutscheBankConsentInformationMapper;
-import de.adorsys.xs2a.adapter.service.impl.model.DeutscheBankConsentInformation;
-import org.mapstruct.factory.Mappers;
+import de.adorsys.xs2a.adapter.service.RequestParams;
+import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.model.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -31,23 +34,64 @@ import java.util.Map;
 public class DeutscheBankAccountInformationService extends BaseAccountInformationService {
     private static final String DATE_HEADER = "Date";
 
-    private final DeutscheBankConsentInformationMapper deutscheBankConsentInformationMapper =
-            Mappers.getMapper(DeutscheBankConsentInformationMapper.class);
+    private final PsuPasswordEncryptionService psuPasswordEncryptionService;
 
-    public DeutscheBankAccountInformationService(String baseUri) {
-        super(baseUri);
+    public DeutscheBankAccountInformationService(Aspsp aspsp,
+                                                 HttpClient httpClient,
+                                                 Interceptor interceptor,
+                                                 PsuPasswordEncryptionService psuPasswordEncryptionService) {
+        super(aspsp, httpClient, interceptor);
+        this.psuPasswordEncryptionService = psuPasswordEncryptionService;
     }
 
     @Override
-    public GeneralResponse<ConsentInformation> getConsentInformation(String consentId, RequestHeaders requestHeaders) {
-        return getConsentInformation(consentId, requestHeaders, DeutscheBankConsentInformation.class, deutscheBankConsentInformationMapper::toConsentInformation);
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
+                                                                       UpdatePsuAuthentication updatePsuAuthentication) {
+        PsuData psuData = updatePsuAuthentication.getPsuData();
+
+        if (passwordEncryptionRequired(psuData)) {
+            encryptPassword(psuData);
+        }
+
+        return super.startConsentAuthorisation(consentId, requestHeaders, requestParams, updatePsuAuthentication);
+    }
+
+    @Override
+    public Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
+                                                                           String authorisationId,
+                                                                           RequestHeaders requestHeaders,
+                                                                           RequestParams requestParams,
+                                                                           UpdatePsuAuthentication updatePsuAuthentication) {
+        PsuData psuData = updatePsuAuthentication.getPsuData();
+
+        if (passwordEncryptionRequired(psuData)) {
+            encryptPassword(psuData);
+        }
+
+        return super.updateConsentsPsuData(consentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication);
+    }
+
+    private boolean passwordEncryptionRequired(PsuData psuData) {
+        return StringUtils.isNotBlank(psuData.getEncryptedPassword());
+    }
+
+    private void encryptPassword(PsuData psuData) {
+        String password = psuData.getEncryptedPassword();
+        String encryptedPassword = psuPasswordEncryptionService.encrypt(password);
+        psuData.setEncryptedPassword(encryptedPassword);
     }
 
     @Override
     protected Map<String, String> populateGetHeaders(Map<String, String> map) {
         Map<String, String> headers = super.populateGetHeaders(map);
         headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        headers.put(ACCEPT_HEADER, APPLICATION_JSON);
+        headers.put(ACCEPT_HEADER, ContentType.APPLICATION_JSON);
 
         return headers;
     }
@@ -55,14 +99,14 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
     @Override
     protected Map<String, String> populatePostHeaders(Map<String, String> map) {
         map.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        map.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
+        map.put(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON);
         return map;
     }
 
     @Override
-    protected Map<String, String> populatePutHeaders(Map<String, String> map) {
-        map.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        map.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
-        return map;
+    protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
+        headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
+        headers.put(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON);
+        return headers;
     }
 }

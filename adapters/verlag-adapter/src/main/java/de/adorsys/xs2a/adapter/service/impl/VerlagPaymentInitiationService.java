@@ -17,13 +17,18 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 
+import java.util.AbstractMap;
 import java.util.Map;
 
 public class VerlagPaymentInitiationService extends BasePaymentInitiationService {
 
-    public VerlagPaymentInitiationService(String baseUri) {
-        super(baseUri);
+    private AbstractMap.SimpleImmutableEntry<String, String> apiKey;
+
+    public VerlagPaymentInitiationService(String baseUri, AbstractMap.SimpleImmutableEntry<String, String> apiKey, HttpClient httpClient) {
+        super(baseUri, httpClient);
+        this.apiKey = apiKey;
     }
 
     @Override
@@ -33,18 +38,18 @@ public class VerlagPaymentInitiationService extends BasePaymentInitiationService
     }
 
     @Override
-    protected Map<String, String> populatePutHeaders(Map<String, String> map) {
-        addApiKey(map);
-        return map;
+    protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
+        addApiKey(headers);
+        return headers;
     }
 
     @Override
-    protected Map<String, String> populateGetHeaders(Map<String, String> map) {
-        addApiKey(map);
-        return map;
+    protected Map<String, String> populateGetHeaders(Map<String, String> headers) {
+        addApiKey(headers);
+        return headers;
     }
 
     private void addApiKey(Map<String, String> headers) {
-        headers.put("X-bvpsd2-test-apikey", "tUfZ5KOHRTFrikZUsmSMUabKw09UIzGE");
+        headers.put(apiKey.getKey(), apiKey.getValue());
     }
 }

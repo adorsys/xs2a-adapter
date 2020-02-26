@@ -5,7 +5,7 @@
 
     <groupId>de.adorsys.xs2a.adapter</groupId>
     <artifactId>xs2a-adapter</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.8-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>xs2a-adapter</name>
@@ -48,13 +48,17 @@
     </developers>
 
     <modules>
-        <module>xs2a-adapter-service-api</module>
+        <module>adapters</module>
+        <module>xs2a-adapter-app</module>
+        <module>xs2a-adapter-generated-rest-api</module>
+        <module>xs2a-adapter-rest-api</module>
+        <module>xs2a-adapter-rest-impl</module>
+        <module>xs2a-adapter-rest2api-mapper</module>
         <module>xs2a-adapter-service-api-adapter</module>
         <module>xs2a-adapter-service-loader</module>
-        <module>xs2a-adapter-rest-server</module>
-        <module>xs2a-adapter-app</module>
-        <module>adapters</module>
-        <module>xs2a-adapter-psd2-api</module>
+        <module>xs2a-adapter-service-remote</module>
+        <module>xs2a-adapter-service-api</module>
+        <module>xs2a-adapter-aspsp-registry</module>
     </modules>
 
     <properties>
@@ -64,39 +68,41 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.enforce.plugin.version>1.4.1</maven.enforce.plugin.version>
-        <sonar-maven-plugin.version>3.6.0.1398</sonar-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
+        <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
 
         <!-- spring -->
-        <spring-boot.version>2.1.1.RELEASE</spring-boot.version>
-        <spring-cloud.version>Finchley.SR2</spring-cloud.version>
-        <spring-data-releasetrain.version>Lovelace-SR3</spring-data-releasetrain.version>
+        <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
+        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
+        <spring-data-releasetrain.version>Lovelace-SR10</spring-data-releasetrain.version>
 
         <!-- swagger -->
-        <springfox-swagger2.version>2.8.0</springfox-swagger2.version>
-        <swagger-annotations.version>1.5.17</swagger-annotations.version>
+        <swagger-ui.version>3.25.0</swagger-ui.version>
 
         <!-- other -->
         <servlet-api.version>4.0.0</servlet-api.version>
         <docker.image>${project.artifactId}</docker.image>
-        <org.mapstruct.version>1.2.0.Final</org.mapstruct.version>
-        <mockito.version>1.10.19</mockito.version>
+        <mapstruct.version>1.3.0.Final</mapstruct.version>
         <javatar-commons.version>0.6</javatar-commons.version>
-        <logback-gelf.version>1.1.0</logback-gelf.version>
         <bouncycastle.version>1.61</bouncycastle.version>
-        <powermock.version>2.0.2</powermock.version>
+        <apache.commons.lang.version>3.9</apache.commons.lang.version>
+        <junit-jupiter.version>5.5.2</junit-jupiter.version>
+        <mockito.version>3.2.4</mockito.version>
+        <nimbus-jose-jwt.version>8.4</nimbus-jose-jwt.version>
+        <webjars-locator.version>0.38</webjars-locator.version>
 
         <!-- Sonar dependencies -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.language>java</sonar.language>
-        <sonar.exclusions>file:**/generated-sources/**</sonar.exclusions>
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.exclusions>file:**/generated-sources/**, **/model/*, /xs2a-adapter-generated-rest-api/**/*</sonar.exclusions>
         <sonar.coverage.exclusions>
             **/*Entity.java,**/*TO.java,**/*BO.java,**/*Application.java,**/*Exception.java,**/*Config.java
         </sonar.coverage.exclusions>
+        <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -128,53 +134,52 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- logging dependencies -->
-
-            <dependency>
-                <groupId>de.siegmar</groupId>
-                <artifactId>logback-gelf</artifactId>
-                <version>${logback-gelf.version}</version>
-            </dependency>
-
             <!-- swagger dependencies -->
 
             <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger-annotations.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${springfox-swagger2.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox-swagger2.version}</version>
+                <groupId>org.webjars</groupId>
+                <artifactId>swagger-ui</artifactId>
+                <version>${swagger-ui.version}</version>
             </dependency>
 
             <!-- other dependencies -->
 
             <dependency>
                 <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct-jdk8</artifactId>
-                <version>${org.mapstruct.version}</version>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>pro.javatar.commons</groupId>
                 <artifactId>javatar-commons</artifactId>
                 <version>${javatar-commons.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>webjars-locator</artifactId>
+                <version>${webjars-locator.version}</version>
             </dependency>
 
             <!-- test dependencies -->
 
             <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>org.mockito</groupId>
-                <artifactId>mockito-all</artifactId>
+                <artifactId>mockito-junit-jupiter</artifactId>
                 <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
@@ -187,15 +192,9 @@
         <!-- test dependencies -->
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hamcrest</groupId>
-                    <artifactId>hamcrest-core</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -206,27 +205,23 @@
 
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
+            <artifactId>mockito-junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
 
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.sonarsource.scanner.maven</groupId>
-                    <artifactId>sonar-maven-plugin</artifactId>
-                    <version>${sonar-maven-plugin.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.2</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -234,7 +229,7 @@
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
-                            <version>${org.mapstruct.version}</version>
+                            <version>${mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
@@ -267,29 +262,19 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco-maven-plugin.version}</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven-checkstyle-plugin.version}</version>
                 <configuration>
-                    <destFile>${sonar.jacoco.reportPath}</destFile>
-                    <dataFile>${sonar.jacoco.reportPath}</dataFile>
-                    <append>true</append>
-                    <excludes>
-                        <exclude>**/generated-sources/**</exclude>
-                    </excludes>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>jacoco-initialize</id>
+                        <id>validate</id>
+                        <phase>validate</phase>
                         <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>jacoco-site</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>report</goal>
+                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -305,6 +290,46 @@
     </scm>
 
     <profiles>
+        <profile>
+            <id>coverage</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacoco-maven-plugin.version}</version>
+                        <configuration>
+                            <destFile>${sonar.jacoco.reportPath}</destFile>
+                            <dataFile>${sonar.jacoco.reportPath}</dataFile>
+                            <append>true</append>
+                            <excludes>
+                                <exclude>**/generated-sources/**</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>jacoco-initialize</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>jacoco-site</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <version>${sonar-maven-plugin.version}</version>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>it</id>
             <build>
@@ -373,6 +398,12 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

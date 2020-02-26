@@ -17,44 +17,63 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
-import de.adorsys.xs2a.adapter.service.GeneralResponse;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.StartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.ais.ConsentCreationResponse;
-import de.adorsys.xs2a.adapter.service.ais.Consents;
-import de.adorsys.xs2a.adapter.service.impl.mapper.ConsentCreationResponseMapper;
-import de.adorsys.xs2a.adapter.service.impl.mapper.StartScaProcessResponseMapper;
+import de.adorsys.xs2a.adapter.service.RequestParams;
+import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.impl.mapper.ConsentCreationResponseDkbMapper;
+import de.adorsys.xs2a.adapter.service.impl.mapper.StartScaProcessResponseDkbMapper;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbStartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.adapter.service.model.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
 
 public class DkbAccountInformationService extends BaseAccountInformationService {
-    private final StartScaProcessResponseMapper startScaProcessResponseMapper = Mappers.getMapper(StartScaProcessResponseMapper.class);
-    private final ConsentCreationResponseMapper creationResponseMapper = Mappers.getMapper(ConsentCreationResponseMapper.class);
+    private final StartScaProcessResponseDkbMapper startScaProcessResponseMapper = Mappers.getMapper(StartScaProcessResponseDkbMapper.class);
+    private final ConsentCreationResponseDkbMapper creationResponseMapper = Mappers.getMapper(ConsentCreationResponseDkbMapper.class);
     private AccessTokenService accessService;
 
-    public DkbAccountInformationService(String baseUri, AccessTokenService accessService) {
-        super(baseUri);
+    public DkbAccountInformationService(Aspsp aspsp, AccessTokenService accessService, HttpClient httpClient) {
+        super(aspsp, httpClient);
         this.accessService = accessService;
     }
 
     @Override
-    public GeneralResponse<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders, Consents body) {
-        return createConsent(requestHeaders, body, DkbConsentCreationResponse.class, creationResponseMapper::toConsentCreationResponse);
+    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+                                                           RequestParams requestParams,
+                                                           Consents body) {
+        return createConsent(requestHeaders,
+            requestParams,
+            body,
+            DkbConsentCreationResponse.class,
+            creationResponseMapper::toConsentCreationResponse);
     }
 
     @Override
-    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders) {
-        return startConsentAuthorisation(consentId, requestHeaders, DkbStartScaProcessResponse.class, startScaProcessResponseMapper::toStartScaProcessResponse);
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams) {
+        return startConsentAuthorisation(consentId,
+            requestHeaders,
+            requestParams,
+            DkbStartScaProcessResponse.class,
+            startScaProcessResponseMapper::toStartScaProcessResponse);
     }
 
     @Override
-    public GeneralResponse<StartScaProcessResponse> startConsentAuthorisation(String consentId, RequestHeaders requestHeaders, UpdatePsuAuthentication updatePsuAuthentication) {
-        return startConsentAuthorisation(consentId, requestHeaders, updatePsuAuthentication, DkbStartScaProcessResponse.class, startScaProcessResponseMapper::toStartScaProcessResponse);
+    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
+                                                                       UpdatePsuAuthentication updatePsuAuthentication) {
+        return startConsentAuthorisation(consentId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication,
+            DkbStartScaProcessResponse.class,
+            startScaProcessResponseMapper::toStartScaProcessResponse);
     }
 
     @Override
@@ -63,13 +82,13 @@ public class DkbAccountInformationService extends BaseAccountInformationService 
     }
 
     @Override
-    protected Map<String, String> populatePutHeaders(Map<String, String> map) {
-        return addBearerHeader(map);
+    protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
+        return addBearerHeader(headers);
     }
 
     @Override
-    protected Map<String, String> populateGetHeaders(Map<String, String> map) {
-        return addBearerHeader(map);
+    protected Map<String, String> populateGetHeaders(Map<String, String> headers) {
+        return addBearerHeader(headers);
     }
 
     Map<String, String> addBearerHeader(Map<String, String> map) {

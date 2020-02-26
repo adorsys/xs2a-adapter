@@ -1,44 +1,15 @@
+root = true
+
 [*]
-charset=utf-8
-end_of_line=lf
-indent_style=space
-indent_size=4
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 4
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[{.babelrc,.stylelintrc,.eslintrc,jest.config,*.bowerrc,*.jsb3,*.jsb2,*.json}]
-indent_style=space
-indent_size=2
+# intellij options
+ij_visual_guides = 80, 100
 
-[{Makefile.*,Makefile,makefile,GNUmakefile,*.mk}]
-indent_style=tab
-tab_width=4
-
-[*.js.map]
-indent_style=space
-indent_size=2
-
-[{*.yml,*.yaml}]
-indent_style=space
-indent_size=2
-
-[*.md]
-trim_trailing_whitespace = false
-
-[*.java]
-indent_style = space
-indent_size = 4
-continuation_indent_size = 4
-
-[*.{js,css,html}]
-indent_style = space
-indent_size = 4
-insert_final_newline = false
-
-[*.json]
-indent_style = space
+[{*.yml, *.yaml, *.json}]
 indent_size = 2
-
-[*.xml]
-indent_style = space
-indent_size = 4

@@ -5,21 +5,18 @@ import de.adorsys.xs2a.adapter.signing.service.algorithm.EncodingAlgorithm;
 import de.adorsys.xs2a.adapter.signing.service.algorithm.HashingAlgorithm;
 import de.adorsys.xs2a.adapter.signing.service.encoding.EncodingService;
 import de.adorsys.xs2a.adapter.signing.service.hashing.HashingService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({EncodingAlgorithm.class, HashingAlgorithm.class})
+@ExtendWith(MockitoExtension.class)
 public class DigestTest {
     private static final String REQUEST_BODY = "{\"hello\": \"world\"}";
     private static final Charset UTF8_CHARSET = StandardCharsets.UTF_8;
@@ -42,19 +39,19 @@ public class DigestTest {
 
     @Test
     public void build() {
-        PowerMockito.when(hashingAlgorithm.getHashingService())
+        when(hashingAlgorithm.getHashingService())
                 .thenReturn(hashingService);
 
-        Mockito.when(hashingService.hash(REQUEST_BODY, UTF8_CHARSET))
+        when(hashingService.hash(REQUEST_BODY, UTF8_CHARSET))
                 .thenReturn(HASHED_REQUEST_BODY);
 
-        PowerMockito.when(encodingAlgorithm.getEncodingService())
+        when(encodingAlgorithm.getEncodingService())
                 .thenReturn(encodingService);
 
-        Mockito.when(encodingService.encode(HASHED_REQUEST_BODY))
+        when(encodingService.encode(HASHED_REQUEST_BODY))
                 .thenReturn(DIGEST_VALUE);
 
-        PowerMockito.when(hashingAlgorithm.getAlgorithmName())
+        when(hashingAlgorithm.getAlgorithmName())
                 .thenReturn(HASHING_ALGORITHM_NAME);
 
         Digest digest = Digest.builder()

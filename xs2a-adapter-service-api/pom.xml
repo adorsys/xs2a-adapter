@@ -6,17 +6,34 @@
     <parent>
         <groupId>de.adorsys.xs2a.adapter</groupId>
         <artifactId>xs2a-adapter</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.8-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
     <artifactId>xs2a-adapter-service-api</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
         </dependency>
+
+        <!-- logging -->
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <!-- test dependencies -->
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -37,8 +54,14 @@
                                     <excludes>
                                         <!-- project dependencies -->
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-loader</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-remote</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-api-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-app</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-server</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-aspsp-registry</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-generated-rest-api</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-impl</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-api</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest2api-mapper</exclude>
                                         <!-- 3rd party dependencies -->
                                         <exclude>joda-time:*</exclude>
                                         <exclude>org.projectlombok:lombok</exclude>

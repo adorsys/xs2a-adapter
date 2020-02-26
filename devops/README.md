@@ -1,10 +1,12 @@
-## QWAC  Secret
+## Secrets
 
-    oc create secret generic qwac-secret \
-    --from-file=key-store=<file>.p12 \
-    --from-literal=key-store-password=<password> \
-    --from-literal=key-store-type=pkcs12
+    oc create secret generic pkcs12-key-store-secret \
+    --from-file=key-store.p12=<filename>.p12 \
+    --from-literal=key-store-password=<password>
 
-    oc create secret generic dkb-token \
-    --from-literal=consumer-key=<key value> \
-    --from-literal=consumer-secret=<secret value>
+    oc get secrets
+    
+    oc delete secret <secret name>
+
+## Chart deployment and configuration files
+https://git.adorsys.de/adorsys/xs2a-adapter

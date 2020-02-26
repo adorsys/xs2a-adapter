@@ -1,0 +1,37 @@
+= DRAFT Release notes for version 0.0.4 (release date: xx.xx.2019)
+
+.Added banks
+|===
+|Bank Name|approach|AIS, PIS
+|Santander Bank|n/a|AIS
+
+|===
+
+== Notices:
+- *ING* adapter marked as `deprecated` and will be removed in future releases
+- *PSD2 API* marked as `deprecated` and will be removed in future releases
+
+== Features:
+- Adapters configuration moved to the link:../../xs2a-adapter-service-api/src/main/resources/adapter.config.properties[adapter.config.properties] file
+- Masking of sensitive data in the logs
+- Logging of Correlation-ID header as a part of the Layout
+- Added endpoint for retrieving information about the application, such as name, version, description, etc (/actuator/info endpoint)
+- Extended ASPSP schema with 2 new fields: IDP url and SCA approaches
+- Added swagger documentation for PSD2/Facade API, OAuth API and ASPSP Registry API
+- Moved to a single PKCS12 keystore for management of certificates, instead of relying on JVM wide default `javax.net.ssl.keyStore`
+- Updated Fiducia `GET transactions` flow to make it respond with `400` on unsupported booking status in request
+- Pre-step OAuth - a non standard flow in PSD2 API which requires PSU authorization to create consent.
+A "preOauth" link will be returned on create consent to indicate this approach.
+- Extended response handling logic to support non-JSON error responses from the ASPSPs.
+- Added `download url` endpoint, that receives download url as a request param, downloads the data from that url and returns it as a byte array withtin the response body.
+- Removed registry modification over REST api
+
+== Fixes:
+- UpdatePsuAuthenticationResponse mapping exception fixed
+- `xs2a-adapter-service-remote`. PaymentInitiationServiceImpl fixed problem with payment initiation status
+- `xs2a-adapter-service-api`. AccountDetails - add missing @JsonValue annotations for AvailableAccountsEnum and AllPsd2Enum
+- `xs2a-adapter-rest-impl`. index, main - fixed mdl-tooltip bug
+- `xs2a-adapter-service-api`. BasePaymentInitiationService - fix initiateSinglePayment URL, change path constants visibility so they can be reused in extensions
+- `xs2a-adapter-rest-impl`. index, main - fixed bug with copy-pasted values from data tables
+- fixed searching of ASPSP by name by making it elastic (possibility to search by the part of the name)
+- provided mapping of `Accept` header for Verlag adapter.

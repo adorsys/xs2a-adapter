@@ -49,6 +49,7 @@ crashlytics-build.properties
 
 # custom
 
+/lucene/
 target/sonar/
 */target/*
 */target/**

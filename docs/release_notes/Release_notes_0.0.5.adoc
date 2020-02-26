@@ -1,0 +1,8 @@
+= Release notes for version 0.0.5 (release date: 13.11.2019)
+
+== Features:
+- Add support multiple records from ASPSP registry. It can be configured via `AdapterServiceLoader`
+constructor parameter
+
+== Fixes:
+- Remote client: fixed bug in `getTransactionListAsString` with accept type `application/json`

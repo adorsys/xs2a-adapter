@@ -1,0 +1,114 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "ASPSP Registry API",
+    "description" : "The registry of all aspsps supported by adapter",
+    "version" : "0.1"
+  },
+  "paths" : {
+    "/v1/aspsps" : {
+      "get" : {
+        "description" : "Find ASPSP by one of the next parameters BIC, BLZ (bank code), IBAN or bank name",
+        "parameters" : [ {
+          "name" : "bankCode",
+          "description" : "BLZ (bank code)",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "76090500"
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "10"
+        }, {
+          "name" : "iban",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "DE32799905998833114935"
+        }, {
+          "name" : "name",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "sparda"
+        }, {
+          "name" : "after",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "0"
+        }, {
+          "name" : "bic",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "GENODEF1S06"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "List of aspsp records",
+            "content" : {
+              "application/json" : {
+                "example" : [ {
+                  "id" : "4c47e75a-760f-4d99-8d88-490221b39f98",
+                  "name" : "Ing Bank N.V.",
+                  "bic" : "INGDDEFFXXX",
+                  "bankCode" : "50010517",
+                  "url" : "https://api.sandbox.ing.com",
+                  "adapterId" : "ing-adapter",
+                  "paginationId" : "1980:1.0"
+                } ]
+              }
+            }
+          }
+        },
+        "tags" : [ "Find ASPSP" ]
+      }
+    },
+    "/v1/aspsps/{aspsp-id}" : {
+      "get" : {
+        "description" : "Find ASPSP by ID",
+        "parameters" : [{
+          "name" : "aspsp-id",
+          "description" : "Aspsp ID",
+          "in" : "path",
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "4c47e75a-760f-4d99-8d88-490221b39f98"
+        }],
+        "responses" : {
+          "200" : {
+            "description" : "Aspsp record",
+            "content" : {
+              "application/json" : {
+                "example" : {
+                  "id" : "4c47e75a-760f-4d99-8d88-490221b39f98",
+                  "name" : "Ing Bank N.V.",
+                  "bic" : "INGDDEFFXXX",
+                  "bankCode" : "50010517",
+                  "url" : "https://api.sandbox.ing.com",
+                  "adapterId" : "ing-adapter",
+                  "paginationId" : "1980:1.0"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Aspsp not found"
+          }
+        },
+        "tags" : [ "Find ASPSP" ]
+      }
+    }
+  }
+}

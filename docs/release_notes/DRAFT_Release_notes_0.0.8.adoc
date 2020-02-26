@@ -1,0 +1,22 @@
+= DRAFT Release notes for version 0.0.8 (release date: xx.03.2020)
+
+.Added banks
+|===
+|Bank Name|approach|AIS, PIS
+
+|===
+
+== Notices:
+- XS2A API extended with additional query parameters.
+This is needed for Unicredit that has unspecified required parameters.
+Their design is based on the premise of TPPs traversing exact links in the preceding response.
+Old methods without query parameters are deprecated.
+- Unicredit adapter is updated to 1.3.4 version
+
+== Features:
+
+== Fixes:
+- Fixed NPE in the Comdirect adapter, BadRequestException is throwing instead if there are
+no ScaOAuthLink or IdpUrl provided.
+- Fixed deserialization exception in fiducia adapter AIS caused by "challengeData".
+- Fixed missing scopes issue for ING. Default scope is provided if none or wrong scope is received.

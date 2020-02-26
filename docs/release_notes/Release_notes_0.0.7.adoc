@@ -1,0 +1,12 @@
+= Release notes for version 0.0.7 (release date: 10.02.2020)
+
+== Features:
+- Deutsche bank PSU password encryption flow for Embedded approach
+- Removed audit logging on the xs2a-adapter application side
+- Provided logging for the calls being resolved on the adapter side without interaction with the bank
+- Provided sanitized request body logging
+
+== Fixes:
+- Fixed Sparda authorisation URL
+- Revised OAuth2 implementation of comdirect adapter
+- Fixed missing PSU-ID-TYPE header for Unicredit

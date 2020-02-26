@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.service.exception;
 
-import de.adorsys.xs2a.adapter.service.ErrorResponse;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
+import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
 
 import java.util.Optional;
 
@@ -12,15 +12,23 @@ import java.util.Optional;
 // Error429_NG_PIS
 // Error500_NG_PIS
 // Error503_NG_PIS
-public class ErrorResponseException extends RuntimeException{
+public class ErrorResponseException extends RuntimeException {
     private final int statusCode;
-    private final ResponseHeaders responseHeaders;
-    private final ErrorResponse errorResponse;
+    private final transient ResponseHeaders responseHeaders;
+    private final transient ErrorResponse errorResponse;
 
-    public ErrorResponseException(int statusCode, ResponseHeaders responseHeaders, ErrorResponse errorResponse) {
+    public ErrorResponseException(int statusCode,
+                                  ResponseHeaders responseHeaders,
+                                  ErrorResponse errorResponse,
+                                  String response) {
+        super(response);
         this.statusCode = statusCode;
         this.responseHeaders = responseHeaders;
         this.errorResponse = errorResponse;
+    }
+
+    public ErrorResponseException(int statusCode, ResponseHeaders responseHeaders, ErrorResponse errorResponse) {
+        this(statusCode, responseHeaders, errorResponse, null);
     }
 
     public ErrorResponseException(int statusCode, ResponseHeaders responseHeaders) {

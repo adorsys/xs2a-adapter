@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import static org.mockito.Mockito.*;
 public class DkbPaymentInitiationServiceTest {
 
     private final AccessTokenService accessService = Mockito.mock(AccessTokenService.class);
-    private DkbPaymentInitiationService service = new DkbPaymentInitiationService("url", accessService);
+    private DkbPaymentInitiationService service = new DkbPaymentInitiationService("url", accessService, null);
 
     @Test
     public void addBearerHeader() {

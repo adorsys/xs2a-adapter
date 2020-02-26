@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.adorsys.xs2a.adapter</groupId>
         <artifactId>xs2a-adapter</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.8-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
 
@@ -28,6 +28,12 @@
             <groupId>pro.javatar.commons</groupId>
             <artifactId>javatar-commons</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -56,17 +62,28 @@
                                     <excludes>
                                         <!-- project dependencies -->
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-app</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-server</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-aspsp-registry</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-generated-rest-api</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest2api-mapper</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-api</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-impl</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-loader</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-remote</exclude>
                                         <!-- adapters -->
-                                        <exclude>de.adorsys.xs2a.adapter:deutsche-bank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:adorsys-integ-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:sparkasse-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:verlag-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:comdirect-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:commerzbank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:consors-bank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:dab-bank-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:sparda-bank-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:deutsche-bank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:fiducia-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:ing-psd2-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:maven-adapter-archetype</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:santander-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:sparda-bank-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:sparkasse-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:unicredit-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:verlag-adapter</exclude>
                                         <!-- 3rd party dependencies -->
                                         <exclude>joda-time:*</exclude>
                                         <exclude>org.projectlombok:lombok</exclude>

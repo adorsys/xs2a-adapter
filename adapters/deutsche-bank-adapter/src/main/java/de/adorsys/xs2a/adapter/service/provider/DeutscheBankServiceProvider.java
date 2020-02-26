@@ -16,22 +16,46 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
-import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
+import de.adorsys.xs2a.adapter.adapter.BaseDownloadService;
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.impl.DeutscheBankAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.DeutscheBankPaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.impl.DeutscheBankPsuPasswordEncryptionService;
+import de.adorsys.xs2a.adapter.service.impl.PsuIdTypeHeaderInterceptor;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
-public class DeutscheBankServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+public class DeutscheBankServiceProvider
+    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, DownloadServiceProvider {
     private static final String SERVICE_GROUP_PLACEHOLDER = "{Service Group}";
+    private static final PsuIdTypeHeaderInterceptor psuIdTypeHeaderInterceptor = new PsuIdTypeHeaderInterceptor();
+    private static final PsuPasswordEncryptionService psuPasswordEncryptionService = DeutscheBankPsuPasswordEncryptionService.getInstance();
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl) {
-        return new DeutscheBankAccountInformationService(baseUrl.replace(SERVICE_GROUP_PLACEHOLDER, "ais"));
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  Pkcs12KeyStore keyStore) {
+        aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "ais"));
+        return new DeutscheBankAccountInformationService(aspsp,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            psuIdTypeHeaderInterceptor,
+            psuPasswordEncryptionService);
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
-        return new DeutscheBankPaymentInitiationService(baseUrl.replace(SERVICE_GROUP_PLACEHOLDER, "pis"));
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl,
+                                                                HttpClientFactory httpClientFactory,
+                                                                Pkcs12KeyStore keyStore) {
+        return new DeutscheBankPaymentInitiationService(baseUrl.replace(SERVICE_GROUP_PLACEHOLDER, "pis"),
+            httpClientFactory.getHttpClient(getAdapterId()),
+            psuIdTypeHeaderInterceptor);
+    }
+
+    @Override
+    public DownloadService getDownloadService(String baseUrl,
+                                              HttpClientFactory httpClientFactory,
+                                              Pkcs12KeyStore keyStore) {
+        return new BaseDownloadService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
     }
 
     @Override

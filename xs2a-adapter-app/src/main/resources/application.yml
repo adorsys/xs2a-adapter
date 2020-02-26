@@ -4,8 +4,9 @@ server:
 info:
   app:
     name: ${spring.application.name}
-    description: "Description"
+    description: @project.description@
     version: @project.version@
+    build: '#@build.number@'
     artifactId: @project.artifactId@
 
 spring:
@@ -13,5 +14,29 @@ spring:
     name: xs2a-adapter
   jackson:
     default-property-inclusion: non_null
+    serialization:
+      indent-output: true
+      write-dates-as-timestamps: false
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
 
-logging.level.org.apache.http.wire: DEBUG
+xs2a-adapter:
+  loader:
+    choose-first-from-multiple-aspsps: true
+---
+spring:
+  profiles: dev
+logging:
+  config: classpath:logback-dev.xml
+  level:
+    de.adorsys.xs2a.adapter.http.ApacheHttpClient: DEBUG
+    de.adorsys.xs2a.adapter.http.ResponseHandlers: DEBUG
+    de.adorsys.xs2a.adapter.registry.LuceneAspspRepository: DEBUG
+    de.adorsys.xs2a.adapter.adapter.BaseOauth2Service: DEBUG
+    # TODO remove this after SpardaOauth2Service refactoring
+    de.adorsys.xs2a.adapter.service.SpardaOauth2Service: DEBUG

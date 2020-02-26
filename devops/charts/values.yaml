@@ -1,2 +1,25 @@
 ---
 timezone: Europe/Berlin
+
+adapter:
+  # external aspsp config indicator
+  aspspConfig: false
+
+  livenessProbe:
+    httpGet:
+      path: /actuator/health
+      port: 8081
+    initialDelaySeconds: 120
+    periodSeconds: 10
+  readinessProbe:
+    httpGet:
+      path: /actuator/health
+      port: 8081
+    initialDelaySeconds: 60
+    periodSeconds: 5
+
+logback:
+  # external logging config indicator
+  enabled: false
+monitoring:
+  enabled: false

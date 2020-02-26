@@ -1,12 +1,10 @@
 package de.adorsys.xs2a.adapter.service;
 
-import de.adorsys.xs2a.adapter.service.exception.BicNotProvidedException;
-
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class RequestHeaders {
-    public static final String X_GTW_BIC = "X-GTW-BIC";
     public static final String X_REQUEST_ID = "X-Request-ID";
     public static final String CONSENT_ID = "Consent-ID";
     public static final String DIGEST = "Digest";
@@ -16,29 +14,39 @@ public class RequestHeaders {
     public static final String DATE = "Date";
     public static final String SIGNATURE = "Signature";
     public static final String TPP_SIGNATURE_CERTIFICATE = "TPP-Signature-Certificate";
-    private static final String PSU_IP_ADDRESS = "PSU-IP-Address";
-    private static final String PSU_ID_TYPE = "PSU-ID-Type";
-    private static final String PSU_CORPORATE_ID_TYPE = "PSU-Corporate-ID-Type";
-    private static final String TPP_REDIRECT_PREFERRED = "TPP-Redirect-Preferred";
-    private static final String TPP_NOK_REDIRECT_URI = "TPP-Nok-Redirect-URI";
-    private static final String TPP_EXPLICIT_AUTHORISATION_PREFERRED = "TPP-Explicit-Authorisation-Preferred";
-    private static final String PSU_IP_PORT = "PSU-IP-Port";
-    private static final String PSU_ACCEPT = "PSU-Accept";
-    private static final String PSU_ACCEPT_CHARSET = "PSU-Accept-Charset";
-    private static final String PSU_ACCEPT_ENCODING = "PSU-Accept-Encoding";
-    private static final String PSU_ACCEPT_LANGUAGE = "PSU-Accept-Language";
-    private static final String PSU_USER_AGENT = "PSU-User-Agent";
-    private static final String PSU_HTTP_METHOD = "PSU-Http-Method";
-    private static final String PSU_DEVICE_ID = "PSU-Device-ID";
-    private static final String PSU_GEO_LOCATION = "PSU-Geo-Location";
+    public static final String PSU_IP_ADDRESS = "PSU-IP-Address";
+    public static final String PSU_ID_TYPE = "PSU-ID-Type";
+    public static final String PSU_CORPORATE_ID_TYPE = "PSU-Corporate-ID-Type";
+    public static final String TPP_REDIRECT_PREFERRED = "TPP-Redirect-Preferred";
+    public static final String TPP_NOK_REDIRECT_URI = "TPP-Nok-Redirect-URI";
+    public static final String TPP_EXPLICIT_AUTHORISATION_PREFERRED = "TPP-Explicit-Authorisation-Preferred";
+    public static final String PSU_IP_PORT = "PSU-IP-Port";
+    public static final String PSU_ACCEPT = "PSU-Accept";
+    public static final String PSU_ACCEPT_CHARSET = "PSU-Accept-Charset";
+    public static final String PSU_ACCEPT_ENCODING = "PSU-Accept-Encoding";
+    public static final String PSU_ACCEPT_LANGUAGE = "PSU-Accept-Language";
+    public static final String PSU_USER_AGENT = "PSU-User-Agent";
+    public static final String PSU_HTTP_METHOD = "PSU-Http-Method";
+    public static final String PSU_DEVICE_ID = "PSU-Device-ID";
+    public static final String PSU_GEO_LOCATION = "PSU-Geo-Location";
     // technical
-    private static final String ACCEPT = "Accept";
-    private static final String AUTHORIZATION = "Authorization";
+    public static final String ACCEPT = "Accept";
+    public static final String CONTENT_TYPE = "Content-Type";
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String CORRELATION_ID = "Correlation-ID";
+    // gateway
+    public static final String X_GTW_ASPSP_ID = "X-GTW-ASPSP-ID";
+    public static final String X_GTW_BANK_CODE = "X-GTW-Bank-Code";
+    public static final String X_GTW_BIC = "X-GTW-BIC";
+    public static final String X_GTW_IBAN = "X-GTW-IBAN";
 
     private static Map<String, String> headerNamesLowerCased = new HashMap<>();
 
     static {
+        headerNamesLowerCased.put(X_GTW_ASPSP_ID.toLowerCase(), X_GTW_ASPSP_ID);
+        headerNamesLowerCased.put(X_GTW_BANK_CODE.toLowerCase(), X_GTW_BANK_CODE);
         headerNamesLowerCased.put(X_GTW_BIC.toLowerCase(), X_GTW_BIC);
+        headerNamesLowerCased.put(X_GTW_IBAN.toLowerCase(), X_GTW_IBAN);
         headerNamesLowerCased.put(X_REQUEST_ID.toLowerCase(), X_REQUEST_ID);
         headerNamesLowerCased.put(PSU_IP_ADDRESS.toLowerCase(), PSU_IP_ADDRESS);
         headerNamesLowerCased.put(DIGEST.toLowerCase(), DIGEST);
@@ -64,6 +72,7 @@ public class RequestHeaders {
         headerNamesLowerCased.put(PSU_GEO_LOCATION.toLowerCase(), PSU_GEO_LOCATION);
         headerNamesLowerCased.put(ACCEPT.toLowerCase(), ACCEPT);
         headerNamesLowerCased.put(AUTHORIZATION.toLowerCase(), AUTHORIZATION);
+        headerNamesLowerCased.put(CORRELATION_ID.toLowerCase(), CORRELATION_ID);
     }
 
     private Map<String, String> headers;
@@ -88,14 +97,28 @@ public class RequestHeaders {
     }
 
     public boolean isAcceptJson() {
-        return "application/json".equalsIgnoreCase(headers.get(ACCEPT));
+        return Optional.ofNullable(headers.get(ACCEPT))
+                   .map(a -> a.toLowerCase().startsWith("application/json"))
+                   .orElse(false);
     }
 
-    public String removeBic() {
-        String bic = headers.remove(X_GTW_BIC);
-        if (bic == null) {
-            throw new BicNotProvidedException();
-        }
-        return bic;
+    public Optional<String> get(String headerName) {
+        return Optional.ofNullable(headers.get(headerNamesLowerCased.get(headerName.toLowerCase())));
+    }
+
+    public Optional<String> getAspspId() {
+        return get(X_GTW_ASPSP_ID);
+    }
+
+    public Optional<String> getBankCode() {
+        return get(X_GTW_BANK_CODE);
+    }
+
+    public Optional<String> getBic() {
+        return get(X_GTW_BIC);
+    }
+
+    public Optional<String> getIban() {
+        return get(X_GTW_IBAN);
     }
 }

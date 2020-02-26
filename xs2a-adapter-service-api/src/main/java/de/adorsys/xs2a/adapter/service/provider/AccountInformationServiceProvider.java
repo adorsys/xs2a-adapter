@@ -16,9 +16,12 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
-import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.service.AccountInformationService;
+import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public interface AccountInformationServiceProvider extends AdapterServiceProvider {
 
-    AccountInformationService getAccountInformationService(String baseUrl);
+    AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore);
 }

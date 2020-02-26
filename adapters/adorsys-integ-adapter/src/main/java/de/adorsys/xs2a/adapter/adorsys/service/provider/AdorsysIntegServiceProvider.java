@@ -16,23 +16,38 @@
 
 package de.adorsys.xs2a.adapter.adorsys.service.provider;
 
-import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.ais.AccountInformationService;
+import de.adorsys.xs2a.adapter.adapter.oauth2.api.BaseOauth2Api;
+import de.adorsys.xs2a.adapter.adapter.oauth2.api.model.AuthorisationServerMetaData;
+import de.adorsys.xs2a.adapter.adorsys.service.AdorsysAccountInformationService;
+import de.adorsys.xs2a.adapter.adorsys.service.AdorsysIntegOauth2Service;
+import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 
-public class AdorsysIntegServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+public class AdorsysIntegServiceProvider
+    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceFactory {
+
+    private final OauthHeaderInterceptor oauthHeaderInterceptor = new OauthHeaderInterceptor();
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl) {
-        return new BasePaymentInitiationService(baseUrl);
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()), oauthHeaderInterceptor);
     }
 
     @Override
-    public AccountInformationService getAccountInformationService(String baseUrl) {
-        return new BaseAccountInformationService(baseUrl);
+    public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return new AdorsysAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()), oauthHeaderInterceptor);
+    }
+
+    @Override
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
+        return new AdorsysIntegOauth2Service(aspsp, httpClient,
+            new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class));
     }
 
     @Override
