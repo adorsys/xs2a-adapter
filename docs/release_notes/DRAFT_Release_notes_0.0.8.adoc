@@ -14,6 +14,7 @@ Old methods without query parameters are deprecated.
 - Unicredit adapter is updated to 1.3.4 version
 
 == Features:
+- Implemented the possibility to provide the path to Lucene index through application environment variable `csv.aspsp.adapter.lucene.dir.path`
 
 == Fixes:
 - Fixed NPE in the Comdirect adapter, BadRequestException is throwing instead if there are

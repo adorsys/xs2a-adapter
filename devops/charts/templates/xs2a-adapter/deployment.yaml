@@ -28,6 +28,8 @@ spec:
             - name: csv.aspsp.adapter.config.file.path
               value: /opt/xs2a-adapter/conf/aspsp-adapter-config.csv
             {{- end }}
+            - name: csv.aspsp.adapter.lucene.dir.path
+              value: /opt/xs2a-adapter/lucene
             {{- if .Values.logback.enabled }}
             - name: LOGGING_CONFIG
               value: /opt/xs2a-adapter/conf/logback.xml
@@ -70,6 +72,8 @@ spec:
             - name: persistent-volume
               mountPath: /opt/xs2a-adapter/logs
             {{- end }}
+            - name: persistent-volume
+              mountPath: /opt/xs2a-adapter/lucene
             - name: configmap-volume
               mountPath: /opt/xs2a-adapter/conf
       dnsPolicy: ClusterFirst
@@ -81,11 +85,9 @@ spec:
         - name: pkcs12-key-store-secret-volume
           secret:
             secretName: pkcs12-key-store-secret
-        {{- if and .Values.logback.enabled }}
         - name: persistent-volume
           persistentVolumeClaim:
             claimName: xs2a-adapter-pvc
-        {{- end }}
         - configMap:
             defaultMode: 292
             name: xs2a-adapter-config
