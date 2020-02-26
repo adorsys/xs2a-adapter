@@ -25,9 +25,10 @@ public class IngOauth2Service {
     }
 
     public URI getAuthorizationRequestUri(Oauth2Service.Parameters parameters)  {
+        ParametersValidationService.validateScope(parameters);
         ClientAuthentication clientAuthentication =
             clientAuthenticationFactory.newClientAuthentication(getApplicationToken());
-        AuthorizationURLResponse authorizationUrlResponse = oauth2Api.getAuthorizationUrl(clientAuthentication)
+        AuthorizationURLResponse authorizationUrlResponse = oauth2Api.getAuthorizationUrl(clientAuthentication, parameters.getScope())
             .getBody();
 
         parameters.setClientId(getClientId());
