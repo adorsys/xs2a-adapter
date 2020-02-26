@@ -28,6 +28,10 @@ spec:
             - name: csv.aspsp.adapter.config.file.path
               value: /opt/xs2a-adapter/conf/aspsp-adapter-config.csv
             {{- end }}
+            {{- if .Values.adapter.aspspConfig }}
+            - name: csv.aspsp.adapter.lucene.dir.path
+              value: /opt/xs2a-adapter/conf/lucene
+            {{- end }}
             {{- if .Values.logback.enabled }}
             - name: LOGGING_CONFIG
               value: /opt/xs2a-adapter/conf/logback.xml

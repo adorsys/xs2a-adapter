@@ -22,8 +22,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class LuceneAspspRepositoryFactory {
+    private static final String LUCENE_DIR_PATH_PROPERTY = "csv.aspsp.adapter.lucene.dir.path";
+    private static final String CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH_PROPERTY = "csv.aspsp.adapter.config.file.path";
     private static final String DEFAULT_LUCENE_DIR_PATH = "lucene";
-    private static final String CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH = "csv.aspsp.adapter.config.file.path";
     private static final String DEFAULT_CSV_ASPSP_ADAPTER_CONFIG_FILE = "aspsp-adapter-config.csv";
 
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
@@ -37,7 +38,8 @@ public class LuceneAspspRepositoryFactory {
     }
 
     private LuceneAspspRepository newLuceneAspspRepositoryInternal() throws IOException {
-        Directory directory = FSDirectory.open(Paths.get(DEFAULT_LUCENE_DIR_PATH, "index"));
+        String luceneDirPath = PropertyUtil.readProperty(LUCENE_DIR_PATH_PROPERTY, DEFAULT_LUCENE_DIR_PATH);
+        Directory directory = FSDirectory.open(Paths.get(luceneDirPath, "index"));
         LuceneAspspRepository luceneAspspRepository = new LuceneAspspRepository(directory);
         byte[] csv = getCsvFileAsByteArray();
 
@@ -49,7 +51,7 @@ public class LuceneAspspRepositoryFactory {
         }
         String computedDigest = new BigInteger(1, messageDigest.digest(csv)).toString(16);
 
-        Path digestPath = Paths.get(DEFAULT_LUCENE_DIR_PATH, "digest.sha256");
+        Path digestPath = Paths.get(luceneDirPath, "digest.sha256");
         boolean changed;
         if (Files.exists(digestPath)) {
             String storedDigest = new String(Files.readAllBytes(digestPath));
@@ -84,7 +86,7 @@ public class LuceneAspspRepositoryFactory {
     }
 
     private InputStream getCsvFileAsStream() {
-        String csvConfigFileProperty = PropertyUtil.readProperty(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH);
+        String csvConfigFileProperty = PropertyUtil.readProperty(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH_PROPERTY);
 
         InputStream inputStream;
 
