@@ -23,7 +23,7 @@ spec:
             - name: XS2A-ADAPTER_LOADER_CHOOSE-FIRST-FROM-MULTIPLE-ASPSPS
               value: "true"
             - name: SPRING_PROFILES_ACTIVE
-              value: dev,sandbox
+              value: {{ .Values.adapter.profiles }}
             {{- if .Values.adapter.aspspConfig }}
             - name: csv.aspsp.adapter.config.file.path
               value: /opt/xs2a-adapter/conf/aspsp-adapter-config.csv
