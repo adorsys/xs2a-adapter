@@ -11,6 +11,8 @@ import de.adorsys.xs2a.adapter.service.ing.internal.api.model.TokenResponse;
 
 import java.net.URI;
 
+import static de.adorsys.xs2a.adapter.service.Oauth2Service.ResponseType.CODE;
+
 public class IngOauth2Service {
 
     private final Oauth2Api oauth2Api;
@@ -35,6 +37,7 @@ public class IngOauth2Service {
             .getBody();
 
         parameters.setClientId(getClientId());
+        parameters.setResponseType(CODE.toString());
 
         return URI.create(StringUri.withQuery(authorizationUrlResponse.getLocation(), parameters.asMap()));
     }
