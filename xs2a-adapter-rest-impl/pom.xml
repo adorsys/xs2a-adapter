@@ -12,6 +12,10 @@
 
     <artifactId>xs2a-adapter-rest-impl</artifactId>
 
+    <properties>
+        <commons-fileupload.version>1.4</commons-fileupload.version>
+    </properties>
+
     <dependencies>
 
         <!-- project dependencies -->
@@ -42,6 +46,10 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
         <!-- swagger dependencies -->
 
         <dependency>
@@ -76,6 +84,12 @@
             <groupId>org.webjars</groupId>
             <artifactId>webjars-locator</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons-fileupload.version}</version>
         </dependency>
 
         <!-- test dependencies -->
