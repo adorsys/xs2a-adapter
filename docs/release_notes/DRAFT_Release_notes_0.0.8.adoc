@@ -15,7 +15,7 @@ Old methods without query parameters are deprecated.
 
 == Features:
 - Implemented the possibility to provide the path to Lucene index through application environment variable `csv.aspsp.adapter.lucene.dir.path`
-- Added support MIME headers to `xs2a-adapter-rest-impl`. It is enabled by default, to disable it just set
+- Added support of MIME headers to `xs2a-adapter-rest-impl`. It is enabled by default, to disable it just set
 `xs2a-adapter.rest.mime-headers-support-enabled` property to `false`.
 
 == Fixes:
