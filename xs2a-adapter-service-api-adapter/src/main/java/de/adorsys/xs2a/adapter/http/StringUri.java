@@ -7,6 +7,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -118,5 +120,27 @@ public class StringUri {
 
     public static String removeAllQueryParams(String uri) {
         return uri.split("\\?")[0];
+    }
+
+    public static Optional<String> getVersion(String uri) {
+        Matcher matcher = VERSION_PATTERN.matcher(uri);
+
+        if (matcher.find()) {
+            return Optional.of(matcher.group(0));
+        }
+
+        return Optional.empty();
+    }
+
+    public static String copyQueryParams(String sourceUri, String targetUri) {
+        if (!containsQueryParams(sourceUri)) {
+            return targetUri;
+        }
+
+        return targetUri + (containsQueryParams(targetUri) ? "&" : "?") + sourceUri.split("\\?")[1];
+    }
+
+    private static boolean containsQueryParams(String uri) {
+        return uri.split("\\?").length > 1;
     }
 }
