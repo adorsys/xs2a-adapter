@@ -17,7 +17,8 @@ import static de.adorsys.xs2a.adapter.adapter.link.bg.template.LinksTemplate.*;
 public class BerlinGroupLinksRewriter implements LinksRewriter {
     private static final Logger logger = LoggerFactory.getLogger(BerlinGroupLinksRewriter.class);
 
-    private static final Set<String> UNCHANGEABLE_LINKS = new HashSet<>(Arrays.asList(SCA_REDIRECT, SCA_OAUTH));
+    private static final Set<String> UNCHANGEABLE_LINKS
+        = new HashSet<>(Arrays.asList(SCA_REDIRECT, SCA_OAUTH));
 
     private static final String START_OF_PLACEHOLDER = "{";
     private static final String END_OF_PLACEHOLDER = "}";
@@ -51,7 +52,8 @@ public class BerlinGroupLinksRewriter implements LinksRewriter {
         registerPlaceholder(PAYMENT_ID_PLACEHOLDER, this::retrievePaymentId);
     }
 
-    public void registerPlaceholder(String placeholder, Function<String, Optional<String>> paramRetriever) {
+    public void registerPlaceholder(String placeholder,
+                                    Function<String, Optional<String>> paramRetriever) {
         placeholdersToParamRetrievers.put(placeholder, paramRetriever);
     }
 
@@ -81,7 +83,8 @@ public class BerlinGroupLinksRewriter implements LinksRewriter {
                 continue;
             }
 
-            Optional<String> rewrittenLinksOptional = replacePlaceholdersWithValues(linkTemplateOptional.get(), linkFromAspsp.getHref());
+            Optional<String> rewrittenLinksOptional
+                = replacePlaceholdersWithValues(linkTemplateOptional.get(), linkFromAspsp.getHref());
 
             if (rewrittenLinksOptional.isPresent()) {
                 String rewrittenLink = rewrittenLinksOptional.get();
@@ -108,7 +111,8 @@ public class BerlinGroupLinksRewriter implements LinksRewriter {
         String rewrittenLink = linkTemplate;
 
         for (String placeholder : placeholders) {
-            Function<String, Optional<String>> paramRetriever = placeholdersToParamRetrievers.get(placeholder);
+            Function<String, Optional<String>> paramRetriever
+                = placeholdersToParamRetrievers.get(placeholder);
 
             if (paramRetriever == null) {
                 return Optional.empty();
@@ -191,7 +195,8 @@ public class BerlinGroupLinksRewriter implements LinksRewriter {
             return Optional.empty();
         }
 
-        // as payment links are compliant with the following pattern: `{paymentService}/{paymentProduct}`
+        // as payment links are compliant with
+        // the following pattern: `{paymentService}/{paymentProduct}`
         // it means that the linkPaths[1] returns payment service value
         return Optional.of(linkPaths[0]);
     }
@@ -205,7 +210,8 @@ public class BerlinGroupLinksRewriter implements LinksRewriter {
 
         String aspspApiVersion = aspspApiVersionOptional.get();
         // `aspspApiVersion.length() + 1` - (+ 1) to include a slash after the version (e.g. `v1/`)
-        String linkWithoutHostAndVersion = link.substring(link.indexOf(aspspApiVersion) + aspspApiVersion.length() + 1);
+        String linkWithoutHostAndVersion
+            = link.substring(link.indexOf(aspspApiVersion) + aspspApiVersion.length() + 1);
 
         if (linkWithoutHostAndVersion.isEmpty()) {
             return new String[]{};
@@ -222,7 +228,8 @@ public class BerlinGroupLinksRewriter implements LinksRewriter {
             return Optional.empty();
         }
 
-        // as payment links are compliant with the following pattern: `{paymentService}/{paymentProduct}`
+        // as payment links are compliant
+        // with the following pattern: `{paymentService}/{paymentProduct}`
         // it means that the linkPaths[0] returns payment product value
         return Optional.of(linkPaths[1]);
     }
@@ -235,7 +242,8 @@ public class BerlinGroupLinksRewriter implements LinksRewriter {
             return Optional.empty();
         }
 
-        // as payment links (that contains payment id) are compliant with the following pattern: `{paymentService}/{paymentProduct}/{paymentId}`
+        // as payment links (that contains payment id) are compliant
+        // with the following pattern: `{paymentService}/{paymentProduct}/{paymentId}`
         // it means that the linkPaths[2] returns payment id value
         return Optional.of(linkPaths[2]);
     }
