@@ -197,7 +197,7 @@ public class BerlinGroupLinksRewriter implements LinksRewriter {
 
         // as payment links are compliant with
         // the following pattern: `{paymentService}/{paymentProduct}`
-        // it means that the linkPaths[1] returns payment service value
+        // it means that the linkPaths[0] returns payment service value
         return Optional.of(linkPaths[0]);
     }
 
@@ -230,7 +230,7 @@ public class BerlinGroupLinksRewriter implements LinksRewriter {
 
         // as payment links are compliant
         // with the following pattern: `{paymentService}/{paymentProduct}`
-        // it means that the linkPaths[0] returns payment product value
+        // it means that the linkPaths[1] returns payment product value
         return Optional.of(linkPaths[1]);
     }
 
