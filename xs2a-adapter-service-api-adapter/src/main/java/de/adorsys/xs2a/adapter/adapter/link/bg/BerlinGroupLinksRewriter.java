@@ -81,21 +81,17 @@ public class BerlinGroupLinksRewriter implements LinksRewriter {
                 continue;
             }
 
-            String linkTemplate = linkTemplateOptional.get();
+            Optional<String> rewrittenLinksOptional = replacePlaceholdersWithValues(linkTemplateOptional.get(), linkFromAspsp.getHref());
 
-            if (containsPlaceholders(linkTemplate)) {
-                Optional<String> rewrittenLinksOptional = replacePlaceholdersWithValues(linkTemplate, linkFromAspsp.getHref());
-
-                if (rewrittenLinksOptional.isPresent()) {
-                    String rewrittenLink = rewrittenLinksOptional.get();
-                    rewrittenLink = StringUri.copyQueryParams(linkFromAspsp.getHref(), rewrittenLink);
-                    rewrittenLinks.put(linkName, new Link(rewrittenLink));
-                } else {
-                    // business decision to leave unknown links untouched
-                    logger.warn("Links rewriting: unknown format of the link [{}] - will be leaved unmapped. " +
-                                    "Custom rewriting should be provided to handle it", linkName);
-                    rewrittenLinks.put(linkName, linkFromAspsp);
-                }
+            if (rewrittenLinksOptional.isPresent()) {
+                String rewrittenLink = rewrittenLinksOptional.get();
+                rewrittenLink = StringUri.copyQueryParams(linkFromAspsp.getHref(), rewrittenLink);
+                rewrittenLinks.put(linkName, new Link(rewrittenLink));
+            } else {
+                // business decision to leave unknown links untouched
+                logger.warn("Links rewriting: unknown format of the link [{}] - will be leaved unmapped. " +
+                                "Custom rewriting should be provided to handle it", linkName);
+                rewrittenLinks.put(linkName, linkFromAspsp);
             }
         }
 
@@ -104,11 +100,6 @@ public class BerlinGroupLinksRewriter implements LinksRewriter {
 
     protected boolean linkUnchangeable(String linkName) {
         return UNCHANGEABLE_LINKS.contains(linkName);
-    }
-
-    private boolean containsPlaceholders(String linkTemplate) {
-        return linkTemplate.contains(START_OF_PLACEHOLDER)
-                   && linkTemplate.contains(END_OF_PLACEHOLDER);
     }
 
     private Optional<String> replacePlaceholdersWithValues(String linkTemplate, String linkFromAspsp) {
@@ -215,6 +206,11 @@ public class BerlinGroupLinksRewriter implements LinksRewriter {
         String aspspApiVersion = aspspApiVersionOptional.get();
         // `aspspApiVersion.length() + 1` - (+ 1) to include a slash after the version (e.g. `v1/`)
         String linkWithoutHostAndVersion = link.substring(link.indexOf(aspspApiVersion) + aspspApiVersion.length() + 1);
+
+        if (linkWithoutHostAndVersion.isEmpty()) {
+            return new String[]{};
+        }
+
         return linkWithoutHostAndVersion.split("/");
     }
 
