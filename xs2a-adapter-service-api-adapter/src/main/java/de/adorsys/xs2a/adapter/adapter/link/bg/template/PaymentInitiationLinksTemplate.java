@@ -41,10 +41,12 @@ public class PaymentInitiationLinksTemplate extends LinksTemplate {
         linkNameToTemplate.put(SCA_STATUS, SCA_STATUS_TEMPLATE);
     }
 
+    @Override
     public Optional<String> get(String linkName) {
         return Optional.ofNullable(linkNameToTemplate.get(linkName));
     }
 
+    @Override
     public void set(String linkName, String linkTemplate) {
         linkNameToTemplate.put(linkName, linkTemplate);
     }

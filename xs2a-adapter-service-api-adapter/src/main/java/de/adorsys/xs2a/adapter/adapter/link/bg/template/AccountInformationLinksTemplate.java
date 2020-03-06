@@ -55,10 +55,12 @@ public class AccountInformationLinksTemplate extends LinksTemplate {
         linkNameToTemplate.put(LAST, LAST_TEMPLATE);
     }
 
+    @Override
     public Optional<String> get(String linkName) {
         return Optional.ofNullable(linkNameToTemplate.get(linkName));
     }
 
+    @Override
     public void set(String linkName, String linkTemplate) {
         linkNameToTemplate.put(linkName, linkTemplate);
     }
