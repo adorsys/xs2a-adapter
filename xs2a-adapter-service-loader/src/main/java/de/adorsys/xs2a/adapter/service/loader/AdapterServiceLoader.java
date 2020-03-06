@@ -11,11 +11,7 @@ import de.adorsys.xs2a.adapter.service.provider.DownloadServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 import org.slf4j.MDC;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.ServiceLoader;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.*;
 import java.util.stream.StreamSupport;
 
 public class AdapterServiceLoader {
@@ -24,7 +20,7 @@ public class AdapterServiceLoader {
     private final AspspReadOnlyRepository aspspRepository;
     protected final Pkcs12KeyStore keyStore;
     protected final HttpClientFactory httpClientFactory;
-    private final ConcurrentMap<Class<?>, ServiceLoader<? extends AdapterServiceProvider>> serviceLoaders = new ConcurrentHashMap<>();
+    private final Map<Class<?>, ServiceLoader<? extends AdapterServiceProvider>> serviceLoaders = new HashMap<>();
     protected final boolean chooseFirstFromMultipleAspsps;
 
     public AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
@@ -91,11 +87,13 @@ public class AdapterServiceLoader {
     public <T extends AdapterServiceProvider> Optional<T> getServiceProvider(Class<T> klass, String adapterId) {
         MDC.put("adapterId", adapterId);
 
-        ServiceLoader<T> serviceLoader = getServiceLoader(klass);
-
-        return StreamSupport.stream(serviceLoader.spliterator(), false)
-                   .filter(provider -> provider.getAdapterId().equalsIgnoreCase(adapterId))
-                   .findFirst();
+        Optional<T> serviceProvider;
+        synchronized (serviceLoaders) {
+            serviceProvider = StreamSupport.stream(getServiceLoader(klass).spliterator(), false)
+                .filter(provider -> provider.getAdapterId().equalsIgnoreCase(adapterId))
+                .findFirst();
+        }
+        return serviceProvider;
     }
 
     @SuppressWarnings("unchecked")
