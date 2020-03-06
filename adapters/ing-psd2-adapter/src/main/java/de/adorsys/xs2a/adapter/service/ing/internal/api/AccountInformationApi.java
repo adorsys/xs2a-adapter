@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.service.ing.internal.api;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.StringUri;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.AccountsResponse;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.BalancesResponse;
@@ -26,8 +27,10 @@ public class AccountInformationApi {
         this.httpClient = httpClient;
     }
 
-    public Response<AccountsResponse> getAccounts(Request.Builder.Interceptor clientAuthentication) {
+    public Response<AccountsResponse> getAccounts(String requestId,
+                                                  Request.Builder.Interceptor clientAuthentication) {
         return httpClient.get(baseUri + ACCOUNTS_ENDPOINT)
+            .header(RequestHeaders.X_REQUEST_ID, requestId)
             .send(clientAuthentication, jsonResponseHandler(AccountsResponse.class));
     }
 
@@ -36,6 +39,7 @@ public class AccountInformationApi {
                                                           LocalDate dateTo,
                                                           Currency currency,
                                                           Integer limit,
+                                                          String requestId,
                                                           Request.Builder.Interceptor clientAuthentication) {
         // fixme
         Map<String, Object> queryParams = new LinkedHashMap<>();
@@ -49,6 +53,7 @@ public class AccountInformationApi {
         );
 
         return httpClient.get(uri)
+            .header(RequestHeaders.X_REQUEST_ID, requestId)
             .send(clientAuthentication, jsonResponseHandler(TransactionsResponse.class));
     }
 
@@ -61,6 +66,7 @@ public class AccountInformationApi {
     public Response<BalancesResponse> getBalances(String resourceId,
                                                   List<String> balanceTypes,
                                                   Currency currency,
+                                                  String requestId,
                                                   Request.Builder.Interceptor clientAuthentication) {
         Map<String, Object> queryParams = new LinkedHashMap<>();
         queryParams.put("balanceTypes", balanceTypes == null ? null : String.join(",", balanceTypes));
@@ -71,6 +77,7 @@ public class AccountInformationApi {
         );
 
         return httpClient.get(uri)
+            .header(RequestHeaders.X_REQUEST_ID, requestId)
             .send(clientAuthentication, jsonResponseHandler(BalancesResponse.class));
     }
 }

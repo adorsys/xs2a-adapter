@@ -24,3 +24,4 @@ no ScaOAuthLink or IdpUrl provided.
 - Fixed deserialization exception in fiducia adapter AIS caused by "challengeData".
 - Fixed missing scopes issue for ING. Default scope is provided if none or wrong scope is received.
 - Fixed missing parameters for ING authorization.
+- Fixed missing X-Request-ID header for ING AIS requests.

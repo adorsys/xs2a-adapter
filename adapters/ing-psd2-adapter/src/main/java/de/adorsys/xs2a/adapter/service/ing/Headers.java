@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.service.ing;
 
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 
 import java.util.Map;
@@ -22,5 +23,9 @@ class Headers {
             throw new BadRequestException("Authorization header value must have type \"Bearer\"");
         }
         return authorization.substring(BEARER_.length());
+    }
+
+    public String getRequestId() {
+        return headers.get(RequestHeaders.X_REQUEST_ID);
     }
 }

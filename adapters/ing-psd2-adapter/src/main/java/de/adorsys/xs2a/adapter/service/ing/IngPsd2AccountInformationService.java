@@ -118,14 +118,13 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
 
     @Override
     public Response<AccountList> getAccounts(Map<String, String> queryParameters, Map<String, String> headers) {
-        String accessToken = getAccessToken(headers);
-        ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
-        return accountInformationApi.getAccounts(clientAuthentication)
-            .map(mapper::map);
+        return getAccounts(new Headers(headers));
     }
 
-    private String getAccessToken(Map<String, String> headers) {
-        return new Headers(headers).getAccessToken();
+    private Response<AccountList> getAccounts(Headers headers) {
+        ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(headers.getAccessToken());
+        return accountInformationApi.getAccounts(headers.getRequestId(), clientAuthentication)
+            .map(mapper::map);
     }
 
     @Override
@@ -142,7 +141,11 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
         ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         Currency currency = queryParameters.getCurrency();
         List<String> balanceTypes = queryParameters.get("balanceTypes", this::parseBalanceTypes);
-        return accountInformationApi.getBalances(accountId, balanceTypes, currency, clientAuthentication)
+        return accountInformationApi.getBalances(accountId,
+            balanceTypes,
+            currency,
+            headers.getRequestId(),
+            clientAuthentication)
             .map(mapper::map);
     }
 
@@ -170,7 +173,13 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
         LocalDate dateTo = queryParameters.getDateTo();
         Currency currency = queryParameters.getCurrency();
         Integer limit = queryParameters.getLimit();
-        return accountInformationApi.getTransactions(accountId, dateFrom, dateTo, currency, limit, clientAuthentication)
+        return accountInformationApi.getTransactions(accountId,
+            dateFrom,
+            dateTo,
+            currency,
+            limit,
+            headers.getRequestId(),
+            clientAuthentication)
             .map(mapper::map);
     }
 }
