@@ -1,10 +1,4 @@
-= DRAFT Release notes for version 0.0.8 (release date: xx.03.2020)
-
-.Added banks
-|===
-|Bank Name|approach|AIS, PIS
-
-|===
+= Release notes for version 0.0.8 (release date: 10.03.2020)
 
 == Notices:
 - XS2A API extended with additional query parameters.
