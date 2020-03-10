@@ -21,9 +21,9 @@ public class CodeChallengeParamAdjusterTest {
 
     private static final String CODE_CHALLENGE_FROM_TPP = "testCodeChallenge";
     private static final String CODE_VERIFIER_FROM_TPP_VALID = "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
-    private static final String CODE_CHALLENGE_FOR_TPP_CODE_VERIFIER = "rSh9QTmLK8aq40PSR2e97ZeVuILzgrWr9ICm/Au9398=";
-    private static final String CODE_CHALLENGE_FOR_CONFIG_CODE_VERIFIER = "v8X+DjYBUsqYxQ+rTtfjB4wX3rwpF3QNUACRO2hsoSk=";
-    private static final String CODE_CHALLENGE_FOR_NOT_VALID_CONFIG_CODE_VERIFIER = "4pCaf7olsMuXP+0EELbJXLBM30PupHCdlx4TCJ1m2WE=";
+    private static final String CODE_CHALLENGE_FOR_TPP_CODE_VERIFIER = "rSh9QTmLK8aq40PSR2e97ZeVuILzgrWr9ICm_Au9398";
+    private static final String CODE_CHALLENGE_FOR_CONFIG_CODE_VERIFIER = "v8X-DjYBUsqYxQ-rTtfjB4wX3rwpF3QNUACRO2hsoSk";
+    private static final String CODE_CHALLENGE_FOR_NOT_VALID_CONFIG_CODE_VERIFIER = "4pCaf7olsMuXP-0EELbJXLBM30PupHCdlx4TCJ1m2WE";
     private static final String CODE_VERIFIER_FROM_TPP_INVALID = "zzz42";
 
     @Test
