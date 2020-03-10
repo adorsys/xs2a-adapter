@@ -7,6 +7,7 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,12 +35,14 @@ class UnicreditAccountInformationServiceTest {
     public static final String AUTHORISATION_URL = CONSENT_ID_URL + "?authenticationCurrentNumber=" + AUTHORISATION_ID;
     private static final String TPP_REDIRECT_URI = "http://example.com";
     private HttpClient httpClient;
+    private LinksRewriter linksRewriter;
     private UnicreditAccountInformationService accountInformationService;
 
     @BeforeEach
     void setUp() {
         httpClient = mock(HttpClient.class);
-        accountInformationService = new UnicreditAccountInformationService(ASPSP, httpClient);
+        linksRewriter = mock(LinksRewriter.class);
+        accountInformationService = new UnicreditAccountInformationService(ASPSP, httpClient, linksRewriter);
     }
 
     @Test

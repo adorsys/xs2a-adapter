@@ -24,6 +24,7 @@ import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.impl.DkbAccessTokenService;
 import de.adorsys.xs2a.adapter.service.impl.DkbAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.DkbPaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public class DkbServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
@@ -31,17 +32,23 @@ public class DkbServiceProvider implements AccountInformationServiceProvider, Pa
     private final DkbAccessTokenService tokenService = DkbAccessTokenService.getInstance();
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl,
+                                                                HttpClientFactory httpClientFactory,
+                                                                Pkcs12KeyStore keyStore,
+                                                                LinksRewriter linksRewriter) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
         tokenService.setHttpClient(httpClient);
-        return new DkbPaymentInitiationService(baseUrl, tokenService, httpClient);
+        return new DkbPaymentInitiationService(baseUrl, tokenService, httpClient, linksRewriter);
     }
 
     @Override
-    public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  Pkcs12KeyStore keyStore,
+                                                                  LinksRewriter linksRewriter) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
         tokenService.setHttpClient(httpClient);
-        return new DkbAccountInformationService(aspsp, tokenService, httpClient);
+        return new DkbAccountInformationService(aspsp, tokenService, httpClient, linksRewriter);
     }
 
     @Override

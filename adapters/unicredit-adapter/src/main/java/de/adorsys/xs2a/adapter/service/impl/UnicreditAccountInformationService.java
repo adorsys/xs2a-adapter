@@ -7,7 +7,9 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
-import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
+import de.adorsys.xs2a.adapter.service.model.AccountListHolder;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -20,8 +22,10 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     private static final String DEFAULT_PSU_ID_TYPE = "HVB_ONLINEBANKING";
     private static final Set<String> POSSIBLE_PSU_ID_TYPE_VALUES = new HashSet<>(Arrays.asList(DEFAULT_PSU_ID_TYPE, "UCEBANKINGGLOBAL"));
 
-    public UnicreditAccountInformationService(Aspsp aspsp, HttpClient httpClient) {
-        super(aspsp, httpClient);
+    public UnicreditAccountInformationService(Aspsp aspsp,
+                                              HttpClient httpClient,
+                                              LinksRewriter linksRewriter) {
+        super(aspsp, httpClient, linksRewriter);
     }
 
     @Override

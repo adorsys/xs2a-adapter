@@ -21,6 +21,7 @@ import de.adorsys.xs2a.adapter.commerzbank.service.CommerzbankAccountInformation
 import de.adorsys.xs2a.adapter.commerzbank.service.CommerzbankOauth2Service;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
@@ -29,13 +30,21 @@ public class CommerzbankServiceProvider
     implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceFactory {
 
     @Override
-    public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new CommerzbankAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()));
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  Pkcs12KeyStore keyStore,
+                                                                  LinksRewriter linksRewriter) {
+        return new CommerzbankAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
+            linksRewriter);
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl,
+                                                                HttpClientFactory httpClientFactory,
+                                                                Pkcs12KeyStore keyStore,
+                                                                LinksRewriter linksRewriter) {
+        return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()),
+            linksRewriter);
     }
 
     @Override

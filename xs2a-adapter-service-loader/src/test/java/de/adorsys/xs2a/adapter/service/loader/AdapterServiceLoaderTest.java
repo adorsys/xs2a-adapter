@@ -33,7 +33,7 @@ public class AdapterServiceLoaderTest {
     private static RequestHeaders requestHeadersWithBankCodeAndBic;
 
     private final AspspReadOnlyRepository aspspRepository = mock(AspspReadOnlyRepository.class);
-    private AdapterServiceLoader adapterServiceLoader = new AdapterServiceLoader(aspspRepository, null, null, false);
+    private AdapterServiceLoader adapterServiceLoader = new AdapterServiceLoader(aspspRepository, null, null, null, null, false);
 
     @BeforeEach
     public void setUp() {
@@ -197,7 +197,7 @@ public class AdapterServiceLoaderTest {
 
     @Test
     public void getAccountInformationServiceReturnFirst() {
-        adapterServiceLoader = new AdapterServiceLoader(aspspRepository, null, null, true);
+        adapterServiceLoader = new AdapterServiceLoader(aspspRepository, null, null, null, null, true);
         Aspsp aspsp1 = new Aspsp();
         aspsp1.setId("1");
 

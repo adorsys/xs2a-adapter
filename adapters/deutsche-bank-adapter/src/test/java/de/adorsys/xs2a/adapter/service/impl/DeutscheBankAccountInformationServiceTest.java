@@ -29,7 +29,7 @@ public class DeutscheBankAccountInformationServiceTest {
     public void createConsent() {
         HttpClient httpClient = mock(HttpClient.class);
         DeutscheBankAccountInformationService service =
-            new DeutscheBankAccountInformationService(ASPSP, httpClient, null, null);
+            new DeutscheBankAccountInformationService(ASPSP, httpClient, null, null, null);
 
         Request.Builder requestBuilder = new RequestBuilderImpl(httpClient, "POST", CONSENT_URL);
         when(httpClient.post(eq(CONSENT_URL)))

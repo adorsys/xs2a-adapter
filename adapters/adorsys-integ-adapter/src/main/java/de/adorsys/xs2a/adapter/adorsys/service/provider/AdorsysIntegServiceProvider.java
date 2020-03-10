@@ -24,6 +24,7 @@ import de.adorsys.xs2a.adapter.adorsys.service.AdorsysIntegOauth2Service;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
@@ -34,13 +35,21 @@ public class AdorsysIntegServiceProvider
     private final OauthHeaderInterceptor oauthHeaderInterceptor = new OauthHeaderInterceptor();
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()), oauthHeaderInterceptor);
+    public PaymentInitiationService getPaymentInitiationService(String baseUrl,
+                                                                HttpClientFactory httpClientFactory,
+                                                                Pkcs12KeyStore keyStore,
+                                                                LinksRewriter linksRewriter) {
+        return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()),
+            oauthHeaderInterceptor, linksRewriter);
     }
 
     @Override
-    public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new AdorsysAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()), oauthHeaderInterceptor);
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  Pkcs12KeyStore keyStore,
+                                                                  LinksRewriter linksRewriter) {
+        return new AdorsysAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
+            oauthHeaderInterceptor, linksRewriter);
     }
 
     @Override

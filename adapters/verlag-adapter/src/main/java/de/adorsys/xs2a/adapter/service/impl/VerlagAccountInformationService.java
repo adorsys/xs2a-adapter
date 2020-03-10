@@ -21,6 +21,7 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 import java.util.AbstractMap;
@@ -34,8 +35,11 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
 
     private AbstractMap.SimpleImmutableEntry<String, String> apiKey;
 
-    public VerlagAccountInformationService(Aspsp aspsp, AbstractMap.SimpleImmutableEntry<String, String> apiKey, HttpClient httpClient) {
-        super(aspsp, httpClient);
+    public VerlagAccountInformationService(Aspsp aspsp,
+                                           AbstractMap.SimpleImmutableEntry<String, String> apiKey,
+                                           HttpClient httpClient,
+                                           LinksRewriter linksRewriter) {
+        super(aspsp, httpClient, linksRewriter);
         this.apiKey = apiKey;
     }
 

@@ -26,6 +26,7 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.mapstruct.factory.Mappers;
 
@@ -49,8 +50,9 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
 
     public FiduciaAccountInformationService(Aspsp aspsp,
                                             HttpClient httpClient,
-                                            Request.Builder.Interceptor requestBuilderInterceptor) {
-        super(aspsp, httpClient, requestBuilderInterceptor);
+                                            Request.Builder.Interceptor requestBuilderInterceptor,
+                                            LinksRewriter linksRewriter) {
+        super(aspsp, httpClient, requestBuilderInterceptor, linksRewriter);
     }
 
     @Override
