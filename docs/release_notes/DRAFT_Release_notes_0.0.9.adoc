@@ -9,5 +9,6 @@
 == Notices:
 
 == Features:
+- Links rewriting feature with 2 predefined implementations: identity and Berlin Group ones.
 
 == Fixes:
