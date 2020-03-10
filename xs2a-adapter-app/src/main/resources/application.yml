@@ -26,6 +26,8 @@ management:
         include: health, info, prometheus
 
 xs2a-adapter:
+  rest:
+    mime-headers-support-enabled: true
   loader:
     choose-first-from-multiple-aspsps: true
 ---
@@ -40,3 +42,5 @@ logging:
     de.adorsys.xs2a.adapter.adapter.BaseOauth2Service: DEBUG
     # TODO remove this after SpardaOauth2Service refactoring
     de.adorsys.xs2a.adapter.service.SpardaOauth2Service: DEBUG
+  pattern:
+    level: "%5p %mdc{correlationId}"

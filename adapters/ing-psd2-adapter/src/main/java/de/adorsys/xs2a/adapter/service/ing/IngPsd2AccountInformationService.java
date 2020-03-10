@@ -122,10 +122,13 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
 
     @Override
     public Response<AccountList> getAccounts(Map<String, String> queryParameters, Map<String, String> headers) {
-        String accessToken = getAccessToken(headers);
-        ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
-        Response<AccountList> response = accountInformationApi.getAccounts(clientAuthentication)
-                                        .map(mapper::map);
+        return getAccounts(new Headers(headers));
+    }
+
+    private Response<AccountList> getAccounts(Headers headers) {
+        ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(headers.getAccessToken());
+        Response<AccountList> response = accountInformationApi.getAccounts(headers.getRequestId(), clientAuthentication)
+            .map(mapper::map);
 
         rewriteLinks(response.getBody());
         return response;
@@ -146,10 +149,6 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
         return mapper.mapToPsd2Links(rewrittenLinks);
     }
 
-    private String getAccessToken(Map<String, String> headers) {
-        return new Headers(headers).getAccessToken();
-    }
-
     @Override
     public Response<ReadAccountBalanceResponse> getBalances(String accountId,
                                                             Map<String, String> queryParameters,
@@ -164,7 +163,11 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
         ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         Currency currency = queryParameters.getCurrency();
         List<String> balanceTypes = queryParameters.get("balanceTypes", this::parseBalanceTypes);
-        return accountInformationApi.getBalances(accountId, balanceTypes, currency, clientAuthentication)
+        return accountInformationApi.getBalances(accountId,
+            balanceTypes,
+            currency,
+            headers.getRequestId(),
+            clientAuthentication)
             .map(mapper::map);
     }
 
@@ -192,10 +195,14 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
         LocalDate dateTo = queryParameters.getDateTo();
         Currency currency = queryParameters.getCurrency();
         Integer limit = queryParameters.getLimit();
-        Response<TransactionsResponse> response = accountInformationApi
-                                                      .getTransactions(accountId, dateFrom,
-                                                          dateTo, currency, limit, clientAuthentication)
-                                                      .map(mapper::map);
+        Response<TransactionsResponse> response = accountInformationApi.getTransactions(accountId,
+            dateFrom,
+            dateTo,
+            currency,
+            limit,
+            headers.getRequestId(),
+            clientAuthentication)
+            .map(mapper::map);
 
         rewriteLinks(response.getBody());
         return response;

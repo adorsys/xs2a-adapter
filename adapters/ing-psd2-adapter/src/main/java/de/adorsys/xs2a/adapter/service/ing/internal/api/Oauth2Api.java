@@ -42,8 +42,13 @@ public class Oauth2Api {
             .send(clientAuthentication, jsonResponseHandler(TokenResponse.class));
     }
 
-    public Response<AuthorizationURLResponse> getAuthorizationUrl(Request.Builder.Interceptor clientAuthentication, String scope) {
-        String uri = StringUri.fromElements(baseUri + AUTHORIZATION_ENDPOINT + "?scope=" + scope);
+    public Response<AuthorizationURLResponse> getAuthorizationUrl(Request.Builder.Interceptor clientAuthentication,
+                                                                  String scope,
+                                                                  String redirectUri) {
+        Oauth2Service.Parameters queryParameters = new Oauth2Service.Parameters();
+        queryParameters.setScope(scope);
+        queryParameters.setRedirectUri(redirectUri);
+        String uri = StringUri.withQuery(baseUri + AUTHORIZATION_ENDPOINT, queryParameters.asMap());
         return httpClient.get(uri)
             .send(clientAuthentication, jsonResponseHandler(AuthorizationURLResponse.class));
     }

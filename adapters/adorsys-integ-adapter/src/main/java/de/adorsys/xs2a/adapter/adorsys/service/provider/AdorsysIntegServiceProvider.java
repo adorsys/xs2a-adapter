@@ -23,24 +23,51 @@ import de.adorsys.xs2a.adapter.adorsys.service.AdorsysAccountInformationService;
 import de.adorsys.xs2a.adapter.adorsys.service.AdorsysIntegOauth2Service;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.http.Request;
+import de.adorsys.xs2a.adapter.http.RequestSigningInterceptor;
 import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class AdorsysIntegServiceProvider
     implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceFactory {
 
     private final OauthHeaderInterceptor oauthHeaderInterceptor = new OauthHeaderInterceptor();
+    private final boolean requestSigningEnabled =
+        Boolean.parseBoolean(AdapterConfig.readProperty("adorsys.request_signing.enabled", "false"));
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(String baseUrl,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()),
-            oauthHeaderInterceptor, linksRewriter);
+        return new BasePaymentInitiationService(baseUrl,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            getInterceptor(keyStore),
+            linksRewriter);
+    }
+
+    private Request.Builder.Interceptor getInterceptor(Pkcs12KeyStore keyStore) {
+        if (requestSigningEnabled) {
+            RequestSigningInterceptor requestSigningInterceptor = new RequestSigningInterceptor(keyStore);
+            return requestBuilder -> {
+                oauthHeaderInterceptor.apply(requestBuilder);
+                requestBuilder.header(RequestHeaders.DATE,
+                    DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
+                requestSigningInterceptor.apply(requestBuilder);
+                String certificate = requestBuilder.headers().get(RequestHeaders.TPP_SIGNATURE_CERTIFICATE);
+                requestBuilder.header(RequestHeaders.TPP_SIGNATURE_CERTIFICATE,
+                    "-----BEGIN CERTIFICATE-----" + certificate + "-----END CERTIFICATE-----");
+                return requestBuilder;
+            };
+        }
+        return oauthHeaderInterceptor;
     }
 
     @Override
@@ -49,7 +76,7 @@ public class AdorsysIntegServiceProvider
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
         return new AdorsysAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
-            oauthHeaderInterceptor, linksRewriter);
+            getInterceptor(keyStore), linksRewriter);
     }
 
     @Override

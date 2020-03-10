@@ -26,7 +26,6 @@ import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public class SantanderServiceProvider implements AccountInformationServiceProvider {
-    private final SantanderAccessTokenService tokenService = SantanderAccessTokenService.getInstance();
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
@@ -34,6 +33,7 @@ public class SantanderServiceProvider implements AccountInformationServiceProvid
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
+        SantanderAccessTokenService tokenService = SantanderAccessTokenService.getInstance();
         tokenService.setHttpClient(httpClient);
         return new SantanderAccountInformationService(aspsp, tokenService, httpClient, linksRewriter);
     }

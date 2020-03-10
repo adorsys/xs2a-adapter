@@ -11,6 +11,8 @@ import de.adorsys.xs2a.adapter.service.ing.internal.api.model.TokenResponse;
 
 import java.net.URI;
 
+import static de.adorsys.xs2a.adapter.service.Oauth2Service.ResponseType.CODE;
+
 public class IngOauth2Service {
 
     private final Oauth2Api oauth2Api;
@@ -28,10 +30,14 @@ public class IngOauth2Service {
         ParametersValidationService.validateScope(parameters);
         ClientAuthentication clientAuthentication =
             clientAuthenticationFactory.newClientAuthentication(getApplicationToken());
-        AuthorizationURLResponse authorizationUrlResponse = oauth2Api.getAuthorizationUrl(clientAuthentication, parameters.getScope())
+        AuthorizationURLResponse authorizationUrlResponse =
+            oauth2Api.getAuthorizationUrl(clientAuthentication,
+                parameters.getScope(),
+                parameters.getRedirectUri())
             .getBody();
 
         parameters.setClientId(getClientId());
+        parameters.setResponseType(CODE.toString());
 
         return URI.create(StringUri.withQuery(authorizationUrlResponse.getLocation(), parameters.asMap()));
     }
