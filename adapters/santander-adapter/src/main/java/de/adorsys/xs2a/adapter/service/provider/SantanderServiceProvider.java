@@ -25,11 +25,11 @@ import de.adorsys.xs2a.adapter.service.impl.SantanderAccountInformationService;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public class SantanderServiceProvider implements AccountInformationServiceProvider {
-    private final SantanderAccessTokenService tokenService = SantanderAccessTokenService.getInstance();
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
+        SantanderAccessTokenService tokenService = SantanderAccessTokenService.getInstance();
         tokenService.setHttpClient(httpClient);
         return new SantanderAccountInformationService(aspsp, tokenService, httpClient);
     }

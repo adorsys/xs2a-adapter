@@ -28,11 +28,10 @@ import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public class DkbServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
-    private final DkbAccessTokenService tokenService = DkbAccessTokenService.getInstance();
-
     @Override
     public PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
+        DkbAccessTokenService tokenService = DkbAccessTokenService.getInstance();
         tokenService.setHttpClient(httpClient);
         return new DkbPaymentInitiationService(baseUrl, tokenService, httpClient);
     }
@@ -40,6 +39,7 @@ public class DkbServiceProvider implements AccountInformationServiceProvider, Pa
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
+        DkbAccessTokenService tokenService = DkbAccessTokenService.getInstance();
         tokenService.setHttpClient(httpClient);
         return new DkbAccountInformationService(aspsp, tokenService, httpClient);
     }
