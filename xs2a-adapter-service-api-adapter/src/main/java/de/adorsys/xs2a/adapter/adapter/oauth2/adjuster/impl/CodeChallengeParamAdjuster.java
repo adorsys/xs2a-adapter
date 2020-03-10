@@ -79,7 +79,7 @@ public class CodeChallengeParamAdjuster implements ParamAdjuster {
 
             md.update(bytes, 0, bytes.length);
             byte[] digest = md.digest();
-            return Base64.getEncoder().encodeToString(digest);
+            return Base64.getUrlEncoder().withoutPadding().encodeToString(digest);
         }
     }
 

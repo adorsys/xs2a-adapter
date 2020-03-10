@@ -30,4 +30,4 @@ no ScaOAuthLink or IdpUrl provided.
 - Fixed DKB and Santander service providers throwing exceptions
 during initialization (service lookup) due to missing configuration
 (issue https://github.com/adorsys/xs2a-adapter/issues/366[#366]).
-
+- Fixed code_challenge "is not up to RFC 7636" error on sparda IDP.
