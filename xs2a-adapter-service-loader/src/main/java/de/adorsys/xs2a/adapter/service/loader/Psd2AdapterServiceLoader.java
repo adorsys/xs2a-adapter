@@ -34,6 +34,7 @@ public class Psd2AdapterServiceLoader extends AdapterServiceLoader {
         }
         return serviceProvider
             .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-            .getAccountInformationService(baseUrl, httpClientFactory, keyStore);
+            .getAccountInformationService(baseUrl, httpClientFactory, keyStore,
+                accountInformationLinksRewriter);
     }
 }

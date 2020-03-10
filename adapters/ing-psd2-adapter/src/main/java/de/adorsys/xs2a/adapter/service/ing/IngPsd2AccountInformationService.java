@@ -11,6 +11,8 @@ import de.adorsys.xs2a.adapter.service.ing.internal.api.ClientAuthentication;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.ClientAuthenticationFactory;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.Oauth2Api;
 import de.adorsys.xs2a.adapter.service.ing.internal.service.IngOauth2Service;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
+import de.adorsys.xs2a.adapter.service.model.Link;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.model.*;
@@ -21,10 +23,7 @@ import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Currency;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyMap;
@@ -33,10 +32,15 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
 
     private final IngOauth2Service oauth2Service;
     private final AccountInformationApi accountInformationApi;
+    private final LinksRewriter linksRewriter;
     private final IngMapper mapper = Mappers.getMapper(IngMapper.class);
 
-    public IngPsd2AccountInformationService(String baseUri, HttpClient httpClient, Pkcs12KeyStore keyStore)
+    public IngPsd2AccountInformationService(String baseUri,
+                                            HttpClient httpClient,
+                                            Pkcs12KeyStore keyStore,
+                                            LinksRewriter linksRewriter)
         throws GeneralSecurityException {
+        this.linksRewriter = linksRewriter;
 
         accountInformationApi = new AccountInformationApi(baseUri, httpClient);
         Oauth2Api oauth2Api = new Oauth2Api(baseUri, httpClient);
@@ -120,8 +124,26 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     public Response<AccountList> getAccounts(Map<String, String> queryParameters, Map<String, String> headers) {
         String accessToken = getAccessToken(headers);
         ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
-        return accountInformationApi.getAccounts(clientAuthentication)
-            .map(mapper::map);
+        Response<AccountList> response = accountInformationApi.getAccounts(clientAuthentication)
+                                        .map(mapper::map);
+
+        rewriteLinks(response.getBody());
+        return response;
+    }
+
+    private void rewriteLinks(AccountList accountList) {
+        Optional.ofNullable(accountList)
+            .map(AccountList::getAccounts)
+            .ifPresent(accounts -> accounts.forEach(acc -> {
+                    acc.setLinks(rewriteLinks(acc.getLinks()));
+                }
+            ));
+    }
+
+    private Map<String, HrefType> rewriteLinks(Map<String, HrefType> links) {
+        Map<String, Link> xs2aLinks = mapper.mapToXs2aLinks(links);
+        Map<String, Link> rewrittenLinks = linksRewriter.rewrite(xs2aLinks);
+        return mapper.mapToPsd2Links(rewrittenLinks);
     }
 
     private String getAccessToken(Map<String, String> headers) {
@@ -170,7 +192,32 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
         LocalDate dateTo = queryParameters.getDateTo();
         Currency currency = queryParameters.getCurrency();
         Integer limit = queryParameters.getLimit();
-        return accountInformationApi.getTransactions(accountId, dateFrom, dateTo, currency, limit, clientAuthentication)
-            .map(mapper::map);
+        Response<TransactionsResponse> response = accountInformationApi
+                                                      .getTransactions(accountId, dateFrom,
+                                                          dateTo, currency, limit, clientAuthentication)
+                                                      .map(mapper::map);
+
+        rewriteLinks(response.getBody());
+        return response;
+    }
+
+    private void rewriteLinks(TransactionsResponse transactionsResponse) {
+        Optional.ofNullable(transactionsResponse)
+            .ifPresent(body -> {
+                body.setLinks(rewriteLinks(body.getLinks()));
+
+                Optional.ofNullable(body.getTransactions())
+                    .ifPresent(ts -> {
+                        ts.setLinks(rewriteLinks(ts.getLinks()));
+
+                        rewriteLinks(ts.getBooked());
+                        rewriteLinks(ts.getPending());
+                    });
+            });
+    }
+
+    private void rewriteLinks(List<TransactionDetails> transactionDetails) {
+        Optional.ofNullable(transactionDetails)
+            .ifPresent(td -> td.forEach(t -> t.setLinks(rewriteLinks(t.getLinks()))));
     }
 }
