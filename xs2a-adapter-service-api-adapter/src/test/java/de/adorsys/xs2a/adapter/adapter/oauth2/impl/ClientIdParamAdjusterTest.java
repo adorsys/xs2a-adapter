@@ -15,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ClientIdParamAdjusterTest {
     private static final String CLIENT_ID_FROM_TPP = "ID1";
     private static final String CLIENT_ID_FROM_CERTIFICATE = "ID2";
+    private static final String CLIENT_ID_FROM_CONFIG = "ID3";
 
     @Test
     public void adjustParam_Success_TppClientIdIsPresent_CertificateClientIdIsPresent() {
@@ -53,6 +54,21 @@ public class ClientIdParamAdjusterTest {
         Map<String, String> parametersMap = actual.getParametersMap();
         assertThat(parametersMap).hasSize(1);
         assertThat(parametersMap.get(Parameters.CLIENT_ID)).isEqualTo(CLIENT_ID_FROM_CERTIFICATE);
+    }
+
+    @Test
+    public void clientIdFromConfigPreferredOverClientIdFromCertificate() {
+        ClientIdParamAdjuster paramAdjuster = ClientIdParamAdjuster.builder()
+            .clientIdFromConfig(CLIENT_ID_FROM_CONFIG)
+            .clientIdFromCertificate(CLIENT_ID_FROM_CERTIFICATE)
+            .constraint(ParamConstraint.REQUIRED)
+            .build();
+
+        Map<String, String> parametersMap =
+            paramAdjuster.adjustParam(new ParamAdjustingResultHolder(), new Parameters(new HashMap<>()))
+                .getParametersMap();
+
+        assertThat(parametersMap.get(Parameters.CLIENT_ID)).isEqualTo(CLIENT_ID_FROM_CONFIG);
     }
 
     @Test
