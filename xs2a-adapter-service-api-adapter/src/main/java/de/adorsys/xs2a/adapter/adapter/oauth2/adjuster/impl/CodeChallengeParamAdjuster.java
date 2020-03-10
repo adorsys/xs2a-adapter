@@ -84,7 +84,7 @@ public class CodeChallengeParamAdjuster implements ParamAdjuster {
     }
 
     public static final class CodeChallengeParamAdjusterBuilder {
-        private static final String DEFAULT_CODE_VERIFIER_REGEX = "^[\\w\\-._~]{44,127}$";
+        private static final String DEFAULT_CODE_VERIFIER_REGEX = "^[\\w\\-._~]{43,127}$";
         private static final Pattern DEFAULT_CODE_VERIFIER_PATTERN
             = Pattern.compile(DEFAULT_CODE_VERIFIER_REGEX);
 

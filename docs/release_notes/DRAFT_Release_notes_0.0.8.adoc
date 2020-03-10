@@ -18,6 +18,7 @@ Old methods without query parameters are deprecated.
 - Added support of MIME headers to `xs2a-adapter-rest-impl`. It is enabled by default, to disable it just set
 `xs2a-adapter.rest.mime-headers-support-enabled` property to `false`.
 - Added request signing in adorsys-adapter
+- Added the possibility to specify client_id in the config.properties for sparda-adapter.
 
 == Fixes:
 - Fixed NPE in the Comdirect adapter, BadRequestException is throwing instead if there are

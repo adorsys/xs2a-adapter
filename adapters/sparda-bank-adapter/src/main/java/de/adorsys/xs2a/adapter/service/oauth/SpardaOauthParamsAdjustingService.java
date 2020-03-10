@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.service.oauth;
 
 import de.adorsys.xs2a.adapter.adapter.oauth2.adjuster.impl.*;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 import java.security.KeyStoreException;
@@ -41,9 +42,10 @@ public class SpardaOauthParamsAdjustingService implements OauthParamsAdjustingSe
                                                 .build();
 
         ClientIdParamAdjuster clientIdParamAdjuster = ClientIdParamAdjuster.builder()
-                                                          .clientIdFromCertificate(organizationIdentifier)
-                                                          .constraint(REQUIRED)
-                                                          .build();
+            .clientIdFromConfig(AdapterConfig.readProperty("sparda.client_id"))
+            .clientIdFromCertificate(organizationIdentifier)
+            .constraint(REQUIRED)
+            .build();
 
         RedirectUriParamAdjuster redirectUriParamAdjuster = RedirectUriParamAdjuster.builder()
                                                                 .constraint(REQUIRED)
