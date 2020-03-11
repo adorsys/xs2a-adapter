@@ -11,3 +11,4 @@
 == Features:
 
 == Fixes:
+- `code_verifier` parameter minimum length lowered to 43 characters in sparda adapter.
