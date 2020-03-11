@@ -23,6 +23,7 @@ import de.adorsys.xs2a.adapter.service.impl.DeutscheBankAccountInformationServic
 import de.adorsys.xs2a.adapter.service.impl.DeutscheBankPaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.impl.DeutscheBankPsuPasswordEncryptionService;
 import de.adorsys.xs2a.adapter.service.impl.PsuIdTypeHeaderInterceptor;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public class DeutscheBankServiceProvider
@@ -34,21 +35,25 @@ public class DeutscheBankServiceProvider
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
-                                                                  Pkcs12KeyStore keyStore) {
+                                                                  Pkcs12KeyStore keyStore,
+                                                                  LinksRewriter linksRewriter) {
         aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "ais"));
         return new DeutscheBankAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             psuIdTypeHeaderInterceptor,
+            linksRewriter,
             psuPasswordEncryptionService);
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(String baseUrl,
                                                                 HttpClientFactory httpClientFactory,
-                                                                Pkcs12KeyStore keyStore) {
+                                                                Pkcs12KeyStore keyStore,
+                                                                LinksRewriter linksRewriter) {
         return new DeutscheBankPaymentInitiationService(baseUrl.replace(SERVICE_GROUP_PLACEHOLDER, "pis"),
             httpClientFactory.getHttpClient(getAdapterId()),
-            psuIdTypeHeaderInterceptor);
+            psuIdTypeHeaderInterceptor,
+            linksRewriter);
     }
 
     @Override

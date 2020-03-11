@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.config;
 
+import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.http.ApacheHttpClientFactory;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
@@ -8,6 +9,7 @@ import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.impl.AccountInformationServiceImpl;
 import de.adorsys.xs2a.adapter.service.impl.DownloadServiceImpl;
 import de.adorsys.xs2a.adapter.service.impl.PaymentInitiationServiceImpl;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.loader.AdapterDelegatingOauth2Service;
 import de.adorsys.xs2a.adapter.service.loader.AdapterServiceLoader;
 import de.adorsys.xs2a.adapter.service.loader.Psd2AdapterDelegatingAccountInformationService;
@@ -46,8 +48,23 @@ public class RestConfiguration {
     }
 
     @Bean
-    AdapterServiceLoader adapterServiceLoader(Pkcs12KeyStore keyStore, HttpClientFactory httpClientFactory) {
-        return new AdapterServiceLoader(aspspRepository(), keyStore, httpClientFactory, chooseFirstFromMultipleAspsps);
+    AdapterServiceLoader adapterServiceLoader(Pkcs12KeyStore keyStore,
+                                              LinksRewriter accountInformationLinksRewriter,
+                                              LinksRewriter paymentInitiationLinksRewriter,
+                                              HttpClientFactory httpClientFactory) {
+        return new AdapterServiceLoader(aspspRepository(), keyStore, httpClientFactory,
+            accountInformationLinksRewriter, paymentInitiationLinksRewriter,
+            chooseFirstFromMultipleAspsps);
+    }
+
+    @Bean
+    LinksRewriter accountInformationLinksRewriter() {
+        return new IdentityLinksRewriter();
+    }
+
+    @Bean
+    LinksRewriter paymentInitiationLinksRewriter() {
+        return new IdentityLinksRewriter();
     }
 
     @Bean
@@ -81,9 +98,13 @@ public class RestConfiguration {
     @Bean
     Psd2AccountInformationService psd2AccountInformationService(AspspReadOnlyRepository aspspRepository,
                                                                 Pkcs12KeyStore keyStore,
-                                                                HttpClientFactory httpClientFactory) {
+                                                                HttpClientFactory httpClientFactory,
+                                                                LinksRewriter accountInformationLinksRewriter,
+                                                                LinksRewriter paymentInitiationLinksRewriter) {
         return new Psd2AdapterDelegatingAccountInformationService(
-            new Psd2AdapterServiceLoader(aspspRepository, keyStore, httpClientFactory, chooseFirstFromMultipleAspsps));
+            new Psd2AdapterServiceLoader(aspspRepository, keyStore, httpClientFactory,
+                accountInformationLinksRewriter, paymentInitiationLinksRewriter,
+                chooseFirstFromMultipleAspsps));
     }
 
     @Bean

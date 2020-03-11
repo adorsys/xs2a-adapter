@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service.ing;
 
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.*;
+import de.adorsys.xs2a.adapter.service.model.Link;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import de.adorsys.xs2a.adapter.service.psd2.model.Balance;
 import de.adorsys.xs2a.adapter.service.psd2.model.HrefType;
@@ -99,4 +100,8 @@ public interface IngMapper {
     TransactionDetails map(de.adorsys.xs2a.adapter.service.ing.internal.api.model.Transaction value);
 
     TokenResponse map(de.adorsys.xs2a.adapter.service.ing.internal.api.model.TokenResponse value);
+
+    Map<String, HrefType> mapToPsd2Links(Map<String, Link> links);
+
+    Map<String, Link> mapToXs2aLinks(Map<String, HrefType> links);
 }

@@ -24,6 +24,7 @@ import de.adorsys.xs2a.adapter.service.PsuPasswordEncryptionService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.apache.commons.lang3.StringUtils;
 
@@ -39,6 +40,7 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
     public DeutscheBankAccountInformationService(Aspsp aspsp,
                                                  HttpClient httpClient,
                                                  Interceptor interceptor,
+                                                 LinksRewriter linksRewriter,
                                                  PsuPasswordEncryptionService psuPasswordEncryptionService) {
         super(aspsp, httpClient, interceptor);
         this.psuPasswordEncryptionService = psuPasswordEncryptionService;

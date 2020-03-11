@@ -21,6 +21,7 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 import java.util.Arrays;
@@ -40,8 +41,11 @@ public class SantanderAccountInformationService extends BaseAccountInformationSe
 
     private AccessTokenService accessService;
 
-    public SantanderAccountInformationService(Aspsp aspsp, AccessTokenService accessService, HttpClient httpClient) {
-        super(aspsp, httpClient);
+    public SantanderAccountInformationService(Aspsp aspsp,
+                                              AccessTokenService accessService,
+                                              HttpClient httpClient,
+                                              LinksRewriter linksRewriter) {
+        super(aspsp, httpClient, linksRewriter);
         this.accessService = accessService;
     }
 

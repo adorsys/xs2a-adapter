@@ -9,6 +9,7 @@
 == Notices:
 
 == Features:
+- Links rewriting feature with 2 predefined implementations: identity and Berlin Group ones.
 
 == Fixes:
 - `code_verifier` parameter minimum length lowered to 43 characters in sparda adapter.

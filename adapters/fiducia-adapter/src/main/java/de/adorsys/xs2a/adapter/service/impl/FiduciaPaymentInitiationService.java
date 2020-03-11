@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.service.impl;
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,8 +15,9 @@ public class FiduciaPaymentInitiationService extends BasePaymentInitiationServic
 
     public FiduciaPaymentInitiationService(String baseUrl,
                                            HttpClient httpClient,
-                                           Request.Builder.Interceptor requestBuilderInterceptor) {
-        super(baseUrl, httpClient, requestBuilderInterceptor);
+                                           Request.Builder.Interceptor requestBuilderInterceptor,
+                                           LinksRewriter linksRewriter) {
+        super(baseUrl, httpClient, requestBuilderInterceptor, linksRewriter);
     }
 
     @Override

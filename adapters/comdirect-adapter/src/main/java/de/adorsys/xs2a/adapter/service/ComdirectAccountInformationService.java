@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.service;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.mapper.BalanceReportMapper;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.BalanceReport;
@@ -12,8 +13,10 @@ public class ComdirectAccountInformationService extends BaseAccountInformationSe
 
     private BalanceReportMapper balanceReportMapper = Mappers.getMapper(BalanceReportMapper.class);
 
-    public ComdirectAccountInformationService(Aspsp aspsp, HttpClient httpClient) {
-        super(aspsp, httpClient);
+    public ComdirectAccountInformationService(Aspsp aspsp,
+                                              HttpClient httpClient,
+                                              LinksRewriter linksRewriter) {
+        super(aspsp, httpClient, linksRewriter);
     }
 
     @Override

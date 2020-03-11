@@ -14,7 +14,7 @@ import static org.mockito.Mockito.*;
 public class DkbAccountInformationServiceTest {
     private static final Aspsp ASPSP = buildAspspWithUrl();
     private final AccessTokenService accessService = Mockito.mock(AccessTokenService.class);
-    private DkbAccountInformationService service = new DkbAccountInformationService(ASPSP, accessService, null);
+    private DkbAccountInformationService service = new DkbAccountInformationService(ASPSP, accessService, null, null);
 
     @Test
     public void addBearerHeader() {

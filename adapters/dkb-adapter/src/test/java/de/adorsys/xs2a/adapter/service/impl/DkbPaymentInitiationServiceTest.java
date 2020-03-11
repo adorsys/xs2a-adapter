@@ -13,7 +13,7 @@ import static org.mockito.Mockito.*;
 public class DkbPaymentInitiationServiceTest {
 
     private final AccessTokenService accessService = Mockito.mock(AccessTokenService.class);
-    private DkbPaymentInitiationService service = new DkbPaymentInitiationService("url", accessService, null);
+    private DkbPaymentInitiationService service = new DkbPaymentInitiationService("url", accessService, null, null);
 
     @Test
     public void addBearerHeader() {

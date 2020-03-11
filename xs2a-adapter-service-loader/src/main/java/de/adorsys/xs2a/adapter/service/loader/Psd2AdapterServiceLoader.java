@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationServiceFactory;
@@ -15,8 +16,12 @@ public class Psd2AdapterServiceLoader extends AdapterServiceLoader {
 
     public Psd2AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
                                     Pkcs12KeyStore keyStore,
-                                    HttpClientFactory httpClientFactory, boolean chooseFirstFromMultipleAspsps) {
-        super(aspspRepository, keyStore, httpClientFactory, chooseFirstFromMultipleAspsps);
+                                    HttpClientFactory httpClientFactory,
+                                    LinksRewriter accountInformationLinksRewriter,
+                                    LinksRewriter paymentInitiationLinksRewriter,
+                                    boolean chooseFirstFromMultipleAspsps) {
+        super(aspspRepository, keyStore, httpClientFactory, accountInformationLinksRewriter,
+            paymentInitiationLinksRewriter, chooseFirstFromMultipleAspsps);
     }
 
     public Psd2AccountInformationService getPsd2AccountInformationService(RequestHeaders requestHeaders) {
@@ -29,6 +34,7 @@ public class Psd2AdapterServiceLoader extends AdapterServiceLoader {
         }
         return serviceProvider
             .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-            .getAccountInformationService(baseUrl, httpClientFactory, keyStore);
+            .getAccountInformationService(baseUrl, httpClientFactory, keyStore,
+                accountInformationLinksRewriter);
     }
 }

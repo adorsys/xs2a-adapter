@@ -27,6 +27,7 @@ import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.RequestSigningInterceptor;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
@@ -44,10 +45,12 @@ public class AdorsysIntegServiceProvider
     @Override
     public PaymentInitiationService getPaymentInitiationService(String baseUrl,
                                                                 HttpClientFactory httpClientFactory,
-                                                                Pkcs12KeyStore keyStore) {
+                                                                Pkcs12KeyStore keyStore,
+                                                                LinksRewriter linksRewriter) {
         return new BasePaymentInitiationService(baseUrl,
             httpClientFactory.getHttpClient(getAdapterId()),
-            getInterceptor(keyStore));
+            getInterceptor(keyStore),
+            linksRewriter);
     }
 
     private Request.Builder.Interceptor getInterceptor(Pkcs12KeyStore keyStore) {
@@ -70,10 +73,10 @@ public class AdorsysIntegServiceProvider
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
-                                                                  Pkcs12KeyStore keyStore) {
-        return new AdorsysAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            getInterceptor(keyStore));
+                                                                  Pkcs12KeyStore keyStore,
+                                                                  LinksRewriter linksRewriter) {
+        return new AdorsysAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
+            getInterceptor(keyStore), linksRewriter);
     }
 
     @Override

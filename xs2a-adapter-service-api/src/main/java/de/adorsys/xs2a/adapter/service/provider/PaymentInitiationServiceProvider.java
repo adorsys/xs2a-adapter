@@ -19,8 +19,12 @@ package de.adorsys.xs2a.adapter.service.provider;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 
 public interface PaymentInitiationServiceProvider extends AdapterServiceProvider {
 
-    PaymentInitiationService getPaymentInitiationService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore);
+    PaymentInitiationService getPaymentInitiationService(String baseUrl,
+                                                         HttpClientFactory httpClientFactory,
+                                                         Pkcs12KeyStore keyStore,
+                                                         LinksRewriter linksRewriter);
 }

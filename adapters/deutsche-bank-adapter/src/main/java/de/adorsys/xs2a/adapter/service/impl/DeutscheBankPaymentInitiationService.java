@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request.Builder.Interceptor;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,8 +14,11 @@ import java.util.Map;
 public class DeutscheBankPaymentInitiationService extends BasePaymentInitiationService {
     private static final String DATE_HEADER = "Date";
 
-    public DeutscheBankPaymentInitiationService(String baseUri, HttpClient httpClient, Interceptor interceptor) {
-        super(baseUri, httpClient, interceptor);
+    public DeutscheBankPaymentInitiationService(String baseUri,
+                                                HttpClient httpClient,
+                                                Interceptor interceptor,
+                                                LinksRewriter linksRewriter) {
+        super(baseUri, httpClient, interceptor, linksRewriter);
     }
 
     @Override

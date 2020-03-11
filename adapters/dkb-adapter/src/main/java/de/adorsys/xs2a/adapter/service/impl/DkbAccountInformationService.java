@@ -26,6 +26,7 @@ import de.adorsys.xs2a.adapter.service.impl.mapper.ConsentCreationResponseDkbMap
 import de.adorsys.xs2a.adapter.service.impl.mapper.StartScaProcessResponseDkbMapper;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbStartScaProcessResponse;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.mapstruct.factory.Mappers;
 
@@ -36,8 +37,11 @@ public class DkbAccountInformationService extends BaseAccountInformationService 
     private final ConsentCreationResponseDkbMapper creationResponseMapper = Mappers.getMapper(ConsentCreationResponseDkbMapper.class);
     private AccessTokenService accessService;
 
-    public DkbAccountInformationService(Aspsp aspsp, AccessTokenService accessService, HttpClient httpClient) {
-        super(aspsp, httpClient);
+    public DkbAccountInformationService(Aspsp aspsp,
+                                        AccessTokenService accessService,
+                                        HttpClient httpClient,
+                                        LinksRewriter linksRewriter) {
+        super(aspsp, httpClient, linksRewriter);
         this.accessService = accessService;
     }
 

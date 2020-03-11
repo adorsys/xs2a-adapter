@@ -7,6 +7,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -194,5 +195,41 @@ public class StringUriTest {
 
         assertThat(StringUri.removeAllQueryParams(uri1)).isEqualTo("http://example.com/path");
         assertThat(StringUri.removeAllQueryParams(uri2)).isEqualTo("http://example.com/path");
+    }
+
+    @Test
+    public void getVersion() {
+        String uri1 = "http://example.com/path/v1";
+        assertThat(StringUri.getVersion(uri1)).isEqualTo(Optional.of("v1"));
+
+        String uri2 = "http://example.com/path/v1/";
+        assertThat(StringUri.getVersion(uri2)).isEqualTo(Optional.of("v1"));
+
+        String uri3 = "http://example.com/path/";
+        assertThat(StringUri.getVersion(uri3)).isEqualTo(Optional.empty());
+
+        String uri4 = "http://example.com/pav1th/";
+        assertThat(StringUri.getVersion(uri4)).isEqualTo(Optional.empty());
+    }
+
+    @Test
+    public void copyQueryParams() {
+        String source1 = "http://example.com/path";
+        String target1 = "http://example.com/another/path";
+
+        assertThat(StringUri.copyQueryParams(source1, target1))
+            .isEqualTo("http://example.com/another/path");
+
+        String source2 = "http://example.com/path?p1=v1&p2=v2";
+        String target2 = "http://example.com/another/path";
+
+        assertThat(StringUri.copyQueryParams(source2, target2))
+            .isEqualTo("http://example.com/another/path?p1=v1&p2=v2");
+
+        String source3 = "http://example.com/path?p1=v1&p2=v2";
+        String target3 = "http://example.com/another/path?p3=v3";
+
+        assertThat(StringUri.copyQueryParams(source3, target3))
+            .isEqualTo("http://example.com/another/path?p3=v3&p1=v1&p2=v2");
     }
 }

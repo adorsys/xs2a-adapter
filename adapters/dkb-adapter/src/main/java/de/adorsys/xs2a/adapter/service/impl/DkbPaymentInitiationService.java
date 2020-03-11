@@ -31,6 +31,7 @@ import de.adorsys.xs2a.adapter.service.impl.model.DkbPaymentInitiationRequestRes
 import de.adorsys.xs2a.adapter.service.impl.model.DkbSelectPsuAuthenticationMethodResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbStartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbUpdatePsuAuthenticationResponse;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.mapstruct.factory.Mappers;
 
@@ -48,8 +49,11 @@ public class DkbPaymentInitiationService extends BasePaymentInitiationService {
 
     private AccessTokenService accessService;
 
-    public DkbPaymentInitiationService(String baseUri, AccessTokenService accessService, HttpClient httpClient) {
-        super(baseUri, httpClient);
+    public DkbPaymentInitiationService(String baseUri,
+                                       AccessTokenService accessService,
+                                       HttpClient httpClient,
+                                       LinksRewriter linksRewriter) {
+        super(baseUri, httpClient, linksRewriter);
         this.accessService = accessService;
     }
 

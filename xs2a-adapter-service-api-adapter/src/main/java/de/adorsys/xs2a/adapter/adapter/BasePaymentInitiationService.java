@@ -16,6 +16,7 @@
 
 package de.adorsys.xs2a.adapter.adapter;
 
+import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.StringUri;
@@ -23,6 +24,7 @@ import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.*;
 
 import javax.ws.rs.core.HttpHeaders;
@@ -35,22 +37,38 @@ import static de.adorsys.xs2a.adapter.http.ResponseHandlers.stringResponseHandle
 import static java.util.function.Function.identity;
 
 public class BasePaymentInitiationService extends AbstractService implements PaymentInitiationService {
+    private static final LinksRewriter DEFAULT_LINKS_REWRITER = new IdentityLinksRewriter();
 
     protected static final String V1 = "v1";
     protected static final String PAYMENTS = "payments";
     protected final String baseUri;
     private final Request.Builder.Interceptor requestBuilderInterceptor;
+    private final LinksRewriter linksRewriter;
 
     public BasePaymentInitiationService(String baseUri, HttpClient httpClient) {
-        this(baseUri, httpClient, null);
+        this(baseUri, httpClient, null, DEFAULT_LINKS_REWRITER);
     }
 
     public BasePaymentInitiationService(String baseUri,
                                         HttpClient httpClient,
                                         Request.Builder.Interceptor requestBuilderInterceptor) {
+        this(baseUri, httpClient, requestBuilderInterceptor, DEFAULT_LINKS_REWRITER);
+    }
+
+    public BasePaymentInitiationService(String baseUri,
+                                        HttpClient httpClient,
+                                        LinksRewriter linksRewriter) {
+        this(baseUri, httpClient, null, linksRewriter);
+    }
+
+    public BasePaymentInitiationService(String baseUri,
+                                        HttpClient httpClient,
+                                        Request.Builder.Interceptor requestBuilderInterceptor,
+                                        LinksRewriter linksRewriter) {
         super(httpClient);
         this.baseUri = baseUri;
         this.requestBuilderInterceptor = requestBuilderInterceptor;
+        this.linksRewriter = linksRewriter;
     }
 
     @Override
@@ -94,6 +112,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             .headers(headersMap)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         PaymentInitiationRequestResponse paymentInitiationRequestResponse = mapper.apply(response.getBody());
+        paymentInitiationRequestResponse.setLinks(linksRewriter.rewrite(paymentInitiationRequestResponse.getLinks()));
+
         return new Response<>(response.getStatusCode(), paymentInitiationRequestResponse, response.getHeaders());
     }
 
@@ -214,6 +234,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             .headers(headersMap)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getBody());
+        startScaProcessResponse.setLinks(linksRewriter.rewrite(startScaProcessResponse.getLinks()));
+
         return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getHeaders());
     }
 
@@ -255,6 +277,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             .headers(headersMap)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = mapper.apply(response.getBody());
+        updatePsuAuthenticationResponse.setLinks(linksRewriter.rewrite(updatePsuAuthenticationResponse.getLinks()));
+
         return new Response<>(response.getStatusCode(), updatePsuAuthenticationResponse, response.getHeaders());
     }
 
@@ -296,6 +320,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             .headers(headersMap)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = mapper.apply(response.getBody());
+        selectPsuAuthenticationMethodResponse.setLinks(linksRewriter.rewrite(selectPsuAuthenticationMethodResponse.getLinks()));
+
         return new Response<>(response.getStatusCode(), selectPsuAuthenticationMethodResponse, response.getHeaders());
     }
 

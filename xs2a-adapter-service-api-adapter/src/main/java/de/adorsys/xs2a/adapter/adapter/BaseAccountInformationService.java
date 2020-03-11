@@ -16,6 +16,7 @@
 
 package de.adorsys.xs2a.adapter.adapter;
 
+import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
@@ -24,11 +25,14 @@ import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
@@ -36,6 +40,8 @@ import static de.adorsys.xs2a.adapter.http.ResponseHandlers.stringResponseHandle
 import static java.util.function.Function.identity;
 
 public class BaseAccountInformationService extends AbstractService implements AccountInformationService {
+    private static final LinksRewriter DEFAULT_LINKS_REWRITER = new IdentityLinksRewriter();
+
     protected static final Logger logger = LoggerFactory.getLogger(BaseAccountInformationService.class);
     protected static final String V1 = "v1";
     protected static final String CONSENTS = "consents";
@@ -45,17 +51,32 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     protected final Aspsp aspsp;
     protected final Request.Builder.Interceptor requestBuilderInterceptor;
+    private final LinksRewriter linksRewriter;
 
     public BaseAccountInformationService(Aspsp aspsp, HttpClient httpClient) {
-        this(aspsp, httpClient, null);
+        this(aspsp, httpClient, null, DEFAULT_LINKS_REWRITER);
     }
 
     public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
                                          Request.Builder.Interceptor requestBuilderInterceptor) {
+        this(aspsp, httpClient, requestBuilderInterceptor, DEFAULT_LINKS_REWRITER);
+    }
+
+    public BaseAccountInformationService(Aspsp aspsp,
+                                         HttpClient httpClient,
+                                         LinksRewriter linksRewriter) {
+        this(aspsp, httpClient, null, linksRewriter);
+    }
+
+    public BaseAccountInformationService(Aspsp aspsp,
+                                         HttpClient httpClient,
+                                         Request.Builder.Interceptor requestBuilderInterceptor,
+                                         LinksRewriter linksRewriter) {
         super(httpClient);
         this.aspsp = aspsp;
         this.requestBuilderInterceptor = requestBuilderInterceptor;
+        this.linksRewriter = linksRewriter;
     }
 
     @Override
@@ -94,6 +115,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
             .headers(headersMap)
             .send(requestBuilderInterceptor, responseHandler);
         ConsentCreationResponse creationResponse = mapper.apply(response.getBody());
+        creationResponse.setLinks(linksRewriter.rewrite(creationResponse.getLinks()));
+
         return new Response<>(response.getStatusCode(), creationResponse, response.getHeaders());
     }
 
@@ -116,6 +139,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
             .headers(headersMap)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         ConsentInformation consentInformation = mapper.apply(response.getBody());
+        consentInformation.setLinks(linksRewriter.rewrite(consentInformation.getLinks()));
 
         return new Response<>(response.getStatusCode(), consentInformation, response.getHeaders());
     }
@@ -153,10 +177,15 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
 
-        return httpClient.post(uri)
+        Response<StartScaProcessResponse> response = httpClient.post(uri)
             .headers(headersMap)
             .emptyBody(true)
             .send(requestBuilderInterceptor, jsonResponseHandler(StartScaProcessResponse.class));
+
+        Optional.ofNullable(response.getBody())
+            .ifPresent(body -> body.setLinks(linksRewriter.rewrite(body.getLinks())));
+
+        return response;
     }
 
     protected <T> Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
@@ -172,6 +201,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
             .headers(headersMap)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getBody());
+        startScaProcessResponse.setLinks(linksRewriter.rewrite(startScaProcessResponse.getLinks()));
+
         return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getHeaders());
     }
 
@@ -204,6 +235,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
             .headers(headersMap)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getBody());
+        startScaProcessResponse.setLinks(linksRewriter.rewrite(startScaProcessResponse.getLinks()));
+
         return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getHeaders());
     }
 
@@ -240,6 +273,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                    .headers(headersMap)
                                    .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = mapper.apply(response.getBody());
+        updatePsuAuthenticationResponse.setLinks(linksRewriter.rewrite(updatePsuAuthenticationResponse.getLinks()));
+
         return new Response<>(response.getStatusCode(), updatePsuAuthenticationResponse, response.getHeaders());
     }
 
@@ -276,6 +311,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
             .headers(headersMap)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         SelectPsuAuthenticationMethodResponse selectPsuAuthenticationMethodResponse = mapper.apply(response.getBody());
+        selectPsuAuthenticationMethodResponse.setLinks(linksRewriter.rewrite(selectPsuAuthenticationMethodResponse.getLinks()));
+
         return new Response<>(response.getStatusCode(), selectPsuAuthenticationMethodResponse, response.getHeaders());
     }
 
@@ -327,9 +364,17 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         String uri = buildUri(getAccountsBaseUri(), requestParams);
 
-        return httpClient.get(uri)
-            .headers(headersMap)
-            .send(requestBuilderInterceptor, jsonResponseHandler(AccountListHolder.class));
+        Response<AccountListHolder> response = httpClient.get(uri)
+                                               .headers(headersMap)
+                                               .send(requestBuilderInterceptor, jsonResponseHandler(AccountListHolder.class));
+
+        Optional.ofNullable(response.getBody())
+            .map(AccountListHolder::getAccounts)
+            .ifPresent(accounts -> accounts
+                                       .forEach(account -> account.setLinks(linksRewriter.rewrite(account.getLinks())))
+            );
+
+        return response;
     }
 
     @Override
@@ -354,7 +399,24 @@ public class BaseAccountInformationService extends AbstractService implements Ac
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));
         TransactionsReport transactionsReport = mapper.apply(response.getBody());
         logTransactionsSize(transactionsReport);
+
+        transactionsReport.setLinks(linksRewriter.rewrite(transactionsReport.getLinks()));
+
+        Optional.ofNullable(transactionsReport.getTransactions())
+            .ifPresent(report -> {
+                report.setLinks(linksRewriter.rewrite(report.getLinks()));
+                rewriteTransactionsLinks(report.getBooked());
+                rewriteTransactionsLinks(report.getPending());
+            });
+
         return new Response<>(response.getStatusCode(), transactionsReport, response.getHeaders());
+    }
+
+    private void rewriteTransactionsLinks(List<Transactions> transactions) {
+        Optional.ofNullable(transactions)
+            .ifPresent(ts ->
+                           ts.forEach(transaction -> transaction.setLinks(linksRewriter.rewrite(transaction.getLinks())))
+            );
     }
 
     private void logTransactionsSize(TransactionsReport transactionsReport) {
@@ -382,6 +444,10 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Response<TransactionDetails> response = httpClient.get(uri)
             .headers(populateGetHeaders(requestHeaders.toMap()))
             .send(requestBuilderInterceptor, jsonResponseHandler(TransactionDetails.class));
+
+        Optional.ofNullable(response.getBody())
+            .map(TransactionDetails::getTransactionsDetails)
+            .ifPresent(t -> t.setLinks(linksRewriter.rewrite(t.getLinks())));
 
         return new Response<>(response.getStatusCode(), response.getBody(), response.getHeaders());
     }

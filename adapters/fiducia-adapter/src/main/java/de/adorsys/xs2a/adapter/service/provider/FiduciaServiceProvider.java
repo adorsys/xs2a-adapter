@@ -23,6 +23,7 @@ import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.impl.FiduciaAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.FiduciaPaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public class FiduciaServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
@@ -30,19 +31,23 @@ public class FiduciaServiceProvider implements AccountInformationServiceProvider
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
-                                                                  Pkcs12KeyStore keyStore) {
+                                                                  Pkcs12KeyStore keyStore,
+                                                                  LinksRewriter linksRewriter) {
         return new FiduciaAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
-            new RequestSigningInterceptor(keyStore));
+            new RequestSigningInterceptor(keyStore),
+            linksRewriter);
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(String baseUrl,
                                                                 HttpClientFactory httpClientFactory,
-                                                                Pkcs12KeyStore keyStore) {
+                                                                Pkcs12KeyStore keyStore,
+                                                                LinksRewriter linksRewriter) {
         return new FiduciaPaymentInitiationService(baseUrl,
             httpClientFactory.getHttpClient(getAdapterId()),
-            new RequestSigningInterceptor(keyStore));
+            new RequestSigningInterceptor(keyStore),
+            linksRewriter);
     }
 
     @Override

@@ -6,6 +6,7 @@ import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.model.Consents;
@@ -20,8 +21,11 @@ public class AdorsysAccountInformationService extends BaseAccountInformationServ
     private static final String ACCEPT_ALL = "*/*";
     private static final String ACCEPT_JSON = "application/json";
 
-    public AdorsysAccountInformationService(Aspsp aspsp, HttpClient httpClient, Request.Builder.Interceptor requestBuilderInterceptor) {
-        super(aspsp, httpClient, requestBuilderInterceptor);
+    public AdorsysAccountInformationService(Aspsp aspsp,
+                                            HttpClient httpClient,
+                                            Request.Builder.Interceptor requestBuilderInterceptor,
+                                            LinksRewriter linksRewriter) {
+        super(aspsp, httpClient, requestBuilderInterceptor, linksRewriter);
     }
 
     @Override
