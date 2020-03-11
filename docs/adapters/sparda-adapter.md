@@ -40,10 +40,10 @@ The adapter is going to help the TPP with adjusting some of these params:
             (the property to be used is `sparda.oauth_approach.default_code_verifier`),
             `code_challenge` will be computed by adapter using the preconfigured `code_verifier` value
         - please, notice that `code_verifier` has several constraints:
-            - minimum length is 44 characters
+            - minimum length is 43 characters
             - maximum length is 127 characters
             - only word characters, `-`, `.`, `_` and `~` are allowed
-            - the regex is `[\w\-\._~]{44,127}`
+            - the regex is `[\w\-\._~]{43,127}`
 - code_challenge_method:
     - the only allowed value is `S256`, so either it or nothing will be used (as this param is optional)
 
@@ -74,10 +74,10 @@ The adapter is going to help the TPP with adjusting some of these params:
       (the property to be used is `sparda.oauth_approach.default_code_verifier`),
       the preconfigured `code_verifier` value will be used
     - please, notice that `code_verifier` has several constraints:
-        - minimum length is 44 characters
+        - minimum length is 43 characters
         - maximum length is 127 characters
         - only word characters, `-`, `.`, `_` and `~` are allowed
-        - the regex is `[\w\-\._~]{44,127}`
+        - the regex is `[\w\-\._~]{43,127}`
 
 3.Refresh Token Request:
 
