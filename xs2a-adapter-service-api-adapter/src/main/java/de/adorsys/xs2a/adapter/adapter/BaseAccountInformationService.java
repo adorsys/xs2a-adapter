@@ -40,6 +40,7 @@ import static de.adorsys.xs2a.adapter.http.ResponseHandlers.stringResponseHandle
 import static java.util.function.Function.identity;
 
 public class BaseAccountInformationService extends AbstractService implements AccountInformationService {
+
     private static final LinksRewriter DEFAULT_LINKS_REWRITER = new IdentityLinksRewriter();
 
     protected static final Logger logger = LoggerFactory.getLogger(BaseAccountInformationService.class);
@@ -103,6 +104,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                                                   Consents body,
                                                                   Function<T, ConsentCreationResponse> mapper,
                                                                   HttpClient.ResponseHandler<T> responseHandler) {
+        requireValid(validateCreateConsent(requestHeaders, requestParams, body));
+
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         headersMap = addPsuIdHeader(headersMap);
         headersMap = addPsuIdTypeHeader(headersMap);
@@ -132,6 +135,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                                                      RequestParams requestParams,
                                                                      Class<T> klass,
                                                                      Function<T, ConsentInformation> mapper) {
+        requireValid(validateGetConsentInformation(consentId, requestHeaders, requestParams));
+
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
@@ -148,6 +153,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     public Response<Void> deleteConsent(String consentId,
                                         RequestHeaders requestHeaders,
                                         RequestParams requestParams) {
+        requireValid(validateDeleteConsent(consentId, requestHeaders, requestParams));
+
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populateDeleteHeaders(requestHeaders.toMap());
@@ -160,6 +167,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     public Response<ConsentStatusResponse> getConsentStatus(String consentId,
                                                             RequestHeaders requestHeaders,
                                                             RequestParams requestParams) {
+        requireValid(validateGetConsentStatus(consentId, requestHeaders, requestParams));
+
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, STATUS);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
@@ -173,6 +182,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams) {
+        requireValid(validateStartConsentAuthorisation(consentId, requestHeaders, requestParams));
+
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
@@ -193,6 +204,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                                                               RequestParams requestParams,
                                                                               Class<T> klass,
                                                                               Function<T, StartScaProcessResponse> mapper) {
+        requireValid(validateStartConsentAuthorisation(consentId, requestHeaders, requestParams));
+
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
@@ -225,6 +238,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                                                               UpdatePsuAuthentication updatePsuAuthentication,
                                                                               Class<T> klass,
                                                                               Function<T, StartScaProcessResponse> mapper) {
+        requireValid(validateStartConsentAuthorisation(consentId, requestHeaders, requestParams, updatePsuAuthentication));
+
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
@@ -262,6 +277,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                                                                   UpdatePsuAuthentication updatePsuAuthentication,
                                                                                   Class<T> klass,
                                                                                   Function<T, UpdatePsuAuthenticationResponse> mapper) {
+        requireValid(validateUpdateConsentsPsuData(consentId, authorisationId, requestHeaders, requestParams, updatePsuAuthentication));
+
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
@@ -300,6 +317,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                                                                         SelectPsuAuthenticationMethod selectPsuAuthenticationMethod,
                                                                                         Class<T> klass,
                                                                                         Function<T, SelectPsuAuthenticationMethodResponse> mapper) {
+        requireValid(validateUpdateConsentsPsuData(consentId, authorisationId, requestHeaders, requestParams, selectPsuAuthenticationMethod));
+
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
@@ -338,6 +357,12 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                                                     TransactionAuthorisation transactionAuthorisation,
                                                                     Class<T> klass,
                                                                     Function<T, ScaStatusResponse> mapper) {
+        requireValid(validateUpdateConsentsPsuData(consentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            transactionAuthorisation));
+
         String uri = getUpdateConsentPsuDataUri(consentId, authorisationId);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
@@ -359,26 +384,29 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     @Override
     public Response<AccountListHolder> getAccountList(RequestHeaders requestHeaders, RequestParams requestParams) {
+        requireValid(validateGetAccountList(requestHeaders, requestParams));
+
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
         headersMap = addConsentIdHeader(headersMap);
 
         String uri = buildUri(getAccountsBaseUri(), requestParams);
 
         Response<AccountListHolder> response = httpClient.get(uri)
-                                               .headers(headersMap)
-                                               .send(requestBuilderInterceptor, jsonResponseHandler(AccountListHolder.class));
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(AccountListHolder.class));
 
         Optional.ofNullable(response.getBody())
             .map(AccountListHolder::getAccounts)
-            .ifPresent(accounts -> accounts
-                                       .forEach(account -> account.setLinks(linksRewriter.rewrite(account.getLinks())))
-            );
+            .ifPresent(accounts ->
+                accounts.forEach(account -> account.setLinks(linksRewriter.rewrite(account.getLinks()))));
 
         return response;
     }
 
     @Override
-    public Response<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
+    public Response<TransactionsReport> getTransactionList(String accountId,
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
         return getTransactionList(accountId, requestHeaders, requestParams, TransactionsReport.class, identity());
     }
 
@@ -388,7 +416,13 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         return uri;
     }
 
-    protected <T> Response<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams, Class<T> klass, Function<T, TransactionsReport> mapper) {
+    protected <T> Response<TransactionsReport> getTransactionList(String accountId,
+                                                                  RequestHeaders requestHeaders,
+                                                                  RequestParams requestParams,
+                                                                  Class<T> klass,
+                                                                  Function<T, TransactionsReport> mapper) {
+        requireValid(validateGetTransactionList(accountId, requestHeaders, requestParams));
+
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
         headersMap.put(ACCEPT_HEADER, ContentType.APPLICATION_JSON);
 
@@ -438,6 +472,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                                               String transactionId,
                                                               RequestHeaders requestHeaders,
                                                               RequestParams requestParams) {
+        requireValid(validateGetTransactionDetails(accountId, transactionId, requestHeaders, requestParams));
+
         String uri = StringUri.fromElements(getAccountsBaseUri(), accountId, TRANSACTIONS, transactionId);
         uri = buildUri(uri, requestParams);
 
@@ -454,6 +490,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     @Override
     public Response<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
+        requireValid(validateGetTransactionListAsString(accountId, requestHeaders, requestParams));
+
         String uri = getTransactionListUri(accountId, requestParams);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
         Response<String> response = httpClient.get(uri)
@@ -468,6 +506,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                                            String authorisationId,
                                                            RequestHeaders requestHeaders,
                                                            RequestParams requestParams) {
+        requireValid(validateGetConsentScaStatus(consentId, authorisationId, requestHeaders, requestParams));
+
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS, authorisationId);
         uri = buildUri(uri, requestParams);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
@@ -488,6 +528,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                                       RequestParams requestParams,
                                                       Class<T> klass,
                                                       Function<T, BalanceReport> mapper) {
+        requireValid(validateGetBalances(accountId, requestHeaders, requestParams));
+
         String uri = StringUri.fromElements(getAccountsBaseUri(), accountId, BALANCES);
         uri = buildUri(uri, requestParams);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());

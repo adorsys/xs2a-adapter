@@ -4,7 +4,7 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
+import de.adorsys.xs2a.adapter.validation.RequestValidationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -62,8 +62,8 @@ public class FiduciaAccountInformationServiceTest {
 
     @Test
     public void getTransactionList_failure_notSupportedBookingStatus() {
-        Assertions.assertThrows(
-            BadRequestException.class,
+        RequestValidationException ex = Assertions.assertThrows(
+            RequestValidationException.class,
             () -> service.getTransactionList(
                 ACCOUNT_ID,
                 RequestHeaders.fromMap(new HashMap<>()),
@@ -75,7 +75,7 @@ public class FiduciaAccountInformationServiceTest {
     @Test
     public void getTransactionListAsString_failure_notSupportedBookingStatus() {
         Assertions.assertThrows(
-            BadRequestException.class,
+            RequestValidationException.class,
             () -> service.getTransactionListAsString(
                 ACCOUNT_ID,
                 RequestHeaders.fromMap(new HashMap<>()),

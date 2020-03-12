@@ -1,6 +1,8 @@
 package de.adorsys.xs2a.adapter.service;
 
-public interface DownloadService {
+import de.adorsys.xs2a.adapter.validation.DownloadValidationService;
+
+public interface DownloadService extends DownloadValidationService {
 
     Response<byte[]> download(String downloadUrl, RequestHeaders requestHeaders);
 }

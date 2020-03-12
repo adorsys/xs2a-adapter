@@ -16,7 +16,12 @@ import de.adorsys.xs2a.adapter.service.impl.model.UnicreditPaymentScaStatusRespo
 import de.adorsys.xs2a.adapter.service.impl.model.UnicreditStartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.validation.RequestValidationException;
+import de.adorsys.xs2a.adapter.validation.ValidationError;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
@@ -99,13 +104,16 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
                                                                                       String authorisationId,
                                                                                       RequestHeaders requestHeaders,
                                                                                       RequestParams requestParams) {
-        if (!SINGLE_PAYMENT_PAYMENT_SERVICE.equals(paymentService)) {
-            throw new UnsupportedOperationException();
+        List<ValidationError> validationErrors = validateGetPaymentInitiationScaStatus(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams);
+        if (!validationErrors.isEmpty()) {
+            throw new RequestValidationException(validationErrors);
         }
 
-        if (!requestHeaders.isAcceptJson()) {
-            throw new UnsupportedOperationException();
-        }
 
         Response<PaymentInitiationStatus> response = this.getSinglePaymentInitiationStatus(paymentProduct,
             paymentId,
@@ -114,6 +122,28 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
         return new Response<>(response.getStatusCode(),
             paymentInitiationScaStatusResponseMapper.toScaStatusResponse(response.getBody()),
             response.getHeaders());
+    }
+
+    @Override
+    public List<ValidationError> validateGetPaymentInitiationScaStatus(String paymentService,
+                                                                       String paymentProduct,
+                                                                       String paymentId,
+                                                                       String authorisationId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams) {
+        ArrayList<ValidationError> errors = new ArrayList<>(2);
+        if (!SINGLE_PAYMENT_PAYMENT_SERVICE.equals(paymentService)) {
+            errors.add(new ValidationError(ValidationError.Code.NOT_SUPPORTED,
+                "paymentService",
+                "'" + paymentService + "' is not a supported payment service"));
+        }
+
+        if (!requestHeaders.isAcceptJson()) {
+            errors.add(new ValidationError(ValidationError.Code.NOT_SUPPORTED,
+                RequestHeaders.ACCEPT,
+                "'" + requestHeaders.get(RequestHeaders.ACCEPT) + "' is not allowed")); // why?
+        }
+        return Collections.unmodifiableList(errors);
     }
 
     @Override

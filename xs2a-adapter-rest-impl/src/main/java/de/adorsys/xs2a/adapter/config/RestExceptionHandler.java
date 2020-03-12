@@ -1,10 +1,15 @@
 package de.adorsys.xs2a.adapter.config;
 
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
+import de.adorsys.xs2a.adapter.model.ErrorResponseTO;
+import de.adorsys.xs2a.adapter.model.MessageCodeTO;
 import de.adorsys.xs2a.adapter.model.TppMessageCategoryTO;
+import de.adorsys.xs2a.adapter.model.TppMessageTO;
 import de.adorsys.xs2a.adapter.service.exception.*;
 import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.service.model.TppMessage;
+import de.adorsys.xs2a.adapter.validation.RequestValidationException;
+import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.slf4j.MDC;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +23,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.io.UncheckedIOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
@@ -130,6 +136,24 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
         return new ResponseEntity<>(errorResponse, headers, httpStatus);
+    }
+
+    @ExceptionHandler
+    ResponseEntity<ErrorResponseTO> handle(RequestValidationException exception) {
+        logError(exception);
+        ErrorResponseTO errorResponse = new ErrorResponseTO();
+        ArrayList<TppMessageTO> tppMessages = new ArrayList<>();
+        for (ValidationError validationError : exception.getValidationErrors()) {
+            TppMessageTO tppMessage = new TppMessageTO();
+            tppMessage.setCategory(TppMessageCategoryTO.ERROR);
+            tppMessage.setCode(MessageCodeTO.FORMAT_ERROR);
+            tppMessage.setPath(validationError.getPath());
+            tppMessage.setText(validationError.getMessage());
+            tppMessages.add(tppMessage);
+        }
+        errorResponse.setTppMessages(tppMessages);
+        HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
+        return new ResponseEntity<>(errorResponse, headers, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({

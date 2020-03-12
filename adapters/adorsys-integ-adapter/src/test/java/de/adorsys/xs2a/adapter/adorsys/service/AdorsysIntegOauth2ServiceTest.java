@@ -7,10 +7,10 @@ import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import de.adorsys.xs2a.adapter.service.oauth.Oauth2Api;
+import de.adorsys.xs2a.adapter.validation.RequestValidationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -67,7 +67,7 @@ public class AdorsysIntegOauth2ServiceTest {
         when(aspsp.getIdpUrl()).thenReturn(null);
 
         Assertions.assertThrows(
-            BadRequestException.class,
+            RequestValidationException.class,
             () -> oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters)
         );
     }
@@ -80,7 +80,7 @@ public class AdorsysIntegOauth2ServiceTest {
         when(aspsp.getIdpUrl()).thenReturn(null);
 
         Assertions.assertThrows(
-            BadRequestException.class,
+            RequestValidationException.class,
             () -> oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters)
         );
     }
@@ -92,7 +92,7 @@ public class AdorsysIntegOauth2ServiceTest {
         when(aspsp.getIdpUrl()).thenReturn("    ");
 
         Assertions.assertThrows(
-            BadRequestException.class,
+            RequestValidationException.class,
             () -> oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters)
         );
     }
@@ -117,7 +117,7 @@ public class AdorsysIntegOauth2ServiceTest {
         when(aspsp.getIdpUrl()).thenReturn(null);
 
         Assertions.assertThrows(
-            BadRequestException.class,
+            RequestValidationException.class,
             () -> oauth2Service.getToken(new HashMap<>(), parameters)
         );
     }
@@ -130,7 +130,7 @@ public class AdorsysIntegOauth2ServiceTest {
         when(aspsp.getIdpUrl()).thenReturn(null);
 
         Assertions.assertThrows(
-            BadRequestException.class,
+            RequestValidationException.class,
             () -> oauth2Service.getToken(new HashMap<>(), parameters)
         );
     }
@@ -142,7 +142,7 @@ public class AdorsysIntegOauth2ServiceTest {
         when(aspsp.getIdpUrl()).thenReturn("    ");
 
         Assertions.assertThrows(
-            BadRequestException.class,
+            RequestValidationException.class,
             () -> oauth2Service.getToken(new HashMap<>(), parameters)
         );
     }
@@ -154,7 +154,7 @@ public class AdorsysIntegOauth2ServiceTest {
         when(aspsp.getIdpUrl()).thenReturn("wrong-idp-url");
 
         Assertions.assertThrows(
-            BadRequestException.class,
+            RequestValidationException.class,
             () -> oauth2Service.getToken(new HashMap<>(), parameters)
         );
     }

@@ -6,15 +6,14 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.AccountListHolder;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.service.model.Consents;
+import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.adapter.validation.ValidationError;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class UnicreditAccountInformationService extends BaseAccountInformationService {
 
@@ -36,9 +35,6 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     @Override
     protected Map<String, String> populatePostHeaders(Map<String, String> map) {
         map.put(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON);
-        if (!map.containsKey(RequestHeaders.TPP_REDIRECT_URI)) {
-            throw new BadRequestException(REDIRECT_URI_ERROR);
-        }
         return map;
     }
 
@@ -55,5 +51,36 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
         }
 
         return headers;
+    }
+
+    @Override
+    public List<ValidationError> validateCreateConsent(RequestHeaders requestHeaders,
+                                                       RequestParams requestParams,
+                                                       Consents body) {
+        return requireTppRedirectUri(requestHeaders);
+    }
+
+    private List<ValidationError> requireTppRedirectUri(RequestHeaders requestHeaders) {
+        if (!requestHeaders.get(RequestHeaders.TPP_REDIRECT_URI).isPresent()) {
+            return Collections.singletonList(new ValidationError(ValidationError.Code.REQUIRED,
+                RequestHeaders.TPP_REDIRECT_URI,
+                REDIRECT_URI_ERROR));
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ValidationError> validateStartConsentAuthorisation(String consentId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams) {
+        return requireTppRedirectUri(requestHeaders);
+    }
+
+    @Override
+    public List<ValidationError> validateStartConsentAuthorisation(String consentId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams,
+                                                                   UpdatePsuAuthentication updatePsuAuthentication) {
+        return requireTppRedirectUri(requestHeaders);
     }
 }

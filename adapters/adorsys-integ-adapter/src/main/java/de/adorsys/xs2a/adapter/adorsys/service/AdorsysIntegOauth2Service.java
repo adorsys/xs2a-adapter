@@ -1,24 +1,27 @@
 package de.adorsys.xs2a.adapter.adorsys.service;
 
+import de.adorsys.xs2a.adapter.adapter.AbstractService;
 import de.adorsys.xs2a.adapter.adapter.mapper.TokenResponseMapper;
 import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import de.adorsys.xs2a.adapter.service.oauth.Oauth2Api;
+import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 
 import java.net.URI;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 
-public class AdorsysIntegOauth2Service implements Oauth2Service {
+public class AdorsysIntegOauth2Service extends AbstractService implements Oauth2Service {
     private static final String SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE
         = "SCA OAuth link is missing or has a wrong format: " +
               "it has to be either provided as a request parameter or preconfigured for the current ASPSP";
@@ -31,6 +34,7 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
     public AdorsysIntegOauth2Service(Aspsp aspsp,
                                      HttpClient httpClient,
                                      Oauth2Api oauth2Api) {
+        super(httpClient);
         this.aspsp = aspsp;
         this.httpClient = httpClient;
         this.oauth2Api = oauth2Api;
@@ -38,12 +42,9 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
 
     @Override
     public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) {
+        requireValid(validateGetAuthorizationRequestUri(headers, parameters));
+
         String scaOAuthUrl = getScaOAuthUrl(parameters);
-
-        if (StringUtils.isBlank(scaOAuthUrl)) {
-            throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
-        }
-
         String authorisationUri = oauth2Api.getAuthorisationUri(scaOAuthUrl);
 
         authorisationUri = StringUri.appendQueryParam(
@@ -55,14 +56,22 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
     }
 
     @Override
-    public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
-        String scaOAuthUrl = getScaOAuthUrl(parameters);
-
-        if (StringUtils.isBlank(scaOAuthUrl)
-                || !StringUri.containsProtocol(scaOAuthUrl)) {
-            throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
+    public List<ValidationError> validateGetAuthorizationRequestUri(Map<String, String> headers,
+                                                                    Parameters parameters) {
+        if (StringUtils.isBlank(getScaOAuthUrl(parameters))) {
+            return Collections.singletonList(new ValidationError(ValidationError.Code.REQUIRED,
+                Parameters.SCA_OAUTH_LINK,
+                SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE));
         }
 
+        return Collections.emptyList();
+    }
+
+    @Override
+    public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
+        requireValid(validateGetToken(headers, parameters));
+
+        String scaOAuthUrl = getScaOAuthUrl(parameters);
         String url = StringUri.withQuery(
             oauth2Api.getTokenUri(scaOAuthUrl),
             "code", parameters.getAuthorizationCode()
@@ -71,6 +80,18 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
         Response<OauthToken> response = httpClient.post(url)
                                             .send(jsonResponseHandler(OauthToken.class));
         return tokenResponseMapper.map(response.getBody());
+    }
+
+    @Override
+    public List<ValidationError> validateGetToken(Map<String, String> headers, Parameters parameters) {
+        String scaOAuthUrl = getScaOAuthUrl(parameters);
+        if (StringUtils.isBlank(scaOAuthUrl) || !StringUri.containsProtocol(scaOAuthUrl)) {
+            return Collections.singletonList(new ValidationError(ValidationError.Code.REQUIRED,
+                Parameters.SCA_OAUTH_LINK,
+                SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE));
+        }
+
+        return Collections.emptyList();
     }
 
     private String getScaOAuthUrl(Parameters parameters) {

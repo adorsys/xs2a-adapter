@@ -25,17 +25,14 @@ import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.mapstruct.factory.Mappers;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.apache.http.protocol.HTTP.DATE_HEADER;
 
@@ -94,25 +91,37 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
 
     @Override
     public Response<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
-        if (notSupportedBookingStatus(requestParams)) {
-            throw new BadRequestException(BOOKING_STATUS_ERROR_MESSAGE);
-        }
+
 
         return super.getTransactionList(accountId, requestHeaders, requestParams);
     }
 
     @Override
-    public Response<String> getTransactionListAsString(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
-        if (notSupportedBookingStatus(requestParams)) {
-            throw new BadRequestException(BOOKING_STATUS_ERROR_MESSAGE);
-        }
+    public List<ValidationError> validateGetTransactionList(String accountId,
+                                                            RequestHeaders requestHeaders,
+                                                            RequestParams requestParams) {
+        return validateBookingStatus(requestParams);
+    }
 
-        return super.getTransactionListAsString(accountId, requestHeaders, requestParams);
+    private List<ValidationError> validateBookingStatus(RequestParams requestParams) {
+        if (notSupportedBookingStatus(requestParams)) {
+            return Collections.singletonList(new ValidationError(ValidationError.Code.NOT_SUPPORTED,
+                RequestParams.BOOKING_STATUS,
+                BOOKING_STATUS_ERROR_MESSAGE));
+        }
+        return Collections.emptyList();
     }
 
     private boolean notSupportedBookingStatus(RequestParams requestParams) {
         String bookingStatus = requestParams.toMap().get(RequestParams.BOOKING_STATUS);
         return bookingStatus != null && !SUPPORTED_BOOKING_STATUSES.contains(bookingStatus);
+    }
+
+    @Override
+    public List<ValidationError> validateGetTransactionListAsString(String accountId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    RequestParams requestParams) {
+        return validateBookingStatus(requestParams);
     }
 
     @Override

@@ -7,6 +7,13 @@
 |===
 
 == Notices:
+- AccountInformation, PaymentInitiation, Oauth2 and Download services
+extended to retrieve a list of validation errors via dedicated methods with validate-
+prefix. If a normal request method is called while validation errors are present
+a `RequestValidationException` is thrown with the list of errors.
+Previously individual violations were reported by exceptions (mostly of type
+`BadRequestException`) in the first encountered fashion.
+See https://github.com/adorsys/xs2a-adapter/issues/348[#348]
 
 == Features:
 - Links rewriting feature with 2 predefined implementations: identity and Berlin Group ones.
