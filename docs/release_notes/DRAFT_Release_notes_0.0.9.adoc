@@ -17,6 +17,7 @@ See https://github.com/adorsys/xs2a-adapter/issues/348[#348]
 
 == Features:
 - Links rewriting feature with 2 predefined implementations: identity and Berlin Group ones.
+- Exclusions for log sanitizing of body properties
 
 == Fixes:
 - `code_verifier` parameter minimum length lowered to 43 characters in sparda adapter.
