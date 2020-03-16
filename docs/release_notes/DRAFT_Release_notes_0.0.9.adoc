@@ -14,6 +14,7 @@ a `RequestValidationException` is thrown with the list of errors.
 Previously individual violations were reported by exceptions (mostly of type
 `BadRequestException`) in the first encountered fashion.
 See https://github.com/adorsys/xs2a-adapter/issues/348[#348]
+- `SpardaOauth2Service` is refactored.
 
 == Features:
 - Links rewriting feature with 2 predefined implementations: identity and Berlin Group ones.

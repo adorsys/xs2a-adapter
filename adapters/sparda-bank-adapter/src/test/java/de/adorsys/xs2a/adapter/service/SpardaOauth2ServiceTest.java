@@ -1,164 +1,162 @@
 package de.adorsys.xs2a.adapter.service;
 
-import de.adorsys.xs2a.adapter.http.StringUri;
+import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
+import de.adorsys.xs2a.adapter.http.ApacheHttpClient;
+import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
-import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.oauth.SpardaOauthParamsAdjustingService;
-import org.junit.jupiter.api.Assertions;
+import de.adorsys.xs2a.adapter.validation.ValidationError;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 
+import java.io.IOException;
 import java.net.URI;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
+import static de.adorsys.xs2a.adapter.service.Oauth2Service.GrantType.AUTHORIZATION_CODE;
+import static de.adorsys.xs2a.adapter.service.Oauth2Service.GrantType.REFRESH_TOKEN;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(MockitoExtension.class)
 public class SpardaOauth2ServiceTest {
-    private static final String IDP_URL = "https://example.com";
-    private static final String AUTH_URL = "https://example.com/authorize";
-    private static final String BIC = "TESTBIC1XXX";
-    private static final String CLIENT_ID = "testClientId";
-    private static final String REDIRECT_URI = "https://example.com/redirect";
-    private static final String SCOPE = "ais";
-    private static final String STATE = "testState";
-    private static final String RESPONSE_TYPE = "code";
-    private static final String CODE_CHALLENGE = "testCodeChallenge";
-    private static final String CODE_CHALLENGE_METHOD = "testCodeChallenge";
+    public static final String BIC = "GENODEF1S08";
+    public static final String IDP_URI = "https://idp.sparda-n.de/oauth2";
+    public static final String TOKEN_ENDPOINT = IDP_URI + "/token";
+    public static final String CLIENT_ID = "client-id";
+    public static final String REDIRECT_URI = "https://tpp.com/cb";
 
-    private static final Parameters PARAMETERS_FOR_GET_AUTHORISATION_REQUEST = buildParametersForGetAuthorizationRequest();
-    private static final URI GET_AUTHORISATION_REQUEST_URI = buildGetAuthorizationRequestURI();
-
-    @InjectMocks
     private SpardaOauth2Service oauth2Service;
+    private HttpClient httpClient;
 
-    @Mock
-    private Aspsp aspsp;
-    @Mock
-    private SpardaOauthParamsAdjustingService paramsAdjustingService;
+    @BeforeEach
+    void setUp() {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setBic(BIC);
+        httpClient = Mockito.spy(new ApacheHttpClient(null));
+        Mockito.lenient()
+            .doReturn(new Response<>(200, null, ResponseHeaders.emptyResponseHeaders()))
+            .when(httpClient).send(Mockito.any(), Mockito.any());
+        oauth2Service = SpardaOauth2Service.create(aspsp, httpClient, null, CLIENT_ID);
+    }
 
-    @Test
-    public void getAuthorizationRequestUri_Failure_ScaOauthUrlIsNotProvided() {
-        Parameters parameters = new Parameters(new HashMap<>());
-
-        when(aspsp.getIdpUrl()).thenReturn(null);
-
-        Assertions.assertThrows(
-            BadRequestException.class,
-            () -> oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters)
-        );
+    private Response<OauthToken> tokenResponse() {
+        return new Response<>(200, new OauthToken(), ResponseHeaders.emptyResponseHeaders());
     }
 
     @Test
-    public void getAuthorizationRequestUri_Failure_ScaOauthUrlIsEmptyParam() {
-        Parameters parameters = new Parameters(new HashMap<>());
-        parameters.setScaOAuthLink("  ");
-
-        when(aspsp.getIdpUrl()).thenReturn(null);
-
-        Assertions.assertThrows(
-            BadRequestException.class,
-            () -> oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters)
-        );
-    }
-
-    @Test
-    public void getAuthorizationRequestUri_Failure_ScaOauthUrlIsEmpty() {
-        Parameters parameters = new Parameters(new HashMap<>());
-
-        when(aspsp.getIdpUrl()).thenReturn("    ");
-
-        Assertions.assertThrows(
-            BadRequestException.class,
-            () -> oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters)
-        );
-    }
-
-    @Test
-    public void getAuthorizationRequestUri_Success() {
-        Parameters parameters = new Parameters(new HashMap<>());
-
-        when(aspsp.getIdpUrl())
-            .thenReturn(IDP_URL);
-        when(paramsAdjustingService.adjustForGetAuthorizationRequest(parameters))
-            .thenReturn(PARAMETERS_FOR_GET_AUTHORISATION_REQUEST);
-
-        URI actual = oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters);
-
-        assertThat(actual).isEqualTo(GET_AUTHORISATION_REQUEST_URI);
-    }
-
-    @Test
-    public void getToken_Failure_ScaOauthUrlIsNotProvided() {
-        Parameters parameters = new Parameters(new HashMap<>());
-
-        when(aspsp.getIdpUrl()).thenReturn(null);
-
-        Assertions.assertThrows(
-            BadRequestException.class,
-            () -> oauth2Service.getToken(new HashMap<>(), parameters)
-        );
-    }
-
-    @Test
-    public void getToken_Failure_ScaOauthUrlIsEmptyParam() {
-        Parameters parameters = new Parameters(new HashMap<>());
-        parameters.setScaOAuthLink("  ");
-
-        when(aspsp.getIdpUrl()).thenReturn(null);
-
-        Assertions.assertThrows(
-            BadRequestException.class,
-            () -> oauth2Service.getToken(new HashMap<>(), parameters)
-        );
-    }
-
-    @Test
-    public void getToken_Failure_ScaOauthUrlIsEmpty() {
-        Parameters parameters = new Parameters(new HashMap<>());
-
-        when(aspsp.getIdpUrl()).thenReturn("    ");
-
-        Assertions.assertThrows(
-            BadRequestException.class,
-            () -> oauth2Service.getToken(new HashMap<>(), parameters)
-        );
-    }
-
-    @Test
-    public void getToken_Failure_ScaOauthUrlHasWrongFormat() {
-        Parameters parameters = new Parameters(new HashMap<>());
-
-        when(aspsp.getIdpUrl()).thenReturn("wrong-idp-url");
-
-        Assertions.assertThrows(
-            BadRequestException.class,
-            () -> oauth2Service.getToken(new HashMap<>(), parameters)
-        );
-    }
-
-    private static Parameters buildParametersForGetAuthorizationRequest() {
-        Parameters parameters = new Parameters(new HashMap<>());
-
-        parameters.setBic(BIC);
-        parameters.setClientId(CLIENT_ID);
+    public void getAuthorizationRequestUri() throws IOException {
+        Parameters parameters = new Parameters();
+        parameters.setScaOAuthLink(IDP_URI);
         parameters.setRedirectUri(REDIRECT_URI);
-        parameters.setScope(SCOPE);
-        parameters.setState(STATE);
-        parameters.setResponseType(RESPONSE_TYPE);
-        parameters.setCodeChallenge(CODE_CHALLENGE);
-        parameters.setCodeChallengeMethod(CODE_CHALLENGE_METHOD);
+        parameters.setBic(BIC);
 
-        return parameters;
+        URI uri = oauth2Service.getAuthorizationRequestUri(Collections.emptyMap(), parameters);
+
+        assertEquals(IDP_URI + "/authorize"
+            + "?response_type=code"
+            + "&redirect_uri=" + REDIRECT_URI
+            + "&client_id=" + CLIENT_ID
+            + "&code_challenge_method=S256"
+            + "&code_challenge=" + oauth2Service.codeChallenge()
+            + "&bic=" + BIC, uri.toString());
+        Mockito.verifyNoInteractions(httpClient);
     }
 
-    private static URI buildGetAuthorizationRequestURI() {
-        String url = StringUri.withQuery(AUTH_URL, PARAMETERS_FOR_GET_AUTHORISATION_REQUEST.asMap());
-        return URI.create(url);
+    @Test
+    void validateGetAuthorizationRequestUri() {
+        List<ValidationError> validationErrors =
+            oauth2Service.validateGetAuthorizationRequestUri(null, new Parameters());
+
+        assertThat(validationErrors)
+            .extracting(ValidationError::getPath)
+            .containsExactly(Parameters.SCA_OAUTH_LINK, Parameters.REDIRECT_URI);
+    }
+
+    @Test
+    void getToken_authorizationCode() throws IOException {
+        String code = "test-code";
+        Parameters parameters = new Parameters();
+        parameters.setScaOAuthLink(IDP_URI);
+        parameters.setRedirectUri(REDIRECT_URI);
+        parameters.setGrantType(AUTHORIZATION_CODE.toString());
+        parameters.setAuthorizationCode(code);
+
+        oauth2Service.getToken(Collections.emptyMap(), parameters);
+
+        HashMap<String, String> expectedBody = new HashMap<>();
+        expectedBody.put(Parameters.GRANT_TYPE, AUTHORIZATION_CODE.toString());
+        expectedBody.put(Parameters.CLIENT_ID, CLIENT_ID);
+        expectedBody.put(Parameters.REDIRECT_URI, REDIRECT_URI);
+        expectedBody.put(Parameters.CODE, code);
+        expectedBody.put(Parameters.CODE_VERIFIER, oauth2Service.codeVerifier());
+        Mockito.verify(httpClient, Mockito.times(1))
+            .send(ArgumentMatchers.argThat(req -> {
+                    boolean tokenExchange = req.method().equalsIgnoreCase("POST") && req.uri().equals(TOKEN_ENDPOINT);
+                    if (tokenExchange) {
+                        assertEquals(expectedBody, req.urlEncodedBody());
+                    }
+                    return tokenExchange;
+                }),
+                Mockito.any());
+    }
+
+    @Test
+    void getToken_refreshToken() throws IOException {
+        String refreshToken = "refresh-token";
+        Parameters parameters = new Parameters();
+        parameters.setScaOAuthLink(IDP_URI);
+        parameters.setGrantType(REFRESH_TOKEN.toString());
+        parameters.setRefreshToken(refreshToken);
+
+        oauth2Service.getToken(Collections.emptyMap(), parameters);
+
+        HashMap<String, String> expectedBody = new HashMap<>();
+        expectedBody.put(Parameters.GRANT_TYPE, REFRESH_TOKEN.toString());
+        expectedBody.put(Parameters.CLIENT_ID, CLIENT_ID);
+        expectedBody.put(Parameters.REFRESH_TOKEN, refreshToken);
+        Mockito.verify(httpClient, Mockito.times(1))
+            .send(ArgumentMatchers.argThat(req -> {
+                    boolean tokenExchange = req.method().equalsIgnoreCase("POST") && req.uri().equals(TOKEN_ENDPOINT);
+                    if (tokenExchange) {
+                        assertEquals(expectedBody, req.urlEncodedBody());
+                    }
+                    return tokenExchange;
+                }),
+                Mockito.any());
+    }
+
+    @Test
+    void validateGetToken() {
+        List<ValidationError> validationErrors = oauth2Service.validateGetToken(null, new Parameters());
+        assertThat(validationErrors)
+            .extracting(ValidationError::getPath)
+            .containsExactly(Parameters.SCA_OAUTH_LINK);
+    }
+
+    @Test
+    void redirectUriIsRequiredForAuthorizationCodeExchange() {
+        Parameters parameters = new Parameters();
+        parameters.setAuthorizationCode("asdf");
+        List<ValidationError> validationErrors = oauth2Service.validateGetToken(null, parameters);
+        assertThat(validationErrors)
+            .extracting(ValidationError::getPath)
+            .containsExactly(Parameters.SCA_OAUTH_LINK, Parameters.REDIRECT_URI);
+    }
+
+    @Test
+    void clientIdFromCertificateIsUsedWhenNullIsPassedIn() throws Exception {
+        Pkcs12KeyStore keyStore = Mockito.mock(Pkcs12KeyStore.class);
+        oauth2Service = SpardaOauth2Service.create(null, null, keyStore, null);
+        Parameters parameters = new Parameters();
+        parameters.setScaOAuthLink(IDP_URI);
+        parameters.setRedirectUri(REDIRECT_URI);
+
+        oauth2Service.getAuthorizationRequestUri(null, parameters);
+
+        Mockito.verify(keyStore, Mockito.times(1)).getOrganizationIdentifier();
     }
 }

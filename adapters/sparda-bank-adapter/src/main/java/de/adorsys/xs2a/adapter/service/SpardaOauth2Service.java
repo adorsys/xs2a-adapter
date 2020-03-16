@@ -1,85 +1,86 @@
 package de.adorsys.xs2a.adapter.service;
 
-import de.adorsys.xs2a.adapter.adapter.mapper.TokenResponseMapper;
-import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
+import de.adorsys.xs2a.adapter.adapter.AbstractService;
+import de.adorsys.xs2a.adapter.adapter.BaseOauth2Service;
+import de.adorsys.xs2a.adapter.adapter.CertificateSubjectClientIdOauth2Service;
+import de.adorsys.xs2a.adapter.adapter.PkceOauth2Service;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
-import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
+import de.adorsys.xs2a.adapter.http.UriBuilder;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
-import de.adorsys.xs2a.adapter.service.oauth.OauthParamsAdjustingService;
+import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.apache.commons.lang3.StringUtils;
-import org.mapstruct.factory.Mappers;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
-import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
-
-// TODO refactor this class the way as other OAuth2 services
-public class SpardaOauth2Service implements Oauth2Service {
-    private static final Logger logger = LoggerFactory.getLogger(SpardaOauth2Service.class);
+public class SpardaOauth2Service extends AbstractService implements Oauth2Service, PkceOauth2Extension {
 
     private static final String AUTHORISATION_REQUEST_URI_SUFFIX = "/authorize";
     private static final String TOKEN_REQUEST_URI_SUFFIX = "/token";
     private static final String SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE
         = "SCA OAuth link is missing or has a wrong format: " +
               "it has to be either provided as a request parameter or preconfigured for the current ASPSP";
-    private static final String REFRESH_TOKEN_GRANT_TYPE = "refresh_token";
+    private static final String MISSING_REQUIRED_PARAMETER_ERROR_MESSAGE = "Missing required parameter";
 
     private final Aspsp aspsp;
-    private final HttpClient httpClient;
-    private final OauthParamsAdjustingService paramsAdjustingService;
-    private final TokenResponseMapper tokenResponseMapper = Mappers.getMapper(TokenResponseMapper.class);
+    private final Oauth2Service oauth2Service;
+    private final String clientId;
 
-    public SpardaOauth2Service(Aspsp aspsp,
-                               HttpClient httpClient,
-                               OauthParamsAdjustingService paramsAdjustingService) {
+    private SpardaOauth2Service(Aspsp aspsp,
+                                HttpClient httpClient,
+                                Oauth2Service oauth2Service,
+                                String clientId) {
+        super(httpClient);
         this.aspsp = aspsp;
-        this.httpClient = httpClient;
-        this.paramsAdjustingService = paramsAdjustingService;
+        this.oauth2Service = oauth2Service;
+        this.clientId = clientId;
+    }
+
+    public static SpardaOauth2Service create(Aspsp aspsp,
+                                             HttpClient httpClient,
+                                             Pkcs12KeyStore keyStore,
+                                             String clientId) {
+        BaseOauth2Service baseOauth2Service = new BaseOauth2Service(aspsp, httpClient);
+        CertificateSubjectClientIdOauth2Service clientIdOauth2Service =
+            new CertificateSubjectClientIdOauth2Service(baseOauth2Service, keyStore);
+        PkceOauth2Service pkceOauth2Service = new PkceOauth2Service(clientIdOauth2Service);
+        return new SpardaOauth2Service(aspsp, httpClient, pkceOauth2Service, clientId);
     }
 
     @Override
-    public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) {
+    public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) throws IOException {
+        requireValid(validateGetAuthorizationRequestUri(headers, parameters));
         String scaOAuthUrl = getScaOAuthUrl(parameters);
-
-        if (StringUtils.isBlank(scaOAuthUrl)) {
-            throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
-        }
-
         String authorisationRequestUri = StringUri.fromElements(scaOAuthUrl, AUTHORISATION_REQUEST_URI_SUFFIX);
-        Parameters parametersForGetAuthorizationRequest = paramsAdjustingService.adjustForGetAuthorizationRequest(parameters);
+        parameters.setAuthorizationEndpoint(authorisationRequestUri);
+        parameters.setClientId(clientId);
 
-        logger.debug("Get Authorisation Request URI: resolved on the adapter side");
-        return URI.create(StringUri.withQuery(authorisationRequestUri, parametersForGetAuthorizationRequest.asMap()));
+        return UriBuilder.fromUri(oauth2Service.getAuthorizationRequestUri(headers, parameters))
+            .queryParam(Parameters.BIC, parameters.getBic())
+            .build();
     }
 
     @Override
-    public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
+    public List<ValidationError> validateGetAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) {
+        List<ValidationError> validationErrors = new ArrayList<>();
         String scaOAuthUrl = getScaOAuthUrl(parameters);
-
-        if (StringUtils.isBlank(scaOAuthUrl) || !StringUri.containsProtocol(scaOAuthUrl)) {
-            throw new BadRequestException(SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE);
+        if (StringUtils.isBlank(scaOAuthUrl)) {
+            validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
+                Parameters.SCA_OAUTH_LINK,
+                SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE));
         }
-
-        String tokenRequestUri = StringUri.fromElements(scaOAuthUrl, TOKEN_REQUEST_URI_SUFFIX);
-
-        Parameters tokenRequestParams;
-
-        if (isRefreshTokenRequest(parameters)) {
-            tokenRequestParams = paramsAdjustingService.adjustForRefreshTokenRequest(parameters);
-        } else {
-            tokenRequestParams = paramsAdjustingService.adjustForGetTokenRequest(parameters);
+        if (StringUtils.isBlank(parameters.getRedirectUri())) {
+            validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
+                Parameters.REDIRECT_URI,
+                MISSING_REQUIRED_PARAMETER_ERROR_MESSAGE));
         }
-
-        Response<OauthToken> response
-            = httpClient.post(StringUri.withQuery(tokenRequestUri, tokenRequestParams.asMap()))
-                  .send(jsonResponseHandler(OauthToken.class));
-
-        return tokenResponseMapper.map(response.getBody());
+        return Collections.unmodifiableList(validationErrors);
     }
 
     private String getScaOAuthUrl(Parameters parameters) {
@@ -92,7 +93,31 @@ public class SpardaOauth2Service implements Oauth2Service {
         return baseScaOAuthUrl;
     }
 
-    private boolean isRefreshTokenRequest(Parameters parameters) {
-        return REFRESH_TOKEN_GRANT_TYPE.equals(parameters.getGrantType());
+    @Override
+    public TokenResponse getToken(Map<String, String> headers, Parameters parameters) throws IOException {
+        requireValid(validateGetToken(headers, parameters));
+        String scaOAuthUrl = getScaOAuthUrl(parameters);
+        parameters.removeScaOAuthLink();
+        String tokenEndpoint = StringUri.fromElements(scaOAuthUrl, TOKEN_REQUEST_URI_SUFFIX);
+        parameters.setClientId(clientId);
+        parameters.setTokenEndpoint(tokenEndpoint);
+        return oauth2Service.getToken(headers, parameters);
+    }
+
+    @Override
+    public List<ValidationError> validateGetToken(Map<String, String> headers, Parameters parameters) {
+        List<ValidationError> validationErrors = new ArrayList<>();
+        String scaOAuthUrl = getScaOAuthUrl(parameters);
+        if (StringUtils.isBlank(scaOAuthUrl)) {
+            validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
+                Parameters.SCA_OAUTH_LINK,
+                SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE));
+        }
+        if (parameters.getAuthorizationCode() != null && StringUtils.isBlank(parameters.getRedirectUri())) {
+            validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
+                Parameters.REDIRECT_URI,
+                MISSING_REQUIRED_PARAMETER_ERROR_MESSAGE));
+        }
+        return Collections.unmodifiableList(validationErrors);
     }
 }
