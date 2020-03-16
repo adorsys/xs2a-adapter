@@ -18,8 +18,9 @@ package de.adorsys.xs2a.adapter.service;
 
 import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
 import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.validation.AccountInformationValidationService;
 
-public interface AccountInformationService {
+public interface AccountInformationService extends AccountInformationValidationService {
     @Deprecated
     default Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
                                                             Consents body) {

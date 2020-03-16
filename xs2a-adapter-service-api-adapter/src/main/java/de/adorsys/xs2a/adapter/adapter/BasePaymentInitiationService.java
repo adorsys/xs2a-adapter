@@ -90,6 +90,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                                    RequestParams requestParams,
                                                                                    Class<T> klass,
                                                                                    Function<T, PaymentInitiationRequestResponse> mapper) {
+        requireValid(validateInitiateSinglePayment(paymentProduct.getSlug(), requestHeaders, requestParams, body));
 
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         String bodyString;
@@ -122,6 +123,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                                                       String paymentId,
                                                                                                       RequestHeaders requestHeaders,
                                                                                                       RequestParams requestParams) {
+        requireValid(validateGetSinglePaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams));
+
         return getSinglePaymentInformation(StandardPaymentProduct.fromSlug(paymentProduct),
             paymentId,
             requestHeaders,
@@ -156,6 +159,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                               String paymentId,
                                                                               RequestHeaders requestHeaders,
                                                                               RequestParams requestParams) {
+        requireValid(validateGetSinglePaymentInitiationStatus(paymentProduct, paymentProduct, requestHeaders, requestParams));
+
         return getSinglePaymentInitiationStatus(StandardPaymentProduct.fromSlug(paymentProduct),
             paymentId,
             requestHeaders,
@@ -180,6 +185,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                      String paymentId,
                                                                      RequestHeaders requestHeaders,
                                                                      RequestParams requestParams) {
+        requireValid(validateGetSinglePaymentInitiationStatusAsString(paymentProduct, paymentId, requestHeaders, requestParams));
+
         String uri = getSinglePaymentInitiationStatusUri(paymentProduct, paymentId);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
@@ -224,6 +231,12 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                                     UpdatePsuAuthentication updatePsuAuthentication,
                                                                                     Class<T> klass,
                                                                                     Function<T, StartScaProcessResponse> mapper) {
+        requireValid(validateStartSinglePaymentAuthorisation(paymentProduct.getSlug(),
+            paymentId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication));
+
         String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug(), paymentId, AUTHORISATIONS);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
@@ -267,6 +280,14 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                                  UpdatePsuAuthentication updatePsuAuthentication,
                                                                                  Class<T> klass,
                                                                                  Function<T, UpdatePsuAuthenticationResponse> mapper) {
+        requireValid(validateUpdatePaymentPsuData(paymentService,
+            paymentProduct.getSlug(),
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication));
+
         String uri = StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct.getSlug(), paymentId, AUTHORISATIONS, authorisationId);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
@@ -310,6 +331,14 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                                        SelectPsuAuthenticationMethod selectPsuAuthenticationMethod,
                                                                                        Class<T> klass,
                                                                                        Function<T, SelectPsuAuthenticationMethodResponse> mapper) {
+        requireValid(validateUpdatePaymentPsuData(paymentService,
+            paymentProduct.getSlug(),
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            selectPsuAuthenticationMethod));
+
         String uri = StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct.getSlug(), paymentId, AUTHORISATIONS, authorisationId);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
@@ -353,6 +382,14 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                    TransactionAuthorisation transactionAuthorisation,
                                                                    Class<T> klass,
                                                                    Function<T, ScaStatusResponse> mapper) {
+        requireValid(validateUpdatePaymentPsuData(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            transactionAuthorisation));
+
         String uri = getUpdatePaymentPsuDataUri(paymentService, paymentProduct, paymentId, authorisationId);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());

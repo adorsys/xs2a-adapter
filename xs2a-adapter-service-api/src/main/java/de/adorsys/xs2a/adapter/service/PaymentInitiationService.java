@@ -2,8 +2,9 @@ package de.adorsys.xs2a.adapter.service;
 
 import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
 import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.validation.PaymentInitiationValidationService;
 
-public interface PaymentInitiationService {
+public interface PaymentInitiationService extends PaymentInitiationValidationService {
     @Deprecated
     default Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct,
                                                                              RequestHeaders requestHeaders,

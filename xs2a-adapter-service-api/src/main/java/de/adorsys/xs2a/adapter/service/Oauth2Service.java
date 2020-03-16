@@ -1,13 +1,14 @@
 package de.adorsys.xs2a.adapter.service;
 
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
+import de.adorsys.xs2a.adapter.validation.Oauth2ValidationService;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public interface Oauth2Service {
+public interface Oauth2Service extends Oauth2ValidationService {
     // https://tools.ietf.org/html/rfc6749#section-4.1.1
     URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) throws IOException;
 

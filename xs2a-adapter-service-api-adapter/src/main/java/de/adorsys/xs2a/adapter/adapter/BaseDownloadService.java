@@ -32,6 +32,8 @@ public class BaseDownloadService extends AbstractService implements DownloadServ
 
     @Override
     public Response<byte[]> download(String downloadUrl, RequestHeaders requestHeaders) {
+        requireValid(validateDownload(downloadUrl, requestHeaders));
+
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
         Response<byte[]> response = httpClient.get(modifyDownloadUrl(downloadUrl))

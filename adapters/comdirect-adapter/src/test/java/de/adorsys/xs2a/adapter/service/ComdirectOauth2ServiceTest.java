@@ -6,8 +6,8 @@ import de.adorsys.xs2a.adapter.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
-import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.validation.RequestValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -107,7 +107,8 @@ class ComdirectOauth2ServiceTest {
     void getAuthorizationRequestUri_noScaOAuthLinkNoIdpUrl() {
         oauth2Service = ComdirectOauth2Service.create(new Aspsp(), null, keyStore);
 
-        assertThrows(BadRequestException.class, () -> oauth2Service.getAuthorizationRequestUri(null, new Parameters()));
+        assertThrows(RequestValidationException.class,
+            () -> oauth2Service.getAuthorizationRequestUri(null, new Parameters()));
     }
 
     @Test
