@@ -149,6 +149,59 @@ public class Xs2AHttpLogSanitizerTest {
                           "\"currency\":\"EUR\"" +
                           "}" +
                           "]" +
+                          "}" +
+                          "}";
+
+        String expectedSanitizedJson = "{" +
+                                           "\"access\":{" +
+                                           "\"balances\":[" +
+                                           "{" +
+                                           "\"iban\":\"******\"," +
+                                           "\"currency\":\"******\"" +
+                                           "}" +
+                                           "]," +
+                                           "\"transactions\":[" +
+                                           "{" +
+                                           "\"iban\":\"******\"," +
+                                           "\"currency\":\"******\"" +
+                                           "}" +
+                                           "]," +
+                                           "\"accounts\":[" +
+                                           "{" +
+                                           "\"iban\":\"******\"," +
+                                           "\"currency\":\"******\"" +
+                                           "}" +
+                                           "]" +
+                                           "}" +
+                                           "}";
+
+        String actualSanitizedJson = anonymizer.sanitizeRequestBody(new StringEntity(json), "application/json");
+
+        assertThat(actualSanitizedJson).isEqualTo(expectedSanitizedJson);
+    }
+
+    @Test
+    void sanitizeRequestBodyWithNonSanitizedProperties() throws UnsupportedEncodingException {
+        String json = "{" +
+                          "\"access\":{" +
+                          "\"balances\":[" +
+                          "{" +
+                          "\"iban\":\"\"," +
+                          "\"currency\":\"EUR\"" +
+                          "}" +
+                          "]," +
+                          "\"transactions\":[" +
+                          "{" +
+                          "\"iban\":\"DE82500105176963379138\"," +
+                          "\"currency\":\"EUR\"" +
+                          "}" +
+                          "]," +
+                          "\"accounts\":[" +
+                          "{" +
+                          "\"iban\":\"DE82500105176963379138\"," +
+                          "\"currency\":\"EUR\"" +
+                          "}" +
+                          "]" +
                           "}," +
                           "\"combinedServiceIndicator\":\"false\"," +
                           "\"recurringIndicator\":\"true\"," +
@@ -177,12 +230,11 @@ public class Xs2AHttpLogSanitizerTest {
                                            "}" +
                                            "]" +
                                            "}," +
-                                           "\"combinedServiceIndicator\":\"******\"," +
-                                           "\"recurringIndicator\":\"******\"," +
-                                           "\"validUntil\":\"******\"," +
-                                           "\"frequencyPerDay\":\"******\"" +
+                                           "\"combinedServiceIndicator\":\"false\"," +
+                                           "\"recurringIndicator\":\"true\"," +
+                                           "\"validUntil\":\"01-01-2020\"," +
+                                           "\"frequencyPerDay\":\"4\"" +
                                            "}";
-
 
         String actualSanitizedJson = anonymizer.sanitizeRequestBody(new StringEntity(json), "application/json");
 

@@ -30,21 +30,29 @@ class Xs2aHttpLogSanitizer {
     private static final String APPLICATION_JSON = "application/json";
     static final String REPLACEMENT = "******";
     private final Set<String> sanitizedHeaders = new HashSet<>();
+    private final Set<String> nonSanitizedBodyProperties = new HashSet<>();
     private final List<Pattern> patterns = new ArrayList<>();
     private JsonMapper objectMapper = new JsonMapper();
 
     Xs2aHttpLogSanitizer() {
         patterns.add(Pattern.compile("(consents|accounts|authorisations)/[^/?\\s\\[\"]+(.*?)"));
 
-        sanitizedHeaders.addAll(Arrays.asList("Authorization",
-                                              "PSU-ID",
-                                              "PSU-Corporate-ID",
-                                              "Consent-ID",
-                                              "X-GTW-IBAN",
-                                              "Location",
-                                              "Signature",
-                                              "TPP-Signature-Certificate",
-                                              "Digest"));
+        sanitizedHeaders.addAll(Arrays.asList(
+            "Authorization",
+            "PSU-ID",
+            "PSU-Corporate-ID",
+            "Consent-ID",
+            "X-GTW-IBAN",
+            "Location",
+            "Signature",
+            "TPP-Signature-Certificate",
+            "Digest"));
+
+        nonSanitizedBodyProperties.addAll(Arrays.asList(
+            "recurringIndicator",
+            "validUntil",
+            "frequencyPerDay",
+            "combinedServiceIndicator"));
     }
 
     public String sanitizeHeader(String name, String value) {
@@ -103,7 +111,9 @@ class Xs2aHttpLogSanitizer {
 
     private Map<String, Object> sanitizeMap(Map<String, Object> responseMap) {
         for (Map.Entry<String, Object> entry : responseMap.entrySet()) {
-            responseMap.replace(entry.getKey(), sanitizeObject(entry.getValue()));
+            if (!nonSanitizedBodyProperties.contains(entry.getKey())) {
+                responseMap.replace(entry.getKey(), sanitizeObject(entry.getValue()));
+            }
         }
         return responseMap;
     }
