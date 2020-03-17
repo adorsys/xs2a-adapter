@@ -8,6 +8,8 @@ public class PaymentInitiationStatusResponse200JsonTO {
 
     private Boolean fundsAvailable;
 
+    private String psuMessage;
+
     public TransactionStatusTO getTransactionStatus() {
         return transactionStatus;
     }
@@ -22,5 +24,13 @@ public class PaymentInitiationStatusResponse200JsonTO {
 
     public void setFundsAvailable(Boolean fundsAvailable) {
         this.fundsAvailable = fundsAvailable;
+    }
+
+    public String getPsuMessage() {
+        return psuMessage;
+    }
+
+    public void setPsuMessage(String psuMessage) {
+        this.psuMessage = psuMessage;
     }
 }

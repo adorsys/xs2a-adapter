@@ -21,6 +21,8 @@ public class UpdatePsuAuthenticationResponseTO {
 
     private String psuMessage;
 
+    private String authorisationId;
+
     public AuthenticationObjectTO getChosenScaMethod() {
         return chosenScaMethod;
     }
@@ -67,5 +69,13 @@ public class UpdatePsuAuthenticationResponseTO {
 
     public void setPsuMessage(String psuMessage) {
         this.psuMessage = psuMessage;
+    }
+
+    public String getAuthorisationId() {
+        return authorisationId;
+    }
+
+    public void setAuthorisationId(String authorisationId) {
+        this.authorisationId = authorisationId;
     }
 }

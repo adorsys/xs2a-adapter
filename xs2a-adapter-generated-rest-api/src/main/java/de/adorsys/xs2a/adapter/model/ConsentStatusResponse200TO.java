@@ -6,11 +6,21 @@ import javax.annotation.Generated;
 public class ConsentStatusResponse200TO {
     private ConsentStatusTO consentStatus;
 
+    private String psuMessage;
+
     public ConsentStatusTO getConsentStatus() {
         return consentStatus;
     }
 
     public void setConsentStatus(ConsentStatusTO consentStatus) {
         this.consentStatus = consentStatus;
+    }
+
+    public String getPsuMessage() {
+        return psuMessage;
+    }
+
+    public void setPsuMessage(String psuMessage) {
+        this.psuMessage = psuMessage;
     }
 }

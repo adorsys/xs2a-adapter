@@ -6,34 +6,20 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import javax.annotation.Generated;
 
 @Generated("xs2a-adapter-codegen")
-public enum ScaStatusTO {
-    RECEIVED("received"),
-
-    PSUIDENTIFIED("psuIdentified"),
-
-    PSUAUTHENTICATED("psuAuthenticated"),
-
-    SCAMETHODSELECTED("scaMethodSelected"),
-
-    STARTED("started"),
-
-    UNCONFIRMED("unconfirmed"),
-
+public enum ScaStatusAuthorisationConfirmationTO {
     FINALISED("finalised"),
 
-    FAILED("failed"),
-
-    EXEMPTED("exempted");
+    FAILED("failed");
 
     private String value;
 
-    ScaStatusTO(String value) {
+    ScaStatusAuthorisationConfirmationTO(String value) {
         this.value = value;
     }
 
     @JsonCreator
-    public static ScaStatusTO fromValue(String value) {
-        for (ScaStatusTO e : ScaStatusTO.values()) {
+    public static ScaStatusAuthorisationConfirmationTO fromValue(String value) {
+        for (ScaStatusAuthorisationConfirmationTO e : ScaStatusAuthorisationConfirmationTO.values()) {
             if (e.value.equals(value)) {
                 return e;
             }

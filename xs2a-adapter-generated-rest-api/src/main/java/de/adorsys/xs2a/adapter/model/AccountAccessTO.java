@@ -14,6 +14,8 @@ public class AccountAccessTO {
 
     private List<AccountReferenceTO> transactions;
 
+    private AdditionalInformationAccessTO additionalInformation;
+
     private AvailableAccountsTO availableAccounts;
 
     private AvailableAccountsWithBalanceTO availableAccountsWithBalance;
@@ -44,6 +46,14 @@ public class AccountAccessTO {
         this.transactions = transactions;
     }
 
+    public AdditionalInformationAccessTO getAdditionalInformation() {
+        return additionalInformation;
+    }
+
+    public void setAdditionalInformation(AdditionalInformationAccessTO additionalInformation) {
+        this.additionalInformation = additionalInformation;
+    }
+
     public AvailableAccountsTO getAvailableAccounts() {
         return availableAccounts;
     }
@@ -70,7 +80,9 @@ public class AccountAccessTO {
     }
 
     public enum AvailableAccountsTO {
-        ALLACCOUNTS("allAccounts");
+        ALLACCOUNTS("allAccounts"),
+
+        ALLACCOUNTSWITHOWNERNAME("allAccountsWithOwnerName");
 
         private String value;
 
@@ -96,7 +108,9 @@ public class AccountAccessTO {
     }
 
     public enum AvailableAccountsWithBalanceTO {
-        ALLACCOUNTS("allAccounts");
+        ALLACCOUNTS("allAccounts"),
+
+        ALLACCOUNTSWITHOWNERNAME("allAccountsWithOwnerName");
 
         private String value;
 
@@ -122,7 +136,9 @@ public class AccountAccessTO {
     }
 
     public enum AllPsd2TO {
-        ALLACCOUNTS("allAccounts");
+        ALLACCOUNTS("allAccounts"),
+
+        ALLACCOUNTSWITHOWNERNAME("allAccountsWithOwnerName");
 
         private String value;
 
