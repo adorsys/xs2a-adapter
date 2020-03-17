@@ -19,7 +19,7 @@ public class ConsentsResponseTO {
     @JsonProperty("_links")
     private Map<String, HrefTypeTO> links;
 
-    private String message;
+    private String psuMessage;
 
     public String getConsentStatus() {
         return consentStatus;
@@ -69,11 +69,11 @@ public class ConsentsResponseTO {
         this.links = links;
     }
 
-    public String getMessage() {
-        return message;
+    public String getPsuMessage() {
+        return psuMessage;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setPsuMessage(String psuMessage) {
+        this.psuMessage = psuMessage;
     }
 }

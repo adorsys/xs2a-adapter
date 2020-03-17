@@ -19,6 +19,8 @@ public class UpdateAuthorisationResponseTO {
     @JsonProperty("_links")
     private Map<String, HrefTypeTO> links;
 
+    private String authorisationId;
+
     public AuthenticationObjectTO getChosenScaMethod() {
         return chosenScaMethod;
     }
@@ -65,5 +67,13 @@ public class UpdateAuthorisationResponseTO {
 
     public void setLinks(Map<String, HrefTypeTO> links) {
         this.links = links;
+    }
+
+    public String getAuthorisationId() {
+        return authorisationId;
+    }
+
+    public void setAuthorisationId(String authorisationId) {
+        this.authorisationId = authorisationId;
     }
 }

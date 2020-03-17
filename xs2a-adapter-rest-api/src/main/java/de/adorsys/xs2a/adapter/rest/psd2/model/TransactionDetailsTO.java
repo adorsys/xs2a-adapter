@@ -31,25 +31,37 @@ public class TransactionDetailsTO {
 
     private AccountReferenceTO creditorAccount;
 
+    private String creditorAgent;
+
     private String ultimateCreditor;
 
     private String debtorName;
 
     private AccountReferenceTO debtorAccount;
 
+    private String debtorAgent;
+
     private String ultimateDebtor;
 
     private String remittanceInformationUnstructured;
 
-    private String remittanceInformationStructured;
+    private List<String> remittanceInformationUnstructuredArray;
+
+    private de.adorsys.xs2a.adapter.model.RemittanceInformationStructuredTO remittanceInformationStructured;
+
+    private List<RemittanceInformationStructuredTO> remittanceInformationStructuredArray;
 
     private String additionalInformation;
+
+    private AdditionalInformationStructuredTO additionalInformationStructured;
 
     private String purposeCode;
 
     private String bankTransactionCode;
 
     private String proprietaryBankTransactionCode;
+
+    private BalanceTO balanceAfterTransaction;
 
     @JsonProperty("_links")
     private Map<String, HrefTypeTO> links;
@@ -150,6 +162,14 @@ public class TransactionDetailsTO {
         this.creditorAccount = creditorAccount;
     }
 
+    public String getCreditorAgent() {
+        return creditorAgent;
+    }
+
+    public void setCreditorAgent(String creditorAgent) {
+        this.creditorAgent = creditorAgent;
+    }
+
     public String getUltimateCreditor() {
         return ultimateCreditor;
     }
@@ -174,6 +194,14 @@ public class TransactionDetailsTO {
         this.debtorAccount = debtorAccount;
     }
 
+    public String getDebtorAgent() {
+        return debtorAgent;
+    }
+
+    public void setDebtorAgent(String debtorAgent) {
+        this.debtorAgent = debtorAgent;
+    }
+
     public String getUltimateDebtor() {
         return ultimateDebtor;
     }
@@ -190,12 +218,28 @@ public class TransactionDetailsTO {
         this.remittanceInformationUnstructured = remittanceInformationUnstructured;
     }
 
-    public String getRemittanceInformationStructured() {
+    public List<String> getRemittanceInformationUnstructuredArray() {
+        return remittanceInformationUnstructuredArray;
+    }
+
+    public void setRemittanceInformationUnstructuredArray(List<String> remittanceInformationUnstructuredArray) {
+        this.remittanceInformationUnstructuredArray = remittanceInformationUnstructuredArray;
+    }
+
+    public de.adorsys.xs2a.adapter.model.RemittanceInformationStructuredTO getRemittanceInformationStructured() {
         return remittanceInformationStructured;
     }
 
-    public void setRemittanceInformationStructured(String remittanceInformationStructured) {
+    public void setRemittanceInformationStructured(de.adorsys.xs2a.adapter.model.RemittanceInformationStructuredTO remittanceInformationStructured) {
         this.remittanceInformationStructured = remittanceInformationStructured;
+    }
+
+    public List<RemittanceInformationStructuredTO> getRemittanceInformationStructuredArray() {
+        return remittanceInformationStructuredArray;
+    }
+
+    public void setRemittanceInformationStructuredArray(List<RemittanceInformationStructuredTO> remittanceInformationStructuredArray) {
+        this.remittanceInformationStructuredArray = remittanceInformationStructuredArray;
     }
 
     public String getAdditionalInformation() {
@@ -204,6 +248,14 @@ public class TransactionDetailsTO {
 
     public void setAdditionalInformation(String additionalInformation) {
         this.additionalInformation = additionalInformation;
+    }
+
+    public AdditionalInformationStructuredTO getAdditionalInformationStructured() {
+        return additionalInformationStructured;
+    }
+
+    public void setAdditionalInformationStructured(AdditionalInformationStructuredTO additionalInformationStructured) {
+        this.additionalInformationStructured = additionalInformationStructured;
     }
 
     public String getPurposeCode() {
@@ -228,6 +280,14 @@ public class TransactionDetailsTO {
 
     public void setProprietaryBankTransactionCode(String proprietaryBankTransactionCode) {
         this.proprietaryBankTransactionCode = proprietaryBankTransactionCode;
+    }
+
+    public BalanceTO getBalanceAfterTransaction() {
+        return balanceAfterTransaction;
+    }
+
+    public void setBalanceAfterTransaction(BalanceTO balanceAfterTransaction) {
+        this.balanceAfterTransaction = balanceAfterTransaction;
     }
 
     public Map<String, HrefTypeTO> getLinks() {
