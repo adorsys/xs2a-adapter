@@ -19,9 +19,9 @@ package de.adorsys.xs2a.adapter.service.provider;
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;
+import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.oauth.SpardaOauthParamsAdjustingService;
 
 public class SpardaServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider,
                                                   Oauth2ServiceFactory {
@@ -46,8 +46,10 @@ public class SpardaServiceProvider implements AccountInformationServiceProvider,
 
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new SpardaOauth2Service(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
-            new SpardaOauthParamsAdjustingService(aspsp, keyStore));
+        return SpardaOauth2Service.create(aspsp,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            keyStore,
+            AdapterConfig.readProperty("sparda.client_id"));
     }
 
     @Override
