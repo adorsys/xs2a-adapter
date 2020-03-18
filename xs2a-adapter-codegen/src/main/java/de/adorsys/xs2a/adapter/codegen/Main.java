@@ -34,6 +34,12 @@ public class Main {
             Map.entry("getTransactionList", "AccountApi"),
             Map.entry("getTransactionDetails", "AccountApi"),
             Map.entry("getBalances", "AccountApi"),
+            // card accounts
+            Map.entry("getCardAccount", "AccountApi"),
+            Map.entry("ReadCardAccount", "AccountApi"),
+            Map.entry("getCardAccountTransactionList", "AccountApi"),
+            Map.entry("getCardAccountBalances", "AccountApi"),
+
 
             Map.entry("initiatePayment", "PaymentApi"),
             Map.entry("getPaymentInformation", "PaymentApi"),
