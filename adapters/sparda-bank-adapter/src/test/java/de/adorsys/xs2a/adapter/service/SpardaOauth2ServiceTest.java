@@ -59,6 +59,7 @@ public class SpardaOauth2ServiceTest {
         assertEquals(IDP_URI + "/authorize"
             + "?response_type=code"
             + "&redirect_uri=" + REDIRECT_URI
+            + "&scope=ais"
             + "&client_id=" + CLIENT_ID
             + "&code_challenge_method=S256"
             + "&code_challenge=" + oauth2Service.codeChallenge()
