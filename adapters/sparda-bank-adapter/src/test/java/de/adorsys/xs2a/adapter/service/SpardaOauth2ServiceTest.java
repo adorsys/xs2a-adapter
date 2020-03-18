@@ -52,7 +52,6 @@ public class SpardaOauth2ServiceTest {
         Parameters parameters = new Parameters();
         parameters.setScaOAuthLink(IDP_URI);
         parameters.setRedirectUri(REDIRECT_URI);
-        parameters.setBic(BIC);
 
         URI uri = oauth2Service.getAuthorizationRequestUri(Collections.emptyMap(), parameters);
 
@@ -151,7 +150,7 @@ public class SpardaOauth2ServiceTest {
     @Test
     void clientIdFromCertificateIsUsedWhenNullIsPassedIn() throws Exception {
         Pkcs12KeyStore keyStore = Mockito.mock(Pkcs12KeyStore.class);
-        oauth2Service = SpardaOauth2Service.create(null, null, keyStore, null);
+        oauth2Service = SpardaOauth2Service.create(new Aspsp(), null, keyStore, null);
         Parameters parameters = new Parameters();
         parameters.setScaOAuthLink(IDP_URI);
         parameters.setRedirectUri(REDIRECT_URI);
