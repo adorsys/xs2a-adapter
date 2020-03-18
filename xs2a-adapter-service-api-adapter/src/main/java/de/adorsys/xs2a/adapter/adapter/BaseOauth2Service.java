@@ -39,6 +39,7 @@ public class BaseOauth2Service implements Oauth2Service {
             .queryParam(Parameters.RESPONSE_TYPE, ResponseType.CODE.toString())
             .queryParam(Parameters.STATE, parameters.getState())
             .queryParam(Parameters.REDIRECT_URI, parameters.getRedirectUri())
+            .queryParam(Parameters.SCOPE, parameters.getScope())
             .build();
     }
 

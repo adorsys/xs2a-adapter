@@ -60,6 +60,9 @@ public class SpardaOauth2Service extends AbstractService implements Oauth2Servic
         String authorisationRequestUri = StringUri.fromElements(scaOAuthUrl, AUTHORISATION_REQUEST_URI_SUFFIX);
         parameters.setAuthorizationEndpoint(authorisationRequestUri);
         parameters.setClientId(clientId);
+        if (StringUtils.isBlank(parameters.getScope())) {
+            parameters.setScope("ais");
+        }
 
         return UriBuilder.fromUri(oauth2Service.getAuthorizationRequestUri(headers, parameters))
             .queryParam(Parameters.BIC, parameters.getBic())
