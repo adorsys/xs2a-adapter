@@ -16,6 +16,8 @@ public class AccountDetails {
 
     private String name;
 
+    private String displayName;
+
     private String product;
 
     private String cashAccountType;
@@ -33,6 +35,8 @@ public class AccountDetails {
     private List<Balance> balances;
 
     private Map<String, HrefType> links;
+
+    private String ownerName;
 
     public String getResourceId() {
         return resourceId;
@@ -80,6 +84,14 @@ public class AccountDetails {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getProduct() {
@@ -152,5 +164,13 @@ public class AccountDetails {
 
     public void setLinks(Map<String, HrefType> links) {
         this.links = links;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 }

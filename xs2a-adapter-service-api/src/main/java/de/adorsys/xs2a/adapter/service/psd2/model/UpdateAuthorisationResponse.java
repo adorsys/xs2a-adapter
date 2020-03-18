@@ -14,6 +14,8 @@ public class UpdateAuthorisationResponse {
 
     private String psuMessage;
 
+    private String authorisationId;
+
     private Map<String, HrefType> links;
 
     public AuthenticationObject getChosenScaMethod() {
@@ -54,6 +56,14 @@ public class UpdateAuthorisationResponse {
 
     public void setPsuMessage(String psuMessage) {
         this.psuMessage = psuMessage;
+    }
+
+    public String getAuthorisationId() {
+        return authorisationId;
+    }
+
+    public void setAuthorisationId(String authorisationId) {
+        this.authorisationId = authorisationId;
     }
 
     public Map<String, HrefType> getLinks() {
