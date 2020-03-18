@@ -65,7 +65,7 @@ public class SpardaOauth2Service extends AbstractService implements Oauth2Servic
         }
 
         return UriBuilder.fromUri(oauth2Service.getAuthorizationRequestUri(headers, parameters))
-            .queryParam(Parameters.BIC, parameters.getBic())
+            .queryParam(Parameters.BIC, aspsp.getBic())
             .build();
     }
 
