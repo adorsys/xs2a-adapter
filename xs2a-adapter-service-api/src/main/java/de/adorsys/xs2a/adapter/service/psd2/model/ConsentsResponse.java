@@ -1,5 +1,7 @@
 package de.adorsys.xs2a.adapter.service.psd2.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +19,8 @@ public class ConsentsResponse {
 
     private Map<String, HrefType> links;
 
-    private String message;
+    @JsonAlias("message")
+    private String psuMessage;
 
     public String getConsentStatus() {
         return consentStatus;
@@ -74,11 +77,11 @@ public class ConsentsResponse {
         links.put(name, link);
     }
 
-    public String getMessage() {
-        return message;
+    public String getPsuMessage() {
+        return psuMessage;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setPsuMessage(String psuMessage) {
+        this.psuMessage = psuMessage;
     }
 }

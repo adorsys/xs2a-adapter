@@ -21,7 +21,9 @@ public enum FrequencyCodeTO {
 
     SEMIANNUAL("SemiAnnual"),
 
-    ANNUAL("Annual");
+    ANNUAL("Annual"),
+
+    MONTHLYVARIABLE("MonthlyVariable");
 
     private String value;
 

@@ -43,7 +43,7 @@ public class TestModelBuilder {
 
     public static ConsentCreationResponse buildConsentCreationResponse() {
         ConsentCreationResponse response = new ConsentCreationResponse();
-        response.setMessage(MESSAGE);
+        response.setPsuMessage(MESSAGE);
         response.setConsentId(CONSTENT_ID);
         response.setConsentStatus(ConsentStatus.RECEIVED);
         Map<String, Link> links = new HashMap<>();

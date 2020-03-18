@@ -13,6 +13,7 @@ public class UpdatePsuAuthenticationResponse {
     private Map<String, Link> links;
     private ScaStatus scaStatus;
     private String psuMessage;
+    private String authorisationId;
 
     public AuthenticationObject getChosenScaMethod() {
         return chosenScaMethod;
@@ -60,6 +61,14 @@ public class UpdatePsuAuthenticationResponse {
 
     public void setPsuMessage(String psuMessage) {
         this.psuMessage = psuMessage;
+    }
+
+    public String getAuthorisationId() {
+        return authorisationId;
+    }
+
+    public void setAuthorisationId(String authorisationId) {
+        this.authorisationId = authorisationId;
     }
 }
 

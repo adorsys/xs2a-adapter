@@ -84,7 +84,7 @@ public class ConsentControllerTest {
             .getObjectFromString(mvcResult.getResponse().getContentAsString(), ConsentsResponse201TO.class);
 
         assertThat(response201.getConsentId()).isEqualTo(TestModelBuilder.CONSTENT_ID);
-        assertThat(response201.getMessage()).isEqualTo(TestModelBuilder.MESSAGE);
+        assertThat(response201.getPsuMessage()).isEqualTo(TestModelBuilder.MESSAGE);
         assertThat(response201.getConsentStatus()).isEqualTo(ConsentStatusTO.RECEIVED);
         assertThat(response201.getLinks()).hasSize(1);
         assertThat(response201.getChosenScaMethod()).isNotNull();

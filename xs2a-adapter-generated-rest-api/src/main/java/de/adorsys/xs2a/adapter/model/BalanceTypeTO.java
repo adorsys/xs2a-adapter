@@ -11,8 +11,6 @@ public enum BalanceTypeTO {
 
     EXPECTED("expected"),
 
-    AUTHORISED("authorised"),
-
     OPENINGBOOKED("openingBooked"),
 
     INTERIMAVAILABLE("interimAvailable"),

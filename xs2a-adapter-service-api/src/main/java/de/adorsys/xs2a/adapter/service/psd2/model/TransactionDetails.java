@@ -29,25 +29,37 @@ public class TransactionDetails {
 
     private AccountReference creditorAccount;
 
+    private String creditorAgent;
+
     private String ultimateCreditor;
 
     private String debtorName;
 
     private AccountReference debtorAccount;
 
+    private String debtorAgent;
+
     private String ultimateDebtor;
 
     private String remittanceInformationUnstructured;
 
-    private String remittanceInformationStructured;
+    private List<String> remittanceInformationUnstructuredArray;
+
+    private RemittanceInformationStructured remittanceInformationStructured;
+
+    private List<RemittanceInformationStructured> remittanceInformationStructuredArray;
 
     private String additionalInformation;
+
+    private AdditionalInformationStructured additionalInformationStructured;
 
     private String purposeCode;
 
     private String bankTransactionCode;
 
     private String proprietaryBankTransactionCode;
+
+    private Balance balanceAfterTransaction;
 
     private Map<String, HrefType> links;
 
@@ -143,6 +155,14 @@ public class TransactionDetails {
         return creditorAccount;
     }
 
+    public String getCreditorAgent() {
+        return creditorAgent;
+    }
+
+    public void setCreditorAgent(String creditorAgent) {
+        this.creditorAgent = creditorAgent;
+    }
+
     public void setCreditorAccount(AccountReference creditorAccount) {
         this.creditorAccount = creditorAccount;
     }
@@ -171,6 +191,14 @@ public class TransactionDetails {
         this.debtorAccount = debtorAccount;
     }
 
+    public String getDebtorAgent() {
+        return debtorAgent;
+    }
+
+    public void setDebtorAgent(String debtorAgent) {
+        this.debtorAgent = debtorAgent;
+    }
+
     public String getUltimateDebtor() {
         return ultimateDebtor;
     }
@@ -187,12 +215,28 @@ public class TransactionDetails {
         this.remittanceInformationUnstructured = remittanceInformationUnstructured;
     }
 
-    public String getRemittanceInformationStructured() {
+    public List<String> getRemittanceInformationUnstructuredArray() {
+        return remittanceInformationUnstructuredArray;
+    }
+
+    public void setRemittanceInformationUnstructuredArray(List<String> remittanceInformationUnstructuredArray) {
+        this.remittanceInformationUnstructuredArray = remittanceInformationUnstructuredArray;
+    }
+
+    public RemittanceInformationStructured getRemittanceInformationStructured() {
         return remittanceInformationStructured;
     }
 
-    public void setRemittanceInformationStructured(String remittanceInformationStructured) {
+    public void setRemittanceInformationStructured(RemittanceInformationStructured remittanceInformationStructured) {
         this.remittanceInformationStructured = remittanceInformationStructured;
+    }
+
+    public List<RemittanceInformationStructured> getRemittanceInformationStructuredArray() {
+        return remittanceInformationStructuredArray;
+    }
+
+    public void setRemittanceInformationStructuredArray(List<RemittanceInformationStructured> remittanceInformationStructuredArray) {
+        this.remittanceInformationStructuredArray = remittanceInformationStructuredArray;
     }
 
     public String getAdditionalInformation() {
@@ -201,6 +245,14 @@ public class TransactionDetails {
 
     public void setAdditionalInformation(String additionalInformation) {
         this.additionalInformation = additionalInformation;
+    }
+
+    public AdditionalInformationStructured getAdditionalInformationStructured() {
+        return additionalInformationStructured;
+    }
+
+    public void setAdditionalInformationStructured(AdditionalInformationStructured additionalInformationStructured) {
+        this.additionalInformationStructured = additionalInformationStructured;
     }
 
     public String getPurposeCode() {
@@ -225,6 +277,14 @@ public class TransactionDetails {
 
     public void setProprietaryBankTransactionCode(String proprietaryBankTransactionCode) {
         this.proprietaryBankTransactionCode = proprietaryBankTransactionCode;
+    }
+
+    public Balance getBalanceAfterTransaction() {
+        return balanceAfterTransaction;
+    }
+
+    public void setBalanceAfterTransaction(Balance balanceAfterTransaction) {
+        this.balanceAfterTransaction = balanceAfterTransaction;
     }
 
     public Map<String, HrefType> getLinks() {

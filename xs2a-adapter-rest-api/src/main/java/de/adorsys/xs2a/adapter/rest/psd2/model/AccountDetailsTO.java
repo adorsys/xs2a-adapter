@@ -18,6 +18,8 @@ public class AccountDetailsTO {
 
     private String name;
 
+    private String displayName;
+
     private String product;
 
     private String cashAccountType;
@@ -36,6 +38,8 @@ public class AccountDetailsTO {
 
     @JsonProperty("_links")
     private Map<String, HrefTypeTO> links;
+
+    private String ownerName;
 
     public String getResourceId() {
         return resourceId;
@@ -83,6 +87,14 @@ public class AccountDetailsTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getProduct() {
@@ -155,5 +167,13 @@ public class AccountDetailsTO {
 
     public void setLinks(Map<String, HrefTypeTO> links) {
         this.links = links;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 }

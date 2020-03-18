@@ -32,7 +32,8 @@ public class TransactionsMapperTest {
     private static final AccountReference DEBTOR_ACCOUNT = AccountReferenceMapperTest.buildAccountReference();
     private static final String ULTIMATE_DEBTOR = "ultimateDebtor";
     private static final String REMITTANCE_INFORMATION_UNSTRUCTURED = "remittanceInformationUnstructured";
-    private static final String REMITTANCE_INFORMATION_STRUCTURED = "remittanceInformationStructured";
+    private static final RemittanceInformationStructured REMITTANCE_INFORMATION_STRUCTURED =
+        buildRemittanceInformationStructured();
     private static final String PROPRIETARY_BANK_TRANSACTION_CODE = "proprietaryBankTransactionCode";
     private static final String SLEB_PURPOSE_CODE = "SLEB";
     private static final PurposeCode PURPOSE_CODE = buildPurposeCode();
@@ -42,6 +43,9 @@ public class TransactionsMapperTest {
     private static final String LINK_HREF = "linkHref";
     private static final Link LINK = buildLink();
     private static final Map<String, Link> LINKS_MAP = buildLinksMap();
+    private static final String REFERENCE = "reference";
+    private static final String REFERENCE_ISSUER = "referenceIssuer";
+    private static final String REFERENCE_TYPE = "referenceType";
 
     private TransactionsMapper transactionsMapper = Mappers.getMapper(TransactionsMapper.class);
 
@@ -82,7 +86,13 @@ public class TransactionsMapperTest {
 
         assertThat(transactionDetails.getUltimateDebtor()).isEqualTo(ULTIMATE_DEBTOR);
         assertThat(transactionDetails.getRemittanceInformationUnstructured()).isEqualTo(REMITTANCE_INFORMATION_UNSTRUCTURED);
-        assertThat(transactionDetails.getRemittanceInformationStructured()).isEqualTo(REMITTANCE_INFORMATION_STRUCTURED);
+
+        RemittanceInformationStructuredTO remittanceInformationStructured =
+            transactionDetails.getRemittanceInformationStructured();
+        assertThat(remittanceInformationStructured.getReference()).isEqualTo(REFERENCE);
+        assertThat(remittanceInformationStructured.getReferenceIssuer()).isEqualTo(REFERENCE_ISSUER);
+        assertThat(remittanceInformationStructured.getReferenceType()).isEqualTo(REFERENCE_TYPE);
+
 
         PurposeCodeTO purposeCodeTO = transactionDetails.getPurposeCode();
         assertThat(purposeCodeTO).isNotNull();
@@ -161,5 +171,13 @@ public class TransactionsMapperTest {
         Map<String, Link> linksMap = new HashMap<>();
         linksMap.put(LINK_NAME, LINK);
         return linksMap;
+    }
+
+    private static RemittanceInformationStructured buildRemittanceInformationStructured() {
+        RemittanceInformationStructured remittanceInformationStructured = new RemittanceInformationStructured();
+        remittanceInformationStructured.setReference(REFERENCE);
+        remittanceInformationStructured.setReferenceIssuer(REFERENCE_ISSUER);
+        remittanceInformationStructured.setReferenceType(REFERENCE_TYPE);
+        return remittanceInformationStructured;
     }
 }

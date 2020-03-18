@@ -17,6 +17,8 @@ public enum ScaStatusTO {
 
     STARTED("started"),
 
+    UNCONFIRMED("unconfirmed"),
+
     FINALISED("finalised"),
 
     FAILED("failed"),

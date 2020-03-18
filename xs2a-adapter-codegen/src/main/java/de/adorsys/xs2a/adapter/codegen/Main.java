@@ -43,7 +43,7 @@ public class Main {
             Map.entry("startPaymentAuthorisation", "PaymentApi"),
             Map.entry("updatePaymentPsuData", "PaymentApi"));
 
-        String modifiedSpec = filterOperations("src/main/resources/psd2-api 1.3.4 20190717v1.json", operationToInterface.keySet());
+        String modifiedSpec = filterOperations("src/main/resources/psd2-api 1.3.6 20200306v1.json", operationToInterface.keySet());
         modifiedSpec = addCustomParams(modifiedSpec);
         modifiedSpec = removeServers(modifiedSpec);
 

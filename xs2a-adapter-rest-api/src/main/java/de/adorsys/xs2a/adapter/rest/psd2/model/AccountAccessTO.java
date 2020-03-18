@@ -9,6 +9,8 @@ public class AccountAccessTO {
 
     private List<AccountReferenceTO> transactions;
 
+    private AdditionalInformationAccessTO additionalInformation;
+
     private String availableAccounts;
 
     private String allPsd2;
@@ -35,6 +37,14 @@ public class AccountAccessTO {
 
     public void setTransactions(List<AccountReferenceTO> transactions) {
         this.transactions = transactions;
+    }
+
+    public AdditionalInformationAccessTO getAdditionalInformation() {
+        return additionalInformation;
+    }
+
+    public void setAdditionalInformation(AdditionalInformationAccessTO additionalInformation) {
+        this.additionalInformation = additionalInformation;
     }
 
     public String getAvailableAccounts() {

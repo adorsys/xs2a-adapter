@@ -47,7 +47,9 @@ public enum ConsentStatus {
 
     EXPIRED("expired"),
 
-    TERMINATEDBYTPP("terminatedByTpp");
+    TERMINATEDBYTPP("terminatedByTpp"),
+
+    PARTIALLYAUTHORISED("partiallyAuthorised");
 
     private String value;
 

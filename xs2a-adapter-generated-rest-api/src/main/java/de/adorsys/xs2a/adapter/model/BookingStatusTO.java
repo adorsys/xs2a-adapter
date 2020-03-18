@@ -7,6 +7,8 @@ import javax.annotation.Generated;
 
 @Generated("xs2a-adapter-codegen")
 public enum BookingStatusTO {
+    INFORMATION("information"),
+
     BOOKED("booked"),
 
     PENDING("pending"),
