@@ -29,6 +29,8 @@ public class ConsentControllerWebMvcTest {
     public void illegalBookingStatus() throws Exception {
         mockMvc.perform(get("/v1/accounts/resource-id/transactions").param("bookingStatus", "BOOKED"))
             .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.tppMessages[0].text").value("Illegal value 'BOOKED' for parameter 'bookingStatus', allowed values: booked, pending, both"));
+            .andExpect(jsonPath("$.tppMessages[0].text")
+                .value("Illegal value 'BOOKED' for parameter 'bookingStatus', allowed values: " +
+                    "information, booked, pending, both"));
     }
 }

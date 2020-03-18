@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class BalanceMapperTest {
     private static final Amount AMOUNT = AmountMapperTest.buildAmount();
-    private static final BalanceType BALANCE_TYPE = BalanceType.AUTHORISED;
+    private static final BalanceType BALANCE_TYPE = BalanceType.CLOSINGBOOKED;
     private static final OffsetDateTime LAST_CHANGE_DATE_TIME = OffsetDateTime.now();
     private static final LocalDate REFERENCE_DATE = LocalDate.now();
     private static final String LAST_COMMITTED_TRANSACTION = "lastCommittedTransaction";

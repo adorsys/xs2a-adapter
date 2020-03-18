@@ -17,7 +17,7 @@ public class ConsentCreationResponseMapperTest {
 
         ConsentsResponse201TO response201 = mapper.toConsentResponse201(buildConsentCreationResponse());
 
-        assertThat(response201.getMessage()).isEqualTo(MESSAGE);
+        assertThat(response201.getPsuMessage()).isEqualTo(MESSAGE);
         assertThat(response201.getConsentId()).isEqualTo(CONSTENT_ID);
         assertThat(response201.getConsentStatus().name()).isEqualTo(ConsentStatus.RECEIVED.name());
         assertThat(response201.getLinks()).hasSize(1);
