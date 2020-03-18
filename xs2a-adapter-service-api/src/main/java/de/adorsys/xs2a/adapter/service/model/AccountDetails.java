@@ -13,6 +13,7 @@ public class AccountDetails {
     private String msisdn;
     private String currency;
     private String name;
+    private String displayName;
     private String product;
     private CashAccountType cashAccountType;
     private AccountStatus status;
@@ -22,6 +23,7 @@ public class AccountDetails {
     private String details;
     private List<Balance> balances;
     private Map<String, Link> links;
+    private String ownerName;
 
     public String getAspspAccountId() {
         return aspspAccountId;
@@ -95,6 +97,14 @@ public class AccountDetails {
         this.name = name;
     }
 
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
     public String getProduct() {
         return product;
     }
@@ -165,5 +175,13 @@ public class AccountDetails {
 
     public void setLinks(Map<String, Link> links) {
         this.links = links;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 }

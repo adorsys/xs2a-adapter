@@ -10,7 +10,6 @@ import java.util.Optional;
 public enum BalanceType {
     CLOSINGBOOKED("closingBooked"),
     EXPECTED("expected"),
-    AUTHORISED("authorised"),
     OPENINGBOOKED("openingBooked"),
     INTERIMAVAILABLE("interimAvailable"),
     INTERIMBOOKED("interimBooked"),

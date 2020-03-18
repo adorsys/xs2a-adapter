@@ -52,6 +52,12 @@ public enum ScaStatus {
      */
     STARTED("started", false),
     /**
+     * SCA is technically successfully finalised by the PSU, but the
+     * authorisation resource needs a confirmation command by the TPP
+     * yet.
+     */
+    UNCONFIRMED("unconfirmed", true),
+    /**
      * The SCA routine has been finalised successfully.
      */
     FINALISED("finalised", true),

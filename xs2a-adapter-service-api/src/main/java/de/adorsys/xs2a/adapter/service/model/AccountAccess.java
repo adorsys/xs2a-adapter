@@ -28,6 +28,7 @@ public class AccountAccess {
     private List<AccountReference> accounts;
     private List<AccountReference> balances;
     private List<AccountReference> transactions;
+    private AdditionalInformationAccess additionalInformation;
     private AvailableAccountsEnum availableAccounts;
     private AvailableAccountsWithBalance availableAccountsWithBalance;
     private AllPsd2Enum allPsd2;
@@ -81,7 +82,9 @@ public class AccountAccess {
     }
 
     public enum AvailableAccountsEnum {
-        ALLACCOUNTS("allAccounts");
+        ALLACCOUNTS("allAccounts"),
+
+        ALLACCOUNTSWITHOWNERNAME("allAccountsWithOwnerName");
 
         private String value;
 
@@ -107,7 +110,9 @@ public class AccountAccess {
     }
 
     public enum AvailableAccountsWithBalance {
-        ALLACCOUNTS("allAccounts");
+        ALLACCOUNTS("allAccounts"),
+
+        ALLACCOUNTSWITHOWNERNAME("allAccountsWithOwnerName");
 
         private String value;
 
@@ -133,7 +138,9 @@ public class AccountAccess {
     }
 
     public enum AllPsd2Enum {
-        ALLACCOUNTS("allAccounts");
+        ALLACCOUNTS("allAccounts"),
+
+        ALLACCOUNTSWITHOWNERNAME("allAccountsWithOwnerName");
 
         private String value;
 

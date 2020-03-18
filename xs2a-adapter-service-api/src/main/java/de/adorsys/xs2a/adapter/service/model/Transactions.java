@@ -19,15 +19,22 @@ public class Transactions {
     private List<ExchangeRate> exchangeRate;
     private String creditorName;
     private AccountReference creditorAccount;
+    private String creditorAgent;
     private String ultimateCreditor;
     private String debtorName;
     private AccountReference debtorAccount;
+    private String debtorAgent;
     private String ultimateDebtor;
     private String remittanceInformationUnstructured;
-    private String remittanceInformationStructured;
+    private List<String> remittanceInformationUnstructuredArray;
+    private RemittanceInformationStructured remittanceInformationStructured;
+    private List<RemittanceInformationStructured> remittanceInformationStructuredArray;
+    private String additionalInformation;
+    private AdditionalInformationStructured additionalInformationStructured;
     private PurposeCode purposeCode;
     private BankTransactionCode bankTransactionCode;
     private String proprietaryBankTransactionCode;
+    private Balance balanceAfterTransaction;
 
     @JsonProperty("_links")
     private Map<String, Link> links;
@@ -128,6 +135,14 @@ public class Transactions {
         this.creditorAccount = creditorAccount;
     }
 
+    public String getCreditorAgent() {
+        return creditorAgent;
+    }
+
+    public void setCreditorAgent(String creditorAgent) {
+        this.creditorAgent = creditorAgent;
+    }
+
     public String getUltimateCreditor() {
         return ultimateCreditor;
     }
@@ -152,6 +167,14 @@ public class Transactions {
         this.debtorAccount = debtorAccount;
     }
 
+    public String getDebtorAgent() {
+        return debtorAgent;
+    }
+
+    public void setDebtorAgent(String debtorAgent) {
+        this.debtorAgent = debtorAgent;
+    }
+
     public String getUltimateDebtor() {
         return ultimateDebtor;
     }
@@ -168,12 +191,44 @@ public class Transactions {
         this.remittanceInformationUnstructured = remittanceInformationUnstructured;
     }
 
-    public String getRemittanceInformationStructured() {
+    public List<String> getRemittanceInformationUnstructuredArray() {
+        return remittanceInformationUnstructuredArray;
+    }
+
+    public void setRemittanceInformationUnstructuredArray(List<String> remittanceInformationUnstructuredArray) {
+        this.remittanceInformationUnstructuredArray = remittanceInformationUnstructuredArray;
+    }
+
+    public RemittanceInformationStructured getRemittanceInformationStructured() {
         return remittanceInformationStructured;
     }
 
-    public void setRemittanceInformationStructured(String remittanceInformationStructured) {
+    public void setRemittanceInformationStructured(RemittanceInformationStructured remittanceInformationStructured) {
         this.remittanceInformationStructured = remittanceInformationStructured;
+    }
+
+    public List<RemittanceInformationStructured> getRemittanceInformationStructuredArray() {
+        return remittanceInformationStructuredArray;
+    }
+
+    public void setRemittanceInformationStructuredArray(List<RemittanceInformationStructured> remittanceInformationStructuredArray) {
+        this.remittanceInformationStructuredArray = remittanceInformationStructuredArray;
+    }
+
+    public String getAdditionalInformation() {
+        return additionalInformation;
+    }
+
+    public void setAdditionalInformation(String additionalInformation) {
+        this.additionalInformation = additionalInformation;
+    }
+
+    public AdditionalInformationStructured getAdditionalInformationStructured() {
+        return additionalInformationStructured;
+    }
+
+    public void setAdditionalInformationStructured(AdditionalInformationStructured additionalInformationStructured) {
+        this.additionalInformationStructured = additionalInformationStructured;
     }
 
     public PurposeCode getPurposeCode() {

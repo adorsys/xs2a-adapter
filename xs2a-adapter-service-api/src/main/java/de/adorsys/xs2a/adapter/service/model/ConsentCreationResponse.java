@@ -16,6 +16,7 @@
 
 package de.adorsys.xs2a.adapter.service.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -29,7 +30,8 @@ public class ConsentCreationResponse {
     private ChallengeData challengeData;
     @JsonProperty("_links")
     private Map<String, Link> links;
-    private String message;
+    @JsonAlias("message")
+    private String psuMessage;
 
     public ConsentStatus getConsentStatus() {
         return consentStatus;
@@ -79,11 +81,11 @@ public class ConsentCreationResponse {
         this.links = links;
     }
 
-    public String getMessage() {
-        return message;
+    public String getPsuMessage() {
+        return psuMessage;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setPsuMessage(String psuMessage) {
+        this.psuMessage = psuMessage;
     }
 }
