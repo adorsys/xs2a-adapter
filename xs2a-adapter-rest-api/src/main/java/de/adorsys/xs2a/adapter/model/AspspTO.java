@@ -106,4 +106,19 @@ public class AspspTO {
     public int hashCode() {
         return Objects.hash(id, name, bic, bankCode, url, adapterId, idpUrl, scaApproaches, paginationId);
     }
+
+    @Override
+    public String toString() {
+        return "AspspTO{" +
+                   "id='" + id + '\'' +
+                   ", name='" + name + '\'' +
+                   ", bic='" + bic + '\'' +
+                   ", bankCode='" + bankCode + '\'' +
+                   ", url='" + url + '\'' +
+                   ", adapterId='" + adapterId + '\'' +
+                   ", idpUrl='" + idpUrl + '\'' +
+                   ", scaApproaches=" + scaApproaches +
+                   ", paginationId='" + paginationId + '\'' +
+                   '}';
+    }
 }

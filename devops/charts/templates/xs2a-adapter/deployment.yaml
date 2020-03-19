@@ -20,6 +20,8 @@ spec:
     spec:
       containers:
         - env:
+            - name: GRAYLOG_HOST
+              value: {{ .Values.adapter.graylogHost }}
             - name: XS2A-ADAPTER_LOADER_CHOOSE-FIRST-FROM-MULTIPLE-ASPSPS
               value: "true"
             - name: SPRING_PROFILES_ACTIVE
