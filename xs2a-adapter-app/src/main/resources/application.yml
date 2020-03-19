@@ -32,7 +32,7 @@ xs2a-adapter:
     choose-first-from-multiple-aspsps: true
 
 graylog:
-  host: xs2a-adapter-graylog.cloud.adorsys.de
+  host: localhost
   port: 12201
 
 ---
@@ -46,10 +46,3 @@ logging:
     de.adorsys.xs2a.adapter.adapter.BaseOauth2Service: DEBUG
   pattern:
     level: "%5p %mdc{correlationId}"
-
----
-spring:
-  profiles: local
-
-graylog:
-  host: localhost
