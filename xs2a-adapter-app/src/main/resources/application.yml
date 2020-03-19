@@ -30,17 +30,26 @@ xs2a-adapter:
     mime-headers-support-enabled: true
   loader:
     choose-first-from-multiple-aspsps: true
+
+graylog:
+  host: xs2a-adapter-graylog.cloud.adorsys.de
+  port: 12201
+
 ---
 spring:
   profiles: dev
 logging:
-  config: classpath:logback-dev.xml
   level:
     de.adorsys.xs2a.adapter.http.ApacheHttpClient: DEBUG
     de.adorsys.xs2a.adapter.http.ResponseHandlers: DEBUG
     de.adorsys.xs2a.adapter.registry.LuceneAspspRepository: DEBUG
     de.adorsys.xs2a.adapter.adapter.BaseOauth2Service: DEBUG
-    # TODO remove this after SpardaOauth2Service refactoring
-    de.adorsys.xs2a.adapter.service.SpardaOauth2Service: DEBUG
   pattern:
     level: "%5p %mdc{correlationId}"
+
+---
+spring:
+  profiles: local
+
+graylog:
+  host: localhost
