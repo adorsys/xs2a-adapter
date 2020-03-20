@@ -16,6 +16,8 @@
 
 package de.adorsys.xs2a.tpp;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.adorsys.xs2a.adapter.controller.ConsentController;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.remote.api.AccountInformationClient;
@@ -143,5 +145,12 @@ public class AppConfiguration {
                 return "?".equals(type.getTypeName());
             }
         };
+    }
+
+    @Bean
+    ConsentController consentController(AccountInformationService accountInformationService,
+                                        ObjectMapper objectMapper,
+                                        HeadersMapper headersMapper) {
+        return new ConsentController(accountInformationService, objectMapper, headersMapper);
     }
 }

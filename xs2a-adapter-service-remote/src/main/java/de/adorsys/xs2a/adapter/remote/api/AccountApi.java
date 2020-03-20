@@ -149,4 +149,41 @@ public interface AccountApi {
         @PathVariable("transactionId") String transactionId,
         @RequestParam Map<String, String> parameters,
         @RequestHeader Map<String, String> headers);
+
+    @RequestMapping(
+        value = "/v1/card-accounts",
+        method = RequestMethod.GET
+    )
+    ResponseEntity<CardAccountListTO> getCardAccount(@RequestParam Map<String, String> parameters,
+                                                     @RequestHeader Map<String, String> headers);
+
+    @RequestMapping(
+        value = "/v1/card-accounts/{account-id}",
+        method = RequestMethod.GET
+    )
+    ResponseEntity<OK200CardAccountDetailsTO> ReadCardAccount(
+        @PathVariable("account-id") String accountId, @RequestParam Map<String, String> parameters,
+        @RequestHeader Map<String, String> headers);
+
+    @RequestMapping(
+        value = "/v1/card-accounts/{account-id}/balances",
+        method = RequestMethod.GET
+    )
+    ResponseEntity<ReadCardAccountBalanceResponse200TO> getCardAccountBalances(
+        @PathVariable("account-id") String accountId, @RequestParam Map<String, String> parameters,
+        @RequestHeader Map<String, String> headers);
+
+    @RequestMapping(
+        value = "/v1/card-accounts/{account-id}/transactions",
+        method = RequestMethod.GET
+    )
+    ResponseEntity<CardAccountsTransactionsResponse200TO> getCardAccountTransactionList(
+        @PathVariable("account-id") String accountId,
+        @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom,
+        @RequestParam(value = "dateTo", required = false) LocalDate dateTo,
+        @RequestParam(value = "entryReferenceFrom", required = false) String entryReferenceFrom,
+        @RequestParam(value = "bookingStatus", required = true) BookingStatusTO bookingStatus,
+        @RequestParam(value = "deltaList", required = false) Boolean deltaList,
+        @RequestParam(value = "withBalance", required = false) Boolean withBalance,
+        @RequestParam Map<String, String> parameters, @RequestHeader Map<String, String> headers);
 }

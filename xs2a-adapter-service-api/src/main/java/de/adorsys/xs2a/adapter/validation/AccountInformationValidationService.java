@@ -125,4 +125,27 @@ public interface AccountInformationValidationService {
                                                       RequestParams requestParams) {
         return Collections.emptyList();
     }
+
+    default List<ValidationError> validateGetCardAccountList(RequestHeaders requestHeaders,
+                                                             RequestParams requestParams) {
+        return Collections.emptyList();
+    }
+
+    default List<ValidationError> validateGetCardAccountDetails(String accountId,
+                                                                RequestHeaders requestHeaders,
+                                                                RequestParams requestParams) {
+        return Collections.emptyList();
+    }
+
+    default List<ValidationError> validateGetCardAccountBalances(String accountId,
+                                                                 RequestHeaders requestHeaders,
+                                                                 RequestParams requestParams) {
+        return Collections.emptyList();
+    }
+
+    default List<ValidationError> validateGetCardAccountTransactionList(String accountId,
+                                                                        RequestHeaders requestHeaders,
+                                                                        RequestParams requestParams) {
+        return Collections.emptyList();
+    }
 }

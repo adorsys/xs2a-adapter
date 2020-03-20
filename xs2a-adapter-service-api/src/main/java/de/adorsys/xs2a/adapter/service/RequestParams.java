@@ -54,12 +54,50 @@ public class RequestParams {
         return EMPTY;
     }
 
+    public static RequestParamsBuilder builder() {
+        return new RequestParamsBuilder();
+    }
+
     public Map<String, String> toMap() {
         return requestParams;
     }
 
-    public static RequestParamsBuilder builder() {
-        return new RequestParamsBuilder();
+    public LocalDate dateFrom() {
+        return localDate(requestParams.get(DATE_FROM));
+    }
+
+    private LocalDate localDate(String value) {
+        if (value == null) {
+            return null;
+        }
+        return LocalDate.parse(value);
+    }
+
+    public LocalDate dateTo() {
+        return localDate(requestParams.get(DATE_TO));
+    }
+
+    public String entryReferenceFrom() {
+        return requestParams.get(ENTRY_REFERENCE_FROM);
+    }
+
+    public String bookingStatus() {
+        return requestParams.get(BOOKING_STATUS);
+    }
+
+    public Boolean deltaList() {
+        return bool(requestParams.get(DELTA_LIST));
+    }
+
+    private Boolean bool(String value) {
+        if (value == null) {
+            return null;
+        }
+        return Boolean.valueOf(value);
+    }
+
+    public Boolean withBalance() {
+        return bool(requestParams.get(WITH_BALANCE));
     }
 
     public static final class RequestParamsBuilder {

@@ -171,4 +171,34 @@ public class AccountInformationServiceImpl implements AccountInformationService 
         return getAccountInformationService(requestHeaders)
                    .getBalances(accountId, requestHeaders, requestParams);
     }
+
+    @Override
+    public Response<CardAccountList> getCardAccountList(RequestHeaders requestHeaders, RequestParams requestParams) {
+        return getAccountInformationService(requestHeaders)
+            .getCardAccountList(requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<CardAccountDetailsHolder> getCardAccountDetails(String accountId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    RequestParams requestParams) {
+        return getAccountInformationService(requestHeaders)
+            .getCardAccountDetails(accountId, requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<CardAccountBalanceReport> getCardAccountBalances(String accountId,
+                                                                     RequestHeaders requestHeaders,
+                                                                     RequestParams requestParams) {
+        return getAccountInformationService(requestHeaders)
+            .getCardAccountBalances(accountId, requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<CardAccountsTransactions> getCardAccountTransactionList(String accountId,
+                                                                            RequestHeaders requestHeaders,
+                                                                            RequestParams requestParams) {
+        return getAccountInformationService(requestHeaders)
+            .getCardAccountTransactionList(accountId, requestHeaders, requestParams);
+    }
 }

@@ -113,6 +113,26 @@ public class TestAccountInformationService implements AccountInformationService 
     }
 
     @Override
+    public Response<CardAccountList> getCardAccountList(RequestHeaders requestHeaders, RequestParams requestParams) {
+        return null;
+    }
+
+    @Override
+    public Response<CardAccountDetailsHolder> getCardAccountDetails(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
+        return null;
+    }
+
+    @Override
+    public Response<CardAccountBalanceReport> getCardAccountBalances(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
+        return null;
+    }
+
+    @Override
+    public Response<CardAccountsTransactions> getCardAccountTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
+        return null;
+    }
+
+    @Override
     public Response<TransactionDetails> getTransactionDetails(String accountId,
                                                               String transactionId,
                                                               RequestHeaders requestHeaders,

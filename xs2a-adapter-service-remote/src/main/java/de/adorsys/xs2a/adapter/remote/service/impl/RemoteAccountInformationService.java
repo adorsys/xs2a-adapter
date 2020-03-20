@@ -65,6 +65,13 @@ public class RemoteAccountInformationService implements AccountInformationServic
     private final ResponseHeadersMapper responseHeadersMapper =
         Mappers.getMapper(ResponseHeadersMapper.class);
     private final TransactionDetailsMapper transactionDetailsMapper = Mappers.getMapper(TransactionDetailsMapper.class);
+    private final CardAccountListMapper cardAccountListMapper = Mappers.getMapper(CardAccountListMapper.class);
+    private final CardAccountDetailsHolderMapper cardAccountDetailsHolderMapper =
+        Mappers.getMapper(CardAccountDetailsHolderMapper.class);
+    private final CardAccountBalanceReportMapper cardAccountBalanceReportMapper =
+        Mappers.getMapper(CardAccountBalanceReportMapper.class);
+    private CardAccountsTransactionsMapper cardAccountsTransactionsMapper =
+        Mappers.getMapper(CardAccountsTransactionsMapper.class);
     final ObjectMapper objectMapper;
 
     public RemoteAccountInformationService(AccountInformationClient client) {
@@ -412,6 +419,60 @@ public class RemoteAccountInformationService implements AccountInformationServic
             balanceReport,
             responseHeadersMapper.getHeaders(responseEntity.getHeaders())
         );
+    }
+
+    @Override
+    public Response<CardAccountList> getCardAccountList(RequestHeaders requestHeaders, RequestParams requestParams) {
+        ResponseEntity<CardAccountListTO> responseEntity =
+            client.getCardAccount(requestParams.toMap(), requestHeaders.toMap());
+        CardAccountList body = cardAccountListMapper.map(responseEntity.getBody());
+        return new Response<>(responseEntity.getStatusCodeValue(),
+            body,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+    }
+
+    @Override
+    public Response<CardAccountDetailsHolder> getCardAccountDetails(String accountId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    RequestParams requestParams) {
+        ResponseEntity<OK200CardAccountDetailsTO> responseEntity =
+            client.ReadCardAccount(accountId, requestParams.toMap(), requestHeaders.toMap());
+        CardAccountDetailsHolder body = cardAccountDetailsHolderMapper.map(responseEntity.getBody());
+        return new Response<>(responseEntity.getStatusCodeValue(),
+            body,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+    }
+
+    @Override
+    public Response<CardAccountBalanceReport> getCardAccountBalances(String accountId,
+                                                                     RequestHeaders requestHeaders,
+                                                                     RequestParams requestParams) {
+        ResponseEntity<ReadCardAccountBalanceResponse200TO> responseEntity =
+            client.getCardAccountBalances(accountId, requestParams.toMap(), requestHeaders.toMap());
+        CardAccountBalanceReport body = cardAccountBalanceReportMapper.map(responseEntity.getBody());
+        return new Response<>(responseEntity.getStatusCodeValue(),
+            body,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+    }
+
+    @Override
+    public Response<CardAccountsTransactions> getCardAccountTransactionList(String accountId,
+                                                                            RequestHeaders requestHeaders,
+                                                                            RequestParams requestParams) {
+        ResponseEntity<CardAccountsTransactionsResponse200TO> responseEntity =
+            client.getCardAccountTransactionList(accountId,
+                requestParams.dateFrom(),
+                requestParams.dateTo(),
+                requestParams.entryReferenceFrom(),
+                requestParams.bookingStatus() != null ? BookingStatusTO.fromValue(requestParams.bookingStatus()) : null,
+                requestParams.deltaList(),
+                requestParams.withBalance(),
+                requestParams.toMap(),
+                requestHeaders.toMap());
+        CardAccountsTransactions body = cardAccountsTransactionsMapper.map(responseEntity.getBody());
+        return new Response<>(responseEntity.getStatusCodeValue(),
+            body,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 
     private LocalDate strToLocalDate(String date) {
