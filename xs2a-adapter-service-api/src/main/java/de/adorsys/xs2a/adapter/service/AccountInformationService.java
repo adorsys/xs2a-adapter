@@ -180,4 +180,18 @@ public interface AccountInformationService extends AccountInformationValidationS
     Response<BalanceReport> getBalances(String accountId,
                                         RequestHeaders requestHeaders,
                                         RequestParams requestParams);
+
+    Response<CardAccountList> getCardAccountList(RequestHeaders requestHeaders, RequestParams requestParams);
+
+    Response<CardAccountDetailsHolder> getCardAccountDetails(String accountId,
+                                                             RequestHeaders requestHeaders,
+                                                             RequestParams requestParams);
+
+    Response<CardAccountBalanceReport> getCardAccountBalances(String accountId,
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams);
+
+    Response<CardAccountsTransactions> getCardAccountTransactionList(String accountId,
+                                                                     RequestHeaders requestHeaders,
+                                                                     RequestParams requestParams);
 }

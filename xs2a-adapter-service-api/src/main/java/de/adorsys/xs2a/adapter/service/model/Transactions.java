@@ -16,6 +16,7 @@ public class Transactions {
     private LocalDate bookingDate;
     private LocalDate valueDate;
     private Amount transactionAmount;
+    // todo XS2AAD-392
     private List<ExchangeRate> exchangeRate;
     private String creditorName;
     private AccountReference creditorAccount;
@@ -32,6 +33,7 @@ public class Transactions {
     private String additionalInformation;
     private AdditionalInformationStructured additionalInformationStructured;
     private PurposeCode purposeCode;
+    // todo XS2AAD-392
     private BankTransactionCode bankTransactionCode;
     private String proprietaryBankTransactionCode;
     private Balance balanceAfterTransaction;
@@ -253,6 +255,14 @@ public class Transactions {
 
     public void setProprietaryBankTransactionCode(String proprietaryBankTransactionCode) {
         this.proprietaryBankTransactionCode = proprietaryBankTransactionCode;
+    }
+
+    public Balance getBalanceAfterTransaction() {
+        return balanceAfterTransaction;
+    }
+
+    public void setBalanceAfterTransaction(Balance balanceAfterTransaction) {
+        this.balanceAfterTransaction = balanceAfterTransaction;
     }
 
     public Map<String, Link> getLinks() {

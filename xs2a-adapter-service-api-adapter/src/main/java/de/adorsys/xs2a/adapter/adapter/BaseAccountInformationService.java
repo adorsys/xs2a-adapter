@@ -49,6 +49,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     protected static final String ACCOUNTS = "accounts";
     protected static final String TRANSACTIONS = "transactions";
     protected static final String BALANCES = "balances";
+    protected static final String CARD_ACCOUNTS = "card-accounts";
 
     protected final Aspsp aspsp;
     protected final Request.Builder.Interceptor requestBuilderInterceptor;
@@ -521,6 +522,79 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                                RequestHeaders requestHeaders,
                                                RequestParams requestParams) {
         return getBalances(accountId, requestHeaders, requestParams, BalanceReport.class, identity());
+    }
+
+    @Override
+    public Response<CardAccountList> getCardAccountList(RequestHeaders requestHeaders, RequestParams requestParams) {
+        requireValid(validateGetCardAccountList(requestHeaders, requestParams));
+
+        String uri = StringUri.fromElements(getBaseUri(), V1, CARD_ACCOUNTS);
+        uri = buildUri(uri, requestParams);
+        Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
+        Response<CardAccountList> response = httpClient.get(uri)
+            .headers(headers)
+            .send(requestBuilderInterceptor, jsonResponseHandler(CardAccountList.class));
+        Optional.ofNullable(response.getBody())
+            .map(CardAccountList::getCardAccounts)
+            .ifPresent(accounts ->
+                accounts.forEach(account ->
+                    account.setLinks(linksRewriter.rewrite(account.getLinks()))));
+        return response;
+    }
+
+    @Override
+    public Response<CardAccountDetailsHolder> getCardAccountDetails(String accountId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    RequestParams requestParams) {
+        requireValid(validateGetCardAccountDetails(accountId, requestHeaders, requestParams));
+
+        String uri = StringUri.fromElements(getBaseUri(), V1, CARD_ACCOUNTS, accountId);
+        uri = buildUri(uri, requestParams);
+        Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
+        Response<CardAccountDetailsHolder> response = httpClient.get(uri)
+            .headers(headers)
+            .send(requestBuilderInterceptor, jsonResponseHandler(CardAccountDetailsHolder.class));
+        Optional.ofNullable(response.getBody())
+            .map(CardAccountDetailsHolder::getCardAccount)
+            .ifPresent(account -> account.setLinks(linksRewriter.rewrite(account.getLinks())));
+        return response;
+    }
+
+    @Override
+    public Response<CardAccountBalanceReport> getCardAccountBalances(String accountId,
+                                                                     RequestHeaders requestHeaders,
+                                                                     RequestParams requestParams) {
+        requireValid(validateGetCardAccountBalances(accountId, requestHeaders, requestParams));
+
+        String uri = StringUri.fromElements(getBaseUri(), V1, CARD_ACCOUNTS, accountId, BALANCES);
+        uri = buildUri(uri, requestParams);
+        Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
+        return httpClient.get(uri)
+            .headers(headers)
+            .send(requestBuilderInterceptor, jsonResponseHandler(CardAccountBalanceReport.class));
+    }
+
+    @Override
+    public Response<CardAccountsTransactions> getCardAccountTransactionList(String accountId,
+                                                                            RequestHeaders requestHeaders,
+                                                                            RequestParams requestParams) {
+        requireValid(validateGetCardAccountTransactionList(accountId, requestHeaders, requestParams));
+
+        String uri = StringUri.fromElements(getBaseUri(), V1, CARD_ACCOUNTS, accountId, TRANSACTIONS);
+        uri = buildUri(uri, requestParams);
+        Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
+        Response<CardAccountsTransactions> response = httpClient.get(uri)
+            .headers(headers)
+            .send(requestBuilderInterceptor, jsonResponseHandler(CardAccountsTransactions.class));
+        CardAccountsTransactions body = response.getBody();
+        if (body != null) {
+            body.setLinks(linksRewriter.rewrite(body.getLinks()));
+            CardAccountReport cardTransactions = body.getCardTransactions();
+            if (cardTransactions != null) {
+                cardTransactions.setLinks(linksRewriter.rewrite(cardTransactions.getLinks()));
+            }
+        }
+        return response;
     }
 
     protected <T> Response<BalanceReport> getBalances(String accountId,

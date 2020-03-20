@@ -51,6 +51,13 @@ public class ConsentController extends AbstractController implements ConsentApi,
     private final BalanceReportMapper balanceReportMapper = Mappers.getMapper(BalanceReportMapper.class);
     private final TransactionsReportMapper transactionsReportMapper = Mappers.getMapper(TransactionsReportMapper.class);
     private final TransactionDetailsMapper transactionDetailsMapper = Mappers.getMapper(TransactionDetailsMapper.class);
+    private final CardAccountListMapper cardAccountListMapper = Mappers.getMapper(CardAccountListMapper.class);
+    private final CardAccountDetailsHolderMapper cardAccountDetailsHolderMapper =
+        Mappers.getMapper(CardAccountDetailsHolderMapper.class);
+    private final CardAccountBalanceReportMapper cardAccountBalanceReportMapper =
+        Mappers.getMapper(CardAccountBalanceReportMapper.class);
+    private CardAccountsTransactionsMapper cardAccountsTransactionsMapper =
+        Mappers.getMapper(CardAccountsTransactionsMapper.class);
 
     public ConsentController(AccountInformationService accountInformationService, ObjectMapper objectMapper, HeadersMapper headersMapper) {
         super(objectMapper);
@@ -253,6 +260,61 @@ public class ConsentController extends AbstractController implements ConsentApi,
         return ResponseEntity.status(HttpStatus.OK)
             .headers(headersMapper.toHttpHeaders(response.getHeaders()))
             .body(transactionDetailsMapper.map(response.getBody()));
+    }
+
+    @Override
+    public ResponseEntity<CardAccountListTO> getCardAccount(Map<String, String> parameters, Map<String, String> headers) {
+        Response<CardAccountList> response =
+            accountInformationService.getCardAccountList(RequestHeaders.fromMap(headers),
+                RequestParams.fromMap(parameters));
+        return ResponseEntity.status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(cardAccountListMapper.map(response.getBody()));
+    }
+
+    @Override
+    public ResponseEntity<OK200CardAccountDetailsTO> ReadCardAccount(String accountId,
+                                                                     Map<String, String> parameters,
+                                                                     Map<String, String> headers) {
+        Response<CardAccountDetailsHolder> response =
+            accountInformationService.getCardAccountDetails(accountId,
+                RequestHeaders.fromMap(headers),
+                RequestParams.fromMap(parameters));
+        return ResponseEntity.status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(cardAccountDetailsHolderMapper.map(response.getBody()));
+    }
+
+    @Override
+    public ResponseEntity<ReadCardAccountBalanceResponse200TO> getCardAccountBalances(String accountId,
+                                                                                      Map<String, String> parameters,
+                                                                                      Map<String, String> headers) {
+        Response<CardAccountBalanceReport> response =
+            accountInformationService.getCardAccountBalances(accountId,
+                RequestHeaders.fromMap(headers),
+                RequestParams.fromMap(parameters));
+        return ResponseEntity.status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(cardAccountBalanceReportMapper.map(response.getBody()));
+    }
+
+    @Override
+    public ResponseEntity<CardAccountsTransactionsResponse200TO> getCardAccountTransactionList(String accountId,
+                                                                                               LocalDate dateFrom,
+                                                                                               LocalDate dateTo,
+                                                                                               String entryReferenceFrom,
+                                                                                               BookingStatusTO bookingStatus,
+                                                                                               Boolean deltaList,
+                                                                                               Boolean withBalance,
+                                                                                               Map<String, String> parameters,
+                                                                                               Map<String, String> headers) {
+        Response<CardAccountsTransactions> response =
+            accountInformationService.getCardAccountTransactionList(accountId,
+                RequestHeaders.fromMap(headers),
+                RequestParams.fromMap(parameters));
+        return ResponseEntity.status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(cardAccountsTransactionsMapper.map(response.getBody()));
     }
 
     @Override

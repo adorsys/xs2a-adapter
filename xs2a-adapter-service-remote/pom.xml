@@ -54,6 +54,13 @@
         <!-- test dependencies -->
 
         <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>xs2a-adapter-rest-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <scope>test</scope>
@@ -96,6 +103,7 @@
                                         <exclude>org.projectlombok:lombok</exclude>
                                     </excludes>
                                     <includes>
+                                        <include>de.adorsys.xs2a.adapter:xs2a-adapter-rest-impl:${project.version}:jar:test</include>
                                     </includes>
                                 </bannedDependencies>
                             </rules>
