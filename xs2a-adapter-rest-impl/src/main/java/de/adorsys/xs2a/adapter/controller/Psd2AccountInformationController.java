@@ -153,6 +153,44 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     }
 
     @Override
+    public ResponseEntity<CardAccountListTO> getCardAccountList(Map<String, String> queryParameters,
+                                                                Map<String, String> headers) throws IOException {
+        return toResponseEntity(accountInformationService.getCardAccountList(queryParameters, headers),
+            mapper::toCardAccountListTO);
+    }
+
+    @Override
+    public ResponseEntity<CardAccountDetailsResponseTO> getCardAccountDetails(
+        String accountId,
+        Map<String, String> queryParameters,
+        Map<String, String> headers) throws IOException {
+
+        return toResponseEntity(accountInformationService.getCardAccountDetails(accountId, queryParameters, headers),
+            mapper::toCardAccountDetailsResponseTO);
+    }
+
+    @Override
+    public ResponseEntity<ReadCardAccountBalanceResponseTO> getCardAccountBalances(
+        String accountId,
+        Map<String, String> queryParameters,
+        Map<String, String> headers) throws IOException {
+
+        return toResponseEntity(accountInformationService.getCardAccountBalances(accountId, queryParameters, headers),
+            mapper::toReadCardAccountBalanceResponseTO);
+    }
+
+    @Override
+    public ResponseEntity<CardAccountsTransactionsResponseTO> getCardAccountTransactionList(
+        String accountId,
+        Map<String, String> queryParameters,
+        Map<String, String> headers) throws IOException {
+
+        return toResponseEntity(
+            accountInformationService.getCardAccountTransactionList(accountId, queryParameters, headers),
+            mapper::toCardAccountsTransactionsResponseTO);
+    }
+
+    @Override
     public ResponseEntity<AccountListTO> getAccountList(Map<String, String> queryParameters, Map<String, String> headers) throws IOException {
         return toResponseEntity(
             accountInformationService.getAccounts(queryParameters, headers),

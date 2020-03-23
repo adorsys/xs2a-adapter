@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.service.loader.mapper;
 
+import de.adorsys.xs2a.adapter.service.model.CardAccountList;
 import de.adorsys.xs2a.adapter.service.model.*;
 import de.adorsys.xs2a.adapter.service.psd2.model.ConsentStatusResponse;
 import de.adorsys.xs2a.adapter.service.psd2.model.Consents;
@@ -51,4 +52,12 @@ public interface Xs2aPsd2Mapper {
     UpdateAuthorisationResponse toUpdateAuthorisationResponse(de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthenticationResponse value);
 
     UpdateAuthorisationResponse toUpdateAuthorisationResponse(de.adorsys.xs2a.adapter.service.model.ScaStatusResponse value);
+
+    de.adorsys.xs2a.adapter.service.psd2.model.CardAccountList toCardAccountList(CardAccountList value);
+
+    CardAccountDetailsResponse toCardAccountDetailsResponse(CardAccountDetailsHolder value);
+
+    ReadCardAccountBalanceResponse toReadCardAccountBalanceResponse(CardAccountBalanceReport value);
+
+    CardAccountsTransactionsResponse toCardAccountsTransactionsResponse(CardAccountsTransactions value);
 }
