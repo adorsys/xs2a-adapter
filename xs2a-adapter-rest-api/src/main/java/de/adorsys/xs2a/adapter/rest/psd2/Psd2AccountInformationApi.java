@@ -103,4 +103,38 @@ public interface Psd2AccountInformationApi {
                                                                         @RequestParam Map<String, String> queryParameters,
                                                                         @RequestHeader Map<String, String> headers,
                                                                         @RequestBody UpdateAuthorisationTO body);
+
+    @RequestMapping(
+        value = "/card-accounts",
+        method = RequestMethod.GET
+    )
+    ResponseEntity<CardAccountListTO> getCardAccountList(@RequestParam Map<String, String> queryParameters,
+                                                         @RequestHeader Map<String, String> headers) throws IOException;
+
+    @RequestMapping(
+        value = "/card-accounts/{account-id}",
+        method = RequestMethod.GET
+    )
+    ResponseEntity<CardAccountDetailsResponseTO> getCardAccountDetails(
+        @PathVariable("account-id") String accountId,
+        @RequestParam Map<String, String> queryParameters,
+        @RequestHeader Map<String, String> headers) throws IOException;
+
+    @RequestMapping(
+        value = "/card-accounts/{account-id}/balances",
+        method = RequestMethod.GET
+    )
+    ResponseEntity<ReadCardAccountBalanceResponseTO> getCardAccountBalances(
+        @PathVariable("account-id") String accountId,
+        @RequestParam Map<String, String> queryParameters,
+        @RequestHeader Map<String, String> headers) throws IOException;
+
+    @RequestMapping(
+        value = "/card-accounts/{account-id}/transactions",
+        method = RequestMethod.GET
+    )
+    ResponseEntity<CardAccountsTransactionsResponseTO> getCardAccountTransactionList(
+        @PathVariable("account-id") String accountId,
+        @RequestParam Map<String, String> queryParameters,
+        @RequestHeader Map<String, String> headers) throws IOException;
 }

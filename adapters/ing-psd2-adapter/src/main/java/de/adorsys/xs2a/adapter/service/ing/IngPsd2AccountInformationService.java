@@ -94,6 +94,33 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     }
 
     @Override
+    public Response<CardAccountList> getCardAccountList(Map<String, String> queryParameters,
+                                                        Map<String, String> headers) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response<CardAccountDetailsResponse> getCardAccountDetails(String accountId,
+                                                                      Map<String, String> queryParameters,
+                                                                      Map<String, String> headers) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response<ReadCardAccountBalanceResponse> getCardAccountBalances(String accountId,
+                                                                           Map<String, String> queryParameters,
+                                                                           Map<String, String> headers) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response<CardAccountsTransactionsResponse> getCardAccountTransactionList(String accountId,
+                                                                                    Map<String, String> queryParameters,
+                                                                                    Map<String, String> headers) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
                                                                        Map<String, String> queryParameters,
                                                                        Map<String, String> headers,

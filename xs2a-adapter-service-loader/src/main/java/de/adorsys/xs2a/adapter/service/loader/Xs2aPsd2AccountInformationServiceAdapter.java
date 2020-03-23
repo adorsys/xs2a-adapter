@@ -13,7 +13,6 @@ import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import org.mapstruct.factory.Mappers;
 
-import java.io.IOException;
 import java.util.Map;
 
 class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformationService {
@@ -27,7 +26,7 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
 
     @Override
     public Response<AccountList> getAccounts(Map<String, String> queryParameters,
-                                             Map<String, String> headers) throws IOException {
+                                             Map<String, String> headers) {
 
        return service.getAccountList(RequestHeaders.fromMap(headers), RequestParams.fromMap(queryParameters))
            .map(mapper::toAccountList);
@@ -36,7 +35,7 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
     @Override
     public Response<ReadAccountBalanceResponse> getBalances(String accountId,
                                                             Map<String, String> queryParameters,
-                                                            Map<String, String> headers) throws IOException {
+                                                            Map<String, String> headers) {
         return service.getBalances(accountId, RequestHeaders.fromMap(headers), RequestParams.fromMap(queryParameters))
             .map(mapper::toReadAccountBalanceResponse);
     }
@@ -44,7 +43,7 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
     @Override
     public Response getTransactions(String accountId,
                                     Map<String, String> queryParameters,
-                                    Map<String, String> headers) throws IOException {
+                                    Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         RequestParams requestParams = RequestParams.fromMap(queryParameters);
         if (requestHeaders.isAcceptJson()) {
@@ -104,6 +103,45 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
             RequestHeaders.fromMap(headers),
             RequestParams.fromMap(queryParameters))
             .map(mapper::toScaStatusResponse);
+    }
+
+    @Override
+    public Response<CardAccountList> getCardAccountList(Map<String, String> queryParameters,
+                                                        Map<String, String> headers) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(queryParameters);
+        return service.getCardAccountList(requestHeaders, requestParams)
+            .map(mapper::toCardAccountList);
+    }
+
+    @Override
+    public Response<CardAccountDetailsResponse> getCardAccountDetails(String accountId,
+                                                                      Map<String, String> queryParameters,
+                                                                      Map<String, String> headers) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(queryParameters);
+        return service.getCardAccountDetails(accountId, requestHeaders, requestParams)
+            .map(mapper::toCardAccountDetailsResponse);
+    }
+
+    @Override
+    public Response<ReadCardAccountBalanceResponse> getCardAccountBalances(String accountId,
+                                                                           Map<String, String> queryParameters,
+                                                                           Map<String, String> headers) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(queryParameters);
+        return service.getCardAccountBalances(accountId, requestHeaders, requestParams)
+            .map(mapper::toReadCardAccountBalanceResponse);
+    }
+
+    @Override
+    public Response<CardAccountsTransactionsResponse> getCardAccountTransactionList(String accountId,
+                                                                                    Map<String, String> queryParameters,
+                                                                                    Map<String, String> headers) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(queryParameters);
+        return service.getCardAccountTransactionList(accountId, requestHeaders, requestParams)
+            .map(mapper::toCardAccountsTransactionsResponse);
     }
 
     @Override

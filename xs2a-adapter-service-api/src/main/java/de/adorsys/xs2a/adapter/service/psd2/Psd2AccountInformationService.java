@@ -59,4 +59,20 @@ public interface Psd2AccountInformationService {
                                                     String authorisationId,
                                                     Map<String, String> queryParameters,
                                                     Map<String, String> headers);
+
+    Response<CardAccountList> getCardAccountList(Map<String, String> queryParameters,
+                                                 Map<String, String> headers) throws IOException;
+
+    Response<CardAccountDetailsResponse> getCardAccountDetails(String accountId,
+                                                               Map<String, String> queryParameters,
+                                                               Map<String, String> headers) throws IOException;
+
+    Response<ReadCardAccountBalanceResponse> getCardAccountBalances(String accountId,
+                                                                    Map<String, String> queryParameters,
+                                                                    Map<String, String> headers) throws IOException;
+
+    Response<CardAccountsTransactionsResponse> getCardAccountTransactionList(String accountId,
+                                                                             Map<String, String> queryParameters,
+                                                                             Map<String, String> headers)
+        throws IOException;
 }

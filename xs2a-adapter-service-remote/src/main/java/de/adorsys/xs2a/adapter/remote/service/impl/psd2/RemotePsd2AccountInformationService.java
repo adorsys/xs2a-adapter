@@ -175,4 +175,55 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
             responseHeadersMapper.getHeaders(responseEntity.getHeaders())
         );
     }
+
+    @Override
+    public Response<CardAccountList> getCardAccountList(Map<String, String> queryParameters,
+                                                        Map<String, String> headers) throws IOException {
+        ResponseEntity<CardAccountListTO> responseEntity = client.getCardAccountList(queryParameters, headers);
+        CardAccountList body = accountInformationMapper.toCardAccountList(responseEntity.getBody());
+        return new Response<>(responseEntity.getStatusCodeValue(),
+            body,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+    }
+
+    @Override
+    public Response<CardAccountDetailsResponse> getCardAccountDetails(String accountId,
+                                                                      Map<String, String> queryParameters,
+                                                                      Map<String, String> headers) throws IOException {
+        ResponseEntity<CardAccountDetailsResponseTO> responseEntity =
+            client.getCardAccountDetails(accountId, queryParameters, headers);
+        CardAccountDetailsResponse body =
+            accountInformationMapper.toCardAccountDetailsResponse(responseEntity.getBody());
+        return new Response<>(responseEntity.getStatusCodeValue(),
+            body,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+    }
+
+    @Override
+    public Response<ReadCardAccountBalanceResponse> getCardAccountBalances(String accountId,
+                                                                           Map<String, String> queryParameters,
+                                                                           Map<String, String> headers
+    ) throws IOException {
+        ResponseEntity<ReadCardAccountBalanceResponseTO> responseEntity =
+            client.getCardAccountBalances(accountId, queryParameters, headers);
+        ReadCardAccountBalanceResponse body =
+            accountInformationMapper.toReadCardAccountBalanceResponse(responseEntity.getBody());
+        return new Response<>(responseEntity.getStatusCodeValue(),
+            body,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+    }
+
+    @Override
+    public Response<CardAccountsTransactionsResponse> getCardAccountTransactionList(String accountId,
+                                                                                    Map<String, String> queryParameters,
+                                                                                    Map<String, String> headers
+    ) throws IOException {
+        ResponseEntity<CardAccountsTransactionsResponseTO> responseEntity =
+            client.getCardAccountTransactionList(accountId, queryParameters, headers);
+        CardAccountsTransactionsResponse body =
+            accountInformationMapper.toCardAccountsTransactionsResponse(responseEntity.getBody());
+        return new Response<>(responseEntity.getStatusCodeValue(),
+            body,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+    }
 }

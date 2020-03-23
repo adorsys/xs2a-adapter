@@ -49,4 +49,20 @@ public interface Psd2AccountInformationMapper {
     UpdateAuthorisationResponseTO toUpdateAuthorisationResponseTO(UpdateAuthorisationResponse updateAuthorisationResponse);
 
     UpdateAuthorisationResponse toUpdateAuthorisationResponse(UpdateAuthorisationResponseTO updateAuthorisationResponse);
+
+    CardAccountListTO toCardAccountListTO(CardAccountList cardAccountList);
+
+    CardAccountList toCardAccountList(CardAccountListTO cardAccountList);
+
+    CardAccountDetailsResponseTO toCardAccountDetailsResponseTO(CardAccountDetailsResponse cardAccountDetailsResponse);
+
+    CardAccountDetailsResponse toCardAccountDetailsResponse(CardAccountDetailsResponseTO cardAccountDetailsResponse);
+
+    ReadCardAccountBalanceResponseTO toReadCardAccountBalanceResponseTO(ReadCardAccountBalanceResponse source);
+
+    ReadCardAccountBalanceResponse toReadCardAccountBalanceResponse(ReadCardAccountBalanceResponseTO source);
+
+    CardAccountsTransactionsResponseTO toCardAccountsTransactionsResponseTO(CardAccountsTransactionsResponse source);
+
+    CardAccountsTransactionsResponse toCardAccountsTransactionsResponse(CardAccountsTransactionsResponseTO source);
 }
