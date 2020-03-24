@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.service.model.CardAccountList;
 import de.adorsys.xs2a.adapter.service.model.*;
 import de.adorsys.xs2a.adapter.service.psd2.model.ConsentStatusResponse;
 import de.adorsys.xs2a.adapter.service.psd2.model.Consents;
+import de.adorsys.xs2a.adapter.service.psd2.model.PaymentInitiationRequestResponse;
 import de.adorsys.xs2a.adapter.service.psd2.model.ScaStatusResponse;
 import de.adorsys.xs2a.adapter.service.psd2.model.StartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.psd2.model.TransactionDetails;
@@ -60,4 +61,16 @@ public interface Xs2aPsd2Mapper {
     ReadCardAccountBalanceResponse toReadCardAccountBalanceResponse(CardAccountBalanceReport value);
 
     CardAccountsTransactionsResponse toCardAccountsTransactionsResponse(CardAccountsTransactions value);
+
+    PaymentInitiationRequestResponse toPaymentInitiationRequestResponse(
+        de.adorsys.xs2a.adapter.service.model.PaymentInitiationRequestResponse value);
+
+    SinglePaymentInitiationBody toSinglePaymentInitiationBody(PaymentInitiation value);
+
+    PaymentInitiationWithStatusResponse toPaymentInitiationWithStatusResponse(
+        SinglePaymentInitiationInformationWithStatusResponse value);
+
+    Authorisations toAuthorisations(PaymentInitiationAuthorisationResponse value);
+
+    ScaStatusResponse toScaStatusResponse(PaymentInitiationScaStatusResponse value);
 }

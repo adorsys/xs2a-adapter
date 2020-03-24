@@ -9,6 +9,8 @@ import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationServiceFactory;
+import de.adorsys.xs2a.adapter.service.psd2.Psd2PaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.psd2.Psd2PaymentInitiationServiceFactory;
 
 import java.util.Optional;
 
@@ -36,5 +38,19 @@ public class Psd2AdapterServiceLoader extends AdapterServiceLoader {
             .orElseThrow(() -> new AdapterNotFoundException(adapterId))
             .getAccountInformationService(baseUrl, httpClientFactory, keyStore,
                 accountInformationLinksRewriter);
+    }
+
+    public Psd2PaymentInitiationService getPsd2PaymentInitiationService(RequestHeaders requestHeaders) {
+        Aspsp aspsp = getAspsp(requestHeaders);
+        String adapterId = aspsp.getAdapterId();
+        String baseUrl = aspsp.getUrl();
+        Optional<Psd2PaymentInitiationServiceFactory> serviceProvider =
+            getServiceProvider(Psd2PaymentInitiationServiceFactory.class, adapterId);
+        if (!serviceProvider.isPresent()) {
+            return new Xs2aPsd2PaymentInitiationServiceAdapter(getPaymentInitiationService(requestHeaders));
+        }
+        return serviceProvider
+            .orElseThrow(() -> new AdapterNotFoundException(adapterId))
+            .getPsd2PaymentInitiationService(baseUrl, httpClientFactory, keyStore, paymentInitiationLinksRewriter);
     }
 }

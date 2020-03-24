@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.remote.service.impl.psd2;
 
-import de.adorsys.xs2a.adapter.mapper.psd2.Psd2AccountInformationMapper;
+import de.adorsys.xs2a.adapter.mapper.psd2.Psd2Mapper;
 import de.adorsys.xs2a.adapter.remote.api.psd2.Psd2AccountInformationClient;
 import de.adorsys.xs2a.adapter.remote.service.mapper.ResponseHeadersMapper;
 import de.adorsys.xs2a.adapter.rest.psd2.model.*;
@@ -16,7 +16,7 @@ import java.util.Map;
 public class RemotePsd2AccountInformationService implements Psd2AccountInformationService {
 
     private final Psd2AccountInformationClient client;
-    private final Psd2AccountInformationMapper accountInformationMapper = Mappers.getMapper(Psd2AccountInformationMapper.class);
+    private final Psd2Mapper accountInformationMapper = Mappers.getMapper(Psd2Mapper.class);
     private final ResponseHeadersMapper responseHeadersMapper = Mappers.getMapper(ResponseHeadersMapper.class);
 
     public RemotePsd2AccountInformationService(Psd2AccountInformationClient client) {
