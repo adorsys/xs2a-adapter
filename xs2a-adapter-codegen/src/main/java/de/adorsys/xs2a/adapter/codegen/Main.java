@@ -8,7 +8,9 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStreamRewriter;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
@@ -19,6 +21,9 @@ import java.util.Map;
 import java.util.Set;
 
 public class Main {
+
+    private static final String OPENAPI_SPEC_DIR = "../xs2a-adapter-rest-impl/src/main/resources/static";
+    private static final String GENERATED_CODE_DIR = "../xs2a-adapter-generated-rest-api/src/main/java";
 
     public static void main(String[] args) throws IOException {
 
@@ -53,20 +58,21 @@ public class Main {
         modifiedSpec = addCustomParams(modifiedSpec);
         modifiedSpec = removeServers(modifiedSpec);
 
-        Files.writeString(Paths.get("target", "xs2aapi.json"), modifiedSpec);
+        Files.writeString(Paths.get(OPENAPI_SPEC_DIR, "xs2aapi.json"), modifiedSpec);
 
         ParseOptions options = new ParseOptions();
         options.setResolve(false);
         OpenAPI api = new OpenAPIV3Parser().readContents(modifiedSpec, null, options)
             .getOpenAPI();
 
+        FileUtils.deleteDirectory(new File(GENERATED_CODE_DIR));
         CodeGenerator codeGenerator = new CodeGenerator(api, Main::saveFile);
         codeGenerator.generateInterfaces(operationToInterface);
         codeGenerator.generateModels();
     }
 
     private static void saveFile(JavaFile file) {
-        Path path = Paths.get("target/generated-sources", CodeGenerator.TOOLNAME, file.packageName.replace('.', '/'), file.typeSpec.name + ".java");
+        Path path = Paths.get(GENERATED_CODE_DIR, file.packageName.replace('.', '/'), file.typeSpec.name + ".java");
         Path dir = path.getParent();
         try {
             Files.createDirectories(dir);
