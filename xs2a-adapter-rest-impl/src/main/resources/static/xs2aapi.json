@@ -720,6 +720,238 @@
         }
       }
     },
+    "/v1/card-accounts": {
+      "get": {
+        "summary": "Read a list of card accounts",
+        "description": "Reads a list of card accounts with additional information, e.g. balance information. \nIt is assumed that a consent of the PSU to this access is already given and stored on the ASPSP system. \nThe addressed list of card accounts depends then on the PSU ID and the stored consent addressed by consentId, \nrespectively the OAuth2 access token. \n",
+        "operationId": "getCardAccount",
+        "tags": [
+          "Account Information Service (AIS)"
+        ],
+        "security": [
+          {},
+          {
+            "BearerAuthOAuth": []
+          }
+        ],
+        "parameters": [{"$ref":"#/components/parameters/X-GTW-ASPSP-ID"},{"$ref":"#/components/parameters/X-GTW-Bank-Code"},{"$ref":"#/components/parameters/X-GTW-BIC"},{"$ref":"#/components/parameters/X-GTW-IBAN"},{"$ref":"#/components/parameters/additionalQueryParameters"},{"$ref":"#/components/parameters/X-Request-ID"},{"$ref":"#/components/parameters/Digest"},{"$ref":"#/components/parameters/Signature"},{"$ref":"#/components/parameters/TPP-Signature-Certificate"},{"$ref":"#/components/parameters/consentId_HEADER_mandatory"},{"$ref":"#/components/parameters/PSU-IP-Address_conditionalForAis"},{"$ref":"#/components/parameters/PSU-IP-Port"},{"$ref":"#/components/parameters/PSU-Accept"},{"$ref":"#/components/parameters/PSU-Accept-Charset"},{"$ref":"#/components/parameters/PSU-Accept-Encoding"},{"$ref":"#/components/parameters/PSU-Accept-Language"},{"$ref":"#/components/parameters/PSU-User-Agent"},{"$ref":"#/components/parameters/PSU-Http-Method"},{"$ref":"#/components/parameters/PSU-Device-ID"},{"$ref":"#/components/parameters/PSU-Geo-Location"}],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OK_200_CardAccountList"
+          },
+          "400": {
+            "$ref": "#/components/responses/BAD_REQUEST_400_AIS"
+          },
+          "401": {
+            "$ref": "#/components/responses/UNAUTHORIZED_401_AIS"
+          },
+          "403": {
+            "$ref": "#/components/responses/FORBIDDEN_403_AIS"
+          },
+          "404": {
+            "$ref": "#/components/responses/NOT_FOUND_404_AIS"
+          },
+          "405": {
+            "$ref": "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
+          },
+          "406": {
+            "$ref": "#/components/responses/NOT_ACCEPTABLE_406_AIS"
+          },
+          "408": {
+            "$ref": "#/components/responses/REQUEST_TIMEOUT_408_AIS"
+          },
+          "409": {
+            "$ref": "#/components/responses/CONFLICT_409_AIS"
+          },
+          "415": {
+            "$ref": "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
+          },
+          "429": {
+            "$ref": "#/components/responses/TOO_MANY_REQUESTS_429_AIS"
+          },
+          "500": {
+            "$ref": "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
+          },
+          "503": {
+            "$ref": "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
+          }
+        }
+      }
+    },
+    "/v1/card-accounts/{account-id}": {
+      "get": {
+        "summary": "Read details about a card account",
+        "description": "Reads details about a card account. \nIt is assumed that a consent of the PSU to this access is already given \nand stored on the ASPSP system. The addressed details of this account depends \nthen on the stored consent addressed by consentId, respectively the OAuth2 \naccess token.\n",
+        "operationId": "ReadCardAccount",
+        "tags": [
+          "Account Information Service (AIS)"
+        ],
+        "security": [
+          {},
+          {
+            "BearerAuthOAuth": []
+          }
+        ],
+        "parameters": [{"$ref":"#/components/parameters/X-GTW-ASPSP-ID"},{"$ref":"#/components/parameters/X-GTW-Bank-Code"},{"$ref":"#/components/parameters/X-GTW-BIC"},{"$ref":"#/components/parameters/X-GTW-IBAN"},{"$ref":"#/components/parameters/additionalQueryParameters"},{"$ref":"#/components/parameters/accountId"},{"$ref":"#/components/parameters/X-Request-ID"},{"$ref":"#/components/parameters/Digest"},{"$ref":"#/components/parameters/Signature"},{"$ref":"#/components/parameters/TPP-Signature-Certificate"},{"$ref":"#/components/parameters/consentId_HEADER_mandatory"},{"$ref":"#/components/parameters/PSU-IP-Address_conditionalForAis"},{"$ref":"#/components/parameters/PSU-IP-Port"},{"$ref":"#/components/parameters/PSU-Accept"},{"$ref":"#/components/parameters/PSU-Accept-Charset"},{"$ref":"#/components/parameters/PSU-Accept-Encoding"},{"$ref":"#/components/parameters/PSU-Accept-Language"},{"$ref":"#/components/parameters/PSU-User-Agent"},{"$ref":"#/components/parameters/PSU-Http-Method"},{"$ref":"#/components/parameters/PSU-Device-ID"},{"$ref":"#/components/parameters/PSU-Geo-Location"}],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OK_200_CardAccountDetails"
+          },
+          "400": {
+            "$ref": "#/components/responses/BAD_REQUEST_400_AIS"
+          },
+          "401": {
+            "$ref": "#/components/responses/UNAUTHORIZED_401_AIS"
+          },
+          "403": {
+            "$ref": "#/components/responses/FORBIDDEN_403_AIS"
+          },
+          "404": {
+            "$ref": "#/components/responses/NOT_FOUND_404_AIS"
+          },
+          "405": {
+            "$ref": "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
+          },
+          "406": {
+            "$ref": "#/components/responses/NOT_ACCEPTABLE_406_AIS"
+          },
+          "408": {
+            "$ref": "#/components/responses/REQUEST_TIMEOUT_408_AIS"
+          },
+          "409": {
+            "$ref": "#/components/responses/CONFLICT_409_AIS"
+          },
+          "415": {
+            "$ref": "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
+          },
+          "429": {
+            "$ref": "#/components/responses/TOO_MANY_REQUESTS_429_AIS"
+          },
+          "500": {
+            "$ref": "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
+          },
+          "503": {
+            "$ref": "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
+          }
+        }
+      }
+    },
+    "/v1/card-accounts/{account-id}/balances": {
+      "get": {
+        "summary": "Read card account balances",
+        "description": "Reads balance data from a given card account addressed by \n\"account-id\". \n\nRemark: This account-id can be a tokenised identification due \nto data protection reason since the path information might be \nlogged on intermediary servers within the ASPSP sphere. \nThis account-id then can be retrieved by the \n\"Get card account list\" call.\n",
+        "operationId": "getCardAccountBalances",
+        "tags": [
+          "Account Information Service (AIS)"
+        ],
+        "security": [
+          {},
+          {
+            "BearerAuthOAuth": []
+          }
+        ],
+        "parameters": [{"$ref":"#/components/parameters/X-GTW-ASPSP-ID"},{"$ref":"#/components/parameters/X-GTW-Bank-Code"},{"$ref":"#/components/parameters/X-GTW-BIC"},{"$ref":"#/components/parameters/X-GTW-IBAN"},{"$ref":"#/components/parameters/additionalQueryParameters"},{"$ref":"#/components/parameters/accountId"},{"$ref":"#/components/parameters/X-Request-ID"},{"$ref":"#/components/parameters/Digest"},{"$ref":"#/components/parameters/Signature"},{"$ref":"#/components/parameters/TPP-Signature-Certificate"},{"$ref":"#/components/parameters/consentId_HEADER_mandatory"},{"$ref":"#/components/parameters/PSU-IP-Address_conditionalForAis"},{"$ref":"#/components/parameters/PSU-IP-Port"},{"$ref":"#/components/parameters/PSU-Accept"},{"$ref":"#/components/parameters/PSU-Accept-Charset"},{"$ref":"#/components/parameters/PSU-Accept-Encoding"},{"$ref":"#/components/parameters/PSU-Accept-Language"},{"$ref":"#/components/parameters/PSU-User-Agent"},{"$ref":"#/components/parameters/PSU-Http-Method"},{"$ref":"#/components/parameters/PSU-Device-ID"},{"$ref":"#/components/parameters/PSU-Geo-Location"}],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OK_200_CardAccountBalances"
+          },
+          "400": {
+            "$ref": "#/components/responses/BAD_REQUEST_400_AIS"
+          },
+          "401": {
+            "$ref": "#/components/responses/UNAUTHORIZED_401_AIS"
+          },
+          "403": {
+            "$ref": "#/components/responses/FORBIDDEN_403_AIS"
+          },
+          "404": {
+            "$ref": "#/components/responses/NOT_FOUND_404_AIS"
+          },
+          "405": {
+            "$ref": "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
+          },
+          "406": {
+            "$ref": "#/components/responses/NOT_ACCEPTABLE_406_AIS"
+          },
+          "408": {
+            "$ref": "#/components/responses/REQUEST_TIMEOUT_408_AIS"
+          },
+          "409": {
+            "$ref": "#/components/responses/CONFLICT_409_AIS"
+          },
+          "415": {
+            "$ref": "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
+          },
+          "429": {
+            "$ref": "#/components/responses/TOO_MANY_REQUESTS_429_AIS"
+          },
+          "500": {
+            "$ref": "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
+          },
+          "503": {
+            "$ref": "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
+          }
+        }
+      }
+    },
+    "/v1/card-accounts/{account-id}/transactions": {
+      "get": {
+        "summary": "Read transaction list of an account",
+        "description": "Reads account data from a given card account addressed by \"account-id\".\n",
+        "operationId": "getCardAccountTransactionList",
+        "tags": [
+          "Account Information Service (AIS)"
+        ],
+        "security": [
+          {},
+          {
+            "BearerAuthOAuth": []
+          }
+        ],
+        "parameters": [{"$ref":"#/components/parameters/X-GTW-ASPSP-ID"},{"$ref":"#/components/parameters/X-GTW-Bank-Code"},{"$ref":"#/components/parameters/X-GTW-BIC"},{"$ref":"#/components/parameters/X-GTW-IBAN"},{"$ref":"#/components/parameters/additionalQueryParameters"},{"$ref":"#/components/parameters/accountId"},{"$ref":"#/components/parameters/dateFrom"},{"$ref":"#/components/parameters/dateTo"},{"$ref":"#/components/parameters/entryReferenceFrom"},{"$ref":"#/components/parameters/bookingStatus"},{"$ref":"#/components/parameters/deltaList"},{"$ref":"#/components/parameters/withBalanceQuery"},{"$ref":"#/components/parameters/X-Request-ID"},{"$ref":"#/components/parameters/Digest"},{"$ref":"#/components/parameters/Signature"},{"$ref":"#/components/parameters/TPP-Signature-Certificate"},{"$ref":"#/components/parameters/consentId_HEADER_mandatory"},{"$ref":"#/components/parameters/PSU-IP-Address_conditionalForAis"},{"$ref":"#/components/parameters/PSU-IP-Port"},{"$ref":"#/components/parameters/PSU-Accept"},{"$ref":"#/components/parameters/PSU-Accept-Charset"},{"$ref":"#/components/parameters/PSU-Accept-Encoding"},{"$ref":"#/components/parameters/PSU-Accept-Language"},{"$ref":"#/components/parameters/PSU-User-Agent"},{"$ref":"#/components/parameters/PSU-Http-Method"},{"$ref":"#/components/parameters/PSU-Device-ID"},{"$ref":"#/components/parameters/PSU-Geo-Location"}],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OK_200_CardAccountsTransactions"
+          },
+          "400": {
+            "$ref": "#/components/responses/BAD_REQUEST_400_AIS"
+          },
+          "401": {
+            "$ref": "#/components/responses/UNAUTHORIZED_401_AIS"
+          },
+          "403": {
+            "$ref": "#/components/responses/FORBIDDEN_403_AIS"
+          },
+          "404": {
+            "$ref": "#/components/responses/NOT_FOUND_404_AIS"
+          },
+          "405": {
+            "$ref": "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
+          },
+          "406": {
+            "$ref": "#/components/responses/NOT_ACCEPTABLE_406_AIS"
+          },
+          "408": {
+            "$ref": "#/components/responses/REQUEST_TIMEOUT_408_AIS"
+          },
+          "409": {
+            "$ref": "#/components/responses/CONFLICT_409_AIS"
+          },
+          "415": {
+            "$ref": "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
+          },
+          "429": {
+            "$ref": "#/components/responses/TOO_MANY_REQUESTS_429_AIS"
+          },
+          "500": {
+            "$ref": "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
+          },
+          "503": {
+            "$ref": "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
+          }
+        }
+      }
+    },
     "/v1/consents": {
       "post": {
         "summary": "Create consent",
@@ -1228,6 +1460,16 @@
         "type": "string",
         "example": "3dc3d5b3-7023-4848-9853-f5400a64e80f"
       },
+      "cardTransactionId": {
+        "description": "Unique end to end identity.",
+        "type": "string",
+        "maxLength": 35
+      },
+      "terminalId": {
+        "description": "Identification of the Terminal, where the card has been used.",
+        "type": "string",
+        "maxLength": 35
+      },
       "entryReference": {
         "description": "Is the identification of the transaction as used e.g. for reference for deltafunction on application level.\nThe same identification as for example used within camt.05x messages.\n",
         "type": "string",
@@ -1614,6 +1856,68 @@
           }
         }
       },
+      "cardAccountDetails": {
+        "description": "Card account details.\n",
+        "type": "object",
+        "required": [
+          "maskedPan",
+          "currency"
+        ],
+        "properties": {
+          "resourceId": {
+            "description": "This is the data element to be used in the path when retrieving data from a dedicated account.\nThis shall be filled, if addressable resource are created by the ASPSP on the /card-accounts endpoint.\n",
+            "type": "string"
+          },
+          "maskedPan": {
+            "$ref": "#/components/schemas/maskedPan"
+          },
+          "currency": {
+            "$ref": "#/components/schemas/currencyCode"
+          },
+          "ownerName": {
+            "$ref": "#/components/schemas/ownerName"
+          },
+          "name": {
+            "description": "Name of the account, as assigned by the ASPSP, \nin agreement with the account owner in order to provide an additional means of identification of the account.\n",
+            "type": "string",
+            "maxLength": 70
+          },
+          "displayName": {
+            "$ref": "#/components/schemas/displayName"
+          },
+          "product": {
+            "description": "Product Name of the Bank for this account, proprietary definition.\n",
+            "type": "string",
+            "maxLength": 35
+          },
+          "status": {
+            "$ref": "#/components/schemas/accountStatus"
+          },
+          "usage": {
+            "description": "Specifies the usage of the account:\n  * PRIV: private personal account\n  * ORGA: professional account\n",
+            "type": "string",
+            "maxLength": 4,
+            "enum": [
+              "PRIV",
+              "ORGA"
+            ]
+          },
+          "details": {
+            "description": "Specifications that might be provided by the ASPSP:\n  - characteristics of the account\n  - characteristics of the relevant card\n",
+            "type": "string",
+            "maxLength": 500
+          },
+          "creditLimit": {
+            "$ref": "#/components/schemas/amount"
+          },
+          "balances": {
+            "$ref": "#/components/schemas/balanceList"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/_linksAccountDetails"
+          }
+        }
+      },
       "accountList": {
         "description": "List of accounts with details.\n",
         "type": "object",
@@ -1625,6 +1929,21 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/accountDetails"
+            }
+          }
+        }
+      },
+      "cardAccountList": {
+        "description": "List of card accounts with details.\n",
+        "type": "object",
+        "required": [
+          "cardAccounts"
+        ],
+        "properties": {
+          "cardAccounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/cardAccountDetails"
             }
           }
         }
@@ -1647,11 +1966,37 @@
           }
         }
       },
+      "cardAccountReport": {
+        "description": "JSON based card account report.\n\nThis card account report contains transactions resulting from the query parameters.\n",
+        "type": "object",
+        "required": [
+          "booked",
+          "_links"
+        ],
+        "properties": {
+          "booked": {
+            "$ref": "#/components/schemas/cardTransactionList"
+          },
+          "pending": {
+            "$ref": "#/components/schemas/cardTransactionList"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/_linksCardAccountReport"
+          }
+        }
+      },
       "transactionList": {
         "description": "Array of transaction details.",
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/transactionDetails"
+        }
+      },
+      "cardTransactionList": {
+        "description": "Array of transaction details.",
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/cardTransaction"
         }
       },
       "transactionDetails": {
@@ -1755,6 +2100,74 @@
           },
           "_links": {
             "$ref": "#/components/schemas/_linksTransactionDetails"
+          }
+        }
+      },
+      "cardTransaction": {
+        "description": "Card transaction information.",
+        "type": "object",
+        "required": [
+          "transactionAmount"
+        ],
+        "properties": {
+          "cardTransactionId": {
+            "$ref": "#/components/schemas/cardTransactionId"
+          },
+          "terminalId": {
+            "$ref": "#/components/schemas/terminalId"
+          },
+          "transactionDate": {
+            "$ref": "#/components/schemas/transactionDate"
+          },
+          "acceptorTransactionDateTime": {
+            "description": "Timestamp of the actual card transaction within the acceptance system",
+            "type": "string",
+            "format": "date-time"
+          },
+          "bookingDate": {
+            "$ref": "#/components/schemas/bookingDate"
+          },
+          "transactionAmount": {
+            "$ref": "#/components/schemas/amount"
+          },
+          "currencyExchange": {
+            "$ref": "#/components/schemas/reportExchangeRateList"
+          },
+          "originalAmount": {
+            "$ref": "#/components/schemas/amount"
+          },
+          "markupFee": {
+            "$ref": "#/components/schemas/amount"
+          },
+          "markupFeePercentage": {
+            "type": "string",
+            "example": "0.3"
+          },
+          "cardAcceptorId": {
+            "type": "string",
+            "maxLength": 35
+          },
+          "cardAcceptorAddress": {
+            "$ref": "#/components/schemas/address"
+          },
+          "cardAcceptorPhone": {
+            "$ref": "#/components/schemas/cardAcceptorPhone"
+          },
+          "merchantCategoryCode": {
+            "$ref": "#/components/schemas/merchantCategoryCode"
+          },
+          "maskedPAN": {
+            "$ref": "#/components/schemas/maskedPan"
+          },
+          "transactionDetails": {
+            "type": "string",
+            "maxLength": 140
+          },
+          "invoiced": {
+            "type": "boolean"
+          },
+          "proprietaryBankTransactionCode": {
+            "$ref": "#/components/schemas/proprietaryBankTransactionCode"
           }
         }
       },
@@ -1912,6 +2325,11 @@
         "type": "string",
         "pattern": "[A-Z]{2}",
         "example": "SE"
+      },
+      "cardAcceptorPhone": {
+        "description": "Merchant phone number\nIt consists of a \"+\" followed by the country code (from 1 to 3 characters) then a \"-\" and finally, any\ncombination of numbers, \"(\", \")\", \"+\" and \"-\" (up to 30 characters).\npattern according to ISO20022 \\+[0-9]{1,3}-[0-9()+\\-]{1,30}\n",
+        "type": "string",
+        "pattern": "\\+[0-9]{1,3}\\-[0-9()+\\-]{1,30}"
       },
       "ownerName": {
         "description": "Name of the legal account owner. \nIf there is more than one owner, then e.g. two names might be noted here.\n\nFor a corporate account, the corporate name is used for this attribute.\nEven if supported by the ASPSP, the provision of this field might depend on the fact whether an explicit consent to this specific additional account information has been given by the PSU.\n",
@@ -2372,6 +2790,12 @@
         "type": "string",
         "maxLength": 35
       },
+      "merchantCategoryCode": {
+        "description": "Merchant category code.",
+        "type": "string",
+        "maxLength": 4,
+        "minLength": 4
+      },
       "frequencyCode": {
         "description": "The following codes from the \"EventFrequency7Code\" of ISO 20022 are supported:\n- \"Daily\"\n- \"Weekly\"\n- \"EveryTwoWeeks\"\n- \"Monthly\"\n- \"EveryTwoMonths\"\n- \"Quarterly\"\n- \"SemiAnnual\"\n- \"Annual\"\n- \"MonthlyVariable\"\n",
         "type": "string",
@@ -2526,6 +2950,11 @@
         "type": "string",
         "maxLength": 70,
         "example": "Ultimate Creditor"
+      },
+      "transactionDate": {
+        "description": "Date of the actual card transaction.",
+        "type": "string",
+        "format": "date"
       },
       "startDate": {
         "description": "The first applicable day of execution starting from this date is the first payment.\n",
@@ -3287,6 +3716,21 @@
           }
         }
       },
+      "readCardAccountBalanceResponse-200": {
+        "description": "Body of the response for a successful read balance for a card account request.",
+        "type": "object",
+        "required": [
+          "balances"
+        ],
+        "properties": {
+          "cardAccount": {
+            "$ref": "#/components/schemas/accountReference"
+          },
+          "balances": {
+            "$ref": "#/components/schemas/balanceList"
+          }
+        }
+      },
       "transactionsResponse-200_json": {
         "description": "Body of the JSON response for a successful read transaction list request.\nThis account report contains transactions resulting from the query parameters.\n",
         "type": "object",
@@ -3296,6 +3740,24 @@
           },
           "transactions": {
             "$ref": "#/components/schemas/accountReport"
+          },
+          "balances": {
+            "$ref": "#/components/schemas/balanceList"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/_linksDownload"
+          }
+        }
+      },
+      "cardAccountsTransactionsResponse200": {
+        "description": "Body of the JSON response for a successful read card account transaction list request.\nThis card account report contains transactions resulting from the query parameters.\n",
+        "type": "object",
+        "properties": {
+          "cardAccount": {
+            "$ref": "#/components/schemas/accountReference"
+          },
+          "cardTransactions": {
+            "$ref": "#/components/schemas/cardAccountReport"
           },
           "balances": {
             "$ref": "#/components/schemas/balanceList"
@@ -3679,6 +4141,32 @@
         ],
         "properties": {
           "account": {
+            "$ref": "#/components/schemas/hrefType"
+          },
+          "first": {
+            "$ref": "#/components/schemas/hrefType"
+          },
+          "next": {
+            "$ref": "#/components/schemas/hrefType"
+          },
+          "previous": {
+            "$ref": "#/components/schemas/hrefType"
+          },
+          "last": {
+            "$ref": "#/components/schemas/hrefType"
+          }
+        }
+      },
+      "_linksCardAccountReport": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/components/schemas/hrefType"
+        },
+        "required": [
+          "cardAccount"
+        ],
+        "properties": {
+          "cardAccount": {
             "$ref": "#/components/schemas/hrefType"
           },
           "first": {
@@ -5556,6 +6044,54 @@
           }
         }
       },
+      "OK_200_CardAccountList": {
+        "description": "OK",
+        "headers": {
+          "X-Request-ID": {
+            "$ref": "#/components/headers/X-Request-ID"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/cardAccountList"
+            },
+            "examples": {
+              "Example 1": {
+                "$ref": "#/components/examples/cardAccountListExample1"
+              }
+            }
+          }
+        }
+      },
+      "OK_200_CardAccountDetails": {
+        "description": "OK",
+        "headers": {
+          "X-Request-ID": {
+            "$ref": "#/components/headers/X-Request-ID"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "cardAccount"
+              ],
+              "properties": {
+                "cardAccount": {
+                  "$ref": "#/components/schemas/cardAccountDetails"
+                }
+              }
+            },
+            "examples": {
+              "Card Account": {
+                "$ref": "#/components/examples/cardAccountDetailsExample"
+              }
+            }
+          }
+        }
+      },
       "OK_200_TransactionDetails": {
         "description": "OK",
         "headers": {
@@ -5602,6 +6138,26 @@
               },
               "Example 2: Multicurrency Account": {
                 "$ref": "#/components/examples/balancesExample2_MulticurrencyAcount"
+              }
+            }
+          }
+        }
+      },
+      "OK_200_CardAccountBalances": {
+        "description": "OK",
+        "headers": {
+          "X-Request-ID": {
+            "$ref": "#/components/headers/X-Request-ID"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/readCardAccountBalanceResponse-200"
+            },
+            "examples": {
+              "Example:": {
+                "$ref": "#/components/examples/balancesExample_CardAccount"
               }
             }
           }
@@ -5658,6 +6214,21 @@
                   "$ref": "#/components/schemas/mt942"
                 }
               ]
+            }
+          }
+        }
+      },
+      "OK_200_CardAccountsTransactions": {
+        "description": "OK",
+        "headers": {
+          "X-Request-ID": {
+            "$ref": "#/components/headers/X-Request-ID"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/cardAccountsTransactionsResponse200"
             }
           }
         }
@@ -6517,6 +7088,87 @@
           ]
         }
       },
+      "cardAccountListExample1": {
+        "summary": "Card account list example 1",
+        "description": "Card account list example.\n",
+        "value": {
+          "cardAccounts": [
+            {
+              "resourceId": "3d9a81b3-a47d-4130-8765-a9c0ff861b99",
+              "maskedPan": "525412******3241",
+              "currency": "EUR",
+              "name": "Main",
+              "product": "Basic Credit",
+              "status": "enabled",
+              "creditLimit": {
+                "currency": "EUR",
+                "amount": "15000"
+              },
+              "balances": [
+                {
+                  "balanceType": "interimBooked",
+                  "balanceAmount": {
+                    "currency": "EUR",
+                    "amount": "14355.78"
+                  }
+                },
+                {
+                  "balanceType": "nonInvoiced",
+                  "balanceAmount": {
+                    "currency": "EUR",
+                    "amount": "4175.86"
+                  }
+                }
+              ],
+              "_links": {
+                "transactions": {
+                  "href": "/v1/card-accounts/3d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "cardAccountDetailsExample": {
+        "summary": "Card account details example 1",
+        "description": "Card account details example.\n",
+        "value": {
+          "cardAccount": {
+            "resourceId": "3d9a81b3-a47d-4130-8765-a9c0ff861b99",
+            "maskedPan": "525412******3241",
+            "currency": "EUR",
+            "ownerName": "Heike Mustermann",
+            "name": "Main",
+            "product": "Basic Credit",
+            "status": "enabled",
+            "creditLimit": {
+              "currency": "EUR",
+              "amount": "15000"
+            },
+            "balances": [
+              {
+                "balanceType": "interimBooked",
+                "balanceAmount": {
+                  "currency": "EUR",
+                  "amount": "14355.78"
+                }
+              },
+              {
+                "balanceType": "nonInvoiced",
+                "balanceAmount": {
+                  "currency": "EUR",
+                  "amount": "4175.86"
+                }
+              }
+            ],
+            "_links": {
+              "transactions": {
+                "href": "/v1/card-accounts/3d9a81b3-a47d-4130-8765-a9c0ff861b99/transactions"
+              }
+            }
+          }
+        }
+      },
       "startScaProcessResponseExample1": {
         "value": {
           "scaStatus": "received",
@@ -6933,6 +7585,30 @@
                 "amount": "350.00"
               },
               "lastChangeDateTime": "2017-10-24T14:30:21Z"
+            }
+          ]
+        }
+      },
+      "balancesExample_CardAccount": {
+        "description": "Response in case of card account balance request.\n",
+        "value": {
+          "cardAccount": {
+            "maskedPan": "525412******3241"
+          },
+          "balances": [
+            {
+              "balanceType": "interimBooked",
+              "balanceAmount": {
+                "currency": "EUR",
+                "amount": "14355.78"
+              }
+            },
+            {
+              "balanceType": "nonInvoiced",
+              "balanceAmount": {
+                "currency": "EUR",
+                "amount": "4175.86"
+              }
             }
           ]
         }
