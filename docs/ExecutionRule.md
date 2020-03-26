@@ -1,12 +1,6 @@
-
 # ExecutionRule
 
 ## Enum
 
-
 * `FOLLOWING` (value: `"following"`)
-
-* `PRECEEDING` (value: `"preceeding"`)
-
-
-
+* `PRECEDING` (value: `"preceding"`)

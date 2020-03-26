@@ -1,8 +1,8 @@
 /*
  * NextGenPSD2 XS2A Framework
- * # Summary The **NextGenPSD2** *Framework Version 1.3.2* offers a modern, open, harmonised and interoperable set of  Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely.  The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards  in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service')  by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.    Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support    a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure    which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**    It is not an replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]        \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"      The element \"Accept\" will not be defined in this file at any place.      The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".    * There are several predefined types which might occur in payment initiation messages,    but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which need these field, one can easily use the predefined types.   But the ASPSP need not to accept them in general.    * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)    except they are mention in the Implementation Guidelines.**   Therefore the implementer might add the in his own realisation of a PSD2 comlient API in addition to the elements define in this file.     ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API have to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
+ * # Summary The **NextGenPSD2** *Framework Version 1.3.4* offers a modern, open, harmonised and interoperable set of Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely. The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service') by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.   Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional.   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support   a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure   which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**   It is not a replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]      \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"    The element \"Accept\" will not be defined in this file at any place.    The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".  * There are several predefined types which might occur in payment initiation messages,   but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which need these fields, one can easily use the predefined types.   But the ASPSP need not to accept them in general.  * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)   except they are mention in the Implementation Guidelines.**   Therefore the implementer might add these in his own realisation of a PSD2 comlient API in addition to the elements define in this file.  ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API has to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
  *
- * OpenAPI spec version: 1.3.3 Mar 29th 2019
+ * OpenAPI spec version: 1.3.4_2019-07-17v1
  * Contact: info@berlin-group.org
  *
  * NOTE: This class is auto generated by the swagger code generator program.
@@ -13,23 +13,24 @@
 package de.adorsys.psd2.client.model;
 
 import java.util.Objects;
+import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import de.adorsys.psd2.client.model.AccountStatus;
+import de.adorsys.psd2.client.model.Address;
 import de.adorsys.psd2.client.model.BalanceList;
+import de.adorsys.psd2.client.model.LinksAccountDetails;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.IOException;
-import java.util.Map;
-
 /**
  * The ASPSP shall give at least one of the account reference identifiers:   - iban   - bban   - pan   - maskedPan   - msisdn If the account is a multicurrency account currency code in \&quot;currency\&quot; is set to \&quot;XXX\&quot;. 
  */
 @Schema(description = "The ASPSP shall give at least one of the account reference identifiers:   - iban   - bban   - pan   - maskedPan   - msisdn If the account is a multicurrency account currency code in \"currency\" is set to \"XXX\". ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2019-05-15T12:45:45.795+02:00[Europe/Berlin]")public class AccountDetails {
-
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2020-03-26T15:17:13.106+01:00[Europe/Berlin]")
+public class AccountDetails {
   @SerializedName("resourceId")
   private String resourceId = null;
 
@@ -62,8 +63,9 @@ import java.util.Map;
 
   @SerializedName("linkedAccounts")
   private String linkedAccounts = null;
+
   /**
-   * Specifies the usage of the account   * PRIV: private personal account   * ORGA: professional account 
+   * Specifies the usage of the account:   * PRIV: private personal account   * ORGA: professional account 
    */
   @JsonAdapter(UsageEnum.Adapter.class)
   public enum UsageEnum {
@@ -103,8 +105,7 @@ import java.util.Map;
         return UsageEnum.fromValue(String.valueOf(value));
       }
     }
-  }
-  @SerializedName("usage")
+  }  @SerializedName("usage")
   private UsageEnum usage = null;
 
   @SerializedName("details")
@@ -114,277 +115,321 @@ import java.util.Map;
   private BalanceList balances = null;
 
   @SerializedName("_links")
-  private Map _links = null;
+  private LinksAccountDetails _links = null;
+
+  @SerializedName("ownerName")
+  private String ownerName = null;
+
+  @SerializedName("ownerAddress")
+  private Address ownerAddress = null;
+
   public AccountDetails resourceId(String resourceId) {
     this.resourceId = resourceId;
     return this;
   }
 
-  
-
-  /**
-  * This shall be filled, if addressable resource are created by the ASPSP on the /accounts or /card-accounts endpoint.
-  * @return resourceId
+   /**
+   * This shall be filled, if addressable resource are created by the ASPSP on the /accounts or /card-accounts endpoint.
+   * @return resourceId
   **/
   @Schema(description = "This shall be filled, if addressable resource are created by the ASPSP on the /accounts or /card-accounts endpoint.")
   public String getResourceId() {
     return resourceId;
   }
+
   public void setResourceId(String resourceId) {
     this.resourceId = resourceId;
   }
+
   public AccountDetails iban(String iban) {
     this.iban = iban;
     return this;
   }
 
-  
-
-  /**
-  * Get iban
-  * @return iban
+   /**
+   * Get iban
+   * @return iban
   **/
   @Schema(description = "")
   public String getIban() {
     return iban;
   }
+
   public void setIban(String iban) {
     this.iban = iban;
   }
+
   public AccountDetails bban(String bban) {
     this.bban = bban;
     return this;
   }
 
-  
-
-  /**
-  * Get bban
-  * @return bban
+   /**
+   * Get bban
+   * @return bban
   **/
   @Schema(description = "")
   public String getBban() {
     return bban;
   }
+
   public void setBban(String bban) {
     this.bban = bban;
   }
+
   public AccountDetails msisdn(String msisdn) {
     this.msisdn = msisdn;
     return this;
   }
 
-  
-
-  /**
-  * Get msisdn
-  * @return msisdn
+   /**
+   * Get msisdn
+   * @return msisdn
   **/
   @Schema(description = "")
   public String getMsisdn() {
     return msisdn;
   }
+
   public void setMsisdn(String msisdn) {
     this.msisdn = msisdn;
   }
+
   public AccountDetails currency(String currency) {
     this.currency = currency;
     return this;
   }
 
-  
-
-  /**
-  * Get currency
-  * @return currency
+   /**
+   * Get currency
+   * @return currency
   **/
   @Schema(required = true, description = "")
   public String getCurrency() {
     return currency;
   }
+
   public void setCurrency(String currency) {
     this.currency = currency;
   }
+
   public AccountDetails name(String name) {
     this.name = name;
     return this;
   }
 
-  
-
-  /**
-  * Name of the account given by the bank or the PSU in online-banking.
-  * @return name
+   /**
+   * Name of the account given by the bank or the PSU in online-banking.
+   * @return name
   **/
   @Schema(description = "Name of the account given by the bank or the PSU in online-banking.")
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
+
   public AccountDetails product(String product) {
     this.product = product;
     return this;
   }
 
-  
-
-  /**
-  * Product name of the bank for this account, proprietary definition.
-  * @return product
+   /**
+   * Product name of the bank for this account, proprietary definition.
+   * @return product
   **/
   @Schema(description = "Product name of the bank for this account, proprietary definition.")
   public String getProduct() {
     return product;
   }
+
   public void setProduct(String product) {
     this.product = product;
   }
+
   public AccountDetails cashAccountType(String cashAccountType) {
     this.cashAccountType = cashAccountType;
     return this;
   }
 
-  
-
-  /**
-  * Get cashAccountType
-  * @return cashAccountType
+   /**
+   * Get cashAccountType
+   * @return cashAccountType
   **/
   @Schema(description = "")
   public String getCashAccountType() {
     return cashAccountType;
   }
+
   public void setCashAccountType(String cashAccountType) {
     this.cashAccountType = cashAccountType;
   }
+
   public AccountDetails status(AccountStatus status) {
     this.status = status;
     return this;
   }
 
-  
-
-  /**
-  * Get status
-  * @return status
+   /**
+   * Get status
+   * @return status
   **/
   @Schema(description = "")
   public AccountStatus getStatus() {
     return status;
   }
+
   public void setStatus(AccountStatus status) {
     this.status = status;
   }
+
   public AccountDetails bic(String bic) {
     this.bic = bic;
     return this;
   }
 
-  
-
-  /**
-  * Get bic
-  * @return bic
+   /**
+   * Get bic
+   * @return bic
   **/
   @Schema(description = "")
   public String getBic() {
     return bic;
   }
+
   public void setBic(String bic) {
     this.bic = bic;
   }
+
   public AccountDetails linkedAccounts(String linkedAccounts) {
     this.linkedAccounts = linkedAccounts;
     return this;
   }
 
-  
-
-  /**
-  * Case of a set of pending card transactions, the APSP will provide the relevant cash account the card is set up on.
-  * @return linkedAccounts
+   /**
+   * Case of a set of pending card transactions, the APSP will provide the relevant cash account the card is set up on.
+   * @return linkedAccounts
   **/
   @Schema(description = "Case of a set of pending card transactions, the APSP will provide the relevant cash account the card is set up on.")
   public String getLinkedAccounts() {
     return linkedAccounts;
   }
+
   public void setLinkedAccounts(String linkedAccounts) {
     this.linkedAccounts = linkedAccounts;
   }
+
   public AccountDetails usage(UsageEnum usage) {
     this.usage = usage;
     return this;
   }
 
-  
-
-  /**
-  * Specifies the usage of the account   * PRIV: private personal account   * ORGA: professional account 
-  * @return usage
+   /**
+   * Specifies the usage of the account:   * PRIV: private personal account   * ORGA: professional account 
+   * @return usage
   **/
-  @Schema(description = "Specifies the usage of the account   * PRIV: private personal account   * ORGA: professional account ")
+  @Schema(description = "Specifies the usage of the account:   * PRIV: private personal account   * ORGA: professional account ")
   public UsageEnum getUsage() {
     return usage;
   }
+
   public void setUsage(UsageEnum usage) {
     this.usage = usage;
   }
+
   public AccountDetails details(String details) {
     this.details = details;
     return this;
   }
 
-  
-
-  /**
-  * Specifications that might be provided by the ASPSP   - characteristics of the account   - characteristics of the relevant card 
-  * @return details
+   /**
+   * Specifications that might be provided by the ASPSP:   - characteristics of the account   - characteristics of the relevant card 
+   * @return details
   **/
-  @Schema(description = "Specifications that might be provided by the ASPSP   - characteristics of the account   - characteristics of the relevant card ")
+  @Schema(description = "Specifications that might be provided by the ASPSP:   - characteristics of the account   - characteristics of the relevant card ")
   public String getDetails() {
     return details;
   }
+
   public void setDetails(String details) {
     this.details = details;
   }
+
   public AccountDetails balances(BalanceList balances) {
     this.balances = balances;
     return this;
   }
 
-  
-
-  /**
-  * Get balances
-  * @return balances
+   /**
+   * Get balances
+   * @return balances
   **/
   @Schema(description = "")
   public BalanceList getBalances() {
     return balances;
   }
+
   public void setBalances(BalanceList balances) {
     this.balances = balances;
   }
-  public AccountDetails _links(Map _links) {
+
+  public AccountDetails _links(LinksAccountDetails _links) {
     this._links = _links;
     return this;
   }
 
-  
-
-  /**
-  * Get _links
-  * @return _links
+   /**
+   * Get _links
+   * @return _links
   **/
   @Schema(description = "")
-  public Map getLinks() {
+  public LinksAccountDetails getLinks() {
     return _links;
   }
-  public void setLinks(Map _links) {
+
+  public void setLinks(LinksAccountDetails _links) {
     this._links = _links;
   }
+
+  public AccountDetails ownerName(String ownerName) {
+    this.ownerName = ownerName;
+    return this;
+  }
+
+   /**
+   * Name of the legal account owner. If there is more than one owner, then e.g. two names might be noted here.
+   * @return ownerName
+  **/
+  @Schema(description = "Name of the legal account owner. If there is more than one owner, then e.g. two names might be noted here.")
+  public String getOwnerName() {
+    return ownerName;
+  }
+
+  public void setOwnerName(String ownerName) {
+    this.ownerName = ownerName;
+  }
+
+  public AccountDetails ownerAddress(Address ownerAddress) {
+    this.ownerAddress = ownerAddress;
+    return this;
+  }
+
+   /**
+   * Get ownerAddress
+   * @return ownerAddress
+  **/
+  @Schema(description = "")
+  public Address getOwnerAddress() {
+    return ownerAddress;
+  }
+
+  public void setOwnerAddress(Address ownerAddress) {
+    this.ownerAddress = ownerAddress;
+  }
+
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -408,13 +453,16 @@ import java.util.Map;
         Objects.equals(this.usage, accountDetails.usage) &&
         Objects.equals(this.details, accountDetails.details) &&
         Objects.equals(this.balances, accountDetails.balances) &&
-        Objects.equals(this._links, accountDetails._links);
+        Objects.equals(this._links, accountDetails._links) &&
+        Objects.equals(this.ownerName, accountDetails.ownerName) &&
+        Objects.equals(this.ownerAddress, accountDetails.ownerAddress);
   }
 
   @Override
   public int hashCode() {
-    return java.util.Objects.hash(resourceId, iban, bban, msisdn, currency, name, product, cashAccountType, status, bic, linkedAccounts, usage, details, balances, _links);
+    return Objects.hash(resourceId, iban, bban, msisdn, currency, name, product, cashAccountType, status, bic, linkedAccounts, usage, details, balances, _links, ownerName, ownerAddress);
   }
+
 
   @Override
   public String toString() {
@@ -436,6 +484,8 @@ import java.util.Map;
     sb.append("    details: ").append(toIndentedString(details)).append("\n");
     sb.append("    balances: ").append(toIndentedString(balances)).append("\n");
     sb.append("    _links: ").append(toIndentedString(_links)).append("\n");
+    sb.append("    ownerName: ").append(toIndentedString(ownerName)).append("\n");
+    sb.append("    ownerAddress: ").append(toIndentedString(ownerAddress)).append("\n");
     sb.append("}");
     return sb.toString();
   }

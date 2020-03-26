@@ -1,20 +1,16 @@
-
 # LinksSigningBasket
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**scaRedirect** | **String** |  |  [optional]
-**scaOAuth** | **String** |  |  [optional]
-**startAuthorisation** | **String** |  |  [optional]
-**startAuthorisationWithPsuIdentification** | **String** |  |  [optional]
-**startAuthorisationWithPsuAuthentication** | **String** |  |  [optional]
-**startAuthorisationWithAuthenticationMethodSelection** | **String** |  |  [optional]
-**startAuthorisationWithTransactionAuthorisation** | **String** |  |  [optional]
-**self** | **String** |  |  [optional]
-**status** | **String** |  |  [optional]
-**scaStatus** | **String** |  |  [optional]
-
-
-
-
+**scaRedirect** | [**HrefType**](HrefType.md) |  |  [optional]
+**scaOAuth** | [**HrefType**](HrefType.md) |  |  [optional]
+**startAuthorisation** | [**HrefType**](HrefType.md) |  |  [optional]
+**startAuthorisationWithPsuIdentification** | [**HrefType**](HrefType.md) |  |  [optional]
+**startAuthorisationWithPsuAuthentication** | [**HrefType**](HrefType.md) |  |  [optional]
+**startAuthorisationWithEncryptedPsuAuthentication** | [**HrefType**](HrefType.md) |  |  [optional]
+**startAuthorisationWithAuthenticationMethodSelection** | [**HrefType**](HrefType.md) |  |  [optional]
+**startAuthorisationWithTransactionAuthorisation** | [**HrefType**](HrefType.md) |  |  [optional]
+**self** | [**HrefType**](HrefType.md) |  |  [optional]
+**status** | [**HrefType**](HrefType.md) |  |  [optional]
+**scaStatus** | [**HrefType**](HrefType.md) |  |  [optional]

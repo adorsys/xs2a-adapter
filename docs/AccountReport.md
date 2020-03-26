@@ -1,13 +1,9 @@
-
 # AccountReport
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**booked** | [**TransactionList**](TransactionList.md) |  | 
+**booked** | [**TransactionList**](TransactionList.md) |  |  [optional]
 **pending** | [**TransactionList**](TransactionList.md) |  |  [optional]
-**_links** | [**Map**](Map.md) |  | 
-
-
-
-
+**information** | [**TransactionList**](TransactionList.md) |  |  [optional]
+**_links** | [**LinksAccountReport**](LinksAccountReport.md) |  | 

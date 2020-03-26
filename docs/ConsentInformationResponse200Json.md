@@ -1,4 +1,3 @@
-
 # ConsentInformationResponse200Json
 
 ## Properties
@@ -10,7 +9,4 @@ Name | Type | Description | Notes
 **frequencyPerDay** | **Integer** |  | 
 **lastActionDate** | [**LocalDate**](LocalDate.md) |  | 
 **consentStatus** | [**ConsentStatus**](ConsentStatus.md) |  | 
-
-
-
-
+**_links** | [**LinksGetConsent**](LinksGetConsent.md) |  |  [optional]

@@ -1,4 +1,3 @@
-
 # PeriodicPaymentInitiationXmlPart2StandingorderTypeJson
 
 ## Properties
@@ -9,7 +8,3 @@ Name | Type | Description | Notes
 **executionRule** | [**ExecutionRule**](ExecutionRule.md) |  |  [optional]
 **frequency** | [**FrequencyCode**](FrequencyCode.md) |  | 
 **dayOfExecution** | [**DayOfExecution**](DayOfExecution.md) |  |  [optional]
-
-
-
-
