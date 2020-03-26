@@ -1,4 +1,3 @@
-
 # PaymentInitationRequestResponse201
 
 ## Properties
@@ -11,10 +10,6 @@ Name | Type | Description | Notes
 **scaMethods** | [**ScaMethods**](ScaMethods.md) |  |  [optional]
 **chosenScaMethod** | [**ChosenScaMethod**](ChosenScaMethod.md) |  |  [optional]
 **challengeData** | [**ChallengeData**](ChallengeData.md) |  |  [optional]
-**_links** | [**Map**](Map.md) |  | 
+**_links** | [**LinksPaymentInitiation**](LinksPaymentInitiation.md) |  | 
 **psuMessage** | **String** |  |  [optional]
-**tppMessages** | [**TppMessages**](TppMessages.md) |  |  [optional]
-
-
-
-
+**tppMessages** | [**List&lt;TppMessage2XX&gt;**](TppMessage2XX.md) |  |  [optional]

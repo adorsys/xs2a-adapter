@@ -1,15 +1,10 @@
-
 # Address
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**street** | **String** |  |  [optional]
+**streetName** | **String** |  |  [optional]
 **buildingNumber** | **String** |  |  [optional]
-**city** | **String** |  |  [optional]
-**postalCode** | **String** |  |  [optional]
+**townName** | **String** |  |  [optional]
+**postCode** | **String** |  |  [optional]
 **country** | **String** |  | 
-
-
-
-

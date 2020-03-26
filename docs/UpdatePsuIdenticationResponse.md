@@ -1,13 +1,9 @@
-
 # UpdatePsuIdenticationResponse
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**_links** | [**Map**](Map.md) |  | 
+**scaMethods** | [**ScaMethods**](ScaMethods.md) |  |  [optional]
+**_links** | [**LinksUpdatePsuIdentification**](LinksUpdatePsuIdentification.md) |  | 
 **scaStatus** | [**ScaStatus**](ScaStatus.md) |  | 
 **psuMessage** | **String** |  |  [optional]
-
-
-
-

@@ -1,8 +1,8 @@
 /*
  * NextGenPSD2 XS2A Framework
- * # Summary The **NextGenPSD2** *Framework Version 1.3.2* offers a modern, open, harmonised and interoperable set of  Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely.  The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards  in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service')  by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.    Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support    a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure    which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**    It is not an replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]        \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"      The element \"Accept\" will not be defined in this file at any place.      The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".    * There are several predefined types which might occur in payment initiation messages,    but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which need these field, one can easily use the predefined types.   But the ASPSP need not to accept them in general.    * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)    except they are mention in the Implementation Guidelines.**   Therefore the implementer might add the in his own realisation of a PSD2 comlient API in addition to the elements define in this file.     ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API have to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
+ * # Summary The **NextGenPSD2** *Framework Version 1.3.4* offers a modern, open, harmonised and interoperable set of Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely. The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service') by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.   Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional.   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support   a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure   which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**   It is not a replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]      \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"    The element \"Accept\" will not be defined in this file at any place.    The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".  * There are several predefined types which might occur in payment initiation messages,   but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which need these fields, one can easily use the predefined types.   But the ASPSP need not to accept them in general.  * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)   except they are mention in the Implementation Guidelines.**   Therefore the implementer might add these in his own realisation of a PSD2 comlient API in addition to the elements define in this file.  ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API has to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
  *
- * OpenAPI spec version: 1.3.3 Mar 29th 2019
+ * OpenAPI spec version: 1.3.4_2019-07-17v1
  * Contact: info@berlin-group.org
  *
  * NOTE: This class is auto generated by the swagger code generator program.
@@ -33,7 +33,7 @@ import de.adorsys.psd2.client.model.Error403NGPIIS;
 import de.adorsys.psd2.client.model.Error404NGPIIS;
 import de.adorsys.psd2.client.model.Error405NGPIIS;
 import de.adorsys.psd2.client.model.Error409NGPIIS;
-import de.adorsys.psd2.client.model.InlineResponse200;
+import de.adorsys.psd2.client.model.InlineResponse2003;
 import java.util.UUID;
 
 import java.lang.reflect.Type;
@@ -66,15 +66,16 @@ public class ConfirmationOfFundsServicePiisApi {
      * @param body Request body for a confirmation of funds request.
  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param authorization This field  might be used in case where a consent was agreed between ASPSP and PSU through an OAuth2 based protocol, facilitated by the TPP.  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call checkAvailabilityOfFundsCall(ConfirmationOfFunds body, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call checkAvailabilityOfFundsCall(ConfirmationOfFunds body, UUID xRequestID, String authorization, String digest, String signature, byte[] tpPSignatureCertificate, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
         
         // create path and map variables
@@ -86,6 +87,8 @@ public class ConfirmationOfFundsServicePiisApi {
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         if (xRequestID != null)
         localVarHeaderParams.put("X-Request-ID", apiClient.parameterToString(xRequestID));
+        if (authorization != null)
+        localVarHeaderParams.put("Authorization", apiClient.parameterToString(authorization));
         if (digest != null)
         localVarHeaderParams.put("Digest", apiClient.parameterToString(digest));
         if (signature != null)
@@ -124,7 +127,7 @@ public class ConfirmationOfFundsServicePiisApi {
     }
     
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call checkAvailabilityOfFundsValidateBeforeCall(ConfirmationOfFunds body, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call checkAvailabilityOfFundsValidateBeforeCall(ConfirmationOfFunds body, UUID xRequestID, String authorization, String digest, String signature, byte[] tpPSignatureCertificate, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling checkAvailabilityOfFunds(Async)");
@@ -134,7 +137,7 @@ public class ConfirmationOfFundsServicePiisApi {
             throw new ApiException("Missing the required parameter 'xRequestID' when calling checkAvailabilityOfFunds(Async)");
         }
         
-        com.squareup.okhttp.Call call = checkAvailabilityOfFundsCall(body, xRequestID, digest, signature, tpPSignatureCertificate, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = checkAvailabilityOfFundsCall(body, xRequestID, authorization, digest, signature, tpPSignatureCertificate, progressListener, progressRequestListener);
         return call;
 
         
@@ -144,54 +147,57 @@ public class ConfirmationOfFundsServicePiisApi {
     }
 
     /**
-     * Confirmation of Funds Request
+     * Confirmation of funds request
      * Creates a confirmation of funds request at the ASPSP. Checks whether a specific amount is available at point of time of the request on an account linked to a given tuple card issuer(TPP)/card number, or addressed by IBAN and TPP respectively. If the related extended services are used a conditional Consent-ID is contained in the header. This field is contained but commented out in this specification.
      * @param body Request body for a confirmation of funds request.
  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param authorization This field  might be used in case where a consent was agreed between ASPSP and PSU through an OAuth2 based protocol, facilitated by the TPP.  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
-     * @return InlineResponse200
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
+     * @return InlineResponse2003
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public InlineResponse200 checkAvailabilityOfFunds(ConfirmationOfFunds body, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate) throws ApiException {
-        ApiResponse<InlineResponse200> resp = checkAvailabilityOfFundsWithHttpInfo(body, xRequestID, digest, signature, tpPSignatureCertificate);
+    public InlineResponse2003 checkAvailabilityOfFunds(ConfirmationOfFunds body, UUID xRequestID, String authorization, String digest, String signature, byte[] tpPSignatureCertificate) throws ApiException {
+        ApiResponse<InlineResponse2003> resp = checkAvailabilityOfFundsWithHttpInfo(body, xRequestID, authorization, digest, signature, tpPSignatureCertificate);
         return resp.getData();
     }
 
     /**
-     * Confirmation of Funds Request
+     * Confirmation of funds request
      * Creates a confirmation of funds request at the ASPSP. Checks whether a specific amount is available at point of time of the request on an account linked to a given tuple card issuer(TPP)/card number, or addressed by IBAN and TPP respectively. If the related extended services are used a conditional Consent-ID is contained in the header. This field is contained but commented out in this specification.
      * @param body Request body for a confirmation of funds request.
  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param authorization This field  might be used in case where a consent was agreed between ASPSP and PSU through an OAuth2 based protocol, facilitated by the TPP.  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
-     * @return ApiResponse&lt;InlineResponse200&gt;
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
+     * @return ApiResponse&lt;InlineResponse2003&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<InlineResponse200> checkAvailabilityOfFundsWithHttpInfo(ConfirmationOfFunds body, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate) throws ApiException {
-        com.squareup.okhttp.Call call = checkAvailabilityOfFundsValidateBeforeCall(body, xRequestID, digest, signature, tpPSignatureCertificate, null, null);
-        Type localVarReturnType = new TypeToken<InlineResponse200>(){}.getType();
+    public ApiResponse<InlineResponse2003> checkAvailabilityOfFundsWithHttpInfo(ConfirmationOfFunds body, UUID xRequestID, String authorization, String digest, String signature, byte[] tpPSignatureCertificate) throws ApiException {
+        com.squareup.okhttp.Call call = checkAvailabilityOfFundsValidateBeforeCall(body, xRequestID, authorization, digest, signature, tpPSignatureCertificate, null, null);
+        Type localVarReturnType = new TypeToken<InlineResponse2003>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
-     * Confirmation of Funds Request (asynchronously)
+     * Confirmation of funds request (asynchronously)
      * Creates a confirmation of funds request at the ASPSP. Checks whether a specific amount is available at point of time of the request on an account linked to a given tuple card issuer(TPP)/card number, or addressed by IBAN and TPP respectively. If the related extended services are used a conditional Consent-ID is contained in the header. This field is contained but commented out in this specification.
      * @param body Request body for a confirmation of funds request.
  (required)
      * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param authorization This field  might be used in case where a consent was agreed between ASPSP and PSU through an OAuth2 based protocol, facilitated by the TPP.  (optional)
      * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
      * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
-     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding.  Must be contained if a signature is contained.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call checkAvailabilityOfFundsAsync(ConfirmationOfFunds body, UUID xRequestID, String digest, String signature, byte[] tpPSignatureCertificate, final ApiCallback<InlineResponse200> callback) throws ApiException {
+    public com.squareup.okhttp.Call checkAvailabilityOfFundsAsync(ConfirmationOfFunds body, UUID xRequestID, String authorization, String digest, String signature, byte[] tpPSignatureCertificate, final ApiCallback<InlineResponse2003> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -212,8 +218,8 @@ public class ConfirmationOfFundsServicePiisApi {
             };
         }
 
-        com.squareup.okhttp.Call call = checkAvailabilityOfFundsValidateBeforeCall(body, xRequestID, digest, signature, tpPSignatureCertificate, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<InlineResponse200>(){}.getType();
+        com.squareup.okhttp.Call call = checkAvailabilityOfFundsValidateBeforeCall(body, xRequestID, authorization, digest, signature, tpPSignatureCertificate, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<InlineResponse2003>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }

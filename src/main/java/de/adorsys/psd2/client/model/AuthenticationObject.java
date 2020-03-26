@@ -1,8 +1,8 @@
 /*
  * NextGenPSD2 XS2A Framework
- * # Summary The **NextGenPSD2** *Framework Version 1.3.2* offers a modern, open, harmonised and interoperable set of  Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely.  The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards  in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service')  by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.    Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support    a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure    which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**    It is not an replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]        \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"      The element \"Accept\" will not be defined in this file at any place.      The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".    * There are several predefined types which might occur in payment initiation messages,    but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which need these field, one can easily use the predefined types.   But the ASPSP need not to accept them in general.    * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)    except they are mention in the Implementation Guidelines.**   Therefore the implementer might add the in his own realisation of a PSD2 comlient API in addition to the elements define in this file.     ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API have to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
+ * # Summary The **NextGenPSD2** *Framework Version 1.3.4* offers a modern, open, harmonised and interoperable set of Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely. The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service') by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.   Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional.   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support   a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure   which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**   It is not a replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]      \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"    The element \"Accept\" will not be defined in this file at any place.    The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".  * There are several predefined types which might occur in payment initiation messages,   but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which need these fields, one can easily use the predefined types.   But the ASPSP need not to accept them in general.  * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)   except they are mention in the Implementation Guidelines.**   Therefore the implementer might add these in his own realisation of a PSD2 comlient API in addition to the elements define in this file.  ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API has to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
  *
- * OpenAPI spec version: 1.3.3 Mar 29th 2019
+ * OpenAPI spec version: 1.3.4_2019-07-17v1
  * Contact: info@berlin-group.org
  *
  * NOTE: This class is auto generated by the swagger code generator program.
@@ -13,23 +13,22 @@
 package de.adorsys.psd2.client.model;
 
 import java.util.Objects;
+import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import de.adorsys.psd2.client.model.AuthenticationType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.IOException;
-
 /**
- * Authentication Object 
+ * Authentication Object. 
  */
-@Schema(description = "Authentication Object ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2019-05-15T12:45:45.795+02:00[Europe/Berlin]")public class AuthenticationObject {
-
+@Schema(description = "Authentication Object. ")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2020-03-26T15:17:13.106+01:00[Europe/Berlin]")
+public class AuthenticationObject {
   @SerializedName("authenticationType")
-  private AuthenticationType authenticationType = null;
+  private String authenticationType = null;
 
   @SerializedName("authenticationVersion")
   private String authenticationVersion = null;
@@ -42,96 +41,98 @@ import java.io.IOException;
 
   @SerializedName("explanation")
   private String explanation = null;
-  public AuthenticationObject authenticationType(AuthenticationType authenticationType) {
+
+  public AuthenticationObject authenticationType(String authenticationType) {
     this.authenticationType = authenticationType;
     return this;
   }
 
-  
-
-  /**
-  * Get authenticationType
-  * @return authenticationType
+   /**
+   * Get authenticationType
+   * @return authenticationType
   **/
   @Schema(required = true, description = "")
-  public AuthenticationType getAuthenticationType() {
+  public String getAuthenticationType() {
     return authenticationType;
   }
-  public void setAuthenticationType(AuthenticationType authenticationType) {
+
+  public void setAuthenticationType(String authenticationType) {
     this.authenticationType = authenticationType;
   }
+
   public AuthenticationObject authenticationVersion(String authenticationVersion) {
     this.authenticationVersion = authenticationVersion;
     return this;
   }
 
-  
-
-  /**
-  * Depending on the \&quot;authenticationType\&quot;. This version can be used by differentiating authentication tools used within performing OTP generation in the same authentication type. This version can be referred to in the ASPSP?s documentation. 
-  * @return authenticationVersion
+   /**
+   * Depending on the \&quot;authenticationType\&quot;. This version can be used by differentiating authentication tools used within performing OTP generation in the same authentication type. This version can be referred to in the ASPSP?s documentation. 
+   * @return authenticationVersion
   **/
   @Schema(description = "Depending on the \"authenticationType\". This version can be used by differentiating authentication tools used within performing OTP generation in the same authentication type. This version can be referred to in the ASPSP?s documentation. ")
   public String getAuthenticationVersion() {
     return authenticationVersion;
   }
+
   public void setAuthenticationVersion(String authenticationVersion) {
     this.authenticationVersion = authenticationVersion;
   }
+
   public AuthenticationObject authenticationMethodId(String authenticationMethodId) {
     this.authenticationMethodId = authenticationMethodId;
     return this;
   }
 
-  
-
-  /**
-  * Get authenticationMethodId
-  * @return authenticationMethodId
+   /**
+   * Get authenticationMethodId
+   * @return authenticationMethodId
   **/
   @Schema(required = true, description = "")
   public String getAuthenticationMethodId() {
     return authenticationMethodId;
   }
+
   public void setAuthenticationMethodId(String authenticationMethodId) {
     this.authenticationMethodId = authenticationMethodId;
   }
+
   public AuthenticationObject name(String name) {
     this.name = name;
     return this;
   }
 
-  
-
-  /**
-  * This is the name of the authentication method defined by the PSU in the Online Banking frontend of the ASPSP. Alternatively this could be a description provided by the ASPSP like \&quot;SMS OTP on phone +49160 xxxxx 28\&quot;. This name shall be used by the TPP when presenting a list of authentication methods to the PSU, if available. 
-  * @return name
+   /**
+   * This is the name of the authentication method defined by the PSU in the Online Banking frontend of the ASPSP. Alternatively this could be a description provided by the ASPSP like \&quot;SMS OTP on phone +49160 xxxxx 28\&quot;. This name shall be used by the TPP when presenting a list of authentication methods to the PSU, if available. 
+   * @return name
   **/
   @Schema(example = "SMS OTP on phone +49160 xxxxx 28", description = "This is the name of the authentication method defined by the PSU in the Online Banking frontend of the ASPSP. Alternatively this could be a description provided by the ASPSP like \"SMS OTP on phone +49160 xxxxx 28\". This name shall be used by the TPP when presenting a list of authentication methods to the PSU, if available. ")
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
+
   public AuthenticationObject explanation(String explanation) {
     this.explanation = explanation;
     return this;
   }
 
-  
-
-  /**
-  * Detailed information about the SCA method for the PSU. 
-  * @return explanation
+   /**
+   * Detailed information about the SCA method for the PSU. 
+   * @return explanation
   **/
   @Schema(example = "Detailed information about the SCA method for the PSU.", description = "Detailed information about the SCA method for the PSU. ")
   public String getExplanation() {
     return explanation;
   }
+
   public void setExplanation(String explanation) {
     this.explanation = explanation;
   }
+
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -150,8 +151,9 @@ import java.io.IOException;
 
   @Override
   public int hashCode() {
-    return java.util.Objects.hash(authenticationType, authenticationVersion, authenticationMethodId, name, explanation);
+    return Objects.hash(authenticationType, authenticationVersion, authenticationMethodId, name, explanation);
   }
+
 
   @Override
   public String toString() {

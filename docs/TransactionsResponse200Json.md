@@ -1,14 +1,9 @@
-
 # TransactionsResponse200Json
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**account** | **Object** |  |  [optional]
+**account** | [**AccountReference**](AccountReference.md) |  |  [optional]
 **transactions** | [**AccountReport**](AccountReport.md) |  |  [optional]
 **balances** | [**BalanceList**](BalanceList.md) |  |  [optional]
-**_links** | [**Map**](Map.md) |  |  [optional]
-
-
-
-
+**_links** | [**LinksDownload**](LinksDownload.md) |  |  [optional]
