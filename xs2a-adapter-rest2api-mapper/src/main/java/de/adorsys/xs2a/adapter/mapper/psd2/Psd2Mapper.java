@@ -3,9 +3,10 @@ package de.adorsys.xs2a.adapter.mapper.psd2;
 import de.adorsys.xs2a.adapter.rest.psd2.model.*;
 import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import org.mapstruct.Mapper;
+import org.mapstruct.Named;
 
 @Mapper
-public interface Psd2AccountInformationMapper {
+public interface Psd2Mapper {
     ConsentsResponseTO toConsentsResponseTO(ConsentsResponse consentsResponse);
 
     ConsentsResponse toConsentsResponse(ConsentsResponseTO consentsResponse);
@@ -65,4 +66,49 @@ public interface Psd2AccountInformationMapper {
     CardAccountsTransactionsResponseTO toCardAccountsTransactionsResponseTO(CardAccountsTransactionsResponse source);
 
     CardAccountsTransactionsResponse toCardAccountsTransactionsResponse(CardAccountsTransactionsResponseTO source);
+
+    PaymentInitiation toPaymentInitiation(PaymentInitiationTO source);
+
+    PaymentInitiationRequestResponseTO toPaymentInitiationRequestResponseTO(PaymentInitiationRequestResponse source);
+
+    @Named("toGetPaymentInformationResponseTO")
+    default Object toGetPaymentInformationResponseTO(Object source) {
+        if (source == null || source instanceof String) {
+            return source;
+        }
+        if (source instanceof PaymentInitiationWithStatusResponse) {
+            return toPaymentInitiationWithStatusResponseTO((PaymentInitiationWithStatusResponse) source);
+        }
+        if (source instanceof PeriodicPaymentInitiationWithStatusResponse) {
+            return toPeriodicPaymentInitiationWithStatusResponseTO((PeriodicPaymentInitiationWithStatusResponse) source);
+        }
+        if (source instanceof BulkPaymentInitiationWithStatusResponse) {
+            return toBulkPaymentInitiationWithStatusResponse((BulkPaymentInitiationWithStatusResponse) source);
+        }
+        throw new IllegalArgumentException(source.getClass().getName());
+    }
+
+    PaymentInitiationWithStatusResponseTO toPaymentInitiationWithStatusResponseTO(
+        PaymentInitiationWithStatusResponse source);
+
+    PeriodicPaymentInitiationWithStatusResponseTO toPeriodicPaymentInitiationWithStatusResponseTO(
+        PeriodicPaymentInitiationWithStatusResponse source);
+
+    BulkPaymentInitiationWithStatusResponseTO toBulkPaymentInitiationWithStatusResponse(
+        BulkPaymentInitiationWithStatusResponse source);
+
+    @Named("toGetPaymentInitiationStatusResponseTO")
+    default Object toGetPaymentInitiationStatusResponseTO(Object source) {
+        if (source == null || source instanceof String) {
+            return source;
+        }
+        if (source instanceof PaymentInitiationStatusResponse) {
+            return toPaymentInitiationStatusResponseTO((PaymentInitiationStatusResponse) source);
+        }
+        throw new IllegalArgumentException(source.getClass().getName());
+    }
+
+    PaymentInitiationStatusResponseTO toPaymentInitiationStatusResponseTO(PaymentInitiationStatusResponse source);
+
+    AuthorisationsTO toAuthorisationsTO(Authorisations source);
 }

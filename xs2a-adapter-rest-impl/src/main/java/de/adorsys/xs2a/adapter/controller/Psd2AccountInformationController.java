@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.controller;
 
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
-import de.adorsys.xs2a.adapter.mapper.psd2.Psd2AccountInformationMapper;
+import de.adorsys.xs2a.adapter.mapper.psd2.Psd2Mapper;
 import de.adorsys.xs2a.adapter.rest.psd2.Psd2AccountInformationApi;
 import de.adorsys.xs2a.adapter.rest.psd2.model.*;
 import de.adorsys.xs2a.adapter.service.Response;
@@ -33,7 +33,7 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
 
     private final Psd2AccountInformationService accountInformationService;
     private final HeadersMapper headersMapper;
-    private final Psd2AccountInformationMapper mapper = Mappers.getMapper(Psd2AccountInformationMapper.class);
+    private final Psd2Mapper mapper = Mappers.getMapper(Psd2Mapper.class);
 
     public Psd2AccountInformationController(Psd2AccountInformationService accountInformationService,
                                             HeadersMapper headersMapper) {

@@ -21,8 +21,15 @@ public class PropertyEditorControllerAdvice {
 
     @InitBinder
     void initBinder(WebDataBinder dataBinder) {
-        dataBinder.registerCustomEditor(BookingStatusTO.class, new ConvertingPropertyEditorAdapter(conversionService, TypeDescriptor.valueOf(BookingStatusTO.class)));
-        dataBinder.registerCustomEditor(PaymentServiceTO.class, new ConvertingPropertyEditorAdapter(conversionService, TypeDescriptor.valueOf(PaymentServiceTO.class)));
-        dataBinder.registerCustomEditor(PaymentProductTO.class, new ConvertingPropertyEditorAdapter(conversionService, TypeDescriptor.valueOf(PaymentProductTO.class)));
+        registerCustomEditor(dataBinder, BookingStatusTO.class);
+        registerCustomEditor(dataBinder, PaymentServiceTO.class);
+        registerCustomEditor(dataBinder, PaymentProductTO.class);
+        registerCustomEditor(dataBinder, de.adorsys.xs2a.adapter.rest.psd2.model.PaymentServiceTO.class);
+        registerCustomEditor(dataBinder, de.adorsys.xs2a.adapter.rest.psd2.model.PaymentProductTO.class);
+    }
+
+    private <T> void registerCustomEditor(WebDataBinder dataBinder, Class<T> type) {
+        dataBinder.registerCustomEditor(type,
+            new ConvertingPropertyEditorAdapter(conversionService, TypeDescriptor.valueOf(type)));
     }
 }
