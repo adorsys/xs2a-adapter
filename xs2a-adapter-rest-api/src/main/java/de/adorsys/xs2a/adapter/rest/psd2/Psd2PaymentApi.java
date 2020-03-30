@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@RequestMapping("/{payment-service:payments|bulk-payments|periodic-payments}/{payment-product}")
 public interface Psd2PaymentApi {
     @RequestMapping(
-        value = "/{payment-service}/{payment-product}",
         method = RequestMethod.POST,
         consumes = "application/json"
     )
@@ -19,7 +19,6 @@ public interface Psd2PaymentApi {
         @RequestBody PaymentInitiationTO body);
 
     @RequestMapping(
-        value = "/{payment-service}/{payment-product}",
         method = RequestMethod.POST,
         consumes = "application/xml"
     )
@@ -30,7 +29,7 @@ public interface Psd2PaymentApi {
         @RequestBody String body);
 
     @RequestMapping(
-        value = "/{payment-service}/{payment-product}/{paymentId}",
+        value = "/{paymentId}",
         method = RequestMethod.GET
     )
     ResponseEntity<Object> getPaymentInformation(
@@ -40,7 +39,7 @@ public interface Psd2PaymentApi {
         @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
-        value = "/{payment-service}/{payment-product}/{paymentId}/status",
+        value = "/{paymentId}/status",
         method = RequestMethod.GET
     )
     ResponseEntity<Object> getPaymentInitiationStatus(
@@ -50,7 +49,7 @@ public interface Psd2PaymentApi {
         @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
-        value = "/{payment-service}/{payment-product}/{paymentId}/authorisations",
+        value = "/{paymentId}/authorisations",
         method = RequestMethod.GET
     )
     ResponseEntity<AuthorisationsTO> getPaymentInitiationAuthorisation(
@@ -60,7 +59,7 @@ public interface Psd2PaymentApi {
         @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
-        value = "/{payment-service}/{payment-product}/{paymentId}/authorisations",
+        value = "/{paymentId}/authorisations",
         method = RequestMethod.POST,
         consumes = "application/json"
     )
@@ -71,7 +70,7 @@ public interface Psd2PaymentApi {
         @RequestHeader Map<String, String> headers, @RequestBody UpdateAuthorisationTO body);
 
     @RequestMapping(
-        value = "/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}",
+        value = "/{paymentId}/authorisations/{authorisationId}",
         method = RequestMethod.GET
     )
     ResponseEntity<ScaStatusResponseTO> getPaymentInitiationScaStatus(
@@ -82,7 +81,7 @@ public interface Psd2PaymentApi {
         @RequestParam Map<String, String> queryParameters, @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
-        value = "/{payment-service}/{payment-product}/{paymentId}/authorisations/{authorisationId}",
+        value = "/{paymentId}/authorisations/{authorisationId}",
         method = RequestMethod.PUT,
         consumes = "application/json"
     )
