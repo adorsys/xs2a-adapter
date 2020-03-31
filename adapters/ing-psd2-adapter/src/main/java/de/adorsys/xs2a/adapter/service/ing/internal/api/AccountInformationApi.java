@@ -8,6 +8,7 @@ import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.AccountsResponse;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.BalancesResponse;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.TransactionsResponse;
+import de.adorsys.xs2a.adapter.service.psd2.model.CardAccountsTransactionsResponse;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -18,6 +19,7 @@ public class AccountInformationApi {
     private static final String ACCOUNTS_ENDPOINT = "/v3/accounts";
     private static final String TRANSACTIONS_ENDPOINT = "/v2/accounts/{{accountId}}/transactions";
     private static final String BALANCES_ENDPOINT = "/v3/accounts/{{accountId}}/balances";
+    private static final String CARD_ACCOUNT_TRANSACTIONS_ENDPOINT = "/v1/card-accounts/{{accountId}}/transactions";
 
     private final String baseUri;
     private final HttpClient httpClient;
@@ -79,5 +81,27 @@ public class AccountInformationApi {
         return httpClient.get(uri)
             .header(RequestHeaders.X_REQUEST_ID, requestId)
             .send(clientAuthentication, jsonResponseHandler(BalancesResponse.class));
+    }
+
+    public Response<CardAccountsTransactionsResponse> getCardAccountTransactions(
+        String accountId,
+        LocalDate dateFrom,
+        LocalDate dateTo,
+        Integer limit,
+        String requestId,
+        Request.Builder.Interceptor clientAuthentication) {
+
+        Map<String, Object> queryParams = new LinkedHashMap<>();
+        queryParams.put("dateFrom", dateFrom);
+        queryParams.put("dateTo", dateTo);
+        queryParams.put("limit", limit);
+        String uri = StringUri.withQuery(
+            baseUri + CARD_ACCOUNT_TRANSACTIONS_ENDPOINT.replace("{{accountId}}", Objects.requireNonNull(accountId)),
+            queryParams
+        );
+
+        return httpClient.get(uri)
+            .header(RequestHeaders.X_REQUEST_ID, requestId)
+            .send(clientAuthentication, jsonResponseHandler(CardAccountsTransactionsResponse.class));
     }
 }

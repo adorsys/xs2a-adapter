@@ -117,7 +117,35 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     public Response<CardAccountsTransactionsResponse> getCardAccountTransactionList(String accountId,
                                                                                     Map<String, String> queryParameters,
                                                                                     Map<String, String> headers) {
-        throw new UnsupportedOperationException();
+        return getCardAccountTransactionList(accountId, new QueryParameters(queryParameters), new Headers(headers));
+    }
+
+    private Response<CardAccountsTransactionsResponse> getCardAccountTransactionList(String accountId,
+                                                                                     QueryParameters queryParameters,
+                                                                                     Headers headers) {
+        String accessToken = headers.getAccessToken();
+        ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
+        LocalDate dateFrom = queryParameters.getDateFrom();
+        LocalDate dateTo = queryParameters.getDateTo();
+        Integer limit = queryParameters.getLimit();
+        Response<CardAccountsTransactionsResponse> response = accountInformationApi.getCardAccountTransactions(
+            accountId,
+            dateFrom,
+            dateTo,
+            limit,
+            headers.getRequestId(),
+            clientAuthentication);
+
+        // rewrite links
+        CardAccountsTransactionsResponse body = response.getBody();
+        if (body != null) {
+            body.setLinks(rewriteLinks(body.getLinks()));
+            CardAccountReport cardTransactions = body.getCardTransactions();
+            if (cardTransactions != null) {
+                cardTransactions.setLinks(rewriteLinks(cardTransactions.getLinks()));
+            }
+        }
+        return response;
     }
 
     @Override
