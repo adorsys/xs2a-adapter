@@ -1,5 +1,7 @@
 package de.adorsys.xs2a.adapter.service.psd2.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 public class AccountReference {
     private String iban;
 
@@ -7,6 +9,7 @@ public class AccountReference {
 
     private String pan;
 
+    @JsonAlias("maskedPAN")
     private String maskedPan;
 
     private String msisdn;
