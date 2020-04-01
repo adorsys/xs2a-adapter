@@ -49,7 +49,7 @@ public class SpardaOauth2Service extends AbstractService implements Oauth2Servic
         BaseOauth2Service baseOauth2Service = new BaseOauth2Service(aspsp, httpClient);
         CertificateSubjectClientIdOauth2Service clientIdOauth2Service =
             new CertificateSubjectClientIdOauth2Service(baseOauth2Service, keyStore);
-        PkceOauth2Service pkceOauth2Service = new PkceOauth2Service(clientIdOauth2Service);
+        PkceOauth2Service pkceOauth2Service = new SpardaPkceOauth2Service(clientIdOauth2Service);
         return new SpardaOauth2Service(aspsp, httpClient, pkceOauth2Service, clientId);
     }
 
@@ -122,5 +122,10 @@ public class SpardaOauth2Service extends AbstractService implements Oauth2Servic
                 MISSING_REQUIRED_PARAMETER_ERROR_MESSAGE));
         }
         return Collections.unmodifiableList(validationErrors);
+    }
+
+    @Override
+    public byte[] octetSequence() {
+        return SpardaPkceOauth2Service.OCTET_SEQUENCE;
     }
 }
