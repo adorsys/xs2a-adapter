@@ -143,18 +143,21 @@ public class ApacheHttpClient implements HttpClient {
     }
 
     private <T> void logResponse(T responseBody, CloseableHttpResponse response, Map<String, String> headers) {
-        String direction = "<--";
-        logHttpEvent(headers, response.getStatusLine().toString(), direction);
+        StringBuilder responseLogs = new StringBuilder("\n");
+        String direction = "\t<--";
+        responseLogs.append(logHttpEvent(headers, response.getStatusLine().toString(), direction));
         HttpEntity entity = response.getEntity();
         String contentType = entity != null && entity.getContentType() != null ? entity.getContentType().getValue() : "";
         String sanitizedResponseBody = logSanitizer.sanitizeResponseBody(responseBody, contentType);
-        logger.debug("{} Response body [{}]: {}", direction, contentType, sanitizedResponseBody);
-        logger.debug(direction);
+        responseLogs.append(String.format("%s Response body [%s]: %s\n", direction, contentType, sanitizedResponseBody));
+        responseLogs.append(direction);
+        logger.debug(responseLogs.toString());
     }
 
     private void logRequest(HttpUriRequest request, Map<String, String> headers) {
-        String direction = "-->";
-        logHttpEvent(headers, request.getRequestLine().toString(), direction);
+        StringBuilder requestLogs = new StringBuilder("\n");
+        String direction = "\t-->";
+        requestLogs.append(logHttpEvent(headers, request.getRequestLine().toString(), direction));
 
         Optional<HttpEntity> requestEntityOptional = getRequestEntity(request);
 
@@ -162,15 +165,18 @@ public class ApacheHttpClient implements HttpClient {
             HttpEntity entity = requestEntityOptional.get();
             String contentType = entity.getContentType() != null ? entity.getContentType().getValue() : "";
             String sanitizedResponseBody = logSanitizer.sanitizeRequestBody(entity, contentType);
-            logger.debug("{} Request body [{}]: {}", direction, contentType, sanitizedResponseBody);
-            logger.debug(direction);
+            requestLogs.append(String.format("%s Request body [%s]: %s\n", direction, contentType, sanitizedResponseBody));
+            requestLogs.append(direction);
+            logger.debug(requestLogs.toString());
         }
     }
 
-    private void logHttpEvent(Map<String, String> headers, String httpLine, String direction) {
-        logger.debug("{} {}", direction, logSanitizer.sanitize(httpLine));
-        headers.forEach((key, value) -> logger.debug("{} {}: {}", direction, key, logSanitizer.sanitizeHeader(key, value)));
-        logger.debug(direction);
+    private StringBuilder logHttpEvent(Map<String, String> headers, String httpLine, String direction) {
+        StringBuilder logs = new StringBuilder();
+        logs.append(String.format("%s %s\n", direction, logSanitizer.sanitize(httpLine)));
+        headers.forEach((key, value) -> logs.append(String.format("%s %s: %s\n", direction, key, logSanitizer.sanitizeHeader(key, value))));
+        logs.append(direction).append("\n");
+        return logs;
     }
 
     private Map<String, String> toHeadersMap(Header[] headers) {
