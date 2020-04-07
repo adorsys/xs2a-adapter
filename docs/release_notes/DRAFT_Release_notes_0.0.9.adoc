@@ -23,4 +23,3 @@ See https://github.com/adorsys/xs2a-adapter/issues/348[#348]
 - Added payment initiation service to psd2 api.
 
 == Fixes:
-- `code_verifier` parameter minimum length lowered to 43 characters in sparda adapter.
