@@ -24,18 +24,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SpardaOauth2ServiceTest {
     public static final String BIC = "GENODEF1S08";
-    public static final String IDP_URI = "https://idp.sparda-n.de/oauth2";
-    public static final String TOKEN_ENDPOINT = IDP_URI + "/token";
+    public static final String AUTH_HOST = "https://idp.sparda-n.de";
+    public static final String TOKEN_HOST = "https://idp.sparda.de";
+    public static final String TOKEN_ENDPOINT = TOKEN_HOST + "/oauth2/token";
     public static final String CLIENT_ID = "client-id";
     public static final String REDIRECT_URI = "https://tpp.com/cb";
 
     private SpardaOauth2Service oauth2Service;
     private HttpClient httpClient;
+    private Aspsp aspsp;
 
     @BeforeEach
     void setUp() {
-        Aspsp aspsp = new Aspsp();
+        aspsp = new Aspsp();
         aspsp.setBic(BIC);
+        aspsp.setIdpUrl(AUTH_HOST + " " + TOKEN_HOST);
         httpClient = Mockito.spy(new ApacheHttpClient(null));
         Mockito.lenient()
             .doReturn(new Response<>(200, null, ResponseHeaders.emptyResponseHeaders()))
@@ -50,12 +53,11 @@ public class SpardaOauth2ServiceTest {
     @Test
     public void getAuthorizationRequestUri() throws IOException {
         Parameters parameters = new Parameters();
-        parameters.setScaOAuthLink(IDP_URI);
         parameters.setRedirectUri(REDIRECT_URI);
 
         URI uri = oauth2Service.getAuthorizationRequestUri(Collections.emptyMap(), parameters);
 
-        assertEquals(IDP_URI + "/authorize"
+        assertEquals(AUTH_HOST + "/oauth2/authorize"
             + "?response_type=code"
             + "&redirect_uri=" + REDIRECT_URI
             + "&scope=ais"
@@ -73,14 +75,13 @@ public class SpardaOauth2ServiceTest {
 
         assertThat(validationErrors)
             .extracting(ValidationError::getPath)
-            .containsExactly(Parameters.SCA_OAUTH_LINK, Parameters.REDIRECT_URI);
+            .containsExactly(Parameters.REDIRECT_URI);
     }
 
     @Test
     void getToken_authorizationCode() throws IOException {
         String code = "test-code";
         Parameters parameters = new Parameters();
-        parameters.setScaOAuthLink(IDP_URI);
         parameters.setRedirectUri(REDIRECT_URI);
         parameters.setGrantType(AUTHORIZATION_CODE.toString());
         parameters.setAuthorizationCode(code);
@@ -108,7 +109,6 @@ public class SpardaOauth2ServiceTest {
     void getToken_refreshToken() throws IOException {
         String refreshToken = "refresh-token";
         Parameters parameters = new Parameters();
-        parameters.setScaOAuthLink(IDP_URI);
         parameters.setGrantType(REFRESH_TOKEN.toString());
         parameters.setRefreshToken(refreshToken);
 
@@ -132,9 +132,7 @@ public class SpardaOauth2ServiceTest {
     @Test
     void validateGetToken() {
         List<ValidationError> validationErrors = oauth2Service.validateGetToken(null, new Parameters());
-        assertThat(validationErrors)
-            .extracting(ValidationError::getPath)
-            .containsExactly(Parameters.SCA_OAUTH_LINK);
+        assertThat(validationErrors).isEmpty();
     }
 
     @Test
@@ -144,15 +142,14 @@ public class SpardaOauth2ServiceTest {
         List<ValidationError> validationErrors = oauth2Service.validateGetToken(null, parameters);
         assertThat(validationErrors)
             .extracting(ValidationError::getPath)
-            .containsExactly(Parameters.SCA_OAUTH_LINK, Parameters.REDIRECT_URI);
+            .containsExactly(Parameters.REDIRECT_URI);
     }
 
     @Test
     void clientIdFromCertificateIsUsedWhenNullIsPassedIn() throws Exception {
         Pkcs12KeyStore keyStore = Mockito.mock(Pkcs12KeyStore.class);
-        oauth2Service = SpardaOauth2Service.create(new Aspsp(), null, keyStore, null);
+        oauth2Service = SpardaOauth2Service.create(aspsp, null, keyStore, null);
         Parameters parameters = new Parameters();
-        parameters.setScaOAuthLink(IDP_URI);
         parameters.setRedirectUri(REDIRECT_URI);
 
         oauth2Service.getAuthorizationRequestUri(null, parameters);
