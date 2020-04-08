@@ -14,15 +14,13 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAd
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toSet;
 
 @ControllerAdvice
+@Deprecated
 public class MonitoringRequestBodyAdvice extends RequestBodyAdviceAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(MonitoringRequestBodyAdvice.class);
@@ -58,7 +56,7 @@ public class MonitoringRequestBodyAdvice extends RequestBodyAdviceAdapter {
         Set<String> ibans = getIbans(consents);
         Iterator<String> iterator = ibans.iterator();
         if (iterator.hasNext()) {
-            return iterator.next();
+            return iterator.next().replaceFirst("(?<=\\d{8})\\d+", "******");
         }
         return null;
     }
