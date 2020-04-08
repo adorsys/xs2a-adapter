@@ -111,4 +111,8 @@ public interface Psd2Mapper {
     PaymentInitiationStatusResponseTO toPaymentInitiationStatusResponseTO(PaymentInitiationStatusResponse source);
 
     AuthorisationsTO toAuthorisationsTO(Authorisations source);
+
+    TransactionDetailsResponseTO toTransactionDetailsResponseTO(TransactionDetailsResponse source);
+
+    TransactionDetailsResponse toTransactionDetailsResponse(TransactionDetailsResponseTO source);
 }

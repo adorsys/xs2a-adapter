@@ -9,6 +9,7 @@ import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.model.ConsentsResponse;
 import de.adorsys.xs2a.adapter.service.psd2.model.HrefType;
+import de.adorsys.xs2a.adapter.service.psd2.model.TransactionDetailsResponse;
 import de.adorsys.xs2a.adapter.service.psd2.model.TransactionsResponse;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
@@ -44,7 +45,7 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     @Override
     public ResponseEntity<ConsentsResponseTO> createConsent(Map<String, String> queryParameters,
                                                             Map<String, String> headers,
-                                                            ConsentsTO body) {
+                                                            ConsentsTO body) throws IOException {
 
         try {
             return createConsent0(queryParameters, headers, body);
@@ -62,7 +63,7 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
 
     private ResponseEntity<ConsentsResponseTO> createConsent0(Map<String, String> queryParameters,
                                                               Map<String, String> headers,
-                                                              ConsentsTO body) {
+                                                              ConsentsTO body) throws IOException {
         Response<ConsentsResponse> response =
             accountInformationService.createConsent(queryParameters, headers, mapper.toConsents(body));
         ConsentsResponse consentsResponse = response.getBody();
@@ -84,7 +85,9 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     @Override
     public ResponseEntity<ConsentInformationResponseTO> getConsentInformation(String consentId,
                                                                               Map<String, String> queryParameters,
-                                                                              Map<String, String> headers) {
+                                                                              Map<String, String> headers)
+        throws IOException {
+
         return toResponseEntity(
             accountInformationService.getConsentInformation(consentId, queryParameters, headers),
             mapper::toConsentInformationResponseTO
@@ -94,7 +97,7 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     @Override
     public ResponseEntity<Void> deleteConsent(String consentId,
                                               Map<String, String> queryParameters,
-                                              Map<String, String> headers) {
+                                              Map<String, String> headers) throws IOException {
         Response<Void> response = accountInformationService.deleteConsent(consentId, queryParameters, headers);
         return ResponseEntity.noContent()
             .headers(headersMapper.toHttpHeaders(response.getHeaders()))
@@ -104,7 +107,7 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     @Override
     public ResponseEntity<ConsentStatusResponseTO> getConsentStatus(String consentId,
                                                                     Map<String, String> queryParameters,
-                                                                    Map<String, String> headers) {
+                                                                    Map<String, String> headers) throws IOException {
         return toResponseEntity(
             accountInformationService.getConsentStatus(consentId, queryParameters, headers),
             mapper::toConsentStatusResponseTO
@@ -115,7 +118,9 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     public ResponseEntity<StartScaProcessResponseTO> startConsentAuthorisation(String consentId,
                                                                                Map<String, String> queryParameters,
                                                                                Map<String, String> headers,
-                                                                               UpdateAuthorisationTO body) {
+                                                                               UpdateAuthorisationTO body)
+        throws IOException {
+
         return toResponseEntity(
             accountInformationService.startConsentAuthorisation(consentId,
                 queryParameters,
@@ -129,7 +134,7 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     public ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(String consentId,
                                                                    String authorisationId,
                                                                    Map<String, String> queryParameters,
-                                                                   Map<String, String> headers) {
+                                                                   Map<String, String> headers) throws IOException {
         return toResponseEntity(
             accountInformationService.getConsentScaStatus(consentId, authorisationId, queryParameters, headers),
             mapper::toScaStatusResponseTO
@@ -141,7 +146,9 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
                                                                                String authorisationId,
                                                                                Map<String, String> queryParameters,
                                                                                Map<String, String> headers,
-                                                                               UpdateAuthorisationTO body) {
+                                                                               UpdateAuthorisationTO body)
+        throws IOException {
+
         return toResponseEntity(
             accountInformationService.updateConsentsPsuData(consentId,
                 authorisationId,
@@ -191,7 +198,8 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     }
 
     @Override
-    public ResponseEntity<AccountListTO> getAccountList(Map<String, String> queryParameters, Map<String, String> headers) throws IOException {
+    public ResponseEntity<AccountListTO> getAccountList(Map<String, String> queryParameters,
+                                                        Map<String, String> headers) throws IOException {
         return toResponseEntity(
             accountInformationService.getAccounts(queryParameters, headers),
             mapper::toAccountListTO
@@ -199,7 +207,9 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
     }
 
     @Override
-    public ResponseEntity<ReadAccountBalanceResponseTO> getBalances(String accountId, Map<String, String> queryParameters, Map<String, String> headers) throws IOException {
+    public ResponseEntity<ReadAccountBalanceResponseTO> getBalances(String accountId,
+                                                                    Map<String, String> queryParameters,
+                                                                    Map<String, String> headers) throws IOException {
         return toResponseEntity(
             accountInformationService.getBalances(accountId, queryParameters, headers),
             mapper::toReadAccountBalanceResponseTO
@@ -220,5 +230,18 @@ public class Psd2AccountInformationController implements Psd2AccountInformationA
             );
         }
         return toResponseEntity(response, Function.identity());
+    }
+
+    @Override
+    public ResponseEntity<TransactionDetailsResponseTO> getTransactionDetails(String accountId,
+                                                                              String transactionId,
+                                                                              Map<String, String> queryParameters,
+                                                                              Map<String, String> headers)
+        throws IOException {
+
+        Response<TransactionDetailsResponse> response =
+            accountInformationService.getTransactionDetails(accountId, transactionId, queryParameters, headers);
+
+        return toResponseEntity(response, mapper::toTransactionDetailsResponseTO);
     }
 }

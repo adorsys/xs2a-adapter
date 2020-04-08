@@ -18,35 +18,63 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import static com.squareup.javapoet.TypeSpec.Kind.ENUM;
+import static java.util.Collections.emptyMap;
 
 public class CodeGenerator {
-    private static final String BASE_PACKAGE = "de.adorsys.xs2a.adapter";
-    private static final String API_PACKAGE = BASE_PACKAGE + ".api";
-    private static final String MODEL_PACKAGE = BASE_PACKAGE + ".model";
     public static final String TOOLNAME = "xs2a-adapter-codegen";
 
-    private OpenAPI api;
-    private Consumer<JavaFile> action;
+    private final OpenAPI api;
+    private final Consumer<JavaFile> action;
+    private final String apiPackage;
+    private final String modelPackage;
+    private final boolean psd2;
+    private final UnaryOperator<String> renamer;
+    private final Map<String, String> operationIdToCustomParameterType;
+    private final Map<String, String> operationIdToCustomReturnType;
     private String schemaName;
     private String propertyName;
     private List<TypeSpec> nestedTypes = new ArrayList<>();
     private Map<String, List<MethodSpec>> interfaceToMethodSpecs;
+    private Map<String, TypeSpec> models;
 
-    public CodeGenerator(OpenAPI api, Consumer<JavaFile> action) {
-        this.api = api;
-        this.action = action;
+    public CodeGenerator(OpenAPI api, Consumer<JavaFile> action, String basePackage) {
+        this(api, action, basePackage, false, UnaryOperator.identity(), emptyMap(), emptyMap());
     }
 
-    public void generateInterfaces(Map<String, String> operationToInterface) {
+    public CodeGenerator(OpenAPI api,
+                         Consumer<JavaFile> action,
+                         String basePackage,
+                         boolean psd2,
+                         UnaryOperator<String> renamer,
+                         Map<String, String> operationIdToCustomParameterType,
+                         Map<String, String> operationIdToCustomReturnType) {
+        this.api = api;
+        this.action = action;
+        apiPackage = psd2 ? basePackage : basePackage + ".api";
+        modelPackage = basePackage + ".model";
+        this.psd2 = psd2;
+        this.renamer = renamer;
+        this.operationIdToCustomParameterType = operationIdToCustomParameterType;
+        this.operationIdToCustomReturnType = operationIdToCustomReturnType;
+    }
+
+    public void generate(Map<String, String> operationToInterface) {
+        generateModels();
+        generateInterfaces(operationToInterface);
+    }
+
+    private void generateInterfaces(Map<String, String> operationToInterface) {
         interfaceToMethodSpecs = new HashMap<>();
         api.getPaths().forEach((path, pathItem) -> {
             pathItem.readOperationsMap().forEach((httpMethod, operation) -> {
@@ -57,6 +85,7 @@ public class CodeGenerator {
                     addMethod(operationToInterface.get(operationId), operationId, path, httpMethod, operation, returnType, null);
                 } else {
                     for (String mediaType : getMediaTypes(requestBody)) {
+                        // fixme: methods for "multipart/form-data" are not generated but models are
                         if (mediaType.equals("application/json") || mediaType.equals("application/xml")) {
                             addMethod(operationToInterface.get(operationId), operationId, path, httpMethod, operation, returnType, mediaType);
                         }
@@ -66,7 +95,7 @@ public class CodeGenerator {
         });
 
         interfaceToMethodSpecs.forEach((interfaceName, methodSpecs) -> {
-            JavaFile javaFile = JavaFile.builder(API_PACKAGE, TypeSpec.interfaceBuilder(interfaceName)
+            JavaFile javaFile = JavaFile.builder(apiPackage, TypeSpec.interfaceBuilder(interfaceName)
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(generatedAnnotation())
                 .addMethods(methodSpecs)
@@ -81,6 +110,29 @@ public class CodeGenerator {
                            String operationId, String path,
                            PathItem.HttpMethod httpMethod,
                            Operation operation, TypeName returnType, String mediaType) {
+
+        List<ParameterSpec> parameterSpecs = parameterSpecs(operation, mediaType);
+
+        if (psd2 && path.startsWith("/{")) {
+            int closingBraceIndex = path.indexOf("}");
+            String pathVariable = path.substring(2, closingBraceIndex);
+            ParameterSpec parameterSpec = parameterSpecs.stream()
+                .filter(p ->
+                    p.annotations.stream()
+                        .filter(a -> a.type.equals(ClassName.get(PathVariable.class)))
+                        .anyMatch(a -> a.members.get("value").get(0).toString()
+                            .equals(String.format("\"%s\"", pathVariable))))
+                .findAny()
+                .orElseThrow();
+            TypeSpec typeSpec = models.get(((ClassName) parameterSpec.type).simpleName());
+            if (typeSpec.kind == ENUM) {
+                String enumRegex = typeSpec.enumConstants.values().stream()
+                    .map(ts -> ts.anonymousTypeArguments.toString().replace("\"", ""))
+                    .collect(Collectors.joining("|"));
+                path = path.substring(0, closingBraceIndex) + ":" + enumRegex
+                    + path.substring(closingBraceIndex, path.length());
+            }
+        }
         AnnotationSpec.Builder requestMappingBuilder = AnnotationSpec.builder(RequestMapping.class)
             .addMember("value", "$S", path)
             .addMember("method", "$T.$L", RequestMethod.class, httpMethod.name());
@@ -89,9 +141,12 @@ public class CodeGenerator {
         }
         AnnotationSpec requestMapping = requestMappingBuilder.build();
 
-        List<ParameterSpec> parameterSpecs = parameterSpecs(operation, mediaType);
 
-        MethodSpec methodSpec = MethodSpec.methodBuilder(operationId)
+        MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(operationId);
+        if (psd2) {
+            methodBuilder.addException(IOException.class);
+        }
+        MethodSpec methodSpec = methodBuilder
             .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
             .addAnnotation(requestMapping)
             .addParameters(parameterSpecs)
@@ -116,7 +171,12 @@ public class CodeGenerator {
                     apiResponse = api.getComponents().getResponses().get(refName);
                 }
                 Content content = apiResponse.getContent();
-                TypeName returnTypeName = getTypeName(content, Object.class, refName);
+
+                String customModel = operationIdToCustomReturnType.get(operation.getOperationId());
+                ClassName jsonComposedSchemaType = customModel != null
+                    ? ClassName.get(modelPackage, customModel)
+                    : ClassName.get(Object.class);
+                TypeName returnTypeName = getTypeName(content, jsonComposedSchemaType, refName);
                 return ParameterizedTypeName.get(ClassName.get(ResponseEntity.class), returnTypeName);
             }
         }
@@ -154,13 +214,17 @@ public class CodeGenerator {
                     parameterSpecs.add(pathParameter);
                     break;
                 case "query":
-                    ParameterSpec queryParameter = ParameterSpec.builder(toJavaTypeName(parameterSchema, parameter.getName()), toCamelCase(parameter.getName()))
-                        .addAnnotation(AnnotationSpec.builder(RequestParam.class)
-                            .addMember("value", "$S", parameter.getName())
-                            .addMember("required", "$L", parameter.getRequired())
-                            .build())
-                        .build();
-                    parameterSpecs.add(queryParameter);
+                    if (useIndividualQueryParameters()) {
+                        ParameterSpec queryParameter = ParameterSpec.builder(
+                            toJavaTypeName(parameterSchema, parameter.getName()), toCamelCase(parameter.getName()))
+                            .addAnnotation(AnnotationSpec.builder(RequestParam.class)
+                                .addMember("value", "$S", parameter.getName())
+                                .addMember("required", "$L", parameter.getRequired())
+                                .build())
+                            .build();
+                        parameterSpecs.add(queryParameter);
+                    }
+                    break;
                 case "header":
                     // ignore
                     break;
@@ -168,7 +232,8 @@ public class CodeGenerator {
                     throw new RuntimeException();
             }
         }
-        ParameterSpec paramsParameter = ParameterSpec.builder(ParameterizedTypeName.get(Map.class, String.class, String.class), "parameters")
+        ParameterSpec paramsParameter = ParameterSpec.builder(
+            ParameterizedTypeName.get(Map.class, String.class, String.class), psd2 ? "queryParameters" : "parameters")
             .addAnnotation(RequestParam.class)
             .build();
         parameterSpecs.add(paramsParameter);
@@ -183,7 +248,11 @@ public class CodeGenerator {
                 requestBody = api.getComponents().getRequestBodies().get(getSimpleName(requestBody.get$ref()));
             }
             Map<String, MediaType> content = Collections.singletonMap(mediaType, requestBody.getContent().get(mediaType));
-            TypeName bodyType = getTypeName(content, ObjectNode.class, null);
+            String customModel = operationIdToCustomParameterType.get(operation.getOperationId());
+            ClassName jsonComposedSchemaType = customModel != null
+                ? ClassName.get(modelPackage, customModel)
+                : ClassName.get(ObjectNode.class);
+            TypeName bodyType = getTypeName(content, jsonComposedSchemaType, null);
 
             ParameterSpec bodyParameter = ParameterSpec.builder(bodyType, "body")
                 .addAnnotation(AnnotationSpec.builder(org.springframework.web.bind.annotation.RequestBody.class)
@@ -195,7 +264,11 @@ public class CodeGenerator {
         return parameterSpecs;
     }
 
-    private TypeName getTypeName(Map<String, MediaType> content, Class<?> jsonComposedSchemaType, String refName) {
+    private boolean useIndividualQueryParameters() {
+        return !psd2;
+    }
+
+    private TypeName getTypeName(Map<String, MediaType> content, ClassName jsonComposedSchemaType, String refName) {
         if (content == null) {
             return ClassName.get(Void.class);
         } else if (content.size() > 1) { // multiple content media types
@@ -210,13 +283,13 @@ public class CodeGenerator {
                 // remember one of names and put them in comments (what about many content types + oneOf ?)
                 Schema schema = value.getSchema();
                 if (schema instanceof ComposedSchema) {
-                    return ClassName.get(jsonComposedSchemaType);
+                    return jsonComposedSchemaType;
                 } else if (schema.get$ref() != null) {
                     String schemaName = getSimpleName(schema.get$ref());
-                    return ClassName.get(MODEL_PACKAGE, toClassName(schemaName));
+                    return ClassName.get(modelPackage, toClassName(schemaName));
                 } else if (schema instanceof ObjectSchema) {
                     Objects.requireNonNull(refName);
-                    return ClassName.get(MODEL_PACKAGE, toClassName(refName));
+                    return ClassName.get(modelPackage, toClassName(refName));
                 } else {
                     throw new RuntimeException();
                 }
@@ -242,16 +315,16 @@ public class CodeGenerator {
             schema = api.getComponents().getSchemas().get(simpleName);
             return toJavaTypeName(schema, simpleName);
         }
-        if (name == null && schema.getEnum() != null) {
-            ClassName enumName = ClassName.get(MODEL_PACKAGE, toClassName(schemaName), toClassName(propertyName));
+        if (name == null && schema.getEnum() != null && useEnums()) {
+            ClassName enumName = ClassName.get(modelPackage, toClassName(schemaName), toClassName(propertyName));
             nestedTypes.add(enumBuilder(enumName, schema).build());
             return enumName;
         }
-        if (schema instanceof ObjectSchema || schema.getEnum() != null) {
+        if (schema instanceof ObjectSchema || (schema.getEnum() != null && useEnums(name))) {
 //            if (name == null) { // anonymous schemas in Error400_AIS and similar
 //                name = schemaName + "_" + propertyName;
 //            }
-            return ClassName.get(MODEL_PACKAGE, toClassName(name));
+            return ClassName.get(modelPackage, toClassName(name));
         }
         if (schema instanceof ByteArraySchema) {
             return ArrayTypeName.of(TypeName.BYTE);
@@ -268,6 +341,18 @@ public class CodeGenerator {
             return ClassName.get(Object.class);
         }
         return ClassName.get(toJavaType(schema));
+    }
+
+    private boolean useEnums(String name) {
+        return useEnums()
+            || "payment-service".equals(name)
+            || "payment-product".equals(name)
+            || "paymentService".equals(name)
+            || "paymentProduct".equals(name);
+    }
+
+    private boolean useEnums() {
+        return !psd2;
     }
 
     private Type toJavaType(Schema schema) {
@@ -296,8 +381,8 @@ public class CodeGenerator {
         return camelCaseName.toString();
     }
 
-    public void generateModels() {
-        Map<String, TypeSpec> models = new LinkedHashMap<>();
+    private void generateModels() {
+        models = new LinkedHashMap<>();
         Map<String, Schema> responseSchemas = api.getComponents().getResponses().entrySet().stream()
             .filter(e -> {
                 ApiResponse apiResponse = e.getValue();
@@ -333,8 +418,8 @@ public class CodeGenerator {
                         nestedTypes.forEach(typeSpecBuilder::addType);
                         nestedTypes.clear();
                     }
-                } else if (schema.getEnum() != null) {
-                    typeSpecBuilder = enumBuilder(ClassName.get(MODEL_PACKAGE, toClassName(name)), schema);
+                } else if (schema.getEnum() != null && useEnums(name)) {
+                    typeSpecBuilder = enumBuilder(ClassName.get(modelPackage, toClassName(name)), schema);
                 } else {
                     continue;
                 }
@@ -352,14 +437,26 @@ public class CodeGenerator {
                         typeSpec.enumConstants.forEach(builder::addEnumConstant);
                         models.put(typeSpec.name, builder.build());
                     } else {
-                        throw new RuntimeException();
+                        System.out.println("Merging " + name + " into " + typeSpecCreatedEarlier.name);
+                        TypeSpec.Builder builder = typeSpecCreatedEarlier.toBuilder();
+                        typeSpec.fieldSpecs.forEach(f -> {
+                            if (!typeSpecCreatedEarlier.fieldSpecs.contains(f)) {
+                                builder.addField(f);
+                            }
+                        });
+                        typeSpec.methodSpecs.forEach(m -> {
+                            if (!typeSpecCreatedEarlier.methodSpecs.contains(m)) {
+                                builder.addMethod(m);
+                            }
+                        });
+                        models.put(typeSpec.name, builder.build());
                     }
                 }
             }
         }
 
         for (TypeSpec typeSpec : models.values()) {
-            JavaFile file = JavaFile.builder(MODEL_PACKAGE, typeSpec)
+            JavaFile file = JavaFile.builder(modelPackage, typeSpec)
                 .build();
             action.accept(file);
         }
@@ -424,7 +521,7 @@ public class CodeGenerator {
         } else if (name.matches("Error\\d{3}_NG_[A-Z]{3,}")) {
             className = "ErrorResponse";
         } else {
-            className = StringUtils.capitalize(toCamelCase(name));
+            className = renamer.apply(StringUtils.capitalize(toCamelCase(name)));
         }
         return className + "TO";
     }

@@ -241,6 +241,14 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
         return getTransactions(accountId, new QueryParameters(queryParameters), new Headers(headers));
     }
 
+    @Override
+    public Response<TransactionDetailsResponse> getTransactionDetails(String accountId,
+                                                                      String transactionId,
+                                                                      Map<String, String> queryParameters,
+                                                                      Map<String, String> headers) {
+        throw new UnsupportedOperationException();
+    }
+
     private Response<TransactionsResponse> getTransactions(String accountId,
                                                            QueryParameters queryParameters,
                                                            Headers headers) {

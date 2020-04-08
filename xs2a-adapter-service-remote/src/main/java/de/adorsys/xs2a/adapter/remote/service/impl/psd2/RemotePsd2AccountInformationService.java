@@ -68,9 +68,23 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     }
 
     @Override
+    public Response<TransactionDetailsResponse> getTransactionDetails(String accountId,
+                                                                      String transactionId,
+                                                                      Map<String, String> queryParameters,
+                                                                      Map<String, String> headers) throws IOException {
+        ResponseEntity<TransactionDetailsResponseTO> responseEntity =
+            client.getTransactionDetails(accountId, transactionId, queryParameters, headers);
+        TransactionDetailsResponse body =
+            accountInformationMapper.toTransactionDetailsResponse(responseEntity.getBody());
+        return new Response<>(responseEntity.getStatusCodeValue(),
+            body,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+    }
+
+    @Override
     public Response<ConsentsResponse> createConsent(Map<String, String> queryParameters,
                                                     Map<String, String> headers,
-                                                    Consents consents) {
+                                                    Consents consents) throws IOException {
         ResponseEntity<ConsentsResponseTO> responseEntity =
             client.createConsent(queryParameters, headers, accountInformationMapper.toConsentsTO(consents));
         ConsentsResponse consentsResponse = accountInformationMapper.toConsentsResponse(responseEntity.getBody());
@@ -84,7 +98,7 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     @Override
     public Response<ConsentInformationResponse> getConsentInformation(String consentId,
                                                                       Map<String, String> queryParameters,
-                                                                      Map<String, String> headers) {
+                                                                      Map<String, String> headers) throws IOException {
         ResponseEntity<ConsentInformationResponseTO> responseEntity =
             client.getConsentInformation(consentId, queryParameters, headers);
         ConsentInformationResponse consentInformationResponse =
@@ -99,7 +113,7 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     @Override
     public Response<Void> deleteConsent(String consentId,
                                         Map<String, String> queryParameters,
-                                        Map<String, String> headers) {
+                                        Map<String, String> headers) throws IOException {
         ResponseEntity<Void> responseEntity = client.deleteConsent(consentId, queryParameters, headers);
         return new Response<>(
             responseEntity.getStatusCodeValue(),
@@ -111,7 +125,7 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     @Override
     public Response<ConsentStatusResponse> getConsentStatus(String consentId,
                                                             Map<String, String> queryParameters,
-                                                            Map<String, String> headers) {
+                                                            Map<String, String> headers) throws IOException {
         ResponseEntity<ConsentStatusResponseTO> responseEntity =
             client.getConsentStatus(consentId, queryParameters, headers);
         ConsentStatusResponse consentStatusResponse =
@@ -127,7 +141,7 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
                                                                        Map<String, String> queryParameters,
                                                                        Map<String, String> headers,
-                                                                       UpdateAuthorisation updateAuthentication) {
+                                                                       UpdateAuthorisation updateAuthentication) throws IOException {
         ResponseEntity<StartScaProcessResponseTO> responseEntity =
             client.startConsentAuthorisation(consentId,
                 queryParameters,
@@ -146,7 +160,7 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
                                                                        String authorisationId,
                                                                        Map<String, String> queryParameters,
                                                                        Map<String, String> headers,
-                                                                       UpdateAuthorisation updateAuthentication) {
+                                                                       UpdateAuthorisation updateAuthentication) throws IOException {
         ResponseEntity<UpdateAuthorisationResponseTO> responseEntity = client.updateConsentsPsuData(consentId,
             authorisationId,
             queryParameters,
@@ -165,7 +179,7 @@ public class RemotePsd2AccountInformationService implements Psd2AccountInformati
     public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
                                                            String authorisationId,
                                                            Map<String, String> queryParameters,
-                                                           Map<String, String> headers) {
+                                                           Map<String, String> headers) throws IOException {
         ResponseEntity<ScaStatusResponseTO> responseEntity =
             client.getConsentScaStatus(consentId, authorisationId, queryParameters, headers);
         ScaStatusResponse scaStatusResponse = accountInformationMapper.toScaStatusResponse(responseEntity.getBody());

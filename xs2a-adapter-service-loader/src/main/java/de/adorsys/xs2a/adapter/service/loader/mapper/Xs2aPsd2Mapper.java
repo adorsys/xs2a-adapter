@@ -73,4 +73,6 @@ public interface Xs2aPsd2Mapper {
     Authorisations toAuthorisations(PaymentInitiationAuthorisationResponse value);
 
     ScaStatusResponse toScaStatusResponse(PaymentInitiationScaStatusResponse value);
+
+    TransactionDetailsResponse toTransactionDetailsResponse(de.adorsys.xs2a.adapter.service.model.TransactionDetails value);
 }
