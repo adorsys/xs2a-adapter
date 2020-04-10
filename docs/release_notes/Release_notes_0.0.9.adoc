@@ -1,4 +1,4 @@
-= DRAFT Release notes for version 0.0.9 (release date: xx.04.2020)
+= Release notes for version 0.0.9 (release date: 10.04.2020)
 
 .Added banks
 |===
@@ -22,4 +22,3 @@ See https://github.com/adorsys/xs2a-adapter/issues/348[#348]
 - Support for card accounts operations
 - Added payment initiation service to psd2 api.
 
-== Fixes:
