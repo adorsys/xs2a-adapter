@@ -13,6 +13,7 @@ As a consequence:
 ** fixed missing `availableAccountsWithBalance` property on `AccountAccessTO`;
 ** fixed xs2a api model dependency of `TransactionDetailsTO.remittanceInformationStructured`;
 ** removed `TokenResponseTO` copy in psd2 package.
+* Removed `AccountInformationService`, `PaymentInitiationService` methods deprecated in the previous release.
 
 == Features:
 
