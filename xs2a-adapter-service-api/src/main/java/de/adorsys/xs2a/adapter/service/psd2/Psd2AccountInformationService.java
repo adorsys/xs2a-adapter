@@ -28,37 +28,42 @@ public interface Psd2AccountInformationService {
                              Map<String, String> queryParameters,
                              Map<String, String> headers) throws IOException;
 
+    Response<TransactionDetailsResponse> getTransactionDetails(String accountId,
+                                                               String transactionId,
+                                                               Map<String, String> queryParameters,
+                                                               Map<String, String> headers) throws IOException;
+
     Response<ConsentsResponse> createConsent(Map<String, String> queryParameters,
                                              Map<String, String> headers,
-                                             Consents consents);
+                                             Consents consents) throws IOException;
 
     Response<ConsentInformationResponse> getConsentInformation(String consentId,
                                                                Map<String, String> queryParameters,
-                                                               Map<String, String> headers);
+                                                               Map<String, String> headers) throws IOException;
 
     Response<Void> deleteConsent(String consentId,
                                  Map<String, String> queryParameters,
-                                 Map<String, String> headers);
+                                 Map<String, String> headers) throws IOException;
 
     Response<ConsentStatusResponse> getConsentStatus(String consentId,
                                                      Map<String, String> queryParameters,
-                                                     Map<String, String> headers);
+                                                     Map<String, String> headers) throws IOException;
 
     Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
                                                                 Map<String, String> queryParameters,
                                                                 Map<String, String> headers,
-                                                                UpdateAuthorisation updateAuthentication);
+                                                                UpdateAuthorisation updateAuthentication) throws IOException;
 
     Response<UpdateAuthorisationResponse> updateConsentsPsuData(String consentId,
                                                                 String authorisationId,
                                                                 Map<String, String> queryParameters,
                                                                 Map<String, String> headers,
-                                                                UpdateAuthorisation updateAuthentication);
+                                                                UpdateAuthorisation updateAuthentication) throws IOException;
 
     Response<ScaStatusResponse> getConsentScaStatus(String consentId,
                                                     String authorisationId,
                                                     Map<String, String> queryParameters,
-                                                    Map<String, String> headers);
+                                                    Map<String, String> headers) throws IOException;
 
     Response<CardAccountList> getCardAccountList(Map<String, String> queryParameters,
                                                  Map<String, String> headers) throws IOException;

@@ -13,6 +13,7 @@ import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
 import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import org.mapstruct.factory.Mappers;
 
+import java.io.IOException;
 import java.util.Map;
 
 class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformationService {
@@ -52,6 +53,17 @@ class Xs2aPsd2AccountInformationServiceAdapter implements Psd2AccountInformation
         } else {
             return service.getTransactionListAsString(accountId, requestHeaders, requestParams);
         }
+    }
+
+    @Override
+    public Response<TransactionDetailsResponse> getTransactionDetails(String accountId,
+                                                                      String transactionId,
+                                                                      Map<String, String> queryParameters,
+                                                                      Map<String, String> headers) throws IOException {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(queryParameters);
+        return service.getTransactionDetails(accountId, transactionId, requestHeaders, requestParams)
+            .map(mapper::toTransactionDetailsResponse);
     }
 
     @Override

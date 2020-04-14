@@ -19,7 +19,7 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
     @Override
     public Response<ConsentsResponse> createConsent(Map<String, String> queryParameters,
                                                     Map<String, String> headers,
-                                                    Consents consents) {
+                                                    Consents consents) throws IOException {
         return getAccountInformationService(headers)
             .createConsent(queryParameters, headers, consents);
     }
@@ -31,7 +31,7 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
     @Override
     public Response<ConsentInformationResponse> getConsentInformation(String consentId,
                                                                       Map<String, String> queryParameters,
-                                                                      Map<String, String> headers) {
+                                                                      Map<String, String> headers) throws IOException {
         return getAccountInformationService(headers)
             .getConsentInformation(consentId, queryParameters, headers);
     }
@@ -39,7 +39,7 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
     @Override
     public Response<Void> deleteConsent(String consentId,
                                         Map<String, String> queryParameters,
-                                        Map<String, String> headers) {
+                                        Map<String, String> headers) throws IOException {
         return getAccountInformationService(headers)
             .deleteConsent(consentId, queryParameters, headers);
     }
@@ -47,7 +47,7 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
     @Override
     public Response<ConsentStatusResponse> getConsentStatus(String consentId,
                                                             Map<String, String> queryParameters,
-                                                            Map<String, String> headers) {
+                                                            Map<String, String> headers) throws IOException {
         return getAccountInformationService(headers)
             .getConsentStatus(consentId, queryParameters, headers);
     }
@@ -56,7 +56,7 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
     public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
                                                            String authorisationId,
                                                            Map<String, String> queryParameters,
-                                                           Map<String, String> headers) {
+                                                           Map<String, String> headers) throws IOException {
         return getAccountInformationService(headers)
             .getConsentScaStatus(consentId, authorisationId, queryParameters, headers);
     }
@@ -98,7 +98,9 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
     public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
                                                                        Map<String, String> queryParameters,
                                                                        Map<String, String> headers,
-                                                                       UpdateAuthorisation updateAuthentication) {
+                                                                       UpdateAuthorisation updateAuthentication)
+        throws IOException {
+
         return getAccountInformationService(headers)
             .startConsentAuthorisation(consentId, queryParameters, headers, updateAuthentication);
     }
@@ -108,7 +110,9 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
                                                                        String authorisationId,
                                                                        Map<String, String> queryParameters,
                                                                        Map<String, String> headers,
-                                                                       UpdateAuthorisation updateAuthentication) {
+                                                                       UpdateAuthorisation updateAuthentication)
+        throws IOException {
+
         return getAccountInformationService(headers)
             .updateConsentsPsuData(consentId, authorisationId, queryParameters, headers, updateAuthentication);
     }
@@ -134,5 +138,14 @@ public class Psd2AdapterDelegatingAccountInformationService implements Psd2Accou
                                     Map<String, String> headers) throws IOException {
         return getAccountInformationService(headers)
             .getTransactions(accountId, queryParameters, headers);
+    }
+
+    @Override
+    public Response<TransactionDetailsResponse> getTransactionDetails(String accountId,
+                                                                      String transactionId,
+                                                                      Map<String, String> queryParameters,
+                                                                      Map<String, String> headers) throws IOException {
+        return getAccountInformationService(headers)
+            .getTransactionDetails(accountId, transactionId, queryParameters, headers);
     }
 }

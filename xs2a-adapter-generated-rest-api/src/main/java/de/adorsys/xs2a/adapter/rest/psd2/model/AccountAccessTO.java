@@ -1,15 +1,17 @@
-package de.adorsys.xs2a.adapter.service.psd2.model;
+package de.adorsys.xs2a.adapter.rest.psd2.model;
 
+import javax.annotation.Generated;
 import java.util.List;
 
-public class AccountAccess {
-    private List<AccountReference> accounts;
+@Generated("xs2a-adapter-codegen")
+public class AccountAccessTO {
+    private List<AccountReferenceTO> accounts;
 
-    private List<AccountReference> balances;
+    private List<AccountReferenceTO> balances;
 
-    private List<AccountReference> transactions;
+    private List<AccountReferenceTO> transactions;
 
-    private AdditionalInformationAccess additionalInformation;
+    private AdditionalInformationAccessTO additionalInformation;
 
     private String availableAccounts;
 
@@ -17,35 +19,35 @@ public class AccountAccess {
 
     private String allPsd2;
 
-    public List<AccountReference> getAccounts() {
+    public List<AccountReferenceTO> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(List<AccountReference> accounts) {
+    public void setAccounts(List<AccountReferenceTO> accounts) {
         this.accounts = accounts;
     }
 
-    public List<AccountReference> getBalances() {
+    public List<AccountReferenceTO> getBalances() {
         return balances;
     }
 
-    public void setBalances(List<AccountReference> balances) {
+    public void setBalances(List<AccountReferenceTO> balances) {
         this.balances = balances;
     }
 
-    public List<AccountReference> getTransactions() {
+    public List<AccountReferenceTO> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(List<AccountReference> transactions) {
+    public void setTransactions(List<AccountReferenceTO> transactions) {
         this.transactions = transactions;
     }
 
-    public AdditionalInformationAccess getAdditionalInformation() {
+    public AdditionalInformationAccessTO getAdditionalInformation() {
         return additionalInformation;
     }
 
-    public void setAdditionalInformation(AdditionalInformationAccess additionalInformation) {
+    public void setAdditionalInformation(AdditionalInformationAccessTO additionalInformation) {
         this.additionalInformation = additionalInformation;
     }
 
