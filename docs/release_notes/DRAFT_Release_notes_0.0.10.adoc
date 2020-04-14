@@ -18,3 +18,4 @@ As a consequence:
 
 
 == Fixes:
+* Fixed missing accessors for `AccountAccess.additionalInformation`.

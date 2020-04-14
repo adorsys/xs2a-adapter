@@ -57,6 +57,14 @@ public class AccountAccess {
         this.transactions = transactions;
     }
 
+    public AdditionalInformationAccess getAdditionalInformation() {
+        return additionalInformation;
+    }
+
+    public void setAdditionalInformation(AdditionalInformationAccess additionalInformation) {
+        this.additionalInformation = additionalInformation;
+    }
+
     public AvailableAccountsEnum getAvailableAccounts() {
         return availableAccounts;
     }
