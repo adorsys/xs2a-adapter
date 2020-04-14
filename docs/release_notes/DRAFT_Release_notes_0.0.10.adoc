@@ -12,3 +12,4 @@
 
 
 == Fixes:
+* Fixed missing accessors for `AccountAccess.additionalInformation`.
