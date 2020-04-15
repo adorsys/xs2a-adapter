@@ -17,6 +17,25 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
         RequestHeaders requestHeaders,
         RequestParams requestParams);
 
+    @Deprecated
+    default Response<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
+                                                                                       String paymentProduct,
+                                                                                       String paymentId,
+                                                                                       String authorisationId,
+                                                                                       RequestHeaders requestHeaders) {
+        return getPaymentInitiationScaStatus(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            RequestParams.empty());
+    }
+
+    Response<String> getSinglePaymentInformationAsString(String paymentProduct,
+                                                         String paymentId,
+                                                         RequestHeaders requestHeaders,
+                                                         RequestParams requestParams);
+
     Response<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
                                                                                String paymentProduct,
                                                                                String paymentId,

@@ -63,11 +63,11 @@ class Xs2aPsd2PaymentInitiationServiceAdapter implements Psd2PaymentInitiationSe
                                                   Map<String, String> queryParameters,
                                                   Map<String, String> headers) {
         requireSinglePayment(paymentService);
-        return paymentInitiationService.getSinglePaymentInformation(paymentProduct.toString(),
+        return paymentInitiationService.getSinglePaymentInformationAsString(paymentProduct.toString(),
             paymentId,
             RequestHeaders.fromMap(headers),
             RequestParams.fromMap(queryParameters))
-            .map(mapper::toPaymentInitiationWithStatusResponse);
+            .map(Function.identity());
     }
 
     @Override

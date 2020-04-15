@@ -20,3 +20,4 @@ As a consequence:
 
 == Fixes:
 * Fixed missing accessors for `AccountAccess.additionalInformation`.
+* Fixed getPaymentInformation not able to handle xml responses.
