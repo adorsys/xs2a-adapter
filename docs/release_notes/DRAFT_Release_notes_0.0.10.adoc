@@ -21,3 +21,4 @@ As a consequence:
 == Fixes:
 * Fixed missing accessors for `AccountAccess.additionalInformation`.
 * Fixed getPaymentInformation not able to handle xml responses.
+* Fixed incorrect OAuth2 authorization url encoding when redirect_uri has its own parameters.

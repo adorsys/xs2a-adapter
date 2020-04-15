@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.adapter;
 
-import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
+import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ public class CertificateSubjectClientIdOauth2ServiceTest {
     @Test
     void getAuthorizationRequestUri() throws IOException, KeyStoreException {
         String authorisationRequestUri = "https://authorisation.endpoint?" +
-            "response_type=code&state=state&redirect_uri=https://redirect.uri";
+            "response_type=code&state=state&redirect_uri=https%3A%2F%2Fredirect";
 
         URI expectedOutput = URI.create(authorisationRequestUri + "&" + Parameters.CLIENT_ID + "=" + organisationIdentifier);
 

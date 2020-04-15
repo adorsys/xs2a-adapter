@@ -45,7 +45,7 @@ class PkceOauth2ServiceTest {
     @Test
     void getAuthorizationRequestUri() throws IOException {
         String authorisationRequestUri = "https://authorisation.endpoint?" +
-            "response_type=code&state=state&redirect_uri=https://redirect.uri";
+            "response_type=code&state=state&redirect_uri=https%3A%2F%2Fredirect.uri";
         String expectedOutput = authorisationRequestUri + "&" +
             Parameters.CODE_CHALLENGE_METHOD + "=S256&" +
             Parameters.CODE_CHALLENGE + "=" + pkceOauth2Service.codeChallenge();

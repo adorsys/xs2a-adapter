@@ -18,6 +18,8 @@ import org.mockito.Spy;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -29,7 +31,7 @@ class BaseOauth2ServiceTest {
     private static final String IDP_URL = "https://server.example.com/idp";
     private static final String AUTHORISATION_ENDPOINT = "https://authorisation.endpoint";
     private static final String STATE = "state";
-    private static final String REDIRECT_URI = "https://redirect.uri";
+    private static final String REDIRECT_URI = "https://redirect.uri?param1=a&param2=b&param3=c";
 
     private Parameters parameters = buildParametersWithScaOauthLink();
     private BaseOauth2Service oauth2Service;
@@ -74,7 +76,7 @@ class BaseOauth2ServiceTest {
         String expectedAuthorisationRequestUri = AUTHORISATION_ENDPOINT + "?" +
             Parameters.RESPONSE_TYPE + "=" + Oauth2Service.ResponseType.CODE.toString() +
             "&" + Parameters.STATE + "=" + STATE +
-            "&" + Parameters.REDIRECT_URI + "=" + REDIRECT_URI;
+            "&" + Parameters.REDIRECT_URI + "=" + URLEncoder.encode(REDIRECT_URI, StandardCharsets.UTF_8.name());
 
         URI actual = oauth2Service.getAuthorizationRequestUri(null, parameters);
 

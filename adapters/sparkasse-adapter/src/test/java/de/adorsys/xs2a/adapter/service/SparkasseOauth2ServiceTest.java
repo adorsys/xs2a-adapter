@@ -74,7 +74,7 @@ public class SparkasseOauth2ServiceTest {
             "clientId=" + ORG_ID + "&" +
             "code_challenge_method=S256&" +
             "code_challenge=" + oauth2Service.codeChallenge() + "&" +
-            "scope=AIS:%20" + CONSENT_ID, uri.toString());
+            "scope=AIS%3A+" + CONSENT_ID, uri.toString());
     }
 
     @Test
