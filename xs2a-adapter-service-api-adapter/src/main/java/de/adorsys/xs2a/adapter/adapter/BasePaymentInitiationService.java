@@ -123,25 +123,40 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                                                       String paymentId,
                                                                                                       RequestHeaders requestHeaders,
                                                                                                       RequestParams requestParams) {
-        requireValid(validateGetSinglePaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams));
 
-        return getSinglePaymentInformation(StandardPaymentProduct.fromSlug(paymentProduct),
+        return getSinglePaymentInformation(paymentProduct,
             paymentId,
             requestHeaders,
-            requestParams);
+            requestParams,
+            jsonResponseHandler(SinglePaymentInitiationInformationWithStatusResponse.class));
     }
 
-    private Response<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(StandardPaymentProduct paymentProduct,
-                                                                                                       String paymentId,
-                                                                                                       RequestHeaders requestHeaders,
-                                                                                                       RequestParams requestParams) {
-        String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug(), paymentId);
+    private <T> Response<T> getSinglePaymentInformation(String paymentProduct,
+                                                        String paymentId,
+                                                        RequestHeaders requestHeaders,
+                                                        RequestParams requestParams,
+                                                        HttpClient.ResponseHandler<T> responseHandler) {
+        requireValid(validateGetSinglePaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams));
+
+        String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct, paymentId);
         uri = buildUri(uri, requestParams);
 
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
         return httpClient.get(uri)
             .headers(headersMap)
-            .send(requestBuilderInterceptor, jsonResponseHandler(SinglePaymentInitiationInformationWithStatusResponse.class));
+            .send(requestBuilderInterceptor, responseHandler);
+    }
+
+    @Override
+    public Response<String> getSinglePaymentInformationAsString(String paymentProduct,
+                                                                String paymentId,
+                                                                RequestHeaders requestHeaders,
+                                                                RequestParams requestParams) {
+        return getSinglePaymentInformation(paymentProduct,
+            paymentId,
+            requestHeaders,
+            requestParams,
+            stringResponseHandler());
     }
 
     @Override

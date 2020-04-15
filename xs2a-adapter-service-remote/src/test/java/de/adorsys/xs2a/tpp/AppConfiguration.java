@@ -30,21 +30,13 @@ import de.adorsys.xs2a.adapter.remote.service.impl.psd2.RemotePsd2AccountInforma
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
-import feign.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpInputMessage;
-import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.converter.GenericHttpMessageConverter;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 
@@ -86,64 +78,16 @@ public class AppConfiguration {
     }
 
     @Bean
-    public GenericHttpMessageConverter<Object> transactionsResponseConverter() {
-        return new GenericHttpMessageConverter<Object>() {
+    HttpMessageConverter<String> objectStringHttpMessageConverter() {
+        return new StringHttpMessageConverter() {
+            @Override
+            public boolean supports(Class<?> clazz) {
+                return Object.class == clazz;
+            }
 
             @Override
             public List<MediaType> getSupportedMediaTypes() {
-                return Arrays.asList(MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN);
-            }
-
-            @Override
-            public Object read(Class clazz,
-                               HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public void write(Object o,
-                              MediaType contentType,
-                              HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public boolean canWrite(Class clazz, MediaType mediaType) {
-                return false;
-            }
-
-            @Override
-            public boolean canRead(Class clazz, MediaType mediaType) {
-                return false;
-            }
-
-            @Override
-            public void write(Object o,
-                              Type type,
-                              MediaType contentType,
-                              HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public boolean canWrite(Type type, Class clazz, MediaType mediaType) {
-                return false;
-            }
-
-            @Override
-            public Object read(Type type,
-                               Class contextClass,
-                               HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
-                if (!(inputMessage instanceof ClientHttpResponse)) {
-                    throw new IllegalArgumentException();
-                }
-                ClientHttpResponse response = (ClientHttpResponse) inputMessage;
-                return Util.toString(new InputStreamReader(response.getBody(), Util.UTF_8));
-            }
-
-            @Override
-            public boolean canRead(Type type, Class contextClass, MediaType mediaType) {
-                return "?".equals(type.getTypeName());
+                return Arrays.asList(MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN);
             }
         };
     }
