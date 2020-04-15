@@ -16,6 +16,8 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,11 +69,11 @@ class CommerzbankOauth2ServiceTest {
         assertEquals(AUTHORIZATION_ENDPOINT + "?" +
             "response_type=code&" +
             "state=" + STATE + "&" +
-            "redirect_uri=" + REDIRECT_URI + "&" +
+            "redirect_uri=" + URLEncoder.encode(REDIRECT_URI, StandardCharsets.UTF_8.name()) + "&" +
             "client_id=" + ORG_ID + "&" +
             "code_challenge_method=S256&" +
             "code_challenge=" + oauth2Service.codeChallenge() + "&" +
-            "scope=AIS:" + CONSENT_ID, uri.toString());
+            "scope=AIS%3A" + CONSENT_ID, uri.toString());
     }
 
     @Test

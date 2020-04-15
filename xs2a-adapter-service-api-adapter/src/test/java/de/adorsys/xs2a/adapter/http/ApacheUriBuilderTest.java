@@ -24,4 +24,12 @@ public class ApacheUriBuilderTest {
 
         assertThat(actual.build()).isEqualTo(baseUriWithQueryParam);
     }
+
+    @Test
+    void queryParametersAreEncoded() {
+        URI uri = new ApacheUriBuilder(URI.create("http://example.com"))
+            .queryParam("uri", "https://acme.com?foo=bar&baz=asdf")
+            .build();
+        assertThat(uri.toString()).isEqualTo("http://example.com?uri=https%3A%2F%2Facme.com%3Ffoo%3Dbar%26baz%3Dasdf");
+    }
 }

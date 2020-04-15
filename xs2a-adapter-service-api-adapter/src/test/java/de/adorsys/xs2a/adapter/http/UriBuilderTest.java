@@ -18,23 +18,16 @@ class UriBuilderTest {
     }
 
     @Test
-    void whitespaceInQueryIsPercentEncoded() {
-        URI uri = UriBuilder.fromUri("http://acme.com/?q=two words").build();
-        assertEquals("q=two words", uri.getQuery());
-        assertEquals("q=two%20words", uri.getRawQuery());
+    void stringUriMustBeValid() {
+        assertThrows(IllegalArgumentException.class, () -> UriBuilder.fromUri("http://acme.com/?q=two words"));
     }
 
     @Test
-    void whitespaceInQueryIsPercentEncoded2() {
+    void whitespaceInQueryIsUrlFormEncoded() {
         URI uri = UriBuilder.fromUri("http://acme.com/")
             .queryParam("q", "two words")
             .build();
-        assertEquals("q=two words", uri.getQuery());
-        assertEquals("q=two%20words", uri.getRawQuery());
-    }
-
-    @Test
-    void uriBuilder_throwsException() {
-        assertThrows(IllegalArgumentException.class, () -> UriBuilder.fromUri("??"));
+        assertEquals("q=two+words", uri.getQuery());
+        assertEquals("q=two+words", uri.getRawQuery());
     }
 }

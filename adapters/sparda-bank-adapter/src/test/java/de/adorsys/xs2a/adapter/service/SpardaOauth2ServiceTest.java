@@ -13,6 +13,8 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +61,7 @@ public class SpardaOauth2ServiceTest {
 
         assertEquals(AUTH_HOST + "/oauth2/authorize"
             + "?response_type=code"
-            + "&redirect_uri=" + REDIRECT_URI
+            + "&redirect_uri=" + URLEncoder.encode(REDIRECT_URI, StandardCharsets.UTF_8.name())
             + "&scope=ais"
             + "&client_id=" + CLIENT_ID
             + "&code_challenge_method=S256"
