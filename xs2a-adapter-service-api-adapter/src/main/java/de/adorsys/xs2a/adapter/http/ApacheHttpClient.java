@@ -69,8 +69,10 @@ public class ApacheHttpClient implements HttpClient {
                 return new HttpGet(requestBuilder.uri());
             case POST:
                 HttpPost post = new HttpPost(requestBuilder.uri());
-                if (requestBuilder.jsonBody() != null) {
-                    post.setEntity(new StringEntity(requestBuilder.jsonBody(), ContentType.APPLICATION_JSON));
+                if (requestBuilder.jsonBody()) {
+                    post.setEntity(new StringEntity(requestBuilder.body(), ContentType.APPLICATION_JSON));
+                } else if (requestBuilder.xmlBody()) {
+                    post.setEntity(new StringEntity(requestBuilder.body(), ContentType.APPLICATION_XML));
                 } else if (requestBuilder.emptyBody()) {
                     post.setEntity(new StringEntity("{}", ContentType.APPLICATION_JSON));
                 } else if (requestBuilder.urlEncodedBody() != null) {
@@ -86,7 +88,9 @@ public class ApacheHttpClient implements HttpClient {
                 return post;
             case PUT:
                 HttpPut put = new HttpPut(requestBuilder.uri());
-                put.setEntity(new StringEntity(requestBuilder.jsonBody(), ContentType.APPLICATION_JSON));
+                if (requestBuilder.jsonBody()) {
+                    put.setEntity(new StringEntity(requestBuilder.body(), ContentType.APPLICATION_JSON));
+                }
                 return put;
             case DELETE:
                 return new HttpDelete(requestBuilder.uri());
