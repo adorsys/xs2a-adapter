@@ -1,9 +1,17 @@
 package de.adorsys.xs2a.adapter.service.ing.internal.api.model;
 
-public class Amount {
+public class DebtorAccount {
+    private String iban;
+
     private String currency;
 
-    private String amount;
+    public String getIban() {
+        return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
+    }
 
     public String getCurrency() {
         return currency;
@@ -11,13 +19,5 @@ public class Amount {
 
     public void setCurrency(String currency) {
         this.currency = currency;
-    }
-
-    public String getAmount() {
-        return amount;
-    }
-
-    public void setAmount(String amount) {
-        this.amount = amount;
     }
 }

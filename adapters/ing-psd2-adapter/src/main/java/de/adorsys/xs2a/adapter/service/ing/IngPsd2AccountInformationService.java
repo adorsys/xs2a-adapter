@@ -1,15 +1,10 @@
 package de.adorsys.xs2a.adapter.service.ing;
 
-import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
-import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.AccountInformationApi;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.ClientAuthentication;
-import de.adorsys.xs2a.adapter.service.ing.internal.api.ClientAuthenticationFactory;
-import de.adorsys.xs2a.adapter.service.ing.internal.api.Oauth2Api;
 import de.adorsys.xs2a.adapter.service.ing.internal.service.IngOauth2Service;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Link;
@@ -19,9 +14,6 @@ import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import org.mapstruct.factory.Mappers;
 
 import java.net.URI;
-import java.security.GeneralSecurityException;
-import java.security.PrivateKey;
-import java.security.cert.X509Certificate;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,22 +27,12 @@ public class IngPsd2AccountInformationService implements Psd2AccountInformationS
     private final LinksRewriter linksRewriter;
     private final IngMapper mapper = Mappers.getMapper(IngMapper.class);
 
-    public IngPsd2AccountInformationService(String baseUri,
-                                            HttpClient httpClient,
-                                            Pkcs12KeyStore keyStore,
-                                            LinksRewriter linksRewriter)
-        throws GeneralSecurityException {
+    public IngPsd2AccountInformationService(AccountInformationApi accountInformationApi,
+                                            IngOauth2Service oauth2Service,
+                                            LinksRewriter linksRewriter) {
+        this.accountInformationApi = accountInformationApi;
+        this.oauth2Service = oauth2Service;
         this.linksRewriter = linksRewriter;
-
-        accountInformationApi = new AccountInformationApi(baseUri, httpClient);
-        Oauth2Api oauth2Api = new Oauth2Api(baseUri, httpClient);
-
-        String qsealAlias = AdapterConfig.readProperty("ing.qseal.alias");
-        X509Certificate qsealCertificate = keyStore.getQsealCertificate(qsealAlias);
-        PrivateKey qsealPrivateKey = keyStore.getQsealPrivateKey(qsealAlias);
-        ClientAuthenticationFactory clientAuthenticationFactory =
-            new ClientAuthenticationFactory(qsealCertificate, qsealPrivateKey);
-        oauth2Service = new IngOauth2Service(oauth2Api, clientAuthenticationFactory);
     }
 
     @Override

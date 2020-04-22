@@ -28,4 +28,12 @@ class Headers {
     public String getRequestId() {
         return headers.get(RequestHeaders.X_REQUEST_ID);
     }
+
+    public String getTppRedirectUri() {
+        return headers.get(RequestHeaders.TPP_REDIRECT_URI);
+    }
+
+    public String getPsuIpAddress() {
+        return headers.get(RequestHeaders.PSU_IP_ADDRESS);
+    }
 }

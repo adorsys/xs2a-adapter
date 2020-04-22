@@ -13,9 +13,11 @@ public interface Request {
 
         String uri();
 
+        String body();
+
         Builder jsonBody(String body);
 
-        String jsonBody();
+        boolean jsonBody();
 
         Builder emptyBody(boolean empty);
 
@@ -24,6 +26,10 @@ public interface Request {
         Builder urlEncodedBody(Map<String, String> formData);
 
         Map<String, String> urlEncodedBody();
+
+        Builder xmlBody(String body);
+
+        boolean xmlBody();
 
         Builder headers(Map<String, String> headers);
 

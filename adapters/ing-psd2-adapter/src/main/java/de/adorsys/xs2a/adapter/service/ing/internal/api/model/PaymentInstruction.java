@@ -1,31 +1,27 @@
-package de.adorsys.xs2a.adapter.rest.psd2.model;
+package de.adorsys.xs2a.adapter.service.ing.internal.api.model;
 
-import javax.annotation.Generated;
 import java.time.LocalDate;
 
-@Generated("xs2a-adapter-codegen")
-public class PaymentInitiationWithStatusResponseTO {
+public class PaymentInstruction {
     private String endToEndIdentification;
 
-    private AccountReferenceTO debtorAccount;
+    private DebtorAccount debtorAccount;
 
-    private AmountTO instructedAmount;
+    private Amount instructedAmount;
 
-    private AccountReferenceTO creditorAccount;
+    private CreditorAccount creditorAccount;
 
     private String creditorAgent;
 
     private String creditorName;
 
-    private AddressTO creditorAddress;
-
-    private String remittanceInformationUnstructured;
-
-    private String transactionStatus;
+    private Address creditorAddress;
 
     private String chargeBearer;
 
-    private ClearingSystemMemberIdentificationTO clearingSystemMemberIdentification;
+    private String remittanceInformationUnstructured;
+
+    private ClearingSystemMemberIdentification clearingSystemMemberIdentification;
 
     private String debtorName;
 
@@ -49,27 +45,27 @@ public class PaymentInitiationWithStatusResponseTO {
         this.endToEndIdentification = endToEndIdentification;
     }
 
-    public AccountReferenceTO getDebtorAccount() {
+    public DebtorAccount getDebtorAccount() {
         return debtorAccount;
     }
 
-    public void setDebtorAccount(AccountReferenceTO debtorAccount) {
+    public void setDebtorAccount(DebtorAccount debtorAccount) {
         this.debtorAccount = debtorAccount;
     }
 
-    public AmountTO getInstructedAmount() {
+    public Amount getInstructedAmount() {
         return instructedAmount;
     }
 
-    public void setInstructedAmount(AmountTO instructedAmount) {
+    public void setInstructedAmount(Amount instructedAmount) {
         this.instructedAmount = instructedAmount;
     }
 
-    public AccountReferenceTO getCreditorAccount() {
+    public CreditorAccount getCreditorAccount() {
         return creditorAccount;
     }
 
-    public void setCreditorAccount(AccountReferenceTO creditorAccount) {
+    public void setCreditorAccount(CreditorAccount creditorAccount) {
         this.creditorAccount = creditorAccount;
     }
 
@@ -89,28 +85,12 @@ public class PaymentInitiationWithStatusResponseTO {
         this.creditorName = creditorName;
     }
 
-    public AddressTO getCreditorAddress() {
+    public Address getCreditorAddress() {
         return creditorAddress;
     }
 
-    public void setCreditorAddress(AddressTO creditorAddress) {
+    public void setCreditorAddress(Address creditorAddress) {
         this.creditorAddress = creditorAddress;
-    }
-
-    public String getRemittanceInformationUnstructured() {
-        return remittanceInformationUnstructured;
-    }
-
-    public void setRemittanceInformationUnstructured(String remittanceInformationUnstructured) {
-        this.remittanceInformationUnstructured = remittanceInformationUnstructured;
-    }
-
-    public String getTransactionStatus() {
-        return transactionStatus;
-    }
-
-    public void setTransactionStatus(String transactionStatus) {
-        this.transactionStatus = transactionStatus;
     }
 
     public String getChargeBearer() {
@@ -121,12 +101,19 @@ public class PaymentInitiationWithStatusResponseTO {
         this.chargeBearer = chargeBearer;
     }
 
-    public ClearingSystemMemberIdentificationTO getClearingSystemMemberIdentification() {
+    public String getRemittanceInformationUnstructured() {
+        return remittanceInformationUnstructured;
+    }
+
+    public void setRemittanceInformationUnstructured(String remittanceInformationUnstructured) {
+        this.remittanceInformationUnstructured = remittanceInformationUnstructured;
+    }
+
+    public ClearingSystemMemberIdentification getClearingSystemMemberIdentification() {
         return clearingSystemMemberIdentification;
     }
 
-    public void setClearingSystemMemberIdentification(
-        ClearingSystemMemberIdentificationTO clearingSystemMemberIdentification) {
+    public void setClearingSystemMemberIdentification(ClearingSystemMemberIdentification clearingSystemMemberIdentification) {
         this.clearingSystemMemberIdentification = clearingSystemMemberIdentification;
     }
 

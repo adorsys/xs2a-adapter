@@ -28,8 +28,7 @@ public class IngOauth2Service {
 
     public URI getAuthorizationRequestUri(Oauth2Service.Parameters parameters)  {
         ParametersValidationService.validateScope(parameters);
-        ClientAuthentication clientAuthentication =
-            clientAuthenticationFactory.newClientAuthentication(getApplicationToken());
+        ClientAuthentication clientAuthentication = getClientAuthentication();
         AuthorizationURLResponse authorizationUrlResponse =
             oauth2Api.getAuthorizationUrl(clientAuthentication,
                 parameters.getScope(),
@@ -40,6 +39,10 @@ public class IngOauth2Service {
         parameters.setResponseType(CODE.toString());
 
         return URI.create(StringUri.withQuery(authorizationUrlResponse.getLocation(), parameters.asMap()));
+    }
+
+    public ClientAuthentication getClientAuthentication() {
+        return clientAuthenticationFactory.newClientAuthentication(getApplicationToken());
     }
 
     private ApplicationTokenResponse getApplicationToken() {
@@ -59,8 +62,7 @@ public class IngOauth2Service {
     }
 
     public TokenResponse getToken(Oauth2Service.Parameters parameters) {
-        ClientAuthentication clientAuthentication =
-            clientAuthenticationFactory.newClientAuthentication(getApplicationToken());
+        ClientAuthentication clientAuthentication = getClientAuthentication();
         return oauth2Api.getCustomerToken(parameters, clientAuthentication)
             .getBody();
     }
