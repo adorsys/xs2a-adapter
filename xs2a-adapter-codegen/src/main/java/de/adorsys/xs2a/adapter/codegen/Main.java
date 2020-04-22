@@ -7,6 +7,10 @@ import com.squareup.javapoet.JavaFile;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.DateSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.antlr.v4.runtime.CharStreams;
@@ -103,7 +107,26 @@ public class Main {
             .tags(null)
             .components(psd2api.getComponents()
                 .extensions(null))
-            .paths(psd2Paths(psd2api.getPaths()));
+            .paths(psd2Paths(psd2api.getPaths()))
+            .schema("_linksPaymentInitiation", psd2api.getComponents().getSchemas()
+                .get("_linksPaymentInitiation")
+                .addProperties("delete", new Schema().$ref("#/components/schemas/hrefType")))
+            .schema("paymentInitiationWithStatusResponse", psd2api.getComponents().getSchemas()
+                .get("paymentInitiationWithStatusResponse")
+                .addProperties("chargeBearer", new StringSchema())
+                .addProperties("remittanceInformationUnstructured", new StringSchema())
+                .addProperties("clearingSystemMemberIdentification",
+                    new Schema().$ref("#/components/schemas/clearingSystemMemberIdentification"))
+                .addProperties("debtorName", new StringSchema())
+                .addProperties("debtorAgent", new StringSchema())
+                .addProperties("instructionPriority", new StringSchema())
+                .addProperties("serviceLevelCode", new StringSchema())
+                .addProperties("localInstrumentCode", new StringSchema())
+                .addProperties("categoryPurposeCode", new StringSchema())
+                .addProperties("requestedExecutionDate", new DateSchema()))
+            .schema("clearingSystemMemberIdentification", new ObjectSchema()
+                .addProperties("clearingSystemIdentificationCode", new StringSchema())
+                .addProperties("memberIdentification", new StringSchema()));
         psd2api.getPaths().get("/card-accounts/{account-id}")
             .readOperationsMap()
             .get(PathItem.HttpMethod.GET)

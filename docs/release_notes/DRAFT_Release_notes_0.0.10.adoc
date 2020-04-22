@@ -16,7 +16,7 @@ As a consequence:
 * Removed `AccountInformationService`, `PaymentInitiationService` methods deprecated in the previous release.
 
 == Features:
-
+* Added payment initiation service to ing-adapter
 
 == Fixes:
 * Fixed missing accessors for `AccountAccess.additionalInformation`.

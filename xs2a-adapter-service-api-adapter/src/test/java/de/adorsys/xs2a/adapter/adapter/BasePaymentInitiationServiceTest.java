@@ -11,8 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -85,8 +83,6 @@ public class BasePaymentInitiationServiceTest {
     void initiateSinglePayment_painSepaCreditTransfers() {
         Object body = "body";
         PaymentInitiationRequestResponse example = new PaymentInitiationRequestResponse();
-        Map<String, String> painHeaders = headers.toMap();
-        painHeaders.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML);
 
         when(httpClient.post(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
@@ -95,13 +91,11 @@ public class BasePaymentInitiationServiceTest {
             = initiationService.initiateSinglePayment(PAIN_SEPA_CREDIT_TRANSFERS, headers, RequestParams.empty(), body);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
-        verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
-        verify(requestBuilder, times(1)).headers(headersCaptor.capture());
+        verify(requestBuilder, times(1)).xmlBody(bodyCaptor.capture());
         verify(requestBuilder, times(1)).send(any(), any());
 
         assertThat(uriCaptor.getValue()).isEqualTo(PAYMENTS_URI + "/" + PAIN_SEPA_CREDIT_TRANSFERS);
         assertThat(bodyCaptor.getValue()).isEqualTo("body");
-        assertThat(headersCaptor.getValue()).isEqualTo(painHeaders);
         assertThat(response.getBody()).isEqualTo(example);
     }
 

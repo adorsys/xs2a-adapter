@@ -35,7 +35,7 @@ public class RequestSigningInterceptor implements Request.Builder.Interceptor {
     }
 
     private void populateDigest(Request.Builder requestBuilder) {
-        String requestBody = requestBuilder.jsonBody();
+        String requestBody = requestBuilder.body();
 
         if (requestBody == null) {
             requestBody = "";

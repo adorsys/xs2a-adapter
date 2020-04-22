@@ -27,7 +27,6 @@ import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.*;
 
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import java.util.Map;
 import java.util.function.Function;
@@ -92,26 +91,24 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                                    Function<T, PaymentInitiationRequestResponse> mapper) {
         requireValid(validateInitiateSinglePayment(paymentProduct.getSlug(), requestHeaders, requestParams, body));
 
+        String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug());
+        uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
-        String bodyString;
+        Request.Builder requestBuilder = httpClient.post(uri)
+            .headers(headersMap);
         switch (paymentProduct.getMediaType()) {
             case MediaType.APPLICATION_JSON:
-                bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, getSinglePaymentInitiationBodyClass()));
+                requestBuilder.jsonBody(jsonMapper.writeValueAsString(
+                    jsonMapper.convertValue(body, getSinglePaymentInitiationBodyClass())));
                 break;
             case MediaType.APPLICATION_XML:
-                bodyString = (String) body;
-                headersMap.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML);
+                requestBuilder.xmlBody((String) body);
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported payment product media type");
         }
 
-        String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug());
-        uri = buildUri(uri, requestParams);
-        Response<T> response = httpClient.post(uri)
-            .jsonBody(bodyString)
-            .headers(headersMap)
-            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
+        Response<T> response = requestBuilder.send(requestBuilderInterceptor, jsonResponseHandler(klass));
         PaymentInitiationRequestResponse paymentInitiationRequestResponse = mapper.apply(response.getBody());
         paymentInitiationRequestResponse.setLinks(linksRewriter.rewrite(paymentInitiationRequestResponse.getLinks()));
 

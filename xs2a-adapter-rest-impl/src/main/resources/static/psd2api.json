@@ -3764,10 +3764,38 @@
             "$ref" : "#/components/schemas/address"
           },
           "remittanceInformationUnstructured" : {
-            "$ref" : "#/components/schemas/remittanceInformationUnstructured"
+            "type" : "string"
           },
           "transactionStatus" : {
             "$ref" : "#/components/schemas/transactionStatus"
+          },
+          "chargeBearer" : {
+            "type" : "string"
+          },
+          "clearingSystemMemberIdentification" : {
+            "$ref" : "#/components/schemas/clearingSystemMemberIdentification"
+          },
+          "debtorName" : {
+            "type" : "string"
+          },
+          "debtorAgent" : {
+            "type" : "string"
+          },
+          "instructionPriority" : {
+            "type" : "string"
+          },
+          "serviceLevelCode" : {
+            "type" : "string"
+          },
+          "localInstrumentCode" : {
+            "type" : "string"
+          },
+          "categoryPurposeCode" : {
+            "type" : "string"
+          },
+          "requestedExecutionDate" : {
+            "type" : "string",
+            "format" : "date"
           }
         },
         "description" : "Generic JSON response body consistion of the corresponding payment initation JSON body together with an optional transaction status field.\n"
@@ -4264,6 +4292,9 @@
             "$ref" : "#/components/schemas/hrefType"
           },
           "scaStatus" : {
+            "$ref" : "#/components/schemas/hrefType"
+          },
+          "delete" : {
             "$ref" : "#/components/schemas/hrefType"
           }
         },
@@ -5826,6 +5857,17 @@
           "code" : "ACCESS_EXCEEDED",
           "text" : "additional text information of the ASPSP up to 500 characters"
         } ]
+      },
+      "clearingSystemMemberIdentification" : {
+        "type" : "object",
+        "properties" : {
+          "clearingSystemIdentificationCode" : {
+            "type" : "string"
+          },
+          "memberIdentification" : {
+            "type" : "string"
+          }
+        }
       }
     },
     "responses" : {

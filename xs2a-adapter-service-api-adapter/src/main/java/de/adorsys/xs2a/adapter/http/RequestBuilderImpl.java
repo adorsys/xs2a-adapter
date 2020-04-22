@@ -11,8 +11,12 @@ public class RequestBuilderImpl implements Request.Builder {
     private String uri;
     private Map<String, String> headers = new LinkedHashMap<>();
     private String body;
-    private boolean emptyBody;
+    private BodyType bodyType;
     private Map<String, String> formData;
+
+    private enum BodyType {
+        JSON, EMPTY_JSON, XML
+    }
 
     public RequestBuilderImpl(HttpClient httpClient, String method, String uri) {
         this.httpClient = httpClient;
@@ -48,30 +52,54 @@ public class RequestBuilderImpl implements Request.Builder {
 
     @Override
     public Request.Builder header(String name, String value) {
-        headers.put(name, value);
+        if (name != null && value != null) {
+            headers.put(name, value);
+        }
         return this;
     }
 
     @Override
     public Request.Builder jsonBody(String body) {
         this.body = body;
+        bodyType = BodyType.JSON;
         return this;
     }
 
     @Override
-    public String jsonBody() {
+    public boolean jsonBody() {
+        return bodyType != null && bodyType == BodyType.JSON;
+    }
+
+    @Override
+    public Request.Builder xmlBody(String body) {
+        this.body = body;
+        bodyType = BodyType.XML;
+        return this;
+    }
+
+    @Override
+    public boolean xmlBody() {
+        return bodyType != null && bodyType == BodyType.XML;
+    }
+
+    @Override
+    public String body() {
         return body;
     }
 
     @Override
     public Request.Builder emptyBody(boolean emptyBody) {
-        this.emptyBody = emptyBody;
+        if (emptyBody) {
+            bodyType = BodyType.EMPTY_JSON;
+        } else {
+            bodyType = null;
+        }
         return this;
     }
 
     @Override
     public boolean emptyBody() {
-        return emptyBody;
+        return bodyType != null && bodyType == BodyType.EMPTY_JSON;
     }
 
     @Override
