@@ -65,6 +65,11 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
     Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
                                                                       String paymentId,
                                                                       RequestHeaders requestHeaders,
+                                                                      RequestParams requestParams);
+
+    Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
+                                                                      String paymentId,
+                                                                      RequestHeaders requestHeaders,
                                                                       RequestParams requestParams,
                                                                       UpdatePsuAuthentication updatePsuAuthentication);
 

@@ -58,6 +58,13 @@ public interface PaymentInitiationValidationService {
     default List<ValidationError> validateStartSinglePaymentAuthorisation(String paymentProduct,
                                                                           String paymentId,
                                                                           RequestHeaders requestHeaders,
+                                                                          RequestParams requestParams) {
+        return Collections.emptyList();
+    }
+
+    default List<ValidationError> validateStartSinglePaymentAuthorisation(String paymentProduct,
+                                                                          String paymentId,
+                                                                          RequestHeaders requestHeaders,
                                                                           RequestParams requestParams,
                                                                           UpdatePsuAuthentication updatePsuAuthentication) {
         return Collections.emptyList();
