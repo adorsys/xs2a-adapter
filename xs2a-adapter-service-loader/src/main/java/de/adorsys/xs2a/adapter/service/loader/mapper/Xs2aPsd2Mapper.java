@@ -28,6 +28,10 @@ public interface Xs2aPsd2Mapper {
         return value == null ? null : value.toString();
     }
 
+    default String map(TransactionStatus value) {
+        return value.name();
+    }
+
     de.adorsys.xs2a.adapter.service.model.Consents map(Consents value);
 
     ConsentsResponse toConsentsResponse(ConsentCreationResponse value);

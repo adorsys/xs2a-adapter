@@ -19,7 +19,7 @@ public class Xs2aPsd2MapperTest {
         assertThat(mapper.map(AccountStatus.BLOCKED)).isEqualTo("blocked");
         assertThat(mapper.map(ConsentStatus.REVOKEDBYPSU)).isEqualTo("revokedByPsu");
         assertThat(mapper.map(UsageType.PRIV)).isEqualTo("PRIV");
-        assertThat(mapper.map(TransactionStatus.RCVD)).isEqualTo("Received");
+        assertThat(mapper.map(TransactionStatus.RCVD)).isEqualTo("RCVD");
         assertThat(mapper.map(AccountAccess.AvailableAccountsEnum.ALLACCOUNTS)).isEqualTo("allAccounts");
         assertThat(mapper.map(AccountAccess.AllPsd2Enum.ALLACCOUNTS)).isEqualTo("allAccounts");
         assertThat(mapper.map(MessageErrorCode.CERTIFICATE_MISSING)).isEqualTo("CERTIFICATE_MISSING");
