@@ -17,7 +17,6 @@ import java.util.*;
 
 public class UnicreditAccountInformationService extends BaseAccountInformationService {
 
-    private static final String REDIRECT_URI_ERROR = "TPP-Redirect-URI header is missing. It must be provided for this request";
     private static final String DEFAULT_PSU_ID_TYPE = "HVB_ONLINEBANKING";
     private static final Set<String> POSSIBLE_PSU_ID_TYPE_VALUES = new HashSet<>(Arrays.asList(DEFAULT_PSU_ID_TYPE, "UCEBANKINGGLOBAL"));
 
@@ -57,23 +56,16 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     public List<ValidationError> validateCreateConsent(RequestHeaders requestHeaders,
                                                        RequestParams requestParams,
                                                        Consents body) {
-        return requireTppRedirectUri(requestHeaders);
+        return UnicreditValidators.requireTppRedirectUri(requestHeaders);
     }
 
-    private List<ValidationError> requireTppRedirectUri(RequestHeaders requestHeaders) {
-        if (!requestHeaders.get(RequestHeaders.TPP_REDIRECT_URI).isPresent()) {
-            return Collections.singletonList(new ValidationError(ValidationError.Code.REQUIRED,
-                RequestHeaders.TPP_REDIRECT_URI,
-                REDIRECT_URI_ERROR));
-        }
-        return Collections.emptyList();
-    }
+
 
     @Override
     public List<ValidationError> validateStartConsentAuthorisation(String consentId,
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams) {
-        return requireTppRedirectUri(requestHeaders);
+        return UnicreditValidators.requireTppRedirectUri(requestHeaders);
     }
 
     @Override
@@ -81,6 +73,6 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams,
                                                                    UpdatePsuAuthentication updatePsuAuthentication) {
-        return requireTppRedirectUri(requestHeaders);
+        return UnicreditValidators.requireTppRedirectUri(requestHeaders);
     }
 }
