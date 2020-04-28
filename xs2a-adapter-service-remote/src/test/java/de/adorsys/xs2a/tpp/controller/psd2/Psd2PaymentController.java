@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.controller;
+package de.adorsys.xs2a.tpp.controller.psd2;
 
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.mapper.psd2.Psd2Mapper;
@@ -13,17 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.function.Function;
 
 @RestController
 public class Psd2PaymentController implements Psd2PaymentApi {
-    private final Psd2PaymentInitiationService paymentInitiationService;
-    private final HeadersMapper headersMapper;
-    private final Psd2Mapper mapper = Mappers.getMapper(Psd2Mapper.class);
 
-    public Psd2PaymentController(Psd2PaymentInitiationService paymentInitiationService,
-                                 HeadersMapper headersMapper) {
-        this.paymentInitiationService = paymentInitiationService;
+    private Psd2PaymentInitiationService service;
+    private final Psd2Mapper psd2PaymentInitiationMapper = Mappers.getMapper(Psd2Mapper.class);
+    private final HeadersMapper headersMapper;
+
+    public Psd2PaymentController(Psd2PaymentInitiationService service, HeadersMapper headersMapper) {
+        this.service = service;
         this.headersMapper = headersMapper;
     }
 
@@ -33,19 +32,16 @@ public class Psd2PaymentController implements Psd2PaymentApi {
                                                                               Map<String, String> queryParameters,
                                                                               Map<String, String> headers,
                                                                               PaymentInitiationTO body) throws IOException {
-        Response<PaymentInitiationRequestResponse> response =
-            paymentInitiationService.initiatePayment(PaymentService.fromValue(paymentService.toString()),
+        Response<PaymentInitiationRequestResponse> response = service
+            .initiatePayment(PaymentService.fromValue(paymentService.toString()),
                 PaymentProduct.fromValue(paymentProduct.toString()),
                 queryParameters,
                 headers,
-                mapper.toPaymentInitiation(body));
-        return responseEntity(response, mapper::toPaymentInitiationRequestResponseTO);
-    }
+                psd2PaymentInitiationMapper.toPaymentInitiation(body));
 
-    private <T, U> ResponseEntity<U> responseEntity(Response<T> response, Function<T, U> bodyMapper) {
         return ResponseEntity.status(response.getStatusCode())
             .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-            .body(bodyMapper.apply(response.getBody()));
+            .body(psd2PaymentInitiationMapper.toPaymentInitiationRequestResponseTO(response.getBody()));
     }
 
     @Override
@@ -54,13 +50,16 @@ public class Psd2PaymentController implements Psd2PaymentApi {
                                                                               Map<String, String> queryParameters,
                                                                               Map<String, String> headers,
                                                                               String body) throws IOException {
-        Response<PaymentInitiationRequestResponse> response =
-            paymentInitiationService.initiatePayment(PaymentService.fromValue(paymentService.toString()),
+        Response<PaymentInitiationRequestResponse> response = service
+            .initiatePayment(PaymentService.fromValue(paymentService.toString()),
                 PaymentProduct.fromValue(paymentProduct.toString()),
                 queryParameters,
                 headers,
                 body);
-        return responseEntity(response, mapper::toPaymentInitiationRequestResponseTO);
+
+        return ResponseEntity.status(response.getStatusCode())
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(psd2PaymentInitiationMapper.toPaymentInitiationRequestResponseTO(response.getBody()));
     }
 
     @Override
@@ -69,13 +68,16 @@ public class Psd2PaymentController implements Psd2PaymentApi {
                                                         String paymentId,
                                                         Map<String, String> queryParameters,
                                                         Map<String, String> headers) throws IOException {
-        Response<Object> response =
-            paymentInitiationService.getPaymentInformation(PaymentService.fromValue(paymentService.toString()),
+        Response<Object> response = service
+            .getPaymentInformation(PaymentService.fromValue(paymentService.toString()),
                 PaymentProduct.fromValue(paymentProduct.toString()),
                 paymentId,
                 queryParameters,
                 headers);
-        return responseEntity(response, mapper::toGetPaymentInformationResponseTO);
+
+        return ResponseEntity.status(response.getStatusCode())
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(response.getBody());
     }
 
     @Override
@@ -84,13 +86,16 @@ public class Psd2PaymentController implements Psd2PaymentApi {
                                                              String paymentId,
                                                              Map<String, String> queryParameters,
                                                              Map<String, String> headers) throws IOException {
-        Response<Object> response =
-            paymentInitiationService.getPaymentInitiationStatus(PaymentService.fromValue(paymentService.toString()),
+        Response<Object> response = service
+            .getPaymentInitiationStatus(PaymentService.fromValue(paymentService.toString()),
                 PaymentProduct.fromValue(paymentProduct.toString()),
                 paymentId,
                 queryParameters,
                 headers);
-        return responseEntity(response, mapper::toGetPaymentInitiationStatusResponseTO);
+
+        return ResponseEntity.status(response.getStatusCode())
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(response.getBody());
     }
 
     @Override
@@ -99,14 +104,16 @@ public class Psd2PaymentController implements Psd2PaymentApi {
                                                                               String paymentId,
                                                                               Map<String, String> queryParameters,
                                                                               Map<String, String> headers) throws IOException {
-        Response<Authorisations> response =
-            paymentInitiationService.getPaymentInitiationAuthorisation(
-                PaymentService.fromValue(paymentService.toString()),
+        Response<Authorisations> response = service
+            .getPaymentInitiationAuthorisation(PaymentService.fromValue(paymentService.toString()),
                 PaymentProduct.fromValue(paymentProduct.toString()),
                 paymentId,
                 queryParameters,
                 headers);
-        return responseEntity(response, mapper::toAuthorisationsTO);
+
+        return ResponseEntity.status(response.getStatusCode())
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(psd2PaymentInitiationMapper.toAuthorisationsTO(response.getBody()));
     }
 
     @Override
@@ -116,14 +123,17 @@ public class Psd2PaymentController implements Psd2PaymentApi {
                                                                                Map<String, String> queryParameters,
                                                                                Map<String, String> headers,
                                                                                UpdateAuthorisationTO body) throws IOException {
-        Response<StartScaProcessResponse> response =
-            paymentInitiationService.startPaymentAuthorisation(PaymentService.fromValue(paymentService.toString()),
+        Response<StartScaProcessResponse> response = service
+            .startPaymentAuthorisation(PaymentService.fromValue(paymentService.toString()),
                 PaymentProduct.fromValue(paymentProduct.toString()),
                 paymentId,
                 queryParameters,
                 headers,
-                mapper.toUpdateAuthorisation(body));
-        return responseEntity(response, mapper::toStartScaProcessResponseTO);
+                psd2PaymentInitiationMapper.toUpdateAuthorisation(body));
+
+        return ResponseEntity.status(response.getStatusCode())
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(psd2PaymentInitiationMapper.toStartScaProcessResponseTO(response.getBody()));
     }
 
     @Override
@@ -133,14 +143,17 @@ public class Psd2PaymentController implements Psd2PaymentApi {
                                                                              String authorisationId,
                                                                              Map<String, String> queryParameters,
                                                                              Map<String, String> headers) throws IOException {
-        Response<ScaStatusResponse> response =
-            paymentInitiationService.getPaymentInitiationScaStatus(PaymentService.fromValue(paymentService.toString()),
+        Response<ScaStatusResponse> response = service
+            .getPaymentInitiationScaStatus(PaymentService.fromValue(paymentService.toString()),
                 PaymentProduct.fromValue(paymentProduct.toString()),
                 paymentId,
                 authorisationId,
                 queryParameters,
                 headers);
-        return responseEntity(response, mapper::toScaStatusResponseTO);
+
+        return ResponseEntity.status(response.getStatusCode())
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(psd2PaymentInitiationMapper.toScaStatusResponseTO(response.getBody()));
     }
 
     @Override
@@ -151,14 +164,17 @@ public class Psd2PaymentController implements Psd2PaymentApi {
                                                                               Map<String, String> queryParameters,
                                                                               Map<String, String> headers,
                                                                               UpdateAuthorisationTO body) throws IOException {
-        Response<UpdateAuthorisationResponse> response =
-            paymentInitiationService.updatePaymentPsuData(PaymentService.fromValue(paymentService.toString()),
+        Response<UpdateAuthorisationResponse> response = service
+            .updatePaymentPsuData(PaymentService.fromValue(paymentService.toString()),
                 PaymentProduct.fromValue(paymentProduct.toString()),
                 paymentId,
                 authorisationId,
                 queryParameters,
                 headers,
-                mapper.toUpdateAuthorisation(body));
-        return responseEntity(response, mapper::toUpdateAuthorisationResponseTO);
+                psd2PaymentInitiationMapper.toUpdateAuthorisation(body));
+
+        return ResponseEntity.status(response.getStatusCode())
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(psd2PaymentInitiationMapper.toUpdateAuthorisationResponseTO(response.getBody()));
     }
 }
