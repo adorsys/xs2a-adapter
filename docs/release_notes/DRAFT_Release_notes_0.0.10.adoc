@@ -25,3 +25,4 @@ As a consequence:
 * Fixed incorrect OAuth2 authorization url encoding when redirect_uri has its own parameters.
 * Fixed incorrect mapping of payment transaction statuses from xs2a to psd2 api (e.g. RCVD -> Received).
 * Fixed non-standard properties of ING not being propagated through psd2 api.
+* Fixed NoClassDefFoundError due to exceptions thrown in static initialization blocks of dkb and santander services.

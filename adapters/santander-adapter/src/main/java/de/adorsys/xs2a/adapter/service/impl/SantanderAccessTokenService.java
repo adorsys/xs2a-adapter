@@ -44,7 +44,7 @@ public class SantanderAccessTokenService implements AccessTokenService {
     private static final String DEFAULT_SECONDS_BEFORE_TOKEN_EXPIRATION = "60";
     private static final String DEFAULT_TOKEN_URL = "https://apigateway-sandbox.api.santander.de/scb-openapis/sx/oauthsos/password/token";
 
-    private static SantanderAccessTokenService instance = new SantanderAccessTokenService();
+    private static SantanderAccessTokenService instance;
     private static Map<String, String> headers;
     private static String tokenUrl;
     private static int secondsBeforeTokenExpiration;
@@ -55,13 +55,7 @@ public class SantanderAccessTokenService implements AccessTokenService {
 
     private SantanderAccessTokenService() {
         jsonMapper = new JsonMapper();
-    }
 
-    public static SantanderAccessTokenService getInstance() {
-        return instance;
-    }
-
-    static {
         String consumerKey = readProperty(SANTANDER_TOKEN_CONSUMER_KEY_PROPERTY, "");
         String consumerSecret = readProperty(SANTANDER_TOKEN_CONSUMER_SECRET_PROPERTY, "");
 
@@ -82,6 +76,13 @@ public class SantanderAccessTokenService implements AccessTokenService {
             DEFAULT_SECONDS_BEFORE_TOKEN_EXPIRATION
         ));
         logger.debug("Seconds before token expiration is {}", secondsBeforeTokenExpiration);
+    }
+
+    public static synchronized SantanderAccessTokenService getInstance() {
+        if (instance == null) {
+            instance = new SantanderAccessTokenService();
+        }
+        return instance;
     }
 
     @Override
