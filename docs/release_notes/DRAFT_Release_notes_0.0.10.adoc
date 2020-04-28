@@ -26,3 +26,4 @@ As a consequence:
 * Fixed incorrect mapping of payment transaction statuses from xs2a to psd2 api (e.g. RCVD -> Received).
 * Fixed non-standard properties of ING not being propagated through psd2 api.
 * Fixed NoClassDefFoundError due to exceptions thrown in static initialization blocks of dkb and santander services.
+* Fixed "ConnectionClosedException: Premature end of chunk coded message body: closing chunk expected" caused by responses with no body.
