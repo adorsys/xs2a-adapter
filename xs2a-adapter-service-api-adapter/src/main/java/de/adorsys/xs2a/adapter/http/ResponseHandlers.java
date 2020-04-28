@@ -137,7 +137,7 @@ public class ResponseHandlers {
 
             return true;
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            return true;
         }
     }
 
