@@ -7,10 +7,7 @@ import com.squareup.javapoet.JavaFile;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.DateSchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.antlr.v4.runtime.CharStreams;
@@ -108,6 +105,16 @@ public class Main {
             .components(psd2api.getComponents()
                 .extensions(null))
             .paths(psd2Paths(psd2api.getPaths()))
+            .schema("accountReport", psd2api.getComponents().getSchemas()
+                .get("accountReport")
+                .addProperties("info", new Schema().$ref("#/components/schemas/transactionList")))
+            .schema("accountReference", psd2api.getComponents().getSchemas()
+                .get("accountReference")
+                .addProperties("bic", new StringSchema()))
+            .schema("transactionDetails", psd2api.getComponents().getSchemas()
+                .get("transactionDetails")
+                .addProperties("executionDateTime", new DateTimeSchema())
+                .addProperties("transactionType", new StringSchema()))
             .schema("_linksPaymentInitiation", psd2api.getComponents().getSchemas()
                 .get("_linksPaymentInitiation")
                 .addProperties("delete", new Schema().$ref("#/components/schemas/hrefType")))

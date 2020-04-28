@@ -18,6 +18,8 @@ package de.adorsys.xs2a.adapter.remote.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import de.adorsys.xs2a.adapter.mapper.*;
 import de.adorsys.xs2a.adapter.model.*;
 import de.adorsys.xs2a.adapter.remote.api.PaymentInitiationClient;
@@ -185,6 +187,25 @@ public class RemotePaymentInitiationService implements PaymentInitiationService 
             requestHeaders.toMap());
         PaymentInitiationAuthorisationResponse authorisationResponse = authorisationResponseMapper.toPaymentInitiationAuthorisationResponse(responseEntity.getBody());
         return new Response<>(responseEntity.getStatusCodeValue(), authorisationResponse, responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+    }
+
+    @Override
+    public Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
+                                                                             String paymentId,
+                                                                             RequestHeaders requestHeaders,
+                                                                             RequestParams requestParams) {
+        ResponseEntity<StartScaprocessResponseTO> responseEntity = client.startPaymentAuthorisation(
+            PaymentServiceTO.PAYMENTS,
+            PaymentProductTO.fromValue(paymentProduct),
+            paymentId,
+            requestParams.toMap(),
+            requestHeaders.toMap(),
+            new ObjectNode(JsonNodeFactory.instance));
+        StartScaProcessResponse scaProcessResponse =
+            scaProcessResponseMapper.toStartScaProcessResponse(responseEntity.getBody());
+        return new Response<>(responseEntity.getStatusCodeValue(),
+            scaProcessResponse,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 
     @Override

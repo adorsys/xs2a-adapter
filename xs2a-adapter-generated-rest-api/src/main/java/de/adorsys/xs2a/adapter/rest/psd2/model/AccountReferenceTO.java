@@ -16,6 +16,8 @@ public class AccountReferenceTO {
 
     private String currency;
 
+    private String bic;
+
     public String getIban() {
         return iban;
     }
@@ -62,5 +64,13 @@ public class AccountReferenceTO {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getBic() {
+        return bic;
+    }
+
+    public void setBic(String bic) {
+        this.bic = bic;
     }
 }

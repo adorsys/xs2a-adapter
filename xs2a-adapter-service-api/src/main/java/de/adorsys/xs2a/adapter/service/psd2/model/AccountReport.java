@@ -8,6 +8,8 @@ public class AccountReport {
 
     private List<TransactionDetails> pending;
 
+    private List<TransactionDetails> info;
+
     private Map<String, HrefType> links;
 
     public List<TransactionDetails> getBooked() {
@@ -24,6 +26,14 @@ public class AccountReport {
 
     public void setPending(List<TransactionDetails> pending) {
         this.pending = pending;
+    }
+
+    public List<TransactionDetails> getInfo() {
+        return info;
+    }
+
+    public void setInfo(List<TransactionDetails> info) {
+        this.info = info;
     }
 
     public Map<String, HrefType> getLinks() {

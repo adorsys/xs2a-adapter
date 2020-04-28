@@ -44,7 +44,7 @@ public class DkbAccessTokenService implements AccessTokenService {
     private static final String DEFAULT_SECONDS_BEFORE_TOKEN_EXPIRATION = "60";
     private static final String DEFAULT_TOKEN_URL = "https://api.dkb.de/token";
 
-    private static DkbAccessTokenService instance = new DkbAccessTokenService();
+    private static DkbAccessTokenService instance;
     private static Map<String, String> headers;
     private static String tokenUrl;
     private static int secondsBeforeTokenExpiration;
@@ -58,13 +58,7 @@ public class DkbAccessTokenService implements AccessTokenService {
 
     private DkbAccessTokenService() {
         jsonMapper = new JsonMapper();
-    }
 
-    public static DkbAccessTokenService getInstance() {
-        return instance;
-    }
-
-    static {
         String consumerKey = readProperty(DKB_TOKEN_CONSUMER_KEY_PROPERTY, "");
         String consumerSecret = readProperty(DKB_TOKEN_CONSUMER_SECRET_PROPERTY, "");
 
@@ -85,6 +79,13 @@ public class DkbAccessTokenService implements AccessTokenService {
             DEFAULT_SECONDS_BEFORE_TOKEN_EXPIRATION
         ));
         logger.debug("Seconds before token expiration is {}", secondsBeforeTokenExpiration);
+    }
+
+    public static synchronized DkbAccessTokenService getInstance() {
+        if (instance == null) {
+            instance = new DkbAccessTokenService();
+        }
+        return instance;
     }
 
     @Override

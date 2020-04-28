@@ -97,6 +97,15 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     public Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
                                                                              String paymentId,
                                                                              RequestHeaders requestHeaders,
+                                                                             RequestParams requestParams) {
+        return getPaymentInitiationService(requestHeaders)
+            .startSinglePaymentAuthorisation(paymentProduct, paymentId, requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
+                                                                             String paymentId,
+                                                                             RequestHeaders requestHeaders,
                                                                              RequestParams requestParams,
                                                                              UpdatePsuAuthentication updatePsuAuthentication) {
         return getPaymentInitiationService(requestHeaders)

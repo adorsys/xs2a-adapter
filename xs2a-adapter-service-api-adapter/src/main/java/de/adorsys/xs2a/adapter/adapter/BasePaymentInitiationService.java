@@ -29,6 +29,7 @@ import de.adorsys.xs2a.adapter.service.model.*;
 
 import javax.ws.rs.core.MediaType;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
@@ -219,6 +220,28 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                                               RequestHeaders requestHeaders,
                                                                                               RequestParams requestParams) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
+                                                                             String paymentId,
+                                                                             RequestHeaders requestHeaders,
+                                                                             RequestParams requestParams) {
+        requireValid(validateStartSinglePaymentAuthorisation(paymentProduct, paymentId, requestHeaders, requestParams));
+
+        String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct, paymentId, AUTHORISATIONS);
+        uri = buildUri(uri, requestParams);
+        Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
+
+        Response<StartScaProcessResponse> response = httpClient.post(uri)
+            .headers(headersMap)
+            .emptyBody(true)
+            .send(requestBuilderInterceptor, jsonResponseHandler(StartScaProcessResponse.class));
+
+        Optional.ofNullable(response.getBody())
+            .ifPresent(body -> body.setLinks(linksRewriter.rewrite(body.getLinks())));
+
+        return response;
     }
 
     @Override

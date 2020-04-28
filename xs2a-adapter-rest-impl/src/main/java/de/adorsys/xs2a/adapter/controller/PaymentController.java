@@ -195,7 +195,12 @@ public class PaymentController extends AbstractController implements PaymentApi 
                         paymentId,
                         requestHeaders,
                         requestParams,
-                        updatePsuAuthentication)
+                        updatePsuAuthentication),
+            (StartAuthorisationHandler) emptyAuthorisationBody ->
+                this.paymentService.startSinglePaymentAuthorisation(paymentProduct.toString(),
+                    paymentId,
+                    requestHeaders,
+                    requestParams)
         );
 
         return ResponseEntity

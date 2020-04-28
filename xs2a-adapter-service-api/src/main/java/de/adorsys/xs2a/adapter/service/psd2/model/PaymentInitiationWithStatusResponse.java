@@ -1,5 +1,7 @@
 package de.adorsys.xs2a.adapter.service.psd2.model;
 
+import java.time.LocalDate;
+
 public class PaymentInitiationWithStatusResponse {
     private String endToEndIdentification;
 
@@ -18,6 +20,24 @@ public class PaymentInitiationWithStatusResponse {
     private String remittanceInformationUnstructured;
 
     private String transactionStatus;
+
+    private String chargeBearer;
+
+    private ClearingSystemMemberIdentification clearingSystemMemberIdentification;
+
+    private String debtorName;
+
+    private String debtorAgent;
+
+    private String instructionPriority;
+
+    private String serviceLevelCode;
+
+    private String localInstrumentCode;
+
+    private String categoryPurposeCode;
+
+    private LocalDate requestedExecutionDate;
 
     public String getEndToEndIdentification() {
         return endToEndIdentification;
@@ -89,5 +109,77 @@ public class PaymentInitiationWithStatusResponse {
 
     public void setTransactionStatus(String transactionStatus) {
         this.transactionStatus = transactionStatus;
+    }
+
+    public String getChargeBearer() {
+        return chargeBearer;
+    }
+
+    public void setChargeBearer(String chargeBearer) {
+        this.chargeBearer = chargeBearer;
+    }
+
+    public ClearingSystemMemberIdentification getClearingSystemMemberIdentification() {
+        return clearingSystemMemberIdentification;
+    }
+
+    public void setClearingSystemMemberIdentification(ClearingSystemMemberIdentification clearingSystemMemberIdentification) {
+        this.clearingSystemMemberIdentification = clearingSystemMemberIdentification;
+    }
+
+    public String getDebtorName() {
+        return debtorName;
+    }
+
+    public void setDebtorName(String debtorName) {
+        this.debtorName = debtorName;
+    }
+
+    public String getDebtorAgent() {
+        return debtorAgent;
+    }
+
+    public void setDebtorAgent(String debtorAgent) {
+        this.debtorAgent = debtorAgent;
+    }
+
+    public String getInstructionPriority() {
+        return instructionPriority;
+    }
+
+    public void setInstructionPriority(String instructionPriority) {
+        this.instructionPriority = instructionPriority;
+    }
+
+    public String getServiceLevelCode() {
+        return serviceLevelCode;
+    }
+
+    public void setServiceLevelCode(String serviceLevelCode) {
+        this.serviceLevelCode = serviceLevelCode;
+    }
+
+    public String getLocalInstrumentCode() {
+        return localInstrumentCode;
+    }
+
+    public void setLocalInstrumentCode(String localInstrumentCode) {
+        this.localInstrumentCode = localInstrumentCode;
+    }
+
+    public String getCategoryPurposeCode() {
+        return categoryPurposeCode;
+    }
+
+    public void setCategoryPurposeCode(String categoryPurposeCode) {
+        this.categoryPurposeCode = categoryPurposeCode;
+    }
+
+    public LocalDate getRequestedExecutionDate() {
+        return requestedExecutionDate;
+    }
+
+    public void setRequestedExecutionDate(LocalDate requestedExecutionDate) {
+        this.requestedExecutionDate = requestedExecutionDate;
     }
 }
