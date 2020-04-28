@@ -12,7 +12,6 @@ import de.adorsys.xs2a.adapter.service.psd2.Psd2PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.psd2.model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -65,7 +63,6 @@ class Psd2PaymentControllerTest {
         mockMvc.perform(post(PAYMENTS + SEPA_CREDIT_TRANSFERS)
             .header(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON)
             .content("{}"))
-            .andDo(print())
             .andExpect(status().isCreated())
             .andExpect(content().string(mapper.writeValueAsString(response)));
 
@@ -95,7 +92,6 @@ class Psd2PaymentControllerTest {
 
         mockMvc.perform(get(BULK_PAYMENTS + INSTANT_SEPA_CREDIT_TRANSFERS + "/" + PAYMENT_ID)
             .header(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON))
-            .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string("response"));
 
@@ -109,7 +105,6 @@ class Psd2PaymentControllerTest {
 
         mockMvc.perform(get(PERIODIC_PAYMENTS + TARGET_2_PAYMENTS + "/" + PAYMENT_ID + "/status")
             .header(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON))
-            .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string("response"));
 
@@ -123,7 +118,6 @@ class Psd2PaymentControllerTest {
 
         mockMvc.perform(get(PERIODIC_PAYMENTS + CROSS_BORDER_CREDIT_TRANSFERS + "/" + PAYMENT_ID + "/" + AUTHORISATIONS)
             .header(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON))
-            .andDo(print())
             .andExpect(status().isOk());
 
         verify(service, times(1)).getPaymentInitiationAuthorisation(any(PaymentService.class), any(PaymentProduct.class), anyString(), anyMap(), anyMap());
@@ -139,7 +133,6 @@ class Psd2PaymentControllerTest {
         mockMvc.perform(post(PERIODIC_PAYMENTS + PAIN_001_SEPA_CREDIT_TRANSFERS + "/" + PAYMENT_ID + "/" + AUTHORISATIONS)
             .header(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON)
             .content("{}"))
-            .andDo(print())
             .andExpect(status().isCreated())
             .andExpect(content().string(mapper.writeValueAsString(response)));
 
@@ -155,7 +148,6 @@ class Psd2PaymentControllerTest {
 
         mockMvc.perform(get(PERIODIC_PAYMENTS + PAIN_001_INSTANT_SEPA_CREDIT_TRANSFERS + "/" + PAYMENT_ID + "/" + AUTHORISATIONS + "/" + AUTHORISATION_ID)
             .header(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON))
-            .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(mapper.writeValueAsString(response)));
 
@@ -172,7 +164,6 @@ class Psd2PaymentControllerTest {
         mockMvc.perform(put(PERIODIC_PAYMENTS + PAIN_001_TARGET_2_PAYMENTS + "/" + PAYMENT_ID + "/" + AUTHORISATIONS + "/" + AUTHORISATION_ID)
             .header(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON)
             .content("{}"))
-            .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().string(mapper.writeValueAsString(response)));
 
