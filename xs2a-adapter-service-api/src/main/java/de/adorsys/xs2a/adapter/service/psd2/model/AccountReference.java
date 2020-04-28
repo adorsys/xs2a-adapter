@@ -7,6 +7,8 @@ public class AccountReference {
 
     private String bban;
 
+    private String bic;
+
     private String pan;
 
     @JsonAlias("maskedPAN")
@@ -30,6 +32,14 @@ public class AccountReference {
 
     public void setBban(String bban) {
         this.bban = bban;
+    }
+
+    public String getBic() {
+        return bic;
+    }
+
+    public void setBic(String bic) {
+        this.bic = bic;
     }
 
     public String getPan() {
