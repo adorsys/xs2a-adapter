@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service.psd2.model;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -62,6 +63,10 @@ public class TransactionDetails {
     private Balance balanceAfterTransaction;
 
     private Map<String, HrefType> links;
+
+    private OffsetDateTime executionDateTime;
+
+    private String transactionType;
 
     public String getTransactionId() {
         return transactionId;
@@ -293,5 +298,21 @@ public class TransactionDetails {
 
     public void setLinks(Map<String, HrefType> links) {
         this.links = links;
+    }
+
+    public OffsetDateTime getExecutionDateTime() {
+        return executionDateTime;
+    }
+
+    public void setExecutionDateTime(OffsetDateTime executionDateTime) {
+        this.executionDateTime = executionDateTime;
+    }
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 }

@@ -15,6 +15,8 @@ public class AccountReportTO {
     @JsonProperty("_links")
     private Map<String, HrefTypeTO> links;
 
+    private List<TransactionDetailsTO> info;
+
     public List<TransactionDetailsTO> getBooked() {
         return booked;
     }
@@ -37,5 +39,13 @@ public class AccountReportTO {
 
     public void setLinks(Map<String, HrefTypeTO> links) {
         this.links = links;
+    }
+
+    public List<TransactionDetailsTO> getInfo() {
+        return info;
+    }
+
+    public void setInfo(List<TransactionDetailsTO> info) {
+        this.info = info;
     }
 }

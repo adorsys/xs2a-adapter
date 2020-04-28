@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.annotation.Generated;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -67,6 +68,10 @@ public class TransactionDetailsTO {
 
     @JsonProperty("_links")
     private Map<String, HrefTypeTO> links;
+
+    private OffsetDateTime executionDateTime;
+
+    private String transactionType;
 
     public String getTransactionId() {
         return transactionId;
@@ -302,5 +307,21 @@ public class TransactionDetailsTO {
 
     public void setLinks(Map<String, HrefTypeTO> links) {
         this.links = links;
+    }
+
+    public OffsetDateTime getExecutionDateTime() {
+        return executionDateTime;
+    }
+
+    public void setExecutionDateTime(OffsetDateTime executionDateTime) {
+        this.executionDateTime = executionDateTime;
+    }
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 }

@@ -2541,6 +2541,9 @@
           },
           "currency" : {
             "$ref" : "#/components/schemas/currencyCode"
+          },
+          "bic" : {
+            "type" : "string"
           }
         },
         "description" : "Reference to an account by either\n  * IBAN, of a payment accounts, or\n  * BBAN, for payment accounts if there is no IBAN, or \n  * the Primary Account Number (PAN) of a card, can be tokenised by the ASPSP due to PCI DSS requirements, or\n  * the Primary Account Number (PAN) of a card in a masked form, or\n  * an alias to access a payment account via a registered mobile phone number (MSISDN).\n"
@@ -2768,6 +2771,9 @@
           },
           "_links" : {
             "$ref" : "#/components/schemas/_linksAccountReport"
+          },
+          "info" : {
+            "$ref" : "#/components/schemas/transactionList"
           }
         },
         "description" : "JSON based account report.\nThis account report contains transactions resulting from the query parameters.\n\n'booked' shall be contained if bookingStatus parameter is set to \"booked\" or \"both\".\n\n'pending' is not contained if the bookingStatus parameter is set to \"booked\".\n"
@@ -2900,6 +2906,13 @@
           },
           "_links" : {
             "$ref" : "#/components/schemas/_linksTransactionDetails"
+          },
+          "executionDateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "transactionType" : {
+            "type" : "string"
           }
         },
         "description" : "Transaction details."

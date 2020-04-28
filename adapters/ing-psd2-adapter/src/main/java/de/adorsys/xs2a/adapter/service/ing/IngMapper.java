@@ -60,6 +60,7 @@ public interface IngMapper {
     }
 
     @Mapping(target = "bban", ignore = true)
+    @Mapping(target = "bic", ignore = true)
     @Mapping(target = "pan", ignore = true)
     @Mapping(target = "maskedPan", ignore = true)
     @Mapping(target = "msisdn", ignore = true)
@@ -165,12 +166,14 @@ public interface IngMapper {
     PaymentInitiationWithStatusResponse map(PaymentInstruction value);
 
     @Mapping(target = "bban", ignore = true)
+    @Mapping(target = "bic", ignore = true)
     @Mapping(target = "pan", ignore = true)
     @Mapping(target = "maskedPan", ignore = true)
     @Mapping(target = "msisdn", ignore = true)
     AccountReference map(DebtorAccount value);
 
     @Mapping(target = "pan", ignore = true)
+    @Mapping(target = "bic", ignore = true)
     @Mapping(target = "maskedPan", ignore = true)
     @Mapping(target = "msisdn", ignore = true)
     AccountReference map(CreditorAccount value);
