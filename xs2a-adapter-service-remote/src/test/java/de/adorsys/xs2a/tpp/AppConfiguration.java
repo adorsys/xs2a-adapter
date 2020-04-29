@@ -24,12 +24,15 @@ import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.remote.api.AccountInformationClient;
 import de.adorsys.xs2a.adapter.remote.api.PaymentInitiationClient;
 import de.adorsys.xs2a.adapter.remote.api.psd2.Psd2AccountInformationClient;
+import de.adorsys.xs2a.adapter.remote.api.psd2.Psd2PaymentInitiationClient;
 import de.adorsys.xs2a.adapter.remote.service.impl.RemoteAccountInformationService;
 import de.adorsys.xs2a.adapter.remote.service.impl.RemotePaymentInitiationService;
 import de.adorsys.xs2a.adapter.remote.service.impl.psd2.RemotePsd2AccountInformationService;
+import de.adorsys.xs2a.adapter.remote.service.impl.psd2.RemotePsd2PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
+import de.adorsys.xs2a.adapter.service.psd2.Psd2PaymentInitiationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,6 +54,9 @@ public class AppConfiguration {
 
     @Autowired
     Psd2AccountInformationClient psd2AccountInformationClient;
+
+    @Autowired
+    Psd2PaymentInitiationClient psd2PaymentInitiationClient;
 
     @Bean
     PaymentInitiationScaStatusResponseMapper getPaymentInitiationScaStatusResponseMapper() {
@@ -75,6 +81,11 @@ public class AppConfiguration {
     @Bean
     Psd2AccountInformationService psd2AccountInformationService() {
         return new RemotePsd2AccountInformationService(psd2AccountInformationClient);
+    }
+
+    @Bean
+    Psd2PaymentInitiationService psd2PaymentInitiationService() {
+        return new RemotePsd2PaymentInitiationService(psd2PaymentInitiationClient);
     }
 
     @Bean

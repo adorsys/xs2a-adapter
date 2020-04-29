@@ -69,7 +69,11 @@ public interface Psd2Mapper {
 
     PaymentInitiation toPaymentInitiation(PaymentInitiationTO source);
 
+    PaymentInitiationTO toPaymentInitiationTO(PaymentInitiation source);
+
     PaymentInitiationRequestResponseTO toPaymentInitiationRequestResponseTO(PaymentInitiationRequestResponse source);
+
+    PaymentInitiationRequestResponse toPaymentInitiationRequestResponse(PaymentInitiationRequestResponseTO source);
 
     @Named("toGetPaymentInformationResponseTO")
     default Object toGetPaymentInformationResponseTO(Object source) {
@@ -111,6 +115,8 @@ public interface Psd2Mapper {
     PaymentInitiationStatusResponseTO toPaymentInitiationStatusResponseTO(PaymentInitiationStatusResponse source);
 
     AuthorisationsTO toAuthorisationsTO(Authorisations source);
+
+    Authorisations toAuthorisations(AuthorisationsTO source);
 
     TransactionDetailsResponseTO toTransactionDetailsResponseTO(TransactionDetailsResponse source);
 
