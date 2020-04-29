@@ -354,7 +354,8 @@ public class LuceneAspspRepository implements AspspRepository {
         try {
             bankCode = Iban.valueOf(iban).getBankCode();
         } catch (Iban4jException e) {
-            throw new IbanException(e);
+            // iban4j exception not used as the cause because the message might contain account number
+            throw new IbanException("Invalid iban");
         }
         if (bankCode == null) {
             throw new IbanException("Failed to extract the bank code from the iban");
