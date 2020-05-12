@@ -11,3 +11,4 @@
 == Features:
 
 == Fixes:
+- PIS scope in sparkasse adapter.

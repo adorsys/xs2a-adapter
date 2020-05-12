@@ -78,6 +78,25 @@ public class SparkasseOauth2ServiceTest {
     }
 
     @Test
+    void getAuthorizationRequestUriForPayment() throws IOException {
+
+        Parameters parameters = new Parameters();
+        parameters.setScaOAuthLink(SCA_OAUTH_LINK);
+        parameters.setState(STATE);
+        parameters.setPaymentId("payment-id");
+
+        URI uri = oauth2Service.getAuthorizationRequestUri(null, parameters);
+
+        assertEquals(AUTHORIZATION_ENDPOINT + "?" +
+            "responseType=code&" +
+            "state=xyz&" +
+            "clientId=" + ORG_ID + "&" +
+            "code_challenge_method=S256&" +
+            "code_challenge=" + oauth2Service.codeChallenge() + "&" +
+            "scope=PIS%3A+payment-id", uri.toString());
+    }
+
+    @Test
     void getToken_authorizationCodeExchange() throws IOException {
 
         Parameters parameters = new Parameters();
