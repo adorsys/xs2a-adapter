@@ -41,6 +41,8 @@ public class SparkasseOauth2Service implements Oauth2Service, PkceOauth2Extensio
     private String scope(Parameters parameters) {
         if (parameters.getConsentId() != null) {
             return "AIS: " + parameters.getConsentId();
+        } else if (parameters.getPaymentId() != null) {
+            return "PIS: " + parameters.getPaymentId();
         }
         return null;
     }
