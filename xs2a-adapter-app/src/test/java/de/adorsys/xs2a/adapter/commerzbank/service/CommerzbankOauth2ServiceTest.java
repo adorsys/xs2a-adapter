@@ -77,6 +77,26 @@ class CommerzbankOauth2ServiceTest {
     }
 
     @Test
+    void getAuthorizationRequestUriForPayment() throws IOException {
+        Parameters parameters = new Parameters();
+        parameters.setScaOAuthLink(AUTHORIZATION_ENDPOINT);
+        parameters.setState(STATE);
+        parameters.setRedirectUri(REDIRECT_URI);
+        parameters.setPaymentId("payment-id");
+
+        URI uri = oauth2Service.getAuthorizationRequestUri(null, parameters);
+
+        assertEquals(AUTHORIZATION_ENDPOINT + "?" +
+            "response_type=code&" +
+            "state=" + STATE + "&" +
+            "redirect_uri=" + URLEncoder.encode(REDIRECT_URI, StandardCharsets.UTF_8.name()) + "&" +
+            "client_id=" + ORG_ID + "&" +
+            "code_challenge_method=S256&" +
+            "code_challenge=" + oauth2Service.codeChallenge() + "&" +
+            "scope=PIS%3Apayment-id", uri.toString());
+    }
+
+    @Test
     void getToken() throws IOException {
         Parameters parameters = new Parameters();
         parameters.setGrantType(Oauth2Service.GrantType.AUTHORIZATION_CODE.toString());

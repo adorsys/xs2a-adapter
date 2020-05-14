@@ -50,6 +50,10 @@ public class CommerzbankOauth2Service implements Oauth2Service, PkceOauth2Extens
         if (parameters.getConsentId() != null) {
             return "AIS:" + parameters.getConsentId();
         }
+        if (parameters.getPaymentId() != null) {
+            return "PIS:" + parameters.getPaymentId();
+        }
+
         return null;
     }
 

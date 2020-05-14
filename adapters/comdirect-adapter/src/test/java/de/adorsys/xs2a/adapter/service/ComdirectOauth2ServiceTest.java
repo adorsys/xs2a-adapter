@@ -72,6 +72,27 @@ class ComdirectOauth2ServiceTest {
     }
 
     @Test
+    void getAuthorizationRequestUriForPayment() throws IOException {
+        oauth2Service = ComdirectOauth2Service.create(new Aspsp(), null, keyStore);
+        Parameters parameters = new Parameters();
+        parameters.setScaOAuthLink(SCA_OAUTH_LINK);
+        parameters.setState(STATE);
+        parameters.setPaymentId("payment-id");
+        parameters.setRedirectUri(REDIRECT_URI);
+
+        URI uri = oauth2Service.getAuthorizationRequestUri(null, parameters);
+
+        assertEquals(SCA_OAUTH_LINK + "?" +
+            "response_type=code&" +
+            "state=" + STATE + "&" +
+            "redirect_uri=" + URLEncoder.encode(REDIRECT_URI, StandardCharsets.UTF_8.name()) + "&" +
+            "client_id=" + ORG_ID + "&" +
+            "code_challenge_method=S256&" +
+            "code_challenge=" + oauth2Service.codeChallenge() + "&" +
+            "scope=PIS%3Apayment-id", uri.toString());
+    }
+
+    @Test
     void getAuthorizationRequestUri_noScaOAuthLink() throws IOException {
         Aspsp aspsp = new Aspsp();
         aspsp.setIdpUrl(IDP_URL);
