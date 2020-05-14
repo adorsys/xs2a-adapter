@@ -11,4 +11,4 @@
 == Features:
 
 == Fixes:
-- PIS scope in sparkasse adapter.
+- PIS scope for sparkasse, commerzbank, comdirect.

@@ -91,6 +91,9 @@ public class ComdirectOauth2Service extends AbstractService implements Oauth2Ser
         if (parameters.getConsentId() != null) {
             return "AIS:" + parameters.getConsentId();
         }
+        if (parameters.getPaymentId() != null) {
+            return "PIS:" + parameters.getPaymentId();
+        }
         return null;
     }
 
