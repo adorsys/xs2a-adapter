@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - develop
+      - amos-modelbank
 
 env:
   XS2A_ADAPTER_IMAGE_NAME: xs2a-adapter
@@ -10,6 +11,7 @@ env:
   OPENSHIFT_REGISTRY: openshift-registry.adorsys.de
   OPENSHIFT_NAMESPACE_DEV: xs2a-adapter-dev
   OPENSHIFT_NAMESPACE_INTEG: xs2a-adapter-integ
+  OPENSHIFT_NAMESPACE_AMOS_MODELBANK: amos-modelbank
   SONAR_HOST: https://sonarcloud.io
   SONAR_ORG: adorsys
   SONAR_PRJ_KEY: adorsys_xs2a-adapter
@@ -97,6 +99,21 @@ jobs:
         env:
           LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
           OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_INTEG }}/${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+        run: |
+          docker tag ${LOCAL_IMAGE_NAME} ${OPENSHIFT_IMAGE_NAME}
+          docker push ${OPENSHIFT_IMAGE_NAME}
+      
+      - name: AMOS_MODELBANK. Docker login
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ env.OPENSHIFT_REGISTRY }}
+          username: image-pusher
+          password: ${{ secrets.OPENSHIFT_TOKEN_AMOS_MODELBANK }}
+
+      - name: AMOS_MODELBANK. Deploy docker image
+        env:
+          LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+          OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_AMOS_MODELBANK }}/${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
         run: |
           docker tag ${LOCAL_IMAGE_NAME} ${OPENSHIFT_IMAGE_NAME}
           docker push ${OPENSHIFT_IMAGE_NAME}
