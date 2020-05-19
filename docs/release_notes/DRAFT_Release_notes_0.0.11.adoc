@@ -9,6 +9,7 @@
 
 
 == Features:
+- Introduced a new module xs2a-adapter-service-remote-spring with Feign client configs for Spring users
 
 == Fixes:
 - PIS scope for sparkasse, commerzbank, comdirect.
