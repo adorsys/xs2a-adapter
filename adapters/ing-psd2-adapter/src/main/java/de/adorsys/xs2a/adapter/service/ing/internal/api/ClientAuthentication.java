@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service.ing.internal.api;
 
 import de.adorsys.xs2a.adapter.http.Request;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,13 +38,15 @@ public class ClientAuthentication implements Request.Builder.Interceptor {
 
     @Override
     public Request.Builder apply(Request.Builder requestBuilder) {
+        String xRequestId = requestBuilder.headers().get(RequestHeaders.X_REQUEST_ID);
         String date = RFC_1123_DATE_TIME_FORMATTER.format(Instant.now());
         String digest = "SHA-256=" + base64(digest(requestBuilder.content()));
         String signingString = "(request-target): " + requestTarget(requestBuilder) + "\n"
+            + "x-request-id: " + xRequestId + "\n"
             + "date: " + date + "\n"
             + "digest: " + digest;
         String signature = "keyId=\"" + keyId
-            + "\",algorithm=\"rsa-sha256\",headers=\"(request-target) date digest\"," +
+            + "\",algorithm=\"rsa-sha256\",headers=\"(request-target) x-request-id date digest\"," +
             "signature=\"" + base64(sign(signingString)) + "\"";
 
         if (accessToken == null) {

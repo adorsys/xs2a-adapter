@@ -13,3 +13,4 @@
 
 == Fixes:
 - PIS scope for sparkasse, commerzbank, comdirect.
+- Added X-Request-ID header to signature for ING requests
