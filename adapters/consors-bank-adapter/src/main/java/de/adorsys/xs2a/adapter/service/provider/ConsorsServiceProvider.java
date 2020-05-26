@@ -39,11 +39,11 @@ public class ConsorsServiceProvider implements AccountInformationServiceProvider
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl,
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()),
+        return new BasePaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter);
     }
 

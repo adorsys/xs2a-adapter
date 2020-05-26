@@ -41,32 +41,32 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
     protected static final String V1 = "v1";
     protected static final String PAYMENTS = "payments";
-    protected final String baseUri;
+    protected final Aspsp aspsp;
     private final Request.Builder.Interceptor requestBuilderInterceptor;
     private final LinksRewriter linksRewriter;
 
-    public BasePaymentInitiationService(String baseUri, HttpClient httpClient) {
-        this(baseUri, httpClient, null, DEFAULT_LINKS_REWRITER);
+    public BasePaymentInitiationService(Aspsp aspsp, HttpClient httpClient) {
+        this(aspsp, httpClient, null, DEFAULT_LINKS_REWRITER);
     }
 
-    public BasePaymentInitiationService(String baseUri,
+    public BasePaymentInitiationService(Aspsp aspsp,
                                         HttpClient httpClient,
                                         Request.Builder.Interceptor requestBuilderInterceptor) {
-        this(baseUri, httpClient, requestBuilderInterceptor, DEFAULT_LINKS_REWRITER);
+        this(aspsp, httpClient, requestBuilderInterceptor, DEFAULT_LINKS_REWRITER);
     }
 
-    public BasePaymentInitiationService(String baseUri,
+    public BasePaymentInitiationService(Aspsp aspsp,
                                         HttpClient httpClient,
                                         LinksRewriter linksRewriter) {
-        this(baseUri, httpClient, null, linksRewriter);
+        this(aspsp, httpClient, null, linksRewriter);
     }
 
-    public BasePaymentInitiationService(String baseUri,
+    public BasePaymentInitiationService(Aspsp aspsp,
                                         HttpClient httpClient,
                                         Request.Builder.Interceptor requestBuilderInterceptor,
                                         LinksRewriter linksRewriter) {
         super(httpClient);
-        this.baseUri = baseUri;
+        this.aspsp = aspsp;
         this.requestBuilderInterceptor = requestBuilderInterceptor;
         this.linksRewriter = linksRewriter;
     }
@@ -90,13 +90,22 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                                    RequestParams requestParams,
                                                                                    Class<T> klass,
                                                                                    Function<T, PaymentInitiationRequestResponse> mapper) {
+        return initiateSinglePayment(paymentProduct, body, requestHeaders, requestParams, mapper, jsonResponseHandler(klass));
+    }
+
+    protected <T> Response<PaymentInitiationRequestResponse> initiateSinglePayment(StandardPaymentProduct paymentProduct,
+                                                                                   Object body,
+                                                                                   RequestHeaders requestHeaders,
+                                                                                   RequestParams requestParams,
+                                                                                   Function<T, PaymentInitiationRequestResponse> mapper,
+                                                                                   HttpClient.ResponseHandler<T> responseHandler) {
         requireValid(validateInitiateSinglePayment(paymentProduct.getSlug(), requestHeaders, requestParams, body));
 
         String uri = StringUri.fromElements(getSinglePaymentBaseUri(), paymentProduct.getSlug());
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         Request.Builder requestBuilder = httpClient.post(uri)
-            .headers(headersMap);
+                                             .headers(headersMap);
         switch (paymentProduct.getMediaType()) {
             case MediaType.APPLICATION_JSON:
                 requestBuilder.jsonBody(jsonMapper.writeValueAsString(
@@ -109,7 +118,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                 throw new IllegalArgumentException("Unsupported payment product media type");
         }
 
-        Response<T> response = requestBuilder.send(requestBuilderInterceptor, jsonResponseHandler(klass));
+        Response<T> response = requestBuilder.send(requestBuilderInterceptor, responseHandler);
         PaymentInitiationRequestResponse paymentInitiationRequestResponse = mapper.apply(response.getBody());
         paymentInitiationRequestResponse.setLinks(linksRewriter.rewrite(paymentInitiationRequestResponse.getLinks()));
 
@@ -443,11 +452,15 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         return StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
     }
 
+    protected String getIdpUri() {
+        return aspsp.getIdpUrl();
+    }
+
     protected String getSinglePaymentBaseUri() {
         return StringUri.fromElements(getPaymentBaseUri(), PAYMENTS);
     }
 
     protected String getPaymentBaseUri() {
-        return StringUri.fromElements(baseUri, V1);
+        return StringUri.fromElements(aspsp.getUrl(), V1);
     }
 }

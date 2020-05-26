@@ -49,11 +49,11 @@ public class DkbPaymentInitiationService extends BasePaymentInitiationService {
 
     private AccessTokenService accessService;
 
-    public DkbPaymentInitiationService(String baseUri,
+    public DkbPaymentInitiationService(Aspsp aspsp,
                                        AccessTokenService accessService,
                                        HttpClient httpClient,
                                        LinksRewriter linksRewriter) {
-        super(baseUri, httpClient, linksRewriter);
+        super(aspsp, httpClient, linksRewriter);
         this.accessService = accessService;
     }
 

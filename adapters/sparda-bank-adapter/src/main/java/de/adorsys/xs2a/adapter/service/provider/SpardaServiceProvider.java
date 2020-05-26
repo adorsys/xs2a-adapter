@@ -16,7 +16,6 @@
 
 package de.adorsys.xs2a.adapter.service.provider;
 
-import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
@@ -36,11 +35,11 @@ public class SpardaServiceProvider implements AccountInformationServiceProvider,
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl,
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new BasePaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()),
+        return new SpardaPaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter);
     }
 
