@@ -19,6 +19,15 @@
           "example": "my_state"
         },
         {
+          "name": "scope",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "enum": ["ais", "ais_balances", "ais_transactions", "pis"]
+          },
+          "example": "ais"
+        },
+        {
           "name": "redirect_uri",
           "in": "query",
           "schema": {
