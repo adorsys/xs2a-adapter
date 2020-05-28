@@ -8,20 +8,20 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.http.UriBuilder;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.service.model.Scope;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class SpardaOauth2Service extends AbstractService implements Oauth2Service, PkceOauth2Extension {
 
+    private static final EnumMap<Scope, Scope> SCOPE_MAPPING = initiateScopeMapping();
     private static final String MISSING_REQUIRED_PARAMETER_ERROR_MESSAGE = "Missing required parameter";
+    protected static final String UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE = "Scope value [%s] is not supported";
 
     private final Aspsp aspsp;
     private final Oauth2Service oauth2Service;
@@ -56,28 +56,53 @@ public class SpardaOauth2Service extends AbstractService implements Oauth2Servic
         return new SpardaOauth2Service(aspsp, httpClient, pkceOauth2Service, clientId);
     }
 
+    private static EnumMap<Scope, Scope> initiateScopeMapping() {
+        EnumMap<Scope, Scope> scopeMapping = new EnumMap<>(Scope.class);
+        scopeMapping.put(Scope.AIS, Scope.AIS);
+        scopeMapping.put(Scope.AIS_BALANCES, Scope.AIS);
+        scopeMapping.put(Scope.AIS_TRANSACTIONS, Scope.AIS);
+        scopeMapping.put(Scope.PIS, Scope.PIS);
+        return scopeMapping;
+    }
+
     @Override
     public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) throws IOException {
         requireValid(validateGetAuthorizationRequestUri(headers, parameters));
         parameters.setAuthorizationEndpoint(authorizationEndpoint);
         parameters.setClientId(clientId);
-        if (StringUtils.isBlank(parameters.getScope())) {
-            parameters.setScope("ais");
-        }
+        parameters.setScope(mapScope(parameters.getScope()));
 
         return UriBuilder.fromUri(oauth2Service.getAuthorizationRequestUri(headers, parameters))
             .queryParam(Parameters.BIC, aspsp.getBic())
             .build();
     }
 
+    private String mapScope(String scope) {
+        return SCOPE_MAPPING.get(Scope.fromValue(scope)).getValue();
+    }
+
     @Override
     public List<ValidationError> validateGetAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) {
+        List<ValidationError> validationErrors = new ArrayList<>();
+
         if (StringUtils.isBlank(parameters.getRedirectUri())) {
-            return Collections.singletonList(new ValidationError(ValidationError.Code.REQUIRED,
+            validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
                 Parameters.REDIRECT_URI,
                 MISSING_REQUIRED_PARAMETER_ERROR_MESSAGE));
         }
-        return Collections.emptyList();
+
+        String scope = parameters.getScope();
+        if (StringUtils.isBlank(scope)) {
+            validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
+                Parameters.SCOPE,
+                MISSING_REQUIRED_PARAMETER_ERROR_MESSAGE));
+        } else if (!Scope.contains(scope)) {
+            validationErrors.add(new ValidationError(ValidationError.Code.NOT_SUPPORTED,
+                Parameters.SCOPE,
+                String.format(UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE, scope)));
+        }
+
+        return validationErrors;
     }
 
     @Override
