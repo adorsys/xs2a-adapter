@@ -58,11 +58,11 @@ public class VerlagServiceProvider
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl,
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new VerlagPaymentInitiationService(baseUrl,
+        return new VerlagPaymentInitiationService(aspsp,
             apiKeyEntry,
             httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
             linksRewriter);

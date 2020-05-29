@@ -6,6 +6,7 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
 import de.adorsys.xs2a.adapter.validation.ValidationError;
 
@@ -14,10 +15,10 @@ import java.util.Map;
 
 public class UnicreditPaymentInitiationService extends BasePaymentInitiationService {
 
-    public UnicreditPaymentInitiationService(String baseUri,
+    public UnicreditPaymentInitiationService(Aspsp aspsp,
                                              HttpClient httpClient,
                                              LinksRewriter linksRewriter) {
-        super(baseUri, httpClient, linksRewriter);
+        super(aspsp, httpClient, linksRewriter);
     }
 
     @Override

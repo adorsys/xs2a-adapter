@@ -111,10 +111,9 @@ public class AdapterServiceLoader {
     public PaymentInitiationService getPaymentInitiationService(RequestHeaders requestHeaders) {
         Aspsp aspsp = getAspsp(requestHeaders);
         String adapterId = aspsp.getAdapterId();
-        String baseUrl = aspsp.getUrl();
         return getServiceProvider(PaymentInitiationServiceProvider.class, adapterId)
                    .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-                   .getPaymentInitiationService(baseUrl, httpClientFactory, keyStore, paymentInitiationLinksRewriter);
+                   .getPaymentInitiationService(aspsp, httpClientFactory, keyStore, paymentInitiationLinksRewriter);
     }
 
     public Oauth2Service getOauth2Service(RequestHeaders requestHeaders) {

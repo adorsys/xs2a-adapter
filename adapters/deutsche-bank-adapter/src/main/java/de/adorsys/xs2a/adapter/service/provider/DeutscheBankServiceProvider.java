@@ -46,11 +46,12 @@ public class DeutscheBankServiceProvider
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl,
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new DeutscheBankPaymentInitiationService(baseUrl.replace(SERVICE_GROUP_PLACEHOLDER, "pis"),
+        aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "pis"));
+        return new DeutscheBankPaymentInitiationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             psuIdTypeHeaderInterceptor,
             linksRewriter);

@@ -25,12 +25,14 @@ public class BasePaymentInitiationServiceTest {
     public static final String SEPA_CREDIT_TRANSFERS = "sepa-credit-transfers";
     public static final String PAIN_SEPA_CREDIT_TRANSFERS = "pain.001-sepa-credit-transfers";
     public static final String BASE_URI = "https://base.uri";
+    private static final String IDP_URL = "https://idp.url";
     public static final String PAYMENTS_URI = BASE_URI + "/v1/payments";
     public static final String PAYMENTID = "paymentId";
     public static final String AUTHORISATIONID = "authorisationId";
     public static final String PAYMENT_SERVICE = "paymentService";
     public static final String UPDATE_PAYMENT_PSU_DATA_URI = BASE_URI + "/v1/" + PAYMENT_SERVICE + "/" +
         SEPA_CREDIT_TRANSFERS + "/" + PAYMENTID + "/authorisations/" + AUTHORISATIONID;
+    private static final Aspsp ASPSP = buildAspspWithUrls();
 
     private RequestHeaders headers = RequestHeaders.fromMap(new HashMap<>());
 
@@ -54,7 +56,7 @@ public class BasePaymentInitiationServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        initiationService = new BasePaymentInitiationService(BASE_URI, httpClient, interceptor);
+        initiationService = new BasePaymentInitiationService(ASPSP, httpClient, interceptor);
     }
 
     @Test
@@ -286,5 +288,12 @@ public class BasePaymentInitiationServiceTest {
 
     private <T> Response<T> dummyResponse(T body) {
         return new Response<>(-1, body, null);
+    }
+
+    private static Aspsp buildAspspWithUrls() {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setUrl(BASE_URI);
+        aspsp.setIdpUrl(IDP_URL);
+        return aspsp;
     }
 }

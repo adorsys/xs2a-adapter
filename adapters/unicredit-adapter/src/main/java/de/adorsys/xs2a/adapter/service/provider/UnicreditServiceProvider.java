@@ -37,11 +37,11 @@ public class UnicreditServiceProvider implements AccountInformationServiceProvid
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl,
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new UnicreditPaymentInitiationService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()),
+        return new UnicreditPaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter);
     }
 

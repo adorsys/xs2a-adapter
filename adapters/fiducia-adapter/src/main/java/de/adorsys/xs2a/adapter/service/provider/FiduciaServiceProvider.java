@@ -40,11 +40,11 @@ public class FiduciaServiceProvider implements AccountInformationServiceProvider
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl,
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new FiduciaPaymentInitiationService(baseUrl,
+        return new FiduciaPaymentInitiationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             new RequestSigningInterceptor(keyStore),
             linksRewriter);

@@ -1,10 +1,10 @@
 package de.adorsys.xs2a.adapter.service;
 
-import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
 import de.adorsys.xs2a.adapter.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.service.model.Scope;
 import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +21,7 @@ import java.util.List;
 
 import static de.adorsys.xs2a.adapter.service.Oauth2Service.GrantType.AUTHORIZATION_CODE;
 import static de.adorsys.xs2a.adapter.service.Oauth2Service.GrantType.REFRESH_TOKEN;
+import static de.adorsys.xs2a.adapter.service.SpardaOauth2Service.UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -31,6 +32,8 @@ public class SpardaOauth2ServiceTest {
     public static final String TOKEN_ENDPOINT = TOKEN_HOST + "/oauth2/token";
     public static final String CLIENT_ID = "client-id";
     public static final String REDIRECT_URI = "https://tpp.com/cb";
+    public static final String SCOPE = Scope.AIS.getValue();
+    public static final String UNSUPPORTED_SCOPE = "unsupportedScope";
 
     private SpardaOauth2Service oauth2Service;
     private HttpClient httpClient;
@@ -48,25 +51,41 @@ public class SpardaOauth2ServiceTest {
         oauth2Service = SpardaOauth2Service.create(aspsp, httpClient, null, CLIENT_ID);
     }
 
-    private Response<OauthToken> tokenResponse() {
-        return new Response<>(200, new OauthToken(), ResponseHeaders.emptyResponseHeaders());
-    }
-
     @Test
     public void getAuthorizationRequestUri() throws IOException {
         Parameters parameters = new Parameters();
         parameters.setRedirectUri(REDIRECT_URI);
+        parameters.setScope(SCOPE);
 
         URI uri = oauth2Service.getAuthorizationRequestUri(Collections.emptyMap(), parameters);
 
         assertEquals(AUTH_HOST + "/oauth2/authorize"
             + "?response_type=code"
             + "&redirect_uri=" + URLEncoder.encode(REDIRECT_URI, StandardCharsets.UTF_8.name())
-            + "&scope=ais"
+            + "&scope=" + SCOPE
             + "&client_id=" + CLIENT_ID
             + "&code_challenge_method=S256"
             + "&code_challenge=" + oauth2Service.codeChallenge()
             + "&bic=" + BIC, uri.toString());
+        Mockito.verifyNoInteractions(httpClient);
+    }
+
+    @Test
+    public void getAuthorizationRequestUriWithAisScopeMapping() throws IOException {
+        Parameters parameters = new Parameters();
+        parameters.setRedirectUri(REDIRECT_URI);
+        parameters.setScope(Scope.AIS_TRANSACTIONS.getValue());
+
+        URI uri = oauth2Service.getAuthorizationRequestUri(Collections.emptyMap(), parameters);
+
+        assertEquals(AUTH_HOST + "/oauth2/authorize"
+                         + "?response_type=code"
+                         + "&redirect_uri=" + URLEncoder.encode(REDIRECT_URI, StandardCharsets.UTF_8.name())
+                         + "&scope=" + SCOPE
+                         + "&client_id=" + CLIENT_ID
+                         + "&code_challenge_method=S256"
+                         + "&code_challenge=" + oauth2Service.codeChallenge()
+                         + "&bic=" + BIC, uri.toString());
         Mockito.verifyNoInteractions(httpClient);
     }
 
@@ -77,7 +96,27 @@ public class SpardaOauth2ServiceTest {
 
         assertThat(validationErrors)
             .extracting(ValidationError::getPath)
-            .containsExactly(Parameters.REDIRECT_URI);
+            .contains(Parameters.REDIRECT_URI, Parameters.SCOPE);
+    }
+
+    @Test
+    void validateGetAuthorizationRequestUriWithUnsupportedScope() {
+        Parameters parameters = new Parameters();
+        parameters.setRedirectUri(REDIRECT_URI);
+        parameters.setScope(UNSUPPORTED_SCOPE);
+
+        List<ValidationError> validationErrors =
+            oauth2Service.validateGetAuthorizationRequestUri(null, parameters);
+
+        assertThat(validationErrors).isNotNull();
+        assertThat(validationErrors).hasSize(1);
+
+        ValidationError validationError = validationErrors.get(0);
+        assertThat(validationError).isNotNull();
+        assertThat(validationError.getCode()).isEqualTo(ValidationError.Code.NOT_SUPPORTED);
+        assertThat(validationError.getPath()).isEqualTo(Parameters.SCOPE);
+        assertThat(validationError.getMessage())
+            .isEqualTo(String.format(UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE, UNSUPPORTED_SCOPE));
     }
 
     @Test
@@ -153,6 +192,7 @@ public class SpardaOauth2ServiceTest {
         oauth2Service = SpardaOauth2Service.create(aspsp, null, keyStore, null);
         Parameters parameters = new Parameters();
         parameters.setRedirectUri(REDIRECT_URI);
+        parameters.setScope(SCOPE);
 
         oauth2Service.getAuthorizationRequestUri(null, parameters);
 

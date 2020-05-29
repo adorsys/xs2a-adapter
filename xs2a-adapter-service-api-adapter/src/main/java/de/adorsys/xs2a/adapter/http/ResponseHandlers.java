@@ -69,6 +69,10 @@ public class ResponseHandlers {
         };
     }
 
+    public static <T> HttpClient.ResponseHandler<T> paymentInitiationResponseHandler(String scaOAuthUrl, Class<T> klass) {
+        return consentCreationResponseHandler(scaOAuthUrl, klass);
+    }
+
     public static <T> HttpClient.ResponseHandler<T> consentCreationResponseHandler(String scaOAuthUrl, Class<T> klass) {
         return (statusCode, responseBody, responseHeaders) -> {
             if (statusCode == 401 || statusCode == 403) {

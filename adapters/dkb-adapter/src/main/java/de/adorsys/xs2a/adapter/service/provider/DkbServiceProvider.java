@@ -30,14 +30,14 @@ import de.adorsys.xs2a.adapter.service.model.Aspsp;
 public class DkbServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(String baseUrl,
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
         DkbAccessTokenService tokenService = DkbAccessTokenService.getInstance();
         tokenService.setHttpClient(httpClient);
-        return new DkbPaymentInitiationService(baseUrl, tokenService, httpClient, linksRewriter);
+        return new DkbPaymentInitiationService(aspsp, tokenService, httpClient, linksRewriter);
     }
 
     @Override
