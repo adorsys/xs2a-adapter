@@ -1,0 +1,24 @@
+package de.adorsys.xs2a.adapter.service.impl;
+
+import de.adorsys.xs2a.adapter.http.Request;
+
+import static de.adorsys.xs2a.adapter.service.RequestHeaders.PSU_ID_TYPE;
+
+public class PsuIdTypeHeaderInterceptor implements Request.Builder.Interceptor {
+
+    @Override
+    public Request.Builder apply(Request.Builder builder) {
+        return handlePsuIdTypeHeader(builder);
+    }
+
+    private Request.Builder handlePsuIdTypeHeader(Request.Builder builder) {
+        if (builder.headers().containsKey(PSU_ID_TYPE)) {
+            String psuIdType = builder.headers().get(PSU_ID_TYPE);
+            if (psuIdType.isEmpty()) {
+                builder.headers().remove(PSU_ID_TYPE);
+            }
+        }
+
+        return builder;
+    }
+}
