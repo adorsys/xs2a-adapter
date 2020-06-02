@@ -15,3 +15,4 @@
 == Fixes:
 - PIS scope for sparkasse, commerzbank, comdirect.
 - Added X-Request-ID header to signature for ING requests
+- Sparda OAuth approach: setting PSU ID from token for create consent and initiate payment requests
