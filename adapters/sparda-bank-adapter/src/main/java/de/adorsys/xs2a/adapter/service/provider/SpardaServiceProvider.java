@@ -24,6 +24,7 @@ import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public class SpardaServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider,
                                                   Oauth2ServiceFactory {
+    private static final SpardaJwtService JWT_SERVICE = new SpardaJwtService();
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
@@ -31,7 +32,7 @@ public class SpardaServiceProvider implements AccountInformationServiceProvider,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
         return new SpardaAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter);
+            linksRewriter, JWT_SERVICE);
     }
 
     @Override
@@ -40,7 +41,7 @@ public class SpardaServiceProvider implements AccountInformationServiceProvider,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
         return new SpardaPaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter);
+            linksRewriter, JWT_SERVICE);
     }
 
     @Override
