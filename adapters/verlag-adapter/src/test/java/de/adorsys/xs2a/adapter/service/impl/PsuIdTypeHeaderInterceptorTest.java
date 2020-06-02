@@ -58,8 +58,7 @@ public class PsuIdTypeHeaderInterceptorTest {
 
         interceptor.apply(builder);
 
-        assertTrue(builder.headers().containsKey(PSU_ID_TYPE));
-        assertEquals(EMPTY_VALUE, builder.headers().get(PSU_ID_TYPE));
+        assertFalse(builder.headers().containsKey(PSU_ID_TYPE));
         checkAssertions(builder);
     }
 

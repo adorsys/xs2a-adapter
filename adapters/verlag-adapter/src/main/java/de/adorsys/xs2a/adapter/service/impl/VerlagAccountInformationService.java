@@ -18,6 +18,7 @@ package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.Request.Builder.Interceptor;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
@@ -38,8 +39,9 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
     public VerlagAccountInformationService(Aspsp aspsp,
                                            AbstractMap.SimpleImmutableEntry<String, String> apiKey,
                                            HttpClient httpClient,
+                                           Interceptor interceptor,
                                            LinksRewriter linksRewriter) {
-        super(aspsp, httpClient, linksRewriter);
+        super(aspsp, httpClient, interceptor, linksRewriter);
         this.apiKey = apiKey;
     }
 

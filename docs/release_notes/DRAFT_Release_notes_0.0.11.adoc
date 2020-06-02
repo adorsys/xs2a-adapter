@@ -15,3 +15,4 @@
 == Fixes:
 - PIS scope for sparkasse, commerzbank, comdirect.
 - Added X-Request-ID header to signature for ING requests
+- Added PSU-ID-Type header interceptor in Verlag adapter for handling the header without a value
