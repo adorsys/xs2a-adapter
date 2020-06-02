@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.service.provider;
+package de.adorsys.xs2a.adapter.verlag.service.provider;
 
 import de.adorsys.xs2a.adapter.adapter.BaseDownloadService;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
@@ -23,11 +23,14 @@ import de.adorsys.xs2a.adapter.service.DownloadService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
-import de.adorsys.xs2a.adapter.service.impl.PsuIdTypeHeaderInterceptor;
-import de.adorsys.xs2a.adapter.service.impl.VerlagAccountInformationService;
-import de.adorsys.xs2a.adapter.service.impl.VerlagPaymentInitiationService;
+import de.adorsys.xs2a.adapter.verlag.service.impl.PsuIdTypeHeaderInterceptor;
+import de.adorsys.xs2a.adapter.verlag.service.impl.VerlagAccountInformationService;
+import de.adorsys.xs2a.adapter.verlag.service.impl.VerlagPaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
+import de.adorsys.xs2a.adapter.service.provider.DownloadServiceProvider;
+import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 
 import java.util.AbstractMap;
 
