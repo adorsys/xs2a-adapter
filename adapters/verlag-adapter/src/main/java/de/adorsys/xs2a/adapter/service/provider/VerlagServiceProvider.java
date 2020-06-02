@@ -23,6 +23,7 @@ import de.adorsys.xs2a.adapter.service.DownloadService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
+import de.adorsys.xs2a.adapter.service.impl.PsuIdTypeHeaderInterceptor;
 import de.adorsys.xs2a.adapter.service.impl.VerlagAccountInformationService;
 import de.adorsys.xs2a.adapter.service.impl.VerlagPaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
@@ -39,6 +40,7 @@ public class VerlagServiceProvider
         {"TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384", "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"};
 
     private static AbstractMap.SimpleImmutableEntry<String, String> apiKeyEntry;
+    private static final PsuIdTypeHeaderInterceptor psuIdTypeHeaderInterceptor = new PsuIdTypeHeaderInterceptor();
 
     static {
         String apiKeyName = AdapterConfig.readProperty(VERLAG_API_KEY_NAME, "");
@@ -54,6 +56,7 @@ public class VerlagServiceProvider
         return new VerlagAccountInformationService(aspsp,
             apiKeyEntry,
             httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
+            psuIdTypeHeaderInterceptor,
             linksRewriter);
     }
 
@@ -65,6 +68,7 @@ public class VerlagServiceProvider
         return new VerlagPaymentInitiationService(aspsp,
             apiKeyEntry,
             httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
+            psuIdTypeHeaderInterceptor,
             linksRewriter);
     }
 

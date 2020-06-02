@@ -18,6 +18,7 @@ package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.Request.Builder.Interceptor;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
@@ -31,8 +32,9 @@ public class VerlagPaymentInitiationService extends BasePaymentInitiationService
     public VerlagPaymentInitiationService(Aspsp aspsp,
                                           AbstractMap.SimpleImmutableEntry<String, String> apiKey,
                                           HttpClient httpClient,
+                                          Interceptor interceptor,
                                           LinksRewriter linksRewriter) {
-        super(aspsp, httpClient, linksRewriter);
+        super(aspsp, httpClient, interceptor, linksRewriter);
         this.apiKey = apiKey;
     }
 
