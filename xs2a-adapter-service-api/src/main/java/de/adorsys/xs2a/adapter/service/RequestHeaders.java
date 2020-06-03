@@ -121,4 +121,8 @@ public class RequestHeaders {
     public Optional<String> getIban() {
         return get(X_GTW_IBAN);
     }
+
+    public Optional<String> getAuthorization() {
+        return get(AUTHORIZATION);
+    }
 }
