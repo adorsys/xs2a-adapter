@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.service.impl;
+package de.adorsys.xs2a.adapter.verlag.service.impl;
 
 import de.adorsys.xs2a.adapter.http.Request;
 import org.apache.commons.lang3.StringUtils;
