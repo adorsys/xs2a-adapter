@@ -9,4 +9,8 @@ public class ApplicationTokenResponse extends TokenResponse {
     public final String getClientId() {
         return clientId;
     }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
 }
