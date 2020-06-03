@@ -7,7 +7,6 @@ import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.PaymentInitiationRequestResponse;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -48,7 +47,6 @@ public class SpardaPaymentInitiationService extends BasePaymentInitiationService
 
     private boolean isOauthPreStep(RequestHeaders requestHeaders) {
         return requestHeaders.get(RequestHeaders.AUTHORIZATION)
-                   .filter(StringUtils::isNotBlank)
                    .map(authHeader -> authHeader.startsWith(BEARER_TOKEN_TYPE_PREFIX))
                    .orElse(false);
     }
