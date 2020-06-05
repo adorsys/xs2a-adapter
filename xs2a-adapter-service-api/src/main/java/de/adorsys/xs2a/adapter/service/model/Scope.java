@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service.model;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,8 @@ public enum Scope {
     AIS_TRANSACTIONS("ais_transactions"),
     PIS("pis");
 
+    private static final EnumSet<Scope> AIS_VALUES = EnumSet.of(AIS, AIS_BALANCES, AIS_TRANSACTIONS);
+    private static final EnumSet<Scope> PIS_VALUES = EnumSet.of(PIS);
     private static final Set<String> VALUES = getValues();
     private final String value;
 
@@ -24,6 +27,14 @@ public enum Scope {
             }
         }
         throw new IllegalArgumentException(value);
+    }
+
+    public static boolean isAis(Scope scope) {
+        return AIS_VALUES.contains(scope);
+    }
+
+    public static boolean isPis(Scope scope) {
+        return PIS_VALUES.contains(scope);
     }
 
     private static Set<String> getValues() {

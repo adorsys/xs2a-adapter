@@ -23,7 +23,9 @@ import de.adorsys.xs2a.adapter.adapter.PkceOauth2Service;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.http.UriBuilder;
+import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.service.model.Scope;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.apache.commons.lang3.StringUtils;
@@ -42,6 +44,13 @@ public class ComdirectOauth2Service extends AbstractService implements Oauth2Ser
 
     private static final String SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE = "SCA OAuth link is missing or has a wrong format: " +
         "it has to be either provided as a request parameter or preconfigured for the current ASPSP";
+    protected static final String UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE = "Scope value [%s] is not supported";
+    protected static final String UNKNOWN_SCOPE_VALUE_ERROR_MESSAGE = "Unknown scope value";
+    protected static final String CONSENT_OR_PAYMENT_ID_MISSING_ERROR_MESSAGE = "Either consent id or payment id should be provided";
+    protected static final String PAYMENT_ID_MISSING_ERROR_MESSAGE = "Payment id should be provided for pis scope";
+    protected static final String CONSENT_ID_MISSING_ERROR_MESSAGE = "Consent id should be provided for ais scope";
+    private static final String AIS_SCOPE_PREFIX = "AIS:";
+    private static final String PIS_SCOPE_PREFIX = "PIS:";
 
     private final Oauth2Service oauth2Service;
     private final String baseUrl;
@@ -73,6 +82,7 @@ public class ComdirectOauth2Service extends AbstractService implements Oauth2Ser
             .build();
     }
 
+    // TODO extract this to some service if the same logic appears for one more adapter https://jira.adorsys.de/browse/XS2AAD-548
     @Override
     public List<ValidationError> validateGetAuthorizationRequestUri(Map<String, String> headers,
                                                                     Parameters parameters) {
@@ -84,17 +94,57 @@ public class ComdirectOauth2Service extends AbstractService implements Oauth2Ser
                 SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE));
         }
 
+        String scope = parameters.getScope();
+        if (StringUtils.isNotEmpty(scope)) {
+            if (!Scope.contains(scope)) {
+                validationErrors.add(new ValidationError(ValidationError.Code.NOT_SUPPORTED,
+                    Parameters.SCOPE,
+                    String.format(UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE, scope)));
+            } else if (Scope.isAis(Scope.fromValue(scope))) {
+                if (StringUtils.isBlank(parameters.getPaymentId())) {
+                    validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
+                        Parameters.CONSENT_ID,
+                        CONSENT_ID_MISSING_ERROR_MESSAGE));
+                }
+            } else if (Scope.isPis(Scope.fromValue(scope))) {
+                if (StringUtils.isBlank(parameters.getConsentId())) {
+                    validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
+                        Parameters.PAYMENT_ID,
+                        PAYMENT_ID_MISSING_ERROR_MESSAGE));
+                }
+            }
+        }
+
         return Collections.unmodifiableList(validationErrors);
     }
 
     private String scope(Parameters parameters) {
-        if (parameters.getConsentId() != null) {
-            return "AIS:" + parameters.getConsentId();
+        if (StringUtils.isEmpty(parameters.getScope())) {
+            return computeScope(parameters);
+        } else {
+            return mapScope(parameters);
         }
-        if (parameters.getPaymentId() != null) {
-            return "PIS:" + parameters.getPaymentId();
+    }
+
+    private String computeScope(Parameters parameters) {
+        if (StringUtils.isNotBlank(parameters.getConsentId())) {
+            return AIS_SCOPE_PREFIX + parameters.getConsentId();
         }
-        return null;
+        if (StringUtils.isNotBlank(parameters.getPaymentId())) {
+            return PIS_SCOPE_PREFIX + parameters.getPaymentId();
+        }
+        throw new BadRequestException(CONSENT_OR_PAYMENT_ID_MISSING_ERROR_MESSAGE);
+    }
+
+    private String mapScope(Parameters parameters) {
+        Scope scope = Scope.fromValue(parameters.getScope());
+
+        if (Scope.isAis(scope)) {
+            return AIS_SCOPE_PREFIX + parameters.getConsentId();
+        } else if (Scope.isPis(scope)) {
+            return PIS_SCOPE_PREFIX + parameters.getPaymentId();
+        }
+        throw new BadRequestException(UNKNOWN_SCOPE_VALUE_ERROR_MESSAGE);
     }
 
     @Override

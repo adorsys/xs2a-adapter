@@ -18,3 +18,4 @@
 - Added X-Request-ID header to signature for ING requests
 - Added PSU-ID-Type header interceptor in Verlag adapter for handling the header without a value
 - Sparda OAuth approach: setting PSU ID from token for create consent and initiate payment requests
+- Adjusted ING, Comdirect, Commerzbank and Sparkasse OAuth implementations to make them work with scope param for get auth URL case
