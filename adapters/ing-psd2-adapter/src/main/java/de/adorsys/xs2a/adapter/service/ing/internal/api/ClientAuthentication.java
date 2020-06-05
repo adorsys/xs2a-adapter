@@ -42,11 +42,12 @@ public class ClientAuthentication implements Request.Builder.Interceptor {
         String date = RFC_1123_DATE_TIME_FORMATTER.format(Instant.now());
         String digest = "SHA-256=" + base64(digest(requestBuilder.content()));
         String signingString = "(request-target): " + requestTarget(requestBuilder) + "\n"
-            + "x-request-id: " + xRequestId + "\n"
+            + (xRequestId != null ? "x-request-id: " + xRequestId + "\n" : "")
             + "date: " + date + "\n"
             + "digest: " + digest;
         String signature = "keyId=\"" + keyId
-            + "\",algorithm=\"rsa-sha256\",headers=\"(request-target) x-request-id date digest\"," +
+            + "\",algorithm=\"rsa-sha256\",headers=\"(request-target)"
+            + (xRequestId != null ? " x-request-id" : "") + " date digest\"," +
             "signature=\"" + base64(sign(signingString)) + "\"";
 
         if (accessToken == null) {
