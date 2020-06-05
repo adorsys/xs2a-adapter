@@ -56,7 +56,7 @@ public class SantanderAccessTokenService implements AccessTokenService {
     private SantanderAccessTokenService() {
         jsonMapper = new JsonMapper();
 
-        String consumerKey = readProperty(SANTANDER_TOKEN_CONSUMER_KEY_PROPERTY, "");
+        String consumerKey = getClientId();
         String consumerSecret = readProperty(SANTANDER_TOKEN_CONSUMER_SECRET_PROPERTY, "");
 
         if (consumerKey.isEmpty() || consumerSecret.isEmpty()) {
@@ -76,6 +76,10 @@ public class SantanderAccessTokenService implements AccessTokenService {
             DEFAULT_SECONDS_BEFORE_TOKEN_EXPIRATION
         ));
         logger.debug("Seconds before token expiration is {}", secondsBeforeTokenExpiration);
+    }
+
+    public static String getClientId() {
+        return readProperty(SANTANDER_TOKEN_CONSUMER_KEY_PROPERTY, "");
     }
 
     public static synchronized SantanderAccessTokenService getInstance() {
