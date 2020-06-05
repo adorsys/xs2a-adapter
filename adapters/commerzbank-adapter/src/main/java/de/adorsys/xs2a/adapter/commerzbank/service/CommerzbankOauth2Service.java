@@ -64,6 +64,7 @@ public class CommerzbankOauth2Service extends AbstractService implements Oauth2S
             .build();
     }
 
+    // TODO: extract this to some service if the same logic appears for one more adapter https://jira.adorsys.de/browse/XS2AAD-548
     @Override
     public List<ValidationError> validateGetAuthorizationRequestUri(Map<String, String> headers,
                                                                     Parameters parameters) {
