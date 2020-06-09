@@ -62,9 +62,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Build project
-        run: mvn clean install -B -Dbuild.number=${GITHUB_SHA::7}
-        shell: bash
+      - name: Publish packages
+        run: mvn -B deploy -Dmaven.test.skip=true -Dbuild.number=${GITHUB_SHA::7}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build docker image
         env:

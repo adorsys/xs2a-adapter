@@ -12,6 +12,7 @@
 - Introduced a new module xs2a-adapter-service-remote-spring with Feign client configs for Spring users
 - Implemented Sparda PIS pre-step OAuth
 - Added PIS for santander.
+- Snapshot versions published to the Github Packages.
 
 == Fixes:
 - PIS scope for sparkasse, commerzbank, comdirect.
