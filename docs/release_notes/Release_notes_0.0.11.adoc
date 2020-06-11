@@ -1,12 +1,4 @@
-= DRAFT Release notes for version 0.0.11 (release date: xx.06.2020)
-
-.Added banks
-|===
-|
-|===
-
-== Notices:
-
+= Release notes for version 0.0.11 (release date: 11.06.2020)
 
 == Features:
 - Introduced a new module xs2a-adapter-service-remote-spring with Feign client configs for Spring users
