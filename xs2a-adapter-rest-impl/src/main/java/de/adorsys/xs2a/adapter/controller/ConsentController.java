@@ -26,6 +26,7 @@ import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.model.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.Map;
+
+import static java.util.Collections.singletonMap;
 
 @RestController
 public class ConsentController extends AbstractController implements ConsentApi, AccountApi {
@@ -73,14 +76,33 @@ public class ConsentController extends AbstractController implements ConsentApi,
         RequestParams requestParams = RequestParams.fromMap(parameters);
         Consents consents = consentMapper.toConsents(body);
 
-        Response<ConsentCreationResponse> response = accountInformationService.createConsent(requestHeaders,
-            requestParams,
-            consents);
+        Response<ConsentCreationResponse> response;
+        try {
+            response = accountInformationService.createConsent(requestHeaders,
+                requestParams,
+                consents);
+        } catch (ErrorResponseException e) {
+            if (e.getStatusCode() == 403 && e.getMessage() != null && e.getMessage().contains("TOKEN_INVALID")) {
+                ConsentsResponse201TO consentsResponse = new ConsentsResponse201TO();
+                HrefTypeTO preOauthHref = new HrefTypeTO();
+                preOauthHref.setHref(Oauth2Controller.AUTHORIZATION_REQUEST_URI);
+                Map<String, HrefTypeTO> preOauth = singletonMap("preOauth", preOauthHref);
+                consentsResponse.setLinks(preOauth);
+                return ResponseEntity.ok(consentsResponse);
+            }
+            throw e;
+        }
 
-        return ResponseEntity
-                       .status(HttpStatus.CREATED)
-                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                       .body(creationResponseMapper.toConsentResponse201(response.getBody()));
+        ConsentCreationResponse consentsResponse = response.getBody();
+        if (consentsResponse.getConsentId() == null &&  consentsResponse.getLinks() == null) {
+            consentsResponse.setLinks(
+                singletonMap("oauthConsent", new Link(Oauth2Controller.AUTHORIZATION_REQUEST_URI))
+            );
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(creationResponseMapper.toConsentResponse201(consentsResponse));
     }
 
     @Override
@@ -224,14 +246,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
                                                      Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
-        RequestParams requestParams = RequestParams.builder()
-                                              .bookingStatus(bookingStatus.toString())
-                                              .dateFrom(dateFrom)
-                                              .dateTo(dateTo)
-                                              .entryReferenceFrom(entryReferenceFrom)
-                                              .deltaList(deltaList)
-                                              .withBalance(withBalance)
-                                              .build();
+        RequestParams requestParams = RequestParams.fromMap(parameters);
 
         if (requestHeaders.isAcceptJson()) {
             Response<TransactionsReport> transactionList = accountInformationService.getTransactionList(accountId, requestHeaders, requestParams);

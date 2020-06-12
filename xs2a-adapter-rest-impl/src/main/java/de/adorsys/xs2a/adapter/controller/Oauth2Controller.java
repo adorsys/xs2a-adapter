@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.controller;
 
 import de.adorsys.xs2a.adapter.api.Oauth2Api;
-import de.adorsys.xs2a.adapter.mapper.psd2.Oauth2Mapper;
+import de.adorsys.xs2a.adapter.mapper.Oauth2Mapper;
 import de.adorsys.xs2a.adapter.model.HrefTypeTO;
 import de.adorsys.xs2a.adapter.model.TokenResponseTO;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;

@@ -6,7 +6,7 @@
 |===
 
 == Notices:
-
+- Removed psd2 api.
 
 == Features:
 

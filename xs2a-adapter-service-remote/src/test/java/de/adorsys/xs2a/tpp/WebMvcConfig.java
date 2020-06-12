@@ -44,30 +44,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 return PaymentServiceTO.fromValue(source);
             }
         });
-
-        registry.addConverter(new Converter<String, de.adorsys.xs2a.adapter.rest.psd2.model.PaymentServiceTO>() {
-
-            @Override
-            public de.adorsys.xs2a.adapter.rest.psd2.model.PaymentServiceTO convert(String source) {
-                return de.adorsys.xs2a.adapter.rest.psd2.model.PaymentServiceTO.fromValue(source);
-            }
-        });
-
-        registry.addConverter(new Converter<String, PaymentProductTO>() {
-
-            @Override
-            public PaymentProductTO convert(String source) {
-                return PaymentProductTO.fromValue(source);
-            }
-        });
-
-        registry.addConverter(new Converter<String, de.adorsys.xs2a.adapter.rest.psd2.model.PaymentProductTO>() {
-
-            @Override
-            public de.adorsys.xs2a.adapter.rest.psd2.model.PaymentProductTO convert(String source) {
-                return de.adorsys.xs2a.adapter.rest.psd2.model.PaymentProductTO.fromValue(source);
-            }
-        });
     }
 
     public static class CustomConversionService extends DefaultConversionService {

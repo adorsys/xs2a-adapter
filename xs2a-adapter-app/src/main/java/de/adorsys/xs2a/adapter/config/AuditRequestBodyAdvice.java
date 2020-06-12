@@ -47,11 +47,6 @@ public class AuditRequestBodyAdvice extends RequestBodyAdviceAdapter {
             ConsentsTO consents = (ConsentsTO) body;
             MDC.put("iban", getIbans(consents).toString());
             MDC.put("consentModel", getModel(consents));
-        } else if (body instanceof de.adorsys.xs2a.adapter.rest.psd2.model.ConsentsTO) {
-            de.adorsys.xs2a.adapter.rest.psd2.model.ConsentsTO consents =
-                (de.adorsys.xs2a.adapter.rest.psd2.model.ConsentsTO) body;
-            MDC.put("iban", getIbans(consents).toString());
-            MDC.put("consentModel", getModel(consents));
         } else {
             logger.warn("Unexpected body type {} for create consent", body.getClass());
         }
@@ -83,43 +78,6 @@ public class AuditRequestBodyAdvice extends RequestBodyAdviceAdapter {
         AccountAccessTO access = consents.getAccess();
         if (access != null) {
             if (access.getAllPsd2() == AccountAccessTO.AllPsd2TO.ALLACCOUNTS) {
-                return "global";
-            }
-            if ((access.getAccounts() == null || access.getAccounts().isEmpty()) &&
-                (access.getBalances() == null || access.getBalances().isEmpty()) &&
-                (access.getTransactions() == null || access.getTransactions().isEmpty())) {
-
-                return "bank-offered";
-            }
-            return "detailed";
-        }
-        return "unknown";
-    }
-
-    private Set<String> getIbans(de.adorsys.xs2a.adapter.rest.psd2.model.ConsentsTO consents) {
-        Set<String> ibans = new HashSet<>();
-        de.adorsys.xs2a.adapter.rest.psd2.model.AccountAccessTO access = consents.getAccess();
-        if (access != null) {
-            ibans.addAll(getIbansPsd2(access.getAccounts()));
-            ibans.addAll(getIbansPsd2(access.getBalances()));
-            ibans.addAll(getIbansPsd2(access.getTransactions()));
-        }
-        return ibans;
-    }
-
-    private Set<String> getIbansPsd2(List<de.adorsys.xs2a.adapter.rest.psd2.model.AccountReferenceTO> accountRefs) {
-        if (accountRefs == null || accountRefs.isEmpty()) {
-            return emptySet();
-        }
-        return accountRefs.stream()
-            .map(de.adorsys.xs2a.adapter.rest.psd2.model.AccountReferenceTO::getIban)
-            .collect(toSet());
-    }
-
-    private String getModel(de.adorsys.xs2a.adapter.rest.psd2.model.ConsentsTO consents) {
-        de.adorsys.xs2a.adapter.rest.psd2.model.AccountAccessTO access = consents.getAccess();
-        if (access != null) {
-            if ("allAccounts".equals(access.getAllPsd2())) {
                 return "global";
             }
             if ((access.getAccounts() == null || access.getAccounts().isEmpty()) &&

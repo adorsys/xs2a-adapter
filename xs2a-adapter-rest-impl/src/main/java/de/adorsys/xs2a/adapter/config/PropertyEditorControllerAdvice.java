@@ -24,8 +24,6 @@ public class PropertyEditorControllerAdvice {
         registerCustomEditor(dataBinder, BookingStatusTO.class);
         registerCustomEditor(dataBinder, PaymentServiceTO.class);
         registerCustomEditor(dataBinder, PaymentProductTO.class);
-        registerCustomEditor(dataBinder, de.adorsys.xs2a.adapter.rest.psd2.model.PaymentServiceTO.class);
-        registerCustomEditor(dataBinder, de.adorsys.xs2a.adapter.rest.psd2.model.PaymentProductTO.class);
     }
 
     private <T> void registerCustomEditor(WebDataBinder dataBinder, Class<T> type) {

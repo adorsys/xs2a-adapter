@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>de.adorsys.xs2a.adapter</groupId>
         <artifactId>xs2a-adapter</artifactId>
+        <groupId>de.adorsys.xs2a.adapter</groupId>
         <version>0.0.12-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
 
-    <artifactId>commerzbank-adapter</artifactId>
+    <artifactId>ing-adapter</artifactId>
 
     <dependencies>
 
@@ -22,24 +24,21 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- test dependencies -->
+        <!-- other dependencies -->
 
         <dependency>
-            <groupId>pro.javatar.commons</groupId>
-            <artifactId>javatar-commons</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
         </dependency>
 
     </dependencies>
@@ -72,12 +71,12 @@
                                         <!-- adapters -->
                                         <exclude>de.adorsys.xs2a.adapter:adorsys-integ-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:comdirect-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:commerzbank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:consors-bank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:dab-bank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:deutsche-bank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:dkb-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:fiducia-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:ing-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:maven-adapter-archetype</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:santander-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:sparda-bank-adapter</exclude>
@@ -88,6 +87,8 @@
                                         <exclude>joda-time:*</exclude>
                                         <exclude>org.projectlombok:lombok</exclude>
                                     </excludes>
+                                    <includes>
+                                    </includes>
                                 </bannedDependencies>
                             </rules>
                             <fail>true</fail>
@@ -97,4 +98,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
