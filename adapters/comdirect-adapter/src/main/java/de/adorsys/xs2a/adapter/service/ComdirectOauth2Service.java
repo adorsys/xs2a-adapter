@@ -101,13 +101,13 @@ public class ComdirectOauth2Service extends AbstractService implements Oauth2Ser
                     Parameters.SCOPE,
                     String.format(UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE, scope)));
             } else if (Scope.isAis(Scope.fromValue(scope))) {
-                if (StringUtils.isBlank(parameters.getPaymentId())) {
+                if (StringUtils.isBlank(parameters.getConsentId())) {
                     validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
                         Parameters.CONSENT_ID,
                         CONSENT_ID_MISSING_ERROR_MESSAGE));
                 }
             } else if (Scope.isPis(Scope.fromValue(scope))) {
-                if (StringUtils.isBlank(parameters.getConsentId())) {
+                if (StringUtils.isBlank(parameters.getPaymentId())) {
                     validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
                         Parameters.PAYMENT_ID,
                         PAYMENT_ID_MISSING_ERROR_MESSAGE));
