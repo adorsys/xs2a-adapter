@@ -1,5 +1,7 @@
 package de.adorsys.xs2a.adapter.service.ing.internal.api.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class PaymentInitiationResponse {
@@ -7,6 +9,7 @@ public class PaymentInitiationResponse {
 
     private String paymentId;
 
+    @JsonProperty("_links")
     private Links links;
 
     private List<TppMessage> tppMessages;
