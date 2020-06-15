@@ -12,3 +12,4 @@
 
 
 == Fixes:
+Fixed wrong OAuth param validation for Comdirect, Commerzbank and Sparkasse
