@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.codegen;
 
 import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.TypeSpec;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.v3.parser.core.models.ParseOptions;
@@ -22,8 +23,9 @@ import java.util.Set;
 
 public class Main {
 
-    private static final String OPENAPI_SPEC_DIR = "../xs2a-adapter-rest-impl/src/main/resources/static";
-    private static final String GENERATED_CODE_DIR = "../xs2a-adapter-generated-rest-api/src/main/java";
+    private static final String OPENAPI_SPEC_DIR = "xs2a-adapter-rest-impl/src/main/resources/static";
+    private static final String GENERATED_REST_API_DIR = "xs2a-adapter-generated-rest-api/src/main/java";
+    private static final String GENERATED_API_DIR = "xs2a-adapter-generated-api/src/main/java";
     private static final Map<String, String> operationToInterface = Map.ofEntries(
         Map.entry("createConsent", "ConsentApi"),
         Map.entry("getConsentInformation", "ConsentApi"),
@@ -55,13 +57,15 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        String modifiedSpec = filterOperations("src/main/resources/psd2-api 1.3.6 20200306v1.json", operationToInterface.keySet());
+        String modifiedSpec = filterOperations("xs2a-adapter-codegen/src/main/resources/psd2-api 1.3.6 20200306v1.json",
+            operationToInterface.keySet());
         modifiedSpec = addCustomParams(modifiedSpec);
         modifiedSpec = removeServers(modifiedSpec);
 
         Files.writeString(Paths.get(OPENAPI_SPEC_DIR, "xs2aapi.json"), modifiedSpec);
         OpenAPI api = parseSpec(modifiedSpec);
-        FileUtils.deleteDirectory(new File(GENERATED_CODE_DIR));
+        FileUtils.deleteDirectory(new File(GENERATED_REST_API_DIR));
+        FileUtils.deleteDirectory(new File(GENERATED_API_DIR));
         new CodeGenerator(api, Main::saveFile, "de.adorsys.xs2a.adapter").generate(operationToInterface);
     }
 
@@ -73,7 +77,8 @@ public class Main {
     }
 
     private static void saveFile(JavaFile file) {
-        Path path = Paths.get(GENERATED_CODE_DIR, file.packageName.replace('.', '/'), file.typeSpec.name + ".java");
+        String baseDir = file.typeSpec.kind == TypeSpec.Kind.INTERFACE? GENERATED_REST_API_DIR : GENERATED_API_DIR;
+        Path path = Paths.get(baseDir, file.packageName.replace('.', '/'), file.typeSpec.name + ".java");
         Path dir = path.getParent();
         try {
             Files.createDirectories(dir);

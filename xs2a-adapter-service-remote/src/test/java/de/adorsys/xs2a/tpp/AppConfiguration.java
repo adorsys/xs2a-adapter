@@ -18,8 +18,8 @@ package de.adorsys.xs2a.tpp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.adapter.controller.ConsentController;
+import de.adorsys.xs2a.adapter.controller.PaymentController;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
-import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.remote.api.AccountInformationClient;
 import de.adorsys.xs2a.adapter.remote.api.PaymentInitiationClient;
 import de.adorsys.xs2a.adapter.remote.service.impl.RemoteAccountInformationService;
@@ -44,11 +44,6 @@ public class AppConfiguration {
 
     @Autowired
     PaymentInitiationClient paymentInitiationClient;
-
-    @Bean
-    PaymentInitiationScaStatusResponseMapper getPaymentInitiationScaStatusResponseMapper() {
-        return new PaymentInitiationScaStatusResponseMapper();
-    }
 
     @Bean
     HeadersMapper getHeadersMapper() {
@@ -85,5 +80,12 @@ public class AppConfiguration {
                                         ObjectMapper objectMapper,
                                         HeadersMapper headersMapper) {
         return new ConsentController(accountInformationService, objectMapper, headersMapper);
+    }
+
+    @Bean
+    PaymentController paymentController(PaymentInitiationService paymentInitiationService,
+                                        ObjectMapper objectMapper,
+                                        HeadersMapper headersMapper) {
+        return new PaymentController(paymentInitiationService, headersMapper, objectMapper);
     }
 }

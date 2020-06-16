@@ -18,6 +18,7 @@ package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.adapter.StandardPaymentProduct;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
@@ -32,7 +33,7 @@ import de.adorsys.xs2a.adapter.service.impl.model.DkbSelectPsuAuthenticationMeth
 import de.adorsys.xs2a.adapter.service.impl.model.DkbStartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbUpdatePsuAuthenticationResponse;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
@@ -58,10 +59,10 @@ public class DkbPaymentInitiationService extends BasePaymentInitiationService {
     }
 
     @Override
-    public Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct,
-                                                                            RequestHeaders requestHeaders,
-                                                                            RequestParams requestParams,
-                                                                            Object body) {
+    public Response<PaymentInitationRequestResponse201> initiateSinglePayment(String paymentProduct,
+                                                                              RequestHeaders requestHeaders,
+                                                                              RequestParams requestParams,
+                                                                              Object body) {
         return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct),
             body,
             requestHeaders,
@@ -71,7 +72,7 @@ public class DkbPaymentInitiationService extends BasePaymentInitiationService {
     }
 
     @Override
-    public Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
+    public Response<StartScaprocessResponse> startSinglePaymentAuthorisation(String paymentProduct,
                                                                              String paymentId,
                                                                              RequestHeaders requestHeaders,
                                                                              RequestParams requestParams,

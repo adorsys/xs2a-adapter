@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.config;
 
 import de.adorsys.bg.monitoring.client.MonitoringContext;
-import de.adorsys.xs2a.adapter.model.AccountAccessTO;
-import de.adorsys.xs2a.adapter.model.AccountReferenceTO;
-import de.adorsys.xs2a.adapter.model.ConsentsTO;
+import de.adorsys.xs2a.adapter.api.model.AccountAccess;
+import de.adorsys.xs2a.adapter.api.model.AccountReference;
+import de.adorsys.xs2a.adapter.api.model.Consents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
@@ -14,7 +14,10 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAd
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toSet;
@@ -33,7 +36,7 @@ public class MonitoringRequestBodyAdvice extends RequestBodyAdviceAdapter {
         if (method == null) {
             return false;
         }
-        return "createConsent".equals(method.getName()) && targetType.equals(ConsentsTO.class);
+        return "createConsent".equals(method.getName()) && targetType.equals(Consents.class);
     }
 
     @Override
@@ -42,8 +45,8 @@ public class MonitoringRequestBodyAdvice extends RequestBodyAdviceAdapter {
                                 MethodParameter parameter,
                                 Type targetType,
                                 Class<? extends HttpMessageConverter<?>> converterType) {
-        if (body instanceof ConsentsTO) {
-            ConsentsTO consents = (ConsentsTO) body;
+        if (body instanceof Consents) {
+            Consents consents = (Consents) body;
             MonitoringContext.setIban(getIban(consents));
         } else {
             logger.warn("Unexpected body type {} for create consent", body.getClass());
@@ -52,7 +55,7 @@ public class MonitoringRequestBodyAdvice extends RequestBodyAdviceAdapter {
         return body;
     }
 
-    private String getIban(ConsentsTO consents) {
+    private String getIban(Consents consents) {
         Set<String> ibans = getIbans(consents);
         Iterator<String> iterator = ibans.iterator();
         if (iterator.hasNext()) {
@@ -61,9 +64,9 @@ public class MonitoringRequestBodyAdvice extends RequestBodyAdviceAdapter {
         return null;
     }
 
-    private Set<String> getIbans(ConsentsTO consents) {
+    private Set<String> getIbans(Consents consents) {
         Set<String> ibans = new HashSet<>();
-        AccountAccessTO access = consents.getAccess();
+        AccountAccess access = consents.getAccess();
         if (access != null) {
             ibans.addAll(getIbans(access.getAccounts()));
             ibans.addAll(getIbans(access.getBalances()));
@@ -72,12 +75,12 @@ public class MonitoringRequestBodyAdvice extends RequestBodyAdviceAdapter {
         return ibans;
     }
 
-    private Set<String> getIbans(List<AccountReferenceTO> accountRefs) {
+    private Set<String> getIbans(List<AccountReference> accountRefs) {
         if (accountRefs == null || accountRefs.isEmpty()) {
             return emptySet();
         }
         return accountRefs.stream()
-            .map(AccountReferenceTO::getIban)
+            .map(AccountReference::getIban)
             .collect(toSet());
     }
 }

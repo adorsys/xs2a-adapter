@@ -1,12 +1,13 @@
 package de.adorsys.xs2a.adapter.service.ing;
 
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.http.JsonMapper;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.AccountInformationApi;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.ClientAuthentication;
 import de.adorsys.xs2a.adapter.service.ing.internal.service.IngOauth2Service;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import org.mapstruct.factory.Mappers;
 
 import java.net.URI;
@@ -33,10 +34,10 @@ public class IngAccountInformationService implements AccountInformationService, 
     }
 
     @Override
-    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
-                                                           RequestParams requestParams,
-                                                           Consents body) {
-        return toResponse(new ConsentCreationResponse());
+    public Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
+                                                       RequestParams requestParams,
+                                                       Consents body) {
+        return toResponse(new ConsentsResponse201());
     }
 
     private <T> Response<T> toResponse(T body) {
@@ -44,9 +45,9 @@ public class IngAccountInformationService implements AccountInformationService, 
     }
 
     @Override
-    public Response<ConsentInformation> getConsentInformation(String consentId,
-                                                              RequestHeaders requestHeaders,
-                                                              RequestParams requestParams) {
+    public Response<ConsentInformationResponse200Json> getConsentInformation(String consentId,
+                                                                             RequestHeaders requestHeaders,
+                                                                             RequestParams requestParams) {
         throw new UnsupportedOperationException();
     }
 
@@ -58,21 +59,21 @@ public class IngAccountInformationService implements AccountInformationService, 
     }
 
     @Override
-    public Response<ConsentStatusResponse> getConsentStatus(String consentId,
-                                                            RequestHeaders requestHeaders,
-                                                            RequestParams requestParams) {
+    public Response<ConsentStatusResponse200> getConsentStatus(String consentId,
+                                                               RequestHeaders requestHeaders,
+                                                               RequestParams requestParams) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams,
                                                                        UpdatePsuAuthentication updatePsuAuthentication) {
@@ -120,29 +121,29 @@ public class IngAccountInformationService implements AccountInformationService, 
     }
 
     @Override
-    public Response<CardAccountDetailsHolder> getCardAccountDetails(String accountId,
-                                                                    RequestHeaders requestHeaders,
-                                                                    RequestParams requestParams) {
+    public Response<OK200CardAccountDetails> getCardAccountDetails(String accountId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Response<CardAccountBalanceReport> getCardAccountBalances(String accountId,
-                                                                     RequestHeaders requestHeaders,
-                                                                     RequestParams requestParams) {
+    public Response<ReadCardAccountBalanceResponse200> getCardAccountBalances(String accountId,
+                                                                              RequestHeaders requestHeaders,
+                                                                              RequestParams requestParams) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Response<CardAccountsTransactions> getCardAccountTransactionList(String accountId,
-                                                                            RequestHeaders requestHeaders,
-                                                                            RequestParams requestParams) {
+    public Response<CardAccountsTransactionsResponse200> getCardAccountTransactionList(String accountId,
+                                                                                       RequestHeaders requestHeaders,
+                                                                                       RequestParams requestParams) {
         String accessToken = requestHeaders.getAccessToken().orElse(null);
         ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         LocalDate dateFrom = requestParams.dateFrom();
         LocalDate dateTo = requestParams.dateTo();
         Integer limit = requestParams.get("limit", Integer::valueOf);
-        Response<CardAccountsTransactions> response = accountInformationApi.getCardAccountTransactions(
+        Response<CardAccountsTransactionsResponse200> response = accountInformationApi.getCardAccountTransactions(
             accountId,
             dateFrom,
             dateTo,
@@ -151,7 +152,7 @@ public class IngAccountInformationService implements AccountInformationService, 
             clientAuthentication);
 
         // rewrite links
-        CardAccountsTransactions body = response.getBody();
+        CardAccountsTransactionsResponse200 body = response.getBody();
         if (body != null) {
             body.setLinks(rewriteLinks(body.getLinks()));
             CardAccountReport cardTransactions = body.getCardTransactions();
@@ -173,35 +174,35 @@ public class IngAccountInformationService implements AccountInformationService, 
     }
 
     @Override
-    public Response<AccountListHolder> getAccountList(RequestHeaders requestHeaders,
-                                                      RequestParams requestParams) {
+    public Response<AccountList> getAccountList(RequestHeaders requestHeaders,
+                                                RequestParams requestParams) {
         String accessToken = requestHeaders.getAccessToken().orElse(null);
         ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         String requestId = requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null);
-        Response<AccountListHolder> response = accountInformationApi.getAccounts(requestId, clientAuthentication)
+        Response<AccountList> response = accountInformationApi.getAccounts(requestId, clientAuthentication)
             .map(mapper::map);
 
         rewriteLinks(response.getBody());
         return response;
     }
 
-    private void rewriteLinks(AccountListHolder accountList) {
+    private void rewriteLinks(AccountList accountList) {
         Optional.ofNullable(accountList)
-            .map(AccountListHolder::getAccounts)
+            .map(AccountList::getAccounts)
             .ifPresent(accounts -> accounts.forEach(acc -> {
                     acc.setLinks(rewriteLinks(acc.getLinks()));
                 }
             ));
     }
 
-    private Map<String, Link> rewriteLinks(Map<String, Link> links) {
+    private Map<String, HrefType> rewriteLinks(Map<String, HrefType> links) {
         return linksRewriter.rewrite(links);
     }
 
     @Override
-    public Response<BalanceReport> getBalances(String accountId,
-                                               RequestHeaders requestHeaders,
-                                               RequestParams requestParams) {
+    public Response<ReadAccountBalanceResponse200> getBalances(String accountId,
+                                                               RequestHeaders requestHeaders,
+                                                               RequestParams requestParams) {
         String accessToken = requestHeaders.getAccessToken().orElse(null);
         ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         Currency currency = requestParams.get("currency", Currency::getInstance);
@@ -224,9 +225,9 @@ public class IngAccountInformationService implements AccountInformationService, 
     }
 
     @Override
-    public Response<TransactionsReport> getTransactionList(String accountId,
-                                                           RequestHeaders requestHeaders,
-                                                           RequestParams requestParams) {
+    public Response<TransactionsResponse200Json> getTransactionList(String accountId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    RequestParams requestParams) {
         String accessToken = requestHeaders.getAccessToken().orElse(null);
         ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         LocalDate dateFrom = requestParams.dateFrom();
@@ -234,7 +235,7 @@ public class IngAccountInformationService implements AccountInformationService, 
         Currency currency = requestParams.get("currency", Currency::getInstance);
         Integer limit = requestParams.get("limit", Integer::valueOf);
         String requestId = requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null);
-        Response<TransactionsReport> response = accountInformationApi.getTransactions(accountId,
+        Response<TransactionsResponse200Json> response = accountInformationApi.getTransactions(accountId,
             dateFrom,
             dateTo,
             currency,
@@ -248,10 +249,10 @@ public class IngAccountInformationService implements AccountInformationService, 
     }
 
     @Override
-    public Response<TransactionDetails> getTransactionDetails(String accountId,
-                                                              String transactionId,
-                                                              RequestHeaders requestHeaders,
-                                                              RequestParams requestParams) {
+    public Response<OK200TransactionDetails> getTransactionDetails(String accountId,
+                                                                   String transactionId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams) {
         throw new UnsupportedOperationException();
     }
 
@@ -263,7 +264,7 @@ public class IngAccountInformationService implements AccountInformationService, 
             .map(jsonMapper::writeValueAsString);
     }
 
-    private void rewriteLinks(TransactionsReport transactionsResponse) {
+    private void rewriteLinks(TransactionsResponse200Json transactionsResponse) {
         Optional.ofNullable(transactionsResponse)
             .ifPresent(body -> {
                 body.setLinks(rewriteLinks(body.getLinks()));
@@ -278,7 +279,7 @@ public class IngAccountInformationService implements AccountInformationService, 
             });
     }
 
-    private void rewriteLinks(List<Transactions> transactionDetails) {
+    private void rewriteLinks(List<TransactionDetails> transactionDetails) {
         Optional.ofNullable(transactionDetails)
             .ifPresent(td -> td.forEach(t -> t.setLinks(rewriteLinks(t.getLinks()))));
     }

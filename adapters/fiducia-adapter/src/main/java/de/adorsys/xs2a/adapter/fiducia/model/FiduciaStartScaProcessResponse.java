@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.fiducia.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.adorsys.xs2a.adapter.service.model.AuthenticationObject;
-import de.adorsys.xs2a.adapter.service.model.Link;
-import de.adorsys.xs2a.adapter.service.model.ScaStatus;
+import de.adorsys.xs2a.adapter.api.model.AuthenticationObject;
+import de.adorsys.xs2a.adapter.api.model.HrefType;
+import de.adorsys.xs2a.adapter.api.model.ScaStatus;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +15,7 @@ public class FiduciaStartScaProcessResponse {
     private AuthenticationObject chosenScaMethod;
     private FiduciaChallengeData challengeData;
     @JsonProperty("_links")
-    private Map<String, Link> links;
+    private Map<String, HrefType> links;
     private String psuMessage;
 
     public ScaStatus getScaStatus() {
@@ -58,11 +58,11 @@ public class FiduciaStartScaProcessResponse {
         this.challengeData = challengeData;
     }
 
-    public Map<String, Link> getLinks() {
+    public Map<String, HrefType> getLinks() {
         return links;
     }
 
-    public void setLinks(Map<String, Link> links) {
+    public void setLinks(Map<String, HrefType> links) {
         this.links = links;
     }
 

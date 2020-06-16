@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.service.ing.internal.api;
 
+import de.adorsys.xs2a.adapter.api.model.CardAccountsTransactionsResponse200;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.StringUri;
@@ -8,7 +9,6 @@ import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.AccountsResponse;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.BalancesResponse;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.TransactionsResponse;
-import de.adorsys.xs2a.adapter.service.model.CardAccountsTransactions;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -83,7 +83,7 @@ public class AccountInformationApi {
             .send(clientAuthentication, jsonResponseHandler(BalancesResponse.class));
     }
 
-    public Response<CardAccountsTransactions> getCardAccountTransactions(
+    public Response<CardAccountsTransactionsResponse200> getCardAccountTransactions(
         String accountId,
         LocalDate dateFrom,
         LocalDate dateTo,
@@ -102,6 +102,6 @@ public class AccountInformationApi {
 
         return httpClient.get(uri)
             .header(RequestHeaders.X_REQUEST_ID, requestId)
-            .send(clientAuthentication, jsonResponseHandler(CardAccountsTransactions.class));
+            .send(clientAuthentication, jsonResponseHandler(CardAccountsTransactionsResponse200.class));
     }
 }

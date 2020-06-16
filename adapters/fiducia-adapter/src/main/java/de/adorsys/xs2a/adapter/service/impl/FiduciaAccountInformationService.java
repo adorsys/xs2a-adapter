@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.fiducia.mapper.FiduciaResponseMapper;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaStartScaProcessResponse;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaUpdatePsuDataResponse;
@@ -26,7 +27,7 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.mapstruct.factory.Mappers;
 
@@ -77,9 +78,9 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
     }
 
     @Override
-    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
-                                                           RequestParams requestParams,
-                                                           Consents body) {
+    public Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
+                                                       RequestParams requestParams,
+                                                       Consents body) {
         modifyRecurringIndicator(body);
         return super.createConsent(requestHeaders, requestParams, body);
     }
@@ -90,7 +91,7 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
     }
 
     @Override
-    public Response<TransactionsReport> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
+    public Response<TransactionsResponse200Json> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
 
 
         return super.getTransactionList(accountId, requestHeaders, requestParams);
@@ -142,7 +143,7 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(
+    public Response<StartScaprocessResponse> startConsentAuthorisation(
         String consentId,
         RequestHeaders requestHeaders,
         RequestParams requestParams,

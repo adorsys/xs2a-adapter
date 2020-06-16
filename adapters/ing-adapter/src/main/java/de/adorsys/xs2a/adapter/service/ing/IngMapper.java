@@ -1,12 +1,11 @@
 package de.adorsys.xs2a.adapter.service.ing;
 
-import de.adorsys.xs2a.adapter.service.ing.internal.api.model.Balance;
-import de.adorsys.xs2a.adapter.service.ing.internal.api.model.Links;
+import de.adorsys.xs2a.adapter.api.model.Address;
+import de.adorsys.xs2a.adapter.api.model.Balance;
+import de.adorsys.xs2a.adapter.api.model.HrefType;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.*;
-import de.adorsys.xs2a.adapter.service.model.Address;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
-import de.adorsys.xs2a.adapter.service.model.Transactions;
-import de.adorsys.xs2a.adapter.service.model.*;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,42 +17,44 @@ import java.util.UUID;
 
 @Mapper
 public interface IngMapper {
-    AccountListHolder map(AccountsResponse value);
+    AccountList map(AccountsResponse value);
 
-    BalanceReport map(BalancesResponse value);
+    ReadAccountBalanceResponse200 map(BalancesResponse value);
 
     @Mapping(target = "balances", ignore = true)
     @Mapping(target = "links", ignore = true)
-    TransactionsReport map(de.adorsys.xs2a.adapter.service.ing.internal.api.model.TransactionsResponse value);
+    TransactionsResponse200Json map(TransactionsResponse value);
 
     default String map(UUID value) {
         return value.toString();
     }
 
-    default Map<String, Link> map(AccountLinks value) {
+    default Map<String, HrefType> map(AccountLinks value) {
         if (value == null) {
             return null;
         }
-        HashMap<String, Link> links = new HashMap<>();
+        HashMap<String, HrefType> links = new HashMap<>();
         if (value.getBalances() != null) {
-            links.put("balances", new Link(value.getBalances().getHref()));
+            HrefType balances = new HrefType();
+            balances.setHref(value.getBalances().getHref());
+            links.put("balances", balances);
         }
         if (value.getTransactions() != null) {
-            links.put("transactions", new Link(value.getTransactions().getHref()));
+            HrefType transactions = new HrefType();
+            transactions.setHref(value.getTransactions().getHref());
+            links.put("transactions", transactions);
         }
         return links;
     }
 
-    default String map(TransactionRemittanceInformationStructured value) {
-        return value.getReference();
-    }
-
-    default Map<String, Link> map(LinksNext value) {
+    default Map<String, HrefType> map(LinksNext value) {
         if (value == null) {
             return null;
         }
         if (value.getNext() != null) {
-            return Collections.singletonMap("next", new Link(value.getNext().getHref()));
+            HrefType next = new HrefType();
+            next.setHref(value.getNext().getHref());
+            return Collections.singletonMap("next", next);
         }
         return Collections.emptyMap();
     }
@@ -75,9 +76,25 @@ public interface IngMapper {
     @Mapping(target = "balances", ignore = true)
     @Mapping(target = "displayName", ignore = true)
     @Mapping(target = "ownerName", ignore = true)
-    AccountDetails map(de.adorsys.xs2a.adapter.service.ing.internal.api.model.Account value);
+    AccountDetails map(Account value);
 
     Balance map(de.adorsys.xs2a.adapter.service.ing.internal.api.model.Balance value);
+
+    default BalanceType toBalanceType(String value) {
+        return BalanceType.fromValue(value);
+    }
+
+    default TransactionStatus toTransactionStatus(String value) {
+        return TransactionStatus.fromValue(value);
+    }
+
+    default TppMessageCategory toTppMessageCategory(String value) {
+        return TppMessageCategory.fromValue(value);
+    }
+
+    default MessageCode2XX toMessageCode2XX(String value) {
+        return MessageCode2XX.fromValue(value);
+    }
 
     @Mapping(target = "pan", ignore = true)
     @Mapping(target = "maskedPan", ignore = true)
@@ -101,7 +118,7 @@ public interface IngMapper {
     @Mapping(target = "remittanceInformationStructuredArray", ignore = true)
     @Mapping(target = "additionalInformationStructured", ignore = true)
     @Mapping(target = "balanceAfterTransaction", ignore = true)
-    Transactions map(de.adorsys.xs2a.adapter.service.ing.internal.api.model.Transaction value);
+    TransactionDetails map(Transaction value);
 
     TokenResponse map(de.adorsys.xs2a.adapter.service.ing.internal.api.model.TokenResponse value);
 
@@ -113,7 +130,7 @@ public interface IngMapper {
     @Mapping(target = "serviceLevelCode", ignore = true)
     @Mapping(target = "localInstrumentCode", ignore = true)
     @Mapping(target = "categoryPurposeCode", ignore = true)
-    PaymentInstruction map(SinglePaymentInitiationBody value);
+    PaymentInstruction map(PaymentInitiationJson value);
 
     @Mapping(target = "streetName", source = "street")
     @Mapping(target = "townName", source = "city")
@@ -128,30 +145,38 @@ public interface IngMapper {
     @Mapping(target = "scaMethods", ignore = true)
     @Mapping(target = "challengeData", ignore = true)
     @Mapping(target = "psuMessage", ignore = true)
-    PaymentInitiationRequestResponse map(PaymentInitiationResponse value);
+    PaymentInitationRequestResponse201 map(PaymentInitiationResponse value);
 
-    default Map<String, Link> map(Links value) {
+    default Map<String, HrefType> map(Links value) {
         if (value == null) {
             return null;
         }
-        HashMap<String, Link> links = new HashMap<>();
+        HashMap<String, HrefType> links = new HashMap<>();
         if (value.getScaRedirect() != null) {
-            links.put("scaRedirect", new Link(value.getScaRedirect()));
+            HrefType scaRedirect = new HrefType();
+            scaRedirect.setHref(value.getScaRedirect());
+            links.put("scaRedirect", scaRedirect);
         }
         if (value.getSelf() != null) {
-            links.put("self", new Link(value.getSelf()));
+            HrefType self = new HrefType();
+            self.setHref(value.getSelf());
+            links.put("self", self);
         }
         if (value.getStatus() != null) {
-            links.put("status", new Link(value.getStatus()));
+            HrefType status = new HrefType();
+            status.setHref(value.getStatus());
+            links.put("status", status);
         }
         if (value.getDelete() != null) {
-            links.put("delete", new Link(value.getDelete()));
+            HrefType delete = new HrefType();
+            delete.setHref(value.getDelete());
+            links.put("delete", delete);
         }
         return links;
     }
 
     @Mapping(target = "transactionStatus", ignore = true)
-    SinglePaymentInitiationInformationWithStatusResponse map(PaymentInstruction value);
+    PaymentInitiationWithStatusResponse map(PaymentInstruction value);
 
     @Mapping(target = "bban", ignore = true)
     @Mapping(target = "pan", ignore = true)
@@ -164,6 +189,6 @@ public interface IngMapper {
     @Mapping(target = "msisdn", ignore = true)
     AccountReference map(CreditorAccount value);
 
-    PaymentInitiationStatus map(PaymentStatusResponse value);
+    PaymentInitiationStatusResponse200Json map(PaymentStatusResponse value);
 
 }

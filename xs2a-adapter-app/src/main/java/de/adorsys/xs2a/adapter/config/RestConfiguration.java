@@ -3,7 +3,6 @@ package de.adorsys.xs2a.adapter.config;
 import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.http.ApacheHttpClientFactory;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.registry.LuceneAspspRepositoryFactory;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.impl.AccountInformationServiceImpl;
@@ -32,11 +31,6 @@ public class RestConfiguration {
     @Bean
     PaymentInitiationService paymentInitiationService(AdapterServiceLoader adapterServiceLoader) {
         return new PaymentInitiationServiceImpl(adapterServiceLoader);
-    }
-
-    @Bean
-    PaymentInitiationScaStatusResponseMapper getPaymentInitiationScaStatusResponseMapper() {
-        return new PaymentInitiationScaStatusResponseMapper();
     }
 
     @Bean

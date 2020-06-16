@@ -61,8 +61,8 @@ public class CodeGenerator {
                          Map<String, String> operationIdToCustomReturnType) {
         this.api = api;
         this.action = action;
-        apiPackage = psd2 ? basePackage : basePackage + ".api";
-        modelPackage = basePackage + ".model";
+        apiPackage = psd2 ? basePackage : basePackage + ".rest.api";
+        modelPackage = basePackage + ".api.model";
         this.psd2 = psd2;
         this.renamer = renamer;
         this.operationIdToCustomParameterType = operationIdToCustomParameterType;
@@ -410,10 +410,11 @@ public class CodeGenerator {
                 if (schema instanceof ObjectSchema) {
                     ObjectSchema objectSchema = (ObjectSchema) schema;
                     List<FieldSpec> fieldSpecs = fieldSpecs(objectSchema.getProperties());
-                    typeSpecBuilder = TypeSpec.classBuilder(toClassName(name))
+                    String className = toClassName(name);
+                    typeSpecBuilder = TypeSpec.classBuilder(className)
                         .addModifiers(Modifier.PUBLIC)
                         .addFields(fieldSpecs)
-                        .addMethods(gettersAndSetters(fieldSpecs));
+                        .addMethods(methods(fieldSpecs, className));
                     if (!nestedTypes.isEmpty()) {
                         nestedTypes.forEach(typeSpecBuilder::addType);
                         nestedTypes.clear();
@@ -481,7 +482,7 @@ public class CodeGenerator {
                 .addStatement("return e")
                 .endControlFlow()
                 .endControlFlow()
-                .addStatement("throw new IllegalArgumentException(value)")
+                .addStatement("return null")
                 .build())
             .addMethod(MethodSpec.methodBuilder("toString")
                 .addModifiers(Modifier.PUBLIC)
@@ -523,7 +524,7 @@ public class CodeGenerator {
         } else {
             className = renamer.apply(StringUtils.capitalize(toCamelCase(name)));
         }
-        return className + "TO";
+        return className;
     }
 
     private List<FieldSpec> fieldSpecs(Map<String, Schema> properties) {
@@ -543,6 +544,35 @@ public class CodeGenerator {
             fieldSpecs.add(fieldSpec);
         });
         return fieldSpecs;
+    }
+
+    private List<MethodSpec> methods(List<FieldSpec> fieldSpecs, String className) {
+        List<MethodSpec> methodSpecs = gettersAndSetters(fieldSpecs);
+
+        MethodSpec equals = MethodSpec.methodBuilder("equals")
+            .addModifiers(Modifier.PUBLIC)
+            .returns(boolean.class)
+            .addAnnotation(Override.class)
+            .addParameter(Object.class, "o")
+            .addStatement("if (this == o) return true")
+            .addStatement("if (o == null || getClass() != o.getClass()) return false")
+            .addStatement("$N that = ($N) o", className, className)
+            .addStatement(fieldSpecs.stream()
+                .map(f -> String.format("Objects.equals(%s, that.%s)", f.name, f.name))
+                .collect(Collectors.joining(" &&\n", "return ", "")))
+            .build();
+        MethodSpec hashCode = MethodSpec.methodBuilder("hashCode")
+            .addModifiers(Modifier.PUBLIC)
+            .returns(int.class)
+            .addAnnotation(Override.class)
+            .addStatement(fieldSpecs.stream()
+                .map(f -> f.name)
+                .collect(Collectors.joining(",\n", "return $T.hash(", ")")), Objects.class)
+            .build();
+        methodSpecs.add(equals);
+        methodSpecs.add(hashCode);
+
+        return methodSpecs;
     }
 
     private List<MethodSpec> gettersAndSetters(List<FieldSpec> fieldSpecs) {

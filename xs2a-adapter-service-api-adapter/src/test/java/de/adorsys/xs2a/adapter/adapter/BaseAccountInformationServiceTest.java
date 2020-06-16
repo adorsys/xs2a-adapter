@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.adapter;
 
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
@@ -7,7 +8,7 @@ import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -68,11 +69,11 @@ public class BaseAccountInformationServiceTest {
 
     @Test
     void createConsent() {
-        ConsentCreationResponse example = new ConsentCreationResponse();
+        ConsentsResponse201 example = new ConsentsResponse201();
         when(httpClient.post(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<ConsentCreationResponse> response = informationService.createConsent(headers, params, body);
+        Response<ConsentsResponse201> response = informationService.createConsent(headers, params, body);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
@@ -87,11 +88,11 @@ public class BaseAccountInformationServiceTest {
 
     @Test
     void getConsentInformation() {
-        ConsentInformation example = new ConsentInformation();
+        ConsentInformationResponse200Json example = new ConsentInformationResponse200Json();
         when(httpClient.get(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<ConsentInformation> response = informationService.getConsentInformation(CONSENTID, headers, params);
+        Response<ConsentInformationResponse200Json> response = informationService.getConsentInformation(CONSENTID, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
@@ -119,11 +120,11 @@ public class BaseAccountInformationServiceTest {
 
     @Test
     void getConsentStatus() {
-        ConsentStatusResponse example = new ConsentStatusResponse();
+        ConsentStatusResponse200 example = new ConsentStatusResponse200();
         when(httpClient.get(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<ConsentStatusResponse> response = informationService.getConsentStatus(CONSENTID, headers, params);
+        Response<ConsentStatusResponse200> response = informationService.getConsentStatus(CONSENTID, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
@@ -136,12 +137,12 @@ public class BaseAccountInformationServiceTest {
 
     @Test
     void startConsentAuthorisation() {
-        StartScaProcessResponse example = new StartScaProcessResponse();
+        StartScaprocessResponse example = new StartScaprocessResponse();
 
         when(httpClient.post(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<StartScaProcessResponse> response =
+        Response<StartScaprocessResponse> response =
             informationService.startConsentAuthorisation(CONSENTID, headers, params);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
@@ -157,12 +158,12 @@ public class BaseAccountInformationServiceTest {
 
     @Test
     void startConsentAuthorisation_updatePsuAuthentication() {
-        StartScaProcessResponse example = new StartScaProcessResponse();
+        StartScaprocessResponse example = new StartScaprocessResponse();
 
         when(httpClient.post(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<StartScaProcessResponse> response =
+        Response<StartScaprocessResponse> response =
             informationService.startConsentAuthorisation(CONSENTID, headers, params, updatePsuAuthentication);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
@@ -252,12 +253,12 @@ public class BaseAccountInformationServiceTest {
 
     @Test
     void getAccountList() {
-        AccountListHolder example = new AccountListHolder();
+        AccountList example = new AccountList();
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<AccountListHolder> response
+        Response<AccountList> response
             = informationService.getAccountList(headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
@@ -271,14 +272,14 @@ public class BaseAccountInformationServiceTest {
 
     @Test
     void getTransactionList() {
-        TransactionsReport example = new TransactionsReport();
+        TransactionsResponse200Json example = new TransactionsResponse200Json();
         Map<String, String> transactionHeaders = headers.toMap();
         transactionHeaders.put(RequestHeaders.ACCEPT, ContentType.APPLICATION_JSON);
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<TransactionsReport> response
+        Response<TransactionsResponse200Json> response
             = informationService.getTransactionList(ACCOUNTID, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
@@ -292,13 +293,13 @@ public class BaseAccountInformationServiceTest {
 
     @Test
     void getTransactionDetails() {
-        TransactionDetails example = new TransactionDetails();
+        OK200TransactionDetails example = new OK200TransactionDetails();
         String transactionId = "transactionId";
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<TransactionDetails> response
+        Response<OK200TransactionDetails> response
             = informationService.getTransactionDetails(ACCOUNTID, transactionId, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
@@ -350,12 +351,12 @@ public class BaseAccountInformationServiceTest {
 
     @Test
     void getBalances() {
-        BalanceReport example = new BalanceReport();
+        ReadAccountBalanceResponse200 example = new ReadAccountBalanceResponse200();
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<BalanceReport> response
+        Response<ReadAccountBalanceResponse200> response
             = informationService.getBalances(ACCOUNTID, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());

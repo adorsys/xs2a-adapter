@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.config;
 
-import de.adorsys.xs2a.adapter.model.AccountAccessTO;
-import de.adorsys.xs2a.adapter.model.AccountReferenceTO;
-import de.adorsys.xs2a.adapter.model.ConsentsTO;
+import de.adorsys.xs2a.adapter.api.model.AccountAccess;
+import de.adorsys.xs2a.adapter.api.model.AccountReference;
+import de.adorsys.xs2a.adapter.api.model.Consents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -43,8 +43,8 @@ public class AuditRequestBodyAdvice extends RequestBodyAdviceAdapter {
                                 MethodParameter parameter,
                                 Type targetType,
                                 Class<? extends HttpMessageConverter<?>> converterType) {
-        if (body instanceof ConsentsTO) {
-            ConsentsTO consents = (ConsentsTO) body;
+        if (body instanceof Consents) {
+            Consents consents = (Consents) body;
             MDC.put("iban", getIbans(consents).toString());
             MDC.put("consentModel", getModel(consents));
         } else {
@@ -54,9 +54,9 @@ public class AuditRequestBodyAdvice extends RequestBodyAdviceAdapter {
         return body;
     }
 
-    private Set<String> getIbans(ConsentsTO consents) {
+    private Set<String> getIbans(Consents consents) {
         Set<String> ibans = new HashSet<>();
-        AccountAccessTO access = consents.getAccess();
+        AccountAccess access = consents.getAccess();
         if (access != null) {
             ibans.addAll(getIbans(access.getAccounts()));
             ibans.addAll(getIbans(access.getBalances()));
@@ -65,19 +65,19 @@ public class AuditRequestBodyAdvice extends RequestBodyAdviceAdapter {
         return ibans;
     }
 
-    private Set<String> getIbans(List<AccountReferenceTO> accountRefs) {
+    private Set<String> getIbans(List<AccountReference> accountRefs) {
         if (accountRefs == null || accountRefs.isEmpty()) {
             return emptySet();
         }
         return accountRefs.stream()
-            .map(AccountReferenceTO::getIban)
+            .map(AccountReference::getIban)
             .collect(toSet());
     }
 
-    private String getModel(ConsentsTO consents) {
-        AccountAccessTO access = consents.getAccess();
+    private String getModel(Consents consents) {
+        AccountAccess access = consents.getAccess();
         if (access != null) {
-            if (access.getAllPsd2() == AccountAccessTO.AllPsd2TO.ALLACCOUNTS) {
+            if (access.getAllPsd2() == AccountAccess.AllPsd2.ALLACCOUNTS) {
                 return "global";
             }
             if ((access.getAccounts() == null || access.getAccounts().isEmpty()) &&

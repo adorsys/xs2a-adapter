@@ -1,13 +1,12 @@
 package de.adorsys.xs2a.adapter.config;
 
+import de.adorsys.xs2a.adapter.api.model.ErrorResponse;
+import de.adorsys.xs2a.adapter.api.model.MessageCode;
+import de.adorsys.xs2a.adapter.api.model.TppMessage;
+import de.adorsys.xs2a.adapter.api.model.TppMessageCategory;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
-import de.adorsys.xs2a.adapter.model.ErrorResponseTO;
-import de.adorsys.xs2a.adapter.model.MessageCodeTO;
-import de.adorsys.xs2a.adapter.model.TppMessageCategoryTO;
-import de.adorsys.xs2a.adapter.model.TppMessageTO;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
-import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.validation.RequestValidationException;
 import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,14 +52,14 @@ public class RestExceptionHandlerTest {
                 RequestHeaders.TPP_REDIRECT_URI,
                 "...")));
 
-        ResponseEntity<ErrorResponseTO> responseEntity = exceptionHandler.handle(requestValidationException);
+        ResponseEntity<ErrorResponse> responseEntity = exceptionHandler.handle(requestValidationException);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(responseEntity.getHeaders().get("X-GTW-Error-Origination")).isEqualTo(singletonList("ADAPTER"));
         assertThat(responseEntity.getBody().getTppMessages()).hasSize(1);
-        TppMessageTO tppMessage = responseEntity.getBody().getTppMessages().get(0);
-        assertThat(tppMessage.getCategory()).isEqualTo(TppMessageCategoryTO.ERROR);
-        assertThat(tppMessage.getCode()).isEqualTo(MessageCodeTO.FORMAT_ERROR);
+        TppMessage tppMessage = responseEntity.getBody().getTppMessages().get(0);
+        assertThat(tppMessage.getCategory()).isEqualTo(TppMessageCategory.ERROR);
+        assertThat(tppMessage.getCode()).isEqualTo(MessageCode.FORMAT_ERROR);
         assertThat(tppMessage.getPath()).isEqualTo(requestValidationException.getValidationErrors().get(0).getPath());
         assertThat(tppMessage.getText()).isEqualTo(requestValidationException.getValidationErrors().get(0).getMessage());
     }

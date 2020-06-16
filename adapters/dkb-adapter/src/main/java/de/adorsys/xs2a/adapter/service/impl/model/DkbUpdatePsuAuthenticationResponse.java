@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.service.impl.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.adorsys.xs2a.adapter.service.model.AuthenticationObject;
-import de.adorsys.xs2a.adapter.service.model.Link;
-import de.adorsys.xs2a.adapter.service.model.ScaStatus;
+import de.adorsys.xs2a.adapter.api.model.AuthenticationObject;
+import de.adorsys.xs2a.adapter.api.model.HrefType;
+import de.adorsys.xs2a.adapter.api.model.ScaStatus;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +13,7 @@ public class DkbUpdatePsuAuthenticationResponse {
     private DkbChallengeData challengeData;
     private List<AuthenticationObject> scaMethods;
     @JsonProperty("_links")
-    private Map<String, Link> links;
+    private Map<String, HrefType> links;
     private ScaStatus scaStatus;
     private String psuMessage;
 
@@ -41,11 +41,11 @@ public class DkbUpdatePsuAuthenticationResponse {
         this.scaMethods = scaMethods;
     }
 
-    public Map<String, Link> getLinks() {
+    public Map<String, HrefType> getLinks() {
         return links;
     }
 
-    public void setLinks(Map<String, Link> links) {
+    public void setLinks(Map<String, HrefType> links) {
         this.links = links;
     }
 

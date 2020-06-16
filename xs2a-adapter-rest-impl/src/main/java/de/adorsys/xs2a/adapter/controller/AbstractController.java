@@ -2,16 +2,13 @@ package de.adorsys.xs2a.adapter.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import de.adorsys.xs2a.adapter.mapper.StartScaProcessResponseMapper;
+import de.adorsys.xs2a.adapter.api.model.SelectPsuAuthenticationMethod;
+import de.adorsys.xs2a.adapter.api.model.TransactionAuthorisation;
+import de.adorsys.xs2a.adapter.api.model.UpdatePsuAuthentication;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
-import de.adorsys.xs2a.adapter.service.model.SelectPsuAuthenticationMethod;
-import de.adorsys.xs2a.adapter.service.model.TransactionAuthorisation;
-import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
-import org.mapstruct.factory.Mappers;
 
 public abstract class AbstractController {
-    final StartScaProcessResponseMapper startScaProcessResponseMapper = Mappers.getMapper(StartScaProcessResponseMapper.class);
     private final ObjectMapper objectMapper;
 
     protected AbstractController(ObjectMapper objectMapper) {

@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.tpp;
 
-import de.adorsys.xs2a.adapter.model.BookingStatusTO;
-import de.adorsys.xs2a.adapter.model.PaymentProductTO;
-import de.adorsys.xs2a.adapter.model.PaymentServiceTO;
+import de.adorsys.xs2a.adapter.api.model.BookingStatus;
+import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
+import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import feign.Contract;
 import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
@@ -29,19 +29,27 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registrar.setUseIsoFormat(true);
         registrar.registerFormatters(registry);
 
-        registry.addConverter(new Converter<String, BookingStatusTO>() {
+        registry.addConverter(new Converter<String, BookingStatus>() {
 
             @Override
-            public BookingStatusTO convert(String source) {
-                return BookingStatusTO.fromValue(source);
+            public BookingStatus convert(String source) {
+                return BookingStatus.fromValue(source);
             }
         });
 
-        registry.addConverter(new Converter<String, PaymentServiceTO>() {
+        registry.addConverter(new Converter<String, PaymentService>() {
 
             @Override
-            public PaymentServiceTO convert(String source) {
-                return PaymentServiceTO.fromValue(source);
+            public PaymentService convert(String source) {
+                return PaymentService.fromValue(source);
+            }
+        });
+
+        registry.addConverter(new Converter<String, PaymentProduct>() {
+
+            @Override
+            public PaymentProduct convert(String source) {
+                return PaymentProduct.fromValue(source);
             }
         });
     }
@@ -50,23 +58,23 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         public CustomConversionService() {
 
-            addConverter(new Converter<BookingStatusTO, String>() {
+            addConverter(new Converter<BookingStatus, String>() {
                 @Override
-                public String convert(BookingStatusTO source) {
+                public String convert(BookingStatus source) {
                     return source.toString();
                 }
             });
 
-            addConverter(new Converter<PaymentProductTO, String>() {
+            addConverter(new Converter<PaymentProduct, String>() {
                 @Override
-                public String convert(PaymentProductTO source) {
+                public String convert(PaymentProduct source) {
                     return source.toString();
                 }
             });
 
-            addConverter(new Converter<PaymentServiceTO, String>() {
+            addConverter(new Converter<PaymentService, String>() {
                 @Override
-                public String convert(PaymentServiceTO source) {
+                public String convert(PaymentService source) {
                     return source.toString();
                 }
             });

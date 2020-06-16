@@ -16,12 +16,12 @@
 
 package de.adorsys.xs2a.adapter.service.impl.mapper;
 
+import de.adorsys.xs2a.adapter.api.model.StartScaprocessResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbStartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.model.StartScaProcessResponse;
 import org.mapstruct.Mapper;
 
 @Mapper(uses = ChallengeDataDkbMapper.class)
 public interface StartScaProcessResponseDkbMapper {
 
-    StartScaProcessResponse toStartScaProcessResponse(DkbStartScaProcessResponse response);
+    StartScaprocessResponse toStartScaProcessResponse(DkbStartScaProcessResponse response);
 }

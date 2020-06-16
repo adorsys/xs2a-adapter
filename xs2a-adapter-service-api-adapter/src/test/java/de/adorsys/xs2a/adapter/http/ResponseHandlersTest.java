@@ -1,10 +1,10 @@
 package de.adorsys.xs2a.adapter.http;
 
+import de.adorsys.xs2a.adapter.api.model.Amount;
+import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.exception.OAuthException;
-import de.adorsys.xs2a.adapter.service.model.Amount;
-import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -128,28 +128,28 @@ public class ResponseHandlersTest {
     @Test
     public void consentCreationResponseHandler403JsonResponse() {
         try {
-            ResponseHandlers.consentCreationResponseHandler(SCA_OAUTH_URL, ConsentCreationResponse.class)
+            ResponseHandlers.consentCreationResponseHandler(SCA_OAUTH_URL, ConsentsResponse201.class)
                 .apply(403,
                     new ByteArrayInputStream("{}".getBytes()),
                     ResponseHeaders.emptyResponseHeaders());
             fail();
         } catch (OAuthException e) {
             assertThat(e.getMessage()).isEqualTo("{}");
-            assertThat(e.getErrorResponse().getLinks().getScaOAuth().getHref()).isEqualTo(SCA_OAUTH_URL);
+            assertThat(e.getErrorResponse().getLinks().get("scaOAuth").getHref()).isEqualTo(SCA_OAUTH_URL);
         }
     }
 
     @Test
     public void consentCreationResponseHandler403UnsupportedFormatBody() {
         try {
-            ResponseHandlers.consentCreationResponseHandler(SCA_OAUTH_URL, ConsentCreationResponse.class)
+            ResponseHandlers.consentCreationResponseHandler(SCA_OAUTH_URL, ConsentsResponse201.class)
                 .apply(403,
                     new ByteArrayInputStream("<response>".getBytes()),
                     ResponseHeaders.emptyResponseHeaders());
             fail();
         } catch (OAuthException e) {
             assertThat(e.getMessage()).isEqualTo("<response>");
-            assertThat(e.getErrorResponse().getLinks().getScaOAuth().getHref()).isEqualTo(SCA_OAUTH_URL);
+            assertThat(e.getErrorResponse().getLinks().get("scaOAuth").getHref()).isEqualTo(SCA_OAUTH_URL);
         }
     }
 
@@ -159,14 +159,14 @@ public class ResponseHandlersTest {
         headers.put(CONTENT_TYPE_HEADER, "application/xml");
 
         try {
-            ResponseHandlers.consentCreationResponseHandler(SCA_OAUTH_URL, ConsentCreationResponse.class)
+            ResponseHandlers.consentCreationResponseHandler(SCA_OAUTH_URL, ConsentsResponse201.class)
                 .apply(403,
                     new ByteArrayInputStream("<response>".getBytes()),
                     ResponseHeaders.fromMap(headers));
             fail();
         } catch (OAuthException e) {
             assertThat(e.getMessage()).isEqualTo("<response>");
-            assertThat(e.getErrorResponse().getLinks().getScaOAuth().getHref()).isEqualTo(SCA_OAUTH_URL);
+            assertThat(e.getErrorResponse().getLinks().get("scaOAuth").getHref()).isEqualTo(SCA_OAUTH_URL);
         }
     }
 
@@ -176,14 +176,14 @@ public class ResponseHandlersTest {
         headers.put(CONTENT_TYPE_HEADER, "application/json");
 
         try {
-            ResponseHandlers.consentCreationResponseHandler(SCA_OAUTH_URL, ConsentCreationResponse.class)
+            ResponseHandlers.consentCreationResponseHandler(SCA_OAUTH_URL, ConsentsResponse201.class)
                 .apply(403,
                     new ByteArrayInputStream("{}".getBytes()),
                     ResponseHeaders.fromMap(headers));
             fail();
         } catch (OAuthException e) {
             assertThat(e.getMessage()).isEqualTo("{}");
-            assertThat(e.getErrorResponse().getLinks().getScaOAuth().getHref()).isEqualTo(SCA_OAUTH_URL);
+            assertThat(e.getErrorResponse().getLinks().get("scaOAuth").getHref()).isEqualTo(SCA_OAUTH_URL);
         }
     }
 

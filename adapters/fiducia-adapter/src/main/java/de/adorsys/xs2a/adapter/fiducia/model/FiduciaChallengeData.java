@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.fiducia.model;
 
-import de.adorsys.xs2a.adapter.service.model.OtpFormat;
+import de.adorsys.xs2a.adapter.api.model.ChallengeData.OtpFormat;
 
 public class FiduciaChallengeData {
   private byte[] image;

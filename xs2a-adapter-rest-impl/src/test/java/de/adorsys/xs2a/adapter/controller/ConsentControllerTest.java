@@ -2,17 +2,16 @@ package de.adorsys.xs2a.adapter.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.adapter.TestModelBuilder;
+import de.adorsys.xs2a.adapter.api.model.ConsentStatus;
+import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
 import de.adorsys.xs2a.adapter.config.RestExceptionHandler;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
-import de.adorsys.xs2a.adapter.model.ConsentStatusTO;
-import de.adorsys.xs2a.adapter.model.ConsentsResponse201TO;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
 import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
-import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -65,7 +64,7 @@ public class ConsentControllerTest {
 
     @Test
     public void createConsent() throws Exception {
-        ConsentCreationResponse response = TestModelBuilder.buildConsentCreationResponse();
+        ConsentsResponse201 response = TestModelBuilder.buildConsentCreationResponse();
         String body = new ObjectMapper().writeValueAsString(response);
 
         when(accountInformationService.createConsent(any(), any(), any()))
@@ -80,12 +79,12 @@ public class ConsentControllerTest {
                                       .andExpect(status().is(HttpStatus.CREATED.value()))
                                       .andReturn();
 
-        ConsentsResponse201TO response201 = JsonReader.getInstance()
-            .getObjectFromString(mvcResult.getResponse().getContentAsString(), ConsentsResponse201TO.class);
+        ConsentsResponse201 response201 = JsonReader.getInstance()
+            .getObjectFromString(mvcResult.getResponse().getContentAsString(), ConsentsResponse201.class);
 
         assertThat(response201.getConsentId()).isEqualTo(TestModelBuilder.CONSTENT_ID);
         assertThat(response201.getPsuMessage()).isEqualTo(TestModelBuilder.MESSAGE);
-        assertThat(response201.getConsentStatus()).isEqualTo(ConsentStatusTO.RECEIVED);
+        assertThat(response201.getConsentStatus()).isEqualTo(ConsentStatus.RECEIVED);
         assertThat(response201.getLinks()).hasSize(1);
         assertThat(response201.getChosenScaMethod()).isNotNull();
         assertThat(response201.getScaMethods()).isNotNull();

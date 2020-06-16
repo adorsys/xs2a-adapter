@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.mapper;
 
-import de.adorsys.xs2a.adapter.model.TokenResponseTO;
+import de.adorsys.xs2a.adapter.rest.api.model.TokenResponseTO;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import org.mapstruct.Mapper;
 

@@ -1,6 +1,8 @@
 package de.adorsys.xs2a.adapter.adorsys.service;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.api.model.Consents;
+import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
@@ -8,8 +10,6 @@ import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
-import de.adorsys.xs2a.adapter.service.model.Consents;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
@@ -29,14 +29,14 @@ public class AdorsysAccountInformationService extends BaseAccountInformationServ
     }
 
     @Override
-    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
-                                                           RequestParams requestParams,
-                                                           Consents body) {
+    public Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
+                                                       RequestParams requestParams,
+                                                       Consents body) {
         return createConsent(requestHeaders,
             requestParams,
             body,
             identity(),
-            consentCreationResponseHandler(getIdpUri(), ConsentCreationResponse.class));
+            consentCreationResponseHandler(getIdpUri(), ConsentsResponse201.class));
     }
 
     @Override

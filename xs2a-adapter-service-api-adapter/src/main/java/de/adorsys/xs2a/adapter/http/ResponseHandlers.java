@@ -1,14 +1,14 @@
 package de.adorsys.xs2a.adapter.http;
 
+import de.adorsys.xs2a.adapter.api.model.ErrorResponse;
+import de.adorsys.xs2a.adapter.api.model.HrefType;
+import de.adorsys.xs2a.adapter.api.model.TppMessage;
+import de.adorsys.xs2a.adapter.api.model.TppMessageCategory;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
 import de.adorsys.xs2a.adapter.service.exception.OAuthException;
-import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
-import de.adorsys.xs2a.adapter.service.model.Link;
-import de.adorsys.xs2a.adapter.service.model.Links;
-import de.adorsys.xs2a.adapter.service.model.TppMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -118,8 +118,9 @@ public class ResponseHandlers {
         }
 
         if (scaOAuthUrl != null) {
-            Links links = new Links();
-            links.setScaOAuth(new Link(scaOAuthUrl));
+            HrefType scaOAuth = new HrefType();
+            scaOAuth.setHref(scaOAuthUrl);
+            Map<String, HrefType> links = Collections.singletonMap("scaOAuth", scaOAuth);
             errorResponse.setLinks(links);
         }
 
@@ -170,8 +171,7 @@ public class ResponseHandlers {
         ErrorResponse errorResponse = new ErrorResponse();
 
         TppMessage tppMessage = new TppMessage();
-        tppMessage.setCategory("ERROR");
-        tppMessage.setCode("UNAUTHORIZED");
+        tppMessage.setCategory(TppMessageCategory.ERROR);
         tppMessage.setText(originalResponse);
 
         errorResponse.setTppMessages(Collections.singletonList(tppMessage));

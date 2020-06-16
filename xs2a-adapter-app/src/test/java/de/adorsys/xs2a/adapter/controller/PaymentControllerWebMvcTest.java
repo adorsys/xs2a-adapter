@@ -1,7 +1,6 @@
 package de.adorsys.xs2a.adapter.controller;
 
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
-import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,8 +24,6 @@ public class PaymentControllerWebMvcTest {
 
     @MockBean
     private PaymentInitiationService paymentService;
-    @MockBean
-    private PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper;
     @MockBean
     private HeadersMapper headersMapper;
 
