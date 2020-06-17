@@ -1,4 +1,4 @@
-name: Develop CI
+name: Banking Gateway Dev CI
 on:
   push:
     branches:
