@@ -194,7 +194,7 @@
             </dependency>
 
             <!-- logging dependencies -->
-	    <dependency>
+            <dependency>
                 <groupId>org.codehaus.janino</groupId>
                 <artifactId>janino</artifactId>
                 <version>3.0.16</version>
