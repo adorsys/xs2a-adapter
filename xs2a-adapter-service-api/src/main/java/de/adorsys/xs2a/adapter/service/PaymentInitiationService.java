@@ -8,7 +8,7 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
     String SINGLE_PAYMENTS = "payments";
 
     /**
-     * @deprecated This method is no longer acceptable and will be removed in release v.0.0.13
+     * @deprecated This method is no longer acceptable and will be removed in release v.0.1.1
      * <p>Use {@link #initiatePayment} instead</p>
      */
     @Deprecated
@@ -52,7 +52,7 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
     }
 
     /**
-     * @deprecated This method is no longer acceptable and will be removed in release v.0.0.13
+     * @deprecated This method is no longer acceptable and will be removed in release v.0.1.1
      * <p>Use {@link #getPaymentInformationAsString} instead</p>
      */
     @Deprecated
@@ -78,7 +78,7 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
 
     /**
      * @throws NotAcceptableException if response content type is not json
-     * @deprecated This method is no longer acceptable and will be removed in release v.0.0.13
+     * @deprecated This method is no longer acceptable and will be removed in release v.0.1.1
      * <p>Use {@link #getPaymentInitiationStatus} instead</p>
      */
     @Deprecated
@@ -96,7 +96,7 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
                                                                  RequestParams requestParams);
 
     /**
-     * @deprecated This method is no longer acceptable and will be removed in release v.0.0.13
+     * @deprecated This method is no longer acceptable and will be removed in release v.0.1.1
      * <p>Use {@link #getPaymentInitiationStatusAsString} instead</p>
      */
     @Deprecated
@@ -120,7 +120,7 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
                                                                                        RequestParams requestParams);
 
     /**
-     * @deprecated This method is no longer acceptable and will be removed in release v.0.0.13
+     * @deprecated This method is no longer acceptable and will be removed in release v.0.1.1
      * <p>Use {@link #startPaymentAuthorisation)} instead</p>
      */
     @Deprecated
@@ -138,7 +138,7 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
                                                                 RequestParams requestParams);
 
     /**
-     * @deprecated This method is no longer acceptable and will be removed in release v.0.0.13
+     * @deprecated This method is no longer acceptable and will be removed in release v.0.1.1
      * <p>Use {@link #startPaymentAuthorisation} instead</p>
      */
     @Deprecated
