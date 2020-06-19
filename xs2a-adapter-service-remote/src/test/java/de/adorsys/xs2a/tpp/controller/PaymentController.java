@@ -15,16 +15,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.EnumSet;
 import java.util.Map;
 
 @RestController
 public class PaymentController extends AbstractController implements PaymentApi {
+    private static final EnumSet<PaymentServiceTO> SUPPORTED_PAYMENT_SERVICES
+        = EnumSet.of(PaymentServiceTO.PAYMENTS, PaymentServiceTO.PERIODIC_PAYMENTS);
+
     private final PaymentInitiationService paymentService;
     private final PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper;
     private final HeadersMapper headersMapper;
 
     private final PaymentInitiationRequestResponseMapper paymentInitiationRequestResponseMapper = Mappers.getMapper(PaymentInitiationRequestResponseMapper.class);
-    private final SinglePaymentInformationMapper singlePaymentInformationMapper = Mappers.getMapper(SinglePaymentInformationMapper.class);
     private final PaymentInitiationStatusMapper paymentInitiationStatusMapper = Mappers.getMapper(PaymentInitiationStatusMapper.class);
     private final PaymentInitiationAuthorisationResponseMapper paymentInitiationAuthorisationResponseMapper = Mappers.getMapper(PaymentInitiationAuthorisationResponseMapper.class);
 
@@ -52,12 +55,13 @@ public class PaymentController extends AbstractController implements PaymentApi 
                                                                                          Map<String, String> parameters,
                                                                                          Map<String, String> headers,
                                                                                          Object body) {
-        requireSinglePayment(paymentService);
+        requireSupportedPaymentService(paymentService);
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         RequestParams requestParams = RequestParams.fromMap(parameters);
 
         Response<PaymentInitiationRequestResponse> response =
-            this.paymentService.initiateSinglePayment(paymentProduct.toString(),
+            this.paymentService.initiatePayment(paymentService.toString(),
+                paymentProduct.toString(),
                 requestHeaders,
                 requestParams,
                 body);
@@ -67,8 +71,8 @@ public class PaymentController extends AbstractController implements PaymentApi 
                        .body(paymentInitiationRequestResponseMapper.toPaymentInitationRequestResponse201TO(response.getBody()));
     }
 
-    private void requireSinglePayment(PaymentServiceTO paymentService) {
-        if (paymentService != PaymentServiceTO.PAYMENTS) {
+    private void requireSupportedPaymentService(PaymentServiceTO paymentService) {
+        if (!SUPPORTED_PAYMENT_SERVICES.contains(paymentService)) {
             throw new UnsupportedOperationException();
         }
     }
@@ -92,7 +96,8 @@ public class PaymentController extends AbstractController implements PaymentApi 
         RequestParams requestParams = RequestParams.fromMap(parameters);
 
         Response<String> response =
-            this.paymentService.getSinglePaymentInformationAsString(paymentProduct.toString(),
+            this.paymentService.getPaymentInformationAsString(paymentService.toString(),
+                paymentProduct.toString(),
                 paymentId,
                 requestHeaders,
                 requestParams);
@@ -136,7 +141,8 @@ public class PaymentController extends AbstractController implements PaymentApi 
 
         if (requestHeaders.isAcceptJson()) {
             Response<PaymentInitiationStatus> response =
-                this.paymentService.getSinglePaymentInitiationStatus(paymentProduct.toString(),
+                this.paymentService.getPaymentInitiationStatus(paymentService.toString(),
+                    paymentProduct.toString(),
                     paymentId,
                     requestHeaders,
                     requestParams);
@@ -147,7 +153,8 @@ public class PaymentController extends AbstractController implements PaymentApi 
         }
 
         Response<String> response =
-            this.paymentService.getSinglePaymentInitiationStatusAsString(paymentProduct.toString(),
+            this.paymentService.getPaymentInitiationStatusAsString(paymentService.toString(),
+                paymentProduct.toString(),
                 paymentId,
                 requestHeaders,
                 requestParams);
@@ -191,7 +198,8 @@ public class PaymentController extends AbstractController implements PaymentApi 
 
         Response<?> response = handleAuthorisationBody(body,
                 (UpdatePsuAuthenticationHandler) updatePsuAuthentication ->
-                    this.paymentService.startSinglePaymentAuthorisation(paymentProduct.toString(),
+                    this.paymentService.startPaymentAuthorisation(paymentService.toString(),
+                        paymentProduct.toString(),
                         paymentId,
                         requestHeaders,
                         requestParams,

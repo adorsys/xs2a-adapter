@@ -29,7 +29,8 @@ class Xs2aPsd2PaymentInitiationServiceAdapter implements Psd2PaymentInitiationSe
                                                                       Map<String, String> headers,
                                                                       PaymentInitiation body) {
         requireSinglePayment(paymentService);
-        return paymentInitiationService.initiateSinglePayment(paymentProduct.toString(),
+        return paymentInitiationService.initiatePayment(paymentService.toString(),
+            paymentProduct.toString(),
             RequestHeaders.fromMap(headers),
             RequestParams.fromMap(queryParameters),
             mapper.toSinglePaymentInitiationBody(body))
@@ -49,7 +50,8 @@ class Xs2aPsd2PaymentInitiationServiceAdapter implements Psd2PaymentInitiationSe
                                                                       Map<String, String> headers,
                                                                       String body) {
         requireSinglePayment(paymentService);
-        return paymentInitiationService.initiateSinglePayment(paymentProduct.toString(),
+        return paymentInitiationService.initiatePayment(paymentService.toString(),
+            paymentProduct.toString(),
             RequestHeaders.fromMap(headers),
             RequestParams.fromMap(queryParameters),
             body)
@@ -63,7 +65,8 @@ class Xs2aPsd2PaymentInitiationServiceAdapter implements Psd2PaymentInitiationSe
                                                   Map<String, String> queryParameters,
                                                   Map<String, String> headers) {
         requireSinglePayment(paymentService);
-        return paymentInitiationService.getSinglePaymentInformationAsString(paymentProduct.toString(),
+        return paymentInitiationService.getPaymentInformationAsString(paymentService.toString(),
+            paymentProduct.toString(),
             paymentId,
             RequestHeaders.fromMap(headers),
             RequestParams.fromMap(queryParameters))
@@ -77,7 +80,8 @@ class Xs2aPsd2PaymentInitiationServiceAdapter implements Psd2PaymentInitiationSe
                                                        Map<String, String> queryParameters,
                                                        Map<String, String> headers) {
         requireSinglePayment(paymentService);
-        return paymentInitiationService.getSinglePaymentInitiationStatusAsString(paymentProduct.toString(),
+        return paymentInitiationService.getPaymentInitiationStatusAsString(paymentService.toString(),
+            paymentProduct.toString(),
             paymentId,
             RequestHeaders.fromMap(headers),
             RequestParams.fromMap(queryParameters))
@@ -106,7 +110,8 @@ class Xs2aPsd2PaymentInitiationServiceAdapter implements Psd2PaymentInitiationSe
                                                                        Map<String, String> headers,
                                                                        UpdateAuthorisation body) {
         requireSinglePayment(paymentService);
-        return paymentInitiationService.startSinglePaymentAuthorisation(paymentProduct.toString(),
+        return paymentInitiationService.startPaymentAuthorisation(paymentService.toString(),
+            paymentProduct.toString(),
             paymentId,
             RequestHeaders.fromMap(headers),
             RequestParams.fromMap(queryParameters),
