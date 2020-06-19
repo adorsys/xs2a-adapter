@@ -181,7 +181,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"access\": {\n        \"balances\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ],\n        \"transactions\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ],\n        \"accounts\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ]\n    },\n    \"combinedServiceIndicator\": \"false\",\n    \"recurringIndicator\": \"true\",\n    \"validUntil\": \"{{validUntil}}\",\n    \"frequencyPerDay\": \"4\"\n}"
+							"raw": "{\n    \"access\": {\n        \"balances\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ],\n        \"transactions\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ],\n        \"accounts\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ]\n    },\n    \"combinedServiceIndicator\": \"false\",\n    \"recurringIndicator\": \"true\",\n    \"validUntil\": \"{{validUntil}}\",\n    \"frequencyPerDay\": \"4\"\n}",
+							"options": {
+								"raw": {}
+							}
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents",
@@ -434,7 +437,10 @@
 									"value": "{{client_id}}",
 									"type": "text"
 								}
-							]
+							],
+							"options": {
+								"urlencoded": {}
+							}
 						},
 						"url": {
 							"raw": "{{baseUri}}/oauth2/token",
@@ -502,7 +508,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{}"
+							"raw": "{}",
+							"options": {
+								"raw": {}
+							}
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations",
@@ -605,7 +614,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_AIS}}\"\n    }\n}"
+							"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_AIS}}\"\n    }\n}",
+							"options": {
+								"raw": {}
+							}
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations",
@@ -685,7 +697,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"psuData\": {\n        \"encryptedPassword\": \"{{password_AIS}}\"\n    }\n}"
+							"raw": "{\n    \"psuData\": {\n        \"encryptedPassword\": \"{{password_AIS}}\"\n    }\n}",
+							"options": {
+								"raw": {}
+							}
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations",
@@ -775,7 +790,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_AIS}}\"\n    }\n}"
+							"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_AIS}}\"\n    }\n}",
+							"options": {
+								"raw": {}
+							}
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations/{{authorisationId}}",
@@ -851,7 +869,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"psuData\": {\n        \"encryptedPassword\": \"{{password_AIS}}\"\n    }\n}"
+							"raw": "{\n    \"psuData\": {\n        \"encryptedPassword\": \"{{password_AIS}}\"\n    }\n}",
+							"options": {
+								"raw": {}
+							}
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations/{{authorisationId}}",
@@ -927,7 +948,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId_AIS}}\"\r\n}"
+							"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId_AIS}}\"\r\n}",
+							"options": {
+								"raw": {}
+							}
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations/{{authorisationId}}",
@@ -1006,7 +1030,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"scaAuthenticationData\": \"{{scaAuthenticationData_AIS}}\"\n}"
+							"raw": "{\n    \"scaAuthenticationData\": \"{{scaAuthenticationData_AIS}}\"\n}",
+							"options": {
+								"raw": {}
+							}
 						},
 						"url": {
 							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations/{{authorisationId}}",
@@ -1585,7 +1612,10 @@
 									"value": "{{scaOAuth}}",
 									"type": "text"
 								}
-							]
+							],
+							"options": {
+								"urlencoded": {}
+							}
 						},
 						"url": {
 							"raw": "{{baseUri}}/oauth2/token",
@@ -1801,7 +1831,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"creditorAccount\": {\n        \"iban\": \"{{iban_PIS}}\",\n        \"currency\": \"EUR\"\n    },\n    \"creditorName\": \"{{creditorName}}}\",\n    \"debtorAccount\": {\n        \"iban\": \"{{iban_PIS}}\",\n        \"currency\": \"EUR\"\n    },\n    \"instructedAmount\": {\n        \"amount\": \"20.99\",\n        \"currency\": \"EUR\"\n    },\n    \"remittanceInformationUnstructured\": \"just\",\n    \"endToEndIdentification\": \"SandboxTPPTest1\"\n}"
+									"raw": "{\n    \"creditorAccount\": {\n        \"iban\": \"{{iban_PIS}}\",\n        \"currency\": \"EUR\"\n    },\n    \"creditorName\": \"{{creditorName}}\",\n    \"debtorAccount\": {\n        \"iban\": \"{{iban_PIS}}\",\n        \"currency\": \"EUR\"\n    },\n    \"instructedAmount\": {\n        \"amount\": \"20.99\",\n        \"currency\": \"EUR\"\n    },\n    \"remittanceInformationUnstructured\": \"just\",\n    \"endToEndIdentification\": \"SandboxTPPTest1\"\n}"
 								},
 								"url": {
 									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers",
@@ -2465,6 +2495,884 @@
 							"listen": "test",
 							"script": {
 								"id": "f0005302-6aeb-4e4d-9d0f-2047bfaa411e",
+								"type": "text/javascript",
+								"exec": [
+									"if (pm.response.code >= 400) {",
+									"    postman.setNextRequest(\"Payment_Product_Support_Checking_Step_pain.001_sepa_credit_transfers\");",
+									"}"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "periodic-payments",
+					"item": [
+						{
+							"name": "GET ASPSP ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8d5eca01-7dd8-4932-a84a-cb43d14c2874",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"pm.globals.set(\"aspspId\", jsonData[0].id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUri}}/v1/aspsps?bic={{bic}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"aspsps"
+									],
+									"query": [
+										{
+											"key": "bic",
+											"value": "{{bic}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Payment_Product_Support_Checking_Step_sepa_credit_transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9150c0bf-4182-4b09-8c9e-4bcf95bc4e08",
+										"exec": [
+											"// both variables are needed, because this test could be run with the evironment variables collection and with data file as well",
+											"// so it is important to check both possible approaches",
+											"const paymentProductSupportedEnvironmentVar = pm.environment.get(\"sepa-credit-transfers-supported\");    // get env var",
+											"const paymentProductSupportedIterationVar = pm.iterationData.get(\"sepa-credit-transfers-supported\");    // get var from data file for the current iteration",
+											"",
+											"if (paymentProductSupportedEnvironmentVar !== \"true\" && paymentProductSupportedIterationVar !== \"true\") {",
+											"    postman.setNextRequest(\"Payment_Product_Support_Checking_Step_pain.001_sepa_credit_transfers\");",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://example.com",
+									"protocol": "http",
+									"host": [
+										"example",
+										"com"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PIS/PaymentInit/Products/001a",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "fb19f723-6f60-4cd9-9a8c-650f1d5f66bb",
+										"exec": [
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"Transaction status is received\", function () {",
+											"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
+											"});",
+											"",
+											"pm.globals.set(\"paymentId\", pm.response.json().paymentId);",
+											"",
+											"if (jsonData._links.updatePsuAuthentication) {",
+											"    var updatePsuAuthentication = jsonData._links.updatePsuAuthentication.href;",
+											"    var matches = updatePsuAuthentication.match(/authorisations\\/(.+)/);",
+											"    if (matches && matches[1]) {",
+											"        var authorisationId = matches[1];",
+											"        pm.globals.set(\"authorisationId\", authorisationId);",
+											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers\");",
+											"    }",
+											"} else if (jsonData._links.startAuthorisationWithPsuAuthentication) {",
+											"    var startAuthorisationWithPsuAuthenticationUri = jsonData._links.startAuthorisationWithPsuAuthentication.href;",
+											"    var matches = startAuthorisationWithPsuAuthenticationUri.match(/authorisations\\/(.+)/);",
+											"    if (matches && matches[1]) {",
+											"        var authorisationId = matches[1];",
+											"        pm.globals.set(\"authorisationId\", authorisationId);",
+											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers\");",
+											"    } else {",
+											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_sepa_credit_transfers\");",
+											"    }",
+											"} else if (jsonData._links.startAuthorisationWithEncryptedPsuAuthentication) {",
+											"    var startAuthorisationWithEncryptedPsuAuthentication = jsonData._links.startAuthorisationWithEncryptedPsuAuthentication.href;",
+											"    var matches = startAuthorisationWithEncryptedPsuAuthentication.match(/authorisations\\/(.+)/);",
+											"    if (matches && matches[1]) {",
+											"        var authorisationId = matches[1];",
+											"        pm.globals.set(\"authorisationId\", authorisationId);",
+											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers_encrypted\");",
+											"    } else {",
+											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_sepa_credit_transfers_encrypted\");",
+											"    }",
+											"} else if (jsonData._links.scaRedirect) {",
+											"    var scaRedirect = jsonData._links.scaRedirect.href;",
+											"    pm.globals.set(\"scaRedirect\", scaRedirect);",
+											"    var adapter = pm.variables.get(\"adapter\");",
+											"    if (adapter === \"dab-bank\" || adapter === \"consors-bank\" || adapter === \"sparda-bank\") {",
+											"        pm.globals.set(\"authorisationId\", scaRedirect.split('/').pop());",
+											"        postman.setNextRequest(\"SCA/Redirect/DAB&Consors&Sparda_PIS_sepa_credit_transfers\");",
+											"    }",
+											"} else if (jsonData._links.scaOAuth) {",
+											"    postman.setNextRequest(\"PIS/GetTransactionStatus/001a\");",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "6372bf70-2a08-44ac-8e0d-6d7cbe51a17c",
+										"exec": [
+											"pm.globals.unset(\"scaRedirect\");",
+											"",
+											"const date = new Date();",
+											"const today = date.toISOString().split(\"T\")[0];",
+											"date.setDate(date.getDate() + 30);",
+											"const monthLater = date.toISOString().split(\"T\")[0];",
+											"pm.globals.set(\"start_date\", today);",
+											"pm.globals.set(\"end_date\", monthLater);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"value": "{{$guid}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "PSU-IP-Address",
+										"value": "0.0.0.0",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psuId_PIS}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"value": "{{psuIdType_PIS}}",
+										"type": "text"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									},
+									{
+										"key": "TPP-Redirect-URI",
+										"value": "https://example.com",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"creditorAccount\": {\n        \"iban\": \"{{iban_PIS}}\",\n        \"currency\": \"EUR\"\n    },\n    \"creditorName\": \"{{creditorName}}\",\n    \"debtorAccount\": {\n        \"iban\": \"{{iban_PIS}}\",\n        \"currency\": \"EUR\"\n    },\n    \"instructedAmount\": {\n        \"amount\": \"20.99\",\n        \"currency\": \"EUR\"\n    },\n    \"remittanceInformationUnstructured\": \"just\",\n    \"endToEndIdentification\": \"SandboxTPPTest1\",\n    \"startDate\": \"{{start_date}}\",\n    \"endDate\": \"{{end_date}}\",\n\t\"executionRule\": \"following\",\n\t\"frequency\": \"Monthly\",\n    \"dayOfExecution\": \"28\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/periodic-payments/sepa-credit-transfers",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"periodic-payments",
+										"sepa-credit-transfers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SCA/Redirect/DAB&Consors&Sparda_PIS_sepa_credit_transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "287f93e7-75a6-47d9-a464-dab6cf497509",
+										"exec": [
+											"pm.test(\"Consent status is valid\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"The payment status has changed to: AcceptedSettlementCompleted\");",
+											"});",
+											"",
+											"postman.setNextRequest(\"PIS/GetPayment/001a\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{scaRedirect}}?psu-id=PSU-Successful",
+									"host": [
+										"{{scaRedirect}}"
+									],
+									"query": [
+										{
+											"key": "psu-id",
+											"value": "PSU-Successful"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PIS/GetTransactionStatus/001a",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "adc38699-3390-4b7a-b6ba-c67daac12b9a",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Transaction status is received\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"value": "{{$guid}}",
+										"type": "text"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUri}}/v1/periodic-payments/sepa-credit-transfers/{{paymentId}}/status",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"periodic-payments",
+										"sepa-credit-transfers",
+										"{{paymentId}}",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PIS/GetPayment/001a",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b70a9262-c9e1-41fa-bceb-e8401a450ab7",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Transaction status received\", function () {",
+											"    pm.expect(jsonData).to.have.property('transactionStatus');",
+											"});",
+											"",
+											"if (jsonData.transactionStatus === 'ACSC' || jsonData.transactionStatus === 'RCVD') {",
+											"    postman.setNextRequest(\"Payment_Product_Support_Checking_Step_pain.001_sepa_credit_transfers\");",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"value": "{{$guid}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-IP-Address",
+										"value": "0.0.0.0",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psuId_PIS}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"value": "{{psuIdType_PIS}}",
+										"type": "text"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/periodic-payments/sepa-credit-transfers/{{paymentId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"periodic-payments",
+										"sepa-credit-transfers",
+										"{{paymentId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_sepa_credit_transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "25b0c5f4-9275-4aec-a604-f1db2b190173",
+										"exec": [
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"scaStatus is psuAuthenticated\", function () {",
+											"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
+											"});",
+											"",
+											"pm.test(\"SCA methods are available\", function () {",
+											"    pm.response.to.have.jsonBody(\"scaMethods\");",
+											"});",
+											"",
+											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
+											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers\");",
+											"});",
+											"",
+											"// workaround for Unicredit Bank",
+											"if (jsonData._links.selectAuthenticationMethod) {",
+											"    var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
+											"    pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());",
+											"} else if (jsonData._links.authoriseTransaction) {",
+											"    var authoriseTransactionUri = jsonData._links.authoriseTransaction.href;",
+											"    pm.globals.set(\"authorisationId\", authoriseTransactionUri.split(\"/\").pop());",
+											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4_sepa_credit_transfers\");",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{$guid}}"
+									},
+									{
+										"key": "PSU-ID",
+										"type": "text",
+										"value": "{{psuId_PIS}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"type": "text",
+										"value": "{{aspspId}}"
+									},
+									{
+										"key": "TPP-Redirect-Preferred",
+										"type": "text",
+										"value": "false"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_PIS}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/periodic-payments/sepa-credit-transfers/{{paymentId}}/authorisations",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"periodic-payments",
+										"sepa-credit-transfers",
+										"{{paymentId}}",
+										"authorisations"
+									]
+								},
+								"description": "Processing of a service request that needs authentication. The PSU has not yet been authorised. Embedded SCA Approach selected. The PSU has more than one embedded method available. PSU authenticaton required for the SCA selection to be applied. Missing authorisation data may be delivered at the same time as an authorisation sub-resource is created."
+							},
+							"response": []
+						},
+						{
+							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_sepa_credit_transfers_encrypted",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "741bda40-d2d8-4035-b45f-e2281443cdf8",
+										"exec": [
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"scaStatus is psuAuthenticated\", function () {",
+											"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
+											"});",
+											"",
+											"pm.test(\"SCA methods are available\", function () {",
+											"    pm.response.to.have.jsonBody(\"scaMethods\");",
+											"});",
+											"",
+											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
+											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers_encrypted\");",
+											"});",
+											"",
+											"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
+											"pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{$guid}}"
+									},
+									{
+										"key": "PSU-ID",
+										"type": "text",
+										"value": "{{psuId_PIS}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"type": "text",
+										"value": "{{aspspId}}"
+									},
+									{
+										"key": "TPP-Redirect-Preferred",
+										"type": "text",
+										"value": "false"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"psuData\": {\n        \"encryptedPassword\": \"{{password_PIS}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/periodic-payments/sepa-credit-transfers/{{paymentId}}/authorisations",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"periodic-payments",
+										"sepa-credit-transfers",
+										"{{paymentId}}",
+										"authorisations"
+									]
+								},
+								"description": "Processing of a service request that needs authentication. The PSU has not yet been authorised. Embedded SCA Approach selected. The PSU has more than one embedded method available. PSU authenticaton required for the SCA selection to be applied. Missing authorisation data may be delivered at the same time as an authorisation sub-resource is created."
+							},
+							"response": []
+						},
+						{
+							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "cf9a20f4-a618-4f86-9a70-6f2d1fc232ae",
+										"exec": [
+											"var jsonData = pm.response.json();",
+											"pm.test(\"scaStatus is psuAuthenticated\", function () {",
+											"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
+											"});",
+											"",
+											"pm.test(\"SCA methods are available\", function () {",
+											"    pm.response.to.have.jsonBody(\"scaMethods\");",
+											"    postman.setGlobalVariable(\"authenticationMethodId_PIS\",jsonData.scaMethods[0].authenticationMethodId);",
+											"});",
+											"",
+											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
+											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"type": "text",
+										"value": "{{aspspId}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{$guid}}"
+									},
+									{
+										"key": "PSU-ID",
+										"type": "text",
+										"value": "{{psuId_PIS}}"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"type": "text",
+										"value": "{{psuIdType_PIS}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_PIS}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/periodic-payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"periodic-payments",
+										"sepa-credit-transfers",
+										"{{paymentId}}",
+										"authorisations",
+										"{{authorisationId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers_encrypted",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4104ff53-c526-4c04-94f0-83de542003d9",
+										"exec": [
+											"var jsonData = pm.response.json();",
+											"pm.test(\"scaStatus is psuAuthenticated\", function () {",
+											"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
+											"});",
+											"",
+											"pm.test(\"SCA methods are available\", function () {",
+											"    pm.response.to.have.jsonBody(\"scaMethods\");",
+											"});",
+											"",
+											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
+											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"type": "text",
+										"value": "{{aspspId}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{$guid}}"
+									},
+									{
+										"key": "PSU-ID",
+										"type": "text",
+										"value": "{{psuId_PIS}}"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"type": "text",
+										"value": "{{psuIdType_PIS}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"psuData\": {\n        \"encryptedPassword\": \"{{password_PIS}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/periodic-payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"periodic-payments",
+										"sepa-credit-transfers",
+										"{{paymentId}}",
+										"authorisations",
+										"{{authorisationId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6447fc14-2e42-449d-b885-3642c85df072",
+										"exec": [
+											"pm.test(\"scaStatus is scaMethodSelected\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.scaStatus).to.eql(\"scaMethodSelected\");",
+											"});",
+											"",
+											"pm.test(\"SCA method as indicated by the request field \\\"authenticationMethodId\\\"\", function () {",
+											"    var authenticationMethodId = pm.variables.get(\"authenticationMethodId_PIS\");",
+											"    pm.response.to.have.jsonBody(\"chosenScaMethod.authenticationMethodId\", authenticationMethodId);",
+											"});",
+											"",
+											"pm.test(\"_links/authoriseTransaction/href must be present\", function () {",
+											"    pm.response.to.have.jsonBody(\"_links.authoriseTransaction.href\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"type": "text",
+										"value": "{{aspspId}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{$guid}}"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"type": "text",
+										"value": "{{psuIdType_PIS}}"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psuId_PIS}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId_PIS}}\"\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/periodic-payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"periodic-payments",
+										"sepa-credit-transfers",
+										"{{paymentId}}",
+										"authorisations",
+										"{{authorisationId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4_sepa_credit_transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b793c9cf-cf56-418d-b6c6-226073c4cd05",
+										"exec": [
+											"pm.test(\"scaStatus is finalised\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{$guid}}"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"type": "text",
+										"value": "{{aspspId}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"type": "text",
+										"value": "{{psuIdType_PIS}}"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psuId_PIS}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"scaAuthenticationData\": \"{{scaAuthenticationData_PIS}}\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/periodic-payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"periodic-payments",
+										"sepa-credit-transfers",
+										"{{paymentId}}",
+										"authorisations",
+										"{{authorisationId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "e50ea6a3-489b-479f-8986-e81c3ea5a8de",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "7163b59f-5a09-46d0-bed9-434699f4fb3d",
 								"type": "text/javascript",
 								"exec": [
 									"if (pm.response.code >= 400) {",
@@ -3199,7 +4107,10 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"access\": {\n        \"balances\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ],\n        \"transactions\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ],\n        \"accounts\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ]\n    },\n    \"combinedServiceIndicator\": \"false\",\n    \"recurringIndicator\": \"true\",\n    \"validUntil\": \"{{validUntil}}\",\n    \"frequencyPerDay\": \"4\"\n}"
+									"raw": "{\n    \"access\": {\n        \"balances\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ],\n        \"transactions\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ],\n        \"accounts\": [\n            {\n                \"iban\": \"{{iban_AIS}}\",\n                \"currency\": \"EUR\"\n            }\n        ]\n    },\n    \"combinedServiceIndicator\": \"false\",\n    \"recurringIndicator\": \"true\",\n    \"validUntil\": \"{{validUntil}}\",\n    \"frequencyPerDay\": \"4\"\n}",
+									"options": {
+										"raw": {}
+									}
 								},
 								"url": {
 									"raw": "{{baseUri}}/consents",
@@ -3312,7 +4223,10 @@
 											"value": "authorization_code",
 											"type": "text"
 										}
-									]
+									],
+									"options": {
+										"urlencoded": {}
+									}
 								},
 								"url": {
 									"raw": "{{baseUri}}/oauth2/token",
@@ -3373,7 +4287,10 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_AIS}}\"\n    }\n}"
+									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_AIS}}\"\n    }\n}",
+									"options": {
+										"raw": {}
+									}
 								},
 								"url": {
 									"raw": "{{baseUri}}/consents/{{consentId}}/authorisations",
@@ -3426,7 +4343,10 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId_AIS}}\"\r\n}"
+									"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId_AIS}}\"\r\n}",
+									"options": {
+										"raw": {}
+									}
 								},
 								"url": {
 									"raw": "{{baseUri}}/consents/{{consentId}}/authorisations/{{authorisationId}}",
@@ -3489,7 +4409,10 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n\t\"scaAuthenticationData\": \"{{scaAuthenticationData_AIS}}\"\r\n}"
+									"raw": "{\r\n\t\"scaAuthenticationData\": \"{{scaAuthenticationData_AIS}}\"\r\n}",
+									"options": {
+										"raw": {}
+									}
 								},
 								"url": {
 									"raw": "{{baseUri}}/consents/{{consentId}}/authorisations/{{authorisationId}}",
@@ -3552,7 +4475,10 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_AIS}}\"\n    }\n}"
+									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_AIS}}\"\n    }\n}",
+									"options": {
+										"raw": {}
+									}
 								},
 								"url": {
 									"raw": "{{baseUri}}/consents/{{consentId}}/authorisations/{{authorisationId}}",
