@@ -15,7 +15,7 @@ This fixes the issue of model copies getting out-of-sync and prevents its occurr
 - `fromValue` static factory methods of generated enums returns null for unrecognizied values instead of throwing an exception.
 
 == Features:
-
+Implemented periodic payments support
 
 == Fixes:
 Fixed wrong OAuth param validation for Comdirect, Commerzbank and Sparkasse

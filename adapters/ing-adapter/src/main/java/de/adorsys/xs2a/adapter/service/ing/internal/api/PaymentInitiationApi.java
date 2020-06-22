@@ -10,7 +10,7 @@ import static java.util.Objects.requireNonNull;
 // version: 1.1.12
 public class PaymentInitiationApi {
 
-    private static final String PAYMENTS = "/v1/payments";
+    private static final String API_VERSION = "/v1/";
 
     private final String baseUri;
     private final HttpClient httpClient;
@@ -21,13 +21,14 @@ public class PaymentInitiationApi {
         this.httpClient = httpClient;
     }
 
-    public Response<PaymentInitiationResponse> initiatePayment(PaymentProduct paymentProduct,
+    public Response<PaymentInitiationResponse> initiatePayment(String paymentService,
+                                                               PaymentProduct paymentProduct,
                                                                String requestId,
                                                                String tppRedirectUri,
                                                                String psuIpAddress,
                                                                Request.Builder.Interceptor clientAuthentication,
                                                                PaymentInstruction body) {
-        String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString());
+        String uri = StringUri.fromElements(baseUri, API_VERSION, paymentService, requireNonNull(paymentProduct).toString());
         return httpClient.post(uri)
             .header(RequestHeaders.X_REQUEST_ID, requestId)
             .header(RequestHeaders.TPP_REDIRECT_URI, tppRedirectUri)
@@ -36,12 +37,13 @@ public class PaymentInitiationApi {
             .send(clientAuthentication, ResponseHandlers.jsonResponseHandler(PaymentInitiationResponse.class));
     }
 
-    public Response<PaymentInstruction> getPaymentDetails(PaymentProduct paymentProduct,
+    public Response<PaymentInstruction> getPaymentDetails(String paymentService,
+                                                          PaymentProduct paymentProduct,
                                                           String paymentId,
                                                           String requestId,
                                                           String psuIpAddress,
                                                           ClientAuthentication clientAuthentication) {
-        String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString(),
+        String uri = StringUri.fromElements(baseUri, API_VERSION, paymentService, requireNonNull(paymentProduct).toString(),
             requireNonNull(paymentId));
         return httpClient.get(uri)
             .header(RequestHeaders.X_REQUEST_ID, requestId)
@@ -49,12 +51,13 @@ public class PaymentInitiationApi {
             .send(clientAuthentication, ResponseHandlers.jsonResponseHandler(PaymentInstruction.class));
     }
 
-    public Response<PaymentStatusResponse> getPaymentStatus(PaymentProduct paymentProduct,
+    public Response<PaymentStatusResponse> getPaymentStatus(String paymentService,
+                                                            PaymentProduct paymentProduct,
                                                             String paymentId,
                                                             String requestId,
                                                             String psuIpAddress,
                                                             ClientAuthentication clientAuthentication) {
-        String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString(),
+        String uri = StringUri.fromElements(baseUri, API_VERSION, paymentService, requireNonNull(paymentProduct).toString(),
             requireNonNull(paymentId), "status");
         return httpClient.get(uri)
             .header(RequestHeaders.X_REQUEST_ID, requestId)
@@ -62,13 +65,14 @@ public class PaymentInitiationApi {
             .send(clientAuthentication, ResponseHandlers.jsonResponseHandler(PaymentStatusResponse.class));
     }
 
-    public Response<PaymentInitiationResponse> initiatePaymentXml(XmlPaymentProduct paymentProduct,
+    public Response<PaymentInitiationResponse> initiatePaymentXml(String paymentService,
+                                                                  XmlPaymentProduct paymentProduct,
                                                                   String requestId,
                                                                   String tppRedirectUri,
                                                                   String psuIpAddress,
                                                                   Request.Builder.Interceptor clientAuthentication,
                                                                   String body) {
-        String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString());
+        String uri = StringUri.fromElements(baseUri, API_VERSION, paymentService, requireNonNull(paymentProduct).toString());
         return httpClient.post(uri)
             .header(RequestHeaders.X_REQUEST_ID, requestId)
             .header(RequestHeaders.TPP_REDIRECT_URI, tppRedirectUri)
@@ -78,12 +82,13 @@ public class PaymentInitiationApi {
     }
 
 
-    public Response<String> getPaymentDetailsXml(XmlPaymentProduct paymentProduct,
+    public Response<String> getPaymentDetailsXml(String paymentService,
+                                                 XmlPaymentProduct paymentProduct,
                                                  String paymentId,
                                                  String requestId,
                                                  String psuIpAddress,
                                                  ClientAuthentication clientAuthentication) {
-        String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString(),
+        String uri = StringUri.fromElements(baseUri, API_VERSION, paymentService, requireNonNull(paymentProduct).toString(),
             requireNonNull(paymentId));
         return httpClient.get(uri)
             .header(RequestHeaders.X_REQUEST_ID, requestId)
@@ -91,12 +96,13 @@ public class PaymentInitiationApi {
             .send(clientAuthentication, ResponseHandlers.stringResponseHandler());
     }
 
-    public Response<String> getPaymentStatusXml(XmlPaymentProduct paymentProduct,
+    public Response<String> getPaymentStatusXml(String paymentService,
+                                                XmlPaymentProduct paymentProduct,
                                                 String paymentId,
                                                 String requestId,
                                                 String psuIpAddress,
                                                 ClientAuthentication clientAuthentication) {
-        String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString(),
+        String uri = StringUri.fromElements(baseUri, API_VERSION, paymentService, requireNonNull(paymentProduct).toString(),
             requireNonNull(paymentId), "status");
         return httpClient.get(uri)
             .header(RequestHeaders.X_REQUEST_ID, requestId)

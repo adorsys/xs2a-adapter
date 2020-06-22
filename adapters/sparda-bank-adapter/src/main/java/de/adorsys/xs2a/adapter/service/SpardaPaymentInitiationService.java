@@ -28,16 +28,18 @@ public class SpardaPaymentInitiationService extends BasePaymentInitiationService
     }
 
     @Override
-    public Response<PaymentInitationRequestResponse201> initiateSinglePayment(String paymentProduct,
-                                                                              RequestHeaders requestHeaders,
-                                                                              RequestParams requestParams,
-                                                                              Object body) {
+    public Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
+                                                                      String paymentProduct,
+                                                                      RequestHeaders requestHeaders,
+                                                                      RequestParams requestParams,
+                                                                      Object body) {
         if (isOauthPreStep(requestHeaders)) {
             requestHeaders = modifyPsuId(requestHeaders);
         }
         String idpUri = StringUri.appendQueryParam(getIdpUri(), Oauth2Service.Parameters.SCOPE, PIS_SCOPE);
 
-        return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct),
+        return initiatePayment(paymentService,
+            StandardPaymentProduct.fromSlug(paymentProduct),
             body,
             requestHeaders,
             requestParams,

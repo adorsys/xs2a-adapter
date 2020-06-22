@@ -15,12 +15,13 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<PaymentInitationRequestResponse201> initiateSinglePayment(String paymentProduct,
-                                                                              RequestHeaders requestHeaders,
-                                                                              RequestParams requestParams,
-                                                                              Object body) {
+    public Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
+                                                                        String paymentProduct,
+                                                                        RequestHeaders requestHeaders,
+                                                                        RequestParams requestParams,
+                                                                        Object body) {
         return getPaymentInitiationService(requestHeaders)
-                   .initiateSinglePayment(paymentProduct, requestHeaders, requestParams, body);
+                   .initiatePayment(paymentService, paymentProduct, requestHeaders, requestParams, body);
     }
 
     private PaymentInitiationService getPaymentInitiationService(RequestHeaders requestHeaders) {
@@ -37,12 +38,22 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<String> getSinglePaymentInformationAsString(String paymentProduct,
-                                                                String paymentId,
-                                                                RequestHeaders requestHeaders,
-                                                                RequestParams requestParams) {
+    public Response<PeriodicPaymentInitiationWithStatusResponse> getPeriodicPaymentInformation(String paymentProduct,
+                                                                                               String paymentId,
+                                                                                               RequestHeaders requestHeaders,
+                                                                                               RequestParams requestParams) {
         return getPaymentInitiationService(requestHeaders)
-            .getSinglePaymentInformationAsString(paymentProduct, paymentId, requestHeaders, requestParams);
+                   .getPeriodicPaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<String> getPaymentInformationAsString(String paymentService,
+                                                          String paymentProduct,
+                                                          String paymentId,
+                                                          RequestHeaders requestHeaders,
+                                                          RequestParams requestParams) {
+        return getPaymentInitiationService(requestHeaders)
+                   .getPaymentInformationAsString(paymentService, paymentProduct, paymentId, requestHeaders, requestParams);
     }
 
     @Override
@@ -62,21 +73,24 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<PaymentInitiationStatusResponse200Json> getSinglePaymentInitiationStatus(String paymentProduct,
-                                                                                             String paymentId,
-                                                                                             RequestHeaders requestHeaders,
-                                                                                             RequestParams requestParams) {
+    public Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(String paymentService,
+                                                                                       String paymentProduct,
+                                                                                       String paymentId,
+                                                                                       RequestHeaders requestHeaders,
+                                                                                       RequestParams requestParams) {
         return getPaymentInitiationService(requestHeaders)
-                   .getSinglePaymentInitiationStatus(paymentProduct, paymentId, requestHeaders, requestParams);
+                   .getPaymentInitiationStatus(paymentService, paymentProduct, paymentId, requestHeaders, requestParams);
     }
 
     @Override
-    public Response<String> getSinglePaymentInitiationStatusAsString(String paymentProduct,
-                                                                     String paymentId,
-                                                                     RequestHeaders requestHeaders,
-                                                                     RequestParams requestParams) {
+    public Response<String> getPaymentInitiationStatusAsString(String paymentService,
+                                                               String paymentProduct,
+                                                               String paymentId,
+                                                               RequestHeaders requestHeaders,
+                                                               RequestParams requestParams) {
         return getPaymentInitiationService(requestHeaders)
-                   .getSinglePaymentInitiationStatusAsString(paymentProduct, paymentId, requestHeaders, requestParams);
+                   .getPaymentInitiationStatusAsString(paymentService, paymentProduct, paymentId, requestHeaders,
+                       requestParams);
     }
 
     @Override
@@ -94,26 +108,25 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<StartScaprocessResponse> startSinglePaymentAuthorisation(String paymentProduct,
-                                                                             String paymentId,
-                                                                             RequestHeaders requestHeaders,
-                                                                             RequestParams requestParams) {
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
+                                                                       String paymentProduct,
+                                                                       String paymentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams) {
         return getPaymentInitiationService(requestHeaders)
-            .startSinglePaymentAuthorisation(paymentProduct, paymentId, requestHeaders, requestParams);
+                   .startPaymentAuthorisation(paymentService, paymentProduct, paymentId, requestHeaders, requestParams);
     }
 
     @Override
-    public Response<StartScaprocessResponse> startSinglePaymentAuthorisation(String paymentProduct,
-                                                                             String paymentId,
-                                                                             RequestHeaders requestHeaders,
-                                                                             RequestParams requestParams,
-                                                                             UpdatePsuAuthentication updatePsuAuthentication) {
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
+                                                                       String paymentProduct,
+                                                                       String paymentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
+                                                                       UpdatePsuAuthentication updatePsuAuthentication) {
         return getPaymentInitiationService(requestHeaders)
-            .startSinglePaymentAuthorisation(paymentProduct,
-                paymentId,
-                requestHeaders,
-                requestParams,
-                updatePsuAuthentication);
+                   .startPaymentAuthorisation(paymentService, paymentProduct, paymentId, requestHeaders,
+                       requestParams, updatePsuAuthentication);
     }
 
     @Override

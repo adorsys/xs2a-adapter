@@ -59,11 +59,13 @@ public class DkbPaymentInitiationService extends BasePaymentInitiationService {
     }
 
     @Override
-    public Response<PaymentInitationRequestResponse201> initiateSinglePayment(String paymentProduct,
-                                                                              RequestHeaders requestHeaders,
-                                                                              RequestParams requestParams,
-                                                                              Object body) {
-        return initiateSinglePayment(StandardPaymentProduct.fromSlug(paymentProduct),
+    public Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
+                                                                      String paymentProduct,
+                                                                      RequestHeaders requestHeaders,
+                                                                      RequestParams requestParams,
+                                                                      Object body) {
+        return initiatePayment(paymentService,
+            StandardPaymentProduct.fromSlug(paymentProduct),
             body,
             requestHeaders,
             requestParams,
@@ -72,12 +74,14 @@ public class DkbPaymentInitiationService extends BasePaymentInitiationService {
     }
 
     @Override
-    public Response<StartScaprocessResponse> startSinglePaymentAuthorisation(String paymentProduct,
-                                                                             String paymentId,
-                                                                             RequestHeaders requestHeaders,
-                                                                             RequestParams requestParams,
-                                                                             UpdatePsuAuthentication updatePsuAuthentication) {
-        return startSinglePaymentAuthorisation(StandardPaymentProduct.fromSlug(paymentProduct),
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
+                                                                       String paymentProduct,
+                                                                       String paymentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
+                                                                       UpdatePsuAuthentication updatePsuAuthentication) {
+        return startPaymentAuthorisation(paymentService,
+            StandardPaymentProduct.fromSlug(paymentProduct),
             paymentId,
             requestHeaders,
             requestParams,

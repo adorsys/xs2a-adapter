@@ -10,10 +10,11 @@ import java.util.Collections;
 import java.util.List;
 
 public interface PaymentInitiationValidationService {
-    default List<ValidationError> validateInitiateSinglePayment(String paymentProduct,
-                                                                RequestHeaders requestHeaders,
-                                                                RequestParams requestParams,
-                                                                Object body) {
+    default List<ValidationError> validateInitiatePayment(String paymentService,
+                                                          String paymentProduct,
+                                                          RequestHeaders requestHeaders,
+                                                          RequestParams requestParams,
+                                                          Object body) {
         return Collections.emptyList();
     }
 
@@ -21,6 +22,13 @@ public interface PaymentInitiationValidationService {
                                                                       String paymentId,
                                                                       RequestHeaders requestHeaders,
                                                                       RequestParams requestParams) {
+        return Collections.emptyList();
+    }
+
+    default List<ValidationError> validateGetPeriodicPaymentInformation(String paymentProduct,
+                                                                        String paymentId,
+                                                                        RequestHeaders requestHeaders,
+                                                                        RequestParams requestParams) {
         return Collections.emptyList();
     }
 
@@ -33,10 +41,11 @@ public interface PaymentInitiationValidationService {
         return Collections.emptyList();
     }
 
-    default List<ValidationError> validateGetSinglePaymentInitiationStatus(String paymentProduct,
-                                                                           String paymentId,
-                                                                           RequestHeaders requestHeaders,
-                                                                           RequestParams requestParams) {
+    default List<ValidationError> validateGetPaymentInitiationStatus(String paymentService,
+                                                                     String paymentProduct,
+                                                                     String paymentId,
+                                                                     RequestHeaders requestHeaders,
+                                                                     RequestParams requestParams) {
         return Collections.emptyList();
     }
 
@@ -55,18 +64,20 @@ public interface PaymentInitiationValidationService {
         return Collections.emptyList();
     }
 
-    default List<ValidationError> validateStartSinglePaymentAuthorisation(String paymentProduct,
-                                                                          String paymentId,
-                                                                          RequestHeaders requestHeaders,
-                                                                          RequestParams requestParams) {
+    default List<ValidationError> validateStartPaymentAuthorisation(String paymentService,
+                                                                    String paymentProduct,
+                                                                    String paymentId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    RequestParams requestParams) {
         return Collections.emptyList();
     }
 
-    default List<ValidationError> validateStartSinglePaymentAuthorisation(String paymentProduct,
-                                                                          String paymentId,
-                                                                          RequestHeaders requestHeaders,
-                                                                          RequestParams requestParams,
-                                                                          UpdatePsuAuthentication updatePsuAuthentication) {
+    default List<ValidationError> validateStartPaymentAuthorisation(String paymentService,
+                                                                    String paymentProduct,
+                                                                    String paymentId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    RequestParams requestParams,
+                                                                    UpdatePsuAuthentication updatePsuAuthentication) {
         return Collections.emptyList();
     }
 

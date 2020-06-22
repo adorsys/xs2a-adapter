@@ -36,27 +36,30 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
     }
 
     @Override
-    public List<ValidationError> validateInitiateSinglePayment(String paymentProduct,
-                                                               RequestHeaders requestHeaders,
-                                                               RequestParams requestParams,
-                                                               Object body) {
+    public List<ValidationError> validateInitiatePayment(String paymentService,
+                                                         String paymentProduct,
+                                                         RequestHeaders requestHeaders,
+                                                         RequestParams requestParams,
+                                                         Object body) {
         return UnicreditValidators.requireTppRedirectUri(requestHeaders);
     }
 
     @Override
-    public List<ValidationError> validateStartSinglePaymentAuthorisation(String paymentProduct,
-                                                                         String paymentId,
-                                                                         RequestHeaders requestHeaders,
-                                                                         RequestParams requestParams) {
+    public List<ValidationError> validateStartPaymentAuthorisation(String paymentService,
+                                                                   String paymentProduct,
+                                                                   String paymentId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams) {
         return UnicreditValidators.requireTppRedirectUri(requestHeaders);
     }
 
     @Override
-    public List<ValidationError> validateStartSinglePaymentAuthorisation(String paymentProduct,
-                                                                         String paymentId,
-                                                                         RequestHeaders requestHeaders,
-                                                                         RequestParams requestParams,
-                                                                         UpdatePsuAuthentication updatePsuAuthentication) {
+    public List<ValidationError> validateStartPaymentAuthorisation(String paymentService,
+                                                                   String paymentProduct,
+                                                                   String paymentId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams,
+                                                                   UpdatePsuAuthentication updatePsuAuthentication) {
         return UnicreditValidators.requireTppRedirectUri(requestHeaders);
     }
 }
