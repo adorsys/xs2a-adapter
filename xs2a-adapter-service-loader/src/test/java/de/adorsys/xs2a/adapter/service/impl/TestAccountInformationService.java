@@ -1,23 +1,23 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.model.*;
 
 public class TestAccountInformationService implements AccountInformationService {
     @Override
-    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
-                                                           RequestParams requestParams,
-                                                           Consents body) {
+    public Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
+                                                       RequestParams requestParams,
+                                                       Consents body) {
         return null;
     }
 
     @Override
-    public Response<ConsentInformation> getConsentInformation(String consentId,
-                                                              RequestHeaders requestHeaders,
-                                                              RequestParams requestParams) {
+    public Response<ConsentInformationResponse200Json> getConsentInformation(String consentId,
+                                                                             RequestHeaders requestHeaders,
+                                                                             RequestParams requestParams) {
         return null;
     }
 
@@ -29,21 +29,21 @@ public class TestAccountInformationService implements AccountInformationService 
     }
 
     @Override
-    public Response<ConsentStatusResponse> getConsentStatus(String consentId,
-                                                            RequestHeaders requestHeaders,
-                                                            RequestParams requestParams) {
+    public Response<ConsentStatusResponse200> getConsentStatus(String consentId,
+                                                               RequestHeaders requestHeaders,
+                                                               RequestParams requestParams) {
         return null;
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams) {
         return null;
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams,
                                                                        UpdatePsuAuthentication updatePsuAuthentication) {
@@ -78,15 +78,15 @@ public class TestAccountInformationService implements AccountInformationService 
     }
 
     @Override
-    public Response<AccountListHolder> getAccountList(RequestHeaders requestHeaders,
-                                                      RequestParams requestParams) {
+    public Response<AccountList> getAccountList(RequestHeaders requestHeaders,
+                                                RequestParams requestParams) {
         return null;
     }
 
     @Override
-    public Response<TransactionsReport> getTransactionList(String accountId,
-                                                           RequestHeaders requestHeaders,
-                                                           RequestParams requestParams) {
+    public Response<TransactionsResponse200Json> getTransactionList(String accountId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    RequestParams requestParams) {
         return null;
     }
 
@@ -106,9 +106,9 @@ public class TestAccountInformationService implements AccountInformationService 
     }
 
     @Override
-    public Response<BalanceReport> getBalances(String accountId,
-                                               RequestHeaders requestHeaders,
-                                               RequestParams requestParams) {
+    public Response<ReadAccountBalanceResponse200> getBalances(String accountId,
+                                                               RequestHeaders requestHeaders,
+                                                               RequestParams requestParams) {
         return null;
     }
 
@@ -118,25 +118,25 @@ public class TestAccountInformationService implements AccountInformationService 
     }
 
     @Override
-    public Response<CardAccountDetailsHolder> getCardAccountDetails(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
+    public Response<OK200CardAccountDetails> getCardAccountDetails(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         return null;
     }
 
     @Override
-    public Response<CardAccountBalanceReport> getCardAccountBalances(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
+    public Response<ReadCardAccountBalanceResponse200> getCardAccountBalances(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         return null;
     }
 
     @Override
-    public Response<CardAccountsTransactions> getCardAccountTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
+    public Response<CardAccountsTransactionsResponse200> getCardAccountTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
         return null;
     }
 
     @Override
-    public Response<TransactionDetails> getTransactionDetails(String accountId,
-                                                              String transactionId,
-                                                              RequestHeaders requestHeaders,
-                                                              RequestParams requestParams) {
+    public Response<OK200TransactionDetails> getTransactionDetails(String accountId,
+                                                                   String transactionId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams) {
         return null;
     }
 }

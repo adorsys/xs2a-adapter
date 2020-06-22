@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.controller;
 
-import de.adorsys.xs2a.adapter.api.Oauth2Api;
-import de.adorsys.xs2a.adapter.mapper.psd2.Oauth2Mapper;
-import de.adorsys.xs2a.adapter.model.HrefTypeTO;
-import de.adorsys.xs2a.adapter.model.TokenResponseTO;
+import de.adorsys.xs2a.adapter.api.model.HrefType;
+import de.adorsys.xs2a.adapter.mapper.Oauth2Mapper;
+import de.adorsys.xs2a.adapter.rest.api.Oauth2Api;
+import de.adorsys.xs2a.adapter.rest.api.model.TokenResponseTO;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import org.mapstruct.factory.Mappers;
@@ -24,9 +24,9 @@ public class Oauth2Controller implements Oauth2Api {
     }
 
     @Override
-    public HrefTypeTO getAuthorizationUrl(Map<String, String> headers, Map<String, String> parameters) throws IOException {
+    public HrefType getAuthorizationUrl(Map<String, String> headers, Map<String, String> parameters) throws IOException {
         URI authorizationUrl = oauth2Service.getAuthorizationRequestUri(headers, new Parameters(parameters));
-        HrefTypeTO hrefTypeTO = new HrefTypeTO();
+        HrefType hrefTypeTO = new HrefType();
         hrefTypeTO.setHref(authorizationUrl.toString());
         return hrefTypeTO;
     }

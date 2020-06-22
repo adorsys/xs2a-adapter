@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.service;
 
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
-import de.adorsys.xs2a.adapter.service.model.*;
 import de.adorsys.xs2a.adapter.validation.PaymentInitiationValidationService;
 
 public interface PaymentInitiationService extends PaymentInitiationValidationService {
@@ -12,20 +12,20 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
      * <p>Use {@link #initiatePayment} instead</p>
      */
     @Deprecated
-    default Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct,
+    default Response<PaymentInitationRequestResponse201> initiateSinglePayment(String paymentProduct,
                                                                              RequestHeaders requestHeaders,
                                                                              RequestParams requestParams,
                                                                              Object body) {
         return initiatePayment(SINGLE_PAYMENTS, paymentProduct, requestHeaders, requestParams, body);
     }
 
-    Response<PaymentInitiationRequestResponse> initiatePayment(String paymentService,
+    Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
                                                                String paymentProduct,
                                                                RequestHeaders requestHeaders,
                                                                RequestParams requestParams,
                                                                Object body);
 
-    Response<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(
+    Response<PaymentInitiationWithStatusResponse> getSinglePaymentInformation(
         String paymentProduct,
         String paymentId,
         RequestHeaders requestHeaders,
@@ -69,12 +69,12 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
                                                    RequestHeaders requestHeaders,
                                                    RequestParams requestParams);
 
-    Response<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
-                                                                               String paymentProduct,
-                                                                               String paymentId,
-                                                                               String authorisationId,
-                                                                               RequestHeaders requestHeaders,
-                                                                               RequestParams requestParams);
+    Response<ScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
+                                                              String paymentProduct,
+                                                              String paymentId,
+                                                              String authorisationId,
+                                                              RequestHeaders requestHeaders,
+                                                              RequestParams requestParams);
 
     /**
      * @throws NotAcceptableException if response content type is not json
@@ -82,14 +82,14 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
      * <p>Use {@link #getPaymentInitiationStatus} instead</p>
      */
     @Deprecated
-    default Response<PaymentInitiationStatus> getSinglePaymentInitiationStatus(String paymentProduct,
+    default Response<PaymentInitiationStatusResponse200Json> getSinglePaymentInitiationStatus(String paymentProduct,
                                                                                String paymentId,
                                                                                RequestHeaders requestHeaders,
                                                                                RequestParams requestParams) {
         return getPaymentInitiationStatus(SINGLE_PAYMENTS, paymentProduct, paymentId, requestHeaders, requestParams);
     }
 
-    Response<PaymentInitiationStatus> getPaymentInitiationStatus(String paymentService,
+    Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(String paymentService,
                                                                  String paymentProduct,
                                                                  String paymentId,
                                                                  RequestHeaders requestHeaders,
@@ -113,25 +113,25 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
                                                         RequestHeaders requestHeaders,
                                                         RequestParams requestParams);
 
-    Response<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService,
-                                                                                       String paymentProduct,
-                                                                                       String paymentId,
-                                                                                       RequestHeaders requestHeaders,
-                                                                                       RequestParams requestParams);
+    Response<Authorisations> getPaymentInitiationAuthorisation(String paymentService,
+                                                               String paymentProduct,
+                                                               String paymentId,
+                                                               RequestHeaders requestHeaders,
+                                                               RequestParams requestParams);
 
     /**
      * @deprecated This method is no longer acceptable and will be removed in release v.0.1.1
      * <p>Use {@link #startPaymentAuthorisation)} instead</p>
      */
     @Deprecated
-    default Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
+    default Response<StartScaprocessResponse> startSinglePaymentAuthorisation(String paymentProduct,
                                                                               String paymentId,
                                                                               RequestHeaders requestHeaders,
                                                                               RequestParams requestParams) {
         return startPaymentAuthorisation(SINGLE_PAYMENTS, paymentProduct, paymentId, requestHeaders, requestParams);
     }
 
-    Response<StartScaProcessResponse> startPaymentAuthorisation(String paymentService,
+    Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
                                                                 String paymentProduct,
                                                                 String paymentId,
                                                                 RequestHeaders requestHeaders,
@@ -142,7 +142,7 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
      * <p>Use {@link #startPaymentAuthorisation} instead</p>
      */
     @Deprecated
-    default Response<StartScaProcessResponse> startSinglePaymentAuthorisation(String paymentProduct,
+    default Response<StartScaprocessResponse> startSinglePaymentAuthorisation(String paymentProduct,
                                                                       String paymentId,
                                                                       RequestHeaders requestHeaders,
                                                                       RequestParams requestParams,
@@ -151,7 +151,7 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
             requestParams, updatePsuAuthentication);
     }
 
-    Response<StartScaProcessResponse> startPaymentAuthorisation(String paymentService,
+    Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
                                                                 String paymentProduct,
                                                                 String paymentId,
                                                                 RequestHeaders requestHeaders,

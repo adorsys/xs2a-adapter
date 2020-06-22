@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.tpp.controller;
 
-import de.adorsys.xs2a.adapter.model.AspspTO;
 import de.adorsys.xs2a.adapter.remote.api.AspspClient;
+import de.adorsys.xs2a.adapter.rest.api.model.AspspTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

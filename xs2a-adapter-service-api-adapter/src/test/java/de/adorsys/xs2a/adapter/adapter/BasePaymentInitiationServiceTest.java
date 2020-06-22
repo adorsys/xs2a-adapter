@@ -1,12 +1,13 @@
 package de.adorsys.xs2a.adapter.adapter;
 
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -62,13 +63,13 @@ public class BasePaymentInitiationServiceTest {
 
     @Test
     void initiatePayment_singlePaymentsSepaCreditTransfers() {
-        Object body = new SinglePaymentInitiationBody();
-        PaymentInitiationRequestResponse example = new PaymentInitiationRequestResponse();
+        PaymentInitiationJson body = new PaymentInitiationJson();
+        PaymentInitationRequestResponse201 example = new PaymentInitationRequestResponse201();
 
         when(httpClient.post(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<PaymentInitiationRequestResponse> response
+        Response<PaymentInitationRequestResponse201> response
             = initiationService.initiatePayment(SINGLE_PAYMENTS, SEPA_CREDIT_TRANSFERS, headers, RequestParams.empty(), body);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
@@ -85,12 +86,12 @@ public class BasePaymentInitiationServiceTest {
     @Test
     void initiatePayment_singlePaymentsPainSepaCreditTransfers() {
         Object body = "body";
-        PaymentInitiationRequestResponse example = new PaymentInitiationRequestResponse();
+        PaymentInitationRequestResponse201 example = new PaymentInitationRequestResponse201();
 
         when(httpClient.post(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<PaymentInitiationRequestResponse> response
+        Response<PaymentInitationRequestResponse201> response
             = initiationService.initiatePayment(SINGLE_PAYMENTS, PAIN_SEPA_CREDIT_TRANSFERS, headers, RequestParams.empty(), body);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
@@ -104,12 +105,12 @@ public class BasePaymentInitiationServiceTest {
 
     @Test
     void getSinglePaymentInformation() {
-        SinglePaymentInitiationInformationWithStatusResponse example = new SinglePaymentInitiationInformationWithStatusResponse();
+        PaymentInitiationWithStatusResponse example = new PaymentInitiationWithStatusResponse();
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<SinglePaymentInitiationInformationWithStatusResponse> response
+        Response<PaymentInitiationWithStatusResponse> response
             = initiationService.getSinglePaymentInformation(SEPA_CREDIT_TRANSFERS, PAYMENTID, headers, RequestParams.empty());
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
@@ -130,12 +131,12 @@ public class BasePaymentInitiationServiceTest {
 
     @Test
     void getPaymentInitiationStatus() {
-        PaymentInitiationStatus example = new PaymentInitiationStatus();
+        PaymentInitiationStatusResponse200Json example = new PaymentInitiationStatusResponse200Json();
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<PaymentInitiationStatus> response = initiationService.getPaymentInitiationStatus(
+        Response<PaymentInitiationStatusResponse200Json> response = initiationService.getPaymentInitiationStatus(
             SINGLE_PAYMENTS,
             SEPA_CREDIT_TRANSFERS,
             PAYMENTID,
@@ -184,12 +185,12 @@ public class BasePaymentInitiationServiceTest {
     @Test
     void startSinglePaymentAuthorisation() {
         UpdatePsuAuthentication body = new UpdatePsuAuthentication();
-        StartScaProcessResponse example = new StartScaProcessResponse();
+        StartScaprocessResponse example = new StartScaprocessResponse();
 
         when(httpClient.post(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<StartScaProcessResponse> response =
+        Response<StartScaprocessResponse> response =
             initiationService.startPaymentAuthorisation(SINGLE_PAYMENTS,
                 SEPA_CREDIT_TRANSFERS,
                 PAYMENTID,

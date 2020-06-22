@@ -23,7 +23,7 @@ import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public class SpardaServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider,
-                                                  Oauth2ServiceFactory {
+        Oauth2ServiceProvider {
     private static final SpardaJwtService JWT_SERVICE = new SpardaJwtService();
 
     @Override

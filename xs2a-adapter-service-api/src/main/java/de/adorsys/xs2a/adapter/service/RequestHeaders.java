@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Optional;
 
 public class RequestHeaders {
+    private static final String BEARER_ = "Bearer ";
+
     public static final String X_REQUEST_ID = "X-Request-ID";
     public static final String CONSENT_ID = "Consent-ID";
     public static final String DIGEST = "Digest";
@@ -124,5 +126,14 @@ public class RequestHeaders {
 
     public Optional<String> getAuthorization() {
         return get(AUTHORIZATION);
+    }
+
+    public Optional<String> getAccessToken() {
+        return getAuthorization().flatMap(authorization -> {
+            if (!authorization.startsWith(BEARER_)) {
+                return Optional.empty();
+            }
+            return Optional.of(authorization.substring(BEARER_.length()));
+        });
     }
 }

@@ -17,8 +17,7 @@
 package de.adorsys.xs2a.adapter.remote.api;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import de.adorsys.xs2a.adapter.model.*;
-import de.adorsys.xs2a.adapter.service.model.TransactionsReport;
+import de.adorsys.xs2a.adapter.api.model.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,15 +32,15 @@ public interface AccountApi {
         method = RequestMethod.POST,
         consumes = "application/json"
     )
-    ResponseEntity<ConsentsResponse201TO> createConsent(@RequestParam Map<String, String> parameters,
+    ResponseEntity<ConsentsResponse201> createConsent(@RequestParam Map<String, String> parameters,
                                                         @RequestHeader Map<String, String> headers,
-                                                        @RequestBody ConsentsTO body);
+                                                        @RequestBody Consents body);
 
     @RequestMapping(
         value = "/v1/consents/{consentId}",
         method = RequestMethod.GET
     )
-    ResponseEntity<ConsentInformationResponse200JsonTO> getConsentInformation(
+    ResponseEntity<ConsentInformationResponse200Json> getConsentInformation(
         @PathVariable("consentId") String consentId,
         @RequestParam Map<String, String> parameters,
         @RequestHeader Map<String, String> headers);
@@ -58,25 +57,25 @@ public interface AccountApi {
         value = "/v1/consents/{consentId}/status",
         method = RequestMethod.GET
     )
-    ResponseEntity<ConsentStatusResponse200TO> getConsentStatus(@PathVariable("consentId") String consentId,
-                                                                @RequestParam Map<String, String> parameters,
-                                                                @RequestHeader Map<String, String> headers);
+    ResponseEntity<ConsentStatusResponse200> getConsentStatus(@PathVariable("consentId") String consentId,
+                                                              @RequestParam Map<String, String> parameters,
+                                                              @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/v1/consents/{consentId}/authorisations",
         method = RequestMethod.POST,
         consumes = "application/json"
     )
-    ResponseEntity<StartScaprocessResponseTO> startConsentAuthorisation(@PathVariable("consentId") String consentId,
-                                                                        @RequestParam Map<String, String> parameters,
-                                                                        @RequestHeader Map<String, String> headers,
-                                                                        @RequestBody ObjectNode body);
+    ResponseEntity<StartScaprocessResponse> startConsentAuthorisation(@PathVariable("consentId") String consentId,
+                                                                      @RequestParam Map<String, String> parameters,
+                                                                      @RequestHeader Map<String, String> headers,
+                                                                      @RequestBody ObjectNode body);
 
     @RequestMapping(
         value = "/v1/consents/{consentId}/authorisations/{authorisationId}",
         method = RequestMethod.GET
     )
-    ResponseEntity<ScaStatusResponseTO> getConsentScaStatus(
+    ResponseEntity<ScaStatusResponse> getConsentScaStatus(
         @PathVariable("consentId") String consentId,
         @PathVariable("authorisationId") String authorisationId,
         @RequestParam Map<String, String> parameters,
@@ -97,7 +96,7 @@ public interface AccountApi {
         value = "/v1/accounts",
         method = RequestMethod.GET
     )
-    ResponseEntity<AccountListTO> getAccountList(
+    ResponseEntity<AccountList> getAccountList(
         @RequestParam(value = "withBalance", required = false) Boolean withBalance,
         @RequestHeader Map<String, String> headers);
 
@@ -105,7 +104,7 @@ public interface AccountApi {
         value = "/v1/accounts/{account-id}/balances",
         method = RequestMethod.GET
     )
-    ResponseEntity<ReadAccountBalanceResponse200TO> getBalances(
+    ResponseEntity<ReadAccountBalanceResponse200> getBalances(
         @PathVariable("account-id") String accountId,
         @RequestParam Map<String, String> parameters,
         @RequestHeader Map<String, String> headers);
@@ -114,13 +113,13 @@ public interface AccountApi {
         value = "/v1/accounts/{account-id}/transactions",
         method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    ResponseEntity<TransactionsReport> getTransactionList(@PathVariable("account-id") String accountId,
+    ResponseEntity<TransactionsResponse200Json> getTransactionList(@PathVariable("account-id") String accountId,
                                                           @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom,
                                                           @RequestParam(value = "dateTo", required = false) LocalDate dateTo,
                                                           @RequestParam(value = "entryReferenceFrom", required = false)
                                                   String entryReferenceFrom,
                                                           @RequestParam(value = "bookingStatus", required = true)
-                                                  BookingStatusTO bookingStatus,
+                                                  BookingStatus bookingStatus,
                                                           @RequestParam(value = "deltaList", required = false) Boolean deltaList,
                                                           @RequestParam(value = "withBalance", required = false) Boolean withBalance,
                                                           @RequestHeader Map<String, String> headers);
@@ -135,7 +134,7 @@ public interface AccountApi {
                                                       @RequestParam(value = "entryReferenceFrom", required = false)
                                                           String entryReferenceFrom,
                                                       @RequestParam(value = "bookingStatus", required = true)
-                                                          BookingStatusTO bookingStatus,
+                                                          BookingStatus bookingStatus,
                                                       @RequestParam(value = "deltaList", required = false) Boolean deltaList,
                                                       @RequestParam(value = "withBalance", required = false) Boolean withBalance,
                                                       @RequestHeader Map<String, String> headers);
@@ -144,7 +143,7 @@ public interface AccountApi {
         value = "/v1/accounts/{account-id}/transactions/{transactionId}",
         method = RequestMethod.GET
     )
-    ResponseEntity<OK200TransactionDetailsTO> getTransactionDetails(
+    ResponseEntity<OK200TransactionDetails> getTransactionDetails(
         @PathVariable("account-id") String accountId,
         @PathVariable("transactionId") String transactionId,
         @RequestParam Map<String, String> parameters,
@@ -154,14 +153,14 @@ public interface AccountApi {
         value = "/v1/card-accounts",
         method = RequestMethod.GET
     )
-    ResponseEntity<CardAccountListTO> getCardAccount(@RequestParam Map<String, String> parameters,
+    ResponseEntity<CardAccountList> getCardAccount(@RequestParam Map<String, String> parameters,
                                                      @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/v1/card-accounts/{account-id}",
         method = RequestMethod.GET
     )
-    ResponseEntity<OK200CardAccountDetailsTO> ReadCardAccount(
+    ResponseEntity<OK200CardAccountDetails> ReadCardAccount(
         @PathVariable("account-id") String accountId, @RequestParam Map<String, String> parameters,
         @RequestHeader Map<String, String> headers);
 
@@ -169,7 +168,7 @@ public interface AccountApi {
         value = "/v1/card-accounts/{account-id}/balances",
         method = RequestMethod.GET
     )
-    ResponseEntity<ReadCardAccountBalanceResponse200TO> getCardAccountBalances(
+    ResponseEntity<ReadCardAccountBalanceResponse200> getCardAccountBalances(
         @PathVariable("account-id") String accountId, @RequestParam Map<String, String> parameters,
         @RequestHeader Map<String, String> headers);
 
@@ -177,12 +176,12 @@ public interface AccountApi {
         value = "/v1/card-accounts/{account-id}/transactions",
         method = RequestMethod.GET
     )
-    ResponseEntity<CardAccountsTransactionsResponse200TO> getCardAccountTransactionList(
+    ResponseEntity<CardAccountsTransactionsResponse200> getCardAccountTransactionList(
         @PathVariable("account-id") String accountId,
         @RequestParam(value = "dateFrom", required = false) LocalDate dateFrom,
         @RequestParam(value = "dateTo", required = false) LocalDate dateTo,
         @RequestParam(value = "entryReferenceFrom", required = false) String entryReferenceFrom,
-        @RequestParam(value = "bookingStatus", required = true) BookingStatusTO bookingStatus,
+        @RequestParam(value = "bookingStatus", required = true) BookingStatus bookingStatus,
         @RequestParam(value = "deltaList", required = false) Boolean deltaList,
         @RequestParam(value = "withBalance", required = false) Boolean withBalance,
         @RequestParam Map<String, String> parameters, @RequestHeader Map<String, String> headers);

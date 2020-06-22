@@ -25,7 +25,7 @@ import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 public class SparkasseServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider,
-                                                     Oauth2ServiceFactory {
+        Oauth2ServiceProvider {
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,

@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.adapter.adapter;
 
 import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
@@ -26,7 +27,7 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,28 +83,28 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
-                                                           RequestParams requestParams,
-                                                           Consents body) {
+    public Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
+                                                       RequestParams requestParams,
+                                                       Consents body) {
         return createConsent(requestHeaders,
             requestParams,
             body,
             identity(),
-            jsonResponseHandler(ConsentCreationResponse.class));
+            jsonResponseHandler(ConsentsResponse201.class));
     }
 
-    protected <T> Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+    protected <T> Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
                                                                   RequestParams requestParams,
                                                                   Consents body,
                                                                   Class<T> klass,
-                                                                  Function<T, ConsentCreationResponse> mapper) {
+                                                                  Function<T, ConsentsResponse201> mapper) {
         return createConsent(requestHeaders, requestParams, body, mapper, jsonResponseHandler(klass));
     }
 
-    protected <T> Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+    protected <T> Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
                                                                   RequestParams requestParams,
                                                                   Consents body,
-                                                                  Function<T, ConsentCreationResponse> mapper,
+                                                                  Function<T, ConsentsResponse201> mapper,
                                                                   HttpClient.ResponseHandler<T> responseHandler) {
         requireValid(validateCreateConsent(requestHeaders, requestParams, body));
 
@@ -118,24 +119,28 @@ public class BaseAccountInformationService extends AbstractService implements Ac
             .jsonBody(bodyString)
             .headers(headersMap)
             .send(requestBuilderInterceptor, responseHandler);
-        ConsentCreationResponse creationResponse = mapper.apply(response.getBody());
+        ConsentsResponse201 creationResponse = mapper.apply(response.getBody());
         creationResponse.setLinks(linksRewriter.rewrite(creationResponse.getLinks()));
 
         return new Response<>(response.getStatusCode(), creationResponse, response.getHeaders());
     }
 
     @Override
-    public Response<ConsentInformation> getConsentInformation(String consentId,
-                                                              RequestHeaders requestHeaders,
-                                                              RequestParams requestParams) {
-        return getConsentInformation(consentId, requestHeaders, requestParams, ConsentInformation.class, identity());
+    public Response<ConsentInformationResponse200Json> getConsentInformation(String consentId,
+                                                                             RequestHeaders requestHeaders,
+                                                                             RequestParams requestParams) {
+        return getConsentInformation(consentId,
+            requestHeaders,
+            requestParams,
+            ConsentInformationResponse200Json.class,
+            identity());
     }
 
-    protected <T> Response<ConsentInformation> getConsentInformation(String consentId,
-                                                                     RequestHeaders requestHeaders,
-                                                                     RequestParams requestParams,
-                                                                     Class<T> klass,
-                                                                     Function<T, ConsentInformation> mapper) {
+    protected <T> Response<ConsentInformationResponse200Json> getConsentInformation(String consentId,
+                                                                                    RequestHeaders requestHeaders,
+                                                                                    RequestParams requestParams,
+                                                                                    Class<T> klass,
+                                                                                    Function<T, ConsentInformationResponse200Json> mapper) {
         requireValid(validateGetConsentInformation(consentId, requestHeaders, requestParams));
 
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId);
@@ -144,7 +149,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Response<T> response = httpClient.get(uri)
             .headers(headersMap)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));
-        ConsentInformation consentInformation = mapper.apply(response.getBody());
+        ConsentInformationResponse200Json consentInformation = mapper.apply(response.getBody());
         consentInformation.setLinks(linksRewriter.rewrite(consentInformation.getLinks()));
 
         return new Response<>(response.getStatusCode(), consentInformation, response.getHeaders());
@@ -165,9 +170,9 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public Response<ConsentStatusResponse> getConsentStatus(String consentId,
-                                                            RequestHeaders requestHeaders,
-                                                            RequestParams requestParams) {
+    public Response<ConsentStatusResponse200> getConsentStatus(String consentId,
+                                                               RequestHeaders requestHeaders,
+                                                               RequestParams requestParams) {
         requireValid(validateGetConsentStatus(consentId, requestHeaders, requestParams));
 
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, STATUS);
@@ -176,11 +181,11 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         return httpClient.get(uri)
             .headers(headersMap)
-            .send(requestBuilderInterceptor, jsonResponseHandler(ConsentStatusResponse.class));
+            .send(requestBuilderInterceptor, jsonResponseHandler(ConsentStatusResponse200.class));
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams) {
         requireValid(validateStartConsentAuthorisation(consentId, requestHeaders, requestParams));
@@ -189,10 +194,10 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
 
-        Response<StartScaProcessResponse> response = httpClient.post(uri)
+        Response<StartScaprocessResponse> response = httpClient.post(uri)
             .headers(headersMap)
             .emptyBody(true)
-            .send(requestBuilderInterceptor, jsonResponseHandler(StartScaProcessResponse.class));
+            .send(requestBuilderInterceptor, jsonResponseHandler(StartScaprocessResponse.class));
 
         Optional.ofNullable(response.getBody())
             .ifPresent(body -> body.setLinks(linksRewriter.rewrite(body.getLinks())));
@@ -200,11 +205,11 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         return response;
     }
 
-    protected <T> Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+    protected <T> Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                               RequestHeaders requestHeaders,
                                                                               RequestParams requestParams,
                                                                               Class<T> klass,
-                                                                              Function<T, StartScaProcessResponse> mapper) {
+                                                                              Function<T, StartScaprocessResponse> mapper) {
         requireValid(validateStartConsentAuthorisation(consentId, requestHeaders, requestParams));
 
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
@@ -214,14 +219,14 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Response<T> response = httpClient.post(uri)
             .headers(headersMap)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));
-        StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getBody());
+        StartScaprocessResponse startScaProcessResponse = mapper.apply(response.getBody());
         startScaProcessResponse.setLinks(linksRewriter.rewrite(startScaProcessResponse.getLinks()));
 
         return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getHeaders());
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams,
                                                                        UpdatePsuAuthentication updatePsuAuthentication) {
@@ -229,16 +234,16 @@ public class BaseAccountInformationService extends AbstractService implements Ac
             requestHeaders,
             requestParams,
             updatePsuAuthentication,
-            StartScaProcessResponse.class,
+            StartScaprocessResponse.class,
             identity());
     }
 
-    protected <T> Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+    protected <T> Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                               RequestHeaders requestHeaders,
                                                                               RequestParams requestParams,
                                                                               UpdatePsuAuthentication updatePsuAuthentication,
                                                                               Class<T> klass,
-                                                                              Function<T, StartScaProcessResponse> mapper) {
+                                                                              Function<T, StartScaprocessResponse> mapper) {
         requireValid(validateStartConsentAuthorisation(consentId, requestHeaders, requestParams, updatePsuAuthentication));
 
         String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
@@ -250,7 +255,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
             .jsonBody(body)
             .headers(headersMap)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));
-        StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getBody());
+        StartScaprocessResponse startScaProcessResponse = mapper.apply(response.getBody());
         startScaProcessResponse.setLinks(linksRewriter.rewrite(startScaProcessResponse.getLinks()));
 
         return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getHeaders());
@@ -384,7 +389,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public Response<AccountListHolder> getAccountList(RequestHeaders requestHeaders, RequestParams requestParams) {
+    public Response<AccountList> getAccountList(RequestHeaders requestHeaders, RequestParams requestParams) {
         requireValid(validateGetAccountList(requestHeaders, requestParams));
 
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
@@ -392,12 +397,12 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         String uri = buildUri(getAccountsBaseUri(), requestParams);
 
-        Response<AccountListHolder> response = httpClient.get(uri)
+        Response<AccountList> response = httpClient.get(uri)
             .headers(headersMap)
-            .send(requestBuilderInterceptor, jsonResponseHandler(AccountListHolder.class));
+            .send(requestBuilderInterceptor, jsonResponseHandler(AccountList.class));
 
         Optional.ofNullable(response.getBody())
-            .map(AccountListHolder::getAccounts)
+            .map(AccountList::getAccounts)
             .ifPresent(accounts ->
                 accounts.forEach(account -> account.setLinks(linksRewriter.rewrite(account.getLinks()))));
 
@@ -405,10 +410,10 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public Response<TransactionsReport> getTransactionList(String accountId,
-                                                           RequestHeaders requestHeaders,
-                                                           RequestParams requestParams) {
-        return getTransactionList(accountId, requestHeaders, requestParams, TransactionsReport.class, identity());
+    public Response<TransactionsResponse200Json> getTransactionList(String accountId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    RequestParams requestParams) {
+        return getTransactionList(accountId, requestHeaders, requestParams, TransactionsResponse200Json.class, identity());
     }
 
     private String getTransactionListUri(String accountId, RequestParams requestParams) {
@@ -417,11 +422,11 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         return uri;
     }
 
-    protected <T> Response<TransactionsReport> getTransactionList(String accountId,
+    protected <T> Response<TransactionsResponse200Json> getTransactionList(String accountId,
                                                                   RequestHeaders requestHeaders,
                                                                   RequestParams requestParams,
                                                                   Class<T> klass,
-                                                                  Function<T, TransactionsReport> mapper) {
+                                                                  Function<T, TransactionsResponse200Json> mapper) {
         requireValid(validateGetTransactionList(accountId, requestHeaders, requestParams));
 
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
@@ -432,7 +437,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Response<T> response = httpClient.get(uri)
             .headers(headersMap)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));
-        TransactionsReport transactionsReport = mapper.apply(response.getBody());
+        TransactionsResponse200Json transactionsReport = mapper.apply(response.getBody());
         logTransactionsSize(transactionsReport);
 
         transactionsReport.setLinks(linksRewriter.rewrite(transactionsReport.getLinks()));
@@ -447,14 +452,14 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         return new Response<>(response.getStatusCode(), transactionsReport, response.getHeaders());
     }
 
-    private void rewriteTransactionsLinks(List<Transactions> transactions) {
+    private void rewriteTransactionsLinks(List<TransactionDetails> transactions) {
         Optional.ofNullable(transactions)
             .ifPresent(ts ->
                            ts.forEach(transaction -> transaction.setLinks(linksRewriter.rewrite(transaction.getLinks())))
             );
     }
 
-    private void logTransactionsSize(TransactionsReport transactionsReport) {
+    private void logTransactionsSize(TransactionsResponse200Json transactionsReport) {
         int size = 0;
         if (transactionsReport != null && transactionsReport.getTransactions() != null) {
             AccountReport transactions = transactionsReport.getTransactions();
@@ -469,21 +474,21 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public Response<TransactionDetails> getTransactionDetails(String accountId,
-                                                              String transactionId,
-                                                              RequestHeaders requestHeaders,
-                                                              RequestParams requestParams) {
+    public Response<OK200TransactionDetails> getTransactionDetails(String accountId,
+                                                                   String transactionId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams) {
         requireValid(validateGetTransactionDetails(accountId, transactionId, requestHeaders, requestParams));
 
         String uri = StringUri.fromElements(getAccountsBaseUri(), accountId, TRANSACTIONS, transactionId);
         uri = buildUri(uri, requestParams);
 
-        Response<TransactionDetails> response = httpClient.get(uri)
+        Response<OK200TransactionDetails> response = httpClient.get(uri)
             .headers(populateGetHeaders(requestHeaders.toMap()))
-            .send(requestBuilderInterceptor, jsonResponseHandler(TransactionDetails.class));
+            .send(requestBuilderInterceptor, jsonResponseHandler(OK200TransactionDetails.class));
 
         Optional.ofNullable(response.getBody())
-            .map(TransactionDetails::getTransactionsDetails)
+            .map(OK200TransactionDetails::getTransactionsDetails)
             .ifPresent(t -> t.setLinks(linksRewriter.rewrite(t.getLinks())));
 
         return new Response<>(response.getStatusCode(), response.getBody(), response.getHeaders());
@@ -518,10 +523,10 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public Response<BalanceReport> getBalances(String accountId,
-                                               RequestHeaders requestHeaders,
-                                               RequestParams requestParams) {
-        return getBalances(accountId, requestHeaders, requestParams, BalanceReport.class, identity());
+    public Response<ReadAccountBalanceResponse200> getBalances(String accountId,
+                                                               RequestHeaders requestHeaders,
+                                                               RequestParams requestParams) {
+        return getBalances(accountId, requestHeaders, requestParams, ReadAccountBalanceResponse200.class, identity());
     }
 
     @Override
@@ -543,27 +548,27 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public Response<CardAccountDetailsHolder> getCardAccountDetails(String accountId,
-                                                                    RequestHeaders requestHeaders,
-                                                                    RequestParams requestParams) {
+    public Response<OK200CardAccountDetails> getCardAccountDetails(String accountId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams) {
         requireValid(validateGetCardAccountDetails(accountId, requestHeaders, requestParams));
 
         String uri = StringUri.fromElements(getBaseUri(), V1, CARD_ACCOUNTS, accountId);
         uri = buildUri(uri, requestParams);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
-        Response<CardAccountDetailsHolder> response = httpClient.get(uri)
+        Response<OK200CardAccountDetails> response = httpClient.get(uri)
             .headers(headers)
-            .send(requestBuilderInterceptor, jsonResponseHandler(CardAccountDetailsHolder.class));
+            .send(requestBuilderInterceptor, jsonResponseHandler(OK200CardAccountDetails.class));
         Optional.ofNullable(response.getBody())
-            .map(CardAccountDetailsHolder::getCardAccount)
+            .map(OK200CardAccountDetails::getCardAccount)
             .ifPresent(account -> account.setLinks(linksRewriter.rewrite(account.getLinks())));
         return response;
     }
 
     @Override
-    public Response<CardAccountBalanceReport> getCardAccountBalances(String accountId,
-                                                                     RequestHeaders requestHeaders,
-                                                                     RequestParams requestParams) {
+    public Response<ReadCardAccountBalanceResponse200> getCardAccountBalances(String accountId,
+                                                                              RequestHeaders requestHeaders,
+                                                                              RequestParams requestParams) {
         requireValid(validateGetCardAccountBalances(accountId, requestHeaders, requestParams));
 
         String uri = StringUri.fromElements(getBaseUri(), V1, CARD_ACCOUNTS, accountId, BALANCES);
@@ -571,22 +576,22 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
         return httpClient.get(uri)
             .headers(headers)
-            .send(requestBuilderInterceptor, jsonResponseHandler(CardAccountBalanceReport.class));
+            .send(requestBuilderInterceptor, jsonResponseHandler(ReadCardAccountBalanceResponse200.class));
     }
 
     @Override
-    public Response<CardAccountsTransactions> getCardAccountTransactionList(String accountId,
-                                                                            RequestHeaders requestHeaders,
-                                                                            RequestParams requestParams) {
+    public Response<CardAccountsTransactionsResponse200> getCardAccountTransactionList(String accountId,
+                                                                                       RequestHeaders requestHeaders,
+                                                                                       RequestParams requestParams) {
         requireValid(validateGetCardAccountTransactionList(accountId, requestHeaders, requestParams));
 
         String uri = StringUri.fromElements(getBaseUri(), V1, CARD_ACCOUNTS, accountId, TRANSACTIONS);
         uri = buildUri(uri, requestParams);
         Map<String, String> headers = populateGetHeaders(requestHeaders.toMap());
-        Response<CardAccountsTransactions> response = httpClient.get(uri)
+        Response<CardAccountsTransactionsResponse200> response = httpClient.get(uri)
             .headers(headers)
-            .send(requestBuilderInterceptor, jsonResponseHandler(CardAccountsTransactions.class));
-        CardAccountsTransactions body = response.getBody();
+            .send(requestBuilderInterceptor, jsonResponseHandler(CardAccountsTransactionsResponse200.class));
+        CardAccountsTransactionsResponse200 body = response.getBody();
         if (body != null) {
             body.setLinks(linksRewriter.rewrite(body.getLinks()));
             CardAccountReport cardTransactions = body.getCardTransactions();
@@ -597,11 +602,11 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         return response;
     }
 
-    protected <T> Response<BalanceReport> getBalances(String accountId,
+    protected <T> Response<ReadAccountBalanceResponse200> getBalances(String accountId,
                                                       RequestHeaders requestHeaders,
                                                       RequestParams requestParams,
                                                       Class<T> klass,
-                                                      Function<T, BalanceReport> mapper) {
+                                                      Function<T, ReadAccountBalanceResponse200> mapper) {
         requireValid(validateGetBalances(accountId, requestHeaders, requestParams));
 
         String uri = StringUri.fromElements(getAccountsBaseUri(), accountId, BALANCES);
@@ -610,7 +615,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         Response<T> response = httpClient.get(uri)
             .headers(headers)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));
-        BalanceReport balanceReport = mapper.apply(response.getBody());
+        ReadAccountBalanceResponse200 balanceReport = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), balanceReport, response.getHeaders());
     }
 

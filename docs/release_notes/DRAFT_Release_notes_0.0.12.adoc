@@ -6,7 +6,13 @@
 |===
 
 == Notices:
-
+- PSD2 API has been removed.
+- Number of copies of schema classes was reduced from 4 to 1.
+The remaining set is generated from the yaml file into xs2a-adapter-generated-api module (`api.model` package).
+This fixes the issue of model copies getting out-of-sync and prevents its occurrence in the future.
+- Generated rest api has been moved to `rest.api` package.
+- Added equals and hashCode methods to generated models.
+- `fromValue` static factory methods of generated enums returns null for unrecognizied values instead of throwing an exception.
 
 == Features:
 Implemented periodic payments support

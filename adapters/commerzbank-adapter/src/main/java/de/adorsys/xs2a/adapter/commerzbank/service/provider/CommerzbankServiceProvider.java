@@ -27,7 +27,7 @@ import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvide
 import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 
 public class CommerzbankServiceProvider
-    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceFactory {
+    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceProvider {
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,

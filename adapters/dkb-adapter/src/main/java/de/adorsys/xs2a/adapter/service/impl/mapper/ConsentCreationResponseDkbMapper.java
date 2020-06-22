@@ -16,12 +16,12 @@
 
 package de.adorsys.xs2a.adapter.service.impl.mapper;
 
+import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbConsentCreationResponse;
-import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
 import org.mapstruct.Mapper;
 
 @Mapper(uses = ChallengeDataDkbMapper.class)
 public interface ConsentCreationResponseDkbMapper {
 
-    ConsentCreationResponse toConsentCreationResponse(DkbConsentCreationResponse response);
+    ConsentsResponse201 toConsentCreationResponse(DkbConsentCreationResponse response);
 }

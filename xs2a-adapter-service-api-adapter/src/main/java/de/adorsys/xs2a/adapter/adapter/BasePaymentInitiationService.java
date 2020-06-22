@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.adapter.adapter;
 
 import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.StringUri;
@@ -25,7 +26,7 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 import javax.ws.rs.core.MediaType;
 import java.util.Map;
@@ -73,7 +74,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<PaymentInitiationRequestResponse> initiatePayment(String paymentService,
+    public Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
                                                                       String paymentProduct,
                                                                       RequestHeaders requestHeaders,
                                                                       RequestParams requestParams,
@@ -84,26 +85,26 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             body,
             requestHeaders,
             requestParams,
-            PaymentInitiationRequestResponse.class,
+            PaymentInitationRequestResponse201.class,
             identity());
     }
 
-    protected <T> Response<PaymentInitiationRequestResponse> initiatePayment(String paymentService,
+    protected <T> Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
                                                                              StandardPaymentProduct paymentProduct,
                                                                              Object body,
                                                                              RequestHeaders requestHeaders,
                                                                              RequestParams requestParams,
                                                                              Class<T> klass,
-                                                                             Function<T, PaymentInitiationRequestResponse> mapper) {
+                                                                             Function<T, PaymentInitationRequestResponse201> mapper) {
         return initiatePayment(paymentService, paymentProduct, body, requestHeaders, requestParams, mapper, jsonResponseHandler(klass));
     }
 
-    protected <T> Response<PaymentInitiationRequestResponse> initiatePayment(String paymentService,
+    protected <T> Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
                                                                              StandardPaymentProduct paymentProduct,
                                                                              Object body,
                                                                              RequestHeaders requestHeaders,
                                                                              RequestParams requestParams,
-                                                                             Function<T, PaymentInitiationRequestResponse> mapper,
+                                                                             Function<T, PaymentInitationRequestResponse201> mapper,
                                                                              HttpClient.ResponseHandler<T> responseHandler) {
         requireValid(validateInitiatePayment(paymentService, paymentProduct.getSlug(), requestHeaders, requestParams, body));
 
@@ -111,7 +112,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         Request.Builder requestBuilder = httpClient.post(uri)
-                                             .headers(headersMap);
+            .headers(headersMap);
         switch (paymentProduct.getMediaType()) {
             case MediaType.APPLICATION_JSON:
                 requestBuilder.jsonBody(jsonMapper.writeValueAsString(
@@ -125,17 +126,17 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         }
 
         Response<T> response = requestBuilder.send(requestBuilderInterceptor, responseHandler);
-        PaymentInitiationRequestResponse paymentInitiationRequestResponse = mapper.apply(response.getBody());
+        PaymentInitationRequestResponse201 paymentInitiationRequestResponse = mapper.apply(response.getBody());
         paymentInitiationRequestResponse.setLinks(linksRewriter.rewrite(paymentInitiationRequestResponse.getLinks()));
 
         return new Response<>(response.getStatusCode(), paymentInitiationRequestResponse, response.getHeaders());
     }
 
     @Override
-    public Response<SinglePaymentInitiationInformationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,
-                                                                                                      String paymentId,
-                                                                                                      RequestHeaders requestHeaders,
-                                                                                                      RequestParams requestParams) {
+    public Response<PaymentInitiationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,
+                                                                                     String paymentId,
+                                                                                     RequestHeaders requestHeaders,
+                                                                                     RequestParams requestParams) {
 
         requireValid(validateGetSinglePaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams));
         return getPaymentInformation(SINGLE_PAYMENTS,
@@ -143,7 +144,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             paymentId,
             requestHeaders,
             requestParams,
-            jsonResponseHandler(SinglePaymentInitiationInformationWithStatusResponse.class));
+            jsonResponseHandler(PaymentInitiationWithStatusResponse.class));
     }
 
     private <T> Response<T> getPaymentInformation(String paymentService,
@@ -190,17 +191,17 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
-                                                                                      String paymentProduct,
-                                                                                      String paymentId,
-                                                                                      String authorisationId,
-                                                                                      RequestHeaders requestHeaders,
-                                                                                      RequestParams requestParams) {
+    public Response<ScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
+                                                                     String paymentProduct,
+                                                                     String paymentId,
+                                                                     String authorisationId,
+                                                                     RequestHeaders requestHeaders,
+                                                                     RequestParams requestParams) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Response<PaymentInitiationStatus> getPaymentInitiationStatus(String paymentService,
+    public Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(String paymentService,
                                                                         String paymentProduct,
                                                                         String paymentId,
                                                                         RequestHeaders requestHeaders,
@@ -215,7 +216,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             requestParams);
     }
 
-    private Response<PaymentInitiationStatus> getPaymentInitiationStatus(String paymentService,
+    private Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(String paymentService,
                                                                          StandardPaymentProduct paymentProduct,
                                                                          String paymentId,
                                                                          RequestHeaders requestHeaders,
@@ -226,7 +227,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
         return httpClient.get(uri)
             .headers(headersMap)
-            .send(requestBuilderInterceptor, jsonResponseHandler(PaymentInitiationStatus.class));
+            .send(requestBuilderInterceptor, jsonResponseHandler(PaymentInitiationStatusResponse200Json.class));
     }
 
     @Override
@@ -251,16 +252,16 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<PaymentInitiationAuthorisationResponse> getPaymentInitiationAuthorisation(String paymentService,
-                                                                                              String paymentProduct,
-                                                                                              String paymentId,
-                                                                                              RequestHeaders requestHeaders,
-                                                                                              RequestParams requestParams) {
+    public Response<Authorisations> getPaymentInitiationAuthorisation(String paymentService,
+                                                                      String paymentProduct,
+                                                                      String paymentId,
+                                                                      RequestHeaders requestHeaders,
+                                                                      RequestParams requestParams) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Response<StartScaProcessResponse> startPaymentAuthorisation(String paymentService,
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
                                                                        String paymentProduct,
                                                                        String paymentId,
                                                                        RequestHeaders requestHeaders,
@@ -271,10 +272,10 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
 
-        Response<StartScaProcessResponse> response = httpClient.post(uri)
-                                                         .headers(headersMap)
-                                                         .emptyBody(true)
-                                                         .send(requestBuilderInterceptor, jsonResponseHandler(StartScaProcessResponse.class));
+        Response<StartScaprocessResponse> response = httpClient.post(uri)
+            .headers(headersMap)
+            .emptyBody(true)
+            .send(requestBuilderInterceptor, jsonResponseHandler(StartScaprocessResponse.class));
 
         Optional.ofNullable(response.getBody())
             .ifPresent(body -> body.setLinks(linksRewriter.rewrite(body.getLinks())));
@@ -283,7 +284,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<StartScaProcessResponse> startPaymentAuthorisation(String paymentService,
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
                                                                        String paymentProduct,
                                                                        String paymentId,
                                                                        RequestHeaders requestHeaders,
@@ -295,18 +296,18 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             requestHeaders,
             requestParams,
             updatePsuAuthentication,
-            StartScaProcessResponse.class,
+            StartScaprocessResponse.class,
             identity());
     }
 
-    protected <T> Response<StartScaProcessResponse> startPaymentAuthorisation(String paymentService,
+    protected <T> Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
                                                                               PaymentProduct paymentProduct,
                                                                               String paymentId,
                                                                               RequestHeaders requestHeaders,
                                                                               RequestParams requestParams,
                                                                               UpdatePsuAuthentication updatePsuAuthentication,
                                                                               Class<T> klass,
-                                                                              Function<T, StartScaProcessResponse> mapper) {
+                                                                              Function<T, StartScaprocessResponse> mapper) {
         requireValid(validateStartPaymentAuthorisation(paymentService, paymentProduct.getSlug(), paymentId, requestHeaders,
             requestParams, updatePsuAuthentication));
 
@@ -320,7 +321,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             .jsonBody(body)
             .headers(headersMap)
             .send(requestBuilderInterceptor, jsonResponseHandler(klass));
-        StartScaProcessResponse startScaProcessResponse = mapper.apply(response.getBody());
+        StartScaprocessResponse startScaProcessResponse = mapper.apply(response.getBody());
         startScaProcessResponse.setLinks(linksRewriter.rewrite(startScaProcessResponse.getLinks()));
 
         return new Response<>(response.getStatusCode(), startScaProcessResponse, response.getHeaders());

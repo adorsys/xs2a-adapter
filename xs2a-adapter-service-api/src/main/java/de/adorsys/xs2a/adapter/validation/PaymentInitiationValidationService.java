@@ -1,10 +1,10 @@
 package de.adorsys.xs2a.adapter.validation;
 
+import de.adorsys.xs2a.adapter.api.model.SelectPsuAuthenticationMethod;
+import de.adorsys.xs2a.adapter.api.model.TransactionAuthorisation;
+import de.adorsys.xs2a.adapter.api.model.UpdatePsuAuthentication;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.model.SelectPsuAuthenticationMethod;
-import de.adorsys.xs2a.adapter.service.model.TransactionAuthorisation;
-import de.adorsys.xs2a.adapter.service.model.UpdatePsuAuthentication;
 
 import java.util.Collections;
 import java.util.List;

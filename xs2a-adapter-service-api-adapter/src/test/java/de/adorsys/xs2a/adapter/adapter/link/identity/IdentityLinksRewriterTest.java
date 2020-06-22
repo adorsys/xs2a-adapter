@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.adapter.link.identity;
 
+import de.adorsys.xs2a.adapter.api.model.HrefType;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.Link;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -14,20 +14,24 @@ class IdentityLinksRewriterTest {
 
     @Test
     void rewrite() {
-        Map<String, Link> links = new HashMap<>();
-        links.put("scaStatus", new Link("http://example.com/sca/status"));
-        links.put("self", new Link("http://example.com/self"));
+        Map<String, HrefType> links = new HashMap<>();
+        HrefType scaStatus = new HrefType();
+        scaStatus.setHref("http://example.com/sca/status");
+        links.put("scaStatus", scaStatus);
+        HrefType self = new HrefType();
+        self.setHref("http://example.com/self");
+        links.put("self", self);
 
-        Map<String, Link> rewrittenLinks = linksRewriter.rewrite(links);
+        Map<String, HrefType> rewrittenLinks = linksRewriter.rewrite(links);
 
         assertThat(rewrittenLinks).isEqualTo(links);
     }
 
     @Test
     void rewrite_emptyLinks() {
-        Map<String, Link> links = new HashMap<>();
+        Map<String, HrefType> links = new HashMap<>();
 
-        Map<String, Link> rewrittenLinks = linksRewriter.rewrite(links);
+        Map<String, HrefType> rewrittenLinks = linksRewriter.rewrite(links);
 
         assertThat(rewrittenLinks).isEqualTo(links);
     }

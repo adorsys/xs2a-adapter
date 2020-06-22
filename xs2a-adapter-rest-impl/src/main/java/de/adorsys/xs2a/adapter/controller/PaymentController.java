@@ -2,15 +2,13 @@ package de.adorsys.xs2a.adapter.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import de.adorsys.xs2a.adapter.api.PaymentApi;
-import de.adorsys.xs2a.adapter.mapper.*;
-import de.adorsys.xs2a.adapter.model.*;
+import de.adorsys.xs2a.adapter.api.model.*;
+import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
+import de.adorsys.xs2a.adapter.rest.api.PaymentApi;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.model.*;
-import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,75 +18,68 @@ import java.util.Map;
 
 @RestController
 public class PaymentController extends AbstractController implements PaymentApi {
-    private static final EnumSet<PaymentServiceTO> SUPPORTED_PAYMENT_SERVICES
-        = EnumSet.of(PaymentServiceTO.PAYMENTS, PaymentServiceTO.PERIODIC_PAYMENTS);
+    private static final EnumSet<PaymentService> SUPPORTED_PAYMENT_SERVICES
+        = EnumSet.of(PaymentService.PAYMENTS, PaymentService.PERIODIC_PAYMENTS);
 
     private final PaymentInitiationService paymentService;
-    private final PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper;
     private final HeadersMapper headersMapper;
 
-    private final PaymentInitiationRequestResponseMapper paymentInitiationRequestResponseMapper = Mappers.getMapper(PaymentInitiationRequestResponseMapper.class);
-    private final PaymentInitiationStatusMapper paymentInitiationStatusMapper = Mappers.getMapper(PaymentInitiationStatusMapper.class);
-    private final PaymentInitiationAuthorisationResponseMapper paymentInitiationAuthorisationResponseMapper = Mappers.getMapper(PaymentInitiationAuthorisationResponseMapper.class);
-
     public PaymentController(PaymentInitiationService paymentService,
-                             PaymentInitiationScaStatusResponseMapper paymentInitiationScaStatusResponseMapper,
                              HeadersMapper headersMapper,
                              ObjectMapper objectMapper) {
         super(objectMapper);
         this.paymentService = paymentService;
-        this.paymentInitiationScaStatusResponseMapper = paymentInitiationScaStatusResponseMapper;
         this.headersMapper = headersMapper;
     }
 
     @Override
-    public ResponseEntity<PaymentInitationRequestResponse201TO> initiatePayment(PaymentServiceTO paymentService,
-                                                                                PaymentProductTO paymentProduct,
-                                                                                Map<String, String> parameters,
-                                                                                Map<String, String> headers,
-                                                                                ObjectNode body) {
+    public ResponseEntity<PaymentInitationRequestResponse201> initiatePayment(PaymentService paymentService,
+                                                                              PaymentProduct paymentProduct,
+                                                                              Map<String, String> parameters,
+                                                                              Map<String, String> headers,
+                                                                              ObjectNode body) {
         return initiatePaymentInternal(paymentService, paymentProduct, parameters, headers, body);
     }
 
-    private ResponseEntity<PaymentInitationRequestResponse201TO> initiatePaymentInternal(PaymentServiceTO paymentService,
-                                                                                         PaymentProductTO paymentProduct,
-                                                                                         Map<String, String> parameters,
-                                                                                         Map<String, String> headers,
-                                                                                         Object body) {
+    private ResponseEntity<PaymentInitationRequestResponse201> initiatePaymentInternal(PaymentService paymentService,
+                                                                                       PaymentProduct paymentProduct,
+                                                                                       Map<String, String> parameters,
+                                                                                       Map<String, String> headers,
+                                                                                       Object body) {
         requireSupportedPaymentService(paymentService);
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         RequestParams requestParams = RequestParams.fromMap(parameters);
 
-        Response<PaymentInitiationRequestResponse> response =
-            this.paymentService.initiatePayment(paymentService.toString(),
+        Response<PaymentInitationRequestResponse> response =
+            this.paymentService.initiatePayment(paymentProduct.toString(),
                 paymentProduct.toString(),
                 requestHeaders,
                 requestParams,
                 body);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                       .body(paymentInitiationRequestResponseMapper.toPaymentInitationRequestResponse201TO(response.getBody()));
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(response.getBody());
     }
 
-    private void requireSupportedPaymentService(PaymentServiceTO paymentService) {
+    private void requireSupportedPaymentService(PaymentService paymentService) {
         if (!SUPPORTED_PAYMENT_SERVICES.contains(paymentService)) {
             throw new UnsupportedOperationException();
         }
     }
 
     @Override
-    public ResponseEntity<PaymentInitationRequestResponse201TO> initiatePayment(PaymentServiceTO paymentService,
-                                                                                PaymentProductTO paymentProduct,
-                                                                                Map<String, String> parameters,
-                                                                                Map<String, String> headers,
-                                                                                String body) {
+    public ResponseEntity<PaymentInitationRequestResponse201> initiatePayment(PaymentService paymentService,
+                                                                              PaymentProduct paymentProduct,
+                                                                              Map<String, String> parameters,
+                                                                              Map<String, String> headers,
+                                                                              String body) {
         return initiatePaymentInternal(paymentService, paymentProduct, parameters, headers, body);
     }
 
     @Override
-    public ResponseEntity<Object> getPaymentInformation(PaymentServiceTO paymentService,
-                                                        PaymentProductTO paymentProduct,
+    public ResponseEntity<Object> getPaymentInformation(PaymentService paymentService,
+                                                        PaymentProduct paymentProduct,
                                                         String paymentId,
                                                         Map<String, String> parameters,
                                                         Map<String, String> headers) {
@@ -103,21 +94,21 @@ public class PaymentController extends AbstractController implements PaymentApi 
                 requestParams);
 
         return ResponseEntity.status(HttpStatus.OK)
-                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                       .body(response.getBody());
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(response.getBody());
     }
 
     @Override
-    public ResponseEntity<ScaStatusResponseTO> getPaymentInitiationScaStatus(PaymentServiceTO paymentService,
-                                                                             PaymentProductTO paymentProduct,
-                                                                             String paymentId,
-                                                                             String authorisationId,
-                                                                             Map<String, String> parameters,
-                                                                             Map<String, String> headers) {
+    public ResponseEntity<ScaStatusResponse> getPaymentInitiationScaStatus(PaymentService paymentService,
+                                                                           PaymentProduct paymentProduct,
+                                                                           String paymentId,
+                                                                           String authorisationId,
+                                                                           Map<String, String> parameters,
+                                                                           Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         RequestParams requestParams = RequestParams.fromMap(parameters);
 
-        Response<PaymentInitiationScaStatusResponse> response =
+        Response<ScaStatusResponse> response =
             this.paymentService.getPaymentInitiationScaStatus(paymentService.toString(),
                 paymentProduct.toString(),
                 paymentId,
@@ -126,13 +117,13 @@ public class PaymentController extends AbstractController implements PaymentApi 
                 requestParams);
 
         return ResponseEntity.status(HttpStatus.OK)
-                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                       .body(paymentInitiationScaStatusResponseMapper.mapToScaStatusResponse(response.getBody()));
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(response.getBody());
     }
 
     @Override
-    public ResponseEntity<Object> getPaymentInitiationStatus(PaymentServiceTO paymentService,
-                                                             PaymentProductTO paymentProduct,
+    public ResponseEntity<Object> getPaymentInitiationStatus(PaymentService paymentService,
+                                                             PaymentProduct paymentProduct,
                                                              String paymentId,
                                                              Map<String, String> parameters,
                                                              Map<String, String> headers) {
@@ -140,16 +131,16 @@ public class PaymentController extends AbstractController implements PaymentApi 
         RequestParams requestParams = RequestParams.fromMap(parameters);
 
         if (requestHeaders.isAcceptJson()) {
-            Response<PaymentInitiationStatus> response =
-                this.paymentService.getPaymentInitiationStatus(paymentService.toString(),
+            Response<PaymentInitiationStatusResponse200Json> response =
+                this.paymentService.getPaymentInitiationStatus(paymentProduct.toString(),
                     paymentProduct.toString(),
                     paymentId,
                     requestHeaders,
                     requestParams);
 
             return ResponseEntity.status(HttpStatus.OK)
-                           .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                           .body(paymentInitiationStatusMapper.toPaymentInitiationStatusResponse200Json(response.getBody()));
+                .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+                .body(response.getBody());
         }
 
         Response<String> response =
@@ -160,21 +151,21 @@ public class PaymentController extends AbstractController implements PaymentApi 
                 requestParams);
 
         return ResponseEntity
-                       .status(HttpStatus.OK)
-                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                       .body(response.getBody());
+            .status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(response.getBody());
     }
 
     @Override
-    public ResponseEntity<AuthorisationsTO> getPaymentInitiationAuthorisation(PaymentServiceTO paymentService,
-                                                                              PaymentProductTO paymentProduct,
-                                                                              String paymentId,
-                                                                              Map<String, String> parameters,
-                                                                              Map<String, String> headers) {
+    public ResponseEntity<Authorisations> getPaymentInitiationAuthorisation(PaymentService paymentService,
+                                                                            PaymentProduct paymentProduct,
+                                                                            String paymentId,
+                                                                            Map<String, String> parameters,
+                                                                            Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         RequestParams requestParams = RequestParams.fromMap(parameters);
 
-        Response<PaymentInitiationAuthorisationResponse> response =
+        Response<Authorisations> response =
             this.paymentService.getPaymentInitiationAuthorisation(paymentService.toString(),
                 paymentProduct.toString(),
                 paymentId,
@@ -182,23 +173,23 @@ public class PaymentController extends AbstractController implements PaymentApi 
                 requestParams);
 
         return ResponseEntity.status(HttpStatus.OK)
-                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                       .body(paymentInitiationAuthorisationResponseMapper.toAuthorisationsTO(response.getBody()));
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(response.getBody());
     }
 
     @Override
-    public ResponseEntity<StartScaprocessResponseTO> startPaymentAuthorisation(PaymentServiceTO paymentService,
-                                                                               PaymentProductTO paymentProduct,
-                                                                               String paymentId,
-                                                                               Map<String, String> parameters,
-                                                                               Map<String, String> headers,
-                                                                               ObjectNode body) {
+    public ResponseEntity<StartScaprocessResponse> startPaymentAuthorisation(PaymentService paymentService,
+                                                                             PaymentProduct paymentProduct,
+                                                                             String paymentId,
+                                                                             Map<String, String> parameters,
+                                                                             Map<String, String> headers,
+                                                                             ObjectNode body) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         RequestParams requestParams = RequestParams.fromMap(parameters);
 
-        Response<?> response = handleAuthorisationBody(body,
+        Response<StartScaprocessResponse> response = handleAuthorisationBody(body,
                 (UpdatePsuAuthenticationHandler) updatePsuAuthentication ->
-                    this.paymentService.startPaymentAuthorisation(paymentService.toString(),
+                    this.paymentService.startPaymentAuthorisation(paymentProduct.toString(),
                         paymentProduct.toString(),
                         paymentId,
                         requestHeaders,
@@ -213,14 +204,14 @@ public class PaymentController extends AbstractController implements PaymentApi 
         );
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                .body(startScaProcessResponseMapper.toStartScaprocessResponseTO((StartScaProcessResponse) response.getBody()));
+            .status(HttpStatus.CREATED)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(response.getBody());
     }
 
     @Override
-    public ResponseEntity<Object> updatePaymentPsuData(PaymentServiceTO paymentService,
-                                                       PaymentProductTO paymentProduct,
+    public ResponseEntity<Object> updatePaymentPsuData(PaymentService paymentService,
+                                                       PaymentProduct paymentProduct,
                                                        String paymentId,
                                                        String authorisationId,
                                                        Map<String, String> parameters,
@@ -230,36 +221,36 @@ public class PaymentController extends AbstractController implements PaymentApi 
         RequestParams requestParams = RequestParams.fromMap(parameters);
 
         Response<?> response = handleAuthorisationBody(body,
-                (UpdatePsuAuthenticationHandler) updatePsuAuthentication ->
-                    this.paymentService.updatePaymentPsuData(paymentService.toString(),
-                        paymentProduct.toString(),
-                        paymentId,
-                        authorisationId,
-                        requestHeaders,
-                        requestParams,
-                        updatePsuAuthentication),
-                (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod ->
-                    this.paymentService.updatePaymentPsuData(paymentService.toString(),
-                        paymentProduct.toString(),
-                        paymentId,
-                        authorisationId,
-                        requestHeaders,
-                        requestParams,
-                        selectPsuAuthenticationMethod),
-                (TransactionAuthorisationHandler) transactionAuthorisation ->
-                    this.paymentService.updatePaymentPsuData(paymentService.toString(),
-                        paymentProduct.toString(),
-                        paymentId,
-                        authorisationId,
-                        requestHeaders,
-                        requestParams,
-                        transactionAuthorisation)
+            (UpdatePsuAuthenticationHandler) updatePsuAuthentication ->
+                this.paymentService.updatePaymentPsuData(paymentService.toString(),
+                    paymentProduct.toString(),
+                    paymentId,
+                    authorisationId,
+                    requestHeaders,
+                    requestParams,
+                    updatePsuAuthentication),
+            (SelectPsuAuthenticationMethodHandler) selectPsuAuthenticationMethod ->
+                this.paymentService.updatePaymentPsuData(paymentService.toString(),
+                    paymentProduct.toString(),
+                    paymentId,
+                    authorisationId,
+                    requestHeaders,
+                    requestParams,
+                    selectPsuAuthenticationMethod),
+            (TransactionAuthorisationHandler) transactionAuthorisation ->
+                this.paymentService.updatePaymentPsuData(paymentService.toString(),
+                    paymentProduct.toString(),
+                    paymentId,
+                    authorisationId,
+                    requestHeaders,
+                    requestParams,
+                    transactionAuthorisation)
         );
 
         return ResponseEntity
-                       .status(HttpStatus.OK)
-                       .headers(headersMapper.toHttpHeaders(response.getHeaders()))
-                       .body(response.getBody());
+            .status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(response.getBody());
     }
 }
 

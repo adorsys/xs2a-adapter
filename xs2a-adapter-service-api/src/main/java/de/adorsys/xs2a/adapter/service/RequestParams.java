@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 public class RequestParams {
     public static final String WITH_BALANCE = "withBalance";
@@ -60,6 +61,14 @@ public class RequestParams {
 
     public Map<String, String> toMap() {
         return requestParams;
+    }
+
+    public <T> T get(String name, Function<? super String, T> parseFunction) {
+        String value = requestParams.get(name);
+        if (value != null) {
+            return parseFunction.apply(value);
+        }
+        return null;
     }
 
     public LocalDate dateFrom() {
