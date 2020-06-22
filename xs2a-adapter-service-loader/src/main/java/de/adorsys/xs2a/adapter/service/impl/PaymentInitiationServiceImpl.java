@@ -16,10 +16,10 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
 
     @Override
     public Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
-                                                                      String paymentProduct,
-                                                                      RequestHeaders requestHeaders,
-                                                                      RequestParams requestParams,
-                                                                      Object body) {
+                                                                        String paymentProduct,
+                                                                        RequestHeaders requestHeaders,
+                                                                        RequestParams requestParams,
+                                                                        Object body) {
         return getPaymentInitiationService(requestHeaders)
                    .initiatePayment(paymentService, paymentProduct, requestHeaders, requestParams, body);
     }
@@ -38,10 +38,10 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<PeriodicPaymentInitiationInformationWithStatusResponse> getPeriodicPaymentInformation(String paymentProduct,
-                                                                                                          String paymentId,
-                                                                                                          RequestHeaders requestHeaders,
-                                                                                                          RequestParams requestParams) {
+    public Response<PeriodicPaymentInitiationWithStatusResponse> getPeriodicPaymentInformation(String paymentProduct,
+                                                                                               String paymentId,
+                                                                                               RequestHeaders requestHeaders,
+                                                                                               RequestParams requestParams) {
         return getPaymentInitiationService(requestHeaders)
                    .getPeriodicPaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams);
     }

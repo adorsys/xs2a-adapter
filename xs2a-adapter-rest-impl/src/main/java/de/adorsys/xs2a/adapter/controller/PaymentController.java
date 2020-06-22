@@ -50,8 +50,8 @@ public class PaymentController extends AbstractController implements PaymentApi 
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         RequestParams requestParams = RequestParams.fromMap(parameters);
 
-        Response<PaymentInitationRequestResponse> response =
-            this.paymentService.initiatePayment(paymentProduct.toString(),
+        Response<PaymentInitationRequestResponse201> response =
+            this.paymentService.initiatePayment(paymentService.toString(),
                 paymentProduct.toString(),
                 requestHeaders,
                 requestParams,
@@ -132,7 +132,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
 
         if (requestHeaders.isAcceptJson()) {
             Response<PaymentInitiationStatusResponse200Json> response =
-                this.paymentService.getPaymentInitiationStatus(paymentProduct.toString(),
+                this.paymentService.getPaymentInitiationStatus(paymentService.toString(),
                     paymentProduct.toString(),
                     paymentId,
                     requestHeaders,
@@ -189,7 +189,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
 
         Response<StartScaprocessResponse> response = handleAuthorisationBody(body,
                 (UpdatePsuAuthenticationHandler) updatePsuAuthentication ->
-                    this.paymentService.startPaymentAuthorisation(paymentProduct.toString(),
+                    this.paymentService.startPaymentAuthorisation(paymentService.toString(),
                         paymentProduct.toString(),
                         paymentId,
                         requestHeaders,

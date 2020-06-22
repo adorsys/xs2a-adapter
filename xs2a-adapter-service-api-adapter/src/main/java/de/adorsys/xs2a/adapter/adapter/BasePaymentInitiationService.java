@@ -75,10 +75,10 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
     @Override
     public Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
-                                                                      String paymentProduct,
-                                                                      RequestHeaders requestHeaders,
-                                                                      RequestParams requestParams,
-                                                                      Object body) {
+                                                                        String paymentProduct,
+                                                                        RequestHeaders requestHeaders,
+                                                                        RequestParams requestParams,
+                                                                        Object body) {
         return initiatePayment(
             paymentService,
             StandardPaymentProduct.fromSlug(paymentProduct),
@@ -90,22 +90,22 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     protected <T> Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
-                                                                             StandardPaymentProduct paymentProduct,
-                                                                             Object body,
-                                                                             RequestHeaders requestHeaders,
-                                                                             RequestParams requestParams,
-                                                                             Class<T> klass,
-                                                                             Function<T, PaymentInitationRequestResponse201> mapper) {
+                                                                               StandardPaymentProduct paymentProduct,
+                                                                               Object body,
+                                                                               RequestHeaders requestHeaders,
+                                                                               RequestParams requestParams,
+                                                                               Class<T> klass,
+                                                                               Function<T, PaymentInitationRequestResponse201> mapper) {
         return initiatePayment(paymentService, paymentProduct, body, requestHeaders, requestParams, mapper, jsonResponseHandler(klass));
     }
 
     protected <T> Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
-                                                                             StandardPaymentProduct paymentProduct,
-                                                                             Object body,
-                                                                             RequestHeaders requestHeaders,
-                                                                             RequestParams requestParams,
-                                                                             Function<T, PaymentInitationRequestResponse201> mapper,
-                                                                             HttpClient.ResponseHandler<T> responseHandler) {
+                                                                               StandardPaymentProduct paymentProduct,
+                                                                               Object body,
+                                                                               RequestHeaders requestHeaders,
+                                                                               RequestParams requestParams,
+                                                                               Function<T, PaymentInitationRequestResponse201> mapper,
+                                                                               HttpClient.ResponseHandler<T> responseHandler) {
         requireValid(validateInitiatePayment(paymentService, paymentProduct.getSlug(), requestHeaders, requestParams, body));
 
         String uri = StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct.getSlug());
@@ -163,17 +163,17 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<PeriodicPaymentInitiationInformationWithStatusResponse> getPeriodicPaymentInformation(String paymentProduct,
-                                                                                                          String paymentId,
-                                                                                                          RequestHeaders requestHeaders,
-                                                                                                          RequestParams requestParams) {
+    public Response<PeriodicPaymentInitiationWithStatusResponse> getPeriodicPaymentInformation(String paymentProduct,
+                                                                                               String paymentId,
+                                                                                               RequestHeaders requestHeaders,
+                                                                                               RequestParams requestParams) {
         requireValid(validateGetPeriodicPaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams));
         return getPaymentInformation(PERIODIC_PAYMENTS,
             paymentProduct,
             paymentId,
             requestHeaders,
             requestParams,
-            jsonResponseHandler(PeriodicPaymentInitiationInformationWithStatusResponse.class));
+            jsonResponseHandler(PeriodicPaymentInitiationWithStatusResponse.class));
     }
 
     @Override
@@ -202,10 +202,10 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
     @Override
     public Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(String paymentService,
-                                                                        String paymentProduct,
-                                                                        String paymentId,
-                                                                        RequestHeaders requestHeaders,
-                                                                        RequestParams requestParams) {
+                                                                                       String paymentProduct,
+                                                                                       String paymentId,
+                                                                                       RequestHeaders requestHeaders,
+                                                                                       RequestParams requestParams) {
         requireValid(validateGetPaymentInitiationStatus(paymentService, paymentProduct, paymentProduct, requestHeaders,
             requestParams));
 
@@ -217,10 +217,10 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     private Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(String paymentService,
-                                                                         StandardPaymentProduct paymentProduct,
-                                                                         String paymentId,
-                                                                         RequestHeaders requestHeaders,
-                                                                         RequestParams requestParams) {
+                                                                                        StandardPaymentProduct paymentProduct,
+                                                                                        String paymentId,
+                                                                                        RequestHeaders requestHeaders,
+                                                                                        RequestParams requestParams) {
         String uri = getPaymentInitiationStatusUri(paymentService, paymentProduct.getSlug(), paymentId);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());

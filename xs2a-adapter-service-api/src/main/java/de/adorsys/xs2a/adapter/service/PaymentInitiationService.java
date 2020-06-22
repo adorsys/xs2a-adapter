@@ -13,17 +13,17 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
      */
     @Deprecated
     default Response<PaymentInitationRequestResponse201> initiateSinglePayment(String paymentProduct,
-                                                                             RequestHeaders requestHeaders,
-                                                                             RequestParams requestParams,
-                                                                             Object body) {
+                                                                               RequestHeaders requestHeaders,
+                                                                               RequestParams requestParams,
+                                                                               Object body) {
         return initiatePayment(SINGLE_PAYMENTS, paymentProduct, requestHeaders, requestParams, body);
     }
 
     Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
-                                                               String paymentProduct,
-                                                               RequestHeaders requestHeaders,
-                                                               RequestParams requestParams,
-                                                               Object body);
+                                                                 String paymentProduct,
+                                                                 RequestHeaders requestHeaders,
+                                                                 RequestParams requestParams,
+                                                                 Object body);
 
     Response<PaymentInitiationWithStatusResponse> getSinglePaymentInformation(
         String paymentProduct,
@@ -31,18 +31,18 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
         RequestHeaders requestHeaders,
         RequestParams requestParams);
 
-    Response<PeriodicPaymentInitiationInformationWithStatusResponse> getPeriodicPaymentInformation(
+    Response<PeriodicPaymentInitiationWithStatusResponse> getPeriodicPaymentInformation(
         String paymentProduct,
         String paymentId,
         RequestHeaders requestHeaders,
         RequestParams requestParams);
 
     @Deprecated
-    default Response<PaymentInitiationScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
-                                                                                       String paymentProduct,
-                                                                                       String paymentId,
-                                                                                       String authorisationId,
-                                                                                       RequestHeaders requestHeaders) {
+    default Response<ScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
+                                                                      String paymentProduct,
+                                                                      String paymentId,
+                                                                      String authorisationId,
+                                                                      RequestHeaders requestHeaders) {
         return getPaymentInitiationScaStatus(paymentService,
             paymentProduct,
             paymentId,
@@ -143,10 +143,10 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
      */
     @Deprecated
     default Response<StartScaprocessResponse> startSinglePaymentAuthorisation(String paymentProduct,
-                                                                      String paymentId,
-                                                                      RequestHeaders requestHeaders,
-                                                                      RequestParams requestParams,
-                                                                      UpdatePsuAuthentication updatePsuAuthentication) {
+                                                                              String paymentId,
+                                                                              RequestHeaders requestHeaders,
+                                                                              RequestParams requestParams,
+                                                                              UpdatePsuAuthentication updatePsuAuthentication) {
         return startPaymentAuthorisation(SINGLE_PAYMENTS, paymentProduct, paymentId, requestHeaders,
             requestParams, updatePsuAuthentication);
     }

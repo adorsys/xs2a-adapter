@@ -16,13 +16,13 @@
 
 package de.adorsys.xs2a.adapter.adapter;
 
+import de.adorsys.xs2a.adapter.api.model.PaymentInitiationJson;
+import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationJson;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.JsonMapper;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.model.PeriodicPaymentInitiationBody;
-import de.adorsys.xs2a.adapter.service.model.SinglePaymentInitiationBody;
 import de.adorsys.xs2a.adapter.validation.RequestValidationException;
 import de.adorsys.xs2a.adapter.validation.ValidationError;
 
@@ -32,8 +32,8 @@ import java.util.Map;
 
 public abstract class AbstractService {
     private static final Map<String, Class<?>> PAYMENT_SERVICE_INITIATION_CLASSES = new HashMap<>();
-    private static final String SINGLE_PAYMENTS = "payments";
-    private static final String PERIODIC_PAYMENTS = "periodic-payments";
+    protected static final String SINGLE_PAYMENTS = "payments";
+    protected static final String PERIODIC_PAYMENTS = "periodic-payments";
     protected static final String AUTHORISATIONS = "authorisations";
     protected static final String STATUS = "status";
     protected static final String ACCEPT_HEADER = "Accept";
@@ -41,8 +41,8 @@ public abstract class AbstractService {
     protected final HttpClient httpClient;
 
     static {
-        PAYMENT_SERVICE_INITIATION_CLASSES.put(SINGLE_PAYMENTS, SinglePaymentInitiationBody.class);
-        PAYMENT_SERVICE_INITIATION_CLASSES.put(PERIODIC_PAYMENTS, PeriodicPaymentInitiationBody.class);
+        PAYMENT_SERVICE_INITIATION_CLASSES.put(SINGLE_PAYMENTS, PaymentInitiationJson.class);
+        PAYMENT_SERVICE_INITIATION_CLASSES.put(PERIODIC_PAYMENTS, PeriodicPaymentInitiationJson.class);
     }
 
     public AbstractService(HttpClient httpClient) {

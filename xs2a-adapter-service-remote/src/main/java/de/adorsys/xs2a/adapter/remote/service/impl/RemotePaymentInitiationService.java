@@ -51,10 +51,10 @@ public class RemotePaymentInitiationService implements PaymentInitiationService 
 
     @Override
     public Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
-                                                                      String paymentProduct,
-                                                                      RequestHeaders requestHeaders,
-                                                                      RequestParams requestParams,
-                                                                      Object o) {
+                                                                        String paymentProduct,
+                                                                        RequestHeaders requestHeaders,
+                                                                        RequestParams requestParams,
+                                                                        Object o) {
         ResponseEntity<PaymentInitationRequestResponse201> responseEntity;
         if (o instanceof String) {
             responseEntity = client.initiatePayment(
@@ -98,7 +98,7 @@ public class RemotePaymentInitiationService implements PaymentInitiationService 
     }
 
     @Override
-    public Response<PeriodicPaymentInitiationInformationWithStatusResponse> getPeriodicPaymentInformation(String paymentProduct,
+    public Response<PeriodicPaymentInitiationWithStatusResponse> getPeriodicPaymentInformation(String paymentProduct,
                                                                                                           String paymentId,
                                                                                                           RequestHeaders requestHeaders,
                                                                                                           RequestParams requestParams) {
@@ -110,8 +110,8 @@ public class RemotePaymentInitiationService implements PaymentInitiationService 
             requestHeaders.toMap()
         );
 
-        PeriodicPaymentInitiationInformationWithStatusResponse response = objectMapper.convertValue(responseEntity.getBody(),
-            PeriodicPaymentInitiationInformationWithStatusResponse.class);
+        PeriodicPaymentInitiationWithStatusResponse response = objectMapper.convertValue(responseEntity.getBody(),
+            PeriodicPaymentInitiationWithStatusResponse.class);
 
         return new Response<>(responseEntity.getStatusCodeValue(), response,
             responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
@@ -155,10 +155,10 @@ public class RemotePaymentInitiationService implements PaymentInitiationService 
 
     @Override
     public Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(String paymentService,
-                                                                        String paymentProduct,
-                                                                        String paymentId,
-                                                                        RequestHeaders requestHeaders,
-                                                                        RequestParams requestParams) {
+                                                                                       String paymentProduct,
+                                                                                       String paymentId,
+                                                                                       RequestHeaders requestHeaders,
+                                                                                       RequestParams requestParams) {
         ResponseEntity<Object> responseEntity = client.getPaymentInitiationStatus(
             PaymentService.fromValue(paymentService),
             PaymentProduct.fromValue(paymentProduct),
