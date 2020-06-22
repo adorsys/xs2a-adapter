@@ -1,11 +1,11 @@
 package de.adorsys.xs2a.adapter.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.adorsys.xs2a.adapter.api.AspspSearchApi;
 import de.adorsys.xs2a.adapter.config.RestExceptionHandler;
 import de.adorsys.xs2a.adapter.mapper.AspspMapper;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
-import de.adorsys.xs2a.adapter.model.AspspTO;
+import de.adorsys.xs2a.adapter.rest.api.AspspSearchApi;
+import de.adorsys.xs2a.adapter.rest.api.model.AspspTO;
 import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.AspspScaApproach;

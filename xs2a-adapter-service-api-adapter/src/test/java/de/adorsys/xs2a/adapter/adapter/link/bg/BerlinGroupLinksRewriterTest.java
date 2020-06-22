@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.adapter.link.bg;
 
 import de.adorsys.xs2a.adapter.adapter.link.bg.template.LinksTemplate;
-import de.adorsys.xs2a.adapter.service.model.Link;
+import de.adorsys.xs2a.adapter.api.model.HrefType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,9 +40,9 @@ class BerlinGroupLinksRewriterTest {
 
     @Test
     void rewrite_failure_linksAreEmpty() {
-        Map<String, Link> links = new HashMap<>();
+        Map<String, HrefType> links = new HashMap<>();
 
-        Map<String, Link> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
+        Map<String, HrefType> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
 
         assertThat(rewrittenLinks).isNotNull();
         assertThat(rewrittenLinks).isEmpty();
@@ -50,7 +50,7 @@ class BerlinGroupLinksRewriterTest {
 
     @Test
     void rewrite_failure_linksAreNull() {
-        Map<String, Link> rewrittenLinks = berlinGroupLinksRewriter.rewrite(null);
+        Map<String, HrefType> rewrittenLinks = berlinGroupLinksRewriter.rewrite(null);
 
         assertThat(rewrittenLinks).isNull();
     }
@@ -58,9 +58,11 @@ class BerlinGroupLinksRewriterTest {
     @Test
     void rewrite_failure_linksAreUnchangeable() {
         String unchangeableLinkName1 = "scaRedirect";
-        Link unchangeableLink1 = new Link("https://example.com/1");
+        HrefType unchangeableLink1 = new HrefType();
+        unchangeableLink1.setHref("https://example.com/1");
         String unchangeableLinkName2 = "scaOAuth";
-        Link unchangeableLink2 = new Link("https://example.com/2");
+        HrefType unchangeableLink2 = new HrefType();
+        unchangeableLink2.setHref("https://example.com/2");
 
         berlinGroupLinksRewriter = new BerlinGroupLinksRewriter(linksTemplate, HOST, VERSION) {
             @Override
@@ -69,11 +71,11 @@ class BerlinGroupLinksRewriterTest {
             }
         };
 
-        Map<String, Link> links = new HashMap<>();
+        Map<String, HrefType> links = new HashMap<>();
         links.put(unchangeableLinkName1, unchangeableLink1);
         links.put(unchangeableLinkName2, unchangeableLink2);
 
-        Map<String, Link> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
+        Map<String, HrefType> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
 
         assertThat(rewrittenLinks).isNotNull();
         assertThat(rewrittenLinks).hasSize(links.size());
@@ -85,14 +87,15 @@ class BerlinGroupLinksRewriterTest {
     @Test
     void rewrite_failure_linksAreUnknown() {
         String unknownLinkName = "unknown";
-        Link unknownLink = new Link("https://example.com/");
+        HrefType unknownLink = new HrefType();
+        unknownLink.setHref("https://example.com/");
 
-        Map<String, Link> links = new HashMap<>();
+        Map<String, HrefType> links = new HashMap<>();
         links.put(unknownLinkName, unknownLink);
 
         when(linksTemplate.get(unknownLinkName)).thenReturn(Optional.empty());
 
-        Map<String, Link> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
+        Map<String, HrefType> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
 
         assertThat(rewrittenLinks).isNotNull();
         assertThat(rewrittenLinks).hasSize(links.size());
@@ -103,15 +106,16 @@ class BerlinGroupLinksRewriterTest {
     @Test
     void rewrite_failure_noParamRetrieverForLinkTemplatePlaceholder() {
         String linkName = "linkName";
-        Link link = new Link("https://example.com/");
+        HrefType link = new HrefType();
+        link.setHref("https://example.com/");
         String template = "{host}/{unknown}";
 
-        Map<String, Link> links = new HashMap<>();
+        Map<String, HrefType> links = new HashMap<>();
         links.put(linkName, link);
 
         when(linksTemplate.get(linkName)).thenReturn(Optional.of(template));
 
-        Map<String, Link> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
+        Map<String, HrefType> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
 
         assertThat(rewrittenLinks).isNotNull();
         assertThat(rewrittenLinks).hasSize(links.size());
@@ -122,15 +126,16 @@ class BerlinGroupLinksRewriterTest {
     @Test
     void rewrite_failure_emptyValueForPlaceholder() {
         String linkName = "linkName";
-        Link link = new Link("https://example.com/v2/consents");
+        HrefType link = new HrefType();
+        link.setHref("https://example.com/v2/consents");
         String template = "{host}/{version}/consents/{consentId}";
 
-        Map<String, Link> links = new HashMap<>();
+        Map<String, HrefType> links = new HashMap<>();
         links.put(linkName, link);
 
         when(linksTemplate.get(linkName)).thenReturn(Optional.of(template));
 
-        Map<String, Link> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
+        Map<String, HrefType> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
 
         assertThat(rewrittenLinks).isNotNull();
         assertThat(rewrittenLinks).hasSize(links.size());
@@ -145,39 +150,35 @@ class BerlinGroupLinksRewriterTest {
             "https://adorsys.de/api/v42/consents/%s/authorisations/%s/transactions/%s",
             CONSENT_ID, AUTHORISATION_ID, TRANSACTION_ID
         );
-        Link link1 = new Link(linkHref1);
+        HrefType link1 = new HrefType();
+        link1.setHref(linkHref1);
         String template1 = "{host}/{version}/consents/{consentId}/authorisations/{authorisationId}/transactions/{transactionId}";
 
-        Link expectedRewrittenLink1 = new Link(
-            String.format(
-                "%s/%s/consents/%s/authorisations/%s/transactions/%s",
-                HOST, VERSION, CONSENT_ID, AUTHORISATION_ID, TRANSACTION_ID
-            )
-        );
+        HrefType expectedRewrittenLink1 = new HrefType();
+        expectedRewrittenLink1.setHref(String.format("%s/%s/consents/%s/authorisations/%s/transactions/%s",
+            HOST, VERSION, CONSENT_ID, AUTHORISATION_ID, TRANSACTION_ID));
 
         String linkName2 = "linkName2";
         String linkHref2 = String.format(
             "https://adorsys.de/api/v42/%s/%s/%s",
             PAYMENT_SERVICE, PAYMENT_PRODUCT, PAYMENT_ID
         );
-        Link link2 = new Link(linkHref2);
+        HrefType link2 = new HrefType();
+        link2.setHref(linkHref2);
         String template2 = "{host}/{version}/{paymentService}/{paymentProduct}/{paymentId}";
 
-        Link expectedRewrittenLink2 = new Link(
-            String.format(
-                "%s/%s/%s/%s/%s",
-                HOST, VERSION, PAYMENT_SERVICE, PAYMENT_PRODUCT, PAYMENT_ID
-            )
-        );
+        HrefType expectedRewrittenLink2 = new HrefType();
+        expectedRewrittenLink2.setHref(String.format("%s/%s/%s/%s/%s",
+            HOST, VERSION, PAYMENT_SERVICE, PAYMENT_PRODUCT, PAYMENT_ID));
 
-        Map<String, Link> links = new HashMap<>();
+        Map<String, HrefType> links = new HashMap<>();
         links.put(linkName1, link1);
         links.put(linkName2, link2);
 
         when(linksTemplate.get(linkName1)).thenReturn(Optional.of(template1));
         when(linksTemplate.get(linkName2)).thenReturn(Optional.of(template2));
 
-        Map<String, Link> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
+        Map<String, HrefType> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
 
         assertThat(rewrittenLinks).isNotNull();
         assertThat(rewrittenLinks).hasSize(links.size());
@@ -197,23 +198,21 @@ class BerlinGroupLinksRewriterTest {
             CONSENT_ID, newPlaceholderParamValue
         );
 
-        Link link = new Link(linkHref);
+        HrefType link = new HrefType();
+        link.setHref(linkHref);
         String template = "{host}/{version}/consents/{consentId}/" + newPlaceholder;
 
-        Link expectedRewrittenLink = new Link(
-            String.format(
-                "%s/%s/consents/%s/%s",
-                HOST, VERSION, CONSENT_ID, newPlaceholderParamValue
-            )
-        );
+        HrefType expectedRewrittenLink = new HrefType();
+        expectedRewrittenLink.setHref(String.format("%s/%s/consents/%s/%s",
+            HOST, VERSION, CONSENT_ID, newPlaceholderParamValue));
 
-        Map<String, Link> links = new HashMap<>();
+        Map<String, HrefType> links = new HashMap<>();
         links.put(linkName, link);
 
         when(linksTemplate.get(linkName)).thenReturn(Optional.of(template));
 
         berlinGroupLinksRewriter.registerPlaceholder(newPlaceholder, l -> Optional.of(newPlaceholderParamValue));
-        Map<String, Link> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
+        Map<String, HrefType> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
 
         assertThat(rewrittenLinks).isNotNull();
         assertThat(rewrittenLinks).hasSize(links.size());

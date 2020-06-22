@@ -16,33 +16,33 @@
 
 package de.adorsys.xs2a.adapter.service;
 
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
-import de.adorsys.xs2a.adapter.service.model.*;
 import de.adorsys.xs2a.adapter.validation.AccountInformationValidationService;
 
 public interface AccountInformationService extends AccountInformationValidationService {
 
-    Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
-                                                    RequestParams requestParams,
-                                                    Consents body);
+    Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
+                                                RequestParams requestParams,
+                                                Consents body);
 
-    Response<ConsentInformation> getConsentInformation(String consentId,
-                                                       RequestHeaders requestHeaders,
-                                                       RequestParams requestParams);
+    Response<ConsentInformationResponse200Json> getConsentInformation(String consentId,
+                                                                      RequestHeaders requestHeaders,
+                                                                      RequestParams requestParams);
 
     Response<Void> deleteConsent(String consentId,
                                  RequestHeaders requestHeaders,
                                  RequestParams requestParams);
 
-    Response<ConsentStatusResponse> getConsentStatus(String consentId,
-                                                     RequestHeaders requestHeaders,
-                                                     RequestParams requestParams);
+    Response<ConsentStatusResponse200> getConsentStatus(String consentId,
+                                                        RequestHeaders requestHeaders,
+                                                        RequestParams requestParams);
 
-    Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+    Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                 RequestHeaders requestHeaders,
                                                                 RequestParams requestParams);
 
-    Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+    Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                 RequestHeaders requestHeaders,
                                                                 RequestParams requestParams,
                                                                 UpdatePsuAuthentication updatePsuAuthentication);
@@ -65,20 +65,21 @@ public interface AccountInformationService extends AccountInformationValidationS
                                                                     RequestParams requestParams,
                                                                     UpdatePsuAuthentication updatePsuAuthentication);
 
-    Response<AccountListHolder> getAccountList(RequestHeaders requestHeaders,
-                                               RequestParams requestParams);
+    Response<AccountList> getAccountList(RequestHeaders requestHeaders,
+                                         RequestParams requestParams);
 
     /**
      * @throws NotAcceptableException if response content type is not json
+     * @return
      */
-    Response<TransactionsReport> getTransactionList(String accountId,
-                                                    RequestHeaders requestHeaders,
-                                                    RequestParams requestParams);
+    Response<TransactionsResponse200Json> getTransactionList(String accountId,
+                                                             RequestHeaders requestHeaders,
+                                                             RequestParams requestParams);
 
-    Response<TransactionDetails> getTransactionDetails(String accountId,
-                                                       String transactionId,
-                                                       RequestHeaders requestHeaders,
-                                                       RequestParams requestParams);
+    Response<OK200TransactionDetails> getTransactionDetails(String accountId,
+                                                            String transactionId,
+                                                            RequestHeaders requestHeaders,
+                                                            RequestParams requestParams);
 
     Response<String> getTransactionListAsString(String accountId,
                                                 RequestHeaders requestHeaders,
@@ -89,21 +90,21 @@ public interface AccountInformationService extends AccountInformationValidationS
                                                     RequestHeaders requestHeaders,
                                                     RequestParams requestParams);
 
-    Response<BalanceReport> getBalances(String accountId,
-                                        RequestHeaders requestHeaders,
-                                        RequestParams requestParams);
+    Response<ReadAccountBalanceResponse200> getBalances(String accountId,
+                                                        RequestHeaders requestHeaders,
+                                                        RequestParams requestParams);
 
     Response<CardAccountList> getCardAccountList(RequestHeaders requestHeaders, RequestParams requestParams);
 
-    Response<CardAccountDetailsHolder> getCardAccountDetails(String accountId,
-                                                             RequestHeaders requestHeaders,
-                                                             RequestParams requestParams);
+    Response<OK200CardAccountDetails> getCardAccountDetails(String accountId,
+                                                            RequestHeaders requestHeaders,
+                                                            RequestParams requestParams);
 
-    Response<CardAccountBalanceReport> getCardAccountBalances(String accountId,
-                                                              RequestHeaders requestHeaders,
-                                                              RequestParams requestParams);
+    Response<ReadCardAccountBalanceResponse200> getCardAccountBalances(String accountId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams);
 
-    Response<CardAccountsTransactions> getCardAccountTransactionList(String accountId,
-                                                                     RequestHeaders requestHeaders,
-                                                                     RequestParams requestParams);
+    Response<CardAccountsTransactionsResponse200> getCardAccountTransactionList(String accountId,
+                                                                                RequestHeaders requestHeaders,
+                                                                                RequestParams requestParams);
 }

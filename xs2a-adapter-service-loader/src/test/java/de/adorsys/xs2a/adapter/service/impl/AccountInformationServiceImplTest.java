@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
+import de.adorsys.xs2a.adapter.api.model.Consents;
+import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.loader.AdapterServiceLoader;
-import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
-import de.adorsys.xs2a.adapter.service.model.Consents;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,14 +30,16 @@ public class AccountInformationServiceImplTest {
 
     @Test
     public void createConsent() {
-        Response<ConsentCreationResponse> response = new Response<>(HTTP_CODE_200, new ConsentCreationResponse(), ResponseHeaders.fromMap(Collections.emptyMap()));
+        Response<ConsentsResponse201> response = new Response<>(HTTP_CODE_200,
+            new ConsentsResponse201(),
+            ResponseHeaders.fromMap(Collections.emptyMap()));
 
         when(adapterServiceLoader.getAccountInformationService(any()))
             .thenReturn(accountInformationService);
 
         when(accountInformationService.createConsent(any(), any(), any())).thenReturn(response);
 
-        Response<ConsentCreationResponse> consentResponse =
+        Response<ConsentsResponse201> consentResponse =
             service.createConsent(RequestHeaders.fromMap(Collections.singletonMap(RequestHeaders.X_GTW_ASPSP_ID, "BIC")),
                 RequestParams.empty(),
                 new Consents());

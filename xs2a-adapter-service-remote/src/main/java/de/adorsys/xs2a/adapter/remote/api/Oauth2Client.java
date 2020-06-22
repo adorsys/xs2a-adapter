@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.remote.api;
 
-import de.adorsys.xs2a.adapter.api.Oauth2Api;
+import de.adorsys.xs2a.adapter.rest.api.Oauth2Api;
 import org.springframework.cloud.openfeign.FeignClient;
 
 @FeignClient(value = "oauth2-client", url = "${xs2a-adapter.url}")

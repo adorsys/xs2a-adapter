@@ -1,10 +1,11 @@
 package de.adorsys.xs2a.adapter.config;
 
 import de.adorsys.bg.monitoring.client.MonitoringContext;
-import de.adorsys.xs2a.adapter.model.AccountAccessTO;
-import de.adorsys.xs2a.adapter.model.AccountReferenceTO;
-import de.adorsys.xs2a.adapter.model.ConsentsTO;
+import de.adorsys.xs2a.adapter.api.model.AccountAccess;
+import de.adorsys.xs2a.adapter.api.model.AccountReference;
+import de.adorsys.xs2a.adapter.api.model.Consents;
 import org.junit.jupiter.api.Test;
+
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,13 +15,13 @@ class MonitoringRequestBodyAdviceTest {
 
     private static final String IBAN = "FR8230066631856742938741993";
     private static final String MASKED_IBAN = "FR82300666******";
-    private final ConsentsTO consent = createConsentsTO();
+    private final Consents consent = createConsents();
 
     private MonitoringRequestBodyAdvice advice = new MonitoringRequestBodyAdvice();
 
     @Test
     void afterBodyRead() {
-        ConsentsTO actual = (ConsentsTO) advice.afterBodyRead(consent, null, null, null, null);
+        Consents actual = (Consents) advice.afterBodyRead(consent, null, null, null, null);
         String actualIban = MonitoringContext.getIban();
 
         assertNotNull(actual);
@@ -28,22 +29,22 @@ class MonitoringRequestBodyAdviceTest {
         assertEquals(MASKED_IBAN, actualIban);
     }
 
-    private ConsentsTO createConsentsTO() {
-        ConsentsTO consent = new ConsentsTO();
-        consent.setAccess(createAccessTO());
+    private Consents createConsents() {
+        Consents consent = new Consents();
+        consent.setAccess(createAccess());
 
         return consent;
     }
 
-    private AccountAccessTO createAccessTO() {
-        AccountAccessTO accountAccess = new AccountAccessTO();
-        accountAccess.setAccounts(Collections.singletonList(createAccountReferenceTO()));
+    private AccountAccess createAccess() {
+        AccountAccess accountAccess = new AccountAccess();
+        accountAccess.setAccounts(Collections.singletonList(createAccountReference()));
 
         return accountAccess;
     }
 
-    private AccountReferenceTO createAccountReferenceTO() {
-        AccountReferenceTO accountReference = new AccountReferenceTO();
+    private AccountReference createAccountReference() {
+        AccountReference accountReference = new AccountReference();
         accountReference.setIban(IBAN);
 
         return accountReference;

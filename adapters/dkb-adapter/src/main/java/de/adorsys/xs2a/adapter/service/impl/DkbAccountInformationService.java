@@ -17,6 +17,10 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.api.model.Consents;
+import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
+import de.adorsys.xs2a.adapter.api.model.StartScaprocessResponse;
+import de.adorsys.xs2a.adapter.api.model.UpdatePsuAuthentication;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
@@ -27,7 +31,7 @@ import de.adorsys.xs2a.adapter.service.impl.mapper.StartScaProcessResponseDkbMap
 import de.adorsys.xs2a.adapter.service.impl.model.DkbConsentCreationResponse;
 import de.adorsys.xs2a.adapter.service.impl.model.DkbStartScaProcessResponse;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
@@ -46,9 +50,9 @@ public class DkbAccountInformationService extends BaseAccountInformationService 
     }
 
     @Override
-    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
-                                                           RequestParams requestParams,
-                                                           Consents body) {
+    public Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
+                                                       RequestParams requestParams,
+                                                       Consents body) {
         return createConsent(requestHeaders,
             requestParams,
             body,
@@ -57,7 +61,7 @@ public class DkbAccountInformationService extends BaseAccountInformationService 
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams) {
         return startConsentAuthorisation(consentId,
@@ -68,7 +72,7 @@ public class DkbAccountInformationService extends BaseAccountInformationService 
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams,
                                                                        UpdatePsuAuthentication updatePsuAuthentication) {

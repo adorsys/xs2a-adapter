@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.tpp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.adorsys.xs2a.adapter.api.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
-import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
 import feign.Response;
 import feign.Util;
 import feign.codec.ErrorDecoder;

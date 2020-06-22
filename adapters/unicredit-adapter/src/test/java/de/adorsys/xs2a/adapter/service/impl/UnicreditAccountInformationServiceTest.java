@@ -1,5 +1,9 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
+import de.adorsys.xs2a.adapter.api.model.Consents;
+import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
+import de.adorsys.xs2a.adapter.api.model.ScaStatusResponse;
+import de.adorsys.xs2a.adapter.api.model.TransactionAuthorisation;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
@@ -8,7 +12,7 @@ import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -55,7 +59,7 @@ class UnicreditAccountInformationServiceTest {
         when(httpClient.post(eq(CONSENT_URL)))
             .thenReturn(requestBuilder);
         when(httpClient.send(any(), any()))
-            .thenReturn(new Response<>(200, new ConsentCreationResponse(), ResponseHeaders.fromMap(headersMap)));
+            .thenReturn(new Response<>(200, new ConsentsResponse201(), ResponseHeaders.fromMap(headersMap)));
 
         accountInformationService.createConsent(RequestHeaders.fromMap(headersMap),
             RequestParams.empty(),
@@ -78,7 +82,7 @@ class UnicreditAccountInformationServiceTest {
         when(httpClient.post(eq(CONSENT_URL)))
             .thenReturn(requestBuilder);
         when(httpClient.send(any(), any()))
-            .thenReturn(new Response<>(200, new ConsentCreationResponse(), ResponseHeaders.fromMap(headersMap)));
+            .thenReturn(new Response<>(200, new ConsentsResponse201(), ResponseHeaders.fromMap(headersMap)));
 
         accountInformationService.createConsent(RequestHeaders.fromMap(headersMap),
             RequestParams.empty(),
@@ -101,7 +105,7 @@ class UnicreditAccountInformationServiceTest {
         when(httpClient.post(eq(CONSENT_URL)))
             .thenReturn(requestBuilder);
         when(httpClient.send(any(), any()))
-            .thenReturn(new Response<>(200, new ConsentCreationResponse(), ResponseHeaders.fromMap(headersMap)));
+            .thenReturn(new Response<>(200, new ConsentsResponse201(), ResponseHeaders.fromMap(headersMap)));
 
         accountInformationService.createConsent(RequestHeaders.fromMap(headersMap),
             RequestParams.empty(),

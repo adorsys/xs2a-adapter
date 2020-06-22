@@ -1,5 +1,7 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
+import de.adorsys.xs2a.adapter.api.model.Consents;
+import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
@@ -8,8 +10,6 @@ import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
-import de.adorsys.xs2a.adapter.service.model.Consents;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -35,7 +35,7 @@ public class DeutscheBankAccountInformationServiceTest {
         when(httpClient.post(eq(CONSENT_URL)))
             .thenReturn(requestBuilder);
         when(httpClient.send(any(), any()))
-            .thenReturn(new Response<>(200, new ConsentCreationResponse(), ResponseHeaders.fromMap(emptyMap())));
+            .thenReturn(new Response<>(200, new ConsentsResponse201(), ResponseHeaders.fromMap(emptyMap())));
 
         service.createConsent(RequestHeaders.fromMap(emptyMap()), RequestParams.empty(), new Consents());
 

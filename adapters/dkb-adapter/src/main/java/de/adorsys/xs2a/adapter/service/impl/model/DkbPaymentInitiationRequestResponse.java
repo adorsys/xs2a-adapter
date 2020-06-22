@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.service.impl.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.api.model.*;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +11,7 @@ public class DkbPaymentInitiationRequestResponse {
     private TransactionStatus transactionStatus;
     private String paymentId;
     @JsonProperty("_links")
-    private Map<String, Link> links;
+    private Map<String, HrefType> links;
     // optional
     private ScaStatus scaStatus;
     private Amount transactionFees;
@@ -20,7 +20,7 @@ public class DkbPaymentInitiationRequestResponse {
     private AuthenticationObject[] scaMethods;
     private DkbChallengeData challengeData;
     private String psuMessage;
-    private List<TppMessage> tppMessages;
+    private List<TppMessage2XX> tppMessages;
 
     public TransactionStatus getTransactionStatus() {
         return transactionStatus;
@@ -38,11 +38,11 @@ public class DkbPaymentInitiationRequestResponse {
         this.paymentId = paymentId;
     }
 
-    public Map<String, Link> getLinks() {
+    public Map<String, HrefType> getLinks() {
         return links;
     }
 
-    public void setLinks(Map<String, Link> links) {
+    public void setLinks(Map<String, HrefType> links) {
         this.links = links;
     }
 
@@ -102,11 +102,11 @@ public class DkbPaymentInitiationRequestResponse {
         this.psuMessage = psuMessage;
     }
 
-    public List<TppMessage> getTppMessages() {
+    public List<TppMessage2XX> getTppMessages() {
         return tppMessages;
     }
 
-    public void setTppMessages(List<TppMessage> tppMessages) {
+    public void setTppMessages(List<TppMessage2XX> tppMessages) {
         this.tppMessages = tppMessages;
     }
 }

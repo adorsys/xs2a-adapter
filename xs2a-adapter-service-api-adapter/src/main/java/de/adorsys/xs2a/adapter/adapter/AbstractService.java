@@ -21,7 +21,6 @@ import de.adorsys.xs2a.adapter.http.JsonMapper;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.model.SinglePaymentInitiationBody;
 import de.adorsys.xs2a.adapter.validation.RequestValidationException;
 import de.adorsys.xs2a.adapter.validation.ValidationError;
 
@@ -79,10 +78,6 @@ public abstract class AbstractService {
         Map<String, String> requestParamsMap = requestParams.toMap();
 
         return StringUri.withQuery(uri, requestParamsMap);
-    }
-
-    protected Class<?> getSinglePaymentInitiationBodyClass() {
-        return SinglePaymentInitiationBody.class;
     }
 
     protected void requireValid(List<ValidationError> validationErrors) {

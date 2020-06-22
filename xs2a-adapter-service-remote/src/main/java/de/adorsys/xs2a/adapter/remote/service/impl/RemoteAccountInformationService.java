@@ -23,8 +23,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import de.adorsys.xs2a.adapter.mapper.*;
-import de.adorsys.xs2a.adapter.model.*;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.remote.api.AccountInformationClient;
 import de.adorsys.xs2a.adapter.remote.api.Xs2aAdapterClientParseException;
 import de.adorsys.xs2a.adapter.remote.service.mapper.ResponseHeadersMapper;
@@ -33,7 +32,6 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
-import de.adorsys.xs2a.adapter.service.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.ResponseEntity;
@@ -45,33 +43,8 @@ import java.util.Map;
 public class RemoteAccountInformationService implements AccountInformationService {
 
     private final AccountInformationClient client;
-    private final ConsentMapper consentMapper = Mappers.getMapper(ConsentMapper.class);
-    private final ConsentCreationResponseMapper creationResponseMapper =
-        Mappers.getMapper(ConsentCreationResponseMapper.class);
-    private final ConsentInformationMapper consentInformationMapper =
-        Mappers.getMapper(ConsentInformationMapper.class);
-    private final ConsentStatusResponseMapper statusResponseMapper =
-        Mappers.getMapper(ConsentStatusResponseMapper.class);
-    private final ScaStatusResponseMapper scaStatusResponseMapper =
-        Mappers.getMapper(ScaStatusResponseMapper.class);
-    private final BalanceReportMapper balanceReportMapper =
-        Mappers.getMapper(BalanceReportMapper.class);
-    private final AccountListHolderMapper accountListHolderMapper =
-        Mappers.getMapper(AccountListHolderMapper.class);
-    private final TransactionsReportMapper transactionsReportMapper =
-        Mappers.getMapper(TransactionsReportMapper.class);
-    private final StartScaProcessResponseMapper scaProcessResponseMapper =
-        Mappers.getMapper(StartScaProcessResponseMapper.class);
     private final ResponseHeadersMapper responseHeadersMapper =
         Mappers.getMapper(ResponseHeadersMapper.class);
-    private final TransactionDetailsMapper transactionDetailsMapper = Mappers.getMapper(TransactionDetailsMapper.class);
-    private final CardAccountListMapper cardAccountListMapper = Mappers.getMapper(CardAccountListMapper.class);
-    private final CardAccountDetailsHolderMapper cardAccountDetailsHolderMapper =
-        Mappers.getMapper(CardAccountDetailsHolderMapper.class);
-    private final CardAccountBalanceReportMapper cardAccountBalanceReportMapper =
-        Mappers.getMapper(CardAccountBalanceReportMapper.class);
-    private CardAccountsTransactionsMapper cardAccountsTransactionsMapper =
-        Mappers.getMapper(CardAccountsTransactionsMapper.class);
     final ObjectMapper objectMapper;
 
     public RemoteAccountInformationService(AccountInformationClient client) {
@@ -91,33 +64,28 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
-    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
+    public Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
                                                            RequestParams requestParams,
                                                            Consents consents) {
-        ConsentsTO consentsTO = consentMapper.toConsentsTO(consents);
-        ResponseEntity<ConsentsResponse201TO> responseEntity = client.createConsent(requestParams.toMap(),
+        ResponseEntity<ConsentsResponse201> responseEntity = client.createConsent(requestParams.toMap(),
             requestHeaders.toMap(),
-            consentsTO);
-        ConsentCreationResponse consentCreationResponse =
-            creationResponseMapper.toConsentCreationResponse(responseEntity.getBody());
+            consents);
         return new Response<>(
             responseEntity.getStatusCodeValue(),
-            consentCreationResponse,
+            responseEntity.getBody(),
             responseHeadersMapper.getHeaders(responseEntity.getHeaders())
         );
     }
 
     @Override
-    public Response<ConsentInformation> getConsentInformation(String consentId,
-                                                              RequestHeaders requestHeaders,
-                                                              RequestParams requestParams) {
-        ResponseEntity<ConsentInformationResponse200JsonTO> responseEntity =
+    public Response<ConsentInformationResponse200Json> getConsentInformation(String consentId,
+                                                                             RequestHeaders requestHeaders,
+                                                                             RequestParams requestParams) {
+        ResponseEntity<ConsentInformationResponse200Json> responseEntity =
             client.getConsentInformation(consentId, requestParams.toMap(), requestHeaders.toMap());
-        ConsentInformation information =
-            consentInformationMapper.toConsentInformation(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
-            information,
+            responseEntity.getBody(),
             responseHeadersMapper.getHeaders(responseEntity.getHeaders())
         );
     }
@@ -136,34 +104,30 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
-    public Response<ConsentStatusResponse> getConsentStatus(String consentId,
-                                                            RequestHeaders requestHeaders,
-                                                            RequestParams requestParams) {
-        ResponseEntity<ConsentStatusResponse200TO> responseEntity =
+    public Response<ConsentStatusResponse200> getConsentStatus(String consentId,
+                                                               RequestHeaders requestHeaders,
+                                                               RequestParams requestParams) {
+        ResponseEntity<ConsentStatusResponse200> responseEntity =
             client.getConsentStatus(consentId, requestParams.toMap(), requestHeaders.toMap());
-        ConsentStatusResponse statusResponse =
-            statusResponseMapper.toConsentStatusResponse(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
-            statusResponse,
+            responseEntity.getBody(),
             responseHeadersMapper.getHeaders(responseEntity.getHeaders())
         );
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams) {
-        ResponseEntity<StartScaprocessResponseTO> responseEntity =
+        ResponseEntity<StartScaprocessResponse> responseEntity =
             client.startConsentAuthorisation(consentId,
                 requestParams.toMap(),
                 requestHeaders.toMap(),
                 createEmptyBody());
-        StartScaProcessResponse scaProcessResponse =
-            scaProcessResponseMapper.toStartScaProcessResponse(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
-            scaProcessResponse,
+            responseEntity.getBody(),
             responseHeadersMapper.getHeaders(responseEntity.getHeaders())
         );
     }
@@ -173,21 +137,19 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams,
                                                                        UpdatePsuAuthentication updatePsuAuthentication) {
-        ResponseEntity<StartScaprocessResponseTO> responseEntity =
+        ResponseEntity<StartScaprocessResponse> responseEntity =
             client.startConsentAuthorisation(consentId,
                 requestParams.toMap(),
                 requestHeaders.toMap(),
                 objectMapper.valueToTree(updatePsuAuthentication));
 
-        StartScaProcessResponse scaProcessResponse =
-            scaProcessResponseMapper.toStartScaProcessResponse(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
-            scaProcessResponse,
+            responseEntity.getBody(),
             responseHeadersMapper.getHeaders(responseEntity.getHeaders())
         );
     }
@@ -268,7 +230,7 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
-    public Response<AccountListHolder> getAccountList(
+    public Response<AccountList> getAccountList(
         RequestHeaders requestHeaders,
         RequestParams requestParams
     ) {
@@ -276,21 +238,19 @@ public class RemoteAccountInformationService implements AccountInformationServic
             RequestParams.WITH_BALANCE,
             Boolean.FALSE.toString()
         );
-        ResponseEntity<AccountListTO> responseEntity = client.getAccountList(
+        ResponseEntity<AccountList> responseEntity = client.getAccountList(
             Boolean.valueOf(withBalance),
             requestHeaders.toMap()
         );
-        AccountListHolder accountListHolder = accountListHolderMapper
-                                                  .toAccountListHolder(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
-            accountListHolder,
+            responseEntity.getBody(),
             responseHeadersMapper.getHeaders(responseEntity.getHeaders())
         );
     }
 
     @Override
-    public Response<TransactionsReport> getTransactionList(
+    public Response<TransactionsResponse200Json> getTransactionList(
         String accountId,
         RequestHeaders requestHeaders,
         RequestParams requestParams
@@ -305,35 +265,33 @@ public class RemoteAccountInformationService implements AccountInformationServic
             requestParams,
             requestHeaders
         );
-        TransactionsResponse200JsonTO transactionsResponse200JsonTO = null;
+        TransactionsResponse200Json transactionsResponse = null;
         try {
-            transactionsResponse200JsonTO = objectMapper.readValue(
+            transactionsResponse = objectMapper.readValue(
                 responseEntity.getBody(),
-                TransactionsResponse200JsonTO.class
+                TransactionsResponse200Json.class
             );
         } catch (IOException e) {
             throw new Xs2aAdapterClientParseException(e);
         }
-        TransactionsReport transactionsReport =
-            transactionsReportMapper.toTransactionsReport(transactionsResponse200JsonTO);
         return new Response<>(
             responseEntity.getStatusCodeValue(),
-            transactionsReport,
+            transactionsResponse,
             responseHeadersMapper.getHeaders(responseEntity.getHeaders())
         );
     }
 
     @Override
-    public Response<TransactionDetails> getTransactionDetails(String accountId,
-                                                              String transactionId,
-                                                              RequestHeaders requestHeaders,
-                                                              RequestParams requestParams) {
-        ResponseEntity<OK200TransactionDetailsTO> response = client.getTransactionDetails(accountId,
+    public Response<OK200TransactionDetails> getTransactionDetails(String accountId,
+                                                                   String transactionId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams) {
+        ResponseEntity<OK200TransactionDetails> response = client.getTransactionDetails(accountId,
             transactionId,
             requestParams.toMap(),
             requestHeaders.toMap());
         return new Response<>(response.getStatusCodeValue(),
-            transactionDetailsMapper.map(response.getBody()),
+            response.getBody(),
             responseHeadersMapper.getHeaders(response.getHeaders()));
     }
 
@@ -346,7 +304,7 @@ public class RemoteAccountInformationService implements AccountInformationServic
         LocalDate dateFrom = strToLocalDate(requestParamMap.get(RequestParams.DATE_FROM));
         LocalDate dateTo = strToLocalDate(requestParamMap.get(RequestParams.DATE_TO));
         String entryReferenceFrom = requestParamMap.get(RequestParams.ENTRY_REFERENCE_FROM);
-        BookingStatusTO bookingStatus = BookingStatusTO.fromValue(
+        BookingStatus bookingStatus = BookingStatus.fromValue(
             requestParamMap.get(RequestParams.BOOKING_STATUS)
         );
         Boolean deltaList = Boolean.valueOf(requestParamMap.get(RequestParams.DELTA_LIST));
@@ -374,11 +332,10 @@ public class RemoteAccountInformationService implements AccountInformationServic
 
         String body = responseEntity.getBody();
         if (requestHeaders.isAcceptJson()) {
-            TransactionsResponse200JsonTO json = null;
+            TransactionsResponse200Json json = null;
             try {
-                json = objectMapper.readValue(body, TransactionsResponse200JsonTO.class);
-                TransactionsReport report = transactionsReportMapper.toTransactionsReport(json);
-                body = objectMapper.writeValueAsString(report);
+                json = objectMapper.readValue(body, TransactionsResponse200Json.class);
+                body = objectMapper.writeValueAsString(json);
             } catch (IOException e) {
                 throw new Xs2aAdapterClientParseException(e);
             }
@@ -396,82 +353,75 @@ public class RemoteAccountInformationService implements AccountInformationServic
                                                            String authorisationId,
                                                            RequestHeaders requestHeaders,
                                                            RequestParams requestParams) {
-        ResponseEntity<ScaStatusResponseTO> responseEntity =
+        ResponseEntity<ScaStatusResponse> responseEntity =
             client.getConsentScaStatus(consentId, authorisationId, requestParams.toMap(), requestHeaders.toMap());
-        ScaStatusResponse scaStatusResponse = scaStatusResponseMapper
-            .toScaStatusResponse(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
-            scaStatusResponse,
+            responseEntity.getBody(),
             responseHeadersMapper.getHeaders(responseEntity.getHeaders())
         );
     }
 
     @Override
-    public Response<BalanceReport> getBalances(String accountId,
-                                               RequestHeaders requestHeaders,
-                                               RequestParams requestParams) {
-        ResponseEntity<ReadAccountBalanceResponse200TO> responseEntity =
+    public Response<ReadAccountBalanceResponse200> getBalances(String accountId,
+                                                               RequestHeaders requestHeaders,
+                                                               RequestParams requestParams) {
+        ResponseEntity<ReadAccountBalanceResponse200> responseEntity =
             client.getBalances(accountId, requestParams.toMap(), requestHeaders.toMap());
-        BalanceReport balanceReport = balanceReportMapper.toBalanceReport(responseEntity.getBody());
         return new Response<>(
             responseEntity.getStatusCodeValue(),
-            balanceReport,
+            responseEntity.getBody(),
             responseHeadersMapper.getHeaders(responseEntity.getHeaders())
         );
     }
 
     @Override
     public Response<CardAccountList> getCardAccountList(RequestHeaders requestHeaders, RequestParams requestParams) {
-        ResponseEntity<CardAccountListTO> responseEntity =
+        ResponseEntity<CardAccountList> responseEntity =
             client.getCardAccount(requestParams.toMap(), requestHeaders.toMap());
-        CardAccountList body = cardAccountListMapper.map(responseEntity.getBody());
         return new Response<>(responseEntity.getStatusCodeValue(),
-            body,
+            responseEntity.getBody(),
             responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
-    public Response<CardAccountDetailsHolder> getCardAccountDetails(String accountId,
-                                                                    RequestHeaders requestHeaders,
-                                                                    RequestParams requestParams) {
-        ResponseEntity<OK200CardAccountDetailsTO> responseEntity =
+    public Response<OK200CardAccountDetails> getCardAccountDetails(String accountId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams) {
+        ResponseEntity<OK200CardAccountDetails> responseEntity =
             client.ReadCardAccount(accountId, requestParams.toMap(), requestHeaders.toMap());
-        CardAccountDetailsHolder body = cardAccountDetailsHolderMapper.map(responseEntity.getBody());
         return new Response<>(responseEntity.getStatusCodeValue(),
-            body,
+            responseEntity.getBody(),
             responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
-    public Response<CardAccountBalanceReport> getCardAccountBalances(String accountId,
-                                                                     RequestHeaders requestHeaders,
-                                                                     RequestParams requestParams) {
-        ResponseEntity<ReadCardAccountBalanceResponse200TO> responseEntity =
+    public Response<ReadCardAccountBalanceResponse200> getCardAccountBalances(String accountId,
+                                                                              RequestHeaders requestHeaders,
+                                                                              RequestParams requestParams) {
+        ResponseEntity<ReadCardAccountBalanceResponse200> responseEntity =
             client.getCardAccountBalances(accountId, requestParams.toMap(), requestHeaders.toMap());
-        CardAccountBalanceReport body = cardAccountBalanceReportMapper.map(responseEntity.getBody());
         return new Response<>(responseEntity.getStatusCodeValue(),
-            body,
+            responseEntity.getBody(),
             responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 
     @Override
-    public Response<CardAccountsTransactions> getCardAccountTransactionList(String accountId,
-                                                                            RequestHeaders requestHeaders,
-                                                                            RequestParams requestParams) {
-        ResponseEntity<CardAccountsTransactionsResponse200TO> responseEntity =
+    public Response<CardAccountsTransactionsResponse200> getCardAccountTransactionList(String accountId,
+                                                                                       RequestHeaders requestHeaders,
+                                                                                       RequestParams requestParams) {
+        ResponseEntity<CardAccountsTransactionsResponse200> responseEntity =
             client.getCardAccountTransactionList(accountId,
                 requestParams.dateFrom(),
                 requestParams.dateTo(),
                 requestParams.entryReferenceFrom(),
-                requestParams.bookingStatus() != null ? BookingStatusTO.fromValue(requestParams.bookingStatus()) : null,
+                requestParams.bookingStatus() != null ? BookingStatus.fromValue(requestParams.bookingStatus()) : null,
                 requestParams.deltaList(),
                 requestParams.withBalance(),
                 requestParams.toMap(),
                 requestHeaders.toMap());
-        CardAccountsTransactions body = cardAccountsTransactionsMapper.map(responseEntity.getBody());
         return new Response<>(responseEntity.getStatusCodeValue(),
-            body,
+            responseEntity.getBody(),
             responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 

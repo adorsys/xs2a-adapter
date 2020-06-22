@@ -2,11 +2,11 @@ package de.adorsys.xs2a.adapter.service;
 
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.adapter.StandardPaymentProduct;
+import de.adorsys.xs2a.adapter.api.model.PaymentInitationRequestResponse201;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.model.PaymentInitiationRequestResponse;
 
 import java.util.Map;
 
@@ -28,10 +28,10 @@ public class SpardaPaymentInitiationService extends BasePaymentInitiationService
     }
 
     @Override
-    public Response<PaymentInitiationRequestResponse> initiateSinglePayment(String paymentProduct,
-                                                                            RequestHeaders requestHeaders,
-                                                                            RequestParams requestParams,
-                                                                            Object body) {
+    public Response<PaymentInitationRequestResponse201> initiateSinglePayment(String paymentProduct,
+                                                                              RequestHeaders requestHeaders,
+                                                                              RequestParams requestParams,
+                                                                              Object body) {
         if (isOauthPreStep(requestHeaders)) {
             requestHeaders = modifyPsuId(requestHeaders);
         }
@@ -42,7 +42,7 @@ public class SpardaPaymentInitiationService extends BasePaymentInitiationService
             requestHeaders,
             requestParams,
             identity(),
-            paymentInitiationResponseHandler(idpUri, PaymentInitiationRequestResponse.class));
+            paymentInitiationResponseHandler(idpUri, PaymentInitationRequestResponse201.class));
     }
 
     private boolean isOauthPreStep(RequestHeaders requestHeaders) {

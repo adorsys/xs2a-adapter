@@ -27,7 +27,7 @@
         <module>dkb-adapter</module>
         <module>commerzbank-adapter</module>
         <!-- ING adapter will be removed in future releases -->
-        <module>ing-psd2-adapter</module>
+        <module>ing-adapter</module>
         <module>unicredit-adapter</module>
         <module>comdirect-adapter</module>
         <module>santander-adapter</module>
@@ -98,7 +98,7 @@
 
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>ing-psd2-adapter</artifactId>
+            <artifactId>ing-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 

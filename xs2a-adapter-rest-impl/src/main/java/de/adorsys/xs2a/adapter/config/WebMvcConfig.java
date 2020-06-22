@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.config;
 
-import de.adorsys.xs2a.adapter.model.BookingStatusTO;
-import de.adorsys.xs2a.adapter.model.PaymentProductTO;
-import de.adorsys.xs2a.adapter.model.PaymentServiceTO;
+import de.adorsys.xs2a.adapter.api.model.BookingStatus;
+import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
+import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
@@ -26,79 +26,51 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registrar.setUseIsoFormat(true);
         registrar.registerFormatters(registry);
 
-        registry.addConverter(new Converter<String, BookingStatusTO>() {
+        registry.addConverter(new Converter<String, BookingStatus>() {
 
             @Override
-            public BookingStatusTO convert(String source) {
-                return BookingStatusTO.fromValue(source);
+            public BookingStatus convert(String source) {
+                return BookingStatus.fromValue(source);
             }
         });
 
-        registry.addConverter(new Converter<BookingStatusTO, String>() {
+        registry.addConverter(new Converter<BookingStatus, String>() {
 
             @Override
-            public String convert(BookingStatusTO source) {
+            public String convert(BookingStatus source) {
                 return source.toString();
             }
         });
 
-        registry.addConverter(new Converter<String, PaymentServiceTO>() {
+        registry.addConverter(new Converter<String, PaymentService>() {
 
             @Override
-            public PaymentServiceTO convert(String source) {
-                return PaymentServiceTO.fromValue(source);
+            public PaymentService convert(String source) {
+                return PaymentService.fromValue(source);
             }
         });
 
-        registry.addConverter(new Converter<PaymentProductTO, String>() {
+        registry.addConverter(new Converter<PaymentProduct, String>() {
 
             @Override
-            public String convert(PaymentProductTO source) {
+            public String convert(PaymentProduct source) {
                 return source.toString();
             }
         });
 
-        registry.addConverter(new Converter<PaymentServiceTO, String>() {
+        registry.addConverter(new Converter<PaymentService, String>() {
 
             @Override
-            public String convert(PaymentServiceTO source) {
+            public String convert(PaymentService source) {
                 return source.toString();
             }
         });
 
-        registry.addConverter(new Converter<String, PaymentProductTO>() {
+        registry.addConverter(new Converter<String, PaymentProduct>() {
 
             @Override
-            public PaymentProductTO convert(String source) {
-                return PaymentProductTO.fromValue(source);
-            }
-        });
-
-        registry.addConverter(new Converter<de.adorsys.xs2a.adapter.rest.psd2.model.PaymentServiceTO, String>() {
-            @Override
-            public String convert(de.adorsys.xs2a.adapter.rest.psd2.model.PaymentServiceTO source) {
-                return source.toString();
-            }
-        });
-
-        registry.addConverter(new Converter<String, de.adorsys.xs2a.adapter.rest.psd2.model.PaymentServiceTO>() {
-            @Override
-            public de.adorsys.xs2a.adapter.rest.psd2.model.PaymentServiceTO convert(String source) {
-                return de.adorsys.xs2a.adapter.rest.psd2.model.PaymentServiceTO.fromValue(source);
-            }
-        });
-
-        registry.addConverter(new Converter<de.adorsys.xs2a.adapter.rest.psd2.model.PaymentProductTO, String>() {
-            @Override
-            public String convert(de.adorsys.xs2a.adapter.rest.psd2.model.PaymentProductTO source) {
-                return source.toString();
-            }
-        });
-
-        registry.addConverter(new Converter<String, de.adorsys.xs2a.adapter.rest.psd2.model.PaymentProductTO>() {
-            @Override
-            public de.adorsys.xs2a.adapter.rest.psd2.model.PaymentProductTO convert(String source) {
-                return de.adorsys.xs2a.adapter.rest.psd2.model.PaymentProductTO.fromValue(source);
+            public PaymentProduct convert(String source) {
+                return PaymentProduct.fromValue(source);
             }
         });
     }

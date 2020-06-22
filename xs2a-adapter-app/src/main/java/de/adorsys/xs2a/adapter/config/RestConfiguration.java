@@ -3,16 +3,14 @@ package de.adorsys.xs2a.adapter.config;
 import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.http.ApacheHttpClientFactory;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.mapper.PaymentInitiationScaStatusResponseMapper;
 import de.adorsys.xs2a.adapter.registry.LuceneAspspRepositoryFactory;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.impl.AccountInformationServiceImpl;
 import de.adorsys.xs2a.adapter.service.impl.DownloadServiceImpl;
 import de.adorsys.xs2a.adapter.service.impl.PaymentInitiationServiceImpl;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.loader.*;
-import de.adorsys.xs2a.adapter.service.psd2.Psd2AccountInformationService;
-import de.adorsys.xs2a.adapter.service.psd2.Psd2PaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.loader.AdapterDelegatingOauth2Service;
+import de.adorsys.xs2a.adapter.service.loader.AdapterServiceLoader;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -33,11 +31,6 @@ public class RestConfiguration {
     @Bean
     PaymentInitiationService paymentInitiationService(AdapterServiceLoader adapterServiceLoader) {
         return new PaymentInitiationServiceImpl(adapterServiceLoader);
-    }
-
-    @Bean
-    PaymentInitiationScaStatusResponseMapper getPaymentInitiationScaStatusResponseMapper() {
-        return new PaymentInitiationScaStatusResponseMapper();
     }
 
     @Bean
@@ -93,26 +86,6 @@ public class RestConfiguration {
         return new LuceneAspspRepositoryFactory().newLuceneAspspRepository();
     }
 
-    @Bean
-    Psd2AccountInformationService psd2AccountInformationService(Psd2AdapterServiceLoader psd2AdapterServiceLoader) {
-        return new Psd2AdapterDelegatingAccountInformationService(psd2AdapterServiceLoader);
-    }
-
-    @Bean
-    Psd2AdapterServiceLoader psd2AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
-                             Pkcs12KeyStore keyStore,
-                             HttpClientFactory httpClientFactory,
-                             LinksRewriter accountInformationLinksRewriter,
-                             LinksRewriter paymentInitiationLinksRewriter) {
-        return new Psd2AdapterServiceLoader(aspspRepository, keyStore, httpClientFactory,
-            accountInformationLinksRewriter, paymentInitiationLinksRewriter,
-            chooseFirstFromMultipleAspsps);
-    }
-
-    @Bean
-    Psd2PaymentInitiationService psd2PaymentInitiationService(Psd2AdapterServiceLoader psd2AdapterServiceLoader) {
-        return new Psd2AdapterDelegatingPaymentInitiationService(psd2AdapterServiceLoader);
-    }
     @Bean
     Oauth2Service oauth2Service(AdapterServiceLoader adapterServiceLoader) {
         return new AdapterDelegatingOauth2Service(adapterServiceLoader);

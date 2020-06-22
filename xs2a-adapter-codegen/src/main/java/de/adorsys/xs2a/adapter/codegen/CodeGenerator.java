@@ -18,18 +18,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import static com.squareup.javapoet.TypeSpec.Kind.ENUM;
-import static java.util.Collections.emptyMap;
 
 public class CodeGenerator {
     public static final String TOOLNAME = "xs2a-adapter-codegen";
@@ -38,10 +35,6 @@ public class CodeGenerator {
     private final Consumer<JavaFile> action;
     private final String apiPackage;
     private final String modelPackage;
-    private final boolean psd2;
-    private final UnaryOperator<String> renamer;
-    private final Map<String, String> operationIdToCustomParameterType;
-    private final Map<String, String> operationIdToCustomReturnType;
     private String schemaName;
     private String propertyName;
     private List<TypeSpec> nestedTypes = new ArrayList<>();
@@ -49,24 +42,10 @@ public class CodeGenerator {
     private Map<String, TypeSpec> models;
 
     public CodeGenerator(OpenAPI api, Consumer<JavaFile> action, String basePackage) {
-        this(api, action, basePackage, false, UnaryOperator.identity(), emptyMap(), emptyMap());
-    }
-
-    public CodeGenerator(OpenAPI api,
-                         Consumer<JavaFile> action,
-                         String basePackage,
-                         boolean psd2,
-                         UnaryOperator<String> renamer,
-                         Map<String, String> operationIdToCustomParameterType,
-                         Map<String, String> operationIdToCustomReturnType) {
         this.api = api;
         this.action = action;
-        apiPackage = psd2 ? basePackage : basePackage + ".api";
-        modelPackage = basePackage + ".model";
-        this.psd2 = psd2;
-        this.renamer = renamer;
-        this.operationIdToCustomParameterType = operationIdToCustomParameterType;
-        this.operationIdToCustomReturnType = operationIdToCustomReturnType;
+        apiPackage = basePackage + ".rest.api";
+        modelPackage = basePackage + ".api.model";
     }
 
     public void generate(Map<String, String> operationToInterface) {
@@ -113,26 +92,6 @@ public class CodeGenerator {
 
         List<ParameterSpec> parameterSpecs = parameterSpecs(operation, mediaType);
 
-        if (psd2 && path.startsWith("/{")) {
-            int closingBraceIndex = path.indexOf("}");
-            String pathVariable = path.substring(2, closingBraceIndex);
-            ParameterSpec parameterSpec = parameterSpecs.stream()
-                .filter(p ->
-                    p.annotations.stream()
-                        .filter(a -> a.type.equals(ClassName.get(PathVariable.class)))
-                        .anyMatch(a -> a.members.get("value").get(0).toString()
-                            .equals(String.format("\"%s\"", pathVariable))))
-                .findAny()
-                .orElseThrow();
-            TypeSpec typeSpec = models.get(((ClassName) parameterSpec.type).simpleName());
-            if (typeSpec.kind == ENUM) {
-                String enumRegex = typeSpec.enumConstants.values().stream()
-                    .map(ts -> ts.anonymousTypeArguments.toString().replace("\"", ""))
-                    .collect(Collectors.joining("|"));
-                path = path.substring(0, closingBraceIndex) + ":" + enumRegex
-                    + path.substring(closingBraceIndex, path.length());
-            }
-        }
         AnnotationSpec.Builder requestMappingBuilder = AnnotationSpec.builder(RequestMapping.class)
             .addMember("value", "$S", path)
             .addMember("method", "$T.$L", RequestMethod.class, httpMethod.name());
@@ -141,12 +100,7 @@ public class CodeGenerator {
         }
         AnnotationSpec requestMapping = requestMappingBuilder.build();
 
-
-        MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(operationId);
-        if (psd2) {
-            methodBuilder.addException(IOException.class);
-        }
-        MethodSpec methodSpec = methodBuilder
+        MethodSpec methodSpec = MethodSpec.methodBuilder(operationId)
             .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
             .addAnnotation(requestMapping)
             .addParameters(parameterSpecs)
@@ -172,10 +126,7 @@ public class CodeGenerator {
                 }
                 Content content = apiResponse.getContent();
 
-                String customModel = operationIdToCustomReturnType.get(operation.getOperationId());
-                ClassName jsonComposedSchemaType = customModel != null
-                    ? ClassName.get(modelPackage, customModel)
-                    : ClassName.get(Object.class);
+                ClassName jsonComposedSchemaType = ClassName.get(Object.class);
                 TypeName returnTypeName = getTypeName(content, jsonComposedSchemaType, refName);
                 return ParameterizedTypeName.get(ClassName.get(ResponseEntity.class), returnTypeName);
             }
@@ -214,16 +165,14 @@ public class CodeGenerator {
                     parameterSpecs.add(pathParameter);
                     break;
                 case "query":
-                    if (useIndividualQueryParameters()) {
-                        ParameterSpec queryParameter = ParameterSpec.builder(
-                            toJavaTypeName(parameterSchema, parameter.getName()), toCamelCase(parameter.getName()))
-                            .addAnnotation(AnnotationSpec.builder(RequestParam.class)
-                                .addMember("value", "$S", parameter.getName())
-                                .addMember("required", "$L", parameter.getRequired())
-                                .build())
-                            .build();
-                        parameterSpecs.add(queryParameter);
-                    }
+                    ParameterSpec queryParameter = ParameterSpec.builder(
+                        toJavaTypeName(parameterSchema, parameter.getName()), toCamelCase(parameter.getName()))
+                        .addAnnotation(AnnotationSpec.builder(RequestParam.class)
+                            .addMember("value", "$S", parameter.getName())
+                            .addMember("required", "$L", parameter.getRequired())
+                            .build())
+                        .build();
+                    parameterSpecs.add(queryParameter);
                     break;
                 case "header":
                     // ignore
@@ -233,7 +182,7 @@ public class CodeGenerator {
             }
         }
         ParameterSpec paramsParameter = ParameterSpec.builder(
-            ParameterizedTypeName.get(Map.class, String.class, String.class), psd2 ? "queryParameters" : "parameters")
+            ParameterizedTypeName.get(Map.class, String.class, String.class), "parameters")
             .addAnnotation(RequestParam.class)
             .build();
         parameterSpecs.add(paramsParameter);
@@ -248,10 +197,7 @@ public class CodeGenerator {
                 requestBody = api.getComponents().getRequestBodies().get(getSimpleName(requestBody.get$ref()));
             }
             Map<String, MediaType> content = Collections.singletonMap(mediaType, requestBody.getContent().get(mediaType));
-            String customModel = operationIdToCustomParameterType.get(operation.getOperationId());
-            ClassName jsonComposedSchemaType = customModel != null
-                ? ClassName.get(modelPackage, customModel)
-                : ClassName.get(ObjectNode.class);
+            ClassName jsonComposedSchemaType = ClassName.get(ObjectNode.class);
             TypeName bodyType = getTypeName(content, jsonComposedSchemaType, null);
 
             ParameterSpec bodyParameter = ParameterSpec.builder(bodyType, "body")
@@ -262,10 +208,6 @@ public class CodeGenerator {
         }
 
         return parameterSpecs;
-    }
-
-    private boolean useIndividualQueryParameters() {
-        return !psd2;
     }
 
     private TypeName getTypeName(Map<String, MediaType> content, ClassName jsonComposedSchemaType, String refName) {
@@ -315,12 +257,12 @@ public class CodeGenerator {
             schema = api.getComponents().getSchemas().get(simpleName);
             return toJavaTypeName(schema, simpleName);
         }
-        if (name == null && schema.getEnum() != null && useEnums()) {
+        if (name == null && schema.getEnum() != null) {
             ClassName enumName = ClassName.get(modelPackage, toClassName(schemaName), toClassName(propertyName));
             nestedTypes.add(enumBuilder(enumName, schema).build());
             return enumName;
         }
-        if (schema instanceof ObjectSchema || (schema.getEnum() != null && useEnums(name))) {
+        if (schema instanceof ObjectSchema || schema.getEnum() != null) {
 //            if (name == null) { // anonymous schemas in Error400_AIS and similar
 //                name = schemaName + "_" + propertyName;
 //            }
@@ -341,18 +283,6 @@ public class CodeGenerator {
             return ClassName.get(Object.class);
         }
         return ClassName.get(toJavaType(schema));
-    }
-
-    private boolean useEnums(String name) {
-        return useEnums()
-            || "payment-service".equals(name)
-            || "payment-product".equals(name)
-            || "paymentService".equals(name)
-            || "paymentProduct".equals(name);
-    }
-
-    private boolean useEnums() {
-        return !psd2;
     }
 
     private Type toJavaType(Schema schema) {
@@ -410,15 +340,16 @@ public class CodeGenerator {
                 if (schema instanceof ObjectSchema) {
                     ObjectSchema objectSchema = (ObjectSchema) schema;
                     List<FieldSpec> fieldSpecs = fieldSpecs(objectSchema.getProperties());
-                    typeSpecBuilder = TypeSpec.classBuilder(toClassName(name))
+                    String className = toClassName(name);
+                    typeSpecBuilder = TypeSpec.classBuilder(className)
                         .addModifiers(Modifier.PUBLIC)
                         .addFields(fieldSpecs)
-                        .addMethods(gettersAndSetters(fieldSpecs));
+                        .addMethods(methods(fieldSpecs, className));
                     if (!nestedTypes.isEmpty()) {
                         nestedTypes.forEach(typeSpecBuilder::addType);
                         nestedTypes.clear();
                     }
-                } else if (schema.getEnum() != null && useEnums(name)) {
+                } else if (schema.getEnum() != null) {
                     typeSpecBuilder = enumBuilder(ClassName.get(modelPackage, toClassName(name)), schema);
                 } else {
                     continue;
@@ -481,7 +412,7 @@ public class CodeGenerator {
                 .addStatement("return e")
                 .endControlFlow()
                 .endControlFlow()
-                .addStatement("throw new IllegalArgumentException(value)")
+                .addStatement("return null")
                 .build())
             .addMethod(MethodSpec.methodBuilder("toString")
                 .addModifiers(Modifier.PUBLIC)
@@ -521,9 +452,9 @@ public class CodeGenerator {
         } else if (name.matches("Error\\d{3}_NG_[A-Z]{3,}")) {
             className = "ErrorResponse";
         } else {
-            className = renamer.apply(StringUtils.capitalize(toCamelCase(name)));
+            className = StringUtils.capitalize(toCamelCase(name));
         }
-        return className + "TO";
+        return className;
     }
 
     private List<FieldSpec> fieldSpecs(Map<String, Schema> properties) {
@@ -543,6 +474,35 @@ public class CodeGenerator {
             fieldSpecs.add(fieldSpec);
         });
         return fieldSpecs;
+    }
+
+    private List<MethodSpec> methods(List<FieldSpec> fieldSpecs, String className) {
+        List<MethodSpec> methodSpecs = gettersAndSetters(fieldSpecs);
+
+        MethodSpec equals = MethodSpec.methodBuilder("equals")
+            .addModifiers(Modifier.PUBLIC)
+            .returns(boolean.class)
+            .addAnnotation(Override.class)
+            .addParameter(Object.class, "o")
+            .addStatement("if (this == o) return true")
+            .addStatement("if (o == null || getClass() != o.getClass()) return false")
+            .addStatement("$N that = ($N) o", className, className)
+            .addStatement(fieldSpecs.stream()
+                .map(f -> String.format("Objects.equals(%s, that.%s)", f.name, f.name))
+                .collect(Collectors.joining(" &&\n", "return ", "")))
+            .build();
+        MethodSpec hashCode = MethodSpec.methodBuilder("hashCode")
+            .addModifiers(Modifier.PUBLIC)
+            .returns(int.class)
+            .addAnnotation(Override.class)
+            .addStatement(fieldSpecs.stream()
+                .map(f -> f.name)
+                .collect(Collectors.joining(",\n", "return $T.hash(", ")")), Objects.class)
+            .build();
+        methodSpecs.add(equals);
+        methodSpecs.add(hashCode);
+
+        return methodSpecs;
     }
 
     private List<MethodSpec> gettersAndSetters(List<FieldSpec> fieldSpecs) {

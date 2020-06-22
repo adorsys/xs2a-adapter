@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.adapter;
 
-import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.api.model.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,7 +31,7 @@ public class TestModelBuilder {
     public static final String MESSAGE = "message";
     public static final String CONSTENT_ID = "constent-ID";
     public static final String NAME = "SMS OTP on phone +49160 xxxxx 28";
-    public static final String TYPE = "SMS_OTP";
+    public static final AuthenticationType TYPE = AuthenticationType.SMS_OTP;
     public static final String EXPLANATION = "some explanation";
     public static final String VERSION = "v1.2";
     public static final String METHOD_ID = "authMethodId3";
@@ -41,13 +41,15 @@ public class TestModelBuilder {
     public static final String LINK = "http://link-to-image";
     public static final int LENGTH = 123;
 
-    public static ConsentCreationResponse buildConsentCreationResponse() {
-        ConsentCreationResponse response = new ConsentCreationResponse();
+    public static ConsentsResponse201 buildConsentCreationResponse() {
+        ConsentsResponse201 response = new ConsentsResponse201();
         response.setPsuMessage(MESSAGE);
         response.setConsentId(CONSTENT_ID);
         response.setConsentStatus(ConsentStatus.RECEIVED);
-        Map<String, Link> links = new HashMap<>();
-        links.put(CONSTENT_ID, new Link(MESSAGE));
+        Map<String, HrefType> links = new HashMap<>();
+        HrefType link = new HrefType();
+        link.setHref(MESSAGE);
+        links.put(CONSTENT_ID, link);
         response.setLinks(links);
         response.setScaMethods(Collections.singletonList(buildAuthenticationObject()));
         response.setChosenScaMethod(buildAuthenticationObject());
@@ -70,7 +72,7 @@ public class TestModelBuilder {
         data.setAdditionalInformation(ADDITIONAL_INFO);
         data.setData(DATA);
         data.setImageLink(LINK);
-        data.setOtpFormat(OtpFormat.CHARACTERS);
+        data.setOtpFormat(ChallengeData.OtpFormat.CHARACTERS);
         data.setOtpMaxLength(LENGTH);
         data.setImage(IMAGE.getBytes());
         return data;

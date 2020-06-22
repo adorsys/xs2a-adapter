@@ -2,7 +2,7 @@ package de.adorsys.xs2a.adapter.http;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
+import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
 import org.apache.http.entity.StringEntity;
 import org.junit.jupiter.api.Test;
 
@@ -98,7 +98,7 @@ public class Xs2AHttpLogSanitizerTest {
                                   "}" +
                                   "}";
 
-        ConsentCreationResponse consentCreationResponse = new ObjectMapper().readValue(json, ConsentCreationResponse.class);
+        ConsentsResponse201 consentCreationResponse = new ObjectMapper().readValue(json, ConsentsResponse201.class);
 
         String body = anonymizer.sanitizeResponseBody(consentCreationResponse, ContentType.APPLICATION_JSON);
 

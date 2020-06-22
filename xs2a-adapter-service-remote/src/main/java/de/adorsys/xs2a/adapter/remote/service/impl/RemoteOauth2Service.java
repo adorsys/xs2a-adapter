@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.remote.service.impl;
 
-import de.adorsys.xs2a.adapter.mapper.psd2.Oauth2Mapper;
+import de.adorsys.xs2a.adapter.mapper.Oauth2Mapper;
 import de.adorsys.xs2a.adapter.remote.api.Oauth2Client;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;

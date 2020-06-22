@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.remote.config;
 
-import de.adorsys.xs2a.adapter.model.BookingStatusTO;
-import de.adorsys.xs2a.adapter.model.PaymentProductTO;
-import de.adorsys.xs2a.adapter.model.PaymentServiceTO;
+import de.adorsys.xs2a.adapter.api.model.BookingStatus;
+import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
+import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import feign.Contract;
 import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
@@ -24,23 +24,23 @@ public class FeignConfiguration {
 
         public CustomConversionService() {
 
-            addConverter(new Converter<BookingStatusTO, String>() {
+            addConverter(new Converter<BookingStatus, String>() {
                 @Override
-                public String convert(BookingStatusTO source) {
+                public String convert(BookingStatus source) {
                     return source.toString();
                 }
             });
 
-            addConverter(new Converter<PaymentProductTO, String>() {
+            addConverter(new Converter<PaymentProduct, String>() {
                 @Override
-                public String convert(PaymentProductTO source) {
+                public String convert(PaymentProduct source) {
                     return source.toString();
                 }
             });
 
-            addConverter(new Converter<PaymentServiceTO, String>() {
+            addConverter(new Converter<PaymentService, String>() {
                 @Override
-                public String convert(PaymentServiceTO source) {
+                public String convert(PaymentService source) {
                     return source.toString();
                 }
             });

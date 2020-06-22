@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.adapter.link.bg;
 
 import de.adorsys.xs2a.adapter.adapter.link.bg.template.LinksTemplate;
+import de.adorsys.xs2a.adapter.api.model.HrefType;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.Link;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,16 +58,16 @@ public class BerlinGroupLinksRewriter implements LinksRewriter {
     }
 
     @Override
-    public Map<String, Link> rewrite(Map<String, Link> links) {
+    public Map<String, HrefType> rewrite(Map<String, HrefType> links) {
         if (links == null || links.isEmpty()) {
             return links;
         }
 
-        Map<String, Link> rewrittenLinks = new HashMap<>();
+        Map<String, HrefType> rewrittenLinks = new HashMap<>();
 
-        for (Map.Entry<String, Link> linkEntry : links.entrySet()) {
+        for (Map.Entry<String, HrefType> linkEntry : links.entrySet()) {
             String linkName = linkEntry.getKey();
-            Link linkFromAspsp = linkEntry.getValue();
+            HrefType linkFromAspsp = linkEntry.getValue();
 
             if (linkUnchangeable(linkName)) {
                 rewrittenLinks.put(linkName, linkFromAspsp);
@@ -89,7 +89,9 @@ public class BerlinGroupLinksRewriter implements LinksRewriter {
             if (rewrittenLinksOptional.isPresent()) {
                 String rewrittenLink = rewrittenLinksOptional.get();
                 rewrittenLink = StringUri.copyQueryParams(linkFromAspsp.getHref(), rewrittenLink);
-                rewrittenLinks.put(linkName, new Link(rewrittenLink));
+                HrefType link = new HrefType();
+                link.setHref(rewrittenLink);
+                rewrittenLinks.put(linkName, link);
             } else {
                 // business decision to leave unknown links untouched
                 logger.warn("Links rewriting: unknown format of the link [{}] - will be leaved unmapped. " +

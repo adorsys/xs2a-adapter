@@ -1,12 +1,12 @@
 package de.adorsys.xs2a.adapter.service;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.api.model.Consents;
+import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.model.ConsentCreationResponse;
-import de.adorsys.xs2a.adapter.service.model.Consents;
 
 import java.util.Map;
 
@@ -28,9 +28,9 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
     }
 
     @Override
-    public Response<ConsentCreationResponse> createConsent(RequestHeaders requestHeaders,
-                                                           RequestParams requestParams,
-                                                           Consents body) {
+    public Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
+                                                       RequestParams requestParams,
+                                                       Consents body) {
         if (isOauthPreStep(requestHeaders)) {
             requestHeaders = modifyPsuId(requestHeaders);
         }
@@ -40,7 +40,7 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
             requestParams,
             body,
             identity(),
-            consentCreationResponseHandler(idpUri, ConsentCreationResponse.class));
+            consentCreationResponseHandler(idpUri, ConsentsResponse201.class));
     }
 
     private boolean isOauthPreStep(RequestHeaders requestHeaders) {

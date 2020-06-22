@@ -119,7 +119,7 @@ public class AdapterServiceLoader {
     public Oauth2Service getOauth2Service(RequestHeaders requestHeaders) {
         Aspsp aspsp = getAspsp(requestHeaders);
         String adapterId = aspsp.getAdapterId();
-        return getServiceProvider(Oauth2ServiceFactory.class, adapterId)
+        return getServiceProvider(Oauth2ServiceProvider.class, adapterId)
                    .orElseThrow(() -> new AdapterNotFoundException(adapterId))
                    .getOauth2Service(aspsp, httpClientFactory, keyStore);
     }

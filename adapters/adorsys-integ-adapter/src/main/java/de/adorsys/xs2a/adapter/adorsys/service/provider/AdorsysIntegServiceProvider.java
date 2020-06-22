@@ -36,7 +36,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class AdorsysIntegServiceProvider
-    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceFactory {
+    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceProvider {
 
     private final OauthHeaderInterceptor oauthHeaderInterceptor = new OauthHeaderInterceptor();
     private final boolean requestSigningEnabled =

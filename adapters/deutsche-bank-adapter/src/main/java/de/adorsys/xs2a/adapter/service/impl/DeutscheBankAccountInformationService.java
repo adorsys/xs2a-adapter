@@ -17,6 +17,10 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.api.model.PsuData;
+import de.adorsys.xs2a.adapter.api.model.StartScaprocessResponse;
+import de.adorsys.xs2a.adapter.api.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.adapter.api.model.UpdatePsuAuthenticationResponse;
 import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request.Builder.Interceptor;
@@ -25,7 +29,7 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.*;
+import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.ZonedDateTime;
@@ -47,7 +51,7 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
     }
 
     @Override
-    public Response<StartScaProcessResponse> startConsentAuthorisation(String consentId,
+    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams,
                                                                        UpdatePsuAuthentication updatePsuAuthentication) {

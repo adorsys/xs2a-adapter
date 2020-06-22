@@ -1,13 +1,11 @@
 package de.adorsys.xs2a.adapter.config;
 
+import de.adorsys.xs2a.adapter.api.model.ErrorResponse;
+import de.adorsys.xs2a.adapter.api.model.MessageCode;
+import de.adorsys.xs2a.adapter.api.model.TppMessage;
+import de.adorsys.xs2a.adapter.api.model.TppMessageCategory;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
-import de.adorsys.xs2a.adapter.model.ErrorResponseTO;
-import de.adorsys.xs2a.adapter.model.MessageCodeTO;
-import de.adorsys.xs2a.adapter.model.TppMessageCategoryTO;
-import de.adorsys.xs2a.adapter.model.TppMessageTO;
 import de.adorsys.xs2a.adapter.service.exception.*;
-import de.adorsys.xs2a.adapter.service.model.ErrorResponse;
-import de.adorsys.xs2a.adapter.service.model.TppMessage;
 import de.adorsys.xs2a.adapter.validation.RequestValidationException;
 import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.slf4j.MDC;
@@ -51,7 +49,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return exception.getErrorResponse()
                        .map(response -> {
                            String originalResponse = exception.getMessage();
-                           if (response.isEmpty() && originalResponse != null && !originalResponse.isEmpty()) {
+                           if (response.getTppMessages() == null && response.getLinks() == null
+                               && originalResponse != null && !originalResponse.isEmpty()) {
                                return new ResponseEntity<>(originalResponse, responseHeaders, status);
                            }
                            return new ResponseEntity<>(response, responseHeaders, status);
@@ -75,7 +74,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                                                  .status(HttpStatus.FORBIDDEN)
                                                  .headers(responseHeaders);
 
-        if (errorResponse != null && !errorResponse.isEmpty()) {
+        if (errorResponse != null && (errorResponse.getTppMessages() != null || errorResponse.getLinks() != null)) {
             return responseBuilder
                        .body(errorResponse);
         }
@@ -101,52 +100,44 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     ResponseEntity handle(HttpRequestSigningException exception) {
         logError(exception);
-        String errorText = "Exception during the request signing process";
-        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-        ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
+        ErrorResponse errorResponse = buildErrorResponse("Exception during the request signing process");
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
-        return new ResponseEntity<>(errorResponse, headers, httpStatus);
+        return new ResponseEntity<>(errorResponse, headers, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler
     ResponseEntity handle(UncheckedSSLHandshakeException exception) {
         logError(exception);
-        String errorText = "Exception during the SSL handshake process";
-        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-        ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
+        ErrorResponse errorResponse = buildErrorResponse("Exception during the SSL handshake process");
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.BANK);
-        return new ResponseEntity<>(errorResponse, headers, httpStatus);
+        return new ResponseEntity<>(errorResponse, headers, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler
     ResponseEntity handle(UncheckedIOException exception) {
         logError(exception);
-        String errorText = "Exception during the IO process";
-        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-        ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
+        ErrorResponse errorResponse = buildErrorResponse("Exception during the IO process");
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
-        return new ResponseEntity<>(errorResponse, headers, httpStatus);
+        return new ResponseEntity<>(errorResponse, headers, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler
     ResponseEntity handle(UnsupportedOperationException exception) {
         logError(exception);
-        String errorText = "This endpoint is not supported yet";
-        HttpStatus httpStatus = HttpStatus.NOT_IMPLEMENTED;
-        ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
+        ErrorResponse errorResponse = buildErrorResponse("This endpoint is not supported yet");
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
-        return new ResponseEntity<>(errorResponse, headers, httpStatus);
+        return new ResponseEntity<>(errorResponse, headers, HttpStatus.NOT_IMPLEMENTED);
     }
 
     @ExceptionHandler
-    ResponseEntity<ErrorResponseTO> handle(RequestValidationException exception) {
+    ResponseEntity<ErrorResponse> handle(RequestValidationException exception) {
         logError(exception);
-        ErrorResponseTO errorResponse = new ErrorResponseTO();
-        ArrayList<TppMessageTO> tppMessages = new ArrayList<>();
+        ErrorResponse errorResponse = new ErrorResponse();
+        ArrayList<TppMessage> tppMessages = new ArrayList<>();
         for (ValidationError validationError : exception.getValidationErrors()) {
-            TppMessageTO tppMessage = new TppMessageTO();
-            tppMessage.setCategory(TppMessageCategoryTO.ERROR);
-            tppMessage.setCode(MessageCodeTO.FORMAT_ERROR);
+            TppMessage tppMessage = new TppMessage();
+            tppMessage.setCategory(TppMessageCategory.ERROR);
+            tppMessage.setCode(MessageCode.FORMAT_ERROR);
             tppMessage.setPath(validationError.getPath());
             tppMessage.setText(validationError.getMessage());
             tppMessages.add(tppMessage);
@@ -169,10 +160,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity<Object> handleAsBadRequest(String errorText) {
-        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
+        ErrorResponse errorResponse = buildErrorResponse(errorText);
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
-        return new ResponseEntity<>(errorResponse, headers, httpStatus);
+        return new ResponseEntity<>(errorResponse, headers, HttpStatus.BAD_REQUEST);
     }
 
     @Override
@@ -209,27 +199,22 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     ResponseEntity handle(PsuPasswordEncodingException exception) {
         logError(exception);
-        String errorText = "Exception during PSU password encryption";
-        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-        ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
+        ErrorResponse errorResponse = buildErrorResponse("Exception during PSU password encryption");
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
-        return new ResponseEntity<>(errorResponse, headers, httpStatus);
+        return new ResponseEntity<>(errorResponse, headers, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler
     ResponseEntity handle(Exception exception) {
         logError(exception);
-        String errorText = "Server error";
-        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-        ErrorResponse errorResponse = buildErrorResponse(TppMessageCategoryTO.ERROR.name(), httpStatus.name(), errorText);
+        ErrorResponse errorResponse = buildErrorResponse("Server error");
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
-        return new ResponseEntity<>(errorResponse, headers, httpStatus);
+        return new ResponseEntity<>(errorResponse, headers, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private ErrorResponse buildErrorResponse(String category, String code, String text) {
+    private ErrorResponse buildErrorResponse(String text) {
         TppMessage tppMessage = new TppMessage();
-        tppMessage.setCategory(category);
-        tppMessage.setCode(code);
+        tppMessage.setCategory(TppMessageCategory.ERROR);
         tppMessage.setText(text);
 
         ErrorResponse errorResponse = new ErrorResponse();
