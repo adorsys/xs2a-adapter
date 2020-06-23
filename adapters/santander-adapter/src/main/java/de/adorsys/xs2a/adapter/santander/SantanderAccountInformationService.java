@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.service.impl;
+package de.adorsys.xs2a.adapter.santander;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.http.HttpClient;
@@ -29,7 +29,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static de.adorsys.xs2a.adapter.service.impl.SantanderAccessTokenService.SANTANDER_TOKEN_CONSUMER_KEY_PROPERTY;
+import static de.adorsys.xs2a.adapter.santander.SantanderAccessTokenService.SANTANDER_TOKEN_CONSUMER_KEY_PROPERTY;
 
 public class SantanderAccountInformationService extends BaseAccountInformationService {
     private static final Set<String> HEADERS_TO_KEEP = new HashSet<>(Arrays.asList(
