@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.adapter.service;
 
-import de.adorsys.xs2a.adapter.adapter.AbstractService;
 import de.adorsys.xs2a.adapter.adapter.BaseOauth2Service;
 import de.adorsys.xs2a.adapter.adapter.CertificateSubjectClientIdOauth2Service;
 import de.adorsys.xs2a.adapter.adapter.PkceOauth2Service;
@@ -17,10 +16,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.*;
 
-public class SpardaOauth2Service extends AbstractService implements Oauth2Service, PkceOauth2Extension {
+import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
+
+public class SpardaOauth2Service implements Oauth2Service, PkceOauth2Extension {
 
     private static final EnumMap<Scope, Scope> SCOPE_MAPPING = initiateScopeMapping();
-    private static final String MISSING_REQUIRED_PARAMETER_ERROR_MESSAGE = "Missing required parameter";
     protected static final String UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE = "Scope value [%s] is not supported";
 
     private final Aspsp aspsp;
@@ -33,7 +33,6 @@ public class SpardaOauth2Service extends AbstractService implements Oauth2Servic
                                 HttpClient httpClient,
                                 Oauth2Service oauth2Service,
                                 String clientId) {
-        super(httpClient);
         this.aspsp = aspsp;
         this.oauth2Service = oauth2Service;
         this.clientId = clientId;
@@ -86,16 +85,12 @@ public class SpardaOauth2Service extends AbstractService implements Oauth2Servic
         List<ValidationError> validationErrors = new ArrayList<>();
 
         if (StringUtils.isBlank(parameters.getRedirectUri())) {
-            validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
-                Parameters.REDIRECT_URI,
-                MISSING_REQUIRED_PARAMETER_ERROR_MESSAGE));
+            validationErrors.add(ValidationError.required(Parameters.REDIRECT_URI));
         }
 
         String scope = parameters.getScope();
         if (StringUtils.isBlank(scope)) {
-            validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
-                Parameters.SCOPE,
-                MISSING_REQUIRED_PARAMETER_ERROR_MESSAGE));
+            validationErrors.add(ValidationError.required(Parameters.SCOPE));
         } else if (!Scope.contains(scope)) {
             validationErrors.add(new ValidationError(ValidationError.Code.NOT_SUPPORTED,
                 Parameters.SCOPE,
@@ -116,9 +111,7 @@ public class SpardaOauth2Service extends AbstractService implements Oauth2Servic
     @Override
     public List<ValidationError> validateGetToken(Map<String, String> headers, Parameters parameters) {
         if (parameters.getAuthorizationCode() != null && StringUtils.isBlank(parameters.getRedirectUri())) {
-            return Collections.singletonList(new ValidationError(ValidationError.Code.REQUIRED,
-                Parameters.REDIRECT_URI,
-                MISSING_REQUIRED_PARAMETER_ERROR_MESSAGE));
+            return Collections.singletonList(ValidationError.required(Parameters.REDIRECT_URI));
         }
         return Collections.emptyList();
     }

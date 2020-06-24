@@ -38,6 +38,7 @@ import java.util.function.Function;
 
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.stringResponseHandler;
+import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
 import static java.util.function.Function.identity;
 
 public class BaseAccountInformationService extends AbstractService implements AccountInformationService {

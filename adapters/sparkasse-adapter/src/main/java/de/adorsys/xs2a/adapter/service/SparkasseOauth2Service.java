@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.adapter.service;
 
-import de.adorsys.xs2a.adapter.adapter.AbstractService;
 import de.adorsys.xs2a.adapter.adapter.BaseOauth2Service;
 import de.adorsys.xs2a.adapter.adapter.CertificateSubjectClientIdOauth2Service;
 import de.adorsys.xs2a.adapter.adapter.PkceOauth2Service;
@@ -20,7 +19,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class SparkasseOauth2Service extends AbstractService implements Oauth2Service, PkceOauth2Extension {
+import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
+
+public class SparkasseOauth2Service implements Oauth2Service, PkceOauth2Extension {
 
     protected static final String UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE = "Scope value [%s] is not supported";
     protected static final String UNKNOWN_SCOPE_VALUE_ERROR_MESSAGE = "Unknown scope value";
@@ -33,7 +34,6 @@ public class SparkasseOauth2Service extends AbstractService implements Oauth2Ser
     private final Oauth2Service oauth2Service;
 
     private SparkasseOauth2Service(Oauth2Service oauth2Service, HttpClient httpClient) {
-        super(httpClient);
         this.oauth2Service = oauth2Service;
     }
 

@@ -11,6 +11,7 @@ import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import java.util.Map;
 
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.byteArrayResponseHandler;
+import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
 
 public class BaseDownloadService extends AbstractService implements DownloadService {
     private static final String HTTPS_PROTOCOL = "https://";

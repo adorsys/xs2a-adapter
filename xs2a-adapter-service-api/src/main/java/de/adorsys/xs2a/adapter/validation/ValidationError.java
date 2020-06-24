@@ -18,6 +18,10 @@ public class ValidationError {
         this.message = Objects.requireNonNull(message);
     }
 
+    public static ValidationError required(String path) {
+        return new ValidationError(ValidationError.Code.REQUIRED, path, "Missing required parameter");
+    }
+
     public Code getCode() {
         return code;
     }
@@ -28,6 +32,21 @@ public class ValidationError {
 
     public String getMessage() {
         return message;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ValidationError that = (ValidationError) o;
+        return code == that.code &&
+            Objects.equals(path, that.path) &&
+            Objects.equals(message, that.message);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, path, message);
     }
 
     @Override

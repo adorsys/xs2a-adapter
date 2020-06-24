@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.adapter.commerzbank.service;
 
-import de.adorsys.xs2a.adapter.adapter.AbstractService;
 import de.adorsys.xs2a.adapter.adapter.BaseOauth2Service;
 import de.adorsys.xs2a.adapter.adapter.CertificateSubjectClientIdOauth2Service;
 import de.adorsys.xs2a.adapter.adapter.PkceOauth2Service;
@@ -24,11 +23,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
+
 /**
  * @see <a href="https://psd2.developer.commerzbank.com/content/howto/ais-manage-consents">OAuth2 authorisation</a>
  * @see <a href="https://psd2.developer.commerzbank.com/content/howto/sandbox">2 - Authorize the payment</a>
  */
-public class CommerzbankOauth2Service extends AbstractService implements Oauth2Service, PkceOauth2Extension {
+public class CommerzbankOauth2Service implements Oauth2Service, PkceOauth2Extension {
 
     protected static final String UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE = "Scope value [%s] is not supported";
     protected static final String UNKNOWN_SCOPE_VALUE_ERROR_MESSAGE = "Unknown scope value";
@@ -42,7 +43,6 @@ public class CommerzbankOauth2Service extends AbstractService implements Oauth2S
     private final String baseUrl;
 
     private CommerzbankOauth2Service(Oauth2Service oauth2Service, String baseUrl, HttpClient httpClient) {
-        super(httpClient);
         this.oauth2Service = oauth2Service;
         this.baseUrl = baseUrl;
     }
