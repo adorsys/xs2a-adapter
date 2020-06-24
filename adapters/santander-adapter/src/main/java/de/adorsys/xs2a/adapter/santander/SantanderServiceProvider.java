@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.service.provider;
+package de.adorsys.xs2a.adapter.santander;
 
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.service.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
-import de.adorsys.xs2a.adapter.service.impl.SantanderAccessTokenService;
-import de.adorsys.xs2a.adapter.service.impl.SantanderAccountInformationService;
-import de.adorsys.xs2a.adapter.service.impl.SantanderPaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
+import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 
-public class SantanderServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+public class SantanderServiceProvider
+    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceProvider {
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
@@ -58,5 +56,11 @@ public class SantanderServiceProvider implements AccountInformationServiceProvid
     @Override
     public String getAdapterId() {
         return "santander-adapter";
+    }
+
+    @Override
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
+        return SantanderOauth2Service.create(aspsp, httpClient, keyStore);
     }
 }

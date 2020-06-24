@@ -16,7 +16,6 @@
 
 package de.adorsys.xs2a.adapter.comdirect;
 
-import de.adorsys.xs2a.adapter.adapter.AbstractService;
 import de.adorsys.xs2a.adapter.adapter.BaseOauth2Service;
 import de.adorsys.xs2a.adapter.adapter.CertificateSubjectClientIdOauth2Service;
 import de.adorsys.xs2a.adapter.adapter.PkceOauth2Service;
@@ -40,10 +39,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
+
 /**
  * @see <a href="https://xs2a-developer.comdirect.de/content/howto/ais-manage-consents">Authorisation</a>
  */
-public class ComdirectOauth2Service extends AbstractService implements Oauth2Service, PkceOauth2Extension {
+public class ComdirectOauth2Service implements Oauth2Service, PkceOauth2Extension {
 
     private static final String SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE = "SCA OAuth link is missing or has a wrong format: " +
         "it has to be either provided as a request parameter or preconfigured for the current ASPSP";
@@ -60,7 +61,6 @@ public class ComdirectOauth2Service extends AbstractService implements Oauth2Ser
     private final Aspsp aspsp;
 
     private ComdirectOauth2Service(Oauth2Service oauth2Service, String baseUrl, Aspsp aspsp, HttpClient httpClient) {
-        super(httpClient);
         this.oauth2Service = oauth2Service;
         this.baseUrl = baseUrl;
         this.aspsp = aspsp;

@@ -21,7 +21,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.net.URI;
 import java.util.List;
 
-import static de.adorsys.xs2a.adapter.service.ing.internal.service.IngOauth2Service.MISSING_REQUIRED_PARAMETER_ERROR_MESSAGE;
 import static de.adorsys.xs2a.adapter.service.ing.internal.service.IngOauth2Service.UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -58,9 +57,7 @@ class IngOauth2ServiceTest {
             assertEquals(1, validationErrors.size());
 
             ValidationError validationError = validationErrors.get(0);
-            assertEquals(ValidationError.Code.REQUIRED, validationError.getCode());
-            assertEquals(Oauth2Service.Parameters.SCOPE, validationError.getPath());
-            assertEquals(MISSING_REQUIRED_PARAMETER_ERROR_MESSAGE, validationError.getMessage());
+            assertEquals(validationErrors.get(0), ValidationError.required(Oauth2Service.Parameters.SCOPE));
         }
     }
 

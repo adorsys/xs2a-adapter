@@ -9,7 +9,6 @@ import de.adorsys.xs2a.adapter.service.ing.internal.api.model.ApplicationTokenRe
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.AuthorizationURLResponse;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.model.TokenResponse;
 import de.adorsys.xs2a.adapter.service.model.Scope;
-import de.adorsys.xs2a.adapter.validation.RequestValidationException;
 import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,6 +18,7 @@ import java.util.EnumMap;
 import java.util.List;
 
 import static de.adorsys.xs2a.adapter.service.Oauth2Service.ResponseType.CODE;
+import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
 
 public class IngOauth2Service {
     private static final String AIS_TRANSACTIONS_SCOPE = "payment-accounts:transactions:view";
@@ -26,7 +26,6 @@ public class IngOauth2Service {
     private static final String PIS_SCOPE = "payment-accounts:balances:view";
     private static final EnumMap<Scope, String> SCOPE_MAPPING = initiateScopeMapping();
 
-    protected static final String MISSING_REQUIRED_PARAMETER_ERROR_MESSAGE = "Missing required parameter";
     protected static final String UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE = "Scope value [%s] is not supported";
 
     private final Oauth2Api oauth2Api;
@@ -70,9 +69,7 @@ public class IngOauth2Service {
         List<ValidationError> validationErrors = new ArrayList<>();
 
         if (StringUtils.isBlank(scope)) {
-            validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
-                Oauth2Service.Parameters.SCOPE,
-                MISSING_REQUIRED_PARAMETER_ERROR_MESSAGE));
+            validationErrors.add(ValidationError.required(Oauth2Service.Parameters.SCOPE));
         } else if (!Scope.contains(scope)) {
             validationErrors.add(new ValidationError(ValidationError.Code.NOT_SUPPORTED,
                 Oauth2Service.Parameters.SCOPE,
@@ -80,12 +77,6 @@ public class IngOauth2Service {
         }
 
         return validationErrors;
-    }
-
-    private void requireValid(List<ValidationError> validationErrors) {
-        if (!validationErrors.isEmpty()) {
-            throw new RequestValidationException(validationErrors);
-        }
     }
 
     private String mapScope(String scope) {

@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.adapter.adorsys.service;
 
-import de.adorsys.xs2a.adapter.adapter.AbstractService;
 import de.adorsys.xs2a.adapter.adapter.mapper.TokenResponseMapper;
 import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
 import de.adorsys.xs2a.adapter.http.HttpClient;
@@ -20,8 +19,9 @@ import java.util.List;
 import java.util.Map;
 
 import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
+import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
 
-public class AdorsysIntegOauth2Service extends AbstractService implements Oauth2Service {
+public class AdorsysIntegOauth2Service implements Oauth2Service {
     private static final String SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE
         = "SCA OAuth link is missing or has a wrong format: " +
               "it has to be either provided as a request parameter or preconfigured for the current ASPSP";
@@ -34,7 +34,6 @@ public class AdorsysIntegOauth2Service extends AbstractService implements Oauth2
     public AdorsysIntegOauth2Service(Aspsp aspsp,
                                      HttpClient httpClient,
                                      Oauth2Api oauth2Api) {
-        super(httpClient);
         this.aspsp = aspsp;
         this.httpClient = httpClient;
         this.oauth2Api = oauth2Api;

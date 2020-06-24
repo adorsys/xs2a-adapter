@@ -23,11 +23,8 @@ import de.adorsys.xs2a.adapter.http.JsonMapper;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.validation.RequestValidationException;
-import de.adorsys.xs2a.adapter.validation.ValidationError;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractService {
@@ -97,11 +94,5 @@ public abstract class AbstractService {
             throw new IllegalArgumentException("Unsupported payment service: " + paymentService);
         }
         return paymentInitiationBodyClass;
-    }
-
-    protected void requireValid(List<ValidationError> validationErrors) {
-        if (!validationErrors.isEmpty()) {
-            throw new RequestValidationException(validationErrors);
-        }
     }
 }
