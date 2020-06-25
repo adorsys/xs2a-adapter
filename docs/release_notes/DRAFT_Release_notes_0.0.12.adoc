@@ -19,4 +19,5 @@ This fixes the issue of model copies getting out-of-sync and prevents its occurr
 - Added `Oauth2Service` for santander.
 
 == Fixes:
-Fixed wrong OAuth param validation for Comdirect, Commerzbank and Sparkasse
+- Fixed wrong OAuth param validation for Comdirect, Commerzbank and Sparkasse
+- Fixed requests without a payload not being logged.

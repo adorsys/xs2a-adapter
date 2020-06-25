@@ -171,8 +171,8 @@ public class ApacheHttpClient implements HttpClient {
             String sanitizedResponseBody = logSanitizer.sanitizeRequestBody(entity, contentType);
             requestLogs.append(String.format("%s Request body [%s]: %s\n", direction, contentType, sanitizedResponseBody));
             requestLogs.append(direction);
-            logger.debug(requestLogs.toString());
         }
+        logger.debug(requestLogs.toString());
     }
 
     private StringBuilder logHttpEvent(Map<String, String> headers, String httpLine, String direction) {
