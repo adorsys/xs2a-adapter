@@ -25,7 +25,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class Xs2aHttpLogSanitizer {
+public class Xs2aHttpLogSanitizer {
     private static final Logger logger = LoggerFactory.getLogger(Xs2aHttpLogSanitizer.class);
     private static final String APPLICATION_JSON = "application/json";
     static final String REPLACEMENT = "******";
@@ -34,8 +34,8 @@ class Xs2aHttpLogSanitizer {
     private final List<Pattern> patterns = new ArrayList<>();
     private JsonMapper objectMapper = new JsonMapper();
 
-    Xs2aHttpLogSanitizer() {
-        patterns.add(Pattern.compile("(consents|accounts|authorisations)/[^/?\\s\\[\"]+(.*?)"));
+    public Xs2aHttpLogSanitizer() {
+        patterns.add(Pattern.compile("(consents|accounts|authorisations|credit-transfers|target-2-payments)/[^/?\\s\\[\"]+(.*?)"));
 
         sanitizedHeaders.addAll(Arrays.asList(
             "Authorization",

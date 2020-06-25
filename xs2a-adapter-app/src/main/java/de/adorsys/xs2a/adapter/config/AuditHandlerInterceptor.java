@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.config;
 
+import de.adorsys.xs2a.adapter.http.Xs2aHttpLogSanitizer;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import org.slf4j.MDC;
@@ -10,10 +11,23 @@ import javax.servlet.http.HttpServletResponse;
 
 public class AuditHandlerInterceptor extends HandlerInterceptorAdapter {
 
+    private final Xs2aHttpLogSanitizer logSanitizer = new Xs2aHttpLogSanitizer();
+    private final boolean sanitized;
+
+    public AuditHandlerInterceptor() {
+        this(false);
+    }
+
+    public AuditHandlerInterceptor(boolean sanitized) {
+        this.sanitized = sanitized;
+    }
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
-        MDC.put("operation", request.getMethod() + " " + request.getRequestURI());
+        String uri = request.getRequestURI();
+        String requestURI = sanitized ? logSanitizer.sanitize(uri) : uri;
+        MDC.put("operation", request.getMethod() + " " + requestURI);
 
         String correlationId = request.getHeader(RequestHeaders.CORRELATION_ID);
         if (correlationId != null) {

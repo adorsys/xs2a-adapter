@@ -35,6 +35,9 @@ graylog:
   host: localhost
   port: 12201
 
+audit:
+  sanitized: true
+
 ---
 spring:
   profiles: dev
