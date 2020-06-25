@@ -17,7 +17,9 @@ This fixes the issue of model copies getting out-of-sync and prevents its occurr
 == Features:
 - Implemented periodic payments support.
 - Added `Oauth2Service` for santander.
+- Introduced `audit.sanitized` property to have the possibility to mask request URLs in `operation` MDC property. The default value is `true`.
 
 == Fixes:
 - Fixed wrong OAuth param validation for Comdirect, Commerzbank and Sparkasse
 - Fixed requests without a payload not being logged.
+- Sanitized payments request URLs

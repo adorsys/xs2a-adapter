@@ -32,6 +32,52 @@ public class Xs2AHttpLogSanitizerTest {
         sanitizedString = anonymizer.sanitize(data);
 
         assertThat(sanitizedString).isEqualTo("https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents/******/authorisations/******");
+
+        data = "https://www.volksbanking.de/services_xs2a/v1/payments/pain.001-sepa-credit-transfers/4692565214260020253PSDDE-BAFIN-115162PA1718LJ/authorisations";
+        sanitizedString = anonymizer.sanitize(data);
+
+        assertThat(sanitizedString).isEqualTo("https://www.volksbanking.de/services_xs2a/v1/payments/pain.001-sepa-credit-transfers/******/authorisations");
+
+        data = "https://www.volksbanking.de/services_xs2a/v1/payments/pain.001-sepa-credit-transfers/4692565214260020253PSDDE-BAFIN-115162PA1718LJ/authorisations/8593075214260020254PSDDE-BAFIN-115162AU1718LJ";
+        sanitizedString = anonymizer.sanitize(data);
+
+        assertThat(sanitizedString).isEqualTo("https://www.volksbanking.de/services_xs2a/v1/payments/pain.001-sepa-credit-transfers/******/authorisations/******");
+
+        data = "https://xs2a-api.comdirect.de/berlingroup/v1/payments/sepa-credit-transfers/4692565214260020253PSDDE-BAFIN-115162PA1718LJ/authorisations/8593075214260020254PSDDE-BAFIN-115162AU1718LJ";
+        sanitizedString = anonymizer.sanitize(data);
+
+        assertThat(sanitizedString).isEqualTo("https://xs2a-api.comdirect.de/berlingroup/v1/payments/sepa-credit-transfers/******/authorisations/******");
+
+        data = "https://xs2a-api.comdirect.de/berlingroup/v1/payments/instant-sepa-credit-transfers/4692565214260020253PSDDE-BAFIN-115162PA1718LJ/authorisations/8593075214260020254PSDDE-BAFIN-115162AU1718LJ";
+        sanitizedString = anonymizer.sanitize(data);
+
+        assertThat(sanitizedString).isEqualTo("https://xs2a-api.comdirect.de/berlingroup/v1/payments/instant-sepa-credit-transfers/******/authorisations/******");
+
+        data = "https://xs2a-api.comdirect.de/berlingroup/v1/payments/pain.001-instant-sepa-credit-transfers/4692565214260020253PSDDE-BAFIN-115162PA1718LJ/authorisations/8593075214260020254PSDDE-BAFIN-115162AU1718LJ";
+        sanitizedString = anonymizer.sanitize(data);
+
+        assertThat(sanitizedString).isEqualTo("https://xs2a-api.comdirect.de/berlingroup/v1/payments/pain.001-instant-sepa-credit-transfers/******/authorisations/******");
+
+        data = "https://xs2a-api.comdirect.de/berlingroup/v1/payments/cross-border-credit-transfers/4692565214260020253PSDDE-BAFIN-115162PA1718LJ/authorisations/8593075214260020254PSDDE-BAFIN-115162AU1718LJ";
+        sanitizedString = anonymizer.sanitize(data);
+
+        assertThat(sanitizedString).isEqualTo("https://xs2a-api.comdirect.de/berlingroup/v1/payments/cross-border-credit-transfers/******/authorisations/******");
+
+        data = "https://xs2a-api.comdirect.de/berlingroup/v1/payments/pain.001-cross-border-credit-transfers/4692565214260020253PSDDE-BAFIN-115162PA1718LJ/authorisations/8593075214260020254PSDDE-BAFIN-115162AU1718LJ";
+        sanitizedString = anonymizer.sanitize(data);
+
+        assertThat(sanitizedString).isEqualTo("https://xs2a-api.comdirect.de/berlingroup/v1/payments/pain.001-cross-border-credit-transfers/******/authorisations/******");
+
+        data = "https://xs2a-api.comdirect.de/berlingroup/v1/payments/target-2-payments/4692565214260020253PSDDE-BAFIN-115162PA1718LJ/authorisations/8593075214260020254PSDDE-BAFIN-115162AU1718LJ";
+        sanitizedString = anonymizer.sanitize(data);
+
+        assertThat(sanitizedString).isEqualTo("https://xs2a-api.comdirect.de/berlingroup/v1/payments/target-2-payments/******/authorisations/******");
+
+        data = "https://xs2a-api.comdirect.de/berlingroup/v1/payments/pain.001-target-2-payments/4692565214260020253PSDDE-BAFIN-115162PA1718LJ/authorisations/8593075214260020254PSDDE-BAFIN-115162AU1718LJ";
+        sanitizedString = anonymizer.sanitize(data);
+
+        assertThat(sanitizedString).isEqualTo("https://xs2a-api.comdirect.de/berlingroup/v1/payments/pain.001-target-2-payments/******/authorisations/******");
+
     }
 
     @Test
