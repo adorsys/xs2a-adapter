@@ -38,6 +38,7 @@ import de.adorsys.psd2.client.model.Error409NGPIS;
 import de.adorsys.psd2.client.model.PaymentInitationRequestResponse201;
 import de.adorsys.psd2.client.model.PaymentInitiationCancelResponse202;
 import de.adorsys.psd2.client.model.PaymentInitiationStatusResponse200Json;
+import de.adorsys.psd2.client.model.PeriodicPaymentInitiationXmlPart2StandingorderTypeJson;
 import de.adorsys.psd2.client.model.ScaStatusResponse;
 import de.adorsys.psd2.client.model.StartCancellationScaProcessResponse;
 import de.adorsys.psd2.client.model.StartScaprocessResponse;
@@ -1857,7 +1858,7 @@ All optional, conditional and predefined but not yet used fields are defined.
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+            "application/json", "multipart/form-data"
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -2109,6 +2110,324 @@ All optional, conditional and predefined but not yet used fields are defined.
         }
 
         com.squareup.okhttp.Call call = initiatePaymentValidateBeforeCall(body, xRequestID, psUIPAddress, paymentService, paymentProduct, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, consentID, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, tpPRejectionNoFundsPreferred, tpPNotificationURI, tpPNotificationContentPreferred, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<PaymentInitationRequestResponse201>(){}.getType();
+        apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
+    /**
+     * Build call for initiatePayment
+     * @param xmlSct  (required)
+     * @param jsonStandingorderType  (required)
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (required)
+     * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
+     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
+     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface.  Might be mandated in the ASPSP&#x27;s documentation.  It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. In this case the ASPSP might check whether PSU-ID and token match, according to ASPSP documentation.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  In this case, the mean and use are then defined in the ASPSP’s documentation.  (optional)
+     * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
+     * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
+     * @param consentID This data element may be contained, if the payment initiation transaction is part of a session, i.e. combined AIS/PIS service. This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (optional)
+     * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach, specifically when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:** This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
+     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately, e.g. because of the usage of a signing basket. This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP. This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step, without using a signing basket.  (optional)
+     * @param tpPRejectionNoFundsPreferred If it equals \&quot;true\&quot; then the TPP prefers a rejection of the payment initiation in case the ASPSP is providing an integrated confirmation of funds request an the result of this is that not sufficient funds are available.  If it equals \&quot;false\&quot; then the TPP prefers that the ASPSP is dealing with the payment initiation like in the ASPSPs online channel, potentially waiting for a certain time period for funds to arrive to initiate the payment.  This parameter might be ignored by the ASPSP.  (optional)
+     * @param tpPNotificationURI URI for the Endpoint of the TPP-API to which the status of the payment initiation should be sent. This header field may by ignored by the ASPSP.  For security reasons, it shall be ensured that the TPP-Notification-URI as introduced above is secured by the TPP eIDAS QWAC used for identification of the TPP. The following applies:  URIs which are provided by TPPs in TPP-Notification-URI shall comply with the domain secured by the eIDAS QWAC certificate of the TPP in the field CN or SubjectAltName of the certificate. Please note that in case of example-TPP.com as certificate entry TPP- Notification-URI like www.example-TPP.com/xs2a-client/v1/ASPSPidentifcation/mytransaction- id/notifications or notifications.example-TPP.com/xs2a-client/v1/ASPSPidentifcation/mytransaction- id/notifications would be compliant.  Wildcard definitions shall be taken into account for compliance checks by the ASPSP.  ASPSPs may respond with ASPSP-Notification-Support set to false, if the provided URIs do not comply.  (optional)
+     * @param tpPNotificationContentPreferred The string has the form  status&#x3D;X1, ..., Xn  where Xi is one of the constants SCA, PROCESS, LAST and where constants are not repeated. The usage of the constants supports the of following semantics:    SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the TPP.    PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the TPP.   LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the TPP.  This header field may be ignored, if the ASPSP does not support resource notification services for the related TPP.  (optional)
+     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
+     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
+     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
+     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
+     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call initiatePaymentCall(Object xmlSct, PeriodicPaymentInitiationXmlPart2StandingorderTypeJson jsonStandingorderType, UUID xRequestID, String psUIPAddress, String paymentService, String paymentProduct, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, String tpPRejectionNoFundsPreferred, String tpPNotificationURI, String tpPNotificationContentPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = null;
+        
+        // create path and map variables
+        String localVarPath = "/v1/{payment-service}/{payment-product}"
+            .replaceAll("\\{" + "payment-service" + "\\}", apiClient.escapeString(paymentService.toString()))
+            .replaceAll("\\{" + "payment-product" + "\\}", apiClient.escapeString(paymentProduct.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        if (xRequestID != null)
+        localVarHeaderParams.put("X-Request-ID", apiClient.parameterToString(xRequestID));
+        if (digest != null)
+        localVarHeaderParams.put("Digest", apiClient.parameterToString(digest));
+        if (signature != null)
+        localVarHeaderParams.put("Signature", apiClient.parameterToString(signature));
+        if (tpPSignatureCertificate != null)
+        localVarHeaderParams.put("TPP-Signature-Certificate", apiClient.parameterToString(tpPSignatureCertificate));
+        if (PSU_ID != null)
+        localVarHeaderParams.put("PSU-ID", apiClient.parameterToString(PSU_ID));
+        if (psUIDType != null)
+        localVarHeaderParams.put("PSU-ID-Type", apiClient.parameterToString(psUIDType));
+        if (psUCorporateID != null)
+        localVarHeaderParams.put("PSU-Corporate-ID", apiClient.parameterToString(psUCorporateID));
+        if (psUCorporateIDType != null)
+        localVarHeaderParams.put("PSU-Corporate-ID-Type", apiClient.parameterToString(psUCorporateIDType));
+        if (consentID != null)
+        localVarHeaderParams.put("Consent-ID", apiClient.parameterToString(consentID));
+        if (psUIPAddress != null)
+        localVarHeaderParams.put("PSU-IP-Address", apiClient.parameterToString(psUIPAddress));
+        if (tpPRedirectPreferred != null)
+        localVarHeaderParams.put("TPP-Redirect-Preferred", apiClient.parameterToString(tpPRedirectPreferred));
+        if (tpPRedirectURI != null)
+        localVarHeaderParams.put("TPP-Redirect-URI", apiClient.parameterToString(tpPRedirectURI));
+        if (tpPNokRedirectURI != null)
+        localVarHeaderParams.put("TPP-Nok-Redirect-URI", apiClient.parameterToString(tpPNokRedirectURI));
+        if (tpPExplicitAuthorisationPreferred != null)
+        localVarHeaderParams.put("TPP-Explicit-Authorisation-Preferred", apiClient.parameterToString(tpPExplicitAuthorisationPreferred));
+        if (tpPRejectionNoFundsPreferred != null)
+        localVarHeaderParams.put("TPP-Rejection-NoFunds-Preferred", apiClient.parameterToString(tpPRejectionNoFundsPreferred));
+        if (tpPNotificationURI != null)
+        localVarHeaderParams.put("TPP-Notification-URI", apiClient.parameterToString(tpPNotificationURI));
+        if (tpPNotificationContentPreferred != null)
+        localVarHeaderParams.put("TPP-Notification-Content-Preferred", apiClient.parameterToString(tpPNotificationContentPreferred));
+        if (psUIPPort != null)
+        localVarHeaderParams.put("PSU-IP-Port", apiClient.parameterToString(psUIPPort));
+        if (psUAccept != null)
+        localVarHeaderParams.put("PSU-Accept", apiClient.parameterToString(psUAccept));
+        if (psUAcceptCharset != null)
+        localVarHeaderParams.put("PSU-Accept-Charset", apiClient.parameterToString(psUAcceptCharset));
+        if (psUAcceptEncoding != null)
+        localVarHeaderParams.put("PSU-Accept-Encoding", apiClient.parameterToString(psUAcceptEncoding));
+        if (psUAcceptLanguage != null)
+        localVarHeaderParams.put("PSU-Accept-Language", apiClient.parameterToString(psUAcceptLanguage));
+        if (psUUserAgent != null)
+        localVarHeaderParams.put("PSU-User-Agent", apiClient.parameterToString(psUUserAgent));
+        if (psUHttpMethod != null)
+        localVarHeaderParams.put("PSU-Http-Method", apiClient.parameterToString(psUHttpMethod));
+        if (psUDeviceID != null)
+        localVarHeaderParams.put("PSU-Device-ID", apiClient.parameterToString(psUDeviceID));
+        if (psUGeoLocation != null)
+        localVarHeaderParams.put("PSU-Geo-Location", apiClient.parameterToString(psUGeoLocation));
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        if (xmlSct != null)
+        localVarFormParams.put("xml_sct", xmlSct);
+        if (jsonStandingorderType != null)
+        localVarFormParams.put("json_standingorderType", jsonStandingorderType);
+
+        final String[] localVarAccepts = {
+            "application/json", "application/problem+json"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            "application/json", "multipart/form-data"
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] { "BearerAuthOAuth" };
+        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+    
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call initiatePaymentValidateBeforeCall(Object xmlSct, PeriodicPaymentInitiationXmlPart2StandingorderTypeJson jsonStandingorderType, UUID xRequestID, String psUIPAddress, String paymentService, String paymentProduct, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, String tpPRejectionNoFundsPreferred, String tpPNotificationURI, String tpPNotificationContentPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        // verify the required parameter 'xmlSct' is set
+        if (xmlSct == null) {
+            throw new ApiException("Missing the required parameter 'xmlSct' when calling initiatePayment(Async)");
+        }
+        // verify the required parameter 'jsonStandingorderType' is set
+        if (jsonStandingorderType == null) {
+            throw new ApiException("Missing the required parameter 'jsonStandingorderType' when calling initiatePayment(Async)");
+        }
+        // verify the required parameter 'xRequestID' is set
+        if (xRequestID == null) {
+            throw new ApiException("Missing the required parameter 'xRequestID' when calling initiatePayment(Async)");
+        }
+        // verify the required parameter 'psUIPAddress' is set
+        if (psUIPAddress == null) {
+            throw new ApiException("Missing the required parameter 'psUIPAddress' when calling initiatePayment(Async)");
+        }
+        // verify the required parameter 'paymentService' is set
+        if (paymentService == null) {
+            throw new ApiException("Missing the required parameter 'paymentService' when calling initiatePayment(Async)");
+        }
+        // verify the required parameter 'paymentProduct' is set
+        if (paymentProduct == null) {
+            throw new ApiException("Missing the required parameter 'paymentProduct' when calling initiatePayment(Async)");
+        }
+        
+        com.squareup.okhttp.Call call = initiatePaymentCall(xmlSct, jsonStandingorderType, xRequestID, psUIPAddress, paymentService, paymentProduct, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, consentID, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, tpPRejectionNoFundsPreferred, tpPNotificationURI, tpPNotificationContentPreferred, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
+        return call;
+
+        
+        
+        
+        
+    }
+
+    /**
+     * Payment initiation request
+     * This method is used to initiate a payment at the ASPSP.  ## Variants of Payment initiation requests  This method to initiate a payment initiation at the ASPSP can be sent with either a JSON body or an pain.001 body depending on the payment product in the path.  There are the following **payment products**:    - Payment products with payment information in *JSON* format:     - ***sepa-credit-transfers***     - ***instant-sepa-credit-transfers***     - ***target-2-payments***     - ***cross-border-credit-transfers***   - Payment products with payment information in *pain.001* XML format:     - ***pain.001-sepa-credit-transfers***     - ***pain.001-instant-sepa-credit-transfers***     - ***pain.001-target-2-payments***     - ***pain.001-cross-border-credit-transfers***  Furthermore the request body depends on the **payment-service**:   * ***payments***: A single payment initiation request.   * ***bulk-payments***: A collection of several payment initiation requests.      In case of a *pain.001* message there are more than one payments contained in the *pain.001 message.      In case of a *JSON* there are several JSON payment blocks contained in a joining list.   * ***periodic-payments***:     Create a standing order initiation resource for recurrent i.e. periodic payments addressable under {paymentId}      with all data relevant for the corresponding payment product and the execution of the standing order contained in a JSON body.  This is the first step in the API to initiate the related recurring/periodic payment.  ## Single and mulitilevel SCA Processes  The Payment initiation requests are independent from the need of one or multilevel SCA processing, i.e. independent from the number of authorisations needed for the execution of payments.  But the response messages are specific to either one SCA processing or multilevel SCA processing.  For payment initiation with multilevel SCA, this specification requires an explicit start of the authorisation, i.e. links directly associated with SCA processing like &#x27;scaRedirect&#x27; or &#x27;scaOAuth&#x27; cannot be contained in the response message of a Payment initation request for a payment, where multiple authorisations are needed. Also if any data is needed for the next action, like selecting an SCA method is not supported in the response, since all starts of the multiple authorisations are fully equal. In these cases, first an authorisation sub-resource has to be generated following the &#x27;startAuthorisation&#x27; link. 
+     * @param xmlSct  (required)
+     * @param jsonStandingorderType  (required)
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (required)
+     * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
+     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
+     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface.  Might be mandated in the ASPSP&#x27;s documentation.  It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. In this case the ASPSP might check whether PSU-ID and token match, according to ASPSP documentation.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  In this case, the mean and use are then defined in the ASPSP’s documentation.  (optional)
+     * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
+     * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
+     * @param consentID This data element may be contained, if the payment initiation transaction is part of a session, i.e. combined AIS/PIS service. This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (optional)
+     * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach, specifically when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:** This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
+     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately, e.g. because of the usage of a signing basket. This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP. This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step, without using a signing basket.  (optional)
+     * @param tpPRejectionNoFundsPreferred If it equals \&quot;true\&quot; then the TPP prefers a rejection of the payment initiation in case the ASPSP is providing an integrated confirmation of funds request an the result of this is that not sufficient funds are available.  If it equals \&quot;false\&quot; then the TPP prefers that the ASPSP is dealing with the payment initiation like in the ASPSPs online channel, potentially waiting for a certain time period for funds to arrive to initiate the payment.  This parameter might be ignored by the ASPSP.  (optional)
+     * @param tpPNotificationURI URI for the Endpoint of the TPP-API to which the status of the payment initiation should be sent. This header field may by ignored by the ASPSP.  For security reasons, it shall be ensured that the TPP-Notification-URI as introduced above is secured by the TPP eIDAS QWAC used for identification of the TPP. The following applies:  URIs which are provided by TPPs in TPP-Notification-URI shall comply with the domain secured by the eIDAS QWAC certificate of the TPP in the field CN or SubjectAltName of the certificate. Please note that in case of example-TPP.com as certificate entry TPP- Notification-URI like www.example-TPP.com/xs2a-client/v1/ASPSPidentifcation/mytransaction- id/notifications or notifications.example-TPP.com/xs2a-client/v1/ASPSPidentifcation/mytransaction- id/notifications would be compliant.  Wildcard definitions shall be taken into account for compliance checks by the ASPSP.  ASPSPs may respond with ASPSP-Notification-Support set to false, if the provided URIs do not comply.  (optional)
+     * @param tpPNotificationContentPreferred The string has the form  status&#x3D;X1, ..., Xn  where Xi is one of the constants SCA, PROCESS, LAST and where constants are not repeated. The usage of the constants supports the of following semantics:    SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the TPP.    PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the TPP.   LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the TPP.  This header field may be ignored, if the ASPSP does not support resource notification services for the related TPP.  (optional)
+     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
+     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
+     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
+     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
+     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
+     * @return PaymentInitationRequestResponse201
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public PaymentInitationRequestResponse201 initiatePayment(Object xmlSct, PeriodicPaymentInitiationXmlPart2StandingorderTypeJson jsonStandingorderType, UUID xRequestID, String psUIPAddress, String paymentService, String paymentProduct, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, String tpPRejectionNoFundsPreferred, String tpPNotificationURI, String tpPNotificationContentPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        ApiResponse<PaymentInitationRequestResponse201> resp = initiatePaymentWithHttpInfo(xmlSct, jsonStandingorderType, xRequestID, psUIPAddress, paymentService, paymentProduct, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, consentID, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, tpPRejectionNoFundsPreferred, tpPNotificationURI, tpPNotificationContentPreferred, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation);
+        return resp.getData();
+    }
+
+    /**
+     * Payment initiation request
+     * This method is used to initiate a payment at the ASPSP.  ## Variants of Payment initiation requests  This method to initiate a payment initiation at the ASPSP can be sent with either a JSON body or an pain.001 body depending on the payment product in the path.  There are the following **payment products**:    - Payment products with payment information in *JSON* format:     - ***sepa-credit-transfers***     - ***instant-sepa-credit-transfers***     - ***target-2-payments***     - ***cross-border-credit-transfers***   - Payment products with payment information in *pain.001* XML format:     - ***pain.001-sepa-credit-transfers***     - ***pain.001-instant-sepa-credit-transfers***     - ***pain.001-target-2-payments***     - ***pain.001-cross-border-credit-transfers***  Furthermore the request body depends on the **payment-service**:   * ***payments***: A single payment initiation request.   * ***bulk-payments***: A collection of several payment initiation requests.      In case of a *pain.001* message there are more than one payments contained in the *pain.001 message.      In case of a *JSON* there are several JSON payment blocks contained in a joining list.   * ***periodic-payments***:     Create a standing order initiation resource for recurrent i.e. periodic payments addressable under {paymentId}      with all data relevant for the corresponding payment product and the execution of the standing order contained in a JSON body.  This is the first step in the API to initiate the related recurring/periodic payment.  ## Single and mulitilevel SCA Processes  The Payment initiation requests are independent from the need of one or multilevel SCA processing, i.e. independent from the number of authorisations needed for the execution of payments.  But the response messages are specific to either one SCA processing or multilevel SCA processing.  For payment initiation with multilevel SCA, this specification requires an explicit start of the authorisation, i.e. links directly associated with SCA processing like &#x27;scaRedirect&#x27; or &#x27;scaOAuth&#x27; cannot be contained in the response message of a Payment initation request for a payment, where multiple authorisations are needed. Also if any data is needed for the next action, like selecting an SCA method is not supported in the response, since all starts of the multiple authorisations are fully equal. In these cases, first an authorisation sub-resource has to be generated following the &#x27;startAuthorisation&#x27; link. 
+     * @param xmlSct  (required)
+     * @param jsonStandingorderType  (required)
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (required)
+     * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
+     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
+     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface.  Might be mandated in the ASPSP&#x27;s documentation.  It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. In this case the ASPSP might check whether PSU-ID and token match, according to ASPSP documentation.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  In this case, the mean and use are then defined in the ASPSP’s documentation.  (optional)
+     * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
+     * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
+     * @param consentID This data element may be contained, if the payment initiation transaction is part of a session, i.e. combined AIS/PIS service. This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (optional)
+     * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach, specifically when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:** This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
+     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately, e.g. because of the usage of a signing basket. This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP. This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step, without using a signing basket.  (optional)
+     * @param tpPRejectionNoFundsPreferred If it equals \&quot;true\&quot; then the TPP prefers a rejection of the payment initiation in case the ASPSP is providing an integrated confirmation of funds request an the result of this is that not sufficient funds are available.  If it equals \&quot;false\&quot; then the TPP prefers that the ASPSP is dealing with the payment initiation like in the ASPSPs online channel, potentially waiting for a certain time period for funds to arrive to initiate the payment.  This parameter might be ignored by the ASPSP.  (optional)
+     * @param tpPNotificationURI URI for the Endpoint of the TPP-API to which the status of the payment initiation should be sent. This header field may by ignored by the ASPSP.  For security reasons, it shall be ensured that the TPP-Notification-URI as introduced above is secured by the TPP eIDAS QWAC used for identification of the TPP. The following applies:  URIs which are provided by TPPs in TPP-Notification-URI shall comply with the domain secured by the eIDAS QWAC certificate of the TPP in the field CN or SubjectAltName of the certificate. Please note that in case of example-TPP.com as certificate entry TPP- Notification-URI like www.example-TPP.com/xs2a-client/v1/ASPSPidentifcation/mytransaction- id/notifications or notifications.example-TPP.com/xs2a-client/v1/ASPSPidentifcation/mytransaction- id/notifications would be compliant.  Wildcard definitions shall be taken into account for compliance checks by the ASPSP.  ASPSPs may respond with ASPSP-Notification-Support set to false, if the provided URIs do not comply.  (optional)
+     * @param tpPNotificationContentPreferred The string has the form  status&#x3D;X1, ..., Xn  where Xi is one of the constants SCA, PROCESS, LAST and where constants are not repeated. The usage of the constants supports the of following semantics:    SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the TPP.    PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the TPP.   LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the TPP.  This header field may be ignored, if the ASPSP does not support resource notification services for the related TPP.  (optional)
+     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
+     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
+     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
+     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
+     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
+     * @return ApiResponse&lt;PaymentInitationRequestResponse201&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<PaymentInitationRequestResponse201> initiatePaymentWithHttpInfo(Object xmlSct, PeriodicPaymentInitiationXmlPart2StandingorderTypeJson jsonStandingorderType, UUID xRequestID, String psUIPAddress, String paymentService, String paymentProduct, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, String tpPRejectionNoFundsPreferred, String tpPNotificationURI, String tpPNotificationContentPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation) throws ApiException {
+        com.squareup.okhttp.Call call = initiatePaymentValidateBeforeCall(xmlSct, jsonStandingorderType, xRequestID, psUIPAddress, paymentService, paymentProduct, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, consentID, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, tpPRejectionNoFundsPreferred, tpPNotificationURI, tpPNotificationContentPreferred, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, null, null);
+        Type localVarReturnType = new TypeToken<PaymentInitationRequestResponse201>(){}.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+    /**
+     * Payment initiation request (asynchronously)
+     * This method is used to initiate a payment at the ASPSP.  ## Variants of Payment initiation requests  This method to initiate a payment initiation at the ASPSP can be sent with either a JSON body or an pain.001 body depending on the payment product in the path.  There are the following **payment products**:    - Payment products with payment information in *JSON* format:     - ***sepa-credit-transfers***     - ***instant-sepa-credit-transfers***     - ***target-2-payments***     - ***cross-border-credit-transfers***   - Payment products with payment information in *pain.001* XML format:     - ***pain.001-sepa-credit-transfers***     - ***pain.001-instant-sepa-credit-transfers***     - ***pain.001-target-2-payments***     - ***pain.001-cross-border-credit-transfers***  Furthermore the request body depends on the **payment-service**:   * ***payments***: A single payment initiation request.   * ***bulk-payments***: A collection of several payment initiation requests.      In case of a *pain.001* message there are more than one payments contained in the *pain.001 message.      In case of a *JSON* there are several JSON payment blocks contained in a joining list.   * ***periodic-payments***:     Create a standing order initiation resource for recurrent i.e. periodic payments addressable under {paymentId}      with all data relevant for the corresponding payment product and the execution of the standing order contained in a JSON body.  This is the first step in the API to initiate the related recurring/periodic payment.  ## Single and mulitilevel SCA Processes  The Payment initiation requests are independent from the need of one or multilevel SCA processing, i.e. independent from the number of authorisations needed for the execution of payments.  But the response messages are specific to either one SCA processing or multilevel SCA processing.  For payment initiation with multilevel SCA, this specification requires an explicit start of the authorisation, i.e. links directly associated with SCA processing like &#x27;scaRedirect&#x27; or &#x27;scaOAuth&#x27; cannot be contained in the response message of a Payment initation request for a payment, where multiple authorisations are needed. Also if any data is needed for the next action, like selecting an SCA method is not supported in the response, since all starts of the multiple authorisations are fully equal. In these cases, first an authorisation sub-resource has to be generated following the &#x27;startAuthorisation&#x27; link. 
+     * @param xmlSct  (required)
+     * @param jsonStandingorderType  (required)
+     * @param xRequestID ID of the request, unique to the call, as determined by the initiating party. (required)
+     * @param psUIPAddress The forwarded IP Address header field consists of the corresponding http request IP Address field between PSU and TPP.  (required)
+     * @param paymentService Payment service:  Possible values are: * payments * bulk-payments * periodic-payments  (required)
+     * @param paymentProduct The addressed payment product endpoint, e.g. for SEPA Credit Transfers (SCT). The ASPSP will publish which of the payment products/endpoints will be supported.  The following payment products are supported:   - sepa-credit-transfers   - instant-sepa-credit-transfers   - target-2-payments   - cross-border-credit-transfers   - pain.001-sepa-credit-transfers   - pain.001-instant-sepa-credit-transfers   - pain.001-target-2-payments   - pain.001-cross-border-credit-transfers  **Remark:** For all SEPA Credit Transfer based endpoints which accept XML encoding, the XML pain.001 schemes provided by EPC are supported by the ASPSP as a minimum for the body content. Further XML schemes might be supported by some communities.  **Remark:** For cross-border and TARGET-2 payments only community wide pain.001 schemes do exist. There are plenty of country specificic scheme variants.  (required)
+     * @param digest Is contained if and only if the \&quot;Signature\&quot; element is contained in the header of the request. (optional)
+     * @param signature A signature of the request by the TPP on application level. This might be mandated by ASPSP.  (optional)
+     * @param tpPSignatureCertificate The certificate used for signing the request, in base64 encoding. Must be contained if a signature is contained.  (optional)
+     * @param PSU_ID Client ID of the PSU in the ASPSP client interface.  Might be mandated in the ASPSP&#x27;s documentation.  It might be contained even if an OAuth2 based authentication was performed in a pre-step or an OAuth2 based SCA was performed in an preceding AIS service in the same session. In this case the ASPSP might check whether PSU-ID and token match, according to ASPSP documentation.  (optional)
+     * @param psUIDType Type of the PSU-ID, needed in scenarios where PSUs have several PSU-IDs as access possibility.  In this case, the mean and use are then defined in the ASPSP’s documentation.  (optional)
+     * @param psUCorporateID Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
+     * @param psUCorporateIDType Might be mandated in the ASPSP&#x27;s documentation. Only used in a corporate context.  (optional)
+     * @param consentID This data element may be contained, if the payment initiation transaction is part of a session, i.e. combined AIS/PIS service. This then contains the consentId of the related AIS consent, which was performed prior to this payment initiation.  (optional)
+     * @param tpPRedirectPreferred If it equals \&quot;true\&quot;, the TPP prefers a redirect over an embedded SCA approach. If it equals \&quot;false\&quot;, the TPP prefers not to be redirected for SCA. The ASPSP will then choose between the Embedded or the Decoupled SCA approach, depending on the choice of the SCA procedure by the TPP/PSU. If the parameter is not used, the ASPSP will choose the SCA approach to be applied depending on the SCA method chosen by the TPP/PSU.  (optional)
+     * @param tpPRedirectURI URI of the TPP, where the transaction flow shall be redirected to after a Redirect.  Mandated for the Redirect SCA Approach, specifically when TPP-Redirect-Preferred equals \&quot;true\&quot;. It is recommended to always use this header field.  **Remark for Future:** This field might be changed to mandatory in the next version of the specification.  (optional)
+     * @param tpPNokRedirectURI If this URI is contained, the TPP is asking to redirect the transaction flow to this address instead of the TPP-Redirect-URI in case of a negative result of the redirect SCA method. This might be ignored by the ASPSP.  (optional)
+     * @param tpPExplicitAuthorisationPreferred If it equals \&quot;true\&quot;, the TPP prefers to start the authorisation process separately, e.g. because of the usage of a signing basket. This preference might be ignored by the ASPSP, if a signing basket is not supported as functionality.  If it equals \&quot;false\&quot; or if the parameter is not used, there is no preference of the TPP. This especially indicates that the TPP assumes a direct authorisation of the transaction in the next step, without using a signing basket.  (optional)
+     * @param tpPRejectionNoFundsPreferred If it equals \&quot;true\&quot; then the TPP prefers a rejection of the payment initiation in case the ASPSP is providing an integrated confirmation of funds request an the result of this is that not sufficient funds are available.  If it equals \&quot;false\&quot; then the TPP prefers that the ASPSP is dealing with the payment initiation like in the ASPSPs online channel, potentially waiting for a certain time period for funds to arrive to initiate the payment.  This parameter might be ignored by the ASPSP.  (optional)
+     * @param tpPNotificationURI URI for the Endpoint of the TPP-API to which the status of the payment initiation should be sent. This header field may by ignored by the ASPSP.  For security reasons, it shall be ensured that the TPP-Notification-URI as introduced above is secured by the TPP eIDAS QWAC used for identification of the TPP. The following applies:  URIs which are provided by TPPs in TPP-Notification-URI shall comply with the domain secured by the eIDAS QWAC certificate of the TPP in the field CN or SubjectAltName of the certificate. Please note that in case of example-TPP.com as certificate entry TPP- Notification-URI like www.example-TPP.com/xs2a-client/v1/ASPSPidentifcation/mytransaction- id/notifications or notifications.example-TPP.com/xs2a-client/v1/ASPSPidentifcation/mytransaction- id/notifications would be compliant.  Wildcard definitions shall be taken into account for compliance checks by the ASPSP.  ASPSPs may respond with ASPSP-Notification-Support set to false, if the provided URIs do not comply.  (optional)
+     * @param tpPNotificationContentPreferred The string has the form  status&#x3D;X1, ..., Xn  where Xi is one of the constants SCA, PROCESS, LAST and where constants are not repeated. The usage of the constants supports the of following semantics:    SCA: A notification on every change of the scaStatus attribute for all related authorisation processes is preferred by the TPP.    PROCESS: A notification on all changes of consentStatus or transactionStatus attributes is preferred by the TPP.   LAST: Only a notification on the last consentStatus or transactionStatus as available in the XS2A interface is preferred by the TPP.  This header field may be ignored, if the ASPSP does not support resource notification services for the related TPP.  (optional)
+     * @param psUIPPort The forwarded IP Port header field consists of the corresponding HTTP request IP Port field between PSU and TPP, if available.  (optional)
+     * @param psUAccept The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptCharset The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptEncoding The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUAcceptLanguage The forwarded IP Accept header fields consist of the corresponding HTTP request Accept header fields between PSU and TPP, if available.  (optional)
+     * @param psUUserAgent The forwarded Agent header field of the HTTP request between PSU and TPP, if available.  (optional)
+     * @param psUHttpMethod HTTP method used at the PSU ? TPP interface, if available. Valid values are: * GET * POST * PUT * PATCH * DELETE  (optional)
+     * @param psUDeviceID UUID (Universally Unique Identifier) for a device, which is used by the PSU, if available. UUID identifies either a device or a device dependant application installation. In case of an installation identification this ID need to be unaltered until removal from device.  (optional)
+     * @param psUGeoLocation The forwarded Geo Location of the corresponding http request between PSU and TPP if available.  (optional)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call initiatePaymentAsync(Object xmlSct, PeriodicPaymentInitiationXmlPart2StandingorderTypeJson jsonStandingorderType, UUID xRequestID, String psUIPAddress, String paymentService, String paymentProduct, String digest, String signature, byte[] tpPSignatureCertificate, String PSU_ID, String psUIDType, String psUCorporateID, String psUCorporateIDType, String consentID, Boolean tpPRedirectPreferred, String tpPRedirectURI, String tpPNokRedirectURI, Boolean tpPExplicitAuthorisationPreferred, String tpPRejectionNoFundsPreferred, String tpPNotificationURI, String tpPNotificationContentPreferred, String psUIPPort, String psUAccept, String psUAcceptCharset, String psUAcceptEncoding, String psUAcceptLanguage, String psUUserAgent, String psUHttpMethod, UUID psUDeviceID, String psUGeoLocation, final ApiCallback<PaymentInitationRequestResponse201> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = initiatePaymentValidateBeforeCall(xmlSct, jsonStandingorderType, xRequestID, psUIPAddress, paymentService, paymentProduct, digest, signature, tpPSignatureCertificate, PSU_ID, psUIDType, psUCorporateID, psUCorporateIDType, consentID, tpPRedirectPreferred, tpPRedirectURI, tpPNokRedirectURI, tpPExplicitAuthorisationPreferred, tpPRejectionNoFundsPreferred, tpPNotificationURI, tpPNotificationContentPreferred, psUIPPort, psUAccept, psUAcceptCharset, psUAcceptEncoding, psUAcceptLanguage, psUUserAgent, psUHttpMethod, psUDeviceID, psUGeoLocation, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<PaymentInitationRequestResponse201>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

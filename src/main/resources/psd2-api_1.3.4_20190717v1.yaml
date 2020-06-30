@@ -10792,6 +10792,10 @@ components:
             "Example 3: 'bulk-payments' - 'sepa-credit-transfers'":
               $ref: "#/components/examples/paymentInitiationSctBody_bulk-payments_json"
 
+        multipart/form-data: #For periodic-payments with pain.001
+          schema:
+            $ref: "#/components/schemas/periodicPaymentInitiationMultipartBody"
+
     signingBasket:
       description: |
         Request body for a confirmation of an establishing signing basket request.
