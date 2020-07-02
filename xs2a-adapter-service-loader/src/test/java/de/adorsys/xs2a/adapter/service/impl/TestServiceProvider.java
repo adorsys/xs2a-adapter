@@ -17,13 +17,15 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.service.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
+import de.adorsys.xs2a.adapter.service.provider.DownloadServiceProvider;
+import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 
-public class TestAccountInformationServiceProvider implements AccountInformationServiceProvider {
+public class TestServiceProvider
+    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceProvider, DownloadServiceProvider {
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
@@ -31,6 +33,28 @@ public class TestAccountInformationServiceProvider implements AccountInformation
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
         return new TestAccountInformationService();
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
+                                                                HttpClientFactory httpClientFactory,
+                                                                Pkcs12KeyStore keyStore,
+                                                                LinksRewriter linksRewriter) {
+        return new TestPaymentInitiationService();
+    }
+
+    @Override
+    public Oauth2Service getOauth2Service(Aspsp aspsp,
+                                          HttpClientFactory httpClientFactory,
+                                          Pkcs12KeyStore keyStore) {
+        return new TestOauth2Service();
+    }
+
+    @Override
+    public DownloadService getDownloadService(String baseUrl,
+                                              HttpClientFactory httpClientFactory,
+                                              Pkcs12KeyStore keyStore) {
+        return new TestDownloadService();
     }
 
     @Override

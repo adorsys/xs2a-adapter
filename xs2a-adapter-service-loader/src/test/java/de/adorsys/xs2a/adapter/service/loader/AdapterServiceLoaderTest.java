@@ -1,11 +1,12 @@
 package de.adorsys.xs2a.adapter.service.loader;
 
-import de.adorsys.xs2a.adapter.service.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
 import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
+import de.adorsys.xs2a.adapter.service.impl.TestDownloadService;
+import de.adorsys.xs2a.adapter.service.impl.TestOauth2Service;
+import de.adorsys.xs2a.adapter.service.impl.TestPaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import org.junit.jupiter.api.Assertions;
@@ -158,11 +159,11 @@ public class AdapterServiceLoaderTest {
         Aspsp aspsp = new Aspsp();
         aspsp.setAdapterId(ADAPTER_ID);
 
-        when(aspspRepository.findLike(buildAspsp(BANK_CODE, BIC)))
+        when(aspspRepository.findLike(buildAspsp(BANK_CODE, BIC, null)))
             .thenReturn(Collections.singletonList(aspsp));
         AccountInformationService ais = adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCodeAndBic);
         assertThat(ais).isNotNull();
-        verify(aspspRepository, times(1)).findLike(buildAspsp(BANK_CODE, BIC));
+        verify(aspspRepository, times(1)).findLike(buildAspsp(BANK_CODE, BIC, null));
     }
 
     @Test
@@ -225,7 +226,7 @@ public class AdapterServiceLoaderTest {
 
     @Test
     public void getAccountInformationServiceThrowsIfMoreThanOneAspspFoundByBankCodeAndBic() {
-        when(aspspRepository.findLike(buildAspsp(BANK_CODE, BIC)))
+        when(aspspRepository.findLike(buildAspsp(BANK_CODE, BIC, null)))
             .thenReturn(Arrays.asList(new Aspsp(), new Aspsp()));
 
         Assertions.assertThrows(
@@ -252,10 +253,53 @@ public class AdapterServiceLoaderTest {
         );
     }
 
-    private Aspsp buildAspsp(String bankCode, String bic) {
+    @Test
+    void getPaymentInitiationService() {
+        Aspsp aspsp = buildAspsp(null, null, ADAPTER_ID);
+
+        when(aspspRepository.findById(anyString()))
+            .thenReturn(Optional.of(aspsp));
+
+        PaymentInitiationService actualService = adapterServiceLoader.getPaymentInitiationService(requestHeadersWithAspspId);
+
+        verify(aspspRepository, times(1)).findById(anyString());
+
+        assertThat(actualService).isInstanceOf(TestPaymentInitiationService.class);
+    }
+
+    @Test
+    void getOauth2Service() {
+        Aspsp aspsp = buildAspsp(null, null, ADAPTER_ID);
+
+        when(aspspRepository.findById(anyString()))
+            .thenReturn(Optional.of(aspsp));
+
+        Oauth2Service actualService = adapterServiceLoader.getOauth2Service(requestHeadersWithAspspId);
+
+        verify(aspspRepository, times(1)).findById(anyString());
+
+        assertThat(actualService).isInstanceOf(TestOauth2Service.class);
+    }
+
+    @Test
+    void getDownloadService() {
+        Aspsp aspsp = buildAspsp(null, null, ADAPTER_ID);
+
+        when(aspspRepository.findById(anyString()))
+            .thenReturn(Optional.of(aspsp));
+
+        DownloadService actualService = adapterServiceLoader.getDownloadService(requestHeadersWithAspspId);
+
+        verify(aspspRepository, times(1)).findById(anyString());
+
+        assertThat(actualService).isInstanceOf(TestDownloadService.class);
+    }
+
+    private Aspsp buildAspsp(String bankCode, String bic, String adapterId) {
         Aspsp aspsp = new Aspsp();
         aspsp.setBankCode(bankCode);
         aspsp.setBic(bic);
+        aspsp.setAdapterId(adapterId);
         return aspsp;
     }
 }
