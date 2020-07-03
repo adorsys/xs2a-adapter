@@ -59,7 +59,6 @@
         <module>xs2a-adapter-service-remote</module>
         <module>xs2a-adapter-service-api</module>
         <module>xs2a-adapter-aspsp-registry</module>
-        <module>xs2a-adapter-service-remote-spring</module>
         <module>xs2a-adapter-generated-api</module>
     </modules>
 
