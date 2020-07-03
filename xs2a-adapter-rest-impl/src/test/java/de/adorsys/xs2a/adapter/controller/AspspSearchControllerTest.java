@@ -23,11 +23,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pro.javatar.commons.reader.JsonReader;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AspspSearchControllerTest {
@@ -74,6 +77,28 @@ public class AspspSearchControllerTest {
             .andExpect(status().is(HttpStatus.NOT_FOUND.value()))
             .andReturn();
 
+    }
+
+    @Test
+    void getAspsp_byIban() throws Exception {
+        Aspsp aspsp = buildAspsp();
+        AspspTO aspspTO = mapper.toAspspTO(aspsp);
+
+        when(repository.findByIban(anyString(), any(), anyInt()))
+            .thenReturn(Collections.singletonList(aspsp));
+
+        MvcResult mvcResult = mockMvc.perform(get(AspspSearchApi.V1_APSPS)
+            .queryParam("iban", "DE8749999960000000512"))
+            .andExpect(status().isOk())
+            .andDo(print())
+            .andReturn();
+
+        verify(repository, times(1)).findByIban(anyString(), any(), anyInt());
+
+        List response = JsonReader.getInstance()
+            .getObjectFromString(mvcResult.getResponse().getContentAsString(), List.class);
+
+        assertThat(response.get(0)).isEqualTo(aspspTO);
     }
 
     private Aspsp buildAspsp() {
