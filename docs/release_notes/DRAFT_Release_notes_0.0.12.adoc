@@ -14,6 +14,7 @@ This fixes the issue of model copies getting out-of-sync and prevents its occurr
 - Added equals and hashCode methods to generated models.
 - `fromValue` static factory methods of generated enums returns null for unrecognizied values instead of throwing an exception.
 - Removed `xs2a-adapter-service-remote-spring` module: regular remote is spring dependent.
+- Added support for `periodic-payments/pain.001-sepa-credit-transfers` (multipart).
 
 == Features:
 - Implemented periodic payments support.

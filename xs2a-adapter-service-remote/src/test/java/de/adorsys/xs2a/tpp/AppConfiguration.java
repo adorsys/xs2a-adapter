@@ -17,11 +17,13 @@
 package de.adorsys.xs2a.tpp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.adorsys.xs2a.adapter.config.WebMvcConfig;
 import de.adorsys.xs2a.adapter.controller.ConsentController;
 import de.adorsys.xs2a.adapter.controller.PaymentController;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.remote.api.AccountInformationClient;
 import de.adorsys.xs2a.adapter.remote.api.PaymentInitiationClient;
+import de.adorsys.xs2a.adapter.remote.config.FeignConfiguration;
 import de.adorsys.xs2a.adapter.remote.service.impl.RemoteAccountInformationService;
 import de.adorsys.xs2a.adapter.remote.service.impl.RemotePaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
@@ -29,6 +31,7 @@ import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -37,6 +40,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
+@Import({WebMvcConfig.class, FeignConfiguration.class})
 public class AppConfiguration {
 
     @Autowired

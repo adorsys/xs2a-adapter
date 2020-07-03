@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.http;
 
 import de.adorsys.xs2a.adapter.service.Response;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -13,9 +14,11 @@ public class RequestBuilderImpl implements Request.Builder {
     private String body;
     private BodyType bodyType;
     private Map<String, String> formData;
+    private Map<String, String> xmlParts;
+    private Map<String, String> jsonParts;
 
     private enum BodyType {
-        JSON, EMPTY_JSON, XML
+        JSON, EMPTY_JSON, XML, MULTIPART
     }
 
     public RequestBuilderImpl(HttpClient httpClient, String method, String uri) {
@@ -67,7 +70,7 @@ public class RequestBuilderImpl implements Request.Builder {
 
     @Override
     public boolean jsonBody() {
-        return bodyType != null && bodyType == BodyType.JSON;
+        return bodyType == BodyType.JSON;
     }
 
     @Override
@@ -79,7 +82,48 @@ public class RequestBuilderImpl implements Request.Builder {
 
     @Override
     public boolean xmlBody() {
-        return bodyType != null && bodyType == BodyType.XML;
+        return bodyType == BodyType.XML;
+    }
+
+    @Override
+    public Request.Builder addXmlPart(String name, String xmlPart) {
+        if (xmlParts == null) {
+            xmlParts = new LinkedHashMap<>();
+        }
+        xmlParts.put(name, xmlPart);
+        bodyType = BodyType.MULTIPART;
+        return this;
+    }
+
+    @Override
+    public Map<String, String> xmlParts() {
+        if (xmlParts == null) {
+            return Collections.emptyMap();
+        }
+        return xmlParts;
+    }
+
+    @Override
+    public Request.Builder addJsonPart(String name, String jsonPart) {
+        if (jsonParts == null) {
+            jsonParts = new LinkedHashMap<>();
+        }
+        jsonParts.put(name, jsonPart);
+        bodyType = BodyType.MULTIPART;
+        return this;
+    }
+
+    @Override
+    public Map<String, String> jsonParts() {
+        if (jsonParts == null) {
+            return Collections.emptyMap();
+        }
+        return jsonParts;
+    }
+
+    @Override
+    public boolean multipartBody() {
+        return bodyType == BodyType.MULTIPART;
     }
 
     @Override
@@ -99,7 +143,7 @@ public class RequestBuilderImpl implements Request.Builder {
 
     @Override
     public boolean emptyBody() {
-        return bodyType != null && bodyType == BodyType.EMPTY_JSON;
+        return bodyType == BodyType.EMPTY_JSON;
     }
 
     @Override

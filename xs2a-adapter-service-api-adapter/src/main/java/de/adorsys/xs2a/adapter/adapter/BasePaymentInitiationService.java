@@ -114,16 +114,23 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
         Request.Builder requestBuilder = httpClient.post(uri)
             .headers(headersMap);
-        switch (paymentProduct.getMediaType()) {
-            case MediaType.APPLICATION_JSON:
-                requestBuilder.jsonBody(jsonMapper.writeValueAsString(
-                    jsonMapper.convertValue(body, getPaymentInitiationBodyClass(paymentService))));
-                break;
-            case MediaType.APPLICATION_XML:
-                requestBuilder.xmlBody((String) body);
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported payment product media type");
+        if (body instanceof PeriodicPaymentInitiationMultipartBody) {
+            PeriodicPaymentInitiationMultipartBody multipartBody = (PeriodicPaymentInitiationMultipartBody) body;
+            requestBuilder.addXmlPart("xml_sct", (String) multipartBody.getXml_sct());
+            requestBuilder.addJsonPart("json_standingorderType",
+                jsonMapper.writeValueAsString(multipartBody.getJson_standingorderType()));
+        } else {
+            switch (paymentProduct.getMediaType()) {
+                case MediaType.APPLICATION_JSON:
+                    requestBuilder.jsonBody(jsonMapper.writeValueAsString(
+                        jsonMapper.convertValue(body, getPaymentInitiationBodyClass(paymentService))));
+                    break;
+                case MediaType.APPLICATION_XML:
+                    requestBuilder.xmlBody((String) body);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unsupported payment product media type");
+            }
         }
 
         Response<T> response = requestBuilder.send(requestBuilderInterceptor, responseHandler);

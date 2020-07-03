@@ -33,6 +33,17 @@ public interface PaymentApi {
         @RequestBody String body);
 
     @RequestMapping(
+        value = "/v1/{payment-service}/{payment-product}",
+        method = RequestMethod.POST,
+        consumes = "multipart/form-data"
+    )
+    ResponseEntity<PaymentInitationRequestResponse201> initiatePayment(
+        @PathVariable("payment-service") PaymentService paymentService,
+        @PathVariable("payment-product") PaymentProduct paymentProduct,
+        @RequestParam Map<String, String> parameters, @RequestHeader Map<String, String> headers,
+        PeriodicPaymentInitiationMultipartBody body);
+
+    @RequestMapping(
         value = "/v1/{payment-service}/{payment-product}/{paymentId}",
         method = RequestMethod.GET
     )
