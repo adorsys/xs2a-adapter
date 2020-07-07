@@ -64,6 +64,15 @@ public class RemotePaymentInitiationService implements PaymentInitiationService 
                 requestHeaders.toMap(),
                 (String) o
             );
+        } else if (o instanceof PeriodicPaymentInitiationMultipartBody) {
+            PeriodicPaymentInitiationMultipartBody body = (PeriodicPaymentInitiationMultipartBody) o;
+            responseEntity = client.initiatePayment(
+                PaymentService.fromValue(paymentService),
+                PaymentProduct.fromValue(paymentProduct),
+                requestParams.toMap(),
+                requestHeaders.toMap(),
+                body
+            );
         } else {
             responseEntity = client.initiatePayment(
                 PaymentService.fromValue(paymentService),

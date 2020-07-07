@@ -10,6 +10,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.io.EmptyInputStream;
 import org.apache.http.message.BasicNameValuePair;
@@ -84,6 +86,17 @@ public class ApacheHttpClient implements HttpClient {
                     } catch (UnsupportedEncodingException e) {
                         throw new UncheckedIOException(e);
                     }
+                } else if (requestBuilder.multipartBody()) {
+                    MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create()
+                        // static boundary for equal requests in send and content methods
+                        .setBoundary("KfIPVSuloXL9RBOp_4z784vc73PWKzOrr6Ps");
+                    requestBuilder.xmlParts().forEach((name, value) -> {
+                        multipartEntityBuilder.addPart(name, new StringBody(value, ContentType.APPLICATION_XML));
+                    });
+                    requestBuilder.jsonParts().forEach((name, value) -> {
+                        multipartEntityBuilder.addPart(name, new StringBody(value, ContentType.APPLICATION_JSON));
+                    });
+                    post.setEntity(multipartEntityBuilder.build());
                 }
                 return post;
             case PUT:

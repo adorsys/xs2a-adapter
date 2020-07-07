@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.config;
 
-import org.jboss.logging.MDC;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.slf4j.MDC;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

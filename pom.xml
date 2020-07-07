@@ -59,7 +59,6 @@
         <module>xs2a-adapter-service-remote</module>
         <module>xs2a-adapter-service-api</module>
         <module>xs2a-adapter-aspsp-registry</module>
-        <module>xs2a-adapter-service-remote-spring</module>
         <module>xs2a-adapter-generated-api</module>
     </modules>
 
@@ -75,9 +74,8 @@
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
 
         <!-- spring -->
-        <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
-        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
-        <spring-data-releasetrain.version>Lovelace-SR10</spring-data-releasetrain.version>
+        <spring-boot.version>2.3.0.RELEASE</spring-boot.version>
+        <spring-cloud.version>Hoxton.SR6</spring-cloud.version>
 
         <!-- swagger -->
         <swagger-ui.version>3.25.0</swagger-ui.version>
@@ -112,14 +110,6 @@
         <dependencies>
 
             <!-- spring dependencies -->
-
-            <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-releasetrain</artifactId>
-                <version>${spring-data-releasetrain.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
 
             <dependency>
                 <groupId>org.springframework.cloud</groupId>

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.Field;
 import java.util.EnumSet;
 import java.util.Map;
 
@@ -30,6 +31,22 @@ public class PaymentController extends AbstractController implements PaymentApi 
         super(objectMapper);
         this.paymentService = paymentService;
         this.headersMapper = headersMapper;
+    }
+
+    @Override
+    public ResponseEntity<PaymentInitationRequestResponse201> initiatePayment(
+        PaymentService paymentService,
+        PaymentProduct paymentProduct,
+        Map<String, String> parameters,
+        Map<String, String> headers,
+        PeriodicPaymentInitiationMultipartBody body) {
+
+        // multipart request parts passed in the @RequestParam annotated parameter
+        // create problems downstream when sent in the outgoing request as query parameters
+        for (Field field : body.getClass().getDeclaredFields()) {
+            parameters.remove(field.getName());
+        }
+        return initiatePaymentInternal(paymentService, paymentProduct, parameters, headers, body);
     }
 
     @Override
