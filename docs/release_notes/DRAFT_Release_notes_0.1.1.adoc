@@ -12,4 +12,4 @@
 
 
 == Fixes:
-
+- Fixed split packages (fiducia-adapter)
