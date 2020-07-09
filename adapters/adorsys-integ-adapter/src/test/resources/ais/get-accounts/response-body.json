@@ -1,0 +1,24 @@
+{
+  "accounts": [
+    {
+      "resourceId": "HGlNA7CqT8sjd_1aV2v2LI",
+      "iban": "DE38760700240320465700",
+      "currency": "EUR",
+      "name": "max.musterman",
+      "displayName": "mock display name",
+      "product": "Cash24",
+      "cashAccountType": "CASH",
+      "status": "enabled",
+      "linkedAccounts": "vEXGW4oQR-YincmiTa4KaM",
+      "usage": "PRIV",
+      "_links": {
+        "balances": {
+          "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/balances"
+        },
+        "transactions": {
+          "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/transactions"
+        }
+      }
+    }
+  ]
+}

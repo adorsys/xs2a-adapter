@@ -1,0 +1,1977 @@
+{
+  "account": {
+    "iban": "DE38760700240320465700",
+    "currency": "EUR"
+  },
+  "transactions": {
+    "booked": [
+      {
+        "transactionId": "v6xAdWKqRYkip16Q3zs1yQ",
+        "endToEndId": "v6xAdWKqRYkip16Q3zs1yQ",
+        "bookingDate": "2020-07-03",
+        "valueDate": "2020-07-03",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1580120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-07-03T17:32:38.878+02:00",
+          "referenceDate": "2020-07-03"
+        }
+      },
+      {
+        "transactionId": "6_iuFgXfSX4ozchDIgLXRw",
+        "endToEndId": "6_iuFgXfSX4ozchDIgLXRw",
+        "bookingDate": "2020-07-03",
+        "valueDate": "2020-07-03",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1570120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-07-03T17:05:42.787+02:00",
+          "referenceDate": "2020-07-03"
+        }
+      },
+      {
+        "transactionId": "ZmGoVU7MRN0rh-yjG3Wzik",
+        "endToEndId": "ZmGoVU7MRN0rh-yjG3Wzik",
+        "bookingDate": "2020-07-03",
+        "valueDate": "2020-07-03",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1560120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-07-03T16:44:35.137+02:00",
+          "referenceDate": "2020-07-03"
+        }
+      },
+      {
+        "transactionId": "hoUyL_cLSu4qsrzouKkgyE",
+        "endToEndId": "hoUyL_cLSu4qsrzouKkgyE",
+        "bookingDate": "2020-07-03",
+        "valueDate": "2020-07-03",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1550120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-07-02T15:54:26.343+02:00",
+          "referenceDate": "2020-07-03"
+        }
+      },
+      {
+        "transactionId": "B9RdZAVSS08jEsqRi-wxgE",
+        "endToEndId": "B9RdZAVSS08jEsqRi-wxgE",
+        "bookingDate": "2020-07-02",
+        "valueDate": "2020-07-02",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1540120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-16T14:03:39.757+02:00",
+          "referenceDate": "2020-07-02"
+        }
+      },
+      {
+        "transactionId": "labRhkivRisuqJeXFzE6u8",
+        "endToEndId": "labRhkivRisuqJeXFzE6u8",
+        "bookingDate": "2020-06-16",
+        "valueDate": "2020-06-16",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1530120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-16T13:59:54.531+02:00",
+          "referenceDate": "2020-06-16"
+        }
+      },
+      {
+        "transactionId": "Z68ooKyUQV4qObbLued-k8",
+        "endToEndId": "Z68ooKyUQV4qObbLued-k8",
+        "bookingDate": "2020-06-16",
+        "valueDate": "2020-06-16",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1520120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-16T13:46:34.142+02:00",
+          "referenceDate": "2020-06-16"
+        }
+      },
+      {
+        "transactionId": "-H5sxUpVSuQnojb2f6XNlM",
+        "endToEndId": "-H5sxUpVSuQnojb2f6XNlM",
+        "bookingDate": "2020-06-16",
+        "valueDate": "2020-06-16",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1510120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-15T14:22:00.717+02:00",
+          "referenceDate": "2020-06-16"
+        }
+      },
+      {
+        "transactionId": "6v1e7qv1QjUnu6IfVfxP1c",
+        "endToEndId": "6v1e7qv1QjUnu6IfVfxP1c",
+        "bookingDate": "2020-06-15",
+        "valueDate": "2020-06-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1500120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-15T14:07:41.283+02:00",
+          "referenceDate": "2020-06-15"
+        }
+      },
+      {
+        "transactionId": "7RVyNKEdQr0mge3dLNuoJ0",
+        "endToEndId": "7RVyNKEdQr0mge3dLNuoJ0",
+        "bookingDate": "2020-06-15",
+        "valueDate": "2020-06-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1490120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-15T13:39:20.006+02:00",
+          "referenceDate": "2020-06-15"
+        }
+      },
+      {
+        "transactionId": "jO2Qz1qKTiEjthJfy1V0QI",
+        "endToEndId": "jO2Qz1qKTiEjthJfy1V0QI",
+        "bookingDate": "2020-06-15",
+        "valueDate": "2020-06-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1480120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-15T13:29:19.463+02:00",
+          "referenceDate": "2020-06-15"
+        }
+      },
+      {
+        "transactionId": "UHEWrezORHUvyYPhA9_QkM",
+        "endToEndId": "UHEWrezORHUvyYPhA9_QkM",
+        "bookingDate": "2020-06-15",
+        "valueDate": "2020-06-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1470120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-15T13:16:51.825+02:00",
+          "referenceDate": "2020-06-15"
+        }
+      },
+      {
+        "transactionId": "k5AphkUtQYErwwFoxCkshM",
+        "endToEndId": "k5AphkUtQYErwwFoxCkshM",
+        "bookingDate": "2020-06-15",
+        "valueDate": "2020-06-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1460120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-15T13:10:19.603+02:00",
+          "referenceDate": "2020-06-15"
+        }
+      },
+      {
+        "transactionId": "WZ7ohWq8TTksBjaAkeTgdU",
+        "endToEndId": "WZ7ohWq8TTksBjaAkeTgdU",
+        "bookingDate": "2020-06-15",
+        "valueDate": "2020-06-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1450120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-15T12:51:22.956+02:00",
+          "referenceDate": "2020-06-15"
+        }
+      },
+      {
+        "transactionId": "vWZ9Ec9WRTYmS6ecbBYHXQ",
+        "endToEndId": "vWZ9Ec9WRTYmS6ecbBYHXQ",
+        "bookingDate": "2020-06-15",
+        "valueDate": "2020-06-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1440120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-15T12:36:10.22+02:00",
+          "referenceDate": "2020-06-15"
+        }
+      },
+      {
+        "transactionId": "YKczxEU2SqshOrvee8vQuU",
+        "endToEndId": "YKczxEU2SqshOrvee8vQuU",
+        "bookingDate": "2020-06-15",
+        "valueDate": "2020-06-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1430120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-15T11:51:12.87+02:00",
+          "referenceDate": "2020-06-15"
+        }
+      },
+      {
+        "transactionId": "mbAI7c5IQXws7FdsTPfDoc",
+        "endToEndId": "mbAI7c5IQXws7FdsTPfDoc",
+        "bookingDate": "2020-06-15",
+        "valueDate": "2020-06-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1420120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-15T11:38:39.581+02:00",
+          "referenceDate": "2020-06-15"
+        }
+      },
+      {
+        "transactionId": "zDl6gGPLRl0sytAILwFbLo",
+        "endToEndId": "zDl6gGPLRl0sytAILwFbLo",
+        "bookingDate": "2020-06-15",
+        "valueDate": "2020-06-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1410120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-15T11:18:32.534+02:00",
+          "referenceDate": "2020-06-15"
+        }
+      },
+      {
+        "transactionId": "ZHMfDh7QQbsnMY_EKRHSb0",
+        "endToEndId": "ZHMfDh7QQbsnMY_EKRHSb0",
+        "bookingDate": "2020-06-15",
+        "valueDate": "2020-06-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1400120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-15T10:56:23.537+02:00",
+          "referenceDate": "2020-06-15"
+        }
+      },
+      {
+        "transactionId": "3_7bFiRxSvAvxoSpHYSru8",
+        "endToEndId": "3_7bFiRxSvAvxoSpHYSru8",
+        "bookingDate": "2020-06-15",
+        "valueDate": "2020-06-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1390120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-15T10:51:19.379+02:00",
+          "referenceDate": "2020-06-15"
+        }
+      },
+      {
+        "transactionId": "VdWszsZDQOcqpWI3G3fD64",
+        "endToEndId": "VdWszsZDQOcqpWI3G3fD64",
+        "bookingDate": "2020-06-15",
+        "valueDate": "2020-06-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1380120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-15T10:45:40.926+02:00",
+          "referenceDate": "2020-06-15"
+        }
+      },
+      {
+        "transactionId": "mBXcDaUQRPgoELQhn7awLM",
+        "endToEndId": "mBXcDaUQRPgoELQhn7awLM",
+        "bookingDate": "2020-06-15",
+        "valueDate": "2020-06-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1370120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-05T17:16:32.024+02:00",
+          "referenceDate": "2020-06-15"
+        }
+      },
+      {
+        "transactionId": "-pCE4iHnRU0hAFzGeZXKw4",
+        "endToEndId": "-pCE4iHnRU0hAFzGeZXKw4",
+        "bookingDate": "2020-06-05",
+        "valueDate": "2020-06-05",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1360120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-06-05T16:26:10.152+02:00",
+          "referenceDate": "2020-06-05"
+        }
+      },
+      {
+        "transactionId": "iCcJ5fn5RXMoQACPGkQl7o",
+        "endToEndId": "iCcJ5fn5RXMoQACPGkQl7o",
+        "bookingDate": "2020-06-05",
+        "valueDate": "2020-06-05",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1350120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-05-31T00:00:49.057+02:00",
+          "referenceDate": "2020-06-05"
+        }
+      },
+      {
+        "transactionId": "iEQHp8JHR8IpVQ3_2DTNdU",
+        "endToEndId": "iEQHp8JHR8IpVQ3_2DTNdU",
+        "bookingDate": "2020-05-31",
+        "valueDate": "2020-05-31",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1340120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-05-28T15:53:49.599+02:00",
+          "referenceDate": "2020-05-31"
+        }
+      },
+      {
+        "transactionId": "A6FLlFIuTHkjN37Vz_tAiU",
+        "endToEndId": "A6FLlFIuTHkjN37Vz_tAiU",
+        "bookingDate": "2020-05-28",
+        "valueDate": "2020-05-28",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1330120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-05-17T00:01:06.824+02:00",
+          "referenceDate": "2020-05-28"
+        }
+      },
+      {
+        "transactionId": "fJJw_aJnRoIoLAE7GZ_270",
+        "endToEndId": "fJJw_aJnRoIoLAE7GZ_270",
+        "bookingDate": "2020-05-17",
+        "valueDate": "2020-05-17",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1320120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-05-15T12:09:46.454+02:00",
+          "referenceDate": "2020-05-17"
+        }
+      },
+      {
+        "transactionId": "oxfGK_3_T8ErOKl2RPBYjc",
+        "endToEndId": "oxfGK_3_T8ErOKl2RPBYjc",
+        "bookingDate": "2020-05-15",
+        "valueDate": "2020-05-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "100000"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1310120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-05-15T12:09:37.663+02:00",
+          "referenceDate": "2020-05-15"
+        }
+      },
+      {
+        "transactionId": "35ksos2GT4QtNZl9N-9iaA",
+        "endToEndId": "35ksos2GT4QtNZl9N-9iaA",
+        "bookingDate": "2020-05-15",
+        "valueDate": "2020-05-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "100000"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1210120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-05-15T10:26:39.209+02:00",
+          "referenceDate": "2020-05-15"
+        }
+      },
+      {
+        "transactionId": "RyxLc3JkSFwkBrqWzj5aW0",
+        "endToEndId": "RyxLc3JkSFwkBrqWzj5aW0",
+        "bookingDate": "2020-05-15",
+        "valueDate": "2020-05-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "100000"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1110120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-05-15T10:20:40.059+02:00",
+          "referenceDate": "2020-05-15"
+        }
+      },
+      {
+        "transactionId": "O5buWSLNSRco5HpZeZy9rM",
+        "endToEndId": "O5buWSLNSRco5HpZeZy9rM",
+        "bookingDate": "2020-05-15",
+        "valueDate": "2020-05-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "100000"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1010120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-05-15T10:19:54.762+02:00",
+          "referenceDate": "2020-05-15"
+        }
+      },
+      {
+        "transactionId": "LHWRTl_lT5crEMhdi05QIw",
+        "endToEndId": "LHWRTl_lT5crEMhdi05QIw",
+        "bookingDate": "2020-05-15",
+        "valueDate": "2020-05-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "100000"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "910120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-05-15T10:19:20.838+02:00",
+          "referenceDate": "2020-05-15"
+        }
+      },
+      {
+        "transactionId": "4ui3P29_RiUkO6sAte5TLw",
+        "endToEndId": "4ui3P29_RiUkO6sAte5TLw",
+        "bookingDate": "2020-05-15",
+        "valueDate": "2020-05-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "100000"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "810120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-05-15T10:16:29.692+02:00",
+          "referenceDate": "2020-05-15"
+        }
+      },
+      {
+        "transactionId": "rn0HG6DKSlgj3ZF8S473jc",
+        "endToEndId": "rn0HG6DKSlgj3ZF8S473jc",
+        "bookingDate": "2020-05-15",
+        "valueDate": "2020-05-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "100000"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "710120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-05-15T10:15:00.188+02:00",
+          "referenceDate": "2020-05-15"
+        }
+      },
+      {
+        "transactionId": "BPpydb5pT2MvG-ybMxic5g",
+        "endToEndId": "BPpydb5pT2MvG-ybMxic5g",
+        "bookingDate": "2020-05-15",
+        "valueDate": "2020-05-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "100000"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "610120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-05-15T10:14:27.159+02:00",
+          "referenceDate": "2020-05-15"
+        }
+      },
+      {
+        "transactionId": "KP5jXzbeQscs8r6acxXxx8",
+        "endToEndId": "KP5jXzbeQscs8r6acxXxx8",
+        "bookingDate": "2020-05-15",
+        "valueDate": "2020-05-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "100000"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "510120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-05-15T10:04:38.915+02:00",
+          "referenceDate": "2020-05-15"
+        }
+      },
+      {
+        "transactionId": "_M7lgmHoS7wpnELGa9wYlc",
+        "endToEndId": "_M7lgmHoS7wpnELGa9wYlc",
+        "bookingDate": "2020-05-15",
+        "valueDate": "2020-05-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "100000"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "410120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-05-15T10:03:03.603+02:00",
+          "referenceDate": "2020-05-15"
+        }
+      },
+      {
+        "transactionId": "pxXTXOtgTeomRugqQIGPms",
+        "endToEndId": "pxXTXOtgTeomRugqQIGPms",
+        "bookingDate": "2020-05-15",
+        "valueDate": "2020-05-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "100000"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "310120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-05-15T09:51:34.57+02:00",
+          "referenceDate": "2020-05-15"
+        }
+      },
+      {
+        "transactionId": "W_LDBQciT-8hPL6BCV2Uoc",
+        "endToEndId": "W_LDBQciT-8hPL6BCV2Uoc",
+        "bookingDate": "2020-05-15",
+        "valueDate": "2020-05-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "100000"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "210120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-05-15T09:49:43.795+02:00",
+          "referenceDate": "2020-05-15"
+        }
+      },
+      {
+        "transactionId": "1Yy_6tHBRTIkM5GutRBck8",
+        "endToEndId": "1Yy_6tHBRTIkM5GutRBck8",
+        "bookingDate": "2020-05-15",
+        "valueDate": "2020-05-15",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "100000"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "110120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-04-29T13:46:49.307+02:00",
+          "referenceDate": "2020-05-15"
+        }
+      },
+      {
+        "transactionId": "JXCuuYWcQ5Mnsli84NUY4U",
+        "endToEndId": "20180617T181000",
+        "bookingDate": "2020-04-29",
+        "valueDate": "2020-04-29",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "-1280.00"
+        },
+        "creditorName": "Marion Mueller",
+        "creditorAccount": {
+          "iban": "DE69760700240340283600",
+          "currency": "EUR"
+        },
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Payment",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-IRCT-STDO",
+        "proprietaryBankTransactionCode": "PMNT-IRCT-STDO",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "10120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-04-29T13:46:49.03+02:00",
+          "referenceDate": "2020-04-29"
+        }
+      },
+      {
+        "transactionId": "LPN3E-JVR-wtDnle8pqcdI",
+        "endToEndId": "20180614T110000",
+        "bookingDate": "2020-04-29",
+        "valueDate": "2020-04-29",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "-2300.00"
+        },
+        "creditorName": "Anton Brueckner",
+        "creditorAccount": {
+          "iban": "DE80760700240271232400",
+          "currency": "EUR"
+        },
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Payment",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-IRCT-STDO",
+        "proprietaryBankTransactionCode": "PMNT-IRCT-STDO",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "11400.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-04-29T13:46:48.33+02:00",
+          "referenceDate": "2020-04-29"
+        }
+      },
+      {
+        "transactionId": "Wp8B75Q7SLAlFYVXkLI6kc",
+        "endToEndId": "20180601T131000",
+        "bookingDate": "2020-04-29",
+        "valueDate": "2020-04-29",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "700.00"
+        },
+        "creditorName": "Max Musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorAccount": {
+          "iban": "DE80760700240271232400",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Payment",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-IRCT-STDO",
+        "proprietaryBankTransactionCode": "PMNT-IRCT-STDO",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "13700.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-04-29T13:46:47.993+02:00",
+          "referenceDate": "2020-04-29"
+        }
+      },
+      {
+        "transactionId": "qeKFhD7gQ8MuuJ0lc9Ijmk",
+        "endToEndId": "20180601T20180601",
+        "bookingDate": "2020-04-29",
+        "valueDate": "2020-04-29",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "3000"
+        },
+        "creditorName": "Max Musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorAccount": {
+          "iban": "DE69760700240340283600",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Payment",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-IRCT-STDO",
+        "proprietaryBankTransactionCode": "PMNT-IRCT-STDO",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "13000.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-04-29T13:46:47.089+02:00",
+          "referenceDate": "2020-04-29"
+        }
+      },
+      {
+        "transactionId": "vyUYXa7NQUEgtxCvm8G56Q",
+        "endToEndId": "vyUYXa7NQUEgtxCvm8G56Q",
+        "bookingDate": "2020-04-29",
+        "valueDate": "2020-04-29",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference",
+            "referenceType": "Mock reference type",
+            "referenceIssuer": "Mock reference issuer"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "10000.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-04-29T13:46:47.082+02:00",
+          "referenceDate": "2020-04-29"
+        }
+      }
+    ],
+    "_links": {
+      "account": {
+        "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI"
+      },
+      "balances": {
+        "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/balances"
+      }
+    }
+  },
+  "balances": [
+    {
+      "balanceAmount": {
+        "currency": "EUR",
+        "amount": "1580120.00"
+      },
+      "balanceType": "interimAvailable",
+      "lastChangeDateTime": "2020-07-03T17:40:16.286+02:00",
+      "referenceDate": "2020-07-07"
+    },
+    {
+      "balanceAmount": {
+        "currency": "EUR",
+        "amount": "1580120.00"
+      },
+      "balanceType": "closingBooked",
+      "lastChangeDateTime": "2020-07-03T17:40:16.286+02:00",
+      "referenceDate": "2020-07-07"
+    }
+  ],
+  "_links": {
+    "balances": {
+      "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/balances"
+    },
+    "download": {
+      "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/transactions/download/ZG93bmxvYWRJZA=="
+    }
+  }
+}
