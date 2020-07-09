@@ -49,7 +49,7 @@ public class AdorsysIntegServiceProvider
                                                                 LinksRewriter linksRewriter) {
         return new BasePaymentInitiationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
-            getInterceptor(keyStore),
+            keyStore != null ? getInterceptor(keyStore) : null,
             linksRewriter);
     }
 

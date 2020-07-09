@@ -18,12 +18,13 @@ package de.adorsys.xs2a.adapter.adorsys.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
-import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
+import de.adorsys.xs2a.adapter.adorsys.service.provider.AdorsysIntegServiceProvider;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.JsonMapper;
+import de.adorsys.xs2a.adapter.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
@@ -46,17 +47,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class PaymentInitiationServiceWireMockTest {
 
-    public static final String PAYMENT_ID = "W_pFk5-4OqzsXpxKLs9h97q8bfPnV3XKAm5MxM8dnT60LxXyPaGedv4HPQtEQ8-mcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q";
-    public static final String AUTHORISATION_ID = "259b8215-d14e-493a-ba01-c2243a9ff86a";
-    public static final String PERIODIC_PAYMENT_ID = "RWPbX-Qgnmjb5yixTXwywIU9xxlutmt70MthNORZI9pVXXwjlE_8wK5HaZwohPtAcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q";
-    public static final String PERIODIC_AUTHORISATION_ID = "946d8445-7548-43e0-8cfc-f092d7ebc6cb";
+    private static final String PAYMENT_ID = "W_pFk5-4OqzsXpxKLs9h97q8bfPnV3XKAm5MxM8dnT60LxXyPaGedv4HPQtEQ8-mcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q";
+    private static final String AUTHORISATION_ID = "259b8215-d14e-493a-ba01-c2243a9ff86a";
+    private static final String PERIODIC_PAYMENT_ID = "RWPbX-Qgnmjb5yixTXwywIU9xxlutmt70MthNORZI9pVXXwjlE_8wK5HaZwohPtAcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q";
+    private static final String PERIODIC_AUTHORISATION_ID = "946d8445-7548-43e0-8cfc-f092d7ebc6cb";
 
-    private final ObjectMapper objectMapper = new JsonMapper().getNewInstance();
+    private final ObjectMapper objectMapper = new JacksonObjectMapper().copyObjectMapper();
     private ResourceReader reader = JsonReader.getInstance(objectMapper);
-
     private static PaymentInitiationService service;
-
-    //No-args constructor will start on port 8080, no HTTPS
     private static WireMockServer wireMockServer;
 
     @BeforeAll
@@ -66,11 +64,12 @@ public class PaymentInitiationServiceWireMockTest {
 
 
         HttpClient httpClient = new ApacheHttpClient(HttpClientBuilder.create().build());
+        HttpClientFactory httpClientFactory = (adapterId, qwacAlias, supportedCipherSuites) -> httpClient;
         LinksRewriter linksRewriter = new IdentityLinksRewriter();
         Aspsp aspsp = new Aspsp();
         aspsp.setUrl("http://localhost:" + wireMockServer.port());
 
-        service = new BasePaymentInitiationService(aspsp, httpClient, null, linksRewriter);
+        service = new AdorsysIntegServiceProvider().getPaymentInitiationService(aspsp, httpClientFactory, null, linksRewriter);
     }
 
     @AfterAll

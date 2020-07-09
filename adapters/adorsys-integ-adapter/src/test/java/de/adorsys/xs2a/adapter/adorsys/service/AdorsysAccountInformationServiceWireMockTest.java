@@ -22,7 +22,7 @@ import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.JsonMapper;
+import de.adorsys.xs2a.adapter.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
@@ -44,15 +44,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AdorsysAccountInformationServiceWireMockTest {
 
-    public static final String ACCOUNT_ID = "HGlNA7CqT8sjd_1aV2v2LI";
-    private final ObjectMapper objectMapper = new JsonMapper().getNewInstance();
+    private static final String ACCOUNT_ID = "HGlNA7CqT8sjd_1aV2v2LI";
+    private static final String CONSENT_ID = "LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q";
+    private static final String AUTHORISATION_ID = "19636dbe-99db-4d0f-90de-2573057bc7e4";
+
+    private final ObjectMapper objectMapper = new JacksonObjectMapper().copyObjectMapper();
     private ResourceReader reader = JsonReader.getInstance(objectMapper);
-
     private static AdorsysAccountInformationService service;
-
-    //No-args constructor will start on port 8080, no HTTPS
-    public static final String CONSENT_ID = "LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q";
-    public static final String AUTHORISATION_ID = "19636dbe-99db-4d0f-90de-2573057bc7e4";
     private static WireMockServer wireMockServer;
 
     @BeforeAll
