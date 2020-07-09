@@ -1,57 +1,29 @@
+/*
+ * Copyright 2018-2018 adorsys GmbH & Co KG
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package de.adorsys.xs2a.adapter.http;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.UncheckedIOException;
 
-public class JsonMapper {
-    private final ObjectMapper objectMapper;
+public interface JsonMapper {
+    String writeValueAsString(Object value);
 
-    public JsonMapper() {
-        objectMapper = new ObjectMapper();
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        objectMapper.registerModule(new Psd2DateTimeModule());
-    }
+    <T> T readValue(InputStream inputStream, Class<T> klass);
 
-    public String writeValueAsString(Object value) {
-        try {
-            return objectMapper.writeValueAsString(value);
-        } catch (JsonProcessingException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
+    <T> T readValue(String s, Class<T> klass);
 
-    public <T> T readValue(InputStream inputStream, Class<T> klass) {
-        try {
-            return objectMapper.readValue(inputStream, klass);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
-
-    public <T> T readValue(String s, Class<T> klass) {
-        try {
-            return objectMapper.readValue(s, klass);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
-
-    public <T> T convertValue(Object value, Class<T> klass) {
-        return objectMapper.convertValue(value, klass);
-    }
-
-    public ObjectMapper getNewInstance() {
-        return objectMapper.copy();
-    }
+    <T> T convertValue(Object value, Class<T> klass);
 }
