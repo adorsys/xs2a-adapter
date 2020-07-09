@@ -18,8 +18,10 @@ package de.adorsys.xs2a.adapter.fiducia;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.api.model.*;
-import de.adorsys.xs2a.adapter.fiducia.mapper.FiduciaResponseMapper;
+import de.adorsys.xs2a.adapter.fiducia.mapper.FiduciaMapper;
+import de.adorsys.xs2a.adapter.fiducia.model.FiduciaOK200TransactionDetails;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaStartScaProcessResponse;
+import de.adorsys.xs2a.adapter.fiducia.model.FiduciaTransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaUpdatePsuDataResponse;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
@@ -44,7 +46,7 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
             "The booking status from the request has to be changed to the supported ones.",
         SUPPORTED_BOOKING_STATUSES
     );
-    private static final FiduciaResponseMapper responseMapper = Mappers.getMapper(FiduciaResponseMapper.class);
+    private static final FiduciaMapper mapper = Mappers.getMapper(FiduciaMapper.class);
 
     public FiduciaAccountInformationService(Aspsp aspsp,
                                             HttpClient httpClient,
@@ -91,10 +93,14 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
     }
 
     @Override
-    public Response<TransactionsResponse200Json> getTransactionList(String accountId, RequestHeaders requestHeaders, RequestParams requestParams) {
-
-
-        return super.getTransactionList(accountId, requestHeaders, requestParams);
+    public Response<TransactionsResponse200Json> getTransactionList(String accountId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    RequestParams requestParams) {
+        return getTransactionList(accountId,
+            requestHeaders,
+            requestParams,
+            FiduciaTransactionsResponse200Json.class,
+            mapper::toTransactionsResponse200Json);
     }
 
     @Override
@@ -126,6 +132,19 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
     }
 
     @Override
+    public Response<OK200TransactionDetails> getTransactionDetails(String accountId,
+                                                                   String transactionId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams) {
+        return getTransactionDetails(accountId,
+            transactionId,
+            requestHeaders,
+            requestParams,
+            FiduciaOK200TransactionDetails.class,
+            mapper::toOK200TransactionDetails);
+    }
+
+    @Override
     public Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(
         String consentId,
         String authorisationId,
@@ -139,7 +158,7 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
             requestParams,
             selectPsuAuthenticationMethod,
             FiduciaUpdatePsuDataResponse.class,
-            responseMapper::toSelectPsuAuthenticationMethodResponse);
+            mapper::toSelectPsuAuthenticationMethodResponse);
     }
 
     @Override
@@ -154,6 +173,6 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
             requestParams,
             updatePsuAuthentication,
             FiduciaStartScaProcessResponse.class,
-            responseMapper::toStartScaProcessResponse);
+            mapper::toStartScaProcessResponse);
     }
 }

@@ -26,38 +26,14 @@ import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ApacheHttpClient implements HttpClient {
+public class ApacheHttpClient extends AbstractHttpClient {
     private static final Logger logger = LoggerFactory.getLogger(ApacheHttpClient.class);
     private final Xs2aHttpLogSanitizer logSanitizer = new Xs2aHttpLogSanitizer();
-    private static final String GET = "GET";
-    private static final String POST = "POST";
-    private static final String PUT = "PUT";
-    private static final String DELETE = "DELETE";
 
     private final CloseableHttpClient httpClient;
 
     public ApacheHttpClient(CloseableHttpClient httpClient) {
         this.httpClient = httpClient;
-    }
-
-    @Override
-    public Request.Builder get(String uri) {
-        return new RequestBuilderImpl(this, GET, uri);
-    }
-
-    @Override
-    public Request.Builder post(String uri) {
-        return new RequestBuilderImpl(this, POST, uri);
-    }
-
-    @Override
-    public Request.Builder put(String uri) {
-        return new RequestBuilderImpl(this, PUT, uri);
-    }
-
-    @Override
-    public Request.Builder delete(String uri) {
-        return new RequestBuilderImpl(this, DELETE, uri);
     }
 
     @Override

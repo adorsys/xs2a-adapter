@@ -6,9 +6,9 @@ import org.mapstruct.factory.Mappers;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-class FiduciaResponseMapperTest {
+class FiduciaMapperTest {
 
-    private final FiduciaResponseMapper mapper = Mappers.getMapper(FiduciaResponseMapper.class);
+    private final FiduciaMapper mapper = Mappers.getMapper(FiduciaMapper.class);
 
     @Test
     void toListOfStringsReturnsNullForNullInput() {

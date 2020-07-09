@@ -175,13 +175,30 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                                                String paymentId,
                                                                                                RequestHeaders requestHeaders,
                                                                                                RequestParams requestParams) {
+        return getPeriodicPaymentInformation(paymentProduct,
+            paymentId,
+            requestHeaders,
+            requestParams,
+            PeriodicPaymentInitiationWithStatusResponse.class,
+            identity());
+    }
+
+    protected <T> Response<PeriodicPaymentInitiationWithStatusResponse> getPeriodicPaymentInformation(
+        String paymentProduct,
+        String paymentId,
+        RequestHeaders requestHeaders,
+        RequestParams requestParams,
+        Class<T> klass,
+        Function<T, PeriodicPaymentInitiationWithStatusResponse> mapper
+    ) {
         requireValid(validateGetPeriodicPaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams));
         return getPaymentInformation(PERIODIC_PAYMENTS,
             paymentProduct,
             paymentId,
             requestHeaders,
             requestParams,
-            jsonResponseHandler(PeriodicPaymentInitiationWithStatusResponse.class));
+            jsonResponseHandler(klass))
+            .map(mapper);
     }
 
     @Override
@@ -189,13 +206,30 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                                                  String paymentId,
                                                                                                  RequestHeaders requestHeaders,
                                                                                                  RequestParams requestParams) {
+        return getPeriodicPain001PaymentInformation(paymentProduct,
+            paymentId,
+            requestHeaders,
+            requestParams,
+            PeriodicPaymentInitiationMultipartBody.class,
+            identity());
+    }
+
+    protected <T> Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(
+        String paymentProduct,
+        String paymentId,
+        RequestHeaders requestHeaders,
+        RequestParams requestParams,
+        Class<T> klass,
+        Function<T, PeriodicPaymentInitiationMultipartBody> mapper
+    ) {
         requireValid(validateGetPeriodicPain001PaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams));
         return getPaymentInformation(PERIODIC_PAYMENTS,
             paymentProduct,
             paymentId,
             requestHeaders,
             requestParams,
-            multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class));
+            multipartFormDataResponseHandler(klass))
+            .map(mapper);
     }
 
     @Override
