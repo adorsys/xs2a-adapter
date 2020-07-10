@@ -25,3 +25,4 @@ This fixes the issue of model copies getting out-of-sync and prevents its occurr
 - Fixed wrong OAuth param validation for Comdirect, Commerzbank and Sparkasse
 - Fixed requests without a payload not being logged.
 - Sanitized payments request URLs
+- Unicredit. Added `PSU-ID-TYPE` header for PIS requests

@@ -112,6 +112,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         String uri = StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct.getSlug());
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
+        headersMap = addPsuIdTypeHeader(headersMap);
         Request.Builder requestBuilder = httpClient.post(uri)
             .headers(headersMap);
         if (body instanceof PeriodicPaymentInitiationMultipartBody) {
@@ -374,6 +375,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         String uri = StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct.getSlug(), paymentId, AUTHORISATIONS, authorisationId);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
+        headersMap = addPsuIdTypeHeader(headersMap);
         String body = jsonMapper.writeValueAsString(updatePsuAuthentication);
 
         Response<T> response = httpClient.put(uri)
@@ -425,6 +427,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         String uri = StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct.getSlug(), paymentId, AUTHORISATIONS, authorisationId);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
+        headersMap = addPsuIdTypeHeader(headersMap);
         String body = jsonMapper.writeValueAsString(selectPsuAuthenticationMethod);
 
         Response<T> response = httpClient.put(uri)
@@ -476,6 +479,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         String uri = getUpdatePaymentPsuDataUri(paymentService, paymentProduct, paymentId, authorisationId);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populatePutHeaders(requestHeaders.toMap());
+        headersMap = addPsuIdTypeHeader(headersMap);
         String body = jsonMapper.writeValueAsString(transactionAuthorisation);
 
         Response<T> response = httpClient.put(uri)
