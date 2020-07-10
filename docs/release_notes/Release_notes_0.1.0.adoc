@@ -1,9 +1,4 @@
-= DRAFT Release notes for version 0.0.12 (release date: xx.07.2020)
-
-.Added banks
-|===
-|
-|===
+= Release notes for version 0.1.0 (release date: 10.07.2020)
 
 == Notices:
 - PSD2 API has been removed.
