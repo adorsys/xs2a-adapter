@@ -127,6 +127,15 @@ public class RemotePaymentInitiationService implements PaymentInitiationService 
     }
 
     @Override
+    public Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(String paymentProduct,
+                                                                                                 String paymentId,
+                                                                                                 RequestHeaders requestHeaders,
+                                                                                                 RequestParams requestParams) {
+        // todo XS2AAD-610
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Response<String> getPaymentInformationAsString(String paymentService,
                                                           String paymentProduct,
                                                           String paymentId,

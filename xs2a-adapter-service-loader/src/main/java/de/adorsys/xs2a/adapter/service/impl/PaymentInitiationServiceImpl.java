@@ -47,6 +47,15 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
+    public Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(String paymentProduct,
+                                                                                                 String paymentId,
+                                                                                                 RequestHeaders requestHeaders,
+                                                                                                 RequestParams requestParams) {
+        return getPaymentInitiationService(requestHeaders)
+            .getPeriodicPain001PaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams);
+    }
+
+    @Override
     public Response<String> getPaymentInformationAsString(String paymentService,
                                                           String paymentProduct,
                                                           String paymentId,

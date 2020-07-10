@@ -33,6 +33,14 @@ public class TestPaymentInitiationService implements PaymentInitiationService {
     }
 
     @Override
+    public Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(String paymentProduct,
+                                                                                                 String paymentId,
+                                                                                                 RequestHeaders requestHeaders,
+                                                                                                 RequestParams requestParams) {
+        return null;
+    }
+
+    @Override
     public Response<String> getPaymentInformationAsString(String paymentService,
                                                           String paymentProduct,
                                                           String paymentId,

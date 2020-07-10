@@ -32,6 +32,13 @@ public interface PaymentInitiationValidationService {
         return Collections.emptyList();
     }
 
+    default List<ValidationError> validateGetPeriodicPain001PaymentInformation(String paymentProduct,
+                                                                               String paymentId,
+                                                                               RequestHeaders requestHeaders,
+                                                                               RequestParams requestParams) {
+        return Collections.emptyList();
+    }
+
     default List<ValidationError> validateGetPaymentInitiationScaStatus(String paymentService,
                                                                         String paymentProduct,
                                                                         String paymentId,

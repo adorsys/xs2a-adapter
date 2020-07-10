@@ -33,8 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
-import static de.adorsys.xs2a.adapter.http.ResponseHandlers.stringResponseHandler;
+import static de.adorsys.xs2a.adapter.http.ResponseHandlers.*;
 import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
 import static java.util.function.Function.identity;
 
@@ -183,6 +182,20 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             requestHeaders,
             requestParams,
             jsonResponseHandler(PeriodicPaymentInitiationWithStatusResponse.class));
+    }
+
+    @Override
+    public Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(String paymentProduct,
+                                                                                                 String paymentId,
+                                                                                                 RequestHeaders requestHeaders,
+                                                                                                 RequestParams requestParams) {
+        requireValid(validateGetPeriodicPain001PaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams));
+        return getPaymentInformation(PERIODIC_PAYMENTS,
+            paymentProduct,
+            paymentId,
+            requestHeaders,
+            requestParams,
+            multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class));
     }
 
     @Override

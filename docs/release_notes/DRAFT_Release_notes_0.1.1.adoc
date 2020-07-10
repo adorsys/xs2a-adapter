@@ -9,7 +9,7 @@
 
 
 == Features:
-
+- Added multipart/form-data response handler
 
 == Fixes:
 - Fixed split packages (fiducia-adapter)
