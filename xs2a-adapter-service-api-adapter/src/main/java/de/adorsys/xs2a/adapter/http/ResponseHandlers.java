@@ -26,7 +26,7 @@ public class ResponseHandlers {
     private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([^;]+)");
     private static final ErrorResponse EMPTY_ERROR_RESPONSE = new ErrorResponse();
 
-    private static final JsonMapper jsonMapper = new JsonMapper();
+    private static final JsonMapper jsonMapper = new JacksonObjectMapper();
     private static final Logger log = LoggerFactory.getLogger(ResponseHandlers.class);
     private static final Xs2aHttpLogSanitizer logSanitizer = new Xs2aHttpLogSanitizer();
 

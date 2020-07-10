@@ -18,6 +18,7 @@ package de.adorsys.xs2a.adapter.santander;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.http.JsonMapper;
 import de.adorsys.xs2a.adapter.security.AccessTokenException;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
@@ -54,7 +55,7 @@ public class SantanderAccessTokenService implements AccessTokenService {
     private JsonMapper jsonMapper;
 
     private SantanderAccessTokenService() {
-        jsonMapper = new JsonMapper();
+        jsonMapper = new JacksonObjectMapper();
 
         String consumerKey = getClientId();
         String consumerSecret = readProperty(SANTANDER_TOKEN_CONSUMER_SECRET_PROPERTY, "");

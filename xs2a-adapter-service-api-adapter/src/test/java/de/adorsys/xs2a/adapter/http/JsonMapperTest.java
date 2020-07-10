@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 import java.io.UncheckedIOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class JsonMapperTest {
-    JsonMapper mapper = new JsonMapper();
+    JsonMapper mapper = new JacksonObjectMapper();
 
     @Test
     void writeValueAsString_throwsException() {

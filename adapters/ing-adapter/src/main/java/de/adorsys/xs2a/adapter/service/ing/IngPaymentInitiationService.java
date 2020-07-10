@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service.ing;
 
 import de.adorsys.xs2a.adapter.api.model.*;
+import de.adorsys.xs2a.adapter.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.http.JsonMapper;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
@@ -23,7 +24,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
     private final LinksRewriter linksRewriter;
     private final PaymentInitiationApi paymentInitiationApi;
     private final IngMapper mapper = Mappers.getMapper(IngMapper.class);
-    private final JsonMapper jsonMapper = new JsonMapper();
+    private final JsonMapper jsonMapper = new JacksonObjectMapper();
 
     public IngPaymentInitiationService(PaymentInitiationApi paymentInitiationApi,
                                        IngOauth2Service ingOauth2Service,

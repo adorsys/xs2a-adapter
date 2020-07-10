@@ -1,0 +1,53 @@
+{
+  "id" : "995a22d3-8605-4a67-bcbf-ef8f2e154d63",
+  "name" : "v1_periodic-payments_sepa-credit-transfers",
+  "request" : {
+    "url" : "/v1/periodic-payments/sepa-credit-transfers",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "equalTo" : "b2a54541-4e80-42d9-a482-cbc07020d69b"
+      },
+      "PSU-ID-Type" : {
+        "equalTo" : ""
+      },
+      "PSU-ID" : {
+        "equalTo" : "max.musterman"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      },
+      "PSU-IP-Address" : {
+        "equalTo" : "0.0.0.0"
+      },
+      "X-GTW-ASPSP-ID" : {
+        "equalTo" : "53c47f54-b9a4-465a-8f77-bc6cd5f0cf46"
+      },
+      "TPP-Redirect-URI" : {
+        "equalTo" : "https://example.com"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"endToEndIdentification\":\"SandboxTPPTest1\",\"debtorAccount\":{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"},\"instructedAmount\":{\"currency\":\"EUR\",\"amount\":\"20.99\"},\"creditorAccount\":{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"},\"creditorName\":\"Merchant123\",\"remittanceInformationUnstructured\":\"just\",\"startDate\":\"2020-07-08\",\"endDate\":\"2020-08-07\",\"executionRule\":\"following\",\"frequency\":\"Monthly\",\"dayOfExecution\":\"28\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"transactionStatus\":\"RCVD\",\"paymentId\":\"RWPbX-Qgnmjb5yixTXwywIU9xxlutmt70MthNORZI9pVXXwjlE_8wK5HaZwohPtAcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q\",\"_links\":{\"updatePsuAuthentication\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/periodic-payments/sepa-credit-transfers/RWPbX-Qgnmjb5yixTXwywIU9xxlutmt70MthNORZI9pVXXwjlE_8wK5HaZwohPtAcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/946d8445-7548-43e0-8cfc-f092d7ebc6cb\"},\"self\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/periodic-payments/sepa-credit-transfers/RWPbX-Qgnmjb5yixTXwywIU9xxlutmt70MthNORZI9pVXXwjlE_8wK5HaZwohPtAcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q\"},\"status\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/periodic-payments/sepa-credit-transfers/RWPbX-Qgnmjb5yixTXwywIU9xxlutmt70MthNORZI9pVXXwjlE_8wK5HaZwohPtAcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/status\"},\"scaStatus\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/periodic-payments/sepa-credit-transfers/RWPbX-Qgnmjb5yixTXwywIU9xxlutmt70MthNORZI9pVXXwjlE_8wK5HaZwohPtAcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/946d8445-7548-43e0-8cfc-f092d7ebc6cb\"}}}",
+    "headers" : {
+      "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "aspsp-sca-approach" : "EMBEDDED",
+      "location" : "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/periodic-payments/sepa-credit-transfers/RWPbX-Qgnmjb5yixTXwywIU9xxlutmt70MthNORZI9pVXXwjlE_8wK5HaZwohPtAcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q",
+      "x-request-id" : "b2a54541-4e80-42d9-a482-cbc07020d69b",
+      "content-type" : "application/json",
+      "date" : "Wed, 08 Jul 2020 11:49:59 GMT",
+      "x-robots-tag" : "none",
+      "set-cookie" : "SRVNAME=17984ba812b2bfa7d54e249e16048ab4; path=/; HttpOnly; Secure"
+    }
+  },
+  "uuid" : "995a22d3-8605-4a67-bcbf-ef8f2e154d63",
+  "persistent" : true,
+  "insertionIndex" : 52
+}

@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service.ing;
 
 import de.adorsys.xs2a.adapter.api.model.*;
+import de.adorsys.xs2a.adapter.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.http.JsonMapper;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.ing.internal.api.AccountInformationApi;
@@ -23,7 +24,7 @@ public class IngAccountInformationService implements AccountInformationService, 
     private final AccountInformationApi accountInformationApi;
     private final LinksRewriter linksRewriter;
     private final IngMapper mapper = Mappers.getMapper(IngMapper.class);
-    private final JsonMapper jsonMapper = new JsonMapper();
+    private final JsonMapper jsonMapper = new JacksonObjectMapper();
 
     public IngAccountInformationService(AccountInformationApi accountInformationApi,
                                         IngOauth2Service oauth2Service,

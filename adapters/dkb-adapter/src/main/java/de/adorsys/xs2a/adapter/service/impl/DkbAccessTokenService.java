@@ -18,6 +18,7 @@ package de.adorsys.xs2a.adapter.service.impl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.http.JsonMapper;
 import de.adorsys.xs2a.adapter.security.AccessTokenException;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
@@ -57,7 +58,7 @@ public class DkbAccessTokenService implements AccessTokenService {
 
 
     private DkbAccessTokenService() {
-        jsonMapper = new JsonMapper();
+        jsonMapper = new JacksonObjectMapper();
 
         String consumerKey = readProperty(DKB_TOKEN_CONSUMER_KEY_PROPERTY, "");
         String consumerSecret = readProperty(DKB_TOKEN_CONSUMER_SECRET_PROPERTY, "");
