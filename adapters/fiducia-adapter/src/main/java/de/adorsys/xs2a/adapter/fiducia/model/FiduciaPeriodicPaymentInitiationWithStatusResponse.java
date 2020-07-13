@@ -30,7 +30,7 @@ public class FiduciaPeriodicPaymentInitiationWithStatusResponse {
 
     private FrequencyCode frequency;
 
-    private DayOfExecution dayOfExecution;
+    private FiduciaDayOfExecution dayOfExecution;
 
     private TransactionStatus transactionStatus;
 
@@ -130,11 +130,11 @@ public class FiduciaPeriodicPaymentInitiationWithStatusResponse {
         this.frequency = frequency;
     }
 
-    public DayOfExecution getDayOfExecution() {
+    public FiduciaDayOfExecution getDayOfExecution() {
         return dayOfExecution;
     }
 
-    public void setDayOfExecution(DayOfExecution dayOfExecution) {
+    public void setDayOfExecution(FiduciaDayOfExecution dayOfExecution) {
         this.dayOfExecution = dayOfExecution;
     }
 

@@ -1,6 +1,9 @@
 package de.adorsys.xs2a.adapter.fiducia.model;
 
-import de.adorsys.xs2a.adapter.api.model.*;
+import de.adorsys.xs2a.adapter.api.model.AccountReference;
+import de.adorsys.xs2a.adapter.api.model.Address;
+import de.adorsys.xs2a.adapter.api.model.Amount;
+import de.adorsys.xs2a.adapter.api.model.FrequencyCode;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -30,7 +33,7 @@ public class FiduciaPeriodicPaymentInitiationJson {
 
     private FrequencyCode frequency;
 
-    private DayOfExecution dayOfExecution;
+    private FiduciaDayOfExecution dayOfExecution;
 
     public String getEndToEndIdentification() {
         return endToEndIdentification;
@@ -128,11 +131,11 @@ public class FiduciaPeriodicPaymentInitiationJson {
         this.frequency = frequency;
     }
 
-    public DayOfExecution getDayOfExecution() {
+    public FiduciaDayOfExecution getDayOfExecution() {
         return dayOfExecution;
     }
 
-    public void setDayOfExecution(DayOfExecution dayOfExecution) {
+    public void setDayOfExecution(FiduciaDayOfExecution dayOfExecution) {
         this.dayOfExecution = dayOfExecution;
     }
 

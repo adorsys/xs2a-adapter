@@ -3,7 +3,6 @@ package de.adorsys.xs2a.adapter.fiducia.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import de.adorsys.xs2a.adapter.api.model.Amount;
-import de.adorsys.xs2a.adapter.api.model.DayOfExecution;
 import de.adorsys.xs2a.adapter.api.model.FrequencyCode;
 
 import java.time.LocalDate;
@@ -25,7 +24,7 @@ public class FiduciaStandingOrderDetails {
 
     private Integer multiplicator;
 
-    private DayOfExecution dayOfExecution;
+    private FiduciaDayOfExecution dayOfExecution;
 
     private Amount limitAmount;
 
@@ -85,11 +84,11 @@ public class FiduciaStandingOrderDetails {
         this.multiplicator = multiplicator;
     }
 
-    public DayOfExecution getDayOfExecution() {
+    public FiduciaDayOfExecution getDayOfExecution() {
         return dayOfExecution;
     }
 
-    public void setDayOfExecution(DayOfExecution dayOfExecution) {
+    public void setDayOfExecution(FiduciaDayOfExecution dayOfExecution) {
         this.dayOfExecution = dayOfExecution;
     }
 

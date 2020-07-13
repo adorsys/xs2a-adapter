@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.fiducia;
 
 import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
+import de.adorsys.xs2a.adapter.api.model.DayOfExecution;
 import de.adorsys.xs2a.adapter.api.model.ExecutionRule;
 import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
 import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
@@ -135,6 +136,7 @@ public class FiduciaAccountInformationServiceTest {
             .getExecutionRule();
         assertThat(executionRule).isEqualTo(ExecutionRule.PRECEDING);
     }
+
     @Test
     void getTransactionDetailsUsesFiduciaExecutionRule() {
         Mockito.doAnswer(invocationOnMock -> {
@@ -167,5 +169,78 @@ public class FiduciaAccountInformationServiceTest {
             .getStandingOrderDetails()
             .getExecutionRule();
         assertThat(executionRule).isEqualTo(ExecutionRule.PRECEDING);
+    }
+
+    @Test
+    void getTransactionListUsesFiduciaDayOfExecution() {
+        Mockito.doAnswer(invocationOnMock -> {
+            HttpClient.ResponseHandler responseHandler = invocationOnMock.getArgument(1, HttpClient.ResponseHandler.class);
+            //language=JSON
+            String rawResponse = "{\n" +
+                "  \"transactions\": {\n" +
+                "    \"booked\": [\n" +
+                "      {\n" +
+                "        \"additionalInformationStructured\": {\n" +
+                "          \"standingOrderDetails\": {\n" +
+                "            \"dayOfExecution\": \"01\"\n" +
+                "          }\n" +
+                "        }\n" +
+                "      }\n" +
+                "    ]\n" +
+                "  }\n" +
+                "}";
+            return new Response<>(200,
+                responseHandler.apply(200,
+                    new ByteArrayInputStream(rawResponse.getBytes()),
+                    ResponseHeaders.fromMap(singletonMap("Content-Type", "application/json"))),
+                null);
+        }).when(httpClient).send(Mockito.any(), Mockito.any());
+
+        Response<TransactionsResponse200Json> response = service.getTransactionList(null,
+            RequestHeaders.empty(),
+            RequestParams.empty());
+
+        DayOfExecution dayOfExecution = response.getBody()
+            .getTransactions()
+            .getBooked()
+            .get(0)
+            .getAdditionalInformationStructured()
+            .getStandingOrderDetails()
+            .getDayOfExecution();
+        assertThat(dayOfExecution).isEqualTo(DayOfExecution._1);
+    }
+
+    @Test
+    void getTransactionDetailsUsesFiduciaDayOfExecution() {
+        Mockito.doAnswer(invocationOnMock -> {
+            HttpClient.ResponseHandler responseHandler = invocationOnMock.getArgument(1, HttpClient.ResponseHandler.class);
+            //language=JSON
+            String rawResponse = "{\n" +
+                "  \"transactionsDetails\": {\n" +
+                "    \"additionalInformationStructured\": {\n" +
+                "      \"standingOrderDetails\": {\n" +
+                "        \"dayOfExecution\": \"01\"\n" +
+                "      }\n" +
+                "    }\n" +
+                "  }\n" +
+                "}";
+            return new Response<>(200,
+                responseHandler.apply(200,
+                    new ByteArrayInputStream(rawResponse.getBytes()),
+                    ResponseHeaders.fromMap(singletonMap("Content-Type", "application/json"))),
+                null);
+        }).when(httpClient).send(Mockito.any(), Mockito.any());
+
+        Response<OK200TransactionDetails> response = service.getTransactionDetails((String) null,
+            (String) null,
+            RequestHeaders.empty(),
+            RequestParams.empty());
+
+        DayOfExecution dayOfExecution = response.getBody()
+            .getTransactionsDetails()
+            .getAdditionalInformationStructured()
+            .getStandingOrderDetails()
+            .getDayOfExecution();
+        assertThat(dayOfExecution).isEqualTo(DayOfExecution._1);
     }
 }

@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.adapter.fiducia.model;
 
-import de.adorsys.xs2a.adapter.api.model.DayOfExecution;
 import de.adorsys.xs2a.adapter.api.model.FrequencyCode;
 
 import java.time.LocalDate;
@@ -15,7 +14,7 @@ public class FiduciaPeriodicPaymentInitiationXmlPart2StandingorderTypeJson {
 
     private FrequencyCode frequency;
 
-    private DayOfExecution dayOfExecution;
+    private FiduciaDayOfExecution dayOfExecution;
 
     public LocalDate getStartDate() {
         return startDate;
@@ -49,11 +48,11 @@ public class FiduciaPeriodicPaymentInitiationXmlPart2StandingorderTypeJson {
         this.frequency = frequency;
     }
 
-    public DayOfExecution getDayOfExecution() {
+    public FiduciaDayOfExecution getDayOfExecution() {
         return dayOfExecution;
     }
 
-    public void setDayOfExecution(DayOfExecution dayOfExecution) {
+    public void setDayOfExecution(FiduciaDayOfExecution dayOfExecution) {
         this.dayOfExecution = dayOfExecution;
     }
 

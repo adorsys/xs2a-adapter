@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.fiducia;
 
 import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
+import de.adorsys.xs2a.adapter.fiducia.model.FiduciaDayOfExecution;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaExecutionRule;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaPeriodicPaymentInitiationJson;
 import de.adorsys.xs2a.adapter.http.AbstractHttpClient;
@@ -61,6 +62,30 @@ class FiduciaPaymentInitiationServiceTest {
     }
 
     @Test
+    void initiatePeriodicSctPaymentUsesFiduciaDayOfExecution() {
+        PeriodicPaymentInitiationJson body = new PeriodicPaymentInitiationJson();
+        body.setDayOfExecution(DayOfExecution._1);
+        Mockito.doReturn(new Response<>(201,
+            new PaymentInitationRequestResponse201(),
+            null))
+            .when(httpClient).send(Mockito.any(), Mockito.any());
+
+        fiduciaPaymentInitiationService.initiatePayment(PaymentService.PERIODIC_PAYMENTS.toString(),
+            PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+            RequestHeaders.empty(),
+            null,
+            body);
+
+        FiduciaPeriodicPaymentInitiationJson actualBody = new FiduciaPeriodicPaymentInitiationJson();
+        actualBody.setDayOfExecution(FiduciaDayOfExecution._1);
+        ArgumentCaptor<Request.Builder> requestBuilderArgumentCaptor = ArgumentCaptor.forClass(Request.Builder.class);
+
+        Mockito.verify(httpClient).send(requestBuilderArgumentCaptor.capture(), Mockito.any());
+        assertThat(requestBuilderArgumentCaptor.getValue().body())
+            .isEqualTo(new JacksonObjectMapper().writeValueAsString(actualBody));
+    }
+
+    @Test
     void getPeriodicPaymentInformationUsesFiduciaExecutionRule() {
         Mockito.doAnswer(invocationOnMock -> {
             ResponseHandler responseHandler = invocationOnMock.getArgument(1, ResponseHandler.class);
@@ -79,6 +104,27 @@ class FiduciaPaymentInitiationServiceTest {
                 null);
 
         assertThat(adaptedResponse.getBody().getExecutionRule()).isEqualTo(ExecutionRule.PRECEDING);
+    }
+
+    @Test
+    void getPeriodicPaymentInformationUsesFiduciaDayOfExecution() {
+        Mockito.doAnswer(invocationOnMock -> {
+            ResponseHandler responseHandler = invocationOnMock.getArgument(1, ResponseHandler.class);
+            String rawResponse = "{\"dayOfExecution\":\"01\"}";
+            return new Response<>(200,
+                responseHandler.apply(200,
+                    new ByteArrayInputStream(rawResponse.getBytes()),
+                    ResponseHeaders.emptyResponseHeaders()),
+                null);
+        }).when(httpClient).send(Mockito.any(), Mockito.any());
+
+        Response<PeriodicPaymentInitiationWithStatusResponse> adaptedResponse =
+            fiduciaPaymentInitiationService.getPeriodicPaymentInformation(null,
+                null,
+                RequestHeaders.empty(),
+                null);
+
+        assertThat(adaptedResponse.getBody().getDayOfExecution()).isEqualTo(DayOfExecution._1);
     }
 
     @Test
@@ -105,5 +151,31 @@ class FiduciaPaymentInitiationServiceTest {
 
         assertThat(adaptedResponse.getBody().getJson_standingorderType().getExecutionRule())
             .isEqualTo(ExecutionRule.PRECEDING);
+    }
+
+    @Test
+    void getPeriodicPain001PaymentInformationUsesFiduciaDayOfExecution() {
+        Mockito.doAnswer(invocationOnMock -> {
+            ResponseHandler responseHandler = invocationOnMock.getArgument(1, ResponseHandler.class);
+            String rawResponse = "---\r\n" +
+                "Content-Disposition: form-data; name=\"json_standingorderType\"\r\n" +
+                "Content-Type: application/json\r\n\r\n" +
+                "{\"dayOfExecution\":\"01\"}\r\n" +
+                "-----\r\n";
+            return new Response<>(200,
+                responseHandler.apply(200,
+                    new ByteArrayInputStream(rawResponse.getBytes()),
+                    ResponseHeaders.fromMap(singletonMap("Content-Type", "multipart/form-data; boundary=-"))),
+                null);
+        }).when(httpClient).send(Mockito.any(), Mockito.any());
+
+        Response<PeriodicPaymentInitiationMultipartBody> adaptedResponse =
+            fiduciaPaymentInitiationService.getPeriodicPain001PaymentInformation(null,
+                null,
+                RequestHeaders.empty(),
+                null);
+
+        assertThat(adaptedResponse.getBody().getJson_standingorderType().getDayOfExecution())
+            .isEqualTo(DayOfExecution._1);
     }
 }
