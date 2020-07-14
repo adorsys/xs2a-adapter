@@ -17,7 +17,6 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
-import de.adorsys.xs2a.adapter.adapter.StandardPaymentProduct;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.security.AccessTokenService;
@@ -65,10 +64,10 @@ public class DkbPaymentInitiationService extends BasePaymentInitiationService {
                                                                       RequestParams requestParams,
                                                                       Object body) {
         return initiatePayment(paymentService,
-            StandardPaymentProduct.fromSlug(paymentProduct),
-            body,
+            paymentProduct,
             requestHeaders,
             requestParams,
+            body,
             DkbPaymentInitiationRequestResponse.class,
             paymentInitiationRequestResponseMapper::toPaymentInitiationRequestResponse);
     }
@@ -81,7 +80,7 @@ public class DkbPaymentInitiationService extends BasePaymentInitiationService {
                                                                        RequestParams requestParams,
                                                                        UpdatePsuAuthentication updatePsuAuthentication) {
         return startPaymentAuthorisation(paymentService,
-            StandardPaymentProduct.fromSlug(paymentProduct),
+            paymentProduct,
             paymentId,
             requestHeaders,
             requestParams,
@@ -99,7 +98,7 @@ public class DkbPaymentInitiationService extends BasePaymentInitiationService {
                                                                           RequestParams requestParams,
                                                                           UpdatePsuAuthentication updatePsuAuthentication) {
         return updatePaymentPsuData(paymentService,
-            StandardPaymentProduct.fromSlug(paymentProduct),
+            paymentProduct,
             paymentId,
             authorisationId,
             requestHeaders,
@@ -118,7 +117,7 @@ public class DkbPaymentInitiationService extends BasePaymentInitiationService {
                                                                                 RequestParams requestParams,
                                                                                 SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
         return updatePaymentPsuData(paymentService,
-            StandardPaymentProduct.fromSlug(paymentProduct),
+            paymentProduct,
             paymentId,
             authorisationId,
             requestHeaders,

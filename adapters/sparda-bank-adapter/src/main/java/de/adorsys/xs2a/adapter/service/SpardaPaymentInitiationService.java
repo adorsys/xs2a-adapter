@@ -1,7 +1,6 @@
 package de.adorsys.xs2a.adapter.service;
 
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
-import de.adorsys.xs2a.adapter.adapter.StandardPaymentProduct;
 import de.adorsys.xs2a.adapter.api.model.PaymentInitationRequestResponse201;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.StringUri;
@@ -39,7 +38,7 @@ public class SpardaPaymentInitiationService extends BasePaymentInitiationService
         String idpUri = StringUri.appendQueryParam(getIdpUri(), Oauth2Service.Parameters.SCOPE, PIS_SCOPE);
 
         return initiatePayment(paymentService,
-            StandardPaymentProduct.fromSlug(paymentProduct),
+            paymentProduct,
             body,
             requestHeaders,
             requestParams,

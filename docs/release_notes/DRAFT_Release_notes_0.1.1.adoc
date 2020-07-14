@@ -6,10 +6,15 @@
 |===
 
 == Notices:
-
+- Added mapping for the following models in fiducia-adapter:
+** ExecutionRule
+** DayOfExecution
+** MonthsOfExecution
+** RemittanceInformationStructured
+** ChallengeData (PIS)
 
 == Features:
-
+- Added multipart/form-data response handler
 
 == Fixes:
-
+- Fixed split packages (fiducia-adapter)

@@ -7,7 +7,7 @@ import de.adorsys.xs2a.adapter.api.model.ScaStatus;
 
 import java.util.Map;
 
-public class FiduciaUpdatePsuDataResponse {
+public class FiduciaSelectPsuAuthenticationMethodResponse {
     private AuthenticationObject chosenScaMethod;
     private FiduciaChallengeData challengeData;
     @JsonProperty("_links")

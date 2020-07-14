@@ -479,6 +479,20 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                                                    String transactionId,
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams) {
+        return getTransactionDetails(accountId,
+            transactionId,
+            requestHeaders,
+            requestParams,
+            OK200TransactionDetails.class,
+            identity());
+    }
+
+    protected <T> Response<OK200TransactionDetails> getTransactionDetails(String accountId,
+                                                                          String transactionId,
+                                                                          RequestHeaders requestHeaders,
+                                                                          RequestParams requestParams,
+                                                                          Class<T> klass,
+                                                                          Function<T, OK200TransactionDetails> mapper) {
         requireValid(validateGetTransactionDetails(accountId, transactionId, requestHeaders, requestParams));
 
         String uri = StringUri.fromElements(getAccountsBaseUri(), accountId, TRANSACTIONS, transactionId);
@@ -486,7 +500,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         Response<OK200TransactionDetails> response = httpClient.get(uri)
             .headers(populateGetHeaders(requestHeaders.toMap()))
-            .send(requestBuilderInterceptor, jsonResponseHandler(OK200TransactionDetails.class));
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass))
+            .map(mapper);
 
         Optional.ofNullable(response.getBody())
             .map(OK200TransactionDetails::getTransactionsDetails)
