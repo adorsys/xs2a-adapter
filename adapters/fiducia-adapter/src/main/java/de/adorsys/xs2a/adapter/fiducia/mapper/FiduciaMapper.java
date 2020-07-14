@@ -31,4 +31,14 @@ public interface FiduciaMapper {
     TransactionsResponse200Json toTransactionsResponse200Json(FiduciaTransactionsResponse200Json value);
 
     OK200TransactionDetails toOK200TransactionDetails(FiduciaOK200TransactionDetails value);
+
+    default RemittanceInformationStructured toRemittanceInformationStructured(String value) {
+        if (value == null) {
+            return null;
+        }
+
+        RemittanceInformationStructured remittanceInformationStructured = new RemittanceInformationStructured();
+        remittanceInformationStructured.setReference(value);
+        return remittanceInformationStructured;
+    }
 }
