@@ -1,10 +1,7 @@
 package de.adorsys.xs2a.adapter.fiducia;
 
 import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
-import de.adorsys.xs2a.adapter.api.model.DayOfExecution;
-import de.adorsys.xs2a.adapter.api.model.ExecutionRule;
-import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
-import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.http.AbstractHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
@@ -242,5 +239,80 @@ public class FiduciaAccountInformationServiceTest {
             .getStandingOrderDetails()
             .getDayOfExecution();
         assertThat(dayOfExecution).isEqualTo(DayOfExecution._1);
+    }
+
+    @Test
+    void getTransactionListUsesFiduciaMonthsOfExecution() {
+        Mockito.doAnswer(invocationOnMock -> {
+            HttpClient.ResponseHandler responseHandler = invocationOnMock.getArgument(1, HttpClient.ResponseHandler.class);
+            //language=JSON
+            String rawResponse = "{\n" +
+                "  \"transactions\": {\n" +
+                "    \"booked\": [\n" +
+                "      {\n" +
+                "        \"additionalInformationStructured\": {\n" +
+                "          \"standingOrderDetails\": {\n" +
+                "            \"monthsOfExecution\": [\"01\"]\n" +
+                "          }\n" +
+                "        }\n" +
+                "      }\n" +
+                "    ]\n" +
+                "  }\n" +
+                "}";
+            return new Response<>(200,
+                responseHandler.apply(200,
+                    new ByteArrayInputStream(rawResponse.getBytes()),
+                    ResponseHeaders.fromMap(singletonMap("Content-Type", "application/json"))),
+                null);
+        }).when(httpClient).send(Mockito.any(), Mockito.any());
+
+        Response<TransactionsResponse200Json> response = service.getTransactionList(null,
+            RequestHeaders.empty(),
+            RequestParams.empty());
+
+        StandingOrderDetails.MonthsOfExecution monthsOfExecution = response.getBody()
+            .getTransactions()
+            .getBooked()
+            .get(0)
+            .getAdditionalInformationStructured()
+            .getStandingOrderDetails()
+            .getMonthsOfExecution()
+            .get(0);
+        assertThat(monthsOfExecution).isEqualTo(StandingOrderDetails.MonthsOfExecution._1);
+    }
+
+    @Test
+    void getTransactionDetailsUsesFiduciaMonthsOfExecution() {
+        Mockito.doAnswer(invocationOnMock -> {
+            HttpClient.ResponseHandler responseHandler = invocationOnMock.getArgument(1, HttpClient.ResponseHandler.class);
+            //language=JSON
+            String rawResponse = "{\n" +
+                "  \"transactionsDetails\": {\n" +
+                "    \"additionalInformationStructured\": {\n" +
+                "      \"standingOrderDetails\": {\n" +
+                "        \"monthsOfExecution\": [\"01\"]\n" +
+                "      }\n" +
+                "    }\n" +
+                "  }\n" +
+                "}";
+            return new Response<>(200,
+                responseHandler.apply(200,
+                    new ByteArrayInputStream(rawResponse.getBytes()),
+                    ResponseHeaders.fromMap(singletonMap("Content-Type", "application/json"))),
+                null);
+        }).when(httpClient).send(Mockito.any(), Mockito.any());
+
+        Response<OK200TransactionDetails> response = service.getTransactionDetails((String) null,
+            (String) null,
+            RequestHeaders.empty(),
+            RequestParams.empty());
+
+        StandingOrderDetails.MonthsOfExecution monthsOfExecution = response.getBody()
+            .getTransactionsDetails()
+            .getAdditionalInformationStructured()
+            .getStandingOrderDetails()
+            .getMonthsOfExecution()
+            .get(0);
+        assertThat(monthsOfExecution).isEqualTo(StandingOrderDetails.MonthsOfExecution._1);
     }
 }

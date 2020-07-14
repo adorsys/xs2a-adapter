@@ -20,7 +20,7 @@ public class FiduciaStandingOrderDetails {
 
     private Boolean withinAMonthFlag;
 
-    private List<MonthsOfExecution> monthsOfExecution;
+    private List<FiduciaMonthsOfExecution> monthsOfExecution;
 
     private Integer multiplicator;
 
@@ -68,11 +68,11 @@ public class FiduciaStandingOrderDetails {
         this.withinAMonthFlag = withinAMonthFlag;
     }
 
-    public List<MonthsOfExecution> getMonthsOfExecution() {
+    public List<FiduciaMonthsOfExecution> getMonthsOfExecution() {
         return monthsOfExecution;
     }
 
-    public void setMonthsOfExecution(List<MonthsOfExecution> monthsOfExecution) {
+    public void setMonthsOfExecution(List<FiduciaMonthsOfExecution> monthsOfExecution) {
         this.monthsOfExecution = monthsOfExecution;
     }
 
@@ -129,24 +129,24 @@ public class FiduciaStandingOrderDetails {
             limitAmount);
     }
 
-    public enum MonthsOfExecution {
-        _1("1"),
+    public enum FiduciaMonthsOfExecution {
+        _1("01"),
 
-        _2("2"),
+        _2("02"),
 
-        _3("3"),
+        _3("03"),
 
-        _4("4"),
+        _4("04"),
 
-        _5("5"),
+        _5("05"),
 
-        _6("6"),
+        _6("06"),
 
-        _7("7"),
+        _7("07"),
 
-        _8("8"),
+        _8("08"),
 
-        _9("9"),
+        _9("09"),
 
         _10("10"),
 
@@ -156,13 +156,13 @@ public class FiduciaStandingOrderDetails {
 
         private String value;
 
-        MonthsOfExecution(String value) {
+        FiduciaMonthsOfExecution(String value) {
             this.value = value;
         }
 
         @JsonCreator
-        public static MonthsOfExecution fromValue(String value) {
-            for (MonthsOfExecution e : MonthsOfExecution.values()) {
+        public static FiduciaMonthsOfExecution fromValue(String value) {
+            for (FiduciaMonthsOfExecution e : FiduciaMonthsOfExecution.values()) {
                 if (e.value.equals(value)) {
                     return e;
                 }
