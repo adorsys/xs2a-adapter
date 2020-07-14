@@ -20,9 +20,9 @@ import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.fiducia.mapper.FiduciaMapper;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaOK200TransactionDetails;
+import de.adorsys.xs2a.adapter.fiducia.model.FiduciaSelectPsuAuthenticationMethodResponse;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaStartScaProcessResponse;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaTransactionsResponse200Json;
-import de.adorsys.xs2a.adapter.fiducia.model.FiduciaUpdatePsuDataResponse;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
@@ -157,7 +157,7 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
             requestHeaders,
             requestParams,
             selectPsuAuthenticationMethod,
-            FiduciaUpdatePsuDataResponse.class,
+            FiduciaSelectPsuAuthenticationMethodResponse.class,
             mapper::toSelectPsuAuthenticationMethodResponse);
     }
 

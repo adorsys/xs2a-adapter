@@ -9,7 +9,8 @@ import java.util.List;
 
 @Mapper
 public interface FiduciaMapper {
-    SelectPsuAuthenticationMethodResponse toSelectPsuAuthenticationMethodResponse(FiduciaUpdatePsuDataResponse value);
+    SelectPsuAuthenticationMethodResponse toSelectPsuAuthenticationMethodResponse(
+        FiduciaSelectPsuAuthenticationMethodResponse value);
 
     default List<String> toListOfStrings(String challengeData) {
         if (challengeData == null) {
@@ -19,6 +20,8 @@ public interface FiduciaMapper {
     }
 
     StartScaprocessResponse toStartScaProcessResponse(FiduciaStartScaProcessResponse value);
+
+    UpdatePsuAuthenticationResponse toUpdatePsuAuthenticationResponse(FiduciaUpdatePsuAuthenticationResponse value);
 
     FiduciaPeriodicPaymentInitiationJson toFiduciaPeriodicPaymentInitiationJson(PeriodicPaymentInitiationJson value);
 
@@ -41,4 +44,6 @@ public interface FiduciaMapper {
         remittanceInformationStructured.setReference(value);
         return remittanceInformationStructured;
     }
+
+    PaymentInitationRequestResponse201 toPaymentInitationRequestResponse201(FiduciaPaymentInitationRequestResponse201 value);
 }

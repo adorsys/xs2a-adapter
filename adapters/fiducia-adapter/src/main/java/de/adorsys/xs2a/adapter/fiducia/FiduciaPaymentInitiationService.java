@@ -3,9 +3,7 @@ package de.adorsys.xs2a.adapter.fiducia;
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.fiducia.mapper.FiduciaMapper;
-import de.adorsys.xs2a.adapter.fiducia.model.FiduciaPeriodicPaymentInitiationJson;
-import de.adorsys.xs2a.adapter.fiducia.model.FiduciaPeriodicPaymentInitiationMultipartBody;
-import de.adorsys.xs2a.adapter.fiducia.model.FiduciaPeriodicPaymentInitiationWithStatusResponse;
+import de.adorsys.xs2a.adapter.fiducia.model.*;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
@@ -41,7 +39,13 @@ public class FiduciaPaymentInitiationService extends BasePaymentInitiationServic
         if (body instanceof PeriodicPaymentInitiationJson) {
             body = mapper.toFiduciaPeriodicPaymentInitiationJson((PeriodicPaymentInitiationJson) body);
         }
-        return super.initiatePayment(paymentService, paymentProduct, requestHeaders, requestParams, body);
+        return initiatePayment(paymentService,
+            paymentProduct,
+            requestHeaders,
+            requestParams,
+            body,
+            FiduciaPaymentInitationRequestResponse201.class,
+            mapper::toPaymentInitationRequestResponse201);
     }
 
     @Override
@@ -50,6 +54,76 @@ public class FiduciaPaymentInitiationService extends BasePaymentInitiationServic
             return FiduciaPeriodicPaymentInitiationJson.class;
         }
         return super.getPaymentInitiationBodyClass(paymentService);
+    }
+
+    @Override
+    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
+                                                                                String paymentProduct,
+                                                                                String paymentId,
+                                                                                String authorisationId,
+                                                                                RequestHeaders requestHeaders,
+                                                                                RequestParams requestParams,
+                                                                                SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+        return updatePaymentPsuData(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            selectPsuAuthenticationMethod,
+            FiduciaSelectPsuAuthenticationMethodResponse.class,
+            mapper::toSelectPsuAuthenticationMethodResponse);
+    }
+
+    @Override
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
+                                                                       String paymentProduct,
+                                                                       String paymentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
+                                                                       UpdatePsuAuthentication updatePsuAuthentication) {
+        return super.startPaymentAuthorisation(paymentService,
+            paymentProduct,
+            paymentId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication,
+            FiduciaStartScaProcessResponse.class,
+            mapper::toStartScaProcessResponse);
+    }
+
+    @Override
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
+                                                                       String paymentProduct,
+                                                                       String paymentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams) {
+        return startPaymentAuthorisation(paymentService,
+            paymentProduct,
+            paymentId,
+            requestHeaders,
+            requestParams,
+            FiduciaStartScaProcessResponse.class,
+            mapper::toStartScaProcessResponse);
+    }
+
+    @Override
+    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
+                                                                          String paymentProduct,
+                                                                          String paymentId,
+                                                                          String authorisationId,
+                                                                          RequestHeaders requestHeaders,
+                                                                          RequestParams requestParams,
+                                                                          UpdatePsuAuthentication updatePsuAuthentication) {
+        return updatePaymentPsuData(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication,
+            FiduciaUpdatePsuAuthenticationResponse.class,
+            mapper::toUpdatePsuAuthenticationResponse);
     }
 
     @Override
