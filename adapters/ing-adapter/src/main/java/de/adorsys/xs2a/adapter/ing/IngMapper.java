@@ -1,8 +1,5 @@
 package de.adorsys.xs2a.adapter.ing;
 
-import de.adorsys.xs2a.adapter.api.model.Address;
-import de.adorsys.xs2a.adapter.api.model.Balance;
-import de.adorsys.xs2a.adapter.api.model.HrefType;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.ing.model.*;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
@@ -17,19 +14,19 @@ import java.util.UUID;
 
 @Mapper
 public interface IngMapper {
-    AccountList map(AccountsResponse value);
+    AccountList map(IngAccountsResponse value);
 
-    ReadAccountBalanceResponse200 map(BalancesResponse value);
+    ReadAccountBalanceResponse200 map(IngBalancesResponse value);
 
     @Mapping(target = "balances", ignore = true)
     @Mapping(target = "links", ignore = true)
-    TransactionsResponse200Json map(TransactionsResponse value);
+    TransactionsResponse200Json map(IngTransactionsResponse value);
 
     default String map(UUID value) {
         return value.toString();
     }
 
-    default Map<String, HrefType> map(AccountLinks value) {
+    default Map<String, HrefType> map(IngAccountLinks value) {
         if (value == null) {
             return null;
         }
@@ -47,7 +44,7 @@ public interface IngMapper {
         return links;
     }
 
-    default Map<String, HrefType> map(LinksNext value) {
+    default Map<String, HrefType> map(IngLinksNext value) {
         if (value == null) {
             return null;
         }
@@ -63,7 +60,7 @@ public interface IngMapper {
     @Mapping(target = "pan", ignore = true)
     @Mapping(target = "maskedPan", ignore = true)
     @Mapping(target = "msisdn", ignore = true)
-    AccountReference map(AccountReferenceIban value);
+    AccountReference map(IngAccountReferenceIban value);
 
     @Mapping(target = "bban", ignore = true)
     @Mapping(target = "msisdn", ignore = true)
@@ -76,9 +73,9 @@ public interface IngMapper {
     @Mapping(target = "balances", ignore = true)
     @Mapping(target = "displayName", ignore = true)
     @Mapping(target = "ownerName", ignore = true)
-    AccountDetails map(Account value);
+    AccountDetails map(IngAccount value);
 
-    Balance map(de.adorsys.xs2a.adapter.ing.model.Balance value);
+    Balance map(IngBalance value);
 
     default BalanceType toBalanceType(String value) {
         return BalanceType.fromValue(value);
@@ -100,7 +97,7 @@ public interface IngMapper {
     @Mapping(target = "maskedPan", ignore = true)
     @Mapping(target = "msisdn", ignore = true)
     @Mapping(target = "currency", ignore = true)
-    AccountReference map(CounterpartyAccount value);
+    AccountReference map(IngCounterpartyAccount value);
 
     @Mapping(target = "entryReference", ignore = true)
     @Mapping(target = "mandateId", ignore = true)
@@ -118,9 +115,9 @@ public interface IngMapper {
     @Mapping(target = "remittanceInformationStructuredArray", ignore = true)
     @Mapping(target = "additionalInformationStructured", ignore = true)
     @Mapping(target = "balanceAfterTransaction", ignore = true)
-    TransactionDetails map(Transaction value);
+    TransactionDetails map(IngTransaction value);
 
-    TokenResponse map(de.adorsys.xs2a.adapter.ing.model.TokenResponse value);
+    TokenResponse map(IngTokenResponse value);
 
     @Mapping(target = "chargeBearer", ignore = true)
     @Mapping(target = "clearingSystemMemberIdentification", ignore = true)
@@ -130,24 +127,24 @@ public interface IngMapper {
     @Mapping(target = "serviceLevelCode", ignore = true)
     @Mapping(target = "localInstrumentCode", ignore = true)
     @Mapping(target = "categoryPurposeCode", ignore = true)
-    PaymentInstruction map(PaymentInitiationJson value);
+    IngPaymentInstruction map(PaymentInitiationJson value);
 
     @Mapping(target = "streetName", source = "street")
     @Mapping(target = "townName", source = "city")
     @Mapping(target = "postCode", source = "postalCode")
-    Address map(de.adorsys.xs2a.adapter.ing.model.Address value);
+    Address map(IngAddress value);
 
     @InheritInverseConfiguration
-    de.adorsys.xs2a.adapter.ing.model.Address map(Address value);
+    IngAddress map(Address value);
 
     @Mapping(target = "transactionFees", ignore = true)
     @Mapping(target = "transactionFeeIndicator", ignore = true)
     @Mapping(target = "scaMethods", ignore = true)
     @Mapping(target = "challengeData", ignore = true)
     @Mapping(target = "psuMessage", ignore = true)
-    PaymentInitationRequestResponse201 map(PaymentInitiationResponse value);
+    PaymentInitationRequestResponse201 map(IngPaymentInitiationResponse value);
 
-    default Map<String, HrefType> map(Links value) {
+    default Map<String, HrefType> map(IngLinks value) {
         if (value == null) {
             return null;
         }
@@ -176,19 +173,19 @@ public interface IngMapper {
     }
 
     @Mapping(target = "transactionStatus", ignore = true)
-    PaymentInitiationWithStatusResponse map(PaymentInstruction value);
+    PaymentInitiationWithStatusResponse map(IngPaymentInstruction value);
 
     @Mapping(target = "bban", ignore = true)
     @Mapping(target = "pan", ignore = true)
     @Mapping(target = "maskedPan", ignore = true)
     @Mapping(target = "msisdn", ignore = true)
-    AccountReference map(DebtorAccount value);
+    AccountReference map(IngDebtorAccount value);
 
     @Mapping(target = "pan", ignore = true)
     @Mapping(target = "maskedPan", ignore = true)
     @Mapping(target = "msisdn", ignore = true)
-    AccountReference map(CreditorAccount value);
+    AccountReference map(IngCreditorAccount value);
 
-    PaymentInitiationStatusResponse200Json map(PaymentStatusResponse value);
+    PaymentInitiationStatusResponse200Json map(IngPaymentStatusResponse value);
 
 }

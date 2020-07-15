@@ -3,8 +3,8 @@ package de.adorsys.xs2a.adapter.ing;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.http.JsonMapper;
-import de.adorsys.xs2a.adapter.ing.model.PaymentProduct;
-import de.adorsys.xs2a.adapter.ing.model.XmlPaymentProduct;
+import de.adorsys.xs2a.adapter.ing.model.IngPaymentProduct;
+import de.adorsys.xs2a.adapter.ing.model.IngXmlPaymentProduct;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
@@ -20,11 +20,11 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
 
     private final IngOauth2Service ingOauth2Service;
     private final LinksRewriter linksRewriter;
-    private final PaymentInitiationApi paymentInitiationApi;
+    private final IngPaymentInitiationApi paymentInitiationApi;
     private final IngMapper mapper = Mappers.getMapper(IngMapper.class);
     private final JsonMapper jsonMapper = new JacksonObjectMapper();
 
-    public IngPaymentInitiationService(PaymentInitiationApi paymentInitiationApi,
+    public IngPaymentInitiationService(IngPaymentInitiationApi paymentInitiationApi,
                                        IngOauth2Service ingOauth2Service,
                                        LinksRewriter linksRewriter) {
         this.paymentInitiationApi = paymentInitiationApi;
@@ -39,7 +39,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                                                                         RequestParams requestParams,
                                                                         Object body) {
         if (body instanceof String) {
-            XmlPaymentProduct product = XmlPaymentProduct.fromValue(paymentProduct);
+            IngXmlPaymentProduct product = IngXmlPaymentProduct.fromValue(paymentProduct);
             return paymentInitiationApi.initiatePaymentXml(paymentService,
                 product,
                 requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
@@ -56,7 +56,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
             throw new UnsupportedOperationException();
         }
 
-        de.adorsys.xs2a.adapter.ing.model.PaymentProduct product = de.adorsys.xs2a.adapter.ing.model.PaymentProduct.fromValue(paymentProduct);
+        IngPaymentProduct product = IngPaymentProduct.fromValue(paymentProduct);
         PaymentInitiationJson jsonBody = jsonMapper.convertValue(body, PaymentInitiationJson.class);
         return paymentInitiationApi.initiatePayment(paymentService,
             product,
@@ -79,7 +79,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                                                                                      String paymentId,
                                                                                      RequestHeaders requestHeaders,
                                                                                      RequestParams requestParams) {
-        de.adorsys.xs2a.adapter.ing.model.PaymentProduct product = de.adorsys.xs2a.adapter.ing.model.PaymentProduct.fromValue(paymentProduct);
+        IngPaymentProduct product = IngPaymentProduct.fromValue(paymentProduct);
         return paymentInitiationApi.getPaymentDetails(SINGLE_PAYMENTS,
             product,
             paymentId,
@@ -113,7 +113,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                                                           String paymentId,
                                                           RequestHeaders requestHeaders,
                                                           RequestParams requestParams) {
-        XmlPaymentProduct product = XmlPaymentProduct.fromValue(paymentProduct);
+        IngXmlPaymentProduct product = IngXmlPaymentProduct.fromValue(paymentProduct);
         return paymentInitiationApi.getPaymentDetailsXml(paymentService,
             product,
             paymentId,
@@ -139,7 +139,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                                                                                        String paymentId,
                                                                                        RequestHeaders requestHeaders,
                                                                                        RequestParams requestParams) {
-        de.adorsys.xs2a.adapter.ing.model.PaymentProduct product = PaymentProduct.fromValue(paymentProduct);
+        IngPaymentProduct product = IngPaymentProduct.fromValue(paymentProduct);
         return paymentInitiationApi.getPaymentStatus(paymentService,
             product,
             paymentId,
@@ -155,7 +155,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                                                                String paymentId,
                                                                RequestHeaders requestHeaders,
                                                                RequestParams requestParams) {
-        XmlPaymentProduct product = XmlPaymentProduct.fromValue(paymentProduct);
+        IngXmlPaymentProduct product = IngXmlPaymentProduct.fromValue(paymentProduct);
         return paymentInitiationApi.getPaymentStatusXml(paymentService,
             product,
             paymentId,

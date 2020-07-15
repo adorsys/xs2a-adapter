@@ -32,7 +32,7 @@ public class IngServiceProvider
                                                                          Pkcs12KeyStore keyStore,
                                                                          LinksRewriter linksRewriter) {
         HttpClient httpClient = httpClient(httpClientFactory);
-        AccountInformationApi accountInformationApi = new AccountInformationApi(baseUrl, httpClient);
+        IngAccountInformationApi accountInformationApi = new IngAccountInformationApi(baseUrl, httpClient);
         IngOauth2Service ingOauth2Service = ingOauth2Service(baseUrl, httpClient, keyStore);
         return new IngAccountInformationService(accountInformationApi, ingOauth2Service, linksRewriter);
 
@@ -43,16 +43,16 @@ public class IngServiceProvider
     }
 
     private IngOauth2Service ingOauth2Service(String baseUri, HttpClient httpClient, Pkcs12KeyStore keyStore) {
-        Oauth2Api oauth2Api = new Oauth2Api(baseUri, httpClient);
+        IngOauth2Api oauth2Api = new IngOauth2Api(baseUri, httpClient);
         String qsealAlias = AdapterConfig.readProperty("ing.qseal.alias");
         return new IngOauth2Service(oauth2Api, clientAuthenticationFactory(keyStore, qsealAlias));
     }
 
-    private ClientAuthenticationFactory clientAuthenticationFactory(Pkcs12KeyStore keyStore, String qsealAlias) {
+    private IngClientAuthenticationFactory clientAuthenticationFactory(Pkcs12KeyStore keyStore, String qsealAlias) {
         try {
             X509Certificate qsealCertificate = keyStore.getQsealCertificate(qsealAlias);
             PrivateKey qsealPrivateKey = keyStore.getQsealPrivateKey(qsealAlias);
-            return new ClientAuthenticationFactory(qsealCertificate, qsealPrivateKey);
+            return new IngClientAuthenticationFactory(qsealCertificate, qsealPrivateKey);
         } catch (GeneralSecurityException e) {
             throw new RuntimeException(e);
         }
@@ -79,7 +79,7 @@ public class IngServiceProvider
 
         HttpClient httpClient = httpClient(httpClientFactory);
         IngOauth2Service ingOauth2Service = ingOauth2Service(aspsp.getUrl(), httpClient, keyStore);
-        PaymentInitiationApi paymentInitiationApi = new PaymentInitiationApi(aspsp.getUrl(), httpClient);
+        IngPaymentInitiationApi paymentInitiationApi = new IngPaymentInitiationApi(aspsp.getUrl(), httpClient);
         return new IngPaymentInitiationService(paymentInitiationApi, ingOauth2Service, linksRewriter);
     }
 }

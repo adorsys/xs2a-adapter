@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.ing;
 
-import de.adorsys.xs2a.adapter.ing.model.ApplicationTokenResponse;
-import de.adorsys.xs2a.adapter.ing.model.AuthorizationURLResponse;
+import de.adorsys.xs2a.adapter.ing.model.IngApplicationTokenResponse;
+import de.adorsys.xs2a.adapter.ing.model.IngAuthorizationURLResponse;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.Response;
@@ -30,15 +30,15 @@ class IngOauth2ServiceTest {
     private static final String SCOPE = Scope.AIS.getValue();
     private static final String UNSUPPORTED_SCOPE = "unsupportedScope";
     private static final String MAPPED_SCOPE = "payment-accounts:transactions:view payment-accounts:balances:view";
-    private static final ApplicationTokenResponse APPLICATION_TOKEN_RESPONSE = buildApplicationTokenResponse();
+    private static final IngApplicationTokenResponse APPLICATION_TOKEN_RESPONSE = buildApplicationTokenResponse();
 
     @Mock
-    private Oauth2Api oauth2Api;
+    private IngOauth2Api oauth2Api;
     @Mock
-    private ClientAuthenticationFactory clientAuthenticationFactory;
+    private IngClientAuthenticationFactory clientAuthenticationFactory;
 
     @Mock
-    ClientAuthentication clientAuthentication;
+    IngClientAuthentication clientAuthentication;
 
     @InjectMocks
     private IngOauth2Service oauth2Service;
@@ -102,14 +102,14 @@ class IngOauth2ServiceTest {
         assertNotNull(uri);
     }
 
-    private AuthorizationURLResponse buildAuthorizationURLResponse() {
-        AuthorizationURLResponse authorizationURLResponse = new AuthorizationURLResponse();
+    private IngAuthorizationURLResponse buildAuthorizationURLResponse() {
+        IngAuthorizationURLResponse authorizationURLResponse = new IngAuthorizationURLResponse();
         authorizationURLResponse.setLocation(LOCATION);
         return authorizationURLResponse;
     }
 
-    private static ApplicationTokenResponse buildApplicationTokenResponse() {
-        ApplicationTokenResponse tokenResponse = new ApplicationTokenResponse();
+    private static IngApplicationTokenResponse buildApplicationTokenResponse() {
+        IngApplicationTokenResponse tokenResponse = new IngApplicationTokenResponse();
         tokenResponse.setClientId(CLIENT_ID);
         return tokenResponse;
     }

@@ -18,12 +18,12 @@ import static java.util.Collections.emptyMap;
 public class IngAccountInformationService implements AccountInformationService, Oauth2Service {
 
     private final IngOauth2Service oauth2Service;
-    private final AccountInformationApi accountInformationApi;
+    private final IngAccountInformationApi accountInformationApi;
     private final LinksRewriter linksRewriter;
     private final IngMapper mapper = Mappers.getMapper(IngMapper.class);
     private final JsonMapper jsonMapper = new JacksonObjectMapper();
 
-    public IngAccountInformationService(AccountInformationApi accountInformationApi,
+    public IngAccountInformationService(IngAccountInformationApi accountInformationApi,
                                         IngOauth2Service oauth2Service,
                                         LinksRewriter linksRewriter) {
         this.accountInformationApi = accountInformationApi;
@@ -137,7 +137,7 @@ public class IngAccountInformationService implements AccountInformationService, 
                                                                                        RequestHeaders requestHeaders,
                                                                                        RequestParams requestParams) {
         String accessToken = requestHeaders.getAccessToken().orElse(null);
-        ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
+        IngClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         LocalDate dateFrom = requestParams.dateFrom();
         LocalDate dateTo = requestParams.dateTo();
         Integer limit = requestParams.get("limit", Integer::valueOf);
@@ -175,7 +175,7 @@ public class IngAccountInformationService implements AccountInformationService, 
     public Response<AccountList> getAccountList(RequestHeaders requestHeaders,
                                                 RequestParams requestParams) {
         String accessToken = requestHeaders.getAccessToken().orElse(null);
-        ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
+        IngClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         String requestId = requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null);
         Response<AccountList> response = accountInformationApi.getAccounts(requestId, clientAuthentication)
             .map(mapper::map);
@@ -202,7 +202,7 @@ public class IngAccountInformationService implements AccountInformationService, 
                                                                RequestHeaders requestHeaders,
                                                                RequestParams requestParams) {
         String accessToken = requestHeaders.getAccessToken().orElse(null);
-        ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
+        IngClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         Currency currency = requestParams.get("currency", Currency::getInstance);
         String requestId = requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null);
         List<String> balanceTypes = requestParams.get("balanceTypes", this::parseBalanceTypes);
@@ -227,7 +227,7 @@ public class IngAccountInformationService implements AccountInformationService, 
                                                                     RequestHeaders requestHeaders,
                                                                     RequestParams requestParams) {
         String accessToken = requestHeaders.getAccessToken().orElse(null);
-        ClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
+        IngClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         LocalDate dateFrom = requestParams.dateFrom();
         LocalDate dateTo = requestParams.dateTo();
         Currency currency = requestParams.get("currency", Currency::getInstance);

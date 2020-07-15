@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.ing;
 
 import de.adorsys.xs2a.adapter.http.StringUri;
-import de.adorsys.xs2a.adapter.ing.model.ApplicationTokenResponse;
-import de.adorsys.xs2a.adapter.ing.model.AuthorizationURLResponse;
-import de.adorsys.xs2a.adapter.ing.model.TokenResponse;
+import de.adorsys.xs2a.adapter.ing.model.IngApplicationTokenResponse;
+import de.adorsys.xs2a.adapter.ing.model.IngAuthorizationURLResponse;
+import de.adorsys.xs2a.adapter.ing.model.IngTokenResponse;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.model.Scope;
 import de.adorsys.xs2a.adapter.validation.ValidationError;
@@ -25,13 +25,13 @@ public class IngOauth2Service {
 
     protected static final String UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE = "Scope value [%s] is not supported";
 
-    private final Oauth2Api oauth2Api;
-    private final ClientAuthenticationFactory clientAuthenticationFactory;
+    private final IngOauth2Api oauth2Api;
+    private final IngClientAuthenticationFactory clientAuthenticationFactory;
 
-    private ApplicationTokenResponse applicationToken;
+    private IngApplicationTokenResponse applicationToken;
 
-    public IngOauth2Service(Oauth2Api oauth2Api,
-                            ClientAuthenticationFactory clientAuthenticationFactory) {
+    public IngOauth2Service(IngOauth2Api oauth2Api,
+                            IngClientAuthenticationFactory clientAuthenticationFactory) {
         this.oauth2Api = oauth2Api;
         this.clientAuthenticationFactory = clientAuthenticationFactory;
     }
@@ -49,8 +49,8 @@ public class IngOauth2Service {
         requireValid(validateScope(parameters.getScope()));
         parameters.setScope(mapScope(parameters.getScope()));
 
-        ClientAuthentication clientAuthentication = getClientAuthentication();
-        AuthorizationURLResponse authorizationUrlResponse =
+        IngClientAuthentication clientAuthentication = getClientAuthentication();
+        IngAuthorizationURLResponse authorizationUrlResponse =
             oauth2Api.getAuthorizationUrl(clientAuthentication,
                 parameters.getScope(),
                 parameters.getRedirectUri())
@@ -80,16 +80,16 @@ public class IngOauth2Service {
         return SCOPE_MAPPING.get(Scope.fromValue(scope));
     }
 
-    public ClientAuthentication getClientAuthentication() {
+    public IngClientAuthentication getClientAuthentication() {
         return clientAuthenticationFactory.newClientAuthentication(getApplicationToken());
     }
 
-    private ApplicationTokenResponse getApplicationToken() {
+    private IngApplicationTokenResponse getApplicationToken() {
         if (applicationToken != null) {
             return applicationToken;
         }
 
-        ClientAuthentication clientAuthentication =
+        IngClientAuthentication clientAuthentication =
             clientAuthenticationFactory.newClientAuthenticationForApplicationToken();
         applicationToken = oauth2Api.getApplicationToken(clientAuthentication)
             .getBody();
@@ -100,13 +100,13 @@ public class IngOauth2Service {
         return getApplicationToken().getClientId();
     }
 
-    public TokenResponse getToken(Oauth2Service.Parameters parameters) {
-        ClientAuthentication clientAuthentication = getClientAuthentication();
+    public IngTokenResponse getToken(Oauth2Service.Parameters parameters) {
+        IngClientAuthentication clientAuthentication = getClientAuthentication();
         return oauth2Api.getCustomerToken(parameters, clientAuthentication)
             .getBody();
     }
 
-    public ClientAuthentication getClientAuthentication(String accessToken) {
+    public IngClientAuthentication getClientAuthentication(String accessToken) {
         return clientAuthenticationFactory.newClientAuthentication(getApplicationToken(), accessToken);
     }
 }
