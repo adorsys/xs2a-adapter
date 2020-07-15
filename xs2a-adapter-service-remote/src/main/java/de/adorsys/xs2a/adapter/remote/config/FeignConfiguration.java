@@ -6,13 +6,22 @@ import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
 import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationMultipartBody;
 import de.adorsys.xs2a.adapter.config.PeriodicPaymentInitiationMultipartBodyHttpMessageConverter;
+import de.adorsys.xs2a.adapter.http.ContentType;
+import de.adorsys.xs2a.adapter.http.ResponseHandlers;
+import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import feign.Contract;
+import feign.FeignException;
 import feign.RequestTemplate;
+import feign.Response;
+import feign.codec.Decoder;
 import feign.codec.EncodeException;
 import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;
+import feign.optionals.OptionalDecoder;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
+import org.springframework.cloud.openfeign.support.SpringDecoder;
 import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +37,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 import java.util.Collections;
+
+import static de.adorsys.xs2a.adapter.service.RequestHeaders.CONTENT_TYPE;
 
 @Configuration
 public class FeignConfiguration {
@@ -112,5 +124,27 @@ public class FeignConfiguration {
             return this.outputStream;
         }
 
+    }
+
+    @Bean
+    public Decoder decoder(ObjectFactory<HttpMessageConverters> messageConverters) {
+        return new OptionalDecoder(
+            new ResponseEntityDecoder(new SpringDecoder(messageConverters) {
+                @Override
+                public Object decode(Response response, Type type) throws IOException, FeignException {
+                    Collection<String> contentTypeValues = response.headers().get(CONTENT_TYPE);
+                    String contentType = null;
+                    if (contentTypeValues != null) {
+                        contentType = contentTypeValues.stream().findFirst().orElse(null);
+                    }
+                    if (contentType != null && contentType.startsWith(ContentType.MULTIPART_FORM_DATA)) {
+                        return ResponseHandlers.multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class)
+                            .apply(response.status(),
+                                response.body().asInputStream(),
+                                ResponseHeaders.fromMap(Collections.singletonMap(CONTENT_TYPE, contentType)));
+                    }
+                    return super.decode(response, type);
+                }
+            }));
     }
 }

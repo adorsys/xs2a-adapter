@@ -131,8 +131,17 @@ public class RemotePaymentInitiationService implements PaymentInitiationService 
                                                                                                  String paymentId,
                                                                                                  RequestHeaders requestHeaders,
                                                                                                  RequestParams requestParams) {
-        // todo XS2AAD-610
-        throw new UnsupportedOperationException();
+        ResponseEntity<Object> responseEntity = client.getPaymentInformation(
+            PaymentService.PERIODIC_PAYMENTS,
+            PaymentProduct.fromValue(paymentProduct),
+            paymentId,
+            requestParams.toMap(),
+            requestHeaders.toMap()
+        );
+
+        return new Response<>(responseEntity.getStatusCodeValue(),
+            (PeriodicPaymentInitiationMultipartBody) responseEntity.getBody(),
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 
     @Override

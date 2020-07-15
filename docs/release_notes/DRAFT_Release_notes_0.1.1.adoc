@@ -15,6 +15,7 @@
 
 == Features:
 - Added multipart/form-data response handler
+- Added RemotePaymentInitiationService.getPeriodicPain001PaymentInformation (special processing in feign decoder)
 
 == Fixes:
 - Fixed split packages (fiducia-adapter)
