@@ -4,7 +4,7 @@ import de.adorsys.xs2a.adapter.api.model.Address;
 import de.adorsys.xs2a.adapter.api.model.Balance;
 import de.adorsys.xs2a.adapter.api.model.HrefType;
 import de.adorsys.xs2a.adapter.api.model.*;
-import de.adorsys.xs2a.adapter.ing.internal.api.model.*;
+import de.adorsys.xs2a.adapter.ing.model.*;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -78,7 +78,7 @@ public interface IngMapper {
     @Mapping(target = "ownerName", ignore = true)
     AccountDetails map(Account value);
 
-    Balance map(de.adorsys.xs2a.adapter.ing.internal.api.model.Balance value);
+    Balance map(de.adorsys.xs2a.adapter.ing.model.Balance value);
 
     default BalanceType toBalanceType(String value) {
         return BalanceType.fromValue(value);
@@ -120,7 +120,7 @@ public interface IngMapper {
     @Mapping(target = "balanceAfterTransaction", ignore = true)
     TransactionDetails map(Transaction value);
 
-    TokenResponse map(de.adorsys.xs2a.adapter.ing.internal.api.model.TokenResponse value);
+    TokenResponse map(de.adorsys.xs2a.adapter.ing.model.TokenResponse value);
 
     @Mapping(target = "chargeBearer", ignore = true)
     @Mapping(target = "clearingSystemMemberIdentification", ignore = true)
@@ -135,10 +135,10 @@ public interface IngMapper {
     @Mapping(target = "streetName", source = "street")
     @Mapping(target = "townName", source = "city")
     @Mapping(target = "postCode", source = "postalCode")
-    Address map(de.adorsys.xs2a.adapter.ing.internal.api.model.Address value);
+    Address map(de.adorsys.xs2a.adapter.ing.model.Address value);
 
     @InheritInverseConfiguration
-    de.adorsys.xs2a.adapter.ing.internal.api.model.Address map(Address value);
+    de.adorsys.xs2a.adapter.ing.model.Address map(Address value);
 
     @Mapping(target = "transactionFees", ignore = true)
     @Mapping(target = "transactionFeeIndicator", ignore = true)
