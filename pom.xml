@@ -193,13 +193,6 @@
                 <scope>test</scope>
             </dependency>
 
-            <!-- logging dependencies -->
-            <dependency>
-                <groupId>org.codehaus.janino</groupId>
-                <artifactId>janino</artifactId>
-                <version>3.0.16</version>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 
@@ -223,13 +216,6 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
             <scope>test</scope>
-        </dependency>
-
-        <!-- logging dependencies -->
-
-        <dependency>
-            <groupId>org.codehaus.janino</groupId>
-            <artifactId>janino</artifactId>
         </dependency>
 
     </dependencies>
@@ -448,6 +434,21 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <activation>
+                <property>
+                    <name>janino</name>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- for filtered logging -->
+                <dependency>
+                    <groupId>org.codehaus.janino</groupId>
+                    <artifactId>janino</artifactId>
+                    <version>3.0.16</version>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 
