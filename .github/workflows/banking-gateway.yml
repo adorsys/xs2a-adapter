@@ -1,8 +1,8 @@
 name: Banking Gateway Dev CI
 on:
   push:
-    branches:
-      - banking-gateway-extended-logging
+    tags:
+      - v*
 
 env:
   XS2A_ADAPTER_IMAGE_NAME: xs2a-adapter
