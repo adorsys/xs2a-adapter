@@ -10,7 +10,7 @@ import static java.util.Objects.requireNonNull;
 // version: 1.1.12
 public class IngPaymentInitiationApi {
 
-    private static final String API_VERSION = "/v1/";
+    private static final String PAYMENTS = "/v1/payments";
 
     private final String baseUri;
     private final HttpClient httpClient;
@@ -21,14 +21,13 @@ public class IngPaymentInitiationApi {
         this.httpClient = httpClient;
     }
 
-    public Response<IngPaymentInitiationResponse> initiatePayment(String paymentService,
-                                                                  IngPaymentProduct paymentProduct,
+    public Response<IngPaymentInitiationResponse> initiatePayment(IngPaymentProduct paymentProduct,
                                                                   String requestId,
                                                                   String tppRedirectUri,
                                                                   String psuIpAddress,
                                                                   Request.Builder.Interceptor clientAuthentication,
                                                                   IngPaymentInstruction body) {
-        String uri = StringUri.fromElements(baseUri, API_VERSION, paymentService, requireNonNull(paymentProduct).toString());
+        String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString());
         return httpClient.post(uri)
             .header(RequestHeaders.X_REQUEST_ID, requestId)
             .header(RequestHeaders.TPP_REDIRECT_URI, tppRedirectUri)
@@ -37,13 +36,12 @@ public class IngPaymentInitiationApi {
             .send(clientAuthentication, ResponseHandlers.jsonResponseHandler(IngPaymentInitiationResponse.class));
     }
 
-    public Response<IngPaymentInstruction> getPaymentDetails(String paymentService,
-                                                             IngPaymentProduct paymentProduct,
+    public Response<IngPaymentInstruction> getPaymentDetails(IngPaymentProduct paymentProduct,
                                                              String paymentId,
                                                              String requestId,
                                                              String psuIpAddress,
                                                              IngClientAuthentication clientAuthentication) {
-        String uri = StringUri.fromElements(baseUri, API_VERSION, paymentService, requireNonNull(paymentProduct).toString(),
+        String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString(),
             requireNonNull(paymentId));
         return httpClient.get(uri)
             .header(RequestHeaders.X_REQUEST_ID, requestId)
@@ -51,13 +49,12 @@ public class IngPaymentInitiationApi {
             .send(clientAuthentication, ResponseHandlers.jsonResponseHandler(IngPaymentInstruction.class));
     }
 
-    public Response<IngPaymentStatusResponse> getPaymentStatus(String paymentService,
-                                                               IngPaymentProduct paymentProduct,
+    public Response<IngPaymentStatusResponse> getPaymentStatus(IngPaymentProduct paymentProduct,
                                                                String paymentId,
                                                                String requestId,
                                                                String psuIpAddress,
                                                                IngClientAuthentication clientAuthentication) {
-        String uri = StringUri.fromElements(baseUri, API_VERSION, paymentService, requireNonNull(paymentProduct).toString(),
+        String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString(),
             requireNonNull(paymentId), "status");
         return httpClient.get(uri)
             .header(RequestHeaders.X_REQUEST_ID, requestId)
@@ -65,14 +62,13 @@ public class IngPaymentInitiationApi {
             .send(clientAuthentication, ResponseHandlers.jsonResponseHandler(IngPaymentStatusResponse.class));
     }
 
-    public Response<IngPaymentInitiationResponse> initiatePaymentXml(String paymentService,
-                                                                     IngXmlPaymentProduct paymentProduct,
+    public Response<IngPaymentInitiationResponse> initiatePaymentXml(IngXmlPaymentProduct paymentProduct,
                                                                      String requestId,
                                                                      String tppRedirectUri,
                                                                      String psuIpAddress,
                                                                      Request.Builder.Interceptor clientAuthentication,
                                                                      String body) {
-        String uri = StringUri.fromElements(baseUri, API_VERSION, paymentService, requireNonNull(paymentProduct).toString());
+        String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString());
         return httpClient.post(uri)
             .header(RequestHeaders.X_REQUEST_ID, requestId)
             .header(RequestHeaders.TPP_REDIRECT_URI, tppRedirectUri)
@@ -82,13 +78,12 @@ public class IngPaymentInitiationApi {
     }
 
 
-    public Response<String> getPaymentDetailsXml(String paymentService,
-                                                 IngXmlPaymentProduct paymentProduct,
+    public Response<String> getPaymentDetailsXml(IngXmlPaymentProduct paymentProduct,
                                                  String paymentId,
                                                  String requestId,
                                                  String psuIpAddress,
                                                  IngClientAuthentication clientAuthentication) {
-        String uri = StringUri.fromElements(baseUri, API_VERSION, paymentService, requireNonNull(paymentProduct).toString(),
+        String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString(),
             requireNonNull(paymentId));
         return httpClient.get(uri)
             .header(RequestHeaders.X_REQUEST_ID, requestId)
@@ -96,13 +91,12 @@ public class IngPaymentInitiationApi {
             .send(clientAuthentication, ResponseHandlers.stringResponseHandler());
     }
 
-    public Response<String> getPaymentStatusXml(String paymentService,
-                                                IngXmlPaymentProduct paymentProduct,
+    public Response<String> getPaymentStatusXml(IngXmlPaymentProduct paymentProduct,
                                                 String paymentId,
                                                 String requestId,
                                                 String psuIpAddress,
                                                 IngClientAuthentication clientAuthentication) {
-        String uri = StringUri.fromElements(baseUri, API_VERSION, paymentService, requireNonNull(paymentProduct).toString(),
+        String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString(),
             requireNonNull(paymentId), "status");
         return httpClient.get(uri)
             .header(RequestHeaders.X_REQUEST_ID, requestId)
