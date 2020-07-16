@@ -10,14 +10,17 @@ import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
+import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.mapstruct.factory.Mappers;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Function;
 
-public class IngPaymentInitiationService implements PaymentInitiationService {
-    private static final String SINGLE_PAYMENTS = "payments";
-    private static final String PERIODIC_PAYMENTS = "periodic-payments";
+import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
+import static de.adorsys.xs2a.adapter.validation.ValidationError.Code.NOT_SUPPORTED;
 
+public class IngPaymentInitiationService implements PaymentInitiationService {
     private final IngOauth2Service ingOauth2Service;
     private final LinksRewriter linksRewriter;
     private final IngPaymentInitiationApi paymentInitiationApi;
@@ -38,35 +41,78 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                                                                         RequestHeaders requestHeaders,
                                                                         RequestParams requestParams,
                                                                         Object body) {
-        if (body instanceof String) {
-            IngXmlPaymentProduct product = IngXmlPaymentProduct.fromValue(paymentProduct);
-            return paymentInitiationApi.initiatePaymentXml(paymentService,
-                product,
-                requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
-                requestHeaders.get(RequestHeaders.TPP_REDIRECT_URI).orElse(null),
-                requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-                ingOauth2Service.getClientAuthentication(),
-                (String) body)
-                       .map(mapper::map)
-                       .map(this::rewriteLinks);
-        }
+        requireValid(validateInitiatePayment(paymentService, paymentProduct, requestHeaders, requestParams, body));
 
-        // TODO implement periodic payments for ING (https://jira.adorsys.de/browse/XS2AAD-583)
-        if (PERIODIC_PAYMENTS.equals(paymentService)) {
-            throw new UnsupportedOperationException();
-        }
+        switch (PaymentService.fromValue(paymentService)) {
+            case PAYMENTS:
+                if (body instanceof String) {
+                    IngXmlPaymentProduct product = IngXmlPaymentProduct.fromValue(paymentProduct);
+                    return paymentInitiationApi.initiatePaymentXml(product,
+                        requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
+                        requestHeaders.get(RequestHeaders.TPP_REDIRECT_URI).orElse(null),
+                        requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
+                        ingOauth2Service.getClientAuthentication(),
+                        (String) body)
+                        .map(mapper::map)
+                        .map(this::rewriteLinks);
+                }
 
-        IngPaymentProduct product = IngPaymentProduct.fromValue(paymentProduct);
-        PaymentInitiationJson jsonBody = jsonMapper.convertValue(body, PaymentInitiationJson.class);
-        return paymentInitiationApi.initiatePayment(paymentService,
-            product,
-            requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
-            requestHeaders.get(RequestHeaders.TPP_REDIRECT_URI).orElse(null),
-            requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-            ingOauth2Service.getClientAuthentication(),
-            mapper.map(jsonBody))
-                   .map(mapper::map)
-                   .map(this::rewriteLinks);
+                IngPaymentProduct product = IngPaymentProduct.fromValue(paymentProduct);
+                PaymentInitiationJson jsonBody = jsonMapper.convertValue(body, PaymentInitiationJson.class);
+                return paymentInitiationApi.initiatePayment(product,
+                    requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
+                    requestHeaders.get(RequestHeaders.TPP_REDIRECT_URI).orElse(null),
+                    requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
+                    ingOauth2Service.getClientAuthentication(),
+                    mapper.map(jsonBody))
+                    .map(mapper::map)
+                    .map(this::rewriteLinks);
+
+            case PERIODIC_PAYMENTS:
+                if (body instanceof PeriodicPaymentInitiationMultipartBody) {
+                    return paymentInitiationApi.initiatePeriodicPaymentXml(IngXmlPaymentProduct.fromValue(paymentProduct),
+                        requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
+                        requestHeaders.get(RequestHeaders.TPP_REDIRECT_URI).orElse(null),
+                        requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
+                        ingOauth2Service.getClientAuthentication(),
+                        mapper.map((PeriodicPaymentInitiationMultipartBody) body))
+                        .map(mapper::map)
+                        .map(this::rewriteLinks);
+                }
+
+                return paymentInitiationApi.initiatePeriodicPayment(IngPaymentProduct.fromValue(paymentProduct),
+                    requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
+                    requestHeaders.get(RequestHeaders.TPP_REDIRECT_URI).orElse(null),
+                    requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
+                    ingOauth2Service.getClientAuthentication(),
+                    mapper.map(jsonMapper.convertValue(body, PeriodicPaymentInitiationJson.class)))
+                    .map(mapper::map)
+                    .map(this::rewriteLinks);
+
+
+            default:
+                throw new UnsupportedOperationException(paymentService);
+        }
+    }
+
+    @Override
+    public List<ValidationError> validateInitiatePayment(String paymentService,
+                                                         String paymentProduct,
+                                                         RequestHeaders requestHeaders,
+                                                         RequestParams requestParams,
+                                                         Object body) {
+        if (PaymentService.fromValue(paymentService) == PaymentService.PERIODIC_PAYMENTS
+            && !(body instanceof PeriodicPaymentInitiationMultipartBody)) {
+
+            FrequencyCode frequency = jsonMapper.convertValue(body, PeriodicPaymentInitiationJson.class).getFrequency();
+            try {
+                mapper.map(frequency);
+            } catch (IllegalArgumentException e) {
+                return Collections.singletonList(
+                    new ValidationError(NOT_SUPPORTED, "frequency", "\"" + frequency + "\" value is not supported"));
+            }
+        }
+        return Collections.emptyList();
     }
 
     private PaymentInitationRequestResponse201 rewriteLinks(PaymentInitationRequestResponse201 body) {
@@ -80,8 +126,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                                                                                      RequestHeaders requestHeaders,
                                                                                      RequestParams requestParams) {
         IngPaymentProduct product = IngPaymentProduct.fromValue(paymentProduct);
-        return paymentInitiationApi.getPaymentDetails(SINGLE_PAYMENTS,
-            product,
+        return paymentInitiationApi.getPaymentDetails(product,
             paymentId,
             requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
             requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
@@ -94,8 +139,13 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                                                                                                String paymentId,
                                                                                                RequestHeaders requestHeaders,
                                                                                                RequestParams requestParams) {
-        // TODO implement periodic payments for ING (https://jira.adorsys.de/browse/XS2AAD-583)
-        throw new UnsupportedOperationException();
+        IngPaymentProduct product = IngPaymentProduct.fromValue(paymentProduct);
+        return paymentInitiationApi.getPeriodicPaymentDetails(product,
+            paymentId,
+            requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
+            requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
+            ingOauth2Service.getClientAuthentication())
+            .map(mapper::map);
     }
 
     @Override
@@ -103,8 +153,13 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                                                                                                  String paymentId,
                                                                                                  RequestHeaders requestHeaders,
                                                                                                  RequestParams requestParams) {
-        // TODO implement periodic payments for ING (https://jira.adorsys.de/browse/XS2AAD-583)
-        throw new UnsupportedOperationException();
+        IngXmlPaymentProduct product = IngXmlPaymentProduct.fromValue(paymentProduct);
+        return paymentInitiationApi.getPeriodicPaymentDetailsXml(product,
+            paymentId,
+            requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
+            requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
+            ingOauth2Service.getClientAuthentication())
+            .map(mapper::map);
     }
 
     @Override
@@ -113,14 +168,35 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                                                           String paymentId,
                                                           RequestHeaders requestHeaders,
                                                           RequestParams requestParams) {
-        IngXmlPaymentProduct product = IngXmlPaymentProduct.fromValue(paymentProduct);
-        return paymentInitiationApi.getPaymentDetailsXml(paymentService,
-            product,
-            paymentId,
-            requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
-            requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-            ingOauth2Service.getClientAuthentication())
-                   .map(Function.identity());
+        switch (PaymentService.fromValue(paymentService)) {
+            case PAYMENTS:
+                if (isXml(paymentProduct)) {
+                    IngXmlPaymentProduct product = IngXmlPaymentProduct.fromValue(paymentProduct);
+                    return paymentInitiationApi.getPaymentDetailsXml(product,
+                        paymentId,
+                        requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
+                        requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
+                        ingOauth2Service.getClientAuthentication())
+                        .map(Function.identity());
+                }
+                return getSinglePaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams)
+                    .map(jsonMapper::writeValueAsString);
+
+            case PERIODIC_PAYMENTS:
+                if (isXml(paymentProduct)) {
+                    return getPeriodicPain001PaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams)
+                        .map(jsonMapper::writeValueAsString);
+                }
+                return getPeriodicPaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams)
+                    .map(jsonMapper::writeValueAsString);
+
+            default:
+                throw new UnsupportedOperationException(paymentService);
+        }
+    }
+
+    protected boolean isXml(String paymentProduct) {
+        return paymentProduct.startsWith("pain");
     }
 
     @Override
@@ -140,13 +216,27 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                                                                                        RequestHeaders requestHeaders,
                                                                                        RequestParams requestParams) {
         IngPaymentProduct product = IngPaymentProduct.fromValue(paymentProduct);
-        return paymentInitiationApi.getPaymentStatus(paymentService,
-            product,
-            paymentId,
-            requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
-            requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-            ingOauth2Service.getClientAuthentication())
-                   .map(mapper::map);
+        switch (PaymentService.fromValue(paymentService)) {
+            case PAYMENTS:
+                return paymentInitiationApi.getPaymentStatus(product,
+                    paymentId,
+                    requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
+                    requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
+                    ingOauth2Service.getClientAuthentication())
+                    .map(mapper::map);
+
+            case PERIODIC_PAYMENTS:
+                return paymentInitiationApi.getPeriodicPaymentStatus(product,
+                    paymentId,
+                    requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
+                    requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
+                    ingOauth2Service.getClientAuthentication())
+                    .map(mapper::map);
+
+            default:
+                throw new UnsupportedOperationException(paymentService);
+        }
+
     }
 
     @Override
@@ -155,14 +245,35 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                                                                String paymentId,
                                                                RequestHeaders requestHeaders,
                                                                RequestParams requestParams) {
-        IngXmlPaymentProduct product = IngXmlPaymentProduct.fromValue(paymentProduct);
-        return paymentInitiationApi.getPaymentStatusXml(paymentService,
-            product,
-            paymentId,
-            requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
-            requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-            ingOauth2Service.getClientAuthentication())
-                   .map(Function.identity());
+        switch (PaymentService.fromValue(paymentService)) {
+            case PAYMENTS:
+                if (isXml(paymentProduct)) {
+                    IngXmlPaymentProduct product = IngXmlPaymentProduct.fromValue(paymentProduct);
+                    return paymentInitiationApi.getPaymentStatusXml(product,
+                        paymentId,
+                        requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
+                        requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
+                        ingOauth2Service.getClientAuthentication())
+                        .map(Function.identity());
+                }
+                return getPaymentInitiationStatus(paymentService, paymentProduct, paymentId, requestHeaders, requestParams)
+                    .map(jsonMapper::writeValueAsString);
+
+            case PERIODIC_PAYMENTS:
+                if (isXml(paymentProduct)) {
+                    return paymentInitiationApi.getPeriodicPaymentStatusXml(IngXmlPaymentProduct.fromValue(paymentProduct),
+                        paymentId,
+                        requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
+                        requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
+                        ingOauth2Service.getClientAuthentication())
+                        .map(Function.identity());
+                }
+                return getPaymentInitiationStatus(paymentService, paymentProduct, paymentId, requestHeaders, requestParams)
+                    .map(jsonMapper::writeValueAsString);
+
+            default:
+                throw new UnsupportedOperationException(paymentService);
+        }
     }
 
     @Override

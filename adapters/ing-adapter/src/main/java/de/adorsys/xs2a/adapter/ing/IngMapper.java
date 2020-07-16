@@ -73,8 +73,11 @@ public interface IngMapper {
     @Mapping(target = "balances", ignore = true)
     @Mapping(target = "displayName", ignore = true)
     @Mapping(target = "ownerName", ignore = true)
+    @Mapping(target = "usage", ignore = true)
     AccountDetails map(IngAccount value);
 
+    @Mapping(target = "creditLimitIncluded", ignore = true)
+    @Mapping(target = "lastCommittedTransaction", ignore = true)
     Balance map(IngBalance value);
 
     default BalanceType toBalanceType(String value) {
@@ -115,6 +118,8 @@ public interface IngMapper {
     @Mapping(target = "remittanceInformationStructuredArray", ignore = true)
     @Mapping(target = "additionalInformationStructured", ignore = true)
     @Mapping(target = "balanceAfterTransaction", ignore = true)
+    @Mapping(target = "currencyExchange", ignore = true)
+    @Mapping(target = "additionalInformation", ignore = true)
     TransactionDetails map(IngTransaction value);
 
     TokenResponse map(IngTokenResponse value);
@@ -127,6 +132,7 @@ public interface IngMapper {
     @Mapping(target = "serviceLevelCode", ignore = true)
     @Mapping(target = "localInstrumentCode", ignore = true)
     @Mapping(target = "categoryPurposeCode", ignore = true)
+    @Mapping(target = "requestedExecutionDate", ignore = true)
     IngPaymentInstruction map(PaymentInitiationJson value);
 
     @Mapping(target = "streetName", source = "street")
@@ -142,6 +148,7 @@ public interface IngMapper {
     @Mapping(target = "scaMethods", ignore = true)
     @Mapping(target = "challengeData", ignore = true)
     @Mapping(target = "psuMessage", ignore = true)
+    @Mapping(target = "chosenScaMethod", ignore = true)
     PaymentInitationRequestResponse201 map(IngPaymentInitiationResponse value);
 
     default Map<String, HrefType> map(IngLinks value) {
@@ -186,6 +193,150 @@ public interface IngMapper {
     @Mapping(target = "msisdn", ignore = true)
     AccountReference map(IngCreditorAccount value);
 
+    @Mapping(target = "fundsAvailable", ignore = true)
+    @Mapping(target = "psuMessage", ignore = true)
     PaymentInitiationStatusResponse200Json map(IngPaymentStatusResponse value);
 
+    @Mapping(target = "chargeBearer", ignore = true)
+    @Mapping(target = "clearingSystemMemberIdentification", ignore = true)
+    @Mapping(target = "debtorName", ignore = true)
+    @Mapping(target = "debtorAgent", ignore = true)
+    @Mapping(target = "instructionPriority", ignore = true)
+    @Mapping(target = "serviceLevelCode", ignore = true)
+    @Mapping(target = "localInstrumentCode", ignore = true)
+    @Mapping(target = "categoryPurposeCode", ignore = true)
+    @Mapping(target = "requestedExecutionDate", ignore = true)
+    IngPeriodicPaymentInitiationJson map(PeriodicPaymentInitiationJson value);
+
+    default IngFrequencyCode map(FrequencyCode value) {
+        if (value == null) {
+            return null;
+        }
+        switch (value) {
+            case DAILY:
+                return IngFrequencyCode.DAIL;
+            case WEEKLY:
+                return IngFrequencyCode.WEEK;
+            case EVERYTWOWEEKS:
+                return IngFrequencyCode.TOWK;
+            case MONTHLY:
+                return IngFrequencyCode.MNTH;
+            case EVERYTWOMONTHS:
+                return IngFrequencyCode.TOMN;
+            case QUARTERLY:
+                return IngFrequencyCode.QUTR;
+            case SEMIANNUAL:
+                return IngFrequencyCode.SEMI;
+            case ANNUAL:
+                return IngFrequencyCode.YEAR;
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    @Mapping(target = "transactionFees", ignore = true)
+    @Mapping(target = "transactionFeeIndicator", ignore = true)
+    @Mapping(target = "scaMethods", ignore = true)
+    @Mapping(target = "chosenScaMethod", ignore = true)
+    @Mapping(target = "challengeData", ignore = true)
+    @Mapping(target = "psuMessage", ignore = true)
+    PaymentInitationRequestResponse201 map(IngPeriodicPaymentInitiationResponse value);
+
+
+    default Map<String, HrefType> map(IngPeriodicLinks value) {
+        if (value == null) {
+            return null;
+        }
+        HashMap<String, HrefType> links = new HashMap<>();
+        if (value.getScaRedirect() != null) {
+            HrefType scaRedirect = new HrefType();
+            scaRedirect.setHref(value.getScaRedirect());
+            links.put("scaRedirect", scaRedirect);
+        }
+        if (value.getSelf() != null) {
+            HrefType self = new HrefType();
+            self.setHref(value.getSelf());
+            links.put("self", self);
+        }
+        if (value.getStatus() != null) {
+            HrefType status = new HrefType();
+            status.setHref(value.getStatus());
+            links.put("status", status);
+        }
+        if (value.getDelete() != null) {
+            HrefType delete = new HrefType();
+            delete.setHref(value.getDelete());
+            links.put("delete", delete);
+        }
+        return links;
+    }
+
+    @Mapping(target = "executionRule", ignore = true)
+    @Mapping(target = "transactionStatus", ignore = true)
+    PeriodicPaymentInitiationWithStatusResponse map(IngPeriodicPaymentInitiationJson value);
+
+    default FrequencyCode map(IngFrequencyCode value) {
+        if (value == null) {
+            return null;
+        }
+        switch (value) {
+            case DAIL:
+                return FrequencyCode.DAILY;
+            case WEEK:
+                return FrequencyCode.WEEKLY;
+            case TOWK:
+                return FrequencyCode.EVERYTWOWEEKS;
+            case MNTH:
+                return FrequencyCode.MONTHLY;
+            case TOMN:
+                return FrequencyCode.EVERYTWOMONTHS;
+            case QUTR:
+                return FrequencyCode.QUARTERLY;
+            case SEMI:
+                return FrequencyCode.SEMIANNUAL;
+            case YEAR:
+                return FrequencyCode.ANNUAL;
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    @Mapping(target = "fundsAvailable", ignore = true)
+    @Mapping(target = "psuMessage", ignore = true)
+    PaymentInitiationStatusResponse200Json map(IngPaymentAgreementStatusResponse value);
+
+    default IngPeriodicPaymentInitiationXml map(PeriodicPaymentInitiationMultipartBody value) {
+        if (value == null) {
+            return null;
+        }
+        IngPeriodicPaymentInitiationXml target = new IngPeriodicPaymentInitiationXml();
+        target.setXml_sct(value.getXml_sct() == null ? null : value.getXml_sct().toString());
+        if (value.getJson_standingorderType() != null) {
+            target.setStartDate(value.getJson_standingorderType().getStartDate());
+            target.setEndDate(value.getJson_standingorderType().getEndDate());
+            target.setFrequency(map(value.getJson_standingorderType().getFrequency()));
+            target.setDayOfExecution(map(value.getJson_standingorderType().getDayOfExecution()));
+        }
+        return target;
+    }
+
+    IngDayOfExecution map(DayOfExecution value);
+
+    DayOfExecution map(IngDayOfExecution value);
+
+    default PeriodicPaymentInitiationMultipartBody map(IngPeriodicPaymentInitiationXml value) {
+        if (value == null) {
+            return null;
+        }
+        PeriodicPaymentInitiationMultipartBody target = new PeriodicPaymentInitiationMultipartBody();
+        target.setXml_sct(value.getXml_sct());
+        PeriodicPaymentInitiationXmlPart2StandingorderTypeJson json =
+            new PeriodicPaymentInitiationXmlPart2StandingorderTypeJson();
+        target.setJson_standingorderType(json);
+        json.setStartDate(value.getStartDate());
+        json.setEndDate(value.getEndDate());
+        json.setFrequency(map(value.getFrequency()));
+        json.setDayOfExecution(map(value.getDayOfExecution()));
+        return target;
+    }
 }
