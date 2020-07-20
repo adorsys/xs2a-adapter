@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.service;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -41,6 +42,8 @@ public class RequestHeaders {
     public static final String X_GTW_BANK_CODE = "X-GTW-Bank-Code";
     public static final String X_GTW_BIC = "X-GTW-BIC";
     public static final String X_GTW_IBAN = "X-GTW-IBAN";
+
+    private static final RequestHeaders EMPTY = new RequestHeaders(Collections.emptyMap());
 
     private static Map<String, String> headerNamesLowerCased = new HashMap<>();
 
@@ -92,6 +95,10 @@ public class RequestHeaders {
             }
         });
         return new RequestHeaders(headers);
+    }
+
+    public static RequestHeaders empty() {
+        return EMPTY;
     }
 
     public Map<String, String> toMap() {

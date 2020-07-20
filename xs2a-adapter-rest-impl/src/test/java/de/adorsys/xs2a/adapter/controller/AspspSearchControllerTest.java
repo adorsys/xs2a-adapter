@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pro.javatar.commons.reader.JsonReader;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +31,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AspspSearchControllerTest {
@@ -90,15 +90,56 @@ public class AspspSearchControllerTest {
         MvcResult mvcResult = mockMvc.perform(get(AspspSearchApi.V1_APSPS)
             .queryParam("iban", "DE8749999960000000512"))
             .andExpect(status().isOk())
-            .andDo(print())
             .andReturn();
 
         verify(repository, times(1)).findByIban(anyString(), any(), anyInt());
 
-        List response = JsonReader.getInstance()
-            .getObjectFromString(mvcResult.getResponse().getContentAsString(), List.class);
+        List<AspspTO> response = JsonReader.getInstance()
+            .getListFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
 
         assertThat(response.get(0)).isEqualTo(aspspTO);
+    }
+
+    @Test
+    void getAspsp_all() throws Exception {
+        Aspsp aspsp = buildAspsp();
+        List<Aspsp> aspsps = Arrays.asList(aspsp, aspsp);
+
+        when(repository.findAll(any(), anyInt())).thenReturn(aspsps);
+
+        MvcResult mvcResult = mockMvc.perform(get(AspspSearchApi.V1_APSPS))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        List<AspspTO> response = JsonReader.getInstance()
+            .getListFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
+
+        verify(repository, times(1)).findAll(any(), anyInt());
+
+        assertThat(response.size()).isEqualTo(2);
+        assertThat(response.get(0)).isEqualTo(mapper.toAspspTO(aspsp));
+    }
+
+    @Test
+    void getAspsp_byName() throws Exception {
+        String bankName = "bank name";
+        Aspsp aspsp = buildAspsp();
+        aspsp.setName(bankName);
+
+        when(repository.findLike(any(Aspsp.class), any(), anyInt()))
+            .thenReturn(Collections.singletonList(aspsp));
+
+        MvcResult mvcResult = mockMvc.perform(get(AspspSearchApi.V1_APSPS)
+            .queryParam("name", bankName))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        verify(repository, times(1)).findLike(any(Aspsp.class), any(), anyInt());
+
+        List<AspspTO> response = JsonReader.getInstance()
+            .getListFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
+
+        assertThat(response.get(0).getName()).isEqualTo(bankName);
     }
 
     private Aspsp buildAspsp() {

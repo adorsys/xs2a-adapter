@@ -5,12 +5,16 @@
     <properties>
         <spring-boot-maven-plugin.version>2.1.3.RELEASE</spring-boot-maven-plugin.version>
         <logback-gelf.version>2.0.0</logback-gelf.version>
+        <sonar.exclusions>
+            **/Xs2aAdapterApplication.java,
+            **/config/RestConfiguration.java
+        </sonar.exclusions>
     </properties>
 
     <parent>
         <groupId>de.adorsys.xs2a.adapter</groupId>
         <artifactId>xs2a-adapter</artifactId>
-        <version>0.0.12-SNAPSHOT</version>
+        <version>0.1.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 

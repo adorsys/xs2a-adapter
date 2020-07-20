@@ -36,6 +36,11 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
     }
 
     @Override
+    protected Map<String, String> addPsuIdTypeHeader(Map<String, String> headers) {
+        return UnicreditHeaders.addPsuIdTypeHeader(headers);
+    }
+
+    @Override
     public List<ValidationError> validateInitiatePayment(String paymentService,
                                                          String paymentProduct,
                                                          RequestHeaders requestHeaders,

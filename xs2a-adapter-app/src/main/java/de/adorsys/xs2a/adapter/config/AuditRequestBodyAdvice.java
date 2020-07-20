@@ -34,7 +34,7 @@ public class AuditRequestBodyAdvice extends RequestBodyAdviceAdapter {
         if (method == null) {
             return false;
         }
-        return "createConsent" .equals(method.getName());
+        return "createConsent".equals(method.getName());
     }
 
     @Override

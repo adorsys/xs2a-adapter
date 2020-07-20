@@ -18,10 +18,7 @@ package de.adorsys.xs2a.adapter;
 
 import de.adorsys.xs2a.adapter.api.model.*;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TestModelBuilder {
 
@@ -30,6 +27,7 @@ public class TestModelBuilder {
 
     public static final String MESSAGE = "message";
     public static final String CONSTENT_ID = "constent-ID";
+    public static final String AUTHORISATION_ID = "authorisation-ID";
     public static final String NAME = "SMS OTP on phone +49160 xxxxx 28";
     public static final AuthenticationType TYPE = AuthenticationType.SMS_OTP;
     public static final String EXPLANATION = "some explanation";
@@ -40,6 +38,8 @@ public class TestModelBuilder {
     public static final String IMAGE = "image";
     public static final String LINK = "http://link-to-image";
     public static final int LENGTH = 123;
+    public static final String AUTHENTICATION_METHOD_ID = "authentication-method-ID";
+    public static final String SCA_AUTHENTICATION_DATA = "sca-authentication-data";
 
     public static ConsentsResponse201 buildConsentCreationResponse() {
         ConsentsResponse201 response = new ConsentsResponse201();
@@ -78,4 +78,106 @@ public class TestModelBuilder {
         return data;
     }
 
+    public static ConsentInformationResponse200Json buildConsentInformationResponse() {
+        ConsentInformationResponse200Json consentInformation = new ConsentInformationResponse200Json();
+        consentInformation.setConsentStatus(ConsentStatus.RECEIVED);
+        consentInformation.setFrequencyPerDay(4);
+        consentInformation.setRecurringIndicator(true);
+        return consentInformation;
+    }
+
+    public static ConsentStatusResponse200 buildConsentStatusResponse() {
+        ConsentStatusResponse200 consentStatusResponse = new ConsentStatusResponse200();
+        consentStatusResponse.setConsentStatus(ConsentStatus.RECEIVED);
+        consentStatusResponse.setPsuMessage(MESSAGE);
+        return consentStatusResponse;
+    }
+
+    public static StartScaprocessResponse buildStartScaprocessResponse() {
+        StartScaprocessResponse startScaprocessResponse = new StartScaprocessResponse();
+        startScaprocessResponse.setAuthorisationId(AUTHORISATION_ID);
+        startScaprocessResponse.setPsuMessage(MESSAGE);
+        startScaprocessResponse.setScaStatus(ScaStatus.STARTED);
+        return startScaprocessResponse;
+    }
+
+    public static UpdatePsuAuthentication buildUpdatePsuAuthentication() {
+        UpdatePsuAuthentication updatePsuAuthentication = new UpdatePsuAuthentication();
+        updatePsuAuthentication.setPsuData(new PsuData());
+        return updatePsuAuthentication;
+    }
+
+    public static UpdatePsuAuthenticationResponse buildUpdatePsuAuthenticationResponse() {
+        UpdatePsuAuthenticationResponse updatePsuAuthenticationResponse = new UpdatePsuAuthenticationResponse();
+        updatePsuAuthenticationResponse.setPsuMessage(MESSAGE);
+        updatePsuAuthenticationResponse.setScaStatus(ScaStatus.STARTED);
+        updatePsuAuthenticationResponse.setAuthorisationId(AUTHORISATION_ID);
+        return updatePsuAuthenticationResponse;
+    }
+
+    public static SelectPsuAuthenticationMethodResponse buildSelectPsuAuthenticationMethodResponse() {
+        SelectPsuAuthenticationMethodResponse response = new SelectPsuAuthenticationMethodResponse();
+        response.setScaStatus(ScaStatus.SCAMETHODSELECTED);
+        response.setPsuMessage(MESSAGE);
+        return response;
+    }
+
+    public static SelectPsuAuthenticationMethod buildSelectPsuAuthenticationMethod() {
+        SelectPsuAuthenticationMethod selectPsuAuthenticationMethod = new SelectPsuAuthenticationMethod();
+        selectPsuAuthenticationMethod.setAuthenticationMethodId(AUTHENTICATION_METHOD_ID);
+        return selectPsuAuthenticationMethod;
+    }
+
+    public static ScaStatusResponse buildScaStatusResponse() {
+        ScaStatusResponse scaStatusResponse = new ScaStatusResponse();
+        scaStatusResponse.setScaStatus(ScaStatus.FINALISED);
+        return scaStatusResponse;
+    }
+
+    public static TransactionAuthorisation buildTransactionAuthorisation() {
+        TransactionAuthorisation transactionAuthorisation = new TransactionAuthorisation();
+        transactionAuthorisation.setScaAuthenticationData(SCA_AUTHENTICATION_DATA);
+        return transactionAuthorisation;
+    }
+
+    public static AccountList buildAccountList() {
+        AccountList accountList = new AccountList();
+        accountList.setAccounts(Arrays.asList(new AccountDetails(), new AccountDetails()));
+        return accountList;
+    }
+
+    public static TransactionsResponse200Json buildTransactionsResponse() {
+        TransactionsResponse200Json transactionsResponse200Json = new TransactionsResponse200Json();
+        Map<String, HrefType> links = new HashMap<>();
+        HrefType link = new HrefType();
+        link.setHref(MESSAGE);
+        links.put(CONSTENT_ID, link);
+        transactionsResponse200Json.setLinks(links);
+        return transactionsResponse200Json;
+    }
+
+    public static ReadCardAccountBalanceResponse200 buildReadCardAccountBalanceResponse() {
+        ReadCardAccountBalanceResponse200 readCardAccountBalanceResponse200
+            = new ReadCardAccountBalanceResponse200();
+        readCardAccountBalanceResponse200.setBalances(Arrays.asList(new Balance(), new Balance()));
+        return readCardAccountBalanceResponse200;
+    }
+
+    public static CardAccountsTransactionsResponse200 buildCardAccountsTransactionsResponse() {
+        CardAccountsTransactionsResponse200 cardAccountsTransactionsResponse200
+            = new CardAccountsTransactionsResponse200();
+        Map<String, HrefType> links = new HashMap<>();
+        HrefType link = new HrefType();
+        link.setHref(MESSAGE);
+        links.put(CONSTENT_ID, link);
+        cardAccountsTransactionsResponse200.setLinks(links);
+        return cardAccountsTransactionsResponse200;
+    }
+
+    public static ReadAccountBalanceResponse200 buildReadAccountBalanceResponse() {
+        ReadAccountBalanceResponse200 readAccountBalanceResponse200 =
+            new ReadAccountBalanceResponse200();
+        readAccountBalanceResponse200.setBalances(Arrays.asList(new Balance(), new Balance()));
+        return readAccountBalanceResponse200;
+    }
 }

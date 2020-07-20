@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.adorsys.xs2a.adapter</groupId>
         <artifactId>xs2a-adapter</artifactId>
-        <version>0.0.12-SNAPSHOT</version>
+        <version>0.1.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -18,13 +18,13 @@
 
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>xs2a-adapter-rest-api</artifactId>
+            <artifactId>xs2a-adapter-rest-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>xs2a-adapter-service-api</artifactId>
+            <artifactId>xs2a-adapter-service-api-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -54,13 +54,6 @@
         <!-- test dependencies -->
 
         <dependency>
-            <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>xs2a-adapter-rest-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <scope>test</scope>
@@ -81,6 +74,19 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test-autoconfigure</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock-jre8</artifactId>
+            <version>${wiremock.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -105,18 +111,13 @@
                                         <!-- project dependencies -->
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-loader</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-remote</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-api-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-app</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-aspsp-registry</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-generated-rest-api</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-impl</exclude>
                                         <!-- 3rd party dependencies -->
                                         <exclude>joda-time:*</exclude>
                                         <exclude>org.projectlombok:lombok</exclude>
                                     </excludes>
-                                    <includes>
-                                        <include>de.adorsys.xs2a.adapter:xs2a-adapter-rest-impl:${project.version}:jar:test</include>
-                                    </includes>
                                 </bannedDependencies>
                             </rules>
                             <fail>true</fail>

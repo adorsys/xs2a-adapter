@@ -3,7 +3,7 @@ package de.adorsys.xs2a.adapter.adapter;
 import javax.ws.rs.core.MediaType;
 import java.util.Arrays;
 
-public enum StandardPaymentProduct implements PaymentProduct {
+enum StandardPaymentProduct implements PaymentProduct {
     SEPA_CREDIT_TRANSFERS("sepa-credit-transfers", MediaType.APPLICATION_JSON),
     PAIN_SEPA_CREDIT_TRANSFERS("pain.001-sepa-credit-transfers", MediaType.APPLICATION_XML);
 

@@ -32,7 +32,7 @@ public class Xs2aHttpLogSanitizer {
     private final Set<String> sanitizedHeaders = new HashSet<>();
     private final Set<String> nonSanitizedBodyProperties = new HashSet<>();
     private final List<Pattern> patterns = new ArrayList<>();
-    private JsonMapper objectMapper = new JsonMapper();
+    private JsonMapper objectMapper = new JacksonObjectMapper();
 
     public Xs2aHttpLogSanitizer() {
         patterns.add(Pattern.compile("(consents|accounts|authorisations|credit-transfers|target-2-payments)/[^/?\\s\\[\"]+(.*?)"));

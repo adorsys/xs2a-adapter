@@ -1,0 +1,21 @@
+= DRAFT Release notes for version 0.1.1 (release date: xx.08.2020)
+
+.Added banks
+|===
+|
+|===
+
+== Notices:
+- Added mapping for the following models in fiducia-adapter:
+** ExecutionRule
+** DayOfExecution
+** MonthsOfExecution
+** RemittanceInformationStructured
+** ChallengeData (PIS)
+
+== Features:
+- Added multipart/form-data response handler
+- Added RemotePaymentInitiationService.getPeriodicPain001PaymentInformation (special processing in feign decoder)
+
+== Fixes:
+- Fixed split packages (fiducia-adapter)

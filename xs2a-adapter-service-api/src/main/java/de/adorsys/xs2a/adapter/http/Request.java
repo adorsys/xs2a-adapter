@@ -31,6 +31,16 @@ public interface Request {
 
         boolean xmlBody();
 
+        Builder addXmlPart(String name, String xmlPart);
+
+        Map<String, String> xmlParts();
+
+        Builder addJsonPart(String name, String jsonPart);
+
+        Map<String, String> jsonParts();
+
+        boolean multipartBody();
+
         Builder headers(Map<String, String> headers);
 
         Map<String, String> headers();

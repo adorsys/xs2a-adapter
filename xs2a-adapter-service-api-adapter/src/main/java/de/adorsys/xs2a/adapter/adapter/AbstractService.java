@@ -19,6 +19,7 @@ package de.adorsys.xs2a.adapter.adapter;
 import de.adorsys.xs2a.adapter.api.model.PaymentInitiationJson;
 import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationJson;
 import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.http.JsonMapper;
 import de.adorsys.xs2a.adapter.http.StringUri;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
@@ -34,7 +35,7 @@ public abstract class AbstractService {
     protected static final String AUTHORISATIONS = "authorisations";
     protected static final String STATUS = "status";
     protected static final String ACCEPT_HEADER = "Accept";
-    protected final JsonMapper jsonMapper = new JsonMapper();
+    protected final JsonMapper jsonMapper = new JacksonObjectMapper();
     protected final HttpClient httpClient;
 
     static {

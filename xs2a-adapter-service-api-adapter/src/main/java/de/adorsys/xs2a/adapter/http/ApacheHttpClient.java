@@ -10,6 +10,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.io.EmptyInputStream;
 import org.apache.http.message.BasicNameValuePair;
@@ -24,38 +26,14 @@ import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ApacheHttpClient implements HttpClient {
+public class ApacheHttpClient extends AbstractHttpClient {
     private static final Logger logger = LoggerFactory.getLogger(ApacheHttpClient.class);
     private final Xs2aHttpLogSanitizer logSanitizer = new Xs2aHttpLogSanitizer();
-    private static final String GET = "GET";
-    private static final String POST = "POST";
-    private static final String PUT = "PUT";
-    private static final String DELETE = "DELETE";
 
     private final CloseableHttpClient httpClient;
 
     public ApacheHttpClient(CloseableHttpClient httpClient) {
         this.httpClient = httpClient;
-    }
-
-    @Override
-    public Request.Builder get(String uri) {
-        return new RequestBuilderImpl(this, GET, uri);
-    }
-
-    @Override
-    public Request.Builder post(String uri) {
-        return new RequestBuilderImpl(this, POST, uri);
-    }
-
-    @Override
-    public Request.Builder put(String uri) {
-        return new RequestBuilderImpl(this, PUT, uri);
-    }
-
-    @Override
-    public Request.Builder delete(String uri) {
-        return new RequestBuilderImpl(this, DELETE, uri);
     }
 
     @Override
@@ -84,6 +62,17 @@ public class ApacheHttpClient implements HttpClient {
                     } catch (UnsupportedEncodingException e) {
                         throw new UncheckedIOException(e);
                     }
+                } else if (requestBuilder.multipartBody()) {
+                    MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create()
+                        // static boundary for equal requests in send and content methods
+                        .setBoundary("KfIPVSuloXL9RBOp_4z784vc73PWKzOrr6Ps");
+                    requestBuilder.xmlParts().forEach((name, value) -> {
+                        multipartEntityBuilder.addPart(name, new StringBody(value, ContentType.APPLICATION_XML));
+                    });
+                    requestBuilder.jsonParts().forEach((name, value) -> {
+                        multipartEntityBuilder.addPart(name, new StringBody(value, ContentType.APPLICATION_JSON));
+                    });
+                    post.setEntity(multipartEntityBuilder.build());
                 }
                 return post;
             case PUT:

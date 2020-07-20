@@ -64,10 +64,7 @@ public class CodeGenerator {
                     addMethod(operationToInterface.get(operationId), operationId, path, httpMethod, operation, returnType, null);
                 } else {
                     for (String mediaType : getMediaTypes(requestBody)) {
-                        // fixme: methods for "multipart/form-data" are not generated but models are
-                        if (mediaType.equals("application/json") || mediaType.equals("application/xml")) {
-                            addMethod(operationToInterface.get(operationId), operationId, path, httpMethod, operation, returnType, mediaType);
-                        }
+                        addMethod(operationToInterface.get(operationId), operationId, path, httpMethod, operation, returnType, mediaType);
                     }
                 }
             });
@@ -200,11 +197,15 @@ public class CodeGenerator {
             ClassName jsonComposedSchemaType = ClassName.get(ObjectNode.class);
             TypeName bodyType = getTypeName(content, jsonComposedSchemaType, null);
 
-            ParameterSpec bodyParameter = ParameterSpec.builder(bodyType, "body")
-                .addAnnotation(AnnotationSpec.builder(org.springframework.web.bind.annotation.RequestBody.class)
-                    .build())
-                .build();
-            parameterSpecs.add(bodyParameter);
+            ParameterSpec.Builder bodyParameterBuilder = ParameterSpec.builder(bodyType, "body");
+            if (!mediaType.equals("multipart/form-data")) {
+                AnnotationSpec RequestBodyAnnotation =
+                    AnnotationSpec.builder(org.springframework.web.bind.annotation.RequestBody.class)
+                        .build();
+                bodyParameterBuilder.addAnnotation(RequestBodyAnnotation);
+            }
+
+            parameterSpecs.add(bodyParameterBuilder.build());
         }
 
         return parameterSpecs;
@@ -235,8 +236,11 @@ public class CodeGenerator {
                 } else {
                     throw new RuntimeException();
                 }
+            } else if (key.equals("multipart/form-data")) {
+                String schemaName = getSimpleName(entry.getValue().getSchema().get$ref());
+                return ClassName.get(modelPackage, toClassName(schemaName));
             } else {
-                throw new RuntimeException();
+                throw new RuntimeException(key);
             }
         } else {
             throw new RuntimeException();
@@ -244,6 +248,7 @@ public class CodeGenerator {
     }
 
     private String getSimpleName(String $ref) {
+        Objects.requireNonNull($ref);
         return Paths.get($ref).getFileName().toString();
     }
 

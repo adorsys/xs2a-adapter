@@ -1,17 +1,19 @@
 package de.adorsys.xs2a.adapter.http;
 
-import de.adorsys.xs2a.adapter.api.model.Amount;
-import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.exception.OAuthException;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class ResponseHandlersTest {
@@ -249,5 +251,75 @@ public class ResponseHandlersTest {
         } catch (ErrorResponseException e) {
             assertThat(e.getMessage()).isEqualTo("{}");
         }
+    }
+
+    @Test
+    void multipartFormDataResponseHandlerThrowsWhenContentTypeNotSpecified() {
+        HttpClientException exception = assertThrows(HttpClientException.class,
+            () -> ResponseHandlers.multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class)
+                .apply(200, null, ResponseHeaders.emptyResponseHeaders()));
+        assertThat(exception.getMessage()).isEqualTo("Unexpected content type: null");
+    }
+
+    @Test
+    void multipartFormDataResponseHandlerThrowsWhenContentTypeSpecifiedIsNotMultipartFormData() {
+        HttpClientException exception = assertThrows(HttpClientException.class,
+            () -> ResponseHandlers.multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class)
+                .apply(200, null, ResponseHeaders.fromMap(singletonMap("Content-Type", "application/xml"))));
+        assertThat(exception.getMessage()).isEqualTo("Unexpected content type: application/xml");
+    }
+
+    @Test
+    void multipartFormDataResponseHandlerThrowsWhenBoundaryNotSpecified() {
+        HttpClientException exception = assertThrows(HttpClientException.class,
+            () -> ResponseHandlers.multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class)
+                .apply(200, null, ResponseHeaders.fromMap(singletonMap("Content-Type", "multipart/form-data"))));
+        assertThat(exception.getMessage()).contains("boundary");
+    }
+
+    @Test
+    void multipartFormDataResponseHandlerThrowsWhenPartNameDoesNotMatchAnyObjectProperties() {
+        String responseBody = "--wYxajuhgWlVdGgMi-GoYM7orJaBzQ0z6JffqaC\r\n" +
+            "Content-Disposition: form-data; name=\"unexpected_part_name\"\r\n" +
+            "Content-Type: application/xml\r\n" +
+            "\r\n" +
+            "<Document></Document>\r\n" +
+            "--wYxajuhgWlVdGgMi-GoYM7orJaBzQ0z6JffqaC--\r\n";
+        Map<String, String> headers = singletonMap("Content-Type",
+            "multipart/form-data; boundary=wYxajuhgWlVdGgMi-GoYM7orJaBzQ0z6JffqaC;charset=UTF-8");
+
+        assertThrows(RuntimeException.class,
+            () -> ResponseHandlers.multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class)
+                .apply(200, new ByteArrayInputStream(responseBody.getBytes()), ResponseHeaders.fromMap(headers)));
+    }
+
+    @Test
+    void multipartFormDataResponseHandlerCanDeserializePeriodicPaymentInitiationMultipartBody() {
+        String responseBody = "--wYxajuhgWlVdGgMi-GoYM7orJaBzQ0z6JffqaC\r\n" +
+            "Content-Disposition: form-data; name=\"xml_sct\"\r\n" +
+            "Content-Type: application/xml\r\n" +
+            "\r\n" +
+            "<Document></Document>\r\n" +
+            "--wYxajuhgWlVdGgMi-GoYM7orJaBzQ0z6JffqaC\r\n" +
+            "Content-Disposition: form-data; name=\"json_standingorderType\"\r\n" +
+            "Content-Type: application/json\r\n" +
+            "\r\n" +
+            "{\"startDate\":\"2018-03-01\",\"executionRule\":\"following\",\"frequency\":\"Monthly\"}\r\n" +
+            "--wYxajuhgWlVdGgMi-GoYM7orJaBzQ0z6JffqaC--\r\n";
+        Map<String, String> headers = singletonMap("Content-Type",
+            "multipart/form-data; boundary=wYxajuhgWlVdGgMi-GoYM7orJaBzQ0z6JffqaC;charset=UTF-8");
+        PeriodicPaymentInitiationMultipartBody expected = new PeriodicPaymentInitiationMultipartBody();
+        expected.setXml_sct("<Document></Document>");
+        PeriodicPaymentInitiationXmlPart2StandingorderTypeJson json = new PeriodicPaymentInitiationXmlPart2StandingorderTypeJson();
+        json.setStartDate(LocalDate.of(2018, 3, 1));
+        json.setExecutionRule(ExecutionRule.FOLLOWING);
+        json.setFrequency(FrequencyCode.MONTHLY);
+        expected.setJson_standingorderType(json);
+
+        PeriodicPaymentInitiationMultipartBody actual =
+            ResponseHandlers.multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class)
+                .apply(200, new ByteArrayInputStream(responseBody.getBytes()), ResponseHeaders.fromMap(headers));
+
+        assertThat(actual).isEqualTo(expected);
     }
 }

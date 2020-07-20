@@ -37,6 +37,11 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
         RequestHeaders requestHeaders,
         RequestParams requestParams);
 
+    Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(String paymentProduct,
+                                                                                          String paymentId,
+                                                                                          RequestHeaders requestHeaders,
+                                                                                          RequestParams requestParams);
+
     @Deprecated
     default Response<ScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
                                                                       String paymentProduct,

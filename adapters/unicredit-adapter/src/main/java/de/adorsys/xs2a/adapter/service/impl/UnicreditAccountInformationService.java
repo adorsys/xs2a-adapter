@@ -13,12 +13,10 @@ import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.validation.ValidationError;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 public class UnicreditAccountInformationService extends BaseAccountInformationService {
-
-    private static final String DEFAULT_PSU_ID_TYPE = "HVB_ONLINEBANKING";
-    private static final Set<String> POSSIBLE_PSU_ID_TYPE_VALUES = new HashSet<>(Arrays.asList(DEFAULT_PSU_ID_TYPE, "UCEBANKINGGLOBAL"));
 
     public UnicreditAccountInformationService(Aspsp aspsp,
                                               HttpClient httpClient,
@@ -45,11 +43,7 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
 
     @Override
     protected Map<String, String> addPsuIdTypeHeader(Map<String, String> headers) {
-        if (!POSSIBLE_PSU_ID_TYPE_VALUES.contains(headers.get(RequestHeaders.PSU_ID_TYPE))) {
-            headers.put(RequestHeaders.PSU_ID_TYPE, DEFAULT_PSU_ID_TYPE);
-        }
-
-        return headers;
+        return UnicreditHeaders.addPsuIdTypeHeader(headers);
     }
 
     @Override

@@ -64,6 +64,15 @@ public class RemotePaymentInitiationService implements PaymentInitiationService 
                 requestHeaders.toMap(),
                 (String) o
             );
+        } else if (o instanceof PeriodicPaymentInitiationMultipartBody) {
+            PeriodicPaymentInitiationMultipartBody body = (PeriodicPaymentInitiationMultipartBody) o;
+            responseEntity = client.initiatePayment(
+                PaymentService.fromValue(paymentService),
+                PaymentProduct.fromValue(paymentProduct),
+                requestParams.toMap(),
+                requestHeaders.toMap(),
+                body
+            );
         } else {
             responseEntity = client.initiatePayment(
                 PaymentService.fromValue(paymentService),
@@ -114,6 +123,24 @@ public class RemotePaymentInitiationService implements PaymentInitiationService 
             PeriodicPaymentInitiationWithStatusResponse.class);
 
         return new Response<>(responseEntity.getStatusCodeValue(), response,
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
+    }
+
+    @Override
+    public Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(String paymentProduct,
+                                                                                                 String paymentId,
+                                                                                                 RequestHeaders requestHeaders,
+                                                                                                 RequestParams requestParams) {
+        ResponseEntity<Object> responseEntity = client.getPaymentInformation(
+            PaymentService.PERIODIC_PAYMENTS,
+            PaymentProduct.fromValue(paymentProduct),
+            paymentId,
+            requestParams.toMap(),
+            requestHeaders.toMap()
+        );
+
+        return new Response<>(responseEntity.getStatusCodeValue(),
+            (PeriodicPaymentInitiationMultipartBody) responseEntity.getBody(),
             responseHeadersMapper.getHeaders(responseEntity.getHeaders()));
     }
 

@@ -14,7 +14,7 @@ public class PaymentInitiationApi {
 
     private final String baseUri;
     private final HttpClient httpClient;
-    private final JsonMapper jsonMapper = new JsonMapper();
+    private final JsonMapper jsonMapper = new JacksonObjectMapper();
 
     public PaymentInitiationApi(String baseUri, HttpClient httpClient) {
         this.baseUri = baseUri;

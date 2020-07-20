@@ -9,9 +9,13 @@ import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
 import de.adorsys.xs2a.adapter.service.exception.OAuthException;
+import org.apache.commons.fileupload.MultipartStream;
+import org.apache.commons.fileupload.ParameterParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -20,13 +24,13 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static de.adorsys.xs2a.adapter.http.ContentType.APPLICATION_JSON;
+import static de.adorsys.xs2a.adapter.http.ContentType.*;
 
 public class ResponseHandlers {
     private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([^;]+)");
     private static final ErrorResponse EMPTY_ERROR_RESPONSE = new ErrorResponse();
 
-    private static final JsonMapper jsonMapper = new JsonMapper();
+    private static final JsonMapper jsonMapper = new JacksonObjectMapper();
     private static final Logger log = LoggerFactory.getLogger(ResponseHandlers.class);
     private static final Xs2aHttpLogSanitizer logSanitizer = new Xs2aHttpLogSanitizer();
 
@@ -254,5 +258,62 @@ public class ResponseHandlers {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    public static <T> HttpClient.ResponseHandler<T> multipartFormDataResponseHandler(Class<T> bodyClass) {
+        return (statusCode, responseBody, responseHeaders) -> {
+            if (statusCode != 200) {
+                throw responseException(statusCode,
+                    new PushbackInputStream(responseBody),
+                    responseHeaders,
+                    ResponseHandlers::buildErrorResponseFromString);
+            }
+            try {
+                T bodyInstance = bodyClass.getDeclaredConstructor().newInstance();
+
+                String contentType = responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE);
+                if (contentType == null || !contentType.startsWith(MULTIPART_FORM_DATA)) {
+                    throw new HttpClientException("Unexpected content type: " + contentType);
+                }
+                ParameterParser parser = new ParameterParser();
+                Map<String, String> params = parser.parse(contentType, new char[] {';', ','});
+                String boundary = params.get("boundary");
+                if (boundary == null) {
+                    throw new HttpClientException("Failed to parse boundary from the Content-Type header");
+                }
+                MultipartStream multipartStream = new MultipartStream(responseBody, boundary.getBytes());
+                boolean nextPart = multipartStream.skipPreamble();
+                while (nextPart) {
+                    HttpHeaders headers = HttpHeaders.parse(multipartStream.readHeaders());
+                    String partContentType = headers.getContentType()
+                        .orElseThrow(() -> new HttpClientException("Body part has unspecified content type"));
+                    String partContentDisposition = headers.getContentDisposition()
+                        .orElseThrow(() -> new HttpClientException("Body part has unspecified content disposition"));
+                    String partName = parser.parse(partContentDisposition, ';').get("name");
+                    if (partName == null) {
+                        throw new HttpClientException("Body part has unspecified name");
+                    }
+                    PropertyDescriptor propertyDescriptor = new PropertyDescriptor(partName, bodyClass);
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    multipartStream.readBodyData(out);
+                    if (partContentType.startsWith(APPLICATION_XML)) {
+                        propertyDescriptor.getWriteMethod().invoke(bodyInstance, out.toString());
+                    } else if (partContentType.startsWith(APPLICATION_JSON)) {
+                        Class<?> propertyType = propertyDescriptor.getPropertyType();
+                        Object json = jsonMapper.readValue(new ByteArrayInputStream(out.toByteArray()), propertyType);
+                        propertyDescriptor.getWriteMethod().invoke(bodyInstance, json);
+                    } else {
+                        throw new HttpClientException("Body part has unexpected content type: " + partContentType);
+                    }
+
+                    nextPart = multipartStream.readBoundary();
+                }
+                return bodyInstance;
+            } catch (ReflectiveOperationException | IntrospectionException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        };
     }
 }
