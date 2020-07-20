@@ -27,7 +27,7 @@ public class FiduciaTransactionDetails {
 
     private Amount transactionAmount;
 
-    private List<ReportExchangeRate> currencyExchange;
+    private List<FiduciaExchangeRate> exchangeRate;
 
     private String creditorName;
 
@@ -140,12 +140,12 @@ public class FiduciaTransactionDetails {
         this.transactionAmount = transactionAmount;
     }
 
-    public List<ReportExchangeRate> getCurrencyExchange() {
-        return currencyExchange;
+    public List<FiduciaExchangeRate> getExchangeRate() {
+        return exchangeRate;
     }
 
-    public void setCurrencyExchange(List<ReportExchangeRate> currencyExchange) {
-        this.currencyExchange = currencyExchange;
+    public void setExchangeRate(List<FiduciaExchangeRate> exchangeRate) {
+        this.exchangeRate = exchangeRate;
     }
 
     public String getCreditorName() {
@@ -318,7 +318,7 @@ public class FiduciaTransactionDetails {
             Objects.equals(bookingDate, that.bookingDate) &&
             Objects.equals(valueDate, that.valueDate) &&
             Objects.equals(transactionAmount, that.transactionAmount) &&
-            Objects.equals(currencyExchange, that.currencyExchange) &&
+            Objects.equals(exchangeRate, that.exchangeRate) &&
             Objects.equals(creditorName, that.creditorName) &&
             Objects.equals(creditorAccount, that.creditorAccount) &&
             Objects.equals(creditorAgent, that.creditorAgent) &&
@@ -351,7 +351,7 @@ public class FiduciaTransactionDetails {
             bookingDate,
             valueDate,
             transactionAmount,
-            currencyExchange,
+            exchangeRate,
             creditorName,
             creditorAccount,
             creditorAgent,

@@ -12,6 +12,7 @@
 ** MonthsOfExecution
 ** RemittanceInformationStructured
 ** ChallengeData (PIS)
+** ReportExchangeRate
 
 == Features:
 - Added multipart/form-data response handler
