@@ -5,6 +5,10 @@
     <properties>
         <spring-boot-maven-plugin.version>2.1.3.RELEASE</spring-boot-maven-plugin.version>
         <logback-gelf.version>2.0.0</logback-gelf.version>
+        <sonar.exclusions>
+            **/Xs2aAdapterApplication.java,
+            **/config/RestConfiguration.java
+        </sonar.exclusions>
     </properties>
 
     <parent>

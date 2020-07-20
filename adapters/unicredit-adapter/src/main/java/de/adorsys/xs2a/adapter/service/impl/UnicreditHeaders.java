@@ -18,17 +18,15 @@ package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class UnicreditHeaders {
 
     public static final String HVB_ONLINE_BANKING = "HVB_ONLINEBANKING";
     public static final String UCE_BANKING_GLOBAL = "UCEBANKINGGLOBAL";
     public static final String DEFAULT_PSU_ID_TYPE = HVB_ONLINE_BANKING;
-    public static final Set<String> POSSIBLE_PSU_ID_TYPE_VALUES = new HashSet<>(Arrays.asList(HVB_ONLINE_BANKING, UCE_BANKING_GLOBAL));
+    protected static final Set<String> POSSIBLE_PSU_ID_TYPE_VALUES
+        = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(HVB_ONLINE_BANKING, UCE_BANKING_GLOBAL)));
 
     private UnicreditHeaders() {
     }
