@@ -59,7 +59,7 @@ class RequestSigningServiceTest {
         verify(keyStore, times(1)).getQsealPrivateKey();
 
         assertNotNull(actual);
-        assertEquals(actual.getHeaderName(), "Signature");
+        assertEquals("Signature", actual.getHeaderName());
         assertTrue(actual.getHeaderValue().contains("keyId="));
         assertTrue(actual.getHeaderValue().contains("algorithm=\"SHA256withRSA\""));
     }
@@ -73,7 +73,7 @@ class RequestSigningServiceTest {
         verify(keyStore, times(1)).getQsealCertificate();
 
         assertNotNull(actual);
-        assertEquals(actual.getHeaderName(), RequestHeaders.TPP_SIGNATURE_CERTIFICATE);
+        assertEquals(RequestHeaders.TPP_SIGNATURE_CERTIFICATE, actual.getHeaderName());
         assertTrue(actual.getHeaderValue().contains("MIIBLTCB2KADAgECAgEDMA0GCSqGSI"));
     }
 

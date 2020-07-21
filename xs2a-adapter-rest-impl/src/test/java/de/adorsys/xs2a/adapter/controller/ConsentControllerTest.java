@@ -53,7 +53,7 @@ class ConsentControllerTest {
     private HeadersMapper headersMapper;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.initMocks(this);
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
@@ -112,7 +112,7 @@ class ConsentControllerTest {
 
     @Test
     @SuppressWarnings("squid:S2699")
-    public void createConsentsRespondsWithBadRequestIfAdapterNotFound() throws Exception {
+    void createConsentsRespondsWithBadRequestIfAdapterNotFound() throws Exception {
         String adpaterId = "test-psd2-adapter";
 
         when(accountInformationService.createConsent(any(), any(), any()))

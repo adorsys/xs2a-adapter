@@ -40,52 +40,54 @@ class FiduciaAccountInformationServiceTest {
     @Test
     void populatePostHeaders() {
         Map<String, String> postHeaders = service.populatePostHeaders(new HashMap<>());
-        assertThat(postHeaders.size()).isEqualTo(1);
-        assertThat(postHeaders).containsKeys(DATE_HEADER);
+        assertThat(postHeaders)
+            .hasSize(1)
+            .containsKeys(DATE_HEADER);
     }
 
     @Test
     void populateGetHeaders() {
         Map<String, String> getHeaders = service.populateGetHeaders(new HashMap<>());
-        assertThat(getHeaders.size()).isEqualTo(1);
-        assertThat(getHeaders).containsKeys(DATE_HEADER);
+        assertThat(getHeaders)
+            .hasSize(1)
+            .containsKeys(DATE_HEADER);
     }
 
     @Test
     void populatePutHeaders() {
         Map<String, String> putHeaders = service.populatePutHeaders(new HashMap<>());
-        assertThat(putHeaders.size()).isEqualTo(1);
-        assertThat(putHeaders).containsKeys(DATE_HEADER);
+        assertThat(putHeaders)
+            .hasSize(1)
+            .containsKeys(DATE_HEADER);
     }
 
     @Test
     void populateDeleteHeaders() {
         Map<String, String> deleteHeaders = service.populateDeleteHeaders(new HashMap<>());
-        assertThat(deleteHeaders.size()).isEqualTo(1);
-        assertThat(deleteHeaders).containsKeys(DATE_HEADER);
+        assertThat(deleteHeaders)
+            .hasSize(1)
+            .containsKeys(DATE_HEADER);
     }
 
     @Test
     void getTransactionList_failure_notSupportedBookingStatus() {
-        RequestValidationException ex = Assertions.assertThrows(
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(new HashMap<>());
+        RequestParams requestParams = RequestParams.fromMap(buildRequestParamsMapWithBookingStatus(UNSUPPORTED_BOOKING_STATUS));
+
+        Assertions.assertThrows(
             RequestValidationException.class,
-            () -> service.getTransactionList(
-                ACCOUNT_ID,
-                RequestHeaders.fromMap(new HashMap<>()),
-                RequestParams.fromMap(buildRequestParamsMapWithBookingStatus(UNSUPPORTED_BOOKING_STATUS))
-            )
+            () -> service.getTransactionList(ACCOUNT_ID, requestHeaders, requestParams)
         );
     }
 
     @Test
     void getTransactionListAsString_failure_notSupportedBookingStatus() {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(new HashMap<>());
+        RequestParams requestParams = RequestParams.fromMap(buildRequestParamsMapWithBookingStatus(UNSUPPORTED_BOOKING_STATUS));
+
         Assertions.assertThrows(
             RequestValidationException.class,
-            () -> service.getTransactionListAsString(
-                ACCOUNT_ID,
-                RequestHeaders.fromMap(new HashMap<>()),
-                RequestParams.fromMap(buildRequestParamsMapWithBookingStatus(UNSUPPORTED_BOOKING_STATUS))
-            )
+            () -> service.getTransactionListAsString(ACCOUNT_ID, requestHeaders, requestParams)
         );
     }
 

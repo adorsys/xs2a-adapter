@@ -45,8 +45,9 @@ class IngOauth2ServiceTest {
 
     @Test
     void getAuthorizationRequestUri_Failure_ScopeIsNotProvided() {
+        Parameters parameters = new Parameters();
         try {
-            oauth2Service.getAuthorizationRequestUri(new Parameters());
+            oauth2Service.getAuthorizationRequestUri(parameters);
             fail("Should not be reached as RequestValidationException is expected to be thrown before");
         } catch (RequestValidationException e) {
             List<ValidationError> validationErrors = e.getValidationErrors();

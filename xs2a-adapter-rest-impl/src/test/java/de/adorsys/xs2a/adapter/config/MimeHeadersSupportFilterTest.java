@@ -60,6 +60,6 @@ class MimeHeadersSupportFilterTest {
 
         RequestHeaders headers = headersCaptor.getValue();
 
-        assertThat(headers.get(RequestHeaders.PSU_ID).get()).isEqualTo("ä ö ü");
+        assertThat(headers.get(RequestHeaders.PSU_ID)).contains("ä ö ü");
     }
 }

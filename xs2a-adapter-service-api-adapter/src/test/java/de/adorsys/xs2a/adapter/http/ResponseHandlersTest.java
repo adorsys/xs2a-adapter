@@ -32,10 +32,11 @@ class ResponseHandlersTest {
 
     @Test
     void jsonResponseHandlerThrowsOnErrorResponseAndExceptionMessageContainsResponseBody() {
+        HttpClient.ResponseHandler<Amount> jsonResponseHandler = ResponseHandlers.jsonResponseHandler(Amount.class);
+        ByteArrayInputStream responseBody = new ByteArrayInputStream("{}".getBytes());
+        ResponseHeaders responseHeaders = ResponseHeaders.emptyResponseHeaders();
         try {
-            ResponseHandlers.jsonResponseHandler(Amount.class).apply(400,
-                new ByteArrayInputStream("{}".getBytes()), // fails if response body is not json
-                ResponseHeaders.emptyResponseHeaders());
+            jsonResponseHandler.apply(400, responseBody, responseHeaders);
             fail();
         } catch (ErrorResponseException e) {
             assertThat(e.getMessage()).isEqualTo("{}");
@@ -44,10 +45,11 @@ class ResponseHandlersTest {
 
     @Test
     void jsonResponseHandlerThrowsErrorOnUnsupportedFormatBody() {
+        HttpClient.ResponseHandler<Amount> jsonResponseHandler = ResponseHandlers.jsonResponseHandler(Amount.class);
+        ByteArrayInputStream responseBody = new ByteArrayInputStream("<response>".getBytes());
+        ResponseHeaders responseHeaders = ResponseHeaders.emptyResponseHeaders();
         try {
-            ResponseHandlers.jsonResponseHandler(Amount.class).apply(400,
-                new ByteArrayInputStream("<response>".getBytes()),
-                ResponseHeaders.emptyResponseHeaders());
+            jsonResponseHandler.apply(400, responseBody, responseHeaders);
             fail();
         } catch (ErrorResponseException e) {
             assertThat(e.getMessage()).isEqualTo("<response>");
@@ -58,11 +60,12 @@ class ResponseHandlersTest {
     void jsonResponseHandlerThrowsErrorOnUnsupportedContentType() {
         Map<String, String> headers = new HashMap<>();
         headers.put(CONTENT_TYPE_HEADER, "application/xml");
+        HttpClient.ResponseHandler<Amount> jsonResponseHandler = ResponseHandlers.jsonResponseHandler(Amount.class);
+        ByteArrayInputStream responseBody = new ByteArrayInputStream("<response>".getBytes());
+        ResponseHeaders responseHeaders = ResponseHeaders.fromMap(headers);
 
         try {
-            ResponseHandlers.jsonResponseHandler(Amount.class).apply(400,
-                new ByteArrayInputStream("<response>".getBytes()),
-                ResponseHeaders.fromMap(headers));
+            jsonResponseHandler.apply(400, responseBody, responseHeaders);
             fail();
         } catch (ErrorResponseException e) {
             assertThat(e.getMessage()).isEqualTo("<response>");
@@ -73,11 +76,12 @@ class ResponseHandlersTest {
     void jsonResponseHandlerThrowsErrorInJsonFormat() {
         Map<String, String> headers = new HashMap<>();
         headers.put(CONTENT_TYPE_HEADER, "application/json");
+        HttpClient.ResponseHandler<Amount> jsonResponseHandler = ResponseHandlers.jsonResponseHandler(Amount.class);
+        ByteArrayInputStream responseBody = new ByteArrayInputStream("{}".getBytes());
+        ResponseHeaders responseHeaders = ResponseHeaders.fromMap(headers);
 
         try {
-            ResponseHandlers.jsonResponseHandler(Amount.class).apply(400,
-                new ByteArrayInputStream("{}".getBytes()),
-                ResponseHeaders.fromMap(headers));
+            jsonResponseHandler.apply(400, responseBody, responseHeaders);
             fail();
         } catch (ErrorResponseException e) {
             assertThat(e.getMessage()).isEqualTo("{}");
@@ -95,10 +99,12 @@ class ResponseHandlersTest {
 
     @Test
     void stringResponseHandlerThrowsOnErrorResponse() {
+        HttpClient.ResponseHandler<String> stringResponseHandler = ResponseHandlers.stringResponseHandler();
+        ByteArrayInputStream responseBody = new ByteArrayInputStream("{}".getBytes());
+        ResponseHeaders responseHeaders = ResponseHeaders.emptyResponseHeaders();
+
         try {
-            ResponseHandlers.stringResponseHandler().apply(400,
-                new ByteArrayInputStream("{}".getBytes()),
-                ResponseHeaders.emptyResponseHeaders());
+            stringResponseHandler.apply(400, responseBody, responseHeaders);
             fail();
         } catch (ErrorResponseException e) {
             assertThat(e.getMessage()).isEqualTo("{}");
@@ -107,10 +113,12 @@ class ResponseHandlersTest {
 
     @Test
     void byteArrayResponseHandlerThrowsOnErrorResponse() {
+        HttpClient.ResponseHandler<byte[]> responseHandler = ResponseHandlers.byteArrayResponseHandler();
+        ByteArrayInputStream responseBody = new ByteArrayInputStream("{}".getBytes());
+        ResponseHeaders responseHeaders = ResponseHeaders.emptyResponseHeaders();
+
         try {
-            ResponseHandlers.byteArrayResponseHandler().apply(400,
-                new ByteArrayInputStream("{}".getBytes()),
-                ResponseHeaders.emptyResponseHeaders());
+            responseHandler.apply(400, responseBody, responseHeaders);
             fail();
         } catch (ErrorResponseException e) {
             assertThat(e.getMessage()).isEqualTo("{}");
@@ -129,11 +137,13 @@ class ResponseHandlersTest {
 
     @Test
     void consentCreationResponseHandler403JsonResponse() {
+        HttpClient.ResponseHandler<ConsentsResponse201> consentCreationResponseHandler =
+            ResponseHandlers.consentCreationResponseHandler(SCA_OAUTH_URL, ConsentsResponse201.class);
+        ByteArrayInputStream responseBody = new ByteArrayInputStream("{}".getBytes());
+        ResponseHeaders responseHeaders = ResponseHeaders.emptyResponseHeaders();
+
         try {
-            ResponseHandlers.consentCreationResponseHandler(SCA_OAUTH_URL, ConsentsResponse201.class)
-                .apply(403,
-                    new ByteArrayInputStream("{}".getBytes()),
-                    ResponseHeaders.emptyResponseHeaders());
+            consentCreationResponseHandler.apply(403, responseBody, responseHeaders);
             fail();
         } catch (OAuthException e) {
             assertThat(e.getMessage()).isEqualTo("{}");
@@ -143,11 +153,13 @@ class ResponseHandlersTest {
 
     @Test
     void consentCreationResponseHandler403UnsupportedFormatBody() {
+        HttpClient.ResponseHandler<ConsentsResponse201> consentCreationResponseHandler =
+            ResponseHandlers.consentCreationResponseHandler(SCA_OAUTH_URL, ConsentsResponse201.class);
+        ByteArrayInputStream responseBody = new ByteArrayInputStream("<response>".getBytes());
+        ResponseHeaders responseHeaders = ResponseHeaders.emptyResponseHeaders();
+
         try {
-            ResponseHandlers.consentCreationResponseHandler(SCA_OAUTH_URL, ConsentsResponse201.class)
-                .apply(403,
-                    new ByteArrayInputStream("<response>".getBytes()),
-                    ResponseHeaders.emptyResponseHeaders());
+            consentCreationResponseHandler.apply(403, responseBody, responseHeaders);
             fail();
         } catch (OAuthException e) {
             assertThat(e.getMessage()).isEqualTo("<response>");
@@ -159,12 +171,13 @@ class ResponseHandlersTest {
     void consentCreationResponseHandler403UnsupportedContentType() {
         Map<String, String> headers = new HashMap<>();
         headers.put(CONTENT_TYPE_HEADER, "application/xml");
+        HttpClient.ResponseHandler<ConsentsResponse201> consentCreationResponseHandler =
+            ResponseHandlers.consentCreationResponseHandler(SCA_OAUTH_URL, ConsentsResponse201.class);
+        ByteArrayInputStream responseBody = new ByteArrayInputStream("<response>".getBytes());
+        ResponseHeaders responseHeaders = ResponseHeaders.fromMap(headers);
 
         try {
-            ResponseHandlers.consentCreationResponseHandler(SCA_OAUTH_URL, ConsentsResponse201.class)
-                .apply(403,
-                    new ByteArrayInputStream("<response>".getBytes()),
-                    ResponseHeaders.fromMap(headers));
+            consentCreationResponseHandler.apply(403, responseBody, responseHeaders);
             fail();
         } catch (OAuthException e) {
             assertThat(e.getMessage()).isEqualTo("<response>");
@@ -176,12 +189,13 @@ class ResponseHandlersTest {
     void consentCreationResponseHandler403InJsonFormat() {
         Map<String, String> headers = new HashMap<>();
         headers.put(CONTENT_TYPE_HEADER, "application/json");
+        HttpClient.ResponseHandler<ConsentsResponse201> consentCreationResponseHandler =
+            ResponseHandlers.consentCreationResponseHandler(SCA_OAUTH_URL, ConsentsResponse201.class);
+        ByteArrayInputStream responseBody = new ByteArrayInputStream("{}".getBytes());
+        ResponseHeaders responseHeaders = ResponseHeaders.fromMap(headers);
 
         try {
-            ResponseHandlers.consentCreationResponseHandler(SCA_OAUTH_URL, ConsentsResponse201.class)
-                .apply(403,
-                    new ByteArrayInputStream("{}".getBytes()),
-                    ResponseHeaders.fromMap(headers));
+            consentCreationResponseHandler.apply(403, responseBody, responseHeaders);
             fail();
         } catch (OAuthException e) {
             assertThat(e.getMessage()).isEqualTo("{}");
@@ -201,10 +215,12 @@ class ResponseHandlersTest {
 
     @Test
     void consentCreationResponseHandlerThrowsOnErrorResponseAndExceptionMessageContainsResponseBody() {
+        HttpClient.ResponseHandler<Amount> jsonResponseHandler = ResponseHandlers.jsonResponseHandler(Amount.class);
+        ByteArrayInputStream responseBody = new ByteArrayInputStream("{}".getBytes());
+        ResponseHeaders responseHeaders = ResponseHeaders.emptyResponseHeaders();
+
         try {
-            ResponseHandlers.jsonResponseHandler(Amount.class).apply(400,
-                new ByteArrayInputStream("{}".getBytes()), // fails if response body is not json
-                ResponseHeaders.emptyResponseHeaders());
+            jsonResponseHandler.apply(400, responseBody, responseHeaders);
             fail();
         } catch (ErrorResponseException e) {
             assertThat(e.getMessage()).isEqualTo("{}");
@@ -213,10 +229,12 @@ class ResponseHandlersTest {
 
     @Test
     void consentCreationResponseHandlerThrowsErrorOnUnsupportedFormatBody() {
+        HttpClient.ResponseHandler<Amount> jsonResponseHandler = ResponseHandlers.jsonResponseHandler(Amount.class);
+        ByteArrayInputStream responseBody = new ByteArrayInputStream("<response>".getBytes());
+        ResponseHeaders responseHeaders = ResponseHeaders.emptyResponseHeaders();
+
         try {
-            ResponseHandlers.jsonResponseHandler(Amount.class).apply(400,
-                new ByteArrayInputStream("<response>".getBytes()),
-                ResponseHeaders.emptyResponseHeaders());
+            jsonResponseHandler.apply(400, responseBody, responseHeaders);
             fail();
         } catch (ErrorResponseException e) {
             assertThat(e.getMessage()).isEqualTo("<response>");
@@ -227,11 +245,12 @@ class ResponseHandlersTest {
     void consentCreationResponseHandlerThrowsErrorOnUnsupportedContentType() {
         Map<String, String> headers = new HashMap<>();
         headers.put(CONTENT_TYPE_HEADER, "application/xml");
+        HttpClient.ResponseHandler<Amount> jsonResponseHandler = ResponseHandlers.jsonResponseHandler(Amount.class);
+        ByteArrayInputStream responseBody = new ByteArrayInputStream("<response>".getBytes());
+        ResponseHeaders responseHeaders = ResponseHeaders.fromMap(headers);
 
         try {
-            ResponseHandlers.jsonResponseHandler(Amount.class).apply(400,
-                new ByteArrayInputStream("<response>".getBytes()),
-                ResponseHeaders.fromMap(headers));
+            jsonResponseHandler.apply(400, responseBody, responseHeaders);
             fail();
         } catch (ErrorResponseException e) {
             assertThat(e.getMessage()).isEqualTo("<response>");
@@ -242,11 +261,12 @@ class ResponseHandlersTest {
     void consentCreationResponseHandlerThrowsErrorInJsonFormat() {
         Map<String, String> headers = new HashMap<>();
         headers.put(CONTENT_TYPE_HEADER, "application/json");
+        HttpClient.ResponseHandler<Amount> jsonResponseHandler = ResponseHandlers.jsonResponseHandler(Amount.class);
+        ByteArrayInputStream responseBody = new ByteArrayInputStream("{}".getBytes());
+        ResponseHeaders responseHeaders = ResponseHeaders.fromMap(headers);
 
         try {
-            ResponseHandlers.jsonResponseHandler(Amount.class).apply(400,
-                new ByteArrayInputStream("{}".getBytes()),
-                ResponseHeaders.fromMap(headers));
+            jsonResponseHandler.apply(400, responseBody, responseHeaders);
             fail();
         } catch (ErrorResponseException e) {
             assertThat(e.getMessage()).isEqualTo("{}");
@@ -255,31 +275,42 @@ class ResponseHandlersTest {
 
     @Test
     void multipartFormDataResponseHandlerThrowsWhenContentTypeNotSpecified() {
+        HttpClient.ResponseHandler<PeriodicPaymentInitiationMultipartBody> multipartFormDataResponseHandler =
+            ResponseHandlers.multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class);
+        ResponseHeaders responseHeaders = ResponseHeaders.emptyResponseHeaders();
+
         HttpClientException exception = assertThrows(HttpClientException.class,
-            () -> ResponseHandlers.multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class)
-                .apply(200, null, ResponseHeaders.emptyResponseHeaders()));
+            () -> multipartFormDataResponseHandler.apply(200, null, responseHeaders));
         assertThat(exception.getMessage()).isEqualTo("Unexpected content type: null");
     }
 
     @Test
     void multipartFormDataResponseHandlerThrowsWhenContentTypeSpecifiedIsNotMultipartFormData() {
+        HttpClient.ResponseHandler<PeriodicPaymentInitiationMultipartBody> multipartFormDataResponseHandler =
+            ResponseHandlers.multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class);
+        ResponseHeaders responseHeaders = ResponseHeaders.fromMap(singletonMap("Content-Type", "application/xml"));
+
         HttpClientException exception = assertThrows(HttpClientException.class,
-            () -> ResponseHandlers.multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class)
-                .apply(200, null, ResponseHeaders.fromMap(singletonMap("Content-Type", "application/xml"))));
+            () -> multipartFormDataResponseHandler.apply(200, null, responseHeaders));
         assertThat(exception.getMessage()).isEqualTo("Unexpected content type: application/xml");
     }
 
     @Test
     void multipartFormDataResponseHandlerThrowsWhenBoundaryNotSpecified() {
+        HttpClient.ResponseHandler<PeriodicPaymentInitiationMultipartBody> multipartFormDataResponseHandler =
+            ResponseHandlers.multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class);
+        ResponseHeaders responseHeaders = ResponseHeaders.fromMap(singletonMap("Content-Type", "multipart/form-data"));
+
         HttpClientException exception = assertThrows(HttpClientException.class,
-            () -> ResponseHandlers.multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class)
-                .apply(200, null, ResponseHeaders.fromMap(singletonMap("Content-Type", "multipart/form-data"))));
+            () -> multipartFormDataResponseHandler.apply(200, null, responseHeaders));
         assertThat(exception.getMessage()).contains("boundary");
     }
 
     @Test
     void multipartFormDataResponseHandlerThrowsWhenPartNameDoesNotMatchAnyObjectProperties() {
-        String responseBody = "--wYxajuhgWlVdGgMi-GoYM7orJaBzQ0z6JffqaC\r\n" +
+        HttpClient.ResponseHandler<PeriodicPaymentInitiationMultipartBody> multipartFormDataResponseHandler =
+            ResponseHandlers.multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class);
+        String body = "--wYxajuhgWlVdGgMi-GoYM7orJaBzQ0z6JffqaC\r\n" +
             "Content-Disposition: form-data; name=\"unexpected_part_name\"\r\n" +
             "Content-Type: application/xml\r\n" +
             "\r\n" +
@@ -287,10 +318,11 @@ class ResponseHandlersTest {
             "--wYxajuhgWlVdGgMi-GoYM7orJaBzQ0z6JffqaC--\r\n";
         Map<String, String> headers = singletonMap("Content-Type",
             "multipart/form-data; boundary=wYxajuhgWlVdGgMi-GoYM7orJaBzQ0z6JffqaC;charset=UTF-8");
+        ByteArrayInputStream responseBody = new ByteArrayInputStream(body.getBytes());
+        ResponseHeaders responseHeaders = ResponseHeaders.fromMap(headers);
 
         assertThrows(RuntimeException.class,
-            () -> ResponseHandlers.multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class)
-                .apply(200, new ByteArrayInputStream(responseBody.getBytes()), ResponseHeaders.fromMap(headers)));
+            () -> multipartFormDataResponseHandler.apply(200, responseBody, responseHeaders));
     }
 
     @Test

@@ -24,8 +24,7 @@ class AdorsysAccountInformationServiceTest {
     void populatePostHeaders_withoutAcceptHeader() {
         Map<String, String> actual = accountInformationService.populatePostHeaders(new HashMap<>());
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
@@ -35,8 +34,7 @@ class AdorsysAccountInformationServiceTest {
 
         Map<String, String> actual = accountInformationService.populatePostHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
@@ -46,8 +44,7 @@ class AdorsysAccountInformationServiceTest {
 
         Map<String, String> actual = accountInformationService.populatePostHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
@@ -57,16 +54,14 @@ class AdorsysAccountInformationServiceTest {
 
         Map<String, String> actual = accountInformationService.populatePostHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_XML);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_XML);
     }
 
     @Test
     void populatePutHeaders_withoutAcceptHeader() {
         Map<String, String> actual = accountInformationService.populatePutHeaders(new HashMap<>());
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
@@ -76,8 +71,7 @@ class AdorsysAccountInformationServiceTest {
 
         Map<String, String> actual = accountInformationService.populatePutHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
@@ -87,8 +81,7 @@ class AdorsysAccountInformationServiceTest {
 
         Map<String, String> actual = accountInformationService.populatePutHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
@@ -98,16 +91,14 @@ class AdorsysAccountInformationServiceTest {
 
         Map<String, String> actual = accountInformationService.populatePutHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_XML);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_XML);
     }
 
     @Test
     void populateGetHeaders_withoutAcceptHeader() {
         Map<String, String> actual = accountInformationService.populateGetHeaders(new HashMap<>());
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
@@ -117,8 +108,7 @@ class AdorsysAccountInformationServiceTest {
 
         Map<String, String> actual = accountInformationService.populateGetHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
@@ -128,8 +118,7 @@ class AdorsysAccountInformationServiceTest {
 
         Map<String, String> actual = accountInformationService.populateGetHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
@@ -139,16 +128,14 @@ class AdorsysAccountInformationServiceTest {
 
         Map<String, String> actual = accountInformationService.populateGetHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_XML);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_XML);
     }
 
     @Test
     void populateDeleteHeaders_withoutAcceptHeader() {
         Map<String, String> actual = accountInformationService.populateDeleteHeaders(new HashMap<>());
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
@@ -158,8 +145,7 @@ class AdorsysAccountInformationServiceTest {
 
         Map<String, String> actual = accountInformationService.populateDeleteHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
@@ -169,8 +155,7 @@ class AdorsysAccountInformationServiceTest {
 
         Map<String, String> actual = accountInformationService.populateDeleteHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
@@ -180,7 +165,6 @@ class AdorsysAccountInformationServiceTest {
 
         Map<String, String> actual = accountInformationService.populateDeleteHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_XML);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_XML);
     }
 }

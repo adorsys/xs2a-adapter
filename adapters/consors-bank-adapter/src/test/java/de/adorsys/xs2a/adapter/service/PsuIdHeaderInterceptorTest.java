@@ -29,7 +29,7 @@ class PsuIdHeaderInterceptorTest {
     void apply_withValidPsuId() {
         builder.header(RequestHeaders.PSU_ID, PSU_ID);
         Request.Builder actual = interceptor.apply(builder);
-        assertEquals(actual.headers().get(RequestHeaders.PSU_ID), PSU_ID);
+        assertEquals(PSU_ID, actual.headers().get(RequestHeaders.PSU_ID));
     }
 
     @Test

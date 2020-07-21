@@ -63,6 +63,6 @@ class CertificateSubjectClientIdOauth2ServiceTest {
         verify(pkcs12KeyStore, times(1)).getOrganizationIdentifier();
         verify(oauth2Service, times(1)).getToken(any(), captor.capture());
 
-        assertEquals(captor.getValue().getClientId(), organisationIdentifier);
+        assertEquals(organisationIdentifier, captor.getValue().getClientId());
     }
 }
