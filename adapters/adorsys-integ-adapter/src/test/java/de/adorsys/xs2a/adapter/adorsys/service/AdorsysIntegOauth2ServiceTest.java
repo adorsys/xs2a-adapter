@@ -68,7 +68,9 @@ class AdorsysIntegOauth2ServiceTest {
 
         Assertions.assertThrows(
             RequestValidationException.class,
-            () -> oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters)
+            () -> {
+                oauth2Service.getAuthorizationRequestUri(null, parameters);
+            }
         );
     }
 
@@ -81,7 +83,7 @@ class AdorsysIntegOauth2ServiceTest {
 
         Assertions.assertThrows(
             RequestValidationException.class,
-            () -> oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters)
+            () -> oauth2Service.getAuthorizationRequestUri(null, parameters)
         );
     }
 
@@ -93,7 +95,7 @@ class AdorsysIntegOauth2ServiceTest {
 
         Assertions.assertThrows(
             RequestValidationException.class,
-            () -> oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters)
+            () -> oauth2Service.getAuthorizationRequestUri(null, parameters)
         );
     }
 
@@ -105,7 +107,7 @@ class AdorsysIntegOauth2ServiceTest {
         when(aspsp.getIdpUrl()).thenReturn(IDP_URL);
         when(oauth2Api.getAuthorisationUri(IDP_URL)).thenReturn(AUTH_URL);
 
-        URI actual = oauth2Service.getAuthorizationRequestUri(new HashMap<>(), parameters);
+        URI actual = oauth2Service.getAuthorizationRequestUri(null, parameters);
 
         assertThat(actual).isEqualTo(AUTH_REQUEST_URI);
     }
@@ -118,7 +120,7 @@ class AdorsysIntegOauth2ServiceTest {
 
         Assertions.assertThrows(
             RequestValidationException.class,
-            () -> oauth2Service.getToken(new HashMap<>(), parameters)
+            () -> oauth2Service.getToken(null, parameters)
         );
     }
 
@@ -131,7 +133,7 @@ class AdorsysIntegOauth2ServiceTest {
 
         Assertions.assertThrows(
             RequestValidationException.class,
-            () -> oauth2Service.getToken(new HashMap<>(), parameters)
+            () -> oauth2Service.getToken(null, parameters)
         );
     }
 
@@ -143,7 +145,7 @@ class AdorsysIntegOauth2ServiceTest {
 
         Assertions.assertThrows(
             RequestValidationException.class,
-            () -> oauth2Service.getToken(new HashMap<>(), parameters)
+            () -> oauth2Service.getToken(null, parameters)
         );
     }
 
@@ -155,7 +157,7 @@ class AdorsysIntegOauth2ServiceTest {
 
         Assertions.assertThrows(
             RequestValidationException.class,
-            () -> oauth2Service.getToken(new HashMap<>(), parameters)
+            () -> oauth2Service.getToken(null, parameters)
         );
     }
 
@@ -172,7 +174,7 @@ class AdorsysIntegOauth2ServiceTest {
         when(requestBuilder.send(any(HttpClient.ResponseHandler.class)))
             .thenReturn(OAUTH_TOKEN_RESPONSE);
 
-        TokenResponse tokenResponse = oauth2Service.getToken(new HashMap<>(), parameters);
+        TokenResponse tokenResponse = oauth2Service.getToken(null, parameters);
 
         assertThat(tokenResponse).isNotNull();
         assertThat(tokenResponse.getAccessToken()).isEqualTo(ACCESS_TOKEN);

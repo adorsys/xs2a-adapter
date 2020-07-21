@@ -56,8 +56,7 @@ class BaseDownloadServiceTest {
 
         assertThat(uriCaptor.getValue()).isEqualTo(DOWNLOAD_URL);
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
-        assertThat(response.getHeaders().getHeadersMap().containsKey(ResponseHeaders.CONTENT_TYPE)).isTrue();
-        assertThat(response.getHeaders().getHeadersMap().get(ResponseHeaders.CONTENT_TYPE)).isEqualTo(OCTET_STREAM);
+        assertThat(response.getHeaders().getHeadersMap()).containsEntry(ResponseHeaders.CONTENT_TYPE, OCTET_STREAM);
     }
 
     @Test
@@ -72,8 +71,7 @@ class BaseDownloadServiceTest {
 
         assertThat(uriCaptor.getValue()).isEqualTo(DOWNLOAD_URL);
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
-        assertThat(response.getHeaders().getHeadersMap().containsKey(ResponseHeaders.CONTENT_TYPE)).isTrue();
-        assertThat(response.getHeaders().getHeadersMap().get(ResponseHeaders.CONTENT_TYPE)).isEqualTo(OCTET_STREAM);
+        assertThat(response.getHeaders().getHeadersMap()).containsEntry(ResponseHeaders.CONTENT_TYPE, OCTET_STREAM);
     }
 
     @Test
@@ -88,8 +86,7 @@ class BaseDownloadServiceTest {
 
         assertThat(uriCaptor.getValue()).isEqualTo(DOWNLOAD_URL);
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
-        assertThat(response.getHeaders().getHeadersMap().containsKey(ResponseHeaders.CONTENT_TYPE)).isTrue();
-        assertThat(response.getHeaders().getHeadersMap().get(ResponseHeaders.CONTENT_TYPE)).isEqualTo(OCTET_STREAM);
+        assertThat(response.getHeaders().getHeadersMap()).containsEntry(ResponseHeaders.CONTENT_TYPE, OCTET_STREAM);
     }
 
     private Response<byte[]> dummyResponse() {

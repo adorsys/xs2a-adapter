@@ -87,58 +87,50 @@ class SignatureTest {
 
     @Test
     void build_failure_privateKeyIsMissing() {
-        Assertions.assertThrows(
-            HttpRequestSigningException.class,
-            () -> Signature.builder()
-                .keyId(KEY_ID)
-                .headers(HEADERS_MAP)
-                .signingAlgorithm(signingAlgorithm)
-                .encodingAlgorithm(encodingAlgorithm)
-                .charset(UTF8_CHARSET)
-                .build()
-        );
+        Signature.SignatureBuilder builder = Signature.builder()
+            .keyId(KEY_ID)
+            .headers(HEADERS_MAP)
+            .signingAlgorithm(signingAlgorithm)
+            .encodingAlgorithm(encodingAlgorithm)
+            .charset(UTF8_CHARSET);
+
+        Assertions.assertThrows(HttpRequestSigningException.class, builder::build);
     }
 
     @Test
     void build_failure_keyIdIsMissing() {
-        Assertions.assertThrows(
-            HttpRequestSigningException.class,
-            () -> Signature.builder()
-                .headers(HEADERS_MAP)
-                .signingAlgorithm(signingAlgorithm)
-                .encodingAlgorithm(encodingAlgorithm)
-                .charset(UTF8_CHARSET)
-                .privateKey(privateKey)
-                .build()
-        );
+        Signature.SignatureBuilder builder = Signature.builder()
+            .headers(HEADERS_MAP)
+            .signingAlgorithm(signingAlgorithm)
+            .encodingAlgorithm(encodingAlgorithm)
+            .charset(UTF8_CHARSET)
+            .privateKey(privateKey);
+
+        Assertions.assertThrows(HttpRequestSigningException.class, builder::build);
     }
 
     @Test
     void build_failure_headersAreMissing() {
-        Assertions.assertThrows(
-            HttpRequestSigningException.class,
-            () -> Signature.builder()
-                .keyId(KEY_ID)
-                .signingAlgorithm(signingAlgorithm)
-                .encodingAlgorithm(encodingAlgorithm)
-                .charset(UTF8_CHARSET)
-                .privateKey(privateKey)
-                .build()
-        );
+        Signature.SignatureBuilder builder = Signature.builder()
+            .keyId(KEY_ID)
+            .signingAlgorithm(signingAlgorithm)
+            .encodingAlgorithm(encodingAlgorithm)
+            .charset(UTF8_CHARSET)
+            .privateKey(privateKey);
+
+        Assertions.assertThrows(HttpRequestSigningException.class, builder::build);
     }
 
     @Test
     void build_failure_signingAlgorithmIsMissing() {
-        Assertions.assertThrows(
-            HttpRequestSigningException.class,
-            () -> Signature.builder()
-                .keyId(KEY_ID)
-                .headers(HEADERS_MAP)
-                .signingAlgorithm(null)
-                .encodingAlgorithm(encodingAlgorithm)
-                .charset(UTF8_CHARSET)
-                .privateKey(privateKey)
-                .build()
-        );
+        Signature.SignatureBuilder builder = Signature.builder()
+            .keyId(KEY_ID)
+            .headers(HEADERS_MAP)
+            .signingAlgorithm(null)
+            .encodingAlgorithm(encodingAlgorithm)
+            .charset(UTF8_CHARSET)
+            .privateKey(privateKey);
+
+        Assertions.assertThrows(HttpRequestSigningException.class, builder::build);
     }
 }

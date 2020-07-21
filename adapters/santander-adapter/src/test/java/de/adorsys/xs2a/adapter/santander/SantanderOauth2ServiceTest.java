@@ -83,8 +83,8 @@ class SantanderOauth2ServiceTest {
 
         URI authorizationRequestUri = oauth2Service.getAuthorizationRequestUri(null, parameters);
 
-        assertThat(authorizationRequestUri.toString())
-            .isEqualTo("https://api.santander.de/oauthsos/password/authorize?" +
+        assertThat(authorizationRequestUri)
+            .hasToString("https://api.santander.de/oauthsos/password/authorize?" +
                 "response_type=code" +
                 "&state=" + STATE +
                 "&redirect_uri=" + URLEncoder.encode(REDIRECT_URI, StandardCharsets.UTF_8.name()) +
@@ -106,8 +106,8 @@ class SantanderOauth2ServiceTest {
 
         URI authorizationRequestUri = oauth2Service.getAuthorizationRequestUri(null, parameters);
 
-        assertThat(authorizationRequestUri.toString())
-            .isEqualTo("https://api.santander.de/oauthsos/password/authorize?" +
+        assertThat(authorizationRequestUri)
+            .hasToString("https://api.santander.de/oauthsos/password/authorize?" +
                 "response_type=code" +
                 "&state=" + STATE +
                 "&redirect_uri=" + URLEncoder.encode(REDIRECT_URI, StandardCharsets.UTF_8.name()) +

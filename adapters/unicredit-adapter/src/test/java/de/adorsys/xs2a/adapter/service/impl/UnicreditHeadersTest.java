@@ -17,8 +17,8 @@ class UnicreditHeadersTest {
 
         Map<String, String> header = addPsuIdTypeHeader(new HashMap<>());
 
-        assertThat(header).hasSize(1);
-        assertThat(header).containsValues(DEFAULT_PSU_ID_TYPE);
+        assertThat(header).hasSize(1)
+            .containsValues(DEFAULT_PSU_ID_TYPE);
     }
 
     @Test
@@ -28,8 +28,8 @@ class UnicreditHeadersTest {
         headers.put(RequestHeaders.PSU_ID_TYPE, "UNSUPPORTED_PSU_ID_TYPE");
         Map<String, String> header = addPsuIdTypeHeader(headers);
 
-        assertThat(header).hasSize(1);
-        assertThat(header).containsValues(DEFAULT_PSU_ID_TYPE);
+        assertThat(header).hasSize(1)
+            .containsValues(DEFAULT_PSU_ID_TYPE);
     }
 
     @Test
@@ -39,8 +39,8 @@ class UnicreditHeadersTest {
         headers.put(RequestHeaders.PSU_ID_TYPE, UCE_BANKING_GLOBAL);
         Map<String, String> header = addPsuIdTypeHeader(headers);
 
-        assertThat(header).hasSize(1);
-        assertThat(header).containsValues(UCE_BANKING_GLOBAL);
+        assertThat(header).hasSize(1)
+            .containsValues(UCE_BANKING_GLOBAL);
     }
 
     @Test

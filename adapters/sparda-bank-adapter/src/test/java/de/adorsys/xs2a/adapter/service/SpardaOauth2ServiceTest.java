@@ -108,7 +108,6 @@ class SpardaOauth2ServiceTest {
         List<ValidationError> validationErrors =
             oauth2Service.validateGetAuthorizationRequestUri(null, parameters);
 
-        assertThat(validationErrors).isNotNull();
         assertThat(validationErrors).hasSize(1);
 
         ValidationError validationError = validationErrors.get(0);

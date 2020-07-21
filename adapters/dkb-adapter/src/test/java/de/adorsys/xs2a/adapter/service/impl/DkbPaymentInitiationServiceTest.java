@@ -25,8 +25,9 @@ class DkbPaymentInitiationServiceTest {
 
         verify(accessService, times(1)).retrieveToken();
 
-        assertThat(headers).hasSize(1);
-        assertThat(headers.containsKey("Authorization")).isTrue();
+        assertThat(headers)
+            .hasSize(1)
+            .containsKey("Authorization");
         assertThat(headers.get("Authorization")).isNotNull();
     }
 

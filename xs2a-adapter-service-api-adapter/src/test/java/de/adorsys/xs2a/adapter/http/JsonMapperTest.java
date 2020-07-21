@@ -13,7 +13,9 @@ class JsonMapperTest {
 
     @Test
     void writeValueAsString_throwsException() {
-        assertThrows(UncheckedIOException.class, () -> mapper.writeValueAsString(new ByteArrayInputStream(new byte[]{})));
+        ByteArrayInputStream value = new ByteArrayInputStream(new byte[]{});
+
+        assertThrows(UncheckedIOException.class, () -> mapper.writeValueAsString(value));
     }
 
     @Test
@@ -23,6 +25,7 @@ class JsonMapperTest {
 
     @Test
     void readValue_inputStream_throwsException() {
-        assertThrows(UncheckedIOException.class, () -> mapper.readValue(new ByteArrayInputStream(new byte[]{}), Aspsp.class));
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(new byte[]{});
+        assertThrows(UncheckedIOException.class, () -> mapper.readValue(inputStream, Aspsp.class));
     }
 }

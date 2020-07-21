@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 
 import static de.adorsys.xs2a.adapter.service.RequestHeaders.*;
-import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -237,9 +236,10 @@ class AdapterServiceLoaderTest {
 
     @Test
     void getAccountInformationServiceThrowsIfNotAspspIdentifyingHeadersProvided() {
+        RequestHeaders requestHeaders = empty();
         Assertions.assertThrows(
             AspspRegistrationNotFoundException.class,
-            () -> adapterServiceLoader.getAccountInformationService(RequestHeaders.fromMap(emptyMap()))
+            () -> adapterServiceLoader.getAccountInformationService(requestHeaders)
         );
     }
 

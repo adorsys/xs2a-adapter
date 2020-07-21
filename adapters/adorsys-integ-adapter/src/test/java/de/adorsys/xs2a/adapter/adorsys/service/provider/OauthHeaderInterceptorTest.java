@@ -25,14 +25,14 @@ class OauthHeaderInterceptorTest {
     void checkHeaderValueIsPreStep() {
         Request.Builder result = applyInterceptor("90001001");
 
-        Assertions.assertEquals(result.headers().get(header), "pre-step");
+        Assertions.assertEquals("pre-step", result.headers().get(header));
     }
 
     @Test
     void checkHeaderValueIsIntegrated() {
         Request.Builder result = applyInterceptor("90001002");
 
-        Assertions.assertEquals(result.headers().get(header), "integrated");
+        Assertions.assertEquals("integrated", result.headers().get(header));
     }
 
     private Request.Builder applyInterceptor(String bankCode) {
@@ -51,6 +51,6 @@ class OauthHeaderInterceptorTest {
 
         RequestBuilderImpl builder = new RequestBuilderImpl(null, null, null);
 
-        Assertions.assertEquals(interceptor.apply(builder).headers().size(), 0);
+        Assertions.assertEquals(0, interceptor.apply(builder).headers().size());
     }
 }

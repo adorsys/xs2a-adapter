@@ -34,7 +34,7 @@ class LuceneAspspRepositoryTest {
         luceneAspspRepository.deleteById(ASPSP_ID);
 
         Optional<Aspsp> aspsp1 = luceneAspspRepository.findById(ASPSP_ID);
-        assertThat(aspsp1.isPresent()).isFalse();
+        assertThat(aspsp1).isNotPresent();
     }
 
     @Test
@@ -238,8 +238,8 @@ class LuceneAspspRepositoryTest {
 
         List<Aspsp> actual = luceneAspspRepository.findLike(buildAspsp("TESTBICA", "111111", "SomeBank"));
 
-        assertThat(actual).hasSize(10);
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).hasSize(10)
+            .isEqualTo(expected);
     }
 
     private Aspsp buildAspsp(String bic, String bankCode) {

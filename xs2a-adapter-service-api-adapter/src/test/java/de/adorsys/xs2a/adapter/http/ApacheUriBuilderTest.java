@@ -15,7 +15,7 @@ class ApacheUriBuilderTest {
     void renameQueryParam_newParameter() {
         UriBuilder actual = builder.renameQueryParam("param", "another");
 
-        assertThat(actual.build().toString()).isEqualTo("https://base.uri?another=param");
+        assertThat(actual.build()).hasToString("https://base.uri?another=param");
     }
 
     @Test
@@ -30,6 +30,6 @@ class ApacheUriBuilderTest {
         URI uri = new ApacheUriBuilder(URI.create("http://example.com"))
             .queryParam("uri", "https://acme.com?foo=bar&baz=asdf")
             .build();
-        assertThat(uri.toString()).isEqualTo("http://example.com?uri=https%3A%2F%2Facme.com%3Ffoo%3Dbar%26baz%3Dasdf");
+        assertThat(uri).hasToString("http://example.com?uri=https%3A%2F%2Facme.com%3Ffoo%3Dbar%26baz%3Dasdf");
     }
 }

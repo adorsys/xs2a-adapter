@@ -25,13 +25,13 @@ class IngPaymentInitiationServiceTest {
         IngPaymentInitiationService pis = new IngPaymentInitiationService(null, null, null);
         PeriodicPaymentInitiationJson body = new PeriodicPaymentInitiationJson();
         body.setFrequency(FrequencyCode.MONTHLYVARIABLE);
+        String paymentService = PaymentService.PERIODIC_PAYMENTS.toString();
+        String paymentProduct = PaymentProduct.SEPA_CREDIT_TRANSFERS.toString();
+        RequestHeaders requestHeaders = RequestHeaders.empty();
+        RequestParams requestParams = RequestParams.empty();
 
-        RequestValidationException e = assertThrows(RequestValidationException.class, () ->
-            pis.initiatePayment(PaymentService.PERIODIC_PAYMENTS.toString(),
-                PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
-                RequestHeaders.empty(),
-                RequestParams.empty(),
-                body));
+        RequestValidationException e = assertThrows(RequestValidationException.class,
+            () -> pis.initiatePayment(paymentService, paymentProduct, requestHeaders, requestParams, body));
         assertThat(e.getValidationErrors())
             .anyMatch(validationError -> validationError.getCode() == ValidationError.Code.NOT_SUPPORTED
                 && "frequency".equals(validationError.getPath()));

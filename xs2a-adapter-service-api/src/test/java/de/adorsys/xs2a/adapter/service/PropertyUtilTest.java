@@ -19,13 +19,13 @@ class PropertyUtilTest {
 
     @Test
     void readProperty() {
-        Assertions.assertEquals(PropertyUtil.readProperty(PROPERTY_NAME), PROPERTY_VALUE);
-        Assertions.assertEquals(PropertyUtil.readProperty(NOT_EXISTING_PROPERTY), "");
+        Assertions.assertEquals(PROPERTY_VALUE, PropertyUtil.readProperty(PROPERTY_NAME));
+        Assertions.assertEquals("", PropertyUtil.readProperty(NOT_EXISTING_PROPERTY));
     }
 
     @Test
     void readPropertyWithDefaultValue() {
-        Assertions.assertEquals(PropertyUtil.readProperty(NOT_EXISTING_PROPERTY, DEFAULT_VALUE), "42");
-        Assertions.assertEquals(PropertyUtil.readProperty(PROPERTY_NAME, "42"), PROPERTY_VALUE);
+        Assertions.assertEquals("42", PropertyUtil.readProperty(NOT_EXISTING_PROPERTY, DEFAULT_VALUE));
+        Assertions.assertEquals(PROPERTY_VALUE, PropertyUtil.readProperty(PROPERTY_NAME, "42"));
     }
 }
