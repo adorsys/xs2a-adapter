@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -123,10 +122,25 @@ class BasePaymentInitiationServiceTest {
     }
 
     @Test
-    void getPaymentInitiationScaStatus_exceptionExpected() {
+    void getPaymentInitiationScaStatus() {
+        ScaStatusResponse example = new ScaStatusResponse();
+        when(httpClient.get(any())).thenReturn(requestBuilder);
+        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        assertThrows(UnsupportedOperationException.class,
-            () -> initiationService.getPaymentInitiationScaStatus(null, null, null, null, null, null));
+        Response<ScaStatusResponse> response = initiationService.getPaymentInitiationScaStatus(SINGLE_PAYMENTS,
+            SEPA_CREDIT_TRANSFERS,
+            PAYMENTID,
+            AUTHORISATIONID,
+            RequestHeaders.empty(),
+            RequestParams.empty());
+
+        verify(httpClient, times(1)).get(uriCaptor.capture());
+        verify(requestBuilder, times(1)).headers(headersCaptor.capture());
+        verify(requestBuilder, times(1)).send(any(), any());
+        assertThat(uriCaptor.getValue())
+            .isEqualTo(PAYMENTS_URI + "/" + SEPA_CREDIT_TRANSFERS + "/" + PAYMENTID + "/authorisations/" + AUTHORISATIONID);
+        assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
+        assertThat(response.getBody()).isEqualTo(example);
     }
 
     @Test
@@ -176,10 +190,23 @@ class BasePaymentInitiationServiceTest {
     }
 
     @Test
-    void getPaymentInitiationAuthorisation_exceptionExpected() {
+    void getPaymentInitiationAuthorisation() {
+        Authorisations example = new Authorisations();
+        when(httpClient.get(any())).thenReturn(requestBuilder);
+        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        assertThrows(UnsupportedOperationException.class,
-            () -> initiationService.getPaymentInitiationAuthorisation(null, null, null, null, null));
+        Response<Authorisations> response = initiationService.getPaymentInitiationAuthorisation(SINGLE_PAYMENTS,
+            SEPA_CREDIT_TRANSFERS,
+            PAYMENTID,
+            RequestHeaders.empty(),
+            RequestParams.empty());
+
+        verify(httpClient, times(1)).get(uriCaptor.capture());
+        verify(requestBuilder, times(1)).headers(headersCaptor.capture());
+        verify(requestBuilder, times(1)).send(any(), any());
+        assertThat(uriCaptor.getValue()).isEqualTo(PAYMENTS_URI + "/" + SEPA_CREDIT_TRANSFERS + "/" + PAYMENTID + "/authorisations");
+        assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
+        assertThat(response.getBody()).isEqualTo(example);
     }
 
     @Test
