@@ -253,7 +253,42 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                      String authorisationId,
                                                                      RequestHeaders requestHeaders,
                                                                      RequestParams requestParams) {
-        throw new UnsupportedOperationException();
+        return getPaymentInitiationScaStatus(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            ScaStatusResponse.class,
+            identity());
+    }
+
+    protected <T> Response<ScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
+                                                                            String paymentProduct,
+                                                                            String paymentId,
+                                                                            String authorisationId,
+                                                                            RequestHeaders requestHeaders,
+                                                                            RequestParams requestParams,
+                                                                            Class<T> klass,
+                                                                            Function<T, ScaStatusResponse> mapper) {
+        requireValid(validateGetPaymentInitiationScaStatus(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams));
+        String uri = StringUri.fromElements(getPaymentBaseUri(),
+            paymentService,
+            paymentProduct,
+            paymentId,
+            AUTHORISATIONS,
+            authorisationId);
+        uri = buildUri(uri, requestParams);
+        Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
+        return httpClient.get(uri)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass))
+            .map(mapper);
     }
 
     @Override
@@ -313,7 +348,38 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                                                       String paymentId,
                                                                       RequestHeaders requestHeaders,
                                                                       RequestParams requestParams) {
-        throw new UnsupportedOperationException();
+        return getPaymentInitiationAuthorisation(paymentService,
+            paymentProduct,
+            paymentId,
+            requestHeaders,
+            requestParams,
+            Authorisations.class,
+            identity());
+    }
+
+    protected <T> Response<Authorisations> getPaymentInitiationAuthorisation(String paymentService,
+                                                                             String paymentProduct,
+                                                                             String paymentId,
+                                                                             RequestHeaders requestHeaders,
+                                                                             RequestParams requestParams,
+                                                                             Class<T> klass,
+                                                                             Function<T, Authorisations> mapper) {
+        requireValid(validateGetPaymentInitiationAuthorisation(paymentService,
+            paymentProduct,
+            paymentId,
+            requestHeaders,
+            requestParams));
+        String uri = StringUri.fromElements(getPaymentBaseUri(),
+            paymentService,
+            paymentProduct,
+            paymentId,
+            AUTHORISATIONS);
+        uri = buildUri(uri, requestParams);
+        Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
+        return httpClient.get(uri)
+            .headers(headersMap)
+            .send(requestBuilderInterceptor, jsonResponseHandler(klass))
+            .map(mapper);
     }
 
     @Override
