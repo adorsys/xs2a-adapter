@@ -18,7 +18,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class AccountInformationServiceImplTest {
+class AccountInformationServiceImplTest {
     private static final int HTTP_CODE_200 = 200;
     private static final RequestHeaders headers = RequestHeaders.fromMap(new HashMap<>());
     private static final RequestParams parameters = RequestParams.empty();
@@ -42,7 +42,7 @@ public class AccountInformationServiceImplTest {
     }
 
     @Test
-    public void createConsent() {
+    void createConsent() {
         Response<ConsentsResponse201> response = new Response<>(HTTP_CODE_200,
             new ConsentsResponse201(),
             ResponseHeaders.fromMap(Collections.emptyMap()));

@@ -10,7 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-public class PsuIdHeaderInterceptorTest {
+class PsuIdHeaderInterceptorTest {
 
     private static final String PSU_ID = "psu id";
     private static final String QUOTES = "\"\"";

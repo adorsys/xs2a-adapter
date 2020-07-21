@@ -19,14 +19,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
-public class DeutscheBankAccountInformationServiceTest {
+class DeutscheBankAccountInformationServiceTest {
 
     private static final String BASE_URL = "https://simulator-xs2a.db.com/ais/DE/SB-DB";
     private static final Aspsp ASPSP = buildAspspWithUrl();
     private static final String CONSENT_URL = BASE_URL + "/v1/consents";
 
     @Test
-    public void createConsent() {
+    void createConsent() {
         HttpClient httpClient = mock(HttpClient.class);
         DeutscheBankAccountInformationService service =
             new DeutscheBankAccountInformationService(ASPSP, httpClient, null, null, null);

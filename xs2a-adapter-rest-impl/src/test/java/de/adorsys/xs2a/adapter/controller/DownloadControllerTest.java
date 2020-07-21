@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class DownloadControllerTest {
+class DownloadControllerTest {
     private static final String DOWNLOAD_URL = "https://www.example.com";
     private static final int HTTP_CODE_200 = 200;
     private static final byte[] RESPONSE_BODY = "response body".getBytes();
@@ -50,24 +50,24 @@ public class DownloadControllerTest {
         MockitoAnnotations.initMocks(this);
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
-                      .setMessageConverters(new ByteArrayHttpMessageConverter())
-                      .setControllerAdvice(new RestExceptionHandler(new HeadersMapper()))
-                      .build();
+            .setMessageConverters(new ByteArrayHttpMessageConverter())
+            .setControllerAdvice(new RestExceptionHandler(new HeadersMapper()))
+            .build();
     }
 
     @Test
-    public void download() throws Exception {
+    void download() throws Exception {
         when(downloadService.download(eq(DOWNLOAD_URL), any()))
             .thenReturn(RESPONSE);
         when(headersMapper.toHttpHeaders(any()))
             .thenReturn(new HttpHeaders());
 
         MvcResult mvcResult = mockMvc.perform(get("/v1/download")
-                                                  .param("url", DOWNLOAD_URL)
-                                                  .header(RequestHeaders.X_GTW_ASPSP_ID, "db")
-                                                  .header(RequestHeaders.X_REQUEST_ID, UUID.randomUUID()))
-                                  .andExpect(status().is(HttpStatus.OK.value()))
-                                  .andReturn();
+            .param("url", DOWNLOAD_URL)
+            .header(RequestHeaders.X_GTW_ASPSP_ID, "db")
+            .header(RequestHeaders.X_REQUEST_ID, UUID.randomUUID()))
+            .andExpect(status().is(HttpStatus.OK.value()))
+            .andReturn();
 
         MockHttpServletResponse response = mvcResult.getResponse();
 

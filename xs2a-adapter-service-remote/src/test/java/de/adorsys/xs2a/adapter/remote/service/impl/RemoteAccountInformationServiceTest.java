@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class RemoteAccountInformationServiceTest {
+class RemoteAccountInformationServiceTest {
 
     private RemoteAccountInformationService service;
     private AccountInformationClient client;
@@ -34,7 +34,7 @@ public class RemoteAccountInformationServiceTest {
     }
 
     @Test
-    public void getTransactionListAsString() throws JsonProcessingException {
+    void getTransactionListAsString() throws JsonProcessingException {
         TransactionsResponse200Json report = buildTransactionReport();
         when(client.getTransactionListAsString(
             any(), any(), any(), any(), any(), any(), any(), any())
@@ -50,7 +50,7 @@ public class RemoteAccountInformationServiceTest {
     }
 
     @Test
-    public void getTransactionList() {
+    void getTransactionList() {
         AccountInformationClient client = mock(AccountInformationClient.class);
         RemoteAccountInformationService service = new RemoteAccountInformationService(client);
 

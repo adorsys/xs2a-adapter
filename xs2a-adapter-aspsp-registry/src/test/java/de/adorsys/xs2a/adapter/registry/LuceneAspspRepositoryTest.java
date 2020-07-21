@@ -14,7 +14,7 @@ import java.util.Optional;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.*;
 
-public class LuceneAspspRepositoryTest {
+class LuceneAspspRepositoryTest {
     private static final String ASPSP_ID = "1";
     private static final Integer SIZE = Integer.MAX_VALUE;
     private static final String AFTER = "0";
@@ -22,7 +22,7 @@ public class LuceneAspspRepositoryTest {
     private LuceneAspspRepository luceneAspspRepository = new LuceneAspspRepository(new ByteBuffersDirectory());
 
     @Test
-    public void deleteById() {
+    void deleteById() {
         Aspsp aspsp = new Aspsp();
         aspsp.setId(ASPSP_ID);
 
@@ -38,7 +38,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void deleteAll() {
+    void deleteAll() {
         Aspsp aspsp1 = new Aspsp();
         luceneAspspRepository.save(aspsp1);
 
@@ -56,7 +56,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void saveCanHandleNullProperties() {
+    void saveCanHandleNullProperties() {
         try {
             luceneAspspRepository.save(new Aspsp());
         } catch (Throwable e) {
@@ -65,19 +65,19 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findByIdReturnsEmptyWhenIndexDoesntExist() {
+    void findByIdReturnsEmptyWhenIndexDoesntExist() {
         Optional<Aspsp> found = new LuceneAspspRepository(new ByteBuffersDirectory()).findById("id");
         assertThat(found).isEmpty();
     }
 
     @Test
-    public void findById_NotFound() {
+    void findById_NotFound() {
         Optional<Aspsp> found = luceneAspspRepository.findById("id");
         assertThat(found).isEmpty();
     }
 
     @Test
-    public void findById_Found() {
+    void findById_Found() {
         Aspsp aspsp = new Aspsp();
         aspsp.setId(ASPSP_ID);
 
@@ -87,13 +87,13 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findByBic_NotFound() {
+    void findByBic_NotFound() {
         List<Aspsp> found = luceneAspspRepository.findByBic("bic");
         assertThat(found).isEmpty();
     }
 
     @Test
-    public void findByBic_Found() {
+    void findByBic_Found() {
         Aspsp aspsp1 = new Aspsp();
         aspsp1.setBic("BIC1");
         luceneAspspRepository.save(aspsp1);
@@ -108,7 +108,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findByBicUsesPrefixSearch() {
+    void findByBicUsesPrefixSearch() {
         Aspsp aspsp1 = new Aspsp();
         aspsp1.setBic("BIC1");
         luceneAspspRepository.save(aspsp1);
@@ -122,7 +122,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findByNameUsesPrefixSearch() {
+    void findByNameUsesPrefixSearch() {
         Aspsp aspsp1 = new Aspsp();
         aspsp1.setName("Sparkasse Nürnberg - Geschäftsstelle");
         luceneAspspRepository.save(aspsp1);
@@ -140,7 +140,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findAll() {
+    void findAll() {
         Aspsp aspsp1 = new Aspsp();
         luceneAspspRepository.save(aspsp1);
 
@@ -155,7 +155,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findAllWithPageSize() {
+    void findAllWithPageSize() {
         Aspsp aspsp1 = new Aspsp();
         luceneAspspRepository.save(aspsp1);
 
@@ -170,7 +170,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findAllWithPagination() {
+    void findAllWithPagination() {
         Aspsp aspsp1 = new Aspsp();
         luceneAspspRepository.save(aspsp1);
 
@@ -188,7 +188,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findLike() {
+    void findLike() {
         Aspsp aspsp1 = new Aspsp();
         aspsp1.setBic("ABCDEF");
         luceneAspspRepository.save(aspsp1);
@@ -205,7 +205,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findLikeShouldBeOrderedByPriorities_BicBankCodeName_BicBankCode_Bic_BankCode_Name() {
+    void findLikeShouldBeOrderedByPriorities_BicBankCodeName_BicBankCode_Bic_BankCode_Name() {
         List<Aspsp> expected = Arrays.asList(
             buildAspsp("TESTBICA", "111111", "SomeBank"),
             buildAspsp("TESTBICA", "111111"),
@@ -258,7 +258,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void saveAllTreatsEmptyFieldsAsNull() {
+    void saveAllTreatsEmptyFieldsAsNull() {
         Aspsp aspsp = new Aspsp();
         aspsp.setId(ASPSP_ID);
         aspsp.setIdpUrl("");
@@ -270,7 +270,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void saveTreatsEmptyIdAsNull() {
+    void saveTreatsEmptyIdAsNull() {
         Aspsp aspsp = new Aspsp();
         aspsp.setId("");
 
@@ -280,7 +280,6 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-
     void findByBankCode() {
         String bankCode = "00000000";
         Aspsp aspsp = buildAspsp(null, bankCode);

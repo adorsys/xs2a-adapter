@@ -18,7 +18,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SparkasseOauth2ServiceTest {
+class SparkasseOauth2ServiceTest {
     private static final String ORG_ID = "PSDDE-BAFIN-999999";
     private static final String STATE = "xyz";
     private static final String AUTHORIZATION_ENDPOINT = "https://www.sparkasse.de/oauth/authorize";

@@ -18,7 +18,7 @@ import static de.adorsys.xs2a.adapter.service.ResponseHeaders.emptyResponseHeade
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class RestExceptionHandlerTest {
+class RestExceptionHandlerTest {
 
     private static final String OAUTH_ERROR_RESPONSE = "{\n" +
         "  \"timestamp\": \"2019-10-17T13:12:15.171+0000\",\n" +
@@ -36,7 +36,7 @@ public class RestExceptionHandlerTest {
     }
 
     @Test
-    public void handleErrorResponseExceptionReturnsOriginalMessageWhenXs2aErrorResponseFieldsAreAbsent() {
+    void handleErrorResponseExceptionReturnsOriginalMessageWhenXs2aErrorResponseFieldsAreAbsent() {
         ErrorResponseException ex =
             new ErrorResponseException(400, emptyResponseHeaders(), new ErrorResponse(), OAUTH_ERROR_RESPONSE);
         RestExceptionHandler exceptionHandler = this.exceptionHandler;

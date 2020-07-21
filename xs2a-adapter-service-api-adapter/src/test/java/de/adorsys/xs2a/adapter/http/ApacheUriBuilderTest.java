@@ -6,7 +6,7 @@ import java.net.URI;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ApacheUriBuilderTest {
+class ApacheUriBuilderTest {
 
     public static final URI baseUriWithQueryParam = URI.create("https://base.uri?param=param");
     private ApacheUriBuilder builder = new ApacheUriBuilder(baseUriWithQueryParam);
