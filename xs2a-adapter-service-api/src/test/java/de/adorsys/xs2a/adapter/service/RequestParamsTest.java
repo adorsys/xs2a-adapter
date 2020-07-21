@@ -7,10 +7,10 @@ import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class RequestParamsTest {
+class RequestParamsTest {
 
     @Test
-    public void fromMap() {
+    void fromMap() {
         RequestParams requestParams = RequestParams.fromMap(emptyMap());
 
         assertThat(requestParams.toMap()).isEqualTo(emptyMap());

@@ -14,7 +14,7 @@ import static de.adorsys.xs2a.adapter.service.RequestHeaders.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-public class PsuIdTypeHeaderInterceptorTest {
+class PsuIdTypeHeaderInterceptorTest {
 
     private static final String METHOD = "GET";
     private static final String URI = "https://uri.com";

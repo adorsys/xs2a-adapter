@@ -11,14 +11,14 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-public class DkbPaymentInitiationServiceTest {
+class DkbPaymentInitiationServiceTest {
     private static final Aspsp ASPSP = buildAspspWithUrl();
 
     private final AccessTokenService accessService = Mockito.mock(AccessTokenService.class);
     private DkbPaymentInitiationService service = new DkbPaymentInitiationService(ASPSP, accessService, null, null);
 
     @Test
-    public void addBearerHeader() {
+    void addBearerHeader() {
         when(accessService.retrieveToken()).thenReturn("token");
 
         Map<String, String> headers = service.addBearerHeader(new HashMap<>());

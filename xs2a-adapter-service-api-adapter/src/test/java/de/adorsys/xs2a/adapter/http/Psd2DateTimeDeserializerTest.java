@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class Psd2DateTimeDeserializerTest {
+class Psd2DateTimeDeserializerTest {
 
     Psd2DateTimeDeserializer deserializer = new Psd2DateTimeDeserializer();
 

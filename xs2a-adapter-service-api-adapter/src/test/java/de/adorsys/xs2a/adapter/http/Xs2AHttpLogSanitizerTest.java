@@ -15,13 +15,13 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class Xs2AHttpLogSanitizerTest {
+class Xs2AHttpLogSanitizerTest {
 
     public static final String REPLACEMENT = "******";
     private final Xs2aHttpLogSanitizer anonymizer = new Xs2aHttpLogSanitizer();
 
     @Test
-    public void sanitize() {
+    void sanitize() {
 
         String data = "https://xs2a-sndbx.consorsbank.de/v1/consents/a9b2d4e9-91da-4a1b-bf9b-d7619aa67462/authorisations";
         String sanitizedString = anonymizer.sanitize(data);
@@ -81,7 +81,7 @@ public class Xs2AHttpLogSanitizerTest {
     }
 
     @Test
-    public void sanitizeSensitiveHeaders() {
+    void sanitizeSensitiveHeaders() {
         List<String> headers = Arrays.asList("Authorization", "PSU-ID", "PSU-Corporate-ID", "Consent-ID", "X-GTW-IBAN",
             "Location");
         for (String header : headers) {
@@ -91,7 +91,7 @@ public class Xs2AHttpLogSanitizerTest {
     }
 
     @Test
-    public void sanitizeGeneralHeader() {
+    void sanitizeGeneralHeader() {
         List<String> headers = Arrays.asList("Content-type", "Accept", "Correlation-ID");
         for (String header : headers) {
             String sanitizedHeader = anonymizer.sanitizeHeader(header, "1234567");
@@ -100,49 +100,49 @@ public class Xs2AHttpLogSanitizerTest {
     }
 
     @Test
-    public void sanitizeResponseBody() throws IOException {
+    void sanitizeResponseBody() throws IOException {
         String json = "{" +
-                          "\"consentStatus\":\"received\"," +
-                          "\"consentId\":\"40b01787-a5eb-48c0-bc38-050b8e657a88\"," +
-                          "\"_links\":{" +
-                          "\"scaStatus\":{" +
-                          "\"href\":\"https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents/40b01787-a5eb-48c0-bc38-050b8e657a88/authorisations/9625c345-c41a-4c69-b9ea-824fa2c69c3a\"" +
-                          "}," +
-                          "\"startAuthorisationWithEncryptedPsuAuthentication\":{" +
-                          "\"href\":\"https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents/40b01787-a5eb-48c0-bc38-050b8e657a88/authorisations/9625c345-c41a-4c69-b9ea-824fa2c69c3a\"" +
-                          "}," +
-                          "\"self\":{" +
-                          "\"href\":\"https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents/40b01787-a5eb-48c0-bc38-050b8e657a88\"" +
-                          "}," +
-                          "\"aspspCertificates\":{" +
-                          "\"href\":\"https://simulator-xs2a.db.com/DE/SB-DB/aspsp-certificates/\"" +
-                          "}," +
-                          "\"status\":{" +
-                          "\"href\":\"https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents/40b01787-a5eb-48c0-bc38-050b8e657a88/status\"" +
-                          "}" +
-                          "  }" +
-                          "}";
+            "\"consentStatus\":\"received\"," +
+            "\"consentId\":\"40b01787-a5eb-48c0-bc38-050b8e657a88\"," +
+            "\"_links\":{" +
+            "\"scaStatus\":{" +
+            "\"href\":\"https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents/40b01787-a5eb-48c0-bc38-050b8e657a88/authorisations/9625c345-c41a-4c69-b9ea-824fa2c69c3a\"" +
+            "}," +
+            "\"startAuthorisationWithEncryptedPsuAuthentication\":{" +
+            "\"href\":\"https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents/40b01787-a5eb-48c0-bc38-050b8e657a88/authorisations/9625c345-c41a-4c69-b9ea-824fa2c69c3a\"" +
+            "}," +
+            "\"self\":{" +
+            "\"href\":\"https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents/40b01787-a5eb-48c0-bc38-050b8e657a88\"" +
+            "}," +
+            "\"aspspCertificates\":{" +
+            "\"href\":\"https://simulator-xs2a.db.com/DE/SB-DB/aspsp-certificates/\"" +
+            "}," +
+            "\"status\":{" +
+            "\"href\":\"https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents/40b01787-a5eb-48c0-bc38-050b8e657a88/status\"" +
+            "}" +
+            "  }" +
+            "}";
         String expectedJson = "{" +
-                                  "\"consentStatus\":\"******\"," +
-                                  "\"consentId\":\"******\"," +
-                                  "\"_links\":{" +
-                                  "\"scaStatus\":{" +
-                                  "\"href\":\"******\"" +
-                                  "}," +
-                                  "\"startAuthorisationWithEncryptedPsuAuthentication\":{" +
-                                  "\"href\":\"******\"" +
-                                  "}," +
-                                  "\"self\":{" +
-                                  "\"href\":\"******\"" +
-                                  "}," +
-                                  "\"aspspCertificates\":{" +
-                                  "\"href\":\"******\"" +
-                                  "}," +
-                                  "\"status\":{" +
-                                  "\"href\":\"******\"" +
-                                  "}" +
-                                  "}" +
-                                  "}";
+            "\"consentStatus\":\"******\"," +
+            "\"consentId\":\"******\"," +
+            "\"_links\":{" +
+            "\"scaStatus\":{" +
+            "\"href\":\"******\"" +
+            "}," +
+            "\"startAuthorisationWithEncryptedPsuAuthentication\":{" +
+            "\"href\":\"******\"" +
+            "}," +
+            "\"self\":{" +
+            "\"href\":\"******\"" +
+            "}," +
+            "\"aspspCertificates\":{" +
+            "\"href\":\"******\"" +
+            "}," +
+            "\"status\":{" +
+            "\"href\":\"******\"" +
+            "}" +
+            "}" +
+            "}";
 
         ConsentsResponse201 consentCreationResponse = new ObjectMapper().readValue(json, ConsentsResponse201.class);
 
@@ -152,19 +152,19 @@ public class Xs2AHttpLogSanitizerTest {
     }
 
     @Test
-    public void sanitizeResponseBodyNotJsonContentType() {
+    void sanitizeResponseBodyNotJsonContentType() {
         String body = anonymizer.sanitizeResponseBody(new Object(), "application/xml");
         assertThat(body).isEqualTo(REPLACEMENT);
     }
 
     @Test
-    public void sanitizeResponseBodyWithSerializationError() {
+    void sanitizeResponseBodyWithSerializationError() {
         String body = anonymizer.sanitizeResponseBody(Arrays.asList("abc", "123"), "application/json");
         assertThat(body).isEqualTo("[\"" + REPLACEMENT + "\",\"" + REPLACEMENT + "\"]");
     }
 
     @Test
-    public void sanitizeResponseBodyAsString() throws JsonProcessingException {
+    void sanitizeResponseBodyAsString() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Map<String, String> map = new HashMap<>();
         map.put("key", "value");
@@ -176,50 +176,50 @@ public class Xs2AHttpLogSanitizerTest {
     @Test
     void sanitizeRequestBody() throws UnsupportedEncodingException {
         String json = "{" +
-                          "\"access\":{" +
-                          "\"balances\":[" +
-                          "{" +
-                          "\"iban\":\"\"," +
-                          "\"currency\":\"EUR\"" +
-                          "}" +
-                          "]," +
-                          "\"transactions\":[" +
-                          "{" +
-                          "\"iban\":\"DE82500105176963379138\"," +
-                          "\"currency\":\"EUR\"" +
-                          "}" +
-                          "]," +
-                          "\"accounts\":[" +
-                          "{" +
-                          "\"iban\":\"DE82500105176963379138\"," +
-                          "\"currency\":\"EUR\"" +
-                          "}" +
-                          "]" +
-                          "}" +
-                          "}";
+            "\"access\":{" +
+            "\"balances\":[" +
+            "{" +
+            "\"iban\":\"\"," +
+            "\"currency\":\"EUR\"" +
+            "}" +
+            "]," +
+            "\"transactions\":[" +
+            "{" +
+            "\"iban\":\"DE82500105176963379138\"," +
+            "\"currency\":\"EUR\"" +
+            "}" +
+            "]," +
+            "\"accounts\":[" +
+            "{" +
+            "\"iban\":\"DE82500105176963379138\"," +
+            "\"currency\":\"EUR\"" +
+            "}" +
+            "]" +
+            "}" +
+            "}";
 
         String expectedSanitizedJson = "{" +
-                                           "\"access\":{" +
-                                           "\"balances\":[" +
-                                           "{" +
-                                           "\"iban\":\"******\"," +
-                                           "\"currency\":\"******\"" +
-                                           "}" +
-                                           "]," +
-                                           "\"transactions\":[" +
-                                           "{" +
-                                           "\"iban\":\"******\"," +
-                                           "\"currency\":\"******\"" +
-                                           "}" +
-                                           "]," +
-                                           "\"accounts\":[" +
-                                           "{" +
-                                           "\"iban\":\"******\"," +
-                                           "\"currency\":\"******\"" +
-                                           "}" +
-                                           "]" +
-                                           "}" +
-                                           "}";
+            "\"access\":{" +
+            "\"balances\":[" +
+            "{" +
+            "\"iban\":\"******\"," +
+            "\"currency\":\"******\"" +
+            "}" +
+            "]," +
+            "\"transactions\":[" +
+            "{" +
+            "\"iban\":\"******\"," +
+            "\"currency\":\"******\"" +
+            "}" +
+            "]," +
+            "\"accounts\":[" +
+            "{" +
+            "\"iban\":\"******\"," +
+            "\"currency\":\"******\"" +
+            "}" +
+            "]" +
+            "}" +
+            "}";
 
         String actualSanitizedJson = anonymizer.sanitizeRequestBody(new StringEntity(json), "application/json");
 
@@ -229,58 +229,58 @@ public class Xs2AHttpLogSanitizerTest {
     @Test
     void sanitizeRequestBodyWithNonSanitizedProperties() throws UnsupportedEncodingException {
         String json = "{" +
-                          "\"access\":{" +
-                          "\"balances\":[" +
-                          "{" +
-                          "\"iban\":\"\"," +
-                          "\"currency\":\"EUR\"" +
-                          "}" +
-                          "]," +
-                          "\"transactions\":[" +
-                          "{" +
-                          "\"iban\":\"DE82500105176963379138\"," +
-                          "\"currency\":\"EUR\"" +
-                          "}" +
-                          "]," +
-                          "\"accounts\":[" +
-                          "{" +
-                          "\"iban\":\"DE82500105176963379138\"," +
-                          "\"currency\":\"EUR\"" +
-                          "}" +
-                          "]" +
-                          "}," +
-                          "\"combinedServiceIndicator\":\"false\"," +
-                          "\"recurringIndicator\":\"true\"," +
-                          "\"validUntil\":\"01-01-2020\"," +
-                          "\"frequencyPerDay\":\"4\"" +
-                          "}";
+            "\"access\":{" +
+            "\"balances\":[" +
+            "{" +
+            "\"iban\":\"\"," +
+            "\"currency\":\"EUR\"" +
+            "}" +
+            "]," +
+            "\"transactions\":[" +
+            "{" +
+            "\"iban\":\"DE82500105176963379138\"," +
+            "\"currency\":\"EUR\"" +
+            "}" +
+            "]," +
+            "\"accounts\":[" +
+            "{" +
+            "\"iban\":\"DE82500105176963379138\"," +
+            "\"currency\":\"EUR\"" +
+            "}" +
+            "]" +
+            "}," +
+            "\"combinedServiceIndicator\":\"false\"," +
+            "\"recurringIndicator\":\"true\"," +
+            "\"validUntil\":\"01-01-2020\"," +
+            "\"frequencyPerDay\":\"4\"" +
+            "}";
 
         String expectedSanitizedJson = "{" +
-                                           "\"access\":{" +
-                                           "\"balances\":[" +
-                                           "{" +
-                                           "\"iban\":\"******\"," +
-                                           "\"currency\":\"******\"" +
-                                           "}" +
-                                           "]," +
-                                           "\"transactions\":[" +
-                                           "{" +
-                                           "\"iban\":\"******\"," +
-                                           "\"currency\":\"******\"" +
-                                           "}" +
-                                           "]," +
-                                           "\"accounts\":[" +
-                                           "{" +
-                                           "\"iban\":\"******\"," +
-                                           "\"currency\":\"******\"" +
-                                           "}" +
-                                           "]" +
-                                           "}," +
-                                           "\"combinedServiceIndicator\":\"false\"," +
-                                           "\"recurringIndicator\":\"true\"," +
-                                           "\"validUntil\":\"01-01-2020\"," +
-                                           "\"frequencyPerDay\":\"4\"" +
-                                           "}";
+            "\"access\":{" +
+            "\"balances\":[" +
+            "{" +
+            "\"iban\":\"******\"," +
+            "\"currency\":\"******\"" +
+            "}" +
+            "]," +
+            "\"transactions\":[" +
+            "{" +
+            "\"iban\":\"******\"," +
+            "\"currency\":\"******\"" +
+            "}" +
+            "]," +
+            "\"accounts\":[" +
+            "{" +
+            "\"iban\":\"******\"," +
+            "\"currency\":\"******\"" +
+            "}" +
+            "]" +
+            "}," +
+            "\"combinedServiceIndicator\":\"false\"," +
+            "\"recurringIndicator\":\"true\"," +
+            "\"validUntil\":\"01-01-2020\"," +
+            "\"frequencyPerDay\":\"4\"" +
+            "}";
 
         String actualSanitizedJson = anonymizer.sanitizeRequestBody(new StringEntity(json), "application/json");
 

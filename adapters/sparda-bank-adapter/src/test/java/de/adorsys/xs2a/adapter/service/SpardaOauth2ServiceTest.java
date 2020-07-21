@@ -25,7 +25,7 @@ import static de.adorsys.xs2a.adapter.service.SpardaOauth2Service.UNSUPPORTED_SC
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SpardaOauth2ServiceTest {
+class SpardaOauth2ServiceTest {
     public static final String BIC = "GENODEF1S08";
     public static final String AUTH_HOST = "https://idp.sparda-n.de";
     public static final String TOKEN_HOST = "https://idp.sparda.de";
@@ -52,7 +52,7 @@ public class SpardaOauth2ServiceTest {
     }
 
     @Test
-    public void getAuthorizationRequestUri() throws IOException {
+    void getAuthorizationRequestUri() throws IOException {
         Parameters parameters = new Parameters();
         parameters.setRedirectUri(REDIRECT_URI);
         parameters.setScope(SCOPE);
@@ -71,7 +71,7 @@ public class SpardaOauth2ServiceTest {
     }
 
     @Test
-    public void getAuthorizationRequestUriWithAisScopeMapping() throws IOException {
+    void getAuthorizationRequestUriWithAisScopeMapping() throws IOException {
         Parameters parameters = new Parameters();
         parameters.setRedirectUri(REDIRECT_URI);
         parameters.setScope(Scope.AIS_TRANSACTIONS.getValue());
@@ -79,13 +79,13 @@ public class SpardaOauth2ServiceTest {
         URI uri = oauth2Service.getAuthorizationRequestUri(Collections.emptyMap(), parameters);
 
         assertEquals(AUTH_HOST + "/oauth2/authorize"
-                         + "?response_type=code"
-                         + "&redirect_uri=" + URLEncoder.encode(REDIRECT_URI, StandardCharsets.UTF_8.name())
-                         + "&scope=" + SCOPE
-                         + "&client_id=" + CLIENT_ID
-                         + "&code_challenge_method=S256"
-                         + "&code_challenge=" + oauth2Service.codeChallenge()
-                         + "&bic=" + BIC, uri.toString());
+            + "?response_type=code"
+            + "&redirect_uri=" + URLEncoder.encode(REDIRECT_URI, StandardCharsets.UTF_8.name())
+            + "&scope=" + SCOPE
+            + "&client_id=" + CLIENT_ID
+            + "&code_challenge_method=S256"
+            + "&code_challenge=" + oauth2Service.codeChallenge()
+            + "&bic=" + BIC, uri.toString());
         Mockito.verifyNoInteractions(httpClient);
     }
 

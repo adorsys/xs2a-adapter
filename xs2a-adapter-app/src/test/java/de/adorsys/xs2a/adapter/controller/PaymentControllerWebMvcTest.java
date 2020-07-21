@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(PaymentController.class)
-public class PaymentControllerWebMvcTest {
+class PaymentControllerWebMvcTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -28,7 +28,7 @@ public class PaymentControllerWebMvcTest {
     private HeadersMapper headersMapper;
 
     @Test
-    public void illegalPaymentService() throws Exception {
+    void illegalPaymentService() throws Exception {
         mockMvc.perform(get("/v1/PAYMENTS/sepa-credit-transfers/id"))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.tppMessages[0].text").value(
@@ -36,7 +36,7 @@ public class PaymentControllerWebMvcTest {
     }
 
     @Test
-    public void illegalPaymentProduct() throws Exception {
+    void illegalPaymentProduct() throws Exception {
         mockMvc.perform(get("/v1/payments/SEPA-CREDIT-TRANSFERS/id"))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.tppMessages[0].text").value(

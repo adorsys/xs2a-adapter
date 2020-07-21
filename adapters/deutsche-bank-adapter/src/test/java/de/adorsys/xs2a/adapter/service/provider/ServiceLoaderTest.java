@@ -25,12 +25,12 @@ import java.util.ServiceLoader;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class ServiceLoaderTest {
+class ServiceLoaderTest {
     private static final Aspsp ASPSP = buildAspspWithUrl();
     private HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
 
     @Test
-    public void getPaymentInitiationServiceProvider() {
+    void getPaymentInitiationServiceProvider() {
         ServiceLoader<PaymentInitiationServiceProvider> loader = ServiceLoader.load(PaymentInitiationServiceProvider.class);
         PaymentInitiationServiceProvider provider = loader.iterator().next();
 
@@ -39,7 +39,7 @@ public class ServiceLoaderTest {
     }
 
     @Test
-    public void getAccountInformationServiceProvider() {
+    void getAccountInformationServiceProvider() {
         ServiceLoader<AccountInformationServiceProvider> loader = ServiceLoader.load(AccountInformationServiceProvider.class);
         AccountInformationServiceProvider provider = loader.iterator().next();
 

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class DkbServiceProviderTest {
+class DkbServiceProviderTest {
 
     private DkbServiceProvider provider;
     private HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
@@ -25,7 +25,7 @@ public class DkbServiceProviderTest {
     }
 
     @Test
-    public void getPaymentInitiationService() {
+    void getPaymentInitiationService() {
         PaymentInitiationService service = provider.getPaymentInitiationService(null, httpClientFactory, null, null);
 
         assertThat(service).isNotNull();
@@ -33,7 +33,7 @@ public class DkbServiceProviderTest {
     }
 
     @Test
-    public void getAccountInformationService() {
+    void getAccountInformationService() {
         AccountInformationService service = provider.getAccountInformationService(null, httpClientFactory, null, null);
 
         assertThat(service).isNotNull();

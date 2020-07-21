@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class DigestTest {
+class DigestTest {
     private static final String REQUEST_BODY = "{\"hello\": \"world\"}";
     private static final Charset UTF8_CHARSET = StandardCharsets.UTF_8;
     private static final byte[] HASHED_REQUEST_BODY = REQUEST_BODY.getBytes();
@@ -38,28 +38,28 @@ public class DigestTest {
     private HashingService hashingService;
 
     @Test
-    public void build() {
+    void build() {
         when(hashingAlgorithm.getHashingService())
-                .thenReturn(hashingService);
+            .thenReturn(hashingService);
 
         when(hashingService.hash(REQUEST_BODY, UTF8_CHARSET))
-                .thenReturn(HASHED_REQUEST_BODY);
+            .thenReturn(HASHED_REQUEST_BODY);
 
         when(encodingAlgorithm.getEncodingService())
-                .thenReturn(encodingService);
+            .thenReturn(encodingService);
 
         when(encodingService.encode(HASHED_REQUEST_BODY))
-                .thenReturn(DIGEST_VALUE);
+            .thenReturn(DIGEST_VALUE);
 
         when(hashingAlgorithm.getAlgorithmName())
-                .thenReturn(HASHING_ALGORITHM_NAME);
+            .thenReturn(HASHING_ALGORITHM_NAME);
 
         Digest digest = Digest.builder()
-                .requestBody(REQUEST_BODY)
-                .hashingAlgorithm(hashingAlgorithm)
-                .encodingAlgorithm(encodingAlgorithm)
-                .charset(UTF8_CHARSET)
-                .build();
+            .requestBody(REQUEST_BODY)
+            .hashingAlgorithm(hashingAlgorithm)
+            .encodingAlgorithm(encodingAlgorithm)
+            .charset(UTF8_CHARSET)
+            .build();
 
         assertThat(digest.getHeaderName()).isEqualTo(RequestHeaders.DIGEST);
         assertThat(digest.getHeaderValue()).isEqualTo(EXPECTED_DIGEST_HEADER_VALUE);

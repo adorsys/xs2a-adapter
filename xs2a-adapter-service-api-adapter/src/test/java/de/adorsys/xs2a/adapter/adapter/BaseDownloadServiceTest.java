@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class BaseDownloadServiceTest {
+class BaseDownloadServiceTest {
 
     public static final String BASE_URL = "https://base.url";
     public static final String DOWNLOAD_URL = "https://base.url/download";

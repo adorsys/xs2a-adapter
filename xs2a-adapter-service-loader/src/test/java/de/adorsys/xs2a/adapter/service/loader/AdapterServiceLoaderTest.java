@@ -21,7 +21,7 @@ import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-public class AdapterServiceLoaderTest {
+class AdapterServiceLoaderTest {
 
     private static final String ADAPTER_ID = "test-adapter";
     private static final String ASPSP_ID = "test-aspsp-id";
@@ -50,21 +50,21 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getServiceProvider() {
+    void getServiceProvider() {
         Optional<AccountInformationServiceProvider> accountInformationServiceProvider =
             adapterServiceLoader.getServiceProvider(AccountInformationServiceProvider.class, ADAPTER_ID);
         assertThat(accountInformationServiceProvider).get().hasFieldOrPropertyWithValue("adapterId", ADAPTER_ID);
     }
 
     @Test
-    public void getServiceProviderIsCaseInsensitive() {
+    void getServiceProviderIsCaseInsensitive() {
         Optional<AccountInformationServiceProvider> accountInformationServiceProvider =
             adapterServiceLoader.getServiceProvider(AccountInformationServiceProvider.class, ADAPTER_ID.toUpperCase());
         assertThat(accountInformationServiceProvider).get().hasFieldOrPropertyWithValue("adapterId", ADAPTER_ID);
     }
 
     @Test
-    public void getAccountInformationServiceFindsAdapterByAspspId() {
+    void getAccountInformationServiceFindsAdapterByAspspId() {
         Aspsp aspsp = new Aspsp();
         aspsp.setAdapterId(ADAPTER_ID);
         when(aspspRepository.findById(ASPSP_ID))
@@ -74,7 +74,7 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getAccountInformationServiceThrowsWhenAspspNotFound() {
+    void getAccountInformationServiceThrowsWhenAspspNotFound() {
         when(aspspRepository.findById(ASPSP_ID))
             .thenReturn(Optional.empty());
 
@@ -85,7 +85,7 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getServiceProviderThrowsExceptionWhenAdapterNotFound() {
+    void getServiceProviderThrowsExceptionWhenAdapterNotFound() {
         when(aspspRepository.findById(ASPSP_ID))
             .thenReturn(Optional.of(new Aspsp()));
 
@@ -96,7 +96,7 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getAccountInformationServiceThrowsIfNothingFoundByBankCode() {
+    void getAccountInformationServiceThrowsIfNothingFoundByBankCode() {
         Assertions.assertThrows(
             AspspRegistrationNotFoundException.class,
             () -> adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCode)
@@ -104,7 +104,7 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getAccountInformationServiceThrowsIfNothingFoundByBic() {
+    void getAccountInformationServiceThrowsIfNothingFoundByBic() {
         Assertions.assertThrows(
             AspspRegistrationNotFoundException.class,
             () -> adapterServiceLoader.getAccountInformationService(requestHeadersWithBic)
@@ -112,7 +112,7 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getAccountInformationServiceThrowsIfNothingFoundByBankCodeAndBic() {
+    void getAccountInformationServiceThrowsIfNothingFoundByBankCodeAndBic() {
         Assertions.assertThrows(
             AspspRegistrationNotFoundException.class,
             () -> adapterServiceLoader.getAccountInformationService(requestHeadersWithBankCodeAndBic)
@@ -120,7 +120,7 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getAccountInformationServiceFindsAdapterByBankCode() {
+    void getAccountInformationServiceFindsAdapterByBankCode() {
         Aspsp aspsp = new Aspsp();
         aspsp.setAdapterId(ADAPTER_ID);
         when(aspspRepository.findByBankCode(BANK_CODE))
@@ -131,7 +131,7 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getAccountInformationServiceFindsAdapterByIban() {
+    void getAccountInformationServiceFindsAdapterByIban() {
         Aspsp aspsp = new Aspsp();
         aspsp.setAdapterId(ADAPTER_ID);
         String iban = "DE91100000000123456789";
@@ -144,7 +144,7 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getAccountInformationServiceFindsAdapterByBic() {
+    void getAccountInformationServiceFindsAdapterByBic() {
         Aspsp aspsp = new Aspsp();
         aspsp.setAdapterId(ADAPTER_ID);
         when(aspspRepository.findByBic(BIC))
@@ -155,7 +155,7 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getAccountInformationServiceFindsAdapterByBankCodeAndBic() {
+    void getAccountInformationServiceFindsAdapterByBankCodeAndBic() {
         Aspsp aspsp = new Aspsp();
         aspsp.setAdapterId(ADAPTER_ID);
 
@@ -167,7 +167,7 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getAccountInformationServicePrefersSearchingByAspspId() {
+    void getAccountInformationServicePrefersSearchingByAspspId() {
         Aspsp aspsp = new Aspsp();
         aspsp.setAdapterId(ADAPTER_ID);
         when(aspspRepository.findById(ASPSP_ID))
@@ -182,7 +182,7 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getAccountInformationServiceThrowsIfMoreThanOneAspspFoundByBankCode() {
+    void getAccountInformationServiceThrowsIfMoreThanOneAspspFoundByBankCode() {
         String file = getClass().getResource("/external.adapter.config.properties").getFile();
         System.setProperty("adapter.config.file.path", file);
         AdapterConfig.reload();
@@ -197,7 +197,7 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getAccountInformationServiceReturnFirst() {
+    void getAccountInformationServiceReturnFirst() {
         adapterServiceLoader = new AdapterServiceLoader(aspspRepository, null, null, null, null, true);
         Aspsp aspsp1 = new Aspsp();
         aspsp1.setId("1");
@@ -214,7 +214,7 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getAccountInformationServiceThrowsIfMoreThanOneAspspFoundByBic() {
+    void getAccountInformationServiceThrowsIfMoreThanOneAspspFoundByBic() {
         when(aspspRepository.findByBic(BIC))
             .thenReturn(Arrays.asList(new Aspsp(), new Aspsp()));
 
@@ -225,7 +225,7 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getAccountInformationServiceThrowsIfMoreThanOneAspspFoundByBankCodeAndBic() {
+    void getAccountInformationServiceThrowsIfMoreThanOneAspspFoundByBankCodeAndBic() {
         when(aspspRepository.findLike(buildAspsp(BANK_CODE, BIC, null)))
             .thenReturn(Arrays.asList(new Aspsp(), new Aspsp()));
 
@@ -236,7 +236,7 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getAccountInformationServiceThrowsIfNotAspspIdentifyingHeadersProvided() {
+    void getAccountInformationServiceThrowsIfNotAspspIdentifyingHeadersProvided() {
         Assertions.assertThrows(
             AspspRegistrationNotFoundException.class,
             () -> adapterServiceLoader.getAccountInformationService(RequestHeaders.fromMap(emptyMap()))
@@ -244,7 +244,7 @@ public class AdapterServiceLoaderTest {
     }
 
     @Test
-    public void getAccountInformationServiceThrowsAdapterNotFoundException() {
+    void getAccountInformationServiceThrowsAdapterNotFoundException() {
         when(aspspRepository.findById(ASPSP_ID))
             .thenReturn(Optional.of(new Aspsp()));
 

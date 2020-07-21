@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
-public class DkbAccessTokenServiceTest {
+class DkbAccessTokenServiceTest {
 
     private AccessTokenService tokenService;
     private HttpClient httpClient;
@@ -31,7 +31,7 @@ public class DkbAccessTokenServiceTest {
     }
 
     @Test
-    public void retrieveToken() {
+    void retrieveToken() {
         String accessToken = "accessToken";
         DkbAccessTokenService.TokenResponse tokenResponse = new DkbAccessTokenService.TokenResponse(accessToken, 3600);
         when(httpClient.send(any(), any())).thenReturn(new Response<>(200, tokenResponse, ResponseHeaders.fromMap(Collections.emptyMap())));

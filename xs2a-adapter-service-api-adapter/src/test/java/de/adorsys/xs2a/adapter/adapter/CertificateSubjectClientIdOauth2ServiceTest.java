@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class CertificateSubjectClientIdOauth2ServiceTest {
+class CertificateSubjectClientIdOauth2ServiceTest {
 
     private static final String organisationIdentifier = "organisationIdentifier";
 

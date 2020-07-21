@@ -26,7 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class AdorsysIntegOauth2ServiceTest {
+class AdorsysIntegOauth2ServiceTest {
     private static final String IDP_URL = "https://example.com";
     private static final String AUTH_URL = "https://example.com/auth";
     private static final String TOKEN_URL = "https://example.com/token";
@@ -73,7 +73,7 @@ public class AdorsysIntegOauth2ServiceTest {
     }
 
     @Test
-    public void getAuthorizationRequestUri_Failure_ScaOauthUrlIsEmptyParam() {
+    void getAuthorizationRequestUri_Failure_ScaOauthUrlIsEmptyParam() {
         Parameters parameters = new Parameters(new HashMap<>());
         parameters.setScaOAuthLink("  ");
 
@@ -86,7 +86,7 @@ public class AdorsysIntegOauth2ServiceTest {
     }
 
     @Test
-    public void getAuthorizationRequestUri_Failure_ScaOauthUrlIsEmpty() {
+    void getAuthorizationRequestUri_Failure_ScaOauthUrlIsEmpty() {
         Parameters parameters = new Parameters(new HashMap<>());
 
         when(aspsp.getIdpUrl()).thenReturn("    ");
@@ -98,7 +98,7 @@ public class AdorsysIntegOauth2ServiceTest {
     }
 
     @Test
-    public void getAuthorizationRequestUri_Success() {
+    void getAuthorizationRequestUri_Success() {
         Parameters parameters = new Parameters(new HashMap<>());
         parameters.setRedirectUri(REDIRECT_URI);
 
@@ -111,7 +111,7 @@ public class AdorsysIntegOauth2ServiceTest {
     }
 
     @Test
-    public void getToken_Failure_ScaOauthUrlIsNotProvided() {
+    void getToken_Failure_ScaOauthUrlIsNotProvided() {
         Parameters parameters = new Parameters(new HashMap<>());
 
         when(aspsp.getIdpUrl()).thenReturn(null);
@@ -123,7 +123,7 @@ public class AdorsysIntegOauth2ServiceTest {
     }
 
     @Test
-    public void getToken_Failure_ScaOauthUrlIsEmptyParam() {
+    void getToken_Failure_ScaOauthUrlIsEmptyParam() {
         Parameters parameters = new Parameters(new HashMap<>());
         parameters.setScaOAuthLink("  ");
 
@@ -136,7 +136,7 @@ public class AdorsysIntegOauth2ServiceTest {
     }
 
     @Test
-    public void getToken_Failure_ScaOauthUrlIsEmpty() {
+    void getToken_Failure_ScaOauthUrlIsEmpty() {
         Parameters parameters = new Parameters(new HashMap<>());
 
         when(aspsp.getIdpUrl()).thenReturn("    ");
@@ -148,7 +148,7 @@ public class AdorsysIntegOauth2ServiceTest {
     }
 
     @Test
-    public void getToken_Failure_ScaOauthUrlHasWrongFormat() {
+    void getToken_Failure_ScaOauthUrlHasWrongFormat() {
         Parameters parameters = new Parameters(new HashMap<>());
 
         when(aspsp.getIdpUrl()).thenReturn("wrong-idp-url");
@@ -160,7 +160,7 @@ public class AdorsysIntegOauth2ServiceTest {
     }
 
     @Test
-    public void getToken_Success() {
+    void getToken_Success() {
         Parameters parameters = new Parameters(new HashMap<>());
         parameters.setScaOAuthLink(IDP_URL);
         parameters.setAuthorizationCode(AUTHORISATION_CODE);

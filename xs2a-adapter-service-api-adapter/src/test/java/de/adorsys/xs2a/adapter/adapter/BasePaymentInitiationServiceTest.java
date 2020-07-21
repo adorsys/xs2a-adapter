@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class BasePaymentInitiationServiceTest {
+class BasePaymentInitiationServiceTest {
 
     private static final String SINGLE_PAYMENTS = "payments";
     public static final String SEPA_CREDIT_TRANSFERS = "sepa-credit-transfers";

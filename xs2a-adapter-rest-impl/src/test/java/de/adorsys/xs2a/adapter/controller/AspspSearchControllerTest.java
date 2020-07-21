@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class AspspSearchControllerTest {
+class AspspSearchControllerTest {
     private static final String ASPSP_ID = "aspsp-id";
     private MockMvc mockMvc;
     private AspspMapper mapper = Mappers.getMapper(AspspMapper.class);
@@ -46,29 +46,29 @@ public class AspspSearchControllerTest {
         MockitoAnnotations.initMocks(this);
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
-                      .setMessageConverters(new MappingJackson2HttpMessageConverter())
-                      .setControllerAdvice(new RestExceptionHandler(new HeadersMapper()))
-                      .build();
+            .setMessageConverters(new MappingJackson2HttpMessageConverter())
+            .setControllerAdvice(new RestExceptionHandler(new HeadersMapper()))
+            .build();
     }
 
     @Test
-    public void getById() throws Exception {
+    void getById() throws Exception {
         Aspsp aspsp = buildAspsp();
         AspspTO aspspTO = mapper.toAspspTO(aspsp);
         String aspspTOJson = new ObjectMapper().writeValueAsString(aspspTO);
         when(repository.findById(ASPSP_ID)).thenReturn(Optional.of(aspsp));
         MvcResult mvcResult = mockMvc.perform(get(AspspSearchApi.V1_APSPS_BY_ID, ASPSP_ID).content(aspspTOJson))
-                                  .andExpect(status().is(HttpStatus.OK.value()))
-                                  .andReturn();
+            .andExpect(status().is(HttpStatus.OK.value()))
+            .andReturn();
 
         AspspTO response = JsonReader.getInstance()
-                               .getObjectFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
+            .getObjectFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
 
         assertThat(response).isEqualTo(aspspTO);
     }
 
     @Test
-    public void getByIdNotFound() throws Exception {
+    void getByIdNotFound() throws Exception {
         when(repository.findById(ASPSP_ID)).thenReturn(Optional.empty());
         mockMvc.perform(get(AspspSearchApi.V1_APSPS_BY_ID, ASPSP_ID).content("{}"))
             .andExpect(status().is(HttpStatus.NOT_FOUND.value()))

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PsuIdTypeHeaderInterceptorTest {
+class PsuIdTypeHeaderInterceptorTest {
 
     private PsuIdTypeHeaderInterceptor interceptor;
     private RequestBuilderImpl builder;
@@ -21,14 +21,14 @@ public class PsuIdTypeHeaderInterceptorTest {
     }
 
     @Test
-    public void setsPsuIdTypeForDeutscheBankInGermanyWhenPsuIdIsPresent() {
+    void setsPsuIdTypeForDeutscheBankInGermanyWhenPsuIdIsPresent() {
         builder.uri("https://xs2a.db.com/ais/DE/PFB");
         Request.Builder actual = interceptor.apply(builder);
         assertEquals("DE_ONLB_DB", actual.headers().get(RequestHeaders.PSU_ID_TYPE));
     }
 
     @Test
-    public void doesNothingWhenPsuIdIsNotSet() {
+    void doesNothingWhenPsuIdIsNotSet() {
         builder.uri("https://xs2a.db.com/ais/DE/PFB");
         builder.headers().remove(RequestHeaders.PSU_ID);
         Request.Builder actual = interceptor.apply(builder);
@@ -36,7 +36,7 @@ public class PsuIdTypeHeaderInterceptorTest {
     }
 
     @Test
-    public void doesNothingIfPsuIdTypeIsAlreadySet() {
+    void doesNothingIfPsuIdTypeIsAlreadySet() {
         builder.uri("https://xs2a.db.com/ais/DE/PFB");
         String psuIdTypeOverride = "PSU_ID_TYPE_OVERRIDE";
         builder.header(RequestHeaders.PSU_ID_TYPE, psuIdTypeOverride);
@@ -45,14 +45,14 @@ public class PsuIdTypeHeaderInterceptorTest {
     }
 
     @Test
-    public void setsPsuIdTypeForPostbankInGermany() {
+    void setsPsuIdTypeForPostbankInGermany() {
         builder.uri("https://xs2a.db.com/ais/DE/Postbank");
         Request.Builder actual = interceptor.apply(builder);
         assertEquals("DE_ONLB_POBA", actual.headers().get(RequestHeaders.PSU_ID_TYPE));
     }
 
     @Test
-    public void hasBoundsChecksInCasePathIsTooShort() {
+    void hasBoundsChecksInCasePathIsTooShort() {
         builder.uri("https://xs2a.db.com/");
         try {
             interceptor.apply(builder);
@@ -62,7 +62,7 @@ public class PsuIdTypeHeaderInterceptorTest {
     }
 
     @Test
-    public void setsPsuIdTypeForNorisbankInGermany() {
+    void setsPsuIdTypeForNorisbankInGermany() {
         builder.uri("https://xs2a.db.com/ais/DE/Noris");
         Request.Builder actual = interceptor.apply(builder);
         assertEquals("DE_ONLB_NORIS", actual.headers().get(RequestHeaders.PSU_ID_TYPE));

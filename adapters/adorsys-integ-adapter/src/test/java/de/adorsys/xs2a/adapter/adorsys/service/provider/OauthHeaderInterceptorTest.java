@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import static de.adorsys.xs2a.adapter.adorsys.service.provider.OauthHeaderInterceptor.OAUTH_HEADER_NAME;
 
-public class OauthHeaderInterceptorTest {
+class OauthHeaderInterceptorTest {
 
     private String header;
     private OauthHeaderInterceptor interceptor;
@@ -22,14 +22,14 @@ public class OauthHeaderInterceptorTest {
     }
 
     @Test
-    public void checkHeaderValueIsPreStep() {
+    void checkHeaderValueIsPreStep() {
         Request.Builder result = applyInterceptor("90001001");
 
         Assertions.assertEquals(result.headers().get(header), "pre-step");
     }
 
     @Test
-    public void checkHeaderValueIsIntegrated() {
+    void checkHeaderValueIsIntegrated() {
         Request.Builder result = applyInterceptor("90001002");
 
         Assertions.assertEquals(result.headers().get(header), "integrated");
@@ -47,7 +47,7 @@ public class OauthHeaderInterceptorTest {
     }
 
     @Test
-    public void applyRequestBankCodeIsAbsent() {
+    void applyRequestBankCodeIsAbsent() {
 
         RequestBuilderImpl builder = new RequestBuilderImpl(null, null, null);
 

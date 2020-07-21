@@ -13,7 +13,7 @@ import java.util.Properties;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class Sha256WithRsaSigningServiceTest {
+class Sha256WithRsaSigningServiceTest {
     private static final String STRING_TO_SIGN = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
     private static final String EXPECTED_SIGNED_VALUE = "5161f9cea2a270d8a6f1b86b50a43c6960d4fe45030b8636680ba33963ff" +
         "e76772d1c7b1c736ad32fa108946fbaab3bb20f6791117b60f11bf063d5f4fe4698f4cb3290f5a6a3b0d11f30ab61ac359516c103fc7" +
@@ -37,7 +37,7 @@ public class Sha256WithRsaSigningServiceTest {
     private static final PrivateKey PRIVATE_KEY = readPrivateKey();
 
     @Test
-    public void sign() {
+    void sign() {
         SigningService signingService = new Sha256WithRsaSigningService();
 
         byte[] actualSignedValue = signingService.sign(PRIVATE_KEY, STRING_TO_SIGN, UTF8_CHARSET);
@@ -70,8 +70,8 @@ public class Sha256WithRsaSigningServiceTest {
 
             KeyStore keystore = KeyStore.getInstance(CERTIFICATE_PROPERTIES.getProperty(CERTIFICATE_TYPE_PROPERTY));
             keystore.load(
-                    Sha256WithRsaSigningServiceTest.class.getResourceAsStream(CERTIFICATE_PROPERTIES.getProperty(CERTIFICATE_PATH_PROPERTY)),
-                    certificatePassword.toCharArray()
+                Sha256WithRsaSigningServiceTest.class.getResourceAsStream(CERTIFICATE_PROPERTIES.getProperty(CERTIFICATE_PATH_PROPERTY)),
+                certificatePassword.toCharArray()
             );
 
             return (PrivateKey) keystore.getKey(keystore.aliases().nextElement(), certificatePassword.toCharArray());

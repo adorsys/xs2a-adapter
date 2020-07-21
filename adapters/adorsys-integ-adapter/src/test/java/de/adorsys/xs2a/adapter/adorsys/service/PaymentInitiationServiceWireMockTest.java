@@ -45,7 +45,7 @@ import java.util.Map;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PaymentInitiationServiceWireMockTest {
+class PaymentInitiationServiceWireMockTest {
 
     private static final String PAYMENT_ID = "W_pFk5-4OqzsXpxKLs9h97q8bfPnV3XKAm5MxM8dnT60LxXyPaGedv4HPQtEQ8-mcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q";
     private static final String AUTHORISATION_ID = "259b8215-d14e-493a-ba01-c2243a9ff86a";
