@@ -39,6 +39,10 @@ public interface Request {
 
         Map<String, String> jsonParts();
 
+        Builder addPlainTextPart(String name, Object part);
+
+        Map<String, String> plainTextParts();
+
         boolean multipartBody();
 
         Builder headers(Map<String, String> headers);

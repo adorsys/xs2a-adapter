@@ -17,6 +17,7 @@
 == Features:
 - Added multipart/form-data response handler
 - Added RemotePaymentInitiationService.getPeriodicPain001PaymentInformation (special processing in feign decoder)
+- Added periodic-payments support in ING adapter
 
 == Fixes:
-- Fixed split packages (fiducia-adapter)
+- Fixed split packages (fiducia-adapter, ing-adapter)

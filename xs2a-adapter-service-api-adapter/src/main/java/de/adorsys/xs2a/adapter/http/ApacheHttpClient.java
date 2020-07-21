@@ -72,6 +72,9 @@ public class ApacheHttpClient extends AbstractHttpClient {
                     requestBuilder.jsonParts().forEach((name, value) -> {
                         multipartEntityBuilder.addPart(name, new StringBody(value, ContentType.APPLICATION_JSON));
                     });
+                    requestBuilder.plainTextParts().forEach((name, value) -> {
+                        multipartEntityBuilder.addPart(name, new StringBody(value, ContentType.TEXT_PLAIN));
+                    });
                     post.setEntity(multipartEntityBuilder.build());
                 }
                 return post;

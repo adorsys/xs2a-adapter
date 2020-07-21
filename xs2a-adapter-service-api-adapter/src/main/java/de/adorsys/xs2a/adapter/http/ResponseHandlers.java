@@ -303,7 +303,9 @@ public class ResponseHandlers {
                         Object json = jsonMapper.readValue(new ByteArrayInputStream(out.toByteArray()), propertyType);
                         propertyDescriptor.getWriteMethod().invoke(bodyInstance, json);
                     } else {
-                        throw new HttpClientException("Body part has unexpected content type: " + partContentType);
+                        Class<?> propertyType = propertyDescriptor.getPropertyType();
+                        Object json = jsonMapper.convertValue(out.toString(), propertyType);
+                        propertyDescriptor.getWriteMethod().invoke(bodyInstance, json);
                     }
 
                     nextPart = multipartStream.readBoundary();

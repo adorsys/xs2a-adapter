@@ -16,6 +16,7 @@ public class RequestBuilderImpl implements Request.Builder {
     private Map<String, String> formData;
     private Map<String, String> xmlParts;
     private Map<String, String> jsonParts;
+    private Map<String, String> plainTextParts;
 
     private enum BodyType {
         JSON, EMPTY_JSON, XML, MULTIPART
@@ -119,6 +120,26 @@ public class RequestBuilderImpl implements Request.Builder {
             return Collections.emptyMap();
         }
         return jsonParts;
+    }
+
+    @Override
+    public Request.Builder addPlainTextPart(String name, Object part) {
+        if (plainTextParts == null) {
+            plainTextParts = new LinkedHashMap<>();
+        }
+        if (part != null) {
+            plainTextParts.put(name, part.toString());
+            bodyType = BodyType.MULTIPART;
+        }
+        return this;
+    }
+
+    @Override
+    public Map<String, String> plainTextParts() {
+        if (plainTextParts == null) {
+            return Collections.emptyMap();
+        }
+        return plainTextParts;
     }
 
     @Override
