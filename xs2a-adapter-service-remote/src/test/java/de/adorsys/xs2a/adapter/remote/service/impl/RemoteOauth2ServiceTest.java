@@ -46,9 +46,7 @@ class RemoteOauth2ServiceTest {
             .getAuthorizationUrl(anyMap(), any());
 
 
-        assertThrows(IOException.class, () -> {
-            service.getAuthorizationRequestUri(headers, parameters);
-        });
+        assertThrows(IOException.class, () -> service.getAuthorizationRequestUri(headers, parameters));
     }
 
     private HrefType buildHref(String authUrl) {
