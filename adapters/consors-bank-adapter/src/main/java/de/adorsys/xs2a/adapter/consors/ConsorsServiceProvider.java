@@ -16,7 +16,6 @@
 
 package de.adorsys.xs2a.adapter.consors;
 
-import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
@@ -35,7 +34,7 @@ public class ConsorsServiceProvider implements AccountInformationServiceProvider
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
-        return new BaseAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
+        return new ConsorsAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
             psuIdHeaderInterceptor, linksRewriter);
     }
 
