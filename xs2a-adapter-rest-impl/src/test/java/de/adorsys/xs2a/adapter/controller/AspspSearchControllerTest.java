@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pro.javatar.commons.reader.JsonReader;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -94,10 +95,9 @@ class AspspSearchControllerTest {
 
         verify(repository, times(1)).findByIban(anyString(), any(), anyInt());
 
-        List<AspspTO> response = JsonReader.getInstance()
-            .getListFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
+        List<AspspTO> response = getListFromString(mvcResult);
 
-        assertThat(response.get(0)).isEqualTo(aspspTO);
+        assertThat(response).contains(aspspTO);
     }
 
     @Test
@@ -111,13 +111,12 @@ class AspspSearchControllerTest {
             .andExpect(status().isOk())
             .andReturn();
 
-        List<AspspTO> response = JsonReader.getInstance()
-            .getListFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
+        List<AspspTO> response = getListFromString(mvcResult);
 
         verify(repository, times(1)).findAll(any(), anyInt());
 
-        assertThat(response.size()).isEqualTo(2);
-        assertThat(response.get(0)).isEqualTo(mapper.toAspspTO(aspsp));
+        assertThat(response).hasSize(2)
+            .contains(mapper.toAspspTO(aspsp));
     }
 
     @Test
@@ -136,10 +135,14 @@ class AspspSearchControllerTest {
 
         verify(repository, times(1)).findLike(any(Aspsp.class), any(), anyInt());
 
-        List<AspspTO> response = JsonReader.getInstance()
-            .getListFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
+        List<AspspTO> response = getListFromString(mvcResult);
 
-        assertThat(response.get(0).getName()).isEqualTo(bankName);
+        assertThat(response).contains(mapper.toAspspTO(aspsp));
+    }
+
+    private List<AspspTO> getListFromString(MvcResult mvcResult) throws IOException {
+        return JsonReader.getInstance()
+            .getListFromString(mvcResult.getResponse().getContentAsString(), AspspTO.class);
     }
 
     private Aspsp buildAspsp() {

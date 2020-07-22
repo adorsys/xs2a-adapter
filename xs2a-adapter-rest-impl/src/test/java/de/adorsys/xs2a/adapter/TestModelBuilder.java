@@ -29,6 +29,7 @@ public class TestModelBuilder {
     public static final String MESSAGE = "message";
     public static final String CONSTENT_ID = "constent-ID";
     public static final String AUTHORISATION_ID = "authorisation-ID";
+    public static final String PAYMENT_ID = "payment-ID";
     public static final String NAME = "SMS OTP on phone +49160 xxxxx 28";
     public static final AuthenticationType TYPE = AuthenticationType.SMS_OTP;
     public static final String EXPLANATION = "some explanation";
@@ -195,5 +196,28 @@ public class TestModelBuilder {
         tokenResponse.setScope(SCOPE);
         tokenResponse.setTokenType(TOKEN_TYPE);
         return tokenResponse;
+    }
+
+    public static PaymentInitationRequestResponse201 buildPaymentInitationRequestResponse() {
+        PaymentInitationRequestResponse201 paymentInitationRequestResponse201
+            = new PaymentInitationRequestResponse201();
+        paymentInitationRequestResponse201.setPaymentId(PAYMENT_ID);
+        Map<String, HrefType> links = new HashMap<>();
+        HrefType link = new HrefType();
+        link.setHref(MESSAGE);
+        links.put(PAYMENT_ID, link);
+        paymentInitationRequestResponse201.setLinks(links);
+        paymentInitationRequestResponse201.setPsuMessage(MESSAGE);
+        paymentInitationRequestResponse201.setTransactionFeeIndicator(true);
+        return paymentInitationRequestResponse201;
+    }
+
+    public static PaymentInitiationStatusResponse200Json buildPaymentInitiationStatusResponse() {
+        PaymentInitiationStatusResponse200Json paymentInitiationStatusResponse200Json
+            = new PaymentInitiationStatusResponse200Json();
+        paymentInitiationStatusResponse200Json.setTransactionStatus(TransactionStatus.ACCC);
+        paymentInitiationStatusResponse200Json.setFundsAvailable(true);
+        paymentInitiationStatusResponse200Json.setPsuMessage(MESSAGE);
+        return paymentInitiationStatusResponse200Json;
     }
 }

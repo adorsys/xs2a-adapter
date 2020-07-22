@@ -176,7 +176,7 @@ class ConsentControllerTest {
         when(accountInformationService.getConsentInformation(anyString(), any(), any()))
             .thenReturn(buildResponse(TestModelBuilder.buildConsentInformationResponse()));
 
-        mockMvc.perform(get(ConsentController.CONSENTS + "/asd"))
+        mockMvc.perform(get(ConsentController.CONSENTS + "/foo"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.consentStatus", containsString(ConsentStatus.RECEIVED.toString())))
             .andExpect(jsonPath("$.frequencyPerDay", equalTo(4)))
@@ -200,7 +200,7 @@ class ConsentControllerTest {
         when(accountInformationService.getConsentStatus(anyString(), any(), any()))
             .thenReturn(buildResponse(TestModelBuilder.buildConsentStatusResponse()));
 
-        mockMvc.perform(get(ConsentController.CONSENTS + "/asd/status"))
+        mockMvc.perform(get(ConsentController.CONSENTS + "/foo/status"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.consentStatus", containsString(ConsentStatus.RECEIVED.toString())))
             .andExpect(jsonPath("$.psuMessage", containsString(TestModelBuilder.MESSAGE)));
@@ -216,7 +216,7 @@ class ConsentControllerTest {
         when(accountInformationService.startConsentAuthorisation(anyString(), any(), any(), any(UpdatePsuAuthentication.class)))
             .thenReturn(buildResponse(TestModelBuilder.buildStartScaprocessResponse()));
 
-        mockMvc.perform(post(ConsentController.CONSENTS + "/asd/authorisations")
+        mockMvc.perform(post(ConsentController.CONSENTS + "/foo/authorisations")
             .contentType(APPLICATION_JSON_UTF8_VALUE)
             .content(writeValueAsString(requestBody)))
             .andExpect(status().isCreated())
@@ -233,7 +233,7 @@ class ConsentControllerTest {
         when(accountInformationService.startConsentAuthorisation(anyString(), any(), any()))
             .thenReturn(buildResponse(TestModelBuilder.buildStartScaprocessResponse()));
 
-        mockMvc.perform(post(ConsentController.CONSENTS + "/asd/authorisations")
+        mockMvc.perform(post(ConsentController.CONSENTS + "/foo/authorisations")
             .contentType(APPLICATION_JSON_UTF8_VALUE)
             .content("{}"))
             .andExpect(status().isCreated())
@@ -252,7 +252,7 @@ class ConsentControllerTest {
         when(accountInformationService.updateConsentsPsuData(anyString(), anyString(), any(), any(), any(UpdatePsuAuthentication.class)))
             .thenReturn(buildResponse(TestModelBuilder.buildUpdatePsuAuthenticationResponse()));
 
-        mockMvc.perform(put(ConsentController.CONSENTS + "/asd/authorisations/qwq")
+        mockMvc.perform(put(ConsentController.CONSENTS + "/foo/authorisations/boo")
             .contentType(APPLICATION_JSON_UTF8_VALUE)
             .content(writeValueAsString(requestBody)))
             .andExpect(status().isOk())
@@ -271,7 +271,7 @@ class ConsentControllerTest {
         when(accountInformationService.updateConsentsPsuData(anyString(), anyString(), any(), any(), any(SelectPsuAuthenticationMethod.class)))
             .thenReturn(buildResponse(TestModelBuilder.buildSelectPsuAuthenticationMethodResponse()));
 
-        mockMvc.perform(put(ConsentController.CONSENTS + "/asd/authorisations/qwq")
+        mockMvc.perform(put(ConsentController.CONSENTS + "/foo/authorisations/boo")
             .contentType(APPLICATION_JSON_UTF8_VALUE)
             .content(writeValueAsString(requestBody)))
             .andExpect(status().isOk())
@@ -289,7 +289,7 @@ class ConsentControllerTest {
         when(accountInformationService.updateConsentsPsuData(anyString(), anyString(), any(), any(), any(TransactionAuthorisation.class)))
             .thenReturn(buildResponse(TestModelBuilder.buildScaStatusResponse()));
 
-        mockMvc.perform(put(ConsentController.CONSENTS + "/asd/authorisations/qwq")
+        mockMvc.perform(put(ConsentController.CONSENTS + "/foo/authorisations/boo")
             .contentType(APPLICATION_JSON_UTF8_VALUE)
             .content(writeValueAsString(requestBody)))
             .andExpect(status().isOk())
@@ -317,7 +317,7 @@ class ConsentControllerTest {
         when(accountInformationService.getTransactionList(anyString(), any(), any()))
             .thenReturn(buildResponse(TestModelBuilder.buildTransactionsResponse()));
 
-        mockMvc.perform(get(ACCOUNTS + "/asd/transactions")
+        mockMvc.perform(get(ACCOUNTS + "/foo/transactions")
             .queryParam("bookingStatus", "booked")
             .accept(APPLICATION_JSON_UTF8_VALUE))
             .andExpect(status().isOk())
@@ -330,20 +330,18 @@ class ConsentControllerTest {
 
     @Test
     void getTransactionList_string() throws Exception {
-        String response = "<test></test>";
+        String response = "<Test>";
 
         when(accountInformationService.getTransactionListAsString(anyString(), any(), any()))
             .thenReturn(buildResponse(response));
 
-        MvcResult mvcResult = mockMvc.perform(get(ACCOUNTS + "/asd/transactions")
+        mockMvc.perform(get(ACCOUNTS + "/foo/transactions")
             .queryParam("bookingStatus", "booked"))
             .andExpect(status().isOk())
-            .andReturn();
+            .andExpect(jsonPath("$", containsString(response)));
 
-        String actualResponse = JsonReader.getInstance()
-            .getObjectFromString(mvcResult.getResponse().getContentAsString(), String.class);
-
-        assertThat(actualResponse).contains(response);
+        verify(accountInformationService, times(1))
+            .getTransactionListAsString(anyString(), any(), any());
     }
 
     @Test
@@ -351,7 +349,7 @@ class ConsentControllerTest {
         when(accountInformationService.getTransactionDetails(anyString(), anyString(), any(), any()))
             .thenReturn(buildResponse(new OK200TransactionDetails()));
 
-        mockMvc.perform(get(ACCOUNTS + "/asds/transactions/asd"))
+        mockMvc.perform(get(ACCOUNTS + "/foo/transactions/boo"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.transactionsDetails", nullValue()));
 
@@ -376,7 +374,7 @@ class ConsentControllerTest {
         when(accountInformationService.getCardAccountDetails(anyString(), any(), any()))
             .thenReturn(buildResponse(new OK200CardAccountDetails()));
 
-        mockMvc.perform(get(CARD_ACCOUNTS + "/asd"))
+        mockMvc.perform(get(CARD_ACCOUNTS + "/foo"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.cardAccount", nullValue()));
 
@@ -388,7 +386,7 @@ class ConsentControllerTest {
         when(accountInformationService.getCardAccountBalances(anyString(), any(), any()))
             .thenReturn(buildResponse(TestModelBuilder.buildReadCardAccountBalanceResponse()));
 
-        mockMvc.perform(get(CARD_ACCOUNTS + "/asd/balances"))
+        mockMvc.perform(get(CARD_ACCOUNTS + "/foo/balances"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.balances", hasSize(2)));
 
@@ -401,7 +399,7 @@ class ConsentControllerTest {
         when(accountInformationService.getCardAccountTransactionList(anyString(), any(), any()))
             .thenReturn(buildResponse(TestModelBuilder.buildCardAccountsTransactionsResponse()));
 
-        mockMvc.perform(get(CARD_ACCOUNTS + "/asd/transactions")
+        mockMvc.perform(get(CARD_ACCOUNTS + "/foo/transactions")
         .param("bookingStatus", BookingStatus.BOOKED.toString()))
             .andExpect(status().isOk())
             .andExpect(jsonPath(format("$._links.%s.href", TestModelBuilder.CONSTENT_ID),
@@ -416,7 +414,7 @@ class ConsentControllerTest {
         when(accountInformationService.getConsentScaStatus(anyString(), anyString(), any(), any()))
             .thenReturn(buildResponse(TestModelBuilder.buildScaStatusResponse()));
 
-        mockMvc.perform(get(ConsentController.CONSENTS + "/asd/authorisations/asd"))
+        mockMvc.perform(get(ConsentController.CONSENTS + "/foo/authorisations/boo"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.scaStatus", containsString(ScaStatus.FINALISED.toString())));
 
@@ -429,7 +427,7 @@ class ConsentControllerTest {
         when(accountInformationService.getBalances(anyString(), any(), any()))
             .thenReturn(buildResponse(TestModelBuilder.buildReadAccountBalanceResponse()));
 
-        mockMvc.perform(get(ACCOUNTS + "/asd/balances"))
+        mockMvc.perform(get(ACCOUNTS + "/foo/balances"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.balances", hasSize(2)));
 
