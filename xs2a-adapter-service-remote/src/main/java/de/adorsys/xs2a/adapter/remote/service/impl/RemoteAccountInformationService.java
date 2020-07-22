@@ -47,6 +47,13 @@ public class RemoteAccountInformationService implements AccountInformationServic
         Mappers.getMapper(ResponseHeadersMapper.class);
     final ObjectMapper objectMapper;
 
+    public RemoteAccountInformationService(
+        AccountInformationClient client, ObjectMapper objectMapper
+    ) {
+        this.client = client;
+        this.objectMapper = objectMapper;
+    }
+
     public RemoteAccountInformationService(AccountInformationClient client) {
         this.client = client;
         this.objectMapper = new ObjectMapper();
@@ -54,13 +61,6 @@ public class RemoteAccountInformationService implements AccountInformationServic
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-    }
-
-    public RemoteAccountInformationService(
-        AccountInformationClient client, ObjectMapper objectMapper
-    ) {
-        this.client = client;
-        this.objectMapper = objectMapper;
     }
 
     @Override

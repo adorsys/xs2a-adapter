@@ -12,6 +12,13 @@
 
     <artifactId>xs2a-adapter-service-remote</artifactId>
 
+    <properties>
+        <sonar.exclusions>
+            **/remote/api/**,
+            **/remote/config/FeignConfiguration.java
+        </sonar.exclusions>
+    </properties>
+
     <dependencies>
 
         <!-- project dependencies -->
