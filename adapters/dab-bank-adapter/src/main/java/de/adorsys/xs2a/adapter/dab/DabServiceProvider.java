@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.service.provider;
+package de.adorsys.xs2a.adapter.dab;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
@@ -24,6 +24,8 @@ import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
+import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 
 public class DabServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
