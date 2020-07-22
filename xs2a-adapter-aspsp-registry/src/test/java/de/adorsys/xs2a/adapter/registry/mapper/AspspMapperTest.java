@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AspspMapperTest {
+class AspspMapperTest {
 
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
 
@@ -15,7 +15,7 @@ public class AspspMapperTest {
     private static final String ADAPTER_ID = "test-adapter";
 
     @Test
-    public void toAspspCsvRecord() {
+    void toAspspCsvRecord() {
         Aspsp aspsp = new Aspsp();
         aspsp.setId(ID);
         aspsp.setAdapterId(ADAPTER_ID);

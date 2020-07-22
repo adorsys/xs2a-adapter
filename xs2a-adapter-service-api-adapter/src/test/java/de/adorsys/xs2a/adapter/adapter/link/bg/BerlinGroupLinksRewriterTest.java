@@ -44,7 +44,6 @@ class BerlinGroupLinksRewriterTest {
 
         Map<String, HrefType> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
 
-        assertThat(rewrittenLinks).isNotNull();
         assertThat(rewrittenLinks).isEmpty();
     }
 
@@ -77,11 +76,9 @@ class BerlinGroupLinksRewriterTest {
 
         Map<String, HrefType> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
 
-        assertThat(rewrittenLinks).isNotNull();
-        assertThat(rewrittenLinks).hasSize(links.size());
-        assertThat(rewrittenLinks).containsKeys(unchangeableLinkName1, unchangeableLinkName2);
-        assertThat(rewrittenLinks.get(unchangeableLinkName1)).isEqualTo(unchangeableLink1);
-        assertThat(rewrittenLinks.get(unchangeableLinkName2)).isEqualTo(unchangeableLink2);
+        assertThat(rewrittenLinks).hasSize(links.size())
+            .containsEntry(unchangeableLinkName1, unchangeableLink1)
+            .containsEntry(unchangeableLinkName2, unchangeableLink2);
     }
 
     @Test
@@ -97,10 +94,8 @@ class BerlinGroupLinksRewriterTest {
 
         Map<String, HrefType> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
 
-        assertThat(rewrittenLinks).isNotNull();
-        assertThat(rewrittenLinks).hasSize(links.size());
-        assertThat(rewrittenLinks).containsKey(unknownLinkName);
-        assertThat(rewrittenLinks.get(unknownLinkName)).isEqualTo(unknownLink);
+        assertThat(rewrittenLinks).hasSize(links.size())
+            .containsEntry(unknownLinkName, unknownLink);
     }
 
     @Test
@@ -117,10 +112,8 @@ class BerlinGroupLinksRewriterTest {
 
         Map<String, HrefType> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
 
-        assertThat(rewrittenLinks).isNotNull();
-        assertThat(rewrittenLinks).hasSize(links.size());
-        assertThat(rewrittenLinks).containsKey(linkName);
-        assertThat(rewrittenLinks.get(linkName)).isEqualTo(link);
+        assertThat(rewrittenLinks).hasSize(links.size())
+            .containsEntry(linkName, link);
     }
 
     @Test
@@ -137,10 +130,8 @@ class BerlinGroupLinksRewriterTest {
 
         Map<String, HrefType> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
 
-        assertThat(rewrittenLinks).isNotNull();
-        assertThat(rewrittenLinks).hasSize(links.size());
-        assertThat(rewrittenLinks).containsKey(linkName);
-        assertThat(rewrittenLinks.get(linkName)).isEqualTo(link);
+        assertThat(rewrittenLinks).hasSize(links.size())
+            .containsEntry(linkName, link);
     }
 
     @Test
@@ -180,9 +171,8 @@ class BerlinGroupLinksRewriterTest {
 
         Map<String, HrefType> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
 
-        assertThat(rewrittenLinks).isNotNull();
-        assertThat(rewrittenLinks).hasSize(links.size());
-        assertThat(rewrittenLinks).containsKeys(linkName1, linkName2);
+        assertThat(rewrittenLinks).hasSize(links.size())
+            .containsKeys(linkName1, linkName2);
         assertThat(rewrittenLinks.get(linkName1).getHref()).isEqualTo(expectedRewrittenLink1.getHref());
         assertThat(rewrittenLinks.get(linkName2).getHref()).isEqualTo(expectedRewrittenLink2.getHref());
     }
@@ -214,9 +204,8 @@ class BerlinGroupLinksRewriterTest {
         berlinGroupLinksRewriter.registerPlaceholder(newPlaceholder, l -> Optional.of(newPlaceholderParamValue));
         Map<String, HrefType> rewrittenLinks = berlinGroupLinksRewriter.rewrite(links);
 
-        assertThat(rewrittenLinks).isNotNull();
-        assertThat(rewrittenLinks).hasSize(links.size());
-        assertThat(rewrittenLinks).containsKey(linkName);
+        assertThat(rewrittenLinks).hasSize(links.size())
+            .containsKey(linkName);
         assertThat(rewrittenLinks.get(linkName).getHref()).isEqualTo(expectedRewrittenLink.getHref());
     }
 
@@ -250,8 +239,7 @@ class BerlinGroupLinksRewriterTest {
 
         Optional<String> actualConsentIdOptional = berlinGroupLinksRewriter.retrieveConsentId(link);
 
-        assertThat(actualConsentIdOptional.isPresent()).isTrue();
-        assertThat(actualConsentIdOptional.get()).isEqualTo(CONSENT_ID);
+        assertThat(actualConsentIdOptional).contains(CONSENT_ID);
     }
 
     @Test
@@ -260,7 +248,7 @@ class BerlinGroupLinksRewriterTest {
 
         Optional<String> actualConsentIdOptional = berlinGroupLinksRewriter.retrieveConsentId(link);
 
-        assertThat(actualConsentIdOptional.isPresent()).isFalse();
+        assertThat(actualConsentIdOptional).isNotPresent();
     }
 
     @Test
@@ -269,8 +257,7 @@ class BerlinGroupLinksRewriterTest {
 
         Optional<String> actualAuthorisationIdOptional = berlinGroupLinksRewriter.retrieveAuthorisationId(link);
 
-        assertThat(actualAuthorisationIdOptional.isPresent()).isTrue();
-        assertThat(actualAuthorisationIdOptional.get()).isEqualTo(AUTHORISATION_ID);
+        assertThat(actualAuthorisationIdOptional).contains(AUTHORISATION_ID);
     }
 
     @Test
@@ -279,7 +266,7 @@ class BerlinGroupLinksRewriterTest {
 
         Optional<String> actualAuthorisationIdOptional = berlinGroupLinksRewriter.retrieveAuthorisationId(link);
 
-        assertThat(actualAuthorisationIdOptional.isPresent()).isFalse();
+        assertThat(actualAuthorisationIdOptional).isNotPresent();
     }
 
     @Test
@@ -288,8 +275,7 @@ class BerlinGroupLinksRewriterTest {
 
         Optional<String> actualAccountIdOptional = berlinGroupLinksRewriter.retrieveAccountId(link);
 
-        assertThat(actualAccountIdOptional.isPresent()).isTrue();
-        assertThat(actualAccountIdOptional.get()).isEqualTo(ACCOUNT_ID);
+        assertThat(actualAccountIdOptional).contains(ACCOUNT_ID);
     }
 
     @Test
@@ -298,7 +284,7 @@ class BerlinGroupLinksRewriterTest {
 
         Optional<String> actualAccountIdOptional = berlinGroupLinksRewriter.retrieveAccountId(link);
 
-        assertThat(actualAccountIdOptional.isPresent()).isFalse();
+        assertThat(actualAccountIdOptional).isNotPresent();
     }
 
     @Test
@@ -307,8 +293,7 @@ class BerlinGroupLinksRewriterTest {
 
         Optional<String> actualTransactionIdOptional = berlinGroupLinksRewriter.retrieveTransactionId(link);
 
-        assertThat(actualTransactionIdOptional.isPresent()).isTrue();
-        assertThat(actualTransactionIdOptional.get()).isEqualTo(TRANSACTION_ID);
+        assertThat(actualTransactionIdOptional).contains(TRANSACTION_ID);
     }
 
     @Test
@@ -317,7 +302,7 @@ class BerlinGroupLinksRewriterTest {
 
         Optional<String> actualTransactionIdOptional = berlinGroupLinksRewriter.retrieveTransactionId(link);
 
-        assertThat(actualTransactionIdOptional.isPresent()).isFalse();
+        assertThat(actualTransactionIdOptional).isNotPresent();
     }
 
     @Test
@@ -326,8 +311,7 @@ class BerlinGroupLinksRewriterTest {
 
         Optional<String> actualPaymentServiceOptional = berlinGroupLinksRewriter.retrievePaymentService(link);
 
-        assertThat(actualPaymentServiceOptional.isPresent()).isTrue();
-        assertThat(actualPaymentServiceOptional.get()).isEqualTo(PAYMENT_SERVICE);
+        assertThat(actualPaymentServiceOptional).contains(PAYMENT_SERVICE);
     }
 
     @Test
@@ -336,7 +320,7 @@ class BerlinGroupLinksRewriterTest {
 
         Optional<String> actualPaymentServiceOptional = berlinGroupLinksRewriter.retrievePaymentService(link);
 
-        assertThat(actualPaymentServiceOptional.isPresent()).isFalse();
+        assertThat(actualPaymentServiceOptional).isNotPresent();
     }
 
     @Test
@@ -348,8 +332,7 @@ class BerlinGroupLinksRewriterTest {
 
         Optional<String> actualPaymentProductOptional = berlinGroupLinksRewriter.retrievePaymentProduct(link);
 
-        assertThat(actualPaymentProductOptional.isPresent()).isTrue();
-        assertThat(actualPaymentProductOptional.get()).isEqualTo(PAYMENT_PRODUCT);
+        assertThat(actualPaymentProductOptional).contains(PAYMENT_PRODUCT);
     }
 
     @Test
@@ -358,7 +341,7 @@ class BerlinGroupLinksRewriterTest {
 
         Optional<String> actualPaymentProductOptional = berlinGroupLinksRewriter.retrievePaymentProduct(link);
 
-        assertThat(actualPaymentProductOptional.isPresent()).isFalse();
+        assertThat(actualPaymentProductOptional).isNotPresent();
     }
 
     @Test
@@ -370,8 +353,7 @@ class BerlinGroupLinksRewriterTest {
 
         Optional<String> actualPaymentIdOptional = berlinGroupLinksRewriter.retrievePaymentId(link);
 
-        assertThat(actualPaymentIdOptional.isPresent()).isTrue();
-        assertThat(actualPaymentIdOptional.get()).isEqualTo(PAYMENT_ID);
+        assertThat(actualPaymentIdOptional).contains(PAYMENT_ID);
     }
 
     @Test
@@ -380,6 +362,6 @@ class BerlinGroupLinksRewriterTest {
 
         Optional<String> actualPaymentIdOptional = berlinGroupLinksRewriter.retrievePaymentId(link);
 
-        assertThat(actualPaymentIdOptional.isPresent()).isFalse();
+        assertThat(actualPaymentIdOptional).isNotPresent();
     }
 }

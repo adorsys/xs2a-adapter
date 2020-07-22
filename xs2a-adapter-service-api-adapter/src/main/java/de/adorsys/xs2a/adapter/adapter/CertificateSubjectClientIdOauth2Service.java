@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.adapter;
 import de.adorsys.xs2a.adapter.http.UriBuilder;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.service.exception.Xs2aAdapterException;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class CertificateSubjectClientIdOauth2Service implements Oauth2Service {
         try {
             return keyStore.getOrganizationIdentifier();
         } catch (KeyStoreException e) {
-            throw new RuntimeException(e);
+            throw new Xs2aAdapterException(e);
         }
     }
 

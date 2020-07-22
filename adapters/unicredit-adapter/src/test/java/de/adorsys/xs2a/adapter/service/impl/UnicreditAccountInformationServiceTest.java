@@ -67,9 +67,7 @@ class UnicreditAccountInformationServiceTest {
 
         verify(httpClient, times(1)).post(eq(CONSENT_URL));
         Map<String, String> headers = requestBuilder.headers();
-        assertThat(headers).isNotNull();
-        assertThat(headers).isNotEmpty();
-        assertThat(headers.get(RequestHeaders.PSU_ID_TYPE)).isEqualTo(DEFAULT_PSU_ID_TYPE);
+        assertThat(headers).containsEntry(RequestHeaders.PSU_ID_TYPE, DEFAULT_PSU_ID_TYPE);
     }
 
     @Test
@@ -90,9 +88,7 @@ class UnicreditAccountInformationServiceTest {
 
         verify(httpClient, times(1)).post(eq(CONSENT_URL));
         Map<String, String> headers = requestBuilder.headers();
-        assertThat(headers).isNotNull();
-        assertThat(headers).isNotEmpty();
-        assertThat(headers.get(RequestHeaders.PSU_ID_TYPE)).isEqualTo(DEFAULT_PSU_ID_TYPE);
+        assertThat(headers).containsEntry(RequestHeaders.PSU_ID_TYPE, DEFAULT_PSU_ID_TYPE);
     }
 
     @Test
@@ -113,9 +109,7 @@ class UnicreditAccountInformationServiceTest {
 
         verify(httpClient, times(1)).post(eq(CONSENT_URL));
         Map<String, String> headers = requestBuilder.headers();
-        assertThat(headers).isNotNull();
-        assertThat(headers).isNotEmpty();
-        assertThat(headers.get(RequestHeaders.PSU_ID_TYPE)).isEqualTo(ALTERNATIVE_PSU_ID_TYPE);
+        assertThat(headers).containsEntry(RequestHeaders.PSU_ID_TYPE, ALTERNATIVE_PSU_ID_TYPE);
     }
 
     @Test
@@ -135,9 +129,7 @@ class UnicreditAccountInformationServiceTest {
                                                         new TransactionAuthorisation());
 
         Map<String, String> headers = requestBuilder.headers();
-        assertThat(headers).isNotNull();
-        assertThat(headers).isNotEmpty();
-        assertThat(headers.get(RequestHeaders.PSU_ID_TYPE)).isEqualTo(DEFAULT_PSU_ID_TYPE);
+        assertThat(headers).containsEntry(RequestHeaders.PSU_ID_TYPE, DEFAULT_PSU_ID_TYPE);
     }
 
     private static Aspsp buildAspspWithUrl() {

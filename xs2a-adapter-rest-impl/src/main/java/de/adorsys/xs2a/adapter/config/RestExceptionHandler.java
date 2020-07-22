@@ -59,7 +59,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    ResponseEntity handle(OAuthException exception) {
+    ResponseEntity<Object> handle(OAuthException exception) {
         logError(exception);
 
         HttpHeaders responseHeaders = addErrorOriginationHeader(
@@ -89,7 +89,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    ResponseEntity handle(NotAcceptableException exception) {
+    ResponseEntity<Object> handle(NotAcceptableException exception) {
         logError(exception);
         return ResponseEntity
                        .status(HttpStatus.NOT_ACCEPTABLE)
@@ -98,7 +98,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    ResponseEntity handle(HttpRequestSigningException exception) {
+    ResponseEntity<ErrorResponse> handle(HttpRequestSigningException exception) {
         logError(exception);
         ErrorResponse errorResponse = buildErrorResponse("Exception during the request signing process");
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
@@ -106,7 +106,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    ResponseEntity handle(UncheckedSSLHandshakeException exception) {
+    ResponseEntity<ErrorResponse> handle(UncheckedSSLHandshakeException exception) {
         logError(exception);
         ErrorResponse errorResponse = buildErrorResponse("Exception during the SSL handshake process");
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.BANK);
@@ -114,7 +114,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    ResponseEntity handle(UncheckedIOException exception) {
+    ResponseEntity<ErrorResponse> handle(UncheckedIOException exception) {
         logError(exception);
         ErrorResponse errorResponse = buildErrorResponse("Exception during the IO process");
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
@@ -122,7 +122,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    ResponseEntity handle(UnsupportedOperationException exception) {
+    ResponseEntity<ErrorResponse> handle(UnsupportedOperationException exception) {
         logError(exception);
         ErrorResponse errorResponse = buildErrorResponse("This endpoint is not supported yet");
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
@@ -197,7 +197,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    ResponseEntity handle(PsuPasswordEncodingException exception) {
+    ResponseEntity<ErrorResponse> handle(PsuPasswordEncodingException exception) {
         logError(exception);
         ErrorResponse errorResponse = buildErrorResponse("Exception during PSU password encryption");
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
@@ -205,7 +205,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    ResponseEntity handle(Exception exception) {
+    ResponseEntity<ErrorResponse> handle(Exception exception) {
         logError(exception);
         ErrorResponse errorResponse = buildErrorResponse("Server error");
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);

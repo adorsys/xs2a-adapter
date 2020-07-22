@@ -2,15 +2,17 @@ package de.adorsys.xs2a.adapter.service;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class RequestParamsTest {
+class RequestParamsTest {
 
     @Test
-    public void fromMap() {
+    void fromMap() {
         RequestParams requestParams = RequestParams.fromMap(emptyMap());
 
         assertThat(requestParams.toMap()).isEqualTo(emptyMap());
@@ -18,21 +20,29 @@ public class RequestParamsTest {
 
     @Test
     void dateFromIsTypeChecked() {
-        assertThrows(IllegalArgumentException.class, () -> RequestParams.fromMap(singletonMap("dateFrom", "asdf")));
+        Map<String, String> map = singletonMap("dateFrom", "asdf");
+
+        assertThrows(IllegalArgumentException.class, () -> RequestParams.fromMap(map));
     }
 
     @Test
     void dateToIsTypeChecked() {
-        assertThrows(IllegalArgumentException.class, () -> RequestParams.fromMap(singletonMap("dateTo", "asdf")));
+        Map<String, String> map = singletonMap("dateTo", "asdf");
+
+        assertThrows(IllegalArgumentException.class, () -> RequestParams.fromMap(map));
     }
 
     @Test
     void withBalanceIsTypeChecked() {
-        assertThrows(IllegalArgumentException.class, () -> RequestParams.fromMap(singletonMap("withBalance", "asdf")));
+        Map<String, String> map = singletonMap("withBalance", "asdf");
+
+        assertThrows(IllegalArgumentException.class, () -> RequestParams.fromMap(map));
     }
 
     @Test
     void deltaListIsTypeChecked() {
-        assertThrows(IllegalArgumentException.class, () -> RequestParams.fromMap(singletonMap("deltaList", "asdf")));
+        Map<String, String> map = singletonMap("deltaList", "asdf");
+
+        assertThrows(IllegalArgumentException.class, () -> RequestParams.fromMap(map));
     }
 }

@@ -33,7 +33,7 @@ public class SparkasseOauth2Service implements Oauth2Service, PkceOauth2Extensio
 
     private final Oauth2Service oauth2Service;
 
-    private SparkasseOauth2Service(Oauth2Service oauth2Service, HttpClient httpClient) {
+    private SparkasseOauth2Service(Oauth2Service oauth2Service) {
         this.oauth2Service = oauth2Service;
     }
 
@@ -42,7 +42,7 @@ public class SparkasseOauth2Service implements Oauth2Service, PkceOauth2Extensio
         CertificateSubjectClientIdOauth2Service clientIdOauth2Service =
             new CertificateSubjectClientIdOauth2Service(baseOauth2Service, keyStore);
         PkceOauth2Service pkceOauth2Service = new PkceOauth2Service(clientIdOauth2Service);
-        return new SparkasseOauth2Service(pkceOauth2Service, httpClient);
+        return new SparkasseOauth2Service(pkceOauth2Service);
     }
 
     @Override
@@ -73,12 +73,10 @@ public class SparkasseOauth2Service implements Oauth2Service, PkceOauth2Extensio
                         Parameters.CONSENT_ID,
                         CONSENT_ID_MISSING_ERROR_MESSAGE));
                 }
-            } else if (Scope.isPis(Scope.fromValue(scope))) {
-                if (StringUtils.isBlank(parameters.getPaymentId())) {
-                    validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
-                        Parameters.PAYMENT_ID,
-                        PAYMENT_ID_MISSING_ERROR_MESSAGE));
-                }
+            } else if (Scope.isPis(Scope.fromValue(scope)) && StringUtils.isBlank(parameters.getPaymentId())) {
+                validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
+                    Parameters.PAYMENT_ID,
+                    PAYMENT_ID_MISSING_ERROR_MESSAGE));
             }
         }
 

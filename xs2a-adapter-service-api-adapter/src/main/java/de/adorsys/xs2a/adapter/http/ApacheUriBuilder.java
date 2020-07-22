@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.http;
 
+import de.adorsys.xs2a.adapter.service.exception.Xs2aAdapterException;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 
@@ -43,7 +44,7 @@ class ApacheUriBuilder extends UriBuilder {
         try {
             return uriBuilder.build();
         } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+            throw new Xs2aAdapterException(e);
         }
     }
 }

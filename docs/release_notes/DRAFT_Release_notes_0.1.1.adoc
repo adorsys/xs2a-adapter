@@ -12,10 +12,13 @@
 ** MonthsOfExecution
 ** RemittanceInformationStructured
 ** ChallengeData (PIS)
+** ReportExchangeRate
 
 == Features:
 - Added multipart/form-data response handler
 - Added RemotePaymentInitiationService.getPeriodicPain001PaymentInformation (special processing in feign decoder)
+- Added periodic-payments support in ING adapter
+- Added base implementation for `getPaymentInitiationScaStatus` and `getPaymentInitiationAuthorisation` operations
 
 == Fixes:
-- Fixed split packages (fiducia-adapter)
+- Fixed split packages (fiducia-adapter, ing-adapter)

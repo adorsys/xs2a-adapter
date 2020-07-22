@@ -44,10 +44,8 @@ public class RequestParams {
     }
 
     private static void verifyTypeBoolean(String value) {
-        if (value != null) {
-            if (!"true".equalsIgnoreCase(value) && !"false".equalsIgnoreCase(value)) {
-                throw new IllegalArgumentException(value + " is not a boolean");
-            }
+        if (value != null && !"true".equalsIgnoreCase(value) && !"false".equalsIgnoreCase(value)) {
+            throw new IllegalArgumentException(value + " is not a boolean");
         }
     }
 

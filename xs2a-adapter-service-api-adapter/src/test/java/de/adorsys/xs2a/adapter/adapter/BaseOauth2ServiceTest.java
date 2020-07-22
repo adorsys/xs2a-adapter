@@ -95,7 +95,7 @@ class BaseOauth2ServiceTest {
         Mockito.verify(httpClient, Mockito.times(2))
             .send(Mockito.any(), Mockito.any());
 
-        assertEquals(actual.getAccessToken(), ACCESS_TOKEN);
+        assertEquals(ACCESS_TOKEN, actual.getAccessToken());
     }
 
     @Test
@@ -108,7 +108,7 @@ class BaseOauth2ServiceTest {
         Mockito.verify(httpClient, Mockito.times(1))
             .send(Mockito.any(), Mockito.any());
 
-        assertEquals(actual.getAccessToken(), ACCESS_TOKEN);
+        assertEquals(ACCESS_TOKEN, actual.getAccessToken());
     }
 
     private Response<AuthorisationServerMetaData> authorizationServerMetadata() {

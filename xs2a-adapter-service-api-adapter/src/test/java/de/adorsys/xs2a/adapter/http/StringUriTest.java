@@ -7,15 +7,14 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.Map;
-import java.util.Optional;
 
 import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class StringUriTest {
+class StringUriTest {
 
     @Test
-    public void fromElements() {
+    void fromElements() {
         String uri = StringUri.fromElements("/a", "b/", "/c/");
         assertThat(uri).isEqualTo("a/b/c");
 
@@ -24,39 +23,37 @@ public class StringUriTest {
     }
 
     @Test
-    public void withQueryIgnoresParametersWithNullValues() {
+    void withQueryIgnoresParametersWithNullValues() {
         assertThat(StringUri.withQuery("http://example.com", singletonMap("q", null)))
             .isEqualTo("http://example.com");
     }
 
     @Test
-    public void withQueryCallsToStringOnValues() {
+    void withQueryCallsToStringOnValues() {
         assertThat(StringUri.withQuery("http://example.com", singletonMap("q", LocalDate.of(2012, 12, 21))))
             .isEqualTo("http://example.com?q=2012-12-21");
     }
 
     @Test
-    public void getQueryParamsFromUriWithoutParams() {
+    void getQueryParamsFromUriWithoutParams() {
         assertThat(StringUri.getQueryParamsFromUri("http://example.com"))
             .isEmpty();
     }
 
     @Test
-    public void getQueryParamsFromUriWithOneParam() {
+    void getQueryParamsFromUriWithOneParam() {
         String key = "q";
         String value = "2012-12-21";
         String uri = String.format("http://example.com?%s=%s", key, value);
 
         Map<String, String> params = StringUri.getQueryParamsFromUri(uri);
 
-        assertThat(params.size()).isEqualTo(1);
-
-        String actualValue = params.get(key);
-        assertThat(actualValue).isEqualTo(value);
+        assertThat(params).hasSize(1)
+            .containsEntry(key, value);
     }
 
     @Test
-    public void getQueryParamsFromUriWithMoreThenOneParam() {
+    void getQueryParamsFromUriWithMoreThenOneParam() {
         String key1 = "q";
         String value1 = "2012-12-21";
         String key2 = "k";
@@ -69,58 +66,50 @@ public class StringUriTest {
 
         Map<String, String> params = StringUri.getQueryParamsFromUri(uri);
 
-        assertThat(params.size()).isEqualTo(3);
-
-        String actualValue1 = params.get(key1);
-        assertThat(actualValue1).isEqualTo(value1);
-
-        String actualValue2 = params.get(key2);
-        assertThat(actualValue2).isEqualTo(value2);
-
-        String actualValue3 = params.get(key3);
-        assertThat(actualValue3).isEqualTo(value3);
+        assertThat(params).hasSize(3)
+            .containsEntry(key1, value1)
+            .containsEntry(key2, value2)
+            .containsEntry(key3, value3);
     }
 
     @Test
-    public void getQueryParamsFromUriWithEqualSignInsideParamValue() {
+    void getQueryParamsFromUriWithEqualSignInsideParamValue() {
         String key = "q";
         String value = "2012=12=21";
         String uri = String.format("http://example.com?%s=%s", key, value);
 
         Map<String, String> params = StringUri.getQueryParamsFromUri(uri);
 
-        assertThat(params.size()).isEqualTo(1);
-
-        String actualValue = params.get(key);
-        assertThat(actualValue).isEqualTo(value);
+        assertThat(params).hasSize(1)
+            .containsEntry(key, value);
     }
 
     @Test
-    public void isUriStartsWithSlash() {
+    void isUriStartsWithSlash() {
         String uri = "/some/uri";
         assertThat(StringUri.isUri(uri)).isTrue();
     }
 
     @Test
-    public void isUriStartsWithVersion() {
+    void isUriStartsWithVersion() {
         String uri = "v2/some/uri";
         assertThat(StringUri.isUri(uri)).isTrue();
     }
 
     @Test
-    public void isUriDoesNotStartWithVersionAndSlash() {
+    void isUriDoesNotStartWithVersionAndSlash() {
         String uri = "example.com";
         assertThat(StringUri.isUri(uri)).isFalse();
     }
 
     @Test
-    public void isUriStartsWithProtocol() {
+    void isUriStartsWithProtocol() {
         String uri = "http://example.com";
         assertThat(StringUri.isUri(uri)).isFalse();
     }
 
     @Test
-    public void containsProtocol() {
+    void containsProtocol() {
         String uriTemplate = "%s://example.com";
 
         assertThat(StringUri.containsProtocol(String.format(uriTemplate, "https"))).isTrue();
@@ -130,13 +119,13 @@ public class StringUriTest {
     }
 
     @Test
-    public void containsProtocolWithoutProtocol() {
+    void containsProtocolWithoutProtocol() {
         String uri = "www.example.com";
         assertThat(StringUri.containsProtocol(uri)).isFalse();
     }
 
     @Test
-    public void decode() throws UnsupportedEncodingException {
+    void decode() throws UnsupportedEncodingException {
         String uri = "http://example.com/path?param1=value1&param2=value2";
 
         String actual = StringUri.decode(URLEncoder.encode(uri, StandardCharsets.UTF_8.name()));
@@ -144,7 +133,7 @@ public class StringUriTest {
     }
 
     @Test
-    public void containsQueryParam() {
+    void containsQueryParam() {
         String uri = "http://example.com/path?param1=value1&param2=value2";
 
         assertThat(StringUri.containsQueryParam(uri, "param1")).isTrue();
@@ -153,43 +142,43 @@ public class StringUriTest {
     }
 
     @Test
-    public void appendQueryParam() {
+    void appendQueryParam() {
         String uri1 = "http://example.com/path?param1=value1&param2=value2";
         String uri2 = "http://example.com/path";
         String uri3 = "http://example.com/path?param=";
 
         String actual1 = StringUri.appendQueryParam(uri1, "param3", "value3");
         Map<String, String> params1 = StringUri.getQueryParamsFromUri(actual1);
-        assertThat(params1.size()).isEqualTo(3);
-        assertThat(params1.get("param1")).isEqualTo("value1");
-        assertThat(params1.get("param2")).isEqualTo("value2");
-        assertThat(params1.get("param3")).isEqualTo("value3");
+        assertThat(params1).hasSize(3)
+            .containsEntry("param1", "value1")
+            .containsEntry("param2", "value2")
+            .containsEntry("param3", "value3");
 
         String actual2 = StringUri.appendQueryParam(uri1, "param2", "value2");
         Map<String, String> params2 = StringUri.getQueryParamsFromUri(actual2);
-        assertThat(params2.size()).isEqualTo(2);
-        assertThat(params2.get("param1")).isEqualTo("value1");
-        assertThat(params2.get("param2")).isEqualTo("value2");
+        assertThat(params2).hasSize(2)
+            .containsEntry("param1", "value1")
+            .containsEntry("param2", "value2");
 
         String actual3 = StringUri.appendQueryParam(uri1, "param2", "value3");
         Map<String, String> params3 = StringUri.getQueryParamsFromUri(actual3);
-        assertThat(params3.size()).isEqualTo(2);
-        assertThat(params3.get("param1")).isEqualTo("value1");
-        assertThat(params3.get("param2")).isEqualTo("value3");
+        assertThat(params3).hasSize(2)
+            .containsEntry("param1", "value1")
+            .containsEntry("param2", "value3");
 
         String actual4 = StringUri.appendQueryParam(uri2, "param", "value");
         Map<String, String> params4 = StringUri.getQueryParamsFromUri(actual4);
-        assertThat(params4.size()).isEqualTo(1);
-        assertThat(params4.get("param")).isEqualTo("value");
+        assertThat(params4).hasSize(1)
+            .containsEntry("param", "value");
 
         String actual5 = StringUri.appendQueryParam(uri3, "param", "value");
         Map<String, String> params5 = StringUri.getQueryParamsFromUri(actual5);
-        assertThat(params5.size()).isEqualTo(1);
-        assertThat(params5.get("param")).isEqualTo("value");
+        assertThat(params5).hasSize(1)
+            .containsEntry("param", "value");
     }
 
     @Test
-    public void removeAllQueryParams() {
+    void removeAllQueryParams() {
         String uri1 = "http://example.com/path?param1=value1&param2=value2";
         String uri2 = "http://example.com/path";
 
@@ -198,22 +187,22 @@ public class StringUriTest {
     }
 
     @Test
-    public void getVersion() {
+    void getVersion() {
         String uri1 = "http://example.com/path/v1";
-        assertThat(StringUri.getVersion(uri1)).isEqualTo(Optional.of("v1"));
+        assertThat(StringUri.getVersion(uri1)).contains("v1");
 
         String uri2 = "http://example.com/path/v1/";
-        assertThat(StringUri.getVersion(uri2)).isEqualTo(Optional.of("v1"));
+        assertThat(StringUri.getVersion(uri2)).contains("v1");
 
         String uri3 = "http://example.com/path/";
-        assertThat(StringUri.getVersion(uri3)).isEqualTo(Optional.empty());
+        assertThat(StringUri.getVersion(uri3)).isEmpty();
 
         String uri4 = "http://example.com/pav1th/";
-        assertThat(StringUri.getVersion(uri4)).isEqualTo(Optional.empty());
+        assertThat(StringUri.getVersion(uri4)).isEmpty();
     }
 
     @Test
-    public void copyQueryParams() {
+    void copyQueryParams() {
         String source1 = "http://example.com/path";
         String target1 = "http://example.com/another/path";
 

@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ConsentController.class)
-public class ConsentControllerWebMvcTest {
+class ConsentControllerWebMvcTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -26,7 +26,7 @@ public class ConsentControllerWebMvcTest {
     private HeadersMapper headersMapper;
 
     @Test
-    public void illegalBookingStatus() throws Exception {
+    void illegalBookingStatus() throws Exception {
         mockMvc.perform(get("/v1/accounts/resource-id/transactions").param("bookingStatus", "BOOKED"))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.tppMessages[0].text")

@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.http;
 
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.service.exception.Xs2aAdapterException;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -47,7 +48,7 @@ public class ApacheHttpClientFactory implements HttpClientFactory {
         try {
             return keyStore.getSslContext(qwacAlias);
         } catch (GeneralSecurityException e) {
-            throw new RuntimeException(e);
+            throw new Xs2aAdapterException(e);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

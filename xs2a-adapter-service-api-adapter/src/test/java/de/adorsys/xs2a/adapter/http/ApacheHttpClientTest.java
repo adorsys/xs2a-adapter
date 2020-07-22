@@ -18,16 +18,16 @@ class ApacheHttpClientTest {
     void put() {
         Request.Builder actual = client.put(URI);
 
-        assertEquals(actual.method(), "PUT");
-        assertEquals(actual.uri(), URI);
+        assertEquals("PUT", actual.method());
+        assertEquals(URI, actual.uri());
     }
 
     @Test
     void delete() {
         Request.Builder actual = client.delete(URI);
 
-        assertEquals(actual.method(), "DELETE");
-        assertEquals(actual.uri(), URI);
+        assertEquals("DELETE", actual.method());
+        assertEquals(URI, actual.uri());
     }
 
     @Test
@@ -70,10 +70,11 @@ class ApacheHttpClientTest {
 
     @Test
     void content_throwsException() {
-        Throwable exception
-            = assertThrows(UnsupportedOperationException.class, () -> client.content(new RequestBuilderImpl(client, "METHOD", URI)));
+        RequestBuilderImpl requestBuilder = new RequestBuilderImpl(client, "METHOD", URI);
+        UnsupportedOperationException exception = assertThrows(UnsupportedOperationException.class,
+            () -> client.content(requestBuilder));
 
-        assertEquals(exception.getMessage(), "METHOD");
+        assertEquals("METHOD", exception.getMessage());
     }
 
     private Response<String> dummyResponse() {

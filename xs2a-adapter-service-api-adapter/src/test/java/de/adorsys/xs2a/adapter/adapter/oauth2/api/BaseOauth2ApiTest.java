@@ -35,7 +35,6 @@ class BaseOauth2ApiTest<T extends AuthorisationServerMetaData> {
         verify(httpClient, times(1)).get(urlCaptor.capture());
         verify(requestBuilder, times(1)).send(any());
 
-        assertThat(actual).isNotEmpty();
         assertThat(actual).isEqualTo(AUTHORISATION_ENDPOINT);
         assertThat(urlCaptor.getValue()).isEqualTo(SCA_OAUTH_URL);
     }
@@ -50,7 +49,6 @@ class BaseOauth2ApiTest<T extends AuthorisationServerMetaData> {
         verify(httpClient, times(1)).get(urlCaptor.capture());
         verify(requestBuilder, times(1)).send(any());
 
-        assertThat(actual).isNotEmpty();
         assertThat(actual).isEqualTo(TOKEN_ENDPOINT);
         assertThat(urlCaptor.getValue()).isEqualTo(SCA_OAUTH_URL);
     }

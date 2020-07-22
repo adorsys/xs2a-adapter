@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.adapter;
 
 import de.adorsys.xs2a.adapter.api.model.*;
+import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 
 import java.util.*;
 
@@ -40,6 +41,11 @@ public class TestModelBuilder {
     public static final int LENGTH = 123;
     public static final String AUTHENTICATION_METHOD_ID = "authentication-method-ID";
     public static final String SCA_AUTHENTICATION_DATA = "sca-authentication-data";
+    public static final String ACCESS_TOKEN = "asdb34nasnd1124fdflsdnasdnw.access.token";
+    public static final String REFRESH_TOKEN = "asdasd2141rfgdgjh5656s.refresh.token";
+    public static final String SCOPE = "ais:dsadsdasd";
+    public static final String TOKEN_TYPE = "type";
+    public static final long exripesInSeconds = 3600L;
 
     public static ConsentsResponse201 buildConsentCreationResponse() {
         ConsentsResponse201 response = new ConsentsResponse201();
@@ -179,5 +185,15 @@ public class TestModelBuilder {
             new ReadAccountBalanceResponse200();
         readAccountBalanceResponse200.setBalances(Arrays.asList(new Balance(), new Balance()));
         return readAccountBalanceResponse200;
+    }
+
+    public static TokenResponse buildTokenResponse() {
+        TokenResponse tokenResponse = new TokenResponse();
+        tokenResponse.setAccessToken(ACCESS_TOKEN);
+        tokenResponse.setExpiresInSeconds(exripesInSeconds);
+        tokenResponse.setRefreshToken(REFRESH_TOKEN);
+        tokenResponse.setScope(SCOPE);
+        tokenResponse.setTokenType(TOKEN_TYPE);
+        return tokenResponse;
     }
 }

@@ -44,7 +44,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ConsentControllerTest {
+class ConsentControllerTest {
     private static final int HTTP_CODE_200 = 200;
     private static final String ACCOUNTS = "/v1/accounts";
     private static final String CARD_ACCOUNTS = "/v1/card-accounts";
@@ -65,7 +65,7 @@ public class ConsentControllerTest {
     private ObjectMapper objectMapper;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.initMocks(this);
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
@@ -76,20 +76,20 @@ public class ConsentControllerTest {
     }
 
     @Test
-    public void createConsent() throws Exception {
+    void createConsent() throws Exception {
         ConsentsResponse201 response = TestModelBuilder.buildConsentCreationResponse();
 
         when(accountInformationService.createConsent(any(), any(), any()))
                 .thenReturn(buildResponse(response));
         when(headersMapper.toHttpHeaders(any()))
-                .thenReturn(new HttpHeaders());
+            .thenReturn(new HttpHeaders());
         MvcResult mvcResult = mockMvc.perform(post(ConsentController.CONSENTS)
-                                                      .header(RequestHeaders.X_GTW_ASPSP_ID, "db")
-                                                      .header(RequestHeaders.X_REQUEST_ID, UUID.randomUUID())
-                                                      .contentType(APPLICATION_JSON_UTF8_VALUE)
-                                                      .content(writeValueAsString(response)))
-                                      .andExpect(status().is(HttpStatus.CREATED.value()))
-                                      .andReturn();
+            .header(RequestHeaders.X_GTW_ASPSP_ID, "db")
+            .header(RequestHeaders.X_REQUEST_ID, UUID.randomUUID())
+            .contentType(APPLICATION_JSON_UTF8_VALUE)
+            .content(writeValueAsString(response)))
+            .andExpect(status().is(HttpStatus.CREATED.value()))
+            .andReturn();
 
         ConsentsResponse201 response201 = JsonReader.getInstance()
             .getObjectFromString(mvcResult.getResponse().getContentAsString(), ConsentsResponse201.class);
@@ -104,19 +104,19 @@ public class ConsentControllerTest {
     }
 
     @Test
-    public void createConsentRequiredFieldIsMissing() throws Exception {
+    void createConsentRequiredFieldIsMissing() throws Exception {
         when(accountInformationService.createConsent(any(), any(), any()))
-                .thenThrow(new AspspRegistrationNotFoundException(""));
+            .thenThrow(new AspspRegistrationNotFoundException(""));
 
         mockMvc.perform(post(ConsentController.CONSENTS)
-                                .contentType(APPLICATION_JSON_UTF8_VALUE)
-                                .content("{}"))
-                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))
-                .andReturn();
+            .contentType(APPLICATION_JSON_UTF8_VALUE)
+            .content("{}"))
+            .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))
+            .andReturn();
     }
 
     @Test
-    public void getTransactionWithoutBookingStatusParamRespondsWithBadRequestAndClearErrorMessage() throws Exception {
+    void getTransactionWithoutBookingStatusParamRespondsWithBadRequestAndClearErrorMessage() throws Exception {
         mockMvc.perform(get("/v1/accounts/resource-id/transactions"))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.tppMessages[0].text").value("Required parameter 'bookingStatus' is missing"));
@@ -124,17 +124,17 @@ public class ConsentControllerTest {
 
     @Test
     @SuppressWarnings("squid:S2699")
-    public void createConsentsRespondsWithBadRequestIfAdapterNotFound() throws Exception {
+    void createConsentsRespondsWithBadRequestIfAdapterNotFound() throws Exception {
         String adpaterId = "test-psd2-adapter";
 
         when(accountInformationService.createConsent(any(), any(), any()))
             .thenThrow(new AdapterNotFoundException(adpaterId));
 
         mockMvc.perform(post(ConsentController.CONSENTS)
-                .header(RequestHeaders.X_GTW_ASPSP_ID, adpaterId)
-                .header(RequestHeaders.X_REQUEST_ID, UUID.randomUUID())
-                .contentType(APPLICATION_JSON_UTF8_VALUE)
-                .content("{}"))
+            .header(RequestHeaders.X_GTW_ASPSP_ID, adpaterId)
+            .header(RequestHeaders.X_REQUEST_ID, UUID.randomUUID())
+            .contentType(APPLICATION_JSON_UTF8_VALUE)
+            .content("{}"))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.tppMessages[0].text", containsString(adpaterId)));
     }

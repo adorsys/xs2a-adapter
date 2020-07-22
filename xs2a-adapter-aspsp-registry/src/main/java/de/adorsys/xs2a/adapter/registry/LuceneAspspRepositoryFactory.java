@@ -7,6 +7,7 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
 import de.adorsys.xs2a.adapter.registry.mapper.AspspMapper;
 import de.adorsys.xs2a.adapter.service.PropertyUtil;
+import de.adorsys.xs2a.adapter.service.exception.Xs2aAdapterException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -47,7 +48,7 @@ public class LuceneAspspRepositoryFactory {
         try {
             messageDigest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            throw new Xs2aAdapterException(e);
         }
         String computedDigest = new BigInteger(1, messageDigest.digest(csv)).toString(16);
 

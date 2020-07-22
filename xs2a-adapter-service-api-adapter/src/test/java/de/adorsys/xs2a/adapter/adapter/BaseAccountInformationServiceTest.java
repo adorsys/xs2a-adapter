@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
-public class BaseAccountInformationServiceTest {
+class BaseAccountInformationServiceTest {
 
     private static final String BASE_URI = "baseUri";
     private static final String IDP_URL = "https://idp.url";
@@ -369,13 +369,13 @@ public class BaseAccountInformationServiceTest {
     }
 
     @Test
-    public void getConsentBaseUri() {
+    void getConsentBaseUri() {
 
         assertThat(informationService.getConsentBaseUri()).isEqualTo("baseUri/v1/consents");
     }
 
     @Test
-    public void getAccountsBaseUri() {
+    void getAccountsBaseUri() {
 
         assertThat(informationService.getAccountsBaseUri()).isEqualTo("baseUri/v1/accounts");
     }

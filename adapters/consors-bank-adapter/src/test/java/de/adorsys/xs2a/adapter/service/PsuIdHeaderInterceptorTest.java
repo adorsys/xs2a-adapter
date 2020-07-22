@@ -10,7 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-public class PsuIdHeaderInterceptorTest {
+class PsuIdHeaderInterceptorTest {
 
     private static final String PSU_ID = "psu id";
     private static final String QUOTES = "\"\"";
@@ -29,7 +29,7 @@ public class PsuIdHeaderInterceptorTest {
     void apply_withValidPsuId() {
         builder.header(RequestHeaders.PSU_ID, PSU_ID);
         Request.Builder actual = interceptor.apply(builder);
-        assertEquals(actual.headers().get(RequestHeaders.PSU_ID), PSU_ID);
+        assertEquals(PSU_ID, actual.headers().get(RequestHeaders.PSU_ID));
     }
 
     @Test

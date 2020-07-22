@@ -42,7 +42,7 @@ import java.util.Map;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AdorsysAccountInformationServiceWireMockTest {
+class AdorsysAccountInformationServiceWireMockTest {
 
     private static final String ACCOUNT_ID = "HGlNA7CqT8sjd_1aV2v2LI";
     private static final String CONSENT_ID = "LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q";

@@ -60,7 +60,7 @@ public class ComdirectOauth2Service implements Oauth2Service, PkceOauth2Extensio
     private final String baseUrl;
     private final Aspsp aspsp;
 
-    private ComdirectOauth2Service(Oauth2Service oauth2Service, String baseUrl, Aspsp aspsp, HttpClient httpClient) {
+    private ComdirectOauth2Service(Oauth2Service oauth2Service, String baseUrl, Aspsp aspsp) {
         this.oauth2Service = oauth2Service;
         this.baseUrl = baseUrl;
         this.aspsp = aspsp;
@@ -71,7 +71,7 @@ public class ComdirectOauth2Service implements Oauth2Service, PkceOauth2Extensio
         BaseOauth2Service baseOauth2Service = new BaseOauth2Service(aspsp, httpClient);
         CertificateSubjectClientIdOauth2Service clientIdOauth2Service =
             new CertificateSubjectClientIdOauth2Service(baseOauth2Service, keyStore);
-        return new ComdirectOauth2Service(new PkceOauth2Service(clientIdOauth2Service), baseUrl, aspsp, httpClient);
+        return new ComdirectOauth2Service(new PkceOauth2Service(clientIdOauth2Service), baseUrl, aspsp);
     }
 
     @Override
@@ -109,12 +109,10 @@ public class ComdirectOauth2Service implements Oauth2Service, PkceOauth2Extensio
                         Parameters.CONSENT_ID,
                         CONSENT_ID_MISSING_ERROR_MESSAGE));
                 }
-            } else if (Scope.isPis(Scope.fromValue(scope))) {
-                if (StringUtils.isBlank(parameters.getPaymentId())) {
-                    validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
-                        Parameters.PAYMENT_ID,
-                        PAYMENT_ID_MISSING_ERROR_MESSAGE));
-                }
+            } else if (Scope.isPis(Scope.fromValue(scope)) && StringUtils.isBlank(parameters.getPaymentId())) {
+                validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
+                    Parameters.PAYMENT_ID,
+                    PAYMENT_ID_MISSING_ERROR_MESSAGE));
             }
         }
 

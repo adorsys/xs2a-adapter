@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class CertificateSubjectClientIdOauth2ServiceTest {
+class CertificateSubjectClientIdOauth2ServiceTest {
 
     private static final String organisationIdentifier = "organisationIdentifier";
 
@@ -63,6 +63,6 @@ public class CertificateSubjectClientIdOauth2ServiceTest {
         verify(pkcs12KeyStore, times(1)).getOrganizationIdentifier();
         verify(oauth2Service, times(1)).getToken(any(), captor.capture());
 
-        assertEquals(captor.getValue().getClientId(), organisationIdentifier);
+        assertEquals(organisationIdentifier, captor.getValue().getClientId());
     }
 }

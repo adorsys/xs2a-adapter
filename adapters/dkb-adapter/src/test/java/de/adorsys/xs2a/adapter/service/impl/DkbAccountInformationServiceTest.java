@@ -11,21 +11,22 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-public class DkbAccountInformationServiceTest {
+class DkbAccountInformationServiceTest {
     private static final Aspsp ASPSP = buildAspspWithUrl();
     private final AccessTokenService accessService = Mockito.mock(AccessTokenService.class);
     private DkbAccountInformationService service = new DkbAccountInformationService(ASPSP, accessService, null, null);
 
     @Test
-    public void addBearerHeader() {
+    void addBearerHeader() {
         when(accessService.retrieveToken()).thenReturn("token");
 
         Map<String, String> headers = service.addBearerHeader(new HashMap<>());
 
         verify(accessService, times(1)).retrieveToken();
 
-        assertThat(headers).hasSize(1);
-        assertThat(headers.containsKey("Authorization")).isTrue();
+        assertThat(headers)
+            .hasSize(1)
+            .containsKey("Authorization");
         assertThat(headers.get("Authorization")).isNotNull();
     }
 

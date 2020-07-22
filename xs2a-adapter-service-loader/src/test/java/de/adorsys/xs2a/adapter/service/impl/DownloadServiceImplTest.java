@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class DownloadServiceImplTest {
+class DownloadServiceImplTest {
     private static final String DOWNLOAD_URL = "https://www.example.com";
     private static final RequestHeaders REQUEST_HEADERS = RequestHeaders.fromMap(Collections.emptyMap());
     private static final ResponseHeaders RESPONSE_HEADERS = ResponseHeaders.fromMap(Collections.emptyMap());
@@ -35,7 +35,7 @@ public class DownloadServiceImplTest {
     private DownloadServiceImpl service;
 
     @Test
-    public void download() {
+    void download() {
         when(adapterServiceLoader.getDownloadService(REQUEST_HEADERS))
             .thenReturn(downloadService);
 

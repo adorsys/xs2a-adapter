@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
+import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Consents;
 import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
 import de.adorsys.xs2a.adapter.http.HttpClient;
@@ -19,17 +20,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
-public class DeutscheBankAccountInformationServiceTest {
+class DeutscheBankAccountInformationServiceTest {
 
     private static final String BASE_URL = "https://simulator-xs2a.db.com/ais/DE/SB-DB";
     private static final Aspsp ASPSP = buildAspspWithUrl();
     private static final String CONSENT_URL = BASE_URL + "/v1/consents";
 
     @Test
-    public void createConsent() {
+    void createConsent() {
         HttpClient httpClient = mock(HttpClient.class);
         DeutscheBankAccountInformationService service =
-            new DeutscheBankAccountInformationService(ASPSP, httpClient, null, null, null);
+            new DeutscheBankAccountInformationService(ASPSP, httpClient, null, new IdentityLinksRewriter(), null);
 
         Request.Builder requestBuilder = new RequestBuilderImpl(httpClient, "POST", CONSENT_URL);
         when(httpClient.post(eq(CONSENT_URL)))
@@ -41,11 +42,12 @@ public class DeutscheBankAccountInformationServiceTest {
 
         verify(httpClient, times(1)).post(eq(CONSENT_URL));
         Map<String, String> headers = requestBuilder.headers();
-        assertThat(headers).isNotNull();
-        assertThat(headers).isNotEmpty();
-        assertThat(headers).containsKey(RequestHeaders.DATE);
-        assertThat(headers).containsKey(RequestHeaders.PSU_ID);
-        assertThat(headers.get(RequestHeaders.CONTENT_TYPE)).isEqualTo("application/json");
+        assertThat(headers)
+            .isNotNull()
+            .isNotEmpty()
+            .containsKey(RequestHeaders.DATE)
+            .containsKey(RequestHeaders.PSU_ID)
+            .containsEntry(RequestHeaders.CONTENT_TYPE, "application/json");
     }
 
     private static Aspsp buildAspspWithUrl() {

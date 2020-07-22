@@ -40,23 +40,21 @@ public class VerlagPaymentInitiationService extends BasePaymentInitiationService
 
     @Override
     protected Map<String, String> populatePostHeaders(Map<String, String> map) {
-        addApiKey(map);
-        return map;
+        return addApiKey(map);
     }
 
     @Override
     protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
-        addApiKey(headers);
-        return headers;
+        return addApiKey(headers);
     }
 
     @Override
     protected Map<String, String> populateGetHeaders(Map<String, String> headers) {
-        addApiKey(headers);
-        return headers;
+        return addApiKey(headers);
     }
 
-    private void addApiKey(Map<String, String> headers) {
+    private Map<String, String> addApiKey(Map<String, String> headers) {
         headers.put(apiKey.getKey(), apiKey.getValue());
+        return headers;
     }
 }

@@ -4,16 +4,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AdapterConfigTest {
+class AdapterConfigTest {
 
     @Test
-    public void readProperty() {
+    void readProperty() {
         String property = AdapterConfig.readProperty("adorsys.oauth_approach.header_name");
         assertThat(property).isEqualTo("X-OAUTH-PREFERRED");
     }
 
     @Test
-    public void externalConfigFile() {
+    void externalConfigFile() {
         String file = getClass().getResource("/external.adapter.config.properties").getFile();
         System.setProperty("adapter.config.file.path", file);
 

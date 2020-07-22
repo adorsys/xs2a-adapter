@@ -133,9 +133,10 @@ class ComdirectOauth2ServiceTest {
     @Test
     void getAuthorizationRequestUri_noScaOAuthLinkNoIdpUrl() {
         oauth2Service = ComdirectOauth2Service.create(new Aspsp(), null, keyStore);
+        Parameters parameters = new Parameters();
 
         assertThrows(RequestValidationException.class,
-            () -> oauth2Service.getAuthorizationRequestUri(null, new Parameters()));
+            () -> oauth2Service.getAuthorizationRequestUri(null, parameters));
     }
 
     @Test

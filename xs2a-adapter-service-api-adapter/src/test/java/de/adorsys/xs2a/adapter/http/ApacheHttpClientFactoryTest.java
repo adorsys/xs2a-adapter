@@ -6,10 +6,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.net.ssl.SSLContext;
-
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.security.*;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,7 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ApacheHttpClientFactoryTest {
+class ApacheHttpClientFactoryTest {
 
     private ApacheHttpClientFactory factory;
     private Pkcs12KeyStore pkcs12KeyStore;
@@ -32,7 +34,7 @@ public class ApacheHttpClientFactoryTest {
     }
 
     @Test
-    public void getHttpClientCachesClientsByAdapterId() {
+    void getHttpClientCachesClientsByAdapterId() {
         HttpClient httpClient = factory.getHttpClient("test-adapter");
         HttpClient httpClient2 = factory.getHttpClient("test-adapter");
 

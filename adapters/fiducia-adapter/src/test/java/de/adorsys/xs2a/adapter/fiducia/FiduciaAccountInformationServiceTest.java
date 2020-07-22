@@ -23,7 +23,7 @@ import static java.util.Collections.singletonMap;
 import static org.apache.http.protocol.HTTP.DATE_HEADER;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FiduciaAccountInformationServiceTest {
+class FiduciaAccountInformationServiceTest {
     private static final String ACCOUNT_ID = "1234567890";
     private static final String UNSUPPORTED_BOOKING_STATUS = "unsupported";
     private static final String SUPPORTED_BOOKING_STATUS = "booked";
@@ -38,54 +38,56 @@ public class FiduciaAccountInformationServiceTest {
     }
 
     @Test
-    public void populatePostHeaders() {
+    void populatePostHeaders() {
         Map<String, String> postHeaders = service.populatePostHeaders(new HashMap<>());
-        assertThat(postHeaders.size()).isEqualTo(1);
-        assertThat(postHeaders).containsKeys(DATE_HEADER);
+        assertThat(postHeaders)
+            .hasSize(1)
+            .containsKeys(DATE_HEADER);
     }
 
     @Test
-    public void populateGetHeaders() {
+    void populateGetHeaders() {
         Map<String, String> getHeaders = service.populateGetHeaders(new HashMap<>());
-        assertThat(getHeaders.size()).isEqualTo(1);
-        assertThat(getHeaders).containsKeys(DATE_HEADER);
+        assertThat(getHeaders)
+            .hasSize(1)
+            .containsKeys(DATE_HEADER);
     }
 
     @Test
-    public void populatePutHeaders() {
+    void populatePutHeaders() {
         Map<String, String> putHeaders = service.populatePutHeaders(new HashMap<>());
-        assertThat(putHeaders.size()).isEqualTo(1);
-        assertThat(putHeaders).containsKeys(DATE_HEADER);
+        assertThat(putHeaders)
+            .hasSize(1)
+            .containsKeys(DATE_HEADER);
     }
 
     @Test
-    public void populateDeleteHeaders() {
+    void populateDeleteHeaders() {
         Map<String, String> deleteHeaders = service.populateDeleteHeaders(new HashMap<>());
-        assertThat(deleteHeaders.size()).isEqualTo(1);
-        assertThat(deleteHeaders).containsKeys(DATE_HEADER);
+        assertThat(deleteHeaders)
+            .hasSize(1)
+            .containsKeys(DATE_HEADER);
     }
 
     @Test
-    public void getTransactionList_failure_notSupportedBookingStatus() {
-        RequestValidationException ex = Assertions.assertThrows(
+    void getTransactionList_failure_notSupportedBookingStatus() {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(new HashMap<>());
+        RequestParams requestParams = RequestParams.fromMap(buildRequestParamsMapWithBookingStatus(UNSUPPORTED_BOOKING_STATUS));
+
+        Assertions.assertThrows(
             RequestValidationException.class,
-            () -> service.getTransactionList(
-                ACCOUNT_ID,
-                RequestHeaders.fromMap(new HashMap<>()),
-                RequestParams.fromMap(buildRequestParamsMapWithBookingStatus(UNSUPPORTED_BOOKING_STATUS))
-            )
+            () -> service.getTransactionList(ACCOUNT_ID, requestHeaders, requestParams)
         );
     }
 
     @Test
-    public void getTransactionListAsString_failure_notSupportedBookingStatus() {
+    void getTransactionListAsString_failure_notSupportedBookingStatus() {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(new HashMap<>());
+        RequestParams requestParams = RequestParams.fromMap(buildRequestParamsMapWithBookingStatus(UNSUPPORTED_BOOKING_STATUS));
+
         Assertions.assertThrows(
             RequestValidationException.class,
-            () -> service.getTransactionListAsString(
-                ACCOUNT_ID,
-                RequestHeaders.fromMap(new HashMap<>()),
-                RequestParams.fromMap(buildRequestParamsMapWithBookingStatus(UNSUPPORTED_BOOKING_STATUS))
-            )
+            () -> service.getTransactionListAsString(ACCOUNT_ID, requestHeaders, requestParams)
         );
     }
 

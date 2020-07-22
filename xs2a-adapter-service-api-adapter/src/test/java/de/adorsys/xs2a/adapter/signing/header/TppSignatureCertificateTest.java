@@ -5,14 +5,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TppSignatureCertificateTest {
+class TppSignatureCertificateTest {
     private static final String PUBLIC_KEY_AS_STRING = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
 
     @Test
-    public void build() {
+    void build() {
         TppSignatureCertificate tppSignatureCertificate = TppSignatureCertificate.builder()
-                                                .publicKeyAsString(PUBLIC_KEY_AS_STRING)
-                                                .build();
+            .publicKeyAsString(PUBLIC_KEY_AS_STRING)
+            .build();
 
         assertThat(tppSignatureCertificate.getHeaderName()).isEqualTo(RequestHeaders.TPP_SIGNATURE_CERTIFICATE);
         assertThat(tppSignatureCertificate.getHeaderValue()).isEqualTo(PUBLIC_KEY_AS_STRING);

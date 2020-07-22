@@ -12,7 +12,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class AdorsysAccountInformationServiceTest {
+class AdorsysAccountInformationServiceTest {
     private static final String ACCEPT_ALL = "*/*";
     private static final String ACCEPT_JSON = "application/json";
     private static final String ACCEPT_XML = "application/xml";
@@ -21,166 +21,150 @@ public class AdorsysAccountInformationServiceTest {
     private AdorsysAccountInformationService accountInformationService;
 
     @Test
-    public void populatePostHeaders_withoutAcceptHeader() {
+    void populatePostHeaders_withoutAcceptHeader() {
         Map<String, String> actual = accountInformationService.populatePostHeaders(new HashMap<>());
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
-    public void populatePostHeaders_acceptAll() {
+    void populatePostHeaders_acceptAll() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(RequestHeaders.ACCEPT, ACCEPT_ALL);
 
         Map<String, String> actual = accountInformationService.populatePostHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
-    public void populatePostHeaders_acceptJson() {
+    void populatePostHeaders_acceptJson() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(RequestHeaders.ACCEPT, ACCEPT_JSON);
 
         Map<String, String> actual = accountInformationService.populatePostHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
-    public void populatePostHeaders_acceptXml() {
+    void populatePostHeaders_acceptXml() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(RequestHeaders.ACCEPT, ACCEPT_XML);
 
         Map<String, String> actual = accountInformationService.populatePostHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_XML);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_XML);
     }
 
     @Test
-    public void populatePutHeaders_withoutAcceptHeader() {
+    void populatePutHeaders_withoutAcceptHeader() {
         Map<String, String> actual = accountInformationService.populatePutHeaders(new HashMap<>());
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
-    public void populatePutHeaders_acceptAll() {
+    void populatePutHeaders_acceptAll() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(RequestHeaders.ACCEPT, ACCEPT_ALL);
 
         Map<String, String> actual = accountInformationService.populatePutHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
-    public void populatePutHeaders_acceptJson() {
+    void populatePutHeaders_acceptJson() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(RequestHeaders.ACCEPT, ACCEPT_JSON);
 
         Map<String, String> actual = accountInformationService.populatePutHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
-    public void populatePutHeaders_acceptXml() {
+    void populatePutHeaders_acceptXml() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(RequestHeaders.ACCEPT, ACCEPT_XML);
 
         Map<String, String> actual = accountInformationService.populatePutHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_XML);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_XML);
     }
 
     @Test
-    public void populateGetHeaders_withoutAcceptHeader() {
+    void populateGetHeaders_withoutAcceptHeader() {
         Map<String, String> actual = accountInformationService.populateGetHeaders(new HashMap<>());
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
-    public void populateGetHeaders_acceptAll() {
+    void populateGetHeaders_acceptAll() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(RequestHeaders.ACCEPT, ACCEPT_ALL);
 
         Map<String, String> actual = accountInformationService.populateGetHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
-    public void populateGetHeaders_acceptJson() {
+    void populateGetHeaders_acceptJson() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(RequestHeaders.ACCEPT, ACCEPT_JSON);
 
         Map<String, String> actual = accountInformationService.populateGetHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
-    public void populateGetHeaders_acceptXml() {
+    void populateGetHeaders_acceptXml() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(RequestHeaders.ACCEPT, ACCEPT_XML);
 
         Map<String, String> actual = accountInformationService.populateGetHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_XML);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_XML);
     }
 
     @Test
-    public void populateDeleteHeaders_withoutAcceptHeader() {
+    void populateDeleteHeaders_withoutAcceptHeader() {
         Map<String, String> actual = accountInformationService.populateDeleteHeaders(new HashMap<>());
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
-    public void populateDeleteHeaders_acceptAll() {
+    void populateDeleteHeaders_acceptAll() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(RequestHeaders.ACCEPT, ACCEPT_ALL);
 
         Map<String, String> actual = accountInformationService.populateDeleteHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
-    public void populateDeleteHeaders_acceptJson() {
+    void populateDeleteHeaders_acceptJson() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(RequestHeaders.ACCEPT, ACCEPT_JSON);
 
         Map<String, String> actual = accountInformationService.populateDeleteHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_JSON);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_JSON);
     }
 
     @Test
-    public void populateDeleteHeaders_acceptXml() {
+    void populateDeleteHeaders_acceptXml() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(RequestHeaders.ACCEPT, ACCEPT_XML);
 
         Map<String, String> actual = accountInformationService.populateDeleteHeaders(headers);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual.get(RequestHeaders.ACCEPT)).isEqualTo(ACCEPT_XML);
+        assertThat(actual).containsEntry(RequestHeaders.ACCEPT, ACCEPT_XML);
     }
 }

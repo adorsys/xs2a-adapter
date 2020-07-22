@@ -82,9 +82,10 @@ class AuditRequestBodyAdviceTest {
         advice.afterBodyRead(consents, null, null, null, null);
 
         String ibans = MDC.get("iban");
-        assertThat(ibans).contains(iban1);
-        assertThat(ibans).contains(iban2);
-        assertThat(ibans).contains(iban3);
+        assertThat(ibans)
+            .contains(iban1)
+            .contains(iban2)
+            .contains(iban3);
 
         assertThat(MDC.get("consentModel")).isEqualTo("detailed");
     }

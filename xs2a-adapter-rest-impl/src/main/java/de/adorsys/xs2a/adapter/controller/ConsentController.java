@@ -22,6 +22,7 @@ import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.rest.api.AccountApi;
 import de.adorsys.xs2a.adapter.rest.api.ConsentApi;
+import de.adorsys.xs2a.adapter.rest.api.Oauth2Api;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
@@ -65,7 +66,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
             if (e.getStatusCode() == 403 && e.getMessage() != null && e.getMessage().contains("TOKEN_INVALID")) {
                 ConsentsResponse201 consentsResponse = new ConsentsResponse201();
                 HrefType preOauthHref = new HrefType();
-                preOauthHref.setHref(Oauth2Controller.AUTHORIZATION_REQUEST_URI);
+                preOauthHref.setHref(Oauth2Api.AUTHORIZATION_REQUEST_URI);
                 Map<String, HrefType> preOauth = singletonMap("preOauth", preOauthHref);
                 consentsResponse.setLinks(preOauth);
                 return ResponseEntity.ok(consentsResponse);
@@ -76,7 +77,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
         ConsentsResponse201 consentsResponse = response.getBody();
         if (consentsResponse.getConsentId() == null && consentsResponse.getLinks() == null) {
             HrefType oauthConsentHref = new HrefType();
-            oauthConsentHref.setHref(Oauth2Controller.AUTHORIZATION_REQUEST_URI);
+            oauthConsentHref.setHref(Oauth2Api.AUTHORIZATION_REQUEST_URI);
             consentsResponse.setLinks(
                 singletonMap("oauthConsent", oauthConsentHref)
             );
@@ -160,16 +161,6 @@ public class ConsentController extends AbstractController implements ConsentApi,
                                                         Map<String, String> parameters,
                                                         Map<String, String> headers,
                                                         ObjectNode body) {
-//        oneOf: #Different Authorisation Bodies
-//                - {}
-//                - $ref: "#/components/schemas/updatePsuAuthentication"
-//                - $ref: "#/components/schemas/selectPsuAuthenticationMethod"
-//                - $ref: "#/components/schemas/transactionAuthorisation"
-//        oneOf: #Different Authorisation Bodies
-//              - $ref: "#/components/schemas/updatePsuIdenticationResponse" #Update PSU Identification
-//              - $ref: "#/components/schemas/updatePsuAuthenticationResponse" #Update PSU Authentication
-//              - $ref: "#/components/schemas/selectPsuAuthenticationMethodResponse" #Select Authentication Method
-//              - $ref: "#/components/schemas/scaStatusResponse" #Transaction Authorisation
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         RequestParams requestParams = RequestParams.fromMap(parameters);
 

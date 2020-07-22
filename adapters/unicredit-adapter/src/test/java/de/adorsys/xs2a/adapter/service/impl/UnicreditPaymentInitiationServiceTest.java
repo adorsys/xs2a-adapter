@@ -65,10 +65,7 @@ class UnicreditPaymentInitiationServiceTest {
                                                  new PaymentInitiationJson());
 
         verify(httpClient, times(1)).post(eq(INITIATE_PAYMENT_URL));
-        Map<String, String> headers = requestBuilder.headers();
-        assertThat(headers).isNotNull();
-        assertThat(headers).isNotEmpty();
-        assertThat(headers.get(RequestHeaders.PSU_ID_TYPE)).isEqualTo(DEFAULT_PSU_ID_TYPE);
+        assertThat(requestBuilder.headers()).containsEntry(RequestHeaders.PSU_ID_TYPE, DEFAULT_PSU_ID_TYPE);
     }
 
     @Test
@@ -90,10 +87,7 @@ class UnicreditPaymentInitiationServiceTest {
                                                  new PaymentInitiationJson());
 
         verify(httpClient, times(1)).post(eq(INITIATE_PAYMENT_URL));
-        Map<String, String> headers = requestBuilder.headers();
-        assertThat(headers).isNotNull();
-        assertThat(headers).isNotEmpty();
-        assertThat(headers.get(RequestHeaders.PSU_ID_TYPE)).isEqualTo(DEFAULT_PSU_ID_TYPE);
+        assertThat(requestBuilder.headers()).containsEntry(RequestHeaders.PSU_ID_TYPE, DEFAULT_PSU_ID_TYPE);
     }
 
     @Test
@@ -115,10 +109,7 @@ class UnicreditPaymentInitiationServiceTest {
                                                  new PaymentInitiationJson());
 
         verify(httpClient, times(1)).post(eq(INITIATE_PAYMENT_URL));
-        Map<String, String> headers = requestBuilder.headers();
-        assertThat(headers).isNotNull();
-        assertThat(headers).isNotEmpty();
-        assertThat(headers.get(RequestHeaders.PSU_ID_TYPE)).isEqualTo(UnicreditHeaders.UCE_BANKING_GLOBAL);
+        assertThat(requestBuilder.headers()).containsEntry(RequestHeaders.PSU_ID_TYPE, UnicreditHeaders.UCE_BANKING_GLOBAL);
     }
 
     @Test
@@ -139,10 +130,7 @@ class UnicreditPaymentInitiationServiceTest {
                                                       RequestParams.empty(),
                                                       new TransactionAuthorisation());
 
-        Map<String, String> headers = requestBuilder.headers();
-        assertThat(headers).isNotNull();
-        assertThat(headers).isNotEmpty();
-        assertThat(headers.get(RequestHeaders.PSU_ID_TYPE)).isEqualTo(DEFAULT_PSU_ID_TYPE);
+        assertThat(requestBuilder.headers()).containsEntry(RequestHeaders.PSU_ID_TYPE, DEFAULT_PSU_ID_TYPE);
     }
 
     private static Aspsp buildAspspWithUrl() {
