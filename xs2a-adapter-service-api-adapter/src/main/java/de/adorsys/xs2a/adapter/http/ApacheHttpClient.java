@@ -66,15 +66,12 @@ public class ApacheHttpClient extends AbstractHttpClient {
                     MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create()
                         // static boundary for equal requests in send and content methods
                         .setBoundary("KfIPVSuloXL9RBOp_4z784vc73PWKzOrr6Ps");
-                    requestBuilder.xmlParts().forEach((name, value) -> {
-                        multipartEntityBuilder.addPart(name, new StringBody(value, ContentType.APPLICATION_XML));
-                    });
-                    requestBuilder.jsonParts().forEach((name, value) -> {
-                        multipartEntityBuilder.addPart(name, new StringBody(value, ContentType.APPLICATION_JSON));
-                    });
-                    requestBuilder.plainTextParts().forEach((name, value) -> {
-                        multipartEntityBuilder.addPart(name, new StringBody(value, ContentType.TEXT_PLAIN));
-                    });
+                    requestBuilder.xmlParts().forEach((name, value) ->
+                        multipartEntityBuilder.addPart(name, new StringBody(value, ContentType.APPLICATION_XML)));
+                    requestBuilder.jsonParts().forEach((name, value) ->
+                        multipartEntityBuilder.addPart(name, new StringBody(value, ContentType.APPLICATION_JSON)));
+                    requestBuilder.plainTextParts().forEach((name, value) ->
+                        multipartEntityBuilder.addPart(name, new StringBody(value, ContentType.TEXT_PLAIN)));
                     post.setEntity(multipartEntityBuilder.build());
                 }
                 return post;
@@ -145,9 +142,9 @@ public class ApacheHttpClient extends AbstractHttpClient {
         HttpEntity entity = response.getEntity();
         String contentType = entity != null && entity.getContentType() != null ? entity.getContentType().getValue() : "";
         String sanitizedResponseBody = logSanitizer.sanitizeResponseBody(responseBody, contentType);
-        responseLogs.append(String.format("%s Response body [%s]: %s\n", direction, contentType, sanitizedResponseBody));
+        responseLogs.append(String.format("%s Response body [%s]: %s%n", direction, contentType, sanitizedResponseBody));
         responseLogs.append(direction);
-        logger.debug(responseLogs.toString());
+        logger.debug("{}", responseLogs);
     }
 
     private void logRequest(HttpUriRequest request, Map<String, String> headers) {
@@ -161,16 +158,16 @@ public class ApacheHttpClient extends AbstractHttpClient {
             HttpEntity entity = requestEntityOptional.get();
             String contentType = entity.getContentType() != null ? entity.getContentType().getValue() : "";
             String sanitizedResponseBody = logSanitizer.sanitizeRequestBody(entity, contentType);
-            requestLogs.append(String.format("%s Request body [%s]: %s\n", direction, contentType, sanitizedResponseBody));
+            requestLogs.append(String.format("%s Request body [%s]: %s%n", direction, contentType, sanitizedResponseBody));
             requestLogs.append(direction);
         }
-        logger.debug(requestLogs.toString());
+        logger.debug("{}", requestLogs);
     }
 
     private StringBuilder logHttpEvent(Map<String, String> headers, String httpLine, String direction) {
         StringBuilder logs = new StringBuilder();
-        logs.append(String.format("%s %s\n", direction, logSanitizer.sanitize(httpLine)));
-        headers.forEach((key, value) -> logs.append(String.format("%s %s: %s\n", direction, key, logSanitizer.sanitizeHeader(key, value))));
+        logs.append(String.format("%s %s%n", direction, logSanitizer.sanitize(httpLine)));
+        headers.forEach((key, value) -> logs.append(String.format("%s %s: %s%n", direction, key, logSanitizer.sanitizeHeader(key, value))));
         logs.append(direction).append("\n");
         return logs;
     }

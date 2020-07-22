@@ -17,6 +17,9 @@ public class StringUri {
     private static final String SPACE = " ";
     private static final String ENCODED_SPACE = "%20";
 
+    private StringUri() {
+    }
+
     public static String fromElements(String... elements) {
         return Arrays.stream(elements)
                 .map(StringUri::trimUri)

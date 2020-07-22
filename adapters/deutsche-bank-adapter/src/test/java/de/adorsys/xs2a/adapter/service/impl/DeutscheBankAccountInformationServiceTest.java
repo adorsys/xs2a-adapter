@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
+import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Consents;
 import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
 import de.adorsys.xs2a.adapter.http.HttpClient;
@@ -29,7 +30,7 @@ class DeutscheBankAccountInformationServiceTest {
     void createConsent() {
         HttpClient httpClient = mock(HttpClient.class);
         DeutscheBankAccountInformationService service =
-            new DeutscheBankAccountInformationService(ASPSP, httpClient, null, null, null);
+            new DeutscheBankAccountInformationService(ASPSP, httpClient, null, new IdentityLinksRewriter(), null);
 
         Request.Builder requestBuilder = new RequestBuilderImpl(httpClient, "POST", CONSENT_URL);
         when(httpClient.post(eq(CONSENT_URL)))

@@ -1,5 +1,7 @@
 package de.adorsys.xs2a.adapter.service;
 
+import de.adorsys.xs2a.adapter.service.exception.Xs2aAdapterException;
+
 import javax.naming.InvalidNameException;
 import javax.naming.ldap.LdapName;
 import javax.net.ssl.KeyManager;
@@ -135,7 +137,7 @@ public class Pkcs12KeyStore {
                        .map(rdn -> rdn.getValue().toString())
                        .collect(Collectors.joining());
         } catch (InvalidNameException e) {
-            throw new RuntimeException(e);
+            throw new Xs2aAdapterException(e);
         }
     }
 }

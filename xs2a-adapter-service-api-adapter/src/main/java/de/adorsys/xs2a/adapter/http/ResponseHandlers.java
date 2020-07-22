@@ -9,6 +9,7 @@ import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
 import de.adorsys.xs2a.adapter.service.exception.OAuthException;
+import de.adorsys.xs2a.adapter.service.exception.Xs2aAdapterException;
 import org.apache.commons.fileupload.MultipartStream;
 import org.apache.commons.fileupload.ParameterParser;
 import org.slf4j.Logger;
@@ -269,7 +270,7 @@ public class ResponseHandlers {
             try {
                 return parseResponseIntoObject(bodyClass, responseBody, responseHeaders);
             } catch (ReflectiveOperationException | IntrospectionException e) {
-                throw new RuntimeException(e);
+                throw new Xs2aAdapterException(e);
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }

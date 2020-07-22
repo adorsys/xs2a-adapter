@@ -298,7 +298,9 @@ public class LuceneAspspRepository implements AspspRepository {
 
     @Override
     public List<Aspsp> findLike(Aspsp aspsp, String after, int size) {
-        logger.debug(buildFindLikeLoggingMessage(aspsp));
+        if (logger.isDebugEnabled()) {
+            logger.debug(buildFindLikeLoggingMessage(aspsp));
+        }
         BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
         if (aspsp.getName() != null) {
             queryBuilder.add(buildQueryWithPriority(getNameFuzzyQuery(aspsp.getName()), LOW_PRIORITY), BooleanClause.Occur.SHOULD);

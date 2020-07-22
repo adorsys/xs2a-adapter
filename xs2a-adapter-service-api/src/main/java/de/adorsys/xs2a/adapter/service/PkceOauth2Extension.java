@@ -1,5 +1,7 @@
 package de.adorsys.xs2a.adapter.service;
 
+import de.adorsys.xs2a.adapter.service.exception.Xs2aAdapterException;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -13,7 +15,7 @@ public interface PkceOauth2Extension {
         } catch (NoSuchAlgorithmException e) {
             // Every implementation of the Java platform is required to
             // support at least one strong {@code SecureRandom} implementation.
-            throw new RuntimeException(e);
+            throw new Xs2aAdapterException(e);
         }
     }
 
@@ -38,11 +40,15 @@ public interface PkceOauth2Extension {
             return MessageDigest.getInstance("SHA-256").digest(bytes);
         } catch (NoSuchAlgorithmException e) {
             // Every implementation of the Java platform is required to support SHA-256
-            throw new RuntimeException(e);
+            throw new Xs2aAdapterException(e);
         }
     }
 
     class StaticCodeVerifier {
+
+        private StaticCodeVerifier() {
+        }
+
         // The client SHOULD create a "code_verifier" with a minimum of 256 bits
         // of entropy.  This can be done by having a suitable random number
         // generator create a 32-octet sequence.  The octet sequence can then be
