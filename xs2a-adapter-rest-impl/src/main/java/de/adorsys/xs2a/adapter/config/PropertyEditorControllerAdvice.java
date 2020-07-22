@@ -44,7 +44,7 @@ class StrictConvertingPropertyEditorAdapter extends ConvertingPropertyEditorAdap
     }
 
     @Override
-    public void setAsText(String text) throws IllegalArgumentException {
+    public void setAsText(String text) {
         Object value = this.conversionService.convert(text, TypeDescriptor.valueOf(String.class), this.targetDescriptor);
         if (value == null) {
             throw new IllegalArgumentException(text);

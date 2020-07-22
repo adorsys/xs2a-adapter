@@ -18,7 +18,6 @@ public class AdapterDelegatingOauth2Service implements Oauth2Service {
 
     @Override
     public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) throws IOException {
-        // fixme headers parameter is needed only for service loading
         return getOauth2Service(headers)
             .getAuthorizationRequestUri(headers, parameters);
     }

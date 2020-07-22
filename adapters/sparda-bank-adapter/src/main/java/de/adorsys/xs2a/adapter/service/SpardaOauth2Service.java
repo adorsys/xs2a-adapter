@@ -30,7 +30,6 @@ public class SpardaOauth2Service implements Oauth2Service, PkceOauth2Extension {
     private final String tokenEndpoint;
 
     private SpardaOauth2Service(Aspsp aspsp,
-                                HttpClient httpClient,
                                 Oauth2Service oauth2Service,
                                 String clientId) {
         this.aspsp = aspsp;
@@ -52,7 +51,7 @@ public class SpardaOauth2Service implements Oauth2Service, PkceOauth2Extension {
         CertificateSubjectClientIdOauth2Service clientIdOauth2Service =
             new CertificateSubjectClientIdOauth2Service(baseOauth2Service, keyStore);
         PkceOauth2Service pkceOauth2Service = new SpardaPkceOauth2Service(clientIdOauth2Service);
-        return new SpardaOauth2Service(aspsp, httpClient, pkceOauth2Service, clientId);
+        return new SpardaOauth2Service(aspsp, pkceOauth2Service, clientId);
     }
 
     private static EnumMap<Scope, Scope> initiateScopeMapping() {

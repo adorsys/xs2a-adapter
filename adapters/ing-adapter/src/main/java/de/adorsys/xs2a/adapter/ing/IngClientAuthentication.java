@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.ing;
 
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.exception.Xs2aAdapterException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -24,8 +25,8 @@ public class IngClientAuthentication implements Request.Builder.Interceptor {
     private final Signature signature;
     private final MessageDigest digest;
     private final String tppSignatureCertificate;
-    private String keyId;
-    private String accessToken;
+    private final String keyId;
+    private final String accessToken;
 
     IngClientAuthentication(Signature signature, MessageDigest digest, String tppSignatureCertificate,
                             String keyId, String accessToken) {
@@ -40,27 +41,27 @@ public class IngClientAuthentication implements Request.Builder.Interceptor {
     public Request.Builder apply(Request.Builder requestBuilder) {
         String xRequestId = requestBuilder.headers().get(RequestHeaders.X_REQUEST_ID);
         String date = RFC_1123_DATE_TIME_FORMATTER.format(Instant.now());
-        String digest = "SHA-256=" + base64(digest(requestBuilder.content()));
+        String digestValue = "SHA-256=" + base64(digest(requestBuilder.content()));
         String signingString = "(request-target): " + requestTarget(requestBuilder) + "\n"
             + (xRequestId != null ? "x-request-id: " + xRequestId + "\n" : "")
             + "date: " + date + "\n"
-            + "digest: " + digest;
-        String signature = "keyId=\"" + keyId
+            + "digest: " + digestValue;
+        String signatureValue = "keyId=\"" + keyId
             + "\",algorithm=\"rsa-sha256\",headers=\"(request-target)"
             + (xRequestId != null ? " x-request-id" : "") + " date digest\"," +
             "signature=\"" + base64(sign(signingString)) + "\"";
 
         if (accessToken == null) {
-            requestBuilder.header("Authorization", "Signature " + signature);
+            requestBuilder.header("Authorization", "Signature " + signatureValue);
         } else {
             requestBuilder
-                .header("Signature", signature)
+                .header("Signature", signatureValue)
                 .header("Authorization", "Bearer " + accessToken);
         }
 
         requestBuilder
             .header("Date", date)
-            .header("Digest", digest)
+            .header("Digest", digestValue)
             .header("TPP-Signature-Certificate", tppSignatureCertificate);
 
         return requestBuilder;
@@ -88,7 +89,7 @@ public class IngClientAuthentication implements Request.Builder.Interceptor {
             signature.update(signingString.getBytes());
             return signature.sign();
         } catch (SignatureException e) {
-            throw new RuntimeException(e);
+            throw new Xs2aAdapterException(e);
         }
     }
 }

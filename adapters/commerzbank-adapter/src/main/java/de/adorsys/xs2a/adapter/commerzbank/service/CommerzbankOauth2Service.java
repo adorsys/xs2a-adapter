@@ -42,7 +42,7 @@ public class CommerzbankOauth2Service implements Oauth2Service, PkceOauth2Extens
     private final Oauth2Service oauth2Service;
     private final String baseUrl;
 
-    private CommerzbankOauth2Service(Oauth2Service oauth2Service, String baseUrl, HttpClient httpClient) {
+    private CommerzbankOauth2Service(Oauth2Service oauth2Service, String baseUrl) {
         this.oauth2Service = oauth2Service;
         this.baseUrl = baseUrl;
     }
@@ -52,7 +52,7 @@ public class CommerzbankOauth2Service implements Oauth2Service, PkceOauth2Extens
         BaseOauth2Service baseOauth2Service = new BaseOauth2Service(aspsp, httpClient);
         CertificateSubjectClientIdOauth2Service clientIdOauth2Service =
             new CertificateSubjectClientIdOauth2Service(baseOauth2Service, keyStore);
-        return new CommerzbankOauth2Service(new PkceOauth2Service(clientIdOauth2Service), baseUrl, httpClient);
+        return new CommerzbankOauth2Service(new PkceOauth2Service(clientIdOauth2Service), baseUrl);
     }
 
     @Override
@@ -82,12 +82,10 @@ public class CommerzbankOauth2Service implements Oauth2Service, PkceOauth2Extens
                         Parameters.CONSENT_ID,
                         CONSENT_ID_MISSING_ERROR_MESSAGE));
                 }
-            } else if (Scope.isPis(Scope.fromValue(scope))) {
-                if (StringUtils.isBlank(parameters.getPaymentId())) {
-                    validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
-                        Parameters.PAYMENT_ID,
-                        PAYMENT_ID_MISSING_ERROR_MESSAGE));
-                }
+            } else if (Scope.isPis(Scope.fromValue(scope)) && StringUtils.isBlank(parameters.getPaymentId())) {
+                validationErrors.add(new ValidationError(ValidationError.Code.REQUIRED,
+                    Parameters.PAYMENT_ID,
+                    PAYMENT_ID_MISSING_ERROR_MESSAGE));
             }
         }
 

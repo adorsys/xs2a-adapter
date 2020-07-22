@@ -10,7 +10,6 @@ import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.ResponseHandlers;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import feign.Contract;
-import feign.FeignException;
 import feign.RequestTemplate;
 import feign.Response;
 import feign.codec.Decoder;
@@ -84,7 +83,7 @@ public class FeignConfiguration {
 
         return new SpringEncoder(new SpringFormEncoder() {
             @Override
-            public void encode(Object object, Type bodyType, RequestTemplate template) throws EncodeException {
+            public void encode(Object object, Type bodyType, RequestTemplate template) {
                 if (!(object instanceof PeriodicPaymentInitiationMultipartBody)) {
                     super.encode(object, bodyType, template);
                     return;
@@ -131,7 +130,7 @@ public class FeignConfiguration {
         return new OptionalDecoder(
             new ResponseEntityDecoder(new SpringDecoder(messageConverters) {
                 @Override
-                public Object decode(Response response, Type type) throws IOException, FeignException {
+                public Object decode(Response response, Type type) throws IOException {
                     Collection<String> contentTypeValues = response.headers().get(CONTENT_TYPE);
                     String contentType = null;
                     if (contentTypeValues != null) {

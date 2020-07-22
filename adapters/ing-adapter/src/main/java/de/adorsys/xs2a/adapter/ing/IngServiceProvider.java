@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
+import de.adorsys.xs2a.adapter.service.exception.Xs2aAdapterException;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
@@ -54,7 +55,7 @@ public class IngServiceProvider
             PrivateKey qsealPrivateKey = keyStore.getQsealPrivateKey(qsealAlias);
             return new IngClientAuthenticationFactory(qsealCertificate, qsealPrivateKey);
         } catch (GeneralSecurityException e) {
-            throw new RuntimeException(e);
+            throw new Xs2aAdapterException(e);
         }
     }
 
