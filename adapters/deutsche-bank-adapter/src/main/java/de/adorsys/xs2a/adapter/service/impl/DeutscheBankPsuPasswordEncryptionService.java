@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 // TODO adjust this logic on the additional information from Deutsche bank about the certificates API
 public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncryptionService {
     private static final String URL_TO_CERTIFICATE = "https://xs2a.db.com/pb/aspsp-certificates/tpp-pb-password_cert.pem";
+    private static final String DEFAULT_EXCEPTION_MESSAGE = "Exception during Deutsche bank adapter PSU password encryption";
 
     private static DeutscheBankPsuPasswordEncryptionService encryptionService;
 
@@ -50,7 +51,7 @@ public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncr
         try {
             jweObject.encrypt(jweEncrypter);
         } catch (JOSEException e) {
-            throw new PsuPasswordEncodingException("Exception during Deutsche bank adapter PSU password encryption", e);
+            throw new PsuPasswordEncodingException(DEFAULT_EXCEPTION_MESSAGE, e);
         }
 
         return jweObject.serialize();
@@ -86,7 +87,7 @@ public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncr
 
             jweEncrypter = new RSAEncrypter(RSAKey.parse(getBankCertificate(x509Certificates)));
         } catch (IOException | CertificateException | URISyntaxException | JOSEException e) {
-            throw new PsuPasswordEncodingException("Exception during Deutsche bank adapter PSU password encryption", e);
+            throw new PsuPasswordEncodingException(DEFAULT_EXCEPTION_MESSAGE, e);
         }
     }
 
@@ -105,7 +106,7 @@ public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncr
         try {
             return Base64.encode(certificate.getEncoded());
         } catch (CertificateEncodingException e) {
-            throw new PsuPasswordEncodingException("Exception during Deutsche bank adapter PSU password encryption", e);
+            throw new PsuPasswordEncodingException(DEFAULT_EXCEPTION_MESSAGE, e);
         }
     }
 

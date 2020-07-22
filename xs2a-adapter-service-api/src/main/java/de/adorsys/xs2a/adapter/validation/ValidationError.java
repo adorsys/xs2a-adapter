@@ -1,8 +1,9 @@
 package de.adorsys.xs2a.adapter.validation;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class ValidationError {
+public class ValidationError implements Serializable {
     private final Code code;
     private final String path;
     private final String message;

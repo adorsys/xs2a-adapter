@@ -5,7 +5,6 @@ import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
 import de.adorsys.xs2a.adapter.validation.PaymentInitiationValidationService;
 
 public interface PaymentInitiationService extends PaymentInitiationValidationService {
-    String SINGLE_PAYMENTS = "payments";
 
     /**
      * @deprecated This method is no longer acceptable and will be removed in release v.0.1.1
@@ -16,7 +15,7 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
                                                                                RequestHeaders requestHeaders,
                                                                                RequestParams requestParams,
                                                                                Object body) {
-        return initiatePayment(SINGLE_PAYMENTS, paymentProduct, requestHeaders, requestParams, body);
+        return initiatePayment(PaymentService.PAYMENTS.toString(), paymentProduct, requestHeaders, requestParams, body);
     }
 
     Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
@@ -65,7 +64,7 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
                                                                  String paymentId,
                                                                  RequestHeaders requestHeaders,
                                                                  RequestParams requestParams) {
-        return getPaymentInformationAsString(SINGLE_PAYMENTS, paymentProduct, paymentId, requestHeaders, requestParams);
+        return getPaymentInformationAsString(PaymentService.PAYMENTS.toString(), paymentProduct, paymentId, requestHeaders, requestParams);
     }
 
     Response<String> getPaymentInformationAsString(String paymentService,
@@ -91,7 +90,7 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
                                                                                String paymentId,
                                                                                RequestHeaders requestHeaders,
                                                                                RequestParams requestParams) {
-        return getPaymentInitiationStatus(SINGLE_PAYMENTS, paymentProduct, paymentId, requestHeaders, requestParams);
+        return getPaymentInitiationStatus(PaymentService.PAYMENTS.toString(), paymentProduct, paymentId, requestHeaders, requestParams);
     }
 
     Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(String paymentService,
@@ -109,7 +108,7 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
                                                                       String paymentId,
                                                                       RequestHeaders requestHeaders,
                                                                       RequestParams requestParams) {
-        return getPaymentInitiationStatusAsString(SINGLE_PAYMENTS, paymentProduct, paymentId, requestHeaders, requestParams);
+        return getPaymentInitiationStatusAsString(PaymentService.PAYMENTS.toString(), paymentProduct, paymentId, requestHeaders, requestParams);
     }
 
     Response<String> getPaymentInitiationStatusAsString(String paymentService,
@@ -133,7 +132,7 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
                                                                               String paymentId,
                                                                               RequestHeaders requestHeaders,
                                                                               RequestParams requestParams) {
-        return startPaymentAuthorisation(SINGLE_PAYMENTS, paymentProduct, paymentId, requestHeaders, requestParams);
+        return startPaymentAuthorisation(PaymentService.PAYMENTS.toString(), paymentProduct, paymentId, requestHeaders, requestParams);
     }
 
     Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
@@ -152,7 +151,7 @@ public interface PaymentInitiationService extends PaymentInitiationValidationSer
                                                                               RequestHeaders requestHeaders,
                                                                               RequestParams requestParams,
                                                                               UpdatePsuAuthentication updatePsuAuthentication) {
-        return startPaymentAuthorisation(SINGLE_PAYMENTS, paymentProduct, paymentId, requestHeaders,
+        return startPaymentAuthorisation(PaymentService.PAYMENTS.toString(), paymentProduct, paymentId, requestHeaders,
             requestParams, updatePsuAuthentication);
     }
 

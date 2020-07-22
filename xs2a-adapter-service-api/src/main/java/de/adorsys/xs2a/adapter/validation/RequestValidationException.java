@@ -1,5 +1,7 @@
 package de.adorsys.xs2a.adapter.validation;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RequestValidationException extends RuntimeException {
@@ -7,7 +9,7 @@ public class RequestValidationException extends RuntimeException {
 
     public RequestValidationException(List<ValidationError> validationErrors) {
         super(validationErrors.toString());
-        this.validationErrors = validationErrors;
+        this.validationErrors = Collections.unmodifiableList(new ArrayList<>(validationErrors));
     }
 
     public List<ValidationError> getValidationErrors() {
