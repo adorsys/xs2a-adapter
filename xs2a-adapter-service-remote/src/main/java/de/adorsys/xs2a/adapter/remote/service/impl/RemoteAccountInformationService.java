@@ -56,13 +56,6 @@ public class RemoteAccountInformationService implements AccountInformationServic
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
-    public RemoteAccountInformationService(
-        AccountInformationClient client, ObjectMapper objectMapper
-    ) {
-        this.client = client;
-        this.objectMapper = objectMapper;
-    }
-
     @Override
     public Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
                                                            RequestParams requestParams,

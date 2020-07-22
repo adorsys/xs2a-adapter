@@ -3,8 +3,8 @@ package de.adorsys.xs2a.adapter.service;
 import java.util.*;
 
 public class ResponseHeaders {
-    private static final String LOCATION = "Location";
-    private static final String X_REQUEST_ID = "X-Request-ID";
+    public static final String LOCATION = "Location";
+    public static final String X_REQUEST_ID = "X-Request-ID";
     public static final String ASPSP_SCA_APPROACH = "ASPSP-SCA-Approach";
     public static final String CONTENT_TYPE = "Content-Type";
 
