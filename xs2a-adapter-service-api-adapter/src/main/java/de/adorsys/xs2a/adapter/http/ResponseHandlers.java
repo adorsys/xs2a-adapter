@@ -84,17 +84,15 @@ public class ResponseHandlers {
                 PushbackInputStream pushbackResponseBody = new PushbackInputStream(responseBody);
 
                 // this statement is needed as error response handling is different from the successful response
-                if (contentType == null || !contentType.startsWith(APPLICATION_JSON)) {
-                    if (isNotJson(pushbackResponseBody)) {
-                        // needed to avoid org.springframework.http.converter.HttpMessageNotWritableException:
-                        // No converter for [class de.adorsys.xs2a.adapter.service.model.ErrorResponse]
-                        // with preset Content-Type 'application/xml;charset=UTF-8'
-                        Map<String, String> headersMap = responseHeaders.getHeadersMap();
-                        headersMap.put(ResponseHeaders.CONTENT_TYPE, APPLICATION_JSON);
+                if ((contentType == null || !contentType.startsWith(APPLICATION_JSON)) && isNotJson(pushbackResponseBody)) {
+                    // needed to avoid org.springframework.http.converter.HttpMessageNotWritableException:
+                    // No converter for [class de.adorsys.xs2a.adapter.service.model.ErrorResponse]
+                    // with preset Content-Type 'application/xml;charset=UTF-8'
+                    Map<String, String> headersMap = responseHeaders.getHeadersMap();
+                    headersMap.put(ResponseHeaders.CONTENT_TYPE, APPLICATION_JSON);
 
-                        throw oAuthException(pushbackResponseBody, ResponseHeaders.fromMap(headersMap), scaOAuthUrl,
-                            ResponseHandlers::buildErrorResponseForOAuthNonJsonCase);
-                    }
+                    throw oAuthException(pushbackResponseBody, ResponseHeaders.fromMap(headersMap), scaOAuthUrl,
+                        ResponseHandlers::buildErrorResponseForOAuthNonJsonCase);
                 }
 
                 throw oAuthException(pushbackResponseBody, responseHeaders, scaOAuthUrl,
@@ -269,53 +267,61 @@ public class ResponseHandlers {
                     ResponseHandlers::buildErrorResponseFromString);
             }
             try {
-                T bodyInstance = bodyClass.getDeclaredConstructor().newInstance();
-
-                String contentType = responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE);
-                if (contentType == null || !contentType.startsWith(MULTIPART_FORM_DATA)) {
-                    throw new HttpClientException("Unexpected content type: " + contentType);
-                }
-                ParameterParser parser = new ParameterParser();
-                Map<String, String> params = parser.parse(contentType, new char[] {';', ','});
-                String boundary = params.get("boundary");
-                if (boundary == null) {
-                    throw new HttpClientException("Failed to parse boundary from the Content-Type header");
-                }
-                MultipartStream multipartStream = new MultipartStream(responseBody, boundary.getBytes());
-                boolean nextPart = multipartStream.skipPreamble();
-                while (nextPart) {
-                    HttpHeaders headers = HttpHeaders.parse(multipartStream.readHeaders());
-                    String partContentType = headers.getContentType()
-                        .orElseThrow(() -> new HttpClientException("Body part has unspecified content type"));
-                    String partContentDisposition = headers.getContentDisposition()
-                        .orElseThrow(() -> new HttpClientException("Body part has unspecified content disposition"));
-                    String partName = parser.parse(partContentDisposition, ';').get("name");
-                    if (partName == null) {
-                        throw new HttpClientException("Body part has unspecified name");
-                    }
-                    PropertyDescriptor propertyDescriptor = new PropertyDescriptor(partName, bodyClass);
-                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    multipartStream.readBodyData(out);
-                    if (partContentType.startsWith(APPLICATION_XML)) {
-                        propertyDescriptor.getWriteMethod().invoke(bodyInstance, out.toString());
-                    } else if (partContentType.startsWith(APPLICATION_JSON)) {
-                        Class<?> propertyType = propertyDescriptor.getPropertyType();
-                        Object json = jsonMapper.readValue(new ByteArrayInputStream(out.toByteArray()), propertyType);
-                        propertyDescriptor.getWriteMethod().invoke(bodyInstance, json);
-                    } else {
-                        Class<?> propertyType = propertyDescriptor.getPropertyType();
-                        Object json = jsonMapper.convertValue(out.toString(), propertyType);
-                        propertyDescriptor.getWriteMethod().invoke(bodyInstance, json);
-                    }
-
-                    nextPart = multipartStream.readBoundary();
-                }
-                return bodyInstance;
+                return parseResponseIntoObject(bodyClass, responseBody, responseHeaders);
             } catch (ReflectiveOperationException | IntrospectionException e) {
                 throw new RuntimeException(e);
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
         };
+    }
+
+    protected static <T> T parseResponseIntoObject(Class<T> bodyClass,
+                                                   InputStream responseBody,
+                                                   ResponseHeaders responseHeaders)
+        throws ReflectiveOperationException, IOException, IntrospectionException {
+
+        T bodyInstance = bodyClass.getDeclaredConstructor().newInstance();
+
+        String contentType = responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE);
+        if (contentType == null || !contentType.startsWith(MULTIPART_FORM_DATA)) {
+            throw new HttpClientException("Unexpected content type: " + contentType);
+        }
+        ParameterParser parser = new ParameterParser();
+        Map<String, String> params = parser.parse(contentType, new char[] {';', ','});
+        String boundary = params.get("boundary");
+        if (boundary == null) {
+            throw new HttpClientException("Failed to parse boundary from the Content-Type header");
+        }
+        MultipartStream multipartStream = new MultipartStream(responseBody, boundary.getBytes());
+        boolean nextPart = multipartStream.skipPreamble();
+        while (nextPart) {
+            HttpHeaders headers = HttpHeaders.parse(multipartStream.readHeaders());
+            String partContentType = headers.getContentType()
+                .orElseThrow(() -> new HttpClientException("Body part has unspecified content type"));
+            String partContentDisposition = headers.getContentDisposition()
+                .orElseThrow(() -> new HttpClientException("Body part has unspecified content disposition"));
+            String partName = parser.parse(partContentDisposition, ';').get("name");
+            if (partName == null) {
+                throw new HttpClientException("Body part has unspecified name");
+            }
+            PropertyDescriptor propertyDescriptor = new PropertyDescriptor(partName, bodyClass);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            multipartStream.readBodyData(out);
+            if (partContentType.startsWith(APPLICATION_XML)) {
+                propertyDescriptor.getWriteMethod().invoke(bodyInstance, out.toString());
+            } else if (partContentType.startsWith(APPLICATION_JSON)) {
+                Class<?> propertyType = propertyDescriptor.getPropertyType();
+                Object json = jsonMapper.readValue(new ByteArrayInputStream(out.toByteArray()), propertyType);
+                propertyDescriptor.getWriteMethod().invoke(bodyInstance, json);
+            } else {
+                Class<?> propertyType = propertyDescriptor.getPropertyType();
+                Object json = jsonMapper.convertValue(out.toString(), propertyType);
+                propertyDescriptor.getWriteMethod().invoke(bodyInstance, json);
+            }
+
+            nextPart = multipartStream.readBoundary();
+        }
+        return bodyInstance;
     }
 }

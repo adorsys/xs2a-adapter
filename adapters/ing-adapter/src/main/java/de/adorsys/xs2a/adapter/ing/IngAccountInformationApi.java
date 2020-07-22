@@ -20,6 +20,7 @@ public class IngAccountInformationApi {
     private static final String TRANSACTIONS_ENDPOINT = "/v2/accounts/{{accountId}}/transactions";
     private static final String BALANCES_ENDPOINT = "/v3/accounts/{{accountId}}/balances";
     private static final String CARD_ACCOUNT_TRANSACTIONS_ENDPOINT = "/v1/card-accounts/{{accountId}}/transactions";
+    private static final String ACCOUNT_ID_PLACEHOLDER = "{{accountId}}";
 
     private final String baseUri;
     private final HttpClient httpClient;
@@ -43,14 +44,13 @@ public class IngAccountInformationApi {
                                                              Integer limit,
                                                              String requestId,
                                                              Request.Builder.Interceptor clientAuthentication) {
-        // fixme
         Map<String, Object> queryParams = new LinkedHashMap<>();
         queryParams.put("dateFrom", dateFrom);
         queryParams.put("dateTo", dateTo);
         queryParams.put("currency", currency);
         queryParams.put("limit", limit);
         String uri = StringUri.withQuery(
-            baseUri + TRANSACTIONS_ENDPOINT.replace("{{accountId}}", Objects.requireNonNull(resourceId)),
+            baseUri + TRANSACTIONS_ENDPOINT.replace(ACCOUNT_ID_PLACEHOLDER, Objects.requireNonNull(resourceId)),
             queryParams
         );
 
@@ -74,7 +74,7 @@ public class IngAccountInformationApi {
         queryParams.put("balanceTypes", balanceTypes == null ? null : String.join(",", balanceTypes));
         queryParams.put("currency", currency);
         String uri = StringUri.withQuery(
-            baseUri + BALANCES_ENDPOINT.replace("{{accountId}}", Objects.requireNonNull(resourceId)),
+            baseUri + BALANCES_ENDPOINT.replace(ACCOUNT_ID_PLACEHOLDER, Objects.requireNonNull(resourceId)),
             queryParams
         );
 
@@ -96,7 +96,7 @@ public class IngAccountInformationApi {
         queryParams.put("dateTo", dateTo);
         queryParams.put("limit", limit);
         String uri = StringUri.withQuery(
-            baseUri + CARD_ACCOUNT_TRANSACTIONS_ENDPOINT.replace("{{accountId}}", Objects.requireNonNull(accountId)),
+            baseUri + CARD_ACCOUNT_TRANSACTIONS_ENDPOINT.replace(ACCOUNT_ID_PLACEHOLDER, Objects.requireNonNull(accountId)),
             queryParams
         );
 
