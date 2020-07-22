@@ -47,6 +47,13 @@ public class RemoteAccountInformationService implements AccountInformationServic
         Mappers.getMapper(ResponseHeadersMapper.class);
     final ObjectMapper objectMapper;
 
+    public RemoteAccountInformationService(
+        AccountInformationClient client, ObjectMapper objectMapper
+    ) {
+        this.client = client;
+        this.objectMapper = objectMapper;
+    }
+
     public RemoteAccountInformationService(AccountInformationClient client) {
         this.client = client;
         this.objectMapper = new ObjectMapper();

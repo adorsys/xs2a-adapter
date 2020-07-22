@@ -38,13 +38,17 @@ class RemoteOauth2ServiceTest {
 
     @Test
     void getAuthorizationRequestUriWithException() throws IOException {
+        HashMap<String, String> headers = new HashMap<>();
+        Oauth2Service.Parameters parameters = new Oauth2Service.Parameters();
 
         doReturn(buildHref("blablabla_unexisting_uri@2#^"))
             .when(oauth2Client)
             .getAuthorizationUrl(anyMap(), any());
 
-        assertThrows(IOException.class, () -> service.getAuthorizationRequestUri(new HashMap<>(),
-                                                                                 new Oauth2Service.Parameters()));
+
+        assertThrows(IOException.class, () -> {
+            service.getAuthorizationRequestUri(headers, parameters);
+        });
     }
 
     private HrefType buildHref(String authUrl) {
