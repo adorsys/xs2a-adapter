@@ -434,6 +434,21 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <activation>
+                <property>
+                    <name>janino</name>
+                </property>
+            </activation>
+            <dependencies>
+                <!-- for filtered logging -->
+                <dependency>
+                    <groupId>org.codehaus.janino</groupId>
+                    <artifactId>janino</artifactId>
+                    <version>3.0.16</version>
+                </dependency>
+            </dependencies>
+        </profile>
     </profiles>
 
     <distributionManagement>
