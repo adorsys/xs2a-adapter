@@ -35,6 +35,7 @@ public interface PkceOauth2Extension {
         return base64urlNoPadding(sha256(codeVerifier().getBytes()));
     }
 
+    @SuppressWarnings("java:S4790")
     static byte[] sha256(byte[] bytes) {
         try {
             return MessageDigest.getInstance("SHA-256").digest(bytes);

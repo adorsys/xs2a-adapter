@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 
 public abstract class AbstractShaHashingService implements HashingService {
 
+    @SuppressWarnings("java:S4790")
     @Override
     public byte[] hash(String data, Charset charset) {
         try {
