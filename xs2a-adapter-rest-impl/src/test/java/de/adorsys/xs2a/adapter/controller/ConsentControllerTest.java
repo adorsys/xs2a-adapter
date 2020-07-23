@@ -69,10 +69,10 @@ class ConsentControllerTest {
         MockitoAnnotations.initMocks(this);
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
-                          .setMessageConverters(new MappingJackson2HttpMessageConverter())
-                          .setControllerAdvice(new RestExceptionHandler(new HeadersMapper()))
-                          .setConversionService(conversionService)
-                          .build();
+            .setMessageConverters(new MappingJackson2HttpMessageConverter())
+            .setControllerAdvice(new RestExceptionHandler(new HeadersMapper()))
+            .setConversionService(conversionService)
+            .build();
     }
 
     @Test
@@ -80,7 +80,7 @@ class ConsentControllerTest {
         ConsentsResponse201 response = TestModelBuilder.buildConsentCreationResponse();
 
         when(accountInformationService.createConsent(any(), any(), any()))
-                .thenReturn(buildResponse(response));
+            .thenReturn(buildResponse(response));
         when(headersMapper.toHttpHeaders(any()))
             .thenReturn(new HttpHeaders());
         MvcResult mvcResult = mockMvc.perform(post(ConsentController.CONSENTS)

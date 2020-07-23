@@ -59,7 +59,8 @@ class IngOptionalParametersFilterTest {
 
         RequestParams params = paramsCaptor.getValue();
 
-        assertThat(params.toMap().containsKey("balanceTypes")).isTrue();
-        assertThat(params.toMap().containsKey("limit")).isTrue();
+        assertThat(params.toMap())
+            .containsKey("balanceTypes")
+            .containsKey("limit");
     }
 }
