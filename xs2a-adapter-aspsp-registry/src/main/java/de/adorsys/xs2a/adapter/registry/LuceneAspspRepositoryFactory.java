@@ -44,12 +44,7 @@ public class LuceneAspspRepositoryFactory {
         LuceneAspspRepository luceneAspspRepository = new LuceneAspspRepository(directory);
         byte[] csv = getCsvFileAsByteArray();
 
-        MessageDigest messageDigest = null;
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            throw new Xs2aAdapterException(e);
-        }
+        MessageDigest messageDigest = getMessageDigest();
         String computedDigest = new BigInteger(1, messageDigest.digest(csv)).toString(16);
 
         Path digestPath = Paths.get(luceneDirPath, "digest.sha256");
@@ -70,6 +65,17 @@ public class LuceneAspspRepositoryFactory {
             Files.write(digestPath, computedDigest.getBytes());
         }
         return luceneAspspRepository;
+    }
+
+    @SuppressWarnings("java:S4790") // hashing is not used in security context
+    private MessageDigest getMessageDigest() {
+        MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new Xs2aAdapterException(e);
+        }
+        return messageDigest;
     }
 
     private byte[] getCsvFileAsByteArray() {

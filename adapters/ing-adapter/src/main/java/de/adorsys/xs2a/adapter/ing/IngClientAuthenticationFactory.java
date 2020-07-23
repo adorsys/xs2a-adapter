@@ -14,6 +14,7 @@ public class IngClientAuthenticationFactory {
     private final String tppSignatureCertificate;
     private final String keyId;
 
+    @SuppressWarnings("java:S4790")
     public IngClientAuthenticationFactory(X509Certificate certificate, PrivateKey privateKey) throws NoSuchAlgorithmException, InvalidKeyException, CertificateEncodingException {
         signature = Signature.getInstance("SHA256withRSA");
         signature.initSign(privateKey);
