@@ -1,7 +1,8 @@
-package de.adorsys.xs2a.adapter.service;
+package de.adorsys.xs2a.adapter.consors;
 
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

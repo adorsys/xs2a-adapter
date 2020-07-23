@@ -13,6 +13,7 @@
 ** RemittanceInformationStructured
 ** ChallengeData (PIS)
 ** ReportExchangeRate
+- Added RemittanceInformationStructured mapping in dab and consors adapters
 
 == Features:
 - Added multipart/form-data response handler
@@ -21,4 +22,4 @@
 - Added base implementation for `getPaymentInitiationScaStatus` and `getPaymentInitiationAuthorisation` operations
 
 == Fixes:
-- Fixed split packages (fiducia-adapter, ing-adapter)
+- Fixed split packages (fiducia-adapter, ing-adapter, dab-adapter)

@@ -1,6 +1,7 @@
-package de.adorsys.xs2a.adapter.service;
+package de.adorsys.xs2a.adapter.consors;
 
 import de.adorsys.xs2a.adapter.http.Request;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
 
 public class PsuIdHeaderInterceptor implements Request.Builder.Interceptor {
     private static final String QUOTES = "\"\"";
