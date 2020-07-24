@@ -2,17 +2,14 @@
   "id" : "e2ee4a64-e33e-45c3-bcab-c4ec6729cb4e",
   "name" : "v1_accounts_hglna7cqt8sjd_1av2v2li_transactions",
   "request" : {
-    "url" : "/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/transactions?dateFrom=1970-01-01&bookingStatus=both&withBalance=true",
+    "urlPattern" : "/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/transactions\\?dateFrom=\\d{4}-[01]\\d-[0-3]\\d&dateTo=\\d{4}-[01]\\d-[0-3]\\d&bookingStatus=booked&withBalance=true",
     "method" : "GET",
     "headers" : {
       "X-Request-ID" : {
-        "equalTo" : "54e025cc-5a6d-4e71-89cf-29bc7306ee7a"
+        "matches" : ".+"
       },
       "Consent-ID" : {
         "equalTo" : "LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q"
-      },
-      "X-GTW-ASPSP-ID" : {
-        "equalTo" : "53c47f54-b9a4-465a-8f77-bc6cd5f0cf46"
       }
     }
   },

@@ -6,13 +6,10 @@
     "method" : "GET",
     "headers" : {
       "X-Request-ID" : {
-        "equalTo" : "70a7346e-e769-4c4b-8326-ceb6b785e07c"
+        "matches" : ".+"
       },
       "Consent-ID" : {
         "equalTo" : "LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q"
-      },
-      "X-GTW-ASPSP-ID" : {
-        "equalTo" : "53c47f54-b9a4-465a-8f77-bc6cd5f0cf46"
       }
     }
   },
