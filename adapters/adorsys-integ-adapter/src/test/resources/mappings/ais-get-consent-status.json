@@ -1,0 +1,24 @@
+{
+  "id" : "8ce3ce23-217a-4409-82c5-d73ddc1e7bc4",
+  "name" : "v1_consents_{consent-id}_status",
+  "request" : {
+    "url" : "/v1/consents/LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q/status",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"consentStatus\":\"valid\",\"psuMessage\":\"Mocked PSU message from SPI for this consent\"}",
+    "headers" : {
+      "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "x-request-id" : "0b8d64aa-850d-43cf-84d9-c70157def4e0",
+      "content-type" : "application/json",
+      "date" : "Fri, 24 Jul 2020 07:49:23 GMT",
+      "x-robots-tag" : "none",
+      "set-cookie" : "SRVNAME=ae322d2421d269ad308e7ea7bf07f678; path=/; HttpOnly; Secure",
+      "cache-control" : "private"
+    }
+  },
+  "uuid" : "8ce3ce23-217a-4409-82c5-d73ddc1e7bc4",
+  "persistent" : true,
+  "insertionIndex" : 22
+}

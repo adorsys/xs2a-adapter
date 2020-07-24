@@ -6,10 +6,7 @@
     "method" : "POST",
     "headers" : {
       "X-Request-ID" : {
-        "equalTo" : "744c0b16-e8ad-4bb2-8df8-f1f86f6c1b06"
-      },
-      "PSU-ID-Type" : {
-        "equalTo" : ""
+        "matches" : ".+"
       },
       "PSU-ID" : {
         "equalTo" : "max.musterman"
@@ -18,17 +15,14 @@
         "equalTo" : "application/json; charset=UTF-8"
       },
       "PSU-IP-Address" : {
-        "equalTo" : "0.0.0.0"
-      },
-      "X-GTW-ASPSP-ID" : {
-        "equalTo" : "53c47f54-b9a4-465a-8f77-bc6cd5f0cf46"
+        "matches" : ".+"
       },
       "TPP-Redirect-URI" : {
-        "equalTo" : "https://example.com"
+        "matches" : ".+"
       }
     },
     "bodyPatterns" : [ {
-      "equalToJson" : "{\"endToEndIdentification\":\"SandboxTPPTest1\",\"debtorAccount\":{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"},\"instructedAmount\":{\"currency\":\"EUR\",\"amount\":\"20.99\"},\"creditorAccount\":{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"},\"creditorName\":\"Merchant123\",\"remittanceInformationUnstructured\":\"just\"}",
+      "equalToJson" : "{\"debtorAccount\":{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"},\"instructedAmount\":{\"currency\":\"EUR\",\"amount\":\"${json-unit.regex}-?[0-9]{1,14}(\\\\.[0-9]{1,3})?\"},\"creditorAccount\":{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"},\"creditorName\":\"${json-unit.any-string}\"}",
       "ignoreArrayOrder" : true,
       "ignoreExtraElements" : true
     } ]

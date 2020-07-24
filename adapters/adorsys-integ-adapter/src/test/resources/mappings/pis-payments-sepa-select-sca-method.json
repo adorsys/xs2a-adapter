@@ -6,19 +6,13 @@
     "method" : "PUT",
     "headers" : {
       "X-Request-ID" : {
-        "equalTo" : "cd0bd19a-f88b-4cde-af3b-c415986b9da3"
-      },
-      "PSU-ID-Type" : {
-        "equalTo" : ""
+        "matches" : ".+"
       },
       "PSU-ID" : {
         "equalTo" : "max.musterman"
       },
       "Content-Type" : {
         "equalTo" : "application/json; charset=UTF-8"
-      },
-      "X-GTW-ASPSP-ID" : {
-        "equalTo" : "53c47f54-b9a4-465a-8f77-bc6cd5f0cf46"
       }
     },
     "bodyPatterns" : [ {

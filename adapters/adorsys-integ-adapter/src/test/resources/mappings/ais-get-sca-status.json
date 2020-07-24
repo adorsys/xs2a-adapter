@@ -6,10 +6,7 @@
     "method" : "GET",
     "headers" : {
       "X-Request-ID" : {
-        "equalTo" : "ad0ebe9f-0a1b-4e9e-969d-e0062b2111ab"
-      },
-      "X-GTW-ASPSP-ID" : {
-        "equalTo" : "53c47f54-b9a4-465a-8f77-bc6cd5f0cf46"
+        "matches" : ".+"
       }
     }
   },
