@@ -22,4 +22,4 @@
 - Added base implementation for `getPaymentInitiationScaStatus` and `getPaymentInitiationAuthorisation` operations
 
 == Fixes:
-- Fixed split packages (fiducia-adapter, ing-adapter, dab-adapter)
+- Fixed split packages (fiducia-adapter, ing-adapter, dab-adapter, sparkasse-adapter)

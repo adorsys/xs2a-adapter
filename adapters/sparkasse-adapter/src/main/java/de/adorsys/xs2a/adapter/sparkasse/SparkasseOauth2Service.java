@@ -1,10 +1,13 @@
-package de.adorsys.xs2a.adapter.service;
+package de.adorsys.xs2a.adapter.sparkasse;
 
 import de.adorsys.xs2a.adapter.adapter.BaseOauth2Service;
 import de.adorsys.xs2a.adapter.adapter.CertificateSubjectClientIdOauth2Service;
 import de.adorsys.xs2a.adapter.adapter.PkceOauth2Service;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.UriBuilder;
+import de.adorsys.xs2a.adapter.service.Oauth2Service;
+import de.adorsys.xs2a.adapter.service.PkceOauth2Extension;
+import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.Scope;
