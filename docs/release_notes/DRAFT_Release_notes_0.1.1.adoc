@@ -21,6 +21,7 @@
 - Added RemotePaymentInitiationService.getPeriodicPain001PaymentInformation (special processing in feign decoder)
 - Added periodic-payments support in ING adapter
 - Added base implementation for `getPaymentInitiationScaStatus` and `getPaymentInitiationAuthorisation` operations
+- Added `wiremock mode` functionality. Set  property `xs2a-adapter.wire-mock-mode` to `true` for activating this functionality
 
 == Fixes:
 - Fixed split packages (fiducia-adapter, ing-adapter, dab-adapter, sparkasse-adapter)

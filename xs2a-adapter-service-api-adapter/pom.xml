@@ -12,6 +12,12 @@
 
     <artifactId>xs2a-adapter-service-api-adapter</artifactId>
 
+    <properties>
+        <sonar.exclusion>
+            de/adorsys/xs2a/adapter/http/wiremock/**
+        </sonar.exclusion>
+    </properties>
+
     <dependencies>
 
         <!-- project dependencies -->
@@ -72,6 +78,12 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${apache.commons.lang.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock-jre8</artifactId>
+            <version>${wiremock.version}</version>
         </dependency>
 
         <!-- test dependencies -->
