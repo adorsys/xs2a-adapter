@@ -17,7 +17,6 @@
 package de.adorsys.xs2a.adapter.sparkasse;
 
 import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
-import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;
@@ -43,7 +42,7 @@ public class SparkasseServiceProvider implements AccountInformationServiceProvid
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new BasePaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
+        return new SparkassePaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter);
     }
 
