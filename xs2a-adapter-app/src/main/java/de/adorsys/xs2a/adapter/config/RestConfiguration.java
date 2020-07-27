@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.config;
 import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.http.ApacheHttpClientFactory;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.http.wiremock.WireMockHttpClientFactory;
 import de.adorsys.xs2a.adapter.registry.LuceneAspspRepositoryFactory;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.impl.AccountInformationServiceImpl;
@@ -28,6 +29,9 @@ public class RestConfiguration {
     @Value("${xs2a-adapter.loader.choose-first-from-multiple-aspsps:false}")
     private boolean chooseFirstFromMultipleAspsps;
 
+    @Value("${xs2a-adapter.wire-mock-mode:false}")
+    private boolean wireMockEnabled;
+
     @Bean
     PaymentInitiationService paymentInitiationService(AdapterServiceLoader adapterServiceLoader) {
         return new PaymentInitiationServiceImpl(adapterServiceLoader);
@@ -44,8 +48,8 @@ public class RestConfiguration {
                                               LinksRewriter paymentInitiationLinksRewriter,
                                               HttpClientFactory httpClientFactory) {
         return new AdapterServiceLoader(aspspRepository(), keyStore, httpClientFactory,
-            accountInformationLinksRewriter, paymentInitiationLinksRewriter,
-            chooseFirstFromMultipleAspsps);
+                                        accountInformationLinksRewriter, paymentInitiationLinksRewriter,
+                                        chooseFirstFromMultipleAspsps);
     }
 
     @Bean
@@ -60,7 +64,8 @@ public class RestConfiguration {
 
     @Bean
     HttpClientFactory httpClientFactory(HttpClientBuilder httpClientBuilder, Pkcs12KeyStore pkcs12KeyStore) {
-        return new ApacheHttpClientFactory(httpClientBuilder, pkcs12KeyStore);
+        return wireMockEnabled ? new WireMockHttpClientFactory(httpClientBuilder, pkcs12KeyStore)
+                   : new ApacheHttpClientFactory(httpClientBuilder, pkcs12KeyStore);
     }
 
     @Bean
@@ -73,12 +78,12 @@ public class RestConfiguration {
     @Profile("dev")
     HttpClientBuilder httpClientBuilderWithDisabledCompression() {
         return httpClientBuilderWithSharedConfiguration()
-            .disableContentCompression();
+                   .disableContentCompression();
     }
 
     private HttpClientBuilder httpClientBuilderWithSharedConfiguration() {
         return HttpClientBuilder.create()
-            .disableDefaultUserAgent();
+                   .disableDefaultUserAgent();
     }
 
     @Bean

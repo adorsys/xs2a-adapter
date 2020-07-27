@@ -25,6 +25,7 @@ xs2a-adapter:
     choose-first-from-multiple-aspsps: true
   audit:
     sanitized: true
+  wire-mock-mode: false
 
 graylog:
   host: localhost
