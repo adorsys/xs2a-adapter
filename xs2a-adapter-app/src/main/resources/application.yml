@@ -23,13 +23,12 @@ xs2a-adapter:
     mime-headers-support-enabled: true
   loader:
     choose-first-from-multiple-aspsps: true
+  audit:
+    sanitized: true
 
 graylog:
   host: localhost
   port: 12201
-
-audit:
-  sanitized: true
 
 ---
 spring:
