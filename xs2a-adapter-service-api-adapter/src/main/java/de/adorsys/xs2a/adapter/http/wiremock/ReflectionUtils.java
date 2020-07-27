@@ -1,11 +1,11 @@
 /*
- * Copyright 2018-2018 adorsys GmbH & Co KG
+ * Copyright 2002-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,21 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @deprecated Will be deleted with https://jira.adorsys.de/browse/XS2AAD-624.
+ *
+ * Simple utility class for working with the reflection API and handling
+ * reflection exceptions.
+ *
+ * <p>Only intended for internal use.
+ *
+ * <p>Removed usage of Nullable annotation and Assert class
+ *
+ * @author Juergen Hoeller
+ * @author Rob Harrop
+ * @author Rod Johnson
+ * @author Costin Leau
+ * @author Sam Brannen
+ * @author Chris Beams
+ * @since 1.2.2
  */
 @Deprecated
 final class ReflectionUtils {

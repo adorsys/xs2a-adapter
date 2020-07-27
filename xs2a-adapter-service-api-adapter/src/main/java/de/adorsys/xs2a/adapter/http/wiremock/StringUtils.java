@@ -1,11 +1,11 @@
 /*
- * Copyright 2018-2018 adorsys GmbH & Co KG
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,6 +23,28 @@ import java.util.*;
 
 /**
  * @deprecated Will be deleted with https://jira.adorsys.de/browse/XS2AAD-624.
+ * Miscellaneous {@link String} utility methods.
+ *
+ * <p>Mainly for internal use within the framework; consider
+ * <a href="https://commons.apache.org/proper/commons-lang/">Apache's Commons Lang</a>
+ * for a more comprehensive suite of {@code String} utilities.
+ *
+ * <p>This class delivers some simple functionality that should really be
+ * provided by the core Java {@link String} and {@link StringBuilder}
+ * classes. It also provides easy-to-use methods to convert between
+ * delimited strings, such as CSV strings, and collections and arrays.
+ *
+ * <p>Removed usage of Nullable annotation and Assert class
+ *
+ * @author Rod Johnson
+ * @author Juergen Hoeller
+ * @author Keith Donald
+ * @author Rob Harrop
+ * @author Rick Evans
+ * @author Arjen Poutsma
+ * @author Sam Brannen
+ * @author Brian Clozel
+ * @since 16 April 2001
  */
 @Deprecated
 final class StringUtils {

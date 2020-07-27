@@ -1,11 +1,11 @@
 /*
- * Copyright 2018-2018 adorsys GmbH & Co KG
+ * Copyright 2002-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,26 @@ import java.net.*;
 
 /**
  * @deprecated Will be deleted with https://jira.adorsys.de/browse/XS2AAD-624.
+ *
+ * Utility methods for resolving resource locations to files in the
+ * file system. Mainly for internal use within the framework.
+ *
+ * <p>Consider using Spring's Resource abstraction in the core package
+ * for handling all kinds of file resources in a uniform manner.
+ * {@link org.springframework.core.io.ResourceLoader}'s {@code getResource()}
+ * method can resolve any location to a {@link org.springframework.core.io.Resource}
+ * object, which in turn allows one to obtain a {@code java.io.File} in the
+ * file system through its {@code getFile()} method.
+ *
+ * <p>Removed usage of Nullable annotation and Assert class
+ *
+ * @author Juergen Hoeller
+ * @since 1.1.5
+ * @see org.springframework.core.io.Resource
+ * @see org.springframework.core.io.ClassPathResource
+ * @see org.springframework.core.io.FileSystemResource
+ * @see org.springframework.core.io.UrlResource
+ * @see org.springframework.core.io.ResourceLoader
  */
 @Deprecated
 final class ResourceUtils {
