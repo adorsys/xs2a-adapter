@@ -14,7 +14,7 @@
 
     <properties>
         <sonar.exclusion>
-            de/adorsys/xs2a/adapter/http/wiremock/**
+           **/http/wiremock/**
         </sonar.exclusion>
     </properties>
 
