@@ -55,7 +55,9 @@ class AdorsysAccountInformationServiceWireMockTest {
 
     @BeforeAll
     static void beforeAll() {
-        wireMockServer = new WireMockServer(wireMockConfig().port(8189));
+        wireMockServer = new WireMockServer(wireMockConfig()
+                                                .port(8189)
+                                                .usingFilesUnderClasspath("adorsys-integ-adapter"));
         wireMockServer.start();
 
         HttpClient httpClient = new ApacheHttpClient(HttpClientBuilder.create().build());
