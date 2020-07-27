@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
 
-    @Value("${audit.sanitized:true}")
+    @Value("${xs2a-adapter.audit.sanitized:true}")
     private boolean auditSanitized;
 
     @Override

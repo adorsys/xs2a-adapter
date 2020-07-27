@@ -14,6 +14,7 @@
 ** ChallengeData (PIS)
 ** ReportExchangeRate
 - Added RemittanceInformationStructured mapping in dab and consors adapters
+- Config property `audit.sanitized` was moved to `xs2a-adapter.audit.sanitized`
 
 == Features:
 - Added multipart/form-data response handler
