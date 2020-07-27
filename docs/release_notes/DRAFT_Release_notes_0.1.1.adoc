@@ -22,4 +22,5 @@
 - Added base implementation for `getPaymentInitiationScaStatus` and `getPaymentInitiationAuthorisation` operations
 
 == Fixes:
-- Fixed split packages (fiducia-adapter, ing-adapter, dab-adapter)
+- Fixed split packages (fiducia-adapter, ing-adapter, dab-adapter, sparkasse-adapter)
+- Fixed EXECUTION_DATE_INVALID (The requested execution date is not a valid execution date for the ASPSP) error for sparkasse
