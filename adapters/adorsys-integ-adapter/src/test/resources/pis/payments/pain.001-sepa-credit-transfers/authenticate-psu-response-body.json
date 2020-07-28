@@ -1,0 +1,23 @@
+{
+  "scaMethods": [
+    {
+      "authenticationType": "EMAIL",
+      "authenticationMethodId": "DQ28HA0zRQIldt-MMICgqI",
+      "name": "max.musterman@mail.de"
+    },
+    {
+      "authenticationType": "EMAIL",
+      "authenticationMethodId": "KH5mePFfTQgi7trm0gMIOk",
+      "name": "max.musterman2@mail.de"
+    }
+  ],
+  "_links": {
+    "selectAuthenticationMethod": {
+      "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/payments/pain.001-sepa-credit-transfers/BWbshZUvuxnSwPNth2l-I3T0soaM3tozlyhq4pkpMd9eXNqj49jykOzF6X6Z1XdjcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/ebcc9e28-5edd-4ddb-8e22-12128067763d"
+    },
+    "scaStatus": {
+      "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/payments/pain.001-sepa-credit-transfers/BWbshZUvuxnSwPNth2l-I3T0soaM3tozlyhq4pkpMd9eXNqj49jykOzF6X6Z1XdjcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/ebcc9e28-5edd-4ddb-8e22-12128067763d"
+    }
+  },
+  "scaStatus": "psuAuthenticated"
+}
