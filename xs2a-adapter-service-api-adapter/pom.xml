@@ -13,9 +13,9 @@
     <artifactId>xs2a-adapter-service-api-adapter</artifactId>
 
     <properties>
-        <sonar.exclusion>
+        <sonar.exclusions>
            **/http/wiremock/**
-        </sonar.exclusion>
+        </sonar.exclusions>
     </properties>
 
     <dependencies>
