@@ -22,7 +22,7 @@ import de.adorsys.xs2a.adapter.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import org.apache.http.impl.client.CloseableHttpClient;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 
@@ -72,7 +72,7 @@ public class WireMockHttpClient extends ApacheHttpClient {
     }
 
     public static int randomPort() {
-        return new Random().nextInt((2 << 15) - 9000) + 9000;
+        return new SecureRandom().nextInt((2 << 15) - 9000) + 9000;
     }
 
     private String rewriteUrl(String sourceUrl) {
