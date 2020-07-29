@@ -169,11 +169,10 @@ class AdorsysPaymentInitiationServiceWireMockTest {
         assertThat(response.getBody()).isEqualTo(expected);
     }
 
-    //    @Test
-    // https://jira.adorsys.de/browse/XS2AAD-602 uncomment when task would be implemented
-    void getStatus_Payments() throws IOException {
-        Map<String, String> headersMap = reader.getObjectFromFile("pis/payments/get-status/request-headers.json", Map.class);
-        ScaStatusResponse expected = reader.getObjectFromFile("pis/payments/get-status/response-body.json", ScaStatusResponse.class);
+    @Test
+    void getScaStatus_Payments() throws IOException {
+        Map<String, String> headersMap = reader.getObjectFromFile("pis/payments/get-sca-status/request-headers.json", Map.class);
+        ScaStatusResponse expected = reader.getObjectFromFile("pis/payments/get-sca-status/response-body.json", ScaStatusResponse.class);
 
         Response<ScaStatusResponse> response = service.getPaymentInitiationScaStatus(
             PaymentService.PAYMENTS.toString(),
@@ -271,6 +270,25 @@ class AdorsysPaymentInitiationServiceWireMockTest {
             PaymentService.PERIODIC_PAYMENTS.toString(),
             PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
             PERIODIC_PAYMENT_ID,
+            RequestHeaders.fromMap(headersMap),
+            RequestParams.empty()
+        );
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+        assertThat(response.getBody()).isEqualTo(expected);
+    }
+
+
+    @Test
+    void getScaStatus_PeriodicPayments() throws IOException {
+        Map<String, String> headersMap = reader.getObjectFromFile("pis/periodic/get-sca-status/request-headers.json", Map.class);
+        ScaStatusResponse expected = reader.getObjectFromFile("pis/periodic/get-sca-status/response-body.json", ScaStatusResponse.class);
+
+        Response<ScaStatusResponse> response = service.getPaymentInitiationScaStatus(
+            PaymentService.PERIODIC_PAYMENTS.toString(),
+            PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+            PERIODIC_PAYMENT_ID,
+            PERIODIC_AUTHORISATION_ID,
             RequestHeaders.fromMap(headersMap),
             RequestParams.empty()
         );
