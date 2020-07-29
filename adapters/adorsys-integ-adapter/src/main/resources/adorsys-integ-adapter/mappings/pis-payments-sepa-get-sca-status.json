@@ -1,0 +1,29 @@
+{
+  "id" : "0e33b5b8-5475-4d7e-8a03-129bd9e8f077",
+  "name" : "v1_payments_sepa-credit-transfers_w_pfk5-4oqzsxpxkls9h97q8bfpnv3xkam5mxm8dnt60lxxypagedv4hpqteq8-mcgftjbetkzvnvu5mzqqwca__psglvqpt9q_authorisations_259b8215-d14e-493a-ba01-c2243a9ff86a",
+  "request" : {
+    "url" : "/v1/payments/sepa-credit-transfers/W_pFk5-4OqzsXpxKLs9h97q8bfPnV3XKAm5MxM8dnT60LxXyPaGedv4HPQtEQ8-mcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/259b8215-d14e-493a-ba01-c2243a9ff86a",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"scaStatus\":\"finalised\",\"trustedBeneficiaryFlag\":true}",
+    "headers" : {
+      "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "x-request-id" : "1a86e3fe-a007-4547-adeb-2ad7e17ac917",
+      "content-type" : "application/json",
+      "date" : "Wed, 29 Jul 2020 05:10:51 GMT",
+      "x-robots-tag" : "none",
+      "set-cookie" : "SRVNAME=ae322d2421d269ad308e7ea7bf07f678; path=/; HttpOnly; Secure",
+      "cache-control" : "private"
+    }
+  },
+  "uuid" : "0e33b5b8-5475-4d7e-8a03-129bd9e8f077",
+  "persistent" : true,
+  "insertionIndex" : 12
+}
