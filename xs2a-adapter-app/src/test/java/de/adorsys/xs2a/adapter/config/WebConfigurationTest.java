@@ -21,9 +21,8 @@ class WebConfigurationTest {
             }
         }.addInterceptors(registry);
 
-        assertThat(registry.interceptors()).hasSize(2);
+        assertThat(registry.interceptors()).hasSize(1);
         assertThat(registry.interceptors().get(0)).isExactlyInstanceOf(AuditHandlerInterceptor.class);
-        assertThat(registry.interceptors().get(1)).isExactlyInstanceOf(MonitoringHandlerInterceptor.class);
     }
 
     private static class TestInterceptorRegistry extends InterceptorRegistry {
