@@ -15,6 +15,9 @@
 ** ReportExchangeRate
 - Added RemittanceInformationStructured mapping in dab and consors adapters
 - Config property `audit.sanitized` was moved to `xs2a-adapter.audit.sanitized`
+- Removed deprecated methods from PaymentInitiationService
+- Removed MonitoringHandlerInterceptor, MonitoringRequestBodyAdvice,
+and BG-Monitoring dependencies from the project
 - Updated postman environment for `adorsys-integ-adapter`
 
 == Features:
