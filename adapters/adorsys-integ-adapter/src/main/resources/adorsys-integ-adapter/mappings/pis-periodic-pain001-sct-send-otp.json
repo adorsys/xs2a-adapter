@@ -1,0 +1,40 @@
+{
+  "id" : "f3984415-649d-45d7-a5f1-59eda76ff127",
+  "name" : "v1_periodic-payments_pain001-sepa-credit-transfers_j2x8wkgv3gyf6cin9xsd95hc83_msjczgiys2ki92g7nlurusdkcssw2nbnva19ocgftjbetkzvnvu5mzqqwca__psglvqpt9q_authorisations_5aa0b73f-6f89-45d9-90fe-1d679d95e6d",
+  "request" : {
+    "url" : "/v1/periodic-payments/pain.001-sepa-credit-transfers/j2x8WKgv3GyF6Cin9XsD95hC83_mSJcZgIyS2ki92g7nLuRUsdKCSSW2nbnVA19OcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/5aa0b73f-6f89-45d9-90fe-1d679d95e6d6",
+    "method" : "PUT",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "max.musterman"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"scaAuthenticationData\":\"123456\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"_links\":{\"scaStatus\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/periodic-payments/pain.001-sepa-credit-transfers/j2x8WKgv3GyF6Cin9XsD95hC83_mSJcZgIyS2ki92g7nLuRUsdKCSSW2nbnVA19OcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/5aa0b73f-6f89-45d9-90fe-1d679d95e6d6\"}},\"scaStatus\":\"finalised\"}",
+    "headers" : {
+      "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "aspsp-sca-approach" : "EMBEDDED",
+      "x-request-id" : "806b8aca-50b1-4f26-ad7b-53d3e0c0399b",
+      "content-type" : "application/json",
+      "date" : "Wed, 29 Jul 2020 05:14:27 GMT",
+      "x-robots-tag" : "none",
+      "set-cookie" : "SRVNAME=ae322d2421d269ad308e7ea7bf07f678; path=/; HttpOnly; Secure"
+    }
+  },
+  "uuid" : "f3984415-649d-45d7-a5f1-59eda76ff127",
+  "persistent" : true,
+  "insertionIndex" : 40
+}
