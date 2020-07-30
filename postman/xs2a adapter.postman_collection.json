@@ -1122,6 +1122,8 @@
 									"",
 									"if (pm.variables.get(\"adapter\") === \"sparkasse\") {",
 									"    postman.setNextRequest(\"AIS/Accounts/021a_MsgX+1\");",
+									"} else {",
+									"    postman.setNextRequest(\"AIS/Accounts/005c_MsgX+2\");",
 									"}"
 								],
 								"type": "text/javascript"
@@ -1222,7 +1224,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUri}}/v1/accounts/{{accountId}}/transactions?dateFrom=1970-01-01&bookingStatus=both&withBalance=true",
+							"raw": "{{baseUri}}/v1/accounts/{{accountId}}/transactions?dateFrom=1970-01-01&dateTo=1970-02-01&bookingStatus=booked&withBalance=true",
 							"host": [
 								"{{baseUri}}"
 							],
@@ -1238,8 +1240,12 @@
 									"value": "1970-01-01"
 								},
 								{
+									"key": "dateTo",
+									"value": "2020-07-01"
+								},
+								{
 									"key": "bookingStatus",
-									"value": "both"
+									"value": "booked"
 								},
 								{
 									"key": "withBalance",
@@ -1297,7 +1303,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUri}}/v1/accounts/{{accountId}}/transactions?dateFrom=1970-01-01&bookingStatus=both&withBalance=true",
+							"raw": "{{baseUri}}/v1/accounts/{{accountId}}/transactions?dateFrom=1970-01-01&dateTo=1970-02-01&bookingStatus=booked&withBalance=true",
 							"host": [
 								"{{baseUri}}"
 							],
@@ -1313,8 +1319,12 @@
 									"value": "1970-01-01"
 								},
 								{
+									"key": "dateTo",
+									"value": "1970-02-01"
+								},
+								{
 									"key": "bookingStatus",
-									"value": "both"
+									"value": "booked"
 								},
 								{
 									"key": "withBalance",

@@ -1,9 +1,7 @@
 {
   "Content-Type": "application/json; charset=UTF-8",
   "X-Request-ID": "744c0b16-e8ad-4bb2-8df8-f1f86f6c1b06",
-  "PSU-ID-Type": "",
   "PSU-ID": "max.musterman",
-  "X-GTW-ASPSP-ID": "53c47f54-b9a4-465a-8f77-bc6cd5f0cf46",
   "TPP-Redirect-URI": "https://example.com",
   "PSU-IP-Address": "0.0.0.0"
 }
