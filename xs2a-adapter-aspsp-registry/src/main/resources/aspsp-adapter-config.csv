@@ -1315,7 +1315,7 @@ b0d1f4b3-7e3c-46ab-8a77-6e2009d435dc,Raiffeisenbank Adelzhausen-Sielenbach,GENOD
 f3b98d05-3b22-4b02-b616-f64a28a1a8b0,VR-Bank eG im Altkreis Bersenbrück,GENODEF1VNK,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,
 0de9d941-1fc4-4317-8278-f3bc4112addc,VR-Bank Kreis Steinfurt eG,GENODEM1HRI,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,
 0bcd9740-06e2-43cb-8bec-435fd5d93f46,Sparkasse Hilden-Ratingen-Velbert,WELADED1VEL,https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678,sparkasse-adapter,33450000
-53c47f54-b9a4-465a-8f77-bc6cd5f0cf46,adorsys xs2a,ADORSYS,https://demo-dynamicsandbox-xs2a.cloud.adorsys.de,adorsys-integ-adapter,
+53c47f54-b9a4-465a-8f77-bc6cd5f0cf46,adorsys xs2a,ADORSYS,https://demo-dynamicsandbox-xs2a.cloud.adorsys.de,adorsys-integ-adapter,76070024
 fa956605-d548-4622-8e0f-781bb25b5aad,Raiffeisenbank Sondelfingen,GENODES1RSF,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,60069147
 60370c70-760e-459e-b5f8-f84c67dcc5aa,VOLKSBANK EMSTEK,GENODEF1EMK,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,28069109
 fe3f105b-ff9b-490a-a608-0d212b359321,Sparkasse Münsterland Ost,WELADED1MST,https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678,sparkasse-adapter,40050150
