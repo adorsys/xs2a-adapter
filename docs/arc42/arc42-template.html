@@ -727,7 +727,13 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 <div class="sect1">
 <h2 id="section-solution-strategy"><a class="anchor" href="#section-solution-strategy"></a>4. Solution Strategy</h2>
 <div class="sectionbody">
-<div style="page-break-after: always;"></div>
+<div style="page-break-after: always;">
+    <ol>
+        <li>Implement XS2A Adapter in Java language with minimal external dependencies.</li>
+        <li>We use Maven automation build tool, so it can be used within automated builds</li>We
+        <li>We have additional module that wraps XS2A Adapter into Spring Boot application and with the possibility to build a docker image</li>
+    </ol>
+</div>
 </div>
 </div>
 <div class="sect1">
