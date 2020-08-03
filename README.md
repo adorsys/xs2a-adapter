@@ -1,5 +1,5 @@
 # XS2A Adapter
-[![Build Status](https://travis-ci.com/adorsys/xs2a-adapter.svg?branch=develop)](https://travis-ci.com/adorsys/xs2a-adapter)
+[![Build Status](https://github.com/adorsys/xs2a-adapter/workflows/Develop%20CI/badge.svg)](https://github.com/adorsys/xs2a-adapter/actions)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=adorsys_xs2a-adapter&metric=alert_status)](https://sonarcloud.io/dashboard?id=adorsys_xs2a-adapter)
 
 There are various ways for a bank to implement a PSD2 compliant XS2A interface. Don’t waste time in connecting different banks with different approaches into your application. Use the free of charge XS2A adapter and concentrate on your true value proposition!
@@ -83,10 +83,10 @@ but only as a pre-request.
 
 ## Releases and versions
 
-* [Versioning, Release and Support policy](doc/Version_Policy.md)
+* [Versioning, Release and Support policy](https://github.com/adorsys/xs2a/blob/develop/doc/version_policy.adoc)
 
-* [Release notes](doc/releasenotes.md)
-* [Roadmap for next features development](doc/roadmap.md)
+* [Release notes](docs/release_notes/Release_notes_0.1.0.adoc)
+* [Roadmap for next features development](docs/roadmap.adoc)
 
 ### Testing API with Postman json collections
 
