@@ -22,6 +22,7 @@ rectangle xa as "xs2a adapter as standalone  application" {
     component sr as "service-remote"
 	component ar as "aspsp-registry"
 	component gra as "generated-rest-api"
+	component ga as "generated-api"
 	component r2am as "rest2api-mapper"
 	component ra as "rest-api"
 	component ri as "rest-impl"
@@ -36,18 +37,19 @@ rectangle xa as "xs2a adapter as standalone  application" {
 '	ra -> ar
 	sl --> ba
 	sa -0)- sl: AIS, PIS, oAuth, download API
-	ra --> sa
-	ra -> gra
+	'ra --> sa
+	gra <- ra
+	ga <- gra
 	ri --> r2am
 	ri -(0- ra
 	ri -> sa
-	sr -> r2am
+	sr --> r2am
 	ba -> saa
 	ba -(0- sa: AIS, PIS, oAuth, download API
 	ri --() ahttp
 	tpp2 -( ahttp: http
     tsr -( ahttp
-	sr -(0- sa
+	sr --(0- sa
 	sr --> ra
 	ar -(0-sa: aspsp search
 

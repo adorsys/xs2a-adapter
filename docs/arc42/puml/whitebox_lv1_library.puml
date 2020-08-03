@@ -22,7 +22,7 @@ rectangle xa as "xs2a adapter as library" {
 	ba -(0- sa: AIS, PIS, oAuth, download API
 	ar -(0-sa: aspsp search
 
-	banks -() bhttp
 	ba -( bhttp: http
+	banks --() bhttp
 
 @enduml
