@@ -119,16 +119,17 @@ class AdorsysPaymentInitiationServiceWireMockTest {
         assertThat(response.getBody()).isEqualTo(expected);
     }
 
-    @Test
-    void getScaStatus_Payments() throws IOException {
+    @ParameterizedTest
+    @MethodSource("paymentTypes")
+    void getScaStatus(PaymentService paymentService, PaymentProduct paymentProduct) throws IOException {
         Map<String, String> headersMap = reader.getObjectFromFile("pis/payments/get-sca-status/request-headers.json", Map.class);
         ScaStatusResponse expected = reader.getObjectFromFile("pis/payments/get-sca-status/response-body.json", ScaStatusResponse.class);
 
         Response<ScaStatusResponse> response = service.getPaymentInitiationScaStatus(
-            PaymentService.PAYMENTS.toString(),
-            PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
-            PAYMENT_ID,
-            AUTHORISATION_ID,
+            paymentService.toString(),
+            paymentProduct.toString(),
+            paymentIds.get(paymentService, paymentProduct),
+            authorisationIds.get(paymentService, paymentProduct),
             RequestHeaders.fromMap(headersMap),
             RequestParams.empty()
         );
@@ -150,24 +151,6 @@ class AdorsysPaymentInitiationServiceWireMockTest {
                                                                                         paymentInitiationJson);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
-        assertThat(response.getBody()).isEqualTo(expected);
-    }
-
-    @Test
-    void getScaStatus_PeriodicPayments() throws IOException {
-        Map<String, String> headersMap = reader.getObjectFromFile("pis/periodic/get-sca-status/request-headers.json", Map.class);
-        ScaStatusResponse expected = reader.getObjectFromFile("pis/periodic/get-sca-status/response-body.json", ScaStatusResponse.class);
-
-        Response<ScaStatusResponse> response = service.getPaymentInitiationScaStatus(
-            PaymentService.PERIODIC_PAYMENTS.toString(),
-            PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
-            PERIODIC_PAYMENT_ID,
-            PERIODIC_AUTHORISATION_ID,
-            RequestHeaders.fromMap(headersMap),
-            RequestParams.empty()
-        );
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
         assertThat(response.getBody()).isEqualTo(expected);
     }
 
