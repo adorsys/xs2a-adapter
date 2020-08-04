@@ -122,8 +122,8 @@ class AdorsysPaymentInitiationServiceWireMockTest {
     @ParameterizedTest
     @MethodSource("paymentTypes")
     void getScaStatus(PaymentService paymentService, PaymentProduct paymentProduct) throws IOException {
-        Map<String, String> headersMap = reader.getObjectFromFile("pis/payments/get-sca-status/request-headers.json", Map.class);
-        ScaStatusResponse expected = reader.getObjectFromFile("pis/payments/get-sca-status/response-body.json", ScaStatusResponse.class);
+        Map<String, String> headersMap = reader.getObjectFromFile("pis/get-sca-status-request-headers.json", Map.class);
+        ScaStatusResponse expected = reader.getObjectFromFile("pis/get-sca-status-response-body.json", ScaStatusResponse.class);
 
         Response<ScaStatusResponse> response = service.getPaymentInitiationScaStatus(
             paymentService.toString(),
