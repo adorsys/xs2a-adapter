@@ -391,9 +391,11 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
 <li><a href="#_blackbox_aspsp_registry">5.1.2 ASPSP Registry (Blackbox)</a></li>
 <li><a href="#_blackbox_service_loader">5.1.3 Service-loader (Blackbox)</a></li>
 <li><a href="#_blackbox_bank_adapters">5.1.4 Bank adapters (Blackbox)</a></li>
-<li><a href="#_level_2">5.2. Level 2</a></li>
-<li><a href="#_level_3">5.3. Level 3</a></li>
-</ul>9
+<li><a href="#_level_2">5.2. Building Blocks - Level 2</a></li>
+<li><a href="#_white_box_aspsp_registry">5.2.1. Whitebox ASPSP Registry</a></li>
+<li><a href="#_white_box_service_loader">5.2.2. Whitebox Service-loader</a></li>
+<li><a href="#_white_box_bank_adapters">5.2.3. Whitebox Bank Adapters</a></li>
+</ul>
 </li>
 <li><a href="#section-runtime-view">6. Runtime View</a></li>
 <li>
@@ -787,8 +789,8 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
     </table>
 </dl>
 </div>
-<div class="sect2">
-<h3 id="_whitebox_adapter_standalone"><a class="anchor" href="#_whitebox_adapter_standalone"></a>5.1.1 Whitebox XS2A Adapter Standalone</h3>
+<div class="sect3">
+<h4 id="_whitebox_adapter_standalone"><a class="anchor" href="#_whitebox_adapter_standalone"></a>5.1.1 Whitebox XS2A Adapter Standalone</h4>
 <div class="paragraph">
     <div class="imageblock" style="text-align: center">
         <div class="content">
@@ -847,8 +849,8 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
     </table>
 </dl>
 </div>
-<div class="sect2">
-<h3 id="_blackbox_aspsp_registry"><a class="anchor" href="#_blackbox_aspsp_registry"></a>5.1.2 ASPSP Registry (Blackbox)</h3>
+<div class="sect3">
+<h4 id="_blackbox_aspsp_registry"><a class="anchor" href="#_blackbox_aspsp_registry"></a>5.1.2 ASPSP Registry (Blackbox)</h4>
 <div class="paragraph">
     <p><strong>Intent/Responsibility:</strong> ASPSP Registry provides API for searching supported banks. The list of supported banks stored in the CSV file.</p>
     <div class="dlist">
@@ -870,10 +872,10 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
             </table>
         </dl>
     </div>
-    <p>Details are described in the ASPSP Registry Whitebox.</p>
+    <p>Details are described in the <a class="anchor" href="#_white_box_aspsp_registry">ASPSP Registry Whitebox</a>.</p>
 </div>
-<div class="sect2">
-<h3 id="_blackbox_service_loader"><a class="anchor" href="#_blackbox_service_loader"></a>5.1.3 Service-loader (Blackbox)</h3>
+<div class="sect3">
+<h4 id="_blackbox_service_loader"><a class="anchor" href="#_blackbox_service_loader"></a>5.1.3 Service-loader (Blackbox)</h4>
 <div class="paragraph">
     <p><strong>Intent/Responsibility: </strong>Service-Loader looks up for specific service implementation of concrete bank adapter.</p>
     <div class="dlist">
@@ -899,10 +901,10 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
             </table>
         </dl>
     </div>
-    <p>Details are described in the Service-loader Whitebox.</p>
+    <p>Details are described in the <a class="anchor" href="#_white_box_service_loader">Service-loader Whitebox</a>.</p>
 </div>
-<div class="sect2">
-<h3 id="_blackbox_bank_adapters"><a class="anchor" href="#_blackbox_bank_adapters"></a>5.1.4 Bank adapters (Blackbox)</h3>
+<div class="sect3">
+<h4 id="_blackbox_bank_adapters"><a class="anchor" href="#_blackbox_bank_adapters"></a>5.1.4 Bank adapters (Blackbox)</h4>
 <div class="paragraph">
     <p><strong>Intent/Responsibility: </strong>Contains PIS & AIS service implementations for supported banks</p>
     <div class="dlist">
@@ -928,74 +930,112 @@ span.icon > [class^="icon-"], span.icon > [class*=" icon-"] { cursor: default; }
             </table>
         </dl>
     </div>
-    <p>Details are described in the Bank adapters Whitebox.</p>
-</div>
-<div class="sect3">
-<h4 id="__name_black_box_1"><a class="anchor" href="#__name_black_box_1"></a>5.1.1. &lt;Name black box 1&gt;</h4>
-<div class="paragraph">
-<p><em>&lt;Purpose/Responsibility&gt;</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;Interface(s)&gt;</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;(Optional) Quality/Performance Characteristics&gt;</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;(Optional) Directory/File Location&gt;</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;(Optional) Fulfilled Requirements&gt;</em></p>
-</div>
-<div class="paragraph">
-<p><em>&lt;(optional) Open Issues/Problems/Risks&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="__name_black_box_2"><a class="anchor" href="#__name_black_box_2"></a>5.1.2. &lt;Name black box 2&gt;</h4>
-<div class="paragraph">
-<p><em>&lt;black box template&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="__name_black_box_n"><a class="anchor" href="#__name_black_box_n"></a>5.1.3. &lt;Name black box n&gt;</h4>
-<div class="paragraph">
-<p><em>&lt;black box template&gt;</em></p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="__name_interface_1"><a class="anchor" href="#__name_interface_1"></a>5.1.4. &lt;Name interface 1&gt;</h4>
-<div class="paragraph">
-<p>&#8230;</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="__name_interface_m"><a class="anchor" href="#__name_interface_m"></a>5.1.5. &lt;Name interface m&gt;</h4>
-
-</div>
+    <p>Details are described in the <a class="anchor" href="#_white_box_bank_adapters">Bank adapters Whitebox</a>.</p>
 </div>
 <div class="sect2">
-<h3 id="_level_2"><a class="anchor" href="#_level_2"></a>5.2. Level 2</h3>
+<h3 id="_level_2"><a class="anchor" href="#_level_2"></a>5.2. Building Blocks - Level 2</h3>
 <div class="sect3">
-<h4 id="_white_box_em_building_block_1_em"><a class="anchor" href="#_white_box_em_building_block_1_em"></a>5.2.1. White Box <em>&lt;building block 1&gt;</em></h4>
-<div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
-</div>
+<h4 id="_white_box_aspsp_registry"><a class="anchor" href="#_white_box_aspsp_registry"></a>5.2.1. Whitebox <em>ASPSP Registry</em></h4>
+    <div class="paragraph">
+        <div class="imageblock" style="text-align: center">
+            <div class="content">
+                <img src="http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/whitebox_aspsp_registry.puml" alt="5.2.1. Whitebox ASPSP Registry" width="520">
+            </div>
+        </div>
+    </div>
+    <div class="dlist">
+        <dl>
+            <table class="tableblock frame-all grid-all stretch">
+                <caption class="title">Table 11. Contained Building Blocks</caption>
+                <thead>
+                <tr>
+                    <th class="tableblock halign-left valign-top">Building Block</th>
+                    <th class="tableblock halign-left valign-top">Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">Service</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">Implementation of Search API. Contains methods for searching ASPSP by criteria</p></td>
+                </tr>
+                <tr>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">Lucene</p></td>
+                    <td class="tableblock halign-left valign-top"><p class="tableblock">The list of ASPSPs from CSV file loads into Lucene to speed up the search procedure</p></td>
+                </tr>
+                </tbody>
+            </table>
+        </dl>
+    </div>
 </div>
 <div class="sect3">
-<h4 id="_white_box_em_building_block_2_em"><a class="anchor" href="#_white_box_em_building_block_2_em"></a>5.2.2. White Box <em>&lt;building block 2&gt;</em></h4>
-<div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
-</div>
-<div class="paragraph">
-<p>&#8230;</p>
-</div>
+<h4 id="_white_box_service_loader"><a class="anchor" href="#_white_box_service_loader"></a>5.2.2. Whitebox <em>Service-loader</em></h4>
+    <div class="paragraph">
+        <div class="imageblock" style="text-align: center">
+            <div class="content">
+                <img src="http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/whitebox_service_loader.puml" alt="5.2.2. Whitebox Service-loader" width="520">
+            </div>
+        </div>
+        <div class="dlist">
+            <dl>
+                <table class="tableblock frame-all grid-all stretch">
+                    <caption class="title">Table 12. Contained Building Blocks</caption>
+                    <thead>
+                    <tr>
+                        <th class="tableblock halign-left valign-top">Building Block</th>
+                        <th class="tableblock halign-left valign-top">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">AIS</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">Load implementation of AIS from requested ASPSP</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">PIS</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">Load implementation of PIS from requested ASPSP</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </dl>
+        </div>
+    </div>
 </div>
 <div class="sect3">
-<h4 id="_white_box_em_building_block_m_em"><a class="anchor" href="#_white_box_em_building_block_m_em"></a>5.2.3. White Box <em>&lt;building block m&gt;</em></h4>
-<div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
-</div>
+<h4 id="_white_box_bank_adapters"><a class="anchor" href="#_white_box_bank_adapters"></a>5.2.3. Whitebox <em>Bank Adapters</em></h4>
+    <div class="paragraph">
+        <div class="imageblock" style="text-align: center">
+            <div class="content">
+                <img src="http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/whitebox_bank_adapters.puml" alt="5.2.3. Whitebox Bank Adapters" width="520">
+            </div>
+        </div>
+        <div class="dlist">
+            <dl>
+                <table class="tableblock frame-all grid-all stretch">
+                    <caption class="title">Table 13. Contained Building Blocks</caption>
+                    <thead>
+                    <tr>
+                        <th class="tableblock halign-left valign-top">Building Block</th>
+                        <th class="tableblock halign-left valign-top">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">AIS</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">AIS implementation of exact ASPSP</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">PIS</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">PIS implementation of exact ASPSP</p></td>
+                    </tr>
+                    <tr>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">HTTP client</p></td>
+                        <td class="tableblock halign-left valign-top"><p class="tableblock">Uses for sending requests to the ASPSP</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </dl>
+        </div>
+    </div>
 </div>
 </div>
 <div class="sect2">

@@ -1,0 +1,19 @@
+@startuml
+
+title Whitebox Level 2
+
+component "Bank adapters\n" as r {
+        rectangle "AIS" as ais
+        rectangle "PIS" as pis
+        rectangle "HTTP client" as http
+ }
+
+ interface "Bank REST API" as ba
+
+ ais -right-() " "
+ pis -left-() "  "
+ ais -- http
+ pis -- http
+ http -(0- ba
+
+@enduml
