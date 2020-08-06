@@ -1,0 +1,28 @@
+@startuml
+
+title WhiteBox Level 1
+
+collections banks as "Banks"
+
+interface "xs2a" as bhttp
+
+rectangle xa as "xs2a adapter as library" {
+	component ar as "aspsp-registry"
+	component sa as "service-api"
+	component saa as "service-api-adapter"
+	component sl as "service-loader"
+
+	collections ba as "bank adapters"
+}
+
+	sl --> ar
+	sl --> ba
+	sa -0)- sl: AIS, PIS, oAuth, download API
+	ba --> saa
+	ba -(0- sa: AIS, PIS, oAuth, download API
+	ar -(0-sa: aspsp search
+
+	ba -( bhttp: http
+	banks --() bhttp
+
+@enduml
