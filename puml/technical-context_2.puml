@@ -1,0 +1,13 @@
+@startuml
+
+frame "deployment technical context" {
+    node "TPP\napplication" as tpp
+    node WebServer {
+        component "xs2a-adapter" as adapter
+    }
+    collections ASPSPs as banks
+}
+
+tpp - adapter: Internet (https)
+adapter -- banks: Internet (https)
+@enduml
