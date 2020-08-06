@@ -1,0 +1,19 @@
+@startuml
+
+title Whitebox Level 2
+
+component "ASPSP Registry\n" as r {
+        rectangle "lucene" as l
+        rectangle "service" as srv
+ }
+
+ interface lfs as "local file system"
+
+ interface api as "search API"
+
+
+ l -(0- lfs
+ srv -right-() api
+ srv -- l
+
+@enduml

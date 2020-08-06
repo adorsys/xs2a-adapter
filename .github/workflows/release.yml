@@ -37,3 +37,17 @@ jobs:
           echo ${{ secrets.GPG_OWNERTRUST }} | base64 --decode | gpg --batch --import-ownertrust --yes
           mvn --settings scripts/mvn-release-settings.xml -Prelease -DskipTests -B -U deploy
         shell: bash
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Deploy to Github Pages
+        uses: peaceiris/actions-gh-pages@v3.7.0-6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          #feature in beta
+          exclude_assets: 'adapters,img,release_notes,Adapter.md,roadmap.adoc,wiremock.md'
