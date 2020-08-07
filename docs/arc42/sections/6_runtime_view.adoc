@@ -1,0 +1,13 @@
+== 6. Runtime View
+
+=== 6.1. <Runtime Scenario 1>
+
+* _<insert runtime diagram or textual description of the scenario>_
+* _<insert description of the notable aspects of the interactions between the building block instances depicted in this diagram.>_
+
+=== 6.2. <Runtime Scenario 2>
+
+
+=== 6.3. …
+
+=== 6.4. <Runtime Scenario n>

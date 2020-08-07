@@ -1,0 +1,132 @@
+== 5. Building Block View
+
+=== 5.1. Whitebox XS2A Adapter Library
+
+image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/whitebox_lv1_library.puml[5.1. Whitebox XS2A Adapter library,width=520]
+
+.Contained Building Blocks
+[cols=",",options="header",]
+|===
+|Building block |Description
+|service-api |Payment initiation, account information, http client and validation interfaces
+|service-api-adapter |Basic implementation of payment initiation and account information, implementation of http client
+|service-loader |Load payment initiation or account information service implementation for specific adapter
+|aspsp-registry |Registry of supported banks. Each record contains bank details and reference to the adapter
+|bank adapters |Collection of bank adapters supported by XS2A Adapter
+|===
+
+==== 5.1.1. Whitebox XS2A Adapter Standalone
+
+image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/whitebox_lv1_stanalone.puml[5.1.1 Whitebox XS2A Adapter Standalone,width=620]
+
+.Contained Building Blocks
+[cols=",",options="header",]
+|===
+|Building block |Description
+|service-api |Payment initiation, account information, http client and validation interfaces
+|service-api-adapter |Basic implementation of payment initiation and account information, implementation of http client
+|service-loader |Load payment initiation or account information service implementation for specific adapter
+|aspsp-registry |Registry of supported banks. Each record contains bank details and reference to the adapter
+|bank adapters |Collection of bank adapters supported by XS2A Adapter
+|rest-api |Aspsp Registry REST API, OAuth REST API
+|rest2api-mapper |Mappers between rest and service layers
+|generated-rest-api |Generated REST API from Berlin Group yml specification
+|rest-impl |Implementation of REST API
+|===
+
+==== 5.1.2. ASPSP Registry (Blackbox)
+
+*Intent/Responsibility:* ASPSP Registry provides API for searching supported banks. The list of supported banks stored in the CSV file.
+
+.Interfaces
+[cols=",",options="header",]
+|===
+|Interface (From-To) |Description
+|service-api -> ASPSP search |Search ASPSP in the registry
+|===
+
+Details are described in the xref:whitebox_aspsp_registry[Whitebox ASPSP Registry].
+
+==== 5.1.3. Service-loader (Blackbox)
+
+*Intent/Responsibility:* Service-Loader looks up for specific service implementation of concrete bank adapter.
+
+.Interfaces
+[cols=",",options="header",]
+|===
+|Interface (From-To) |Description
+|service-loader -> bank adapters |Loads service implementations from supported bank adapters
+|rest-impl -> service-loader |Uses service-loader classes
+|===
+
+Details are described in the xref:whitebox_service-loader[Service-loader Whitebox].
+
+==== 5.1.4. Bank adapters (Blackbox)
+
+*Intent/Responsibility:* Contains PIS & AIS service implementations for supported banks
+
+.Interfaces
+[cols=",",options="header",]
+|===
+|Interface (From-To) |Description
+|service-loader -> bank adapters |Loads service implementations from supported bank adapters
+|bank adapters -> banks |Makes HTTP requests to the banks
+|===
+
+Details are described in the xref:white_box_bank_adapters[Bank adapters Whitebox].
+
+=== 5.2. Building Blocks - Level 2
+
+[[whitebox_aspsp_registry]]
+==== 5.2.1. Whitebox _ASPSP Registry_
+
+image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/whitebox_aspsp_registry.puml[5.2.1. Whitebox ASPSP Registry,width=520]
+
+.Contained Building Blocks
+[cols=",",options="header",]
+|===
+|Building Block |Description
+|Service |Implementation of Search API. Contains methods for searching ASPSP by criteria
+|Lucene |The list of ASPSPs from CSV file loads into Lucene to speed up the search procedure
+|===
+
+[[whitebox_service-loader]]
+==== 5.2.2. Whitebox _Service-loader_
+
+image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/whitebox_service_loader.puml[5.2.2. Whitebox Service-loader,width=520]
+
+.Contained Building Blocks
+[cols=",",options="header",]
+|===
+|Building Block |Description
+|AIS |Load implementation of AIS from requested ASPSP
+|PIS |Load implementation of PIS from requested ASPSP
+|===
+
+[[white_box_bank_adapters]]
+==== 5.2.3. Whitebox _Bank Adapters_
+
+image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/whitebox_bank_adapters.puml[5.2.3. Whitebox Bank Adapters,width=520]
+
+.Contained Building Blocks
+[cols=",",options="header",]
+|===
+|Building Block |Description
+|AIS |AIS implementation of exact ASPSP
+|PIS |PIS implementation of exact ASPSP
+|HTTP client |Uses for sending requests to the ASPSP
+|===
+
+=== 5.3. Level 3
+
+==== 5.3.1. White Box <_building block x.1_>
+
+_<white box template>_
+
+==== 5.3.2. White Box <_building block x.2_>
+
+_<white box template>_
+
+==== 5.3.3. White Box <_building block y.1_>
+
+_<white box template>_

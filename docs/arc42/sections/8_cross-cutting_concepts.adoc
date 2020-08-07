@@ -1,0 +1,15 @@
+== 8. Cross-cutting Concepts
+
+=== 8.1. _<Concept 1>_
+
+_<explanation>_
+
+=== 8.2. _<Concept 2>_
+
+_<explanation>_
+
+…
+
+=== 8.3. _<Concept n>_
+
+_<explanation>_

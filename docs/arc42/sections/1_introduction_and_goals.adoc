@@ -1,0 +1,36 @@
+== 1. Introduction and Goals
+
+The main idea of the xs2a-adapter project is to have one unified interface for PSD2 directive which based on the Berlin Group Specification that covers the vast majority of banks that implemented the Berlin Group Specification on their own.
+
+=== 1.1. Requirements Overview
+
+xs2a-adapter helps TPPs save time on connecting banks to their systems. xs2a-adapter suggests them to use one unified interface that fully compliant with Berlin Group Specification. All differences of implementation hidden inside a specified bank adapter.
+
+Main features
+
+* Connect plenty of banks
+* Organize contributors community from the world
+* Simplify the connection process of the bank that compliant with the Berlin Group Specification
+* Support Account Information and Payment initiation services
+
+
+=== 1.2. Quality Goals
+
+.Quality Goals
+[width="100%",cols=",25%,75%",options="header",]
+|===
+|Nr. |Quality |Motivation
+|1 |Understandability |The API should be clear enough for new clients to use xs2a-adapter, from the other hand the architecture should be not too complicated for contributors.
+|2 |Interoperability |The application should provide a unified API that allows access to all covered banks.
+|3 |Testability |The architecture should allow easy testing of all main building blocks.
+|===
+
+=== 1.3. Stakeholders
+
+.Stakeholders
+[width="100%",cols="20%,40%,40%",options="header",]
+|===
+|Name |Role |Contact
+|Denys Golubiev |Software Architect PSD2 |dgo@adorsys.de
+|Francis Pouatcha |Software Architect PSD2, Sales |fpo@adorsys.de
+|===

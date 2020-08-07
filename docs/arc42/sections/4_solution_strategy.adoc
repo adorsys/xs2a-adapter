@@ -1,0 +1,5 @@
+== 4. Solution Strategy
+
+. Implement XS2A Adapter in Java language with minimal external dependencies.
+. We use Maven automation build tool, so it can be used within automated builds
+. We have additional module that wraps XS2A Adapter into Spring Boot application and with the possibility to build a docker image

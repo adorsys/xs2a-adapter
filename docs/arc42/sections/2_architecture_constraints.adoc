@@ -1,0 +1,49 @@
+== 2. Architecture Constraints
+
+The few constraints on this project are reflected in the final solution. This section shows them and if applicable, their motivation.
+
+=== 2.1. Technical Constraints
+
+.List of Technical Constraints
+[width="100%",cols="5%,30%,65%",options="headers"]
+|===
+| |Constraint |Background and / or motivation
+
+3+^|_Software and programming constraints_
+
+|TC1
+|Implementation in Java
+|The application should support Java 8
+
+|TC2
+|Deployment
+|The application should have a possibility to be used as a library and a standalone application at the same time
+
+|TC3
+|Distribution
+|Library should be available as jar file on the maven central and as a docker image on the dockerHub
+|===
+
+=== 2.2. Organizational Constraints
+
+.List of Organizational Constraints
+[width="100%",cols="1%,33%,66%",options="header",]
+|===
+| |Constraint |Background and / or motivation
+|OC1 |Team |Serhii Petrychenko, Snisarenko Artem, Mykola Shumyn, Oleksandr Berezkin
+|OC2 |Time schedule |Release planned each month
+|OC3 |IDE independent project setup |No need to continue the editor and IDE wars. The project must be compilable on the command line via standard build tools.
+|OC4 |Configuration and version control |Public git repository with a complete commit history and a public master branch pushed to GitHub.
+|OC5 |Testing |Use JUnit to prove functional correctness and integration tests and JaCoCo to ensure a high test coverage (at least 80%). Postman tests for covering end-to-end flows.
+|OC6 |Published under an Open Source license |The source, including documentation, should be published as Open Source under the Apache 2 License.
+|===
+
+=== 2.3. Conventions
+
+.List of Conventions
+[width="100%",cols="1%,33%,66%",options="header",]
+|===
+| |Conventions |Background and / or motivation
+|C1 |Architecture documentation |Structure based on the english arc42-Template in version 7.0
+|C2 |Language |English. The project targets an international audience, so English should be used throughout the whole project.
+|===

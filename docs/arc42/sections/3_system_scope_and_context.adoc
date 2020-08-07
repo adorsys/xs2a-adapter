@@ -1,0 +1,21 @@
+== 3. System Scope and Context
+
+This chapter describes the environment and context of _xs2a-adapter_: Who uses the system and on which other system does _xs2a-adapter_ depend.
+
+=== 3.1. Business Context
+
+image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/business-context.puml[3.1 business context,width=640]
+
+TPP
+
+A _TPP_ wants to make AIS and PIS requests to different banks via _xs2a-adapter_.
+
+ASPSPs
+
+_xs2a-adapter_ transforms request from _TPP_ to a specific _ASPSP_ request and sends it then transforms the response from _ASPSP_ to a unified _xs2a-adapter_ API response.
+
+=== 3.2. Technical Context
+
+image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/technical-context_1.puml[3.2.1 technical context,width=320]
+
+image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/technical-context_2.puml[3.2.2 technical context,width=320]

@@ -44,10 +44,15 @@ jobs:
       - name: Git checkout
         uses: actions/checkout@v2
 
+      - name: Build documentation
+        uses: Analog-inc/asciidoctor-action@master
+        with:
+          shellcommand: "asciidoctor -o docs/arc42/index.html docs/arc42/template.adoc"
+
       - name: Deploy to Github Pages
         uses: peaceiris/actions-gh-pages@v3.7.0-6
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+          publish_dir: ./docs/arc42
           #feature in beta
-          exclude_assets: 'adapters,img,release_notes,Adapter.md,roadmap.adoc,wiremock.md'
+          exclude_assets: 'sections,template.adoc'

@@ -1,0 +1,28 @@
+== 7. Deployment View
+
+=== 7.1. Infrastructure Level 1
+
+*_<Overview Diagram>_*
+
+Motivation::
+_<explanation in text form>_
+Quality and/or Performance Features::
+_<explanation in text form>_
+Mapping of Building Blocks to Infrastructure::
+_<description of the mapping>_
+
+=== 7.2. Infrastructure Level 2
+
+==== 7.2.1. _<Infrastructure Element 1>_
+
+_<diagram + explanation>_
+
+==== 7.2.2. _<Infrastructure Element 2>_
+
+_<diagram + explanation>_
+
+…
+
+==== 7.2.3. _<Infrastructure Element n>_
+
+_<diagram + explanation>_
