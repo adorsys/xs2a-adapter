@@ -1,6 +1,6 @@
 == 3. System Scope and Context
 
-This chapter describes the environment and context of _xs2a-adapter_: Who uses the system and on which other system does _xs2a-adapter_ depend.
+This chapter describes the environment and context of _XS2A Adapter_: Who uses the system and on which other system does _XS2A Adapter_ depend.
 
 === 3.1. Business Context
 
@@ -8,11 +8,11 @@ image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.c
 
 TPP
 
-A _TPP_ wants to make AIS and PIS requests to different banks via _xs2a-adapter_.
+A _TPP_ wants to make AIS and PIS requests to different banks via _XS2A Adapter_.
 
 ASPSPs
 
-_xs2a-adapter_ transforms request from _TPP_ to a specific _ASPSP_ request and sends it then transforms the response from _ASPSP_ to a unified _xs2a-adapter_ API response.
+_XS2A Adapter_ transforms request from _TPP_ to a specific _ASPSP_ request and sends it then transforms the response from _ASPSP_ to a unified _XS2A Adapter_ API response.
 
 === 3.2. Technical Context
 

@@ -28,7 +28,7 @@ image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.c
 |service-loader |Load payment initiation or account information service implementation for specific adapter
 |aspsp-registry |Registry of supported banks. Each record contains bank details and reference to the adapter
 |bank adapters |Collection of bank adapters supported by XS2A Adapter
-|rest-api |Aspsp Registry REST API, OAuth REST API
+|rest-api |ASPSP Registry REST API, OAuth REST API
 |rest2api-mapper |Mappers between rest and service layers
 |generated-rest-api |Generated REST API from Berlin Group yml specification
 |rest-impl |Implementation of REST API

@@ -30,7 +30,7 @@ The few constraints on this project are reflected in the final solution. This se
 [width="100%",cols="1%,33%,66%",options="header",]
 |===
 | |Constraint |Background and / or motivation
-|OC1 |Team |Serhii Petrychenko, Snisarenko Artem, Mykola Shumyn, Oleksandr Berezkin
+|OC1 |Team |Serhii Petrychenko, Snisarenko Artem, Oleksandr Berezkin
 |OC2 |Time schedule |Release planned each month
 |OC3 |IDE independent project setup |No need to continue the editor and IDE wars. The project must be compilable on the command line via standard build tools.
 |OC4 |Configuration and version control |Public git repository with a complete commit history and a public master branch pushed to GitHub.
