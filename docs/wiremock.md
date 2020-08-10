@@ -1,9 +1,15 @@
-##How to record wiremock stubs
+## How to record wiremock stubs
+
 Assuming you're already familiar with the [wiremock recorder](http://wiremock.org/docs/record-playback/).
 1. Navigate to the destination directory for wiremock files
 and start a standalone wiremock server that will proxy requests to an aspsp
-
-    `java -jar /path/to/wiremock-jre8-standalone-2.27.0.jar --port 8008`
+    ```
+    java -jar /path/to/wiremock-jre8-standalone-2.27.0.jar --port 8008 \
+    --https-truststore /path/to/tpp-cert.p12 \
+    --truststore-type pkcs12 \
+    --truststore-password <password> \
+    --https-keystore /path/to/tpp-cert.p12
+    ```
 2. Replace the aspsp url with the wiremock server url (http://localhost:8008)
 in the adapter configuration.
 3. Start recording with the replaced url as the target url, and a list of headers to capture.

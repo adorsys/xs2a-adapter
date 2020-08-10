@@ -12,10 +12,6 @@
 
     <artifactId>adorsys-integ-adapter</artifactId>
 
-    <properties>
-        <commons-logging.version>1.2</commons-logging.version>
-    </properties>
-
     <dependencies>
 
         <!-- project dependencies -->
@@ -32,7 +28,6 @@
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-            <version>${commons-logging.version}</version>
             <scope>test</scope>
         </dependency>
 
