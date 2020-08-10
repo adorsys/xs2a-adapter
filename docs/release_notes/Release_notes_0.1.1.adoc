@@ -1,9 +1,4 @@
-= DRAFT Release notes for version 0.1.1 (release date: xx.08.2020)
-
-.Added banks
-|===
-|
-|===
+= Release notes for version 0.1.1 (release date: 10.08.2020)
 
 == Notices:
 - Added mapping for the following models in fiducia-adapter:
