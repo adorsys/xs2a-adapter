@@ -38,8 +38,9 @@ jobs:
           mvn --settings scripts/mvn-release-settings.xml -Prelease -DskipTests -B -U deploy
         shell: bash
 
-  docs-build-and-deploy:
+  build-and-deploy-docs:
     name: Build and deploy documentation
+    needs: build
     runs-on: ubuntu-latest
     env:
       SOURCE_DIR: docs/arc42
@@ -68,10 +69,10 @@ jobs:
         id: setvars
         run: |
           echo "::set-output name=source::${PUML_SOURCE_DIR}"
-          echo "::set-output name=dest::/github/workspace/${PUML_DESTINATION_DIR}"
+          echo "::set-output name=dest::${PUML_DESTINATION_DIR}"
         env:
           PUML_SOURCE_DIR: ${{ env.SOURCE_DIR }}/puml/**.puml
-          PUML_DESTINATION_DIR: ${{ env.TEMP_DIR }}/images
+          PUML_DESTINATION_DIR: /github/workspace/${{ env.TEMP_DIR }}/images
 
       - name: Generate PNG Diagrams
         uses: cloudbees/plantuml-github-action@master

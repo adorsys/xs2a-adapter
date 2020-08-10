@@ -2,7 +2,7 @@
 
 === 5.1. Whitebox XS2A Adapter Library
 
-image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/whitebox_lv1_library.puml[5.1. Whitebox XS2A Adapter library,width=520]
+image::whitebox_lv1_library.png[5.1. Whitebox XS2A Adapter library,width=520]
 
 .Contained Building Blocks
 [cols=",",options="header",]
@@ -17,7 +17,7 @@ image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.c
 
 ==== 5.1.1. Whitebox XS2A Adapter Standalone
 
-image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/whitebox_lv1_stanalone.puml[5.1.1 Whitebox XS2A Adapter Standalone,width=620]
+image::whitebox_lv1_stanalone.png[5.1.1. Whitebox XS2A Adapter Standalone,width=620]
 
 .Contained Building Blocks
 [cols=",",options="header",]
@@ -80,7 +80,7 @@ Details are described in the xref:white_box_bank_adapters[Bank adapters Whitebox
 [[whitebox_aspsp_registry]]
 ==== 5.2.1. Whitebox _ASPSP Registry_
 
-image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/whitebox_aspsp_registry.puml[5.2.1. Whitebox ASPSP Registry,width=520]
+image::whitebox_aspsp_registry.png[5.2.1. Whitebox ASPSP Registry,width=520]
 
 .Contained Building Blocks
 [cols=",",options="header",]
@@ -93,7 +93,7 @@ image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.c
 [[whitebox_service-loader]]
 ==== 5.2.2. Whitebox _Service-loader_
 
-image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/whitebox_service_loader.puml[5.2.2. Whitebox Service-loader,width=520]
+image::whitebox_service_loader.png[5.2.2. Whitebox Service-loader,width=520]
 
 .Contained Building Blocks
 [cols=",",options="header",]
@@ -106,7 +106,7 @@ image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.c
 [[white_box_bank_adapters]]
 ==== 5.2.3. Whitebox _Bank Adapters_
 
-image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/whitebox_bank_adapters.puml[5.2.3. Whitebox Bank Adapters,width=520]
+image::whitebox_bank_adapters.png[5.2.3. Whitebox Bank Adapters,width=520]
 
 .Contained Building Blocks
 [cols=",",options="header",]

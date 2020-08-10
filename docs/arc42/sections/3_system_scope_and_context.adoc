@@ -4,7 +4,7 @@ This chapter describes the environment and context of _XS2A Adapter_: Who uses t
 
 === 3.1. Business Context
 
-image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/business-context.puml[3.1 business context,width=640]
+image::business-context.png[3.1. business context,width=640]
 
 TPP
 
@@ -16,6 +16,6 @@ _XS2A Adapter_ transforms request from _TPP_ to a specific _ASPSP_ request and s
 
 === 3.2. Technical Context
 
-image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/technical-context_1.puml[3.2.1 technical context,width=320]
+image::technical-context_1.png[3.2.1. technical context,width=320]
 
-image:http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/adorsys/xs2a-adapter/spe/arc42/docs/arc42/puml/technical-context_2.puml[3.2.2 technical context,width=320]
+image::technical-context_2.png[3.2.2. technical context,width=320]

@@ -2,29 +2,31 @@
 :toc-title: Table of Contents
 :toc: left
 :toclevels: 3
+:imagesdir: ./images
+:includedir: ./sections
 
 toc::[]
 
-include::sections/1_introduction_and_goals.adoc[]
+include::{includedir}/1_introduction_and_goals.adoc[]
 
-include::sections/2_architecture_constraints.adoc[]
+include::{includedir}/2_architecture_constraints.adoc[]
 
-include::sections/3_system_scope_and_context.adoc[]
+include::{includedir}/3_system_scope_and_context.adoc[]
 
-include::sections/4_solution_strategy.adoc[]
+include::{includedir}/4_solution_strategy.adoc[]
 
-include::sections/5_building_block_view.adoc[]
+include::{includedir}/5_building_block_view.adoc[]
 
-include::sections/6_runtime_view.adoc[]
+include::{includedir}/6_runtime_view.adoc[]
 
-include::sections/7_deployment_view.adoc[]
+include::{includedir}/7_deployment_view.adoc[]
 
-include::sections/8_cross-cutting_concepts.adoc[]
+include::{includedir}/8_cross-cutting_concepts.adoc[]
 
-include::sections/9_design_decisions.adoc[]
+include::{includedir}/9_design_decisions.adoc[]
 
-include::sections/10_quality_requirements.adoc[]
+include::{includedir}/10_quality_requirements.adoc[]
 
-include::sections/11_risks_and_technical_debts.adoc[]
+include::{includedir}/11_risks_and_technical_debts.adoc[]
 
-include::sections/12_glossary.adoc[]
+include::{includedir}/12_glossary.adoc[]
