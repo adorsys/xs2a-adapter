@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.sparkasse;
 
 import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.api.model.PaymentInitationRequestResponse201;
+import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationMultipartBody;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
@@ -23,9 +24,18 @@ public class SparkassePaymentInitiationService extends BasePaymentInitiationServ
                                                                         RequestParams requestParams,
                                                                         Object body) {
         if (paymentProduct.startsWith("pain.001")) {
-            String xml = (String) body;
-            body = xml.replaceAll("\\s*?<ReqdExctnDt>[\\s\\S]*?</ReqdExctnDt>", "");
+            if (body instanceof String) {
+                String xml = (String) body;
+                body = removeReqdExctnDt(xml);
+            } else if (body instanceof PeriodicPaymentInitiationMultipartBody) {
+                PeriodicPaymentInitiationMultipartBody multipartBody = (PeriodicPaymentInitiationMultipartBody) body;
+                multipartBody.setXml_sct(removeReqdExctnDt((String) multipartBody.getXml_sct()));
+            }
         }
         return super.initiatePayment(paymentService, paymentProduct, requestHeaders, requestParams, body);
+    }
+
+    private String removeReqdExctnDt(String xml) {
+        return xml.replaceAll("\\s*?<ReqdExctnDt>[\\s\\S]*?</ReqdExctnDt>", "");
     }
 }

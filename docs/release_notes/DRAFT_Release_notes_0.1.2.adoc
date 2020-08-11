@@ -12,4 +12,4 @@
 
 
 == Fixes:
-
+- Fixed class cast exception for periodic/pain.001 payment initiation for sparkasse
