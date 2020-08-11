@@ -38,16 +38,49 @@ jobs:
           mvn --settings scripts/mvn-release-settings.xml -Prelease -DskipTests -B -U deploy
         shell: bash
 
-  deploy:
+  build-and-deploy-docs:
+    name: Build and deploy documentation
+    needs: build
     runs-on: ubuntu-latest
+    env:
+      SOURCE_DIR: docs/arc42
+      TEMP_DIR: tmp
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
 
+      # Dependency for AsciiDoctor
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+
+      - name: Install AsciiDoctor
+        uses: reitzig/actions-asciidoctor@v1.0.0
+
+      - name: Convert adoc into html
+        run: asciidoctor -o ${DOCS_DESTINATION_FILE} ${DOCS_SOURCE_FILE}
+        env:
+          DOCS_SOURCE_FILE: ${{ env.SOURCE_DIR }}/template.adoc
+          DOCS_DESTINATION_FILE: ${{ env.TEMP_DIR }}/index.html
+
+      # Plantuml needs an absolute path for saving files
+      - name: Set veriables
+        id: setvars
+        run: |
+          echo "::set-output name=source::${PUML_SOURCE_DIR}"
+          echo "::set-output name=dest::${PUML_DESTINATION_DIR}"
+        env:
+          PUML_SOURCE_DIR: ${{ env.SOURCE_DIR }}/puml/**.puml
+          PUML_DESTINATION_DIR: /github/workspace/${{ env.TEMP_DIR }}/images
+
+      - name: Generate PNG Diagrams
+        uses: cloudbees/plantuml-github-action@master
+        with:
+          args: -v -tpng -o ${{ steps.setvars.outputs.dest }} ${{ steps.setvars.outputs.source }}
+
       - name: Deploy to Github Pages
-        uses: peaceiris/actions-gh-pages@v3.7.0-6
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-          #feature in beta
-          exclude_assets: 'adapters,img,release_notes,Adapter.md,roadmap.adoc,wiremock.md'
+          publish_dir: ./${{ env.TEMP_DIR }}

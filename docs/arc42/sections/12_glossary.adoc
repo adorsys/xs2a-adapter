@@ -1,0 +1,9 @@
+== 12. Glossary
+
+.Glossary
+[width="100%",cols="50%,50%",options="header",]
+|===
+|Term |Definition
+|<Term-1> |<definition-1>
+|<Term-2> |<definition-2>
+|===

@@ -1,0 +1,32 @@
+= XS2A Adapter
+:toc-title: Table of Contents
+:toc: left
+:toclevels: 3
+:imagesdir: ./images
+:includedir: ./sections
+
+toc::[]
+
+include::{includedir}/1_introduction_and_goals.adoc[]
+
+include::{includedir}/2_architecture_constraints.adoc[]
+
+include::{includedir}/3_system_scope_and_context.adoc[]
+
+include::{includedir}/4_solution_strategy.adoc[]
+
+include::{includedir}/5_building_block_view.adoc[]
+
+include::{includedir}/6_runtime_view.adoc[]
+
+include::{includedir}/7_deployment_view.adoc[]
+
+include::{includedir}/8_cross-cutting_concepts.adoc[]
+
+include::{includedir}/9_design_decisions.adoc[]
+
+include::{includedir}/10_quality_requirements.adoc[]
+
+include::{includedir}/11_risks_and_technical_debts.adoc[]
+
+include::{includedir}/12_glossary.adoc[]
