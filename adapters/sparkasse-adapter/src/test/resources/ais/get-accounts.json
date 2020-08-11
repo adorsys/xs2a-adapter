@@ -1,0 +1,35 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "cc29a35e-2f59-4b2f-bc72-442e8f34a4dd",
+      "Consent-ID": "e3d6fd32-8e41-498b-a20a-c643215e420c",
+      "PSU-ID": "chipTAN",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "PSU-IP-Address": "0.0.0.0"
+    },
+    "params": {
+      "withBalance": "false"
+    }
+  },
+  "response": {
+    "body": {
+      "accounts": [
+        {
+          "resourceId": "3217d050-f5b5-4318-a799-413bce784ef6",
+          "iban": "DE86999999990000001000",
+          "currency": "EUR",
+          "ownerName": "Anton Apfel",
+          "product": "Girokonto",
+          "_links": {
+            "balances": {
+              "href": "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/accounts/3217d050-f5b5-4318-a799-413bce784ef6/balances"
+            },
+            "transactions": {
+              "href": "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/accounts/3217d050-f5b5-4318-a799-413bce784ef6/transactions"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

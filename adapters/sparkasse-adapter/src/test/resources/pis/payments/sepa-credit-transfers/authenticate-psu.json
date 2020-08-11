@@ -1,0 +1,54 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "662388a0-92f3-4d1d-bb95-b4c28fb19fbd",
+      "PSU-ID": "chipTAN",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "PSU-IP-Address": "0.0.0.0",
+      "Content-Type": "application/json; charset=UTF-8"
+    },
+    "body": {
+      "psuData": {
+        "password": "okok1"
+      }
+    }
+  },
+  "response": {
+    "body": {
+      "scaStatus": "psuAuthenticated",
+      "authorisationId": "c9ef5300-0091-47c6-9df9-2190313e8f03",
+      "scaMethods": [
+        {
+          "authenticationType": "CHIP_OTP",
+          "authenticationMethodId": "MANUAL",
+          "authenticationVersion": "HHD1.3.2",
+          "name": "chipTAN manuell | Kartennummer: ******0430",
+          "explanation": "Erfassung der Auftragsdaten über die Tasten Ihres TAN-Generator."
+        },
+        {
+          "authenticationType": "CHIP_OTP",
+          "authenticationMethodId": "OPTICAL",
+          "authenticationVersion": "HHD1.3.2OPT",
+          "name": "chipTAN Optical | Kartennummer: ******0430",
+          "explanation": "Übertragung der Auftragsdaten mittels animierter Grafik. Erfordert geeigneten TAN-Generator."
+        },
+        {
+          "authenticationType": "PHOTO_OTP",
+          "authenticationMethodId": "QR",
+          "authenticationVersion": "HHD1.3.2QR",
+          "name": "chipTAN QR | Kartennummer: ******0430",
+          "explanation": "Übertragung der Auftragsdaten mittels QR-Code. Erfordert geeigneten TAN-Generator."
+        }
+      ],
+      "_links": {
+        "scaStatus": {
+          "href": "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/sepa-credit-transfers/5f6e3778-2b5c-460c-90f9-c86b0f5c5d57/authorisations/c9ef5300-0091-47c6-9df9-2190313e8f03"
+        },
+        "selectAuthenticationMethod": {
+          "href": "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/sepa-credit-transfers/5f6e3778-2b5c-460c-90f9-c86b0f5c5d57/authorisations/c9ef5300-0091-47c6-9df9-2190313e8f03"
+        }
+      },
+      "psuMessage": "Bitte wählen Sie Ihr gewünschtes chipTAN-Verfahren."
+    }
+  }
+}
