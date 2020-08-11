@@ -1,6 +1,5 @@
-package de.adorsys.xs2a.adapter;
+package de.adorsys.xs2a.adapter.adapter;
 
-import de.adorsys.xs2a.adapter.adapter.Oauth2ServiceDecorator;
 import de.adorsys.xs2a.adapter.http.UriBuilder;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.exception.BadRequestException;

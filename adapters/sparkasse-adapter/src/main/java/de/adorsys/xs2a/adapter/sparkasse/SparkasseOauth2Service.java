@@ -1,10 +1,6 @@
 package de.adorsys.xs2a.adapter.sparkasse;
 
-import de.adorsys.xs2a.adapter.ScopeWithResourceIdOauth2Service;
-import de.adorsys.xs2a.adapter.adapter.BaseOauth2Service;
-import de.adorsys.xs2a.adapter.adapter.CertificateSubjectClientIdOauth2Service;
-import de.adorsys.xs2a.adapter.adapter.Oauth2ServiceDecorator;
-import de.adorsys.xs2a.adapter.adapter.PkceOauth2Service;
+import de.adorsys.xs2a.adapter.adapter.*;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.UriBuilder;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
