@@ -64,7 +64,6 @@ public interface IngMapper {
 
     @Mapping(target = "bban", ignore = true)
     @Mapping(target = "msisdn", ignore = true)
-    @Mapping(target = "product", ignore = true)
     @Mapping(target = "cashAccountType", ignore = true)
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "bic", ignore = true)

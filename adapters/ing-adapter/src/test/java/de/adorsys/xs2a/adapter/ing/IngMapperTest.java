@@ -43,6 +43,7 @@ class IngMapperTest {
     private static final String REFERENCE_TYPE = "reference type";
     private static final String REFERENCE_ISSUER = "reference issuer";
     private static final UUID RESOURCE_ID = UUID.randomUUID();
+    private static final String PRODUCT = "product";
     private final IngMapper mapper = Mappers.getMapper(IngMapper.class);
 
     @Test
@@ -537,6 +538,7 @@ class IngMapperTest {
         ingAccount.setIban(CREDITOR_IBAN);
         ingAccount.setName(CREDITOR_NAME);
         ingAccount.setCurrency(CURRENCY);
+        ingAccount.setProduct(PRODUCT);
         ingAccount.setLinks(ingAccountLinks());
         return ingAccount;
     }
@@ -554,6 +556,7 @@ class IngMapperTest {
         account.setIban(CREDITOR_IBAN);
         account.setName(CREDITOR_NAME);
         account.setCurrency(CURRENCY);
+        account.setProduct(PRODUCT);
         Map<String, HrefType> links = new HashMap<>();
         links.put("balances", hrefType("balances href"));
         links.put("transactions", hrefType("transactions href"));
