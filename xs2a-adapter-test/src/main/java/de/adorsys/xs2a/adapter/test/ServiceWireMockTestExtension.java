@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.sparkasse;
+package de.adorsys.xs2a.adapter.test;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
@@ -73,7 +73,7 @@ class ServiceWireMockTestExtension implements BeforeAllCallback, AfterAllCallbac
 
     @Override
     public boolean supportsParameter(ParameterContext parameterContext,
-                                     ExtensionContext extensionContext) throws ParameterResolutionException {
+                                     ExtensionContext extensionContext) {
         Class<?> type = parameterContext.getParameter().getType();
         return (type == AccountInformationService.class || type == PaymentInitiationService.class)
             && getStore(extensionContext).get(type) != null;
@@ -81,7 +81,7 @@ class ServiceWireMockTestExtension implements BeforeAllCallback, AfterAllCallbac
 
     @Override
     public Object resolveParameter(ParameterContext parameterContext,
-                                   ExtensionContext extensionContext) throws ParameterResolutionException {
+                                   ExtensionContext extensionContext) {
         return getStore(extensionContext).get(parameterContext.getParameter().getType());
     }
 }

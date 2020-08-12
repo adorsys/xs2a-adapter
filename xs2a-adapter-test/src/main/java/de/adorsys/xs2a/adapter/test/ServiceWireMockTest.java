@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.sparkasse;
+package de.adorsys.xs2a.adapter.test;
 
 import de.adorsys.xs2a.adapter.service.provider.AdapterServiceProvider;
 import org.junit.jupiter.api.extension.ExtendWith;
