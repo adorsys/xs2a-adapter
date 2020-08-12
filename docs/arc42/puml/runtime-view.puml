@@ -1,0 +1,27 @@
+@startuml
+
+participant tpp as "TPP"
+box "XS2A Adaper" #ffe6cc
+participant rgstr as "ASPSP\nRegistry"
+participant core as "XS2A\nCore"
+collections adptr as "ASPSP\nAdapter"
+end box
+participant bank as "ASPSP"
+
+autonumber
+
+tpp->rgstr: retrieve ASPSP record ID by iban, blz, bic, name
+rgstr->tpp: list of ASPSP records
+tpp->tpp: choose and store an ASPSP record ID
+tpp->core: request with ASPSP record ID as header
+core->rgstr: get ASPSP record\na by ASPSP record ID
+rgstr->core: ASPSP record
+core->adptr: request to the specific adapter
+adptr->adptr: convert adapter request to ASPSP specific request
+adptr->bank: converted request to the bank
+bank->adptr: response from the bank
+adptr->adptr: convert ASPSP response to adapter response
+adptr->core: converted response
+core->tpp: successful response
+
+@enduml
