@@ -1,13 +1,24 @@
 == 6. Runtime View
 
-=== 6.1. <Runtime Scenario 1>
+=== 6.1. Send request to ASPSP
 
-* _<insert runtime diagram or textual description of the scenario>_
-* _<insert description of the notable aspects of the interactions between the building block instances depicted in this diagram.>_
+TPP sends request to ASPSP via XS2A Adapter.
+image::runtime-view.png[Sequence diagram: Interaction with Adapter,width=520]
 
-=== 6.2. <Runtime Scenario 2>
+*Scenario:*
 
+1. TPP makes call to ASPSP Registry to get the ID of supported bank adapter
+2. ASPSP Registry returns the list of supported adapters. The result list is empty
+when searched bank is unsupported.
+3. TPP chooses and stores the ASPSP ID
+4. TPP makes call to a bank via XS2A Adapter with ASPSP ID in the request headers
+5. XS2A Core gets bank adapter details from ASPSP Registry
+6. ASPSP Registry returns bank adapter details
+7. XS2A Core sends initial TPP request to the specific bank adapter
+8. ASPSP Adapter converts request regarding bank needs
+9. ASPSP Adapter sends converted request to the bank
+10. ASPSP Adapter receives response from the bank
+11. ASPSP Adapter converts bank response to the XS2A Adapter model
+12. ASPSP Adapter sends converts response to XS2A Core
+13. XS2A Core replies with the converted response to TPP
 
-=== 6.3. …
-
-=== 6.4. <Runtime Scenario n>
