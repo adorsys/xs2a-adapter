@@ -1,28 +1,28 @@
 == 7. Deployment View
 
-=== 7.1. Infrastructure Level 1
+=== 7.1. XS2A Adapter as a library
 
-*_<Overview Diagram>_*
+image::deployment-view.png[XS2A Adapter deployment (as a library),width=520]
 
-Motivation::
-_<explanation in text form>_
-Quality and/or Performance Features::
-_<explanation in text form>_
-Mapping of Building Blocks to Infrastructure::
-_<description of the mapping>_
+.Nodes description
+[cols=",",options="header",]
+|===
+|Node/Artifact |Description
+|maven central repository |Global public cloud repository. All XS2A Adapter libraries are uploaded there
+|xs2a-adapter deployment |Deployment environment
+|release action |GitHub Action deploys artifacts to maven central and documentation to github pages
+|bank adapters |Set of bank adapters that could be used by client
+|===
 
-=== 7.2. Infrastructure Level 2
+=== 7.2. XS2A Adapter as a standalone application
 
-==== 7.2.1. _<Infrastructure Element 1>_
+image::deployment-view2.png[XS2A Adapter deployment (as a standalone app),width=520]
 
-_<diagram + explanation>_
-
-==== 7.2.2. _<Infrastructure Element 2>_
-
-_<diagram + explanation>_
-
-…
-
-==== 7.2.3. _<Infrastructure Element n>_
-
-_<diagram + explanation>_
+.Nodes description
+[cols=",",options="header",]
+|===
+|Node/Artifact |Description
+|xs2a-adapter deployment |Container cluster management system
+|container registry |Container registry e.g. DokerHub, GitLab, etc
+|radapter user computer |User builds and publishes docker image to the registry
+|===
