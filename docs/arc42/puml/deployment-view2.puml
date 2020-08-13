@@ -1,0 +1,18 @@
+@startuml
+
+cloud "xs2a-adapter deployment" {
+    node adptr as "xs2a-adapter:0.1.1"
+}
+
+node "container registry" {
+    rectangle img as "xs2a-adapter:0.1.1 docker image"
+}
+
+node "adapter user computer" {
+    rectangle build as "build & push docker image"
+}
+
+build ..> img
+adptr ..> img
+
+@enduml

@@ -1,0 +1,42 @@
+@startuml
+
+
+
+node "xs2a-adapter deployment" {
+    rectangle api as "xs2a-adapter-service-api"
+    rectangle impl as "xs2a-adapter-service-loader"
+    rectangle rgstr as "xs2a-adapter-aspsp-registry"
+    collections adptrs as "bank adapters"
+}
+
+node "maven central repository" {
+    rectangle api1 as "xs2a-adapter-service-api"
+    rectangle impl1 as "xs2a-adapter-service-loader"
+    rectangle rgstr1 as "xs2a-adapter-aspsp-registry"
+    collections adptrs1 as "bank adapters"
+    collections jars as "other adapter artifacts"
+
+}
+
+node "gitHub actions" {
+    rectangle mvn as "maven deploy"
+    rectangle rls as "release action"
+    rectangle docu as "publish documentation"
+}
+
+api <.. api1
+impl <.. impl1
+rgstr <.. rgstr1
+adptrs <.. adptrs1
+
+
+rls -left-> mvn
+rls->docu
+
+mvn ...> api1
+mvn ...> impl1
+mvn ...> rgstr1
+mvn ...> adptrs1
+mvn ...> jars
+
+@enduml
