@@ -9,6 +9,7 @@
 - Documentation was published on GitHub Pages and available by referencing to https://adorsys.github.io/xs2a-adapter/
 - Moved `ScopeWithResourceIdOauth2Service` into the `adapter.adapter` package:
 originally misplaced into the parent package.
+- Removed `OauthToken` and replaced its usages with `TokenResponse`.
 
 == Features:
 
