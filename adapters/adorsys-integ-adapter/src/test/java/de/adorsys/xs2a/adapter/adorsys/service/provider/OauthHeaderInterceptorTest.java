@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.adorsys.service.provider;
 
 import de.adorsys.xs2a.adapter.http.Request;
-import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
+import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import org.junit.jupiter.api.Assertions;

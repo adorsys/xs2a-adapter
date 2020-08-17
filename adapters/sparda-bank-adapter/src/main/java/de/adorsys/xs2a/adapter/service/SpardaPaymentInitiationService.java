@@ -1,15 +1,15 @@
 package de.adorsys.xs2a.adapter.service;
 
-import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.impl.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.api.model.PaymentInitationRequestResponse201;
 import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.StringUri;
+import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 import java.util.Map;
 
-import static de.adorsys.xs2a.adapter.http.ResponseHandlers.paymentInitiationResponseHandler;
+import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.paymentInitiationResponseHandler;
 import static java.util.function.Function.identity;
 
 public class SpardaPaymentInitiationService extends BasePaymentInitiationService {

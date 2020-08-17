@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.config;
 
-import de.adorsys.xs2a.adapter.http.Xs2aHttpLogSanitizer;
+import de.adorsys.xs2a.adapter.impl.http.Xs2aHttpLogSanitizer;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import org.slf4j.MDC;

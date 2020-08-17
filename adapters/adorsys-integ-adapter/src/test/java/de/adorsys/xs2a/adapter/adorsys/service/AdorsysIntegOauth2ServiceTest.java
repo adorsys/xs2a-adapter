@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.adorsys.service;
 
-import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
+import de.adorsys.xs2a.adapter.impl.adapter.model.OauthToken;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
-import de.adorsys.xs2a.adapter.http.StringUri;
+import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;

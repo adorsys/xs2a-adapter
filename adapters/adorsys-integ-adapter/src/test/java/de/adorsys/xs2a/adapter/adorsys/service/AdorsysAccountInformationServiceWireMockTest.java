@@ -18,11 +18,11 @@ package de.adorsys.xs2a.adapter.adorsys.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
-import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
+import de.adorsys.xs2a.adapter.impl.adapter.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
-import de.adorsys.xs2a.adapter.http.ApacheHttpClient;
+import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.JacksonObjectMapper;
+import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;

@@ -6,7 +6,7 @@ import de.adorsys.xs2a.adapter.api.model.ScaStatusResponse;
 import de.adorsys.xs2a.adapter.api.model.TransactionAuthorisation;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
-import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
+import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;

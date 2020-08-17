@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.service;
 
-import de.adorsys.xs2a.adapter.http.ApacheHttpClient;
+import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;

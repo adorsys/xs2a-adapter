@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.sparkasse;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
-import de.adorsys.xs2a.adapter.http.ApacheHttpClient;
+import de.adorsys.xs2a.adapter.impl.adapter.link.identity.IdentityLinksRewriter;
+import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;

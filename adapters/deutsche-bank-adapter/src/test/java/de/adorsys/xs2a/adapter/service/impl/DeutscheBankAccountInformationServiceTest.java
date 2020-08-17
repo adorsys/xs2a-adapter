@@ -1,11 +1,11 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
-import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
+import de.adorsys.xs2a.adapter.impl.adapter.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Consents;
 import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
-import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
+import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;

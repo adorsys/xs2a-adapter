@@ -5,7 +5,7 @@ import de.adorsys.xs2a.adapter.api.model.ExecutionRule;
 import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
 import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationMultipartBody;
 import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationXmlPart2StandingorderTypeJson;
-import de.adorsys.xs2a.adapter.http.wiremock.WireMockHttpClient;
+import de.adorsys.xs2a.adapter.impl.http.wiremock.WireMockHttpClient;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;

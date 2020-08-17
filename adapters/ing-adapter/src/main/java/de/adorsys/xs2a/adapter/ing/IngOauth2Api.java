@@ -2,14 +2,14 @@ package de.adorsys.xs2a.adapter.ing;
 
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
-import de.adorsys.xs2a.adapter.http.StringUri;
+import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.ing.model.IngApplicationTokenResponse;
 import de.adorsys.xs2a.adapter.ing.model.IngAuthorizationURLResponse;
 import de.adorsys.xs2a.adapter.ing.model.IngTokenResponse;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Response;
 
-import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
+import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.jsonResponseHandler;
 import static java.util.Collections.singletonMap;
 
 public class IngOauth2Api {

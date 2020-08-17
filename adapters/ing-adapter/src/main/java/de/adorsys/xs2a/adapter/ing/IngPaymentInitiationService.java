@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.ing;
 
 import de.adorsys.xs2a.adapter.api.model.*;
-import de.adorsys.xs2a.adapter.http.JacksonObjectMapper;
-import de.adorsys.xs2a.adapter.http.JsonMapper;
+import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
+import de.adorsys.xs2a.adapter.impl.http.JsonMapper;
 import de.adorsys.xs2a.adapter.ing.model.IngPaymentProduct;
 import de.adorsys.xs2a.adapter.ing.model.IngXmlPaymentProduct;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;

@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.adapter.verlag.service.provider;
 
-import de.adorsys.xs2a.adapter.adapter.BaseDownloadService;
+import de.adorsys.xs2a.adapter.impl.adapter.BaseDownloadService;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.DownloadService;

@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
 import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
-import de.adorsys.xs2a.adapter.security.AccessTokenService;
+import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
+import de.adorsys.xs2a.adapter.impl.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import org.junit.jupiter.api.BeforeEach;

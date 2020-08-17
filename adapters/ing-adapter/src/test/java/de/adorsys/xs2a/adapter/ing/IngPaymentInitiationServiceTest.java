@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.ing;
 
 import de.adorsys.xs2a.adapter.api.model.*;
-import de.adorsys.xs2a.adapter.http.AbstractHttpClient;
+import de.adorsys.xs2a.adapter.impl.http.AbstractHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;

@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.santander;
 
-import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.impl.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.security.AccessTokenService;
+import de.adorsys.xs2a.adapter.impl.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 

@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.fiducia;
 
-import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.impl.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.fiducia.mapper.FiduciaMapper;
 import de.adorsys.xs2a.adapter.fiducia.model.*;

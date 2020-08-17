@@ -17,7 +17,7 @@
 package de.adorsys.xs2a.adapter.fiducia;
 
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.http.RequestSigningInterceptor;
+import de.adorsys.xs2a.adapter.impl.http.RequestSigningInterceptor;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;

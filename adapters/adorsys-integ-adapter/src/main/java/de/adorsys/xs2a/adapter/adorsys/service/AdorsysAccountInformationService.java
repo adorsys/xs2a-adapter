@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.adorsys.service;
 
-import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.impl.adapter.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.api.model.Consents;
 import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
 import de.adorsys.xs2a.adapter.http.HttpClient;
@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
-import static de.adorsys.xs2a.adapter.http.ResponseHandlers.consentCreationResponseHandler;
+import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.consentCreationResponseHandler;
 import static java.util.function.Function.identity;
 
 public class AdorsysAccountInformationService extends BaseAccountInformationService {

@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.adorsys.service;
 
-import de.adorsys.xs2a.adapter.adapter.mapper.TokenResponseMapper;
-import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
+import de.adorsys.xs2a.adapter.impl.adapter.mapper.TokenResponseMapper;
+import de.adorsys.xs2a.adapter.impl.adapter.model.OauthToken;
 import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.StringUri;
+import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
+import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.jsonResponseHandler;
 import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
 
 public class AdorsysIntegOauth2Service implements Oauth2Service {

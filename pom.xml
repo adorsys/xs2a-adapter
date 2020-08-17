@@ -54,7 +54,7 @@
         <module>xs2a-adapter-rest-api</module>
         <module>xs2a-adapter-rest-impl</module>
         <module>xs2a-adapter-rest2api-mapper</module>
-        <module>xs2a-adapter-service-api-adapter</module>
+        <module>xs2a-adapter-service-impl</module>
         <module>xs2a-adapter-service-loader</module>
         <module>xs2a-adapter-service-remote</module>
         <module>xs2a-adapter-service-api</module>

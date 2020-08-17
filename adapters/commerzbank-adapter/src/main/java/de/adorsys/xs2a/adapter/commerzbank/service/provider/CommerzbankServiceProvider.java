@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.adapter.commerzbank.service.provider;
 
-import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.impl.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.commerzbank.service.CommerzbankAccountInformationService;
 import de.adorsys.xs2a.adapter.commerzbank.service.CommerzbankOauth2Service;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;

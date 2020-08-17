@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
-import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.impl.adapter.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request.Builder.Interceptor;

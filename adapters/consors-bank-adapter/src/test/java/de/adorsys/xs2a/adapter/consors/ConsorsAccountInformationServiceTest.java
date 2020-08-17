@@ -1,10 +1,10 @@
 package de.adorsys.xs2a.adapter.consors;
 
-import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
+import de.adorsys.xs2a.adapter.impl.adapter.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
 import de.adorsys.xs2a.adapter.api.model.RemittanceInformationStructured;
 import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
-import de.adorsys.xs2a.adapter.http.AbstractHttpClient;
+import de.adorsys.xs2a.adapter.impl.http.AbstractHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
