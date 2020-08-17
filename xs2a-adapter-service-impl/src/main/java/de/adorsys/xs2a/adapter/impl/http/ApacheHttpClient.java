@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.adapter.impl.http;
 
-import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
@@ -39,7 +38,7 @@ public class ApacheHttpClient extends AbstractHttpClient {
     }
 
     @Override
-    public <T> Response<T> send(Request.Builder requestBuilder, HttpClient.ResponseHandler<T> responseHandler) {
+    public <T> Response<T> send(Request.Builder requestBuilder, ResponseHandler<T> responseHandler) {
         return execute(createRequest(requestBuilder), requestBuilder.headers(), responseHandler);
     }
 
@@ -117,7 +116,7 @@ public class ApacheHttpClient extends AbstractHttpClient {
     private <T> Response<T> execute(
         HttpUriRequest request,
         Map<String, String> headers,
-        HttpClient.ResponseHandler<T> responseHandler
+        ResponseHandler<T> responseHandler
     ) {
         headers.forEach(request::addHeader);
         logRequest(request, headers);
