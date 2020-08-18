@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.service.impl.model;
+package de.adorsys.xs2a.adapter.dkb.model;
 
 import de.adorsys.xs2a.adapter.api.model.ChallengeData.OtpFormat;
 

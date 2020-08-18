@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.service.impl.mapper;
+package de.adorsys.xs2a.adapter.dkb.mapper;
 
-import de.adorsys.xs2a.adapter.api.model.StartScaprocessResponse;
-import de.adorsys.xs2a.adapter.service.impl.model.DkbStartScaProcessResponse;
+import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
+import de.adorsys.xs2a.adapter.dkb.model.DkbConsentCreationResponse;
 import org.mapstruct.Mapper;
 
 @Mapper(uses = ChallengeDataDkbMapper.class)
-public interface StartScaProcessResponseDkbMapper {
+public interface ConsentCreationResponseDkbMapper {
 
-    StartScaprocessResponse toStartScaProcessResponse(DkbStartScaProcessResponse response);
+    ConsentsResponse201 toConsentCreationResponse(DkbConsentCreationResponse response);
 }

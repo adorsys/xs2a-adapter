@@ -1,7 +1,7 @@
-package de.adorsys.xs2a.adapter.service.impl.mapper;
+package de.adorsys.xs2a.adapter.dkb.mapper;
 
 import de.adorsys.xs2a.adapter.api.model.ChallengeData;
-import de.adorsys.xs2a.adapter.service.impl.model.DkbChallengeData;
+import de.adorsys.xs2a.adapter.dkb.model.DkbChallengeData;
 import org.mapstruct.Mapper;
 
 import java.util.Collections;
