@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.adapter.sparkasse;
 
-import de.adorsys.xs2a.adapter.impl.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;

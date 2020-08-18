@@ -19,7 +19,7 @@ package de.adorsys.xs2a.adapter.adorsys.service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
-import de.adorsys.xs2a.adapter.impl.adapter.link.identity.IdentityLinksRewriter;
+import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.adorsys.service.provider.AdorsysIntegServiceProvider;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;

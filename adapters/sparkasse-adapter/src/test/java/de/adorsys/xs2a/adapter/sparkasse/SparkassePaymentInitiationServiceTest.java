@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.sparkasse;
 
-import de.adorsys.xs2a.adapter.impl.adapter.link.identity.IdentityLinksRewriter;
+import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.PaymentInitationRequestResponse201;
 import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
 import de.adorsys.xs2a.adapter.api.model.PaymentService;

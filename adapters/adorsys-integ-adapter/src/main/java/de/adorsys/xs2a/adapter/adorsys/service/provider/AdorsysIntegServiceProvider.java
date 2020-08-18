@@ -16,9 +16,9 @@
 
 package de.adorsys.xs2a.adapter.adorsys.service.provider;
 
-import de.adorsys.xs2a.adapter.impl.adapter.BasePaymentInitiationService;
-import de.adorsys.xs2a.adapter.impl.adapter.oauth2.api.BaseOauth2Api;
-import de.adorsys.xs2a.adapter.impl.adapter.oauth2.api.model.AuthorisationServerMetaData;
+import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.impl.oauth2.api.BaseOauth2Api;
+import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
 import de.adorsys.xs2a.adapter.adorsys.service.AdorsysAccountInformationService;
 import de.adorsys.xs2a.adapter.adorsys.service.AdorsysIntegOauth2Service;
 import de.adorsys.xs2a.adapter.http.HttpClient;

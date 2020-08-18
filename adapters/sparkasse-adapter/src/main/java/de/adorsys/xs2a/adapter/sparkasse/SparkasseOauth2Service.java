@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.sparkasse;
 
-import de.adorsys.xs2a.adapter.impl.adapter.*;
+import de.adorsys.xs2a.adapter.impl.*;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.impl.http.UriBuilder;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;

@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.config;
 
-import de.adorsys.xs2a.adapter.impl.adapter.link.identity.IdentityLinksRewriter;
+import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClientFactory;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.impl.http.wiremock.WireMockHttpClientFactory;

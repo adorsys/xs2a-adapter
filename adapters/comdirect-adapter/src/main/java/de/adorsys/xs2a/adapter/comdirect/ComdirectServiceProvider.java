@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.adapter.comdirect;
 
-import de.adorsys.xs2a.adapter.impl.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;

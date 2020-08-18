@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.commerzbank.service;
 
-import de.adorsys.xs2a.adapter.impl.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.api.model.ReadAccountBalanceResponse200;
 import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.commerzbank.service.mapper.BalanceReportMapper;

@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.adapter.santander;
 
-import de.adorsys.xs2a.adapter.impl.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;

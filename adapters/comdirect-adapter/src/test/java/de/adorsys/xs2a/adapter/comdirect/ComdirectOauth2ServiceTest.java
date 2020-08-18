@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.comdirect;
 
-import de.adorsys.xs2a.adapter.impl.adapter.model.OauthToken;
-import de.adorsys.xs2a.adapter.impl.adapter.oauth2.api.model.AuthorisationServerMetaData;
+import de.adorsys.xs2a.adapter.impl.model.OauthToken;
+import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;

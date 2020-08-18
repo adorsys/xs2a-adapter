@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.dab;
 
-import de.adorsys.xs2a.adapter.impl.adapter.link.identity.IdentityLinksRewriter;
+import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
 import de.adorsys.xs2a.adapter.api.model.RemittanceInformationStructured;
 import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
