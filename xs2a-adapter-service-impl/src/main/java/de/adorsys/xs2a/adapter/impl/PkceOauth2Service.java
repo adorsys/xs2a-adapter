@@ -23,16 +23,23 @@ public class PkceOauth2Service implements Oauth2Service, PkceOauth2Extension {
     @Override
     public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) throws IOException {
         return UriBuilder.fromUri(oauth2Service.getAuthorizationRequestUri(headers, parameters))
-            .queryParam(Parameters.CODE_CHALLENGE_METHOD, "S256")
-            .queryParam(Parameters.CODE_CHALLENGE, codeChallenge())
+            .queryParam(Parameters.CODE_CHALLENGE_METHOD, orElse(parameters.getCodeChallengeMethod(), "S256"))
+            .queryParam(Parameters.CODE_CHALLENGE, orElse(parameters.getCodeChallenge(), this.codeChallenge()))
             .build();
     }
 
     @Override
     public TokenResponse getToken(Map<String, String> headers, Parameters parameters) throws IOException {
         if (GrantType.AUTHORIZATION_CODE.toString().equals(parameters.getGrantType())) {
-            parameters.setCodeVerifier(codeVerifier());
+            parameters.setCodeVerifier(orElse(parameters.getCodeVerifier(), this.codeVerifier()));
         }
         return oauth2Service.getToken(headers, parameters);
+    }
+
+    private String orElse(String optionalValue, String defaultValue) {
+        if (optionalValue != null) {
+            return optionalValue;
+        }
+        return defaultValue;
     }
 }

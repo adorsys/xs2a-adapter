@@ -33,6 +33,19 @@ class PkceOauth2ServiceTest {
     }
 
     @Test
+    void codeVerifierParameterCanBeOverridden() throws IOException {
+        parameters.setGrantType(GrantType.AUTHORIZATION_CODE.toString());
+        String codeVerifier = "code-verifier";
+        parameters.setCodeVerifier(codeVerifier);
+
+        pkceOauth2Service.getToken(null, parameters);
+
+        Mockito.verify(oauth2Service, Mockito.times(1))
+            .getToken(Mockito.any(), Mockito.argThat(p -> p.getCodeVerifier() != null &&
+                p.getCodeVerifier().equals(codeVerifier)));
+    }
+
+    @Test
     void codeVerifierParameterIsNotAddedForTokenRefresh() throws IOException {
         parameters.setGrantType(GrantType.REFRESH_TOKEN.toString());
 
@@ -49,6 +62,29 @@ class PkceOauth2ServiceTest {
         String expectedOutput = authorisationRequestUri + "&" +
             Parameters.CODE_CHALLENGE_METHOD + "=S256&" +
             Parameters.CODE_CHALLENGE + "=" + pkceOauth2Service.codeChallenge();
+
+        Mockito.when(oauth2Service.getAuthorizationRequestUri(Mockito.any(), Mockito.any()))
+            .thenReturn(URI.create(authorisationRequestUri));
+
+        URI actual = pkceOauth2Service.getAuthorizationRequestUri(null, parameters);
+
+        Mockito.verify(oauth2Service, Mockito.times(1))
+            .getAuthorizationRequestUri(Mockito.any(), Mockito.any());
+
+        Assertions.assertEquals(actual.toString(), expectedOutput);
+    }
+
+    @Test
+    void getAuthorizationRequestUriWithOverriddenPkceParameters() throws IOException {
+        String authorisationRequestUri = "https://authorisation.endpoint?" +
+            "response_type=code&state=state&redirect_uri=https%3A%2F%2Fredirect.uri";
+        String codeChallengeMethod = "plain";
+        String codeChallenge = "code-challenge";
+        String expectedOutput = authorisationRequestUri + "&" +
+            Parameters.CODE_CHALLENGE_METHOD + "=" + codeChallengeMethod + "&" +
+            Parameters.CODE_CHALLENGE + "=" + codeChallenge;
+        parameters.setCodeChallengeMethod(codeChallengeMethod);
+        parameters.setCodeChallenge(codeChallenge);
 
         Mockito.when(oauth2Service.getAuthorizationRequestUri(Mockito.any(), Mockito.any()))
             .thenReturn(URI.create(authorisationRequestUri));
