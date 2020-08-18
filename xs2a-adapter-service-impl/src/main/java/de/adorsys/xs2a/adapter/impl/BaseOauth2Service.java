@@ -1,7 +1,5 @@
 package de.adorsys.xs2a.adapter.impl;
 
-import de.adorsys.xs2a.adapter.impl.mapper.TokenResponseMapper;
-import de.adorsys.xs2a.adapter.impl.model.OauthToken;
 import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
@@ -10,7 +8,6 @@ import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;
-import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +22,6 @@ public class BaseOauth2Service implements Oauth2Service {
 
     private final HttpClient httpClient;
     private final Aspsp aspsp;
-    private final TokenResponseMapper tokenResponseMapper = Mappers.getMapper(TokenResponseMapper.class);
 
     public BaseOauth2Service(Aspsp aspsp, HttpClient httpClient) {
         this.httpClient = httpClient;
@@ -64,10 +60,10 @@ public class BaseOauth2Service implements Oauth2Service {
     @Override
     public TokenResponse getToken(Map<String, String> headers, Parameters parameters) throws IOException {
 
-        Response<OauthToken> response = httpClient.post(getTokenEndpoint(parameters))
+        Response<TokenResponse> response = httpClient.post(getTokenEndpoint(parameters))
             .urlEncodedBody(parameters.asMap())
-            .send(jsonResponseHandler(OauthToken.class));
-        return tokenResponseMapper.map(response.getBody());
+            .send(jsonResponseHandler(TokenResponse.class));
+        return response.getBody();
     }
 
     private String getTokenEndpoint(Parameters parameters) {

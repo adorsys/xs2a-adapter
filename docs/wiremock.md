@@ -8,7 +8,8 @@ and start a standalone wiremock server that will proxy requests to an aspsp
     --https-truststore /path/to/tpp-cert.p12 \
     --truststore-type pkcs12 \
     --truststore-password <password> \
-    --https-keystore /path/to/tpp-cert.p12
+    --https-keystore /path/to/tpp-cert.p12 \
+    --global-response-templating
     ```
 2. Replace the aspsp url with the wiremock server url (http://localhost:8008)
 in the adapter configuration.

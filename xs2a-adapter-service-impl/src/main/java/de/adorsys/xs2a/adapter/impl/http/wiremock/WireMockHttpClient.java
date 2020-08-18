@@ -18,6 +18,7 @@ package de.adorsys.xs2a.adapter.impl.http.wiremock;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -39,8 +40,9 @@ public class WireMockHttpClient extends ApacheHttpClient {
     public WireMockHttpClient(String adapterId, CloseableHttpClient httpClient, int wireMockPort) {
         super(httpClient);
         WireMockConfiguration options = options()
-                                            .port(wireMockPort)
-                                            .fileSource(new JarReadingClasspathFileSource(adapterId));
+            .port(wireMockPort)
+            .extensions(new ResponseTemplateTransformer(true))
+            .fileSource(new JarReadingClasspathFileSource(adapterId));
 
         wireMockServer = new WireMockServer(options);
         wireMockServer.start();

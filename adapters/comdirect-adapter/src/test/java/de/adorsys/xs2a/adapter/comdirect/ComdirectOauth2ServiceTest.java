@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.adapter.comdirect;
 
-import de.adorsys.xs2a.adapter.impl.model.OauthToken;
 import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
@@ -11,6 +10,7 @@ import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import de.adorsys.xs2a.adapter.validation.RequestValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -144,7 +144,7 @@ class ComdirectOauth2ServiceTest {
         Aspsp aspsp = new Aspsp();
         aspsp.setUrl(BASE_URI);
         HttpClient httpClient = Mockito.spy(new ApacheHttpClient(null));
-        doReturn(new Response<>(200, new OauthToken(), ResponseHeaders.emptyResponseHeaders()))
+        doReturn(new Response<>(200, new TokenResponse(), ResponseHeaders.emptyResponseHeaders()))
             .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), Mockito.any());
         oauth2Service = ComdirectOauth2Service.create(aspsp, httpClient, keyStore);
         Parameters parameters = new Parameters();

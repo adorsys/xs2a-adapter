@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.adapter.adorsys.service;
 
-import de.adorsys.xs2a.adapter.impl.model.OauthToken;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
@@ -42,10 +41,9 @@ class AdorsysIntegOauth2ServiceTest {
     private static final Long EXPIRES_IN_SECONDS = 300L;
     private static final String REFRESH_TOKEN = "testRefreshToken";
     private static final String SCOPE = "testScope";
-    private static final OauthToken OAUTH_TOKEN = buildOauthToken();
     private static final int HTTP_CODE_OK = 200;
-    private static final Response<OauthToken> OAUTH_TOKEN_RESPONSE
-        = new Response<>(HTTP_CODE_OK, OAUTH_TOKEN, ResponseHeaders.emptyResponseHeaders());
+    private static final Response<TokenResponse> OAUTH_TOKEN_RESPONSE
+        = new Response<>(HTTP_CODE_OK, buildTokenResponse(), ResponseHeaders.emptyResponseHeaders());
 
     @InjectMocks
     private AdorsysIntegOauth2Service oauth2Service;
@@ -188,15 +186,15 @@ class AdorsysIntegOauth2ServiceTest {
         return URI.create(AUTH_URL_WITH_REDIRECT_URI_PARAM);
     }
 
-    private static OauthToken buildOauthToken() {
-        OauthToken oauthToken = new OauthToken();
+    private static TokenResponse buildTokenResponse() {
+        TokenResponse tokenResponse = new TokenResponse();
 
-        oauthToken.setAccessToken(ACCESS_TOKEN);
-        oauthToken.setTokenType(TOKEN_TYPE);
-        oauthToken.setExpiresInSeconds(EXPIRES_IN_SECONDS);
-        oauthToken.setRefreshToken(REFRESH_TOKEN);
-        oauthToken.setScope(SCOPE);
+        tokenResponse.setAccessToken(ACCESS_TOKEN);
+        tokenResponse.setTokenType(TOKEN_TYPE);
+        tokenResponse.setExpiresInSeconds(EXPIRES_IN_SECONDS);
+        tokenResponse.setRefreshToken(REFRESH_TOKEN);
+        tokenResponse.setScope(SCOPE);
 
-        return oauthToken;
+        return tokenResponse;
     }
 }

@@ -60,6 +60,7 @@
         <module>xs2a-adapter-service-api</module>
         <module>xs2a-adapter-aspsp-registry</module>
         <module>xs2a-adapter-generated-api</module>
+        <module>xs2a-adapter-test</module>
     </modules>
 
     <properties>

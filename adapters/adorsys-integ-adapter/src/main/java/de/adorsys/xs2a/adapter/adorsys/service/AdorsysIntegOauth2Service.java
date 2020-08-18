@@ -1,7 +1,5 @@
 package de.adorsys.xs2a.adapter.adorsys.service;
 
-import de.adorsys.xs2a.adapter.impl.mapper.TokenResponseMapper;
-import de.adorsys.xs2a.adapter.impl.model.OauthToken;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
@@ -11,7 +9,6 @@ import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import de.adorsys.xs2a.adapter.service.oauth.Oauth2Api;
 import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.apache.commons.lang3.StringUtils;
-import org.mapstruct.factory.Mappers;
 
 import java.net.URI;
 import java.util.Collections;
@@ -29,7 +26,6 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
     private final Aspsp aspsp;
     private final HttpClient httpClient;
     private final Oauth2Api oauth2Api;
-    private final TokenResponseMapper tokenResponseMapper = Mappers.getMapper(TokenResponseMapper.class);
 
     public AdorsysIntegOauth2Service(Aspsp aspsp,
                                      HttpClient httpClient,
@@ -76,9 +72,9 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
             "code", parameters.getAuthorizationCode()
         );
 
-        Response<OauthToken> response = httpClient.post(url)
-                                            .send(jsonResponseHandler(OauthToken.class));
-        return tokenResponseMapper.map(response.getBody());
+        Response<TokenResponse> response = httpClient.post(url)
+            .send(jsonResponseHandler(TokenResponse.class));
+        return response.getBody();
     }
 
     @Override
