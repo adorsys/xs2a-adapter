@@ -1,8 +1,7 @@
-package de.adorsys.xs2a.adapter.service.loader;
+package de.adorsys.xs2a.adapter.serviceloader;
 
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.impl.TestOauth2Service;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
