@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.config;
+package de.adorsys.xs2a.adapter.app.config;
 
 import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClientFactory;

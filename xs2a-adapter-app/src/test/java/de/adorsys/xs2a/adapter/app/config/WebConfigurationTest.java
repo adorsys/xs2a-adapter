@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.config;
+package de.adorsys.xs2a.adapter.app.config;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
