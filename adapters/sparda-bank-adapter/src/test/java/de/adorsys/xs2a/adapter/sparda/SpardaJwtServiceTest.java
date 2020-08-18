@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.service;
+package de.adorsys.xs2a.adapter.sparda;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,49 +1,50 @@
-package de.adorsys.xs2a.adapter.service;
+package de.adorsys.xs2a.adapter.sparda;
 
-import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
-import de.adorsys.xs2a.adapter.api.model.PaymentInitationRequestResponse201;
+import de.adorsys.xs2a.adapter.api.model.Consents;
+import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
 import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
+import de.adorsys.xs2a.adapter.service.Oauth2Service;
+import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.service.RequestParams;
+import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 import java.util.Map;
 
-import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.paymentInitiationResponseHandler;
+import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.consentCreationResponseHandler;
 import static java.util.function.Function.identity;
 
-public class SpardaPaymentInitiationService extends BasePaymentInitiationService {
-    private static final String PIS_SCOPE = "pis";
+public class SpardaAccountInformationService extends BaseAccountInformationService {
+    private static final String AIS_SCOPE = "ais";
     private static final String BEARER_TOKEN_TYPE_PREFIX = "Bearer ";
 
     private final SpardaJwtService spardaJwtService;
 
-    public SpardaPaymentInitiationService(Aspsp aspsp,
-                                          HttpClient httpClient,
-                                          LinksRewriter linksRewriter,
-                                          SpardaJwtService spardaJwtService) {
+    public SpardaAccountInformationService(Aspsp aspsp,
+                                           HttpClient httpClient,
+                                           LinksRewriter linksRewriter,
+                                           SpardaJwtService spardaJwtService) {
         super(aspsp, httpClient, linksRewriter);
         this.spardaJwtService = spardaJwtService;
     }
 
     @Override
-    public Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
-                                                                      String paymentProduct,
-                                                                      RequestHeaders requestHeaders,
-                                                                      RequestParams requestParams,
-                                                                      Object body) {
+    public Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
+                                                       RequestParams requestParams,
+                                                       Consents body) {
         if (isOauthPreStep(requestHeaders)) {
             requestHeaders = modifyPsuId(requestHeaders);
         }
-        String idpUri = StringUri.appendQueryParam(getIdpUri(), Oauth2Service.Parameters.SCOPE, PIS_SCOPE);
+        String idpUri = StringUri.appendQueryParam(getIdpUri(), Oauth2Service.Parameters.SCOPE, AIS_SCOPE);
 
-        return initiatePayment(paymentService,
-            paymentProduct,
-            body,
-            requestHeaders,
+        return createConsent(requestHeaders,
             requestParams,
+            body,
             identity(),
-            paymentInitiationResponseHandler(idpUri, PaymentInitationRequestResponse201.class));
+            consentCreationResponseHandler(idpUri, ConsentsResponse201.class));
     }
 
     private boolean isOauthPreStep(RequestHeaders requestHeaders) {

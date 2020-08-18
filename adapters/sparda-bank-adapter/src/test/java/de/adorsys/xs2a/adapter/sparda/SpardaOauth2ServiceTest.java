@@ -1,8 +1,11 @@
-package de.adorsys.xs2a.adapter.service;
+package de.adorsys.xs2a.adapter.sparda;
 
-import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
+import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.Scope;
 import de.adorsys.xs2a.adapter.validation.ValidationError;
@@ -21,7 +24,7 @@ import java.util.List;
 
 import static de.adorsys.xs2a.adapter.service.Oauth2Service.GrantType.AUTHORIZATION_CODE;
 import static de.adorsys.xs2a.adapter.service.Oauth2Service.GrantType.REFRESH_TOKEN;
-import static de.adorsys.xs2a.adapter.service.SpardaOauth2Service.UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE;
+import static de.adorsys.xs2a.adapter.sparda.SpardaOauth2Service.UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
