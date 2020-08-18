@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.controller;
+package de.adorsys.xs2a.adapter.rest.impl.controller;
 
 import de.adorsys.xs2a.adapter.api.model.HrefType;
 import de.adorsys.xs2a.adapter.mapper.Oauth2Mapper;

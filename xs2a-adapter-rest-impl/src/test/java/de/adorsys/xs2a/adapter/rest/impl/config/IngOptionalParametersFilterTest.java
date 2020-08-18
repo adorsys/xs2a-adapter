@@ -1,10 +1,12 @@
-package de.adorsys.xs2a.adapter.config;
+package de.adorsys.xs2a.adapter.rest.impl.config;
 
-import de.adorsys.xs2a.adapter.controller.ConsentController;
+import de.adorsys.xs2a.adapter.api.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
+import de.adorsys.xs2a.adapter.rest.impl.controller.ConsentController;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
+import de.adorsys.xs2a.adapter.service.RequestParams;
+import de.adorsys.xs2a.adapter.service.ResponseHeaders;
+import de.adorsys.xs2a.adapter.service.exception.OAuthException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -23,7 +25,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class MimeHeadersSupportFilterTest {
+class IngOptionalParametersFilterTest {
 
     private MockMvc mockMvc;
 
@@ -38,28 +40,27 @@ class MimeHeadersSupportFilterTest {
         MockitoAnnotations.initMocks(this);
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
-                      .setMessageConverters(new MappingJackson2HttpMessageConverter())
-                      .setControllerAdvice(new RestExceptionHandler(new HeadersMapper()))
-                      .addFilters(new MimeHeadersSupportFilter())
-                      .build();
+            .setMessageConverters(new MappingJackson2HttpMessageConverter())
+            .setControllerAdvice(new RestExceptionHandler(new HeadersMapper()))
+            .addFilters(new IngOptionalParametersFilter())
+            .build();
     }
 
     @Test
     void doFilter() throws Exception {
-        String encodedUmlauts = "=?UTF-8?B?w6Qgw7Ygw7w=?="; // ä ö ü
-        ArgumentCaptor<RequestHeaders> headersCaptor = ArgumentCaptor.forClass(RequestHeaders.class);
-        when(accountInformationService.createConsent(headersCaptor.capture(), any(), any()))
-            .thenThrow(new AspspRegistrationNotFoundException(""));
+        ArgumentCaptor<RequestParams> paramsCaptor = ArgumentCaptor.forClass(RequestParams.class);
+        when(accountInformationService.createConsent(any(), paramsCaptor.capture(), any()))
+            .thenThrow(new OAuthException(ResponseHeaders.emptyResponseHeaders(), new ErrorResponse(), ""));
 
         mockMvc.perform(post(ConsentController.CONSENTS)
-                            .header(RequestHeaders.PSU_ID, encodedUmlauts)
-                            .contentType(APPLICATION_JSON_VALUE)
-                            .content("{}"))
-            .andExpect(status().is(HttpStatus.BAD_REQUEST.value()))
-            .andReturn();
+            .contentType(APPLICATION_JSON_VALUE)
+            .content("{}"))
+            .andExpect(status().is(HttpStatus.FORBIDDEN.value()));
 
-        RequestHeaders headers = headersCaptor.getValue();
+        RequestParams params = paramsCaptor.getValue();
 
-        assertThat(headers.get(RequestHeaders.PSU_ID)).contains("ä ö ü");
+        assertThat(params.toMap())
+            .containsKey("balanceTypes")
+            .containsKey("limit");
     }
 }

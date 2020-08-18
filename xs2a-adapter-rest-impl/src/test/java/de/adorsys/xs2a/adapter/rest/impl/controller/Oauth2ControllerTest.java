@@ -1,7 +1,7 @@
-package de.adorsys.xs2a.adapter.controller;
+package de.adorsys.xs2a.adapter.rest.impl.controller;
 
-import de.adorsys.xs2a.adapter.TestModelBuilder;
 import de.adorsys.xs2a.adapter.rest.api.Oauth2Api;
+import de.adorsys.xs2a.adapter.rest.impl.TestModelBuilder;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
