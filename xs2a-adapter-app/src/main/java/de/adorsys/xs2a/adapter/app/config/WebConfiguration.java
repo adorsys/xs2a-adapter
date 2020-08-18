@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.config;
+package de.adorsys.xs2a.adapter.app.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

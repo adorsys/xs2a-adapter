@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.config;
+package de.adorsys.xs2a.adapter.app.config;
 
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
