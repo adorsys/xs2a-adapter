@@ -1,12 +1,9 @@
-package de.adorsys.xs2a.adapter.service.loader;
+package de.adorsys.xs2a.adapter.serviceloader;
 
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
 import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
-import de.adorsys.xs2a.adapter.service.impl.TestDownloadService;
-import de.adorsys.xs2a.adapter.service.impl.TestOauth2Service;
-import de.adorsys.xs2a.adapter.service.impl.TestPaymentInitiationService;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
 import org.junit.jupiter.api.Assertions;

@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.service.impl;
+package de.adorsys.xs2a.adapter.serviceloader;
 
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;

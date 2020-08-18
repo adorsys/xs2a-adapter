@@ -1,9 +1,8 @@
-package de.adorsys.xs2a.adapter.service.impl;
+package de.adorsys.xs2a.adapter.serviceloader;
 
 import de.adorsys.xs2a.adapter.service.DownloadService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.loader.AdapterServiceLoader;
 
 public class DownloadServiceImpl implements DownloadService {
     private final AdapterServiceLoader adapterServiceLoader;

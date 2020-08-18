@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.service.loader;
+package de.adorsys.xs2a.adapter.serviceloader;
 
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.*;
