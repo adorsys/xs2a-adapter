@@ -64,7 +64,6 @@ public interface IngMapper {
 
     @Mapping(target = "bban", ignore = true)
     @Mapping(target = "msisdn", ignore = true)
-    @Mapping(target = "product", ignore = true)
     @Mapping(target = "cashAccountType", ignore = true)
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "bic", ignore = true)
@@ -85,6 +84,12 @@ public interface IngMapper {
     }
 
     default TransactionStatus toTransactionStatus(String value) {
+        if ("ACTV".equals(value)) {
+            return TransactionStatus.ACTC;
+        }
+        if ("EXPI".equals(value)) {
+            return TransactionStatus.CANC;
+        }
         return TransactionStatus.fromValue(value);
     }
 

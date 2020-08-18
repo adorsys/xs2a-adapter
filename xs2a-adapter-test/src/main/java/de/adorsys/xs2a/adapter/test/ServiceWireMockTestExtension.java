@@ -1,12 +1,12 @@
-package de.adorsys.xs2a.adapter.sparkasse;
+package de.adorsys.xs2a.adapter.test;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
 import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.service.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
@@ -33,6 +33,7 @@ class ServiceWireMockTestExtension implements BeforeAllCallback, AfterAllCallbac
 
         WireMockServer wireMockServer = new WireMockServer(wireMockConfig()
             .dynamicPort()
+            .extensions(new ResponseTemplateTransformer(true))
             .usingFilesUnderClasspath(serviceProvider.getAdapterId()));
         wireMockServer.start();
         getStore(context).put(WireMockServer.class, wireMockServer);
@@ -41,12 +42,14 @@ class ServiceWireMockTestExtension implements BeforeAllCallback, AfterAllCallbac
         aspsp.setUrl("http://localhost:" + wireMockServer.port());
         HttpClient httpClient = new ApacheHttpClient(HttpClientBuilder.create().build());
         HttpClientFactory httpClientFactory = (adapterId, qwacAlias, supportedCipherSuites) -> httpClient;
+        Pkcs12KeyStore keyStore = new Pkcs12KeyStore(getClass().getClassLoader()
+            .getResourceAsStream("de/adorsys/xs2a/adapter/test/test_keystore.p12"));
         LinksRewriter linksRewriter = new IdentityLinksRewriter();
         if (serviceProvider instanceof AccountInformationServiceProvider) {
             AccountInformationService service =
                 ((AccountInformationServiceProvider) serviceProvider).getAccountInformationService(aspsp,
                     httpClientFactory,
-                    null,
+                    keyStore,
                     linksRewriter);
             getStore(context).put(AccountInformationService.class, service);
         }
@@ -54,9 +57,16 @@ class ServiceWireMockTestExtension implements BeforeAllCallback, AfterAllCallbac
             PaymentInitiationService service =
                 ((PaymentInitiationServiceProvider) serviceProvider).getPaymentInitiationService(aspsp,
                     httpClientFactory,
-                    null,
+                    keyStore,
                     linksRewriter);
             getStore(context).put(PaymentInitiationService.class, service);
+        }
+        if (serviceProvider instanceof Oauth2ServiceProvider) {
+            Oauth2Service service =
+                ((Oauth2ServiceProvider) serviceProvider).getOauth2Service(aspsp,
+                    httpClientFactory,
+                    keyStore);
+            getStore(context).put(Oauth2Service.class, service);
         }
     }
 
@@ -69,19 +79,18 @@ class ServiceWireMockTestExtension implements BeforeAllCallback, AfterAllCallbac
         getStore(context).remove(WireMockServer.class, WireMockServer.class).stop();
         getStore(context).remove(AccountInformationService.class);
         getStore(context).remove(PaymentInitiationService.class);
+        getStore(context).remove(Oauth2Service.class);
     }
 
     @Override
     public boolean supportsParameter(ParameterContext parameterContext,
-                                     ExtensionContext extensionContext) throws ParameterResolutionException {
-        Class<?> type = parameterContext.getParameter().getType();
-        return (type == AccountInformationService.class || type == PaymentInitiationService.class)
-            && getStore(extensionContext).get(type) != null;
+                                     ExtensionContext extensionContext) {
+        return getStore(extensionContext).get(parameterContext.getParameter().getType()) != null;
     }
 
     @Override
     public Object resolveParameter(ParameterContext parameterContext,
-                                   ExtensionContext extensionContext) throws ParameterResolutionException {
+                                   ExtensionContext extensionContext) {
         return getStore(extensionContext).get(parameterContext.getParameter().getType());
     }
 }

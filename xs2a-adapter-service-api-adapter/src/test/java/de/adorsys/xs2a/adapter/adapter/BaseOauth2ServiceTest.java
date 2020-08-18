@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.adapter.adapter;
 
-import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
 import de.adorsys.xs2a.adapter.adapter.oauth2.api.model.AuthorisationServerMetaData;
 import de.adorsys.xs2a.adapter.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
@@ -87,7 +86,7 @@ class BaseOauth2ServiceTest {
     void getToken_withAvailableScaOauthLink() throws IOException {
         Mockito.doReturn(authorizationServerMetadata())
             .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(SCA_OAUTH_LINK)), Mockito.any());
-        Mockito.doReturn(getOauthToken())
+        Mockito.doReturn(tokenResponse())
             .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), Mockito.any());
 
         TokenResponse actual = oauth2Service.getToken(null, parameters);
@@ -101,7 +100,7 @@ class BaseOauth2ServiceTest {
     @Test
     void getToken_withAvailableTokenEndpoint() throws IOException {
         parameters.setTokenEndpoint(TOKEN_ENDPOINT);
-        Mockito.doReturn(getOauthToken()).when(httpClient).send(Mockito.any(), Mockito.any());
+        Mockito.doReturn(tokenResponse()).when(httpClient).send(Mockito.any(), Mockito.any());
 
         TokenResponse actual = oauth2Service.getToken(null, parameters);
 
@@ -118,10 +117,10 @@ class BaseOauth2ServiceTest {
         return new Response<>(200, metadata, ResponseHeaders.emptyResponseHeaders());
     }
 
-    private Response<OauthToken> getOauthToken() {
-        OauthToken oauthToken = new OauthToken();
-        oauthToken.setAccessToken(ACCESS_TOKEN);
-        return new Response<>(200, oauthToken, ResponseHeaders.emptyResponseHeaders());
+    private Response<TokenResponse> tokenResponse() {
+        TokenResponse tokenResponse = new TokenResponse();
+        tokenResponse.setAccessToken(ACCESS_TOKEN);
+        return new Response<>(200, tokenResponse, ResponseHeaders.emptyResponseHeaders());
     }
 
     private Aspsp buildAspspWithIdpUrl() {

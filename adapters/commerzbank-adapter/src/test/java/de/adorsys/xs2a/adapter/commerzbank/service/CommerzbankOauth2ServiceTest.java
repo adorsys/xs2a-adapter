@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.adapter.commerzbank.service;
 
-import de.adorsys.xs2a.adapter.adapter.model.OauthToken;
 import de.adorsys.xs2a.adapter.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
@@ -9,6 +8,7 @@ import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -46,7 +46,7 @@ class CommerzbankOauth2ServiceTest {
         aspsp.setUrl(BASE_URL);
 
         httpClient = Mockito.spy(new ApacheHttpClient(null));
-        Mockito.doReturn(new Response<>(200, new OauthToken(), ResponseHeaders.emptyResponseHeaders()))
+        Mockito.doReturn(new Response<>(200, new TokenResponse(), ResponseHeaders.emptyResponseHeaders()))
             .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), Mockito.any());
 
         keyStore = Mockito.mock(Pkcs12KeyStore.class);

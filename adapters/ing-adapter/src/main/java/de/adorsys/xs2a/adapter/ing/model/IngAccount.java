@@ -13,6 +13,8 @@ public class IngAccount {
 
     private String currency;
 
+    private String product;
+
     @JsonProperty("_links")
     private IngAccountLinks links;
 
@@ -46,6 +48,14 @@ public class IngAccount {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public void setProduct(String product) {
+        this.product = product;
     }
 
     public IngAccountLinks getLinks() {

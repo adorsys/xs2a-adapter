@@ -10,9 +10,11 @@ import javax.net.ssl.SSLContext;
 import javax.security.auth.x500.X500Principal;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -61,12 +63,23 @@ public class Pkcs12KeyStore {
     public Pkcs12KeyStore(String filename, char[] password, String defaultQwacAlias, String defaultQsealAlias)
         throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException {
 
+        this(new FileInputStream(filename), password, defaultQwacAlias, defaultQsealAlias);
+    }
+
+    public Pkcs12KeyStore(InputStream keyStore, char[] password, String defaultQwacAlias, String defaultQsealAlias)
+        throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException {
+
         this.keyStore = KeyStore.getInstance(KEY_STORE_TYPE);
+        this.keyStore.load(Objects.requireNonNull(keyStore), password);
         this.password = password;
         this.defaultQwacAlias = defaultQwacAlias;
         this.defaultQsealAlias = defaultQsealAlias;
-        FileInputStream inputStream = new FileInputStream(filename);
-        keyStore.load(inputStream, password);
+    }
+
+    public Pkcs12KeyStore(InputStream keyStore)
+        throws CertificateException, NoSuchAlgorithmException, KeyStoreException, IOException {
+
+        this(keyStore, DEFAULT_PASSWORD, DEFAULT_QWAC_ALIAS, DEFAULT_QSEAL_ALIAS);
     }
 
     public SSLContext getSslContext()
