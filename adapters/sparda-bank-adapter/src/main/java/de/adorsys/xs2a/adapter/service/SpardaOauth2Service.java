@@ -1,11 +1,11 @@
 package de.adorsys.xs2a.adapter.service;
 
-import de.adorsys.xs2a.adapter.adapter.BaseOauth2Service;
-import de.adorsys.xs2a.adapter.adapter.CertificateSubjectClientIdOauth2Service;
-import de.adorsys.xs2a.adapter.adapter.PkceOauth2Service;
+import de.adorsys.xs2a.adapter.impl.BaseOauth2Service;
+import de.adorsys.xs2a.adapter.impl.CertificateSubjectClientIdOauth2Service;
+import de.adorsys.xs2a.adapter.impl.PkceOauth2Service;
 import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.StringUri;
-import de.adorsys.xs2a.adapter.http.UriBuilder;
+import de.adorsys.xs2a.adapter.impl.http.StringUri;
+import de.adorsys.xs2a.adapter.impl.http.UriBuilder;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import de.adorsys.xs2a.adapter.service.model.Scope;
 import de.adorsys.xs2a.adapter.service.model.TokenResponse;

@@ -1,10 +1,10 @@
 package de.adorsys.xs2a.adapter.santander;
 
-import de.adorsys.xs2a.adapter.adapter.BaseOauth2Service;
-import de.adorsys.xs2a.adapter.adapter.CertificateSubjectClientIdOauth2Service;
-import de.adorsys.xs2a.adapter.adapter.PkceOauth2Service;
+import de.adorsys.xs2a.adapter.impl.BaseOauth2Service;
+import de.adorsys.xs2a.adapter.impl.CertificateSubjectClientIdOauth2Service;
+import de.adorsys.xs2a.adapter.impl.PkceOauth2Service;
 import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.UriBuilder;
+import de.adorsys.xs2a.adapter.impl.http.UriBuilder;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.PkceOauth2Extension;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;

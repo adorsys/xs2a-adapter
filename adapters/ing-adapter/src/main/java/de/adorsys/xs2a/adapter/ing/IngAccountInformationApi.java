@@ -3,7 +3,7 @@ package de.adorsys.xs2a.adapter.ing;
 import de.adorsys.xs2a.adapter.api.model.CardAccountsTransactionsResponse200;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
-import de.adorsys.xs2a.adapter.http.StringUri;
+import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.ing.model.IngAccountsResponse;
 import de.adorsys.xs2a.adapter.ing.model.IngBalancesResponse;
 import de.adorsys.xs2a.adapter.ing.model.IngTransactionsResponse;
@@ -13,7 +13,7 @@ import de.adorsys.xs2a.adapter.service.Response;
 import java.time.LocalDate;
 import java.util.*;
 
-import static de.adorsys.xs2a.adapter.http.ResponseHandlers.jsonResponseHandler;
+import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.jsonResponseHandler;
 
 public class IngAccountInformationApi {
     private static final String ACCOUNTS_ENDPOINT = "/v3/accounts";

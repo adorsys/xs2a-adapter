@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.sparkasse;
 
-import de.adorsys.xs2a.adapter.adapter.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.api.model.PaymentInitationRequestResponse201;
 import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationMultipartBody;
 import de.adorsys.xs2a.adapter.http.HttpClient;

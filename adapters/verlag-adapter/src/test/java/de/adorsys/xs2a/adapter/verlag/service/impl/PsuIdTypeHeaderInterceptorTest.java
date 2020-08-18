@@ -2,7 +2,7 @@ package de.adorsys.xs2a.adapter.verlag.service.impl;
 
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request;
-import de.adorsys.xs2a.adapter.http.RequestBuilderImpl;
+import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

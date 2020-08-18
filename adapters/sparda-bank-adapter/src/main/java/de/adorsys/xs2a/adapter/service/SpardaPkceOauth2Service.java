@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.service;
 
-import de.adorsys.xs2a.adapter.adapter.PkceOauth2Service;
+import de.adorsys.xs2a.adapter.impl.PkceOauth2Service;
 
 class SpardaPkceOauth2Service extends PkceOauth2Service {
 

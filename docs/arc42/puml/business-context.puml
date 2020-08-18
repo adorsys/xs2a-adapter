@@ -5,9 +5,9 @@ collections ASPSPs as banks
 package xs2a_adapter [
 + xs2a-adapter-app
 + xs2a-adapter-service-api
++ xs2a-adapter-service-impl
 + xs2a-adapter-service-loader
 + xs2a-adapter-service-remote
-+ xs2a-adapter-service-api-adapter
 + xs2a-adapter-rest-api
 + xs2a-adapter-rest-impl
 + xs2a-adapter-rest2api-mapper

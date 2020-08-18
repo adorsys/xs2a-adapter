@@ -16,7 +16,7 @@
 
 package de.adorsys.xs2a.adapter.fiducia;
 
-import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.fiducia.mapper.FiduciaMapper;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaOK200TransactionDetails;

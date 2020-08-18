@@ -7,7 +7,7 @@ import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationMultipartBody;
 import de.adorsys.xs2a.adapter.config.PeriodicPaymentInitiationMultipartBodyHttpMessageConverter;
 import de.adorsys.xs2a.adapter.http.ContentType;
-import de.adorsys.xs2a.adapter.http.ResponseHandlers;
+import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import feign.Contract;
 import feign.RequestTemplate;

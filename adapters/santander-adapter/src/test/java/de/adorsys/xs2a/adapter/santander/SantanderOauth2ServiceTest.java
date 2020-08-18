@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.santander;
 
-import de.adorsys.xs2a.adapter.adapter.oauth2.api.model.AuthorisationServerMetaData;
-import de.adorsys.xs2a.adapter.http.ApacheHttpClient;
+import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
+import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;

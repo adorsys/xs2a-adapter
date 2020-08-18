@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.config;
 
-import de.adorsys.xs2a.adapter.adapter.link.identity.IdentityLinksRewriter;
-import de.adorsys.xs2a.adapter.http.ApacheHttpClientFactory;
+import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
+import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClientFactory;
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.http.wiremock.WireMockHttpClientFactory;
+import de.adorsys.xs2a.adapter.impl.http.wiremock.WireMockHttpClientFactory;
 import de.adorsys.xs2a.adapter.registry.LuceneAspspRepositoryFactory;
 import de.adorsys.xs2a.adapter.service.*;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;

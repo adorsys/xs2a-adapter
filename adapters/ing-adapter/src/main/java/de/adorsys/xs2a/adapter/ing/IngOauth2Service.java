@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.ing;
 
-import de.adorsys.xs2a.adapter.http.StringUri;
+import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.ing.model.IngApplicationTokenResponse;
 import de.adorsys.xs2a.adapter.ing.model.IngAuthorizationURLResponse;
 import de.adorsys.xs2a.adapter.ing.model.IngTokenResponse;

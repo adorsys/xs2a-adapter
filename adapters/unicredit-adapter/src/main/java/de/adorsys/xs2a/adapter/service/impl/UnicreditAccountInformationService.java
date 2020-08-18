@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.service.impl;
 
-import de.adorsys.xs2a.adapter.adapter.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.api.model.AccountList;
 import de.adorsys.xs2a.adapter.api.model.Consents;
 import de.adorsys.xs2a.adapter.api.model.UpdatePsuAuthentication;

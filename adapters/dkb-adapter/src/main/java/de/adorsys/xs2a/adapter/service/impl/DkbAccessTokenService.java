@@ -18,10 +18,10 @@ package de.adorsys.xs2a.adapter.service.impl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.JacksonObjectMapper;
-import de.adorsys.xs2a.adapter.http.JsonMapper;
-import de.adorsys.xs2a.adapter.security.AccessTokenException;
-import de.adorsys.xs2a.adapter.security.AccessTokenService;
+import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
+import de.adorsys.xs2a.adapter.impl.http.JsonMapper;
+import de.adorsys.xs2a.adapter.impl.security.AccessTokenException;
+import de.adorsys.xs2a.adapter.impl.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

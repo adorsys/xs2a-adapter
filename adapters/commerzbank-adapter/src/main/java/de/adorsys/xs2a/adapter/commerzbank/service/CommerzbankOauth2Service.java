@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.commerzbank.service;
 
-import de.adorsys.xs2a.adapter.adapter.*;
+import de.adorsys.xs2a.adapter.impl.*;
 import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.StringUri;
+import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.service.Oauth2Service;
 import de.adorsys.xs2a.adapter.service.PkceOauth2Extension;
 import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
