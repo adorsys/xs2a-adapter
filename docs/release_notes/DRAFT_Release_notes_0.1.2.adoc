@@ -16,8 +16,9 @@ root package name to `de.adorsys.xs2a.adapter.impl`
 ** EXPI -> CANC
 ** ACTV -> ACTC
 - Removed exchangeRate property in fiducia adapter according to the clarification from support.
-- Changed `xs2a-adapter-service-loader` module root package to `de.adapter.xs2a.adapter.serviceloader`.
-- Changed `xs2a-adapter-app` module root package to `de.adapter.xs2a.adapter.app`.
+- Changed the root package of the `xs2a-adapter-service-loader` module to `de.adapter.xs2a.adapter.serviceloader`.
+- Changed the root package of the `xs2a-adapter-app` module to `de.adapter.xs2a.adapter.app`.
+- Changed the root package of the `xs2a-adapter-rest-impl` module to `de.adapter.xs2a.adapter.rest.impl`.
 
 == Features:
 

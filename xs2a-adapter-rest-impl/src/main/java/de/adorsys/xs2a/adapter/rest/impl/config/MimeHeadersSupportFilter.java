@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.config;
+package de.adorsys.xs2a.adapter.rest.impl.config;
 
 import org.apache.commons.fileupload.util.mime.MimeUtility;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

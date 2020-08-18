@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.config;
+package de.adorsys.xs2a.adapter.rest.impl.config;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;

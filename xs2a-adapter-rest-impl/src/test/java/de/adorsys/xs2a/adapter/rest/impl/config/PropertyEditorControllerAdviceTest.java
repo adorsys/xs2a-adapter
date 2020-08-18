@@ -1,8 +1,8 @@
-package de.adorsys.xs2a.adapter.config;
+package de.adorsys.xs2a.adapter.rest.impl.config;
 
 import de.adorsys.xs2a.adapter.api.model.BookingStatus;
-import de.adorsys.xs2a.adapter.controller.ConsentController;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
+import de.adorsys.xs2a.adapter.rest.impl.controller.ConsentController;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;

@@ -1,11 +1,11 @@
-package de.adorsys.xs2a.adapter.controller;
+package de.adorsys.xs2a.adapter.rest.impl.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.adorsys.xs2a.adapter.TestModelBuilder;
 import de.adorsys.xs2a.adapter.api.model.*;
-import de.adorsys.xs2a.adapter.config.RestExceptionHandler;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
+import de.adorsys.xs2a.adapter.rest.impl.TestModelBuilder;
+import de.adorsys.xs2a.adapter.rest.impl.config.RestExceptionHandler;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.Response;
