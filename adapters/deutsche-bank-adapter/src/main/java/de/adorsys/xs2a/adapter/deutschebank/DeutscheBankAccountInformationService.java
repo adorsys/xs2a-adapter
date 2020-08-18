@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.service.impl;
+package de.adorsys.xs2a.adapter.deutschebank;
 
-import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.api.model.PsuData;
 import de.adorsys.xs2a.adapter.api.model.StartScaprocessResponse;
 import de.adorsys.xs2a.adapter.api.model.UpdatePsuAuthentication;
@@ -24,6 +23,7 @@ import de.adorsys.xs2a.adapter.api.model.UpdatePsuAuthenticationResponse;
 import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.http.Request.Builder.Interceptor;
+import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.service.PsuPasswordEncryptionService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
