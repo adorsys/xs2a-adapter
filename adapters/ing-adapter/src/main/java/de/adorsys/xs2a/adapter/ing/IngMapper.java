@@ -84,6 +84,12 @@ public interface IngMapper {
     }
 
     default TransactionStatus toTransactionStatus(String value) {
+        if ("ACTV".equals(value)) {
+            return TransactionStatus.ACTC;
+        }
+        if ("EXPI".equals(value)) {
+            return TransactionStatus.CANC;
+        }
         return TransactionStatus.fromValue(value);
     }
 

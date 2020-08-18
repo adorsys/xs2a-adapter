@@ -10,6 +10,9 @@
 - Moved `ScopeWithResourceIdOauth2Service` into the `adapter.adapter` package:
 originally misplaced into the parent package.
 - Removed `OauthToken` and replaced its usages with `TokenResponse`.
+- Added transaction status mapping for periodic payments of ING
+** EXPI -> CANC
+** ACTV -> ACTC
 
 == Features:
 

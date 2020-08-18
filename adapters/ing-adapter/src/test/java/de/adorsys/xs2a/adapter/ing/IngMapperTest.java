@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class IngMapperTest {
 
@@ -562,5 +563,13 @@ class IngMapperTest {
         links.put("transactions", hrefType("transactions href"));
         account.setLinks(links);
         return account;
+    }
+
+    @Test
+    void toTransactionStatus() {
+        assertAll(
+            () -> assertThat(mapper.toTransactionStatus("ACTV")).isEqualTo(TransactionStatus.ACTC),
+            () -> assertThat(mapper.toTransactionStatus("EXPI")).isEqualTo(TransactionStatus.CANC)
+        );
     }
 }
