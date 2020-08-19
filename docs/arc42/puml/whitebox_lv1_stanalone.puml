@@ -27,7 +27,7 @@ rectangle xa as "xs2a adapter as standalone  application" {
 	component ra as "rest-api"
 	component ri as "rest-impl"
 	component sa as "service-api"
-	component saa as "service-api-adapter"
+	component saa as "service-impl"
 	component sl as "service-loader"
 
 	collections ba as "bank adapters"
