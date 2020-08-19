@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.service.impl;
+package de.adorsys.xs2a.adapter.unicredit;
 
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import org.junit.jupiter.api.Test;
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static de.adorsys.xs2a.adapter.service.impl.UnicreditHeaders.*;
+import static de.adorsys.xs2a.adapter.unicredit.UnicreditHeaders.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.service.impl;
+package de.adorsys.xs2a.adapter.unicredit;
 
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.http.HttpClient;
@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static de.adorsys.xs2a.adapter.service.impl.UnicreditHeaders.DEFAULT_PSU_ID_TYPE;
+import static de.adorsys.xs2a.adapter.unicredit.UnicreditHeaders.DEFAULT_PSU_ID_TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;

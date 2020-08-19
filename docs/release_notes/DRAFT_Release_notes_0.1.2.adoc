@@ -18,6 +18,7 @@ root package name to `de.adorsys.xs2a.adapter.impl`
 - Changed the root package of the `dkb-adapter` module to `de.adapter.xs2a.adapter.dkb`.
 - Changed the root package of the `sparda-bank-adapter` module to `de.adapter.xs2a.adapter.sparda`.
 - Renamed `adorsys-integ-adapter` to `adorsys-adapter`.
+- Changed the root package of the `unicredit-adapter` module to `de.adapter.xs2a.adapter.unicredit`.
 
 == Features:
 - Added transaction status mapping for periodic payments of ING
