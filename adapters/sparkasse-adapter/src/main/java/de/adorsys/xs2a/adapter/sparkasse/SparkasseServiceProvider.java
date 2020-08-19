@@ -16,17 +16,15 @@
 
 package de.adorsys.xs2a.adapter.sparkasse;
 
+import de.adorsys.xs2a.adapter.api.*;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.service.*;
-import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
-import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 
 public class SparkasseServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider,
-        Oauth2ServiceProvider {
+    Oauth2ServiceProvider {
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,

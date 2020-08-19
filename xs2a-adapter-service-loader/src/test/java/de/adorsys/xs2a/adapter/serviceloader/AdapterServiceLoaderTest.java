@@ -1,18 +1,17 @@
 package de.adorsys.xs2a.adapter.serviceloader;
 
-import de.adorsys.xs2a.adapter.service.*;
-import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
-import de.adorsys.xs2a.adapter.service.exception.AdapterNotFoundException;
-import de.adorsys.xs2a.adapter.service.exception.AspspRegistrationNotFoundException;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
+import de.adorsys.xs2a.adapter.api.*;
+import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
+import de.adorsys.xs2a.adapter.api.exception.AdapterNotFoundException;
+import de.adorsys.xs2a.adapter.api.exception.AspspRegistrationNotFoundException;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static de.adorsys.xs2a.adapter.service.RequestHeaders.*;
+import static de.adorsys.xs2a.adapter.api.RequestHeaders.*;
 import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;

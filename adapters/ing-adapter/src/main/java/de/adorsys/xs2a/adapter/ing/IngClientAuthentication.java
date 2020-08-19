@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.ing;
 
-import de.adorsys.xs2a.adapter.http.Request;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.exception.Xs2aAdapterException;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.exception.Xs2aAdapterException;
+import de.adorsys.xs2a.adapter.api.http.Request;
 
 import java.net.MalformedURLException;
 import java.net.URL;

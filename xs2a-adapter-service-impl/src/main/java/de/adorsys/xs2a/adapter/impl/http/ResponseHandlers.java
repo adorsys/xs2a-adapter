@@ -1,16 +1,16 @@
 package de.adorsys.xs2a.adapter.impl.http;
 
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.exception.ErrorResponseException;
+import de.adorsys.xs2a.adapter.api.exception.NotAcceptableException;
+import de.adorsys.xs2a.adapter.api.exception.OAuthException;
+import de.adorsys.xs2a.adapter.api.exception.Xs2aAdapterException;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.api.model.HrefType;
 import de.adorsys.xs2a.adapter.api.model.TppMessage;
 import de.adorsys.xs2a.adapter.api.model.TppMessageCategory;
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
-import de.adorsys.xs2a.adapter.service.exception.NotAcceptableException;
-import de.adorsys.xs2a.adapter.service.exception.OAuthException;
-import de.adorsys.xs2a.adapter.service.exception.Xs2aAdapterException;
 import org.apache.commons.fileupload.MultipartStream;
 import org.apache.commons.fileupload.ParameterParser;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static de.adorsys.xs2a.adapter.http.ContentType.*;
+import static de.adorsys.xs2a.adapter.api.http.ContentType.*;
 
 public class ResponseHandlers {
     private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([^;]+)");
@@ -88,7 +88,7 @@ public class ResponseHandlers {
                 // this statement is needed as error response handling is different from the successful response
                 if ((contentType == null || !contentType.startsWith(APPLICATION_JSON)) && isNotJson(pushbackResponseBody)) {
                     // needed to avoid org.springframework.http.converter.HttpMessageNotWritableException:
-                    // No converter for [class de.adorsys.xs2a.adapter.service.model.ErrorResponse]
+                    // No converter for [class de.adorsys.xs2a.adapter.api.model.ErrorResponse]
                     // with preset Content-Type 'application/xml;charset=UTF-8'
                     Map<String, String> headersMap = responseHeaders.getHeadersMap();
                     headersMap.put(ResponseHeaders.CONTENT_TYPE, APPLICATION_JSON);

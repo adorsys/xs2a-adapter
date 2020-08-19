@@ -1,14 +1,14 @@
 package de.adorsys.xs2a.adapter.commerzbank.service;
 
+import de.adorsys.xs2a.adapter.api.Oauth2Service;
+import de.adorsys.xs2a.adapter.api.Oauth2Service.Parameters;
+import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.service.Oauth2Service;
-import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
-import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;

@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.deutschebank;
 
-import de.adorsys.xs2a.adapter.http.Request;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

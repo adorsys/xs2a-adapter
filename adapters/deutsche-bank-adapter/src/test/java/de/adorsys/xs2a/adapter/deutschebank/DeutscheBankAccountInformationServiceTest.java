@@ -1,16 +1,16 @@
 package de.adorsys.xs2a.adapter.deutschebank;
 
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.RequestParams;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.Request;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.Consents;
 import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;

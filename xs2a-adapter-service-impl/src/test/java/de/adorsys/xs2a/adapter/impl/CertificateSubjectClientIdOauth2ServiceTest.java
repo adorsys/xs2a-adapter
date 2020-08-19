@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.impl;
 
-import de.adorsys.xs2a.adapter.service.Oauth2Service;
-import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
-import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
-import de.adorsys.xs2a.adapter.service.model.TokenResponse;
+import de.adorsys.xs2a.adapter.api.Oauth2Service;
+import de.adorsys.xs2a.adapter.api.Oauth2Service.Parameters;
+import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 

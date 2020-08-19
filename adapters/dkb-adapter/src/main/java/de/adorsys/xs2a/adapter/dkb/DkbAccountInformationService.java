@@ -16,22 +16,18 @@
 
 package de.adorsys.xs2a.adapter.dkb;
 
-import de.adorsys.xs2a.adapter.api.model.Consents;
-import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
-import de.adorsys.xs2a.adapter.api.model.StartScaprocessResponse;
-import de.adorsys.xs2a.adapter.api.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.RequestParams;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.dkb.mapper.ConsentCreationResponseDkbMapper;
 import de.adorsys.xs2a.adapter.dkb.mapper.StartScaProcessResponseDkbMapper;
 import de.adorsys.xs2a.adapter.dkb.model.DkbConsentCreationResponse;
 import de.adorsys.xs2a.adapter.dkb.model.DkbStartScaProcessResponse;
-import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenService;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Map;

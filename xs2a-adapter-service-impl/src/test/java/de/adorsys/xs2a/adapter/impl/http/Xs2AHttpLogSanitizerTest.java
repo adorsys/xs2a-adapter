@@ -2,8 +2,8 @@ package de.adorsys.xs2a.adapter.impl.http;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.adorsys.xs2a.adapter.api.http.ContentType;
 import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
-import de.adorsys.xs2a.adapter.http.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.junit.jupiter.api.Test;
 

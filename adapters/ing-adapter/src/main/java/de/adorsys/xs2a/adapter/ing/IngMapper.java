@@ -2,7 +2,6 @@ package de.adorsys.xs2a.adapter.ing;
 
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.ing.model.*;
-import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

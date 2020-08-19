@@ -1,15 +1,13 @@
 package de.adorsys.xs2a.adapter.ing;
 
+import de.adorsys.xs2a.adapter.api.*;
+import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
+import de.adorsys.xs2a.adapter.api.exception.Xs2aAdapterException;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.service.*;
-import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
-import de.adorsys.xs2a.adapter.service.exception.Xs2aAdapterException;
-import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
-import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;

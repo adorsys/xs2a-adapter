@@ -1,16 +1,16 @@
 package de.adorsys.xs2a.adapter.consors;
 
-import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.RequestParams;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
 import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.consors.model.ConsorsOK200TransactionDetails;
 import de.adorsys.xs2a.adapter.consors.model.ConsorsTransactionsResponse200Json;
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import org.mapstruct.factory.Mappers;
 
 public class ConsorsAccountInformationService extends BaseAccountInformationService {

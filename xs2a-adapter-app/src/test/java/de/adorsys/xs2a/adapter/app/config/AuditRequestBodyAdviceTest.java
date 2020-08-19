@@ -1,11 +1,11 @@
 package de.adorsys.xs2a.adapter.app.config;
 
+import de.adorsys.xs2a.adapter.api.AccountInformationService;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.model.AccountAccess;
 import de.adorsys.xs2a.adapter.api.model.AccountReference;
 import de.adorsys.xs2a.adapter.api.model.Consents;
-import de.adorsys.xs2a.adapter.service.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.RequestParams;
 import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;
 import org.springframework.core.MethodParameter;

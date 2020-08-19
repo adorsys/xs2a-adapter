@@ -1,13 +1,13 @@
 package de.adorsys.xs2a.adapter.rest.impl.config;
 
+import de.adorsys.xs2a.adapter.api.exception.*;
 import de.adorsys.xs2a.adapter.api.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.api.model.MessageCode;
 import de.adorsys.xs2a.adapter.api.model.TppMessage;
 import de.adorsys.xs2a.adapter.api.model.TppMessageCategory;
+import de.adorsys.xs2a.adapter.api.validation.RequestValidationException;
+import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
-import de.adorsys.xs2a.adapter.service.exception.*;
-import de.adorsys.xs2a.adapter.validation.RequestValidationException;
-import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.slf4j.MDC;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;

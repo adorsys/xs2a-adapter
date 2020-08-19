@@ -1,24 +1,24 @@
 package de.adorsys.xs2a.adapter.ing;
 
+import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.RequestParams;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
+import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.impl.http.JsonMapper;
 import de.adorsys.xs2a.adapter.ing.model.IngPaymentProduct;
 import de.adorsys.xs2a.adapter.ing.model.IngXmlPaymentProduct;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
-import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
-import static de.adorsys.xs2a.adapter.validation.ValidationError.Code.NOT_SUPPORTED;
+import static de.adorsys.xs2a.adapter.api.validation.Validation.requireValid;
+import static de.adorsys.xs2a.adapter.api.validation.ValidationError.Code.NOT_SUPPORTED;
 
 public class IngPaymentInitiationService implements PaymentInitiationService {
     private final IngOauth2Service ingOauth2Service;

@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.registry.mapper;
 
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.registry.AspspCsvRecord;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 

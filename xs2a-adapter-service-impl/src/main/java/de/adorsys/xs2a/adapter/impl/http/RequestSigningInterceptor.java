@@ -1,18 +1,18 @@
 package de.adorsys.xs2a.adapter.impl.http;
 
-import de.adorsys.xs2a.adapter.http.Request;
+import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.impl.signing.RequestSigningService;
 import de.adorsys.xs2a.adapter.impl.signing.header.Digest;
 import de.adorsys.xs2a.adapter.impl.signing.header.Signature;
 import de.adorsys.xs2a.adapter.impl.signing.header.TppSignatureCertificate;
-import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static de.adorsys.xs2a.adapter.service.RequestHeaders.*;
+import static de.adorsys.xs2a.adapter.api.RequestHeaders.*;
 
 public class RequestSigningInterceptor implements Request.Builder.Interceptor {
     // according to BG spec 1.3 (chapter 12.2)

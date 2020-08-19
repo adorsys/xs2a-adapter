@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.impl.http.wiremock;
 
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
-import de.adorsys.xs2a.adapter.service.exception.Xs2aAdapterException;
+import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.api.exception.Xs2aAdapterException;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;

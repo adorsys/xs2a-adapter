@@ -1,14 +1,14 @@
 package de.adorsys.xs2a.adapter.ing;
 
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.RequestParams;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.model.*;
+import de.adorsys.xs2a.adapter.api.validation.RequestValidationException;
+import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.impl.http.AbstractHttpClient;
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import de.adorsys.xs2a.adapter.validation.RequestValidationException;
-import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

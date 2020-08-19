@@ -16,25 +16,24 @@
 
 package de.adorsys.xs2a.adapter.impl;
 
-import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
+import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.RequestParams;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.Request;
+import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 
 import javax.ws.rs.core.MediaType;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
+import static de.adorsys.xs2a.adapter.api.validation.Validation.requireValid;
 import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.*;
-import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
 import static java.util.function.Function.identity;
 
 public class BasePaymentInitiationService extends AbstractService implements PaymentInitiationService {

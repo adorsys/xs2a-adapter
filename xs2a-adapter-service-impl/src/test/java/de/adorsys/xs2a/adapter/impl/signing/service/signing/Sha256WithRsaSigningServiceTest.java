@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.impl.signing.service.signing;
 
-import de.adorsys.xs2a.adapter.service.exception.HttpRequestSigningException;
+import de.adorsys.xs2a.adapter.api.exception.HttpRequestSigningException;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

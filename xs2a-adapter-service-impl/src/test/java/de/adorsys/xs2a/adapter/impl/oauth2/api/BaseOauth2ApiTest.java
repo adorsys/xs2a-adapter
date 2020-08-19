@@ -1,10 +1,10 @@
 package de.adorsys.xs2a.adapter.impl.oauth2.api;
 
-import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.Request;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
-import de.adorsys.xs2a.adapter.service.Response;
+import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 

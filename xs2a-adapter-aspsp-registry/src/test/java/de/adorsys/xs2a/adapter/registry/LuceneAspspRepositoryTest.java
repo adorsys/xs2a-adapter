@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.registry;
 
-import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
-import de.adorsys.xs2a.adapter.service.exception.IbanException;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.model.AspspScaApproach;
+import de.adorsys.xs2a.adapter.api.AspspReadOnlyRepository;
+import de.adorsys.xs2a.adapter.api.exception.IbanException;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.api.model.AspspScaApproach;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.junit.jupiter.api.Test;
 

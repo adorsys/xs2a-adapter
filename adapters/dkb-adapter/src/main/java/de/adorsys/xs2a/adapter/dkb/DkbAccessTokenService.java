@@ -17,12 +17,12 @@
 package de.adorsys.xs2a.adapter.dkb;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.impl.http.JsonMapper;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenException;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenService;
-import de.adorsys.xs2a.adapter.service.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +32,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static de.adorsys.xs2a.adapter.service.config.AdapterConfig.readProperty;
+import static de.adorsys.xs2a.adapter.api.config.AdapterConfig.readProperty;
 
 public class DkbAccessTokenService implements AccessTokenService {
     private static final Logger logger = LoggerFactory.getLogger(DkbAccessTokenService.class);

@@ -16,21 +16,20 @@
 
 package de.adorsys.xs2a.adapter.fiducia;
 
-import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.RequestParams;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.Request;
+import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
+import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.fiducia.mapper.FiduciaMapper;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaOK200TransactionDetails;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaSelectPsuAuthenticationMethodResponse;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaStartScaProcessResponse;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaTransactionsResponse200Json;
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.Request;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.validation.ValidationError;
+import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import org.mapstruct.factory.Mappers;
 
 import java.time.ZonedDateTime;

@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.service;
 
+import de.adorsys.xs2a.adapter.api.RequestParams;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;

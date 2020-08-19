@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.impl.oauth2.api;
 
-import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
-import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.oauth.Oauth2Api;
 import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
-import de.adorsys.xs2a.adapter.service.oauth.Oauth2Api;
+import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
 
 public class BaseOauth2Api<T extends AuthorisationServerMetaData> implements Oauth2Api {
     private final HttpClient httpClient;

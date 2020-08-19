@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.service;
 
+import de.adorsys.xs2a.adapter.api.PkceOauth2Extension;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

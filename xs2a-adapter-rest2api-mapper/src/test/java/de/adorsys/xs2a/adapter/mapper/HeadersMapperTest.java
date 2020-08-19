@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.mapper;
 
-import de.adorsys.xs2a.adapter.http.ContentType;
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

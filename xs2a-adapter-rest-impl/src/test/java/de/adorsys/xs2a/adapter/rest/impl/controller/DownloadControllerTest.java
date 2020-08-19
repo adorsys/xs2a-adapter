@@ -1,11 +1,11 @@
 package de.adorsys.xs2a.adapter.rest.impl.controller;
 
+import de.adorsys.xs2a.adapter.api.DownloadService;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.rest.impl.config.RestExceptionHandler;
-import de.adorsys.xs2a.adapter.service.DownloadService;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

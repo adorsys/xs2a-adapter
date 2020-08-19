@@ -1,20 +1,20 @@
 package de.adorsys.xs2a.adapter.rest.impl.config;
 
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.api.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.api.model.MessageCode;
 import de.adorsys.xs2a.adapter.api.model.TppMessage;
 import de.adorsys.xs2a.adapter.api.model.TppMessageCategory;
+import de.adorsys.xs2a.adapter.api.validation.RequestValidationException;
+import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
-import de.adorsys.xs2a.adapter.validation.RequestValidationException;
-import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static de.adorsys.xs2a.adapter.service.ResponseHeaders.emptyResponseHeaders;
+import static de.adorsys.xs2a.adapter.api.ResponseHeaders.emptyResponseHeaders;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.deutschebank;
 
-import de.adorsys.xs2a.adapter.http.Request;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.http.Request;
 
 import java.net.URI;
 import java.nio.file.Path;

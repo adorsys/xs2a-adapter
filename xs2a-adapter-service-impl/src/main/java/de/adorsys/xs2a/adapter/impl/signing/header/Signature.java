@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.impl.signing.header;
 
-import de.adorsys.xs2a.adapter.service.exception.HttpRequestSigningException;
+import de.adorsys.xs2a.adapter.api.exception.HttpRequestSigningException;
 import de.adorsys.xs2a.adapter.impl.signing.service.algorithm.EncodingAlgorithm;
 import de.adorsys.xs2a.adapter.impl.signing.service.algorithm.SigningAlgorithm;
 import de.adorsys.xs2a.adapter.impl.signing.util.Constants;

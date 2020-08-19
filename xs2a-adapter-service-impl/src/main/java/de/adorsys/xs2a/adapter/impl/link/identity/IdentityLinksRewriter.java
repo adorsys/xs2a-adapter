@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.impl.link.identity;
 
+import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.HrefType;
-import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 
 import java.util.Map;
 

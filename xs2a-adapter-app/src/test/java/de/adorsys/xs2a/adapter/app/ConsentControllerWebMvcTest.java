@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.app;
 
+import de.adorsys.xs2a.adapter.api.AccountInformationService;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.rest.impl.controller.ConsentController;
-import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

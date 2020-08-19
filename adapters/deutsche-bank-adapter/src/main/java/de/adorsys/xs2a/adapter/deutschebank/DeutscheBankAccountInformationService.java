@@ -16,20 +16,16 @@
 
 package de.adorsys.xs2a.adapter.deutschebank;
 
-import de.adorsys.xs2a.adapter.api.model.PsuData;
-import de.adorsys.xs2a.adapter.api.model.StartScaprocessResponse;
-import de.adorsys.xs2a.adapter.api.model.UpdatePsuAuthentication;
-import de.adorsys.xs2a.adapter.api.model.UpdatePsuAuthenticationResponse;
-import de.adorsys.xs2a.adapter.http.ContentType;
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.Request.Builder.Interceptor;
+import de.adorsys.xs2a.adapter.api.PsuPasswordEncryptionService;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.RequestParams;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.http.ContentType;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.Request.Builder.Interceptor;
+import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
-import de.adorsys.xs2a.adapter.service.PsuPasswordEncryptionService;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.ZonedDateTime;

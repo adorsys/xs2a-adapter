@@ -2,11 +2,11 @@ package de.adorsys.xs2a.adapter.rest.impl.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.exception.BadRequestException;
 import de.adorsys.xs2a.adapter.api.model.SelectPsuAuthenticationMethod;
 import de.adorsys.xs2a.adapter.api.model.TransactionAuthorisation;
 import de.adorsys.xs2a.adapter.api.model.UpdatePsuAuthentication;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
 
 public abstract class AbstractController {
     private final ObjectMapper objectMapper;

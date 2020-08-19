@@ -1,10 +1,10 @@
 package de.adorsys.xs2a.adapter.rest.impl.controller;
 
+import de.adorsys.xs2a.adapter.api.AspspReadOnlyRepository;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.mapper.AspspMapper;
 import de.adorsys.xs2a.adapter.rest.api.AspspSearchApi;
 import de.adorsys.xs2a.adapter.rest.api.model.AspspTO;
-import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;

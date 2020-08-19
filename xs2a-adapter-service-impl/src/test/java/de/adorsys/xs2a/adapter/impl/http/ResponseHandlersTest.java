@@ -1,10 +1,10 @@
 package de.adorsys.xs2a.adapter.impl.http;
 
+import de.adorsys.xs2a.adapter.api.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.exception.ErrorResponseException;
+import de.adorsys.xs2a.adapter.api.exception.OAuthException;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.model.*;
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import de.adorsys.xs2a.adapter.service.exception.ErrorResponseException;
-import de.adorsys.xs2a.adapter.service.exception.OAuthException;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;

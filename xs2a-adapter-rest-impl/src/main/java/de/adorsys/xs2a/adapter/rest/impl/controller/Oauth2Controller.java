@@ -1,11 +1,11 @@
 package de.adorsys.xs2a.adapter.rest.impl.controller;
 
+import de.adorsys.xs2a.adapter.api.Oauth2Service;
+import de.adorsys.xs2a.adapter.api.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.api.model.HrefType;
 import de.adorsys.xs2a.adapter.mapper.Oauth2Mapper;
 import de.adorsys.xs2a.adapter.rest.api.Oauth2Api;
 import de.adorsys.xs2a.adapter.rest.api.model.TokenResponseTO;
-import de.adorsys.xs2a.adapter.service.Oauth2Service;
-import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
 import org.mapstruct.factory.Mappers;
 import org.springframework.web.bind.annotation.RestController;
 

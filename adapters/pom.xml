@@ -16,7 +16,7 @@
 
     <modules>
         <module>maven-adapter-archetype</module>
-        <module>adorsys-integ-adapter</module>
+        <module>adorsys-adapter</module>
         <module>consors-bank-adapter</module>
         <module>dab-bank-adapter</module>
         <module>deutsche-bank-adapter</module>
@@ -44,7 +44,7 @@
 
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>adorsys-integ-adapter</artifactId>
+            <artifactId>adorsys-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 

@@ -17,6 +17,8 @@
 package de.adorsys.xs2a.tpp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.adorsys.xs2a.adapter.api.AccountInformationService;
+import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.remote.api.AccountInformationClient;
 import de.adorsys.xs2a.adapter.remote.api.PaymentInitiationClient;
@@ -26,8 +28,6 @@ import de.adorsys.xs2a.adapter.remote.service.impl.RemotePaymentInitiationServic
 import de.adorsys.xs2a.adapter.rest.impl.config.WebMvcConfig;
 import de.adorsys.xs2a.adapter.rest.impl.controller.ConsentController;
 import de.adorsys.xs2a.adapter.rest.impl.controller.PaymentController;
-import de.adorsys.xs2a.adapter.service.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

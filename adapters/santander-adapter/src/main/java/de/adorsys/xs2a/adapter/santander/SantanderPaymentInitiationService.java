@@ -1,10 +1,10 @@
 package de.adorsys.xs2a.adapter.santander;
 
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
-import de.adorsys.xs2a.adapter.http.HttpClient;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenService;
-import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
 
 import java.util.Map;
 

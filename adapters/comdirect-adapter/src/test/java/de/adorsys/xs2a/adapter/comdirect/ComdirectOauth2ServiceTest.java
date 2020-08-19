@@ -1,17 +1,17 @@
 package de.adorsys.xs2a.adapter.comdirect;
 
-import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
+import de.adorsys.xs2a.adapter.api.Oauth2Service;
+import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.Request;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.api.model.TokenResponse;
+import de.adorsys.xs2a.adapter.api.validation.RequestValidationException;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
-import de.adorsys.xs2a.adapter.service.Oauth2Service;
-import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.model.TokenResponse;
-import de.adorsys.xs2a.adapter.validation.RequestValidationException;
+import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -24,7 +24,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import static de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
+import static de.adorsys.xs2a.adapter.api.Oauth2Service.Parameters;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;

@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.serviceloader;
 
+import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.model.*;
-import de.adorsys.xs2a.adapter.service.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

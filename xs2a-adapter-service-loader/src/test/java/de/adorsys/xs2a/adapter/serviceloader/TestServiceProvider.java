@@ -16,13 +16,10 @@
 
 package de.adorsys.xs2a.adapter.serviceloader;
 
-import de.adorsys.xs2a.adapter.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.service.*;
-import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
-import de.adorsys.xs2a.adapter.service.provider.DownloadServiceProvider;
-import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
+import de.adorsys.xs2a.adapter.api.*;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
 public class TestServiceProvider
     implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceProvider, DownloadServiceProvider {

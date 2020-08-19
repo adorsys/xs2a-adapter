@@ -1,10 +1,10 @@
 package de.adorsys.xs2a.adapter.impl.signing;
 
+import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.impl.signing.header.Digest;
 import de.adorsys.xs2a.adapter.impl.signing.header.Signature;
 import de.adorsys.xs2a.adapter.impl.signing.header.TppSignatureCertificate;
-import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
