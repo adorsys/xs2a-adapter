@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.commerzbank.service.mapper;
+package de.adorsys.xs2a.adapter.commerzbank.mapper;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;

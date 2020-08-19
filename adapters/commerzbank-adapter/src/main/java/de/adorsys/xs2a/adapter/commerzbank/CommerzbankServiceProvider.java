@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.commerzbank.service.provider;
+package de.adorsys.xs2a.adapter.commerzbank;
 
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
-import de.adorsys.xs2a.adapter.commerzbank.service.CommerzbankAccountInformationService;
-import de.adorsys.xs2a.adapter.commerzbank.service.CommerzbankOauth2Service;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 
 public class CommerzbankServiceProvider

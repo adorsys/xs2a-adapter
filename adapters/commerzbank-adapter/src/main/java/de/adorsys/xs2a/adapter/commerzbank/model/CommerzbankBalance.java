@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.commerzbank.service.model;
+package de.adorsys.xs2a.adapter.commerzbank.model;
 
 import de.adorsys.xs2a.adapter.api.model.Amount;
 import de.adorsys.xs2a.adapter.api.model.BalanceType;

@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.commerzbank.service;
+package de.adorsys.xs2a.adapter.commerzbank;
 
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
@@ -8,10 +8,10 @@ import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.ReadAccountBalanceResponse200;
 import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
-import de.adorsys.xs2a.adapter.commerzbank.service.mapper.BalanceReportMapper;
-import de.adorsys.xs2a.adapter.commerzbank.service.mapper.TransactionsReportMapper;
-import de.adorsys.xs2a.adapter.commerzbank.service.model.CommerzbankBalanceReport;
-import de.adorsys.xs2a.adapter.commerzbank.service.model.CommerzbankTransactionsReport;
+import de.adorsys.xs2a.adapter.commerzbank.mapper.BalanceReportMapper;
+import de.adorsys.xs2a.adapter.commerzbank.mapper.TransactionsReportMapper;
+import de.adorsys.xs2a.adapter.commerzbank.model.CommerzbankBalanceReport;
+import de.adorsys.xs2a.adapter.commerzbank.model.CommerzbankTransactionsReport;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import org.mapstruct.factory.Mappers;
 

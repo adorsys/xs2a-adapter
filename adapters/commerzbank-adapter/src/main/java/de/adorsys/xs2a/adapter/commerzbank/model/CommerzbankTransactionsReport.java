@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.commerzbank.service.model;
+package de.adorsys.xs2a.adapter.commerzbank.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.adapter.api.model.AccountReference;

@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.commerzbank.service;
+package de.adorsys.xs2a.adapter.commerzbank;
 
 import de.adorsys.xs2a.adapter.api.Oauth2Service;
 import de.adorsys.xs2a.adapter.api.Oauth2Service.Parameters;
