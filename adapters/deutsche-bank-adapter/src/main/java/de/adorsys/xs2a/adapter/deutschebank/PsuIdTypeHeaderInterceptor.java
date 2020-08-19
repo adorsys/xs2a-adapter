@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.service.impl;
+package de.adorsys.xs2a.adapter.deutschebank;
 
 import de.adorsys.xs2a.adapter.http.Request;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;

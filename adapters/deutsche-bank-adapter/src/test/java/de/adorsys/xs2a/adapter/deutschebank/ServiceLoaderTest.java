@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.service.provider;
+package de.adorsys.xs2a.adapter.deutschebank;
 
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
+import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 import org.junit.jupiter.api.Test;
 
 import java.util.ServiceLoader;

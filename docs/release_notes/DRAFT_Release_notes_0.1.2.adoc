@@ -14,6 +14,7 @@ root package name to `de.adorsys.xs2a.adapter.impl`
 - Changed the root package of the `xs2a-adapter-service-loader` module to `de.adapter.xs2a.adapter.serviceloader`.
 - Changed the root package of the `xs2a-adapter-app` module to `de.adapter.xs2a.adapter.app`.
 - Changed the root package of the `xs2a-adapter-rest-impl` module to `de.adapter.xs2a.adapter.rest.impl`.
+- Changed the root package of the `deutsche-bank-adapter` module to `de.adapter.xs2a.adapter.deutschebank`.
 
 == Features:
 - Added transaction status mapping for periodic payments of ING
