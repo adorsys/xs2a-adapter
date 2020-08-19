@@ -20,6 +20,8 @@ root package name to `de.adorsys.xs2a.adapter.impl`
 - Renamed `adorsys-integ-adapter` to `adorsys-adapter`.
 - Changed the root package of the `unicredit-adapter` module to `de.adapter.xs2a.adapter.unicredit`.
 - Changed the root package of the `xs2a-adapter-service-api` module to `de.adapter.xs2a.adapter.api`.
+- Cleaned up package structure in `commerzbank-adapter`, `verlag-adapter` and `xs2a-adapter-service-remote`.
+- Removed `maven-adapter-archetype`.
 
 == Features:
 - Added transaction status mapping for periodic payments of ING

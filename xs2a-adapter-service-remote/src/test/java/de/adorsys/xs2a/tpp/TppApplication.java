@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@EnableFeignClients(basePackages = "de.adorsys.xs2a.adapter.remote.api", defaultConfiguration = ErrorResponseDecoder.class)
+@EnableFeignClients(basePackages = "de.adorsys.xs2a.adapter.remote.client", defaultConfiguration = ErrorResponseDecoder.class)
 @SpringBootApplication
 public class TppApplication {
     public static void main(String[] args) {
