@@ -1,7 +1,7 @@
-package de.adorsys.xs2a.adapter.service.impl.mapper;
+package de.adorsys.xs2a.adapter.dkb.mapper;
 
 import de.adorsys.xs2a.adapter.api.model.UpdatePsuAuthenticationResponse;
-import de.adorsys.xs2a.adapter.service.impl.model.DkbUpdatePsuAuthenticationResponse;
+import de.adorsys.xs2a.adapter.dkb.model.DkbUpdatePsuAuthenticationResponse;
 import org.mapstruct.Mapper;
 
 @Mapper(uses = ChallengeDataDkbMapper.class)

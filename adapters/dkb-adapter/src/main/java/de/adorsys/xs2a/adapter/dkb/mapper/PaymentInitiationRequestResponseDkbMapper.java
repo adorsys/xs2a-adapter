@@ -1,7 +1,7 @@
-package de.adorsys.xs2a.adapter.service.impl.mapper;
+package de.adorsys.xs2a.adapter.dkb.mapper;
 
 import de.adorsys.xs2a.adapter.api.model.PaymentInitationRequestResponse201;
-import de.adorsys.xs2a.adapter.service.impl.model.DkbPaymentInitiationRequestResponse;
+import de.adorsys.xs2a.adapter.dkb.model.DkbPaymentInitiationRequestResponse;
 import org.mapstruct.Mapper;
 
 @Mapper(uses = ChallengeDataDkbMapper.class)

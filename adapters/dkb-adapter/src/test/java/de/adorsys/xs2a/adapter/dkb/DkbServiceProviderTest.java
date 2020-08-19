@@ -1,10 +1,8 @@
-package de.adorsys.xs2a.adapter.service.provider;
+package de.adorsys.xs2a.adapter.dkb;
 
 import de.adorsys.xs2a.adapter.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.service.AccountInformationService;
 import de.adorsys.xs2a.adapter.service.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.service.impl.DkbAccountInformationService;
-import de.adorsys.xs2a.adapter.service.impl.DkbPaymentInitiationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

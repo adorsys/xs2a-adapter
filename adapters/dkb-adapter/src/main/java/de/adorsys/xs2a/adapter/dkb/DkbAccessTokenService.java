@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.service.impl;
+package de.adorsys.xs2a.adapter.dkb;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.adapter.http.HttpClient;

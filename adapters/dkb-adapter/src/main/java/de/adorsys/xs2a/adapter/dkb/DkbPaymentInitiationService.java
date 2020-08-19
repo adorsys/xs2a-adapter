@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.service.impl;
+package de.adorsys.xs2a.adapter.dkb;
 
-import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.api.model.*;
+import de.adorsys.xs2a.adapter.dkb.mapper.PaymentInitiationRequestResponseDkbMapper;
+import de.adorsys.xs2a.adapter.dkb.mapper.SelectPsuAuthenticationMethodResponseDkbMapper;
+import de.adorsys.xs2a.adapter.dkb.mapper.StartScaProcessResponseDkbMapper;
+import de.adorsys.xs2a.adapter.dkb.mapper.UpdatePsuAuthenticationResponseDkbMapper;
+import de.adorsys.xs2a.adapter.dkb.model.DkbPaymentInitiationRequestResponse;
+import de.adorsys.xs2a.adapter.dkb.model.DkbSelectPsuAuthenticationMethodResponse;
+import de.adorsys.xs2a.adapter.dkb.model.DkbStartScaProcessResponse;
+import de.adorsys.xs2a.adapter.dkb.model.DkbUpdatePsuAuthenticationResponse;
 import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenService;
 import de.adorsys.xs2a.adapter.service.RequestHeaders;
 import de.adorsys.xs2a.adapter.service.RequestParams;
 import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.impl.mapper.PaymentInitiationRequestResponseDkbMapper;
-import de.adorsys.xs2a.adapter.service.impl.mapper.SelectPsuAuthenticationMethodResponseDkbMapper;
-import de.adorsys.xs2a.adapter.service.impl.mapper.StartScaProcessResponseDkbMapper;
-import de.adorsys.xs2a.adapter.service.impl.mapper.UpdatePsuAuthenticationResponseDkbMapper;
-import de.adorsys.xs2a.adapter.service.impl.model.DkbPaymentInitiationRequestResponse;
-import de.adorsys.xs2a.adapter.service.impl.model.DkbSelectPsuAuthenticationMethodResponse;
-import de.adorsys.xs2a.adapter.service.impl.model.DkbStartScaProcessResponse;
-import de.adorsys.xs2a.adapter.service.impl.model.DkbUpdatePsuAuthenticationResponse;
 import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.mapstruct.factory.Mappers;
