@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.remote.service.mapper;
+package de.adorsys.xs2a.adapter.remote.mapper;
 
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import org.mapstruct.Mapper;

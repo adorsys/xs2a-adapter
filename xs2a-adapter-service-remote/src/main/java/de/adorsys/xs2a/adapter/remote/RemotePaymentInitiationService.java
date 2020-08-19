@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.remote.service.impl;
+package de.adorsys.xs2a.adapter.remote;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,8 +25,8 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.model.*;
-import de.adorsys.xs2a.adapter.remote.api.PaymentInitiationClient;
-import de.adorsys.xs2a.adapter.remote.service.mapper.ResponseHeadersMapper;
+import de.adorsys.xs2a.adapter.remote.client.PaymentInitiationClient;
+import de.adorsys.xs2a.adapter.remote.mapper.ResponseHeadersMapper;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.remote.api;
+package de.adorsys.xs2a.adapter.remote.client;
 
 import de.adorsys.xs2a.adapter.rest.api.AspspSearchApi;
 import org.springframework.cloud.openfeign.FeignClient;

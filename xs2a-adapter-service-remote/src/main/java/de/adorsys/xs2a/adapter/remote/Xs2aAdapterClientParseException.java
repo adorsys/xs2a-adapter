@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.remote.api;
+package de.adorsys.xs2a.adapter.remote;
 
 public class Xs2aAdapterClientParseException extends RuntimeException {
     public Xs2aAdapterClientParseException(Throwable cause) {

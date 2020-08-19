@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.remote.api;
+package de.adorsys.xs2a.adapter.remote.client;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import de.adorsys.xs2a.adapter.api.model.*;
@@ -26,7 +26,7 @@ import java.time.LocalDate;
 import java.util.Map;
 
 //todo: remove it after the task https://git.adorsys.de/xs2a-gateway/xs2a-gateway/issues/325 will be completed
-public interface AccountApi {
+interface AccountApi {
     @RequestMapping(
         value = "/v1/consents",
         method = RequestMethod.POST,

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.remote.service.impl;
+package de.adorsys.xs2a.adapter.remote;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -29,9 +29,8 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.exception.NotAcceptableException;
 import de.adorsys.xs2a.adapter.api.model.*;
-import de.adorsys.xs2a.adapter.remote.api.AccountInformationClient;
-import de.adorsys.xs2a.adapter.remote.api.Xs2aAdapterClientParseException;
-import de.adorsys.xs2a.adapter.remote.service.mapper.ResponseHeadersMapper;
+import de.adorsys.xs2a.adapter.remote.client.AccountInformationClient;
+import de.adorsys.xs2a.adapter.remote.mapper.ResponseHeadersMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.ResponseEntity;

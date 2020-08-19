@@ -1,9 +1,9 @@
-package de.adorsys.xs2a.adapter.remote.service.impl;
+package de.adorsys.xs2a.adapter.remote;
 
 import de.adorsys.xs2a.adapter.api.Oauth2Service;
 import de.adorsys.xs2a.adapter.api.model.HrefType;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
-import de.adorsys.xs2a.adapter.remote.api.Oauth2Client;
+import de.adorsys.xs2a.adapter.remote.client.Oauth2Client;
 import de.adorsys.xs2a.adapter.rest.api.model.TokenResponseTO;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

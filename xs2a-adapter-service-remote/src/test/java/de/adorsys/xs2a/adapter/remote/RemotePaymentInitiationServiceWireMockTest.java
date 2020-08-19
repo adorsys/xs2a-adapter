@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.remote.service.impl;
+package de.adorsys.xs2a.adapter.remote;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
