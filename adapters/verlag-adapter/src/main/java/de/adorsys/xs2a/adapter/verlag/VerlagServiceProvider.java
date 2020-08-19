@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.verlag.service.provider;
+package de.adorsys.xs2a.adapter.verlag;
 
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
@@ -22,9 +22,6 @@ import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BaseDownloadService;
-import de.adorsys.xs2a.adapter.verlag.service.impl.PsuIdTypeHeaderInterceptor;
-import de.adorsys.xs2a.adapter.verlag.service.impl.VerlagAccountInformationService;
-import de.adorsys.xs2a.adapter.verlag.service.impl.VerlagPaymentInitiationService;
 
 import java.util.AbstractMap;
 

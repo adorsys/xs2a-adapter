@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.verlag.service.impl;
+package de.adorsys.xs2a.adapter.verlag;
 
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.Request.Builder.Interceptor;
