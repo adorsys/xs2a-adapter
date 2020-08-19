@@ -16,19 +16,17 @@
 
 package de.adorsys.xs2a.adapter.adorsys;
 
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.http.Request;
+import de.adorsys.xs2a.adapter.api.*;
+import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.http.Request;
+import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.impl.http.RequestSigningInterceptor;
 import de.adorsys.xs2a.adapter.impl.oauth2.api.BaseOauth2Api;
 import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
-import de.adorsys.xs2a.adapter.service.*;
-import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
-import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
-import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;

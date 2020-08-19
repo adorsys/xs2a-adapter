@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.service;
 
 
+import de.adorsys.xs2a.adapter.api.PropertyUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

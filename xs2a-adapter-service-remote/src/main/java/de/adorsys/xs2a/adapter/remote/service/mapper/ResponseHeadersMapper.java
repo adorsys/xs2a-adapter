@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.remote.service.mapper;
 
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import org.mapstruct.Mapper;
 import org.springframework.http.HttpHeaders;
 

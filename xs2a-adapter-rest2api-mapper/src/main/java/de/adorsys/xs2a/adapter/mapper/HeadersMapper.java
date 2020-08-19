@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.mapper;
 
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 

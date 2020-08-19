@@ -16,16 +16,14 @@
 
 package de.adorsys.xs2a.adapter.sparda;
 
-import de.adorsys.xs2a.adapter.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.service.*;
-import de.adorsys.xs2a.adapter.service.config.AdapterConfig;
-import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.provider.AccountInformationServiceProvider;
-import de.adorsys.xs2a.adapter.service.provider.PaymentInitiationServiceProvider;
+import de.adorsys.xs2a.adapter.api.*;
+import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
 public class SpardaServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider,
-        Oauth2ServiceProvider {
+    Oauth2ServiceProvider {
     private static final SpardaJwtService JWT_SERVICE = new SpardaJwtService();
 
     @Override

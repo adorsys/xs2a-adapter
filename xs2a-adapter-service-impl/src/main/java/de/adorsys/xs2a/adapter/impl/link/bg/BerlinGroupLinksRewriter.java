@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.impl.link.bg;
 
-import de.adorsys.xs2a.adapter.impl.link.bg.template.LinksTemplate;
+import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.HrefType;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
-import de.adorsys.xs2a.adapter.service.link.LinksRewriter;
+import de.adorsys.xs2a.adapter.impl.link.bg.template.LinksTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

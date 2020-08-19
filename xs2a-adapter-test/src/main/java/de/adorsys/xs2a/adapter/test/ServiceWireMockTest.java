@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.test;
 
-import de.adorsys.xs2a.adapter.service.provider.AdapterServiceProvider;
+import de.adorsys.xs2a.adapter.api.AdapterServiceProvider;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.lang.annotation.ElementType;

@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.impl;
 
-import de.adorsys.xs2a.adapter.service.Oauth2Service;
-import de.adorsys.xs2a.adapter.service.model.TokenResponse;
-import de.adorsys.xs2a.adapter.validation.ValidationError;
+import de.adorsys.xs2a.adapter.api.Oauth2Service;
+import de.adorsys.xs2a.adapter.api.model.TokenResponse;
+import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 
 import java.io.IOException;
 import java.net.URI;

@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.impl;
 
-import de.adorsys.xs2a.adapter.service.Oauth2Service;
-import de.adorsys.xs2a.adapter.service.Oauth2Service.GrantType;
-import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
+import de.adorsys.xs2a.adapter.api.Oauth2Service;
+import de.adorsys.xs2a.adapter.api.Oauth2Service.GrantType;
+import de.adorsys.xs2a.adapter.api.Oauth2Service.Parameters;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

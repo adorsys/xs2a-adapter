@@ -1,25 +1,25 @@
 package de.adorsys.xs2a.adapter.sparda;
 
-import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.Oauth2Service;
+import de.adorsys.xs2a.adapter.api.PkceOauth2Extension;
+import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.api.model.Scope;
+import de.adorsys.xs2a.adapter.api.model.TokenResponse;
+import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.impl.BaseOauth2Service;
 import de.adorsys.xs2a.adapter.impl.CertificateSubjectClientIdOauth2Service;
 import de.adorsys.xs2a.adapter.impl.PkceOauth2Service;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.impl.http.UriBuilder;
-import de.adorsys.xs2a.adapter.service.Oauth2Service;
-import de.adorsys.xs2a.adapter.service.PkceOauth2Extension;
-import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.model.Scope;
-import de.adorsys.xs2a.adapter.service.model.TokenResponse;
-import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.*;
 
-import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
+import static de.adorsys.xs2a.adapter.api.validation.Validation.requireValid;
 
 public class SpardaOauth2Service implements Oauth2Service, PkceOauth2Extension {
 

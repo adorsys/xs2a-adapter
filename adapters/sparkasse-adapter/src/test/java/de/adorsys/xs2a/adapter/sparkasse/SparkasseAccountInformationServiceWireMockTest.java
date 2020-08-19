@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.sparkasse;
 
+import de.adorsys.xs2a.adapter.api.AccountInformationService;
+import de.adorsys.xs2a.adapter.api.RequestParams;
+import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.model.*;
-import de.adorsys.xs2a.adapter.service.AccountInformationService;
-import de.adorsys.xs2a.adapter.service.RequestParams;
-import de.adorsys.xs2a.adapter.service.Response;
 import de.adorsys.xs2a.adapter.test.ServiceWireMockTest;
 import de.adorsys.xs2a.adapter.test.TestRequestResponse;
 import org.junit.jupiter.api.Test;

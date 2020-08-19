@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.verlag.service.impl;
 
-import de.adorsys.xs2a.adapter.http.Request;
+import de.adorsys.xs2a.adapter.api.http.Request;
 import org.apache.commons.lang3.StringUtils;
 
-import static de.adorsys.xs2a.adapter.service.RequestHeaders.PSU_ID_TYPE;
+import static de.adorsys.xs2a.adapter.api.RequestHeaders.PSU_ID_TYPE;
 
 public class PsuIdTypeHeaderInterceptor implements Request.Builder.Interceptor {
 

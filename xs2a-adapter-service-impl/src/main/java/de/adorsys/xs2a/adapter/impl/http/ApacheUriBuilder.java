@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.impl.http;
 
-import de.adorsys.xs2a.adapter.service.exception.Xs2aAdapterException;
+import de.adorsys.xs2a.adapter.api.exception.Xs2aAdapterException;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 

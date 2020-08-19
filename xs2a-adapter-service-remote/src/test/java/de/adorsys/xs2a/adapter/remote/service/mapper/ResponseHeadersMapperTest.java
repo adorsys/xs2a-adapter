@@ -1,13 +1,13 @@
 package de.adorsys.xs2a.adapter.remote.service.mapper;
 
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpHeaders;
 
 import java.util.Collections;
 
-import static de.adorsys.xs2a.adapter.service.ResponseHeaders.*;
+import static de.adorsys.xs2a.adapter.api.ResponseHeaders.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ResponseHeadersMapperTest {

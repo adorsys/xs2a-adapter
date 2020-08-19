@@ -1,20 +1,19 @@
 package de.adorsys.xs2a.adapter.fiducia;
 
-import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClient.ResponseHandler;
+import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaDayOfExecution;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaExecutionRule;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaPaymentInitationRequestResponse201;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaPeriodicPaymentInitiationJson;
 import de.adorsys.xs2a.adapter.impl.http.AbstractHttpClient;
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.HttpClient.ResponseHandler;
 import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
-import de.adorsys.xs2a.adapter.http.Request;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

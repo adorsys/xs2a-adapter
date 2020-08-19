@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.app.config;
 
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;
 

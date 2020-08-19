@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.impl.signing.header;
 
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

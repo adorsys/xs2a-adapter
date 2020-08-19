@@ -1,13 +1,13 @@
 package de.adorsys.xs2a.adapter.dab;
 
-import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
+import de.adorsys.xs2a.adapter.api.*;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
 import de.adorsys.xs2a.adapter.api.model.RemittanceInformationStructured;
 import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.impl.http.AbstractHttpClient;
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.service.*;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

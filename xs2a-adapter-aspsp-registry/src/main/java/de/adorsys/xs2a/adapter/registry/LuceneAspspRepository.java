@@ -1,10 +1,10 @@
 package de.adorsys.xs2a.adapter.registry;
 
+import de.adorsys.xs2a.adapter.api.AspspRepository;
+import de.adorsys.xs2a.adapter.api.exception.IbanException;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.api.model.AspspScaApproach;
 import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
-import de.adorsys.xs2a.adapter.service.AspspRepository;
-import de.adorsys.xs2a.adapter.service.exception.IbanException;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.model.AspspScaApproach;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;

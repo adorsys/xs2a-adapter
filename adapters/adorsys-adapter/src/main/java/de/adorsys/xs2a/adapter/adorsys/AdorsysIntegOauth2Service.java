@@ -1,13 +1,13 @@
 package de.adorsys.xs2a.adapter.adorsys;
 
-import de.adorsys.xs2a.adapter.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.Oauth2Service;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.api.model.TokenResponse;
+import de.adorsys.xs2a.adapter.api.oauth.Oauth2Api;
+import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
-import de.adorsys.xs2a.adapter.service.Oauth2Service;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.model.TokenResponse;
-import de.adorsys.xs2a.adapter.service.oauth.Oauth2Api;
-import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.apache.commons.lang3.StringUtils;
 
 import java.net.URI;
@@ -15,8 +15,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static de.adorsys.xs2a.adapter.api.validation.Validation.requireValid;
 import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.jsonResponseHandler;
-import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
 
 public class AdorsysIntegOauth2Service implements Oauth2Service {
     private static final String SCA_OAUTH_LINK_MISSING_ERROR_MESSAGE

@@ -4,8 +4,8 @@ import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.RSAEncrypter;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.util.Base64;
-import de.adorsys.xs2a.adapter.service.PsuPasswordEncryptionService;
-import de.adorsys.xs2a.adapter.service.exception.PsuPasswordEncodingException;
+import de.adorsys.xs2a.adapter.api.PsuPasswordEncryptionService;
+import de.adorsys.xs2a.adapter.api.exception.PsuPasswordEncodingException;
 import org.bouncycastle.jcajce.provider.asymmetric.x509.CertificateFactory;
 
 import java.io.IOException;

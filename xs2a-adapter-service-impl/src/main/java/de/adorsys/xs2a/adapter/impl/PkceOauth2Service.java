@@ -1,9 +1,9 @@
 package de.adorsys.xs2a.adapter.impl;
 
+import de.adorsys.xs2a.adapter.api.Oauth2Service;
+import de.adorsys.xs2a.adapter.api.PkceOauth2Extension;
+import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 import de.adorsys.xs2a.adapter.impl.http.UriBuilder;
-import de.adorsys.xs2a.adapter.service.Oauth2Service;
-import de.adorsys.xs2a.adapter.service.PkceOauth2Extension;
-import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 
 import java.io.IOException;
 import java.net.URI;

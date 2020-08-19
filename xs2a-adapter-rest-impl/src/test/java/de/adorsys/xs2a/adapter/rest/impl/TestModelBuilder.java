@@ -17,7 +17,6 @@
 package de.adorsys.xs2a.adapter.rest.impl;
 
 import de.adorsys.xs2a.adapter.api.model.*;
-import de.adorsys.xs2a.adapter.service.model.TokenResponse;
 
 import java.util.*;
 

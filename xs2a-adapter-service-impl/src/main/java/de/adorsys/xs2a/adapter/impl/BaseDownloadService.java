@@ -1,17 +1,17 @@
 package de.adorsys.xs2a.adapter.impl;
 
-import de.adorsys.xs2a.adapter.http.HttpClient;
-import de.adorsys.xs2a.adapter.http.Request;
+import de.adorsys.xs2a.adapter.api.DownloadService;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
-import de.adorsys.xs2a.adapter.service.DownloadService;
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 
 import java.util.Map;
 
+import static de.adorsys.xs2a.adapter.api.validation.Validation.requireValid;
 import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.byteArrayResponseHandler;
-import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
 
 public class BaseDownloadService extends AbstractService implements DownloadService {
     private static final String HTTPS_PROTOCOL = "https://";

@@ -2,7 +2,7 @@ package de.adorsys.xs2a.adapter.sparda;
 
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import de.adorsys.xs2a.adapter.service.exception.Xs2aAdapterException;
+import de.adorsys.xs2a.adapter.api.exception.Xs2aAdapterException;
 
 import java.text.ParseException;
 

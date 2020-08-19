@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.impl.signing;
 
-import de.adorsys.xs2a.adapter.service.Pkcs12KeyStore;
-import de.adorsys.xs2a.adapter.service.exception.HttpRequestSigningException;
+import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.api.exception.HttpRequestSigningException;
 import de.adorsys.xs2a.adapter.impl.signing.header.Digest;
 import de.adorsys.xs2a.adapter.impl.signing.header.Signature;
 import de.adorsys.xs2a.adapter.impl.signing.header.TppSignatureCertificate;

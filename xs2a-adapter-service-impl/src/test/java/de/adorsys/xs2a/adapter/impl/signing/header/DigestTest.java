@@ -1,6 +1,6 @@
 package de.adorsys.xs2a.adapter.impl.signing.header;
 
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.impl.signing.service.algorithm.EncodingAlgorithm;
 import de.adorsys.xs2a.adapter.impl.signing.service.algorithm.HashingAlgorithm;
 import de.adorsys.xs2a.adapter.impl.signing.service.encoding.EncodingService;

@@ -1,14 +1,14 @@
 package de.adorsys.xs2a.adapter.remote.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.adorsys.xs2a.adapter.api.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.http.ContentType;
 import de.adorsys.xs2a.adapter.api.model.BookingStatus;
 import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
 import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationMultipartBody;
-import de.adorsys.xs2a.adapter.http.ContentType;
 import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import de.adorsys.xs2a.adapter.rest.impl.config.PeriodicPaymentInitiationMultipartBodyHttpMessageConverter;
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
 import feign.Contract;
 import feign.RequestTemplate;
 import feign.Response;
@@ -39,7 +39,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Collections;
 
-import static de.adorsys.xs2a.adapter.service.RequestHeaders.CONTENT_TYPE;
+import static de.adorsys.xs2a.adapter.api.RequestHeaders.CONTENT_TYPE;
 
 @Configuration
 public class FeignConfiguration {

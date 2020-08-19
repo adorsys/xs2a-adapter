@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.registry;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import de.adorsys.xs2a.adapter.service.model.AspspScaApproach;
+import de.adorsys.xs2a.adapter.api.model.AspspScaApproach;
 
 import java.util.List;
 import java.util.Objects;

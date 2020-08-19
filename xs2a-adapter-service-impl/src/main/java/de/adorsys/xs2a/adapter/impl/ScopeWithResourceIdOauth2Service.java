@@ -1,10 +1,10 @@
 package de.adorsys.xs2a.adapter.impl;
 
+import de.adorsys.xs2a.adapter.api.Oauth2Service;
+import de.adorsys.xs2a.adapter.api.exception.BadRequestException;
+import de.adorsys.xs2a.adapter.api.model.Scope;
+import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.impl.http.UriBuilder;
-import de.adorsys.xs2a.adapter.service.Oauth2Service;
-import de.adorsys.xs2a.adapter.service.exception.BadRequestException;
-import de.adorsys.xs2a.adapter.service.model.Scope;
-import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;

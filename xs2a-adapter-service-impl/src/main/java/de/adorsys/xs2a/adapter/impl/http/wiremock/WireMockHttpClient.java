@@ -19,8 +19,8 @@ package de.adorsys.xs2a.adapter.impl.http.wiremock;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
+import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
-import de.adorsys.xs2a.adapter.http.Request;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 import java.security.SecureRandom;

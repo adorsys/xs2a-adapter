@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.unicredit;
 
-import de.adorsys.xs2a.adapter.service.RequestHeaders;
-import de.adorsys.xs2a.adapter.validation.ValidationError;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 
 import java.util.Collections;
 import java.util.List;

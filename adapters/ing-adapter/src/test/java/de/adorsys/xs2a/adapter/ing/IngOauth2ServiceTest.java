@@ -1,14 +1,14 @@
 package de.adorsys.xs2a.adapter.ing;
 
+import de.adorsys.xs2a.adapter.api.Oauth2Service;
+import de.adorsys.xs2a.adapter.api.Oauth2Service.Parameters;
+import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.model.Scope;
+import de.adorsys.xs2a.adapter.api.validation.RequestValidationException;
+import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.ing.model.IngApplicationTokenResponse;
 import de.adorsys.xs2a.adapter.ing.model.IngAuthorizationURLResponse;
-import de.adorsys.xs2a.adapter.service.Oauth2Service;
-import de.adorsys.xs2a.adapter.service.Oauth2Service.Parameters;
-import de.adorsys.xs2a.adapter.service.Response;
-import de.adorsys.xs2a.adapter.service.ResponseHeaders;
-import de.adorsys.xs2a.adapter.service.model.Scope;
-import de.adorsys.xs2a.adapter.validation.RequestValidationException;
-import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

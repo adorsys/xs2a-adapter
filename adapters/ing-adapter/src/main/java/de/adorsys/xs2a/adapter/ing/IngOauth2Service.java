@@ -1,12 +1,12 @@
 package de.adorsys.xs2a.adapter.ing;
 
+import de.adorsys.xs2a.adapter.api.Oauth2Service;
+import de.adorsys.xs2a.adapter.api.model.Scope;
+import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.ing.model.IngApplicationTokenResponse;
 import de.adorsys.xs2a.adapter.ing.model.IngAuthorizationURLResponse;
 import de.adorsys.xs2a.adapter.ing.model.IngTokenResponse;
-import de.adorsys.xs2a.adapter.service.Oauth2Service;
-import de.adorsys.xs2a.adapter.service.model.Scope;
-import de.adorsys.xs2a.adapter.validation.ValidationError;
 import org.apache.commons.lang3.StringUtils;
 
 import java.net.URI;
@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 
-import static de.adorsys.xs2a.adapter.service.Oauth2Service.ResponseType.CODE;
-import static de.adorsys.xs2a.adapter.validation.Validation.requireValid;
+import static de.adorsys.xs2a.adapter.api.Oauth2Service.ResponseType.CODE;
+import static de.adorsys.xs2a.adapter.api.validation.Validation.requireValid;
 
 public class IngOauth2Service {
     private static final String AIS_TRANSACTIONS_SCOPE = "payment-accounts:transactions:view";
