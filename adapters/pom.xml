@@ -15,7 +15,6 @@
     <artifactId>adapters</artifactId>
 
     <modules>
-        <module>maven-adapter-archetype</module>
         <module>adorsys-adapter</module>
         <module>consors-bank-adapter</module>
         <module>dab-bank-adapter</module>
@@ -26,7 +25,6 @@
         <module>fiducia-adapter</module>
         <module>dkb-adapter</module>
         <module>commerzbank-adapter</module>
-        <!-- ING adapter will be removed in future releases -->
         <module>ing-adapter</module>
         <module>unicredit-adapter</module>
         <module>comdirect-adapter</module>
