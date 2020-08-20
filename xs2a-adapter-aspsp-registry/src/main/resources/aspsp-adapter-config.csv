@@ -1457,7 +1457,7 @@ ddc93138-513f-4c3f-b315-49e729c028f0,Volksbank Ermstal-Alb eG,GENODES1MTZ,https:
 0c5c5526-a855-407f-b275-69b232e40a5a,Volksbank eG Seesen,GENODEF1SES,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,27893760
 0e2b3e0f-7b03-4475-9962-c51241e3b753,Raiffeisenbank Südliches Ostallgäu,GENODEF1SER,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,73369936
 3b511870-bc34-455a-82e3-31cc22dae32c,Vereinigte Volksbank Münster,GENODEM1MSC,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,40160050
-d6c4d356-f6d9-4950-9b93-d60776a704a9,Deutsche Bank PFB AG,DEUTDEDBXXX,https://simulator-xs2a.db.com/{Service Group}/DE/SB-PFB,deutsche-bank-adapter,38070724
+d6c4d356-f6d9-4950-9b93-d60776a704a9,Deutsche Bank AG,DEUTDEDBXXX,https://simulator-xs2a.db.com/{Service Group}/DE/SB-DB,deutsche-bank-adapter,38070724
 1ab5c6f8-a5dd-4e8f-acfa-7e9e984036bc,Sparkasse Leverkusen,WELADEDLLEV,https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678,sparkasse-adapter,37551440
 a838eccb-150f-4f65-9558-669e18f3d337,Volksbank Kurpfalz eG,GENODE61HD3,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,67290100
 6f96d521-362f-4098-b524-3192f818c6c2,Raiffeisenbank,GENODEF1FLN,https://xs2a-test.fiduciagad.de/xs2a,fiducia-adapter,53064023
