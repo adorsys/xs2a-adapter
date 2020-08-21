@@ -22,3 +22,18 @@ when searched bank is unsupported.
 12. ASPSP Adapter sends converts response to XS2A Core
 13. XS2A Core replies with the converted response to TPP
 
+=== 6.2 SCA OAuth2 Approach
+
+image::oauth-sca.png[OAuth2 SCA]
+
+==== 6.2.1 Integrated
+
+image::oauth-integrated.png[Integrated OAuth based authentication process in AIS context]
+
+==== 6.2.1 Pre-step
+
+image::oauth-pre-step.png[OAuth based pre-step authentication process in AIS context]
+
+==== 6.2.1 OAuth2 Constent
+
+image::oauth-consent.png[OAuth based consent]
