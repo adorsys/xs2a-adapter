@@ -1,0 +1,21 @@
+@startuml
+
+participant tpp as "TPP"
+participant adapter as "XS2A\nAdapter"
+participant bank as "ASPSP"
+
+autonumber
+
+tpp->adapter: create consent
+opt
+adapter->bank: create consent
+adapter<-bank: 401 Unauthorized
+end
+tpp<-adapter: 401 Unauthorized
+ref over tpp, adapter, bank: OAuth2 SCA
+
+tpp->adapter: create consent with access token
+adapter->bank: create consent with access token
+adapter<-bank: 201 Created
+tpp<-adapter: 201 Created
+@enduml

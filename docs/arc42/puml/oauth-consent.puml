@@ -1,0 +1,16 @@
+@startuml
+
+participant tpp as "TPP"
+participant adapter as "XS2A\nAdapter"
+participant bank as "ASPSP"
+
+autonumber
+
+tpp->adapter: create consent
+tpp<-adapter: "oauthConsent" link in the absence of consent resource
+ref over tpp, adapter, bank: OAuth2 SCA
+
+note over tpp, bank
+ may proceed with account information requests
+end note
+@enduml
