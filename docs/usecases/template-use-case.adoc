@@ -1,0 +1,18 @@
+= Use Case Name
+
+== Description
+
+== Actors
+<list of entities that communicates with this use case>
+
+== Flow of Events / Activity Diagram / Sequence Diagram
+
+== Preconditions
+<A list of conditions that must be true before the Use Case starts>
+
+== PostCondition
+<A list of conditions that must be true when the Use Case ends>
+
+== Normal Course
+
+== Alternative Courses

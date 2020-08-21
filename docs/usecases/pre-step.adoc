@@ -1,0 +1,18 @@
+= Pre Step
+
+A pre-step authentication is used to enable access to the system
+
+== Actors
+TPP
+
+== Flow of Events / Activity Diagram / Sequence Diagram
+
+== Preconditions
+<A list of conditions that must be true before the Use Case starts>
+
+== PostCondition
+<A list of conditions that must be true when the Use Case ends>
+
+== Normal Course
+
+== Alternative Courses
