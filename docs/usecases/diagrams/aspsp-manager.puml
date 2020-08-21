@@ -1,0 +1,40 @@
+@startuml
+actor u as "User"
+participant m as "ASPSP Registry\nManager"
+
+== Serching for record/records ==
+u->m: search for record/records
+|||
+m->u: display registry records
+
+
+== Upload (replace) records with a CSV ==
+u->m: upload CSV file
+m->m: validate file
+u<-m: validation report, approval request
+|||
+u->m: ok
+m->m: replace all records in db
+m->u: display registry records
+
+
+== Modify registry ==
+u->m: modify records
+m->m: persist changes
+m->u: ok
+
+
+== Merge records (bulk update) with a CSV ==
+u->m: upload file
+m->m: validate file
+u<-m: validation report, approval request
+|||
+u->m: ok
+m->m: persist changes
+
+== Download registry as CSV file ==
+u->m: download file
+|||
+m->u: return all records in CSV file
+
+@enduml

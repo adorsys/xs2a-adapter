@@ -22,6 +22,13 @@ class PsuIdTypeHeaderInterceptorTest {
 
     @Test
     void setsPsuIdTypeForDeutscheBankInGermanyWhenPsuIdIsPresent() {
+        builder.uri("https://xs2a.db.com/ais/DE/DB");
+        Request.Builder actual = interceptor.apply(builder);
+        assertEquals("DE_ONLB_DB", actual.headers().get(RequestHeaders.PSU_ID_TYPE));
+    }
+
+    @Test
+    void setsPsuIdTypeForPfbBusinessEntityInGermanyWhenPsuIdIsPresent() {
         builder.uri("https://xs2a.db.com/ais/DE/PFB");
         Request.Builder actual = interceptor.apply(builder);
         assertEquals("DE_ONLB_DB", actual.headers().get(RequestHeaders.PSU_ID_TYPE));
@@ -29,7 +36,7 @@ class PsuIdTypeHeaderInterceptorTest {
 
     @Test
     void doesNothingWhenPsuIdIsNotSet() {
-        builder.uri("https://xs2a.db.com/ais/DE/PFB");
+        builder.uri("https://xs2a.db.com/ais/DE/DB");
         builder.headers().remove(RequestHeaders.PSU_ID);
         Request.Builder actual = interceptor.apply(builder);
         assertNull(actual.headers().get(RequestHeaders.PSU_ID_TYPE));
@@ -37,7 +44,7 @@ class PsuIdTypeHeaderInterceptorTest {
 
     @Test
     void doesNothingIfPsuIdTypeIsAlreadySet() {
-        builder.uri("https://xs2a.db.com/ais/DE/PFB");
+        builder.uri("https://xs2a.db.com/ais/DE/DB");
         String psuIdTypeOverride = "PSU_ID_TYPE_OVERRIDE";
         builder.header(RequestHeaders.PSU_ID_TYPE, psuIdTypeOverride);
         Request.Builder actual = interceptor.apply(builder);

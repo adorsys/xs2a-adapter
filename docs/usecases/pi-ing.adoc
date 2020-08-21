@@ -1,0 +1,8 @@
+= Payment Initiation for ING
+
+In case of the ING bank, the process of Payment Initiation has some
+differences. For a TPP the flow is similar to PI Redirect Approach.
+
+== Sequence Flow
+
+image::pi-ing.png[]

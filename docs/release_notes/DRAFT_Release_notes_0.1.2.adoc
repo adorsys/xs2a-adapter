@@ -7,6 +7,15 @@
 
 == Notices:
 - Documentation was published on GitHub Pages and available by referencing to https://adorsys.github.io/xs2a-adapter/
+- Migration from PFB business entity to DB in deutsche bank adapter.
+Requires urls in the aspsp-registry to be changed.
+In this release both business entities are supported.
+In the next release PFB support will be removed.
+[quote, v1.5.5 | 14 August 2020]
+Post-merger, PFB is now DB, PFB as a separate business entity will not be available after November 2020,
+and this document has been updated to change all PFB to DB however both endpoints DE/PFB and DE/DB will work until end of November 2020.
+From December 1st week DE/PFB will be decommissioned.
+
 - Renamed `xs2a-adapter-service-api-adapter` module into `xs2a-adapter-service-impl` and adjusted its
 root package name to `de.adorsys.xs2a.adapter.impl`
 - Removed `OauthToken` and replaced its usages with `TokenResponse`.
