@@ -9,10 +9,10 @@ image::whitebox_lv1_library.png[5.1. Whitebox XS2A Adapter library,width=520]
 |===
 |Building block |Description
 |service-api |Payment initiation, account information, http client and validation interfaces
-|service-api-adapter |Basic implementation of payment initiation and account information, implementation of http client
+|service-impl |Basic implementation of payment initiation and account information, implementation of http client
 |service-loader |Load payment initiation or account information service implementation for specific adapter
 |aspsp-registry |Registry of supported banks. Each record contains bank details and reference to the adapter
-|bank adapters |Collection of bank adapters supported by XS2A Adapter
+|adapters |Collection of bank adapters supported by XS2A Adapter
 |===
 
 ==== 5.1.1. Whitebox XS2A Adapter Standalone
@@ -24,10 +24,10 @@ image::whitebox_lv1_stanalone.png[5.1.1. Whitebox XS2A Adapter Standalone,width=
 |===
 |Building block |Description
 |service-api |Payment initiation, account information, http client and validation interfaces
-|service-api-adapter |Basic implementation of payment initiation and account information, implementation of http client
+|service-impl |Basic implementation of payment initiation and account information, implementation of http client
 |service-loader |Load payment initiation or account information service implementation for specific adapter
 |aspsp-registry |Registry of supported banks. Each record contains bank details and reference to the adapter
-|bank adapters |Collection of bank adapters supported by XS2A Adapter
+|adapters |Collection of bank adapters supported by XS2A Adapter
 |rest-api |ASPSP Registry REST API, OAuth REST API
 |rest2api-mapper |Mappers between rest and service layers
 |generated-rest-api |Generated REST API from Berlin Group yml specification

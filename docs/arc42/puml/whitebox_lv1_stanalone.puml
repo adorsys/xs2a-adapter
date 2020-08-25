@@ -12,13 +12,13 @@ rectangle tpp1 as "TPP1" {
 
 rectangle tpp2 <<TPP2>> as "TPP2"
 
-collections banks as "Banks"
+collections banks as "ASPSPs"
 
 interface "xs2a" as ahttp
 
 interface "xs2a" as bhttp
 
-rectangle xa as "xs2a adapter as standalone  application" {
+rectangle "xs2a-adapter (standalone)" {
     component sr as "service-remote"
 	component ar as "aspsp-registry"
 	component gra as "generated-rest-api"
@@ -27,10 +27,10 @@ rectangle xa as "xs2a adapter as standalone  application" {
 	component ra as "rest-api"
 	component ri as "rest-impl"
 	component sa as "service-api"
-	component saa as "service-api-adapter"
+	component si as "service-impl"
 	component sl as "service-loader"
 
-	collections ba as "bank adapters"
+	collections ba as "adapters"
 }
 
 	sl --> ar
@@ -44,7 +44,7 @@ rectangle xa as "xs2a adapter as standalone  application" {
 	ri -(0- ra
 	ri -> sa
 	sr --> r2am
-	ba -> saa
+	ba -> si
 	ba -(0- sa: AIS, PIS, oAuth, download API
 	ri --() ahttp
 	tpp2 -( ahttp: http
