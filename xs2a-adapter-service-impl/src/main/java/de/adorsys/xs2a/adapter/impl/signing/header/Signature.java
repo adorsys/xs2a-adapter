@@ -1,8 +1,8 @@
 package de.adorsys.xs2a.adapter.impl.signing.header;
 
 import de.adorsys.xs2a.adapter.api.exception.HttpRequestSigningException;
-import de.adorsys.xs2a.adapter.impl.signing.service.algorithm.EncodingAlgorithm;
-import de.adorsys.xs2a.adapter.impl.signing.service.algorithm.SigningAlgorithm;
+import de.adorsys.xs2a.adapter.impl.signing.algorithm.EncodingAlgorithm;
+import de.adorsys.xs2a.adapter.impl.signing.algorithm.SigningAlgorithm;
 import de.adorsys.xs2a.adapter.impl.signing.util.Constants;
 
 import java.nio.charset.Charset;
@@ -16,14 +16,14 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class Signature {
-    private String headerValue;
+    private final String headerValue;
 
     private Signature(String headerValue) {
         this.headerValue = headerValue;
     }
 
-    public static SignatureBuilder builder() {
-        return new SignatureBuilder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     public String getHeaderName() {
@@ -34,7 +34,7 @@ public class Signature {
         return headerValue;
     }
 
-    public static final class SignatureBuilder {
+    public static final class Builder {
         private String keyId;
         private SigningAlgorithm signingAlgorithm = SigningAlgorithm.SHA256_WITH_RSA;
         private EncodingAlgorithm encodingAlgorithm = EncodingAlgorithm.BASE64;
@@ -42,35 +42,35 @@ public class Signature {
         private Map<String, String> headersMap;
         private PrivateKey privateKey;
 
-        private SignatureBuilder() {
+        private Builder() {
         }
 
-        public SignatureBuilder keyId(String keyId) {
+        public Builder keyId(String keyId) {
             this.keyId = keyId;
             return this;
         }
 
-        public SignatureBuilder signingAlgorithm(SigningAlgorithm signingAlgorithm) {
+        public Builder signingAlgorithm(SigningAlgorithm signingAlgorithm) {
             this.signingAlgorithm = signingAlgorithm;
             return this;
         }
 
-        public SignatureBuilder encodingAlgorithm(EncodingAlgorithm encodingAlgorithm) {
+        public Builder encodingAlgorithm(EncodingAlgorithm encodingAlgorithm) {
             this.encodingAlgorithm = encodingAlgorithm;
             return this;
         }
 
-        public SignatureBuilder charset(Charset charset) {
+        public Builder charset(Charset charset) {
             this.charset = charset;
             return this;
         }
 
-        public SignatureBuilder headers(Map<String, String> headers) {
+        public Builder headers(Map<String, String> headers) {
             this.headersMap = new HashMap<>(headers);
             return this;
         }
 
-        public SignatureBuilder privateKey(PrivateKey privateKey) {
+        public Builder privateKey(PrivateKey privateKey) {
             this.privateKey = privateKey;
             return this;
         }

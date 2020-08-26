@@ -1,13 +1,15 @@
-package de.adorsys.xs2a.adapter.impl.signing.service.signing;
+package de.adorsys.xs2a.adapter.impl.signing.algorithm;
 
 import de.adorsys.xs2a.adapter.api.exception.HttpRequestSigningException;
+import de.adorsys.xs2a.adapter.impl.signing.algorithm.SigningAlgorithm.SigningService;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.security.*;
-import java.security.cert.CertificateException;
+import java.security.KeyStore;
+import java.security.PrivateKey;
 import java.util.Properties;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,7 +40,7 @@ class Sha256WithRsaSigningServiceTest {
 
     @Test
     void sign() {
-        SigningService signingService = new Sha256WithRsaSigningService();
+        SigningService signingService = SigningAlgorithm.SHA256_WITH_RSA.getSigningService();
 
         byte[] actualSignedValue = signingService.sign(PRIVATE_KEY, STRING_TO_SIGN, UTF8_CHARSET);
 
@@ -47,7 +49,7 @@ class Sha256WithRsaSigningServiceTest {
 
     @Test
     void sign_throwsException() {
-        SigningService signingService = new Sha256WithRsaSigningService();
+        SigningService signingService = SigningAlgorithm.SHA256_WITH_RSA.getSigningService();
 
         assertThrows(HttpRequestSigningException.class, () -> signingService.sign(null, "data", UTF8_CHARSET));
     }
@@ -56,12 +58,16 @@ class Sha256WithRsaSigningServiceTest {
         Properties properties = new Properties();
 
         try {
-            properties.load(Sha256WithRsaSigningServiceTest.class.getResourceAsStream(PATH_TO_RSA_TEST_CERTIFICATE_PROPERTIES));
+            properties.load(getResourceAsStream(PATH_TO_RSA_TEST_CERTIFICATE_PROPERTIES));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         return properties;
+    }
+
+    private static InputStream getResourceAsStream(String path) {
+        return Sha256WithRsaSigningServiceTest.class.getResourceAsStream(path);
     }
 
     public static PrivateKey readPrivateKey() {
@@ -70,12 +76,12 @@ class Sha256WithRsaSigningServiceTest {
 
             KeyStore keystore = KeyStore.getInstance(CERTIFICATE_PROPERTIES.getProperty(CERTIFICATE_TYPE_PROPERTY));
             keystore.load(
-                Sha256WithRsaSigningServiceTest.class.getResourceAsStream(CERTIFICATE_PROPERTIES.getProperty(CERTIFICATE_PATH_PROPERTY)),
+                getResourceAsStream(CERTIFICATE_PROPERTIES.getProperty(CERTIFICATE_PATH_PROPERTY)),
                 certificatePassword.toCharArray()
             );
 
             return (PrivateKey) keystore.getKey(keystore.aliases().nextElement(), certificatePassword.toCharArray());
-        } catch (IOException | NoSuchAlgorithmException | CertificateException | KeyStoreException | UnrecoverableKeyException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
