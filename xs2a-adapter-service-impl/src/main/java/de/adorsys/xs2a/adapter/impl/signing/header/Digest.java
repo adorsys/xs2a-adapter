@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.impl.signing.header;
 
-import de.adorsys.xs2a.adapter.impl.signing.service.algorithm.EncodingAlgorithm;
-import de.adorsys.xs2a.adapter.impl.signing.service.algorithm.HashingAlgorithm;
+import de.adorsys.xs2a.adapter.impl.signing.algorithm.EncodingAlgorithm;
+import de.adorsys.xs2a.adapter.impl.signing.algorithm.HashingAlgorithm;
 import de.adorsys.xs2a.adapter.impl.signing.util.Constants;
 
 import java.nio.charset.Charset;
