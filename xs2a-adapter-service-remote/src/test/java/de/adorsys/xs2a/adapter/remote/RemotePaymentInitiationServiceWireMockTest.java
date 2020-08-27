@@ -60,7 +60,7 @@ class RemotePaymentInitiationServiceWireMockTest {
     void getPeriodicPain001PaymentInformation() {
         Response<PeriodicPaymentInitiationMultipartBody> response =
             remotePaymentInitiationService.getPeriodicPain001PaymentInformation(
-                PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS.toString(),
+                PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS,
                 "payment-id",
                 RequestHeaders.empty(),
                 RequestParams.empty());

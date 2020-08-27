@@ -6,6 +6,8 @@ import de.adorsys.xs2a.adapter.api.http.ContentType;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
+import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import de.adorsys.xs2a.adapter.api.model.UpdatePsuAuthentication;
 import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
@@ -41,8 +43,8 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
     }
 
     @Override
-    public List<ValidationError> validateInitiatePayment(String paymentService,
-                                                         String paymentProduct,
+    public List<ValidationError> validateInitiatePayment(PaymentService paymentService,
+                                                         PaymentProduct paymentProduct,
                                                          RequestHeaders requestHeaders,
                                                          RequestParams requestParams,
                                                          Object body) {
@@ -50,8 +52,8 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
     }
 
     @Override
-    public List<ValidationError> validateStartPaymentAuthorisation(String paymentService,
-                                                                   String paymentProduct,
+    public List<ValidationError> validateStartPaymentAuthorisation(PaymentService paymentService,
+                                                                   PaymentProduct paymentProduct,
                                                                    String paymentId,
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams) {
@@ -59,8 +61,8 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
     }
 
     @Override
-    public List<ValidationError> validateStartPaymentAuthorisation(String paymentService,
-                                                                   String paymentProduct,
+    public List<ValidationError> validateStartPaymentAuthorisation(PaymentService paymentService,
+                                                                   PaymentProduct paymentProduct,
                                                                    String paymentId,
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams,

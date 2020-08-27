@@ -30,8 +30,8 @@ public class FiduciaPaymentInitiationService extends BasePaymentInitiationServic
     }
 
     @Override
-    public Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
-                                                                        String paymentProduct,
+    public Response<PaymentInitationRequestResponse201> initiatePayment(PaymentService paymentService,
+                                                                        PaymentProduct paymentProduct,
                                                                         RequestHeaders requestHeaders,
                                                                         RequestParams requestParams,
                                                                         Object body) {
@@ -48,16 +48,16 @@ public class FiduciaPaymentInitiationService extends BasePaymentInitiationServic
     }
 
     @Override
-    protected Class<?> getPaymentInitiationBodyClass(String paymentService) {
-        if (PaymentService.PERIODIC_PAYMENTS.toString().equals(paymentService)) {
+    protected Class<?> getPaymentInitiationBodyClass(PaymentService paymentService) {
+        if (paymentService == PaymentService.PERIODIC_PAYMENTS) {
             return FiduciaPeriodicPaymentInitiationJson.class;
         }
         return super.getPaymentInitiationBodyClass(paymentService);
     }
 
     @Override
-    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
-                                                                                String paymentProduct,
+    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                                                PaymentProduct paymentProduct,
                                                                                 String paymentId,
                                                                                 String authorisationId,
                                                                                 RequestHeaders requestHeaders,
@@ -75,8 +75,8 @@ public class FiduciaPaymentInitiationService extends BasePaymentInitiationServic
     }
 
     @Override
-    public Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
-                                                                       String paymentProduct,
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(PaymentService paymentService,
+                                                                       PaymentProduct paymentProduct,
                                                                        String paymentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams,
@@ -92,8 +92,8 @@ public class FiduciaPaymentInitiationService extends BasePaymentInitiationServic
     }
 
     @Override
-    public Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
-                                                                       String paymentProduct,
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(PaymentService paymentService,
+                                                                       PaymentProduct paymentProduct,
                                                                        String paymentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams) {
@@ -107,8 +107,8 @@ public class FiduciaPaymentInitiationService extends BasePaymentInitiationServic
     }
 
     @Override
-    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
-                                                                          String paymentProduct,
+    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                                          PaymentProduct paymentProduct,
                                                                           String paymentId,
                                                                           String authorisationId,
                                                                           RequestHeaders requestHeaders,
@@ -126,7 +126,7 @@ public class FiduciaPaymentInitiationService extends BasePaymentInitiationServic
     }
 
     @Override
-    public Response<PeriodicPaymentInitiationWithStatusResponse> getPeriodicPaymentInformation(String paymentProduct,
+    public Response<PeriodicPaymentInitiationWithStatusResponse> getPeriodicPaymentInformation(PaymentProduct paymentProduct,
                                                                                                String paymentId,
                                                                                                RequestHeaders requestHeaders,
                                                                                                RequestParams requestParams) {
@@ -139,7 +139,7 @@ public class FiduciaPaymentInitiationService extends BasePaymentInitiationServic
     }
 
     @Override
-    public Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(String paymentProduct,
+    public Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(PaymentProduct paymentProduct,
                                                                                                  String paymentId,
                                                                                                  RequestHeaders requestHeaders,
                                                                                                  RequestParams requestParams) {
