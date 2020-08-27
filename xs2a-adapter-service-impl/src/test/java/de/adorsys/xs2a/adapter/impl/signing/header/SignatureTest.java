@@ -2,10 +2,10 @@ package de.adorsys.xs2a.adapter.impl.signing.header;
 
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.exception.HttpRequestSigningException;
-import de.adorsys.xs2a.adapter.impl.signing.service.algorithm.EncodingAlgorithm;
-import de.adorsys.xs2a.adapter.impl.signing.service.algorithm.SigningAlgorithm;
-import de.adorsys.xs2a.adapter.impl.signing.service.encoding.EncodingService;
-import de.adorsys.xs2a.adapter.impl.signing.service.signing.SigningService;
+import de.adorsys.xs2a.adapter.impl.signing.algorithm.EncodingAlgorithm;
+import de.adorsys.xs2a.adapter.impl.signing.algorithm.EncodingAlgorithm.EncodingService;
+import de.adorsys.xs2a.adapter.impl.signing.algorithm.SigningAlgorithm;
+import de.adorsys.xs2a.adapter.impl.signing.algorithm.SigningAlgorithm.SigningService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,9 @@ class SignatureTest {
     private static final String SIGNATURE_ATTRIBUTE_VALUE = "SignatureAttributeValue";
     private static final String SIGNING_ALGORITHM_NAME = "SHA256withRSA";
 
-    private static final String EXPECTED_SIGNATURE_VALUE = String.format("keyId=\"%s\",algorithm=\"%s\",headers=\"byeheadername helloheadername\",signature=\"%s\"", KEY_ID, SIGNING_ALGORITHM_NAME, SIGNATURE_ATTRIBUTE_VALUE);
+    private static final String EXPECTED_SIGNATURE_VALUE =
+        String.format("keyId=\"%s\",algorithm=\"%s\",headers=\"byeheadername helloheadername\",signature=\"%s\"",
+            KEY_ID, SIGNING_ALGORITHM_NAME, SIGNATURE_ATTRIBUTE_VALUE);
 
     @Mock
     private SigningAlgorithm signingAlgorithm;
@@ -87,7 +89,7 @@ class SignatureTest {
 
     @Test
     void build_failure_privateKeyIsMissing() {
-        Signature.SignatureBuilder builder = Signature.builder()
+        Signature.Builder builder = Signature.builder()
             .keyId(KEY_ID)
             .headers(HEADERS_MAP)
             .signingAlgorithm(signingAlgorithm)
@@ -99,7 +101,7 @@ class SignatureTest {
 
     @Test
     void build_failure_keyIdIsMissing() {
-        Signature.SignatureBuilder builder = Signature.builder()
+        Signature.Builder builder = Signature.builder()
             .headers(HEADERS_MAP)
             .signingAlgorithm(signingAlgorithm)
             .encodingAlgorithm(encodingAlgorithm)
@@ -111,7 +113,7 @@ class SignatureTest {
 
     @Test
     void build_failure_headersAreMissing() {
-        Signature.SignatureBuilder builder = Signature.builder()
+        Signature.Builder builder = Signature.builder()
             .keyId(KEY_ID)
             .signingAlgorithm(signingAlgorithm)
             .encodingAlgorithm(encodingAlgorithm)
@@ -123,7 +125,7 @@ class SignatureTest {
 
     @Test
     void build_failure_signingAlgorithmIsMissing() {
-        Signature.SignatureBuilder builder = Signature.builder()
+        Signature.Builder builder = Signature.builder()
             .keyId(KEY_ID)
             .headers(HEADERS_MAP)
             .signingAlgorithm(null)

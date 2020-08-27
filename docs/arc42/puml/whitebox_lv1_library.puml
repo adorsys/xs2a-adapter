@@ -2,27 +2,34 @@
 
 title WhiteBox Level 1
 
-collections banks as "Banks"
+interface bxs2a as "XS2A Services"
+collections banks as "ASPSPs"
 
-interface "xs2a" as bhttp
+rectangle "xs2a-adapter (library)" {
+    interface axs2a as "Adapted XS2A Services"
+    component api as "service-api"
+    interface aspsp_repo as "AspspReadOnlyRepository"
+    component registry as "aspsp-registry"
+    component impl as "service-impl"
+    component serviceloader as "service-loader"
+    collections adapters as "adapters"
+    file csv as "aspsp-adapter-config.csv"
+    file conf as "adapter.config.properties"
 
-rectangle xa as "xs2a adapter as library" {
-	component ar as "aspsp-registry"
-	component sa as "service-api"
-	component saa as "service-impl"
-	component sl as "service-loader"
+    api <- impl
+    impl <- adapters
+    adapters -( bxs2a
+    bxs2a - banks
 
-	collections ba as "bank adapters"
+    registry -right- aspsp_repo
+    api <-- registry
+    api <-- serviceloader
+    adapters -- axs2a
+    adapters <.. serviceloader: delegatesTo
+    serviceloader -- axs2a
+    serviceloader -left( aspsp_repo
+
+    registry --> csv
+    api --> conf
 }
-
-	sl --> ar
-	sl --> ba
-	sa -0)- sl: AIS, PIS, oAuth, download API
-	ba --> saa
-	ba -(0- sa: AIS, PIS, oAuth, download API
-	ar -(0-sa: aspsp search
-
-	ba -( bhttp: http
-	banks --() bhttp
-
 @enduml
