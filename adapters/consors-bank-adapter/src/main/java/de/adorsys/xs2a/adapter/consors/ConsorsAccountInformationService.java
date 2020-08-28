@@ -11,7 +11,12 @@ import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.consors.model.ConsorsOK200TransactionDetails;
 import de.adorsys.xs2a.adapter.consors.model.ConsorsTransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
+
+import java.util.Map;
+
+import static de.adorsys.xs2a.adapter.api.RequestHeaders.PSU_ID;
 
 public class ConsorsAccountInformationService extends BaseAccountInformationService {
 
@@ -45,5 +50,14 @@ public class ConsorsAccountInformationService extends BaseAccountInformationServ
             requestParams,
             ConsorsOK200TransactionDetails.class,
             mapper::toOK200TransactionDetails);
+    }
+
+    @Override
+    protected Map<String, String> addPsuIdHeader(Map<String, String> headers) {
+        if (!headers.containsKey(PSU_ID) || StringUtils.isNotBlank(headers.get(PSU_ID))) {
+            headers.put(PSU_ID, "");
+        }
+
+        return headers;
     }
 }

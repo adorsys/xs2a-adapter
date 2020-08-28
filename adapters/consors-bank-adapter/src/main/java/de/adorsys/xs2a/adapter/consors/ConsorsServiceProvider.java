@@ -20,7 +20,6 @@ import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
-import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 
 public class ConsorsServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
     private PsuIdHeaderInterceptor psuIdHeaderInterceptor = new PsuIdHeaderInterceptor();
@@ -39,7 +38,7 @@ public class ConsorsServiceProvider implements AccountInformationServiceProvider
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new BasePaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
+        return new ConsorsPaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter);
     }
 
