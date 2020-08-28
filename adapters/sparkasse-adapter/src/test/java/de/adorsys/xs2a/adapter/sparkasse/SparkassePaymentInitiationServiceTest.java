@@ -29,8 +29,8 @@ class SparkassePaymentInitiationServiceTest {
         Mockito.doReturn(new Response<>(201, new PaymentInitationRequestResponse201(), null))
             .when(httpClient).send(Mockito.any(), Mockito.any());
 
-        paymentInitiationService.initiatePayment(PaymentService.PAYMENTS.toString(),
-            PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS.toString(),
+        paymentInitiationService.initiatePayment(PaymentService.PAYMENTS,
+            PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS,
             RequestHeaders.empty(),
             RequestParams.empty(),
             "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.03\">\n" +

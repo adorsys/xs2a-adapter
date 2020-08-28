@@ -20,18 +20,18 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.model.PaymentInitiationJson;
+import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationJson;
 import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.impl.http.JsonMapper;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 public abstract class AbstractService {
-    private static final Map<String, Class<?>> PAYMENT_SERVICE_INITIATION_CLASSES = new HashMap<>();
-    protected static final String SINGLE_PAYMENTS = "payments";
-    protected static final String PERIODIC_PAYMENTS = "periodic-payments";
+    private static final EnumMap<PaymentService, Class<?>> PAYMENT_INITIATION_BODY_CLASSES =
+        new EnumMap<>(PaymentService.class);
     protected static final String AUTHORISATIONS = "authorisations";
     protected static final String STATUS = "status";
     protected static final String ACCEPT_HEADER = "Accept";
@@ -39,8 +39,8 @@ public abstract class AbstractService {
     protected final HttpClient httpClient;
 
     static {
-        PAYMENT_SERVICE_INITIATION_CLASSES.put(SINGLE_PAYMENTS, PaymentInitiationJson.class);
-        PAYMENT_SERVICE_INITIATION_CLASSES.put(PERIODIC_PAYMENTS, PeriodicPaymentInitiationJson.class);
+        PAYMENT_INITIATION_BODY_CLASSES.put(PaymentService.PAYMENTS, PaymentInitiationJson.class);
+        PAYMENT_INITIATION_BODY_CLASSES.put(PaymentService.PERIODIC_PAYMENTS, PeriodicPaymentInitiationJson.class);
     }
 
     public AbstractService(HttpClient httpClient) {
@@ -89,8 +89,8 @@ public abstract class AbstractService {
         return StringUri.withQuery(uri, requestParamsMap);
     }
 
-    protected Class<?> getPaymentInitiationBodyClass(String paymentService) {
-        Class<?> paymentInitiationBodyClass = PAYMENT_SERVICE_INITIATION_CLASSES.get(paymentService);
+    protected Class<?> getPaymentInitiationBodyClass(PaymentService paymentService) {
+        Class<?> paymentInitiationBodyClass = PAYMENT_INITIATION_BODY_CLASSES.get(paymentService);
         if (paymentInitiationBodyClass == null) {
             throw new IllegalArgumentException("Unsupported payment service: " + paymentService);
         }

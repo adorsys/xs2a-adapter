@@ -31,8 +31,8 @@ class SparkassePaymentInitiationServiceWireMockTest {
         TestRequestResponse requestResponse =
             new TestRequestResponse("pis/payments/sepa-credit-transfers/initiate-payment.json");
 
-        Response<PaymentInitationRequestResponse201> response = service.initiatePayment(PaymentService.PAYMENTS.toString(),
-            PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+        Response<PaymentInitationRequestResponse201> response = service.initiatePayment(PaymentService.PAYMENTS,
+            PaymentProduct.SEPA_CREDIT_TRANSFERS,
             requestResponse.requestHeaders(),
             RequestParams.empty(),
             requestResponse.requestBody(PaymentInitiationJson.class));
@@ -46,8 +46,8 @@ class SparkassePaymentInitiationServiceWireMockTest {
         TestRequestResponse requestResponse =
             new TestRequestResponse("pis/" + paymentService + "/" + paymentProduct + "/authenticate-psu.json");
 
-        Response<StartScaprocessResponse> response = service.startPaymentAuthorisation(paymentService.toString(),
-            paymentProduct.toString(),
+        Response<StartScaprocessResponse> response = service.startPaymentAuthorisation(paymentService,
+            paymentProduct,
             PAYMENT_ID,
             requestResponse.requestHeaders(),
             RequestParams.empty(),
@@ -62,8 +62,8 @@ class SparkassePaymentInitiationServiceWireMockTest {
         TestRequestResponse requestResponse =
             new TestRequestResponse("pis/" + paymentService + "/" + paymentProduct + "/select-sca-method.json");
 
-        Response<SelectPsuAuthenticationMethodResponse> response = service.updatePaymentPsuData(paymentService.toString(),
-            paymentProduct.toString(),
+        Response<SelectPsuAuthenticationMethodResponse> response = service.updatePaymentPsuData(paymentService,
+            paymentProduct,
             PAYMENT_ID,
             AUTHORISATION_ID,
             requestResponse.requestHeaders(),
@@ -79,8 +79,8 @@ class SparkassePaymentInitiationServiceWireMockTest {
         TestRequestResponse requestResponse =
             new TestRequestResponse("pis/" + paymentService + "/" + paymentProduct + "/authorise-transaction.json");
 
-        Response<ScaStatusResponse> response = service.updatePaymentPsuData(paymentService.toString(),
-            paymentProduct.toString(),
+        Response<ScaStatusResponse> response = service.updatePaymentPsuData(paymentService,
+            paymentProduct,
             PAYMENT_ID,
             AUTHORISATION_ID,
             requestResponse.requestHeaders(),
@@ -96,8 +96,8 @@ class SparkassePaymentInitiationServiceWireMockTest {
         TestRequestResponse requestResponse =
             new TestRequestResponse("pis/" + paymentService + "/" + paymentProduct + "/get-sca-status.json");
 
-        Response<ScaStatusResponse> response = service.getPaymentInitiationScaStatus(paymentService.toString(),
-            paymentProduct.toString(),
+        Response<ScaStatusResponse> response = service.getPaymentInitiationScaStatus(paymentService,
+            paymentProduct,
             PAYMENT_ID,
             AUTHORISATION_ID,
             requestResponse.requestHeaders(),
@@ -112,8 +112,8 @@ class SparkassePaymentInitiationServiceWireMockTest {
         TestRequestResponse requestResponse =
             new TestRequestResponse("pis/" + paymentService + "/" + paymentProduct + "/get-payment-status.json");
 
-        Response<PaymentInitiationStatusResponse200Json> response = service.getPaymentInitiationStatus(paymentService.toString(),
-            paymentProduct.toString(),
+        Response<PaymentInitiationStatusResponse200Json> response = service.getPaymentInitiationStatus(paymentService,
+            paymentProduct,
             PAYMENT_ID,
             requestResponse.requestHeaders(),
             RequestParams.empty());

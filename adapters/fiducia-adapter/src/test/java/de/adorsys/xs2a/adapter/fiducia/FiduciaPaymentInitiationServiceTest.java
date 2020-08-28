@@ -54,8 +54,8 @@ class FiduciaPaymentInitiationServiceTest {
         }).when(httpClient).send(Mockito.any(), Mockito.any());
 
         Response<PaymentInitationRequestResponse201> response = fiduciaPaymentInitiationService.initiatePayment(
-            PaymentService.PAYMENTS.toString(),
-            PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+            PaymentService.PAYMENTS,
+            PaymentProduct.SEPA_CREDIT_TRANSFERS,
             RequestHeaders.empty(),
             null,
             new PaymentInitiationJson());
@@ -82,8 +82,8 @@ class FiduciaPaymentInitiationServiceTest {
         }).when(httpClient).send(Mockito.any(), Mockito.any());
 
         Response<SelectPsuAuthenticationMethodResponse> response = fiduciaPaymentInitiationService.updatePaymentPsuData(
-            PaymentService.PAYMENTS.toString(),
-            PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+            PaymentService.PAYMENTS,
+            PaymentProduct.SEPA_CREDIT_TRANSFERS,
             null,
             null,
             RequestHeaders.empty(),
@@ -112,8 +112,8 @@ class FiduciaPaymentInitiationServiceTest {
         }).when(httpClient).send(Mockito.any(), Mockito.any());
 
         Response<StartScaprocessResponse> response = fiduciaPaymentInitiationService.startPaymentAuthorisation(
-            PaymentService.PAYMENTS.toString(),
-            PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+            PaymentService.PAYMENTS,
+            PaymentProduct.SEPA_CREDIT_TRANSFERS,
             null,
             RequestHeaders.empty(),
             null,
@@ -141,8 +141,8 @@ class FiduciaPaymentInitiationServiceTest {
         }).when(httpClient).send(Mockito.any(), Mockito.any());
 
         Response<StartScaprocessResponse> response = fiduciaPaymentInitiationService.startPaymentAuthorisation(
-            PaymentService.PAYMENTS.toString(),
-            PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+            PaymentService.PAYMENTS,
+            PaymentProduct.SEPA_CREDIT_TRANSFERS,
             null,
             RequestHeaders.empty(),
             null);
@@ -169,8 +169,8 @@ class FiduciaPaymentInitiationServiceTest {
         }).when(httpClient).send(Mockito.any(), Mockito.any());
 
         Response<UpdatePsuAuthenticationResponse> response = fiduciaPaymentInitiationService.updatePaymentPsuData(
-            PaymentService.PAYMENTS.toString(),
-            PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+            PaymentService.PAYMENTS,
+            PaymentProduct.SEPA_CREDIT_TRANSFERS,
             null,
             null,
             RequestHeaders.empty(),
@@ -189,8 +189,8 @@ class FiduciaPaymentInitiationServiceTest {
             null))
             .when(httpClient).send(Mockito.any(), Mockito.any());
 
-        fiduciaPaymentInitiationService.initiatePayment(PaymentService.PERIODIC_PAYMENTS.toString(),
-            PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+        fiduciaPaymentInitiationService.initiatePayment(PaymentService.PERIODIC_PAYMENTS,
+            PaymentProduct.SEPA_CREDIT_TRANSFERS,
             RequestHeaders.empty(),
             null,
             body);
@@ -213,8 +213,8 @@ class FiduciaPaymentInitiationServiceTest {
             null))
             .when(httpClient).send(Mockito.any(), Mockito.any());
 
-        fiduciaPaymentInitiationService.initiatePayment(PaymentService.PERIODIC_PAYMENTS.toString(),
-            PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+        fiduciaPaymentInitiationService.initiatePayment(PaymentService.PERIODIC_PAYMENTS,
+            PaymentProduct.SEPA_CREDIT_TRANSFERS,
             RequestHeaders.empty(),
             null,
             body);
@@ -241,7 +241,7 @@ class FiduciaPaymentInitiationServiceTest {
         }).when(httpClient).send(Mockito.any(), Mockito.any());
 
         Response<PeriodicPaymentInitiationWithStatusResponse> adaptedResponse =
-            fiduciaPaymentInitiationService.getPeriodicPaymentInformation(null,
+            fiduciaPaymentInitiationService.getPeriodicPaymentInformation(PaymentProduct.SEPA_CREDIT_TRANSFERS,
                 null,
                 RequestHeaders.empty(),
                 null);
@@ -262,7 +262,7 @@ class FiduciaPaymentInitiationServiceTest {
         }).when(httpClient).send(Mockito.any(), Mockito.any());
 
         Response<PeriodicPaymentInitiationWithStatusResponse> adaptedResponse =
-            fiduciaPaymentInitiationService.getPeriodicPaymentInformation(null,
+            fiduciaPaymentInitiationService.getPeriodicPaymentInformation(PaymentProduct.SEPA_CREDIT_TRANSFERS,
                 null,
                 RequestHeaders.empty(),
                 null);
@@ -287,7 +287,7 @@ class FiduciaPaymentInitiationServiceTest {
         }).when(httpClient).send(Mockito.any(), Mockito.any());
 
         Response<PeriodicPaymentInitiationMultipartBody> adaptedResponse =
-            fiduciaPaymentInitiationService.getPeriodicPain001PaymentInformation(null,
+            fiduciaPaymentInitiationService.getPeriodicPain001PaymentInformation(PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS,
                 null,
                 RequestHeaders.empty(),
                 null);
@@ -313,7 +313,7 @@ class FiduciaPaymentInitiationServiceTest {
         }).when(httpClient).send(Mockito.any(), Mockito.any());
 
         Response<PeriodicPaymentInitiationMultipartBody> adaptedResponse =
-            fiduciaPaymentInitiationService.getPeriodicPain001PaymentInformation(null,
+            fiduciaPaymentInitiationService.getPeriodicPain001PaymentInformation(PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS,
                 null,
                 RequestHeaders.empty(),
                 null);

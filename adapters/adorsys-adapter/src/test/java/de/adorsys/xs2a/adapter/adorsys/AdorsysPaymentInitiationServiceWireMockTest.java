@@ -107,8 +107,8 @@ class AdorsysPaymentInitiationServiceWireMockTest {
         PaymentInitiationJson paymentInitiationJson = reader.getObjectFromFile("pis/payments/sepa-credit-transfers/initiate-payment-request-body.json", PaymentInitiationJson.class);
         PaymentInitationRequestResponse201 expected = reader.getObjectFromFile("pis/payments/sepa-credit-transfers/initiate-payment-response-body.json", PaymentInitationRequestResponse201.class);
 
-        Response<PaymentInitationRequestResponse201> response = service.initiatePayment(PaymentService.PAYMENTS.toString(),
-                                                                                        PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+        Response<PaymentInitationRequestResponse201> response = service.initiatePayment(PaymentService.PAYMENTS,
+                                                                                        PaymentProduct.SEPA_CREDIT_TRANSFERS,
                                                                                         RequestHeaders.fromMap(headersMap),
                                                                                         RequestParams.empty(),
                                                                                         paymentInitiationJson);
@@ -124,8 +124,8 @@ class AdorsysPaymentInitiationServiceWireMockTest {
         ScaStatusResponse expected = reader.getObjectFromFile("pis/get-sca-status-response-body.json", ScaStatusResponse.class);
 
         Response<ScaStatusResponse> response = service.getPaymentInitiationScaStatus(
-            paymentService.toString(),
-            paymentProduct.toString(),
+            paymentService,
+            paymentProduct,
             paymentIds.get(paymentService, paymentProduct),
             authorisationIds.get(paymentService, paymentProduct),
             RequestHeaders.fromMap(headersMap),
@@ -142,8 +142,8 @@ class AdorsysPaymentInitiationServiceWireMockTest {
         PeriodicPaymentInitiationJson paymentInitiationJson = reader.getObjectFromFile("pis/periodic-payments/sepa-credit-transfers/initiate-payment-request-body.json", PeriodicPaymentInitiationJson.class);
         PaymentInitationRequestResponse201 expected = reader.getObjectFromFile("pis/periodic-payments/sepa-credit-transfers/initiate-payment-response-body.json", PaymentInitationRequestResponse201.class);
 
-        Response<PaymentInitationRequestResponse201> response = service.initiatePayment(PaymentService.PERIODIC_PAYMENTS.toString(),
-                                                                                        PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+        Response<PaymentInitationRequestResponse201> response = service.initiatePayment(PaymentService.PERIODIC_PAYMENTS,
+                                                                                        PaymentProduct.SEPA_CREDIT_TRANSFERS,
                                                                                         RequestHeaders.fromMap(headersMap),
                                                                                         RequestParams.empty(),
                                                                                         paymentInitiationJson);
@@ -161,8 +161,8 @@ class AdorsysPaymentInitiationServiceWireMockTest {
             reader.getObjectFromFile("pis/payments/pain.001-sepa-credit-transfers/initiate-payment-response-body.json",
                 PaymentInitationRequestResponse201.class);
 
-        Response<PaymentInitationRequestResponse201> response = service.initiatePayment(PaymentService.PAYMENTS.toString(),
-            PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS.toString(),
+        Response<PaymentInitationRequestResponse201> response = service.initiatePayment(PaymentService.PAYMENTS,
+            PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS,
             RequestHeaders.fromMap(headersMap),
             RequestParams.empty(),
             xml);
@@ -183,8 +183,8 @@ class AdorsysPaymentInitiationServiceWireMockTest {
                 PaymentInitationRequestResponse201.class);
 
         Response<PaymentInitationRequestResponse201> response = service.initiatePayment(
-            PaymentService.PERIODIC_PAYMENTS.toString(),
-            PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS.toString(),
+            PaymentService.PERIODIC_PAYMENTS,
+            PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS,
             RequestHeaders.fromMap(headersMap),
             RequestParams.empty(),
             body);
@@ -206,8 +206,8 @@ class AdorsysPaymentInitiationServiceWireMockTest {
             UpdatePsuAuthenticationResponse.class);
 
         Response<UpdatePsuAuthenticationResponse> response = service.updatePaymentPsuData(
-            paymentService.toString(),
-            paymentProduct.toString(),
+            paymentService,
+            paymentProduct,
             paymentIds.get(paymentService, paymentProduct),
             authorisationIds.get(paymentService, paymentProduct),
             RequestHeaders.fromMap(headersMap),
@@ -252,8 +252,8 @@ class AdorsysPaymentInitiationServiceWireMockTest {
             SelectPsuAuthenticationMethodResponse.class);
 
         Response<SelectPsuAuthenticationMethodResponse> response = service.updatePaymentPsuData(
-            paymentService.toString(),
-            paymentProduct.toString(),
+            paymentService,
+            paymentProduct,
             paymentIds.get(paymentService, paymentProduct),
             authorisationIds.get(paymentService, paymentProduct),
             RequestHeaders.fromMap(headersMap),
@@ -275,8 +275,8 @@ class AdorsysPaymentInitiationServiceWireMockTest {
             ScaStatusResponse.class);
 
         Response<ScaStatusResponse> response = service.updatePaymentPsuData(
-            paymentService.toString(),
-            paymentProduct.toString(),
+            paymentService,
+            paymentProduct,
             paymentIds.get(paymentService, paymentProduct),
             authorisationIds.get(paymentService, paymentProduct),
             RequestHeaders.fromMap(headersMap),
@@ -296,8 +296,8 @@ class AdorsysPaymentInitiationServiceWireMockTest {
             PaymentInitiationStatusResponse200Json.class);
 
         Response<PaymentInitiationStatusResponse200Json> response = service.getPaymentInitiationStatus(
-            paymentService.toString(),
-            paymentProduct.toString(),
+            paymentService,
+            paymentProduct,
             paymentIds.get(paymentService, paymentProduct),
             RequestHeaders.fromMap(headersMap),
             RequestParams.empty()

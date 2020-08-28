@@ -26,8 +26,8 @@ class IngPaymentInitiationServiceWireMockTest {
             new TestRequestResponse("pis/payments/sepa-credit-transfers/initiate-payment.json");
 
         Response<PaymentInitationRequestResponse201> response =
-            service.initiatePayment(PaymentService.PAYMENTS.toString(),
-                PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+            service.initiatePayment(PaymentService.PAYMENTS,
+                PaymentProduct.SEPA_CREDIT_TRANSFERS,
                 requestResponse.requestHeaders(),
                 RequestParams.empty(),
                 requestResponse.requestBody(PaymentInitiationJson.class));
@@ -45,8 +45,8 @@ class IngPaymentInitiationServiceWireMockTest {
             new TestRequestResponse("pis/payments/sepa-credit-transfers/get-payment-status.json");
 
         Response<PaymentInitiationStatusResponse200Json> response =
-            service.getPaymentInitiationStatus(PaymentService.PAYMENTS.toString(),
-                PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+            service.getPaymentInitiationStatus(PaymentService.PAYMENTS,
+                PaymentProduct.SEPA_CREDIT_TRANSFERS,
                 PAYMENT_ID,
                 requestResponse.requestHeaders(),
                 RequestParams.empty());
@@ -61,8 +61,8 @@ class IngPaymentInitiationServiceWireMockTest {
             new TestRequestResponse("pis/periodic-payments/sepa-credit-transfers/initiate-payment.json");
 
         Response<PaymentInitationRequestResponse201> response =
-            service.initiatePayment(PaymentService.PERIODIC_PAYMENTS.toString(),
-                PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+            service.initiatePayment(PaymentService.PERIODIC_PAYMENTS,
+                PaymentProduct.SEPA_CREDIT_TRANSFERS,
                 requestResponse.requestHeaders(),
                 RequestParams.empty(),
                 requestResponse.requestBody(PeriodicPaymentInitiationJson.class));
@@ -81,8 +81,8 @@ class IngPaymentInitiationServiceWireMockTest {
             new TestRequestResponse("pis/periodic-payments/sepa-credit-transfers/get-payment-status.json");
 
         Response<PaymentInitiationStatusResponse200Json> response =
-            service.getPaymentInitiationStatus(PaymentService.PERIODIC_PAYMENTS.toString(),
-                PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+            service.getPaymentInitiationStatus(PaymentService.PERIODIC_PAYMENTS,
+                PaymentProduct.SEPA_CREDIT_TRANSFERS,
                 PERIODIC_PAYMENT_ID,
                 requestResponse.requestHeaders(),
                 RequestParams.empty());

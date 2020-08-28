@@ -5,9 +5,7 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.api.model.Aspsp;
-import de.adorsys.xs2a.adapter.api.model.PaymentInitationRequestResponse201;
-import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationMultipartBody;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 
 public class SparkassePaymentInitiationService extends BasePaymentInitiationService {
@@ -18,12 +16,12 @@ public class SparkassePaymentInitiationService extends BasePaymentInitiationServ
     }
 
     @Override
-    public Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
-                                                                        String paymentProduct,
+    public Response<PaymentInitationRequestResponse201> initiatePayment(PaymentService paymentService,
+                                                                        PaymentProduct paymentProduct,
                                                                         RequestHeaders requestHeaders,
                                                                         RequestParams requestParams,
                                                                         Object body) {
-        if (paymentProduct.startsWith("pain.001")) {
+        if (isXml(paymentProduct)) {
             if (body instanceof String) {
                 String xml = (String) body;
                 body = removeReqdExctnDt(xml);
