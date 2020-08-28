@@ -21,8 +21,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ConsorsAccountInformationServiceTest {
 
-    private static final String EMPTY_STRING = "";
-
     private final HttpClient httpClient = Mockito.spy(AbstractHttpClient.class);
     private final AccountInformationService service = new ConsorsServiceProvider()
         .getAccountInformationService(new Aspsp(), (x, y, z) -> httpClient, null, new IdentityLinksRewriter());
@@ -96,7 +94,7 @@ class ConsorsAccountInformationServiceTest {
     }
 
     @Test
-    void addPsuIdHeader_noPsuId() {
+    void createConsent_noPsuId() {
         Mockito.when(httpClient.send(Mockito.any(), Mockito.any()))
             .thenReturn(new Response<>(-1, new ConsentsResponse201(), ResponseHeaders.emptyResponseHeaders()));
 
@@ -108,11 +106,11 @@ class ConsorsAccountInformationServiceTest {
         Map<String, String> actualHeaders = builderCaptor.getValue().headers();
         assertThat(actualHeaders)
             .isNotEmpty()
-            .containsEntry(PSU_ID, EMPTY_STRING);
+            .containsEntry(PSU_ID, "");
     }
 
     @Test
-    void addPsuIdHeader_blankPsuId() {
+    void createConsent_blankPsuId() {
         Map<String, String> headers = new HashMap<>();
         headers.put(PSU_ID, " ");
 
@@ -127,11 +125,11 @@ class ConsorsAccountInformationServiceTest {
         Map<String, String> actualHeaders = builderCaptor.getValue().headers();
         assertThat(actualHeaders)
             .isNotEmpty()
-            .containsEntry(PSU_ID, EMPTY_STRING);
+            .containsEntry(PSU_ID, "");
     }
 
     @Test
-    void addPsuIdHeader_notEmptyPsuId() {
+    void createConsent_notEmptyPsuId() {
         Map<String, String> headers = new HashMap<>();
         headers.put(PSU_ID, "foo");
 
@@ -146,6 +144,6 @@ class ConsorsAccountInformationServiceTest {
         Map<String, String> actualHeaders = builderCaptor.getValue().headers();
         assertThat(actualHeaders)
             .isNotEmpty()
-            .containsEntry(PSU_ID, EMPTY_STRING);
+            .containsEntry(PSU_ID, "");
     }
 }

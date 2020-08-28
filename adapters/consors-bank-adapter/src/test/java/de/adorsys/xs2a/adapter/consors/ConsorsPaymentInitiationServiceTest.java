@@ -27,8 +27,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ConsorsPaymentInitiationServiceTest {
 
-    private static final String EMPTY_STRING = "";
-
     @InjectMocks
     private ConsorsPaymentInitiationService service;
     @Mock
@@ -63,32 +61,7 @@ class ConsorsPaymentInitiationServiceTest {
     }
 
     @Test
-    void addPsuIdHeader_blankPsuId() {
-        Map<String, String> headers = new HashMap<>();
-        headers.put(PSU_ID, " ");
-
-        when(client.post(any())).thenReturn(new RequestBuilderImpl(client, null, null));
-        when(client.send(any(), any()))
-            .thenReturn(new Response<>(-1,
-                new PaymentInitationRequestResponse201(),
-                ResponseHeaders.emptyResponseHeaders()));
-
-        service.initiatePayment(PAYMENTS,
-            SEPA_CREDIT_TRANSFERS,
-            RequestHeaders.fromMap(headers),
-            RequestParams.empty(),
-            new PaymentInitiationJson());
-
-        verify(client, times(1)).send(builderCaptor.capture(), any());
-
-        Map<String, String> actualHeaders = builderCaptor.getValue().headers();
-        assertThat(actualHeaders)
-            .isNotEmpty()
-            .containsEntry(PSU_ID, EMPTY_STRING);
-    }
-
-    @Test
-    void addPsuIdHeader_notEmptyPsuId() {
+    void initiatePayment_psuIdAvailable() {
         Map<String, String> headers = new HashMap<>();
         headers.put(PSU_ID, "foo");
 
@@ -108,8 +81,7 @@ class ConsorsPaymentInitiationServiceTest {
 
         Map<String, String> actualHeaders = builderCaptor.getValue().headers();
         assertThat(actualHeaders)
-            .isNotEmpty()
-            .containsEntry(PSU_ID, EMPTY_STRING);
+            .isEmpty();
     }
 
     private Aspsp buildAspsp() {

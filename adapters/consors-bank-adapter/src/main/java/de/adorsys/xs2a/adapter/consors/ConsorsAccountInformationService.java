@@ -5,13 +5,10 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.api.model.Aspsp;
-import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
-import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.consors.model.ConsorsOK200TransactionDetails;
 import de.adorsys.xs2a.adapter.consors.model.ConsorsTransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
-import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
@@ -53,11 +50,16 @@ public class ConsorsAccountInformationService extends BaseAccountInformationServ
     }
 
     @Override
-    protected Map<String, String> addPsuIdHeader(Map<String, String> headers) {
-        if (!headers.containsKey(PSU_ID) || StringUtils.isNotEmpty(headers.get(PSU_ID))) {
-            headers.put(PSU_ID, "");
-        }
+    public Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
+                                                       RequestParams requestParams,
+                                                       Consents body) {
+        Map<String, String> checkedHeader = removePsuIdHeader(requestHeaders.toMap());
 
+        return super.createConsent(RequestHeaders.fromMap(checkedHeader), requestParams, body);
+    }
+
+    private Map<String, String> removePsuIdHeader(Map<String, String> headers) {
+        headers.remove(PSU_ID);
         return headers;
     }
 }

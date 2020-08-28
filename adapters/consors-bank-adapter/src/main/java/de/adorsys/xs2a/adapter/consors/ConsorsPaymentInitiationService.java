@@ -10,10 +10,8 @@ import de.adorsys.xs2a.adapter.api.model.PaymentInitationRequestResponse201;
 import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
 import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
-import java.util.function.Function;
 
 import static de.adorsys.xs2a.adapter.api.RequestHeaders.PSU_ID;
 
@@ -26,25 +24,18 @@ public class ConsorsPaymentInitiationService extends BasePaymentInitiationServic
     }
 
     @Override
-    protected <T> Response<PaymentInitationRequestResponse201> initiatePayment(PaymentService paymentService,
-                                                                               PaymentProduct paymentProduct,
-                                                                               Object body,
-                                                                               RequestHeaders requestHeaders,
-                                                                               RequestParams requestParams,
-                                                                               Function<T, PaymentInitationRequestResponse201> mapper,
-                                                                               HttpClient.ResponseHandler<T> responseHandler) {
+    public Response<PaymentInitationRequestResponse201> initiatePayment(PaymentService paymentService,
+                                                                        PaymentProduct paymentProduct,
+                                                                        RequestHeaders requestHeaders,
+                                                                        RequestParams requestParams,
+                                                                        Object body) {
+        Map<String, String> checkedHeader = removePsuIdHeader(requestHeaders.toMap());
 
-        Map<String, String> checkedHeaders = addPsuIdHeader(requestHeaders.toMap());
-
-        return super.initiatePayment(paymentService, paymentProduct, body, RequestHeaders.fromMap(checkedHeaders), requestParams, mapper, responseHandler);
+        return super.initiatePayment(paymentService, paymentProduct, RequestHeaders.fromMap(checkedHeader), requestParams, body);
     }
 
-    @Override
-    protected Map<String, String> addPsuIdHeader(Map<String, String> headers) {
-        if (headers.containsKey(PSU_ID) && StringUtils.isNotEmpty(headers.get(PSU_ID))) {
-            headers.put(PSU_ID, "");
-        }
-
+    private Map<String, String> removePsuIdHeader(Map<String, String> headers) {
+        headers.remove(PSU_ID);
         return headers;
     }
 }

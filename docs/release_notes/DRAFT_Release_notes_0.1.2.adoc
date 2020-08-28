@@ -32,6 +32,8 @@ root package name to `de.adorsys.xs2a.adapter.impl`
 - Changed the root package of the `xs2a-adapter-service-api` module to `de.adapter.xs2a.adapter.api`.
 - Cleaned up package structure in `commerzbank-adapter`, `verlag-adapter` and `xs2a-adapter-service-remote`.
 - Removed `maven-adapter-archetype`.
+- Removed `PSU-ID` header from Payment Initiation and Consent Creation requests for `consors-bank-adapter`,
+as the bank doesn't expect the header to be present within these requests.
 
 == Features:
 - Added transaction status mapping for periodic payments of ING
