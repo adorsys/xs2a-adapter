@@ -57,8 +57,8 @@ class UnicreditPaymentInitiationServiceTest {
         when(httpClient.send(any(), any()))
             .thenReturn(new Response<>(200, new PaymentInitationRequestResponse201(), ResponseHeaders.fromMap(headersMap)));
 
-        paymentInitiationService.initiatePayment(PaymentService.PAYMENTS.toString(),
-                                                 PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+        paymentInitiationService.initiatePayment(PaymentService.PAYMENTS,
+                                                 PaymentProduct.SEPA_CREDIT_TRANSFERS,
                                                  RequestHeaders.fromMap(headersMap),
                                                  RequestParams.empty(),
                                                  new PaymentInitiationJson());
@@ -79,8 +79,8 @@ class UnicreditPaymentInitiationServiceTest {
         when(httpClient.send(any(), any()))
             .thenReturn(new Response<>(200, new PaymentInitationRequestResponse201(), ResponseHeaders.fromMap(headersMap)));
 
-        paymentInitiationService.initiatePayment(PaymentService.PAYMENTS.toString(),
-                                                 PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+        paymentInitiationService.initiatePayment(PaymentService.PAYMENTS,
+                                                 PaymentProduct.SEPA_CREDIT_TRANSFERS,
                                                  RequestHeaders.fromMap(headersMap),
                                                  RequestParams.empty(),
                                                  new PaymentInitiationJson());
@@ -101,8 +101,8 @@ class UnicreditPaymentInitiationServiceTest {
         when(httpClient.send(any(), any()))
             .thenReturn(new Response<>(200, new PaymentInitationRequestResponse201(), ResponseHeaders.fromMap(headersMap)));
 
-        paymentInitiationService.initiatePayment(PaymentService.PAYMENTS.toString(),
-                                                 PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+        paymentInitiationService.initiatePayment(PaymentService.PAYMENTS,
+                                                 PaymentProduct.SEPA_CREDIT_TRANSFERS,
                                                  RequestHeaders.fromMap(headersMap),
                                                  RequestParams.empty(),
                                                  new PaymentInitiationJson());
@@ -121,8 +121,8 @@ class UnicreditPaymentInitiationServiceTest {
                                 statusResponse,
                                 ResponseHeaders.fromMap(Collections.emptyMap()))).when(requestBuilder).send(any(), any());
 
-        paymentInitiationService.updatePaymentPsuData(PaymentService.PAYMENTS.toString(),
-                                                      PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+        paymentInitiationService.updatePaymentPsuData(PaymentService.PAYMENTS,
+                                                      PaymentProduct.SEPA_CREDIT_TRANSFERS,
                                                       PAYMENT_ID,
                                                       AUTHORISATION_ID,
                                                       RequestHeaders.fromMap(Collections.emptyMap()),

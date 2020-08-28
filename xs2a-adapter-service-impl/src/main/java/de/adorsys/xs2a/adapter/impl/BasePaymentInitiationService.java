@@ -27,7 +27,6 @@ import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 
-import javax.ws.rs.core.MediaType;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -40,8 +39,6 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     private static final LinksRewriter DEFAULT_LINKS_REWRITER = new IdentityLinksRewriter();
 
     protected static final String V1 = "v1";
-    protected static final String SINGLE_PAYMENTS = "payments";
-    protected static final String PERIODIC_PAYMENTS = "periodic-payments";
     protected final Aspsp aspsp;
     private final Request.Builder.Interceptor requestBuilderInterceptor;
     private final LinksRewriter linksRewriter;
@@ -73,8 +70,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
-                                                                        String paymentProduct,
+    public Response<PaymentInitationRequestResponse201> initiatePayment(PaymentService paymentService,
+                                                                        PaymentProduct paymentProduct,
                                                                         RequestHeaders requestHeaders,
                                                                         RequestParams requestParams,
                                                                         Object body) {
@@ -88,8 +85,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             identity());
     }
 
-    protected <T> Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
-                                                                               String paymentProduct,
+    protected <T> Response<PaymentInitationRequestResponse201> initiatePayment(PaymentService paymentService,
+                                                                               PaymentProduct paymentProduct,
                                                                                RequestHeaders requestHeaders,
                                                                                RequestParams requestParams,
                                                                                Object body,
@@ -98,8 +95,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         return initiatePayment(paymentService, paymentProduct, body, requestHeaders, requestParams, mapper, jsonResponseHandler(klass));
     }
 
-    protected <T> Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
-                                                                               String paymentProduct,
+    protected <T> Response<PaymentInitationRequestResponse201> initiatePayment(PaymentService paymentService,
+                                                                               PaymentProduct paymentProduct,
                                                                                Object body,
                                                                                RequestHeaders requestHeaders,
                                                                                RequestParams requestParams,
@@ -118,18 +115,11 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             requestBuilder.addXmlPart("xml_sct", (String) multipartBody.getXml_sct());
             requestBuilder.addJsonPart("json_standingorderType",
                 jsonMapper.writeValueAsString(multipartBody.getJson_standingorderType()));
+        } else if (isXml(paymentProduct)) {
+            requestBuilder.xmlBody((String) body);
         } else {
-            switch (StandardPaymentProduct.fromSlug(paymentProduct).getMediaType()) {
-                case MediaType.APPLICATION_JSON:
-                    requestBuilder.jsonBody(jsonMapper.writeValueAsString(
-                        jsonMapper.convertValue(body, getPaymentInitiationBodyClass(paymentService))));
-                    break;
-                case MediaType.APPLICATION_XML:
-                    requestBuilder.xmlBody((String) body);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unsupported payment product media type");
-            }
+            requestBuilder.jsonBody(jsonMapper.writeValueAsString(
+                jsonMapper.convertValue(body, getPaymentInitiationBodyClass(paymentService))));
         }
 
         Response<T> response = requestBuilder.send(requestBuilderInterceptor, responseHandler);
@@ -139,14 +129,18 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         return new Response<>(response.getStatusCode(), paymentInitiationRequestResponse, response.getHeaders());
     }
 
+    protected boolean isXml(PaymentProduct paymentProduct) {
+        return paymentProduct.toString().startsWith("pain.001");
+    }
+
     @Override
-    public Response<PaymentInitiationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,
+    public Response<PaymentInitiationWithStatusResponse> getSinglePaymentInformation(PaymentProduct paymentProduct,
                                                                                      String paymentId,
                                                                                      RequestHeaders requestHeaders,
                                                                                      RequestParams requestParams) {
 
         requireValid(validateGetSinglePaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams));
-        return getPaymentInformation(SINGLE_PAYMENTS,
+        return getPaymentInformation(PaymentService.PAYMENTS,
             paymentProduct,
             paymentId,
             requestHeaders,
@@ -154,8 +148,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             jsonResponseHandler(PaymentInitiationWithStatusResponse.class));
     }
 
-    private <T> Response<T> getPaymentInformation(String paymentService,
-                                                  String paymentProduct,
+    private <T> Response<T> getPaymentInformation(PaymentService paymentService,
+                                                  PaymentProduct paymentProduct,
                                                   String paymentId,
                                                   RequestHeaders requestHeaders,
                                                   RequestParams requestParams,
@@ -170,7 +164,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<PeriodicPaymentInitiationWithStatusResponse> getPeriodicPaymentInformation(String paymentProduct,
+    public Response<PeriodicPaymentInitiationWithStatusResponse> getPeriodicPaymentInformation(PaymentProduct paymentProduct,
                                                                                                String paymentId,
                                                                                                RequestHeaders requestHeaders,
                                                                                                RequestParams requestParams) {
@@ -183,7 +177,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     protected <T> Response<PeriodicPaymentInitiationWithStatusResponse> getPeriodicPaymentInformation(
-        String paymentProduct,
+        PaymentProduct paymentProduct,
         String paymentId,
         RequestHeaders requestHeaders,
         RequestParams requestParams,
@@ -191,7 +185,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         Function<T, PeriodicPaymentInitiationWithStatusResponse> mapper
     ) {
         requireValid(validateGetPeriodicPaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams));
-        return getPaymentInformation(PERIODIC_PAYMENTS,
+        return getPaymentInformation(PaymentService.PERIODIC_PAYMENTS,
             paymentProduct,
             paymentId,
             requestHeaders,
@@ -201,7 +195,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(String paymentProduct,
+    public Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(PaymentProduct paymentProduct,
                                                                                                  String paymentId,
                                                                                                  RequestHeaders requestHeaders,
                                                                                                  RequestParams requestParams) {
@@ -214,7 +208,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     protected <T> Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(
-        String paymentProduct,
+        PaymentProduct paymentProduct,
         String paymentId,
         RequestHeaders requestHeaders,
         RequestParams requestParams,
@@ -222,7 +216,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         Function<T, PeriodicPaymentInitiationMultipartBody> mapper
     ) {
         requireValid(validateGetPeriodicPain001PaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams));
-        return getPaymentInformation(PERIODIC_PAYMENTS,
+        return getPaymentInformation(PaymentService.PERIODIC_PAYMENTS,
             paymentProduct,
             paymentId,
             requestHeaders,
@@ -232,8 +226,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<String> getPaymentInformationAsString(String paymentService,
-                                                          String paymentProduct,
+    public Response<String> getPaymentInformationAsString(PaymentService paymentService,
+                                                          PaymentProduct paymentProduct,
                                                           String paymentId,
                                                           RequestHeaders requestHeaders,
                                                           RequestParams requestParams) {
@@ -246,8 +240,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<ScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
-                                                                     String paymentProduct,
+    public Response<ScaStatusResponse> getPaymentInitiationScaStatus(PaymentService paymentService,
+                                                                     PaymentProduct paymentProduct,
                                                                      String paymentId,
                                                                      String authorisationId,
                                                                      RequestHeaders requestHeaders,
@@ -262,8 +256,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             identity());
     }
 
-    protected <T> Response<ScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
-                                                                            String paymentProduct,
+    protected <T> Response<ScaStatusResponse> getPaymentInitiationScaStatus(PaymentService paymentService,
+                                                                            PaymentProduct paymentProduct,
                                                                             String paymentId,
                                                                             String authorisationId,
                                                                             RequestHeaders requestHeaders,
@@ -291,27 +285,15 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(String paymentService,
-                                                                                       String paymentProduct,
+    public Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(PaymentService paymentService,
+                                                                                       PaymentProduct paymentProduct,
                                                                                        String paymentId,
                                                                                        RequestHeaders requestHeaders,
                                                                                        RequestParams requestParams) {
-        requireValid(validateGetPaymentInitiationStatus(paymentService, paymentProduct, paymentProduct, requestHeaders,
+        requireValid(validateGetPaymentInitiationStatus(paymentService, paymentProduct, paymentId, requestHeaders,
             requestParams));
 
-        return getPaymentInitiationStatus(paymentService,
-            StandardPaymentProduct.fromSlug(paymentProduct),
-            paymentId,
-            requestHeaders,
-            requestParams);
-    }
-
-    private Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(String paymentService,
-                                                                                        StandardPaymentProduct paymentProduct,
-                                                                                        String paymentId,
-                                                                                        RequestHeaders requestHeaders,
-                                                                                        RequestParams requestParams) {
-        String uri = getPaymentInitiationStatusUri(paymentService, paymentProduct.getSlug(), paymentId);
+        String uri = getPaymentInitiationStatusUri(paymentService, paymentProduct, paymentId);
         uri = buildUri(uri, requestParams);
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
@@ -321,12 +303,12 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<String> getPaymentInitiationStatusAsString(String paymentService,
-                                                               String paymentProduct,
+    public Response<String> getPaymentInitiationStatusAsString(PaymentService paymentService,
+                                                               PaymentProduct paymentProduct,
                                                                String paymentId,
                                                                RequestHeaders requestHeaders,
                                                                RequestParams requestParams) {
-        requireValid(validateGetSinglePaymentInitiationStatusAsString(paymentProduct, paymentId, requestHeaders, requestParams));
+        requireValid(validateGetPaymentInitiationStatusAsString(paymentService, paymentProduct, paymentId, requestHeaders, requestParams));
 
         String uri = getPaymentInitiationStatusUri(paymentService, paymentProduct, paymentId);
         uri = buildUri(uri, requestParams);
@@ -337,13 +319,15 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                    .send(requestBuilderInterceptor, stringResponseHandler());
     }
 
-    private String getPaymentInitiationStatusUri(String paymentService, String paymentProduct, String paymentId) {
+    private String getPaymentInitiationStatusUri(PaymentService paymentService,
+                                                 PaymentProduct paymentProduct,
+                                                 String paymentId) {
         return StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct, paymentId, STATUS);
     }
 
     @Override
-    public Response<Authorisations> getPaymentInitiationAuthorisation(String paymentService,
-                                                                      String paymentProduct,
+    public Response<Authorisations> getPaymentInitiationAuthorisation(PaymentService paymentService,
+                                                                      PaymentProduct paymentProduct,
                                                                       String paymentId,
                                                                       RequestHeaders requestHeaders,
                                                                       RequestParams requestParams) {
@@ -356,8 +340,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             identity());
     }
 
-    protected <T> Response<Authorisations> getPaymentInitiationAuthorisation(String paymentService,
-                                                                             String paymentProduct,
+    protected <T> Response<Authorisations> getPaymentInitiationAuthorisation(PaymentService paymentService,
+                                                                             PaymentProduct paymentProduct,
                                                                              String paymentId,
                                                                              RequestHeaders requestHeaders,
                                                                              RequestParams requestParams,
@@ -382,8 +366,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
-                                                                       String paymentProduct,
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(PaymentService paymentService,
+                                                                       PaymentProduct paymentProduct,
                                                                        String paymentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams) {
@@ -396,8 +380,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             identity());
     }
 
-    protected <T> Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
-                                                                              String paymentProduct,
+    protected <T> Response<StartScaprocessResponse> startPaymentAuthorisation(PaymentService paymentService,
+                                                                              PaymentProduct paymentProduct,
                                                                               String paymentId,
                                                                               RequestHeaders requestHeaders,
                                                                               RequestParams requestParams,
@@ -422,8 +406,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
-                                                                       String paymentProduct,
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(PaymentService paymentService,
+                                                                       PaymentProduct paymentProduct,
                                                                        String paymentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams,
@@ -438,8 +422,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             identity());
     }
 
-    protected <T> Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
-                                                                              String paymentProduct,
+    protected <T> Response<StartScaprocessResponse> startPaymentAuthorisation(PaymentService paymentService,
+                                                                              PaymentProduct paymentProduct,
                                                                               String paymentId,
                                                                               RequestHeaders requestHeaders,
                                                                               RequestParams requestParams,
@@ -466,8 +450,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
-                                                                          String paymentProduct,
+    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                                          PaymentProduct paymentProduct,
                                                                           String paymentId,
                                                                           String authorisationId,
                                                                           RequestHeaders requestHeaders,
@@ -484,8 +468,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             identity());
     }
 
-    protected <T> Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
-                                                                                 String paymentProduct,
+    protected <T> Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                                                 PaymentProduct paymentProduct,
                                                                                  String paymentId,
                                                                                  String authorisationId,
                                                                                  RequestHeaders requestHeaders,
@@ -518,8 +502,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
-                                                                                String paymentProduct,
+    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                                                PaymentProduct paymentProduct,
                                                                                 String paymentId,
                                                                                 String authorisationId,
                                                                                 RequestHeaders requestHeaders,
@@ -536,8 +520,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             identity());
     }
 
-    protected <T> Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
-                                                                                       String paymentProduct,
+    protected <T> Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                                                       PaymentProduct paymentProduct,
                                                                                        String paymentId,
                                                                                        String authorisationId,
                                                                                        RequestHeaders requestHeaders,
@@ -570,8 +554,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<ScaStatusResponse> updatePaymentPsuData(String paymentService,
-                                                            String paymentProduct,
+    public Response<ScaStatusResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                            PaymentProduct paymentProduct,
                                                             String paymentId,
                                                             String authorisationId,
                                                             RequestHeaders requestHeaders,
@@ -588,8 +572,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             identity());
     }
 
-    protected <T> Response<ScaStatusResponse> updatePaymentPsuData(String paymentService,
-                                                                   String paymentProduct,
+    protected <T> Response<ScaStatusResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                                   PaymentProduct paymentProduct,
                                                                    String paymentId,
                                                                    String authorisationId,
                                                                    RequestHeaders requestHeaders,
@@ -620,8 +604,16 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         return new Response<>(response.getStatusCode(), scaStatusResponse, response.getHeaders());
     }
 
-    protected String getUpdatePaymentPsuDataUri(String paymentService, String paymentProduct, String paymentId, String authorisationId) {
-        return StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct, paymentId, AUTHORISATIONS, authorisationId);
+    protected String getUpdatePaymentPsuDataUri(PaymentService paymentService,
+                                                PaymentProduct paymentProduct,
+                                                String paymentId,
+                                                String authorisationId) {
+        return StringUri.fromElements(getPaymentBaseUri(),
+            paymentService,
+            paymentProduct,
+            paymentId,
+            AUTHORISATIONS,
+            authorisationId);
     }
 
     protected String getIdpUri() {

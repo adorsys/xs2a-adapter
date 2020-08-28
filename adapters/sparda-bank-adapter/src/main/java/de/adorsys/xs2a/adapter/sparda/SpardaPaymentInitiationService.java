@@ -8,6 +8,8 @@ import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.PaymentInitationRequestResponse201;
+import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
+import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 
@@ -31,8 +33,8 @@ public class SpardaPaymentInitiationService extends BasePaymentInitiationService
     }
 
     @Override
-    public Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
-                                                                        String paymentProduct,
+    public Response<PaymentInitationRequestResponse201> initiatePayment(PaymentService paymentService,
+                                                                        PaymentProduct paymentProduct,
                                                                         RequestHeaders requestHeaders,
                                                                         RequestParams requestParams,
                                                                         Object body) {

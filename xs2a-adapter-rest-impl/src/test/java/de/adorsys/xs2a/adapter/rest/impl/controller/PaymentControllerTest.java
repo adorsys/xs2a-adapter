@@ -34,7 +34,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class PaymentControllerTest {
 
-    private static final String PAYMENT_URL = "/v1/" + PaymentService.PAYMENTS + "/" + PaymentProduct.SEPA_CREDIT_TRANSFERS;
+    protected static final PaymentService PAYMENT_SERVICE = PaymentService.PAYMENTS;
+    protected static final PaymentProduct PAYMENT_PRODUCT = PaymentProduct.SEPA_CREDIT_TRANSFERS;
+    private static final String PAYMENT_URL = "/v1/" + PAYMENT_SERVICE + "/" + PAYMENT_PRODUCT;
     private static final FormattingConversionService conversionService = buildFormattingConversionService();
 
     @InjectMocks
@@ -65,7 +67,7 @@ class PaymentControllerTest {
     void initiatePayment_multipart() throws Exception {
         PeriodicPaymentInitiationMultipartBody body = new PeriodicPaymentInitiationMultipartBody();
 
-        when(paymentInitiationService.initiatePayment(anyString(), anyString(), any(), any(), any()))
+        when(paymentInitiationService.initiatePayment(eq(PAYMENT_SERVICE), eq(PAYMENT_PRODUCT), any(), any(), any()))
             .thenReturn(buildResponse(TestModelBuilder.buildPaymentInitationRequestResponse()));
 
         mockMvc.perform(post(PAYMENT_URL)
@@ -79,13 +81,13 @@ class PaymentControllerTest {
             .andExpect(jsonPath("$.transactionFeeIndicator", is(true)));
 
         verify(paymentInitiationService, times(1))
-            .initiatePayment(anyString(), anyString(), any(), any(), any());
+            .initiatePayment(eq(PAYMENT_SERVICE), eq(PAYMENT_PRODUCT), any(), any(), any());
     }
 
     @Test
     void initiatePayment_json() throws Exception {
 
-        when(paymentInitiationService.initiatePayment(anyString(), anyString(), any(), any(), any()))
+        when(paymentInitiationService.initiatePayment(eq(PAYMENT_SERVICE), eq(PAYMENT_PRODUCT), any(), any(), any()))
             .thenReturn(buildResponse(TestModelBuilder.buildPaymentInitationRequestResponse()));
 
         mockMvc.perform(post(PAYMENT_URL)
@@ -99,14 +101,18 @@ class PaymentControllerTest {
             .andExpect(jsonPath("$.transactionFeeIndicator", is(true)));
 
         verify(paymentInitiationService, times(1))
-            .initiatePayment(anyString(), anyString(), any(), any(), any());
+            .initiatePayment(eq(PAYMENT_SERVICE), eq(PAYMENT_PRODUCT), any(), any(), any());
     }
 
     @Test
     void getPaymentInformation() throws Exception {
         String response = "response-message";
 
-        when(paymentInitiationService.getPaymentInformationAsString(anyString(), anyString(), anyString(), any(), any()))
+        when(paymentInitiationService.getPaymentInformationAsString(eq(PAYMENT_SERVICE),
+            eq(PAYMENT_PRODUCT),
+            anyString(),
+            any(),
+            any()))
             .thenReturn(buildResponse(response));
 
         mockMvc.perform(get(PAYMENT_URL + "/foo"))
@@ -114,12 +120,17 @@ class PaymentControllerTest {
             .andExpect(jsonPath("$", containsString(response)));
 
         verify(paymentInitiationService, times(1))
-            .getPaymentInformationAsString(anyString(), anyString(), anyString(), any(), any());
+            .getPaymentInformationAsString(eq(PAYMENT_SERVICE), eq(PAYMENT_PRODUCT), anyString(), any(), any());
     }
 
     @Test
     void getPaymentInitiationScaStatus() throws Exception {
-        when(paymentInitiationService.getPaymentInitiationScaStatus(anyString(), anyString(), anyString(), anyString(), any(), any()))
+        when(paymentInitiationService.getPaymentInitiationScaStatus(eq(PAYMENT_SERVICE),
+            eq(PAYMENT_PRODUCT),
+            anyString(),
+            anyString(),
+            any(),
+            any()))
             .thenReturn(buildResponse(TestModelBuilder.buildScaStatusResponse()));
 
         mockMvc.perform(get(PAYMENT_URL + "/foo/authorisations/boo"))
@@ -127,12 +138,12 @@ class PaymentControllerTest {
             .andExpect(jsonPath("$.scaStatus", containsString(ScaStatus.FINALISED.toString())));
 
         verify(paymentInitiationService, times(1))
-            .getPaymentInitiationScaStatus(anyString(), anyString(), anyString(), anyString(), any(), any());
+            .getPaymentInitiationScaStatus(eq(PAYMENT_SERVICE), eq(PAYMENT_PRODUCT), anyString(), anyString(), any(), any());
     }
 
     @Test
     void getPaymentInitiationStatus_json() throws Exception {
-        when(paymentInitiationService.getPaymentInitiationStatus(anyString(), anyString(), anyString(), any(), any()))
+        when(paymentInitiationService.getPaymentInitiationStatus(eq(PAYMENT_SERVICE), eq(PAYMENT_PRODUCT), anyString(), any(), any()))
             .thenReturn(buildResponse(TestModelBuilder.buildPaymentInitiationStatusResponse()));
 
         mockMvc.perform(get(PAYMENT_URL + "/foo/status")
@@ -143,14 +154,18 @@ class PaymentControllerTest {
             .andExpect(jsonPath("$.fundsAvailable", is(true)));
 
         verify(paymentInitiationService, times(1))
-            .getPaymentInitiationStatus(anyString(), anyString(), anyString(), any(), any());
+            .getPaymentInitiationStatus(eq(PAYMENT_SERVICE), eq(PAYMENT_PRODUCT), anyString(), any(), any());
     }
 
     @Test
     void getPaymentInitiationStatus_xml() throws Exception {
         String response = "<Test>";
 
-        when(paymentInitiationService.getPaymentInitiationStatusAsString(anyString(), anyString(), anyString(), any(), any()))
+        when(paymentInitiationService.getPaymentInitiationStatusAsString(eq(PAYMENT_SERVICE),
+            eq(PAYMENT_PRODUCT),
+            anyString(),
+            any(),
+            any()))
             .thenReturn(buildResponse(response));
 
         mockMvc.perform(get(PAYMENT_URL + "/foo/status"))
@@ -158,12 +173,16 @@ class PaymentControllerTest {
             .andExpect(jsonPath("$", containsString(response)));
 
         verify(paymentInitiationService, times(1))
-            .getPaymentInitiationStatusAsString(anyString(), anyString(), anyString(), any(), any());
+            .getPaymentInitiationStatusAsString(eq(PAYMENT_SERVICE), eq(PAYMENT_PRODUCT), anyString(), any(), any());
     }
 
     @Test
     void getPaymentInitiationAuthorisation() throws Exception {
-        when(paymentInitiationService.getPaymentInitiationAuthorisation(anyString(), anyString(), anyString(), any(), any()))
+        when(paymentInitiationService.getPaymentInitiationAuthorisation(eq(PAYMENT_SERVICE),
+            eq(PAYMENT_PRODUCT),
+            anyString(),
+            any(),
+            any()))
             .thenReturn(buildResponse(new Authorisations()));
 
         mockMvc.perform(get(PAYMENT_URL + "/foo/authorisations"))
@@ -171,13 +190,18 @@ class PaymentControllerTest {
             .andExpect(jsonPath("$.authorisationIds", nullValue()));
 
         verify(paymentInitiationService, times(1))
-            .getPaymentInitiationAuthorisation(anyString(), anyString(), anyString(), any(), any());
+            .getPaymentInitiationAuthorisation(eq(PAYMENT_SERVICE), eq(PAYMENT_PRODUCT), anyString(), any(), any());
     }
 
     @Test
     void startPaymentAuthorisation_updatePsuAuthentication() throws Exception {
         when(paymentInitiationService
-            .startPaymentAuthorisation(anyString(), anyString(), anyString(), any(), any(), any(UpdatePsuAuthentication.class)))
+            .startPaymentAuthorisation(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
+                anyString(),
+                any(),
+                any(),
+                any(UpdatePsuAuthentication.class)))
             .thenReturn(buildResponse(TestModelBuilder.buildStartScaprocessResponse()));
 
         mockMvc.perform(post(PAYMENT_URL + "/foo/authorisations")
@@ -189,13 +213,18 @@ class PaymentControllerTest {
             .andExpect(jsonPath("$.scaStatus", containsString(ScaStatus.STARTED.toString())));
 
         verify(paymentInitiationService, times(1))
-            .startPaymentAuthorisation(anyString(), anyString(), anyString(), any(), any(), any(UpdatePsuAuthentication.class));
+            .startPaymentAuthorisation(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
+                anyString(),
+                any(),
+                any(),
+                any(UpdatePsuAuthentication.class));
     }
 
     @Test
     void startPaymentAuthorisation_emptyAuthorisationBody() throws Exception {
         when(paymentInitiationService
-            .startPaymentAuthorisation(anyString(), anyString(), anyString(), any(), any()))
+            .startPaymentAuthorisation(eq(PAYMENT_SERVICE), eq(PAYMENT_PRODUCT), anyString(), any(), any()))
             .thenReturn(buildResponse(TestModelBuilder.buildStartScaprocessResponse()));
 
         mockMvc.perform(post(PAYMENT_URL + "/foo/authorisations")
@@ -207,13 +236,19 @@ class PaymentControllerTest {
             .andExpect(jsonPath("$.scaStatus", containsString(ScaStatus.STARTED.toString())));
 
         verify(paymentInitiationService, times(1))
-            .startPaymentAuthorisation(anyString(), anyString(), anyString(), any(), any());
+            .startPaymentAuthorisation(eq(PAYMENT_SERVICE), eq(PAYMENT_PRODUCT), anyString(), any(), any());
     }
 
     @Test
     void updatePaymentPsuData_updatePsuAuthentication() throws Exception {
         when(paymentInitiationService
-            .updatePaymentPsuData(anyString(), anyString(), anyString(), anyString(), any(), any(), any(UpdatePsuAuthentication.class)))
+            .updatePaymentPsuData(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
+                anyString(),
+                anyString(),
+                any(),
+                any(),
+                any(UpdatePsuAuthentication.class)))
             .thenReturn(buildResponse(TestModelBuilder.buildUpdatePsuAuthenticationResponse()));
 
         mockMvc.perform(put(PAYMENT_URL + "/foo/authorisations/boo")
@@ -225,13 +260,25 @@ class PaymentControllerTest {
             .andExpect(jsonPath("$.scaStatus", containsString(ScaStatus.STARTED.toString())));
 
         verify(paymentInitiationService, times(1))
-            .updatePaymentPsuData(anyString(), anyString(), anyString(), anyString(), any(), any(), any(UpdatePsuAuthentication.class));
+            .updatePaymentPsuData(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
+                anyString(),
+                anyString(),
+                any(),
+                any(),
+                any(UpdatePsuAuthentication.class));
     }
 
     @Test
     void updatePaymentPsuData_selectPsuAuthenticationMethod() throws Exception {
         when(paymentInitiationService
-            .updatePaymentPsuData(anyString(), anyString(), anyString(), anyString(), any(), any(), any(SelectPsuAuthenticationMethod.class)))
+            .updatePaymentPsuData(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
+                anyString(),
+                anyString(),
+                any(),
+                any(),
+                any(SelectPsuAuthenticationMethod.class)))
             .thenReturn(buildResponse(TestModelBuilder.buildSelectPsuAuthenticationMethodResponse()));
 
         mockMvc.perform(put(PAYMENT_URL + "/foo/authorisations/boo")
@@ -242,13 +289,25 @@ class PaymentControllerTest {
             .andExpect(jsonPath("$.scaStatus", containsString(ScaStatus.SCAMETHODSELECTED.toString())));
 
         verify(paymentInitiationService, times(1))
-            .updatePaymentPsuData(anyString(), anyString(), anyString(), anyString(), any(), any(), any(SelectPsuAuthenticationMethod.class));
+            .updatePaymentPsuData(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
+                anyString(),
+                anyString(),
+                any(),
+                any(),
+                any(SelectPsuAuthenticationMethod.class));
     }
 
     @Test
     void updatePaymentPsuData_transactionAuthorisation() throws Exception {
         when(paymentInitiationService
-            .updatePaymentPsuData(anyString(), anyString(), anyString(), anyString(), any(), any(), any(TransactionAuthorisation.class)))
+            .updatePaymentPsuData(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
+                anyString(),
+                anyString(),
+                any(),
+                any(),
+                any(TransactionAuthorisation.class)))
             .thenReturn(buildResponse(TestModelBuilder.buildScaStatusResponse()));
 
         mockMvc.perform(put(PAYMENT_URL + "/foo/authorisations/boo")
@@ -258,7 +317,13 @@ class PaymentControllerTest {
             .andExpect(jsonPath("$.scaStatus", containsString(ScaStatus.FINALISED.toString())));
 
         verify(paymentInitiationService, times(1))
-            .updatePaymentPsuData(anyString(), anyString(), anyString(), anyString(), any(), any(), any(TransactionAuthorisation.class));
+            .updatePaymentPsuData(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
+                anyString(),
+                anyString(),
+                any(),
+                any(),
+                any(TransactionAuthorisation.class));
     }
 
     private <T> Response<T> buildResponse(T response) {

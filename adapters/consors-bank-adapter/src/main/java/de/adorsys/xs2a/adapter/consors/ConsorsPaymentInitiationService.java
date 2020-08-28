@@ -7,6 +7,8 @@ import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.PaymentInitationRequestResponse201;
+import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
+import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 import org.apache.commons.lang3.StringUtils;
 
@@ -24,8 +26,8 @@ public class ConsorsPaymentInitiationService extends BasePaymentInitiationServic
     }
 
     @Override
-    protected <T> Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
-                                                                               String paymentProduct,
+    protected <T> Response<PaymentInitationRequestResponse201> initiatePayment(PaymentService paymentService,
+                                                                               PaymentProduct paymentProduct,
                                                                                Object body,
                                                                                RequestHeaders requestHeaders,
                                                                                RequestParams requestParams,
@@ -39,7 +41,7 @@ public class ConsorsPaymentInitiationService extends BasePaymentInitiationServic
 
     @Override
     protected Map<String, String> addPsuIdHeader(Map<String, String> headers) {
-        if (headers.containsKey(PSU_ID) && StringUtils.isNotBlank(headers.get(PSU_ID))) {
+        if (headers.containsKey(PSU_ID) && StringUtils.isNotEmpty(headers.get(PSU_ID))) {
             headers.put(PSU_ID, "");
         }
 

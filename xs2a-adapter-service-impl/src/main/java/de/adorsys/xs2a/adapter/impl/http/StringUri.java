@@ -20,8 +20,9 @@ public class StringUri {
     private StringUri() {
     }
 
-    public static String fromElements(String... elements) {
+    public static String fromElements(Object... elements) {
         return Arrays.stream(elements)
+                .map(String::valueOf)
                 .map(StringUri::trimUri)
                 .map(StringUri::formatUri)
                 .collect(Collectors.joining("/"));

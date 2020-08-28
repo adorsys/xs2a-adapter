@@ -36,17 +36,17 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
     }
 
     @Override
-    public Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
-                                                                        String paymentProduct,
+    public Response<PaymentInitationRequestResponse201> initiatePayment(PaymentService paymentService,
+                                                                        PaymentProduct paymentProduct,
                                                                         RequestHeaders requestHeaders,
                                                                         RequestParams requestParams,
                                                                         Object body) {
         requireValid(validateInitiatePayment(paymentService, paymentProduct, requestHeaders, requestParams, body));
 
-        switch (PaymentService.fromValue(paymentService)) {
+        switch (paymentService) {
             case PAYMENTS:
                 if (body instanceof String) {
-                    IngXmlPaymentProduct product = IngXmlPaymentProduct.fromValue(paymentProduct);
+                    IngXmlPaymentProduct product = IngXmlPaymentProduct.of(paymentProduct);
                     return paymentInitiationApi.initiatePaymentXml(product,
                         requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
                         requestHeaders.get(RequestHeaders.TPP_REDIRECT_URI).orElse(null),
@@ -57,7 +57,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                         .map(this::rewriteLinks);
                 }
 
-                IngPaymentProduct product = IngPaymentProduct.fromValue(paymentProduct);
+                IngPaymentProduct product = IngPaymentProduct.of(paymentProduct);
                 PaymentInitiationJson jsonBody = jsonMapper.convertValue(body, PaymentInitiationJson.class);
                 return paymentInitiationApi.initiatePayment(product,
                     requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
@@ -70,7 +70,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
 
             case PERIODIC_PAYMENTS:
                 if (body instanceof PeriodicPaymentInitiationMultipartBody) {
-                    return paymentInitiationApi.initiatePeriodicPaymentXml(IngXmlPaymentProduct.fromValue(paymentProduct),
+                    return paymentInitiationApi.initiatePeriodicPaymentXml(IngXmlPaymentProduct.of(paymentProduct),
                         requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
                         requestHeaders.get(RequestHeaders.TPP_REDIRECT_URI).orElse(null),
                         requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
@@ -80,7 +80,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                         .map(this::rewriteLinks);
                 }
 
-                return paymentInitiationApi.initiatePeriodicPayment(IngPaymentProduct.fromValue(paymentProduct),
+                return paymentInitiationApi.initiatePeriodicPayment(IngPaymentProduct.of(paymentProduct),
                     requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
                     requestHeaders.get(RequestHeaders.TPP_REDIRECT_URI).orElse(null),
                     requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
@@ -91,17 +91,17 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
 
 
             default:
-                throw new UnsupportedOperationException(paymentService);
+                throw new UnsupportedOperationException(paymentService.toString());
         }
     }
 
     @Override
-    public List<ValidationError> validateInitiatePayment(String paymentService,
-                                                         String paymentProduct,
+    public List<ValidationError> validateInitiatePayment(PaymentService paymentService,
+                                                         PaymentProduct paymentProduct,
                                                          RequestHeaders requestHeaders,
                                                          RequestParams requestParams,
                                                          Object body) {
-        if (PaymentService.fromValue(paymentService) == PaymentService.PERIODIC_PAYMENTS
+        if (paymentService == PaymentService.PERIODIC_PAYMENTS
             && !(body instanceof PeriodicPaymentInitiationMultipartBody)) {
 
             FrequencyCode frequency = jsonMapper.convertValue(body, PeriodicPaymentInitiationJson.class).getFrequency();
@@ -121,11 +121,11 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
     }
 
     @Override
-    public Response<PaymentInitiationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,
+    public Response<PaymentInitiationWithStatusResponse> getSinglePaymentInformation(PaymentProduct paymentProduct,
                                                                                      String paymentId,
                                                                                      RequestHeaders requestHeaders,
                                                                                      RequestParams requestParams) {
-        IngPaymentProduct product = IngPaymentProduct.fromValue(paymentProduct);
+        IngPaymentProduct product = IngPaymentProduct.of(paymentProduct);
         return paymentInitiationApi.getPaymentDetails(product,
             paymentId,
             requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
@@ -135,11 +135,11 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
     }
 
     @Override
-    public Response<PeriodicPaymentInitiationWithStatusResponse> getPeriodicPaymentInformation(String paymentProduct,
+    public Response<PeriodicPaymentInitiationWithStatusResponse> getPeriodicPaymentInformation(PaymentProduct paymentProduct,
                                                                                                String paymentId,
                                                                                                RequestHeaders requestHeaders,
                                                                                                RequestParams requestParams) {
-        IngPaymentProduct product = IngPaymentProduct.fromValue(paymentProduct);
+        IngPaymentProduct product = IngPaymentProduct.of(paymentProduct);
         return paymentInitiationApi.getPeriodicPaymentDetails(product,
             paymentId,
             requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
@@ -149,11 +149,11 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
     }
 
     @Override
-    public Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(String paymentProduct,
+    public Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(PaymentProduct paymentProduct,
                                                                                                  String paymentId,
                                                                                                  RequestHeaders requestHeaders,
                                                                                                  RequestParams requestParams) {
-        IngXmlPaymentProduct product = IngXmlPaymentProduct.fromValue(paymentProduct);
+        IngXmlPaymentProduct product = IngXmlPaymentProduct.of(paymentProduct);
         return paymentInitiationApi.getPeriodicPaymentDetailsXml(product,
             paymentId,
             requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
@@ -163,15 +163,15 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
     }
 
     @Override
-    public Response<String> getPaymentInformationAsString(String paymentService,
-                                                          String paymentProduct,
+    public Response<String> getPaymentInformationAsString(PaymentService paymentService,
+                                                          PaymentProduct paymentProduct,
                                                           String paymentId,
                                                           RequestHeaders requestHeaders,
                                                           RequestParams requestParams) {
-        switch (PaymentService.fromValue(paymentService)) {
+        switch (paymentService) {
             case PAYMENTS:
                 if (isXml(paymentProduct)) {
-                    IngXmlPaymentProduct product = IngXmlPaymentProduct.fromValue(paymentProduct);
+                    IngXmlPaymentProduct product = IngXmlPaymentProduct.of(paymentProduct);
                     return paymentInitiationApi.getPaymentDetailsXml(product,
                         paymentId,
                         requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
@@ -191,17 +191,17 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                     .map(jsonMapper::writeValueAsString);
 
             default:
-                throw new UnsupportedOperationException(paymentService);
+                throw new UnsupportedOperationException(paymentService.toString());
         }
     }
 
-    protected boolean isXml(String paymentProduct) {
-        return paymentProduct.startsWith("pain");
+    protected boolean isXml(PaymentProduct paymentProduct) {
+        return paymentProduct.toString().startsWith("pain");
     }
 
     @Override
-    public Response<ScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
-                                                                     String paymentProduct,
+    public Response<ScaStatusResponse> getPaymentInitiationScaStatus(PaymentService paymentService,
+                                                                     PaymentProduct paymentProduct,
                                                                      String paymentId,
                                                                      String authorisationId,
                                                                      RequestHeaders requestHeaders,
@@ -210,13 +210,13 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
     }
 
     @Override
-    public Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(String paymentService,
-                                                                                       String paymentProduct,
+    public Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(PaymentService paymentService,
+                                                                                       PaymentProduct paymentProduct,
                                                                                        String paymentId,
                                                                                        RequestHeaders requestHeaders,
                                                                                        RequestParams requestParams) {
-        IngPaymentProduct product = IngPaymentProduct.fromValue(paymentProduct);
-        switch (PaymentService.fromValue(paymentService)) {
+        IngPaymentProduct product = IngPaymentProduct.of(paymentProduct);
+        switch (paymentService) {
             case PAYMENTS:
                 return paymentInitiationApi.getPaymentStatus(product,
                     paymentId,
@@ -234,21 +234,21 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                     .map(mapper::map);
 
             default:
-                throw new UnsupportedOperationException(paymentService);
+                throw new UnsupportedOperationException(paymentService.toString());
         }
 
     }
 
     @Override
-    public Response<String> getPaymentInitiationStatusAsString(String paymentService,
-                                                               String paymentProduct,
+    public Response<String> getPaymentInitiationStatusAsString(PaymentService paymentService,
+                                                               PaymentProduct paymentProduct,
                                                                String paymentId,
                                                                RequestHeaders requestHeaders,
                                                                RequestParams requestParams) {
-        switch (PaymentService.fromValue(paymentService)) {
+        switch (paymentService) {
             case PAYMENTS:
                 if (isXml(paymentProduct)) {
-                    IngXmlPaymentProduct product = IngXmlPaymentProduct.fromValue(paymentProduct);
+                    IngXmlPaymentProduct product = IngXmlPaymentProduct.of(paymentProduct);
                     return paymentInitiationApi.getPaymentStatusXml(product,
                         paymentId,
                         requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
@@ -261,7 +261,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
 
             case PERIODIC_PAYMENTS:
                 if (isXml(paymentProduct)) {
-                    return paymentInitiationApi.getPeriodicPaymentStatusXml(IngXmlPaymentProduct.fromValue(paymentProduct),
+                    return paymentInitiationApi.getPeriodicPaymentStatusXml(IngXmlPaymentProduct.of(paymentProduct),
                         paymentId,
                         requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
                         requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
@@ -272,13 +272,13 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                     .map(jsonMapper::writeValueAsString);
 
             default:
-                throw new UnsupportedOperationException(paymentService);
+                throw new UnsupportedOperationException(paymentService.toString());
         }
     }
 
     @Override
-    public Response<Authorisations> getPaymentInitiationAuthorisation(String paymentService,
-                                                                      String paymentProduct,
+    public Response<Authorisations> getPaymentInitiationAuthorisation(PaymentService paymentService,
+                                                                      PaymentProduct paymentProduct,
                                                                       String paymentId,
                                                                       RequestHeaders requestHeaders,
                                                                       RequestParams requestParams) {
@@ -286,8 +286,8 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
     }
 
     @Override
-    public Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
-                                                                       String paymentProduct,
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(PaymentService paymentService,
+                                                                       PaymentProduct paymentProduct,
                                                                        String paymentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams) {
@@ -295,8 +295,8 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
     }
 
     @Override
-    public Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
-                                                                       String paymentProduct,
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(PaymentService paymentService,
+                                                                       PaymentProduct paymentProduct,
                                                                        String paymentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams,
@@ -305,8 +305,8 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
     }
 
     @Override
-    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
-                                                                                String paymentProduct,
+    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                                                PaymentProduct paymentProduct,
                                                                                 String paymentId,
                                                                                 String authorisationId,
                                                                                 RequestHeaders requestHeaders,
@@ -316,8 +316,8 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
     }
 
     @Override
-    public Response<ScaStatusResponse> updatePaymentPsuData(String paymentService,
-                                                            String paymentProduct,
+    public Response<ScaStatusResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                            PaymentProduct paymentProduct,
                                                             String paymentId,
                                                             String authorisationId,
                                                             RequestHeaders requestHeaders,
@@ -327,8 +327,8 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
     }
 
     @Override
-    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
-                                                                          String paymentProduct,
+    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                                          PaymentProduct paymentProduct,
                                                                           String paymentId,
                                                                           String authorisationId,
                                                                           RequestHeaders requestHeaders,

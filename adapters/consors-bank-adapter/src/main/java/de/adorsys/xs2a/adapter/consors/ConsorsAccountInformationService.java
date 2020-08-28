@@ -54,7 +54,7 @@ public class ConsorsAccountInformationService extends BaseAccountInformationServ
 
     @Override
     protected Map<String, String> addPsuIdHeader(Map<String, String> headers) {
-        if (!headers.containsKey(PSU_ID) || StringUtils.isNotBlank(headers.get(PSU_ID))) {
+        if (!headers.containsKey(PSU_ID) || StringUtils.isNotEmpty(headers.get(PSU_ID))) {
             headers.put(PSU_ID, "");
         }
 

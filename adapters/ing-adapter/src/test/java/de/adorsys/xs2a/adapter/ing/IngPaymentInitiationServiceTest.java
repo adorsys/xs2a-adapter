@@ -25,8 +25,8 @@ class IngPaymentInitiationServiceTest {
         IngPaymentInitiationService pis = new IngPaymentInitiationService(null, null, null);
         PeriodicPaymentInitiationJson body = new PeriodicPaymentInitiationJson();
         body.setFrequency(FrequencyCode.MONTHLYVARIABLE);
-        String paymentService = PaymentService.PERIODIC_PAYMENTS.toString();
-        String paymentProduct = PaymentProduct.SEPA_CREDIT_TRANSFERS.toString();
+        PaymentService paymentService = PaymentService.PERIODIC_PAYMENTS;
+        PaymentProduct paymentProduct = PaymentProduct.SEPA_CREDIT_TRANSFERS;
         RequestHeaders requestHeaders = RequestHeaders.empty();
         RequestParams requestParams = RequestParams.empty();
 
@@ -82,7 +82,7 @@ class IngPaymentInitiationServiceTest {
         expectedBody.setJson_standingorderType(json);
 
         Response<PeriodicPaymentInitiationMultipartBody> response =
-            pis.getPeriodicPain001PaymentInformation(PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS.toString(),
+            pis.getPeriodicPain001PaymentInformation(PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS,
                 "payment-id",
                 RequestHeaders.empty(),
                 null);

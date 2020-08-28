@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.ing.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
 
 public enum IngXmlPaymentProduct {
     PAIN_001_SEPA_CREDIT_TRANSFERS("pain.001-sepa-credit-transfers"),
@@ -10,7 +11,7 @@ public enum IngXmlPaymentProduct {
 
     PAIN_001_DOMESTIC_CREDIT_TRANSFERS("pain.001-domestic-credit-transfers");
 
-    private String value;
+    private final String value;
 
     IngXmlPaymentProduct(String value) {
         this.value = value;
@@ -24,6 +25,10 @@ public enum IngXmlPaymentProduct {
             }
         }
         throw new IllegalArgumentException(value);
+    }
+
+    public static IngXmlPaymentProduct of(PaymentProduct paymentProduct) {
+        return fromValue(paymentProduct.toString());
     }
 
     @Override

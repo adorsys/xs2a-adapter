@@ -18,8 +18,8 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class PaymentInitiationServiceImplTest {
 
-    private static final String PAYMENT_SERVICE = PaymentService.PAYMENTS.toString();
-    private static final String PAYMENT_PRODUCT = PaymentProduct.SEPA_CREDIT_TRANSFERS.toString();
+    private static final PaymentService PAYMENT_SERVICE = PaymentService.PAYMENTS;
+    private static final PaymentProduct PAYMENT_PRODUCT = PaymentProduct.SEPA_CREDIT_TRANSFERS;
     private static final RequestHeaders headers = RequestHeaders.fromMap(new HashMap<>());
     private static final RequestParams params = RequestParams.empty();
     private static final String PAYMENT_ID = "paymentId";
@@ -47,7 +47,11 @@ class PaymentInitiationServiceImplTest {
         verify(serviceLoader, times(1))
             .getPaymentInitiationService(any(RequestHeaders.class));
         verify(paymentInitiationService, times(1))
-            .initiatePayment(anyString(), anyString(), any(RequestHeaders.class), any(RequestParams.class), any());
+            .initiatePayment(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
+                any(RequestHeaders.class),
+                any(RequestParams.class),
+                any());
     }
 
     @Test
@@ -57,7 +61,10 @@ class PaymentInitiationServiceImplTest {
         verify(serviceLoader, times(1))
             .getPaymentInitiationService(any(RequestHeaders.class));
         verify(paymentInitiationService, times(1))
-            .getSinglePaymentInformation(anyString(), anyString(), any(RequestHeaders.class), any(RequestParams.class));
+            .getSinglePaymentInformation(eq(PAYMENT_PRODUCT),
+                anyString(),
+                any(RequestHeaders.class),
+                any(RequestParams.class));
     }
 
     @Test
@@ -67,7 +74,10 @@ class PaymentInitiationServiceImplTest {
         verify(serviceLoader, times(1))
             .getPaymentInitiationService(any(RequestHeaders.class));
         verify(paymentInitiationService, times(1))
-            .getPeriodicPaymentInformation(anyString(), anyString(), any(RequestHeaders.class), any(RequestParams.class));
+            .getPeriodicPaymentInformation(eq(PAYMENT_PRODUCT),
+                anyString(),
+                any(RequestHeaders.class),
+                any(RequestParams.class));
     }
 
     @Test
@@ -77,7 +87,11 @@ class PaymentInitiationServiceImplTest {
         verify(serviceLoader, times(1))
             .getPaymentInitiationService(any(RequestHeaders.class));
         verify(paymentInitiationService, times(1))
-            .getPaymentInformationAsString(anyString(), anyString(), anyString(), any(RequestHeaders.class), any(RequestParams.class));
+            .getPaymentInformationAsString(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
+                anyString(),
+                any(RequestHeaders.class),
+                any(RequestParams.class));
     }
 
     @Test
@@ -87,8 +101,8 @@ class PaymentInitiationServiceImplTest {
         verify(serviceLoader, times(1))
             .getPaymentInitiationService(any(RequestHeaders.class));
         verify(paymentInitiationService, times(1))
-            .getPaymentInitiationScaStatus(anyString(),
-                anyString(),
+            .getPaymentInitiationScaStatus(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
                 anyString(),
                 anyString(),
                 any(RequestHeaders.class),
@@ -102,7 +116,11 @@ class PaymentInitiationServiceImplTest {
         verify(serviceLoader, times(1))
             .getPaymentInitiationService(any(RequestHeaders.class));
         verify(paymentInitiationService, times(1))
-            .getPaymentInitiationStatus(anyString(), anyString(), anyString(), any(RequestHeaders.class), any(RequestParams.class));
+            .getPaymentInitiationStatus(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
+                anyString(),
+                any(RequestHeaders.class),
+                any(RequestParams.class));
     }
 
     @Test
@@ -112,8 +130,8 @@ class PaymentInitiationServiceImplTest {
         verify(serviceLoader, times(1))
             .getPaymentInitiationService(any(RequestHeaders.class));
         verify(paymentInitiationService, times(1))
-            .getPaymentInitiationStatusAsString(anyString(),
-                anyString(),
+            .getPaymentInitiationStatusAsString(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
                 anyString(),
                 any(RequestHeaders.class),
                 any(RequestParams.class));
@@ -126,8 +144,8 @@ class PaymentInitiationServiceImplTest {
         verify(serviceLoader, times(1))
             .getPaymentInitiationService(any(RequestHeaders.class));
         verify(paymentInitiationService, times(1))
-            .getPaymentInitiationAuthorisation(anyString(),
-                anyString(),
+            .getPaymentInitiationAuthorisation(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
                 anyString(),
                 any(RequestHeaders.class),
                 any(RequestParams.class));
@@ -140,7 +158,11 @@ class PaymentInitiationServiceImplTest {
         verify(serviceLoader, times(1))
             .getPaymentInitiationService(any(RequestHeaders.class));
         verify(paymentInitiationService, times(1))
-            .startPaymentAuthorisation(anyString(), anyString(), anyString(), any(RequestHeaders.class), any(RequestParams.class));
+            .startPaymentAuthorisation(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
+                anyString(),
+                any(RequestHeaders.class),
+                any(RequestParams.class));
     }
 
     @Test
@@ -150,8 +172,8 @@ class PaymentInitiationServiceImplTest {
         verify(serviceLoader, times(1))
             .getPaymentInitiationService(any(RequestHeaders.class));
         verify(paymentInitiationService, times(1))
-            .startPaymentAuthorisation(anyString(),
-                anyString(),
+            .startPaymentAuthorisation(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
                 anyString(),
                 any(RequestHeaders.class),
                 any(RequestParams.class),
@@ -171,8 +193,8 @@ class PaymentInitiationServiceImplTest {
         verify(serviceLoader, times(1))
             .getPaymentInitiationService(any(RequestHeaders.class));
         verify(paymentInitiationService, times(1))
-            .updatePaymentPsuData(anyString(),
-                anyString(),
+            .updatePaymentPsuData(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
                 anyString(),
                 anyString(),
                 any(RequestHeaders.class),
@@ -193,8 +215,8 @@ class PaymentInitiationServiceImplTest {
         verify(serviceLoader, times(1))
             .getPaymentInitiationService(any(RequestHeaders.class));
         verify(paymentInitiationService, times(1))
-            .updatePaymentPsuData(anyString(),
-                anyString(),
+            .updatePaymentPsuData(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
                 anyString(),
                 anyString(),
                 any(RequestHeaders.class),
@@ -215,8 +237,8 @@ class PaymentInitiationServiceImplTest {
         verify(serviceLoader, times(1))
             .getPaymentInitiationService(any(RequestHeaders.class));
         verify(paymentInitiationService, times(1))
-            .updatePaymentPsuData(anyString(),
-                anyString(),
+            .updatePaymentPsuData(eq(PAYMENT_SERVICE),
+                eq(PAYMENT_PRODUCT),
                 anyString(),
                 anyString(),
                 any(RequestHeaders.class),

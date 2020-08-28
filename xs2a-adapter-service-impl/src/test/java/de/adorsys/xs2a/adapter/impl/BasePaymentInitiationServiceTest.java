@@ -21,15 +21,14 @@ import static org.mockito.Mockito.*;
 
 class BasePaymentInitiationServiceTest {
 
-    private static final String SINGLE_PAYMENTS = "payments";
-    public static final String SEPA_CREDIT_TRANSFERS = "sepa-credit-transfers";
-    public static final String PAIN_SEPA_CREDIT_TRANSFERS = "pain.001-sepa-credit-transfers";
+    private static final PaymentService PAYMENT_SERVICE = PaymentService.PAYMENTS;
+    public static final PaymentProduct SEPA_CREDIT_TRANSFERS = PaymentProduct.SEPA_CREDIT_TRANSFERS;
+    public static final PaymentProduct PAIN_SEPA_CREDIT_TRANSFERS = PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS;
     public static final String BASE_URI = "https://base.uri";
     private static final String IDP_URL = "https://idp.url";
     public static final String PAYMENTS_URI = BASE_URI + "/v1/payments";
     public static final String PAYMENTID = "paymentId";
     public static final String AUTHORISATIONID = "authorisationId";
-    public static final String PAYMENT_SERVICE = "paymentService";
     public static final String UPDATE_PAYMENT_PSU_DATA_URI = BASE_URI + "/v1/" + PAYMENT_SERVICE + "/" +
         SEPA_CREDIT_TRANSFERS + "/" + PAYMENTID + "/authorisations/" + AUTHORISATIONID;
     private static final Aspsp ASPSP = buildAspspWithUrls();
@@ -68,7 +67,7 @@ class BasePaymentInitiationServiceTest {
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<PaymentInitationRequestResponse201> response
-            = initiationService.initiatePayment(SINGLE_PAYMENTS, SEPA_CREDIT_TRANSFERS, headers, RequestParams.empty(), body);
+            = initiationService.initiatePayment(PAYMENT_SERVICE, SEPA_CREDIT_TRANSFERS, headers, RequestParams.empty(), body);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
@@ -90,7 +89,7 @@ class BasePaymentInitiationServiceTest {
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<PaymentInitationRequestResponse201> response
-            = initiationService.initiatePayment(SINGLE_PAYMENTS, PAIN_SEPA_CREDIT_TRANSFERS, headers, RequestParams.empty(), body);
+            = initiationService.initiatePayment(PAYMENT_SERVICE, PAIN_SEPA_CREDIT_TRANSFERS, headers, RequestParams.empty(), body);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).xmlBody(bodyCaptor.capture());
@@ -126,7 +125,7 @@ class BasePaymentInitiationServiceTest {
         when(httpClient.get(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<ScaStatusResponse> response = initiationService.getPaymentInitiationScaStatus(SINGLE_PAYMENTS,
+        Response<ScaStatusResponse> response = initiationService.getPaymentInitiationScaStatus(PAYMENT_SERVICE,
             SEPA_CREDIT_TRANSFERS,
             PAYMENTID,
             AUTHORISATIONID,
@@ -150,7 +149,7 @@ class BasePaymentInitiationServiceTest {
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<PaymentInitiationStatusResponse200Json> response = initiationService.getPaymentInitiationStatus(
-            SINGLE_PAYMENTS,
+            PAYMENT_SERVICE,
             SEPA_CREDIT_TRANSFERS,
             PAYMENTID,
             headers,
@@ -173,7 +172,7 @@ class BasePaymentInitiationServiceTest {
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<String> response = initiationService.getPaymentInitiationStatusAsString(
-            SINGLE_PAYMENTS,
+            PAYMENT_SERVICE,
             SEPA_CREDIT_TRANSFERS,
             PAYMENTID,
             headers,
@@ -194,7 +193,7 @@ class BasePaymentInitiationServiceTest {
         when(httpClient.get(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
-        Response<Authorisations> response = initiationService.getPaymentInitiationAuthorisation(SINGLE_PAYMENTS,
+        Response<Authorisations> response = initiationService.getPaymentInitiationAuthorisation(PAYMENT_SERVICE,
             SEPA_CREDIT_TRANSFERS,
             PAYMENTID,
             RequestHeaders.empty(),
@@ -217,7 +216,7 @@ class BasePaymentInitiationServiceTest {
         doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
 
         Response<StartScaprocessResponse> response =
-            initiationService.startPaymentAuthorisation(SINGLE_PAYMENTS,
+            initiationService.startPaymentAuthorisation(PAYMENT_SERVICE,
                 SEPA_CREDIT_TRANSFERS,
                 PAYMENTID,
                 headers,

@@ -21,6 +21,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ConsorsAccountInformationServiceTest {
 
+    private static final String EMPTY_STRING = "";
+
     private final HttpClient httpClient = Mockito.spy(AbstractHttpClient.class);
     private final AccountInformationService service = new ConsorsServiceProvider()
         .getAccountInformationService(new Aspsp(), (x, y, z) -> httpClient, null, new IdentityLinksRewriter());
@@ -106,7 +108,7 @@ class ConsorsAccountInformationServiceTest {
         Map<String, String> actualHeaders = builderCaptor.getValue().headers();
         assertThat(actualHeaders)
             .isNotEmpty()
-            .containsEntry(PSU_ID, "");
+            .containsEntry(PSU_ID, EMPTY_STRING);
     }
 
     @Test
@@ -125,7 +127,7 @@ class ConsorsAccountInformationServiceTest {
         Map<String, String> actualHeaders = builderCaptor.getValue().headers();
         assertThat(actualHeaders)
             .isNotEmpty()
-            .containsEntry(PSU_ID, " ");
+            .containsEntry(PSU_ID, EMPTY_STRING);
     }
 
     @Test
@@ -144,6 +146,6 @@ class ConsorsAccountInformationServiceTest {
         Map<String, String> actualHeaders = builderCaptor.getValue().headers();
         assertThat(actualHeaders)
             .isNotEmpty()
-            .containsEntry(PSU_ID, "");
+            .containsEntry(PSU_ID, EMPTY_STRING);
     }
 }

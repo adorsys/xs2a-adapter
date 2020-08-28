@@ -14,8 +14,8 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<PaymentInitationRequestResponse201> initiatePayment(String paymentService,
-                                                                        String paymentProduct,
+    public Response<PaymentInitationRequestResponse201> initiatePayment(PaymentService paymentService,
+                                                                        PaymentProduct paymentProduct,
                                                                         RequestHeaders requestHeaders,
                                                                         RequestParams requestParams,
                                                                         Object body) {
@@ -28,7 +28,7 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<PaymentInitiationWithStatusResponse> getSinglePaymentInformation(String paymentProduct,
+    public Response<PaymentInitiationWithStatusResponse> getSinglePaymentInformation(PaymentProduct paymentProduct,
                                                                                      String paymentId,
                                                                                      RequestHeaders requestHeaders,
                                                                                      RequestParams requestParams) {
@@ -37,7 +37,7 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<PeriodicPaymentInitiationWithStatusResponse> getPeriodicPaymentInformation(String paymentProduct,
+    public Response<PeriodicPaymentInitiationWithStatusResponse> getPeriodicPaymentInformation(PaymentProduct paymentProduct,
                                                                                                String paymentId,
                                                                                                RequestHeaders requestHeaders,
                                                                                                RequestParams requestParams) {
@@ -46,7 +46,7 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(String paymentProduct,
+    public Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(PaymentProduct paymentProduct,
                                                                                                  String paymentId,
                                                                                                  RequestHeaders requestHeaders,
                                                                                                  RequestParams requestParams) {
@@ -55,8 +55,8 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<String> getPaymentInformationAsString(String paymentService,
-                                                          String paymentProduct,
+    public Response<String> getPaymentInformationAsString(PaymentService paymentService,
+                                                          PaymentProduct paymentProduct,
                                                           String paymentId,
                                                           RequestHeaders requestHeaders,
                                                           RequestParams requestParams) {
@@ -65,8 +65,8 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<ScaStatusResponse> getPaymentInitiationScaStatus(String paymentService,
-                                                                     String paymentProduct,
+    public Response<ScaStatusResponse> getPaymentInitiationScaStatus(PaymentService paymentService,
+                                                                     PaymentProduct paymentProduct,
                                                                      String paymentId,
                                                                      String authorisationId,
                                                                      RequestHeaders requestHeaders,
@@ -81,8 +81,8 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(String paymentService,
-                                                                                       String paymentProduct,
+    public Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(PaymentService paymentService,
+                                                                                       PaymentProduct paymentProduct,
                                                                                        String paymentId,
                                                                                        RequestHeaders requestHeaders,
                                                                                        RequestParams requestParams) {
@@ -91,8 +91,8 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<String> getPaymentInitiationStatusAsString(String paymentService,
-                                                               String paymentProduct,
+    public Response<String> getPaymentInitiationStatusAsString(PaymentService paymentService,
+                                                               PaymentProduct paymentProduct,
                                                                String paymentId,
                                                                RequestHeaders requestHeaders,
                                                                RequestParams requestParams) {
@@ -102,8 +102,8 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<Authorisations> getPaymentInitiationAuthorisation(String paymentService,
-                                                                      String paymentProduct,
+    public Response<Authorisations> getPaymentInitiationAuthorisation(PaymentService paymentService,
+                                                                      PaymentProduct paymentProduct,
                                                                       String paymentId,
                                                                       RequestHeaders requestHeaders,
                                                                       RequestParams requestParams) {
@@ -116,8 +116,8 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
-                                                                       String paymentProduct,
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(PaymentService paymentService,
+                                                                       PaymentProduct paymentProduct,
                                                                        String paymentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams) {
@@ -126,8 +126,8 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<StartScaprocessResponse> startPaymentAuthorisation(String paymentService,
-                                                                       String paymentProduct,
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(PaymentService paymentService,
+                                                                       PaymentProduct paymentProduct,
                                                                        String paymentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams,
@@ -138,13 +138,13 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
     }
 
     @Override
-    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(String paymentService,
-                                                                                String paymentProduct,
+    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                                                PaymentProduct paymentProduct,
                                                                                 String paymentId,
                                                                                 String authorisationId,
                                                                                 RequestHeaders requestHeaders,
                                                                                 RequestParams requestParams,
-                                                                                SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+                                                                                SelectPsuAuthenticationMethod body) {
         return getPaymentInitiationService(requestHeaders)
             .updatePaymentPsuData(paymentService,
                 paymentProduct,
@@ -152,17 +152,17 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
                 authorisationId,
                 requestHeaders,
                 requestParams,
-                selectPsuAuthenticationMethod);
+                body);
     }
 
     @Override
-    public Response<ScaStatusResponse> updatePaymentPsuData(String paymentService,
-                                                            String paymentProduct,
+    public Response<ScaStatusResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                            PaymentProduct paymentProduct,
                                                             String paymentId,
                                                             String authorisationId,
                                                             RequestHeaders requestHeaders,
                                                             RequestParams requestParams,
-                                                            TransactionAuthorisation transactionAuthorisation) {
+                                                            TransactionAuthorisation body) {
         return getPaymentInitiationService(requestHeaders)
             .updatePaymentPsuData(paymentService,
                 paymentProduct,
@@ -170,17 +170,17 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
                 authorisationId,
                 requestHeaders,
                 requestParams,
-                transactionAuthorisation);
+                body);
     }
 
     @Override
-    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(String paymentService,
-                                                                          String paymentProduct,
+    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                                          PaymentProduct paymentProduct,
                                                                           String paymentId,
                                                                           String authorisationId,
                                                                           RequestHeaders requestHeaders,
                                                                           RequestParams requestParams,
-                                                                          UpdatePsuAuthentication updatePsuAuthentication) {
+                                                                          UpdatePsuAuthentication body) {
         return getPaymentInitiationService(requestHeaders)
             .updatePaymentPsuData(paymentService,
                 paymentProduct,
@@ -188,6 +188,6 @@ public class PaymentInitiationServiceImpl implements PaymentInitiationService {
                 authorisationId,
                 requestHeaders,
                 requestParams,
-                updatePsuAuthentication);
+                body);
     }
 }

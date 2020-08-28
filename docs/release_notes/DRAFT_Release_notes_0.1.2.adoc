@@ -15,7 +15,8 @@ In the next release PFB support will be removed.
 Post-merger, PFB is now DB, PFB as a separate business entity will not be available after November 2020,
 and this document has been updated to change all PFB to DB however both endpoints DE/PFB and DE/DB will work until end of November 2020.
 From December 1st week DE/PFB will be decommissioned.
-
+- Deprecated `PaymentInitiationService` and `PaymentInitiationValidationService` methods with `String` payment service/product parameters.
+Methods with the corresponding enum parameters should be used instead.
 - Renamed `xs2a-adapter-service-api-adapter` module into `xs2a-adapter-service-impl` and adjusted its
 root package name to `de.adorsys.xs2a.adapter.impl`
 - Removed `OauthToken` and replaced its usages with `TokenResponse`.

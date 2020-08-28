@@ -56,8 +56,8 @@ class RemotePaymentInitiationServiceTest {
         doReturn(responseBody).when(entity).getBody();
         doReturn(buildHttpHeaders()).when(entity).getHeaders();
 
-        Response<PaymentInitationRequestResponse201> response = service.initiatePayment(PaymentService.PAYMENTS.toString(),
-                                                                                        PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+        Response<PaymentInitationRequestResponse201> response = service.initiatePayment(PaymentService.PAYMENTS,
+                                                                                        PaymentProduct.SEPA_CREDIT_TRANSFERS,
                                                                                         RequestHeaders.empty(),
                                                                                         RequestParams.empty(),
                                                                                         new PaymentInitiationJson());
@@ -80,8 +80,8 @@ class RemotePaymentInitiationServiceTest {
         doReturn(responseBody).when(entity).getBody();
         doReturn(buildHttpHeaders()).when(entity).getHeaders();
 
-        Response<PaymentInitationRequestResponse201> response = service.initiatePayment(PaymentService.PAYMENTS.toString(),
-                                                                                        PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+        Response<PaymentInitationRequestResponse201> response = service.initiatePayment(PaymentService.PAYMENTS,
+                                                                                        PaymentProduct.SEPA_CREDIT_TRANSFERS,
                                                                                         RequestHeaders.empty(),
                                                                                         RequestParams.empty(),
                                                                                         new PeriodicPaymentInitiationMultipartBody());
@@ -105,8 +105,8 @@ class RemotePaymentInitiationServiceTest {
         doReturn(buildHttpHeaders()).when(entity).getHeaders();
 
         Response<PaymentInitationRequestResponse201> response =
-            service.initiatePayment(PaymentService.PAYMENTS.toString(),
-                                    PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+            service.initiatePayment(PaymentService.PAYMENTS,
+                                    PaymentProduct.SEPA_CREDIT_TRANSFERS,
                                     RequestHeaders.empty(),
                                     RequestParams.empty(),
                                     "<xml/>");
@@ -129,7 +129,7 @@ class RemotePaymentInitiationServiceTest {
         doReturn(buildHttpHeaders()).when(entity).getHeaders();
 
         Response<PaymentInitiationWithStatusResponse> response =
-            service.getSinglePaymentInformation(PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+            service.getSinglePaymentInformation(PaymentProduct.SEPA_CREDIT_TRANSFERS,
                                                 PAYMENT_ID,
                                                 RequestHeaders.empty(),
                                                 RequestParams.empty());
@@ -151,7 +151,7 @@ class RemotePaymentInitiationServiceTest {
         doReturn(buildHttpHeaders()).when(entity).getHeaders();
 
         Response<PeriodicPaymentInitiationWithStatusResponse> response =
-            service.getPeriodicPaymentInformation(PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+            service.getPeriodicPaymentInformation(PaymentProduct.SEPA_CREDIT_TRANSFERS,
                                                   PAYMENT_ID,
                                                   RequestHeaders.empty(),
                                                   RequestParams.empty());
@@ -173,7 +173,7 @@ class RemotePaymentInitiationServiceTest {
         doReturn(buildHttpHeaders()).when(entity).getHeaders();
 
         Response<PeriodicPaymentInitiationMultipartBody> response =
-            service.getPeriodicPain001PaymentInformation(PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+            service.getPeriodicPain001PaymentInformation(PaymentProduct.SEPA_CREDIT_TRANSFERS,
                                                          PAYMENT_ID,
                                                          RequestHeaders.empty(),
                                                          RequestParams.empty());
@@ -196,8 +196,8 @@ class RemotePaymentInitiationServiceTest {
 
         Response<String> response =
             service.getPaymentInformationAsString(
-                PaymentService.PAYMENTS.toString(),
-                PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+                PaymentService.PAYMENTS,
+                PaymentProduct.SEPA_CREDIT_TRANSFERS,
                 PAYMENT_ID,
                 RequestHeaders.empty(),
                 RequestParams.empty());
@@ -221,8 +221,8 @@ class RemotePaymentInitiationServiceTest {
 
         Response<ScaStatusResponse> response =
             service.getPaymentInitiationScaStatus(
-                PaymentService.PAYMENTS.toString(),
-                PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+                PaymentService.PAYMENTS,
+                PaymentProduct.SEPA_CREDIT_TRANSFERS,
                 PAYMENT_ID,
                 AUTHORIZATION_ID,
                 RequestHeaders.empty(),
@@ -246,8 +246,8 @@ class RemotePaymentInitiationServiceTest {
 
         Response<PaymentInitiationStatusResponse200Json> response =
             service.getPaymentInitiationStatus(
-                PaymentService.PAYMENTS.toString(),
-                PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+                PaymentService.PAYMENTS,
+                PaymentProduct.SEPA_CREDIT_TRANSFERS,
                 PAYMENT_ID,
                 RequestHeaders.empty(),
                 RequestParams.empty());
@@ -270,8 +270,8 @@ class RemotePaymentInitiationServiceTest {
 
         Response<String> response =
             service.getPaymentInitiationStatusAsString(
-                PaymentService.PAYMENTS.toString(),
-                PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+                PaymentService.PAYMENTS,
+                PaymentProduct.SEPA_CREDIT_TRANSFERS,
                 PAYMENT_ID,
                 RequestHeaders.empty(),
                 RequestParams.empty());
@@ -294,8 +294,8 @@ class RemotePaymentInitiationServiceTest {
 
         Response<Authorisations> response =
             service.getPaymentInitiationAuthorisation(
-                PaymentService.PAYMENTS.toString(),
-                PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+                PaymentService.PAYMENTS,
+                PaymentProduct.SEPA_CREDIT_TRANSFERS,
                 PAYMENT_ID,
                 RequestHeaders.empty(),
                 RequestParams.empty());
@@ -319,8 +319,8 @@ class RemotePaymentInitiationServiceTest {
 
         Response<StartScaprocessResponse> response =
             service.startPaymentAuthorisation(
-                PaymentService.PAYMENTS.toString(),
-                PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+                PaymentService.PAYMENTS,
+                PaymentProduct.SEPA_CREDIT_TRANSFERS,
                 PAYMENT_ID,
                 RequestHeaders.empty(),
                 RequestParams.empty());
@@ -345,8 +345,8 @@ class RemotePaymentInitiationServiceTest {
 
         Response<StartScaprocessResponse> response =
             service.startPaymentAuthorisation(
-                PaymentService.PAYMENTS.toString(),
-                PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+                PaymentService.PAYMENTS,
+                PaymentProduct.SEPA_CREDIT_TRANSFERS,
                 PAYMENT_ID,
                 RequestHeaders.empty(),
                 RequestParams.empty(),
@@ -373,8 +373,8 @@ class RemotePaymentInitiationServiceTest {
 
         Response<UpdatePsuAuthenticationResponse> response =
             service.updatePaymentPsuData(
-                PaymentService.PAYMENTS.toString(),
-                PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+                PaymentService.PAYMENTS,
+                PaymentProduct.SEPA_CREDIT_TRANSFERS,
                 PAYMENT_ID,
                 AUTHORIZATION_ID,
                 RequestHeaders.empty(),
@@ -402,8 +402,8 @@ class RemotePaymentInitiationServiceTest {
 
         Response<SelectPsuAuthenticationMethodResponse> response =
             service.updatePaymentPsuData(
-                PaymentService.PAYMENTS.toString(),
-                PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+                PaymentService.PAYMENTS,
+                PaymentProduct.SEPA_CREDIT_TRANSFERS,
                 PAYMENT_ID,
                 AUTHORIZATION_ID,
                 RequestHeaders.empty(),
@@ -431,8 +431,8 @@ class RemotePaymentInitiationServiceTest {
 
         Response<ScaStatusResponse> response =
             service.updatePaymentPsuData(
-                PaymentService.PAYMENTS.toString(),
-                PaymentProduct.SEPA_CREDIT_TRANSFERS.toString(),
+                PaymentService.PAYMENTS,
+                PaymentProduct.SEPA_CREDIT_TRANSFERS,
                 PAYMENT_ID,
                 AUTHORIZATION_ID,
                 RequestHeaders.empty(),
