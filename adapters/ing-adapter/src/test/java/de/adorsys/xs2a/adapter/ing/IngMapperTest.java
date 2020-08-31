@@ -568,8 +568,8 @@ class IngMapperTest {
     @Test
     void toTransactionStatus() {
         assertAll(
-            () -> assertThat(mapper.toTransactionStatus("ACTV")).isEqualTo(TransactionStatus.ACTC),
-            () -> assertThat(mapper.toTransactionStatus("EXPI")).isEqualTo(TransactionStatus.CANC)
+            () -> assertThat(mapper.toTransactionStatus("ACTV")).isEqualTo(TransactionStatus.ACSP),
+            () -> assertThat(mapper.toTransactionStatus("EXPI")).isEqualTo(TransactionStatus.ACSC)
         );
     }
 }
