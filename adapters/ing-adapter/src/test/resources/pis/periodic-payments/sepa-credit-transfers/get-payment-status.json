@@ -11,7 +11,7 @@
   },
   "response": {
     "body": {
-      "transactionStatus": "ACTC"
+      "transactionStatus": "ACSP"
     }
   }
 }

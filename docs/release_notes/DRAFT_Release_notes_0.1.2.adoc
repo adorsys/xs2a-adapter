@@ -35,8 +35,8 @@ root package name to `de.adorsys.xs2a.adapter.impl`
 
 == Features:
 - Added transaction status mapping for periodic payments of ING
-** EXPI -> CANC
-** ACTV -> ACTC
+** EXPI -> ACSC
+** ACTV -> ACSP
 - Added support for user-specified PKCE parameters to override default values.
 
 
