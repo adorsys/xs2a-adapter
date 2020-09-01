@@ -1,0 +1,11 @@
+= ASPSP Manager Registry
+
+{doctitle} is a separate application with its own persistence.
+It provides UI for creating, modifying, deleting, uploading, and downloading
+the aspsp registry records.
+
+These records can be further utilised for using with XS2A Adapter.
+
+== Sequence Diagram
+
+image::aspsp-manager.png[]

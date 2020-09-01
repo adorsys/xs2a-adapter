@@ -1,0 +1,57 @@
+@startuml
+participant tpp as "TPP"
+participant adapter as "XS2A\nAdapter"
+participant bank as "ASPSP"
+
+tpp->adapter: payment initiation request
+|||
+adapter->bank: payment initiation request
+|||
+adapter<-bank: 201 payment initiation response (startAuthorisation link)
+|||
+tpp<-adapter: 201 payment initiation response (startAuthorisation link)
+|||
+group psu authorisation
+tpp->adapter: start authorisation request (psu credentials)
+|||
+adapter->bank: start authorisation request (psu credentials)
+|||
+adapter<-bank: 201 start-authorisation response (available sca methods)
+|||
+tpp<-adapter: 201 start-authorisation response (available sca methods)
+|||
+tpp->adapter: authorisation update request (sca method)
+|||
+adapter->bank: authorisation update request (sca method)
+|||
+adapter<-bank: 200 authorisation-update response
+|||
+tpp<-adapter: 200 authorisation-update response
+|||
+tpp->adapter: authorisation update request (otp)
+|||
+adapter->bank: authorisation update request (otp)
+|||
+adapter<-bank: 200 authorisation-update response
+|||
+tpp<-adapter: 200 authorisation-update response
+end
+|||
+tpp->adapter: payment status request
+|||
+adapter->bank: payment status request
+|||
+adapter<-bank: 200 payment-status response
+|||
+tpp<-adapter: 200 payment-status response
+|||
+opt get sca status
+tpp->adapter: get sca status request
+|||
+adapter->bank: get sca status request
+|||
+adapter<-bank: 200 sca-status response
+|||
+tpp<-adapter: 200 sca-status response
+end
+@enduml

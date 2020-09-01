@@ -1,0 +1,35 @@
+@startuml
+participant tpp as "TPP"
+participant adapter as "XS2A\nAdapter"
+participant bank as "ASPSP"
+
+tpp->adapter: payment initiation request
+|||
+adapter->bank: payment initiation request
+|||
+adapter<-bank: 201 payment initiation response (scaRedirect link)
+|||
+tpp<-adapter: 201 payment initiation response (scaRedirect link)
+|||
+ref over tpp, adapter, bank: PSU interaction with an authorisation webpage of the ASPSP
+|||
+tpp<-bank: redirect back
+|||
+tpp->adapter: payment status request
+|||
+adapter->bank: payment status request
+|||
+adapter<-bank: 200 payment-status response
+|||
+tpp<-adapter: 200 payment-status response
+|||
+opt get sca status
+tpp->adapter: get sca status request
+|||
+adapter->bank: get sca status request
+|||
+adapter<-bank: 200 sca-status response
+|||
+tpp<-adapter: 200 sca-status response
+end
+@enduml

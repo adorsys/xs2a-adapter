@@ -1,0 +1,16 @@
+= Get Account Information with Embedded Approach
+
+In the following example, an ASPSP has chosen to process
+the SCA methods for the consent approval through the TPP – ASPSP interface. In any case,
+the PSU normally will need to authenticate himself with a first factor, before any account or
+SCA method details will be available to the TTP.
+
+In case where an OAuth Pre-Step took place, to replace the PSU credentials by an access token.
+Also, the sequence of the PSU authentication with the first authentication factor is omitted.
+
+Depending on the ASPSP decisions, the flow may vary, e.g. if only one SCA method available
+- choosing SCA method step will be omitted.
+
+== Sequence Flow
+
+image::ais-embedded-approach.png[]

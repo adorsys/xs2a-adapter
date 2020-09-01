@@ -1,0 +1,8 @@
+= Payment Initiation with OAuth Approach
+
+In the following example, an ASPSP has chosen to perform
+the OAuth approach for the authorisation process.
+
+== Sequence Flow
+
+image::pi-oauth-approach.png[]
