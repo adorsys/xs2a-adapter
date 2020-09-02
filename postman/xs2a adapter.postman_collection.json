@@ -50,7 +50,7 @@
 					"response": []
 				},
 				{
-					"name": "AIS/Consents/Create/006",
+					"name": "createConsent",
 					"event": [
 						{
 							"listen": "test",
@@ -73,7 +73,7 @@
 									"    if (matches && matches[1]) {",
 									"        var authorisationId = matches[1];",
 									"        pm.globals.set(\"authorisationId\", authorisationId);",
-									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3\");",
+									"        postman.setNextRequest(\"updateConsentsPsuData_updatePsuAuthentication\");",
 									"    }",
 									"} else if (jsonData._links.startAuthorisationWithPsuAuthentication) {",
 									"    var startAuthorisationWithPsuAuthenticationUri = jsonData._links.startAuthorisationWithPsuAuthentication.href;",
@@ -81,9 +81,9 @@
 									"    if (matches && matches[1]) {",
 									"        var authorisationId = matches[1];",
 									"        pm.globals.set(\"authorisationId\", authorisationId);",
-									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3\");",
+									"        postman.setNextRequest(\"updateConsentsPsuData_updatePsuAuthentication\");",
 									"    } else {",
-									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2\");",
+									"        postman.setNextRequest(\"startConsentAuthorisation_updatePsuAuthentication\");",
 									"    }",
 									"} else if (jsonData._links.startAuthorisationWithEncryptedPsuAuthentication) {",
 									"    var startAuthorisationWithEncryptedPsuAuthentication = jsonData._links.startAuthorisationWithEncryptedPsuAuthentication.href;",
@@ -91,9 +91,9 @@
 									"    if (matches && matches[1]) {",
 									"        var authorisationId = matches[1];",
 									"        pm.globals.set(\"authorisationId\", authorisationId);",
-									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_encrypted\");",
+									"        postman.setNextRequest(\"updateConsentsPsuData_updateEncryptedPsuAuthentication\");",
 									"    } else {",
-									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_encrypted\");",
+									"        postman.setNextRequest(\"startConsentAuthorisation_updateEncryptedPsuAuthentication\");",
 									"    }",
 									"} else if (jsonData._links.scaRedirect) {",
 									"    var scaRedirect = jsonData._links.scaRedirect.href;",
@@ -101,21 +101,21 @@
 									"    pm.globals.set(\"scaRedirect\", scaRedirect);",
 									"    if (adapter === \"dab-bank\" || adapter === \"consors-bank\" || adapter === \"sparda-bank\") {",
 									"        pm.globals.set(\"authorisationId\", scaRedirect.split('/').pop());",
-									"        postman.setNextRequest(\"SCA/Redirect/DAB&Consors&Sparda_AIS\");",
+									"        postman.setNextRequest(\"scaRedirect_DAB&Consors&Sparda_AIS\");",
 									"    }",
 									"} else if (jsonData._links.startAuthorisation) {",
 									"    if (pm.variables.get(\"adapter\") === \"unicredit\") {",
-									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2\");",
+									"        postman.setNextRequest(\"startConsentAuthorisation_updatePsuAuthentication\");",
 									"    } else {",
-									"        postman.setNextRequest(\"SCA/Redirect/001a_Msg2\");",
+									"        postman.setNextRequest(\"startConsentAuthorisation\");",
 									"    }",
 									"} else if (jsonData._links.scaOAuth) {",
 									"    pm.globals.set(\"scaOAuth\", jsonData._links.scaOAuth.href);",
-									"    postman.setNextRequest(\"oauth2_token_static_code\");",
+									"    postman.setNextRequest(\"scaOAuth_token_static_code\");",
 									"}",
 									"",
 									"if (pm.variables.get(\"adapter\") === \"santander\") {",
-									"    postman.setNextRequest(\"AIS/Accounts/005c_MsgX+1\");",
+									"    postman.setNextRequest(\"getAccountList\");",
 									"}",
 									"",
 									"pm.globals.set(\"consentId\", pm.response.json().consentId);"
@@ -200,7 +200,7 @@
 					"response": []
 				},
 				{
-					"name": "AIS/Consents/Get/002",
+					"name": "getConsentInformation",
 					"event": [
 						{
 							"listen": "test",
@@ -250,7 +250,7 @@
 					"response": []
 				},
 				{
-					"name": "AIS/Consents/Status/003a",
+					"name": "getConsentStatus",
 					"event": [
 						{
 							"listen": "test",
@@ -301,7 +301,7 @@
 					"response": []
 				},
 				{
-					"name": "SCA/Redirect/DAB&Consors&Sparda_AIS",
+					"name": "scaRedirect_DAB&Consors&Sparda_AIS",
 					"event": [
 						{
 							"listen": "test",
@@ -312,7 +312,7 @@
 									"    pm.expect(pm.response.text()).to.include(\"The consent status has changed to: valid\");",
 									"});",
 									"",
-									"postman.setNextRequest(\"DefaultGetSCAStatus AIS_redirect\");"
+									"postman.setNextRequest(\"getConsentAuthorisation\");"
 								],
 								"type": "text/javascript"
 							}
@@ -337,60 +337,7 @@
 					"response": []
 				},
 				{
-					"name": "DefaultGetSCAStatus AIS_redirect",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "9c7612b6-c6e3-42f2-bead-85ae9bf510de",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"scaStatus is finalised\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
-									"});",
-									"",
-									"postman.setNextRequest(\"AIS/Accounts/005c_MsgX+1\");"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "X-GTW-ASPSP-ID",
-								"type": "text",
-								"value": "{{aspspId}}"
-							},
-							{
-								"key": "X-Request-ID",
-								"type": "text",
-								"value": "{{$guid}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUri}}/v1/consents/{{consentId}}/authorisations/{{authorisationId}}",
-							"host": [
-								"{{baseUri}}"
-							],
-							"path": [
-								"v1",
-								"consents",
-								"{{consentId}}",
-								"authorisations",
-								"{{authorisationId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "oauth2_token_static_code",
+					"name": "scaOAuth_token_static_code",
 					"event": [
 						{
 							"listen": "test",
@@ -398,7 +345,7 @@
 								"id": "0dd933cc-46cc-4eef-a561-e231ca4746c5",
 								"exec": [
 									"pm.globals.set(\"access_token\",  pm.response.json().access_token);",
-									"postman.setNextRequest(\"AIS/Accounts/005c_MsgX+1\");"
+									"postman.setNextRequest(\"getAccountList\");"
 								],
 								"type": "text/javascript"
 							}
@@ -456,7 +403,7 @@
 					"response": []
 				},
 				{
-					"name": "SCA/Redirect/001a_Msg2",
+					"name": "startConsentAuthorisation",
 					"event": [
 						{
 							"listen": "test",
@@ -530,7 +477,7 @@
 					"response": []
 				},
 				{
-					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2",
+					"name": "startConsentAuthorisation_updatePsuAuthentication",
 					"event": [
 						{
 							"listen": "test",
@@ -549,13 +496,13 @@
 									"",
 									"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 									"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3\");",
+									"    postman.setNextRequest(\"updateConsentsPsuData_selectPsuAuthenticationMethod\");",
 									"});",
 									"",
 									"// workaround for Unicredit Bank",
 									"if (jsonData._links.updatePsuAuthentication) {",
 									"    pm.globals.set(\"authorisationId\", jsonData.authorisationId);",
-									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3\");",
+									"    postman.setNextRequest(\"updateConsentsPsuData_updatePsuAuthentication\");",
 									"}"
 								],
 								"type": "text/javascript"
@@ -636,7 +583,7 @@
 					"response": []
 				},
 				{
-					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_encrypted",
+					"name": "startConsentAuthorisation_updateEncryptedPsuAuthentication",
 					"event": [
 						{
 							"listen": "test",
@@ -719,7 +666,7 @@
 					"response": []
 				},
 				{
-					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3",
+					"name": "updateConsentsPsuData_updatePsuAuthentication",
 					"event": [
 						{
 							"listen": "test",
@@ -732,7 +679,7 @@
 									"    var href = jsonData._links.authoriseTransaction.href;",
 									"    var queryParams = href.slice(href.indexOf(\"?\"), href.length);",
 									"    pm.globals.set(\"queryParams\", queryParams);",
-									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4\");",
+									"    postman.setNextRequest(\"updateConsentsPsuData_transactionAuthorisation\");",
 									"} else {",
 									"    pm.test(\"scaStatus is psuAuthenticated\", function () {",
 									"        pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
@@ -745,13 +692,13 @@
 									"",
 									"    pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 									"        pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-									"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3\");",
+									"        postman.setNextRequest(\"updateConsentsPsuData_selectPsuAuthenticationMethod\");",
 									"    });",
 									"}",
 									"",
 									"// workaround for Unicredit",
 									"if (jsonData._links.authoriseTransaction) {",
-									"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4\");",
+									"    postman.setNextRequest(\"updateConsentsPsuData_transactionAuthorisation\");",
 									"}"
 								],
 								"type": "text/javascript"
@@ -812,7 +759,7 @@
 					"response": []
 				},
 				{
-					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_encrypted",
+					"name": "updateConsentsPsuData_updateEncryptedPsuAuthentication",
 					"event": [
 						{
 							"listen": "test",
@@ -891,7 +838,7 @@
 					"response": []
 				},
 				{
-					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3",
+					"name": "updateConsentsPsuData_selectPsuAuthenticationMethod",
 					"event": [
 						{
 							"listen": "test",
@@ -970,7 +917,7 @@
 					"response": []
 				},
 				{
-					"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4",
+					"name": "updateConsentsPsuData_transactionAuthorisation",
 					"event": [
 						{
 							"listen": "test",
@@ -1052,7 +999,7 @@
 					"response": []
 				},
 				{
-					"name": "DefaultGetSCAStatus AIS",
+					"name": "getConsentAuthorisation",
 					"event": [
 						{
 							"listen": "test",
@@ -1103,7 +1050,7 @@
 					"response": []
 				},
 				{
-					"name": "AIS/Accounts/005c_MsgX+1",
+					"name": "getAccountList",
 					"event": [
 						{
 							"listen": "test",
@@ -1121,9 +1068,9 @@
 									"pm.globals.set(\"accountId\", accounts.find(a => a.iban === iban).resourceId);",
 									"",
 									"if (pm.variables.get(\"adapter\") === \"sparkasse\") {",
-									"    postman.setNextRequest(\"AIS/Accounts/021a_MsgX+1\");",
+									"    postman.setNextRequest(\"getTransactionList_accept_unspecified\");",
 									"} else {",
-									"    postman.setNextRequest(\"AIS/Accounts/005c_MsgX+2\");",
+									"    postman.setNextRequest(\"getTransactionList_accept_json\");",
 									"}"
 								],
 								"type": "text/javascript"
@@ -1174,7 +1121,7 @@
 					"response": []
 				},
 				{
-					"name": "AIS/Accounts/005c_MsgX+2",
+					"name": "getTransactionList_accept_json",
 					"event": [
 						{
 							"listen": "test",
@@ -1193,7 +1140,7 @@
 									"    pm.response.to.have.jsonBody(\"balances\");",
 									"});",
 									"",
-									"postman.setNextRequest(\"AIS/Accounts/020c_MsgX+3\");"
+									"postman.setNextRequest(\"getBalances\");"
 								],
 								"type": "text/javascript"
 							}
@@ -1258,7 +1205,7 @@
 					"response": []
 				},
 				{
-					"name": "AIS/Accounts/021a_MsgX+1",
+					"name": "getTransactionList_accept_unspecified",
 					"event": [
 						{
 							"listen": "test",
@@ -1336,7 +1283,7 @@
 					"response": []
 				},
 				{
-					"name": "AIS/Accounts/020c_MsgX+3",
+					"name": "getBalances",
 					"event": [
 						{
 							"listen": "test",
@@ -1391,7 +1338,7 @@
 					"response": []
 				},
 				{
-					"name": "AIS/Consents/Del/003",
+					"name": "deleteConsent",
 					"event": [
 						{
 							"listen": "test",
@@ -1726,7 +1673,7 @@
 							"response": []
 						},
 						{
-							"name": "PIS/PaymentInit/Products/001a",
+							"name": "initiatePayment_payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -1751,7 +1698,7 @@
 											"    if (matches && matches[1]) {",
 											"        var authorisationId = matches[1];",
 											"        pm.globals.set(\"authorisationId\", authorisationId);",
-											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers\");",
+											"        postman.setNextRequest(\"updatePaymentPsuData_updatePsuAuthentication_payments/sepa-credit-transfers\");",
 											"    }",
 											"} else if (jsonData._links.startAuthorisationWithPsuAuthentication) {",
 											"    var startAuthorisationWithPsuAuthenticationUri = jsonData._links.startAuthorisationWithPsuAuthentication.href;",
@@ -1759,9 +1706,9 @@
 											"    if (matches && matches[1]) {",
 											"        var authorisationId = matches[1];",
 											"        pm.globals.set(\"authorisationId\", authorisationId);",
-											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers\");",
+											"        postman.setNextRequest(\"updatePaymentPsuData_updatePsuAuthentication_payments/sepa-credit-transfers\");",
 											"    } else {",
-											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_sepa_credit_transfers\");",
+											"        postman.setNextRequest(\"startPaymentAuthorisation_updatePsuAuthentication_payments/sepa-credit-transfers\");",
 											"    }",
 											"} else if (jsonData._links.startAuthorisationWithEncryptedPsuAuthentication) {",
 											"    var startAuthorisationWithEncryptedPsuAuthentication = jsonData._links.startAuthorisationWithEncryptedPsuAuthentication.href;",
@@ -1769,9 +1716,9 @@
 											"    if (matches && matches[1]) {",
 											"        var authorisationId = matches[1];",
 											"        pm.globals.set(\"authorisationId\", authorisationId);",
-											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers_encrypted\");",
+											"        postman.setNextRequest(\"updatePaymentPsuData_updateEncyptedPsuAuthentication_payments/sepa-credit-transfers\");",
 											"    } else {",
-											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_sepa_credit_transfers_encrypted\");",
+											"        postman.setNextRequest(\"startPaymentAuthorisation_updateEncyptedPsuAuthentication_payments/sepa-credit-transfers\");",
 											"    }",
 											"} else if (jsonData._links.scaRedirect) {",
 											"    var scaRedirect = jsonData._links.scaRedirect.href;",
@@ -1779,10 +1726,10 @@
 											"    var adapter = pm.variables.get(\"adapter\");",
 											"    if (adapter === \"dab-bank\" || adapter === \"consors-bank\" || adapter === \"sparda-bank\") {",
 											"        pm.globals.set(\"authorisationId\", scaRedirect.split('/').pop());",
-											"        postman.setNextRequest(\"SCA/Redirect/DAB&Consors&Sparda_PIS_sepa_credit_transfers\");",
+											"        postman.setNextRequest(\"scaRedirect_DAB&Consors&Sparda_payments/sepa-credit-transfers\");",
 											"    }",
 											"} else if (jsonData._links.scaOAuth) {",
-											"    postman.setNextRequest(\"PIS/GetTransactionStatus/001a\");",
+											"    postman.setNextRequest(\"getPaymentInitiationStatus_payments/sepa-credit-transfers\");",
 											"}"
 										],
 										"type": "text/javascript"
@@ -1858,7 +1805,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/Redirect/DAB&Consors&Sparda_PIS_sepa_credit_transfers",
+							"name": "scaRedirect_DAB&Consors&Sparda_payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -1869,7 +1816,7 @@
 											"    pm.expect(pm.response.text()).to.include(\"The payment status has changed to: AcceptedSettlementCompleted\");",
 											"});",
 											"",
-											"postman.setNextRequest(\"PIS/GetPayment/001a\");"
+											"postman.setNextRequest(\"getPaymentInformation_payments/sepa-credit-transfers\");"
 										],
 										"type": "text/javascript"
 									}
@@ -1894,7 +1841,7 @@
 							"response": []
 						},
 						{
-							"name": "PIS/GetTransactionStatus/001a",
+							"name": "getPaymentInitiationStatus_payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -1945,7 +1892,7 @@
 							"response": []
 						},
 						{
-							"name": "PIS/GetPayment/001a",
+							"name": "getPaymentInformation_payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -2022,7 +1969,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_sepa_credit_transfers",
+							"name": "startPaymentAuthorisation_updatePsuAuthentication_payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -2041,7 +1988,7 @@
 											"",
 											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers\");",
+											"    postman.setNextRequest(\"updatePaymentPsuData_selectPsuAuthenticationMethod_payments/sepa-credit-transfers\");",
 											"});",
 											"",
 											"// workaround for Unicredit Bank",
@@ -2051,7 +1998,7 @@
 											"} else if (jsonData._links.authoriseTransaction) {",
 											"    var authoriseTransactionUri = jsonData._links.authoriseTransaction.href;",
 											"    pm.globals.set(\"authorisationId\", authoriseTransactionUri.split(\"/\").pop());",
-											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4_sepa_credit_transfers\");",
+											"    postman.setNextRequest(\"updatePaymentPsuData_transactionAuthorisation_payments/sepa-credit-transfers\");",
 											"}"
 										],
 										"type": "text/javascript"
@@ -2110,7 +2057,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_sepa_credit_transfers_encrypted",
+							"name": "startPaymentAuthorisation_updateEncyptedPsuAuthentication_payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -2191,7 +2138,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers",
+							"name": "updatePaymentPsuData_updatePsuAuthentication_payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -2210,7 +2157,7 @@
 											"",
 											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers\");",
+											"    postman.setNextRequest(\"updatePaymentPsuData_selectPsuAuthenticationMethod_payments/sepa-credit-transfers\");",
 											"});"
 										],
 										"type": "text/javascript"
@@ -2269,7 +2216,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers_encrypted",
+							"name": "updatePaymentPsuData_updateEncyptedPsuAuthentication_payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -2345,7 +2292,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers",
+							"name": "updatePaymentPsuData_selectPsuAuthenticationMethod_payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -2422,7 +2369,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4_sepa_credit_transfers",
+							"name": "updatePaymentPsuData_transactionAuthorisation_payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -2434,7 +2381,7 @@
 											"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
 											"});",
 											"",
-											"postman.setNextRequest(\"DefaultGetSCAStatus_payments_sepa\");",
+											"postman.setNextRequest(\"getPaymentInitiationScaStatus_payments/sepa-credit-transfers\");",
 											"",
 											""
 										],
@@ -2494,7 +2441,7 @@
 							"response": []
 						},
 						{
-							"name": "DefaultGetSCAStatus_payments_sepa",
+							"name": "getPaymentInitiationScaStatus_payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -2653,7 +2600,7 @@
 							"response": []
 						},
 						{
-							"name": "PIS/PaymentInit/Products/001e",
+							"name": "initiatePayment_payments/pain.001-sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "prerequest",
@@ -2740,7 +2687,7 @@
 							"response": []
 						},
 						{
-							"name": "PIS/GetTransactionStatus/001e",
+							"name": "getPaymentInitiationStatus_payments/pain.001-sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -2792,7 +2739,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_pain001_sepa_credit_transfers",
+							"name": "startPaymentAuthorisation_updatePsuAuthentication_payments/pain.001-sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -2811,7 +2758,7 @@
 											"",
 											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_pain001_sepa_credit_transfers\");",
+											"    postman.setNextRequest(\"updatePaymentPsuData_selectPsuAuthenticationMethod_payments/pain.001-sepa-credit-transfers\");",
 											"});",
 											"",
 											"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
@@ -2873,7 +2820,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/Redirect/DAB&Consors&Sparda_PIS_pain001_sepa_credit_transfers",
+							"name": "scaRedirect_DAB&Consors&Sparda_payments/pain.001-sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -2907,7 +2854,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_pain001_sepa_credit_transfers",
+							"name": "updatePaymentPsuData_updatePsuAuthentication_payments/pain.001-sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -2983,7 +2930,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_pain001_sepa_credit_transfers",
+							"name": "updatePaymentPsuData_selectPsuAuthenticationMethod_payments/pain.001-sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -3060,7 +3007,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4_pain001_sepa_credit_transfers",
+							"name": "updatePaymentPsuData_transactionAuthorisation_payments/pain.001-sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -3072,7 +3019,7 @@
 											"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
 											"});",
 											"",
-											"postman.setNextRequest(\"DefaultGetSCAStatus_payments_pain01_sepa\");"
+											"postman.setNextRequest(\"getPaymentInitiationScaStatus_payments/pain.001-sepa-credit-transfers\");"
 										],
 										"type": "text/javascript"
 									}
@@ -3130,7 +3077,7 @@
 							"response": []
 						},
 						{
-							"name": "DefaultGetSCAStatus_payments_pain01_sepa",
+							"name": "getPaymentInitiationScaStatus_payments/pain.001-sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -3289,7 +3236,7 @@
 							"response": []
 						},
 						{
-							"name": "PIS/PaymentInit/Products/003a",
+							"name": "initiatePayment_periodic-payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -3314,7 +3261,7 @@
 											"    if (matches && matches[1]) {",
 											"        var authorisationId = matches[1];",
 											"        pm.globals.set(\"authorisationId\", authorisationId);",
-											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers_periodic\");",
+											"        postman.setNextRequest(\"updatePaymentPsuData_updatePsuAuthentication_periodic-payments/sepa-credit-transfers\");",
 											"    }",
 											"} else if (jsonData._links.startAuthorisationWithPsuAuthentication) {",
 											"    var startAuthorisationWithPsuAuthenticationUri = jsonData._links.startAuthorisationWithPsuAuthentication.href;",
@@ -3322,9 +3269,9 @@
 											"    if (matches && matches[1]) {",
 											"        var authorisationId = matches[1];",
 											"        pm.globals.set(\"authorisationId\", authorisationId);",
-											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers_periodic\");",
+											"        postman.setNextRequest(\"updatePaymentPsuData_updatePsuAuthentication_periodic-payments/sepa-credit-transfers\");",
 											"    } else {",
-											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_sepa_credit_transfers_periodic\");",
+											"        postman.setNextRequest(\"startPaymentAuthorisation_updatePsuAuthentication_periodic-payments/sepa-credit-transfers\");",
 											"    }",
 											"} else if (jsonData._links.startAuthorisationWithEncryptedPsuAuthentication) {",
 											"    var startAuthorisationWithEncryptedPsuAuthentication = jsonData._links.startAuthorisationWithEncryptedPsuAuthentication.href;",
@@ -3332,9 +3279,9 @@
 											"    if (matches && matches[1]) {",
 											"        var authorisationId = matches[1];",
 											"        pm.globals.set(\"authorisationId\", authorisationId);",
-											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers_periodic_encrypted\");",
+											"        postman.setNextRequest(\"updatePaymentPsuData_updateEncyptedPsuAuthentication_periodic-payments/sepa-credit-transfers\");",
 											"    } else {",
-											"        postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_sepa_credit_transfers_periodic_encrypted\");",
+											"        postman.setNextRequest(\"startPaymentAuthorisation_updateEncyptedPsuAuthentication_periodic-payments/sepa-credit-transfers\");",
 											"    }",
 											"} else if (jsonData._links.scaRedirect) {",
 											"    var scaRedirect = jsonData._links.scaRedirect.href;",
@@ -3342,10 +3289,10 @@
 											"    var adapter = pm.variables.get(\"adapter\");",
 											"    if (adapter === \"dab-bank\" || adapter === \"consors-bank\" || adapter === \"sparda-bank\") {",
 											"        pm.globals.set(\"authorisationId\", scaRedirect.split('/').pop());",
-											"        postman.setNextRequest(\"SCA/Redirect/DAB&Consors&Sparda_PIS_sepa_credit_transfers_periodic\");",
+											"        postman.setNextRequest(\"scaRedirect_DAB&Consors&Sparda_periodic-payments/sepa-credit-transfers\");",
 											"    }",
 											"} else if (jsonData._links.scaOAuth) {",
-											"    postman.setNextRequest(\"PIS/GetTransactionStatus/003a\");",
+											"    postman.setNextRequest(\"getPaymentInitiationStatus_periodic-payments/sepa-credit-transfers\");",
 											"}"
 										],
 										"type": "text/javascript"
@@ -3428,7 +3375,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/Redirect/DAB&Consors&Sparda_PIS_sepa_credit_transfers_periodic",
+							"name": "scaRedirect_DAB&Consors&Sparda_periodic-payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -3439,7 +3386,7 @@
 											"    pm.expect(pm.response.text()).to.include(\"The payment status has changed to: AcceptedSettlementCompleted\");",
 											"});",
 											"",
-											"postman.setNextRequest(\"PIS/GetPayment/003a\");"
+											"postman.setNextRequest(\"getPaymentInformation_periodic-payments/sepa-credit-transfers\");"
 										],
 										"type": "text/javascript"
 									}
@@ -3464,7 +3411,7 @@
 							"response": []
 						},
 						{
-							"name": "PIS/GetTransactionStatus/003a",
+							"name": "getPaymentInitiationStatus_periodic-payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -3515,7 +3462,7 @@
 							"response": []
 						},
 						{
-							"name": "PIS/GetPayment/003a",
+							"name": "getPaymentInformation_periodic-payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -3592,7 +3539,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_sepa_credit_transfers_periodic",
+							"name": "startPaymentAuthorisation_updatePsuAuthentication_periodic-payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -3611,7 +3558,7 @@
 											"",
 											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers_periodic\");",
+											"    postman.setNextRequest(\"updatePaymentPsuData_selectPsuAuthenticationMethod_periodic-payments/sepa-credit-transfers\");",
 											"});",
 											"",
 											"// workaround for Unicredit Bank",
@@ -3621,7 +3568,7 @@
 											"} else if (jsonData._links.authoriseTransaction) {",
 											"    var authoriseTransactionUri = jsonData._links.authoriseTransaction.href;",
 											"    pm.globals.set(\"authorisationId\", authoriseTransactionUri.split(\"/\").pop());",
-											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4_sepa_credit_transfers_periodic\");",
+											"    postman.setNextRequest(\"updatePaymentPsuData_transactionAuthorisation_periodic-payments/sepa-credit-transfers\");",
 											"}"
 										],
 										"type": "text/javascript"
@@ -3680,7 +3627,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg2_sepa_credit_transfers_periodic_encrypted",
+							"name": "startPaymentAuthorisation_updateEncyptedPsuAuthentication_periodic-payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -3761,7 +3708,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers_periodic",
+							"name": "updatePaymentPsuData_updatePsuAuthentication_periodic-payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -3780,7 +3727,7 @@
 											"",
 											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers_periodic\");",
+											"    postman.setNextRequest(\"updatePaymentPsuData_selectPsuAuthenticationMethod_periodic-payments/sepa-credit-transfers\");",
 											"});"
 										],
 										"type": "text/javascript"
@@ -3839,7 +3786,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_2_msg3_sepa_credit_transfers_periodic_encrypted",
+							"name": "updatePaymentPsuData_updateEncyptedPsuAuthentication_periodic-payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -3915,7 +3862,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers_periodic",
+							"name": "updatePaymentPsuData_selectPsuAuthenticationMethod_periodic-payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -3992,7 +3939,7 @@
 							"response": []
 						},
 						{
-							"name": "SCA/EmbeddedSCA/PsuNotAuth/002_1_msg4_sepa_credit_transfers_periodic",
+							"name": "updatePaymentPsuData_transactionAuthorisation_periodic-payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -4005,7 +3952,7 @@
 											"});",
 											"",
 											"",
-											"postman.setNextRequest(\"DefaultGetSCAStatus_periodic_sepa\");"
+											"postman.setNextRequest(\"getPaymentInitiationScaStatus_periodic-payments/sepa-credit-transfers\");"
 										],
 										"type": "text/javascript"
 									}
@@ -4063,7 +4010,7 @@
 							"response": []
 						},
 						{
-							"name": "DefaultGetSCAStatus_periodic_sepa",
+							"name": "getPaymentInitiationScaStatus_periodic-payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
