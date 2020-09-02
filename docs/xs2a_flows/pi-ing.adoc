@@ -5,4 +5,4 @@ differences. For a TPP the flow is similar to PI Redirect Approach.
 
 == Sequence Flow
 
-image::pi-ing.png[]
+image::./images/pi-ing.png[]

@@ -5,4 +5,4 @@ the OAuth approach for the authorisation process.
 
 == Sequence Flow
 
-image::ais-oauth-approach.png[]
+image::./images/ais-oauth-approach.png[]

@@ -13,4 +13,4 @@ Depending on the ASPSP decisions, the flow may vary, e.g. if only one SCA method
 
 == Sequence Flow
 
-image::ais-embedded-approach.png[]
+image::./images/ais-embedded-approach.png[]

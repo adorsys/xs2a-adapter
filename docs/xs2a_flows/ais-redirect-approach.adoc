@@ -6,4 +6,4 @@ is followed by a redirection to the ASPSP SCA authorisation site.
 
 == Sequence Flow
 
-image::ais-redirect-approach.png[]
+image::./images/ais-redirect-approach.png[]
