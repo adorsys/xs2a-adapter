@@ -40,7 +40,7 @@ as the bank doesn't expect the header to be present within these requests.
 ** EXPI -> ACSC
 ** ACTV -> ACSP
 - Added support for user-specified PKCE parameters to override default values.
-
+- Added forwarding of custom request headers.
 
 == Fixes:
 - Fixed class cast exception for periodic/pain.001 payment initiation for sparkasse

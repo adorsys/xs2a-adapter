@@ -7,12 +7,15 @@ import de.adorsys.xs2a.adapter.api.http.Request;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
+
+import static java.lang.String.CASE_INSENSITIVE_ORDER;
 
 public class RequestBuilderImpl implements Request.Builder {
     private final HttpClient httpClient;
     private String method;
     private String uri;
-    private Map<String, String> headers = new LinkedHashMap<>();
+    private Map<String, String> headers = new TreeMap<>(CASE_INSENSITIVE_ORDER);
     private String body;
     private BodyType bodyType;
     private Map<String, String> formData;

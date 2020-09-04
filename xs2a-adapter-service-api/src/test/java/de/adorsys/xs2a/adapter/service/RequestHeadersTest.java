@@ -24,4 +24,10 @@ class RequestHeadersTest {
         Optional<String> headerValue = requestHeaders.get("asdfasdf");
         assertThat(headerValue).isEmpty();
     }
+
+    @Test
+    void permitsCustomHeaders() {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(singletonMap("X-OAUTH-PREFERRED", "pre-step"));
+        assertThat(requestHeaders.get("X-OAUTH-PREFERRED")).get().isEqualTo("pre-step");
+    }
 }
