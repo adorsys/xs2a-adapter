@@ -7,16 +7,16 @@ import static java.lang.String.CASE_INSENSITIVE_ORDER;
 public class RequestHeaders {
     private static final String BEARER_SPACE = "Bearer ";
 
-    public static final String X_REQUEST_ID = "X-Request-ID";
+    public static final String X_REQUEST_ID = "X-Request-ID".toLowerCase();
     public static final String CONSENT_ID = "Consent-ID";
     public static final String DIGEST = "Digest";
-    public static final String PSU_ID = "PSU-ID";
+    public static final String PSU_ID = "PSU-ID".toLowerCase();
     public static final String PSU_CORPORATE_ID = "PSU-Corporate-ID";
-    public static final String TPP_REDIRECT_URI = "TPP-Redirect-URI";
+    public static final String TPP_REDIRECT_URI = "TPP-Redirect-URI".toLowerCase();
     public static final String DATE = "Date";
     public static final String SIGNATURE = "Signature";
     public static final String TPP_SIGNATURE_CERTIFICATE = "TPP-Signature-Certificate";
-    public static final String PSU_IP_ADDRESS = "PSU-IP-Address";
+    public static final String PSU_IP_ADDRESS = "PSU-IP-Address".toLowerCase();
     public static final String PSU_ID_TYPE = "PSU-ID-Type";
     public static final String PSU_CORPORATE_ID_TYPE = "PSU-Corporate-ID-Type";
     public static final String TPP_REDIRECT_PREFERRED = "TPP-Redirect-Preferred";
@@ -32,17 +32,40 @@ public class RequestHeaders {
     public static final String PSU_DEVICE_ID = "PSU-Device-ID";
     public static final String PSU_GEO_LOCATION = "PSU-Geo-Location";
     // technical
-    public static final String ACCEPT = "Accept";
+    public static final String ACCEPT = "Accept".toLowerCase();
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String AUTHORIZATION = "Authorization";
     public static final String CORRELATION_ID = "Correlation-ID";
+    public static final String CONTENT_LENGTH = "Content-Length";
+    public static final String POSTMAN_TOKEN = "Postman-Token";
+    public static final String HOST = "Host";
+    public static final String CONNECTION = "Connection";
+    public static final String CACHE_CONTROL = "Cache-Control";
+    public static final String ACCEPT_ENCODING = "Accept-Encoding";
+    public static final String USER_AGENT = "User-Agent";
     // gateway
-    public static final String X_GTW_ASPSP_ID = "X-GTW-ASPSP-ID";
+    public static final String X_GTW_ASPSP_ID = "X-GTW-ASPSP-ID".toLowerCase();
     public static final String X_GTW_BANK_CODE = "X-GTW-Bank-Code";
     public static final String X_GTW_BIC = "X-GTW-BIC";
     public static final String X_GTW_IBAN = "X-GTW-IBAN";
 
     private static final RequestHeaders EMPTY = new RequestHeaders(Collections.emptyMap());
+    private static final Map<String, String> EXCESS_HEADERS = new HashMap<>();
+
+    static {
+        // exclude the content-type header for backward compatibility
+        // if set the value will be used in the outgoing request
+        // potentially breaking existing integrations
+        // that require exact match of the content-type
+        EXCESS_HEADERS.put(CONTENT_TYPE.toLowerCase(), CONTENT_TYPE);
+        EXCESS_HEADERS.put(CONTENT_LENGTH.toLowerCase(), CONTENT_LENGTH);
+        EXCESS_HEADERS.put(POSTMAN_TOKEN.toLowerCase(), POSTMAN_TOKEN);
+        EXCESS_HEADERS.put(HOST.toLowerCase(), HOST);
+        EXCESS_HEADERS.put(CONNECTION.toLowerCase(), CONNECTION);
+        EXCESS_HEADERS.put(CACHE_CONTROL.toLowerCase(), CACHE_CONTROL);
+        EXCESS_HEADERS.put(ACCEPT_ENCODING.toLowerCase(), ACCEPT_ENCODING);
+        EXCESS_HEADERS.put(USER_AGENT.toLowerCase(), USER_AGENT);
+    }
 
     private final Map<String, String> headers;
 
@@ -54,11 +77,7 @@ public class RequestHeaders {
         Map<String, String> headers = new TreeMap<>(CASE_INSENSITIVE_ORDER);
         for (Map.Entry<String, String> entry : headersMap.entrySet()) {
             String name = entry.getKey();
-            if (CONTENT_TYPE.equalsIgnoreCase(name)) {
-                // exclude the content-type header for backward compatibility
-                // if set the value will be used in the outgoing request
-                // potentially breaking existing integrations
-                // that require exact match of the content-type
+            if (EXCESS_HEADERS.containsKey(name)) {
                 continue;
             }
             headers.put(name, entry.getValue());
