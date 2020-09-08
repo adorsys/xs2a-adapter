@@ -1,8 +1,9 @@
 package de.adorsys.xs2a.adapter.api;
 
-import java.util.*;
-
-import static java.lang.String.CASE_INSENSITIVE_ORDER;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class RequestHeaders {
     private static final String BEARER_SPACE = "Bearer ";
@@ -41,8 +42,46 @@ public class RequestHeaders {
     public static final String X_GTW_BANK_CODE = "X-GTW-Bank-Code";
     public static final String X_GTW_BIC = "X-GTW-BIC";
     public static final String X_GTW_IBAN = "X-GTW-IBAN";
+    // Open Banking Gateway
+    public static final String X_OAUTH_PREFERRED = "X-OAUTH-PREFERRED";
 
     private static final RequestHeaders EMPTY = new RequestHeaders(Collections.emptyMap());
+
+    private static final Map<String, String> headerNamesLowerCased = new HashMap<>();
+
+    static {
+        headerNamesLowerCased.put(X_GTW_ASPSP_ID.toLowerCase(), X_GTW_ASPSP_ID);
+        headerNamesLowerCased.put(X_GTW_BANK_CODE.toLowerCase(), X_GTW_BANK_CODE);
+        headerNamesLowerCased.put(X_GTW_BIC.toLowerCase(), X_GTW_BIC);
+        headerNamesLowerCased.put(X_GTW_IBAN.toLowerCase(), X_GTW_IBAN);
+        headerNamesLowerCased.put(X_REQUEST_ID.toLowerCase(), X_REQUEST_ID);
+        headerNamesLowerCased.put(PSU_IP_ADDRESS.toLowerCase(), PSU_IP_ADDRESS);
+        headerNamesLowerCased.put(DIGEST.toLowerCase(), DIGEST);
+        headerNamesLowerCased.put(SIGNATURE.toLowerCase(), SIGNATURE);
+        headerNamesLowerCased.put(TPP_SIGNATURE_CERTIFICATE.toLowerCase(), TPP_SIGNATURE_CERTIFICATE);
+        headerNamesLowerCased.put(PSU_ID.toLowerCase(), PSU_ID);
+        headerNamesLowerCased.put(PSU_ID_TYPE.toLowerCase(), PSU_ID_TYPE);
+        headerNamesLowerCased.put(PSU_CORPORATE_ID.toLowerCase(), PSU_CORPORATE_ID);
+        headerNamesLowerCased.put(PSU_CORPORATE_ID_TYPE.toLowerCase(), PSU_CORPORATE_ID_TYPE);
+        headerNamesLowerCased.put(CONSENT_ID.toLowerCase(), CONSENT_ID);
+        headerNamesLowerCased.put(TPP_REDIRECT_PREFERRED.toLowerCase(), TPP_REDIRECT_PREFERRED);
+        headerNamesLowerCased.put(TPP_REDIRECT_URI.toLowerCase(), TPP_REDIRECT_URI);
+        headerNamesLowerCased.put(TPP_NOK_REDIRECT_URI.toLowerCase(), TPP_NOK_REDIRECT_URI);
+        headerNamesLowerCased.put(TPP_EXPLICIT_AUTHORISATION_PREFERRED.toLowerCase(), TPP_EXPLICIT_AUTHORISATION_PREFERRED);
+        headerNamesLowerCased.put(PSU_IP_PORT.toLowerCase(), PSU_IP_PORT);
+        headerNamesLowerCased.put(PSU_ACCEPT.toLowerCase(), PSU_ACCEPT);
+        headerNamesLowerCased.put(PSU_ACCEPT_CHARSET.toLowerCase(), PSU_ACCEPT_CHARSET);
+        headerNamesLowerCased.put(PSU_ACCEPT_ENCODING.toLowerCase(), PSU_ACCEPT_ENCODING);
+        headerNamesLowerCased.put(PSU_ACCEPT_LANGUAGE.toLowerCase(), PSU_ACCEPT_LANGUAGE);
+        headerNamesLowerCased.put(PSU_USER_AGENT.toLowerCase(), PSU_USER_AGENT);
+        headerNamesLowerCased.put(PSU_HTTP_METHOD.toLowerCase(), PSU_HTTP_METHOD);
+        headerNamesLowerCased.put(PSU_DEVICE_ID.toLowerCase(), PSU_DEVICE_ID);
+        headerNamesLowerCased.put(PSU_GEO_LOCATION.toLowerCase(), PSU_GEO_LOCATION);
+        headerNamesLowerCased.put(ACCEPT.toLowerCase(), ACCEPT);
+        headerNamesLowerCased.put(AUTHORIZATION.toLowerCase(), AUTHORIZATION);
+        headerNamesLowerCased.put(CORRELATION_ID.toLowerCase(), CORRELATION_ID);
+        headerNamesLowerCased.put(X_OAUTH_PREFERRED.toLowerCase(), X_OAUTH_PREFERRED);
+    }
 
     private final Map<String, String> headers;
 
@@ -51,18 +90,13 @@ public class RequestHeaders {
     }
 
     public static RequestHeaders fromMap(Map<String, String> headersMap) {
-        Map<String, String> headers = new TreeMap<>(CASE_INSENSITIVE_ORDER);
-        for (Map.Entry<String, String> entry : headersMap.entrySet()) {
-            String name = entry.getKey();
-            if (CONTENT_TYPE.equalsIgnoreCase(name)) {
-                // exclude the content-type header for backward compatibility
-                // if set the value will be used in the outgoing request
-                // potentially breaking existing integrations
-                // that require exact match of the content-type
-                continue;
+        Map<String, String> headers = new HashMap<>();
+        headersMap.forEach((name, value) -> {
+            String headerNameInLowerCase = name.toLowerCase();
+            if (headerNamesLowerCased.containsKey(headerNameInLowerCase)) {
+                headers.put(headerNamesLowerCased.get(headerNameInLowerCase), value);
             }
-            headers.put(name, entry.getValue());
-        }
+        });
         return new RequestHeaders(headers);
     }
 
@@ -81,7 +115,7 @@ public class RequestHeaders {
     }
 
     public Optional<String> get(String headerName) {
-        return Optional.ofNullable(headers.get(headerName));
+        return Optional.ofNullable(headers.get(headerNamesLowerCased.get(headerName.toLowerCase())));
     }
 
     public Optional<String> getAspspId() {

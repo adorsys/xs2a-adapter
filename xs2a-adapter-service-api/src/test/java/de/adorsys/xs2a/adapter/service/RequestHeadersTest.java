@@ -26,8 +26,15 @@ class RequestHeadersTest {
     }
 
     @Test
-    void permitsCustomHeaders() {
+    void permitsOauthPreferredHeaders() {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(singletonMap("X-OAUTH-PREFERRED", "pre-step"));
         assertThat(requestHeaders.get("X-OAUTH-PREFERRED")).get().isEqualTo("pre-step");
+    }
+
+    @Test
+    void notPermitsCustomHeaders() {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(singletonMap("x-custom-header", "value"));
+        assertThat(requestHeaders.toMap())
+            .isEmpty();
     }
 }
