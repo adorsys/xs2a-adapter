@@ -1,0 +1,27 @@
+{
+  "request": {
+    "headers": {
+      "Content-Type": "application/json",
+      "X-GTW-ASPSP-ID": "a7da261c-30d1-4491-a250-6aab784fbf2b",
+      "X-Request-ID": "a177a1ec-58ee-40ec-b972-268893f61eca",
+      "PSU-ID-Type": "",
+      "PSU-ID": "VRK1234567890ALL"
+    },
+    "body": {
+      "authenticationMethodId": "942"
+    }
+  },
+  "response": {
+    "body": {
+      "challengeData": {
+        "additionalInformation": "Die mobileTAN zu diesem Auftrag wird als SMS an Ihre Mobil-Telefonnummer gesendet, die bei Ihrer Bank registriert ist."
+      },
+      "scaStatus": "started",
+      "_links": {
+        "authoriseTransaction": {
+          "href": "/v1/payments/pain.001-sepa-credit-transfers/9667011219090020282PSDDE-BAFIN-911360PA4960JJ/authorisations/9592111219090020283PSDDE-BAFIN-911360AU4960JJ"
+        }
+      }
+    }
+  }
+}

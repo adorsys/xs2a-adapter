@@ -1,0 +1,63 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "3aa78a56-770a-418a-a490-55554894fa93",
+      "PSU-ID": "VRK1234567890ALL",
+      "Content-Type": "application/json",
+      "X-GTW-ASPSP-ID": "a7da261c-30d1-4491-a250-6aab784fbf2b",
+      "TPP-Redirect-Preferred": false
+    },
+    "body": {
+      "psuData": {
+        "password": "password"
+      }
+    }
+  },
+  "response": {
+    "body": {
+      "scaStatus": "psuAuthenticated",
+      "scaMethods": [
+        {
+          "authenticationType": "CHIP_OTP",
+          "authenticationMethodId": "962",
+          "name": "SmartTAN plus HHD 1.4"
+        },
+        {
+          "authenticationType": "CHIP_OTP",
+          "authenticationMethodId": "952",
+          "name": "SmartTAN optic"
+        },
+        {
+          "authenticationType": "CHIP_OTP",
+          "authenticationMethodId": "972",
+          "name": "SmartTAN optic/USB HHD 1.4"
+        },
+        {
+          "authenticationType": "PHOTO_OTP",
+          "authenticationMethodId": "982",
+          "name": "Smart-TAN photo"
+        },
+        {
+          "authenticationType": "CHIP_OTP",
+          "authenticationMethodId": "932",
+          "name": "SmartTAN plus"
+        },
+        {
+          "authenticationType": "PUSH_OTP",
+          "authenticationMethodId": "944",
+          "name": "SecureSIGN"
+        },
+        {
+          "authenticationType": "SMS_OTP",
+          "authenticationMethodId": "942",
+          "name": "mobile TAN"
+        }
+      ],
+      "_links": {
+        "selectAuthenticationMethod": {
+          "href": "/v1/payments/pain.001-sepa-credit-transfers/9667011219090020282PSDDE-BAFIN-911360PA4960JJ/authorisations/9592111219090020283PSDDE-BAFIN-911360AU4960JJ"
+        }
+      }
+    }
+  }
+}

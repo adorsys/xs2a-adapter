@@ -1,0 +1,11 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "b92ecd0b-3a7b-4164-9fe3-e80d8c58977e",
+      "X-GTW-ASPSP-ID": "a7da261c-30d1-4491-a250-6aab784fbf2b"
+    }
+  },
+  "response": {
+    "body": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.002.001.03\"><CstmrPmtStsRpt><GrpHdr><MsgId>Message-ID 1</MsgId><CreDtTm>2020-09-09T12:11:27.639+02:00</CreDtTm><DbtrAgt><FinInstnId><BIC>GENODE40960</BIC></FinInstnId></DbtrAgt></GrpHdr><OrgnlGrpInfAndSts><OrgnlMsgId>Original Message-ID 1</OrgnlMsgId><OrgnlMsgNmId>pain.001</OrgnlMsgNmId><GrpSts>ACCP</GrpSts></OrgnlGrpInfAndSts></CstmrPmtStsRpt></Document>"
+  }
+}

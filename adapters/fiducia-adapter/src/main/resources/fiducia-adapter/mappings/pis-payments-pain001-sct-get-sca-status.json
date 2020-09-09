@@ -1,0 +1,40 @@
+{
+  "id" : "d833200c-875f-481f-8f23-fbfd430ac2f9",
+  "name" : "v1_payments_pain001-sepa-credit-transfers_9667011219090020282psdde-bafin-911360pa4960jj_authorisations_9592111219090020283psdde-bafin-911360au4960jj",
+  "request" : {
+    "url" : "/v1/payments/pain.001-sepa-credit-transfers/9667011219090020282PSDDE-BAFIN-911360PA4960JJ/authorisations/9592111219090020283PSDDE-BAFIN-911360AU4960JJ",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Digest" : {
+        "matches" : ".+"
+      },
+      "Date" : {
+        "matches" : ".+"
+      },
+      "Signature" : {
+        "matches" : ".+"
+      },
+      "TPP-Signature-Certificate" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"scaStatus\":\"finalised\"}",
+    "headers" : {
+      "Date" : "Wed, 09 Sep 2020 10:11:31 GMT",
+      "Server" : "Webserver",
+      "X-Request-ID" : "d88b258e-26e5-470b-b948-5f082debcaeb",
+      "Content-Language" : "de",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Keep-Alive" : "timeout=15, max=95"
+    }
+  },
+  "uuid" : "d833200c-875f-481f-8f23-fbfd430ac2f9",
+  "persistent" : true,
+  "insertionIndex" : 16
+}
