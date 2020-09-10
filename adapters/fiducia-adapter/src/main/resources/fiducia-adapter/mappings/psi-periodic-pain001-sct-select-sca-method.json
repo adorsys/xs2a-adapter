@@ -1,0 +1,52 @@
+{
+  "id" : "6fe5d220-6d1b-4813-ae39-b629ac5fd445",
+  "name" : "v1_periodic-payments_pain001-sepa-credit-transfers_2750410619090020256psdde-bafin-911360pa4960jj_authorisations_0509410619090020257psdde-bafin-911360au4960jj",
+  "request" : {
+    "url" : "/v1/periodic-payments/pain.001-sepa-credit-transfers/2750410619090020256PSDDE-BAFIN-911360PA4960JJ/authorisations/0509410619090020257PSDDE-BAFIN-911360AU4960JJ",
+    "method" : "PUT",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Digest" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "VRK1234567890ALL"
+      },
+      "Date" : {
+        "matches" : ".+"
+      },
+      "Signature" : {
+        "matches" : ".+"
+      },
+      "TPP-Signature-Certificate" : {
+        "matches" : ".+"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"authenticationMethodId\":\"942\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"challengeData\":{\"additionalInformation\":\"Die mobileTAN zu diesem Auftrag wird als SMS an Ihre Mobil-Telefonnummer gesendet, die bei Ihrer Bank registriert ist.\"},\"_links\":{\"authoriseTransaction\":{\"href\":\"/v1/periodic-payments/pain.001-sepa-credit-transfers/2750410619090020256PSDDE-BAFIN-911360PA4960JJ/authorisations/0509410619090020257PSDDE-BAFIN-911360AU4960JJ\"}},\"scaStatus\":\"started\"}",
+    "headers" : {
+      "Date" : "Wed, 09 Sep 2020 14:01:55 GMT",
+      "Server" : "Webserver",
+      "X-Request-ID" : "a0bab6b0-cbdc-4743-a67c-a922bd35271e",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "Content-Language" : "de",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Keep-Alive" : "timeout=15, max=97"
+    }
+  },
+  "uuid" : "6fe5d220-6d1b-4813-ae39-b629ac5fd445",
+  "persistent" : true,
+  "insertionIndex" : 18
+}

@@ -1,0 +1,75 @@
+{
+  "id" : "73c79ba3-aae7-4c07-94ff-c87f93b9ecd5",
+  "name" : "v1_periodic-payments_pain001-sepa-credit-transfers",
+  "request" : {
+    "url" : "/v1/periodic-payments/pain.001-sepa-credit-transfers",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Digest" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "VRK1234567890ALL"
+      },
+      "TPP-Redirect-URI" : {
+        "matches" : ".+"
+      },
+      "Date" : {
+        "matches" : ".+"
+      },
+      "Signature" : {
+        "matches" : ".+"
+      },
+      "TPP-Signature-Certificate" : {
+        "matches" : ".+"
+      },
+      "PSU-IP-Address" : {
+        "matches" : ".+"
+      },
+      "Content-Type" : {
+        "matches" : "multipart/form-data; boundary=.+"
+      }
+    },
+    "multipartPatterns" : [ {
+      "headers" : {
+        "Content-Disposition" : {
+          "contains" : "name=\"xml_sct\""
+        }
+      },
+      "bodyPatterns" : [ {
+        "equalToXml" : "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.03\">  <CstmrCdtTrfInitn>    <GrpHdr>      <MsgId>${xmlunit.ignore}</MsgId>      <CreDtTm>${xmlunit.ignore}</CreDtTm>      <NbOfTxs>${xmlunit.ignore}</NbOfTxs>      <CtrlSum>${xmlunit.ignore}</CtrlSum>      <InitgPty>        <Nm>PaymentInitiator</Nm>        <Id><OrgId><Othr><Id>${xmlunit.ignore}</Id>          <SchmeNm><Prptry>${xmlunit.ignore}</Prptry></SchmeNm></Othr></OrgId></Id>      </InitgPty>    </GrpHdr>    <PmtInf>      <PmtInfId>${xmlunit.ignore}</PmtInfId>      <PmtMtd>${xmlunit.ignore}</PmtMtd>      <NbOfTxs>${xmlunit.ignore}</NbOfTxs>      <CtrlSum>${xmlunit.ignore}</CtrlSum>      <PmtTpInf><SvcLvl><Cd>${xmlunit.ignore}</Cd></SvcLvl></PmtTpInf>      <ReqdExctnDt>${xmlunit.ignore}</ReqdExctnDt>      <Dbtr><Nm>${xmlunit.ignore}</Nm></Dbtr>      <DbtrAcct><Id><IBAN>DE39499999600000005111</IBAN></Id></DbtrAcct>      <ChrgBr>${xmlunit.ignore}</ChrgBr>      <CdtTrfTxInf>        <PmtId><EndToEndId>${xmlunit.ignore}</EndToEndId></PmtId>        <Amt><InstdAmt Ccy=\"EUR\">${xmlunit.ignore}</InstdAmt></Amt>        <Cdtr><Nm>Merchant123</Nm></Cdtr>        <CdtrAcct><Id><IBAN>${xmlunit.ignore}</IBAN></Id></CdtrAcct>        <RmtInf><Ustrd>${xmlunit.ignore}</Ustrd></RmtInf>      </CdtTrfTxInf>    </PmtInf>  </CstmrCdtTrfInitn></Document>",
+        "enablePlaceholders" : true
+      } ]
+    }, {
+      "headers" : {
+        "Content-Disposition" : {
+          "contains" : "name=\"json_standingorderType\""
+        }
+      },
+      "bodyPatterns" : [ {
+        "equalToJson" : "{\"startDate\":\"${json-unit.regex}\\\\d{4}-[01]\\\\d-[0-3]\\\\d\",\"executionRule\":\"following\",\"frequency\":\"Monthly\",\"dayOfExecution\":\"${json-unit.regex}\\\\d{1,2}\"}"
+      } ]
+
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"transactionStatus\":\"RCVD\",\"paymentId\":\"2750410619090020256PSDDE-BAFIN-911360PA4960JJ\",\"_links\":{\"startAuthorisationWithPsuAuthentication\":{\"href\":\"/v1/periodic-payments/pain.001-sepa-credit-transfers/2750410619090020256PSDDE-BAFIN-911360PA4960JJ/authorisations\"}}}",
+    "headers" : {
+      "Date" : "Wed, 09 Sep 2020 14:01:38 GMT",
+      "Server" : "Webserver",
+      "X-Request-ID" : "7e2832ab-d2fd-4497-baff-db373e402efc",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "Content-Language" : "de",
+      "Location" : "/v1/periodic-payments/pain.001-sepa-credit-transfers/2750410619090020256PSDDE-BAFIN-911360PA4960JJ",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Keep-Alive" : "timeout=15, max=99"
+    }
+  },
+  "uuid" : "73c79ba3-aae7-4c07-94ff-c87f93b9ecd5",
+  "persistent" : true,
+  "insertionIndex" : 16
+}

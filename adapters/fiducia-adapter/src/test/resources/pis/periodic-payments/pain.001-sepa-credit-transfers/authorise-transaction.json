@@ -1,0 +1,19 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "cdbbe024-4ce7-4961-a60c-ac099c9b138c",
+      "X-GTW-ASPSP-ID": "65697cb7-61dc-44aa-acf4-e69aabd4578a",
+      "Content-Type": "application/json",
+      "PSU-ID-Type": "",
+      "PSU-ID": "VRK1234567890ALL"
+    },
+    "body": {
+      "scaAuthenticationData": "123456"
+    }
+  },
+  "response": {
+    "body": {
+      "scaStatus": "finalised"
+    }
+  }
+}

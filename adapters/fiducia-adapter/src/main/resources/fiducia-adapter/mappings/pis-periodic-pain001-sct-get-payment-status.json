@@ -1,0 +1,40 @@
+{
+  "id" : "844ee78b-e7de-4436-bc02-fa3400bc1a83",
+  "name" : "v1_periodic-payments_pain001-sepa-credit-transfers_2750410619090020256psdde-bafin-911360pa4960jj_status",
+  "request" : {
+    "url" : "/v1/periodic-payments/pain.001-sepa-credit-transfers/2750410619090020256PSDDE-BAFIN-911360PA4960JJ/status",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Digest" : {
+        "matches" : ".+"
+      },
+      "Date" : {
+        "matches" : ".+"
+      },
+      "Signature" : {
+        "matches" : ".+"
+      },
+      "TPP-Signature-Certificate" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.002.001.03\"><CstmrPmtStsRpt><GrpHdr><MsgId>Message-ID 1</MsgId><CreDtTm>2020-09-09T16:02:13.049+02:00</CreDtTm><DbtrAgt><FinInstnId><BIC>NOTPROVIDED</BIC></FinInstnId></DbtrAgt></GrpHdr><OrgnlGrpInfAndSts><OrgnlMsgId>MIPI-123456789RI-123456789</OrgnlMsgId><OrgnlMsgNmId>pain.001</OrgnlMsgNmId><GrpSts>RCVD</GrpSts></OrgnlGrpInfAndSts></CstmrPmtStsRpt></Document>",
+    "headers" : {
+      "Date" : "Wed, 09 Sep 2020 14:02:11 GMT",
+      "Server" : "Webserver",
+      "X-Request-ID" : "a9cae755-c333-4cfe-9c9c-fda4fbe18adf",
+      "Content-Language" : "de",
+      "Content-Type" : "application/xml;charset=UTF-8",
+      "Keep-Alive" : "timeout=15, max=95"
+    }
+  },
+  "uuid" : "844ee78b-e7de-4436-bc02-fa3400bc1a83",
+  "persistent" : true,
+  "insertionIndex" : 20
+}
