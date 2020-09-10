@@ -128,8 +128,8 @@ public class FiduciaAccountInformationServiceWireMockTest {
                 service.getConsentScaStatus(CONSENT_ID,
                     AUTHORISATION_ID,
                     requestResponse.requestHeaders(),
-                    RequestParams.empty())
-            , ErrorResponseException.class);
+                    RequestParams.empty()),
+                ErrorResponseException.class);
 
         assertThat(exception.getMessage()).isEqualTo(requestResponse.responseBody());
     }
