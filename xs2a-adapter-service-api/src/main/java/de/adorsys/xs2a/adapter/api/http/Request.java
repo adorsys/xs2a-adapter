@@ -51,7 +51,12 @@ public interface Request {
 
         Builder header(String name, String value);
 
-        <T> Response<T> send(Interceptor interceptor, HttpClient.ResponseHandler<T> responseHandler);
+        <T> Response<T> send(HttpClient.ResponseHandler<T> responseHandler, Interceptor...interceptors);
+
+        @Deprecated
+        default <T> Response<T> send(Interceptor interceptor, HttpClient.ResponseHandler<T> responseHandler) {
+            return send(responseHandler, interceptor);
+        }
 
         default <T> Response<T> send(HttpClient.ResponseHandler<T> responseHandler) {
             return send(x -> x, responseHandler);

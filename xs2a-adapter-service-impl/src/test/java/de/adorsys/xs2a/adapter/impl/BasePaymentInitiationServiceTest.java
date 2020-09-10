@@ -13,7 +13,6 @@ import org.mockito.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -64,7 +63,7 @@ class BasePaymentInitiationServiceTest {
         PaymentInitationRequestResponse201 example = new PaymentInitationRequestResponse201();
 
         when(httpClient.post(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any(Request.Builder.Interceptor.class));
 
         Response<PaymentInitationRequestResponse201> response
             = initiationService.initiatePayment(PAYMENT_SERVICE, SEPA_CREDIT_TRANSFERS, headers, RequestParams.empty(), body);
@@ -72,7 +71,7 @@ class BasePaymentInitiationServiceTest {
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(), any());
+        verify(requestBuilder, times(1)).send(any(), any(Request.Builder.Interceptor.class));
 
         assertThat(uriCaptor.getValue()).isEqualTo(PAYMENTS_URI + "/" + SEPA_CREDIT_TRANSFERS);
         assertThat(bodyCaptor.getValue()).isEqualTo("{}");
@@ -86,14 +85,14 @@ class BasePaymentInitiationServiceTest {
         PaymentInitationRequestResponse201 example = new PaymentInitationRequestResponse201();
 
         when(httpClient.post(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any(Request.Builder.Interceptor.class));
 
         Response<PaymentInitationRequestResponse201> response
             = initiationService.initiatePayment(PAYMENT_SERVICE, PAIN_SEPA_CREDIT_TRANSFERS, headers, RequestParams.empty(), body);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).xmlBody(bodyCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(), any());
+        verify(requestBuilder, times(1)).send(any(), any(Request.Builder.Interceptor.class));
 
         assertThat(uriCaptor.getValue()).isEqualTo(PAYMENTS_URI + "/" + PAIN_SEPA_CREDIT_TRANSFERS);
         assertThat(bodyCaptor.getValue()).isEqualTo("body");
@@ -105,14 +104,14 @@ class BasePaymentInitiationServiceTest {
         PaymentInitiationWithStatusResponse example = new PaymentInitiationWithStatusResponse();
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any(Request.Builder.Interceptor.class));
 
         Response<PaymentInitiationWithStatusResponse> response
             = initiationService.getSinglePaymentInformation(SEPA_CREDIT_TRANSFERS, PAYMENTID, headers, RequestParams.empty());
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(), any());
+        verify(requestBuilder, times(1)).send(any(), any(Request.Builder.Interceptor.class));
 
         assertThat(uriCaptor.getValue()).isEqualTo(PAYMENTS_URI + "/" + SEPA_CREDIT_TRANSFERS + "/" + PAYMENTID);
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
@@ -123,7 +122,7 @@ class BasePaymentInitiationServiceTest {
     void getPaymentInitiationScaStatus() {
         ScaStatusResponse example = new ScaStatusResponse();
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any(Request.Builder.Interceptor.class));
 
         Response<ScaStatusResponse> response = initiationService.getPaymentInitiationScaStatus(PAYMENT_SERVICE,
             SEPA_CREDIT_TRANSFERS,
@@ -134,7 +133,7 @@ class BasePaymentInitiationServiceTest {
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(), any());
+        verify(requestBuilder, times(1)).send(any(), any(Request.Builder.Interceptor.class));
         assertThat(uriCaptor.getValue())
             .isEqualTo(PAYMENTS_URI + "/" + SEPA_CREDIT_TRANSFERS + "/" + PAYMENTID + "/authorisations/" + AUTHORISATIONID);
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
@@ -146,7 +145,7 @@ class BasePaymentInitiationServiceTest {
         PaymentInitiationStatusResponse200Json example = new PaymentInitiationStatusResponse200Json();
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any(Request.Builder.Interceptor.class));
 
         Response<PaymentInitiationStatusResponse200Json> response = initiationService.getPaymentInitiationStatus(
             PAYMENT_SERVICE,
@@ -157,7 +156,7 @@ class BasePaymentInitiationServiceTest {
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(), any());
+        verify(requestBuilder, times(1)).send(any(), any(Request.Builder.Interceptor.class));
 
         assertThat(uriCaptor.getValue()).isEqualTo(PAYMENTS_URI + "/" + SEPA_CREDIT_TRANSFERS + "/" + PAYMENTID + "/status");
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
@@ -169,7 +168,7 @@ class BasePaymentInitiationServiceTest {
         String example = "statusResponse";
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any(Request.Builder.Interceptor.class));
 
         Response<String> response = initiationService.getPaymentInitiationStatusAsString(
             PAYMENT_SERVICE,
@@ -180,7 +179,7 @@ class BasePaymentInitiationServiceTest {
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(), any());
+        verify(requestBuilder, times(1)).send(any(), any(Request.Builder.Interceptor.class));
 
         assertThat(uriCaptor.getValue()).isEqualTo(PAYMENTS_URI + "/" + SEPA_CREDIT_TRANSFERS + "/" + PAYMENTID + "/status");
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
@@ -191,7 +190,7 @@ class BasePaymentInitiationServiceTest {
     void getPaymentInitiationAuthorisation() {
         Authorisations example = new Authorisations();
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any(Request.Builder.Interceptor.class));
 
         Response<Authorisations> response = initiationService.getPaymentInitiationAuthorisation(PAYMENT_SERVICE,
             SEPA_CREDIT_TRANSFERS,
@@ -201,7 +200,7 @@ class BasePaymentInitiationServiceTest {
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(), any());
+        verify(requestBuilder, times(1)).send(any(), any(Request.Builder.Interceptor.class));
         assertThat(uriCaptor.getValue()).isEqualTo(PAYMENTS_URI + "/" + SEPA_CREDIT_TRANSFERS + "/" + PAYMENTID + "/authorisations");
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
         assertThat(response.getBody()).isEqualTo(example);
@@ -213,7 +212,7 @@ class BasePaymentInitiationServiceTest {
         StartScaprocessResponse example = new StartScaprocessResponse();
 
         when(httpClient.post(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any(Request.Builder.Interceptor.class));
 
         Response<StartScaprocessResponse> response =
             initiationService.startPaymentAuthorisation(PAYMENT_SERVICE,
@@ -226,7 +225,7 @@ class BasePaymentInitiationServiceTest {
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(), any());
+        verify(requestBuilder, times(1)).send(any(), any(Request.Builder.Interceptor.class));
 
         assertThat(uriCaptor.getValue()).isEqualTo(PAYMENTS_URI + "/" + SEPA_CREDIT_TRANSFERS + "/" + PAYMENTID + "/authorisations");
         assertThat(bodyCaptor.getValue()).isEqualTo("{}");
@@ -240,7 +239,7 @@ class BasePaymentInitiationServiceTest {
         UpdatePsuAuthenticationResponse example = new UpdatePsuAuthenticationResponse();
 
         when(httpClient.put(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any(Request.Builder.Interceptor.class));
 
         Response<UpdatePsuAuthenticationResponse> response =
             initiationService.updatePaymentPsuData(PAYMENT_SERVICE,
@@ -254,7 +253,7 @@ class BasePaymentInitiationServiceTest {
         verify(httpClient, times(1)).put(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(), any());
+        verify(requestBuilder, times(1)).send(any(), any(Request.Builder.Interceptor.class));
 
         assertThat(uriCaptor.getValue()).isEqualTo(UPDATE_PAYMENT_PSU_DATA_URI);
         assertThat(bodyCaptor.getValue()).isEqualTo("{}");
@@ -268,7 +267,7 @@ class BasePaymentInitiationServiceTest {
         SelectPsuAuthenticationMethodResponse example = new SelectPsuAuthenticationMethodResponse();
 
         when(httpClient.put(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any(Request.Builder.Interceptor.class));
 
         Response<SelectPsuAuthenticationMethodResponse> response =
             initiationService.updatePaymentPsuData(PAYMENT_SERVICE,
@@ -282,7 +281,7 @@ class BasePaymentInitiationServiceTest {
         verify(httpClient, times(1)).put(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(), any());
+        verify(requestBuilder, times(1)).send(any(), any(Request.Builder.Interceptor.class));
 
         assertThat(uriCaptor.getValue()).isEqualTo(UPDATE_PAYMENT_PSU_DATA_URI);
         assertThat(bodyCaptor.getValue()).isEqualTo("{}");
@@ -296,7 +295,7 @@ class BasePaymentInitiationServiceTest {
         ScaStatusResponse example = new ScaStatusResponse();
 
         when(httpClient.put(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(argThat(inter -> Objects.equals(inter, interceptor)), any());
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any(Request.Builder.Interceptor.class));
 
         Response<ScaStatusResponse> response =
             initiationService.updatePaymentPsuData(PAYMENT_SERVICE,
@@ -310,7 +309,7 @@ class BasePaymentInitiationServiceTest {
         verify(httpClient, times(1)).put(uriCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(), any());
+        verify(requestBuilder, times(1)).send(any(), any(Request.Builder.Interceptor.class));
 
         assertThat(uriCaptor.getValue()).isEqualTo(UPDATE_PAYMENT_PSU_DATA_URI);
         assertThat(bodyCaptor.getValue()).isEqualTo("{}");

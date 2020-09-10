@@ -122,7 +122,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                 jsonMapper.convertValue(body, getPaymentInitiationBodyClass(paymentService))));
         }
 
-        Response<T> response = requestBuilder.send(requestBuilderInterceptor, responseHandler);
+        Response<T> response = requestBuilder.send(responseHandler, requestBuilderInterceptor);
         PaymentInitationRequestResponse201 paymentInitiationRequestResponse = mapper.apply(response.getBody());
         paymentInitiationRequestResponse.setLinks(linksRewriter.rewrite(paymentInitiationRequestResponse.getLinks()));
 
@@ -598,7 +598,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
         Response<T> response = httpClient.put(uri)
             .jsonBody(body)
             .headers(headersMap)
-            .send(requestBuilderInterceptor, jsonResponseHandler(klass));
+            .send(jsonResponseHandler(klass), requestBuilderInterceptor);
 
         ScaStatusResponse scaStatusResponse = mapper.apply(response.getBody());
         return new Response<>(response.getStatusCode(), scaStatusResponse, response.getHeaders());

@@ -9,6 +9,7 @@ import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
+import de.adorsys.xs2a.adapter.impl.http.wiremock.WiremockStubDifferenceDetectingInterceptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -116,7 +117,7 @@ class UnicreditAccountInformationServiceTest {
         when(httpClient.put(anyString())).thenReturn(requestBuilder);
         doReturn(new Response<>(200,
             statusResponse,
-            ResponseHeaders.fromMap(Collections.emptyMap()))).when(requestBuilder).send(any(), any());
+            ResponseHeaders.fromMap(Collections.emptyMap()))).when(requestBuilder).send(any(), eq(null), any(WiremockStubDifferenceDetectingInterceptor.class));
 
         accountInformationService.updateConsentsPsuData(CONSENT_ID,
                                                         AUTHORISATION_ID,

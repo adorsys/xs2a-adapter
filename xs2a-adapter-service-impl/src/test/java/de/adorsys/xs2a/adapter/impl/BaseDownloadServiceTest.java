@@ -29,6 +29,9 @@ class BaseDownloadServiceTest {
     @Mock
     private HttpClient httpClient;
 
+    @Mock
+    private Request.Builder.Interceptor interceptor;
+
     @Spy
     private Request.Builder requestBuilder = new RequestBuilderImpl(httpClient, null, null);
 
@@ -41,13 +44,13 @@ class BaseDownloadServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        service = new BaseDownloadService(BASE_URL, httpClient);
+        service = new BaseDownloadService(BASE_URL, httpClient, interceptor);
     }
 
     @Test
     void download_bestCase() {
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse()).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse()).when(requestBuilder).send(any(), any(Request.Builder.Interceptor.class));
 
         Response<byte[]> response = service.download(DOWNLOAD_URL, headers);
 
@@ -62,7 +65,7 @@ class BaseDownloadServiceTest {
     @Test
     void download_partialDownloadLink() {
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse()).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse()).when(requestBuilder).send(any(), any(Request.Builder.Interceptor.class));
 
         Response<byte[]> response = service.download("/download", headers);
 
@@ -77,7 +80,7 @@ class BaseDownloadServiceTest {
     @Test
     void download_noProtocolLink() {
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse()).when(requestBuilder).send(any(), any());
+        doReturn(dummyResponse()).when(requestBuilder).send(any(), any(Request.Builder.Interceptor.class));
 
         Response<byte[]> response = service.download("base.url/download", headers);
 

@@ -19,12 +19,10 @@ package de.adorsys.xs2a.adapter.adorsys;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
-import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.api.RequestHeaders;
-import de.adorsys.xs2a.adapter.api.RequestParams;
-import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
@@ -38,6 +36,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mockito;
 import pro.javatar.commons.reader.JsonReader;
 import pro.javatar.commons.reader.ResourceReader;
 
@@ -92,8 +91,13 @@ class AdorsysPaymentInitiationServiceWireMockTest {
         LinksRewriter linksRewriter = new IdentityLinksRewriter();
         Aspsp aspsp = new Aspsp();
         aspsp.setUrl("http://localhost:" + wireMockServer.port());
-
-        service = new AdorsysIntegServiceProvider().getPaymentInitiationService(aspsp, httpClientFactory, null, linksRewriter);
+        Pkcs12KeyStore pkcs12KeyStore = Mockito.mock(Pkcs12KeyStore.class);
+        service = new AdorsysIntegServiceProvider() {
+            @Override
+            Request.Builder.Interceptor getInterceptor(Pkcs12KeyStore keyStore) {
+                return Mockito.mock(Request.Builder.Interceptor.class);
+            }
+        }.getPaymentInitiationService(aspsp, httpClientFactory, pkcs12KeyStore, linksRewriter);
     }
 
     @AfterAll
