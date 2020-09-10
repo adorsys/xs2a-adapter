@@ -32,7 +32,7 @@ public class FiduciaPaymentInitiationServiceWireMockTest {
 
     private final PaymentInitiationService service;
 
-    private static final Ids paymentsIds = getPaymentIds();
+    private static final Ids paymentIds = getPaymentIds();
     private static final Ids authorisationIds = getAuthorisationIds();
 
     public FiduciaPaymentInitiationServiceWireMockTest(PaymentInitiationService service) {
@@ -70,7 +70,7 @@ public class FiduciaPaymentInitiationServiceWireMockTest {
 
         Response<StartScaprocessResponse> response = service.startPaymentAuthorisation(paymentService,
             paymentProduct,
-            paymentsIds.get(paymentService, paymentProduct),
+            paymentIds.get(paymentService, paymentProduct),
             requestResponse.requestHeaders(),
             RequestParams.empty(),
             requestResponse.requestBody(UpdatePsuAuthentication.class));
@@ -86,7 +86,7 @@ public class FiduciaPaymentInitiationServiceWireMockTest {
 
         Response<SelectPsuAuthenticationMethodResponse> response = service.updatePaymentPsuData(paymentService,
             paymentProduct,
-            paymentsIds.get(paymentService, paymentProduct),
+            paymentIds.get(paymentService, paymentProduct),
             authorisationIds.get(paymentService, paymentProduct),
             requestResponse.requestHeaders(),
             RequestParams.empty(),
@@ -103,7 +103,7 @@ public class FiduciaPaymentInitiationServiceWireMockTest {
 
         Response<ScaStatusResponse> response = service.updatePaymentPsuData(paymentService,
             paymentProduct,
-            paymentsIds.get(paymentService, paymentProduct),
+            paymentIds.get(paymentService, paymentProduct),
             authorisationIds.get(paymentService, paymentProduct),
             requestResponse.requestHeaders(),
             RequestParams.empty(),
@@ -120,7 +120,7 @@ public class FiduciaPaymentInitiationServiceWireMockTest {
 
         Response<String> response = service.getPaymentInitiationStatusAsString(paymentService,
             paymentProduct,
-            paymentsIds.get(paymentService, paymentProduct),
+            paymentIds.get(paymentService, paymentProduct),
             requestResponse.requestHeaders(),
             RequestParams.empty());
 
@@ -135,7 +135,7 @@ public class FiduciaPaymentInitiationServiceWireMockTest {
 
         Response<ScaStatusResponse> response = service.getPaymentInitiationScaStatus(paymentService,
             paymentProduct,
-            paymentsIds.get(paymentService, paymentProduct),
+            paymentIds.get(paymentService, paymentProduct),
             authorisationIds.get(paymentService, paymentProduct),
             requestResponse.requestHeaders(),
             RequestParams.empty());

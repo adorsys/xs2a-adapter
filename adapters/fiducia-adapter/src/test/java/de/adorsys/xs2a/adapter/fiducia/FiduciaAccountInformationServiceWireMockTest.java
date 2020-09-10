@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.fiducia;
 import de.adorsys.xs2a.adapter.api.AccountInformationService;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.test.ServiceWireMockTest;
 import de.adorsys.xs2a.adapter.test.TestRequestResponse;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
 @ServiceWireMockTest(FiduciaServiceProvider.class)
 public class FiduciaAccountInformationServiceWireMockTest {
@@ -116,5 +118,19 @@ public class FiduciaAccountInformationServiceWireMockTest {
             RequestParams.empty());
 
         assertThat(response.getStatusCode()).isEqualTo(204);
+    }
+
+    @Test
+    void getScaStatus() throws Exception {
+        TestRequestResponse requestResponse = new TestRequestResponse("ais/get-sca-status.json");
+
+        Throwable exception = catchThrowableOfType(() ->
+                service.getConsentScaStatus(CONSENT_ID,
+                    AUTHORISATION_ID,
+                    requestResponse.requestHeaders(),
+                    RequestParams.empty())
+            , ErrorResponseException.class);
+
+        assertThat(exception.getMessage()).isEqualTo(requestResponse.responseBody());
     }
 }
