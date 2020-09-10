@@ -184,8 +184,13 @@ public class RequestBuilderImpl implements Request.Builder {
     }
 
     @Override
-    public <T> Response<T> send(Interceptor interceptor, HttpClient.ResponseHandler<T> responseHandler) {
-        return httpClient.send(interceptor != null ? interceptor.apply(this) : this, responseHandler);
+    public <T> Response<T> send(HttpClient.ResponseHandler<T> responseHandler, Interceptor... interceptors) {
+        for (Interceptor interceptor : interceptors) {
+            if (interceptor != null) {
+                interceptor.apply(this);
+            }
+        }
+        return httpClient.send(this, responseHandler);
     }
 
     @Override

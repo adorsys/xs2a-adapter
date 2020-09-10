@@ -119,7 +119,7 @@ class UnicreditPaymentInitiationServiceTest {
         when(httpClient.put(anyString())).thenReturn(requestBuilder);
         doReturn(new Response<>(200,
                                 statusResponse,
-                                ResponseHeaders.fromMap(Collections.emptyMap()))).when(requestBuilder).send(any(), any());
+                                ResponseHeaders.fromMap(Collections.emptyMap()))).when(requestBuilder).send(any(), nullable(Request.Builder.Interceptor.class));
 
         paymentInitiationService.updatePaymentPsuData(PaymentService.PAYMENTS,
                                                       PaymentProduct.SEPA_CREDIT_TRANSFERS,

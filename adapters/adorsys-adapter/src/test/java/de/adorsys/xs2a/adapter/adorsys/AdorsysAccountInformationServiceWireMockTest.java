@@ -22,6 +22,7 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
@@ -64,7 +65,12 @@ class AdorsysAccountInformationServiceWireMockTest {
         Aspsp aspsp = new Aspsp();
         aspsp.setUrl("http://localhost:" + wireMockServer.port());
 
-        service = new AdorsysAccountInformationService(aspsp, httpClient, null, linksRewriter);
+        service = new AdorsysAccountInformationService(aspsp, httpClient, new Request.Builder.Interceptor() {
+            @Override
+            public Request.Builder apply(Request.Builder builder) {
+                return null;
+            }
+        }, linksRewriter);
 
     }
 

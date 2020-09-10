@@ -49,7 +49,7 @@ public class AdorsysIntegServiceProvider
             linksRewriter);
     }
 
-    private Request.Builder.Interceptor getInterceptor(Pkcs12KeyStore keyStore) {
+    Request.Builder.Interceptor getInterceptor(Pkcs12KeyStore keyStore) {
         if (requestSigningEnabled) {
             RequestSigningInterceptor requestSigningInterceptor = new RequestSigningInterceptor(keyStore);
             return requestBuilder -> {

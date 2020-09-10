@@ -39,7 +39,7 @@ public class BaseDownloadService extends AbstractService implements DownloadServ
 
         Response<byte[]> response = httpClient.get(modifyDownloadUrl(downloadUrl))
                                     .headers(headersMap)
-                                    .send(requestBuilderInterceptor, byteArrayResponseHandler());
+                                    .send(byteArrayResponseHandler(), requestBuilderInterceptor);
 
         return new Response<>(
             response.getStatusCode(),
