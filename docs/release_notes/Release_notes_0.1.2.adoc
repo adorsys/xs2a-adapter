@@ -1,9 +1,4 @@
-= DRAFT Release notes for version 0.1.2 (release date: xx.09.2020)
-
-.Added banks
-|===
-|
-|===
+= Release notes for version 0.1.2 (release date: 10.09.2020)
 
 == Notices:
 - Documentation was published on GitHub Pages and available by referencing to https://adorsys.github.io/xs2a-adapter/
