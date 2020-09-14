@@ -67,8 +67,8 @@ class AdorsysAccountInformationServiceWireMockTest {
 
         service = new AdorsysAccountInformationService(aspsp, httpClient, new Request.Builder.Interceptor() {
             @Override
-            public Request.Builder apply(Request.Builder builder) {
-                return null;
+            public void accept(Request.Builder builder) {
+
             }
         }, linksRewriter);
 

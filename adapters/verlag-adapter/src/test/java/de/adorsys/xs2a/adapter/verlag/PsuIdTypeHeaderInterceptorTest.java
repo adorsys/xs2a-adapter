@@ -35,7 +35,7 @@ class PsuIdTypeHeaderInterceptorTest {
 
     @Test
     void apply_noPsuIdType() {
-        interceptor.apply(builder);
+        interceptor.preHandle(builder);
 
         assertFalse(builder.headers().containsKey(PSU_ID_TYPE));
         checkAssertions(builder);
@@ -46,7 +46,7 @@ class PsuIdTypeHeaderInterceptorTest {
     void apply_psuIdTypeWithoutValue() {
         builder.header(PSU_ID_TYPE, "");
 
-        interceptor.apply(builder);
+        interceptor.preHandle(builder);
 
         assertFalse(builder.headers().containsKey(PSU_ID_TYPE));
         checkAssertions(builder);
@@ -56,7 +56,7 @@ class PsuIdTypeHeaderInterceptorTest {
     void apply_psuIdTypeWithEmptyValue() {
         builder.header(PSU_ID_TYPE, EMPTY_VALUE);
 
-        interceptor.apply(builder);
+        interceptor.preHandle(builder);
 
         assertFalse(builder.headers().containsKey(PSU_ID_TYPE));
         checkAssertions(builder);
@@ -66,7 +66,7 @@ class PsuIdTypeHeaderInterceptorTest {
     void apply_psuIdTypeWithValue() {
         builder.header(PSU_ID_TYPE, SOME_PSU_ID_TYPE);
 
-        interceptor.apply(builder);
+        interceptor.preHandle(builder);
 
         assertTrue(builder.headers().containsKey(PSU_ID_TYPE));
         assertEquals(SOME_PSU_ID_TYPE, builder.headers().get(PSU_ID_TYPE));

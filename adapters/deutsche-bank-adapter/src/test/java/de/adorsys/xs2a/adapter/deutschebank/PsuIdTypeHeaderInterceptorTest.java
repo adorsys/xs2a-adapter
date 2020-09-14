@@ -1,7 +1,6 @@
 package de.adorsys.xs2a.adapter.deutschebank;
 
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
-import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,23 +22,23 @@ class PsuIdTypeHeaderInterceptorTest {
     @Test
     void setsPsuIdTypeForDeutscheBankInGermanyWhenPsuIdIsPresent() {
         builder.uri("https://xs2a.db.com/ais/DE/DB");
-        Request.Builder actual = interceptor.apply(builder);
-        assertEquals("DE_ONLB_DB", actual.headers().get(RequestHeaders.PSU_ID_TYPE));
+        interceptor.preHandle(builder);
+        assertEquals("DE_ONLB_DB", builder.headers().get(RequestHeaders.PSU_ID_TYPE));
     }
 
     @Test
     void setsPsuIdTypeForPfbBusinessEntityInGermanyWhenPsuIdIsPresent() {
         builder.uri("https://xs2a.db.com/ais/DE/PFB");
-        Request.Builder actual = interceptor.apply(builder);
-        assertEquals("DE_ONLB_DB", actual.headers().get(RequestHeaders.PSU_ID_TYPE));
+        interceptor.preHandle(builder);
+        assertEquals("DE_ONLB_DB", builder.headers().get(RequestHeaders.PSU_ID_TYPE));
     }
 
     @Test
     void doesNothingWhenPsuIdIsNotSet() {
         builder.uri("https://xs2a.db.com/ais/DE/DB");
         builder.headers().remove(RequestHeaders.PSU_ID);
-        Request.Builder actual = interceptor.apply(builder);
-        assertNull(actual.headers().get(RequestHeaders.PSU_ID_TYPE));
+        interceptor.preHandle(builder);
+        assertNull(builder.headers().get(RequestHeaders.PSU_ID_TYPE));
     }
 
     @Test
@@ -47,22 +46,22 @@ class PsuIdTypeHeaderInterceptorTest {
         builder.uri("https://xs2a.db.com/ais/DE/DB");
         String psuIdTypeOverride = "PSU_ID_TYPE_OVERRIDE";
         builder.header(RequestHeaders.PSU_ID_TYPE, psuIdTypeOverride);
-        Request.Builder actual = interceptor.apply(builder);
-        assertEquals(psuIdTypeOverride, actual.headers().get(RequestHeaders.PSU_ID_TYPE));
+        interceptor.preHandle(builder);
+        assertEquals(psuIdTypeOverride, builder.headers().get(RequestHeaders.PSU_ID_TYPE));
     }
 
     @Test
     void setsPsuIdTypeForPostbankInGermany() {
         builder.uri("https://xs2a.db.com/ais/DE/Postbank");
-        Request.Builder actual = interceptor.apply(builder);
-        assertEquals("DE_ONLB_POBA", actual.headers().get(RequestHeaders.PSU_ID_TYPE));
+        interceptor.preHandle(builder);
+        assertEquals("DE_ONLB_POBA", builder.headers().get(RequestHeaders.PSU_ID_TYPE));
     }
 
     @Test
     void hasBoundsChecksInCasePathIsTooShort() {
         builder.uri("https://xs2a.db.com/");
         try {
-            interceptor.apply(builder);
+            interceptor.preHandle(builder);
         } catch (IndexOutOfBoundsException e) {
             fail();
         }
@@ -71,7 +70,7 @@ class PsuIdTypeHeaderInterceptorTest {
     @Test
     void setsPsuIdTypeForNorisbankInGermany() {
         builder.uri("https://xs2a.db.com/ais/DE/Noris");
-        Request.Builder actual = interceptor.apply(builder);
-        assertEquals("DE_ONLB_NORIS", actual.headers().get(RequestHeaders.PSU_ID_TYPE));
+        interceptor.preHandle(builder);
+        assertEquals("DE_ONLB_NORIS", builder.headers().get(RequestHeaders.PSU_ID_TYPE));
     }
 }

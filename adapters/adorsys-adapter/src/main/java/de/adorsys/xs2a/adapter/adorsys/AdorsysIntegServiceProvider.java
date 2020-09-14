@@ -49,18 +49,18 @@ public class AdorsysIntegServiceProvider
             linksRewriter);
     }
 
+    //todo: replace by multiple interceptor usage
     Request.Builder.Interceptor getInterceptor(Pkcs12KeyStore keyStore) {
         if (requestSigningEnabled) {
             RequestSigningInterceptor requestSigningInterceptor = new RequestSigningInterceptor(keyStore);
             return requestBuilder -> {
-                oauthHeaderInterceptor.apply(requestBuilder);
+                oauthHeaderInterceptor.preHandle(requestBuilder);
                 requestBuilder.header(RequestHeaders.DATE,
                     DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-                requestSigningInterceptor.apply(requestBuilder);
+                requestSigningInterceptor.preHandle(requestBuilder);
                 String certificate = requestBuilder.headers().get(RequestHeaders.TPP_SIGNATURE_CERTIFICATE);
                 requestBuilder.header(RequestHeaders.TPP_SIGNATURE_CERTIFICATE,
                     "-----BEGIN CERTIFICATE-----" + certificate + "-----END CERTIFICATE-----");
-                return requestBuilder;
             };
         }
         return oauthHeaderInterceptor;
