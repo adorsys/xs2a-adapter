@@ -26,12 +26,20 @@ public enum WiremockFileResolver {
         }
 
     },
-    AIS_AUTHORISE_PSU("ais-authorise-psu.json") {
+    AIS_START_PSU_AUTHENTICATION("ais-start-psu-authentication.json") {
+        @Override
+        public boolean check(String url, String method, String body) {
+            return POST_METHOD.equalsIgnoreCase(method)
+                       && url.startsWith(CONSENTS_URI)
+                       && url.endsWith(AUTHORISATIONS_URI);
+        }
+    },
+    AIS_UPDATE_PSU_AUTHENTICATION("ais-update-psu-authentication.json") {
         @Override
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
                        && url.startsWith(CONSENTS_URI)
-                       && body.contains("psuData");
+                       && body.contains(PSU_DATA);
         }
     },
     AIS_SELECT_SCA_METHOD("ais-select-sca-method.json") {
@@ -39,7 +47,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
                        && url.startsWith(CONSENTS_URI)
-                       && body.contains("authenticationMethodId");
+                       && body.contains(AUTHENTICATION_METHOD_ID);
         }
     },
     AIS_SEND_OTP("ais-send-otp.json") {
@@ -47,7 +55,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
                        && url.startsWith(CONSENTS_URI)
-                       && body.contains("scaAuthenticationData");
+                       && body.contains(SCA_AUTHENTICATION_DATA);
         }
     },
     AIS_GET_ACCOUNTS("ais-get-accounts.json") {
@@ -85,7 +93,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
                        && url.startsWith(CONSENTS_URI)
-                       && url.contains("/authorisations/");
+                       && url.contains(AUTHORISATIONS_URI);
         }
     },
     AIS_GET_CONSENT_STATUS("ais-get-consent-status.json") {
@@ -93,7 +101,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
                        && url.startsWith(CONSENTS_URI)
-                       && url.endsWith("/status");
+                       && url.endsWith(STATUS_URI);
         }
     },
     // Payment Initiation
@@ -126,69 +134,69 @@ public enum WiremockFileResolver {
         }
     },
     // Start PSU Authentication
-    PIS_PAYMENTS_SCT_START_AUTHENTICATE_PSU("pis-payments-sct-authenticate-psu.json") {
+    PIS_PAYMENTS_SCT_START_PSU_AUTHENTICATION("pis-payments-sct-start-psu-authentication.json") {
         @Override
         public boolean check(String url, String method, String body) {
             return POST_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PAYMENTS_SCT_URI)
-                && body.contains("psuData");
+                && url.endsWith(AUTHORISATIONS_URI);
         }
     },
-    PIS_PAYMENTS_PAIN001_SCT_START_AUTHENTICATE_PSU("pis-payments-pain001-sct-authenticate-psu.json") {
+    PIS_PAYMENTS_PAIN001_SCT_START_PSU_AUTHENTICATION("pis-payments-pain001-sct-start-psu-authentication.json") {
         @Override
         public boolean check(String url, String method, String body) {
             return POST_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PAYMENTS_PAIN001_SCT_URI)
-                && body.contains("psuData");
+                && url.endsWith(AUTHORISATIONS_URI);
         }
     },
-    PIS_PERIODIC_SCT_START_AUTHENTICATE_PSU("pis-periodic-sct-authenticate-psu.json") {
+    PIS_PERIODIC_SCT_START_PSU_AUTHENTICATION("pis-periodic-sct-start-psu-authentication.json") {
         @Override
         public boolean check(String url, String method, String body) {
             return POST_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PERIODIC_SCT_URI)
-                && body.contains("psuData");
+                && url.endsWith(AUTHORISATIONS_URI);
         }
     },
-    PIS_PERIODIC_PAIN001_SCT_START_AUTHENTICATE_PSU("pis-periodic-pain001-sct-authenticate-psu.json") {
+    PIS_PERIODIC_PAIN001_SCT_START_PSU_AUTHENTICATION("pis-periodic-pain001-sct-start-psu-authentication.json") {
         @Override
         public boolean check(String url, String method, String body) {
             return POST_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PERIODIC_PAIN001_CST_URI)
-                && body.contains("psuData");
+                && url.endsWith(AUTHORISATIONS_URI);
         }
     },
     // Update PSU Authentication
-    PIS_PAYMENTS_SCT_UPDATE_AUTHENTICATE_PSU("pis-payments-sct-authenticate-psu.json") {
+    PIS_PAYMENTS_SCT_UPDATE_PSU_AUTHENTICATION("pis-payments-sct-update-psu-authentication.json") {
         @Override
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PAYMENTS_SCT_URI)
-                && body.contains("psuData");
+                && body.contains(PSU_DATA);
         }
     },
-    PIS_PAYMENTS_PAIN001_SCT_UPDATE_AUTHENTICATE_PSU("pis-payments-pain001-sct-authenticate-psu.json") {
+    PIS_PAYMENTS_PAIN001_SCT_UPDATE_PSU_AUTHENTICATION("pis-payments-pain001-sct-update-psu-authentication.json") {
         @Override
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PAYMENTS_PAIN001_SCT_URI)
-                && body.contains("psuData");
+                && body.contains(PSU_DATA);
         }
     },
-    PIS_PERIODIC_SCT_UPDATE_AUTHENTICATE_PSU("pis-periodic-sct-authenticate-psu.json") {
+    PIS_PERIODIC_SCT_UPDATE_PSU_AUTHENTICATION("pis-periodic-sct-update-psu-authentication.json") {
         @Override
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PERIODIC_SCT_URI)
-                && body.contains("psuData");
+                && body.contains(PSU_DATA);
         }
     },
-    PIS_PERIODIC_PAIN001_SCT_UPDATE_AUTHENTICATE_PSU("pis-periodic-pain001-sct-authenticate-psu.json") {
+    PIS_PERIODIC_PAIN001_SCT_UPDATE_PSU_AUTHENTICATION("pis-periodic-pain001-sct-update-psu-authentication.json") {
         @Override
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PERIODIC_PAIN001_CST_URI)
-                && body.contains("psuData");
+                && body.contains(PSU_DATA);
         }
     },
     // Select SCA Method
@@ -197,7 +205,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PAYMENTS_SCT_URI)
-                && body.contains("authenticationMethodId");
+                && body.contains(AUTHENTICATION_METHOD_ID);
         }
     },
     PIS_PAYMENTS_PAIN001_SCT_SELECT_SCA_METHOD("pis-payments-pain001-sct-select-sca-method.json") {
@@ -205,7 +213,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PAYMENTS_PAIN001_SCT_URI)
-                && body.contains("authenticationMethodId");
+                && body.contains(AUTHENTICATION_METHOD_ID);
         }
     },
     PIS_PERIODIC_SCT_SELECT_SCA_METHOD("pis-periodic-sct-select-sca-method.json") {
@@ -213,7 +221,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PERIODIC_SCT_URI)
-                && body.contains("authenticationMethodId");
+                && body.contains(AUTHENTICATION_METHOD_ID);
         }
     },
     PIS_PERIODIC_PAIN001_SCT_SELECT_SCA_METHOD("pis-periodic-pain001-sct-select-sca-method.json") {
@@ -221,7 +229,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PERIODIC_PAIN001_CST_URI)
-                && body.contains("authenticationMethodId");
+                && body.contains(AUTHENTICATION_METHOD_ID);
         }
     },
     // Send OTP
@@ -230,7 +238,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PAYMENTS_SCT_URI)
-                && body.contains("scaAuthenticationData");
+                && body.contains(SCA_AUTHENTICATION_DATA);
         }
     },
     PIS_PAYMENTS_PAIN001_SCT_SEND_OTP("pis-payments-pain001-sct-send-otp.json") {
@@ -238,7 +246,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PAYMENTS_PAIN001_SCT_URI)
-                && body.contains("scaAuthenticationData");
+                && body.contains(SCA_AUTHENTICATION_DATA);
         }
     },
     PIS_PERIODIC_SCT_SEND_OTP("pis-periodic-sct-send-otp.json") {
@@ -246,7 +254,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PERIODIC_SCT_URI)
-                && body.contains("scaAuthenticationData");
+                && body.contains(SCA_AUTHENTICATION_DATA);
         }
     },
     PIS_PERIODIC_PAIN001_SCT_SEND_OTP("pis-periodic-pain001-sct-send-otp.json") {
@@ -254,7 +262,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PERIODIC_PAIN001_CST_URI)
-                && body.contains("scaAuthenticationData");
+                && body.contains(SCA_AUTHENTICATION_DATA);
         }
     },
     // Get Transaction Status
@@ -263,7 +271,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PAYMENTS_SCT_URI)
-                && url.endsWith("/status");
+                && url.endsWith(STATUS_URI);
         }
     },
     PIS_PAYMENTS_PAIN001_SCT_GET_TRANSACTION_STATUS("pis-payments-pain001-sct-get-transaction-status.json") {
@@ -271,7 +279,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PAYMENTS_PAIN001_SCT_URI)
-                && url.endsWith("/status");
+                && url.endsWith(STATUS_URI);
         }
     },
     PIS_PERIODIC_SCT_GET_TRANSACTION_STATUS("pis-periodic-sct-get-transaction-status.json") {
@@ -279,7 +287,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PERIODIC_SCT_URI)
-                && url.endsWith("/status");
+                && url.endsWith(STATUS_URI);
         }
     },
     PIS_PERIODIC_PAIN001_SCT_GET_TRANSACTION_STATUS("pis-periodic-pain001-sct-get-transaction-status.json") {
@@ -287,7 +295,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PERIODIC_PAIN001_CST_URI)
-                && url.endsWith("/status");
+                && url.endsWith(STATUS_URI);
         }
     },
     // Get SCA Status
@@ -296,7 +304,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PAYMENTS_SCT_URI)
-                && url.contains("/authorisations/");
+                && url.contains(AUTHORISATIONS_URI);
         }
     },
     PIS_PAYMENTS_PAIN001_SCT_GET_SCA_STATUS("pis-payments-pain001-sct-get-sca-status.json") {
@@ -304,7 +312,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PAYMENTS_PAIN001_SCT_URI)
-                && url.contains("/authorisations/");
+                && url.contains(AUTHORISATIONS_URI);
         }
     },
     PIS_PERIODIC_SCT_GET_SCA_STATUS("pis-periodic-sct-get-sca-status.json") {
@@ -312,7 +320,7 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PERIODIC_SCT_URI)
-                && url.contains("/authorisations/");
+                && url.contains(AUTHORISATIONS_URI);
         }
     },
     PIS_PERIODIC_PAIN001_SCT_GET_SCA_STATUS("pis-periodic-pain001-sct-get-sca-status.json") {
@@ -320,16 +328,21 @@ public enum WiremockFileResolver {
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
                 && url.startsWith(PERIODIC_PAIN001_CST_URI)
-                && url.contains("/authorisations/");
+                && url.contains(AUTHORISATIONS_URI);
         }
     };
 
+    private static final String SCA_AUTHENTICATION_DATA = "scaAuthenticationData";
+    private static final String AUTHENTICATION_METHOD_ID = "authenticationMethodId";
+    private static final String PSU_DATA = "psuData";
     private static final String DELETE_METHOD = "DELETE";
     private static final String POST_METHOD = "POST";
     private static final String PUT_METHOD = "PUT";
     private static final String GET_METHOD = "GET";
     private static final String CONSENTS_URI = "/v1/consents";
     private static final String ACCOUNTS_URI = "/v1/accounts";
+    private static final String AUTHORISATIONS_URI = "/authorisations";
+    private static final String STATUS_URI = "/status";
     private static final String PAYMENTS_SCT_URI = "/v1/payments/sepa-credit-transfers";
     private static final String PAYMENTS_PAIN001_SCT_URI = "/v1/payments/pain.001-sepa-credit-transfers";
     private static final String PERIODIC_SCT_URI = "/v1/periodic-payments/sepa-credit-transfers";
