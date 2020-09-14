@@ -26,13 +26,11 @@ public class RequestSigningInterceptor implements Request.Builder.Interceptor {
     }
 
     @Override
-    public Request.Builder apply(Request.Builder requestBuilder) {
+    public void accept(Request.Builder requestBuilder) {
         // Digest header computing and adding MUST BE BEFORE the Signature header, as Digest is used in Signature header computation
         populateDigest(requestBuilder);
         populateSignature(requestBuilder);
         populateTppSignatureCertificate(requestBuilder);
-
-        return requestBuilder;
     }
 
     private void populateDigest(Request.Builder requestBuilder) {

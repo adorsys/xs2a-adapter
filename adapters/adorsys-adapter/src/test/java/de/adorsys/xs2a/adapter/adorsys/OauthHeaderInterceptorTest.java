@@ -47,7 +47,8 @@ class OauthHeaderInterceptorTest {
 
     private Request.Builder applyInterceptor(String bankCode) {
         Request.Builder builder = initRequestBuilder(bankCode);
-        return interceptor.apply(builder);
+        interceptor.preHandle(builder);
+        return builder;
     }
 
     private Request.Builder initRequestBuilder(String bankCode) {
@@ -61,6 +62,8 @@ class OauthHeaderInterceptorTest {
 
         RequestBuilderImpl builder = new RequestBuilderImpl(null, null, null);
 
-        Assertions.assertEquals(0, interceptor.apply(builder).headers().size());
+        interceptor.preHandle(builder);
+
+        Assertions.assertEquals(0, builder.headers().size());
     }
 }

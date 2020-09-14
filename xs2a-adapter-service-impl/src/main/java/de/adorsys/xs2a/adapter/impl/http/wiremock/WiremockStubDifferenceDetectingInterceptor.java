@@ -18,6 +18,7 @@ package de.adorsys.xs2a.adapter.impl.http.wiremock;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import org.slf4j.Logger;
@@ -46,7 +47,10 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
     }
 
     @Override
-    public Request.Builder apply(Request.Builder builder) {
+    public void accept(Request.Builder builder) {
+    }
+
+    public void postHandle(Request.Builder builder, Response response) {
         try {
             String fileName = buildStubFilePath(aspsp.getName(), builder);
             Map<String, Object> jsonFile = readStubFile(fileName);
@@ -59,7 +63,6 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
         } catch (Exception e) {
             log.error("Can't find the difference with wiremock stub", e);
         }
-        return builder;
     }
 
     @SuppressWarnings("unchecked")
