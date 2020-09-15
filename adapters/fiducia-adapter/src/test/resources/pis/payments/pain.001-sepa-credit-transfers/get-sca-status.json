@@ -1,0 +1,13 @@
+{
+  "request": {
+    "headers": {
+      "X-GTW-ASPSP-ID": "a7da261c-30d1-4491-a250-6aab784fbf2b",
+      "X-Request-ID": "66ae1d00-ce42-453e-88e1-5c890e96c738"
+    }
+  },
+  "response": {
+    "body": {
+      "scaStatus": "finalised"
+    }
+  }
+}

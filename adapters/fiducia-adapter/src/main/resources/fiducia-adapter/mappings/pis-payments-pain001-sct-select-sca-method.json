@@ -1,0 +1,52 @@
+{
+  "id" : "e86df9ba-2c60-41d0-9288-1b0a68ca57f0",
+  "name" : "v1_payments_pain001-sepa-credit-transfers_9667011219090020282psdde-bafin-911360pa4960jj_authorisations_9592111219090020283psdde-bafin-911360au4960jj",
+  "request" : {
+    "url" : "/v1/payments/pain.001-sepa-credit-transfers/9667011219090020282PSDDE-BAFIN-911360PA4960JJ/authorisations/9592111219090020283PSDDE-BAFIN-911360AU4960JJ",
+    "method" : "PUT",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Digest" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "VRK1234567890ALL"
+      },
+      "Date" : {
+        "matches" : ".+"
+      },
+      "Signature" : {
+        "matches" : ".+"
+      },
+      "TPP-Signature-Certificate" : {
+        "matches" : ".+"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"authenticationMethodId\":\"942\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"challengeData\":{\"additionalInformation\":\"Die mobileTAN zu diesem Auftrag wird als SMS an Ihre Mobil-Telefonnummer gesendet, die bei Ihrer Bank registriert ist.\"},\"_links\":{\"authoriseTransaction\":{\"href\":\"/v1/payments/pain.001-sepa-credit-transfers/9667011219090020282PSDDE-BAFIN-911360PA4960JJ/authorisations/9592111219090020283PSDDE-BAFIN-911360AU4960JJ\"}},\"scaStatus\":\"started\"}",
+    "headers" : {
+      "Date" : "Wed, 09 Sep 2020 10:11:17 GMT",
+      "Server" : "Webserver",
+      "X-Request-ID" : "8167f6cc-b51f-4364-8899-268c99fe5de3",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "Content-Language" : "de",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Keep-Alive" : "timeout=15, max=98"
+    }
+  },
+  "uuid" : "e86df9ba-2c60-41d0-9288-1b0a68ca57f0",
+  "persistent" : true,
+  "insertionIndex" : 13
+}

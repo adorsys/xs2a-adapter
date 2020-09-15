@@ -1,0 +1,50 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "e244e47c-812c-4a59-9b5e-3493a1f21c43",
+      "PSU-ID-Type": "",
+      "PSU-ID": "VRK1234567890ALL",
+      "Content-Type": "application/json",
+      "PSU-IP-Address": "0.0.0.0",
+      "X-GTW-ASPSP-ID": "a7da261c-30d1-4491-a250-6aab784fbf2b",
+      "TPP-Redirect-URI": "https://localhost:8080/redirect"
+    },
+    "body": {
+      "access": {
+        "balances": [
+          {
+            "iban": "DE87499999600000005120",
+            "currency": "EUR"
+          }
+        ],
+        "transactions": [
+          {
+            "iban": "DE87499999600000005120",
+            "currency": "EUR"
+          }
+        ],
+        "accounts": [
+          {
+            "iban": "DE87499999600000005120",
+            "currency": "EUR"
+          }
+        ]
+      },
+      "combinedServiceIndicator": "false",
+      "recurringIndicator": "true",
+      "validUntil": "2020-09-09",
+      "frequencyPerDay": "4"
+    }
+  },
+  "response": {
+    "body": {
+      "consentStatus": "received",
+      "consentId": "8117230618090020246PSDDE-BAFIN-911360CO4960JJ",
+      "_links": {
+        "startAuthorisationWithPsuAuthentication": {
+          "href": "/v1/consents/8117230618090020246PSDDE-BAFIN-911360CO4960JJ/authorisations"
+        }
+      }
+    }
+  }
+}

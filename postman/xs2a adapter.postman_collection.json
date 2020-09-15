@@ -503,7 +503,10 @@
 									"if (jsonData._links.updatePsuAuthentication) {",
 									"    pm.globals.set(\"authorisationId\", jsonData.authorisationId);",
 									"    postman.setNextRequest(\"updateConsentsPsuData_updatePsuAuthentication\");",
-									"}"
+                  "} else {",
+                  "    let selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
+                  "    pm.globals.set(\"authorisationId\", selectAuthenticationMethodUri.split(\"/\").pop());",
+                  "}"
 								],
 								"type": "text/javascript"
 							}
@@ -927,7 +930,12 @@
 									"pm.test(\"scaStatus is finalised\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
-									"});"
+                  "});",
+                  "",
+                  "// workaround for Fiducia",
+                  "if (pm.variables.get(\"adapter\") === \"fiducia\") {",
+                  "    pm.globals.set(\"consentId\", \"CONSENTVALID\");",
+                  "}"
 								],
 								"type": "text/javascript"
 							}
