@@ -8,8 +8,8 @@ import static de.adorsys.xs2a.adapter.api.RequestHeaders.PSU_ID_TYPE;
 public class PsuIdTypeHeaderInterceptor implements Request.Builder.Interceptor {
 
     @Override
-    public void accept(Request.Builder builder) {
-        handlePsuIdTypeHeader(builder);
+    public Request.Builder apply(Request.Builder builder) {
+        return handlePsuIdTypeHeader(builder);
     }
 
     private Request.Builder handlePsuIdTypeHeader(Request.Builder builder) {

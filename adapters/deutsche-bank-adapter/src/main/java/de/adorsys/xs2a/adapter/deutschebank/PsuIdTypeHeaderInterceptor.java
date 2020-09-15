@@ -14,12 +14,13 @@ import java.nio.file.Paths;
  */
 public class PsuIdTypeHeaderInterceptor implements Request.Builder.Interceptor {
     @Override
-    public void accept(Request.Builder builder) {
+    public Request.Builder apply(Request.Builder builder) {
         if (builder.headers().get(RequestHeaders.PSU_ID) != null
             && builder.headers().get(RequestHeaders.PSU_ID_TYPE) == null) {
 
             setPsuIdType(builder);
         }
+        return builder;
     }
 
     private void setPsuIdType(Request.Builder builder) {

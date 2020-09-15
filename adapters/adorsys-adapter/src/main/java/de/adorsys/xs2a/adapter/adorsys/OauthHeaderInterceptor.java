@@ -31,14 +31,14 @@ public class OauthHeaderInterceptor implements Request.Builder.Interceptor {
     static final String OAUTH_HEADER_NAME = "adorsys.oauth_approach.header_name";
 
     @Override
-    public void accept(Request.Builder builder) {
+    public Request.Builder apply(Request.Builder builder) {
         String oauthBankCode = AdapterConfig.readProperty(BANK_CODE_FOR_OAUTH, "");
         List<String> bankCodes = Arrays.stream(oauthBankCode.split(","))
                                      .map(String::trim).collect(Collectors.toList());
         String requestBankCode = builder.headers().get(RequestHeaders.X_GTW_BANK_CODE);
 
         if (oauthBankCode.isEmpty() || !bankCodes.contains(requestBankCode)) {
-            return;
+            return builder;
         }
 
         String oauthHeaderName = AdapterConfig.readProperty(OAUTH_HEADER_NAME, "");
@@ -52,6 +52,8 @@ public class OauthHeaderInterceptor implements Request.Builder.Interceptor {
         if (!oauthHeaderName.isEmpty() && !headerValue.isEmpty()) {
             builder.header(oauthHeaderName, headerValue);
         }
+
+        return builder;
     }
 
     private String getOauthHeaderValue(List<String> oauthBankCodes, String requestBankCode) {

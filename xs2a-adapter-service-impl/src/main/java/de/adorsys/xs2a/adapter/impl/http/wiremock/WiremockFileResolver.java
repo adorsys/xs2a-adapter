@@ -22,7 +22,7 @@ public enum WiremockFileResolver {
     AIS_CREATE_CONSENT("ais-create-consent.json") {
         @Override
         public boolean check(String url, String method, String body) {
-            return POST_METHOD.equalsIgnoreCase(method) && CONSENTS_URI.equals(url);
+            return POST_METHOD.equalsIgnoreCase(method) && CONSENTS_URI.contains(url);
         }
 
     },
@@ -30,7 +30,7 @@ public enum WiremockFileResolver {
         @Override
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
-                       && url.startsWith(CONSENTS_URI)
+                       && url.contains(CONSENTS_URI)
                        && body.contains("psuData");
         }
     },
@@ -38,7 +38,7 @@ public enum WiremockFileResolver {
         @Override
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
-                       && url.startsWith(CONSENTS_URI)
+                       && url.contains(CONSENTS_URI)
                        && body.contains("authenticationMethodId");
         }
     },
@@ -46,7 +46,7 @@ public enum WiremockFileResolver {
         @Override
         public boolean check(String url, String method, String body) {
             return PUT_METHOD.equalsIgnoreCase(method)
-                       && url.startsWith(CONSENTS_URI)
+                       && url.contains(CONSENTS_URI)
                        && body.contains("scaAuthenticationData");
         }
     },
@@ -54,14 +54,14 @@ public enum WiremockFileResolver {
         @Override
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
-                       && url.startsWith(ACCOUNTS_URI);
+                       && url.contains(ACCOUNTS_URI);
         }
     },
     AIS_GET_BALANCES("ais-get-balances.json") {
         @Override
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
-                       && url.startsWith(ACCOUNTS_URI)
+                       && url.contains(ACCOUNTS_URI)
                        && url.endsWith("/balances");
         }
     },
@@ -69,7 +69,7 @@ public enum WiremockFileResolver {
         @Override
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
-                       && url.startsWith(ACCOUNTS_URI)
+                       && url.contains(ACCOUNTS_URI)
                        && url.contains("/transactions");
         }
     },
@@ -77,14 +77,14 @@ public enum WiremockFileResolver {
         @Override
         public boolean check(String url, String method, String body) {
             return DELETE_METHOD.equalsIgnoreCase(method)
-                       && url.startsWith(CONSENTS_URI);
+                       && url.contains(CONSENTS_URI);
         }
     },
     AIS_GET_SCA_STATUS("ais-get-sca-status.json") {
         @Override
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
-                       && url.startsWith(CONSENTS_URI)
+                       && url.contains(CONSENTS_URI)
                        && url.contains("/authorisations/");
         }
     },
@@ -92,7 +92,7 @@ public enum WiremockFileResolver {
         @Override
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
-                       && url.startsWith(CONSENTS_URI)
+                       && url.contains(CONSENTS_URI)
                        && url.endsWith("/status");
         }
     };

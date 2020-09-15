@@ -38,7 +38,7 @@ public class IngClientAuthentication implements Request.Builder.Interceptor {
     }
 
     @Override
-    public void accept(Request.Builder requestBuilder) {
+    public Request.Builder apply(Request.Builder requestBuilder) {
         String xRequestId = requestBuilder.headers().get(RequestHeaders.X_REQUEST_ID);
         String date = RFC_1123_DATE_TIME_FORMATTER.format(Instant.now());
         String digestValue = "SHA-256=" + base64(digest(requestBuilder.content()));
@@ -63,6 +63,8 @@ public class IngClientAuthentication implements Request.Builder.Interceptor {
             .header("Date", date)
             .header("Digest", digestValue)
             .header("TPP-Signature-Certificate", tppSignatureCertificate);
+
+        return requestBuilder;
     }
 
     private String base64(byte[] data) {
