@@ -141,7 +141,14 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
 
     @SuppressWarnings("unchecked")
     private Optional<String> getStubRequestUrl(Map<String, Object> jsonFile) {
-        return Optional.ofNullable((String) ((Map<String, Object>) jsonFile.get(REQUEST)).get("url"));
+        Map<String, Object> json = (Map<String, Object>) jsonFile.get(REQUEST);
+        if (json.containsKey("url")) {
+            return Optional.of((String) json.get("url"));
+        } else if (json.containsKey("urlPattern")) {
+            return Optional.of((String) json.get("urlPattern"));
+        }
+
+        return Optional.empty();
     }
 
     @SuppressWarnings("unchecked")
