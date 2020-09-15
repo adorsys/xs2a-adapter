@@ -61,6 +61,7 @@ public class AdorsysIntegServiceProvider
                 String certificate = requestBuilder.headers().get(RequestHeaders.TPP_SIGNATURE_CERTIFICATE);
                 requestBuilder.header(RequestHeaders.TPP_SIGNATURE_CERTIFICATE,
                     "-----BEGIN CERTIFICATE-----" + certificate + "-----END CERTIFICATE-----");
+                return requestBuilder;
             };
         }
         return oauthHeaderInterceptor;

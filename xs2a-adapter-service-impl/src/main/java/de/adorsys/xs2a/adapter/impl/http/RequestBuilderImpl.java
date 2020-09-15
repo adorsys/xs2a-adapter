@@ -192,7 +192,7 @@ public class RequestBuilderImpl implements Request.Builder {
 
         for (Interceptor interceptor : interceptors) {
             if (interceptor != null) {
-                interceptor.postHandle(this, response);
+                 response = interceptor.postHandle(this, response);
             }
         }
         return response;

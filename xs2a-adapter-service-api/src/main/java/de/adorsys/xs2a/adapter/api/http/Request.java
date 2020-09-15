@@ -3,7 +3,7 @@ package de.adorsys.xs2a.adapter.api.http;
 import de.adorsys.xs2a.adapter.api.Response;
 
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 
 public interface Request {
 
@@ -59,19 +59,19 @@ public interface Request {
         }
 
         default <T> Response<T> send(HttpClient.ResponseHandler<T> responseHandler) {
-            return send(x -> {
-            }, responseHandler);
+            return send(x -> x, responseHandler);
         }
 
         String content();
 
         @FunctionalInterface
-        interface Interceptor extends Consumer<Builder> {
-            default void preHandle(Builder builder) {
-                accept(builder);
+        interface Interceptor extends UnaryOperator<Builder> {
+            default Builder preHandle(Builder builder) {
+                return apply(builder);
             }
 
-            default void postHandle(Builder builder, Response response) {
+            default <T> Response<T> postHandle(Builder builder, Response<T> response) {
+                return response;
             }
         }
     }
