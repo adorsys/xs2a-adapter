@@ -22,6 +22,7 @@ import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +34,10 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
     private static final Logger log = LoggerFactory.getLogger(WiremockStubDifferenceDetectingInterceptor.class);
     private static final String EQUAL_TO = "equalTo";
     private static final String REQUEST = "request";
+    private static final String RESPONSE = "response";
     private static final String HEADERS = "headers";
+    private static final String BODY = "body";
+    private static final String BODY_FILE_NAME = "bodyFileName";
     private static final String BODY_PATTERNS = "bodyPatterns";
     private static final String CONTENT_TYPE = "Content-Type";
     private final Aspsp aspsp;
@@ -65,6 +69,9 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
             getRequestBody(jsonFile)
                 .flatMap(body -> analyzeRequestBody(fileResolver, builder, body))
                 .ifPresent(changes::add);
+            getResponseBody(jsonFile, aspsp.getName())
+                .flatMap(body -> analyzeResponseBody(fileResolver, response, body))
+                .ifPresent(changes::add);
 
             String headerValue = String.join(",", changes);
             Map<String, String> headersMap = response.getHeaders().getHeadersMap();
@@ -79,22 +86,73 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
         return response;
     }
 
-    @SuppressWarnings("unchecked")
-    private Optional<String> analyzeRequestBody(WiremockFileResolver resolver, Request.Builder builder, String requestBody) {
+    private <T> Optional<String> analyzeResponseBody(WiremockFileResolver resolver,
+                                                     Response<T> response,
+                                                     String responseBody) {
         try {
-            Map<String, Object> stubRequestBody = objectMapper.readValue(requestBody, Map.class);
-            Map<String, Object> currentRequestBody = objectMapper.readValue(builder.body(), Map.class);
-            Map<String, Object> stubMap = FlatMapUtils.flatten(stubRequestBody);
-            Map<String, Object> requestMap = FlatMapUtils.flatten(currentRequestBody);
-            if (!requestMap.keySet().containsAll(stubMap.keySet())) {
-                log.warn("{} stub request body is different from the request", aspsp.getName());
-                String changes = aspsp.getName() + ":" + resolver.name() + ":request-payload";
+            String body = getResponseBody(response);
+            return analyzePayloadStructure(resolver, responseBody, body, PayloadType.RESPONSE);
+        } catch (JsonProcessingException e) {
+            log.error("Can't retrieve response body", e);
+        }
+        return Optional.empty();
+    }
+
+    @SuppressWarnings("unchecked")
+    private Optional<String> analyzePayloadStructure(WiremockFileResolver resolver, String payloadBody, String body, PayloadType type) {
+        String payloadType = type.name().toLowerCase();
+        try {
+            Map<String, Object> stubBody = objectMapper.readValue(payloadBody, Map.class);
+            Map<String, Object> currentBody = objectMapper.readValue(body, Map.class);
+            Map<String, Object> stubMap = FlatMapUtils.flatten(stubBody);
+            Map<String, Object> currentBodyMap = FlatMapUtils.flatten(currentBody);
+            if (!currentBodyMap.keySet().containsAll(stubMap.keySet())) {
+                log.warn("{} stub {} body is different from the aspsp {}", aspsp.getName(), payloadType, payloadType);
+                String changes = aspsp.getName() + ":" + resolver.name() + ":" + payloadType + "-payload";
                 return Optional.of(changes);
             }
         } catch (JsonProcessingException e) {
-            log.error("Can't get differences for the request or wiremock stub body", e);
+            log.error("Can't get differences for the {} or wiremock stub body", payloadType, e);
         }
         return Optional.empty();
+    }
+
+    private enum PayloadType {
+        REQUEST, RESPONSE;
+    }
+
+    private <T> String getResponseBody(Response<T> response) throws JsonProcessingException {
+        String body = null;
+        T bodyObject = response.getBody();
+        if (bodyObject instanceof String) {
+            body = (String) bodyObject;
+        } else {
+            body = objectMapper.writeValueAsString(body);
+        }
+        return body;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Optional<String> getResponseBody(Map<String, Object> jsonFile, String adapterName) {
+        Map<String, Object> response = (Map<String, Object>) jsonFile.get(RESPONSE);
+        if (response.containsKey(BODY)) {
+            return Optional.ofNullable((String) response.get(BODY));
+        }
+        if (response.containsKey(BODY_FILE_NAME)) {
+            try {
+                String fileName = (String) response.get(BODY_FILE_NAME);
+                String filePath = adapterName + "/__files/" + fileName;
+                InputStream is = getClass().getResourceAsStream("/" + filePath);
+                return Optional.ofNullable(IOUtils.toString(is));
+            } catch (IOException e) {
+                log.error("Can't get stub response file", e);
+            }
+        }
+        return Optional.empty();
+    }
+
+    private Optional<String> analyzeRequestBody(WiremockFileResolver resolver, Request.Builder builder, String requestBody) {
+        return analyzePayloadStructure(resolver, requestBody, builder.body(), PayloadType.REQUEST);
     }
 
     private Optional<String> analyzeRequestHeaders(WiremockFileResolver resolver, Request.Builder builder, Map<String, Object> requestHeaders) {
