@@ -9,6 +9,8 @@ import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 class WiremockStubDifferenceDetectingInterceptorTest {
 
     private Request.Builder.Interceptor interceptor;
@@ -21,6 +23,7 @@ class WiremockStubDifferenceDetectingInterceptorTest {
         interceptor = new WiremockStubDifferenceDetectingInterceptor(aspsp);
         RequestBuilderImpl request = new RequestBuilderImpl(httpClient, "POST", "/v1/consents");
         request.jsonBody("{\"a\":12}");
-        interceptor.postHandle(request, new Response<String>(200, "", ResponseHeaders.emptyResponseHeaders()));
+        Response<String> response = interceptor.postHandle(request, new Response<>(200, "{}", ResponseHeaders.emptyResponseHeaders()));
+        assertThat(response.getHeaders().getHeadersMap()).containsKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED);
     }
 }
