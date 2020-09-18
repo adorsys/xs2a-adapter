@@ -62,23 +62,22 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
             Map<String, Object> jsonFile = readStubFile(fileName);
             List<String> changes = new ArrayList<>();
             getStubRequestHeaders(jsonFile)
-                .flatMap(headers -> analyzeRequestHeaders(fileResolver, builder, headers))
+                .flatMap(headers -> analyzeRequestHeaders(builder, headers))
                 .ifPresent(changes::add);
             getRequestBody(jsonFile)
-                .flatMap(body -> analyzeRequestBody(fileResolver, builder, body))
+                .flatMap(body -> analyzeRequestBody(builder, body))
                 .ifPresent(changes::add);
             getResponseBody(jsonFile, aspsp.getName())
-                .flatMap(body -> analyzeResponseBody(fileResolver, response, body))
+                .flatMap(body -> analyzeResponseBody(response, body))
                 .ifPresent(changes::add);
 
-            Map<String, String> headersMap = response.getHeaders().getHeadersMap();
-
             if (!changes.isEmpty()) {
-                String headerValue = String.join(",", changes);
+                String headerValue = aspsp.getName() + ":" + fileResolver.name() + ":" + String.join(",", changes);
+                Map<String, String> headersMap = response.getHeaders().getHeadersMap();
                 headersMap.put(ResponseHeaders.X_ASPSP_CHANGES_DETECTED, headerValue);
+                return new Response<>(response.getStatusCode(), response.getBody(), ResponseHeaders.fromMap(headersMap));
             }
-
-            return new Response<>(response.getStatusCode(), response.getBody(), ResponseHeaders.fromMap(headersMap));
+            return response;
 
         } catch (IllegalStateException e) {
             log.error(e.getMessage());
@@ -89,12 +88,10 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
         return response;
     }
 
-    private <T> Optional<String> analyzeResponseBody(WiremockFileResolver resolver,
-                                                     Response<T> response,
-                                                     String responseBody) {
+    private <T> Optional<String> analyzeResponseBody(Response<T> response, String responseBody) {
         try {
             String body = getResponseBody(response);
-            return analyzePayloadStructure(resolver, responseBody, body, PayloadType.RESPONSE);
+            return analyzePayloadStructure(responseBody, body, PayloadType.RESPONSE);
         } catch (JsonProcessingException e) {
             log.error("Can't retrieve response body", e);
         }
@@ -102,7 +99,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
     }
 
     @SuppressWarnings("unchecked")
-    private Optional<String> analyzePayloadStructure(WiremockFileResolver resolver, String payloadBody, String body, PayloadType type) {
+    private Optional<String> analyzePayloadStructure(String payloadBody, String body, PayloadType type) {
         String payloadType = type.name().toLowerCase();
         try {
             Map<String, Object> stubBody = objectMapper.readValue(payloadBody, Map.class);
@@ -111,8 +108,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
             Map<String, Object> currentBodyMap = FlatMapUtils.flatten(currentBody);
             if (!currentBodyMap.keySet().containsAll(stubMap.keySet())) {
                 log.warn("{} stub {} body is different from the aspsp {}", aspsp.getName(), payloadType, payloadType);
-                String changes = aspsp.getName() + ":" + resolver.name() + ":" + payloadType + "-payload";
-                return Optional.of(changes);
+                return Optional.of(payloadType + "-payload");
             }
         } catch (JsonProcessingException e) {
             log.error("Can't get differences for the {} or wiremock stub body", payloadType, e);
@@ -125,7 +121,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
     }
 
     private <T> String getResponseBody(Response<T> response) throws JsonProcessingException {
-        String body = null;
+        String body;
         T bodyObject = response.getBody();
         if (bodyObject instanceof String) {
             body = (String) bodyObject;
@@ -154,15 +150,14 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
         return Optional.empty();
     }
 
-    private Optional<String> analyzeRequestBody(WiremockFileResolver resolver, Request.Builder builder, String requestBody) {
-        return analyzePayloadStructure(resolver, requestBody, builder.body(), PayloadType.REQUEST);
+    private Optional<String> analyzeRequestBody(Request.Builder builder, String requestBody) {
+        return analyzePayloadStructure(requestBody, builder.body(), PayloadType.REQUEST);
     }
 
-    private Optional<String> analyzeRequestHeaders(WiremockFileResolver resolver, Request.Builder builder, Map<String, Object> requestHeaders) {
+    private Optional<String> analyzeRequestHeaders(Request.Builder builder, Map<String, Object> requestHeaders) {
         if (requestHeaders != null && !builder.headers().keySet().containsAll(requestHeaders.keySet())) {
             log.warn("{} stub headers are different from the request", aspsp.getName());
-            String changes = aspsp.getName() + ":" + resolver.name() + ":request-headers";
-            return Optional.of(changes);
+            return Optional.of("request-headers");
         }
         return Optional.empty();
     }
