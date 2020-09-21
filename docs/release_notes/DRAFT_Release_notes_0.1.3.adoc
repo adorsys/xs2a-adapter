@@ -5,6 +5,7 @@
 |===
 
 == Notices:
+- Removed deprecated methods in `PaymentInitiationService` and `PaymentInitiationValidationService`.
 
 == Features:
 
