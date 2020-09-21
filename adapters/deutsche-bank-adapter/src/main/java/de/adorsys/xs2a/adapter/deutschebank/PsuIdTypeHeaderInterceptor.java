@@ -32,8 +32,7 @@ public class PsuIdTypeHeaderInterceptor implements Request.Builder.Interceptor {
         String countryCode = path.getName(1).toString();
         if ("DE".equals(countryCode)) {
             String businessEntity = path.getName(2).toString();
-            // https://jira.adorsys.de/browse/XS2AAD-669
-            if ("DB".equals(businessEntity) || "PFB".equals(businessEntity)) {
+            if ("DB".equals(businessEntity)) {
                 builder.header(RequestHeaders.PSU_ID_TYPE, "DE_ONLB_DB");
             } else if ("Postbank".equals(businessEntity)) {
                 builder.header(RequestHeaders.PSU_ID_TYPE, "DE_ONLB_POBA");
