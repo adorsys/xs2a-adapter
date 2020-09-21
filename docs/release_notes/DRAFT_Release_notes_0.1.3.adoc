@@ -13,4 +13,8 @@ See the previous release notes for more details.
 == Features:
 
 == Fixes:
+- 406 error response from consors on get transactions with `Accept` set to any (\*/*)
+[quote]
+The requested formats in the Accept header entry are not matching the formats offered by the ASPSP
+
 
