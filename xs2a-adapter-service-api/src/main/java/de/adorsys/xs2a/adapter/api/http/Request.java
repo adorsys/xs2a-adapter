@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.api.http;
 
 import de.adorsys.xs2a.adapter.api.Response;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.UnaryOperator;
 
@@ -51,7 +52,12 @@ public interface Request {
 
         Builder header(String name, String value);
 
+        @Deprecated
         <T> Response<T> send(HttpClient.ResponseHandler<T> responseHandler, Interceptor... interceptors);
+
+        default <T> Response<T> send(HttpClient.ResponseHandler<T> responseHandler, List<Interceptor> interceptors) {
+            return send(responseHandler, interceptors.toArray(new Interceptor[]{}));
+        }
 
         @Deprecated
         default <T> Response<T> send(Interceptor interceptor, HttpClient.ResponseHandler<T> responseHandler) {

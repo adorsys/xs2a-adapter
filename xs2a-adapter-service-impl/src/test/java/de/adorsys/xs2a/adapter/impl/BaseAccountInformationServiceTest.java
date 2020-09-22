@@ -8,11 +8,11 @@ import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
-import de.adorsys.xs2a.adapter.impl.http.wiremock.WiremockStubDifferenceDetectingInterceptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,18 +69,14 @@ class BaseAccountInformationServiceTest {
     void createConsent() {
         ConsentsResponse201 example = new ConsentsResponse201();
         when(httpClient.post(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(),
-                                                                   any(Request.Builder.Interceptor.class),
-                                                                   any(WiremockStubDifferenceDetectingInterceptor.class));
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), eq(Collections.singletonList(interceptor)));
 
         Response<ConsentsResponse201> response = informationService.createConsent(headers, params, body);
 
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(),
-                                              any(Request.Builder.Interceptor.class),
-                                              any(WiremockStubDifferenceDetectingInterceptor.class));
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
 
         assertThat(uriCaptor.getValue()).isEqualTo(BASE_URI + "/v1/consents");
         assertThat(headersCaptor.getValue()).isEqualTo(informationService.addPsuIdHeader(headers.toMap()));
@@ -93,16 +89,13 @@ class BaseAccountInformationServiceTest {
         ConsentInformationResponse200Json example = new ConsentInformationResponse200Json();
         when(httpClient.get(any())).thenReturn(requestBuilder);
         doReturn(dummyResponse(example)).when(requestBuilder).send(any(),
-                                                                   any(Request.Builder.Interceptor.class),
-                                                                   any(WiremockStubDifferenceDetectingInterceptor.class));
+                                                                   eq(Collections.singletonList(interceptor)));
 
         Response<ConsentInformationResponse200Json> response = informationService.getConsentInformation(CONSENTID, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(),
-                                              any(Request.Builder.Interceptor.class),
-                                              any(WiremockStubDifferenceDetectingInterceptor.class));
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
 
         assertThat(uriCaptor.getValue()).isEqualTo(PSU_AUTHORISATION_URI);
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
@@ -112,17 +105,13 @@ class BaseAccountInformationServiceTest {
     @Test
     void deleteConsent() {
         when(httpClient.delete(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(Void.class)).when(requestBuilder).send(any(),
-                                                                      any(Request.Builder.Interceptor.class),
-                                                                      any(WiremockStubDifferenceDetectingInterceptor.class));
+        doReturn(dummyResponse(Void.class)).when(requestBuilder).send(any(), eq(Collections.singletonList(interceptor)));
 
         informationService.deleteConsent(CONSENTID, headers, params);
 
         verify(httpClient, times(1)).delete(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(),
-                                              any(Request.Builder.Interceptor.class),
-                                              any(WiremockStubDifferenceDetectingInterceptor.class));
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
 
         assertThat(uriCaptor.getValue()).isEqualTo(PSU_AUTHORISATION_URI);
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
@@ -132,17 +121,13 @@ class BaseAccountInformationServiceTest {
     void getConsentStatus() {
         ConsentStatusResponse200 example = new ConsentStatusResponse200();
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(),
-                                                                   any(Request.Builder.Interceptor.class),
-                                                                   any(WiremockStubDifferenceDetectingInterceptor.class));
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), eq(Collections.singletonList(interceptor)));
 
         Response<ConsentStatusResponse200> response = informationService.getConsentStatus(CONSENTID, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(),
-                                              any(Request.Builder.Interceptor.class),
-                                              any(WiremockStubDifferenceDetectingInterceptor.class));
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
 
         assertThat(uriCaptor.getValue()).isEqualTo(PSU_AUTHORISATION_URI + "/status");
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
@@ -154,9 +139,7 @@ class BaseAccountInformationServiceTest {
         StartScaprocessResponse example = new StartScaprocessResponse();
 
         when(httpClient.post(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(),
-                                                                   any(Request.Builder.Interceptor.class),
-                                                                   any(WiremockStubDifferenceDetectingInterceptor.class));
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), eq(Collections.singletonList(interceptor)));
 
         Response<StartScaprocessResponse> response =
             informationService.startConsentAuthorisation(CONSENTID, headers, params);
@@ -164,9 +147,7 @@ class BaseAccountInformationServiceTest {
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
         verify(requestBuilder, times(1)).emptyBody(booleanArgumentCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(),
-                                              any(Request.Builder.Interceptor.class),
-                                              any(WiremockStubDifferenceDetectingInterceptor.class));
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
 
         assertThat(uriCaptor.getValue()).isEqualTo(PSU_AUTHORISATION_URI + "/authorisations");
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
@@ -179,7 +160,7 @@ class BaseAccountInformationServiceTest {
         StartScaprocessResponse example = new StartScaprocessResponse();
 
         when(httpClient.post(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), any(Request.Builder.Interceptor.class));
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), eq(Collections.singletonList(interceptor)));
 
         Response<StartScaprocessResponse> response =
             informationService.startConsentAuthorisation(CONSENTID, headers, params, updatePsuAuthentication);
@@ -187,9 +168,7 @@ class BaseAccountInformationServiceTest {
         verify(httpClient, times(1)).post(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(),
-                                              any(Request.Builder.Interceptor.class),
-                                              any(WiremockStubDifferenceDetectingInterceptor.class));
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
 
         assertThat(uriCaptor.getValue()).isEqualTo(PSU_AUTHORISATION_URI + "/authorisations");
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
@@ -202,9 +181,7 @@ class BaseAccountInformationServiceTest {
         UpdatePsuAuthenticationResponse example = new UpdatePsuAuthenticationResponse();
 
         when(httpClient.put(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(),
-                                                                   any(Request.Builder.Interceptor.class),
-                                                                   any(WiremockStubDifferenceDetectingInterceptor.class));
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), eq(Collections.singletonList(interceptor)));
 
         Response<UpdatePsuAuthenticationResponse> response = informationService.updateConsentsPsuData(CONSENTID,
                                                                                                       AUTHORISATIONID,
@@ -215,9 +192,7 @@ class BaseAccountInformationServiceTest {
         verify(httpClient, times(1)).put(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(),
-                                              any(Request.Builder.Interceptor.class),
-                                              any(WiremockStubDifferenceDetectingInterceptor.class));
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
 
         assertThat(uriCaptor.getValue()).isEqualTo(UPDATE_PSU_AUTHORISATION_URI);
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
@@ -231,9 +206,7 @@ class BaseAccountInformationServiceTest {
         SelectPsuAuthenticationMethodResponse example = new SelectPsuAuthenticationMethodResponse();
 
         when(httpClient.put(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(),
-                                                                   any(Request.Builder.Interceptor.class),
-                                                                   any(WiremockStubDifferenceDetectingInterceptor.class));
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), eq(Collections.singletonList(interceptor)));
 
         Response<SelectPsuAuthenticationMethodResponse> response = informationService.updateConsentsPsuData(CONSENTID,
                                                                                                             AUTHORISATIONID,
@@ -244,9 +217,7 @@ class BaseAccountInformationServiceTest {
         verify(httpClient, times(1)).put(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(),
-                                              any(Request.Builder.Interceptor.class),
-                                              any(WiremockStubDifferenceDetectingInterceptor.class));
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
 
         assertThat(uriCaptor.getValue()).isEqualTo(UPDATE_PSU_AUTHORISATION_URI);
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
@@ -260,9 +231,7 @@ class BaseAccountInformationServiceTest {
         ScaStatusResponse example = new ScaStatusResponse();
 
         when(httpClient.put(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(),
-                                                                   any(Request.Builder.Interceptor.class),
-                                                                   any(WiremockStubDifferenceDetectingInterceptor.class));
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), eq(Collections.singletonList(interceptor)));
 
         Response<ScaStatusResponse> response = informationService.updateConsentsPsuData(CONSENTID,
                                                                                         AUTHORISATIONID,
@@ -273,9 +242,7 @@ class BaseAccountInformationServiceTest {
         verify(httpClient, times(1)).put(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
         verify(requestBuilder, times(1)).jsonBody(bodyCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(),
-                                              any(Request.Builder.Interceptor.class),
-                                              any(WiremockStubDifferenceDetectingInterceptor.class));
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
 
         assertThat(uriCaptor.getValue()).isEqualTo(UPDATE_PSU_AUTHORISATION_URI);
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
@@ -288,18 +255,14 @@ class BaseAccountInformationServiceTest {
         AccountList example = new AccountList();
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(),
-                                                                   any(Request.Builder.Interceptor.class),
-                                                                   any(WiremockStubDifferenceDetectingInterceptor.class));
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), eq(Collections.singletonList(interceptor)));
 
         Response<AccountList> response
             = informationService.getAccountList(headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(),
-                                              any(Request.Builder.Interceptor.class),
-                                              any(WiremockStubDifferenceDetectingInterceptor.class));
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
 
         assertThat(uriCaptor.getValue()).isEqualTo(AbstractService.buildUri(BASE_URI + "/v1/accounts", params));
         assertThat(headersCaptor.getValue()).isEqualTo(informationService.addConsentIdHeader(headers.toMap()));
@@ -313,18 +276,14 @@ class BaseAccountInformationServiceTest {
         transactionHeaders.put(RequestHeaders.ACCEPT, ContentType.APPLICATION_JSON);
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(),
-                                                                   any(Request.Builder.Interceptor.class),
-                                                                   any(WiremockStubDifferenceDetectingInterceptor.class));
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), eq(Collections.singletonList(interceptor)));
 
         Response<TransactionsResponse200Json> response
             = informationService.getTransactionList(ACCOUNTID, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(),
-                                              any(Request.Builder.Interceptor.class),
-                                              any(WiremockStubDifferenceDetectingInterceptor.class));
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
 
         assertThat(uriCaptor.getValue()).isEqualTo(AbstractService.buildUri(TRANSACTION_LIST_URI, params));
         assertThat(headersCaptor.getValue()).isEqualTo(transactionHeaders);
@@ -337,18 +296,14 @@ class BaseAccountInformationServiceTest {
         String transactionId = "transactionId";
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(),
-                                                                   any(Request.Builder.Interceptor.class),
-                                                                   any(WiremockStubDifferenceDetectingInterceptor.class));
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), eq(Collections.singletonList(interceptor)));
 
         Response<OK200TransactionDetails> response
             = informationService.getTransactionDetails(ACCOUNTID, transactionId, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(),
-                                              any(Request.Builder.Interceptor.class),
-                                              any(WiremockStubDifferenceDetectingInterceptor.class));
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
 
         assertThat(uriCaptor.getValue()).isEqualTo(TRANSACTION_LIST_URI + "/" + transactionId);
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
@@ -360,18 +315,14 @@ class BaseAccountInformationServiceTest {
         String example = "list of transactions";
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(),
-                                                                   any(Request.Builder.Interceptor.class),
-                                                                   any(WiremockStubDifferenceDetectingInterceptor.class));
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), eq(Collections.singletonList(interceptor)));
 
         Response<String> response
             = informationService.getTransactionListAsString(ACCOUNTID, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(),
-                                              any(Request.Builder.Interceptor.class),
-                                              any(WiremockStubDifferenceDetectingInterceptor.class));
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
 
         assertThat(uriCaptor.getValue()).isEqualTo(AbstractService.buildUri(TRANSACTION_LIST_URI, params));
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
@@ -383,18 +334,14 @@ class BaseAccountInformationServiceTest {
         ScaStatusResponse example = new ScaStatusResponse();
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(),
-                                                                   any(Request.Builder.Interceptor.class),
-                                                                   any(WiremockStubDifferenceDetectingInterceptor.class));
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), eq(Collections.singletonList(interceptor)));
 
         Response<ScaStatusResponse> response
             = informationService.getConsentScaStatus(CONSENTID, AUTHORISATIONID, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(),
-                                              any(Request.Builder.Interceptor.class),
-                                              any(WiremockStubDifferenceDetectingInterceptor.class));
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
 
         assertThat(uriCaptor.getValue()).isEqualTo(UPDATE_PSU_AUTHORISATION_URI);
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
@@ -406,18 +353,14 @@ class BaseAccountInformationServiceTest {
         ReadAccountBalanceResponse200 example = new ReadAccountBalanceResponse200();
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse(example)).when(requestBuilder).send(any(),
-                                                                   any(Request.Builder.Interceptor.class),
-                                                                   any(WiremockStubDifferenceDetectingInterceptor.class));
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), eq(Collections.singletonList(interceptor)));
 
         Response<ReadAccountBalanceResponse200> response
             = informationService.getBalances(ACCOUNTID, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());
-        verify(requestBuilder, times(1)).send(any(),
-                                              any(Request.Builder.Interceptor.class),
-                                              any(WiremockStubDifferenceDetectingInterceptor.class));
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
 
         assertThat(uriCaptor.getValue()).isEqualTo(BASE_URI + "/v1/accounts/" + ACCOUNTID + "/balances");
         assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
