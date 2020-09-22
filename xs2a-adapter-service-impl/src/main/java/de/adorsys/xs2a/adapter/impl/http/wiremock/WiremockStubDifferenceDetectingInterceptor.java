@@ -26,9 +26,13 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class WiremockStubDifferenceDetectingInterceptor implements Request.Builder.Interceptor {
@@ -41,6 +45,8 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
     private static final String BODY_FILE_NAME = "bodyFileName";
     private static final String BODY_PATTERNS = "bodyPatterns";
     private static final String CONTENT_TYPE = "Content-Type";
+    private static final String MAPPINGS_DIR = File.separator + "mappings" + File.separator;
+    private static final String MAPPINGS_DIR_PATH = "%s" + MAPPINGS_DIR;
     private final Aspsp aspsp;
     private final ObjectMapper objectMapper;
 
@@ -145,8 +151,8 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
         if (response.containsKey(BODY_FILE_NAME)) {
             try {
                 String fileName = (String) response.get(BODY_FILE_NAME);
-                String filePath = adapterName + "/__files/" + fileName;
-                InputStream is = getClass().getResourceAsStream("/" + filePath);
+                String filePath = adapterName + File.separator + "__files" + File.separator + fileName;
+                InputStream is = getClass().getResourceAsStream(File.separator + filePath);
                 return Optional.ofNullable(IOUtils.toString(is));
             } catch (IOException e) {
                 log.error("Can't get stub response file", e);
@@ -214,17 +220,22 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
 
     @SuppressWarnings("unchecked")
     private Map<String, Object> readStubFile(String fileName) throws IOException {
-        InputStream is = getClass().getResourceAsStream("/" + fileName);
+        InputStream is = getClass().getResourceAsStream(File.separator + fileName);
         return objectMapper.readValue(is, Map.class);
     }
 
     private String buildStubFilePath(String adapterName, String fileName) {
-        return adapterName + "/mappings/" + fileName;
+        return String.format(MAPPINGS_DIR_PATH, adapterName) + fileName;
     }
 
     @SuppressWarnings("unchecked")
     private boolean isJsonRequestBody(Map<String, Object> headers) {
         Map<String, String> contentType = (Map<String, String>) headers.getOrDefault(CONTENT_TYPE, Collections.emptyMap());
         return contentType.getOrDefault(EQUAL_TO, "").startsWith("application/json");
+    }
+
+    public static boolean isWiremockSupported(String adapterName) {
+        Path path = Paths.get(String.format(MAPPINGS_DIR_PATH, adapterName));
+        return Files.exists(path);
     }
 }
