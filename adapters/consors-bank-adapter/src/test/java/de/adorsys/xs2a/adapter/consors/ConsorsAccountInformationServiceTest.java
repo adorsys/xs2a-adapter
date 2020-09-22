@@ -1,9 +1,11 @@
 package de.adorsys.xs2a.adapter.consors;
 
 import de.adorsys.xs2a.adapter.api.*;
+import de.adorsys.xs2a.adapter.api.http.ContentType;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.model.*;
+import de.adorsys.xs2a.adapter.consors.model.ConsorsTransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.impl.http.AbstractHttpClient;
 import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 import org.junit.jupiter.api.BeforeEach;
@@ -145,5 +147,18 @@ class ConsorsAccountInformationServiceTest {
         assertThat(actualHeaders)
             .isNotEmpty()
             .containsEntry(PSU_ID, "");
+    }
+
+    @Test
+    void getTransactionSetsAcceptApplicationJson() {
+        Mockito.when(httpClient.send(Mockito.any(), Mockito.any()))
+            .thenReturn(new Response<>(200, new ConsorsTransactionsResponse200Json(), ResponseHeaders.emptyResponseHeaders()));
+
+        service.getTransactionListAsString(null, RequestHeaders.empty(), RequestParams.empty());
+
+        Mockito.verify(httpClient, Mockito.times(1))
+            .send(builderCaptor.capture(), Mockito.any());
+        assertThat(builderCaptor.getValue().headers())
+            .containsEntry(RequestHeaders.ACCEPT, ContentType.APPLICATION_JSON);
     }
 }

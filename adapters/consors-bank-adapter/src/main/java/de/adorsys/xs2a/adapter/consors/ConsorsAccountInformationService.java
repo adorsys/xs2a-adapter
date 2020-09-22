@@ -37,6 +37,14 @@ public class ConsorsAccountInformationService extends BaseAccountInformationServ
     }
 
     @Override
+    public Response<String> getTransactionListAsString(String accountId,
+                                                       RequestHeaders requestHeaders,
+                                                       RequestParams requestParams) {
+        return getTransactionList(accountId, requestHeaders, requestParams)
+            .map(jsonMapper::writeValueAsString);
+    }
+
+    @Override
     public Response<OK200TransactionDetails> getTransactionDetails(String accountId,
                                                                    String transactionId,
                                                                    RequestHeaders requestHeaders,
