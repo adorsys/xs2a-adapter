@@ -8,6 +8,7 @@
 - Removed deprecated methods in `PaymentInitiationService` and `PaymentInitiationValidationService`.
 - Removed PFB business entity support in deutsche bank adapter.
 See the previous release notes for more details.
+- Reverted removal of pain.001 ReqdExctnDt in sparkasse adapter.
 
 == Features:
 
