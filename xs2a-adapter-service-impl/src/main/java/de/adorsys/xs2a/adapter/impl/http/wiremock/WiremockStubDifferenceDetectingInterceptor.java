@@ -199,11 +199,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     @SuppressWarnings("unchecked")
     private Optional<Map<String, Object>> getStubRequestHeaders(Map<String, Object> jsonFile) {
         Map<String, Object> request = (Map<String, Object>) jsonFile.get(REQUEST);
-        if (!request.containsKey(HEADERS)) {
-            return Optional.empty();
-        }
-        Map<String, Object> headers = (Map<String, Object>) request.get(HEADERS);
-        return Optional.ofNullable(headers);
+        return Optional.ofNullable((Map<String, Object>) request.get(HEADERS));
     }
 
     @SuppressWarnings("unchecked")
