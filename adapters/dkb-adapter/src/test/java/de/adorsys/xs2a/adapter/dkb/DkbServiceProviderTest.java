@@ -6,6 +6,8 @@ import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
@@ -16,7 +18,7 @@ class DkbServiceProviderTest {
 
     @BeforeEach
     public void setUp() {
-        String file = getClass().getResource("/external.adapter.config.properties").getFile();
+        String file = getClass().getResource(File.separator + "dkb.adapter.config.properties").getFile();
         System.setProperty("adapter.config.file.path", file);
 
         provider = new DkbServiceProvider();
