@@ -68,7 +68,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
             String fileName = buildStubFilePath(aspsp.getAdapterId(), fileResolver.getFileName());
             Map<String, Object> jsonFile = readStubFile(fileName);
             List<String> changes = new ArrayList<>();
-            getStubRequestHeaders(jsonFile)
+            getRequestHeaders(jsonFile)
                 .flatMap(headers -> analyzeRequestHeaders(fileResolver, builder, headers))
                 .ifPresent(changes::add);
             getRequestBody(jsonFile)
@@ -177,7 +177,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     @SuppressWarnings("unchecked")
     private Optional<String> getRequestBody(Map<String, Object> jsonFile) {
         Map<String, Object> request = (Map<String, Object>) jsonFile.get(REQUEST);
-        Optional<Map<String, Object>> headers = getStubRequestHeaders(jsonFile);
+        Optional<Map<String, Object>> headers = getRequestHeaders(jsonFile);
         if (!request.containsKey(BODY_PATTERNS) || !headers.isPresent() || !isJsonRequestBody(headers.get())) {
             return Optional.empty();
         }
@@ -186,7 +186,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     }
 
     @SuppressWarnings("unchecked")
-    private Optional<Map<String, Object>> getStubRequestHeaders(Map<String, Object> jsonFile) {
+    private Optional<Map<String, Object>> getRequestHeaders(Map<String, Object> jsonFile) {
         Map<String, Object> request = (Map<String, Object>) jsonFile.get(REQUEST);
         return Optional.ofNullable((Map<String, Object>) request.get(HEADERS));
     }
