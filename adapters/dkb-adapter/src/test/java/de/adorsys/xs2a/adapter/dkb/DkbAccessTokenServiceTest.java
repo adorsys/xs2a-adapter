@@ -8,6 +8,7 @@ import de.adorsys.xs2a.adapter.impl.security.AccessTokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,7 +22,7 @@ class DkbAccessTokenServiceTest {
 
     @BeforeEach
     public void setUp() {
-        String file = getClass().getResource("/external.adapter.config.properties").getFile();
+        String file = getClass().getResource(File.separator + "dkb.adapter.config.properties").getFile();
         System.setProperty("adapter.config.file.path", file);
 
         tokenService = DkbAccessTokenService.getInstance();
