@@ -55,7 +55,7 @@ class WiremockStubDifferenceDetectingInterceptorTest {
             .postHandle(request, new Response<>(200, "", ResponseHeaders.emptyResponseHeaders()));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
-            .doesNotContainKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED);
+            .doesNotContainKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED);
     }
 
     @Test
@@ -67,8 +67,8 @@ class WiremockStubDifferenceDetectingInterceptorTest {
             .postHandle(request, new Response<>(200, "", ResponseHeaders.emptyResponseHeaders()));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
-            .containsKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED)
-            .extractingByKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED)
+            .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .extractingByKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
             .matches(val -> val.contains(REQUEST_HEADERS_VALUE))
             .matches(val -> !val.contains(REQUEST_PAYLOAD_VALUE))
             .matches(val -> !val.contains(RESPONSE_PAYLOAD_VALUE));
@@ -88,8 +88,8 @@ class WiremockStubDifferenceDetectingInterceptorTest {
             .postHandle(request, new Response<>(200, "", ResponseHeaders.emptyResponseHeaders()));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
-            .containsKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED)
-            .extractingByKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED)
+            .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .extractingByKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
             .matches(val -> val.contains(REQUEST_PAYLOAD_VALUE))
             .matches(val -> !val.contains(REQUEST_HEADERS_VALUE))
             .matches(val -> !val.contains(RESPONSE_PAYLOAD_VALUE));
@@ -109,8 +109,8 @@ class WiremockStubDifferenceDetectingInterceptorTest {
             .postHandle(request, new Response<>(200, new ConsentsResponse201(), ResponseHeaders.emptyResponseHeaders()));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
-            .containsKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED)
-            .extractingByKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED)
+            .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .extractingByKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
             .matches(val -> val.contains(RESPONSE_PAYLOAD_VALUE))
             .matches(val -> !val.contains(REQUEST_PAYLOAD_VALUE))
             .matches(val -> !val.contains(REQUEST_HEADERS_VALUE));
@@ -125,8 +125,8 @@ class WiremockStubDifferenceDetectingInterceptorTest {
             .postHandle(request, new Response<>(200, new ConsentsResponse201(), ResponseHeaders.emptyResponseHeaders()));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
-            .containsKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED)
-            .extractingByKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED)
+            .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .extractingByKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
             .matches(val -> val.contains(RESPONSE_PAYLOAD_VALUE))
             .matches(val -> val.contains(REQUEST_PAYLOAD_VALUE))
             .matches(val -> val.contains(REQUEST_HEADERS_VALUE));

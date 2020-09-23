@@ -84,7 +84,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
 
             if (!changes.isEmpty()) {
                 String headerValue = String.join(",", changes);
-                headersMap.put(ResponseHeaders.X_ASPSP_CHANGES_DETECTED, headerValue);
+                headersMap.put(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED, headerValue);
             }
 
             return new Response<>(response.getStatusCode(), response.getBody(), ResponseHeaders.fromMap(headersMap));
