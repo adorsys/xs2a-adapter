@@ -202,7 +202,6 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
             return Optional.empty();
         }
         Map<String, Object> headers = (Map<String, Object>) request.get(HEADERS);
-        //todo: parse equalsTo and matches
         return Optional.ofNullable(headers);
     }
 
