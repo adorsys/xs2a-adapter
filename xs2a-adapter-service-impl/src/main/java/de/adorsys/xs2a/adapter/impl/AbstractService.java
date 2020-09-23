@@ -32,11 +32,13 @@ import de.adorsys.xs2a.adapter.impl.http.wiremock.WiremockStubDifferenceDetectin
 
 import java.util.*;
 
+import static de.adorsys.xs2a.adapter.api.config.AdapterConfig.WIREMOCK_VALIDATION_ENABLED;
+
 public abstract class AbstractService {
     private static final EnumMap<PaymentService, Class<?>> PAYMENT_INITIATION_BODY_CLASSES =
         new EnumMap<>(PaymentService.class);
     private final boolean wiremockInterceptorEnabled =
-        Boolean.parseBoolean(AdapterConfig.readProperty("wiremock.interceptor.enabled", "false"));
+        Boolean.parseBoolean(AdapterConfig.readProperty(WIREMOCK_VALIDATION_ENABLED, "false"));
 
     protected static final String AUTHORISATIONS = "authorisations";
     protected static final String STATUS = "status";
