@@ -147,6 +147,11 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     @SuppressWarnings("unchecked")
     private Optional<String> getResponseBody(Map<String, Object> jsonFile, String adapterName) {
         Map<String, Object> response = (Map<String, Object>) jsonFile.get(RESPONSE);
+        Optional<Map<String, Object>> headers = getRequestHeaders(jsonFile);
+        if ((!response.containsKey(BODY) && !response.containsKey(BODY_FILE_NAME)) || !headers.isPresent() || !isJsonRequestBody(headers.get())) {
+            return Optional.empty();
+        }
+
         if (response.containsKey(BODY)) {
             return Optional.ofNullable((String) response.get(BODY));
         }
