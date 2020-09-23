@@ -9,7 +9,7 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.Request;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import org.junit.jupiter.api.Test;
@@ -36,14 +36,7 @@ class WiremockStubDifferenceDetectingInterceptorTest {
 
     private final HttpClient httpClient = mock(HttpClient.class);
     private final Aspsp aspsp = getAspsp();
-    private final Request.Builder.Interceptor interceptor = new WiremockStubDifferenceDetectingInterceptor(aspsp);
-
-    @Test
-    void apply() {
-        Request.Builder builder = new RequestBuilderImpl(httpClient, null, null);
-        assertThat(builder)
-            .isEqualTo(interceptor.apply(builder));
-    }
+    private final Interceptor interceptor = new WiremockStubDifferenceDetectingInterceptor(aspsp);
 
     @Test
     void postHandle_allMatch() {
@@ -52,10 +45,10 @@ class WiremockStubDifferenceDetectingInterceptorTest {
         request.header(RequestHeaders.CONSENT_ID, "consent-id");
 
         Response<?> actualResponse = interceptor
-            .postHandle(request, new Response<>(200, "", ResponseHeaders.emptyResponseHeaders()));
+                                         .postHandle(request, new Response<>(200, "", ResponseHeaders.emptyResponseHeaders()));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
-            .doesNotContainKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED);
+            .doesNotContainKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED);
     }
 
     @Test
@@ -64,11 +57,11 @@ class WiremockStubDifferenceDetectingInterceptorTest {
         request.jsonBody(writeValueAsString(getRequestBody()));
 
         Response<?> actualResponse = interceptor
-            .postHandle(request, new Response<>(200, "", ResponseHeaders.emptyResponseHeaders()));
+                                         .postHandle(request, new Response<>(200, "", ResponseHeaders.emptyResponseHeaders()));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
-            .containsKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED)
-            .extractingByKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED)
+            .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .extractingByKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
             .matches(val -> val.contains(REQUEST_HEADERS_VALUE))
             .matches(val -> !val.contains(REQUEST_PAYLOAD_VALUE))
             .matches(val -> !val.contains(RESPONSE_PAYLOAD_VALUE));
@@ -85,11 +78,11 @@ class WiremockStubDifferenceDetectingInterceptorTest {
         request.header(RequestHeaders.TPP_REDIRECT_URI, TPP_REDIRECT_URI_VALUE);
 
         Response<?> actualResponse = interceptor
-            .postHandle(request, new Response<>(200, "", ResponseHeaders.emptyResponseHeaders()));
+                                         .postHandle(request, new Response<>(200, "", ResponseHeaders.emptyResponseHeaders()));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
-            .containsKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED)
-            .extractingByKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED)
+            .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .extractingByKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
             .matches(val -> val.contains(REQUEST_PAYLOAD_VALUE))
             .matches(val -> !val.contains(REQUEST_HEADERS_VALUE))
             .matches(val -> !val.contains(RESPONSE_PAYLOAD_VALUE));
@@ -106,11 +99,11 @@ class WiremockStubDifferenceDetectingInterceptorTest {
         request.header(RequestHeaders.TPP_REDIRECT_URI, TPP_REDIRECT_URI_VALUE);
 
         Response<?> actualResponse = interceptor
-            .postHandle(request, new Response<>(200, new ConsentsResponse201(), ResponseHeaders.emptyResponseHeaders()));
+                                         .postHandle(request, new Response<>(200, new ConsentsResponse201(), ResponseHeaders.emptyResponseHeaders()));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
-            .containsKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED)
-            .extractingByKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED)
+            .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .extractingByKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
             .matches(val -> val.contains(RESPONSE_PAYLOAD_VALUE))
             .matches(val -> !val.contains(REQUEST_PAYLOAD_VALUE))
             .matches(val -> !val.contains(REQUEST_HEADERS_VALUE));
@@ -122,11 +115,11 @@ class WiremockStubDifferenceDetectingInterceptorTest {
         request.jsonBody(writeValueAsString(new Consents()));
 
         Response<?> actualResponse = interceptor
-            .postHandle(request, new Response<>(200, new ConsentsResponse201(), ResponseHeaders.emptyResponseHeaders()));
+                                         .postHandle(request, new Response<>(200, new ConsentsResponse201(), ResponseHeaders.emptyResponseHeaders()));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
-            .containsKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED)
-            .extractingByKey(ResponseHeaders.X_ASPSP_CHANGES_DETECTED)
+            .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .extractingByKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
             .matches(val -> val.contains(RESPONSE_PAYLOAD_VALUE))
             .matches(val -> val.contains(REQUEST_PAYLOAD_VALUE))
             .matches(val -> val.contains(REQUEST_HEADERS_VALUE));
@@ -134,7 +127,7 @@ class WiremockStubDifferenceDetectingInterceptorTest {
 
     private Aspsp getAspsp() {
         Aspsp aspsp = new Aspsp();
-        aspsp.setName("adorsys-adapter");
+        aspsp.setAdapterId("adorsys-adapter");
         return aspsp;
     }
 
@@ -165,9 +158,9 @@ class WiremockStubDifferenceDetectingInterceptorTest {
 
     private <T> String writeValueAsString(T object) throws JsonProcessingException {
         return new ObjectMapper()
-            .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-            .registerModule(new JavaTimeModule()
-                .addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern("yyyyMMdd"))))
-            .writeValueAsString(object);
+                   .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+                   .registerModule(new JavaTimeModule()
+                                       .addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern("yyyyMMdd"))))
+                   .writeValueAsString(object);
     }
 }

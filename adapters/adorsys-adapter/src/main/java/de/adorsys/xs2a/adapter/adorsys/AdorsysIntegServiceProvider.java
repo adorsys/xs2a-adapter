@@ -20,7 +20,7 @@ import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.api.http.Request;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
@@ -44,23 +44,23 @@ public class AdorsysIntegServiceProvider
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
         return new BasePaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            keyStore != null ? getInterceptor(keyStore) : null,
-            linksRewriter);
+                                                httpClientFactory.getHttpClient(getAdapterId()),
+                                                keyStore != null ? getInterceptor(keyStore) : null,
+                                                linksRewriter);
     }
 
     //todo: https://jira.adorsys.de/browse/XS2AAD-706
-    Request.Builder.Interceptor getInterceptor(Pkcs12KeyStore keyStore) {
+    Interceptor getInterceptor(Pkcs12KeyStore keyStore) {
         if (requestSigningEnabled) {
             RequestSigningInterceptor requestSigningInterceptor = new RequestSigningInterceptor(keyStore);
             return requestBuilder -> {
                 oauthHeaderInterceptor.preHandle(requestBuilder);
                 requestBuilder.header(RequestHeaders.DATE,
-                    DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
+                                      DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
                 requestSigningInterceptor.preHandle(requestBuilder);
                 String certificate = requestBuilder.headers().get(RequestHeaders.TPP_SIGNATURE_CERTIFICATE);
                 requestBuilder.header(RequestHeaders.TPP_SIGNATURE_CERTIFICATE,
-                    "-----BEGIN CERTIFICATE-----" + certificate + "-----END CERTIFICATE-----");
+                                      "-----BEGIN CERTIFICATE-----" + certificate + "-----END CERTIFICATE-----");
                 return requestBuilder;
             };
         }
@@ -73,14 +73,14 @@ public class AdorsysIntegServiceProvider
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
         return new AdorsysAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
-            getInterceptor(keyStore), linksRewriter);
+                                                    getInterceptor(keyStore), linksRewriter);
     }
 
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
         return new AdorsysIntegOauth2Service(aspsp, httpClient,
-            new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class));
+                                             new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class));
     }
 
     @Override

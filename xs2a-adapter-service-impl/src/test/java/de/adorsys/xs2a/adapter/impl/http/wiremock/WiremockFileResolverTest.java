@@ -16,7 +16,7 @@ class WiremockFileResolverTest {
     private static final String PAYMENTS_PAIN001_SCT_URI = "/v1/payments/pain.001-sepa-credit-transfers";
     private static final String PERIODIC_SCT_URI = "/v1/periodic-payments/sepa-credit-transfers";
     private static final String PERIODIC_PAIN001_CST_URI = "/v1/periodic-payments/pain.001-sepa-credit-transfers";
-    // Flowed data
+    // Flawed data
     private static final String FLAWED_URI = "/foo/boo";
     private static final String FLAWED_BODY = "{\"foo\": \"boo\"}";
     private static final String FLAWED_METHOD = "FOO";

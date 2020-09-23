@@ -21,6 +21,7 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
@@ -42,7 +43,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
     protected static final String V1 = "v1";
     protected final Aspsp aspsp;
-    private final List<Request.Builder.Interceptor> interceptors;
+    private final List<Interceptor> interceptors;
     private final LinksRewriter linksRewriter;
 
     public BasePaymentInitiationService(Aspsp aspsp, HttpClient httpClient) {
@@ -51,7 +52,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
     public BasePaymentInitiationService(Aspsp aspsp,
                                         HttpClient httpClient,
-                                        Request.Builder.Interceptor requestBuilderInterceptor) {
+                                        Interceptor requestBuilderInterceptor) {
         this(aspsp, httpClient, Collections.singletonList(requestBuilderInterceptor), DEFAULT_LINKS_REWRITER);
     }
 
@@ -63,14 +64,14 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
     public BasePaymentInitiationService(Aspsp aspsp,
                                         HttpClient httpClient,
-                                        Request.Builder.Interceptor requestBuilderInterceptor,
+                                        Interceptor requestBuilderInterceptor,
                                         LinksRewriter linksRewriter) {
         this(aspsp, httpClient, Collections.singletonList(requestBuilderInterceptor), linksRewriter);
     }
 
     public BasePaymentInitiationService(Aspsp aspsp,
                                         HttpClient httpClient,
-                                        List<Request.Builder.Interceptor> interceptors,
+                                        List<Interceptor> interceptors,
                                         LinksRewriter linksRewriter) {
         super(httpClient);
         this.aspsp = aspsp;

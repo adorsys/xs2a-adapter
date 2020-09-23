@@ -1,14 +1,15 @@
 package de.adorsys.xs2a.adapter.verlag;
 
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import org.apache.commons.lang3.StringUtils;
 
 import static de.adorsys.xs2a.adapter.api.RequestHeaders.PSU_ID_TYPE;
 
-public class PsuIdTypeHeaderInterceptor implements Request.Builder.Interceptor {
+public class PsuIdTypeHeaderInterceptor implements Interceptor {
 
     @Override
-    public Request.Builder apply(Request.Builder builder) {
+    public Request.Builder preHandle(Request.Builder builder) {
         return handlePsuIdTypeHeader(builder);
     }
 

@@ -4,7 +4,7 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.Request;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.Consents;
@@ -23,7 +23,7 @@ public class AdorsysAccountInformationService extends BaseAccountInformationServ
 
     public AdorsysAccountInformationService(Aspsp aspsp,
                                             HttpClient httpClient,
-                                            Request.Builder.Interceptor requestBuilderInterceptor,
+                                            Interceptor requestBuilderInterceptor,
                                             LinksRewriter linksRewriter) {
         super(aspsp, httpClient, requestBuilderInterceptor, linksRewriter);
     }
@@ -33,10 +33,10 @@ public class AdorsysAccountInformationService extends BaseAccountInformationServ
                                                        RequestParams requestParams,
                                                        Consents body) {
         return createConsent(requestHeaders,
-            requestParams,
-            body,
-            identity(),
-            consentCreationResponseHandler(getIdpUri(), ConsentsResponse201.class));
+                             requestParams,
+                             body,
+                             identity(),
+                             consentCreationResponseHandler(getIdpUri(), ConsentsResponse201.class));
     }
 
     @Override

@@ -18,20 +18,21 @@ package de.adorsys.xs2a.adapter.adorsys;
 
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.http.Request;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class OauthHeaderInterceptor implements Request.Builder.Interceptor {
+public class OauthHeaderInterceptor implements Interceptor {
 
     private static final String BANK_CODE_FOR_OAUTH = "adorsys.oauth_approach.bank_code";
     private static final String OAUTH_HEADER_VALUE = "adorsys.oauth_approach.header_value";
     static final String OAUTH_HEADER_NAME = "adorsys.oauth_approach.header_name";
 
     @Override
-    public Request.Builder apply(Request.Builder builder) {
+    public Request.Builder preHandle(Request.Builder builder) {
         String oauthBankCode = AdapterConfig.readProperty(BANK_CODE_FOR_OAUTH, "");
         List<String> bankCodes = Arrays.stream(oauthBankCode.split(","))
                                      .map(String::trim).collect(Collectors.toList());

@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.dkb;
 
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenService;
@@ -23,7 +24,7 @@ class DkbAccessTokenServiceTest {
     @BeforeEach
     public void setUp() {
         String file = getClass().getResource(File.separator + "dkb.adapter.config.properties").getFile();
-        System.setProperty("adapter.config.file.path", file);
+        AdapterConfig.setConfigFile(file);
 
         tokenService = DkbAccessTokenService.getInstance();
         httpClient = mock(HttpClient.class);
