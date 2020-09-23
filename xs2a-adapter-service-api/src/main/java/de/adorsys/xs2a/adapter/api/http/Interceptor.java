@@ -22,7 +22,7 @@ public interface Interceptor {
     Request.Builder preHandle(Request.Builder builder);
 
     /**
-     * the method will be executed when the response from ASPSP will be received
+     * the method will be executed when the response from ASPSP will be received.
      * @param builder request builder object
      * @param response response received from ASPSP
      * @return modified response object
