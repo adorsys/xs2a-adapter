@@ -12,7 +12,7 @@ See the previous release notes for more details.
 
 == Features:
 - Add functionality for detecting changes in wiremock stub files. For enabling/disabling this feature
-just set config parameter `wiremock.interceptor.enabled` to `true` or `false` in the config file `adapter.config.properties`
+just set config parameter `wiremock.interceptor.enabled` to `true` or `false` in the config file `adapter.config.properties`. It is `disabled` by `default`.
 
 == Fixes:
 - 406 error response from consors on get transactions with `Accept` set to any (\*/*)
