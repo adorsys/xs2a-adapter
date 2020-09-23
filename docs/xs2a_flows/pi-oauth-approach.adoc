@@ -5,4 +5,4 @@ the OAuth approach for the authorisation process.
 
 == Sequence Flow
 
-image::pi-oauth-approach.png[]
+image::./images/pi-oauth-approach.png[]

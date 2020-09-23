@@ -27,13 +27,6 @@ class PsuIdTypeHeaderInterceptorTest {
     }
 
     @Test
-    void setsPsuIdTypeForPfbBusinessEntityInGermanyWhenPsuIdIsPresent() {
-        builder.uri("https://xs2a.db.com/ais/DE/PFB");
-        interceptor.preHandle(builder);
-        assertEquals("DE_ONLB_DB", builder.headers().get(RequestHeaders.PSU_ID_TYPE));
-    }
-
-    @Test
     void doesNothingWhenPsuIdIsNotSet() {
         builder.uri("https://xs2a.db.com/ais/DE/DB");
         builder.headers().remove(RequestHeaders.PSU_ID);

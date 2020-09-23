@@ -42,10 +42,12 @@ public class RequestHeaders {
     public static final String X_GTW_BANK_CODE = "X-GTW-Bank-Code";
     public static final String X_GTW_BIC = "X-GTW-BIC";
     public static final String X_GTW_IBAN = "X-GTW-IBAN";
+    // Open Banking Gateway
+    public static final String X_OAUTH_PREFERRED = "X-OAUTH-PREFERRED";
 
     private static final RequestHeaders EMPTY = new RequestHeaders(Collections.emptyMap());
 
-    private static Map<String, String> headerNamesLowerCased = new HashMap<>();
+    private static final Map<String, String> headerNamesLowerCased = new HashMap<>();
 
     static {
         headerNamesLowerCased.put(X_GTW_ASPSP_ID.toLowerCase(), X_GTW_ASPSP_ID);
@@ -78,9 +80,10 @@ public class RequestHeaders {
         headerNamesLowerCased.put(ACCEPT.toLowerCase(), ACCEPT);
         headerNamesLowerCased.put(AUTHORIZATION.toLowerCase(), AUTHORIZATION);
         headerNamesLowerCased.put(CORRELATION_ID.toLowerCase(), CORRELATION_ID);
+        headerNamesLowerCased.put(X_OAUTH_PREFERRED.toLowerCase(), X_OAUTH_PREFERRED);
     }
 
-    private Map<String, String> headers;
+    private final Map<String, String> headers;
 
     private RequestHeaders(Map<String, String> headers) {
         this.headers = headers;
@@ -90,7 +93,7 @@ public class RequestHeaders {
         Map<String, String> headers = new HashMap<>();
         headersMap.forEach((name, value) -> {
             String headerNameInLowerCase = name.toLowerCase();
-            if (headerNamesLowerCased.keySet().contains(headerNameInLowerCase)) {
+            if (headerNamesLowerCased.containsKey(headerNameInLowerCase)) {
                 headers.put(headerNamesLowerCased.get(headerNameInLowerCase), value);
             }
         });

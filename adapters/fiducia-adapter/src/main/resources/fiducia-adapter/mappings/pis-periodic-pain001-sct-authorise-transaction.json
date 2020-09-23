@@ -1,0 +1,51 @@
+{
+  "id" : "1301c346-9a03-48c5-ad18-7f1914646f50",
+  "name" : "v1_periodic-payments_pain001-sepa-credit-transfers_2750410619090020256psdde-bafin-911360pa4960jj_authorisations_0509410619090020257psdde-bafin-911360au4960jj",
+  "request" : {
+    "url" : "/v1/periodic-payments/pain.001-sepa-credit-transfers/2750410619090020256PSDDE-BAFIN-911360PA4960JJ/authorisations/0509410619090020257PSDDE-BAFIN-911360AU4960JJ",
+    "method" : "PUT",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Digest" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "VRK1234567890ALL"
+      },
+      "Date" : {
+        "matches" : ".+"
+      },
+      "Signature" : {
+        "matches" : ".+"
+      },
+      "TPP-Signature-Certificate" : {
+        "matches" : ".+"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"scaAuthenticationData\":\"123456\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"scaStatus\":\"finalised\"}",
+    "headers" : {
+      "Date" : "Wed, 09 Sep 2020 14:02:03 GMT",
+      "Server" : "Webserver",
+      "X-Request-ID" : "4585329e-f0bb-4fc0-ba52-037f5f22e451",
+      "Content-Language" : "de",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Keep-Alive" : "timeout=15, max=96"
+    }
+  },
+  "uuid" : "1301c346-9a03-48c5-ad18-7f1914646f50",
+  "persistent" : true,
+  "insertionIndex" : 19
+}

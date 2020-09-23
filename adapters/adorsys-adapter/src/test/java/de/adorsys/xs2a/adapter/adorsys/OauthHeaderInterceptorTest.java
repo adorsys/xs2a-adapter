@@ -35,6 +35,16 @@ class OauthHeaderInterceptorTest {
         Assertions.assertEquals("integrated", result.headers().get(header));
     }
 
+    @Test
+    void willNotOverrideHeader() {
+        Request.Builder builder = initRequestBuilder("90001002");
+        builder.header("X-oauth-PREFERRED", "pre-step");
+        Request.Builder result = interceptor.apply(builder);
+
+        // the value stays "pre-step" instead of being set to "integrated" by the interceptor
+        Assertions.assertEquals("pre-step", result.headers().get(header));
+    }
+
     private Request.Builder applyInterceptor(String bankCode) {
         Request.Builder builder = initRequestBuilder(bankCode);
         interceptor.preHandle(builder);

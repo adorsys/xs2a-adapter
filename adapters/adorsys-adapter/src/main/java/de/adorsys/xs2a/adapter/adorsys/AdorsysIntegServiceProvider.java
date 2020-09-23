@@ -49,7 +49,7 @@ public class AdorsysIntegServiceProvider
             linksRewriter);
     }
 
-    //todo: replace by multiple interceptor usage
+    //todo: https://jira.adorsys.de/browse/XS2AAD-706
     Request.Builder.Interceptor getInterceptor(Pkcs12KeyStore keyStore) {
         if (requestSigningEnabled) {
             RequestSigningInterceptor requestSigningInterceptor = new RequestSigningInterceptor(keyStore);

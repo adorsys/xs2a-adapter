@@ -42,6 +42,10 @@ public class TestRequestResponse {
         return objectMapper.convertValue(jsonNode.path(REQUEST).path(BODY).require(), klass);
     }
 
+    public String requestBody() {
+        return jsonNode.path(REQUEST).path(BODY).require().asText();
+    }
+
     public <T> T responseBody(Class<T> klass) {
         return objectMapper.convertValue(jsonNode.path(RESPONSE).path(BODY).require(), klass);
     }

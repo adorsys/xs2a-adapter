@@ -1,0 +1,22 @@
+= Draft Release notes for version 0.1.3 (release date: xx.10.2020)
+
+.Added banks
+|===
+|===
+
+== Notices:
+- Removed deprecated methods in `PaymentInitiationService` and `PaymentInitiationValidationService`.
+- Removed PFB business entity support in deutsche bank adapter.
+See the previous release notes for more details.
+- Reverted removal of pain.001 ReqdExctnDt in sparkasse adapter.
+
+== Features:
+- Add functionality for detecting changes in wiremock stub files. For enabling/disabling this feature
+just set config parameter `wiremock.interceptor.enabled` to `true` or `false` in the config file `adapter.config.properties`
+
+== Fixes:
+- 406 error response from consors on get transactions with `Accept` set to any (\*/*)
+[quote]
+The requested formats in the Accept header entry are not matching the formats offered by the ASPSP
+
+

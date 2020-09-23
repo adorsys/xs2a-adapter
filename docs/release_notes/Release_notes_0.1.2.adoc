@@ -1,9 +1,4 @@
-= DRAFT Release notes for version 0.1.2 (release date: xx.09.2020)
-
-.Added banks
-|===
-|
-|===
+= Release notes for version 0.1.2 (release date: 10.09.2020)
 
 == Notices:
 - Documentation was published on GitHub Pages and available by referencing to https://adorsys.github.io/xs2a-adapter/
@@ -40,7 +35,7 @@ as the bank doesn't expect the header to be present within these requests.
 ** EXPI -> ACSC
 ** ACTV -> ACSP
 - Added support for user-specified PKCE parameters to override default values.
-
+- Added forwarding of custom request headers.
 
 == Fixes:
 - Fixed class cast exception for periodic/pain.001 payment initiation for sparkasse

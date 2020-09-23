@@ -42,6 +42,11 @@ public class OauthHeaderInterceptor implements Request.Builder.Interceptor {
         }
 
         String oauthHeaderName = AdapterConfig.readProperty(OAUTH_HEADER_NAME, "");
+
+        if (builder.headers().containsKey(oauthHeaderName)) {
+            return builder;
+        }
+
         String headerValue = getOauthHeaderValue(bankCodes, requestBankCode);
 
         if (!oauthHeaderName.isEmpty() && !headerValue.isEmpty()) {
