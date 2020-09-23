@@ -20,7 +20,7 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.Request;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.api.validation.ValidationError;
@@ -49,7 +49,7 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
 
     public FiduciaAccountInformationService(Aspsp aspsp,
                                             HttpClient httpClient,
-                                            Request.Builder.Interceptor requestBuilderInterceptor,
+                                            Interceptor requestBuilderInterceptor,
                                             LinksRewriter linksRewriter) {
         super(aspsp, httpClient, requestBuilderInterceptor, linksRewriter);
     }
@@ -97,10 +97,10 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
                                                                     RequestHeaders requestHeaders,
                                                                     RequestParams requestParams) {
         return getTransactionList(accountId,
-            requestHeaders,
-            requestParams,
-            FiduciaTransactionsResponse200Json.class,
-            mapper::toTransactionsResponse200Json);
+                                  requestHeaders,
+                                  requestParams,
+                                  FiduciaTransactionsResponse200Json.class,
+                                  mapper::toTransactionsResponse200Json);
     }
 
     @Override
@@ -113,8 +113,8 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
     private List<ValidationError> validateBookingStatus(RequestParams requestParams) {
         if (notSupportedBookingStatus(requestParams)) {
             return Collections.singletonList(new ValidationError(ValidationError.Code.NOT_SUPPORTED,
-                RequestParams.BOOKING_STATUS,
-                BOOKING_STATUS_ERROR_MESSAGE));
+                                                                 RequestParams.BOOKING_STATUS,
+                                                                 BOOKING_STATUS_ERROR_MESSAGE));
         }
         return Collections.emptyList();
     }
@@ -137,11 +137,11 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams) {
         return getTransactionDetails(accountId,
-            transactionId,
-            requestHeaders,
-            requestParams,
-            FiduciaOK200TransactionDetails.class,
-            mapper::toOK200TransactionDetails);
+                                     transactionId,
+                                     requestHeaders,
+                                     requestParams,
+                                     FiduciaOK200TransactionDetails.class,
+                                     mapper::toOK200TransactionDetails);
     }
 
     @Override
@@ -153,12 +153,12 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
         SelectPsuAuthenticationMethod selectPsuAuthenticationMethod
     ) {
         return super.updateConsentsPsuData(consentId,
-            authorisationId,
-            requestHeaders,
-            requestParams,
-            selectPsuAuthenticationMethod,
-            FiduciaSelectPsuAuthenticationMethodResponse.class,
-            mapper::toSelectPsuAuthenticationMethodResponse);
+                                           authorisationId,
+                                           requestHeaders,
+                                           requestParams,
+                                           selectPsuAuthenticationMethod,
+                                           FiduciaSelectPsuAuthenticationMethodResponse.class,
+                                           mapper::toSelectPsuAuthenticationMethodResponse);
     }
 
     @Override
@@ -169,10 +169,10 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
         UpdatePsuAuthentication updatePsuAuthentication
     ) {
         return super.startConsentAuthorisation(consentId,
-            requestHeaders,
-            requestParams,
-            updatePsuAuthentication,
-            FiduciaStartScaProcessResponse.class,
-            mapper::toStartScaProcessResponse);
+                                               requestHeaders,
+                                               requestParams,
+                                               updatePsuAuthentication,
+                                               FiduciaStartScaProcessResponse.class,
+                                               mapper::toStartScaProcessResponse);
     }
 }

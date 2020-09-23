@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import org.apache.commons.io.IOUtils;
@@ -35,7 +36,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class WiremockStubDifferenceDetectingInterceptor implements Request.Builder.Interceptor {
+public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     private static final Logger log = LoggerFactory.getLogger(WiremockStubDifferenceDetectingInterceptor.class);
     private static final String EQUAL_TO = "equalTo";
     private static final String REQUEST = "request";
@@ -56,7 +57,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
     }
 
     @Override
-    public Request.Builder apply(Request.Builder builder) {
+    public Request.Builder preHandle(Request.Builder builder) {
         return builder;
     }
 

@@ -22,7 +22,7 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.ContentType;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.Request;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
@@ -55,7 +55,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     protected final Aspsp aspsp;
     private final LinksRewriter linksRewriter;
-    private final List<Request.Builder.Interceptor> interceptors;
+    private final List<Interceptor> interceptors;
 
     public BaseAccountInformationService(Aspsp aspsp, HttpClient httpClient) {
         this(aspsp, httpClient, Collections.emptyList(), DEFAULT_LINKS_REWRITER);
@@ -63,7 +63,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
-                                         Request.Builder.Interceptor requestBuilderInterceptor) {
+                                         Interceptor requestBuilderInterceptor) {
         this(aspsp, httpClient, requestBuilderInterceptor, DEFAULT_LINKS_REWRITER);
     }
 
@@ -75,7 +75,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
-                                         Request.Builder.Interceptor requestBuilderInterceptor,
+                                         Interceptor requestBuilderInterceptor,
                                          LinksRewriter linksRewriter) {
         super(httpClient);
         this.aspsp = aspsp;
@@ -85,7 +85,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
-                                         List<Request.Builder.Interceptor> interceptors,
+                                         List<Interceptor> interceptors,
                                          LinksRewriter linksRewriter) {
         super(httpClient);
         this.aspsp = aspsp;

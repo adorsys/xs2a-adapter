@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.ContentType;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
@@ -48,7 +49,7 @@ class BaseAccountInformationServiceTest {
     private Request.Builder requestBuilder = new RequestBuilderImpl(httpClient, null, null);
 
     @Mock
-    private Request.Builder.Interceptor interceptor;
+    private Interceptor interceptor;
 
     @Captor
     ArgumentCaptor<Map<String, String>> headersCaptor;

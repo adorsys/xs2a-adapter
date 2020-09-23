@@ -20,7 +20,7 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.Request;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.PaymentInitiationJson;
 import de.adorsys.xs2a.adapter.api.model.PaymentService;
@@ -103,9 +103,9 @@ public abstract class AbstractService {
         return paymentInitiationBodyClass;
     }
 
-    protected List<Request.Builder.Interceptor> populateInterceptors(List<Request.Builder.Interceptor> interceptors, Aspsp aspsp) {
+    protected List<Interceptor> populateInterceptors(List<Interceptor> interceptors, Aspsp aspsp) {
         if (wiremockInterceptorEnabled && WiremockStubDifferenceDetectingInterceptor.isWiremockSupported(aspsp.getName())) {
-            List<Request.Builder.Interceptor> list = new ArrayList<>(interceptors);
+            List<Interceptor> list = new ArrayList<>(interceptors);
             list.add(new WiremockStubDifferenceDetectingInterceptor(aspsp));
             return Collections.unmodifiableList(list);
         }
