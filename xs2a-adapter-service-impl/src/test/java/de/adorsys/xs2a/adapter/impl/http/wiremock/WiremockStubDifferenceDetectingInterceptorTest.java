@@ -127,7 +127,7 @@ class WiremockStubDifferenceDetectingInterceptorTest {
 
     private Aspsp getAspsp() {
         Aspsp aspsp = new Aspsp();
-        aspsp.setName("adorsys-adapter");
+        aspsp.setAdapterId("adorsys-adapter");
         return aspsp;
     }
 

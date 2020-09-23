@@ -65,7 +65,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     public <T> Response<T> postHandle(Request.Builder builder, Response<T> response) {
         try {
             WiremockFileResolver fileResolver = WiremockFileResolver.resolve(URI.create(builder.uri()).getPath(), builder.method(), builder.body());
-            String fileName = buildStubFilePath(aspsp.getName(), fileResolver.getFileName());
+            String fileName = buildStubFilePath(aspsp.getAdapterId(), fileResolver.getFileName());
             Map<String, Object> jsonFile = readStubFile(fileName);
             List<String> changes = new ArrayList<>();
             getStubRequestUrl(jsonFile)
