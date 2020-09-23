@@ -67,9 +67,6 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
             String fileName = buildStubFilePath(aspsp.getName(), fileResolver.getFileName());
             Map<String, Object> jsonFile = readStubFile(fileName);
             List<String> changes = new ArrayList<>();
-            getStubRequestUrl(jsonFile)
-                .flatMap(url -> analyzeRequestUrl(fileResolver, builder, url))
-                .ifPresent(changes::add);
             getStubRequestHeaders(jsonFile)
                 .flatMap(headers -> analyzeRequestHeaders(fileResolver, builder, headers))
                 .ifPresent(changes::add);
@@ -89,6 +86,8 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
 
             return new Response<>(response.getStatusCode(), response.getBody(), ResponseHeaders.fromMap(headersMap));
 
+        } catch (IllegalStateException e) {
+            log.error(e.getMessage());
         } catch (Exception e) {
             log.error("Can't find the difference with wiremock stub", e);
         }
@@ -174,16 +173,6 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
         return Optional.empty();
     }
 
-    private Optional<String> analyzeRequestUrl(WiremockFileResolver resolver, Request.Builder builder, String requestUrl) {
-        String url = URI.create(builder.uri()).getPath();
-        if (requestUrl.isEmpty() || !requestUrl.startsWith(url)) {
-            log.warn("{} stub URL is different from the request URL", aspsp.getName());
-            String changes = aspsp.getName() + ":" + resolver.name() + ":request-url";
-            return Optional.of(changes);
-        }
-        return Optional.empty();
-    }
-
     @SuppressWarnings("unchecked")
     private Optional<String> getRequestBody(Map<String, Object> jsonFile) {
         Map<String, Object> request = (Map<String, Object>) jsonFile.get(REQUEST);
@@ -203,18 +192,6 @@ public class WiremockStubDifferenceDetectingInterceptor implements Request.Build
         }
         Map<String, Object> headers = (Map<String, Object>) request.get(HEADERS);
         return Optional.ofNullable(headers);
-    }
-
-    @SuppressWarnings("unchecked")
-    private Optional<String> getStubRequestUrl(Map<String, Object> jsonFile) {
-        Map<String, Object> json = (Map<String, Object>) jsonFile.get(REQUEST);
-        if (json.containsKey("url")) {
-            return Optional.of((String) json.get("url"));
-        } else if (json.containsKey("urlPattern")) {
-            return Optional.of((String) json.get("urlPattern"));
-        }
-
-        return Optional.empty();
     }
 
     @SuppressWarnings("unchecked")
