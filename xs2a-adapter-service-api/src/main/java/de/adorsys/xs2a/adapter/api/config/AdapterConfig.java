@@ -50,6 +50,11 @@ public final class AdapterConfig {
     private AdapterConfig() {
     }
 
+    public static void setConfigFile(String file) {
+        System.setProperty(ADAPTER_CONFIG_FILE_PATH_PROPERTY, file);
+        reload();
+    }
+
     public static String readProperty(String property) {
         return properties.getProperty(property);
     }

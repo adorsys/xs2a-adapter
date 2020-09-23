@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.dkb;
 
 import de.adorsys.xs2a.adapter.api.AccountInformationService;
 import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ class DkbServiceProviderTest {
     @BeforeEach
     public void setUp() {
         String file = getClass().getResource(File.separator + "dkb.adapter.config.properties").getFile();
-        System.setProperty("adapter.config.file.path", file);
+        AdapterConfig.setConfigFile(file);
 
         provider = new DkbServiceProvider();
     }
