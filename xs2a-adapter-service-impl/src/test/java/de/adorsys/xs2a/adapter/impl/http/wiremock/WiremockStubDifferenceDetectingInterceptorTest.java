@@ -16,6 +16,9 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,21 +37,29 @@ class WiremockStubDifferenceDetectingInterceptorTest {
     private static final String CONTENT_TYPE_VALUE = "application/json; charset=UTF-8";
     private static final String PSU_IP_ADDRESS_VALUE = "0.0.0.0";
     private static final String TPP_REDIRECT_URI_VALUE = "http://example.com";
+    private static final String IBAN = "IBAN";
+    private static final String CURRENCY = "EUR";
+    private static final HrefType HREF_TYPE = getHrefType();
 
     private final HttpClient httpClient = mock(HttpClient.class);
     private final Aspsp aspsp = getAspsp();
     private final Interceptor interceptor = new WiremockStubDifferenceDetectingInterceptor(aspsp);
 
     @Test
-    void postHandle_allMatch() {
-        RequestBuilderImpl request = new RequestBuilderImpl(httpClient, "DELETE", CONSENTS_URL + CONSENT_ID_VALUE);
+    void postHandle_allMatch() throws JsonProcessingException {
+        RequestBuilderImpl request = new RequestBuilderImpl(httpClient, "GET", "https://bank.com/v1/accounts");
         request.header(RequestHeaders.X_REQUEST_ID, X_REQUEST_ID_VALUE);
+        request.header(RequestHeaders.CONSENT_ID, CONSENT_ID_VALUE);
 
         Response<?> actualResponse = interceptor
-                                         .postHandle(request, new Response<>(200, null, ResponseHeaders.emptyResponseHeaders()));
+                                        .postHandle(request, getResponse(writeValueAsString(getAccountListBody())));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .doesNotContainKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED);
+    }
+
+    private <T> Response<T> getResponse(T body) {
+        return new Response<>(200, body, ResponseHeaders.emptyResponseHeaders());
     }
 
     @Test
@@ -57,7 +68,7 @@ class WiremockStubDifferenceDetectingInterceptorTest {
         request.jsonBody(writeValueAsString(getRequestBody()));
 
         Response<?> actualResponse = interceptor
-                                         .postHandle(request, new Response<>(200, "", ResponseHeaders.emptyResponseHeaders()));
+                                         .postHandle(request, getResponse(writeValueAsString(getConsentResponse())));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
@@ -65,6 +76,14 @@ class WiremockStubDifferenceDetectingInterceptorTest {
             .matches(val -> val.contains(REQUEST_HEADERS_VALUE))
             .matches(val -> !val.contains(REQUEST_PAYLOAD_VALUE))
             .matches(val -> !val.contains(RESPONSE_PAYLOAD_VALUE));
+    }
+
+    private ConsentsResponse201 getConsentResponse() {
+        ConsentsResponse201 consentsResponse = new ConsentsResponse201();
+        consentsResponse.setConsentStatus(ConsentStatus.VALID);
+        consentsResponse.setConsentId(CONSENT_ID_VALUE);
+        consentsResponse.setLinks(getLinks("updatePsuAuthentication", "self", "status", "scaStatus"));
+        return consentsResponse;
     }
 
     @Test
@@ -78,7 +97,7 @@ class WiremockStubDifferenceDetectingInterceptorTest {
         request.header(RequestHeaders.TPP_REDIRECT_URI, TPP_REDIRECT_URI_VALUE);
 
         Response<?> actualResponse = interceptor
-                                         .postHandle(request, new Response<>(200, "", ResponseHeaders.emptyResponseHeaders()));
+                                         .postHandle(request, getResponse(writeValueAsString(getConsentResponse())));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
@@ -99,7 +118,7 @@ class WiremockStubDifferenceDetectingInterceptorTest {
         request.header(RequestHeaders.TPP_REDIRECT_URI, TPP_REDIRECT_URI_VALUE);
 
         Response<?> actualResponse = interceptor
-                                         .postHandle(request, new Response<>(200, new ConsentsResponse201(), ResponseHeaders.emptyResponseHeaders()));
+                                         .postHandle(request, getResponse(new ConsentsResponse201()));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
@@ -111,11 +130,11 @@ class WiremockStubDifferenceDetectingInterceptorTest {
 
     @Test
     void postHandle_nothingMatches() throws JsonProcessingException {
-        RequestBuilderImpl request = new RequestBuilderImpl(httpClient, "GET", "https://bank.com/v1/accounts");
-        request.jsonBody("{}");
+        RequestBuilderImpl request = new RequestBuilderImpl(httpClient, POST, CONSENTS_URL);
+        request.jsonBody(writeValueAsString(new Consents()));
 
         Response<?> actualResponse = interceptor
-                                         .postHandle(request, new Response<>(200, "", ResponseHeaders.emptyResponseHeaders()));
+                                         .postHandle(request, getResponse(""));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
@@ -129,6 +148,46 @@ class WiremockStubDifferenceDetectingInterceptorTest {
         Aspsp aspsp = new Aspsp();
         aspsp.setAdapterId("adorsys-adapter");
         return aspsp;
+    }
+
+    private AccountList getAccountListBody() {
+        AccountList accountList = new AccountList();
+        accountList.setAccounts(Collections.singletonList(getAccountDetails()));
+        return accountList;
+    }
+
+    private AccountDetails getAccountDetails() {
+        AccountDetails details = new AccountDetails();
+        details.setResourceId("some value");
+        details.setIban(IBAN);
+        details.setCurrency(CURRENCY);
+        details.setName("user");
+        details.setDisplayName("display user");
+        details.setProduct("product");
+        details.setCashAccountType("cash type");
+        details.setStatus(AccountStatus.ENABLED);
+        details.setLinkedAccounts("linked account");
+        details.setUsage(AccountDetails.Usage.ORGA);
+        details.setLinks(getLinks("balances", "transactions"));
+        return details;
+    }
+
+    private Map<String, HrefType> getLinks(String... args) {
+        if (args.length == 0) {
+            return new HashMap<>();
+        }
+
+        Map<String, HrefType> links = new HashMap<>();
+        for (String arg : args) {
+            links.put(arg, HREF_TYPE);
+        }
+        return links;
+    }
+
+    private static HrefType getHrefType() {
+        HrefType hrefType = new HrefType();
+        hrefType.setHref("http://foo.boo");
+        return hrefType;
     }
 
     private Consents getRequestBody() {
@@ -151,8 +210,8 @@ class WiremockStubDifferenceDetectingInterceptorTest {
 
     private AccountReference getAccountReference() {
         AccountReference accountReference = new AccountReference();
-        accountReference.setIban("IBAN");
-        accountReference.setCurrency("EUR");
+        accountReference.setIban(IBAN);
+        accountReference.setCurrency(CURRENCY);
         return accountReference;
     }
 
