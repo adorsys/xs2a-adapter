@@ -24,6 +24,7 @@ import static org.mockito.Mockito.mock;
 class WiremockStubDifferenceDetectingInterceptorTest {
 
     private static final String X_REQUEST_ID_VALUE = "some-id";
+    private static final String CONSENT_ID_VALUE = "consent-id";
     private static final String CONSENTS_URL = "https://bank.com/v1/consents";
     private static final String POST = "POST";
     private static final String REQUEST_HEADERS_VALUE = "request-headers";
@@ -40,12 +41,11 @@ class WiremockStubDifferenceDetectingInterceptorTest {
 
     @Test
     void postHandle_allMatch() {
-        RequestBuilderImpl request = new RequestBuilderImpl(httpClient, "GET", "https://bank.com/v1/accounts");
+        RequestBuilderImpl request = new RequestBuilderImpl(httpClient, "DELETE", CONSENTS_URL + CONSENT_ID_VALUE);
         request.header(RequestHeaders.X_REQUEST_ID, X_REQUEST_ID_VALUE);
-        request.header(RequestHeaders.CONSENT_ID, "consent-id");
 
         Response<?> actualResponse = interceptor
-                                         .postHandle(request, new Response<>(200, "", ResponseHeaders.emptyResponseHeaders()));
+                                         .postHandle(request, new Response<>(200, null, ResponseHeaders.emptyResponseHeaders()));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .doesNotContainKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED);
@@ -111,11 +111,11 @@ class WiremockStubDifferenceDetectingInterceptorTest {
 
     @Test
     void postHandle_nothingMatches() throws JsonProcessingException {
-        RequestBuilderImpl request = new RequestBuilderImpl(httpClient, POST, CONSENTS_URL);
-        request.jsonBody(writeValueAsString(new Consents()));
+        RequestBuilderImpl request = new RequestBuilderImpl(httpClient, "GET", "https://bank.com/v1/accounts");
+        request.jsonBody("{}");
 
         Response<?> actualResponse = interceptor
-                                         .postHandle(request, new Response<>(200, new ConsentsResponse201(), ResponseHeaders.emptyResponseHeaders()));
+                                         .postHandle(request, new Response<>(200, "", ResponseHeaders.emptyResponseHeaders()));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)

@@ -36,6 +36,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+
 public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     private static final Logger log = LoggerFactory.getLogger(WiremockStubDifferenceDetectingInterceptor.class);
     private static final String EQUAL_TO = "equalTo";
@@ -114,7 +116,8 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
         String payloadType = type.name().toLowerCase();
         try {
             Map<String, Object> stubBody = objectMapper.readValue(payloadBody, Map.class);
-            Map<String, Object> currentBody = objectMapper.readValue(body, Map.class);
+            Map<String, Object> currentBody
+                = isEmpty(body) ? Collections.EMPTY_MAP : objectMapper.readValue(body, Map.class);
             Map<String, Object> stubMap = FlatMapUtils.flatten(stubBody);
             Map<String, Object> currentBodyMap = FlatMapUtils.flatten(currentBody);
             if (!currentBodyMap.keySet().containsAll(stubMap.keySet())) {
