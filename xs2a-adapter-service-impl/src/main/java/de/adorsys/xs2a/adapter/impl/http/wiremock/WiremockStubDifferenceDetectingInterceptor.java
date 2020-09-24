@@ -119,7 +119,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
             Map<String, Object> currentBodyMap = FlatMapUtils.flatten(currentBody);
             if (!currentBodyMap.keySet().containsAll(stubMap.keySet())) {
                 log.warn("{} stub {} body is different from the aspsp {}", aspsp.getName(), payloadType, payloadType);
-                log.warn("Differences: {}", currentBody);
+                log.warn("Differences: {}", currentBodyMap);
                 String changes = payloadType + "-payload";
                 return Optional.of(changes);
             }
