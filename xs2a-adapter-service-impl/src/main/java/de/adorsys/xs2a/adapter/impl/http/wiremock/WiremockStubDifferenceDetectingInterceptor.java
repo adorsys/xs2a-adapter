@@ -64,7 +64,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     @Override
     public <T> Response<T> postHandle(Request.Builder builder, Response<T> response) {
         try {
-            WiremockFileResolver fileResolver = WiremockFileResolver.resolve(URI.create(builder.uri()).getPath(), builder.method(), builder.body());
+            WiremockFileType fileResolver = WiremockFileType.resolve(URI.create(builder.uri()).getPath(), builder.method(), builder.body());
             String fileName = buildStubFilePath(aspsp.getAdapterId(), fileResolver.getFileName());
             Map<String, Object> jsonFile = readStubFile(fileName);
             List<String> changes = new ArrayList<>();
@@ -97,7 +97,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
         return response;
     }
 
-    private <T> Optional<String> analyzeResponseBody(WiremockFileResolver resolver,
+    private <T> Optional<String> analyzeResponseBody(WiremockFileType resolver,
                                                      Response<T> response,
                                                      String responseBody) {
         try {
@@ -172,7 +172,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
         return analyzePayloadStructure(requestBody, builder.body(), PayloadType.REQUEST);
     }
 
-    private Optional<String> analyzeRequestHeaders(WiremockFileResolver resolver, Request.Builder builder, Map<String, Object> requestHeaders) {
+    private Optional<String> analyzeRequestHeaders(WiremockFileType resolver, Request.Builder builder, Map<String, Object> requestHeaders) {
         if (requestHeaders != null && !builder.headers().keySet().containsAll(requestHeaders.keySet())) {
             log.warn("{} stub headers are different from the request", aspsp.getName());
             String changes = aspsp.getName() + ":" + resolver.name() + ":request-headers";

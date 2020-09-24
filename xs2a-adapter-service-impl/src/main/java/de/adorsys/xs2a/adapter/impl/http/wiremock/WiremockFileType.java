@@ -18,7 +18,7 @@ package de.adorsys.xs2a.adapter.impl.http.wiremock;
 
 import java.util.Arrays;
 
-public enum WiremockFileResolver {
+public enum WiremockFileType {
     AIS_CREATE_CONSENT("ais-create-consent.json") {
         @Override
         public boolean check(String url, String method, String body) {
@@ -349,7 +349,7 @@ public enum WiremockFileResolver {
     private static final String PERIODIC_PAIN001_CST_URI = "/v1/periodic-payments/pain.001-sepa-credit-transfers";
     private final String filename;
 
-    WiremockFileResolver(String filename) {
+    WiremockFileType(String filename) {
         this.filename = filename;
     }
 
@@ -359,7 +359,7 @@ public enum WiremockFileResolver {
         return filename;
     }
 
-    public static WiremockFileResolver resolve(String url, String method, String body) {
+    public static WiremockFileType resolve(String url, String method, String body) {
         return Arrays.stream(values())
                    .filter(r -> r.check(url, method, body))
                    .findFirst()

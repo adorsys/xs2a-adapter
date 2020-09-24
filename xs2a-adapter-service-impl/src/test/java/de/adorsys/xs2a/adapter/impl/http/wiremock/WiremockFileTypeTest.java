@@ -2,10 +2,10 @@ package de.adorsys.xs2a.adapter.impl.http.wiremock;
 
 import org.junit.jupiter.api.Test;
 
-import static de.adorsys.xs2a.adapter.impl.http.wiremock.WiremockFileResolver.*;
+import static de.adorsys.xs2a.adapter.impl.http.wiremock.WiremockFileType.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class WiremockFileResolverTest {
+class WiremockFileTypeTest {
     private static final String DELETE_METHOD = "DELETE";
     private static final String POST_METHOD = "POST";
     private static final String PUT_METHOD = "PUT";
@@ -367,6 +367,6 @@ class WiremockFileResolverTest {
 
     @Test
     void resolve_throwException() {
-        assertThrows(IllegalStateException.class, () -> WiremockFileResolver.resolve(FLAWED_URI, FLAWED_METHOD, FLAWED_BODY));
+        assertThrows(IllegalStateException.class, () -> WiremockFileType.resolve(FLAWED_URI, FLAWED_METHOD, FLAWED_BODY));
     }
 }
