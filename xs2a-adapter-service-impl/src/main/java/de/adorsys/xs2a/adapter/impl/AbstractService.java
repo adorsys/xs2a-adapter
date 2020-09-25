@@ -106,7 +106,7 @@ public abstract class AbstractService {
     }
 
     protected List<Interceptor> populateInterceptors(List<Interceptor> interceptors, Aspsp aspsp) {
-        if (wiremockInterceptorEnabled && WiremockStubDifferenceDetectingInterceptor.isWiremockSupported(aspsp.getName())) {
+        if (wiremockInterceptorEnabled && WiremockStubDifferenceDetectingInterceptor.isWiremockSupported(aspsp.getAdapterId())) {
             List<Interceptor> list = new ArrayList<>(interceptors);
             list.add(new WiremockStubDifferenceDetectingInterceptor(aspsp));
             return Collections.unmodifiableList(list);
