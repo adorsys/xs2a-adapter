@@ -52,24 +52,18 @@ public class AdorsysIntegServiceProvider
     private Request.Builder.Interceptor getInterceptor(Pkcs12KeyStore keyStore) {
         if (requestSigningEnabled) {
             RequestSigningInterceptor requestSigningInterceptor = new RequestSigningInterceptor(keyStore);
-            return requestBuilder -> processOauthAndSigningRoutin(requestSigningInterceptor, requestBuilder);
+            return requestBuilder -> {
+                oauthHeaderInterceptor.apply(requestBuilder);
+                requestBuilder.header(RequestHeaders.DATE,
+                    DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
+                requestSigningInterceptor.apply(requestBuilder);
+                String certificate = requestBuilder.headers().get(RequestHeaders.TPP_SIGNATURE_CERTIFICATE);
+                requestBuilder.header(RequestHeaders.TPP_SIGNATURE_CERTIFICATE,
+                    "-----BEGIN CERTIFICATE-----" + certificate + "-----END CERTIFICATE-----");
+                return requestBuilder;
+            };
         }
         return oauthHeaderInterceptor;
-    }
-
-    private Request.Builder processOauthAndSigningRoutin(RequestSigningInterceptor requestSigningInterceptor, Request.Builder requestBuilder) {
-        oauthHeaderInterceptor.apply(requestBuilder);
-        processSigning(requestSigningInterceptor, requestBuilder);
-        return requestBuilder;
-    }
-
-    private void processSigning(RequestSigningInterceptor requestSigningInterceptor, Request.Builder requestBuilder) {
-        requestBuilder.header(RequestHeaders.DATE,
-            DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        requestSigningInterceptor.apply(requestBuilder);
-        String certificate = requestBuilder.headers().get(RequestHeaders.TPP_SIGNATURE_CERTIFICATE);
-        requestBuilder.header(RequestHeaders.TPP_SIGNATURE_CERTIFICATE,
-            "-----BEGIN CERTIFICATE-----" + certificate + "-----END CERTIFICATE-----");
     }
 
     @Override
