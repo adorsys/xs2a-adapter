@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.ing;
 
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.exception.Xs2aAdapterException;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.http.Request;
 
 import java.net.MalformedURLException;
@@ -15,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Locale;
 
-public class IngClientAuthentication implements Request.Builder.Interceptor {
+public class IngClientAuthentication implements Interceptor {
 
     // java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME doesn't pad single digit day-of-month with a zero
     private static final DateTimeFormatter RFC_1123_DATE_TIME_FORMATTER =
@@ -38,18 +39,18 @@ public class IngClientAuthentication implements Request.Builder.Interceptor {
     }
 
     @Override
-    public Request.Builder apply(Request.Builder requestBuilder) {
+    public Request.Builder preHandle(Request.Builder requestBuilder) {
         String xRequestId = requestBuilder.headers().get(RequestHeaders.X_REQUEST_ID);
         String date = RFC_1123_DATE_TIME_FORMATTER.format(Instant.now());
         String digestValue = "SHA-256=" + base64(digest(requestBuilder.content()));
         String signingString = "(request-target): " + requestTarget(requestBuilder) + "\n"
-            + (xRequestId != null ? "x-request-id: " + xRequestId + "\n" : "")
-            + "date: " + date + "\n"
-            + "digest: " + digestValue;
+                                   + (xRequestId != null ? "x-request-id: " + xRequestId + "\n" : "")
+                                   + "date: " + date + "\n"
+                                   + "digest: " + digestValue;
         String signatureValue = "keyId=\"" + keyId
-            + "\",algorithm=\"rsa-sha256\",headers=\"(request-target)"
-            + (xRequestId != null ? " x-request-id" : "") + " date digest\"," +
-            "signature=\"" + base64(sign(signingString)) + "\"";
+                                    + "\",algorithm=\"rsa-sha256\",headers=\"(request-target)"
+                                    + (xRequestId != null ? " x-request-id" : "") + " date digest\"," +
+                                    "signature=\"" + base64(sign(signingString)) + "\"";
 
         if (accessToken == null) {
             requestBuilder.header("Authorization", "Signature " + signatureValue);

@@ -30,6 +30,7 @@ public final class AdapterConfig {
     private static final Logger logger = LoggerFactory.getLogger(AdapterConfig.class);
     private static final String ADAPTER_CONFIG_FILE_PATH_PROPERTY = "adapter.config.file.path";
     private static final String DEFAULT_ADAPTER_CONFIG_FILE = "adapter.config.properties";
+    public static final String WIREMOCK_VALIDATION_ENABLED = "wiremock.validation.enabled";
     private static final Properties properties = new Properties();
 
     static {
@@ -48,6 +49,11 @@ public final class AdapterConfig {
     }
 
     private AdapterConfig() {
+    }
+
+    public static void setConfigFile(String file) {
+        System.setProperty(ADAPTER_CONFIG_FILE_PATH_PROPERTY, file);
+        reload();
     }
 
     public static String readProperty(String property) {

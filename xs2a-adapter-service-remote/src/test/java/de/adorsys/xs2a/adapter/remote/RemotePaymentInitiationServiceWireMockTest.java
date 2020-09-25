@@ -8,7 +8,7 @@ import de.adorsys.xs2a.adapter.api.model.ExecutionRule;
 import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
 import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationMultipartBody;
 import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationXmlPart2StandingorderTypeJson;
-import de.adorsys.xs2a.adapter.impl.http.wiremock.WireMockHttpClient;
+import de.adorsys.xs2a.adapter.impl.http.wiremock.WiremockHttpClient;
 import de.adorsys.xs2a.tpp.TppApplication;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -32,7 +32,7 @@ class RemotePaymentInitiationServiceWireMockTest {
 
     @BeforeAll
     static void beforeAll() {
-        int port = WireMockHttpClient.randomPort();
+        int port = WiremockHttpClient.randomPort();
         System.setProperty("xs2a-adapter.url", "http://localhost:" + port);
         wireMockServer = new WireMockServer(wireMockConfig().port(port));
         wireMockServer.start();

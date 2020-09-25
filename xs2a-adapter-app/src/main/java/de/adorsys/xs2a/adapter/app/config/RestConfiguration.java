@@ -4,7 +4,7 @@ import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClientFactory;
-import de.adorsys.xs2a.adapter.impl.http.wiremock.WireMockHttpClientFactory;
+import de.adorsys.xs2a.adapter.impl.http.wiremock.WiremockHttpClientFactory;
 import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 import de.adorsys.xs2a.adapter.registry.LuceneAspspRepositoryFactory;
 import de.adorsys.xs2a.adapter.serviceloader.*;
@@ -60,7 +60,7 @@ public class RestConfiguration {
 
     @Bean
     HttpClientFactory httpClientFactory(HttpClientBuilder httpClientBuilder, Pkcs12KeyStore pkcs12KeyStore) {
-        return wireMockEnabled ? new WireMockHttpClientFactory(httpClientBuilder, pkcs12KeyStore)
+        return wireMockEnabled ? new WiremockHttpClientFactory(httpClientBuilder, pkcs12KeyStore)
                    : new ApacheHttpClientFactory(httpClientBuilder, pkcs12KeyStore);
     }
 

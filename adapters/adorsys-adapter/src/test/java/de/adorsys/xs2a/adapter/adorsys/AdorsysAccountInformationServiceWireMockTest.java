@@ -62,9 +62,10 @@ class AdorsysAccountInformationServiceWireMockTest {
         HttpClient httpClient = new ApacheHttpClient(HttpClientBuilder.create().build());
         LinksRewriter linksRewriter = new IdentityLinksRewriter();
         Aspsp aspsp = new Aspsp();
+        aspsp.setName("adorsys-adapter");
         aspsp.setUrl("http://localhost:" + wireMockServer.port());
 
-        service = new AdorsysAccountInformationService(aspsp, httpClient, null, linksRewriter);
+        service = new AdorsysAccountInformationService(aspsp, httpClient, builder -> builder, linksRewriter);
 
     }
 

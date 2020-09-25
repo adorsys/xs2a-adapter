@@ -3,7 +3,7 @@ package de.adorsys.xs2a.adapter.ing;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.Request;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.model.CardAccountsTransactionsResponse200;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.ing.model.IngAccountsResponse;
@@ -30,11 +30,10 @@ public class IngAccountInformationApi {
         this.httpClient = httpClient;
     }
 
-    public Response<IngAccountsResponse> getAccounts(String requestId,
-                                                     Request.Builder.Interceptor clientAuthentication) {
+    public Response<IngAccountsResponse> getAccounts(String requestId, Interceptor clientAuthentication) {
         return httpClient.get(baseUri + ACCOUNTS_ENDPOINT)
-            .header(RequestHeaders.X_REQUEST_ID, requestId)
-            .send(clientAuthentication, jsonResponseHandler(IngAccountsResponse.class));
+                   .header(RequestHeaders.X_REQUEST_ID, requestId)
+                   .send(clientAuthentication, jsonResponseHandler(IngAccountsResponse.class));
     }
 
     public Response<IngTransactionsResponse> getTransactions(String resourceId,
@@ -43,7 +42,7 @@ public class IngAccountInformationApi {
                                                              Currency currency,
                                                              Integer limit,
                                                              String requestId,
-                                                             Request.Builder.Interceptor clientAuthentication) {
+                                                             Interceptor clientAuthentication) {
         Map<String, Object> queryParams = new LinkedHashMap<>();
         queryParams.put("dateFrom", dateFrom);
         queryParams.put("dateTo", dateTo);
@@ -55,21 +54,21 @@ public class IngAccountInformationApi {
         );
 
         return httpClient.get(uri)
-            .header(RequestHeaders.X_REQUEST_ID, requestId)
-            .send(clientAuthentication, jsonResponseHandler(IngTransactionsResponse.class));
+                   .header(RequestHeaders.X_REQUEST_ID, requestId)
+                   .send(clientAuthentication, jsonResponseHandler(IngTransactionsResponse.class));
     }
 
     /**
      * @param balanceTypes (optional) A comma separated list of ISO20022 balance type(s)
-     * @param currency (optional/conditional) 3 Letter ISO Currency Code (ISO 4217)
-     *                 for which transactions are requested. Required in case
-     *                 transactions are requested for a multi-currency account.
+     * @param currency     (optional/conditional) 3 Letter ISO Currency Code (ISO 4217)
+     *                     for which transactions are requested. Required in case
+     *                     transactions are requested for a multi-currency account.
      */
     public Response<IngBalancesResponse> getBalances(String resourceId,
                                                      List<String> balanceTypes,
                                                      Currency currency,
                                                      String requestId,
-                                                     Request.Builder.Interceptor clientAuthentication) {
+                                                     Interceptor clientAuthentication) {
         Map<String, Object> queryParams = new LinkedHashMap<>();
         queryParams.put("balanceTypes", balanceTypes == null ? null : String.join(",", balanceTypes));
         queryParams.put("currency", currency);
@@ -79,8 +78,8 @@ public class IngAccountInformationApi {
         );
 
         return httpClient.get(uri)
-            .header(RequestHeaders.X_REQUEST_ID, requestId)
-            .send(clientAuthentication, jsonResponseHandler(IngBalancesResponse.class));
+                   .header(RequestHeaders.X_REQUEST_ID, requestId)
+                   .send(clientAuthentication, jsonResponseHandler(IngBalancesResponse.class));
     }
 
     public Response<CardAccountsTransactionsResponse200> getCardAccountTransactions(
@@ -89,7 +88,7 @@ public class IngAccountInformationApi {
         LocalDate dateTo,
         Integer limit,
         String requestId,
-        Request.Builder.Interceptor clientAuthentication) {
+        Interceptor clientAuthentication) {
 
         Map<String, Object> queryParams = new LinkedHashMap<>();
         queryParams.put("dateFrom", dateFrom);
@@ -101,7 +100,7 @@ public class IngAccountInformationApi {
         );
 
         return httpClient.get(uri)
-            .header(RequestHeaders.X_REQUEST_ID, requestId)
-            .send(clientAuthentication, jsonResponseHandler(CardAccountsTransactionsResponse200.class));
+                   .header(RequestHeaders.X_REQUEST_ID, requestId)
+                   .send(clientAuthentication, jsonResponseHandler(CardAccountsTransactionsResponse200.class));
     }
 }

@@ -7,6 +7,7 @@ public class ResponseHeaders {
     public static final String X_REQUEST_ID = "X-Request-ID";
     public static final String ASPSP_SCA_APPROACH = "ASPSP-SCA-Approach";
     public static final String CONTENT_TYPE = "Content-Type";
+    public static final String X_GTW_ASPSP_CHANGES_DETECTED = "X-GTW-ASPSP-CHANGES-DETECTED";
 
     private static Map<String, String> headerNamesLowerCased = new HashMap<>();
     static {
@@ -14,6 +15,7 @@ public class ResponseHeaders {
         headerNamesLowerCased.put(X_REQUEST_ID.toLowerCase(), X_REQUEST_ID);
         headerNamesLowerCased.put(ASPSP_SCA_APPROACH.toLowerCase(), ASPSP_SCA_APPROACH);
         headerNamesLowerCased.put(CONTENT_TYPE.toLowerCase(), CONTENT_TYPE);
+        headerNamesLowerCased.put(X_GTW_ASPSP_CHANGES_DETECTED.toLowerCase(), X_GTW_ASPSP_CHANGES_DETECTED);
     }
 
     private Map<String, String> headers;

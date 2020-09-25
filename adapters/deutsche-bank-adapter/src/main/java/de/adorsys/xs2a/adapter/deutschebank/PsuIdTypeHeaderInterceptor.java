@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.deutschebank;
 
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.http.Request;
 
 import java.net.URI;
@@ -12,11 +13,11 @@ import java.nio.file.Paths;
  * business entity specified in the request uri.
  * https://xs2a.db.com/{service-group}/{country-code}/{business-entity}/{version}/{service}{?query-parameters}
  */
-public class PsuIdTypeHeaderInterceptor implements Request.Builder.Interceptor {
+public class PsuIdTypeHeaderInterceptor implements Interceptor {
     @Override
-    public Request.Builder apply(Request.Builder builder) {
+    public Request.Builder preHandle(Request.Builder builder) {
         if (builder.headers().get(RequestHeaders.PSU_ID) != null
-            && builder.headers().get(RequestHeaders.PSU_ID_TYPE) == null) {
+                && builder.headers().get(RequestHeaders.PSU_ID_TYPE) == null) {
 
             setPsuIdType(builder);
         }

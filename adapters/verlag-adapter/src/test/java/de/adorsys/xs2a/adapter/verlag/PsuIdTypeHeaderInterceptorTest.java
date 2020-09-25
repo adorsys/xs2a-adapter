@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.verlag;
 
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +26,7 @@ class PsuIdTypeHeaderInterceptorTest {
     private static final String EMPTY_VALUE = "  ";
     private static final String SOME_PSU_ID_TYPE = "SOME_PSU_ID_TYPE";
 
-    private final Request.Builder.Interceptor interceptor = new PsuIdTypeHeaderInterceptor();
+    private final Interceptor interceptor = new PsuIdTypeHeaderInterceptor();
     private final Request.Builder builder = new RequestBuilderImpl(mock(HttpClient.class), METHOD, URI);
 
     @BeforeEach
@@ -35,7 +36,7 @@ class PsuIdTypeHeaderInterceptorTest {
 
     @Test
     void apply_noPsuIdType() {
-        interceptor.apply(builder);
+        interceptor.preHandle(builder);
 
         assertFalse(builder.headers().containsKey(PSU_ID_TYPE));
         checkAssertions(builder);
@@ -46,7 +47,7 @@ class PsuIdTypeHeaderInterceptorTest {
     void apply_psuIdTypeWithoutValue() {
         builder.header(PSU_ID_TYPE, "");
 
-        interceptor.apply(builder);
+        interceptor.preHandle(builder);
 
         assertFalse(builder.headers().containsKey(PSU_ID_TYPE));
         checkAssertions(builder);
@@ -56,7 +57,7 @@ class PsuIdTypeHeaderInterceptorTest {
     void apply_psuIdTypeWithEmptyValue() {
         builder.header(PSU_ID_TYPE, EMPTY_VALUE);
 
-        interceptor.apply(builder);
+        interceptor.preHandle(builder);
 
         assertFalse(builder.headers().containsKey(PSU_ID_TYPE));
         checkAssertions(builder);
@@ -66,7 +67,7 @@ class PsuIdTypeHeaderInterceptorTest {
     void apply_psuIdTypeWithValue() {
         builder.header(PSU_ID_TYPE, SOME_PSU_ID_TYPE);
 
-        interceptor.apply(builder);
+        interceptor.preHandle(builder);
 
         assertTrue(builder.headers().containsKey(PSU_ID_TYPE));
         assertEquals(SOME_PSU_ID_TYPE, builder.headers().get(PSU_ID_TYPE));
