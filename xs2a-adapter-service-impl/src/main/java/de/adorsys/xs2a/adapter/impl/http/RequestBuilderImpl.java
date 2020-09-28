@@ -2,12 +2,10 @@ package de.adorsys.xs2a.adapter.impl.http;
 
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.http.Request;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
 
@@ -184,8 +182,21 @@ public class RequestBuilderImpl implements Request.Builder {
     }
 
     @Override
-    public <T> Response<T> send(Interceptor interceptor, HttpClient.ResponseHandler<T> responseHandler) {
-        return httpClient.send(interceptor != null ? interceptor.apply(this) : this, responseHandler);
+    public <T> Response<T> send(HttpClient.ResponseHandler<T> responseHandler, List<Interceptor> interceptors) {
+        for (Interceptor interceptor : interceptors) {
+            if (interceptor != null) {
+                interceptor.preHandle(this);
+            }
+        }
+
+        Response<T> response = httpClient.send(this, responseHandler);
+
+        for (Interceptor interceptor : interceptors) {
+            if (interceptor != null) {
+                 response = interceptor.postHandle(this, response);
+            }
+        }
+        return response;
     }
 
     @Override

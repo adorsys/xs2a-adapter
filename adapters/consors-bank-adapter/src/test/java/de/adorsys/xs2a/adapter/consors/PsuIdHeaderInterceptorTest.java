@@ -29,22 +29,22 @@ class PsuIdHeaderInterceptorTest {
     @Test
     void apply_withValidPsuId() {
         builder.header(RequestHeaders.PSU_ID, PSU_ID);
-        Request.Builder actual = interceptor.apply(builder);
-        assertEquals(PSU_ID, actual.headers().get(RequestHeaders.PSU_ID));
+        interceptor.preHandle(builder);
+        assertEquals(PSU_ID, builder.headers().get(RequestHeaders.PSU_ID));
     }
 
     @Test
     void apply_psuIdQuotes() {
         builder.header(RequestHeaders.PSU_ID, QUOTES);
-        Request.Builder actual = interceptor.apply(builder);
-        assertNull(actual.headers().get(RequestHeaders.PSU_ID));
+        interceptor.preHandle(builder);
+        assertNull(builder.headers().get(RequestHeaders.PSU_ID));
     }
 
     @Test
     void apply_noPsuIdHeader() {
         builder.header(RANDOM_HEADER, RANDOM_HEADER);
-        Request.Builder actual = interceptor.apply(builder);
-        assertFalse(actual.headers().containsKey(RequestHeaders.PSU_ID));
-        assertEquals(actual.headers(), builder.headers());
+        interceptor.preHandle(builder);
+        assertFalse(builder.headers().containsKey(RequestHeaders.PSU_ID));
+        assertEquals(builder.headers(), builder.headers());
     }
 }

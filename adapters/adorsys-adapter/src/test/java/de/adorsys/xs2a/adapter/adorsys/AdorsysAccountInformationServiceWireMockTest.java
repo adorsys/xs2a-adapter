@@ -36,6 +36,7 @@ import pro.javatar.commons.reader.JsonReader;
 import pro.javatar.commons.reader.ResourceReader;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
@@ -62,9 +63,10 @@ class AdorsysAccountInformationServiceWireMockTest {
         HttpClient httpClient = new ApacheHttpClient(HttpClientBuilder.create().build());
         LinksRewriter linksRewriter = new IdentityLinksRewriter();
         Aspsp aspsp = new Aspsp();
+        aspsp.setName("adorsys-adapter");
         aspsp.setUrl("http://localhost:" + wireMockServer.port());
 
-        service = new AdorsysAccountInformationService(aspsp, httpClient, null, linksRewriter);
+        service = new AdorsysAccountInformationService(aspsp, httpClient, new ArrayList<>(), linksRewriter);
 
     }
 

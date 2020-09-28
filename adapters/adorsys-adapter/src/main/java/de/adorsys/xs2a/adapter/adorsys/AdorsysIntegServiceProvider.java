@@ -17,10 +17,8 @@
 package de.adorsys.xs2a.adapter.adorsys;
 
 import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
@@ -28,42 +26,24 @@ import de.adorsys.xs2a.adapter.impl.http.RequestSigningInterceptor;
 import de.adorsys.xs2a.adapter.impl.oauth2.api.BaseOauth2Api;
 import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 public class AdorsysIntegServiceProvider
     implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceProvider {
 
     private final OauthHeaderInterceptor oauthHeaderInterceptor = new OauthHeaderInterceptor();
-    private final boolean requestSigningEnabled =
-        Boolean.parseBoolean(AdapterConfig.readProperty("adorsys.request_signing.enabled", "false"));
+    private AdorsysSigningHeadersInterceptor adorsysSigningHeadersInterceptor;
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
+        adorsysSigningHeadersInterceptor = new AdorsysSigningHeadersInterceptor(new RequestSigningInterceptor(keyStore));
         return new BasePaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            keyStore != null ? getInterceptor(keyStore) : null,
-            linksRewriter);
-    }
-
-    private Request.Builder.Interceptor getInterceptor(Pkcs12KeyStore keyStore) {
-        if (requestSigningEnabled) {
-            RequestSigningInterceptor requestSigningInterceptor = new RequestSigningInterceptor(keyStore);
-            return requestBuilder -> {
-                oauthHeaderInterceptor.apply(requestBuilder);
-                requestBuilder.header(RequestHeaders.DATE,
-                    DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-                requestSigningInterceptor.apply(requestBuilder);
-                String certificate = requestBuilder.headers().get(RequestHeaders.TPP_SIGNATURE_CERTIFICATE);
-                requestBuilder.header(RequestHeaders.TPP_SIGNATURE_CERTIFICATE,
-                    "-----BEGIN CERTIFICATE-----" + certificate + "-----END CERTIFICATE-----");
-                return requestBuilder;
-            };
-        }
-        return oauthHeaderInterceptor;
+                                                httpClientFactory.getHttpClient(getAdapterId()),
+                                                Arrays.asList(oauthHeaderInterceptor, adorsysSigningHeadersInterceptor),
+                                                linksRewriter);
     }
 
     @Override
@@ -71,15 +51,18 @@ public class AdorsysIntegServiceProvider
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
-        return new AdorsysAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
-            getInterceptor(keyStore), linksRewriter);
+        adorsysSigningHeadersInterceptor = new AdorsysSigningHeadersInterceptor(new RequestSigningInterceptor(keyStore));
+        return new AdorsysAccountInformationService(aspsp,
+                                                    httpClientFactory.getHttpClient(getAdapterId()),
+                                                    Arrays.asList(oauthHeaderInterceptor, adorsysSigningHeadersInterceptor),
+                                                    linksRewriter);
     }
 
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
         return new AdorsysIntegOauth2Service(aspsp, httpClient,
-            new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class));
+                                             new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class));
     }
 
     @Override

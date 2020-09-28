@@ -17,13 +17,13 @@ import java.security.GeneralSecurityException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-public class WireMockHttpClientFactory implements HttpClientFactory {
+public class WiremockHttpClientFactory implements HttpClientFactory {
 
     private final HttpClientBuilder httpClientBuilder;
     private final Pkcs12KeyStore keyStore;
     private final ConcurrentMap<String, HttpClient> cache = new ConcurrentHashMap<>();
 
-    public WireMockHttpClientFactory(HttpClientBuilder httpClientBuilder, Pkcs12KeyStore keyStore) {
+    public WiremockHttpClientFactory(HttpClientBuilder httpClientBuilder, Pkcs12KeyStore keyStore) {
         this.httpClientBuilder = httpClientBuilder;
         this.keyStore = keyStore;
     }
@@ -42,7 +42,7 @@ public class WireMockHttpClientFactory implements HttpClientFactory {
                 new SSLConnectionSocketFactory(socketFactory, null, supportedCipherSuites, (HostnameVerifier) null);
             httpClientBuilder.setSSLSocketFactory(sslSocketFactory);
             httpClient = httpClientBuilder.build();
-            return new WireMockHttpClient(adapterId, httpClient);
+            return new WiremockHttpClient(adapterId, httpClient);
         }
     }
 

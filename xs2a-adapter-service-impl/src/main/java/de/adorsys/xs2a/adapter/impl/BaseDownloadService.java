@@ -5,7 +5,7 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.Request;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 
 import java.util.Map;
@@ -17,7 +17,7 @@ public class BaseDownloadService extends AbstractService implements DownloadServ
     private static final String HTTPS_PROTOCOL = "https://";
 
     protected final String baseUri;
-    private final Request.Builder.Interceptor requestBuilderInterceptor;
+    private final Interceptor requestBuilderInterceptor;
 
     public BaseDownloadService(String baseUri, HttpClient httpClient) {
         this(baseUri, httpClient, null);
@@ -25,7 +25,7 @@ public class BaseDownloadService extends AbstractService implements DownloadServ
 
     public BaseDownloadService(String baseUri,
                                HttpClient httpClient,
-                               Request.Builder.Interceptor requestBuilderInterceptor) {
+                               Interceptor requestBuilderInterceptor) {
         super(httpClient);
         this.baseUri = baseUri;
         this.requestBuilderInterceptor = requestBuilderInterceptor;
@@ -38,8 +38,8 @@ public class BaseDownloadService extends AbstractService implements DownloadServ
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
 
         Response<byte[]> response = httpClient.get(modifyDownloadUrl(downloadUrl))
-                                    .headers(headersMap)
-                                    .send(requestBuilderInterceptor, byteArrayResponseHandler());
+                                        .headers(headersMap)
+                                        .send(byteArrayResponseHandler(), requestBuilderInterceptor);
 
         return new Response<>(
             response.getStatusCode(),

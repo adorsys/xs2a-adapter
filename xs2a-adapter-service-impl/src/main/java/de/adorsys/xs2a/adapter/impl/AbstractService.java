@@ -18,20 +18,28 @@ package de.adorsys.xs2a.adapter.impl;
 
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
+import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.PaymentInitiationJson;
 import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationJson;
 import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.impl.http.JsonMapper;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
+import de.adorsys.xs2a.adapter.impl.http.wiremock.WiremockStubDifferenceDetectingInterceptor;
 
-import java.util.EnumMap;
-import java.util.Map;
+import java.util.*;
+
+import static de.adorsys.xs2a.adapter.api.config.AdapterConfig.WIREMOCK_VALIDATION_ENABLED;
 
 public abstract class AbstractService {
     private static final EnumMap<PaymentService, Class<?>> PAYMENT_INITIATION_BODY_CLASSES =
         new EnumMap<>(PaymentService.class);
+    private final boolean wiremockInterceptorEnabled =
+        Boolean.parseBoolean(AdapterConfig.readProperty(WIREMOCK_VALIDATION_ENABLED, "false"));
+
     protected static final String AUTHORISATIONS = "authorisations";
     protected static final String STATUS = "status";
     protected static final String ACCEPT_HEADER = "Accept";
@@ -95,5 +103,14 @@ public abstract class AbstractService {
             throw new IllegalArgumentException("Unsupported payment service: " + paymentService);
         }
         return paymentInitiationBodyClass;
+    }
+
+    protected List<Interceptor> populateInterceptors(List<Interceptor> interceptors, Aspsp aspsp) {
+        if (wiremockInterceptorEnabled && WiremockStubDifferenceDetectingInterceptor.isWiremockSupported(aspsp.getAdapterId())) {
+            List<Interceptor> list = new ArrayList<>(interceptors);
+            list.add(new WiremockStubDifferenceDetectingInterceptor(aspsp));
+            return Collections.unmodifiableList(list);
+        }
+        return interceptors;
     }
 }

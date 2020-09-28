@@ -27,17 +27,17 @@ import java.security.SecureRandom;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 
-public class WireMockHttpClient extends ApacheHttpClient {
+public class WiremockHttpClient extends ApacheHttpClient {
 
     private static final String URL_REGEX = "https?://[^/]+";
     private WireMockServer wireMockServer;
     private String wireMockUrl;
 
-    public WireMockHttpClient(String adapterId, CloseableHttpClient httpClient) {
+    public WiremockHttpClient(String adapterId, CloseableHttpClient httpClient) {
         this(adapterId, httpClient, randomPort());
     }
 
-    public WireMockHttpClient(String adapterId, CloseableHttpClient httpClient, int wireMockPort) {
+    public WiremockHttpClient(String adapterId, CloseableHttpClient httpClient, int wireMockPort) {
         super(httpClient);
         WireMockConfiguration options = options()
             .port(wireMockPort)

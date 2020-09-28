@@ -3,7 +3,7 @@ package de.adorsys.xs2a.adapter.ing;
 import de.adorsys.xs2a.adapter.api.Oauth2Service;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.Request;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.ing.model.IngApplicationTokenResponse;
 import de.adorsys.xs2a.adapter.ing.model.IngAuthorizationURLResponse;
@@ -24,25 +24,25 @@ public class IngOauth2Api {
         this.httpClient = httpClient;
     }
 
-    public Response<IngApplicationTokenResponse> getApplicationToken(Request.Builder.Interceptor clientAuthentication) {
+    public Response<IngApplicationTokenResponse> getApplicationToken(Interceptor clientAuthentication) {
         // When using eIDAS certificates supporting PSD2 the scope parameter is not required.
         // The scopes will be derived automatically from the PSD2 roles in the certificate.
         // When using eIDAS certificates supporting PSD2, the response will contain the client ID of your application,
         // this client ID has to be used in the rest of the session when the client ID or key ID is required.
         return httpClient.post(baseUri + TOKEN_ENDPOINT)
-            .urlEncodedBody(singletonMap("grant_type", "client_credentials"))
-            .send(clientAuthentication, jsonResponseHandler(IngApplicationTokenResponse.class));
+                   .urlEncodedBody(singletonMap("grant_type", "client_credentials"))
+                   .send(clientAuthentication, jsonResponseHandler(IngApplicationTokenResponse.class));
     }
 
     public Response<IngTokenResponse> getCustomerToken(Oauth2Service.Parameters parameters,
-                                                       Request.Builder.Interceptor clientAuthentication) {
+                                                       Interceptor clientAuthentication) {
 
         return httpClient.post(baseUri + TOKEN_ENDPOINT)
-            .urlEncodedBody(parameters.asMap())
-            .send(clientAuthentication, jsonResponseHandler(IngTokenResponse.class));
+                   .urlEncodedBody(parameters.asMap())
+                   .send(clientAuthentication, jsonResponseHandler(IngTokenResponse.class));
     }
 
-    public Response<IngAuthorizationURLResponse> getAuthorizationUrl(Request.Builder.Interceptor clientAuthentication,
+    public Response<IngAuthorizationURLResponse> getAuthorizationUrl(Interceptor clientAuthentication,
                                                                      String scope,
                                                                      String redirectUri) {
         Oauth2Service.Parameters queryParameters = new Oauth2Service.Parameters();
@@ -50,6 +50,6 @@ public class IngOauth2Api {
         queryParameters.setRedirectUri(redirectUri);
         String uri = StringUri.withQuery(baseUri + AUTHORIZATION_ENDPOINT, queryParameters.asMap());
         return httpClient.get(uri)
-            .send(clientAuthentication, jsonResponseHandler(IngAuthorizationURLResponse.class));
+                   .send(clientAuthentication, jsonResponseHandler(IngAuthorizationURLResponse.class));
     }
 }
