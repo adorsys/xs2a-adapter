@@ -114,7 +114,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
         try {
             Map<String, Object> stubBody = objectMapper.readValue(payloadBody, Map.class);
             Map<String, Object> currentBody
-                = isEmpty(body) ? Collections.EMPTY_MAP : objectMapper.readValue(body, Map.class);
+                = isEmpty(body) ? Collections.emptyMap() : objectMapper.readValue(body, Map.class);
             Map<String, Object> stubMap = FlatMapUtils.flatten(stubBody);
             Map<String, Object> currentBodyMap = FlatMapUtils.flatten(currentBody);
             if (!currentBodyMap.keySet().containsAll(stubMap.keySet())) {
