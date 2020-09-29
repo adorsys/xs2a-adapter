@@ -12,6 +12,7 @@ import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
 import java.util.Map;
 
 import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.consentCreationResponseHandler;
@@ -23,9 +24,9 @@ public class AdorsysAccountInformationService extends BaseAccountInformationServ
 
     public AdorsysAccountInformationService(Aspsp aspsp,
                                             HttpClient httpClient,
-                                            Interceptor requestBuilderInterceptor,
+                                            List<Interceptor> interceptors,
                                             LinksRewriter linksRewriter) {
-        super(aspsp, httpClient, requestBuilderInterceptor, linksRewriter);
+        super(aspsp, httpClient, interceptors, linksRewriter);
     }
 
     @Override

@@ -17,26 +17,22 @@
 package de.adorsys.xs2a.adapter.adorsys;
 
 import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
-import de.adorsys.xs2a.adapter.impl.http.RequestSigningInterceptor;
 import de.adorsys.xs2a.adapter.impl.oauth2.api.BaseOauth2Api;
 import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdorsysIntegServiceProvider
     implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceProvider {
 
     private final OauthHeaderInterceptor oauthHeaderInterceptor = new OauthHeaderInterceptor();
-    private final boolean requestSigningEnabled =
-        Boolean.parseBoolean(AdapterConfig.readProperty("adorsys.request_signing.enabled", "false"));
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
@@ -45,26 +41,17 @@ public class AdorsysIntegServiceProvider
                                                                 LinksRewriter linksRewriter) {
         return new BasePaymentInitiationService(aspsp,
                                                 httpClientFactory.getHttpClient(getAdapterId()),
-                                                keyStore != null ? getInterceptor(keyStore) : null,
+                                                getInterceptors(keyStore),
                                                 linksRewriter);
     }
 
-    //todo: https://jira.adorsys.de/browse/XS2AAD-706
-    Interceptor getInterceptor(Pkcs12KeyStore keyStore) {
-        if (requestSigningEnabled) {
-            RequestSigningInterceptor requestSigningInterceptor = new RequestSigningInterceptor(keyStore);
-            return requestBuilder -> {
-                oauthHeaderInterceptor.preHandle(requestBuilder);
-                requestBuilder.header(RequestHeaders.DATE,
-                                      DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-                requestSigningInterceptor.preHandle(requestBuilder);
-                String certificate = requestBuilder.headers().get(RequestHeaders.TPP_SIGNATURE_CERTIFICATE);
-                requestBuilder.header(RequestHeaders.TPP_SIGNATURE_CERTIFICATE,
-                                      "-----BEGIN CERTIFICATE-----" + certificate + "-----END CERTIFICATE-----");
-                return requestBuilder;
-            };
+    private List<Interceptor> getInterceptors(Pkcs12KeyStore keyStore) {
+        List<Interceptor> interceptors = new ArrayList<>();
+        interceptors.add(oauthHeaderInterceptor);
+        if (keyStore != null) {
+            interceptors.add(new AdorsysSigningHeadersInterceptor(keyStore));
         }
-        return oauthHeaderInterceptor;
+        return interceptors;
     }
 
     @Override
@@ -72,8 +59,10 @@ public class AdorsysIntegServiceProvider
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
-        return new AdorsysAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
-                                                    getInterceptor(keyStore), linksRewriter);
+        return new AdorsysAccountInformationService(aspsp,
+                                                    httpClientFactory.getHttpClient(getAdapterId()),
+                                                    getInterceptors(keyStore),
+                                                    linksRewriter);
     }
 
     @Override
