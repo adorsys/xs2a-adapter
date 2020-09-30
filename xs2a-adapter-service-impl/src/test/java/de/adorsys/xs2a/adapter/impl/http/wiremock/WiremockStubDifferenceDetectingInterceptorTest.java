@@ -60,7 +60,7 @@ class WiremockStubDifferenceDetectingInterceptorTest {
 
     @Test
     void postHandle_ContentTypeNotMatching() throws JsonProcessingException {
-        RequestBuilderImpl request = new RequestBuilderImpl(httpClient, "POST", "https://bank.com/v1/consents");
+        RequestBuilderImpl request = new RequestBuilderImpl(httpClient, POST, CONSENTS_URL);
         request.header(RequestHeaders.X_REQUEST_ID, X_REQUEST_ID_VALUE);
         request.header(RequestHeaders.CONTENT_TYPE, "application/json");
         request.header(RequestHeaders.PSU_ID, PSU_ID_VALUE);
