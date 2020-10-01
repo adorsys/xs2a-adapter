@@ -18,6 +18,7 @@ package de.adorsys.xs2a.adapter.impl.http.wiremock;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Sets;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
@@ -45,7 +46,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     private static final String BODY = "body";
     private static final String BODY_FILE_NAME = "bodyFileName";
     private static final String BODY_PATTERNS = "bodyPatterns";
-    private static final String CONTENT_TYPE = "Content-Type";
+    private static final String CONTENT_TYPE = WiremockSupportedHeader.CONTENT_TYPE.getName();
     private static final String MAPPINGS_DIR = File.separator + "mappings" + File.separator;
     private static final String MAPPINGS_DIR_PATH = "%s" + MAPPINGS_DIR;
     private static final String APPLICATION_JSON = "application/json";
@@ -114,7 +115,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
         try {
             Map<String, Object> stubBody = objectMapper.readValue(payloadBody, Map.class);
             Map<String, Object> currentBody
-                = isEmpty(body) ? Collections.EMPTY_MAP : objectMapper.readValue(body, Map.class);
+                = isEmpty(body) ? Collections.emptyMap() : objectMapper.readValue(body, Map.class);
             Map<String, Object> stubMap = FlatMapUtils.flatten(stubBody);
             Map<String, Object> currentBodyMap = FlatMapUtils.flatten(currentBody);
             if (!currentBodyMap.keySet().containsAll(stubMap.keySet())) {
@@ -145,7 +146,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     }
 
     private <T> String getResponseBody(Response<T> response) throws JsonProcessingException {
-        String body = null;
+        String body;
         T bodyObject = response.getBody();
         if (bodyObject instanceof String) {
             body = (String) bodyObject;
@@ -183,12 +184,43 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
         return analyzePayloadStructure(requestBody, builder.body(), PayloadType.REQUEST);
     }
 
-    private Optional<String> analyzeRequestHeaders(Request.Builder builder, Map<String, Object> requestHeaders) {
-        if (requestHeaders != null && !builder.headers().keySet().containsAll(requestHeaders.keySet())) {
-            log.warn("{} stub headers are different from the request", aspsp.getAdapterId());
-            return Optional.of("request-headers");
+    private Optional<String> analyzeRequestHeaders(Request.Builder builder, Map<String, Object> stubHeaders) {
+        Map<String, String> currentHeaders = builder.headers();
+        Sets.SetView<String> headers = Sets.intersection(WiremockSupportedHeader.set(), currentHeaders.keySet());
+        Sets.SetView<String> presentHeaders = Sets.intersection(headers, stubHeaders.keySet());
+        Sets.SetView<String> requestDiff = Sets.difference(headers, stubHeaders.keySet());
+        Sets.SetView<String> stubDiff = Sets.difference(stubHeaders.keySet(), headers);
+        StringBuilder differences = new StringBuilder();
+        presentHeaders.forEach(key -> {
+            WiremockSupportedHeader supportedHeader = WiremockSupportedHeader.resolve(key).get();
+            if (!supportedHeader.isEqual(getStubRequestHeader(stubHeaders, key), currentHeaders.get(key))) {
+                differences
+                    .append("\nHeader ")
+                    .append(key)
+                    .append(" is different. Req/Stub ")
+                    .append(currentHeaders.get(key))
+                    .append("/")
+                    .append(stubHeaders.get(key));
+            }
+        });
+
+        processAbsentHeaders(differences, stubDiff, "current request");
+        processAbsentHeaders(differences, requestDiff, "wiremock mapping");
+
+        if (differences.length() == 0) {
+            return Optional.empty();
         }
-        return Optional.empty();
+
+        log.warn("Headers differences:\n {}", differences);
+        return Optional.of("request-headers");
+    }
+
+    private void processAbsentHeaders(StringBuilder differences, Sets.SetView<String> diff, String request) {
+        diff.forEach(key -> differences
+                                .append("\nHeader ")
+                                .append(key)
+                                .append(" is absent in the ")
+                                .append(request));
     }
 
     @SuppressWarnings("unchecked")
@@ -230,5 +262,15 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     public static boolean isWiremockSupported(String adapterName) {
         Path path = Paths.get(String.format(MAPPINGS_DIR_PATH, adapterName));
         return Files.exists(path);
+    }
+
+    @SuppressWarnings("unchecked")
+    private String getStubRequestHeader(Map<String, Object> map, String header) {
+        Map<String, String> valueMap = (Map<String, String>) map.get(header);
+        return valueMap
+                   .values()
+                   .stream()
+                   .findFirst()
+                   .orElseThrow(() -> new IllegalStateException(header + " is absent"));
     }
 }

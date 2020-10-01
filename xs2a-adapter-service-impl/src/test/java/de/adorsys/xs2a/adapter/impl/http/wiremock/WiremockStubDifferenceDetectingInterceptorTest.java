@@ -58,6 +58,24 @@ class WiremockStubDifferenceDetectingInterceptorTest {
             .doesNotContainKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED);
     }
 
+    @Test
+    void postHandle_ContentTypeNotMatching() throws JsonProcessingException {
+        RequestBuilderImpl request = new RequestBuilderImpl(httpClient, POST, CONSENTS_URL);
+        request.header(RequestHeaders.X_REQUEST_ID, X_REQUEST_ID_VALUE);
+        request.header(RequestHeaders.CONTENT_TYPE, "application/json");
+        request.header(RequestHeaders.PSU_ID, PSU_ID_VALUE);
+        request.header(RequestHeaders.PSU_IP_ADDRESS, PSU_IP_ADDRESS_VALUE);
+        request.header(RequestHeaders.TPP_REDIRECT_URI, TPP_REDIRECT_URI_VALUE);
+
+        Response<?> actualResponse = interceptor
+                                        .postHandle(request, getResponse(writeValueAsString(getAccountListBody())));
+
+        assertThat(actualResponse.getHeaders().getHeadersMap())
+            .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .extractingByKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .matches(val -> val.contains(REQUEST_HEADERS_VALUE));
+    }
+
     private <T> Response<T> getResponse(T body) {
         return new Response<>(200, body, ResponseHeaders.emptyResponseHeaders());
     }
