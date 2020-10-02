@@ -266,7 +266,7 @@ public enum WiremockFileType {
         }
     },
     // Get Transaction Status
-    PIS_PAYMENTS_SCT_GET_TRANSACTION_STATUS("pis-payments-sct-get-transaction-status.json") {
+    PIS_PAYMENTS_SCT_GET_TRANSACTION_STATUS("pis-payments-sct-get-payment-status.json") {
         @Override
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
@@ -274,7 +274,7 @@ public enum WiremockFileType {
                 && url.endsWith(STATUS_URI);
         }
     },
-    PIS_PAYMENTS_PAIN001_SCT_GET_TRANSACTION_STATUS("pis-payments-pain001-sct-get-transaction-status.json") {
+    PIS_PAYMENTS_PAIN001_SCT_GET_TRANSACTION_STATUS("pis-payments-pain001-sct-get-payment-status.json") {
         @Override
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
@@ -282,7 +282,7 @@ public enum WiremockFileType {
                 && url.endsWith(STATUS_URI);
         }
     },
-    PIS_PERIODIC_SCT_GET_TRANSACTION_STATUS("pis-periodic-sct-get-transaction-status.json") {
+    PIS_PERIODIC_SCT_GET_TRANSACTION_STATUS("pis-periodic-sct-get-payment-status.json") {
         @Override
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)
@@ -290,7 +290,7 @@ public enum WiremockFileType {
                 && url.endsWith(STATUS_URI);
         }
     },
-    PIS_PERIODIC_PAIN001_SCT_GET_TRANSACTION_STATUS("pis-periodic-pain001-sct-get-transaction-status.json") {
+    PIS_PERIODIC_PAIN001_SCT_GET_TRANSACTION_STATUS("pis-periodic-pain001-sct-get-payment-status.json") {
         @Override
         public boolean check(String url, String method, String body) {
             return GET_METHOD.equalsIgnoreCase(method)

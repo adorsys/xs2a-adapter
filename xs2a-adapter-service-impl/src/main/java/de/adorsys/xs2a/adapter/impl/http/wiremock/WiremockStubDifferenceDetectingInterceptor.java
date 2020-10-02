@@ -27,6 +27,8 @@ import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.diff.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -103,15 +105,57 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
                                                      String responseBody) {
         try {
             String body = getResponseBody(response);
-            return analyzePayloadStructure(responseBody, body, PayloadType.RESPONSE);
+            if (response.getHeaders().getHeader(CONTENT_TYPE).startsWith(APPLICATION_JSON)) {
+                return analyzeJsonPayloadStructure(responseBody, body, PayloadType.RESPONSE);
+            }
+            return analyzeXmlPayloadStructure(body, responseBody, PayloadType.RESPONSE);
         } catch (JsonProcessingException e) {
             log.error("Can't retrieve response body", e);
         }
         return Optional.empty();
     }
 
+    private Optional<String> analyzeXmlPayloadStructure(String payloadBody, String stubBody, PayloadType payloadType) {
+        Diff diffs = DiffBuilder
+            .compare(payloadBody)
+            .withTest(stubBody)
+            .ignoreWhitespace()
+            .withDifferenceEvaluator(new CustomTextDifferenceEvaluator())
+            .checkForSimilar()
+            .build();
+
+        Iterator<Difference> iterator = diffs.getDifferences().iterator();
+        if (iterator.hasNext()) {
+            StringBuilder differences = new StringBuilder("\nDifferences:");
+            iterator.forEachRemaining(diff -> {
+                differences.append("\n").append(diff.toString());
+            });
+            log.warn("{} stub {} body is different from the aspsp {}.{}", aspsp.getAdapterId(), payloadType.value, payloadType.value, differences);
+            return Optional.of(payloadType.value + "-payload");
+        }
+
+        return Optional.empty();
+    }
+
+    private static class CustomTextDifferenceEvaluator implements DifferenceEvaluator {
+
+        @Override
+        public ComparisonResult evaluate(Comparison comparison, ComparisonResult outcome) {
+            if (outcome == ComparisonResult.EQUAL) {
+                return outcome;
+            }
+
+            if (comparison.getTestDetails().getValue() != null
+                && comparison.getTestDetails().getValue().equals("${xmlunit.ignore}")) {
+                return ComparisonResult.SIMILAR;
+            }
+
+            return DifferenceEvaluators.Default.evaluate(comparison, outcome);
+        }
+    }
+
     @SuppressWarnings("unchecked")
-    private Optional<String> analyzePayloadStructure(String payloadBody, String body, PayloadType payloadType) {
+    private Optional<String> analyzeJsonPayloadStructure(String payloadBody, String body, PayloadType payloadType) {
         try {
             Map<String, Object> stubBody = objectMapper.readValue(payloadBody, Map.class);
             Map<String, Object> currentBody
@@ -160,7 +204,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     private Optional<String> getResponseBody(Map<String, Object> jsonFile, String adapterId) {
         Map<String, Object> response = (Map<String, Object>) jsonFile.get(PayloadType.RESPONSE.value);
         Optional<Map<String, Object>> headers = getHeaders(jsonFile, PayloadType.RESPONSE);
-        if ((!response.containsKey(BODY) && !response.containsKey(BODY_FILE_NAME)) || !headers.isPresent() || !isJsonBody(headers.get(), PayloadType.RESPONSE)) {
+        if ((!response.containsKey(BODY) && !response.containsKey(BODY_FILE_NAME)) || !headers.isPresent()) {
             return Optional.empty();
         }
 
@@ -180,8 +224,12 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
         return Optional.empty();
     }
 
+    // todo: add support for Multipart body. https://jira.adorsys.de/browse/XS2AAD-715
     private Optional<String> analyzeRequestBody(Request.Builder builder, String requestBody) {
-        return analyzePayloadStructure(requestBody, builder.body(), PayloadType.REQUEST);
+        if (builder.headers().get(CONTENT_TYPE).startsWith(APPLICATION_JSON)) {
+            return analyzeJsonPayloadStructure(requestBody, builder.body(), PayloadType.REQUEST);
+        }
+        return analyzeXmlPayloadStructure(builder.body(), requestBody, PayloadType.REQUEST);
     }
 
     private Optional<String> analyzeRequestHeaders(Request.Builder builder, Map<String, Object> stubHeaders) {
@@ -227,11 +275,15 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     private Optional<String> getRequestBody(Map<String, Object> jsonFile) {
         Map<String, Object> request = (Map<String, Object>) jsonFile.get(PayloadType.REQUEST.value);
         Optional<Map<String, Object>> headers = getHeaders(jsonFile, PayloadType.REQUEST);
-        if (!request.containsKey(BODY_PATTERNS) || !headers.isPresent() || !isJsonBody(headers.get(), PayloadType.REQUEST)) {
+        if (!request.containsKey(BODY_PATTERNS) || !headers.isPresent()) {
             return Optional.empty();
         }
+
         List<Map<String, Object>> bodyMap = (List<Map<String, Object>>) (request).get(BODY_PATTERNS);
-        return Optional.ofNullable((String) bodyMap.get(0).get("equalToJson"));
+        if (isJson(headers.get(), PayloadType.REQUEST)) {
+            return Optional.ofNullable((String) bodyMap.get(0).get("equalToJson"));
+        }
+        return Optional.ofNullable((String) bodyMap.get(0).get("equalToXml"));
     }
 
     @SuppressWarnings("unchecked")
@@ -251,7 +303,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     }
 
     @SuppressWarnings("unchecked")
-    private boolean isJsonBody(Map<String, Object> headers, PayloadType payloadType) {
+    private boolean isJson(Map<String, Object> headers, PayloadType payloadType) {
         if (payloadType == PayloadType.REQUEST) {
             Map<String, String> contentType = (Map<String, String>) headers.getOrDefault(CONTENT_TYPE, Collections.emptyMap());
             return contentType.getOrDefault(EQUAL_TO, "").startsWith(APPLICATION_JSON);
@@ -259,8 +311,8 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
         return headers.getOrDefault(CONTENT_TYPE.toLowerCase(), "").toString().startsWith(APPLICATION_JSON);
     }
 
-    public static boolean isWiremockSupported(String adapterName) {
-        Path path = Paths.get(String.format(MAPPINGS_DIR_PATH, adapterName));
+    public static boolean isWiremockSupported(String adapterId) {
+        Path path = Paths.get(String.format(MAPPINGS_DIR_PATH, adapterId));
         return Files.exists(path);
     }
 
