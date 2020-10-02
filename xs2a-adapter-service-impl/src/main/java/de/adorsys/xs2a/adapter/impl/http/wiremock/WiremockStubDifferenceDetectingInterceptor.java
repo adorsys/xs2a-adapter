@@ -43,6 +43,8 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     private static final Logger log = LoggerFactory.getLogger(WiremockStubDifferenceDetectingInterceptor.class);
+    private static final CustomTextDifferenceEvaluator customTextDifferenceEvaluator
+        = new CustomTextDifferenceEvaluator();
     private static final String EQUAL_TO = "equalTo";
     private static final String HEADERS = "headers";
     private static final String BODY = "body";
@@ -120,7 +122,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
             .compare(payloadBody)
             .withTest(stubBody)
             .ignoreWhitespace()
-            .withDifferenceEvaluator(new CustomTextDifferenceEvaluator())
+            .withDifferenceEvaluator(customTextDifferenceEvaluator)
             .checkForSimilar()
             .build();
 
