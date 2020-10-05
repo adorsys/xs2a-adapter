@@ -50,11 +50,11 @@ enum WiremockSupportedHeader {
     PSU_GEO_LOCATION("PS-Geo-Location"),
     CONTENT_TYPE("Content-Type") {
         @Override
-        boolean isEqual(String headerValue1, String headerValue2) {
-            if (isEmpty(headerValue1) || isEmpty(headerValue2)) {
+        boolean isEqual(String stubValue, String currentValue) {
+            if (isEmpty(stubValue) || isEmpty(currentValue)) {
                 return false;
             }
-            return headerValue1.equalsIgnoreCase(headerValue2);
+            return currentValue.matches(stubValue);
         }
     },
     AUTHORIZATION("Authorization");
@@ -69,7 +69,7 @@ enum WiremockSupportedHeader {
         return name;
     }
 
-    boolean isEqual(String headerValue1, String headerValue2) {
+    boolean isEqual(String stubValue, String currentValue) {
         return true;
     }
 

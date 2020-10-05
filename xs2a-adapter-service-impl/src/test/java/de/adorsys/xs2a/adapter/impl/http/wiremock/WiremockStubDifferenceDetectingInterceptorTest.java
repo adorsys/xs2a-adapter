@@ -36,7 +36,7 @@ class WiremockStubDifferenceDetectingInterceptorTest {
     private static final String X_REQUEST_ID_VALUE = "some-id";
     private static final String CONSENTS_URL = "https://bank.com/v1/consents";
     private static final String INITIATE_PAYMENT_PAYMENTS_PAIN_URL = "https://bank.com/v1/payments/pain.001-sepa-credit-transfers";
-    private static final String INITIATE_PAYMENT_PERIODIC_PAIN_URL = "https://bank.com/v1/periodic-paymenets/pain.001-sepa-credit-transfers";
+    private static final String INITIATE_PAYMENT_PERIODIC_PAIN_URL = "https://bank.com/v1/periodic-payments/pain.001-sepa-credit-transfers";
     private static final String POST = "POST";
     private static final String GET = "GET";
     private static final String REQUEST_HEADERS_VALUE = "request-headers";
@@ -45,9 +45,11 @@ class WiremockStubDifferenceDetectingInterceptorTest {
     private static final String PSU_ID_VALUE = "max.musterman";
     private static final String CONTENT_TYPE_JSON_VALUE = "application/json; charset=UTF-8";
     private static final String CONTENT_TYPE_XML_VALUE = "application/xml; charset=ISO-8859-1";
+    private static final String CONTENT_TYPE_MULTIPART_VALUE = "multipart/form-data; boundary=123456";
     private static final String PSU_IP_ADDRESS_VALUE = "0.0.0.0";
     private static final String TPP_REDIRECT_URI_VALUE = "http://example.com";
     private static final String XML_BODY = "<test></test>";
+    private static final String PAYMENT_INITIATION_BODY_FILE = "payment-initiation-body.xml";
 
     private static final Logger logger = LoggerFactory.getLogger(WiremockStubDifferenceDetectingInterceptorTest.class);
 
@@ -178,7 +180,7 @@ class WiremockStubDifferenceDetectingInterceptorTest {
     void postHandle_xmlBody_allMatches() {
         RequestBuilderImpl request
             = new RequestBuilderImpl(httpClient, POST, INITIATE_PAYMENT_PAYMENTS_PAIN_URL);
-        String body = getXmlAsString("payment-initiation-body.xml");
+        String body = getXmlAsString(PAYMENT_INITIATION_BODY_FILE);
         request.xmlBody(body);
         request.header(RequestHeaders.X_REQUEST_ID, X_REQUEST_ID_VALUE);
         request.header(RequestHeaders.PSU_ID, PSU_ID_VALUE);
@@ -243,16 +245,16 @@ class WiremockStubDifferenceDetectingInterceptorTest {
     }
 
     @Test
-    void postHandle_multipartBody_allMatches() {
+    void postHandle_multipartBody_allMatches() throws JsonProcessingException {
         RequestBuilderImpl request
-            = new RequestBuilderImpl(httpClient, POST, INITIATE_PAYMENT_PAYMENTS_PAIN_URL);
-        String body = getXmlAsString("payment-initiation-body.xml");
-        request.xmlBody(body);
+            = new RequestBuilderImpl(httpClient, POST, INITIATE_PAYMENT_PERIODIC_PAIN_URL);
+        String body = getXmlAsString(PAYMENT_INITIATION_BODY_FILE);
+        request.addXmlPart("xml_sct", body);
+        request.addJsonPart("json_standingorderType",
+            writeValueAsString(getPeriodicPaymentInitiationXmlPart2StandingorderTypeJson()));
         request.header(RequestHeaders.X_REQUEST_ID, X_REQUEST_ID_VALUE);
         request.header(RequestHeaders.PSU_ID, PSU_ID_VALUE);
-        request.header(RequestHeaders.CONTENT_TYPE, CONTENT_TYPE_XML_VALUE);
-        request.header(RequestHeaders.PSU_IP_ADDRESS, PSU_IP_ADDRESS_VALUE);
-        request.header(RequestHeaders.TPP_REDIRECT_URI, TPP_REDIRECT_URI_VALUE);
+        request.header(RequestHeaders.CONTENT_TYPE, CONTENT_TYPE_MULTIPART_VALUE);
 
         Response<?> actualResponse = interceptor
             .postHandle(request,
@@ -261,6 +263,29 @@ class WiremockStubDifferenceDetectingInterceptorTest {
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .doesNotContainKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED);
+    }
+
+    @Test
+    void postHandle_multipartBody_notMatchingMultipartBody() {
+        RequestBuilderImpl request
+            = new RequestBuilderImpl(httpClient, POST, INITIATE_PAYMENT_PERIODIC_PAIN_URL);
+        request.addXmlPart("xml_fake", XML_BODY);
+        request.addJsonPart("json_standingorderFake", "{}");
+        request.header(RequestHeaders.X_REQUEST_ID, X_REQUEST_ID_VALUE);
+        request.header(RequestHeaders.PSU_ID, PSU_ID_VALUE);
+        request.header(RequestHeaders.CONTENT_TYPE, CONTENT_TYPE_MULTIPART_VALUE);
+
+        Response<?> actualResponse = interceptor
+            .postHandle(request,
+                getResponse(getPaymentInitiationRequestResponse201(),
+                    getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
+
+        assertThat(actualResponse.getHeaders().getHeadersMap())
+            .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .extractingByKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .matches(val -> val.contains(REQUEST_PAYLOAD_VALUE))
+            .matches(val -> !val.contains(REQUEST_HEADERS_VALUE))
+            .matches(val -> !val.contains(RESPONSE_PAYLOAD_VALUE));
     }
 
     private String getXmlAsString(String path) {

@@ -115,4 +115,14 @@ public class TestInstancesSupplier {
     public static <T> Response<T> getResponse(T body, ResponseHeaders responseHeaders) {
         return new Response<>(200, body, responseHeaders);
     }
+
+    public static PeriodicPaymentInitiationXmlPart2StandingorderTypeJson getPeriodicPaymentInitiationXmlPart2StandingorderTypeJson() {
+        PeriodicPaymentInitiationXmlPart2StandingorderTypeJson response
+            = new PeriodicPaymentInitiationXmlPart2StandingorderTypeJson();
+        response.setStartDate(LocalDate.now());
+        response.setEndDate(LocalDate.now());
+        response.setFrequency(FrequencyCode.WEEKLY);
+        response.setDayOfExecution(DayOfExecution._1);
+        return response;
+    }
 }
