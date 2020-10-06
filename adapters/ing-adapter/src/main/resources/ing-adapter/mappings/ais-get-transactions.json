@@ -2,7 +2,7 @@
   "id" : "497f3fa5-301d-4312-bb7a-d44cfc51c603",
   "name" : "v2_accounts_a217d676-7559-4f2a-83dc-5da0c2279223_transactions",
   "request" : {
-    "urlPattern" : "/v2/accounts/a217d676-7559-4f2a-83dc-5da0c2279223/transactions\\?dateFrom=\\d{4}-[01]\\d-[0-3]\\d&dateTo=\\d{4}-[01]\\d-[0-3]\\d",
+    "urlPattern" : "/v2/accounts/.+/transactions\\?dateFrom=.+&dateTo=.+",
     "method" : "GET",
     "headers" : {
       "X-Request-ID" : {

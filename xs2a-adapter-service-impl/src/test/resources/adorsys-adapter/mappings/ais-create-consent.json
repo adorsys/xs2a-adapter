@@ -2,7 +2,7 @@
   "id" : "a45aacc7-22d2-4c9c-90ca-1ddb0b9b2e17",
   "name" : "v1_consents",
   "request" : {
-    "url" : "/v1/consents",
+    "url" : "/v1/consents/.+",
     "method" : "POST",
     "headers" : {
       "X-Request-ID" : {

@@ -2,7 +2,7 @@
   "id" : "d33af1fa-c815-431b-8447-eeef05e8dbf9",
   "name" : "v1_accounts_hglna7cqt8sjd_1av2v2li_balances",
   "request" : {
-    "url" : "/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/balances",
+    "urlPattern" : "/v1/accounts/.+/balances",
     "method" : "GET",
     "headers" : {
       "X-Request-ID" : {

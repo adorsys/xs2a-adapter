@@ -2,7 +2,7 @@
   "id" : "ac22145d-3e6f-4144-bdd1-e2b3e2eb6199",
   "name" : "v1_payments_sepa-credit-transfers_5f6e3778-2b5c-460c-90f9-c86b0f5c5d57_status",
   "request" : {
-    "url" : "/v1/payments/sepa-credit-transfers/5f6e3778-2b5c-460c-90f9-c86b0f5c5d57/status",
+    "urlPattern" : "/v1/payments/sepa-credit-transfers/.+/status",
     "method" : "GET",
     "headers" : {
       "X-Request-ID" : {

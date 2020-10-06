@@ -2,7 +2,7 @@
   "id" : "844ee78b-e7de-4436-bc02-fa3400bc1a83",
   "name" : "v1_periodic-payments_pain001-sepa-credit-transfers_2750410619090020256psdde-bafin-911360pa4960jj_status",
   "request" : {
-    "url" : "/v1/periodic-payments/pain.001-sepa-credit-transfers/2750410619090020256PSDDE-BAFIN-911360PA4960JJ/status",
+    "urlPattern" : "/v1/periodic-payments/pain.001-sepa-credit-transfers/.+/status",
     "method" : "GET",
     "headers" : {
       "X-Request-ID" : {

@@ -30,6 +30,7 @@ class WiremockStubDifferenceDetectingInterceptorTest {
     private static final String CONSENT_ID_VALUE = "consent-id";
     private static final String CONSENTS_URL = "https://bank.com/v1/consents";
     private static final String POST = "POST";
+    private static final String REQUEST_URL_VALUE = "url";
     private static final String REQUEST_HEADERS_VALUE = "request-headers";
     private static final String REQUEST_PAYLOAD_VALUE = "request-payload";
     private static final String RESPONSE_PAYLOAD_VALUE = "response-payload";
@@ -74,6 +75,24 @@ class WiremockStubDifferenceDetectingInterceptorTest {
             .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
             .extractingByKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
             .matches(val -> val.contains(REQUEST_HEADERS_VALUE));
+    }
+
+    @Test
+    void postHandle_ParamsNotMatching() throws JsonProcessingException {
+        RequestBuilderImpl request = new RequestBuilderImpl(httpClient, "GET", "/v1/accounts/123123/transactions?dateFrom=1990-01-01&dateTo=1990-12-31d&bookingStatus=booked&withBalance=false");
+        request.header(RequestHeaders.X_REQUEST_ID, X_REQUEST_ID_VALUE);
+        request.header(RequestHeaders.CONTENT_TYPE, "application/json");
+        request.header(RequestHeaders.PSU_ID, PSU_ID_VALUE);
+        request.header(RequestHeaders.PSU_IP_ADDRESS, PSU_IP_ADDRESS_VALUE);
+        request.header(RequestHeaders.TPP_REDIRECT_URI, TPP_REDIRECT_URI_VALUE);
+
+        Response<?> actualResponse = interceptor
+                                        .postHandle(request, getResponse(writeValueAsString(getAccountListBody())));
+
+        assertThat(actualResponse.getHeaders().getHeadersMap())
+            .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .extractingByKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .matches(val -> val.contains(REQUEST_URL_VALUE));
     }
 
     private <T> Response<T> getResponse(T body) {

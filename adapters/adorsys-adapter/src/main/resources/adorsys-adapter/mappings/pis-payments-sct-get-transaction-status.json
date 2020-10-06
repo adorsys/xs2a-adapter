@@ -2,7 +2,7 @@
   "id" : "041ce002-3ff3-47e3-bf6f-d421504605fe",
   "name" : "v1_payments_sepa-credit-transfers_w_pfk5-4oqzsxpxkls9h97q8bfpnv3xkam5mxm8dnt60lxxypagedv4hpqteq8-mcgftjbetkzvnvu5mzqqwca__psglvqpt9q_status",
   "request" : {
-    "url" : "/v1/payments/sepa-credit-transfers/W_pFk5-4OqzsXpxKLs9h97q8bfPnV3XKAm5MxM8dnT60LxXyPaGedv4HPQtEQ8-mcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/status",
+    "urlPattern" : "/v1/payments/sepa-credit-transfers/.+/status",
     "method" : "GET",
     "headers" : {
       "X-Request-ID" : {

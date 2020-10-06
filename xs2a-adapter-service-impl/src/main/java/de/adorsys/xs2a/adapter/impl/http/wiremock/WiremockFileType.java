@@ -16,6 +16,9 @@
 
 package de.adorsys.xs2a.adapter.impl.http.wiremock;
 
+import org.apache.http.client.utils.URIBuilder;
+
+import java.net.URISyntaxException;
 import java.util.Arrays;
 
 public enum WiremockFileType {
@@ -61,8 +64,15 @@ public enum WiremockFileType {
     AIS_GET_ACCOUNTS("ais-get-accounts.json") {
         @Override
         public boolean check(String url, String method, String body) {
-            return GET_METHOD.equalsIgnoreCase(method)
-                       && url.startsWith(ACCOUNTS_URI);
+            try {
+                URIBuilder uriBuilder = new URIBuilder(url);
+                return GET_METHOD.equalsIgnoreCase(method)
+                           && uriBuilder.getPath().endsWith(ACCOUNTS_URI);
+
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            return false;
         }
     },
     AIS_GET_BALANCES("ais-get-balances.json") {

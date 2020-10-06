@@ -2,7 +2,7 @@
   "id" : "61249fc2-492b-4b8f-9c23-9a177bce918f",
   "name" : "v1_periodic-payments_pain001-sepa-credit-transfers_2750410619090020256psdde-bafin-911360pa4960jj_authorisations",
   "request" : {
-    "url" : "/v1/periodic-payments/pain.001-sepa-credit-transfers/2750410619090020256PSDDE-BAFIN-911360PA4960JJ/authorisations",
+    "urlPattern" : "/v1/periodic-payments/pain.001-sepa-credit-transfers/.+/authorisations",
     "method" : "POST",
     "headers" : {
       "X-Request-ID" : {

@@ -2,7 +2,7 @@
   "id" : "9d1508d2-df2b-4c06-93a3-9a99122c3241",
   "name" : "v1_consents_8117230618090020246psdde-bafin-911360co4960jj",
   "request" : {
-    "url" : "/v1/consents/8117230618090020246PSDDE-BAFIN-911360CO4960JJ",
+    "urlPattern" : "/v1/consents/.+",
     "method" : "DELETE",
     "headers" : {
       "X-Request-ID" : {

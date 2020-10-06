@@ -2,7 +2,7 @@
   "id" : "e1faf92a-c198-4e94-b949-eb217e76f3de",
   "name" : "v1_consents_8117230618090020246psdde-bafin-911360co4960jj_status",
   "request" : {
-    "url" : "/v1/consents/8117230618090020246PSDDE-BAFIN-911360CO4960JJ/status",
+    "urlPattern" : "/v1/consents/.+/status",
     "method" : "GET",
     "headers" : {
       "X-Request-ID" : {

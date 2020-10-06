@@ -2,7 +2,7 @@
   "id" : "149ee04b-b234-43ac-80c1-49eb45812889",
   "name" : "v1_consents_lwigccdnqiju2wxmn2qjiiiwdpjrci55c92nupa5ixrng8jyetrvnjadwuefv7g4xcx1qlgcjausajiqoazagmz9mpajiqih3njx8ihgetw__psglvqpt9q",
   "request" : {
-    "url" : "/v1/consents/LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q",
+    "urlPattern" : "/v1/consents/.+",
     "method" : "DELETE",
     "headers" : {
       "X-Request-ID" : {

@@ -2,7 +2,7 @@
   "id" : "108ae84f-ed3f-4975-beda-bb6f123a08fc",
   "name" : "v1_payments_sepa-credit-transfers_5f6e3778-2b5c-460c-90f9-c86b0f5c5d57_authorisations_c9ef5300-0091-47c6-9df9-2190313e8f03",
   "request" : {
-    "url" : "/v1/payments/sepa-credit-transfers/5f6e3778-2b5c-460c-90f9-c86b0f5c5d57/authorisations/c9ef5300-0091-47c6-9df9-2190313e8f03",
+    "urlPattern" : "/v1/payments/sepa-credit-transfers/.+/authorisations/.+",
     "method" : "PUT",
     "headers" : {
       "X-Request-ID" : {

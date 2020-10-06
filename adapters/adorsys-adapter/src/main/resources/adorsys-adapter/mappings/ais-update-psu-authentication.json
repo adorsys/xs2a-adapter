@@ -2,7 +2,7 @@
   "id" : "76a06747-a112-4e07-b120-1cc2f61d5ee4",
   "name" : "v1_consents_lwigccdnqiju2wxmn2qjiiiwdpjrci55c92nupa5ixrng8jyetrvnjadwuefv7g4xcx1qlgcjausajiqoazagmz9mpajiqih3njx8ihgetw__psglvqpt9q_authorisations_19636dbe-99db-4d0f-90de-2573057bc7e4",
   "request" : {
-    "url" : "/v1/consents/LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q/authorisations/19636dbe-99db-4d0f-90de-2573057bc7e4",
+    "urlPattern" : "/v1/consents/.+/authorisations/.+",
     "method" : "PUT",
     "headers" : {
       "X-Request-ID" : {
