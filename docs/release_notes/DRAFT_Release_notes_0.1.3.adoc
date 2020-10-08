@@ -9,6 +9,7 @@
 - Removed PFB business entity support in deutsche bank adapter.
 See the previous release notes for more details.
 - Reverted removal of pain.001 ReqdExctnDt in sparkasse adapter.
+- Made ReqdExctnDt field to have a constant value of `1999-01-01` for payments pain.001 in sparkasse adapter.
 
 == Features:
 - Add functionality for detecting changes in wiremock stub files. For enabling/disabling this feature
