@@ -57,10 +57,14 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     private static final String BODY = "body";
     private static final String BODY_FILE_NAME = "bodyFileName";
     private static final String BODY_PATTERNS = "bodyPatterns";
+    private static final String MULTIPART_PATTERNS = "multipartPatterns";
     private static final String CONTENT_TYPE = WiremockSupportedHeader.CONTENT_TYPE.getName();
     private static final String MAPPINGS_DIR = File.separator + "mappings" + File.separator;
     private static final String MAPPINGS_DIR_PATH = "%s" + MAPPINGS_DIR;
     private static final String APPLICATION_JSON = "application/json";
+    private static final String MULTIPART_FORMDATA = "multipart/form-data";
+    public static final String EQUAL_TO_XML = "equalToXml";
+    public static final String EQUAL_TO_JSON = "equalToJson";
     private final Aspsp aspsp;
     private final ObjectMapper objectMapper;
 
@@ -198,7 +202,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
 
     private Optional<String> analyzeXmlPayloadStructure(String payloadBody, String stubBody, PayloadType payloadType) {
         Diff diffs = DiffBuilder
-            .compare(payloadBody)
+            .compare(isEmpty(payloadBody) ? "<Document></Document>" : payloadBody)
             .withTest(stubBody)
             .ignoreWhitespace()
             .withDifferenceEvaluator(customTextDifferenceEvaluator)
@@ -211,7 +215,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
             iterator.forEachRemaining(diff -> {
                 differences.append("\n").append(diff.toString());
             });
-            log.warn("{} stub {} body is different from the aspsp {}.{}", aspsp.getAdapterId(), payloadType.value, payloadType.value, differences);
+            log.warn("{} stub xml {} body is different from the aspsp {}.{}", aspsp.getAdapterId(), payloadType.value, payloadType.value, differences);
             return Optional.of(payloadType.value + "-payload");
         }
 
@@ -250,7 +254,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
                         differences.append("\n").append(key).append(" field is absent");
                     }
                 }
-                log.warn("{} stub {} body is different from the aspsp {}.{}", aspsp.getAdapterId(), payloadType.value, payloadType.value, differences);
+                log.warn("{} stub json {} body is different from the aspsp {}.{}", aspsp.getAdapterId(), payloadType.value, payloadType.value, differences);
                 return Optional.of(payloadType.value + "-payload");
             }
         } catch (JsonProcessingException e) {
@@ -305,12 +309,79 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
         return Optional.empty();
     }
 
-    // todo: add support for Multipart body. https://jira.adorsys.de/browse/XS2AAD-715
-    private Optional<String> analyzeRequestBody(Request.Builder builder, String requestBody) {
+    private Optional<String> analyzeRequestBody(Request.Builder builder, List<Map<String, Object>> requestBody) {
         if (builder.headers().get(CONTENT_TYPE).startsWith(APPLICATION_JSON)) {
-            return analyzeJsonPayloadStructure(requestBody, builder.body(), PayloadType.REQUEST);
+            return analyzeJsonPayloadStructure((String) requestBody.get(0).get(EQUAL_TO_JSON), builder.body(), PayloadType.REQUEST);
+        } else if (builder.headers().get(CONTENT_TYPE).startsWith(MULTIPART_FORMDATA)) {
+            return analyzeMultipartPayloadStructure(requestBody, builder);
         }
-        return analyzeXmlPayloadStructure(builder.body(), requestBody, PayloadType.REQUEST);
+        return analyzeXmlPayloadStructure(builder.body(), (String) requestBody.get(0).get(EQUAL_TO_XML), PayloadType.REQUEST);
+    }
+
+    private Optional<String> analyzeMultipartPayloadStructure(List<Map<String, Object>> requestBody, Request.Builder builder) {
+        Optional<String> xmlResults = analyzeMultipartXmlPart(requestBody.get(0), builder);
+        Optional<String> jsonResults = analyzeMultipartJsonPart(requestBody.get(1), builder);
+        if (xmlResults.isPresent() || jsonResults.isPresent()) {
+            return Optional.of(PayloadType.REQUEST.value + "-payload");
+        }
+        return Optional.empty();
+    }
+
+    @SuppressWarnings("unchecked")
+    private Optional<String> analyzeMultipartXmlPart(Map<String, Object> xmlPart, Request.Builder builder) {
+        Map<String, Object> xmlHeadersPart = (Map<String, Object>) xmlPart.get(HEADERS);
+        Optional<String> headersResult = analyzeMultipartHeader(builder.xmlParts(), xmlHeadersPart);
+
+        List<Map<String, Object>> xmlBodyPart = (List<Map<String, Object>>) xmlPart.get(BODY_PATTERNS);
+        Optional<String> bodyResult = analyzeXmlPayloadStructure(builder.xmlParts().get("xml_sct"),
+                                                                    (String) xmlBodyPart.get(0).get(EQUAL_TO_XML),
+                                                                    PayloadType.REQUEST);
+
+        if (headersResult.isPresent() || bodyResult.isPresent()) {
+            return Optional.of(PayloadType.REQUEST.value + "-payload");
+        }
+        return Optional.empty();
+    }
+
+    @SuppressWarnings("unchecked")
+    private Optional<String> analyzeMultipartHeader(Map<String, String> builder, Map<String, Object> headersPart) {
+        Map<String, Object> contentDisposition = (Map<String, Object>) headersPart.get("Content-Disposition");
+        String rawDispositionValue = (String) contentDisposition.get("contains");
+        String dispositionValue = getDispositionValue(rawDispositionValue);
+        if (!builder.containsKey(dispositionValue)) {
+            log.warn("Multipart Difference:\n" +
+                    "{} {}-stub Content-Disposition header value doesn't match with a {} value;\n" +
+                    "stub is '{}', but '{}' was in request",
+                aspsp.getAdapterId(),
+                PayloadType.REQUEST.value,
+                PayloadType.REQUEST.value,
+                dispositionValue,
+                builder.keySet().iterator().next());
+            return Optional.of(PayloadType.REQUEST.value + "-payload");
+        }
+        return Optional.empty();
+    }
+
+    // Stub Content Disposition header has a value format like "name=\"xml_sct\""
+    // Header value should be extracted for an appropriate comparison
+    private String getDispositionValue(String target) {
+        return target.substring(target.indexOf("\"") + 1, target.lastIndexOf("\""));
+    }
+
+    @SuppressWarnings("unchecked")
+    private Optional<String> analyzeMultipartJsonPart(Map<String, Object> jsonPart, Request.Builder builder) {
+        Map<String, Object> jsonHeadersPart = (Map<String, Object>) jsonPart.get(HEADERS);
+        Optional<String> headersResult = analyzeMultipartHeader(builder.jsonParts(), jsonHeadersPart);
+
+        List<Map<String, Object>> jsonBodyPart = (List<Map<String, Object>>) jsonPart.get(BODY_PATTERNS);
+        Optional<String> bodyResult = analyzeJsonPayloadStructure((String) jsonBodyPart.get(0).get(EQUAL_TO_JSON),
+                                                                    builder.jsonParts().get("json_standingorderType"),
+                                                                    PayloadType.REQUEST);
+
+        if (headersResult.isPresent() || bodyResult.isPresent()) {
+            return Optional.of(PayloadType.REQUEST.value + "-payload");
+        }
+        return Optional.empty();
     }
 
     private Optional<String> analyzeRequestHeaders(Request.Builder builder, Map<String, Object> stubHeaders) {
@@ -353,18 +424,20 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     }
 
     @SuppressWarnings("unchecked")
-    private Optional<String> getRequestBody(Map<String, Object> jsonFile) {
+    private Optional<List<Map<String, Object>>> getRequestBody(Map<String, Object> jsonFile) {
         Map<String, Object> request = (Map<String, Object>) jsonFile.get(PayloadType.REQUEST.value);
         Optional<Map<String, Object>> headers = getHeaders(jsonFile, PayloadType.REQUEST);
-        if (!request.containsKey(BODY_PATTERNS) || !headers.isPresent()) {
+        if (!(request.containsKey(BODY_PATTERNS) || request.containsKey(MULTIPART_PATTERNS)) || !headers.isPresent()) {
             return Optional.empty();
         }
 
-        List<Map<String, Object>> bodyMap = (List<Map<String, Object>>) (request).get(BODY_PATTERNS);
-        if (isJson(headers.get(), PayloadType.REQUEST)) {
-            return Optional.ofNullable((String) bodyMap.get(0).get("equalToJson"));
+        List<Map<String, Object>> multipartBodyMap = (List<Map<String, Object>>) request.get(MULTIPART_PATTERNS);
+        if (multipartBodyMap != null) {
+            return Optional.of(multipartBodyMap);
         }
-        return Optional.ofNullable((String) bodyMap.get(0).get("equalToXml"));
+
+        List<Map<String, Object>> bodyMap = (List<Map<String, Object>>) (request).get(BODY_PATTERNS);
+        return Optional.ofNullable(bodyMap);
     }
 
     @SuppressWarnings("unchecked")
