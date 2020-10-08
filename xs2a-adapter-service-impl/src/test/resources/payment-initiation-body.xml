@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
+    <CstmrCdtTrfInitn>
+        <GrpHdr>
+            <MsgId>PSD294387538754378</MsgId>
+            <CreDtTm>2018-12-10T09:40:47.314+01:00</CreDtTm>
+            <NbOfTxs>1</NbOfTxs>
+            <CtrlSum>100</CtrlSum>
+            <InitgPty>
+                <Nm>max.musterman</Nm>
+            </InitgPty>
+        </GrpHdr>
+        <PmtInf>
+            <PmtInfId>NOTPROVIDED</PmtInfId>
+            <PmtMtd>TRF</PmtMtd>
+            <NbOfTxs>1</NbOfTxs>
+            <CtrlSum>100</CtrlSum>
+            <ReqdExctnDt>1999-01-01</ReqdExctnDt>
+            <Dbtr>
+                <Nm>max.musterman</Nm>
+            </Dbtr>
+            <DbtrAcct>
+                <Id>
+                    <IBAN>DE38760700240320465700</IBAN>
+                </Id>
+            </DbtrAcct>
+            <DbtrAgt>
+                <FinInstnId>
+                    <BIC>TESTDETT421</BIC>
+                </FinInstnId>
+            </DbtrAgt>
+            <ChrgBr>SLEV</ChrgBr>
+            <CdtTrfTxInf>
+                <PmtId>
+                    <EndToEndId>EndToEndId</EndToEndId>
+                </PmtId>
+                <Amt>
+                    <InstdAmt Ccy="EUR">100</InstdAmt>
+                </Amt>
+                <Cdtr>
+                    <Nm>Max Musterman</Nm>
+                </Cdtr>
+                <CdtrAcct>
+                    <Id>
+                        <IBAN>DE38760700240320465700</IBAN>
+                    </Id>
+                </CdtrAcct>
+                <RmtInf>
+                    <Ustrd>POSTPaymentEmbPain_OK</Ustrd>
+                </RmtInf>
+            </CdtTrfTxInf>
+        </PmtInf>
+    </CstmrCdtTrfInitn>
+</Document>
