@@ -25,6 +25,8 @@ import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URIBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xmlunit.builder.DiffBuilder;
@@ -33,11 +35,16 @@ import org.xmlunit.diff.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
@@ -74,6 +81,8 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
             String fileName = buildStubFilePath(aspsp.getAdapterId(), wiremockFileType.getFileName());
             Map<String, Object> jsonFile = readStubFile(fileName);
             List<String> changes = new ArrayList<>();
+            getUrl(jsonFile).flatMap(url -> analyzeUrl(builder, url))
+                .ifPresent(changes::add);
             getHeaders(jsonFile, PayloadType.REQUEST)
                 .flatMap(headers -> analyzeRequestHeaders(builder, headers))
                 .ifPresent(changes::add);
@@ -101,6 +110,76 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
         }
 
         return response;
+    }
+
+    private Optional<String> analyzeUrl(Request.Builder builder, String stubUrl) {
+        try {
+            URIBuilder reqUriBuilder = new URIBuilder(builder.uri());
+            URIBuilder stubUriBuilder = new URIBuilder(stubUrl.replace("\\?", "?"));
+            Map<String, String> reqParams = getParamsMap(reqUriBuilder.getQueryParams());
+            Map<String, String> stubParams = getParamsMap(stubUriBuilder.getQueryParams());
+            StringBuilder differences = new StringBuilder();
+            if (!reqUriBuilder.getPath().matches(stubUriBuilder.getPath())) {
+                differences
+                    .append("\n")
+                    .append("Request URL is different");
+            }
+            reqParams.forEach((key, value) -> {
+                if (stubParams.containsKey(key)) {
+                    String stubParamValue = getEncodedParamValue(stubParams, key);
+                    if (!value.matches(stubParamValue)) {
+                        differences
+                            .append("\n")
+                            .append("URL parameter ")
+                            .append(key)
+                            .append(" is different. Req/Stub ")
+                            .append(value)
+                            .append(" / ")
+                            .append(stubParamValue);
+                    }
+                } else {
+                    differences
+                        .append("\n")
+                        .append("URL parameter ")
+                        .append(key)
+                        .append(" is absent");
+                }
+            });
+            if (differences.length() != 0) {
+                log.warn("Differences: {}", differences);
+                return Optional.of("url");
+            }
+        } catch (URISyntaxException e) {
+            log.error(e.getMessage());
+        }
+        return Optional.empty();
+    }
+
+    private String getEncodedParamValue(Map<String, String> params, String key) {
+        String paramValue = params.get(key);
+        try {
+            return URLEncoder.encode(paramValue, Charset.defaultCharset().name());
+        } catch (UnsupportedEncodingException e) {
+            log.error("Can't encode param value={}", paramValue, e);
+        }
+        return paramValue;
+    }
+
+    private Map<String, String> getParamsMap(List<NameValuePair> queryParams) {
+        return queryParams
+                   .stream()
+                   .map(p -> new AbstractMap.SimpleEntry<>(p.getName(), p.getValue()))
+                   .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    @SuppressWarnings("unchecked")
+    private Optional<String> getUrl(Map<String, Object> jsonFile) {
+        Map<String, Object> request = (Map<String, Object>) jsonFile.get(PayloadType.REQUEST.value);
+        Optional<String> url = Optional.ofNullable((String) request.get("url"));
+        if (url.isPresent()) {
+            return url;
+        }
+        return Optional.ofNullable((String) request.get("urlPattern"));
     }
 
     private <T> Optional<String> analyzeResponseBody(Response<T> response,

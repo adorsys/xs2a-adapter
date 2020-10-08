@@ -2,7 +2,7 @@
   "id" : "a2f20c85-4b57-4617-b0ea-09a7ac0f4c3c",
   "name" : "v1_consents_8117230618090020246psdde-bafin-911360co4960jj_authorisations_0942330618090020247psdde-bafin-911360au4960jj",
   "request" : {
-    "url" : "/v1/consents/8117230618090020246PSDDE-BAFIN-911360CO4960JJ/authorisations/0942330618090020247PSDDE-BAFIN-911360AU4960JJ",
+    "urlPattern" : "/v1/consents/.+/authorisations/.+",
     "method" : "GET",
     "headers" : {
       "X-Request-ID" : {

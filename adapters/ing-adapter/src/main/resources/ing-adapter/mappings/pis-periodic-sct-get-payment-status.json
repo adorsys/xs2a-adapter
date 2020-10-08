@@ -2,7 +2,7 @@
   "id" : "61d6e6f5-1e1a-4788-8f17-60dc386a31b7",
   "name" : "v1_periodic-payments_sepa-credit-transfers_111be84f-a62b-469b-b964-792ea2847abd_status",
   "request" : {
-    "url" : "/v1/periodic-payments/sepa-credit-transfers/111be84f-a62b-469b-b964-792ea2847abd/status",
+    "urlPattern" : "/v1/periodic-payments/sepa-credit-transfers/.+/status",
     "method" : "GET",
     "headers" : {
       "X-Request-ID" : {

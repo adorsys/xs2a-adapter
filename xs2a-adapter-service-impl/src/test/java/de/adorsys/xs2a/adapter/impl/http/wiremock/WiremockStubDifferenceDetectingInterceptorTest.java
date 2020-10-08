@@ -38,6 +38,7 @@ class WiremockStubDifferenceDetectingInterceptorTest {
     private static final String INITIATE_PAYMENT_PAYMENTS_PAIN_URL = "https://bank.com/v1/payments/pain.001-sepa-credit-transfers";
     private static final String POST = "POST";
     private static final String GET = "GET";
+    private static final String REQUEST_URL_VALUE = "url";
     private static final String REQUEST_HEADERS_VALUE = "request-headers";
     private static final String REQUEST_PAYLOAD_VALUE = "request-payload";
     private static final String RESPONSE_PAYLOAD_VALUE = "response-payload";
@@ -61,9 +62,9 @@ class WiremockStubDifferenceDetectingInterceptorTest {
         request.header(RequestHeaders.CONSENT_ID, "consent-id");
 
         Response<?> actualResponse = interceptor
-                                        .postHandle(request,
-                                            getResponse(writeValueAsString(getAccountList()),
-                                                getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
+                                         .postHandle(request,
+                                                     getResponse(writeValueAsString(getAccountList()),
+                                                                 getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .doesNotContainKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED);
@@ -79,14 +80,33 @@ class WiremockStubDifferenceDetectingInterceptorTest {
         request.header(RequestHeaders.TPP_REDIRECT_URI, TPP_REDIRECT_URI_VALUE);
 
         Response<?> actualResponse = interceptor
-                                        .postHandle(request,
-                                            getResponse(writeValueAsString(getAccountList()),
-                                                getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
+                                         .postHandle(request,
+                                                     getResponse(writeValueAsString(getAccountList()),
+                                                                 getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
             .extractingByKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
             .matches(val -> val.contains(REQUEST_HEADERS_VALUE));
+    }
+
+    @Test
+    void postHandle_ParamsNotMatching() throws JsonProcessingException {
+        RequestBuilderImpl request = new RequestBuilderImpl(httpClient, "GET", "/v1/accounts/123123/transactions?dateFrom=1990-01-01&dateTo=1990-12-31d&bookingStatus=booked&withBalance=false");
+        request.header(RequestHeaders.X_REQUEST_ID, X_REQUEST_ID_VALUE);
+        request.header(RequestHeaders.CONTENT_TYPE, "application/json");
+        request.header(RequestHeaders.PSU_ID, PSU_ID_VALUE);
+        request.header(RequestHeaders.PSU_IP_ADDRESS, PSU_IP_ADDRESS_VALUE);
+        request.header(RequestHeaders.TPP_REDIRECT_URI, TPP_REDIRECT_URI_VALUE);
+
+        Response<?> actualResponse = interceptor
+                                         .postHandle(request, getResponse(writeValueAsString(getAccountList()),
+                                                                          getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
+
+        assertThat(actualResponse.getHeaders().getHeadersMap())
+            .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .extractingByKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .matches(val -> val.contains(REQUEST_URL_VALUE));
     }
 
     @Test
@@ -97,8 +117,8 @@ class WiremockStubDifferenceDetectingInterceptorTest {
 
         Response<?> actualResponse = interceptor
                                          .postHandle(request,
-                                             getResponse(writeValueAsString(getConsentResponse201()),
-                                                 getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
+                                                     getResponse(writeValueAsString(getConsentResponse201()),
+                                                                 getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
@@ -120,8 +140,8 @@ class WiremockStubDifferenceDetectingInterceptorTest {
 
         Response<?> actualResponse = interceptor
                                          .postHandle(request,
-                                             getResponse(writeValueAsString(getConsentResponse201()),
-                                                 getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
+                                                     getResponse(writeValueAsString(getConsentResponse201()),
+                                                                 getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
@@ -143,8 +163,8 @@ class WiremockStubDifferenceDetectingInterceptorTest {
 
         Response<?> actualResponse = interceptor
                                          .postHandle(request,
-                                             getResponse(new ConsentsResponse201(),
-                                                 getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
+                                                     getResponse(new ConsentsResponse201(),
+                                                                 getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
@@ -162,8 +182,8 @@ class WiremockStubDifferenceDetectingInterceptorTest {
 
         Response<?> actualResponse = interceptor
                                          .postHandle(request,
-                                             getResponse("",
-                                                 getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
+                                                     getResponse("",
+                                                                 getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
@@ -186,9 +206,9 @@ class WiremockStubDifferenceDetectingInterceptorTest {
         request.header(RequestHeaders.TPP_REDIRECT_URI, TPP_REDIRECT_URI_VALUE);
 
         Response<?> actualResponse = interceptor
-                                        .postHandle(request,
-                                            getResponse(getPaymentInitiationRequestResponse201(),
-                                                getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
+                                         .postHandle(request,
+                                                     getResponse(getPaymentInitiationRequestResponse201(),
+                                                                 getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .doesNotContainKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED);
@@ -205,9 +225,9 @@ class WiremockStubDifferenceDetectingInterceptorTest {
         request.header(RequestHeaders.TPP_SIGNATURE_CERTIFICATE, "certificate");
 
         Response<?> actualResponse = interceptor
-                                        .postHandle(request,
-                                            getResponse(XML_BODY,
-                                                getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_XML_VALUE)));
+                                         .postHandle(request,
+                                                     getResponse(XML_BODY,
+                                                                 getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_XML_VALUE)));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
@@ -229,9 +249,9 @@ class WiremockStubDifferenceDetectingInterceptorTest {
         request.header(RequestHeaders.TPP_REDIRECT_URI, TPP_REDIRECT_URI_VALUE);
 
         Response<?> actualResponse = interceptor
-                                        .postHandle(request,
-                                            getResponse(getPaymentInitiationRequestResponse201(),
-                                                getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
+                                         .postHandle(request,
+                                                     getResponse(getPaymentInitiationRequestResponse201(),
+                                                                 getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
 
         assertThat(actualResponse.getHeaders().getHeadersMap())
             .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
