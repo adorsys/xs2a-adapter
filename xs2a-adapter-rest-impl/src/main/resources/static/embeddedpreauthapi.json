@@ -1,0 +1,100 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Embedded Pre Authorisation API",
+    "description": "This is API for supporting embedded pre authorisation flow",
+    "version": "0.1"
+  },
+  "paths": {
+    "/embedded-pre-auth/token": {
+      "post": {
+        "description": "Exchange user credentials by bearer token endpoint",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/embeddedPreAuthirisationRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accessToken"
+                },
+                "example": {
+                  "scope": "AIS:VALID_CONSENT_ID",
+                  "access_token": "4496e9e2e82b4aa182db8f994a361c46a6736914cd4843d68eab166d4a41cf5c510d087cb1b946ff83b2494a1f5228a0",
+                  "token_type": "Bearer",
+                  "expires_in": 3600,
+                  "refresh_token": "a10149d1b74b4108acb632e61f9efeb7d03a76deb8d840539b5219ebb486f213bed1c159ccd04234b9794f8da9ed69a4"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "When authorization code is wrong or expired"
+          }
+        },
+        "tags": [
+          "Authorisation operations"
+        ]
+      }
+    }
+  },
+  "components": {
+    "requestBodies": {
+      "embeddedPreAuthirisationRequest": {
+        "description": "Bearer token object",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/embeddedPreAuthirisationRequest"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "embeddedPreAuthirisationRequest": {
+        "description": "User credentials",
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "user1"
+          },
+          "password": {
+            "type": "string",
+            "example": "zI1NiIsInR5cCI6"
+          }
+        }
+      },
+      "accessToken": {
+        "description": "Bearer token object",
+        "type": "object",
+        "properties": {
+          "scope": {
+            "type": "string",
+            "example": "AIS PIS"
+          },
+          "access_token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+          },
+          "token_type": {
+            "type": "string",
+            "example": "Bearer"
+          },
+          "expires_in": {
+            "type": "integer",
+            "example": 3600
+          },
+          "refresh_token": {
+            "type": "string",
+            "example": "refresh-token"
+          }
+        }
+      }
+    }
+  }
+}
