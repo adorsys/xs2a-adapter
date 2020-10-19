@@ -1,8 +1,4 @@
-= Draft Release notes for version 0.1.3 (release date: xx.10.2020)
-
-.Added banks
-|===
-|===
+= Release notes for version 0.1.3 (release date: 19.10.2020)
 
 == Notices:
 - Removed deprecated methods in `PaymentInitiationService` and `PaymentInitiationValidationService`.

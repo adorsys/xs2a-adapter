@@ -1,0 +1,15 @@
+= Draft Release notes for version 0.1.4 (release date: xx.11.2020)
+
+.Added banks
+|===
+|===
+
+== Notices:
+
+
+== Features:
+
+== Fixes:
+
+
+
