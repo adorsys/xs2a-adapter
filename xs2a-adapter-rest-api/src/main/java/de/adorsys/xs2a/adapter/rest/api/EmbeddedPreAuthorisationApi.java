@@ -23,6 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public interface EmbeddedPreAuthorisationApi {
 
-    @PostMapping("/embedded-pre-auth/token")
+    @PostMapping(value = "/v1/embedded-pre-auth/token",  consumes = "application/json")
     TokenResponseTO getToken(@RequestBody EmbeddedPreAuthorisationRequestTO request);
 }
