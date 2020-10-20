@@ -2,34 +2,17 @@ package de.adorsys.xs2a.adapter.crealogix;
 
 import de.adorsys.xs2a.adapter.api.AccountInformationService;
 import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
+import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import org.junit.jupiter.api.Test;
-
-import java.io.File;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 class CrealogixServiceProviderTest {
 
-    private static final HttpClientFactory clientFactory = mock(HttpClientFactory.class);
+    private final HttpClientFactory clientFactory = mock(HttpClientFactory.class);
     private final CrealogixServiceProvider serviceProvider = new CrealogixServiceProvider();
-
-    @BeforeEach
-    void setUp() {
-        String testConfigFile
-            = getClass().getResource(File.separator + "crealogix.adapter.config.properties").getFile();
-        AdapterConfig.setConfigFile(testConfigFile);
-    }
-
-    @AfterAll
-    static void afterAll() {
-        // to be sure default environment is re-set
-        AdapterConfig.setConfigFile("");
-    }
 
     @Test
     void getAccountInformationService() {
@@ -38,7 +21,7 @@ class CrealogixServiceProviderTest {
 
         assertThat(actualService)
             .isNotNull()
-            .isInstanceOf(CrealogixAccountInformationService.class);
+            .isInstanceOf(BaseAccountInformationService.class);
     }
 
     @Test

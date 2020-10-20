@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2018 adorsys GmbH & Co KG
+ * Copyright 2018-2020 adorsys GmbH & Co KG
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,28 +17,19 @@
 package de.adorsys.xs2a.adapter.crealogix;
 
 import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 
 public class CrealogixServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
-
-    private final CrealogixAccessTokenService tokenService = CrealogixAccessTokenService.getInstance();
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
-        HttpClient httpClient = provideHttpClient(httpClientFactory);
-        return new CrealogixAccountInformationService(aspsp, tokenService, httpClient, linksRewriter);
-    }
-
-    private HttpClient provideHttpClient(HttpClientFactory httpClientFactory) {
-        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
-        tokenService.setHttpClient(httpClient);
-        return httpClient;
+        return new BaseAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()), linksRewriter);
     }
 
     @Override
@@ -46,8 +37,7 @@ public class CrealogixServiceProvider implements AccountInformationServiceProvid
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        HttpClient httpClient = provideHttpClient(httpClientFactory);
-        return new CrealogixPaymentInitiationService(aspsp, tokenService, httpClient, linksRewriter);
+        return new CrealogixPaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()), linksRewriter);
     }
 
     @Override
