@@ -2,6 +2,8 @@ package de.adorsys.xs2a.adapter.rest.api.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 public class TokenResponseTO {
     @JsonProperty("access_token")
     private String accessToken;
@@ -55,5 +57,22 @@ public class TokenResponseTO {
 
     public void setScope(String scope) {
         this.scope = scope;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TokenResponseTO that = (TokenResponseTO) o;
+        return Objects.equals(accessToken, that.accessToken) &&
+                   Objects.equals(tokenType, that.tokenType) &&
+                   Objects.equals(expiresInSeconds, that.expiresInSeconds) &&
+                   Objects.equals(refreshToken, that.refreshToken) &&
+                   Objects.equals(scope, that.scope);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accessToken, tokenType, expiresInSeconds, refreshToken, scope);
     }
 }
