@@ -28,6 +28,12 @@
             <groupId>pro.javatar.commons</groupId>
             <artifactId>javatar-commons</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -73,7 +79,6 @@
                                         <exclude>de.adorsys.xs2a.adapter:dab-bank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:fiducia-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:ing-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:maven-adapter-archetype</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:santander-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:sparda-bank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:sparkasse-adapter</exclude>

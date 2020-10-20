@@ -24,15 +24,21 @@ import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
 public class CrealogixServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
 
+    private final CrealogixAccessTokenService tokenService = CrealogixAccessTokenService.getInstance();
+
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
-        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
-        CrealogixAccessTokenService tokenService = CrealogixAccessTokenService.getInstance();
-        tokenService.setHttpClient(httpClient);
+        HttpClient httpClient = provideHttpClient(httpClientFactory);
         return new CrealogixAccountInformationService(aspsp, tokenService, httpClient, linksRewriter);
+    }
+
+    private HttpClient provideHttpClient(HttpClientFactory httpClientFactory) {
+        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
+        tokenService.setHttpClient(httpClient);
+        return httpClient;
     }
 
     @Override
@@ -40,9 +46,7 @@ public class CrealogixServiceProvider implements AccountInformationServiceProvid
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
-        CrealogixAccessTokenService tokenService = CrealogixAccessTokenService.getInstance();
-        tokenService.setHttpClient(httpClient);
+        HttpClient httpClient = provideHttpClient(httpClientFactory);
         return new CrealogixPaymentInitiationService(aspsp, tokenService, httpClient, linksRewriter);
     }
 
