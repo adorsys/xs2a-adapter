@@ -30,6 +30,7 @@
         <module>comdirect-adapter</module>
         <module>santander-adapter</module>
         <module>olb-adapter</module>
+        <module>crealogix-adapter</module>
   </modules>
 
     <dependencies>
@@ -121,6 +122,12 @@
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>olb-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>crealogix-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
