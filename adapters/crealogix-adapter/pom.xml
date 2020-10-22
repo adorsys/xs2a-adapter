@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -10,7 +9,7 @@
         <relativePath>../..</relativePath>
     </parent>
 
-    <artifactId>dkb-adapter</artifactId>
+    <artifactId>crealogix-adapter</artifactId>
 
     <dependencies>
 
@@ -74,8 +73,9 @@
                                         <exclude>de.adorsys.xs2a.adapter:comdirect-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:commerzbank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:consors-bank-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:dab-bank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:deutsche-bank-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:dkp-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:dab-bank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:fiducia-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:ing-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:santander-adapter</exclude>
@@ -83,13 +83,10 @@
                                         <exclude>de.adorsys.xs2a.adapter:sparkasse-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:unicredit-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:verlag-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:crealogix-adapter</exclude>
                                         <!-- 3rd party dependencies -->
                                         <exclude>joda-time:*</exclude>
                                         <exclude>org.projectlombok:lombok</exclude>
                                     </excludes>
-                                    <includes>
-                                    </includes>
                                 </bannedDependencies>
                             </rules>
                             <fail>true</fail>

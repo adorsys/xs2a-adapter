@@ -5,7 +5,8 @@
 |===
 
 == Notices:
-
+- added `crealogix-adapter` for connecting banks that use a PSD2 API solution
+provided by https://crealogix.com/ch/en/[CREALOGIX Group], e.g. DKB
 
 == Features:
 - Added `EmbeddedPreAuthorisationApi` interface for supporting custom pre-authorisation.

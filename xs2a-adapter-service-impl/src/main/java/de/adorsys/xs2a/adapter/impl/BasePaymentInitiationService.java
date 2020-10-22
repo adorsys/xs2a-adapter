@@ -158,7 +158,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
             jsonResponseHandler(PaymentInitiationWithStatusResponse.class));
     }
 
-    private <T> Response<T> getPaymentInformation(PaymentService paymentService,
+    protected  <T> Response<T> getPaymentInformation(PaymentService paymentService,
                                                   PaymentProduct paymentProduct,
                                                   String paymentId,
                                                   RequestHeaders requestHeaders,
