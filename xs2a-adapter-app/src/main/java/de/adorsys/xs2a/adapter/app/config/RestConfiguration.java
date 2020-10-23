@@ -102,4 +102,9 @@ public class RestConfiguration {
     DownloadService downloadService(AdapterServiceLoader adapterServiceLoader) {
         return new DownloadServiceImpl(adapterServiceLoader);
     }
+
+    @Bean
+    EmbeddedPreAuthorisationService embeddedPreAuthorisationService() {
+        return new EmbeddedPreAuthorisationServiceImpl();
+    }
 }
