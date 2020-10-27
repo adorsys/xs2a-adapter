@@ -1,7 +1,6 @@
 package de.adorsys.xs2a.adapter.rest.impl.config;
 
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
-import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.api.exception.PreAuthorisationException;
 import de.adorsys.xs2a.adapter.api.model.*;
@@ -74,7 +73,7 @@ class RestExceptionHandlerTest {
     @Test
     void preAuthorisationException() {
         PreAuthorisationException preAuthorisationException
-            = new PreAuthorisationException(ResponseHeaders.emptyResponseHeaders(), getErrorResponse(), "test error");
+            = new PreAuthorisationException(getErrorResponse(), "test error");
 
         ResponseEntity<?> actualResponse = exceptionHandler.handle(preAuthorisationException);
 

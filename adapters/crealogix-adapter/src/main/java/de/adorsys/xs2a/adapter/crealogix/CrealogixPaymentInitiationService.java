@@ -19,7 +19,6 @@ package de.adorsys.xs2a.adapter.crealogix;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
-import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.exception.PreAuthorisationException;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
@@ -66,7 +65,6 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                                         Object body) {
         if (!requestHeaders.get(RequestHeaders.AUTHORIZATION).isPresent()) {
             throw new PreAuthorisationException(
-                ResponseHeaders.emptyResponseHeaders(),
                 CREALOGIX_ERROR_RESPONSE_INSTANCE,
                 ERROR_MESSAGE);
         }

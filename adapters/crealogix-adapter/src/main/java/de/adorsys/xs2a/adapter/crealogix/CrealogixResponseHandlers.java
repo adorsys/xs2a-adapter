@@ -14,7 +14,7 @@ import static java.util.Collections.singletonMap;
 
 public class CrealogixResponseHandlers {
 
-    private static final String PRE_AUTH_ERROR_MESSAGE = "embedded pre-authorisation needed";
+    public static final String PRE_AUTH_ERROR_MESSAGE = "embedded pre-authorisation needed";
     public static final ErrorResponse CREALOGIX_ERROR_RESPONSE_INSTANCE = getErrorResponse();
 
     public static <T> HttpClient.ResponseHandler<T> crealogixResponseHandler(Class<T> tClass) {
