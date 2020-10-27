@@ -59,6 +59,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
+    ResponseEntity<Object> handle(PreAuthorisationException exception) {
+        logError(exception);
+        HttpHeaders headers = addErrorOriginationHeader(
+            headersMapper.toHttpHeaders(exception.getResponseHeaders()),
+            ErrorOrigination.ADAPTER);
+        ErrorResponse errorResponse = buildErrorResponse("authorisation header missing or embedded pre-authorisation needed");
+        errorResponse.setLinks(exception.getErrorResponse().getLinks());
+        return new ResponseEntity<>(errorResponse, headers, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler
     ResponseEntity<Object> handle(OAuthException exception) {
         logError(exception);
 

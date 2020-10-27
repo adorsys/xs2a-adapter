@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.app.config;
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
+import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClientFactory;
 import de.adorsys.xs2a.adapter.impl.http.wiremock.WiremockHttpClientFactory;
 import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
@@ -101,5 +102,10 @@ public class RestConfiguration {
     @Bean
     DownloadService downloadService(AdapterServiceLoader adapterServiceLoader) {
         return new DownloadServiceImpl(adapterServiceLoader);
+    }
+
+    @Bean
+    EmbeddedPreAuthorisationService embeddedPreAuthorisationService() {
+        return (e) -> new TokenResponse();
     }
 }
