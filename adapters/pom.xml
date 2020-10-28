@@ -23,7 +23,6 @@
         <module>sparkasse-adapter</module>
         <module>verlag-adapter</module>
         <module>fiducia-adapter</module>
-        <module>dkb-adapter</module>
         <module>commerzbank-adapter</module>
         <module>ing-adapter</module>
         <module>unicredit-adapter</module>
@@ -80,12 +79,6 @@
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>fiducia-adapter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>dkb-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 

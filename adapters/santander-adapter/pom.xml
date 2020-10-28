@@ -75,7 +75,6 @@
                                         <exclude>de.adorsys.xs2a.adapter:commerzbank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:consors-bank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:deutsche-bank-adapter</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:dkp-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:dab-bank-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:fiducia-adapter</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:ing-adapter</exclude>

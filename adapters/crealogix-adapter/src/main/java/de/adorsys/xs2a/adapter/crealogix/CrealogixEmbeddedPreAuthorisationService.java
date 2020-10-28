@@ -85,7 +85,7 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
 
         Map<String, String> headers = new HashMap<>(2);
         headers.put(RequestHeaders.CONTENT_TYPE, "application/json");
-        headers.put(RequestHeaders.AUTHORIZATION, "Bearer "+tppToken);
+        headers.put(RequestHeaders.AUTHORIZATION, "Bearer " + tppToken);
 
         Response<TokenResponse> response = httpClient.post(adjustIdpUrl(aspsp.getIdpUrl()) + "/pre-auth/1.0.5/psd2-auth/v1/auth/token")
                                                .jsonBody(String.format(CREDENTIALS_JSON_BODY, username, password))
