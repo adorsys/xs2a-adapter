@@ -21,14 +21,15 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.api.model.Aspsp;
-import de.adorsys.xs2a.adapter.api.model.PaymentInitiationWithStatusResponse;
-import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
-import de.adorsys.xs2a.adapter.api.model.PaymentService;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.crealogix.model.CrealogixPaymentInitiationWithStatusResponse;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import org.mapstruct.factory.Mappers;
+
+import static de.adorsys.xs2a.adapter.crealogix.CrealogixRequestResponseHandlers.crealogixRequestHandler;
+import static de.adorsys.xs2a.adapter.crealogix.CrealogixRequestResponseHandlers.crealogixResponseHandler;
+import static java.util.function.Function.identity;
 
 public class CrealogixPaymentInitiationService extends BasePaymentInitiationService {
 
@@ -52,5 +53,22 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
             requestParams,
             ResponseHandlers.jsonResponseHandler(CrealogixPaymentInitiationWithStatusResponse.class))
                 .map(mapper::toPaymentInitiationWithStatusResponse);
+    }
+
+    @Override
+    public Response<PaymentInitationRequestResponse201> initiatePayment(PaymentService paymentService,
+                                                                        PaymentProduct paymentProduct,
+                                                                        RequestHeaders requestHeaders,
+                                                                        RequestParams requestParams,
+                                                                        Object body) {
+        crealogixRequestHandler(requestHeaders);
+
+        return super.initiatePayment(paymentService,
+            paymentProduct,
+            body,
+            requestHeaders,
+            requestParams,
+            identity(),
+            crealogixResponseHandler(PaymentInitationRequestResponse201.class));
     }
 }
