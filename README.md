@@ -71,6 +71,58 @@ env "adapter.config.file.path=/opt/xs2a-adapter/custom-config/custom.adapter.con
             --timeout-request 3000
     ```
 
+## Using XS2A Adapter as a library
+
+XS2A Adapter is available from the Maven-Central repository. To use it in your project, add next dependencies:
+
+```xml
+    <dependencies>
+    ...
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>adapters</artifactId>
+            <version>${xs2a-adapter.version}</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>xs2a-adapter-service-loader</artifactId>
+            <version>${xs2a-adapter.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>xs2a-adapter-aspsp-registry</artifactId>
+            <version>${xs2a-adapter.version}</version>
+        </dependency>
+    ...
+    </dependencies>
+
+```
+`service-loader` provides interfaces for communicating with banks: _AccountInformationService_ 
+and _PaymentInitiationService_ for querying account data and performing payments respectively.
+`adapters` contains all implemented bank adapters and `aspsp-registry` provides the Lucene repository 
+with all connected German banks.
+
+Now you will be able to call adapter services to work with banks:
+```groovy
+// Consent establishing
+Response<ConsentsResponse201> consent = accountInformationClient.createConsent(requestHeaders,
+                                                                               requestParameters,
+                                                                               consentsBody);
+// retrieving list of Accounts
+Response<AccountList> accounts = accountInformationClient.getAccountList(requestHeaders,
+                                                                         requestParameters);
+
+// Payment Initiation
+Response<PaymentInitationRequestResponse201> payment = accountInformationClient.getAccountList(paymentService,
+                                                                                               paymentProduct,
+                                                                                               requestHeaders,
+                                                                                               requestParams,
+                                                                                               objectBody);
+```
+
 ## How to write your own bank adapter
 Read this short [guideline](/docs/Adapter.md) to get more details
 
