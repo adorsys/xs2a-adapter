@@ -59,7 +59,7 @@ class EmbeddedPreAuthorisationControllerTest {
         token.setExpiresInSeconds(3600L);
         token.setTokenType("token-type");
 
-        when(authorisationService.getToken(any()))
+        when(authorisationService.getToken(any(), any()))
             .thenReturn(token);
 
         MvcResult mvcResult = mockMvc.perform(post("/v1/embedded-pre-auth/token")

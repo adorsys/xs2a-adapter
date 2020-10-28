@@ -46,7 +46,7 @@ public class DkbServiceProvider implements AccountInformationServiceProvider, Pa
     }
 
     @Override
-    public EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore, LinksRewriter linksRewriter) {
+    public EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp, HttpClientFactory httpClientFactory) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
         return new CrealogixEmbeddedPreAuthorisationService(CrealogixClient.DKB, aspsp, httpClient);
     }

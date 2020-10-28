@@ -104,7 +104,7 @@ public class RestConfiguration {
     }
 
     @Bean
-    EmbeddedPreAuthorisationService embeddedPreAuthorisationService() {
-        return new EmbeddedPreAuthorisationServiceImpl();
+    EmbeddedPreAuthorisationService embeddedPreAuthorisationService(AdapterServiceLoader adapterServiceLoader) {
+        return new EmbeddedPreAuthorisationServiceImpl(adapterServiceLoader);
     }
 }

@@ -38,12 +38,12 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
     public static final String TOKEN_CONSUMER_KEY_PROPERTY = ".token.consumer_key";
     public static final String TOKEN_CONSUMER_SECRET_PROPERTY = ".token.consumer_secret";
     private static final String CREDENTIALS_JSON_BODY = "{\"username\":\"%s\",\"password\":\"%s\"}";
-    private Aspsp aspsp;
+    private final Aspsp aspsp;
 
     private static final String TOKEN_URL = "/token";
-    private static Map<String, String> tppHeaders = new HashMap<>();
-    private HttpClient httpClient;
-    private JsonMapper jsonMapper;
+    private static final Map<String, String> tppHeaders = new HashMap<>();
+    private final HttpClient httpClient;
+    private final JsonMapper jsonMapper;
 
     public CrealogixEmbeddedPreAuthorisationService(CrealogixClient crealogixClient, Aspsp aspsp, HttpClient httpClient) {
         this.aspsp = aspsp;
@@ -64,7 +64,7 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
     }
 
     @Override
-    public TokenResponse getToken(EmbeddedPreAuthorisationRequest request) {
+    public TokenResponse getToken(EmbeddedPreAuthorisationRequest request, RequestHeaders requestHeaders) {
         String tppToken = retrieveTppToken();
         String psd2AuthorisationToken = retrievePsd2AuthorisationToken(request.getUsername(), request.getPassword(), tppToken);
         TokenResponse tokenResponse = new TokenResponse();
@@ -85,9 +85,9 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
 
         Map<String, String> headers = new HashMap<>(2);
         headers.put(RequestHeaders.CONTENT_TYPE, "application/json");
-        headers.put(RequestHeaders.AUTHORIZATION, tppToken);
+        headers.put(RequestHeaders.AUTHORIZATION, "Bearer "+tppToken);
 
-        Response<TokenResponse> response = httpClient.post(adjustIdpUrl(aspsp.getIdpUrl()) + "/pre-auth/1.0.6/psd2-auth/v1/auth/token")
+        Response<TokenResponse> response = httpClient.post(adjustIdpUrl(aspsp.getIdpUrl()) + "/pre-auth/1.0.5/psd2-auth/v1/auth/token")
                                                .jsonBody(String.format(CREDENTIALS_JSON_BODY, username, password))
                                                .headers(headers)
                                                .send(responseHandler());

@@ -22,7 +22,7 @@ import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
 public class TestServiceProvider
-    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceProvider, DownloadServiceProvider {
+    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceProvider, DownloadServiceProvider, EmbeddedPreAuthorisationServiceProvider {
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
@@ -57,5 +57,10 @@ public class TestServiceProvider
     @Override
     public String getAdapterId() {
         return "test-adapter";
+    }
+
+    @Override
+    public EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp, HttpClientFactory httpClientFactory) {
+        return new TestEmbeddedPreAuthorisationService();
     }
 }

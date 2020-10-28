@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.crealogix;
 
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.Request;
@@ -9,6 +10,7 @@ import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -37,7 +39,7 @@ class CrealogixEmbeddedPreAuthorisationServiceTest {
         doReturn(tppResponse).when(tppBuilder).send(any());
         doReturn(tppTokenResponse).when(tppResponse).getBody();
 
-        doReturn(psd2Builder).when(httpClient).post(eq("https://localhost:8443/pre-auth/1.0.6/psd2-auth/v1/auth/token"));
+        doReturn(psd2Builder).when(httpClient).post(eq("https://localhost:8443/pre-auth/1.0.5/psd2-auth/v1/auth/token"));
         doReturn(psd2Builder).when(psd2Builder).jsonBody(anyString());
         doReturn(psd2Builder).when(psd2Builder).headers(anyMap());
         doReturn(psd2Response).when(psd2Builder).send(any());
@@ -47,7 +49,7 @@ class CrealogixEmbeddedPreAuthorisationServiceTest {
         CrealogixEmbeddedPreAuthorisationService authorisationService
             = new CrealogixEmbeddedPreAuthorisationService(CrealogixClient.DKB, aspsp, httpClient);
 
-        TokenResponse token = authorisationService.getToken(new EmbeddedPreAuthorisationRequest());
+        TokenResponse token = authorisationService.getToken(new EmbeddedPreAuthorisationRequest(), RequestHeaders.fromMap(Collections.emptyMap()));
 
         CrealogixAuthorisationToken authorisationToken = CrealogixAuthorisationToken.decode(token.getAccessToken());
 
