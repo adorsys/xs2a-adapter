@@ -4184,6 +4184,7 @@ components:
         - "CHIP_OTP"
         - "PHOTO_OTP"
         - "PUSH_OTP"
+        - "EMAIL"
 
     authenticationObject:
       description: |
