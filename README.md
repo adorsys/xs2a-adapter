@@ -26,9 +26,11 @@ For configuring adapter with your custom settings, just copy adapter configurati
 file [adapter.config.properties](xs2a-adapter-service-api/src/main/resources/adapter.config.properties)
 and replace with your values. Then provide the path to your custom config file
 with `adapter.config.file.path` environment variable.
+Create an [adapter keystore](/docs/keystore.md) and specify the location.
 ```
 # Java property example
 -Dadapter.config.file.path=/opt/xs2a-adapter/custom-config/custom.adapter.config.properties
+-Dpkcs12.keyStore=/path/to/your/keystore.p12
 
 # Environment variable example
 env "adapter.config.file.path=/opt/xs2a-adapter/custom-config/custom.adapter.config.properties"  perl -le 'print $ENV{"adapter.config.file.path"}'
