@@ -1,8 +1,6 @@
 package de.adorsys.xs2a.adapter.crealogix;
 
 import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.exception.ErrorResponseException;
-import de.adorsys.xs2a.adapter.api.exception.PreAuthorisationException;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
@@ -13,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -47,39 +44,6 @@ class CrealogixPaymentInitiationServiceTest {
             .isNotNull()
             .extracting(Response::getBody)
             .isInstanceOf(PaymentInitiationWithStatusResponse.class);
-    }
-
-    @Test
-    void initiatePayment_noAuthorizationHeader() {
-        assertThatThrownBy(() -> service.initiatePayment(
-            null,
-            null,
-            RequestHeaders.empty(),
-            null,
-            null))
-            .isInstanceOf(PreAuthorisationException.class)
-            .hasMessage(CrealogixPaymentInitiationService.ERROR_MESSAGE)
-            .matches(er -> ((PreAuthorisationException) er)
-                .getErrorResponse()
-                .getLinks()
-                .get("embeddedPreAuth")
-                .getHref()
-                .equals("/v1/embedded-pre-auth/token"));
-    }
-
-    @Test
-    void initiatePayment_notAuthorized() {
-        when(httpClient.post(any())).thenReturn(new RequestBuilderImpl(httpClient, "POST", ""));
-        when(httpClient.send(any(), any()))
-            .thenThrow(new ErrorResponseException(-1, ResponseHeaders.emptyResponseHeaders()));
-
-        assertThatThrownBy(() -> service.initiatePayment(
-            PaymentService.PAYMENTS,
-            PaymentProduct.SEPA_CREDIT_TRANSFERS,
-            RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
-            RequestParams.empty(),
-            new PaymentInitiationJson()))
-            .isInstanceOf(ErrorResponseException.class);
     }
 
     @Test

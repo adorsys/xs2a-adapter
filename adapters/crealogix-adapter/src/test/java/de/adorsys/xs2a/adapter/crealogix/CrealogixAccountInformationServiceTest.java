@@ -1,8 +1,6 @@
 package de.adorsys.xs2a.adapter.crealogix;
 
 import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.exception.ErrorResponseException;
-import de.adorsys.xs2a.adapter.api.exception.PreAuthorisationException;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
@@ -14,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -55,35 +52,6 @@ class CrealogixAccountInformationServiceTest {
             .isNotNull()
             .extracting(Response::getBody)
             .isInstanceOf(ConsentsResponse201.class);
-    }
-
-    @Test
-    void createConsent_noAuthorizationHeader() {
-        assertThatThrownBy(() -> service.createConsent(
-            RequestHeaders.empty(),
-            null,
-            null))
-            .isInstanceOf(PreAuthorisationException.class)
-            .hasMessage(CrealogixPaymentInitiationService.ERROR_MESSAGE)
-            .matches(er -> ((PreAuthorisationException) er)
-                .getErrorResponse()
-                .getLinks()
-                .get("embeddedPreAuth")
-                .getHref()
-                .equals("/v1/embedded-pre-auth/token"));
-    }
-
-    @Test
-    void createConsent_notAuthorized() {
-        when(client.post(any())).thenReturn(new RequestBuilderImpl(client, "POST", ""));
-        when(client.send(any(), any()))
-            .thenThrow(new ErrorResponseException(-1, ResponseHeaders.emptyResponseHeaders()));
-
-        assertThatThrownBy(() -> service.createConsent(
-            RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
-            RequestParams.empty(),
-            new Consents()))
-            .isInstanceOf(ErrorResponseException.class);
     }
 
     private static Aspsp getAspsp() {

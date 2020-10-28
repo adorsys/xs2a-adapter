@@ -19,7 +19,6 @@ package de.adorsys.xs2a.adapter.crealogix;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
-import de.adorsys.xs2a.adapter.api.exception.PreAuthorisationException;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
@@ -28,13 +27,12 @@ import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import org.mapstruct.factory.Mappers;
 
-import static de.adorsys.xs2a.adapter.crealogix.CrealogixResponseHandlers.CREALOGIX_ERROR_RESPONSE_INSTANCE;
-import static de.adorsys.xs2a.adapter.crealogix.CrealogixResponseHandlers.crealogixResponseHandler;
+import static de.adorsys.xs2a.adapter.crealogix.CrealogixRequestResponseHandlers.crealogixRequestHandler;
+import static de.adorsys.xs2a.adapter.crealogix.CrealogixRequestResponseHandlers.crealogixResponseHandler;
 import static java.util.function.Function.identity;
 
 public class CrealogixPaymentInitiationService extends BasePaymentInitiationService {
 
-    public static final String ERROR_MESSAGE = "Authorization header is missing or embedded pre-authorization is needed";
     private final CrealogixMapper mapper = Mappers.getMapper(CrealogixMapper.class);
 
     public CrealogixPaymentInitiationService(Aspsp aspsp,
@@ -63,11 +61,7 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                                         RequestHeaders requestHeaders,
                                                                         RequestParams requestParams,
                                                                         Object body) {
-        if (!requestHeaders.get(RequestHeaders.AUTHORIZATION).isPresent()) {
-            throw new PreAuthorisationException(
-                CREALOGIX_ERROR_RESPONSE_INSTANCE,
-                ERROR_MESSAGE);
-        }
+        crealogixRequestHandler(requestHeaders);
 
         return super.initiatePayment(paymentService,
             paymentProduct,

@@ -1,7 +1,9 @@
 package de.adorsys.xs2a.adapter.crealogix;
 
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.exception.ErrorResponseException;
+import de.adorsys.xs2a.adapter.api.exception.PreAuthorisationException;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.api.model.HrefType;
@@ -12,18 +14,28 @@ import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
 
-public class CrealogixResponseHandlers {
+public class CrealogixRequestResponseHandlers {
 
-    public static final String PRE_AUTH_ERROR_MESSAGE = "embedded pre-authorisation needed";
-    public static final ErrorResponse CREALOGIX_ERROR_RESPONSE_INSTANCE = getErrorResponse();
+    public static final String REQUEST_ERROR_MESSAGE = "authorization header is missing, embedded pre-authorization may be needed";
+    public static final String RESPONSE_ERROR_MESSAGE = "embedded pre-authorisation needed";
+    private static final ErrorResponse CREALOGIX_ERROR_RESPONSE_INSTANCE = getErrorResponse();
+
+    public static void crealogixRequestHandler(RequestHeaders requestHeaders) {
+        if (!requestHeaders.get(RequestHeaders.AUTHORIZATION).isPresent()) {
+            throw new PreAuthorisationException(
+                    CREALOGIX_ERROR_RESPONSE_INSTANCE,
+                    REQUEST_ERROR_MESSAGE);
+        }
+    }
 
     public static <T> HttpClient.ResponseHandler<T> crealogixResponseHandler(Class<T> tClass) {
         return (statusCode, responseBody, responseHeaders) -> {
             if (statusCode == 401 || statusCode == 403) {
-                throw new ErrorResponseException(401,
+                throw new ErrorResponseException(
+                    401,
                     ResponseHeaders.emptyResponseHeaders(),
                     CREALOGIX_ERROR_RESPONSE_INSTANCE,
-                    PRE_AUTH_ERROR_MESSAGE);
+                    RESPONSE_ERROR_MESSAGE);
             }
 
             return ResponseHandlers.jsonResponseHandler(tClass).apply(statusCode, responseBody, responseHeaders);
@@ -46,7 +58,7 @@ public class CrealogixResponseHandlers {
     private static TppMessage getTppMessage() {
         TppMessage tppMessage = new TppMessage();
         tppMessage.setCategory(TppMessageCategory.ERROR);
-        tppMessage.setText(PRE_AUTH_ERROR_MESSAGE);
+        tppMessage.setText(RESPONSE_ERROR_MESSAGE);
         return tppMessage;
     }
 }
