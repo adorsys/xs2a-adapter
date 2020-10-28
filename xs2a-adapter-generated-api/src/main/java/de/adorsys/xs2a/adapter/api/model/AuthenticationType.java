@@ -13,7 +13,9 @@ public enum AuthenticationType {
 
     PHOTO_OTP("PHOTO_OTP"),
 
-    PUSH_OTP("PUSH_OTP");
+    PUSH_OTP("PUSH_OTP"),
+
+    EMAIL("EMAIL");
 
     private String value;
 
