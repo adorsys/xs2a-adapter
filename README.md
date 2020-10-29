@@ -71,6 +71,81 @@ env "adapter.config.file.path=/opt/xs2a-adapter/custom-config/custom.adapter.con
             --timeout-request 3000
     ```
 
+## Using XS2A Adapter as a library
+
+XS2A Adapter is available from the Maven-Central repository. To use it in your project, add next dependencies:
+
+```xml
+    <dependencies>
+    ...
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>adapters</artifactId>
+            <version>${xs2a-adapter.version}</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>xs2a-adapter-service-loader</artifactId>
+            <version>${xs2a-adapter.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>xs2a-adapter-aspsp-registry</artifactId>
+            <version>${xs2a-adapter.version}</version>
+        </dependency>
+    ...
+    </dependencies>
+
+```
+`service-loader` provides interfaces for communicating with banks: _AccountInformationService_ 
+and _PaymentInitiationService_ for querying account data and performing payments respectively.
+`adapters` contains all implemented bank adapters and `aspsp-registry` provides the Lucene repository 
+with data records necessary for connecting with German banks. These are records for all implemented 
+banks at the moment.
+
+__Note__: be aware that `aspsp-registry` contains data for connecting with bank Sandboxes only, 
+if you need a production data please contact our [sales team](mailto:rpo@adorsys.de).
+
+If there is no need for using all implemented bank adapters you can replace `adapters` dependency with 
+a specific one for a concrete adapter.
+
+For example:
+```xml
+    <dependencies>
+    ...
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>adorsys-adapter</artifactId>
+            <version>${xs2a-adapter.version}</version>
+        </dependency>
+
+    <!--    other XS2A Adapter dependencies    -->
+    ...
+    </dependencies>
+```
+
+Now you will be able to call adapter services to work with banks:
+```groovy
+// Consent establishing
+Response<ConsentsResponse201> consent = accountInformationService.createConsent(requestHeaders,
+                                                                                requestParameters,
+                                                                                consentsBody);
+// retrieving list of Accounts
+Response<AccountList> accounts = accountInformationService.getAccountList(requestHeaders,
+                                                                          requestParameters);
+
+// Payment Initiation
+Response<PaymentInitationRequestResponse201> payment = paymentInitiationService.getAccountList(paymentService,
+                                                                                               paymentProduct,
+                                                                                               requestHeaders,
+                                                                                               requestParams,
+                                                                                               objectBody);
+```
+
+
 ## How to write your own bank adapter
 Read this short [guideline](/docs/Adapter.md) to get more details
 
