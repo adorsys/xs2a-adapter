@@ -14,7 +14,7 @@ keytool -importkeystore -srckeystore <src_p12> -destkeystore <dest_p12> -srcstor
 ```
 You can specify the path to your keystore with a java vm option **pkcs12.keyStore**. E.g.
 ```commandline
-java -Dpkcs12.keyStore=/path/to/your/keystore.p12 ...
+java -Dpkcs12.keyStore=</path/to/your/keystore.p12> ...
 ```
 If your keystore has a password it should be passed to the adapter as a java vm option too **pkcs12.keyStorePassword**. E.g.
 ```commandline
