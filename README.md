@@ -73,8 +73,8 @@ if you need a production data please contact our [sales team](mailto:rpo@adorsys
       -Dcom.sun.security.enableAIAcaIssuers=true \
       -Dpkcs12.keyStore=<path/to/keystore.p12> \
       -Dpkcs12.keyStorePassword=<keystore-password> \
-      -Dadapter.config.file.path=<path/to/adapter.config.properties>
-      -Dcsv.aspsp.adapter.config.file.path=<path/to/aspsp-adapter-config.csv>
+      -Dadapter.config.file.path=<path/to/adapter.config.properties> \
+      -Dcsv.aspsp.adapter.config.file.path=<path/to/aspsp-adapter-config.csv> \
       -jar xs2a-adapter-app/target/xs2a-adapter-app.jar
     ```
 
