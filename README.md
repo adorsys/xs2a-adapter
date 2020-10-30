@@ -143,9 +143,6 @@ and _PaymentInitiationService_ for querying account data and performing payments
 with data records necessary for connecting with German banks. These are records for all implemented
 banks at the moment.
 
-__Note__: be aware that `aspsp-registry` contains data for connecting with bank Sandboxes only,
-if you need a production data please contact our [sales team](mailto:rpo@adorsys.de).
-
 If there is no need for using all implemented bank adapters you can replace `adapters` dependency with
 a specific one for a concrete adapter.
 
