@@ -200,7 +200,7 @@ a| * Update to Java 11
 
 a| 10.10
 
-a| 1.0.3
+a| 0.1.3
 
 a| * Update documentation of the project structure and the concepts
 
@@ -214,7 +214,7 @@ a| * Update documentation of the project structure and the concepts
 
 a| 10.11
 
-a| 1.0.4
+a| 0.1.4
 
 a| * Update project documentation on the GitHub page
 
@@ -271,7 +271,7 @@ a|
 
 a| 10.01
 
-a| 1.0.6
+a| 0.1.6
 
 a| * Test DAB for AIS (with the real account)
 
