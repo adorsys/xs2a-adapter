@@ -27,9 +27,9 @@ Before running the XS2A Adapter it should be configured
 ### Configuring the XS2A Adapter
 
 - `Keystore`. How to create an [adapter keystore](docs/keystore.md). After the keystore has been created, you should specify the properties **pkcs12.keyStore** and **pkcs12.keyStorePassword**.
-- `Adapters config file`. For configuring adapter with your custom settings, just copy adapter configuration
-file [adapter.config.properties](xs2a-adapter-service-api/src/main/resources/adapter.config.properties)
-and replace with your values. Then provide the path to your custom config file with `adapter.config.file.path` environment variable.
+- `Adapters config file`. A very basic configuration is already provided within [adapter.config.properties](xs2a-adapter-service-api/src/main/resources/adapter.config.properties), 
+also you can introduce your own custom configuration, and specify the path to it with `adapter.config.file.path` 
+environment variable. Please check out this [documentation](docs/configuration.md) if you need more details. 
 - `aspsp-registry` config file. For configuring ASPSP registry you can modify [aspsp-adapter-config.csv](xs2a-adapter-aspsp-registry/src/main/resources/aspsp-adapter-config.csv) file
 and specify the location with `csv.aspsp.adapter.config.file.path` environment variable.
 
@@ -67,7 +67,8 @@ if you need a production data please contact our [sales team](mailto:rpo@adorsys
     - **<path/to/keystore.p12>** with your keystore file location
     - **<path/to/adapter.config.properties>** with your adapter config file
     - **<path/to/aspsp-adapter-config.csv>** with your aspsp-registry configuration file
-    - **<keystore-password>** with a keystore password
+    - **\<keystore-password>** with a keystore password
+    
     ```shell script
     java \
       -Dcom.sun.security.enableAIAcaIssuers=true \
@@ -90,7 +91,7 @@ Before executing the next command you should replace the next placeholders with 
 - **<path/to/keystore.p12>** with your keystore file location
 - **<path/to/adapter.config.properties>** with your adapter config file
 - **<path/to/aspsp-adapter-config.csv>** with your aspsp-registry configuration file
-- **<keystore-password>** with a keystore password
+- **\<keystore-password>** with a keystore password
 
 ```shell script
 mvn clean package
@@ -183,6 +184,8 @@ Response<PaymentInitationRequestResponse201> payment = paymentInitiationService.
 Read this short [guideline](docs/Adapter.md) to get more details
 
 ## Routing and ASPSP Registry
+ASPSP Registry loads data from [aspsp-adapter-config](xs2a-adapter-aspsp-registry/src/main/resources/aspsp-adapter-config.csv) file, 
+that contains all information necessary for XS2A Adapter to communicate with banks (Sandboxes only).  
 `xs2a-adapter` relies on presence of `X-GTW-ASPSP-ID` or `X-GTW-Bank-Code` request header for routing.
 The former uniquely identifies an XS2A API provider in the `aspsp-registry`.
 The later is a shorthand for performing a lookup in the registry using a bank code.
