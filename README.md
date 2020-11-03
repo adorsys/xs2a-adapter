@@ -184,7 +184,7 @@ Response<PaymentInitationRequestResponse201> payment = paymentInitiationService.
 Read this short [guideline](docs/Adapter.md) to get more details
 
 ## Routing and ASPSP Registry
-ASPSP Registry loads data from [aspsp-adapter-config](xs2a-adapter-aspsp-registry/src/main/resources/aspsp-adapter-config.csv) file, 
+ASPSP Registry loads data from [aspsp-adapter-config](docs/aspsp_adapter_config_csv.md) file, 
 that contains all information necessary for XS2A Adapter to communicate with banks (Sandboxes only).  
 `xs2a-adapter` relies on presence of `X-GTW-ASPSP-ID` or `X-GTW-Bank-Code` request header for routing.
 The former uniquely identifies an XS2A API provider in the `aspsp-registry`.
