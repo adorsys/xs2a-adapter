@@ -34,7 +34,7 @@ environment variable. Please check out this [documentation](docs/configuration.m
 and specify the location with `csv.aspsp.adapter.config.file.path` environment variable.
 
 __Note__: be aware that `aspsp-registry` contains data for connecting with bank Sandboxes only,
-if you need a production data please contact our [sales team](mailto:rpo@adorsys.de).
+if you need a production data please contact our [sales team](mailto:rene.pongratz@adorsys.com).
 
 
 ```shell script
@@ -191,6 +191,7 @@ The former uniquely identifies an XS2A API provider in the `aspsp-registry`.
 The later is a shorthand for performing a lookup in the registry using a bank code.
 Note that the `aspsp-registry` supports lookup by attributes other than bank code including full-text search by name,
 but only as a pre-request.
+If you need details about managing ASPSP Registry please refer to this [document](/docs/aspsp_registry.md).
 
 ## Releases and versions
 
