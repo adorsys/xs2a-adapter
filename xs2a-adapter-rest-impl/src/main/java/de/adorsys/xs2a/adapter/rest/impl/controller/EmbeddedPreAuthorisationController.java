@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.adapter.rest.impl.controller;
 
 import de.adorsys.xs2a.adapter.api.EmbeddedPreAuthorisationService;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.model.EmbeddedPreAuthorisationRequest;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 import de.adorsys.xs2a.adapter.mapper.Oauth2Mapper;
@@ -25,6 +26,8 @@ import de.adorsys.xs2a.adapter.rest.api.model.EmbeddedPreAuthorisationRequestTO;
 import de.adorsys.xs2a.adapter.rest.api.model.TokenResponseTO;
 import org.mapstruct.factory.Mappers;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 public class EmbeddedPreAuthorisationController implements EmbeddedPreAuthorisationApi {
@@ -37,8 +40,9 @@ public class EmbeddedPreAuthorisationController implements EmbeddedPreAuthorisat
     }
 
     @Override
-    public TokenResponseTO getToken(EmbeddedPreAuthorisationRequestTO request) {
-        TokenResponse tokenResponse = preAuthorisationService.getToken(buildRequest(request));
+    public TokenResponseTO getToken(Map<String, String> headers, EmbeddedPreAuthorisationRequestTO request) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        TokenResponse tokenResponse = preAuthorisationService.getToken(buildRequest(request), requestHeaders);
         return mapper.map(tokenResponse);
     }
 

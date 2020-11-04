@@ -291,6 +291,20 @@ class AdapterServiceLoaderTest {
         assertThat(actualService).isInstanceOf(TestDownloadService.class);
     }
 
+    @Test
+    void getEmbeddedPreAuthorisationService() {
+        Aspsp aspsp = buildAspsp(null, null, ADAPTER_ID);
+
+        when(aspspRepository.findById(anyString()))
+            .thenReturn(Optional.of(aspsp));
+
+        EmbeddedPreAuthorisationService actualService = adapterServiceLoader.getEmbeddedPreAuthorisationService(requestHeadersWithAspspId);
+
+        verify(aspspRepository, times(1)).findById(anyString());
+
+        assertThat(actualService).isInstanceOf(TestEmbeddedPreAuthorisationService.class);
+    }
+
     private Aspsp buildAspsp(String bankCode, String bic, String adapterId) {
         Aspsp aspsp = new Aspsp();
         aspsp.setBankCode(bankCode);

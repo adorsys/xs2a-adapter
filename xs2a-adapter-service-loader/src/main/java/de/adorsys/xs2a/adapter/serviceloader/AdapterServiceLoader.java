@@ -129,6 +129,14 @@ public class AdapterServiceLoader {
                    .getDownloadService(baseUrl, httpClientFactory, keyStore);
     }
 
+    public EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(RequestHeaders requestHeaders) {
+        Aspsp aspsp = getAspsp(requestHeaders);
+        String adapterId = aspsp.getAdapterId();
+        return getServiceProvider(EmbeddedPreAuthorisationServiceProvider.class, adapterId)
+            .orElseThrow(() -> new AdapterNotFoundException(adapterId))
+            .getEmbeddedPreAuthorisationService(aspsp, httpClientFactory);
+    }
+
     private String buildAspspNotFoundErrorMessage(String bankCode, String bic) {
         return appendNotEmptyBankCodeAndBic(new StringBuilder("No ASPSP was found with "), bankCode, bic);
     }

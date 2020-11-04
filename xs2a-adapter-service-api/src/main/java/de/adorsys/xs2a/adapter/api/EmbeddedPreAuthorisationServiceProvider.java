@@ -17,13 +17,9 @@
 package de.adorsys.xs2a.adapter.api;
 
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
-public interface EmbeddedPreAuthorisationServiceProvider {
+public interface EmbeddedPreAuthorisationServiceProvider extends AdapterServiceProvider {
 
-    EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp,
-                                                                       HttpClientFactory httpClientFactory,
-                                                                       Pkcs12KeyStore keyStore,
-                                                                       LinksRewriter linksRewriter);
+    EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp, HttpClientFactory httpClientFactory);
 }

@@ -17,12 +17,19 @@
 package de.adorsys.xs2a.adapter.serviceloader;
 
 import de.adorsys.xs2a.adapter.api.EmbeddedPreAuthorisationService;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.model.EmbeddedPreAuthorisationRequest;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 
 public class EmbeddedPreAuthorisationServiceImpl implements EmbeddedPreAuthorisationService {
+    private final AdapterServiceLoader adapterServiceLoader;
+
+    public EmbeddedPreAuthorisationServiceImpl(AdapterServiceLoader adapterServiceLoader) {
+        this.adapterServiceLoader = adapterServiceLoader;
+    }
+
     @Override
-    public TokenResponse getToken(EmbeddedPreAuthorisationRequest request) {
-        throw new UnsupportedOperationException("will be implemented in https://jira.adorsys.de/browse/XS2AAD-732");
+    public TokenResponse getToken(EmbeddedPreAuthorisationRequest request, RequestHeaders requestHeaders) {
+        return adapterServiceLoader.getEmbeddedPreAuthorisationService(requestHeaders).getToken(request, requestHeaders);
     }
 }

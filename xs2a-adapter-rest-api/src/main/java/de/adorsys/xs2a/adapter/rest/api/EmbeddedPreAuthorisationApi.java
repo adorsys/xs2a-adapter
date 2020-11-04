@@ -20,9 +20,12 @@ import de.adorsys.xs2a.adapter.rest.api.model.EmbeddedPreAuthorisationRequestTO;
 import de.adorsys.xs2a.adapter.rest.api.model.TokenResponseTO;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+
+import java.util.Map;
 
 public interface EmbeddedPreAuthorisationApi {
 
     @PostMapping(value = "/v1/embedded-pre-auth/token",  consumes = "application/json")
-    TokenResponseTO getToken(@RequestBody EmbeddedPreAuthorisationRequestTO request);
+    TokenResponseTO getToken(@RequestHeader Map<String, String> headers, @RequestBody EmbeddedPreAuthorisationRequestTO request);
 }
