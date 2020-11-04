@@ -14,7 +14,7 @@ From December 1st week DE/PFB will be decommissioned.
 Methods with the corresponding enum parameters should be used instead.
 - Renamed `xs2a-adapter-service-api-adapter` module into `xs2a-adapter-service-impl` and adjusted its
 root package name to `de.adorsys.xs2a.adapter.impl`
-- Removed `OauthToken` and replaced its usages with `TokenResponseInt`.
+- Removed `OauthToken` and replaced its usages with `TokenResponse`.
 - Removed exchangeRate property in fiducia adapter according to the clarification from support.
 - Changed the root package of the `xs2a-adapter-service-loader` module to `de.adapter.xs2a.adapter.serviceloader`.
 - Changed the root package of the `xs2a-adapter-app` module to `de.adapter.xs2a.adapter.app`.
