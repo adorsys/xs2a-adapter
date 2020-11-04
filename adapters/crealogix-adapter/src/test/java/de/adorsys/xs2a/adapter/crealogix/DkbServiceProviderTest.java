@@ -7,7 +7,6 @@ import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
-import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +26,7 @@ class DkbServiceProviderTest {
 
         assertThat(service)
             .isNotNull()
-            .isExactlyInstanceOf(BaseAccountInformationService.class);
+            .isExactlyInstanceOf(CrealogixAccountInformationService.class);
     }
 
     @Test
