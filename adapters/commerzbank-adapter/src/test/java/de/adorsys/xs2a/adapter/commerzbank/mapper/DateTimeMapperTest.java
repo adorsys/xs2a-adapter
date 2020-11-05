@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.comdirect.mapper;
+package de.adorsys.xs2a.adapter.commerzbank.mapper;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +8,6 @@ import java.time.OffsetDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class DateTimeMapperTest {
-
     private static final DateTimeMapper dateTimeMapper = new TestDateTimeMapper();
 
     @Test
