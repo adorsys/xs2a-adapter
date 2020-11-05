@@ -8,6 +8,14 @@ import java.util.Objects;
 
 @Generated("xs2a-adapter-codegen")
 public class SelectPsuAuthenticationMethodResponse {
+    private Amount transactionFees;
+
+    private Amount currencyConversionFees;
+
+    private Amount estimatedTotalAmount;
+
+    private Amount estimatedInterbankSettlementAmount;
+
     private AuthenticationObject chosenScaMethod;
 
     private ChallengeData challengeData;
@@ -18,6 +26,38 @@ public class SelectPsuAuthenticationMethodResponse {
     private ScaStatus scaStatus;
 
     private String psuMessage;
+
+    public Amount getTransactionFees() {
+        return transactionFees;
+    }
+
+    public void setTransactionFees(Amount transactionFees) {
+        this.transactionFees = transactionFees;
+    }
+
+    public Amount getCurrencyConversionFees() {
+        return currencyConversionFees;
+    }
+
+    public void setCurrencyConversionFees(Amount currencyConversionFees) {
+        this.currencyConversionFees = currencyConversionFees;
+    }
+
+    public Amount getEstimatedTotalAmount() {
+        return estimatedTotalAmount;
+    }
+
+    public void setEstimatedTotalAmount(Amount estimatedTotalAmount) {
+        this.estimatedTotalAmount = estimatedTotalAmount;
+    }
+
+    public Amount getEstimatedInterbankSettlementAmount() {
+        return estimatedInterbankSettlementAmount;
+    }
+
+    public void setEstimatedInterbankSettlementAmount(Amount estimatedInterbankSettlementAmount) {
+        this.estimatedInterbankSettlementAmount = estimatedInterbankSettlementAmount;
+    }
 
     public AuthenticationObject getChosenScaMethod() {
         return chosenScaMethod;
@@ -64,7 +104,11 @@ public class SelectPsuAuthenticationMethodResponse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SelectPsuAuthenticationMethodResponse that = (SelectPsuAuthenticationMethodResponse) o;
-        return Objects.equals(chosenScaMethod, that.chosenScaMethod) &&
+        return Objects.equals(transactionFees, that.transactionFees) &&
+            Objects.equals(currencyConversionFees, that.currencyConversionFees) &&
+            Objects.equals(estimatedTotalAmount, that.estimatedTotalAmount) &&
+            Objects.equals(estimatedInterbankSettlementAmount, that.estimatedInterbankSettlementAmount) &&
+            Objects.equals(chosenScaMethod, that.chosenScaMethod) &&
             Objects.equals(challengeData, that.challengeData) &&
             Objects.equals(links, that.links) &&
             Objects.equals(scaStatus, that.scaStatus) &&
@@ -73,7 +117,11 @@ public class SelectPsuAuthenticationMethodResponse {
 
     @Override
     public int hashCode() {
-        return Objects.hash(chosenScaMethod,
+        return Objects.hash(transactionFees,
+            currencyConversionFees,
+            estimatedTotalAmount,
+            estimatedInterbankSettlementAmount,
+            chosenScaMethod,
             challengeData,
             links,
             scaStatus,

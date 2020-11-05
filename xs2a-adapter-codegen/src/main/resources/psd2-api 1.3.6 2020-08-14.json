@@ -2,8 +2,8 @@
   "openapi": "3.0.1",
   "info": {
     "title": "NextGenPSD2 XS2A Framework",
-    "version": "1.3.6_2020-01-31v1",
-    "description": "# Summary\nThe **NextGenPSD2** *Framework Version 1.3.6* offers a modern, open, harmonised and interoperable set of\nApplication Programming Interfaces (APIs) as the safest and most efficient way to provide data securely.\nThe NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards \nin Europe and, aligned with the goals of the Euro Retail Payments Board,\nenables European banking customers to benefit from innovative products and services ('Banking as a Service')\nby granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.\n\nThe possible Approaches are:\n  * Redirect SCA Approach\n  * OAuth SCA Approach\n  * Decoupled SCA Approach\n  * Embedded SCA Approach without SCA method\n  * Embedded SCA Approach with only one SCA method available\n  * Embedded SCA Approach with Selection of a SCA method\n\n  Not every message defined in this API definition is necessary for all approaches. \n  Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional.\n  Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support \n  a certain subset of the methods defined in this API definition.\n\n  **Please have a look at the implementation guidelines if you are not sure \n  which message has to be used for the approach you are going to use.**\n\n## Some General Remarks Related to this version of the OpenAPI Specification:\n* **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.** \n  It is not a replacement in any sense.\n  The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API.\n* **This API definition contains the REST-API for requests from the PISP to the ASPSP.**\n* **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.**\n* According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]\n  \n    \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"\n  \n  The element \"Accept\" will not be defined in this file at any place.\n  \n  The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".\n  \n* There are several predefined types which might occur in payment initiation messages, \n  but are not used in the standard JSON messages in the Implementation Guidelines.\n  Therefore they are not used in the corresponding messages in this file either.\n  We added them for the convenience of the user.\n  If there is a payment product, which needs these fields, one can easily use the predefined types.\n  But the ASPSP need not to accept them in general.\n  \n* **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional) \n  except they are mentioned in the Implementation Guidelines.**\n  Therefore the implementer might add these in his own realisation of a PSD2 comlient API in addition to the elements defined in this file.\n   \n## General Remarks on Data Types\n\nThe Berlin Group definition of UTF-8 strings in context of the PSD2 API has to support at least the following characters\n\na b c d e f g h i j k l m n o p q r s t u v w x y z\n\nA B C D E F G H I J K L M N O P Q R S T U V W X Y Z\n\n0 1 2 3 4 5 6 7 8 9\n\n/ - ? : ( ) . , ' +\n\nSpace\n",
+    "version": "1.3.6_2020-08-14",
+    "description": "# Summary\nThe **NextGenPSD2** *Framework Version 1.3.6* (with several errata) offers a modern, open, harmonised and interoperable set of\nApplication Programming Interfaces (APIs) as the safest and most efficient way to provide data securely.\nThe NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards \nin Europe and, aligned with the goals of the Euro Retail Payments Board,\nenables European banking customers to benefit from innovative products and services ('Banking as a Service')\nby granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.\n\nThe possible Approaches are:\n  * Redirect SCA Approach\n  * OAuth SCA Approach\n  * Decoupled SCA Approach\n  * Embedded SCA Approach without SCA method\n  * Embedded SCA Approach with only one SCA method available\n  * Embedded SCA Approach with Selection of a SCA method\n\n  Not every message defined in this API definition is necessary for all approaches. \n  Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional.\n  Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support \n  a certain subset of the methods defined in this API definition.\n\n  **Please have a look at the implementation guidelines if you are not sure \n  which message has to be used for the approach you are going to use.**\n\n## Some General Remarks Related to this version of the OpenAPI Specification:\n* **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.** \n  It is not a replacement in any sense.\n  The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API.\n* **This API definition contains the REST-API for requests from the PISP to the ASPSP.**\n* **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.**\n* According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]\n  \n    \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"\n  \n  The element \"Accept\" will not be defined in this file at any place.\n  \n  The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".\n  \n* There are several predefined types which might occur in payment initiation messages, \n  but are not used in the standard JSON messages in the Implementation Guidelines.\n  Therefore they are not used in the corresponding messages in this file either.\n  We added them for the convenience of the user.\n  If there is a payment product, which needs these fields, one can easily use the predefined types.\n  But the ASPSP need not to accept them in general.\n  \n* **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional) \n  except they are mentioned in the Implementation Guidelines.**\n  Therefore the implementer might add these in his own realisation of a PSD2 comlient API in addition to the elements defined in this file.\n   \n## General Remarks on Data Types\n\nThe Berlin Group definition of UTF-8 strings in context of the PSD2 API has to support at least the following characters\n\na b c d e f g h i j k l m n o p q r s t u v w x y z\n\nA B C D E F G H I J K L M N O P Q R S T U V W X Y Z\n\n0 1 2 3 4 5 6 7 8 9\n\n/ - ? : ( ) . , ' +\n\nSpace\n",
     "license": {
       "name": "Creative Commons Attribution 4.0 International Public License",
       "url": "https://creativecommons.org/licenses/by/4.0/"
@@ -1291,7 +1291,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/components/responses/OK_200_CancellationList"
+            "$ref": "#/components/responses/OK_200_Authorisations"
           },
           "400": {
             "$ref": "#/components/responses/BAD_REQUEST_400_PIS"
@@ -1332,7 +1332,7 @@
         }
       }
     },
-    "/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{cancellationId}": {
+    "/v1/{payment-service}/{payment-product}/{paymentId}/cancellation-authorisations/{authorisationId}": {
       "get": {
         "summary": "Read the SCA status of the payment cancellation's authorisation",
         "description": "This method returns the SCA status of a payment initiation's authorisation sub-resource.\n",
@@ -1358,7 +1358,7 @@
             "$ref": "#/components/parameters/paymentId"
           },
           {
-            "$ref": "#/components/parameters/cancellationId"
+            "$ref": "#/components/parameters/authorisationId"
           },
           {
             "$ref": "#/components/parameters/X-Request-ID"
@@ -1470,7 +1470,7 @@
             "$ref": "#/components/parameters/paymentId"
           },
           {
-            "$ref": "#/components/parameters/cancellationId"
+            "$ref": "#/components/parameters/authorisationId"
           },
           {
             "$ref": "#/components/parameters/X-Request-ID"
@@ -4697,11 +4697,6 @@
         "type": "string",
         "example": "3dc3d5b3-7023-4848-9853-f5400a64e80f"
       },
-      "cancellationId": {
-        "description": "Identification for cancellation resource.",
-        "type": "string",
-        "example": "123auth456"
-      },
       "cardTransactionId": {
         "description": "Unique end to end identity.",
         "type": "string",
@@ -4793,7 +4788,7 @@
         ]
       },
       "transactionFeeIndicator": {
-        "description": "If equals 'true', the transaction will involve specific transaction cost as shown by the ASPSP in\ntheir public price list or as agreed between ASPSP and PSU.\nIf equals 'false', the transaction will not involve additional specific transaction costs to the PSU.\n",
+        "description": "If equals 'true', the transaction will involve specific transaction cost as shown by the ASPSP in\ntheir public price list or as agreed between ASPSP and PSU.\nIf equals 'false', the transaction will not involve additional specific transaction costs to the PSU unless the fee amount is given specifically in the data elements transactionFees and/or currencyConversionFees.\nIf this data element is not used, there is no information about transaction fees unless the fee amount is given explicitly in the data element transactionFees and/or currencyConversionFees.\n",
         "type": "boolean"
       },
       "recurringIndicator": {
@@ -4808,6 +4803,11 @@
       },
       "batchBookingPreferred": {
         "description": "If this element equals 'true', the PSU prefers only one booking entry. \nIf this element equals 'false', the PSU prefers individual booking of all contained individual transactions. \n\nThe ASPSP will follow this preference according to contracts agreed on with the PSU.\n",
+        "type": "boolean",
+        "example": false
+      },
+      "trustedBeneficiaryFlag": {
+        "description": "Additional Service: Trusted Benificiaries\nWithin this data element, the ASPSP might optionally communicate towards the TPP whether the creditor was part of the related trusted beneficiary list. \nThis attribute is only contained in case of a final scaStatus.\n",
         "type": "boolean",
         "example": false
       },
@@ -5348,7 +5348,7 @@
             "$ref": "#/components/schemas/remittanceInformationUnstructuredArray"
           },
           "remittanceInformationStructured": {
-            "$ref": "#/components/schemas/remittanceInformationStructured"
+            "$ref": "#/components/schemas/remittanceInformationStructuredMax140"
           },
           "remittanceInformationStructuredArray": {
             "$ref": "#/components/schemas/remittanceInformationStructuredArray"
@@ -5549,25 +5549,6 @@
           "$ref": "#/components/schemas/balance"
         }
       },
-      "cancellationList": {
-        "description": "An array of all cancellationIds connected to this resource.",
-        "type": "array",
-        "items": {
-          "$ref": "#/components/schemas/cancellationId"
-        }
-      },
-      "cancellations": {
-        "description": "An array of all cancellationIds.",
-        "type": "object",
-        "required": [
-          "cancellationIds"
-        ],
-        "properties": {
-          "cancellationIds": {
-            "$ref": "#/components/schemas/cancellationList"
-          }
-        }
-      },
       "bicfi": {
         "description": "BICFI\n",
         "type": "string",
@@ -5668,7 +5649,14 @@
         "type": "object",
         "properties": {
           "ownerName": {
-            "description": "Is asking for account owner name of the accounts referenced within. \nIf the array is empty in the request, the TPP is asking for the account \nowner name of all accessible accounts. \nThis may be restricted in a PSU/ASPSP authorization dialogue. \nIf the array is empty, also the arrays for accounts, balances or transactions shall be empty, if used.\nThe ASPSP will indicate in the consent resource after a successful authorisation, \nwhether the ownerName consent can be accepted by providing the accounts on which the ownerName will \nbe delivered. This array can be empty.\n",
+            "description": "Is asking for account owner name of the accounts referenced within. \nIf the array is empty in the request, the TPP is asking for the account \nowner name of all accessible accounts. \nThis may be restricted in a PSU/ASPSP authorization dialogue. \nIf the array is empty, also the arrays for accounts, balances or transactions shall be empty, if used.\nThe ASPSP will indicate in the consent resource after a successful authorisation, \nwhether the ownerName consent can be accepted by providing the accounts on which the ownerName will \nbe delivered. \nThis array can be empty.\n",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/accountReference"
+            }
+          },
+          "trustedBeneficiaries": {
+            "description": "Optional if supported by API provider.\nIs asking for the trusted beneficiaries related to the accounts referenced within and related to the PSU.\nIf the array is empty in the request, the TPP is asking for the lists of trusted beneficiaries of all accessible accounts. \nThis may be restricted in a PSU/ASPSP authorization dialogue by the PSU if also the account lists addressed \nby the tags “accounts”, “balances” or “transactions” are empty.\nThe ASPSP will indicate in the consent resource after a successful authorisation, \nwhether the trustedBeneficiaries consent can be accepted by providing the accounts on which the list of trusted beneficiaries will be delivered. \nThis array can be empty.\n",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/accountReference"
@@ -5716,6 +5704,11 @@
           "SHAR",
           "SLEV"
         ]
+      },
+      "remittanceInformationStructuredMax140": {
+        "description": "Structured remittance information Max\n",
+        "type": "string",
+        "maxLength": 140
       },
       "remittanceInformationStructured": {
         "description": "Structured remittance information.\n",
@@ -6309,7 +6302,7 @@
         "format": "date"
       },
       "validUntil": {
-        "description": "This parameter is requesting a valid until date for the requested consent. \nThe content is the local ASPSP date in ISO-Date format, e.g. 2017-10-30.\n\nFuture dates might get adjusted by ASPSP. \n\nIf a maximal available date is requested, a date in far future is to be used: \"9999-12-31\". \n\nIn both cases the consent object to be retrieved by the get consent request will contain the adjusted date.\n",
+        "description": "This parameter is defining a valid until date (including the mentioned date) for the requested consent. \nThe content is the local ASPSP date in ISO-Date format, e.g. 2017-10-30.\n\nFuture dates might get adjusted by ASPSP. \n\nIf a maximal available date is requested, a date in far future is to be used: \"9999-12-31\". \n\nIn both cases the consent object to be retrieved by the get consent request will contain the adjusted date.\n",
         "type": "string",
         "format": "date",
         "example": "2020-12-31"
@@ -6693,6 +6686,15 @@
           "transactionFees": {
             "$ref": "#/components/schemas/amount"
           },
+          "currencyConversionFee": {
+            "$ref": "#/components/schemas/amount"
+          },
+          "estimatedTotalAmount": {
+            "$ref": "#/components/schemas/amount"
+          },
+          "estimatedInterbankSettlementAmount": {
+            "$ref": "#/components/schemas/amount"
+          },
           "transactionFeeIndicator": {
             "$ref": "#/components/schemas/transactionFeeIndicator"
           },
@@ -6855,8 +6857,16 @@
             "type": "string",
             "format": "date"
           },
+          "acceptorTransactionDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
           "debtorAccount": {
             "$ref": "#/components/schemas/accountReference"
+          },
+          "paymentInformationId": {
+            "type": "string",
+            "maxLength": 35
           },
           "payments": {
             "description": "A list of generic JSON bodies payment initations for bulk payments via JSON.\n\nNote: Some fields from single payments do not occcur in a bulk payment element\n",
@@ -6876,6 +6886,9 @@
         "properties": {
           "scaStatus": {
             "$ref": "#/components/schemas/scaStatus"
+          },
+          "trustedBeneficiaryFlag": {
+            "$ref": "#/components/schemas/trustedBeneficiaryFlag"
           }
         }
       },
@@ -6938,6 +6951,18 @@
           "scaStatus"
         ],
         "properties": {
+          "transactionFees": {
+            "$ref": "#/components/schemas/amount"
+          },
+          "currencyConversionFees": {
+            "$ref": "#/components/schemas/amount"
+          },
+          "estimatedTotalAmount": {
+            "$ref": "#/components/schemas/amount"
+          },
+          "estimatedInterbankSettlementAmount": {
+            "$ref": "#/components/schemas/amount"
+          },
           "scaMethods": {
             "$ref": "#/components/schemas/scaMethods"
           },
@@ -6959,6 +6984,18 @@
           "scaStatus"
         ],
         "properties": {
+          "transactionFees": {
+            "$ref": "#/components/schemas/amount"
+          },
+          "currencyConversionFees": {
+            "$ref": "#/components/schemas/amount"
+          },
+          "estimatedTotalAmount": {
+            "$ref": "#/components/schemas/amount"
+          },
+          "estimatedInterbankSettlementAmount": {
+            "$ref": "#/components/schemas/amount"
+          },
           "chosenScaMethod": {
             "$ref": "#/components/schemas/chosenScaMethod"
           },
@@ -6989,6 +7026,18 @@
           "scaStatus"
         ],
         "properties": {
+          "transactionFees": {
+            "$ref": "#/components/schemas/amount"
+          },
+          "currencyConversionFees": {
+            "$ref": "#/components/schemas/amount"
+          },
+          "estimatedTotalAmount": {
+            "$ref": "#/components/schemas/amount"
+          },
+          "estimatedInterbankSettlementAmount": {
+            "$ref": "#/components/schemas/amount"
+          },
           "chosenScaMethod": {
             "$ref": "#/components/schemas/chosenScaMethod"
           },
@@ -10616,15 +10665,6 @@
           "$ref": "#/components/schemas/paymentId"
         }
       },
-      "cancellationId": {
-        "name": "cancellationId",
-        "in": "path",
-        "description": "Identification for cancellation resource.",
-        "required": true,
-        "schema": {
-          "$ref": "#/components/schemas/cancellationId"
-        }
-      },
       "authorisationId": {
         "name": "authorisationId",
         "in": "path",
@@ -10637,7 +10677,7 @@
       "accountId": {
         "name": "account-id",
         "in": "path",
-        "description": "This identification is denoting the addressed account. \nThe account-id is retrieved by using a \"Read account list\" call.\nThe account-id is the \"id\" attribute of the account structure. \nIts value is constant at least throughout the lifecycle of a given consent.\n",
+        "description": "This identification is denoting the addressed (card) account. \nThe account-id is retrieved by using a \"Read Account List\" or \"Read Card Account list\" call. \nThe account-id is the \"resourceId\" attribute of the account structure. \nIts value is constant at least throughout the lifecycle of a given consent.\n",
         "required": true,
         "schema": {
           "$ref": "#/components/schemas/accountId"
@@ -11360,26 +11400,6 @@
             "examples": {
               "Example 1": {
                 "$ref": "#/components/examples/cardAccountListExample1"
-              }
-            }
-          }
-        }
-      },
-      "OK_200_CancellationList": {
-        "description": "OK",
-        "headers": {
-          "X-Request-ID": {
-            "$ref": "#/components/headers/X-Request-ID"
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/cancellations"
-            },
-            "examples": {
-              "Example 1": {
-                "$ref": "#/components/examples/cancellationsExample"
               }
             }
           }
@@ -13237,7 +13257,7 @@
           },
           "recurringIndicator": "true",
           "validUntil": "2017-11-01",
-          "frequencyPerDay": "4"
+          "frequencyPerDay": 4
         }
       },
       "consentsExample_AccountList": {
@@ -13248,7 +13268,7 @@
           },
           "recurringIndicator": "false",
           "validUntil": "2017-08-06",
-          "frequencyPerDay": "1"
+          "frequencyPerDay": 1
         }
       },
       "consentsExample_without_Accounts": {
@@ -13260,7 +13280,7 @@
           },
           "recurringIndicator": "true",
           "validUntil": "2017-11-01",
-          "frequencyPerDay": "4"
+          "frequencyPerDay": 4
         }
       },
       "updatePsuAuthenticationExample_Embedded": {
@@ -13309,7 +13329,7 @@
           },
           "recurringIndicator": "true",
           "validUntil": "2017-11-01",
-          "frequencyPerDay": "4",
+          "frequencyPerDay": 4,
           "consentStatus": "valid",
           "_links": {
             "account": {
@@ -13845,13 +13865,6 @@
       "authorisationListExample": {
         "value": {
           "authorisationIds": [
-            "123auth456"
-          ]
-        }
-      },
-      "cancellationsExample": {
-        "value": {
-          "cancellationIds": [
             "123auth456"
           ]
         }

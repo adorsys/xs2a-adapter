@@ -8,6 +8,8 @@ import java.util.Objects;
 public class AdditionalInformationAccess {
     private List<AccountReference> ownerName;
 
+    private List<AccountReference> trustedBeneficiaries;
+
     public List<AccountReference> getOwnerName() {
         return ownerName;
     }
@@ -16,16 +18,26 @@ public class AdditionalInformationAccess {
         this.ownerName = ownerName;
     }
 
+    public List<AccountReference> getTrustedBeneficiaries() {
+        return trustedBeneficiaries;
+    }
+
+    public void setTrustedBeneficiaries(List<AccountReference> trustedBeneficiaries) {
+        this.trustedBeneficiaries = trustedBeneficiaries;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AdditionalInformationAccess that = (AdditionalInformationAccess) o;
-        return Objects.equals(ownerName, that.ownerName);
+        return Objects.equals(ownerName, that.ownerName) &&
+            Objects.equals(trustedBeneficiaries, that.trustedBeneficiaries);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ownerName);
+        return Objects.hash(ownerName,
+            trustedBeneficiaries);
     }
 }

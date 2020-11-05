@@ -342,12 +342,12 @@ class FiduciaAccountInformationServiceTest {
             RequestHeaders.empty(),
             RequestParams.empty());
 
-        RemittanceInformationStructured remittanceInformationStructured = response.getBody()
+        String remittanceInformationStructured = response.getBody()
             .getTransactions()
             .getBooked()
             .get(0)
             .getRemittanceInformationStructured();
-        assertThat(remittanceInformationStructured.getReference()).isEqualTo("reference");
+        assertThat(remittanceInformationStructured).isEqualTo("reference");
     }
 
     @Test
@@ -375,8 +375,7 @@ class FiduciaAccountInformationServiceTest {
 
         String reference = response.getBody()
             .getTransactionsDetails()
-            .getRemittanceInformationStructured()
-            .getReference();
+            .getRemittanceInformationStructured();
         assertThat(reference).isEqualTo("reference");
     }
 }

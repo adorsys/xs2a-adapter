@@ -57,7 +57,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        String modifiedSpec = filterOperations("xs2a-adapter-codegen/src/main/resources/psd2-api 1.3.6 20200306v1.json",
+        String modifiedSpec = filterOperations("xs2a-adapter-codegen/src/main/resources/psd2-api 1.3.6 2020-08-14.json",
             operationToInterface.keySet());
         modifiedSpec = addCustomParams(modifiedSpec);
         modifiedSpec = removeServers(modifiedSpec);

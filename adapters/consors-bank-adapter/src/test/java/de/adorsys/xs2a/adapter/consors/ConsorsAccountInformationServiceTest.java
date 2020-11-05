@@ -58,12 +58,12 @@ class ConsorsAccountInformationServiceTest {
             RequestHeaders.empty(),
             RequestParams.empty());
 
-        RemittanceInformationStructured remittanceInformationStructured = response.getBody()
+        String remittanceInformationStructured = response.getBody()
             .getTransactions()
             .getBooked()
             .get(0)
             .getRemittanceInformationStructured();
-        assertThat(remittanceInformationStructured.getReference())
+        assertThat(remittanceInformationStructured)
             .isEqualTo("remittanceInformationStructuredStringValue");
     }
     @Test
@@ -88,10 +88,10 @@ class ConsorsAccountInformationServiceTest {
             RequestHeaders.empty(),
             RequestParams.empty());
 
-        RemittanceInformationStructured remittanceInformationStructured = response.getBody()
+        String remittanceInformationStructured = response.getBody()
             .getTransactionsDetails()
             .getRemittanceInformationStructured();
-        assertThat(remittanceInformationStructured.getReference())
+        assertThat(remittanceInformationStructured)
             .isEqualTo("remittanceInformationStructuredStringValue");
     }
 

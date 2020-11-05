@@ -15,6 +15,12 @@ public class PaymentInitationRequestResponse201 {
 
     private Amount transactionFees;
 
+    private Amount currencyConversionFee;
+
+    private Amount estimatedTotalAmount;
+
+    private Amount estimatedInterbankSettlementAmount;
+
     private Boolean transactionFeeIndicator;
 
     private List<AuthenticationObject> scaMethods;
@@ -52,6 +58,30 @@ public class PaymentInitationRequestResponse201 {
 
     public void setTransactionFees(Amount transactionFees) {
         this.transactionFees = transactionFees;
+    }
+
+    public Amount getCurrencyConversionFee() {
+        return currencyConversionFee;
+    }
+
+    public void setCurrencyConversionFee(Amount currencyConversionFee) {
+        this.currencyConversionFee = currencyConversionFee;
+    }
+
+    public Amount getEstimatedTotalAmount() {
+        return estimatedTotalAmount;
+    }
+
+    public void setEstimatedTotalAmount(Amount estimatedTotalAmount) {
+        this.estimatedTotalAmount = estimatedTotalAmount;
+    }
+
+    public Amount getEstimatedInterbankSettlementAmount() {
+        return estimatedInterbankSettlementAmount;
+    }
+
+    public void setEstimatedInterbankSettlementAmount(Amount estimatedInterbankSettlementAmount) {
+        this.estimatedInterbankSettlementAmount = estimatedInterbankSettlementAmount;
     }
 
     public Boolean getTransactionFeeIndicator() {
@@ -118,6 +148,9 @@ public class PaymentInitationRequestResponse201 {
         return Objects.equals(transactionStatus, that.transactionStatus) &&
             Objects.equals(paymentId, that.paymentId) &&
             Objects.equals(transactionFees, that.transactionFees) &&
+            Objects.equals(currencyConversionFee, that.currencyConversionFee) &&
+            Objects.equals(estimatedTotalAmount, that.estimatedTotalAmount) &&
+            Objects.equals(estimatedInterbankSettlementAmount, that.estimatedInterbankSettlementAmount) &&
             Objects.equals(transactionFeeIndicator, that.transactionFeeIndicator) &&
             Objects.equals(scaMethods, that.scaMethods) &&
             Objects.equals(chosenScaMethod, that.chosenScaMethod) &&
@@ -132,6 +165,9 @@ public class PaymentInitationRequestResponse201 {
         return Objects.hash(transactionStatus,
             paymentId,
             transactionFees,
+            currencyConversionFee,
+            estimatedTotalAmount,
+            estimatedInterbankSettlementAmount,
             transactionFeeIndicator,
             scaMethods,
             chosenScaMethod,
