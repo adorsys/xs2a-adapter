@@ -7,6 +7,9 @@ import java.time.ZonedDateTime;
 
 public interface DateTimeMapper {
     default OffsetDateTime toOffsetDateTime(LocalDateTime dateTime) {
+        if (dateTime == null) {
+            return null;
+        }
         return ZonedDateTime.of(dateTime, ZoneId.of("Europe/Berlin")).toOffsetDateTime();
     }
 }
