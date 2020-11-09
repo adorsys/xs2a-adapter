@@ -9,6 +9,8 @@ import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
+import de.adorsys.xs2a.adapter.unicredit.model.UnicreditOK200TransactionDetails;
+import de.adorsys.xs2a.adapter.unicredit.model.UnicreditTransactionResponse200Json;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,6 +36,7 @@ class UnicreditAccountInformationServiceTest {
     public static final String AUTHORISATION_ID = "authorisation-id";
     public static final String AUTHORISATION_URL = CONSENT_ID_URL + "?authenticationCurrentNumber=" + AUTHORISATION_ID;
     private static final String TPP_REDIRECT_URI = "http://example.com";
+    private static final String ACCOUNT_ID = "accountId";
     private HttpClient httpClient;
     private LinksRewriter linksRewriter;
     private UnicreditAccountInformationService accountInformationService;
@@ -126,6 +129,44 @@ class UnicreditAccountInformationServiceTest {
 
         Map<String, String> headers = requestBuilder.headers();
         assertThat(headers).containsEntry(RequestHeaders.PSU_ID_TYPE, DEFAULT_PSU_ID_TYPE);
+    }
+
+    @Test
+    void getTransactionList() {
+        when(httpClient.get(anyString()))
+            .thenReturn(new RequestBuilderImpl(httpClient, "GET", BASE_URL));
+        when(httpClient.send(any(), any()))
+            .thenReturn(new Response<>(-1, new UnicreditTransactionResponse200Json(), ResponseHeaders.emptyResponseHeaders()));
+
+        Response<?> actualResponse
+            = accountInformationService.getTransactionList(ACCOUNT_ID, RequestHeaders.empty(), RequestParams.empty());
+
+        verify(httpClient, times(1)).get(anyString());
+        verify(httpClient, times(1)).send(any(), any());
+
+        assertThat(actualResponse)
+            .isNotNull()
+            .extracting(Response::getBody)
+            .isInstanceOf(TransactionsResponse200Json.class);
+    }
+
+    @Test
+    void getTransactionDetails() {
+        when(httpClient.get(anyString()))
+            .thenReturn(new RequestBuilderImpl(httpClient, "GET", BASE_URL));
+        when(httpClient.send(any(), any()))
+            .thenReturn(new Response<>(-1, new UnicreditOK200TransactionDetails(), ResponseHeaders.emptyResponseHeaders()));
+
+        Response<?> actualResponse
+            = accountInformationService.getTransactionDetails(ACCOUNT_ID, "transactionId", RequestHeaders.empty(), RequestParams.empty());
+
+        verify(httpClient, times(1)).get(anyString());
+        verify(httpClient, times(1)).send(any(), any());
+
+        assertThat(actualResponse)
+            .isNotNull()
+            .extracting(Response::getBody)
+            .isInstanceOf(OK200TransactionDetails.class);
     }
 
     private static Aspsp buildAspspWithUrl() {

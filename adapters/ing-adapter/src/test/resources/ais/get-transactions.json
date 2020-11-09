@@ -22,9 +22,7 @@
               "bban": "12345678912",
               "iban": "AT861936012345678912"
             },
-            "remittanceInformationStructured": {
-              "reference": "Bestellung 1234"
-            },
+            "remittanceInformationStructured": "Bestellung 1234",
             "transactionAmount": {
               "amount": "50.00",
               "currency": "EUR"
@@ -39,9 +37,7 @@
               "bban": "12345678913",
               "iban": "AT861936012345678913"
             },
-            "remittanceInformationStructured": {
-              "reference": "Einkauf 1234"
-            },
+            "remittanceInformationStructured": "Einkauf 1234",
             "transactionAmount": {
               "amount": "40.50",
               "currency": "EUR"

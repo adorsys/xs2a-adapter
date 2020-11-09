@@ -3,9 +3,9 @@ package de.adorsys.xs2a.adapter.crealogix;
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.api.model.Aspsp;
-import de.adorsys.xs2a.adapter.api.model.Consents;
-import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
+import de.adorsys.xs2a.adapter.api.model.*;
+import de.adorsys.xs2a.adapter.crealogix.model.CrealogixOK200TransactionDetails;
+import de.adorsys.xs2a.adapter.crealogix.model.CrealogixTransactionResponse200Json;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,22 +18,24 @@ import static org.mockito.Mockito.*;
 
 class CrealogixAccountInformationServiceTest {
 
-    public static final String AUTHORIZATION = "Authorization";
-    public static final String AUTHORIZATION_VALUE = "Bearer foo";
-    private final HttpClient client = mock(HttpClient.class);
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String AUTHORIZATION_VALUE = "Bearer foo";
+    private static final String URI = "https://foo.boo";
+    public static final String ACCOUNT_ID = "accountId";
+    private final HttpClient httpClient = mock(HttpClient.class);
     private final LinksRewriter linksRewriter = mock(LinksRewriter.class);
     private static final Aspsp aspsp = getAspsp();
     private AccountInformationService service;
 
     @BeforeEach
     void setUp() {
-        service = new CrealogixAccountInformationService(aspsp, client, linksRewriter);
+        service = new CrealogixAccountInformationService(aspsp, httpClient, linksRewriter);
     }
 
     @Test
     void createConsent() {
-        when(client.post(anyString())).thenReturn(new RequestBuilderImpl(client, "POST", ""));
-        when(client.send(any(), any()))
+        when(httpClient.post(anyString())).thenReturn(new RequestBuilderImpl(httpClient, "POST", URI));
+        when(httpClient.send(any(), any()))
             .thenReturn(new Response<>(
                 -1,
                 new ConsentsResponse201(),
@@ -45,13 +47,58 @@ class CrealogixAccountInformationServiceTest {
                 RequestParams.empty(),
                 new Consents());
 
-        verify(client, times(1)).post(anyString());
-        verify(client, times(1)).send(any(), any());
+        verify(httpClient, times(1)).post(anyString());
+        verify(httpClient, times(1)).send(any(), any());
 
         assertThat(actualResponse)
             .isNotNull()
             .extracting(Response::getBody)
             .isInstanceOf(ConsentsResponse201.class);
+    }
+
+    @Test
+    void getTransactionList() {
+        when(httpClient.get(anyString()))
+            .thenReturn(new RequestBuilderImpl(httpClient, "GET", URI));
+        when(httpClient.send(any(), any()))
+            .thenReturn(new Response<>(-1, new CrealogixTransactionResponse200Json(), ResponseHeaders.emptyResponseHeaders()));
+
+        Response<?> actualResponse
+            = service.getTransactionList(
+                ACCOUNT_ID,
+                RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
+                RequestParams.empty());
+
+        verify(httpClient, times(1)).get(anyString());
+        verify(httpClient, times(1)).send(any(), any());
+
+        assertThat(actualResponse)
+            .isNotNull()
+            .extracting(Response::getBody)
+            .isInstanceOf(TransactionsResponse200Json.class);
+    }
+
+    @Test
+    void getTransactionDetails() {
+        when(httpClient.get(anyString()))
+            .thenReturn(new RequestBuilderImpl(httpClient, "GET", URI));
+        when(httpClient.send(any(), any()))
+            .thenReturn(new Response<>(-1, new CrealogixOK200TransactionDetails(), ResponseHeaders.emptyResponseHeaders()));
+
+        Response<?> actualResponse
+            = service.getTransactionDetails(
+                ACCOUNT_ID,
+                "transactionId",
+                RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
+                RequestParams.empty());
+
+        verify(httpClient, times(1)).get(anyString());
+        verify(httpClient, times(1)).send(any(), any());
+
+        assertThat(actualResponse)
+            .isNotNull()
+            .extracting(Response::getBody)
+            .isInstanceOf(OK200TransactionDetails.class);
     }
 
     private static Aspsp getAspsp() {

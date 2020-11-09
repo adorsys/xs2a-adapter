@@ -29,11 +29,7 @@
           "mock remittance unstructured array"
         ],
         "remittanceInformationStructuredArray": [
-          {
-            "reference": "Mock remittance reference",
-            "referenceType": "Mock reference type",
-            "referenceIssuer": "Mock reference issuer"
-          }
+          "Mock remittance reference"
         ],
         "additionalInformation": "mock additional information",
         "bankTransactionCode": "PMNT-MCOP-OTHR",
@@ -72,11 +68,7 @@
           "mock remittance unstructured array"
         ],
         "remittanceInformationStructuredArray": [
-          {
-            "reference": "Mock remittance reference",
-            "referenceType": "Mock reference type",
-            "referenceIssuer": "Mock reference issuer"
-          }
+          "Mock remittance reference"
         ],
         "additionalInformation": "mock additional information",
         "bankTransactionCode": "PMNT-MCOP-OTHR",

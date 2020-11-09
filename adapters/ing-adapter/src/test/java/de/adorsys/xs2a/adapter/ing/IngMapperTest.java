@@ -469,7 +469,7 @@ class IngMapperTest {
         transaction.setDebtorName(DEBTOR_NAME);
         transaction.setDebtorAccount(transactionDebtorAccount());
         transaction.setRemittanceInformationUnstructured(REMITTANCE_INFORMATION_UNSTRUCTURED);
-        transaction.setRemittanceInformationStructured(remittanceInformationStructured());
+        transaction.setRemittanceInformationStructured(REFERENCE);
         return transaction;
     }
 

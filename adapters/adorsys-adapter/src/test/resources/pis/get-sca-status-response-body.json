@@ -1,3 +1,4 @@
 {
-  "scaStatus": "finalised"
+  "scaStatus": "finalised",
+  "trustedBeneficiaryFlag": true
 }

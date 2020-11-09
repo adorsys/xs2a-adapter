@@ -25,8 +25,11 @@ import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
+import de.adorsys.xs2a.adapter.deutschebank.model.DeutscheBankOK200TransactionDetails;
+import de.adorsys.xs2a.adapter.deutschebank.model.DeutscheBankTransactionResponse200Json;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import org.apache.commons.lang3.StringUtils;
+import org.mapstruct.factory.Mappers;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,6 +38,7 @@ import java.util.Map;
 public class DeutscheBankAccountInformationService extends BaseAccountInformationService {
     private static final String DATE_HEADER = "Date";
 
+    private final DeutscheBankMapper deutscheBankMapper = Mappers.getMapper(DeutscheBankMapper.class);
     private final PsuPasswordEncryptionService psuPasswordEncryptionService;
 
     public DeutscheBankAccountInformationService(Aspsp aspsp,
@@ -77,6 +81,34 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
             requestHeaders,
             requestParams,
             updatePsuAuthentication);
+    }
+
+    @Override
+    public Response<TransactionsResponse200Json> getTransactionList(String accountId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    RequestParams requestParams) {
+
+        return super.getTransactionList(
+            accountId,
+            requestHeaders,
+            requestParams,
+            DeutscheBankTransactionResponse200Json.class,
+            deutscheBankMapper::toTransactionsResponse200Json);
+    }
+
+    @Override
+    public Response<OK200TransactionDetails> getTransactionDetails(String accountId,
+                                                                   String transactionId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams) {
+
+        return super.getTransactionDetails(
+            accountId,
+            transactionId,
+            requestHeaders,
+            requestParams,
+            DeutscheBankOK200TransactionDetails.class,
+            deutscheBankMapper::toOK200TransactionDetails);
     }
 
     private boolean passwordEncryptionRequired(PsuData psuData) {
