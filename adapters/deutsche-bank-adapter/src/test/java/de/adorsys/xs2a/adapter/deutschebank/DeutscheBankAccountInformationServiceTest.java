@@ -7,12 +7,12 @@ import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.model.*;
-import de.adorsys.xs2a.adapter.deutschebank.model.DeutscheBankOK200TransactionDetails;
-import de.adorsys.xs2a.adapter.deutschebank.model.DeutscheBankTransactionResponse200Json;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
 import java.util.Map;
 
 import static java.util.Collections.emptyMap;
@@ -26,6 +26,7 @@ class DeutscheBankAccountInformationServiceTest {
     private static final Aspsp ASPSP = buildAspspWithUrl();
     private static final String CONSENT_URL = BASE_URL + "/v1/consents";
     private static final String ACCOUNT_ID = "accountId";
+    private static final String REMITTANCE_INFORMATION_STRUCTURED = "remittanceInformationStructuredStringValue";
     private final HttpClient httpClient = mock(HttpClient.class);
     private final DeutscheBankAccountInformationService service =
             new DeutscheBankAccountInformationService(ASPSP, httpClient, null, new IdentityLinksRewriter(), null);
@@ -53,10 +54,29 @@ class DeutscheBankAccountInformationServiceTest {
 
     @Test
     void getTransactionList() {
+        String rawResponse = "{\n" +
+            "  \"transactions\": {\n" +
+            "    \"booked\": [\n" +
+            "      {\n" +
+            "        \"remittanceInformationStructured\": {" +
+            "           \"reference\": \"" + REMITTANCE_INFORMATION_STRUCTURED + "\"\n" +
+            "         }\n" +
+            "      }\n" +
+            "    ]\n" +
+            "  }\n" +
+            "}";
+
         when(httpClient.get(anyString()))
             .thenReturn(new RequestBuilderImpl(httpClient, "GET", BASE_URL));
         when(httpClient.send(any(), any()))
-            .thenReturn(new Response<>(-1, new DeutscheBankTransactionResponse200Json(), ResponseHeaders.emptyResponseHeaders()));
+            .thenAnswer(invocationOnMock -> {
+                HttpClient.ResponseHandler responseHandler = invocationOnMock.getArgument(1, HttpClient.ResponseHandler.class);
+                return new Response<>(-1,
+                    responseHandler.apply(200,
+                        new ByteArrayInputStream(rawResponse.getBytes()),
+                        ResponseHeaders.emptyResponseHeaders()),
+                    null);
+            });
 
         Response<?> actualResponse
             = service.getTransactionList(ACCOUNT_ID, RequestHeaders.empty(), RequestParams.empty());
@@ -67,15 +87,36 @@ class DeutscheBankAccountInformationServiceTest {
         assertThat(actualResponse)
             .isNotNull()
             .extracting(Response::getBody)
-            .isInstanceOf(TransactionsResponse200Json.class);
+            .asInstanceOf(InstanceOfAssertFactories.type(TransactionsResponse200Json.class))
+            .matches(body ->
+                body.getTransactions()
+                    .getBooked()
+                    .get(0)
+                    .getRemittanceInformationStructured()
+                    .equals(REMITTANCE_INFORMATION_STRUCTURED));
     }
 
     @Test
     void getTransactionDetails() {
+        String rawResponse = "{\n" +
+            "  \"transactionsDetails\": {\n" +
+            "    \"remittanceInformationStructured\": {" +
+            "       \"reference\": \"" + REMITTANCE_INFORMATION_STRUCTURED + "\"\n" +
+            "       }\n" +
+            "  }\n" +
+            "}";
+
         when(httpClient.get(anyString()))
             .thenReturn(new RequestBuilderImpl(httpClient, "GET", BASE_URL));
         when(httpClient.send(any(), any()))
-            .thenReturn(new Response<>(-1, new DeutscheBankOK200TransactionDetails(), ResponseHeaders.emptyResponseHeaders()));
+            .thenAnswer(invocationOnMock -> {
+                HttpClient.ResponseHandler responseHandler = invocationOnMock.getArgument(1, HttpClient.ResponseHandler.class);
+                return new Response<>(-1,
+                    responseHandler.apply(200,
+                        new ByteArrayInputStream(rawResponse.getBytes()),
+                        ResponseHeaders.emptyResponseHeaders()),
+                    null);
+            });
 
         Response<?> actualResponse
             = service.getTransactionDetails(ACCOUNT_ID, "transactionId", RequestHeaders.empty(), RequestParams.empty());
@@ -86,7 +127,11 @@ class DeutscheBankAccountInformationServiceTest {
         assertThat(actualResponse)
             .isNotNull()
             .extracting(Response::getBody)
-            .isInstanceOf(OK200TransactionDetails.class);
+            .asInstanceOf(InstanceOfAssertFactories.type(OK200TransactionDetails.class))
+            .matches(body ->
+                body.getTransactionsDetails()
+                    .getRemittanceInformationStructured()
+                    .equals(REMITTANCE_INFORMATION_STRUCTURED));
     }
 
     private static Aspsp buildAspspWithUrl() {

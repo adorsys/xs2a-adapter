@@ -54,12 +54,11 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
                                                                     RequestHeaders requestHeaders,
                                                                     RequestParams requestParams) {
 
-        return super.getTransactionList(
-            accountId,
-            requestHeaders,
-            requestParams,
-            SpardaTransactionResponse200Json.class,
-            spardaMapper::toTransactionsResponse200Json);
+        return super.getTransactionList(accountId,
+                                        requestHeaders,
+                                        requestParams,
+                                        SpardaTransactionResponse200Json.class,
+                                        spardaMapper::toTransactionsResponse200Json);
     }
 
     @Override
@@ -68,13 +67,12 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams) {
 
-        return super.getTransactionDetails(
-            accountId,
-            transactionId,
-            requestHeaders,
-            requestParams,
-            SpardaOK200TransactionDetails.class,
-            spardaMapper::toOK200TransactionDetails);
+        return super.getTransactionDetails(accountId,
+                                           transactionId,
+                                           requestHeaders,
+                                           requestParams,
+                                           SpardaOK200TransactionDetails.class,
+                                           spardaMapper::toOK200TransactionDetails);
     }
 
     private boolean isOauthPreStep(RequestHeaders requestHeaders) {

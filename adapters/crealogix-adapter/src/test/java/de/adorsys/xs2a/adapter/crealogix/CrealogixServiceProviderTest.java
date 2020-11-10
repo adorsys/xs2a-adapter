@@ -12,7 +12,7 @@ import static org.mockito.Mockito.mock;
 class CrealogixServiceProviderTest {
 
     private final HttpClientFactory clientFactory = mock(HttpClientFactory.class);
-    private final CrealogixServiceProvider serviceProvider = new CrealogixServiceProvider();
+    private final DkbServiceProvider serviceProvider = new DkbServiceProvider();
 
     @Test
     void getAccountInformationService() {

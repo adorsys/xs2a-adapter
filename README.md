@@ -3,7 +3,9 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=adorsys_xs2a-adapter&metric=alert_status)](https://sonarcloud.io/dashboard?id=adorsys_xs2a-adapter)
 
 There are various ways for a bank to implement a PSD2 compliant XS2A interface. Don’t waste time in connecting different banks with different approaches into your application. Use the free of charge XS2A adapter and concentrate on your true value proposition!
+
 ## Who we are
+
 [adorsys](https://adorsys.de/en/index.html) is a company who works ever since the very beginning of PSD2 with its requirements and implicit tasks.
 We help banks to be PSD2 complaint (technical and legal terms). To speed up the process we provide this open source XS2A interface,
 that can be connected to your middleware system.
@@ -18,6 +20,7 @@ However, being able to interact with many banks can be a time and cost consuming
 
 
 ### High level architecture
+
 ![High level architecture](docs/img/high%20level%20architecture.png)
 
 ## Running the XS2A Adapter
@@ -181,9 +184,11 @@ Response<PaymentInitationRequestResponse201> payment = paymentInitiationService.
 ```
 
 ## How to write your own bank adapter
+
 Read this short [guideline](docs/Adapter.md) to get more details
 
 ## Routing and ASPSP Registry
+
 ASPSP Registry loads data from [aspsp-adapter-config](docs/aspsp_adapter_config_csv.md) file, 
 that contains all information necessary for XS2A Adapter to communicate with banks (Sandboxes only).  
 `xs2a-adapter` relies on presence of `X-GTW-ASPSP-ID` or `X-GTW-Bank-Code` request header for routing.
@@ -195,12 +200,16 @@ If you need details about managing ASPSP Registry please refer to this [document
 
 ## Releases and versions
 
-* [Versioning, Release and Support policy](https://github.com/adorsys/xs2a/blob/develop/doc/version_policy.adoc)
+* XS2A Adapter reveals a new release at the beginning of each month. All released features, fixes, details, etc. can be found 
+  within the Release Notes referred below. We are doing our best to follow the Adapter Roadmap mentioned below as well. 
+  All release information can be found under the [Releases](https://github.com/adorsys/xs2a-adapter/releases) section 
+  on GitHub.
 
-* [Release notes](docs/release_notes/Release_notes_0.1.3.adoc)
+* [Release Notes](docs/release_notes/Release_notes_0.1.3.adoc)
+
 * [Roadmap for next features development](docs/roadmap.adoc)
 
-### Testing API with Postman json collections
+## Testing API with Postman json collections
 
  For testing API of xs2a it is used Postman https://www.getpostman.com/
  Environment jsons with global parameter’s sets and Collections of jsons for imitation of processes flows are stored in /postman folder.

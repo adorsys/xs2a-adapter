@@ -52,12 +52,11 @@ public class CommerzbankAccountInformationService extends BaseAccountInformation
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams) {
 
-        return super.getTransactionDetails(
-            accountId,
-            transactionId,
-            requestHeaders,
-            requestParams,
-            CommerzbankOK200TransactionDetails.class,
-            transactionDetailsMapper::toOK200TransactionDetails);
+        return super.getTransactionDetails(accountId,
+                                           transactionId,
+                                           requestHeaders,
+                                           requestParams,
+                                           CommerzbankOK200TransactionDetails.class,
+                                           transactionDetailsMapper::toOK200TransactionDetails);
     }
 }

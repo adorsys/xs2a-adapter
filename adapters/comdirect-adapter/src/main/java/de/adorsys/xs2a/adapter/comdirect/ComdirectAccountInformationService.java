@@ -42,12 +42,11 @@ public class ComdirectAccountInformationService extends BaseAccountInformationSe
     public Response<TransactionsResponse200Json> getTransactionList(String accountId,
                                                                     RequestHeaders requestHeaders,
                                                                     RequestParams requestParams) {
-        return super.getTransactionList(
-            accountId,
-            requestHeaders,
-            requestParams,
-            ComdirectTransactionResponse200Json.class,
-            transactionsResponseMapper::toTransactionsResponse200Json);
+        return super.getTransactionList(accountId,
+                                        requestHeaders,
+                                        requestParams,
+                                        ComdirectTransactionResponse200Json.class,
+                                        transactionsResponseMapper::toTransactionsResponse200Json);
     }
 
     @Override
@@ -56,12 +55,11 @@ public class ComdirectAccountInformationService extends BaseAccountInformationSe
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams) {
 
-        return super.getTransactionDetails(
-            accountId,
-            transactionId,
-            requestHeaders,
-            requestParams,
-            ComdirectOK200TransactionDetails.class,
-            transactionDetailsMapper::toOK200TransactionDetails);
+        return super.getTransactionDetails(accountId,
+                                           transactionId,
+                                           requestHeaders,
+                                           requestParams,
+                                           ComdirectOK200TransactionDetails.class,
+                                           transactionDetailsMapper::toOK200TransactionDetails);
     }
 }

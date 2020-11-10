@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2018 adorsys GmbH & Co KG
+ * Copyright 2018-2020 adorsys GmbH & Co KG
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.dkb.mapper;
+package de.adorsys.xs2a.adapter.crealogix;
 
-import de.adorsys.xs2a.adapter.api.model.StartScaprocessResponse;
-import de.adorsys.xs2a.adapter.dkb.model.DkbStartScaProcessResponse;
-import org.mapstruct.Mapper;
+public enum CrealogixClient {
+    DKB("dkb");
 
-@Mapper(uses = ChallengeDataDkbMapper.class)
-public interface StartScaProcessResponseDkbMapper {
+    private final String prefix;
 
-    StartScaprocessResponse toStartScaProcessResponse(DkbStartScaProcessResponse response);
+    CrealogixClient(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
 }

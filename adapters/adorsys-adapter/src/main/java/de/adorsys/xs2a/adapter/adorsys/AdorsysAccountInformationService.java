@@ -48,12 +48,11 @@ public class AdorsysAccountInformationService extends BaseAccountInformationServ
                                                                     RequestHeaders requestHeaders,
                                                                     RequestParams requestParams) {
 
-        return super.getTransactionList(
-            accountId,
-            requestHeaders,
-            requestParams,
-            AdorsysTransactionsResponse200Json.class,
-            mapper::toTransactionsResponse200Json);
+        return super.getTransactionList(accountId,
+                                        requestHeaders,
+                                        requestParams,
+                                        AdorsysTransactionsResponse200Json.class,
+                                        mapper::toTransactionsResponse200Json);
     }
 
     @Override
@@ -62,13 +61,12 @@ public class AdorsysAccountInformationService extends BaseAccountInformationServ
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams) {
 
-        return super.getTransactionDetails(
-            accountId,
-            transactionId,
-            requestHeaders,
-            requestParams,
-            AdorsysOK200TransactionDetails.class,
-            mapper::toOK200TransactionDetails);
+        return super.getTransactionDetails(accountId,
+                                           transactionId,
+                                           requestHeaders,
+                                           requestParams,
+                                           AdorsysOK200TransactionDetails.class,
+                                           mapper::toOK200TransactionDetails);
     }
 
     @Override

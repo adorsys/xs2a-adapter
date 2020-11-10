@@ -88,8 +88,7 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
                                                                     RequestHeaders requestHeaders,
                                                                     RequestParams requestParams) {
 
-        return super.getTransactionList(
-            accountId,
+        return super.getTransactionList(accountId,
             requestHeaders,
             requestParams,
             DeutscheBankTransactionResponse200Json.class,
@@ -102,8 +101,7 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams) {
 
-        return super.getTransactionDetails(
-            accountId,
+        return super.getTransactionDetails(accountId,
             transactionId,
             requestHeaders,
             requestParams,

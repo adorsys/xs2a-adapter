@@ -31,12 +31,11 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
                                                                     RequestHeaders requestHeaders,
                                                                     RequestParams requestParams) {
 
-        return super.getTransactionList(
-            accountId,
-            requestHeaders,
-            requestParams,
-            UnicreditTransactionResponse200Json.class,
-            unicreditMapper::toTransactionsResponse200Json);
+        return super.getTransactionList(accountId,
+                                        requestHeaders,
+                                        requestParams,
+                                        UnicreditTransactionResponse200Json.class,
+                                        unicreditMapper::toTransactionsResponse200Json);
     }
 
     @Override
@@ -45,13 +44,12 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams) {
 
-        return super.getTransactionDetails(
-            accountId,
-            transactionId,
-            requestHeaders,
-            requestParams,
-            UnicreditOK200TransactionDetails.class,
-            unicreditMapper::toOK200TransactionDetails);
+        return super.getTransactionDetails(accountId,
+                                           transactionId,
+                                           requestHeaders,
+                                           requestParams,
+                                           UnicreditOK200TransactionDetails.class,
+                                           unicreditMapper::toOK200TransactionDetails);
     }
 
     @Override

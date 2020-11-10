@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2018 adorsys GmbH & Co KG
+ * Copyright 2018-2020 adorsys GmbH & Co KG
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.api;
+package de.adorsys.xs2a.adapter.serviceloader;
 
+import de.adorsys.xs2a.adapter.api.EmbeddedPreAuthorisationService;
+import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.model.EmbeddedPreAuthorisationRequest;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 
-public interface EmbeddedPreAuthorisationService {
-
-    TokenResponse getToken(EmbeddedPreAuthorisationRequest request, RequestHeaders requestHeaders);
+public class TestEmbeddedPreAuthorisationService implements EmbeddedPreAuthorisationService {
+    @Override
+    public TokenResponse getToken(EmbeddedPreAuthorisationRequest request, RequestHeaders requestHeaders) {
+        return null;
+    }
 }

@@ -26,12 +26,11 @@ public class OlbAccountInformationService extends BaseAccountInformationService 
                                                                     RequestHeaders requestHeaders,
                                                                     RequestParams requestParams) {
 
-        return super.getTransactionList(
-            accountId,
-            requestHeaders,
-            requestParams,
-            OlbTransactionResponse200Json.class,
-            olbMapper::toTransactionsResponse200Json);
+        return super.getTransactionList(accountId,
+                                        requestHeaders,
+                                        requestParams,
+                                        OlbTransactionResponse200Json.class,
+                                        olbMapper::toTransactionsResponse200Json);
     }
 
     @Override
@@ -40,12 +39,11 @@ public class OlbAccountInformationService extends BaseAccountInformationService 
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams) {
 
-        return super.getTransactionDetails(
-            accountId,
-            transactionId,
-            requestHeaders,
-            requestParams,
-            OlbOK200TransactionDetails.class,
-            olbMapper::toOK200TransactionDetails);
+        return super.getTransactionDetails(accountId,
+                                           transactionId,
+                                           requestHeaders,
+                                           requestParams,
+                                           OlbOK200TransactionDetails.class,
+                                           olbMapper::toOK200TransactionDetails);
     }
 }

@@ -83,12 +83,11 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
                                                                     RequestHeaders requestHeaders,
                                                                     RequestParams requestParams) {
 
-        return super.getTransactionList(
-            accountId,
-            requestHeaders,
-            requestParams,
-            VerlagTransactionResponse200Json.class,
-            verlagMapper::toTransactionsResponse200Json);
+        return super.getTransactionList(accountId,
+                                        requestHeaders,
+                                        requestParams,
+                                        VerlagTransactionResponse200Json.class,
+                                        verlagMapper::toTransactionsResponse200Json);
     }
 
     @Override
@@ -97,13 +96,12 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams) {
 
-        return super.getTransactionDetails(
-            accountId,
-            transactionId,
-            requestHeaders,
-            requestParams,
-            VerlagOK200TransactionDetails.class,
-            verlagMapper::toOK200TransactionDetails);
+        return super.getTransactionDetails(accountId,
+                                           transactionId,
+                                           requestHeaders,
+                                           requestParams,
+                                           VerlagOK200TransactionDetails.class,
+                                           verlagMapper::toOK200TransactionDetails);
     }
 
     private boolean acceptHeaderIsAListOfValues(String acceptHeader) {

@@ -26,12 +26,11 @@ public class SparkasseAccountInformationService extends BaseAccountInformationSe
                                                                     RequestHeaders requestHeaders,
                                                                     RequestParams requestParams) {
 
-        return super.getTransactionList(
-            accountId,
-            requestHeaders,
-            requestParams,
-            SparkasseTransactionResponse200Json.class,
-            sparkasseMapper::toTransactionsResponse200Json);
+        return super.getTransactionList(accountId,
+                                        requestHeaders,
+                                        requestParams,
+                                        SparkasseTransactionResponse200Json.class,
+                                        sparkasseMapper::toTransactionsResponse200Json);
     }
 
     @Override
@@ -40,12 +39,11 @@ public class SparkasseAccountInformationService extends BaseAccountInformationSe
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams) {
 
-        return super.getTransactionDetails(
-            accountId,
-            transactionId,
-            requestHeaders,
-            requestParams,
-            SparkasseOK200TransactionDetails.class,
-            sparkasseMapper::toOK200TransactionDetails);
+        return super.getTransactionDetails(accountId,
+                                           transactionId,
+                                           requestHeaders,
+                                           requestParams,
+                                           SparkasseOK200TransactionDetails.class,
+                                           sparkasseMapper::toOK200TransactionDetails);
     }
 }

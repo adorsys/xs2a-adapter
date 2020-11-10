@@ -10,14 +10,13 @@ import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
 import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
-import de.adorsys.xs2a.adapter.verlag.model.VerlagOK200TransactionDetails;
-import de.adorsys.xs2a.adapter.verlag.model.VerlagTransactionResponse200Json;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.ByteArrayInputStream;
 import java.util.AbstractMap;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,6 +29,7 @@ class VerlagAccountInformationServiceTest {
 
     private static final String URI = "https://foo.boo";
     private static final String ACCOUNT_ID = "accountId";
+    private static final String REMITTANCE_INFORMATION_STRUCTURED = "remittanceInformationStructuredStringValue";
 
     @InjectMocks
     private VerlagAccountInformationService accountInformationService;
@@ -44,10 +44,29 @@ class VerlagAccountInformationServiceTest {
 
     @Test
     void getTransactionList() {
+        String rawResponse = "{\n" +
+            "  \"transactions\": {\n" +
+            "    \"booked\": [\n" +
+            "      {\n" +
+            "        \"remittanceInformationStructured\": {" +
+            "           \"reference\": \"" + REMITTANCE_INFORMATION_STRUCTURED + "\"\n" +
+            "         }\n" +
+            "      }\n" +
+            "    ]\n" +
+            "  }\n" +
+            "}";
+
         when(httpClient.get(anyString()))
             .thenReturn(new RequestBuilderImpl(httpClient, "GET", URI));
         when(httpClient.send(any(), any()))
-            .thenReturn(new Response<>(-1, new VerlagTransactionResponse200Json(), ResponseHeaders.emptyResponseHeaders()));
+            .thenAnswer(invocationOnMock -> {
+                HttpClient.ResponseHandler responseHandler = invocationOnMock.getArgument(1, HttpClient.ResponseHandler.class);
+                return new Response<>(-1,
+                    responseHandler.apply(200,
+                        new ByteArrayInputStream(rawResponse.getBytes()),
+                        ResponseHeaders.emptyResponseHeaders()),
+                    null);
+            });
 
         Response<?> actualResponse
             = accountInformationService.getTransactionList(ACCOUNT_ID, RequestHeaders.empty(), RequestParams.empty());
@@ -56,15 +75,36 @@ class VerlagAccountInformationServiceTest {
         verify(httpClient, times(1)).send(any(), any());
 
         assertNotNull(actualResponse);
-        assertTrue(actualResponse.getBody() instanceof TransactionsResponse200Json);
+        Object body = actualResponse.getBody();
+        assertTrue(body instanceof TransactionsResponse200Json);
+        String remittanceInformationStructured = ((TransactionsResponse200Json) body).getTransactions()
+            .getBooked()
+            .get(0)
+            .getRemittanceInformationStructured();
+        assertEquals(remittanceInformationStructured, REMITTANCE_INFORMATION_STRUCTURED);
     }
 
     @Test
     void getTransactionDetails() {
+        String rawResponse = "{\n" +
+            "  \"transactionsDetails\": {\n" +
+            "    \"remittanceInformationStructured\": {" +
+            "       \"reference\": \"" + REMITTANCE_INFORMATION_STRUCTURED + "\"\n" +
+            "       }\n" +
+            "  }\n" +
+            "}";
+
         when(httpClient.get(anyString()))
             .thenReturn(new RequestBuilderImpl(httpClient, "GET", URI));
         when(httpClient.send(any(), any()))
-            .thenReturn(new Response<>(-1, new VerlagOK200TransactionDetails(), ResponseHeaders.emptyResponseHeaders()));
+            .thenAnswer(invocationOnMock -> {
+                HttpClient.ResponseHandler responseHandler = invocationOnMock.getArgument(1, HttpClient.ResponseHandler.class);
+                return new Response<>(-1,
+                    responseHandler.apply(200,
+                        new ByteArrayInputStream(rawResponse.getBytes()),
+                        ResponseHeaders.emptyResponseHeaders()),
+                    null);
+            });
 
         Response<?> actualResponse
             = accountInformationService.getTransactionDetails(ACCOUNT_ID, "transactionId", RequestHeaders.empty(), RequestParams.empty());
@@ -73,6 +113,10 @@ class VerlagAccountInformationServiceTest {
         verify(httpClient, times(1)).send(any(), any());
 
         assertNotNull(actualResponse);
-        assertTrue(actualResponse.getBody() instanceof OK200TransactionDetails);
+        Object body = actualResponse.getBody();
+        assertTrue(body instanceof OK200TransactionDetails);
+        String remittanceInformationStructured = ((OK200TransactionDetails) body).getTransactionsDetails()
+            .getRemittanceInformationStructured();
+        assertEquals(remittanceInformationStructured, REMITTANCE_INFORMATION_STRUCTURED);
     }
 }

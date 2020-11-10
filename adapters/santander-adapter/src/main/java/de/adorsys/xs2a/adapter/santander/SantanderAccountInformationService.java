@@ -62,12 +62,11 @@ public class SantanderAccountInformationService extends BaseAccountInformationSe
                                                                     RequestHeaders requestHeaders,
                                                                     RequestParams requestParams) {
 
-        return super.getTransactionList(
-            accountId,
-            requestHeaders,
-            requestParams,
-            SantanderTransactionResponse200Json.class,
-            santanderMapper::toTransactionsResponse200Json);
+        return super.getTransactionList(accountId,
+                                        requestHeaders,
+                                        requestParams,
+                                        SantanderTransactionResponse200Json.class,
+                                        santanderMapper::toTransactionsResponse200Json);
     }
 
     @Override
@@ -76,13 +75,12 @@ public class SantanderAccountInformationService extends BaseAccountInformationSe
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams) {
 
-        return super.getTransactionDetails(
-            accountId,
-            transactionId,
-            requestHeaders,
-            requestParams,
-            SantanderOK200TransactionDetails.class,
-            santanderMapper::toOK200TransactionDetails);
+        return super.getTransactionDetails(accountId,
+                                           transactionId,
+                                           requestHeaders,
+                                           requestParams,
+                                           SantanderOK200TransactionDetails.class,
+                                           santanderMapper::toOK200TransactionDetails);
     }
 
     @Override

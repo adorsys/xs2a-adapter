@@ -6,9 +6,19 @@
     "version": "0.1"
   },
   "paths": {
-    "/embedded-pre-auth/token": {
+    "/v1/embedded-pre-auth/token": {
       "post": {
         "description": "Exchange user credentials by bearer token endpoint",
+        "parameters": [
+          {
+            "name": "X-GTW-ASPSP-ID",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "f60271e2-7157-41fd-97f6-84844f28e637"
+          }
+        ],
         "requestBody": {
           "$ref": "#/components/requestBodies/embeddedPreAuthirisationRequest"
         },

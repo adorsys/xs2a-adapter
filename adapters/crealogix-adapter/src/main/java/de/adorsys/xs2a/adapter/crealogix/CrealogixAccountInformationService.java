@@ -40,12 +40,11 @@ public class CrealogixAccountInformationService extends BaseAccountInformationSe
                                                                     RequestParams requestParams) {
         crealogixRequestHandler(requestHeaders);
 
-        return super.getTransactionList(
-            accountId,
-            requestHeaders,
-            requestParams,
-            CrealogixTransactionResponse200Json.class,
-            crealogixMapper::toTransactionsResponse200Json);
+        return super.getTransactionList(accountId,
+                                        requestHeaders,
+                                        requestParams,
+                                        CrealogixTransactionResponse200Json.class,
+                                        crealogixMapper::toTransactionsResponse200Json);
     }
 
     @Override
@@ -55,12 +54,11 @@ public class CrealogixAccountInformationService extends BaseAccountInformationSe
                                                                    RequestParams requestParams) {
         crealogixRequestHandler(requestHeaders);
 
-        return super.getTransactionDetails(
-            accountId,
-            transactionId,
-            requestHeaders,
-            requestParams,
-            CrealogixOK200TransactionDetails.class,
-            crealogixMapper::toOK200TransactionDetails);
+        return super.getTransactionDetails(accountId,
+                                           transactionId,
+                                           requestHeaders,
+                                           requestParams,
+                                           CrealogixOK200TransactionDetails.class,
+                                           crealogixMapper::toOK200TransactionDetails);
     }
 }
