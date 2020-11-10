@@ -1,4 +1,4 @@
-= Draft Release notes for version 0.1.4 (release date: xx.11.2020)
+= Release notes for version 0.1.4 (release date: 10.11.2020)
 
 .Added banks
 |===
@@ -11,6 +11,7 @@
 - Added `crealogix-adapter` for connecting banks that use a PSD2 API solution
 provided by https://crealogix.com/ch/en/[CREALOGIX Group], e.g. DKB
 - Updated Adapter models to conform to BG NextGen PSD2 specification https://berlingroup.stackstorage.com/s/1FBrOlC7IquzG35B[v1.3.6 2020-08-14]
+- Extended enum `AuthorisationType` with `EMAIL`
 
 == Features:
 - Added `EmbeddedPreAuthorisationApi` interface for supporting custom pre-authorisation.
