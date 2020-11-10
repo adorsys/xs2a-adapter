@@ -2,17 +2,21 @@
 
 .Added banks
 |===
+|Bank Name|Approach|AIS, PIS
+
+|DKB (Crealogix Solution)|embedded|AIS, PIS
 |===
 
 == Notices:
-- added `crealogix-adapter` for connecting banks that use a PSD2 API solution
+- Added `crealogix-adapter` for connecting banks that use a PSD2 API solution
 provided by https://crealogix.com/ch/en/[CREALOGIX Group], e.g. DKB
+- Updated Adapter models to conform to BG NextGen PSD2 specification https://berlingroup.stackstorage.com/s/1FBrOlC7IquzG35B[v1.3.6 2020-08-14]
 
 == Features:
 - Added `EmbeddedPreAuthorisationApi` interface for supporting custom pre-authorisation.
 
 == Fixes:
-- fixed NPE for Commerzbank and Comdirect in cases when a bank doesn't include `lastChangeDateTime` field within the response
+- Fixed NPE for Commerzbank and Comdirect in cases when a bank doesn't include `lastChangeDateTime` field within the response
 of getBalances request
 
 

@@ -50,7 +50,7 @@ public class TransactionDetails {
 
     private List<String> remittanceInformationUnstructuredArray;
 
-    private RemittanceInformationStructured remittanceInformationStructured;
+    private String remittanceInformationStructured;
 
     private List<RemittanceInformationStructured> remittanceInformationStructuredArray;
 
@@ -230,12 +230,11 @@ public class TransactionDetails {
         this.remittanceInformationUnstructuredArray = remittanceInformationUnstructuredArray;
     }
 
-    public RemittanceInformationStructured getRemittanceInformationStructured() {
+    public String getRemittanceInformationStructured() {
         return remittanceInformationStructured;
     }
 
-    public void setRemittanceInformationStructured(
-        RemittanceInformationStructured remittanceInformationStructured) {
+    public void setRemittanceInformationStructured(String remittanceInformationStructured) {
         this.remittanceInformationStructured = remittanceInformationStructured;
     }
 

@@ -6,11 +6,12 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.api.model.Aspsp;
-import de.adorsys.xs2a.adapter.api.model.Consents;
-import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
+import de.adorsys.xs2a.adapter.sparda.model.SpardaOK200TransactionDetails;
+import de.adorsys.xs2a.adapter.sparda.model.SpardaTransactionResponse200Json;
+import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
 
@@ -22,6 +23,7 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
     private static final String BEARER_TOKEN_TYPE_PREFIX = "Bearer ";
 
     private final SpardaJwtService spardaJwtService;
+    private final SpardaMapper spardaMapper = Mappers.getMapper(SpardaMapper.class);
 
     public SpardaAccountInformationService(Aspsp aspsp,
                                            HttpClient httpClient,
@@ -45,6 +47,32 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
             body,
             identity(),
             consentCreationResponseHandler(idpUri, ConsentsResponse201.class));
+    }
+
+    @Override
+    public Response<TransactionsResponse200Json> getTransactionList(String accountId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    RequestParams requestParams) {
+
+        return super.getTransactionList(accountId,
+                                        requestHeaders,
+                                        requestParams,
+                                        SpardaTransactionResponse200Json.class,
+                                        spardaMapper::toTransactionsResponse200Json);
+    }
+
+    @Override
+    public Response<OK200TransactionDetails> getTransactionDetails(String accountId,
+                                                                   String transactionId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams) {
+
+        return super.getTransactionDetails(accountId,
+                                           transactionId,
+                                           requestHeaders,
+                                           requestParams,
+                                           SpardaOK200TransactionDetails.class,
+                                           spardaMapper::toOK200TransactionDetails);
     }
 
     private boolean isOauthPreStep(RequestHeaders requestHeaders) {

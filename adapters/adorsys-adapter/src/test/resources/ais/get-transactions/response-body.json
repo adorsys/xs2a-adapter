@@ -30,9 +30,7 @@
         ],
         "remittanceInformationStructuredArray": [
           {
-            "reference": "Mock remittance reference",
-            "referenceType": "Mock reference type",
-            "referenceIssuer": "Mock reference issuer"
+            "reference": "Mock remittance reference"
           }
         ],
         "additionalInformation": "mock additional information",
@@ -73,9 +71,7 @@
         ],
         "remittanceInformationStructuredArray": [
           {
-            "reference": "Mock remittance reference",
-            "referenceType": "Mock reference type",
-            "referenceIssuer": "Mock reference issuer"
+            "reference": "Mock remittance reference"
           }
         ],
         "additionalInformation": "mock additional information",

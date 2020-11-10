@@ -9,9 +9,11 @@ import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +36,8 @@ class UnicreditAccountInformationServiceTest {
     public static final String AUTHORISATION_ID = "authorisation-id";
     public static final String AUTHORISATION_URL = CONSENT_ID_URL + "?authenticationCurrentNumber=" + AUTHORISATION_ID;
     private static final String TPP_REDIRECT_URI = "http://example.com";
+    private static final String ACCOUNT_ID = "accountId";
+    private static final String REMITTANCE_INFORMATION_STRUCTURED = "remittanceInformationStructuredStringValue";
     private HttpClient httpClient;
     private LinksRewriter linksRewriter;
     private UnicreditAccountInformationService accountInformationService;
@@ -126,6 +130,88 @@ class UnicreditAccountInformationServiceTest {
 
         Map<String, String> headers = requestBuilder.headers();
         assertThat(headers).containsEntry(RequestHeaders.PSU_ID_TYPE, DEFAULT_PSU_ID_TYPE);
+    }
+
+    @Test
+    void getTransactionList() {
+        String rawResponse = "{\n" +
+            "  \"transactions\": {\n" +
+            "    \"booked\": [\n" +
+            "      {\n" +
+            "        \"remittanceInformationStructured\": {" +
+            "           \"reference\": \"" + REMITTANCE_INFORMATION_STRUCTURED + "\"\n" +
+            "         }\n" +
+            "      }\n" +
+            "    ]\n" +
+            "  }\n" +
+            "}";
+
+        when(httpClient.get(anyString()))
+            .thenReturn(new RequestBuilderImpl(httpClient, "GET", BASE_URL));
+        when(httpClient.send(any(), any()))
+            .thenAnswer(invocationOnMock -> {
+                HttpClient.ResponseHandler responseHandler = invocationOnMock.getArgument(1, HttpClient.ResponseHandler.class);
+                return new Response<>(-1,
+                    responseHandler.apply(200,
+                        new ByteArrayInputStream(rawResponse.getBytes()),
+                        ResponseHeaders.emptyResponseHeaders()),
+                    null);
+            });
+
+        Response<?> actualResponse
+            = accountInformationService.getTransactionList(ACCOUNT_ID, RequestHeaders.empty(), RequestParams.empty());
+
+        verify(httpClient, times(1)).get(anyString());
+        verify(httpClient, times(1)).send(any(), any());
+
+        assertThat(actualResponse)
+            .isNotNull()
+            .extracting(Response::getBody)
+            .asInstanceOf(InstanceOfAssertFactories.type(TransactionsResponse200Json.class))
+            .matches(body ->
+                body.getTransactions()
+                    .getBooked()
+                    .get(0)
+                    .getRemittanceInformationStructured()
+                    .equals(REMITTANCE_INFORMATION_STRUCTURED));
+    }
+
+    @Test
+    void getTransactionDetails() {
+        String rawResponse = "{\n" +
+            "  \"transactionsDetails\": {\n" +
+            "    \"remittanceInformationStructured\": {" +
+            "       \"reference\": \"" + REMITTANCE_INFORMATION_STRUCTURED + "\"\n" +
+            "       }\n" +
+            "  }\n" +
+            "}";
+
+        when(httpClient.get(anyString()))
+            .thenReturn(new RequestBuilderImpl(httpClient, "GET", BASE_URL));
+        when(httpClient.send(any(), any()))
+            .thenAnswer(invocationOnMock -> {
+                HttpClient.ResponseHandler responseHandler = invocationOnMock.getArgument(1, HttpClient.ResponseHandler.class);
+                return new Response<>(-1,
+                    responseHandler.apply(200,
+                        new ByteArrayInputStream(rawResponse.getBytes()),
+                        ResponseHeaders.emptyResponseHeaders()),
+                    null);
+            });
+
+        Response<?> actualResponse
+            = accountInformationService.getTransactionDetails(ACCOUNT_ID, "transactionId", RequestHeaders.empty(), RequestParams.empty());
+
+        verify(httpClient, times(1)).get(anyString());
+        verify(httpClient, times(1)).send(any(), any());
+
+        assertThat(actualResponse)
+            .isNotNull()
+            .extracting(Response::getBody)
+            .asInstanceOf(InstanceOfAssertFactories.type(OK200TransactionDetails.class))
+            .matches(body ->
+                body.getTransactionsDetails()
+                    .getRemittanceInformationStructured()
+                    .equals(REMITTANCE_INFORMATION_STRUCTURED));
     }
 
     private static Aspsp buildAspspWithUrl() {

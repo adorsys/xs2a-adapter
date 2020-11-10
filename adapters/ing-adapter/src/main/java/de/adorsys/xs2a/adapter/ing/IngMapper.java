@@ -126,6 +126,10 @@ public interface IngMapper {
     @Mapping(target = "additionalInformation", ignore = true)
     TransactionDetails map(IngTransaction value);
 
+    default String map(IngTransactionRemittanceInformationStructured value) {
+        return value == null ? null : value.getReference();
+    }
+
     TokenResponse map(IngTokenResponse value);
 
     @Mapping(target = "chargeBearer", ignore = true)

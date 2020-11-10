@@ -23,7 +23,12 @@ import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
+import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.verlag.model.VerlagOK200TransactionDetails;
+import de.adorsys.xs2a.adapter.verlag.model.VerlagTransactionResponse200Json;
+import org.mapstruct.factory.Mappers;
 
 import java.util.AbstractMap;
 import java.util.Map;
@@ -34,6 +39,7 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
     private static final String ACCEPT_ALL = "*/*";
     private static final String ACCEPT_XML = "application/xml";
 
+    private final VerlagMapper verlagMapper = Mappers.getMapper(VerlagMapper.class);
     private AbstractMap.SimpleImmutableEntry<String, String> apiKey;
 
     public VerlagAccountInformationService(Aspsp aspsp,
@@ -70,6 +76,32 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
         }
 
         return requestHeaders;
+    }
+
+    @Override
+    public Response<TransactionsResponse200Json> getTransactionList(String accountId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    RequestParams requestParams) {
+
+        return super.getTransactionList(accountId,
+                                        requestHeaders,
+                                        requestParams,
+                                        VerlagTransactionResponse200Json.class,
+                                        verlagMapper::toTransactionsResponse200Json);
+    }
+
+    @Override
+    public Response<OK200TransactionDetails> getTransactionDetails(String accountId,
+                                                                   String transactionId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams) {
+
+        return super.getTransactionDetails(accountId,
+                                           transactionId,
+                                           requestHeaders,
+                                           requestParams,
+                                           VerlagOK200TransactionDetails.class,
+                                           verlagMapper::toOK200TransactionDetails);
     }
 
     private boolean acceptHeaderIsAListOfValues(String acceptHeader) {

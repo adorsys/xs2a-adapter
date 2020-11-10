@@ -1,16 +1,17 @@
 package de.adorsys.xs2a.adapter.adorsys;
 
+import de.adorsys.xs2a.adapter.adorsys.model.AdorsysOK200TransactionDetails;
+import de.adorsys.xs2a.adapter.adorsys.model.AdorsysTransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.api.model.Aspsp;
-import de.adorsys.xs2a.adapter.api.model.Consents;
-import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import org.apache.commons.lang3.StringUtils;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,8 @@ import static java.util.function.Function.identity;
 public class AdorsysAccountInformationService extends BaseAccountInformationService {
     private static final String ACCEPT_ALL = "*/*";
     private static final String ACCEPT_JSON = "application/json";
+
+    private final AdorsysMapper mapper = Mappers.getMapper(AdorsysMapper.class);
 
     public AdorsysAccountInformationService(Aspsp aspsp,
                                             HttpClient httpClient,
@@ -38,6 +41,32 @@ public class AdorsysAccountInformationService extends BaseAccountInformationServ
                              body,
                              identity(),
                              consentCreationResponseHandler(getIdpUri(), ConsentsResponse201.class));
+    }
+
+    @Override
+    public Response<TransactionsResponse200Json> getTransactionList(String accountId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    RequestParams requestParams) {
+
+        return super.getTransactionList(accountId,
+                                        requestHeaders,
+                                        requestParams,
+                                        AdorsysTransactionsResponse200Json.class,
+                                        mapper::toTransactionsResponse200Json);
+    }
+
+    @Override
+    public Response<OK200TransactionDetails> getTransactionDetails(String accountId,
+                                                                   String transactionId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams) {
+
+        return super.getTransactionDetails(accountId,
+                                           transactionId,
+                                           requestHeaders,
+                                           requestParams,
+                                           AdorsysOK200TransactionDetails.class,
+                                           mapper::toOK200TransactionDetails);
     }
 
     @Override

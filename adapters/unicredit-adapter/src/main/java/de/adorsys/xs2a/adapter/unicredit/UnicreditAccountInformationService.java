@@ -6,22 +6,50 @@ import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.ContentType;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.api.model.AccountList;
-import de.adorsys.xs2a.adapter.api.model.Aspsp;
-import de.adorsys.xs2a.adapter.api.model.Consents;
-import de.adorsys.xs2a.adapter.api.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.unicredit.model.UnicreditOK200TransactionDetails;
+import de.adorsys.xs2a.adapter.unicredit.model.UnicreditTransactionResponse200Json;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 import java.util.Map;
 
 public class UnicreditAccountInformationService extends BaseAccountInformationService {
 
+    private final UnicreditMapper unicreditMapper = Mappers.getMapper(UnicreditMapper.class);
+
     public UnicreditAccountInformationService(Aspsp aspsp,
                                               HttpClient httpClient,
                                               LinksRewriter linksRewriter) {
         super(aspsp, httpClient, linksRewriter);
+    }
+
+    @Override
+    public Response<TransactionsResponse200Json> getTransactionList(String accountId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    RequestParams requestParams) {
+
+        return super.getTransactionList(accountId,
+                                        requestHeaders,
+                                        requestParams,
+                                        UnicreditTransactionResponse200Json.class,
+                                        unicreditMapper::toTransactionsResponse200Json);
+    }
+
+    @Override
+    public Response<OK200TransactionDetails> getTransactionDetails(String accountId,
+                                                                   String transactionId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams) {
+
+        return super.getTransactionDetails(accountId,
+                                           transactionId,
+                                           requestHeaders,
+                                           requestParams,
+                                           UnicreditOK200TransactionDetails.class,
+                                           unicreditMapper::toOK200TransactionDetails);
     }
 
     @Override

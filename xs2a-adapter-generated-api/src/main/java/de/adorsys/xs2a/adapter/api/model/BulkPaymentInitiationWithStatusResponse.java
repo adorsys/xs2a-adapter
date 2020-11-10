@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.api.model;
 
 import javax.annotation.Generated;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,7 +12,11 @@ public class BulkPaymentInitiationWithStatusResponse {
 
     private LocalDate requestedExecutionDate;
 
+    private OffsetDateTime acceptorTransactionDateTime;
+
     private AccountReference debtorAccount;
+
+    private String paymentInformationId;
 
     private List<PaymentInitiationBulkElementJson> payments;
 
@@ -33,12 +38,28 @@ public class BulkPaymentInitiationWithStatusResponse {
         this.requestedExecutionDate = requestedExecutionDate;
     }
 
+    public OffsetDateTime getAcceptorTransactionDateTime() {
+        return acceptorTransactionDateTime;
+    }
+
+    public void setAcceptorTransactionDateTime(OffsetDateTime acceptorTransactionDateTime) {
+        this.acceptorTransactionDateTime = acceptorTransactionDateTime;
+    }
+
     public AccountReference getDebtorAccount() {
         return debtorAccount;
     }
 
     public void setDebtorAccount(AccountReference debtorAccount) {
         this.debtorAccount = debtorAccount;
+    }
+
+    public String getPaymentInformationId() {
+        return paymentInformationId;
+    }
+
+    public void setPaymentInformationId(String paymentInformationId) {
+        this.paymentInformationId = paymentInformationId;
     }
 
     public List<PaymentInitiationBulkElementJson> getPayments() {
@@ -64,7 +85,9 @@ public class BulkPaymentInitiationWithStatusResponse {
         BulkPaymentInitiationWithStatusResponse that = (BulkPaymentInitiationWithStatusResponse) o;
         return Objects.equals(batchBookingPreferred, that.batchBookingPreferred) &&
             Objects.equals(requestedExecutionDate, that.requestedExecutionDate) &&
+            Objects.equals(acceptorTransactionDateTime, that.acceptorTransactionDateTime) &&
             Objects.equals(debtorAccount, that.debtorAccount) &&
+            Objects.equals(paymentInformationId, that.paymentInformationId) &&
             Objects.equals(payments, that.payments) &&
             Objects.equals(transactionStatus, that.transactionStatus);
     }
@@ -73,7 +96,9 @@ public class BulkPaymentInitiationWithStatusResponse {
     public int hashCode() {
         return Objects.hash(batchBookingPreferred,
             requestedExecutionDate,
+            acceptorTransactionDateTime,
             debtorAccount,
+            paymentInformationId,
             payments,
             transactionStatus);
     }

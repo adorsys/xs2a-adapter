@@ -39,15 +39,5 @@ public interface FiduciaMapper {
     @Mapping(target = "currencyExchange", ignore = true)
     TransactionDetails toTransactionDetails(FiduciaTransactionDetails value);
 
-    default RemittanceInformationStructured toRemittanceInformationStructured(String value) {
-        if (value == null) {
-            return null;
-        }
-
-        RemittanceInformationStructured remittanceInformationStructured = new RemittanceInformationStructured();
-        remittanceInformationStructured.setReference(value);
-        return remittanceInformationStructured;
-    }
-
     PaymentInitationRequestResponse201 toPaymentInitationRequestResponse201(FiduciaPaymentInitationRequestResponse201 value);
 }

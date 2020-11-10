@@ -86,7 +86,7 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
         Map<String, String> headers = new HashMap<>(2);
         headers.put(RequestHeaders.CONTENT_TYPE, "application/json");
         headers.put(RequestHeaders.AUTHORIZATION, "Bearer " + tppToken);
-
+        // todo: add token URI property to config file (https://jira.adorsys.de/browse/XS2AAD-749), add description to Crealogix README (https://jira.adorsys.de/browse/XS2AAD-750)
         Response<TokenResponse> response = httpClient.post(adjustIdpUrl(aspsp.getIdpUrl()) + "/pre-auth/1.0.5/psd2-auth/v1/auth/token")
                                                .jsonBody(String.format(CREDENTIALS_JSON_BODY, username, password))
                                                .headers(headers)
@@ -96,6 +96,7 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
 
     private HttpClient.ResponseHandler<TokenResponse> responseHandler() {
         return (statusCode, responseBody, responseHeaders) -> {
+            // todo: lookup and replace for isSuccess(statusCode) (https://jira.adorsys.de/browse/XS2AAD-751)
             if (statusCode == 200) {
                 return jsonMapper.readValue(responseBody, TokenResponse.class);
             }
