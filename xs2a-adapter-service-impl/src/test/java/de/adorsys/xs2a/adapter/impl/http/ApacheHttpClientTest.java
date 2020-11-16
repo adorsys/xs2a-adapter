@@ -13,7 +13,7 @@ class ApacheHttpClientTest {
     public static final String URI = "https://test.uri";
 
     private CloseableHttpClient httpClient = mock(CloseableHttpClient.class);
-    private ApacheHttpClient client = new ApacheHttpClient(httpClient);
+    private ApacheHttpClient client = new ApacheHttpClient(null, httpClient);
 
     @Test
     void put() {

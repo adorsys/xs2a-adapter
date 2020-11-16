@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.exception.Xs2aAdapterException;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
@@ -22,23 +23,25 @@ public class IngServiceProvider
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter) {
-        return getIngAccountInformationService(aspsp.getUrl(), httpClientFactory, keyStore, linksRewriter);
+                                                                  LinksRewriter linksRewriter,
+                                                                  HttpLogSanitizer logSanitizer) {
+        return getIngAccountInformationService(aspsp.getUrl(), httpClientFactory, keyStore, linksRewriter, logSanitizer);
     }
 
     private IngAccountInformationService getIngAccountInformationService(String baseUrl,
                                                                          HttpClientFactory httpClientFactory,
                                                                          Pkcs12KeyStore keyStore,
-                                                                         LinksRewriter linksRewriter) {
-        HttpClient httpClient = httpClient(httpClientFactory);
-        IngAccountInformationApi accountInformationApi = new IngAccountInformationApi(baseUrl, httpClient);
+                                                                         LinksRewriter linksRewriter,
+                                                                         HttpLogSanitizer logSanitizer) {
+        HttpClient httpClient = httpClient(httpClientFactory, logSanitizer);
+        IngAccountInformationApi accountInformationApi = new IngAccountInformationApi(baseUrl, httpClient, logSanitizer);
         IngOauth2Service ingOauth2Service = ingOauth2Service(baseUrl, httpClient, keyStore);
         return new IngAccountInformationService(accountInformationApi, ingOauth2Service, linksRewriter);
 
     }
 
-    private HttpClient httpClient(HttpClientFactory httpClientFactory) {
-        return httpClientFactory.getHttpClient(getAdapterId(), AdapterConfig.readProperty("ing.qwac.alias"));
+    private HttpClient httpClient(HttpClientFactory httpClientFactory, HttpLogSanitizer logSanitizer) {
+        return httpClientFactory.getHttpClient(getAdapterId(), AdapterConfig.readProperty("ing.qwac.alias"), logSanitizer);
     }
 
     private IngOauth2Service ingOauth2Service(String baseUri, HttpClient httpClient, Pkcs12KeyStore keyStore) {
@@ -60,9 +63,10 @@ public class IngServiceProvider
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp,
                                           HttpClientFactory httpClientFactory,
-                                          Pkcs12KeyStore keyStore) {
+                                          Pkcs12KeyStore keyStore,
+                                          HttpLogSanitizer logSanitizer) {
         String baseUrl = aspsp.getIdpUrl() != null ? aspsp.getIdpUrl() : aspsp.getUrl();
-        return getIngAccountInformationService(baseUrl, httpClientFactory, keyStore, DEFAULT_LINKS_REWRITER);
+        return getIngAccountInformationService(baseUrl, httpClientFactory, keyStore, DEFAULT_LINKS_REWRITER, logSanitizer);
     }
 
     @Override
@@ -74,11 +78,12 @@ public class IngServiceProvider
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter) {
+                                                                LinksRewriter linksRewriter,
+                                                                HttpLogSanitizer logSanitizer) {
 
-        HttpClient httpClient = httpClient(httpClientFactory);
+        HttpClient httpClient = httpClient(httpClientFactory, logSanitizer);
         IngOauth2Service ingOauth2Service = ingOauth2Service(aspsp.getUrl(), httpClient, keyStore);
-        IngPaymentInitiationApi paymentInitiationApi = new IngPaymentInitiationApi(aspsp.getUrl(), httpClient);
+        IngPaymentInitiationApi paymentInitiationApi = new IngPaymentInitiationApi(aspsp.getUrl(), httpClient, logSanitizer);
         return new IngPaymentInitiationService(paymentInitiationApi, ingOauth2Service, linksRewriter);
     }
 }

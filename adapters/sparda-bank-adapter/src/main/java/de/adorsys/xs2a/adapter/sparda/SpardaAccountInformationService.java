@@ -8,6 +8,7 @@ import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.sparda.model.SpardaOK200TransactionDetails;
 import de.adorsys.xs2a.adapter.sparda.model.SpardaTransactionResponse200Json;
@@ -15,7 +16,6 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
 
-import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.consentCreationResponseHandler;
 import static java.util.function.Function.identity;
 
 public class SpardaAccountInformationService extends BaseAccountInformationService {
@@ -46,7 +46,7 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
             requestParams,
             body,
             identity(),
-            consentCreationResponseHandler(idpUri, ConsentsResponse201.class));
+            ResponseHandlers.getHandler().consentCreationResponseHandler(idpUri, ConsentsResponse201.class));
     }
 
     @Override

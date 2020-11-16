@@ -38,7 +38,7 @@ public class CrealogixRequestResponseHandlers {
                     RESPONSE_ERROR_MESSAGE);
             }
 
-            return ResponseHandlers.jsonResponseHandler(tClass).apply(statusCode, responseBody, responseHeaders);
+            return ResponseHandlers.getHandler().jsonResponseHandler(tClass).apply(statusCode, responseBody, responseHeaders);
         };
     }
 

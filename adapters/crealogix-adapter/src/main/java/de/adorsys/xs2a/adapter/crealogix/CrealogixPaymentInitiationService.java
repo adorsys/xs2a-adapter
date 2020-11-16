@@ -51,7 +51,7 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
             paymentId,
             requestHeaders,
             requestParams,
-            ResponseHandlers.jsonResponseHandler(CrealogixPaymentInitiationWithStatusResponse.class))
+            ResponseHandlers.getHandler().jsonResponseHandler(CrealogixPaymentInitiationWithStatusResponse.class))
                 .map(mapper::toPaymentInitiationWithStatusResponse);
     }
 

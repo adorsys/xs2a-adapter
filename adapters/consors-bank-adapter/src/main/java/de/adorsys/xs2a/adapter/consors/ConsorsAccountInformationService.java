@@ -20,7 +20,7 @@ public class ConsorsAccountInformationService extends BaseAccountInformationServ
                                             HttpClient httpClient,
                                             PsuIdHeaderInterceptor interceptor,
                                             LinksRewriter linksRewriter) {
-        super(aspsp, httpClient, interceptor, linksRewriter);
+        super(aspsp, httpClient, interceptor, linksRewriter, null);
     }
 
     @Override

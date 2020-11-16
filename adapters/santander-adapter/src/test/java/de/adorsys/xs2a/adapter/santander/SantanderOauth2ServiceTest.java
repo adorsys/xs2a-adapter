@@ -45,7 +45,7 @@ class SantanderOauth2ServiceTest {
     @BeforeEach
     void setUp() throws Exception {
         Aspsp aspsp = new Aspsp();
-        httpClient = Mockito.spy(new ApacheHttpClient(null));
+        httpClient = Mockito.spy(new ApacheHttpClient(null, null));
         Mockito.doReturn(authorizationServerMetadata())
             .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(SCA_OAUTH_LINK)), Mockito.any());
         Mockito.doReturn(new Response<>(200, null, null))

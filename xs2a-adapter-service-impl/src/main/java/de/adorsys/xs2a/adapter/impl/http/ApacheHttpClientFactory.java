@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.exception.Xs2aAdapterException;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -29,11 +30,11 @@ public class ApacheHttpClientFactory implements HttpClientFactory {
     }
 
     @Override
-    public HttpClient getHttpClient(String adapterId, String qwacAlias, String[] supportedCipherSuites) {
-        return cache.computeIfAbsent(adapterId, key -> createHttpClient(qwacAlias, supportedCipherSuites));
+    public HttpClient getHttpClient(String adapterId, String qwacAlias, String[] supportedCipherSuites, HttpLogSanitizer logSanitizer) {
+        return cache.computeIfAbsent(adapterId, key -> createHttpClient(qwacAlias, supportedCipherSuites, logSanitizer));
     }
 
-    private HttpClient createHttpClient(String qwacAlias, String[] supportedCipherSuites) {
+    private HttpClient createHttpClient(String qwacAlias, String[] supportedCipherSuites, HttpLogSanitizer logSanitizer) {
         synchronized (this) {
             CloseableHttpClient httpClient;
             SSLContext sslContext = getSslContext(qwacAlias);
@@ -42,7 +43,7 @@ public class ApacheHttpClientFactory implements HttpClientFactory {
                 new SSLConnectionSocketFactory(socketFactory, null, supportedCipherSuites, (HostnameVerifier) null);
             httpClientBuilder.setSSLSocketFactory(sslSocketFactory);
             httpClient = httpClientBuilder.build();
-            return new ApacheHttpClient(httpClient);
+            return new ApacheHttpClient(logSanitizer, httpClient);
         }
     }
 

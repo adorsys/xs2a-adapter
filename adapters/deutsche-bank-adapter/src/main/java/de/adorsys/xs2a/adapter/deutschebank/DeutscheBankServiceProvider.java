@@ -18,6 +18,7 @@ package de.adorsys.xs2a.adapter.deutschebank;
 
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BaseDownloadService;
@@ -32,23 +33,26 @@ public class DeutscheBankServiceProvider
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter) {
+                                                                  LinksRewriter linksRewriter,
+                                                                  HttpLogSanitizer logSanitizer) {
         aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "ais"));
         return new DeutscheBankAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
             psuIdTypeHeaderInterceptor,
             linksRewriter,
-            psuPasswordEncryptionService);
+            psuPasswordEncryptionService,
+            logSanitizer);
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter) {
+                                                                LinksRewriter linksRewriter,
+                                                                HttpLogSanitizer logSanitizer) {
         aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "pis"));
         return new DeutscheBankPaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
             psuIdTypeHeaderInterceptor,
             linksRewriter);
     }
@@ -56,8 +60,9 @@ public class DeutscheBankServiceProvider
     @Override
     public DownloadService getDownloadService(String baseUrl,
                                               HttpClientFactory httpClientFactory,
-                                              Pkcs12KeyStore keyStore) {
-        return new BaseDownloadService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
+                                              Pkcs12KeyStore keyStore,
+                                              HttpLogSanitizer logSanitizer) {
+        return new BaseDownloadService(baseUrl, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer));
     }
 
     @Override

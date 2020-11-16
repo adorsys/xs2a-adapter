@@ -137,7 +137,7 @@ public class FeignConfiguration {
                         contentType = contentTypeValues.stream().findFirst().orElse(null);
                     }
                     if (contentType != null && contentType.startsWith(ContentType.MULTIPART_FORM_DATA)) {
-                        return ResponseHandlers.multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class)
+                        return ResponseHandlers.getHandler().multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class)
                             .apply(response.status(),
                                 response.body().asInputStream(),
                                 ResponseHeaders.fromMap(Collections.singletonMap(CONTENT_TYPE, contentType)));

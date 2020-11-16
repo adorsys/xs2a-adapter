@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.impl.http;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.adapter.api.http.ContentType;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
 import org.apache.http.entity.StringEntity;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class Xs2AHttpLogSanitizerTest {
 
     public static final String REPLACEMENT = "******";
-    private final Xs2aHttpLogSanitizer anonymizer = new Xs2aHttpLogSanitizer();
+    private final List<String> whitelist = Arrays.asList("recurringIndicator", "validUntil", "frequencyPerDay", "combinedServiceIndicator");
+    private final HttpLogSanitizer anonymizer = Xs2aHttpLogSanitizer.getLogSanitizer(whitelist);
 
     @Test
     void sanitize() {

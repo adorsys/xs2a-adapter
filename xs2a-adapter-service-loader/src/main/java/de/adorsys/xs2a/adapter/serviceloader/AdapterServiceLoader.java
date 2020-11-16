@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.exception.AdapterNotFoundException;
 import de.adorsys.xs2a.adapter.api.exception.AspspRegistrationNotFoundException;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import org.slf4j.MDC;
@@ -21,19 +22,22 @@ public class AdapterServiceLoader {
     protected final LinksRewriter paymentInitiationLinksRewriter;
     private final Map<Class<?>, ServiceLoader<? extends AdapterServiceProvider>> serviceLoaders = new HashMap<>();
     protected final boolean chooseFirstFromMultipleAspsps;
+    private final HttpLogSanitizer logSanitizer;
 
     public AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
                                 Pkcs12KeyStore keyStore,
                                 HttpClientFactory httpClientFactory,
                                 LinksRewriter accountInformationLinksRewriter,
                                 LinksRewriter paymentInitiationLinksRewriter,
-                                boolean chooseFirstFromMultipleAspsps) {
+                                boolean chooseFirstFromMultipleAspsps,
+                                HttpLogSanitizer logSanitizer) {
         this.aspspRepository = aspspRepository;
         this.keyStore = keyStore;
         this.httpClientFactory = httpClientFactory;
         this.accountInformationLinksRewriter = accountInformationLinksRewriter;
         this.paymentInitiationLinksRewriter = paymentInitiationLinksRewriter;
         this.chooseFirstFromMultipleAspsps = chooseFirstFromMultipleAspsps;
+        this.logSanitizer = logSanitizer;
     }
 
     public AccountInformationService getAccountInformationService(RequestHeaders requestHeaders) {
@@ -41,7 +45,7 @@ public class AdapterServiceLoader {
         String adapterId = aspsp.getAdapterId();
         return getServiceProvider(AccountInformationServiceProvider.class, adapterId)
                    .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-                   .getAccountInformationService(aspsp, httpClientFactory, keyStore, accountInformationLinksRewriter);
+                   .getAccountInformationService(aspsp, httpClientFactory, keyStore, accountInformationLinksRewriter, logSanitizer);
     }
 
     protected Aspsp getAspsp(RequestHeaders requestHeaders) {
@@ -109,7 +113,7 @@ public class AdapterServiceLoader {
         String adapterId = aspsp.getAdapterId();
         return getServiceProvider(PaymentInitiationServiceProvider.class, adapterId)
                    .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-                   .getPaymentInitiationService(aspsp, httpClientFactory, keyStore, paymentInitiationLinksRewriter);
+                   .getPaymentInitiationService(aspsp, httpClientFactory, keyStore, paymentInitiationLinksRewriter, logSanitizer);
     }
 
     public Oauth2Service getOauth2Service(RequestHeaders requestHeaders) {
@@ -117,7 +121,7 @@ public class AdapterServiceLoader {
         String adapterId = aspsp.getAdapterId();
         return getServiceProvider(Oauth2ServiceProvider.class, adapterId)
                    .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-                   .getOauth2Service(aspsp, httpClientFactory, keyStore);
+                   .getOauth2Service(aspsp, httpClientFactory, keyStore, logSanitizer);
     }
 
     public DownloadService getDownloadService(RequestHeaders requestHeaders) {
@@ -126,7 +130,7 @@ public class AdapterServiceLoader {
         String baseUrl = Optional.ofNullable(aspsp.getIdpUrl()).orElseGet(aspsp::getUrl);
         return getServiceProvider(DownloadServiceProvider.class, adapterId)
                    .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-                   .getDownloadService(baseUrl, httpClientFactory, keyStore);
+                   .getDownloadService(baseUrl, httpClientFactory, keyStore, logSanitizer);
     }
 
     public EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(RequestHeaders requestHeaders) {
@@ -134,7 +138,7 @@ public class AdapterServiceLoader {
         String adapterId = aspsp.getAdapterId();
         return getServiceProvider(EmbeddedPreAuthorisationServiceProvider.class, adapterId)
             .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-            .getEmbeddedPreAuthorisationService(aspsp, httpClientFactory);
+            .getEmbeddedPreAuthorisationService(aspsp, httpClientFactory, logSanitizer);
     }
 
     private String buildAspspNotFoundErrorMessage(String bankCode, String bic) {

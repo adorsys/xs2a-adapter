@@ -47,7 +47,7 @@ class SpardaOauth2ServiceTest {
         aspsp = new Aspsp();
         aspsp.setBic(BIC);
         aspsp.setIdpUrl(AUTH_HOST + " " + TOKEN_HOST);
-        httpClient = Mockito.spy(new ApacheHttpClient(null));
+        httpClient = Mockito.spy(new ApacheHttpClient(null, null));
         Mockito.lenient()
             .doReturn(new Response<>(200, null, ResponseHeaders.emptyResponseHeaders()))
             .when(httpClient).send(Mockito.any(), Mockito.any());

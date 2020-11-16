@@ -19,6 +19,7 @@ package de.adorsys.xs2a.adapter.verlag;
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BaseDownloadService;
@@ -46,29 +47,32 @@ public class VerlagServiceProvider
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter) {
+                                                                  LinksRewriter linksRewriter,
+                                                                  HttpLogSanitizer logSanitizer) {
         return new VerlagAccountInformationService(aspsp,
             apiKeyEntry,
-            httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
+            httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES, logSanitizer),
             psuIdTypeHeaderInterceptor,
-            linksRewriter);
+            linksRewriter,
+            logSanitizer);
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter) {
+                                                                LinksRewriter linksRewriter,
+                                                                HttpLogSanitizer logSanitizer) {
         return new VerlagPaymentInitiationService(aspsp,
             apiKeyEntry,
-            httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
+            httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES, logSanitizer),
             psuIdTypeHeaderInterceptor,
             linksRewriter);
     }
 
     @Override
-    public DownloadService getDownloadService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new BaseDownloadService(baseUrl, httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES));
+    public DownloadService getDownloadService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore, HttpLogSanitizer logSanitizer) {
+        return new BaseDownloadService(baseUrl, httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES, logSanitizer));
     }
 
     @Override

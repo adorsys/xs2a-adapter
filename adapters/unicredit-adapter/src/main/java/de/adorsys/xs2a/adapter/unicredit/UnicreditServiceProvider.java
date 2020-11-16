@@ -18,6 +18,7 @@ package de.adorsys.xs2a.adapter.unicredit;
 
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
@@ -27,8 +28,9 @@ public class UnicreditServiceProvider implements AccountInformationServiceProvid
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter) {
-        return new UnicreditAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
+                                                                  LinksRewriter linksRewriter,
+                                                                  HttpLogSanitizer logSanitizer) {
+        return new UnicreditAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
             linksRewriter);
     }
 
@@ -36,8 +38,9 @@ public class UnicreditServiceProvider implements AccountInformationServiceProvid
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter) {
-        return new UnicreditPaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
+                                                                LinksRewriter linksRewriter,
+                                                                HttpLogSanitizer logSanitizer) {
+        return new UnicreditPaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
             linksRewriter);
     }
 

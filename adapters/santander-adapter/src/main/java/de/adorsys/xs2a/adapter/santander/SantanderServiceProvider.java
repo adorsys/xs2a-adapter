@@ -19,6 +19,7 @@ package de.adorsys.xs2a.adapter.santander;
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
@@ -29,8 +30,9 @@ public class SantanderServiceProvider
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter) {
-        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
+                                                                  LinksRewriter linksRewriter,
+                                                                  HttpLogSanitizer logSanitizer) {
+        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId(),  logSanitizer);
         SantanderAccessTokenService tokenService = getAccessTokenService(httpClient);
         return new SantanderAccountInformationService(aspsp, tokenService, httpClient, linksRewriter);
     }
@@ -45,8 +47,9 @@ public class SantanderServiceProvider
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter) {
-        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
+                                                                LinksRewriter linksRewriter,
+                                                                HttpLogSanitizer logSanitizer) {
+        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId(), logSanitizer);
         SantanderAccessTokenService accessTokenService = getAccessTokenService(httpClient);
         return new SantanderPaymentInitiationService(aspsp, httpClient, linksRewriter, accessTokenService);
     }
@@ -57,8 +60,8 @@ public class SantanderServiceProvider
     }
 
     @Override
-    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore, HttpLogSanitizer logSanitizer) {
+        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId(), logSanitizer);
         return SantanderOauth2Service.create(aspsp, httpClient, keyStore);
     }
 }

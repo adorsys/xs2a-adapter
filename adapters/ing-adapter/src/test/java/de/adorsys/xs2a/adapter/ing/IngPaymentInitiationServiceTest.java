@@ -40,7 +40,7 @@ class IngPaymentInitiationServiceTest {
     @Test
     void getPeriodicPain001PaymentInformationDeserialization() {
         HttpClient httpClient = Mockito.spy(AbstractHttpClient.class);
-        IngPaymentInitiationApi pia = new IngPaymentInitiationApi(null, httpClient);
+        IngPaymentInitiationApi pia = new IngPaymentInitiationApi(null, httpClient, null);
         IngPaymentInitiationService pis = new IngPaymentInitiationService(pia, Mockito.mock(IngOauth2Service.class), null);
         Mockito.doAnswer(invocationOnMock -> {
             HttpClient.ResponseHandler responseHandler = invocationOnMock.getArgument(1, HttpClient.ResponseHandler.class);

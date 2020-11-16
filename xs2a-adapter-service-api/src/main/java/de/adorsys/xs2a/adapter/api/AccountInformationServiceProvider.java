@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.adapter.api;
 
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
@@ -25,5 +26,6 @@ public interface AccountInformationServiceProvider extends AdapterServiceProvide
     AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                            HttpClientFactory httpClientFactory,
                                                            Pkcs12KeyStore keyStore,
-                                                           LinksRewriter linksRewriter);
+                                                           LinksRewriter linksRewriter,
+                                                           HttpLogSanitizer logSanitizer);
 }

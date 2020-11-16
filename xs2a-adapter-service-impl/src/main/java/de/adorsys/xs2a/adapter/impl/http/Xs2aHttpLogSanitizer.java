@@ -16,6 +16,7 @@
 
 package de.adorsys.xs2a.adapter.impl.http;
 
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
@@ -25,7 +26,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Xs2aHttpLogSanitizer {
+public class Xs2aHttpLogSanitizer implements HttpLogSanitizer {
+    private static HttpLogSanitizer instance;
+
     private static final Logger logger = LoggerFactory.getLogger(Xs2aHttpLogSanitizer.class);
     private static final String APPLICATION_JSON = "application/json";
     static final String REPLACEMENT = "******";
@@ -34,7 +37,7 @@ public class Xs2aHttpLogSanitizer {
     private final List<Pattern> patterns = new ArrayList<>();
     private JsonMapper objectMapper = new JacksonObjectMapper();
 
-    public Xs2aHttpLogSanitizer() {
+    private Xs2aHttpLogSanitizer(List<String> whitelist) {
         patterns.add(Pattern.compile("(consents|accounts|authorisations|credit-transfers|target-2-payments)/[^/?\\s\\[\"]+(.*?)"));
 
         sanitizedHeaders.addAll(Arrays.asList(
@@ -48,11 +51,18 @@ public class Xs2aHttpLogSanitizer {
             "TPP-Signature-Certificate",
             "Digest"));
 
-        nonSanitizedBodyProperties.addAll(Arrays.asList(
-            "recurringIndicator",
-            "validUntil",
-            "frequencyPerDay",
-            "combinedServiceIndicator"));
+        nonSanitizedBodyProperties.addAll(whitelist);
+    }
+
+    public static HttpLogSanitizer getLogSanitizer(List<String> whitelist) {
+        if (instance == null) {
+            instance = new Xs2aHttpLogSanitizer(whitelist);
+        }
+        return instance;
+    }
+
+    public static HttpLogSanitizer getLogSanitizer() {
+        return getLogSanitizer(Collections.emptyList());
     }
 
     public String sanitizeHeader(String name, String value) {
@@ -73,10 +83,10 @@ public class Xs2aHttpLogSanitizer {
         return replacedData;
     }
 
-    public String sanitizeRequestBody(HttpEntity entity, String contentType) {
+    public String sanitizeRequestBody(Object entity, String contentType) {
         if (contentType.startsWith(APPLICATION_JSON)) {
             try {
-                return sanitizeStringifiedJsonBody(EntityUtils.toString(entity));
+                return sanitizeStringifiedJsonBody(EntityUtils.toString((HttpEntity) entity));
             } catch (Exception e) {
                 logger.error("Can't parse request as json. It will be replaced with {}", REPLACEMENT);
             }

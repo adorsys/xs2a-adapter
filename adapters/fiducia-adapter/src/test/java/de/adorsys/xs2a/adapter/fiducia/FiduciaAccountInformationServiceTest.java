@@ -33,7 +33,7 @@ class FiduciaAccountInformationServiceTest {
     @BeforeEach
     void setUp() {
         httpClient = Mockito.spy(AbstractHttpClient.class);
-        service = new FiduciaAccountInformationService(new Aspsp(), httpClient, null, new IdentityLinksRewriter());
+        service = new FiduciaAccountInformationService(new Aspsp(), httpClient, null, new IdentityLinksRewriter(), null);
     }
 
     @Test

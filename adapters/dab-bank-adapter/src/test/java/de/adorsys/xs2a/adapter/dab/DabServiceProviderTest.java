@@ -18,7 +18,7 @@ class DabServiceProviderTest {
     @Test
     void getAccountInformationService() {
         AccountInformationService actualService
-            = provider.getAccountInformationService(null, factory, null, null);
+            = provider.getAccountInformationService(null, factory, null, null, null);
 
         assertThat(actualService)
             .isNotNull()
@@ -28,7 +28,7 @@ class DabServiceProviderTest {
     @Test
     void getPaymentInitiationService() {
         PaymentInitiationService actualService
-            = provider.getPaymentInitiationService(null, factory, null, null);
+            = provider.getPaymentInitiationService(null, factory, null, null, null);
 
         assertThat(actualService)
             .isNotNull()

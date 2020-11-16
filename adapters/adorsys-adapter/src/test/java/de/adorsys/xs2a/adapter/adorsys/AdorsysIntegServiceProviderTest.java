@@ -24,7 +24,7 @@ class AdorsysIntegServiceProviderTest {
     @Test
     void getPaymentInitiationService() {
         PaymentInitiationService actualService
-            = provider.getPaymentInitiationService(null, httpClientFactory, null, null);
+            = provider.getPaymentInitiationService(null, httpClientFactory, null, null, null);
 
         assertThat(actualService)
             .isNotNull()
@@ -34,7 +34,7 @@ class AdorsysIntegServiceProviderTest {
     @Test
     void getAccountInformationService() {
         AccountInformationService actualService
-            = provider.getAccountInformationService(null, httpClientFactory, null, null);
+            = provider.getAccountInformationService(null, httpClientFactory, null, null, null);
 
         assertThat(actualService)
             .isNotNull()
@@ -44,7 +44,7 @@ class AdorsysIntegServiceProviderTest {
     @Test
     void getOauth2Service() {
         Oauth2Service actualService
-            = provider.getOauth2Service(null, httpClientFactory, null);
+            = provider.getOauth2Service(null, httpClientFactory, null, null);
 
         assertThat(actualService)
             .isNotNull()

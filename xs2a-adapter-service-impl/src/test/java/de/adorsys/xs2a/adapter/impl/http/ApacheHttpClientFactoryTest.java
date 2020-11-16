@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.impl.http;
 
 import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ class ApacheHttpClientFactoryTest {
 
     private ApacheHttpClientFactory factory;
     private Pkcs12KeyStore pkcs12KeyStore;
+    private final HttpLogSanitizer logSanitizer = mock(HttpLogSanitizer.class);
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -36,12 +38,12 @@ class ApacheHttpClientFactoryTest {
 
     @Test
     void getHttpClientCachesClientsByAdapterId() {
-        HttpClient httpClient = factory.getHttpClient("test-adapter");
-        HttpClient httpClient2 = factory.getHttpClient("test-adapter");
+        HttpClient httpClient = factory.getHttpClient("test-adapter", logSanitizer);
+        HttpClient httpClient2 = factory.getHttpClient("test-adapter", logSanitizer);
 
         assertThat(httpClient).isSameAs(httpClient2);
 
-        HttpClient httpClient3 = factory.getHttpClient("another-test-adapter");
+        HttpClient httpClient3 = factory.getHttpClient("another-test-adapter", logSanitizer);
 
         assertThat(httpClient).isNotSameAs(httpClient3);
     }
@@ -50,6 +52,6 @@ class ApacheHttpClientFactoryTest {
     void getHttpClient_throwsException() throws CertificateException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, UnrecoverableEntryException, IOException {
         when(pkcs12KeyStore.getSslContext(any())).thenThrow(new IOException());
 
-        assertThrows(UncheckedIOException.class, () -> factory.getHttpClient("test-adapter"));
+        assertThrows(UncheckedIOException.class, () -> factory.getHttpClient("test-adapter", logSanitizer));
     }
 }

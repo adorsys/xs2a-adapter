@@ -26,10 +26,13 @@ xs2a-adapter:
   audit:
     sanitized: true
   wire-mock-mode: false
+  sanitizer:
+    whitelist: recurringIndicator, validUntil, frequencyPerDay, combinedServiceIndicator
 
 graylog:
   host: localhost
   port: 12201
+
 
 ---
 spring:

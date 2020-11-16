@@ -143,7 +143,7 @@ class ComdirectOauth2ServiceTest {
     void getToken() throws IOException {
         Aspsp aspsp = new Aspsp();
         aspsp.setUrl(BASE_URI);
-        HttpClient httpClient = Mockito.spy(new ApacheHttpClient(null));
+        HttpClient httpClient = Mockito.spy(new ApacheHttpClient(null, null));
         doReturn(new Response<>(200, new TokenResponse(), ResponseHeaders.emptyResponseHeaders()))
             .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), Mockito.any());
         oauth2Service = ComdirectOauth2Service.create(aspsp, httpClient, keyStore);

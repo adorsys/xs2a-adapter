@@ -18,6 +18,7 @@ package de.adorsys.xs2a.adapter.commerzbank;
 
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
@@ -29,8 +30,9 @@ public class CommerzbankServiceProvider
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter) {
-        return new CommerzbankAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
+                                                                  LinksRewriter linksRewriter,
+                                                                  HttpLogSanitizer logSanitizer) {
+        return new CommerzbankAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
             linksRewriter);
     }
 
@@ -38,8 +40,9 @@ public class CommerzbankServiceProvider
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter) {
-        return new BasePaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
+                                                                LinksRewriter linksRewriter,
+                                                                HttpLogSanitizer logSanitizer) {
+        return new BasePaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
             linksRewriter);
     }
 
@@ -49,7 +52,10 @@ public class CommerzbankServiceProvider
     }
 
     @Override
-    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return CommerzbankOauth2Service.create(aspsp, httpClientFactory.getHttpClient(getAdapterId()), keyStore);
+    public Oauth2Service getOauth2Service(Aspsp aspsp,
+                                          HttpClientFactory httpClientFactory,
+                                          Pkcs12KeyStore keyStore,
+                                          HttpLogSanitizer logSanitizer) {
+        return CommerzbankOauth2Service.create(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer), keyStore);
     }
 }

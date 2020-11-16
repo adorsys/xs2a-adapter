@@ -29,6 +29,7 @@ import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
+import de.adorsys.xs2a.adapter.impl.http.Xs2aHttpLogSanitizer;
 import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -87,12 +88,12 @@ class AdorsysPaymentInitiationServiceWireMockTest {
         wireMockServer.start();
 
 
-        HttpClient httpClient = new ApacheHttpClient(HttpClientBuilder.create().build());
-        HttpClientFactory httpClientFactory = (adapterId, qwacAlias, supportedCipherSuites) -> httpClient;
+        HttpClient httpClient = new ApacheHttpClient(Xs2aHttpLogSanitizer.getLogSanitizer(), HttpClientBuilder.create().build());
+        HttpClientFactory httpClientFactory = (adapterId, qwacAlias, supportedCipherSuites, logSanitizer) -> httpClient;
         LinksRewriter linksRewriter = new IdentityLinksRewriter();
         Aspsp aspsp = new Aspsp();
         aspsp.setUrl("http://localhost:" + wireMockServer.port());
-        service = new AdorsysIntegServiceProvider().getPaymentInitiationService(aspsp, httpClientFactory, null, linksRewriter);
+        service = new AdorsysIntegServiceProvider().getPaymentInitiationService(aspsp, httpClientFactory, null, linksRewriter, null);
     }
 
     @AfterAll

@@ -8,6 +8,7 @@ import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
+import de.adorsys.xs2a.adapter.impl.http.Xs2aHttpLogSanitizer;
 import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.jupiter.api.extension.*;
@@ -37,8 +38,8 @@ class ServiceWireMockTestExtension implements BeforeAllCallback, AfterAllCallbac
 
         Aspsp aspsp = new Aspsp();
         aspsp.setUrl("http://localhost:" + wireMockServer.port());
-        HttpClient httpClient = new ApacheHttpClient(HttpClientBuilder.create().build());
-        HttpClientFactory httpClientFactory = (adapterId, qwacAlias, supportedCipherSuites) -> httpClient;
+        HttpClient httpClient = new ApacheHttpClient(Xs2aHttpLogSanitizer.getLogSanitizer(), HttpClientBuilder.create().build());
+        HttpClientFactory httpClientFactory = (adapterId, qwacAlias, supportedCipherSuites, logSanitizer) -> httpClient;
         Pkcs12KeyStore keyStore = new Pkcs12KeyStore(getClass().getClassLoader()
             .getResourceAsStream("de/adorsys/xs2a/adapter/test/test_keystore.p12"));
         LinksRewriter linksRewriter = new IdentityLinksRewriter();
@@ -47,7 +48,8 @@ class ServiceWireMockTestExtension implements BeforeAllCallback, AfterAllCallbac
                 ((AccountInformationServiceProvider) serviceProvider).getAccountInformationService(aspsp,
                     httpClientFactory,
                     keyStore,
-                    linksRewriter);
+                    linksRewriter,
+                    null);
             getStore(context).put(AccountInformationService.class, service);
         }
         if (serviceProvider instanceof PaymentInitiationServiceProvider) {
@@ -55,14 +57,16 @@ class ServiceWireMockTestExtension implements BeforeAllCallback, AfterAllCallbac
                 ((PaymentInitiationServiceProvider) serviceProvider).getPaymentInitiationService(aspsp,
                     httpClientFactory,
                     keyStore,
-                    linksRewriter);
+                    linksRewriter,
+                    null);
             getStore(context).put(PaymentInitiationService.class, service);
         }
         if (serviceProvider instanceof Oauth2ServiceProvider) {
             Oauth2Service service =
                 ((Oauth2ServiceProvider) serviceProvider).getOauth2Service(aspsp,
                     httpClientFactory,
-                    keyStore);
+                    keyStore,
+                    null);
             getStore(context).put(Oauth2Service.class, service);
         }
     }

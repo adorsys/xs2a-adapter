@@ -24,7 +24,7 @@ class SparkassePaymentInitiationServiceTest {
     private final ArgumentCaptor<Request.Builder> builderCaptor =
         ArgumentCaptor.forClass(Request.Builder.class);
     private final PaymentInitiationService service = new SparkasseServiceProvider()
-        .getPaymentInitiationService(new Aspsp(), (x, y, z) -> client, null, new IdentityLinksRewriter());
+        .getPaymentInitiationService(new Aspsp(), (x, y, z, d) -> client, null, new IdentityLinksRewriter(), null);
 
     @Test
     void initiatePayment() {

@@ -18,6 +18,7 @@ package de.adorsys.xs2a.adapter.serviceloader;
 
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
@@ -28,7 +29,8 @@ public class TestServiceProvider
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter) {
+                                                                  LinksRewriter linksRewriter,
+                                                                  HttpLogSanitizer logSanitizer) {
         return new TestAccountInformationService();
     }
 
@@ -36,21 +38,24 @@ public class TestServiceProvider
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter) {
+                                                                LinksRewriter linksRewriter,
+                                                                HttpLogSanitizer logSanitizer) {
         return new TestPaymentInitiationService();
     }
 
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp,
                                           HttpClientFactory httpClientFactory,
-                                          Pkcs12KeyStore keyStore) {
+                                          Pkcs12KeyStore keyStore,
+                                          HttpLogSanitizer logSanitizer) {
         return new TestOauth2Service();
     }
 
     @Override
     public DownloadService getDownloadService(String baseUrl,
                                               HttpClientFactory httpClientFactory,
-                                              Pkcs12KeyStore keyStore) {
+                                              Pkcs12KeyStore keyStore,
+                                              HttpLogSanitizer logSanitizer) {
         return new TestDownloadService();
     }
 
@@ -60,7 +65,9 @@ public class TestServiceProvider
     }
 
     @Override
-    public EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp, HttpClientFactory httpClientFactory) {
+    public EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp,
+                                                                              HttpClientFactory httpClientFactory,
+                                                                              HttpLogSanitizer logSanitizer) {
         return new TestEmbeddedPreAuthorisationService();
     }
 }

@@ -37,7 +37,7 @@ class ServiceLoaderTest {
         PaymentInitiationServiceProvider provider = loader.iterator().next();
 
         assertThat(provider).isInstanceOf(DeutscheBankServiceProvider.class);
-        assertThat(provider.getPaymentInitiationService(ASPSP, httpClientFactory, null, null)).isNotNull();
+        assertThat(provider.getPaymentInitiationService(ASPSP, httpClientFactory, null, null, null)).isNotNull();
     }
 
     @Test
@@ -46,7 +46,7 @@ class ServiceLoaderTest {
         AccountInformationServiceProvider provider = loader.iterator().next();
 
         assertThat(provider).isInstanceOf(DeutscheBankServiceProvider.class);
-        assertThat(provider.getAccountInformationService(ASPSP, httpClientFactory, null, null)).isNotNull();
+        assertThat(provider.getAccountInformationService(ASPSP, httpClientFactory, null, null, null)).isNotNull();
     }
 
     private static Aspsp buildAspspWithUrl() {

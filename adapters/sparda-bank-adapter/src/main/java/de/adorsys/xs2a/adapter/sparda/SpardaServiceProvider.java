@@ -19,6 +19,7 @@ package de.adorsys.xs2a.adapter.sparda;
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
@@ -30,8 +31,9 @@ public class SpardaServiceProvider implements AccountInformationServiceProvider,
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter) {
-        return new SpardaAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
+                                                                  LinksRewriter linksRewriter,
+                                                                  HttpLogSanitizer logSanitizer) {
+        return new SpardaAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
             linksRewriter, JWT_SERVICE);
     }
 
@@ -39,15 +41,16 @@ public class SpardaServiceProvider implements AccountInformationServiceProvider,
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter) {
-        return new SpardaPaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
+                                                                LinksRewriter linksRewriter,
+                                                                HttpLogSanitizer logSanitizer) {
+        return new SpardaPaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
             linksRewriter, JWT_SERVICE);
     }
 
     @Override
-    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore, HttpLogSanitizer logSanitizer) {
         return SpardaOauth2Service.create(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
             keyStore,
             AdapterConfig.readProperty("sparda.client_id"));
     }

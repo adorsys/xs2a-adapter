@@ -18,6 +18,7 @@ package de.adorsys.xs2a.adapter.fiducia;
 
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.http.RequestSigningInterceptor;
@@ -28,20 +29,23 @@ public class FiduciaServiceProvider implements AccountInformationServiceProvider
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter) {
+                                                                  LinksRewriter linksRewriter,
+                                                                  HttpLogSanitizer logSanitizer) {
         return new FiduciaAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
             new RequestSigningInterceptor(keyStore),
-            linksRewriter);
+            linksRewriter,
+            logSanitizer);
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter) {
+                                                                LinksRewriter linksRewriter,
+                                                                HttpLogSanitizer logSanitizer) {
         return new FiduciaPaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
             new RequestSigningInterceptor(keyStore),
             linksRewriter);
     }

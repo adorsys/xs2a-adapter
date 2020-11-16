@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.impl.http;
 
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -29,11 +30,12 @@ import java.util.stream.Collectors;
 
 public class ApacheHttpClient extends AbstractHttpClient {
     private static final Logger logger = LoggerFactory.getLogger(ApacheHttpClient.class);
-    private final Xs2aHttpLogSanitizer logSanitizer = new Xs2aHttpLogSanitizer();
 
+    private final HttpLogSanitizer logSanitizer;
     private final CloseableHttpClient httpClient;
 
-    public ApacheHttpClient(CloseableHttpClient httpClient) {
+    public ApacheHttpClient(HttpLogSanitizer logSanitizer, CloseableHttpClient httpClient) {
+        this.logSanitizer = logSanitizer;
         this.httpClient = httpClient;
     }
 

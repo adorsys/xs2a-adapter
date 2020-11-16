@@ -19,7 +19,7 @@ class SparkasseServiceProviderTest {
     @Test
     void getAccountInformationService() {
         AccountInformationService actualService
-            = provider.getAccountInformationService(null, clientFactory, null, null);
+            = provider.getAccountInformationService(null, clientFactory, null, null, null);
 
         assertThat(actualService).isInstanceOf(BaseAccountInformationService.class);
     }
@@ -27,7 +27,7 @@ class SparkasseServiceProviderTest {
     @Test
     void getPaymentInitiationService() {
         PaymentInitiationService actualService
-            = provider.getPaymentInitiationService(null, clientFactory, null, null);
+            = provider.getPaymentInitiationService(null, clientFactory, null, null, null);
 
         assertThat(actualService).isInstanceOf(SparkassePaymentInitiationService.class);
     }
@@ -35,7 +35,7 @@ class SparkasseServiceProviderTest {
     @Test
     void getOauth2Service() {
         Oauth2Service actualService
-            = provider.getOauth2Service(null, clientFactory, null);
+            = provider.getOauth2Service(null, clientFactory, null, null);
 
         assertThat(actualService).isInstanceOf(SparkasseOauth2Service.class);
     }
