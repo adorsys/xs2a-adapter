@@ -21,7 +21,7 @@ class Xs2AHttpLogSanitizerTest {
 
     public static final String REPLACEMENT = "******";
     private final List<String> whitelist = Arrays.asList("recurringIndicator", "validUntil", "frequencyPerDay", "combinedServiceIndicator");
-    private final HttpLogSanitizer anonymizer = Xs2aHttpLogSanitizer.getLogSanitizer(whitelist);
+    private final HttpLogSanitizer anonymizer = new Xs2aHttpLogSanitizer(whitelist);
 
     @Test
     void sanitize() {

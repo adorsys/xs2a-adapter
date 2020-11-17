@@ -17,8 +17,8 @@
 package de.adorsys.xs2a.adapter.comdirect;
 
 import de.adorsys.xs2a.adapter.api.*;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
@@ -30,19 +30,37 @@ public class ComdirectServiceProvider
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
+                                                                  LinksRewriter linksRewriter) {
+        return new ComdirectAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
+            linksRewriter, null);
+    }
+
+    @Override
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   LinksRewriter linksRewriter,
-                                                                  HttpLogSanitizer logSanitizer) {
-        return new ComdirectAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
-            linksRewriter);
+                                                                  HttpClientConfig httpClientConfig) {
+        return new ComdirectAccountInformationService(aspsp,
+            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            linksRewriter,
+            httpClientConfig.getLogSanitizer());
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter,
-                                                                HttpLogSanitizer logSanitizer) {
-        return new BasePaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
+                                                                LinksRewriter linksRewriter) {
+        return new BasePaymentInitiationService(aspsp,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            linksRewriter);
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
+                                                                HttpClientConfig clientConfig,
+                                                                LinksRewriter linksRewriter) {
+        return new BasePaymentInitiationService(aspsp,
+            clientConfig.getClientFactory().getHttpClient(getAdapterId()),
             linksRewriter);
     }
 
@@ -52,7 +70,14 @@ public class ComdirectServiceProvider
     }
 
     @Override
-    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore, HttpLogSanitizer logSanitizer) {
-        return ComdirectOauth2Service.create(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer), keyStore);
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return ComdirectOauth2Service.create(aspsp, httpClientFactory.getHttpClient(getAdapterId()), keyStore);
+    }
+
+    @Override
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientConfig httpClientConfig) {
+        return ComdirectOauth2Service.create(aspsp,
+            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            httpClientConfig.getKeyStore());
     }
 }

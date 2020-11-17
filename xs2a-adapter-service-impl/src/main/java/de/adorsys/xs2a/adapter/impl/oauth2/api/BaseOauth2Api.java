@@ -4,26 +4,22 @@ import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.oauth.Oauth2Api;
 import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
-import de.adorsys.xs2a.adapter.impl.http.Xs2aHttpLogSanitizer;
 import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
 
 public class BaseOauth2Api<T extends AuthorisationServerMetaData> implements Oauth2Api {
-    private static final HttpLogSanitizer DEFAULT_LOG_SANITIZER = Xs2aHttpLogSanitizer.getLogSanitizer();
 
     private final HttpClient httpClient;
     private final Class<T> metaDataModelClass;
     private final ResponseHandlers responseHandlers;
 
     public BaseOauth2Api(HttpClient httpClient, Class<T> metaDataModelClass) {
-        this.httpClient = httpClient;
-        this.metaDataModelClass = metaDataModelClass;
-        this.responseHandlers = ResponseHandlers.getHandler(DEFAULT_LOG_SANITIZER);
+        this(httpClient, metaDataModelClass, null);
     }
 
     public BaseOauth2Api(HttpClient httpClient, Class<T> metaDataModelClass, HttpLogSanitizer logSanitizer) {
         this.httpClient = httpClient;
         this.metaDataModelClass = metaDataModelClass;
-        this.responseHandlers = ResponseHandlers.getHandler(logSanitizer);
+        this.responseHandlers = new ResponseHandlers(logSanitizer);
     }
 
     @Override

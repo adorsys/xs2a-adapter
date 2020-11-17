@@ -31,7 +31,7 @@ class CrealogixAccountInformationServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new CrealogixAccountInformationService(aspsp, httpClient, linksRewriter);
+        service = new CrealogixAccountInformationService(aspsp, httpClient, linksRewriter, null);
     }
 
     @Test

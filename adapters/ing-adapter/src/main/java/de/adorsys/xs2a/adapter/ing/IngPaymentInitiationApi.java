@@ -5,10 +5,11 @@ import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
-import de.adorsys.xs2a.adapter.impl.http.*;
+import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
+import de.adorsys.xs2a.adapter.impl.http.JsonMapper;
+import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
+import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.ing.model.*;
-
-import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
 
@@ -27,11 +28,7 @@ public class IngPaymentInitiationApi {
     public IngPaymentInitiationApi(String baseUri, HttpClient httpClient, HttpLogSanitizer logSanitizer) {
         this.baseUri = baseUri;
         this.httpClient = httpClient;
-        this.responseHandlers = ResponseHandlers.getHandler(getOrDefaultLogSanitizer(logSanitizer));
-    }
-
-    private HttpLogSanitizer getOrDefaultLogSanitizer(HttpLogSanitizer logSanitizer) {
-        return Optional.ofNullable(logSanitizer).orElse(Xs2aHttpLogSanitizer.getLogSanitizer());
+        this.responseHandlers = new ResponseHandlers(logSanitizer);
     }
 
     public Response<IngPaymentInitiationResponse> initiatePayment(IngPaymentProduct paymentProduct,

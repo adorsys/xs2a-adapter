@@ -16,11 +16,14 @@
 
 package de.adorsys.xs2a.adapter.api;
 
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
 public interface EmbeddedPreAuthorisationServiceProvider extends AdapterServiceProvider {
 
-    EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp, HttpClientFactory httpClientFactory, HttpLogSanitizer logSanitizer);
+    @Deprecated
+    EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp, HttpClientFactory httpClientFactory);
+
+    EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp, HttpClientConfig httpClientConfig);
 }

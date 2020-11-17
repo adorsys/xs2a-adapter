@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class AuditHandlerInterceptor extends HandlerInterceptorAdapter {
 
-    private final HttpLogSanitizer logSanitizer = Xs2aHttpLogSanitizer.getLogSanitizer();
+    private final HttpLogSanitizer logSanitizer = new Xs2aHttpLogSanitizer();
     private final boolean sanitized;
 
     public AuditHandlerInterceptor() {

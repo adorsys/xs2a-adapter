@@ -30,13 +30,18 @@ import java.util.stream.Collectors;
 
 public class ApacheHttpClient extends AbstractHttpClient {
     private static final Logger logger = LoggerFactory.getLogger(ApacheHttpClient.class);
+    private static final HttpLogSanitizer DEFAULT_LOG_SANITIZER = new Xs2aHttpLogSanitizer();
 
     private final HttpLogSanitizer logSanitizer;
     private final CloseableHttpClient httpClient;
 
     public ApacheHttpClient(HttpLogSanitizer logSanitizer, CloseableHttpClient httpClient) {
-        this.logSanitizer = logSanitizer;
+        this.logSanitizer = getOrDefaultLogSanitizer(logSanitizer);
         this.httpClient = httpClient;
+    }
+
+    private HttpLogSanitizer getOrDefaultLogSanitizer(HttpLogSanitizer logSanitizer) {
+        return Optional.ofNullable(logSanitizer).orElse(DEFAULT_LOG_SANITIZER);
     }
 
     @Override

@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.adorsys;
 import de.adorsys.xs2a.adapter.api.Oauth2Service;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 import de.adorsys.xs2a.adapter.api.oauth.Oauth2Api;
@@ -26,14 +27,16 @@ public class AdorsysIntegOauth2Service implements Oauth2Service {
     private final Aspsp aspsp;
     private final HttpClient httpClient;
     private final Oauth2Api oauth2Api;
-    private final ResponseHandlers handlers = ResponseHandlers.getHandler();
+    private final ResponseHandlers handlers;
 
     public AdorsysIntegOauth2Service(Aspsp aspsp,
                                      HttpClient httpClient,
-                                     Oauth2Api oauth2Api) {
+                                     Oauth2Api oauth2Api,
+                                     HttpLogSanitizer logSanitizer) {
         this.aspsp = aspsp;
         this.httpClient = httpClient;
         this.oauth2Api = oauth2Api;
+        this.handlers = new ResponseHandlers(logSanitizer);
     }
 
     @Override

@@ -61,7 +61,7 @@ class AdorsysAccountInformationServiceWireMockTest {
                                                 .usingFilesUnderClasspath("adorsys-adapter"));
         wireMockServer.start();
 
-        HttpClient httpClient = new ApacheHttpClient(Xs2aHttpLogSanitizer.getLogSanitizer(), HttpClientBuilder.create().build());
+        HttpClient httpClient = new ApacheHttpClient(new Xs2aHttpLogSanitizer(), HttpClientBuilder.create().build());
         LinksRewriter linksRewriter = new IdentityLinksRewriter();
         Aspsp aspsp = new Aspsp();
         aspsp.setName("adorsys-adapter");

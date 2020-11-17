@@ -18,8 +18,8 @@ package de.adorsys.xs2a.adapter.crealogix;
 
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
@@ -29,18 +29,32 @@ public class DkbServiceProvider implements AccountInformationServiceProvider, Pa
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter,
-                                                                  HttpLogSanitizer logSanitizer) {
-        return new CrealogixAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer), linksRewriter);
+                                                                  LinksRewriter linksRewriter) {
+        return new CrealogixAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()), linksRewriter, null);
+    }
+
+    @Override
+    public AccountInformationService getAccountInformationService(Aspsp aspsp, LinksRewriter linksRewriter, HttpClientConfig httpClientConfig) {
+        return new CrealogixAccountInformationService(aspsp,
+            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            linksRewriter,
+            httpClientConfig.getLogSanitizer());
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter,
-                                                                HttpLogSanitizer logSanitizer) {
-        return new CrealogixPaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer), linksRewriter);
+                                                                LinksRewriter linksRewriter) {
+        return new CrealogixPaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()), linksRewriter, null);
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp, HttpClientConfig clientConfig, LinksRewriter linksRewriter) {
+        return new CrealogixPaymentInitiationService(aspsp,
+            clientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            linksRewriter,
+            clientConfig.getLogSanitizer());
     }
 
     @Override
@@ -49,8 +63,15 @@ public class DkbServiceProvider implements AccountInformationServiceProvider, Pa
     }
 
     @Override
-    public EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp, HttpClientFactory httpClientFactory, HttpLogSanitizer logSanitizer) {
-        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId(), logSanitizer);
+    public EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp, HttpClientFactory httpClientFactory) {
+        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
         return new CrealogixEmbeddedPreAuthorisationService(CrealogixClient.DKB, aspsp, httpClient);
+    }
+
+    @Override
+    public EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp, HttpClientConfig httpClientConfig) {
+        return new CrealogixEmbeddedPreAuthorisationService(CrealogixClient.DKB,
+            aspsp,
+            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()));
     }
 }

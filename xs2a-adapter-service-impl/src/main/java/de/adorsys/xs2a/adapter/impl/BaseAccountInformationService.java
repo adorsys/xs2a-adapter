@@ -28,7 +28,6 @@ import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
-import de.adorsys.xs2a.adapter.impl.http.Xs2aHttpLogSanitizer;
 import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +44,6 @@ import static java.util.function.Function.identity;
 public class BaseAccountInformationService extends AbstractService implements AccountInformationService {
 
     private static final LinksRewriter DEFAULT_LINKS_REWRITER = new IdentityLinksRewriter();
-    private static final HttpLogSanitizer DEFAULT_LOG_SANITIZER = Xs2aHttpLogSanitizer.getLogSanitizer();
 
     protected static final Logger logger = LoggerFactory.getLogger(BaseAccountInformationService.class);
     protected static final String V1 = "v1";
@@ -64,10 +62,21 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         this(aspsp, httpClient, Collections.emptyList(), DEFAULT_LINKS_REWRITER, null);
     }
 
+    public BaseAccountInformationService(Aspsp aspsp, HttpClient httpClient, HttpLogSanitizer logSanitizer) {
+        this(aspsp, httpClient, Collections.emptyList(), DEFAULT_LINKS_REWRITER, logSanitizer);
+    }
+
     public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
                                          Interceptor requestBuilderInterceptor) {
         this(aspsp, httpClient, requestBuilderInterceptor, DEFAULT_LINKS_REWRITER, null);
+    }
+
+    public BaseAccountInformationService(Aspsp aspsp,
+                                         HttpClient httpClient,
+                                         Interceptor requestBuilderInterceptor,
+                                         HttpLogSanitizer logSanitizer) {
+        this(aspsp, httpClient, requestBuilderInterceptor, DEFAULT_LINKS_REWRITER, logSanitizer);
     }
 
     public BaseAccountInformationService(Aspsp aspsp,
@@ -79,8 +88,15 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
                                          LinksRewriter linksRewriter,
-                                         Xs2aHttpLogSanitizer logSanitizer) {
+                                         HttpLogSanitizer logSanitizer) {
         this(aspsp, httpClient, Collections.emptyList(), linksRewriter, logSanitizer);
+    }
+
+    public BaseAccountInformationService(Aspsp aspsp,
+                                         HttpClient httpClient,
+                                         Interceptor requestBuilderInterceptor,
+                                         LinksRewriter linksRewriter) {
+        this(aspsp, httpClient, Collections.singletonList(requestBuilderInterceptor), linksRewriter, null);
     }
 
     public BaseAccountInformationService(Aspsp aspsp,
@@ -107,11 +123,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         this.aspsp = aspsp;
         this.interceptors = populateInterceptors(interceptors, aspsp);
         this.linksRewriter = linksRewriter;
-        this.responseHandlers = ResponseHandlers.getHandler(getOrDefaultLogSanitizer(logSanitizer));
-    }
-
-    private HttpLogSanitizer getOrDefaultLogSanitizer(HttpLogSanitizer logSanitizer) {
-        return Optional.ofNullable(logSanitizer).orElse(DEFAULT_LOG_SANITIZER);
+        this.responseHandlers = new ResponseHandlers(logSanitizer);
     }
 
     @Override

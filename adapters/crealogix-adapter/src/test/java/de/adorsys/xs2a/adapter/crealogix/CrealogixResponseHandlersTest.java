@@ -12,11 +12,13 @@ import static org.assertj.core.api.Assertions.fail;
 
 class CrealogixResponseHandlersTest {
 
+    private static final CrealogixRequestResponseHandlers requestResponseHandlers = new CrealogixRequestResponseHandlers(null);
+
     @ParameterizedTest
     @ValueSource(ints = {401, 403})
     void crealogixResponseHandler(int status) {
         assertThatThrownBy(() ->
-            CrealogixRequestResponseHandlers.crealogixResponseHandler(Object.class)
+            requestResponseHandlers.crealogixResponseHandler(Object.class)
             .apply(status, null, null))
                 .isInstanceOf(ErrorResponseException.class)
                 .hasMessage(CrealogixRequestResponseHandlers.RESPONSE_ERROR_MESSAGE)
@@ -32,7 +34,7 @@ class CrealogixResponseHandlersTest {
     @Test
     void crealogixRequestHandler() {
         assertThatThrownBy(() ->
-            CrealogixRequestResponseHandlers.crealogixRequestHandler(RequestHeaders.empty()))
+            requestResponseHandlers.crealogixRequestHandler(RequestHeaders.empty()))
                 .isInstanceOf(PreAuthorisationException.class)
                 .hasMessage(CrealogixRequestResponseHandlers.REQUEST_ERROR_MESSAGE)
                 .matches(er -> ((PreAuthorisationException) er)

@@ -17,8 +17,8 @@
 package de.adorsys.xs2a.adapter.deutschebank;
 
 import de.adorsys.xs2a.adapter.api.*;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BaseDownloadService;
@@ -33,36 +33,63 @@ public class DeutscheBankServiceProvider
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter,
-                                                                  HttpLogSanitizer logSanitizer) {
+                                                                  LinksRewriter linksRewriter) {
         aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "ais"));
         return new DeutscheBankAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
+            httpClientFactory.getHttpClient(getAdapterId()),
             psuIdTypeHeaderInterceptor,
             linksRewriter,
             psuPasswordEncryptionService,
-            logSanitizer);
+            null);
+    }
+
+    @Override
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
+                                                                  LinksRewriter linksRewriter,
+                                                                  HttpClientConfig httpClientConfig) {
+        aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "ais"));
+        return new DeutscheBankAccountInformationService(aspsp,
+            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            psuIdTypeHeaderInterceptor,
+            linksRewriter,
+            psuPasswordEncryptionService,
+            httpClientConfig.getLogSanitizer());
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter,
-                                                                HttpLogSanitizer logSanitizer) {
+                                                                LinksRewriter linksRewriter) {
         aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "pis"));
         return new DeutscheBankPaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
+            httpClientFactory.getHttpClient(getAdapterId()),
             psuIdTypeHeaderInterceptor,
-            linksRewriter);
+            linksRewriter,
+            null);
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp, HttpClientConfig clientConfig, LinksRewriter linksRewriter) {
+        return new DeutscheBankPaymentInitiationService(aspsp,
+            clientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            psuIdTypeHeaderInterceptor,
+            linksRewriter,
+            clientConfig.getLogSanitizer());
     }
 
     @Override
     public DownloadService getDownloadService(String baseUrl,
                                               HttpClientFactory httpClientFactory,
-                                              Pkcs12KeyStore keyStore,
-                                              HttpLogSanitizer logSanitizer) {
-        return new BaseDownloadService(baseUrl, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer));
+                                              Pkcs12KeyStore keyStore) {
+        return new BaseDownloadService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
+    }
+
+    @Override
+    public DownloadService getDownloadService(String baseUrl, HttpClientConfig clientConfig) {
+        return new BaseDownloadService(baseUrl,
+            clientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            clientConfig.getLogSanitizer());
     }
 
     @Override

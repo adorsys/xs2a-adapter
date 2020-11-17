@@ -22,7 +22,6 @@ import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemp
 import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
-import de.adorsys.xs2a.adapter.impl.http.Xs2aHttpLogSanitizer;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 import java.security.SecureRandom;
@@ -36,7 +35,7 @@ public class WiremockHttpClient extends ApacheHttpClient {
     private String wireMockUrl;
 
     public WiremockHttpClient(String adapterId, CloseableHttpClient httpClient) {
-        this(adapterId, httpClient, randomPort(), defaultLogSanitizer());
+        this(adapterId, httpClient, randomPort(), null);
     }
 
     public WiremockHttpClient(String adapterId, CloseableHttpClient httpClient, HttpLogSanitizer logSanitizer) {
@@ -81,10 +80,6 @@ public class WiremockHttpClient extends ApacheHttpClient {
 
     public static int randomPort() {
         return new SecureRandom().nextInt((2 << 15) - 9000) + 9000;
-    }
-
-    private static HttpLogSanitizer defaultLogSanitizer() {
-        return Xs2aHttpLogSanitizer.getLogSanitizer();
     }
 
     private String rewriteUrl(String sourceUrl) {

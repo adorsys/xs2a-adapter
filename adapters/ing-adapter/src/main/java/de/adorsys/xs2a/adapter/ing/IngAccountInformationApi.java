@@ -8,7 +8,6 @@ import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.model.CardAccountsTransactionsResponse200;
 import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
-import de.adorsys.xs2a.adapter.impl.http.Xs2aHttpLogSanitizer;
 import de.adorsys.xs2a.adapter.ing.model.IngAccountsResponse;
 import de.adorsys.xs2a.adapter.ing.model.IngBalancesResponse;
 import de.adorsys.xs2a.adapter.ing.model.IngTransactionsResponse;
@@ -30,11 +29,7 @@ public class IngAccountInformationApi {
     public IngAccountInformationApi(String baseUri, HttpClient httpClient, HttpLogSanitizer logSanitizer) {
         this.baseUri = baseUri;
         this.httpClient = httpClient;
-        this.handlers = ResponseHandlers.getHandler(getOrDefaultLogSanitizer(logSanitizer));
-    }
-
-    private HttpLogSanitizer getOrDefaultLogSanitizer(HttpLogSanitizer logSanitizer) {
-        return Optional.ofNullable(logSanitizer).orElse(Xs2aHttpLogSanitizer.getLogSanitizer());
+        this.handlers = new ResponseHandlers(logSanitizer);
     }
 
     public Response<IngAccountsResponse> getAccounts(String requestId, Interceptor clientAuthentication) {

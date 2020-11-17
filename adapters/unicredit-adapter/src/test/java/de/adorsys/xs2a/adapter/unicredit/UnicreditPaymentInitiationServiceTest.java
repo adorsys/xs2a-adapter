@@ -42,7 +42,7 @@ class UnicreditPaymentInitiationServiceTest {
     void setUp() {
         httpClient = mock(HttpClient.class);
         linksRewriter = mock(LinksRewriter.class);
-        paymentInitiationService = new UnicreditPaymentInitiationService(ASPSP, httpClient, linksRewriter);
+        paymentInitiationService = new UnicreditPaymentInitiationService(ASPSP, httpClient, linksRewriter, null);
     }
 
     @Test

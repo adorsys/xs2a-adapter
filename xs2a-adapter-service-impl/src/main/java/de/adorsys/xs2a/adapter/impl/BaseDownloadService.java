@@ -9,7 +9,6 @@ import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
-import de.adorsys.xs2a.adapter.impl.http.Xs2aHttpLogSanitizer;
 
 import java.util.Map;
 
@@ -23,7 +22,11 @@ public class BaseDownloadService extends AbstractService implements DownloadServ
     private final ResponseHandlers responseHandlers;
 
     public BaseDownloadService(String baseUri, HttpClient httpClient) {
-        this(baseUri, httpClient, null, Xs2aHttpLogSanitizer.getLogSanitizer());
+        this(baseUri, httpClient, null);
+    }
+
+    public BaseDownloadService(String baseUri, HttpClient httpClient, HttpLogSanitizer logSanitizer) {
+        this(baseUri, httpClient, null, logSanitizer);
     }
 
     public BaseDownloadService(String baseUri,
@@ -33,7 +36,7 @@ public class BaseDownloadService extends AbstractService implements DownloadServ
         super(httpClient);
         this.baseUri = baseUri;
         this.requestBuilderInterceptor = requestBuilderInterceptor;
-        this.responseHandlers = ResponseHandlers.getHandler(logSanitizer);
+        this.responseHandlers = new ResponseHandlers(logSanitizer);
     }
 
     @Override

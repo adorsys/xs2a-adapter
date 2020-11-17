@@ -23,6 +23,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,28 +31,26 @@ import java.util.regex.Pattern;
 import static de.adorsys.xs2a.adapter.api.http.ContentType.*;
 
 public class ResponseHandlers {
-    private static ResponseHandlers instance;
     private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([^;]+)");
     private static final ErrorResponse EMPTY_ERROR_RESPONSE = new ErrorResponse();
+    private static final HttpLogSanitizer DEFAULT_LOG_SANITIZER = new Xs2aHttpLogSanitizer();
 
     private static final JsonMapper jsonMapper = new JacksonObjectMapper();
     private static final Logger log = LoggerFactory.getLogger(ResponseHandlers.class);
     private final HttpLogSanitizer logSanitizer;
 
-    private ResponseHandlers(HttpLogSanitizer logSanitizer) {
-        this.logSanitizer = logSanitizer;
+    public ResponseHandlers(HttpLogSanitizer logSanitizer) {
+        this.logSanitizer = getOrDefaultLogSanitizer(logSanitizer);
     }
 
-    public static ResponseHandlers getHandler(HttpLogSanitizer logSanitizer) {
-        if (instance == null) {
-            instance = new ResponseHandlers(logSanitizer);
-        }
-        return instance;
+    public ResponseHandlers() {
+        this(null);
     }
 
-    public static ResponseHandlers getHandler() {
-        return getHandler(Xs2aHttpLogSanitizer.getLogSanitizer());
+    private HttpLogSanitizer getOrDefaultLogSanitizer(HttpLogSanitizer logSanitizer) {
+        return Optional.ofNullable(logSanitizer).orElse(DEFAULT_LOG_SANITIZER);
     }
+
 
     public <T> HttpClient.ResponseHandler<T> jsonResponseHandler(Class<T> klass) {
         return (statusCode, responseBody, responseHeaders) -> {

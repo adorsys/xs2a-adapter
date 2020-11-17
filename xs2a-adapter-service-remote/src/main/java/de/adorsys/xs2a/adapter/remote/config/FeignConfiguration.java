@@ -137,7 +137,8 @@ public class FeignConfiguration {
                         contentType = contentTypeValues.stream().findFirst().orElse(null);
                     }
                     if (contentType != null && contentType.startsWith(ContentType.MULTIPART_FORM_DATA)) {
-                        return ResponseHandlers.getHandler().multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class)
+                        // LogSanitizer whitelist may not be applied here
+                        return new ResponseHandlers().multipartFormDataResponseHandler(PeriodicPaymentInitiationMultipartBody.class)
                             .apply(response.status(),
                                 response.body().asInputStream(),
                                 ResponseHeaders.fromMap(Collections.singletonMap(CONTENT_TYPE, contentType)));

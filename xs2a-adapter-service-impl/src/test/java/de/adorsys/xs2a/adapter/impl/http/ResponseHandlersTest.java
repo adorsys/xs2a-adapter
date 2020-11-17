@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 class ResponseHandlersTest {
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String SCA_OAUTH_URL = "https://example.com";
-    private final ResponseHandlers responseHandlers = ResponseHandlers.getHandler();
+    private final ResponseHandlers responseHandlers = new ResponseHandlers();
 
     @Test
     void jsonResponseHandlerParsesOnSuccessfulResponse() {

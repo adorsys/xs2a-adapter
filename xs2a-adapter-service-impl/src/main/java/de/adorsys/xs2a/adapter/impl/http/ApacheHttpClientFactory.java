@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.impl.http;
 import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.exception.Xs2aAdapterException;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -23,18 +24,25 @@ public class ApacheHttpClientFactory implements HttpClientFactory {
     private final HttpClientBuilder httpClientBuilder;
     private final Pkcs12KeyStore keyStore;
     private final ConcurrentMap<String, HttpClient> cache = new ConcurrentHashMap<>();
+    private HttpLogSanitizer logSanitizer;
 
+    @Deprecated
     public ApacheHttpClientFactory(HttpClientBuilder httpClientBuilder, Pkcs12KeyStore keyStore) {
+        this(httpClientBuilder, new BaseHttpClientConfig(null, keyStore, null));
+    }
+
+    public ApacheHttpClientFactory(HttpClientBuilder httpClientBuilder, HttpClientConfig clientConfig) {
         this.httpClientBuilder = httpClientBuilder;
-        this.keyStore = keyStore;
+        this.keyStore = clientConfig.getKeyStore();
+        this.logSanitizer = clientConfig.getLogSanitizer();
     }
 
     @Override
-    public HttpClient getHttpClient(String adapterId, String qwacAlias, String[] supportedCipherSuites, HttpLogSanitizer logSanitizer) {
-        return cache.computeIfAbsent(adapterId, key -> createHttpClient(qwacAlias, supportedCipherSuites, logSanitizer));
+    public HttpClient getHttpClient(String adapterId, String qwacAlias, String[] supportedCipherSuites) {
+        return cache.computeIfAbsent(adapterId, key -> createHttpClient(qwacAlias, supportedCipherSuites));
     }
 
-    private HttpClient createHttpClient(String qwacAlias, String[] supportedCipherSuites, HttpLogSanitizer logSanitizer) {
+    private HttpClient createHttpClient(String qwacAlias, String[] supportedCipherSuites) {
         synchronized (this) {
             CloseableHttpClient httpClient;
             SSLContext sslContext = getSslContext(qwacAlias);

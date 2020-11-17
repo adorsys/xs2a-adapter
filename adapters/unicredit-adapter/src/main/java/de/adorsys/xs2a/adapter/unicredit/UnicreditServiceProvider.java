@@ -17,8 +17,8 @@
 package de.adorsys.xs2a.adapter.unicredit;
 
 import de.adorsys.xs2a.adapter.api.*;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
@@ -28,20 +28,42 @@ public class UnicreditServiceProvider implements AccountInformationServiceProvid
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
+                                                                  LinksRewriter linksRewriter) {
+        return new UnicreditAccountInformationService(aspsp,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            linksRewriter,
+            null);
+    }
+
+    @Override
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   LinksRewriter linksRewriter,
-                                                                  HttpLogSanitizer logSanitizer) {
-        return new UnicreditAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
-            linksRewriter);
+                                                                  HttpClientConfig httpClientConfig) {
+        return new UnicreditAccountInformationService(aspsp,
+            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            linksRewriter,
+            httpClientConfig.getLogSanitizer());
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter,
-                                                                HttpLogSanitizer logSanitizer) {
-        return new UnicreditPaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
-            linksRewriter);
+                                                                LinksRewriter linksRewriter) {
+        return new UnicreditPaymentInitiationService(aspsp,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            linksRewriter,
+            null);
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
+                                                                HttpClientConfig clientConfig,
+                                                                LinksRewriter linksRewriter) {
+        return new UnicreditPaymentInitiationService(aspsp,
+            clientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            linksRewriter,
+            clientConfig.getLogSanitizer());
     }
 
     @Override

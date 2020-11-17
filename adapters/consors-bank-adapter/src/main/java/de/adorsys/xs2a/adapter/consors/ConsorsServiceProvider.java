@@ -17,8 +17,8 @@
 package de.adorsys.xs2a.adapter.consors;
 
 import de.adorsys.xs2a.adapter.api.*;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
@@ -29,20 +29,42 @@ public class ConsorsServiceProvider implements AccountInformationServiceProvider
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
+                                                                  LinksRewriter linksRewriter) {
+        return new ConsorsAccountInformationService(aspsp,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            psuIdHeaderInterceptor,
+            linksRewriter,
+            null);
+    }
+
+    @Override
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   LinksRewriter linksRewriter,
-                                                                  HttpLogSanitizer logSanitizer) {
-        return new ConsorsAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
-            psuIdHeaderInterceptor, linksRewriter);
+                                                                  HttpClientConfig httpClientConfig) {
+        return new ConsorsAccountInformationService(aspsp,
+            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            psuIdHeaderInterceptor,
+            linksRewriter,
+            httpClientConfig.getLogSanitizer());
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter,
-                                                                HttpLogSanitizer logSanitizer) {
-        return new ConsorsPaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
-            linksRewriter);
+                                                                LinksRewriter linksRewriter) {
+        return new ConsorsPaymentInitiationService(aspsp,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            linksRewriter,
+            null);
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp, HttpClientConfig clientConfig, LinksRewriter linksRewriter) {
+        return new ConsorsPaymentInitiationService(aspsp,
+            clientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            linksRewriter,
+            clientConfig.getLogSanitizer());
     }
 
     @Override

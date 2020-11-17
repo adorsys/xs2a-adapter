@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.api.exception.PreAuthorisationException;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.api.model.HrefType;
 import de.adorsys.xs2a.adapter.api.model.TppMessage;
@@ -20,7 +21,13 @@ public class CrealogixRequestResponseHandlers {
     public static final String RESPONSE_ERROR_MESSAGE = "embedded pre-authorisation needed";
     private static final ErrorResponse CREALOGIX_ERROR_RESPONSE_INSTANCE = getErrorResponse();
 
-    public static void crealogixRequestHandler(RequestHeaders requestHeaders) {
+    private final ResponseHandlers responseHandlers;
+
+    public CrealogixRequestResponseHandlers(HttpLogSanitizer logSanitizer) {
+        this.responseHandlers = new ResponseHandlers(logSanitizer);
+    }
+
+    public void crealogixRequestHandler(RequestHeaders requestHeaders) {
         if (!requestHeaders.get(RequestHeaders.AUTHORIZATION).isPresent()) {
             throw new PreAuthorisationException(
                     CREALOGIX_ERROR_RESPONSE_INSTANCE,
@@ -28,7 +35,7 @@ public class CrealogixRequestResponseHandlers {
         }
     }
 
-    public static <T> HttpClient.ResponseHandler<T> crealogixResponseHandler(Class<T> tClass) {
+    public <T> HttpClient.ResponseHandler<T> crealogixResponseHandler(Class<T> tClass) {
         return (statusCode, responseBody, responseHeaders) -> {
             if (statusCode == 401 || statusCode == 403) {
                 throw new ErrorResponseException(
@@ -38,8 +45,12 @@ public class CrealogixRequestResponseHandlers {
                     RESPONSE_ERROR_MESSAGE);
             }
 
-            return ResponseHandlers.getHandler().jsonResponseHandler(tClass).apply(statusCode, responseBody, responseHeaders);
+            return responseHandlers.jsonResponseHandler(tClass).apply(statusCode, responseBody, responseHeaders);
         };
+    }
+
+    public <T> HttpClient.ResponseHandler<T> jsonResponseHandler(Class<T> tClass) {
+        return responseHandlers.jsonResponseHandler(tClass);
     }
 
     private static ErrorResponse getErrorResponse() {

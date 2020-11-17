@@ -53,7 +53,7 @@ class CommerzbankOauth2ServiceTest {
         Mockito.when(keyStore.getOrganizationIdentifier())
             .thenReturn(ORG_ID);
 
-        oauth2Service = CommerzbankOauth2Service.create(aspsp, httpClient, keyStore);
+        oauth2Service = CommerzbankOauth2Service.create(aspsp, httpClient, keyStore, null);
     }
 
     @Test

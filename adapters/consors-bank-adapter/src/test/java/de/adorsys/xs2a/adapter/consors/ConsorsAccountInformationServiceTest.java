@@ -25,7 +25,7 @@ class ConsorsAccountInformationServiceTest {
 
     private final HttpClient httpClient = Mockito.spy(AbstractHttpClient.class);
     private final AccountInformationService service = new ConsorsServiceProvider()
-        .getAccountInformationService(new Aspsp(), (x, y, z, d) -> httpClient, null, new IdentityLinksRewriter(), null);
+        .getAccountInformationService(new Aspsp(), (x, y, z) -> httpClient, null, new IdentityLinksRewriter());
     private ArgumentCaptor<Request.Builder> builderCaptor;
 
     @BeforeEach

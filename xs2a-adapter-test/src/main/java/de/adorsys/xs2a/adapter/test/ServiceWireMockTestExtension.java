@@ -4,10 +4,12 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
+import de.adorsys.xs2a.adapter.impl.http.BaseHttpClientConfig;
 import de.adorsys.xs2a.adapter.impl.http.Xs2aHttpLogSanitizer;
 import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -38,35 +40,29 @@ class ServiceWireMockTestExtension implements BeforeAllCallback, AfterAllCallbac
 
         Aspsp aspsp = new Aspsp();
         aspsp.setUrl("http://localhost:" + wireMockServer.port());
-        HttpClient httpClient = new ApacheHttpClient(Xs2aHttpLogSanitizer.getLogSanitizer(), HttpClientBuilder.create().build());
-        HttpClientFactory httpClientFactory = (adapterId, qwacAlias, supportedCipherSuites, logSanitizer) -> httpClient;
+        HttpClient httpClient = new ApacheHttpClient(new Xs2aHttpLogSanitizer(), HttpClientBuilder.create().build());
+        HttpClientFactory httpClientFactory = (adapterId, qwacAlias, supportedCipherSuites) -> httpClient;
         Pkcs12KeyStore keyStore = new Pkcs12KeyStore(getClass().getClassLoader()
             .getResourceAsStream("de/adorsys/xs2a/adapter/test/test_keystore.p12"));
+        HttpClientConfig clientConfig = new BaseHttpClientConfig(null, keyStore, httpClientFactory);
         LinksRewriter linksRewriter = new IdentityLinksRewriter();
         if (serviceProvider instanceof AccountInformationServiceProvider) {
             AccountInformationService service =
                 ((AccountInformationServiceProvider) serviceProvider).getAccountInformationService(aspsp,
-                    httpClientFactory,
-                    keyStore,
                     linksRewriter,
-                    null);
+                    clientConfig);
             getStore(context).put(AccountInformationService.class, service);
         }
         if (serviceProvider instanceof PaymentInitiationServiceProvider) {
             PaymentInitiationService service =
                 ((PaymentInitiationServiceProvider) serviceProvider).getPaymentInitiationService(aspsp,
-                    httpClientFactory,
-                    keyStore,
-                    linksRewriter,
-                    null);
+                    clientConfig,
+                    linksRewriter);
             getStore(context).put(PaymentInitiationService.class, service);
         }
         if (serviceProvider instanceof Oauth2ServiceProvider) {
             Oauth2Service service =
-                ((Oauth2ServiceProvider) serviceProvider).getOauth2Service(aspsp,
-                    httpClientFactory,
-                    keyStore,
-                    null);
+                ((Oauth2ServiceProvider) serviceProvider).getOauth2Service(aspsp, clientConfig);
             getStore(context).put(Oauth2Service.class, service);
         }
     }

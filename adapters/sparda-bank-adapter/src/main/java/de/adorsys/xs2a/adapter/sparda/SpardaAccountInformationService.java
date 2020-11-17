@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
@@ -24,13 +25,16 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
 
     private final SpardaJwtService spardaJwtService;
     private final SpardaMapper spardaMapper = Mappers.getMapper(SpardaMapper.class);
+    private final ResponseHandlers responseHandlers;
 
     public SpardaAccountInformationService(Aspsp aspsp,
                                            HttpClient httpClient,
                                            LinksRewriter linksRewriter,
-                                           SpardaJwtService spardaJwtService) {
-        super(aspsp, httpClient, linksRewriter);
+                                           SpardaJwtService spardaJwtService,
+                                           HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer);
         this.spardaJwtService = spardaJwtService;
+        this.responseHandlers = new ResponseHandlers(logSanitizer);
     }
 
     @Override
@@ -46,7 +50,7 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
             requestParams,
             body,
             identity(),
-            ResponseHandlers.getHandler().consentCreationResponseHandler(idpUri, ConsentsResponse201.class));
+            responseHandlers.consentCreationResponseHandler(idpUri, ConsentsResponse201.class));
     }
 
     @Override

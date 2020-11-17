@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.ing;
 import de.adorsys.xs2a.adapter.api.Oauth2Service;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
@@ -18,11 +19,12 @@ public class IngOauth2Api {
 
     private final String baseUri;
     private final HttpClient httpClient;
-    private final ResponseHandlers handlers = ResponseHandlers.getHandler();
+    private final ResponseHandlers handlers;
 
-    public IngOauth2Api(String baseUri, HttpClient httpClient) {
+    public IngOauth2Api(String baseUri, HttpClient httpClient, HttpLogSanitizer logSanitizer) {
         this.baseUri = baseUri;
         this.httpClient = httpClient;
+        this.handlers = new ResponseHandlers(logSanitizer);
     }
 
     public Response<IngApplicationTokenResponse> getApplicationToken(Interceptor clientAuthentication) {

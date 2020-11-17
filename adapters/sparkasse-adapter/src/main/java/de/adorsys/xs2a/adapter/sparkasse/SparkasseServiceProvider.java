@@ -18,8 +18,8 @@ package de.adorsys.xs2a.adapter.sparkasse;
 
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
@@ -30,26 +30,53 @@ public class SparkasseServiceProvider implements AccountInformationServiceProvid
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
+                                                                  LinksRewriter linksRewriter) {
+        return new SparkasseAccountInformationService(aspsp,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            linksRewriter,
+            null);
+    }
+
+    @Override
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   LinksRewriter linksRewriter,
-                                                                  HttpLogSanitizer logSanitizer) {
-        return new SparkasseAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
-            linksRewriter);
+                                                                  HttpClientConfig httpClientConfig) {
+        return new SparkasseAccountInformationService(aspsp,
+            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            linksRewriter,
+            httpClientConfig.getLogSanitizer());
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter,
-                                                                HttpLogSanitizer logSanitizer) {
-        return new SparkassePaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
-            linksRewriter);
+                                                                LinksRewriter linksRewriter) {
+        return new SparkassePaymentInitiationService(aspsp,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            linksRewriter,
+            null);
     }
 
     @Override
-    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore, HttpLogSanitizer logSanitizer) {
-        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId(), logSanitizer);
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp, HttpClientConfig clientConfig, LinksRewriter linksRewriter) {
+        return new SparkassePaymentInitiationService(aspsp,
+            clientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            linksRewriter,
+            clientConfig.getLogSanitizer());
+    }
+
+    @Override
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
         return SparkasseOauth2Service.create(aspsp, httpClient, keyStore);
+    }
+
+    @Override
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientConfig httpClientConfig) {
+        return SparkasseOauth2Service.create(aspsp,
+            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            httpClientConfig.getKeyStore());
     }
 
     @Override

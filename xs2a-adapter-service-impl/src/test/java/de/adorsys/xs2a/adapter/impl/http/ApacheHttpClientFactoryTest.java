@@ -38,12 +38,12 @@ class ApacheHttpClientFactoryTest {
 
     @Test
     void getHttpClientCachesClientsByAdapterId() {
-        HttpClient httpClient = factory.getHttpClient("test-adapter", logSanitizer);
-        HttpClient httpClient2 = factory.getHttpClient("test-adapter", logSanitizer);
+        HttpClient httpClient = factory.getHttpClient("test-adapter");
+        HttpClient httpClient2 = factory.getHttpClient("test-adapter");
 
         assertThat(httpClient).isSameAs(httpClient2);
 
-        HttpClient httpClient3 = factory.getHttpClient("another-test-adapter", logSanitizer);
+        HttpClient httpClient3 = factory.getHttpClient("another-test-adapter");
 
         assertThat(httpClient).isNotSameAs(httpClient3);
     }
@@ -52,6 +52,6 @@ class ApacheHttpClientFactoryTest {
     void getHttpClient_throwsException() throws CertificateException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, UnrecoverableEntryException, IOException {
         when(pkcs12KeyStore.getSslContext(any())).thenThrow(new IOException());
 
-        assertThrows(UncheckedIOException.class, () -> factory.getHttpClient("test-adapter", logSanitizer));
+        assertThrows(UncheckedIOException.class, () -> factory.getHttpClient("test-adapter"));
     }
 }

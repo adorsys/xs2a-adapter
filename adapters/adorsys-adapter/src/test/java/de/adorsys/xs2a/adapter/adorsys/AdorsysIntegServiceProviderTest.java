@@ -3,8 +3,10 @@ package de.adorsys.xs2a.adapter.adorsys;
 import de.adorsys.xs2a.adapter.api.AccountInformationService;
 import de.adorsys.xs2a.adapter.api.Oauth2Service;
 import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.impl.http.BaseHttpClientConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +17,7 @@ class AdorsysIntegServiceProviderTest {
 
     private AdorsysIntegServiceProvider provider;
     private final HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
+    private final HttpClientConfig httpClientConfig = new BaseHttpClientConfig(null, null, httpClientFactory);
 
     @BeforeEach
     void setUp() {
@@ -24,7 +27,7 @@ class AdorsysIntegServiceProviderTest {
     @Test
     void getPaymentInitiationService() {
         PaymentInitiationService actualService
-            = provider.getPaymentInitiationService(null, httpClientFactory, null, null, null);
+            = provider.getPaymentInitiationService(null, httpClientConfig, null);
 
         assertThat(actualService)
             .isNotNull()
@@ -34,7 +37,7 @@ class AdorsysIntegServiceProviderTest {
     @Test
     void getAccountInformationService() {
         AccountInformationService actualService
-            = provider.getAccountInformationService(null, httpClientFactory, null, null, null);
+            = provider.getAccountInformationService(null, null, httpClientConfig);
 
         assertThat(actualService)
             .isNotNull()
@@ -44,7 +47,7 @@ class AdorsysIntegServiceProviderTest {
     @Test
     void getOauth2Service() {
         Oauth2Service actualService
-            = provider.getOauth2Service(null, httpClientFactory, null, null);
+            = provider.getOauth2Service(null, httpClientConfig);
 
         assertThat(actualService)
             .isNotNull()

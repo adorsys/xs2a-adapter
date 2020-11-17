@@ -25,7 +25,7 @@ public class AdorsysAccountInformationService extends BaseAccountInformationServ
     private static final String ACCEPT_JSON = "application/json";
 
     private final AdorsysMapper mapper = Mappers.getMapper(AdorsysMapper.class);
-    private final ResponseHandlers handlers = ResponseHandlers.getHandler();
+    private final ResponseHandlers handlers;
 
     public AdorsysAccountInformationService(Aspsp aspsp,
                                             HttpClient httpClient,
@@ -33,6 +33,7 @@ public class AdorsysAccountInformationService extends BaseAccountInformationServ
                                             LinksRewriter linksRewriter,
                                             HttpLogSanitizer logSanitizer) {
         super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
+        this.handlers = new ResponseHandlers(logSanitizer);
     }
 
     @Override

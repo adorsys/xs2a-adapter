@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.santander;
 
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
@@ -15,8 +16,9 @@ public class SantanderPaymentInitiationService extends BasePaymentInitiationServ
     public SantanderPaymentInitiationService(Aspsp aspsp,
                                              HttpClient httpClient,
                                              LinksRewriter linksRewriter,
-                                             AccessTokenService accessTokenService) {
-        super(aspsp, httpClient, linksRewriter);
+                                             AccessTokenService accessTokenService,
+                                             HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer);
         this.accessTokenService = accessTokenService;
         clientId = SantanderAccessTokenService.getClientId();
     }

@@ -37,7 +37,12 @@ public class Xs2aHttpLogSanitizer implements HttpLogSanitizer {
     private final List<Pattern> patterns = new ArrayList<>();
     private JsonMapper objectMapper = new JacksonObjectMapper();
 
-    private Xs2aHttpLogSanitizer(List<String> whitelist) {
+    public Xs2aHttpLogSanitizer(List<String> whitelist) {
+        this();
+        nonSanitizedBodyProperties.addAll(whitelist);
+    }
+
+    public Xs2aHttpLogSanitizer() {
         patterns.add(Pattern.compile("(consents|accounts|authorisations|credit-transfers|target-2-payments)/[^/?\\s\\[\"]+(.*?)"));
 
         sanitizedHeaders.addAll(Arrays.asList(
@@ -50,19 +55,6 @@ public class Xs2aHttpLogSanitizer implements HttpLogSanitizer {
             "Signature",
             "TPP-Signature-Certificate",
             "Digest"));
-
-        nonSanitizedBodyProperties.addAll(whitelist);
-    }
-
-    public static HttpLogSanitizer getLogSanitizer(List<String> whitelist) {
-        if (instance == null) {
-            instance = new Xs2aHttpLogSanitizer(whitelist);
-        }
-        return instance;
-    }
-
-    public static HttpLogSanitizer getLogSanitizer() {
-        return getLogSanitizer(Collections.emptyList());
     }
 
     public String sanitizeHeader(String name, String value) {

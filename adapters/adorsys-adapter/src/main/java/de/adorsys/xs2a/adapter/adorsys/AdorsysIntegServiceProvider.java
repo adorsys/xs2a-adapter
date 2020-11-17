@@ -17,10 +17,7 @@
 package de.adorsys.xs2a.adapter.adorsys;
 
 import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
-import de.adorsys.xs2a.adapter.api.http.Interceptor;
+import de.adorsys.xs2a.adapter.api.http.*;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
@@ -35,17 +32,27 @@ public class AdorsysIntegServiceProvider
 
     private final OauthHeaderInterceptor oauthHeaderInterceptor = new OauthHeaderInterceptor();
 
+    @Deprecated
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter,
-                                                                HttpLogSanitizer logSanitizer) {
+                                                                LinksRewriter linksRewriter) {
         return new BasePaymentInitiationService(aspsp,
-                                                httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
+                                                httpClientFactory.getHttpClient(getAdapterId()),
                                                 getInterceptors(keyStore),
-                                                linksRewriter,
-                                                logSanitizer);
+                                                linksRewriter);
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
+                                                                HttpClientConfig httpClientConfig,
+                                                                LinksRewriter linksRewriter) {
+        return new BasePaymentInitiationService(aspsp,
+            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            getInterceptors(httpClientConfig.getKeyStore()),
+            linksRewriter,
+            httpClientConfig.getLogSanitizer());
     }
 
     private List<Interceptor> getInterceptors(Pkcs12KeyStore keyStore) {
@@ -57,24 +64,45 @@ public class AdorsysIntegServiceProvider
         return interceptors;
     }
 
+    @Deprecated
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter,
-                                                                  HttpLogSanitizer logSanitizer) {
+                                                                  LinksRewriter linksRewriter) {
         return new AdorsysAccountInformationService(aspsp,
-                                                    httpClientFactory.getHttpClient(getAdapterId(), logSanitizer),
+                                                    httpClientFactory.getHttpClient(getAdapterId()),
                                                     getInterceptors(keyStore),
                                                     linksRewriter,
-                                                    logSanitizer);
+                                                    null);
     }
 
     @Override
-    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore, HttpLogSanitizer logSanitizer) {
-        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId(), logSanitizer);
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
+                                                                  LinksRewriter linksRewriter,
+                                                                  HttpClientConfig httpClientConfig) {
+        return new AdorsysAccountInformationService(aspsp,
+                                                    httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
+                                                    getInterceptors(httpClientConfig.getKeyStore()),
+                                                    linksRewriter,
+                                                    httpClientConfig.getLogSanitizer());
+    }
+
+    @Deprecated
+    @Override
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
         return new AdorsysIntegOauth2Service(aspsp, httpClient,
-                                             new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class));
+                                             new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class),
+                                   null);
+    }
+
+    @Override
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientConfig httpClientConfig) {
+        HttpClient httpClient = httpClientConfig.getClientFactory().getHttpClient(getAdapterId());
+        return new AdorsysIntegOauth2Service(aspsp, httpClient,
+                                             new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class),
+                                             httpClientConfig.getLogSanitizer());
     }
 
     @Override

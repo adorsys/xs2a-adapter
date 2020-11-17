@@ -17,7 +17,7 @@ class CrealogixServiceProviderTest {
     @Test
     void getAccountInformationService() {
         AccountInformationService actualService =
-            serviceProvider.getAccountInformationService(null, clientFactory, null, null, null);
+            serviceProvider.getAccountInformationService(null, clientFactory, null, null);
 
         assertThat(actualService)
             .isNotNull()
@@ -27,7 +27,7 @@ class CrealogixServiceProviderTest {
     @Test
     void getPaymentInitiationService() {
         PaymentInitiationService actualService =
-            serviceProvider.getPaymentInitiationService(null, clientFactory, null, null, null);
+            serviceProvider.getPaymentInitiationService(null, clientFactory, null, null);
 
         assertThat(actualService)
             .isNotNull()

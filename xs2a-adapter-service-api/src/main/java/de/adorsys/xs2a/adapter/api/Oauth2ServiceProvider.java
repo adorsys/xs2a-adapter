@@ -1,9 +1,12 @@
 package de.adorsys.xs2a.adapter.api;
 
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
 public interface Oauth2ServiceProvider extends AdapterServiceProvider {
-    Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore, HttpLogSanitizer logSanitizer);
+    @Deprecated
+    Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore);
+
+    Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientConfig httpClientConfig);
 }
