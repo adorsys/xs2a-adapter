@@ -30,13 +30,14 @@ public class IngServiceProvider
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
-                                                                  LinksRewriter linksRewriter,
-                                                                  HttpClientConfig httpClientConfig) {
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  LinksRewriter linksRewriter) {
+        HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return getIngAccountInformationService(aspsp.getUrl(),
-            httpClientConfig.getClientFactory(),
-            httpClientConfig.getKeyStore(),
+            httpClientFactory,
+            config.getKeyStore(),
             linksRewriter,
-            httpClientConfig.getLogSanitizer());
+            config.getLogSanitizer());
     }
 
     private IngAccountInformationService getIngAccountInformationService(String baseUrl,
@@ -80,13 +81,15 @@ public class IngServiceProvider
     }
 
     @Override
-    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientConfig httpClientConfig) {
+    public Oauth2Service getOauth2Service(Aspsp aspsp,
+                                          HttpClientFactory httpClientFactory) {
         String baseUrl = aspsp.getIdpUrl() != null ? aspsp.getIdpUrl() : aspsp.getUrl();
+        HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return getIngAccountInformationService(baseUrl,
-            httpClientConfig.getClientFactory(),
-            httpClientConfig.getKeyStore(),
+            httpClientFactory,
+            config.getKeyStore(),
             DEFAULT_LINKS_REWRITER,
-            httpClientConfig.getLogSanitizer());
+            config.getLogSanitizer());
     }
 
     @Override
@@ -108,13 +111,14 @@ public class IngServiceProvider
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
-                                                                HttpClientConfig clientConfig,
+                                                                HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
-        HttpClient httpClient = httpClient(clientConfig.getClientFactory());
+        HttpClient httpClient = httpClient(httpClientFactory);
+        HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         IngOauth2Service ingOauth2Service
-            = ingOauth2Service(aspsp.getUrl(), httpClient, clientConfig.getKeyStore(), clientConfig.getLogSanitizer());
+            = ingOauth2Service(aspsp.getUrl(), httpClient, config.getKeyStore(), config.getLogSanitizer());
         IngPaymentInitiationApi paymentInitiationApi
-            = new IngPaymentInitiationApi(aspsp.getUrl(), httpClient, clientConfig.getLogSanitizer());
+            = new IngPaymentInitiationApi(aspsp.getUrl(), httpClient, config.getLogSanitizer());
         return new IngPaymentInitiationService(paymentInitiationApi, ingOauth2Service, linksRewriter);
     }
 }

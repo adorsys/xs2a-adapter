@@ -41,30 +41,44 @@ class ServiceWireMockTestExtension implements BeforeAllCallback, AfterAllCallbac
         Aspsp aspsp = new Aspsp();
         aspsp.setUrl("http://localhost:" + wireMockServer.port());
         HttpClient httpClient = new ApacheHttpClient(new Xs2aHttpLogSanitizer(), HttpClientBuilder.create().build());
-        HttpClientFactory httpClientFactory = (adapterId, qwacAlias, supportedCipherSuites) -> httpClient;
         Pkcs12KeyStore keyStore = new Pkcs12KeyStore(getClass().getClassLoader()
             .getResourceAsStream("de/adorsys/xs2a/adapter/test/test_keystore.p12"));
-        HttpClientConfig clientConfig = new BaseHttpClientConfig(null, keyStore, httpClientFactory);
+        HttpClientConfig httpClientConfig = new BaseHttpClientConfig(null, keyStore);
+        HttpClientFactory httpClientFactory = getHttpClientFactory(httpClient, httpClientConfig);
         LinksRewriter linksRewriter = new IdentityLinksRewriter();
         if (serviceProvider instanceof AccountInformationServiceProvider) {
             AccountInformationService service =
                 ((AccountInformationServiceProvider) serviceProvider).getAccountInformationService(aspsp,
-                    linksRewriter,
-                    clientConfig);
+                    httpClientFactory,
+                    linksRewriter);
             getStore(context).put(AccountInformationService.class, service);
         }
         if (serviceProvider instanceof PaymentInitiationServiceProvider) {
             PaymentInitiationService service =
                 ((PaymentInitiationServiceProvider) serviceProvider).getPaymentInitiationService(aspsp,
-                    clientConfig,
+                    httpClientFactory,
                     linksRewriter);
             getStore(context).put(PaymentInitiationService.class, service);
         }
         if (serviceProvider instanceof Oauth2ServiceProvider) {
             Oauth2Service service =
-                ((Oauth2ServiceProvider) serviceProvider).getOauth2Service(aspsp, clientConfig);
+                ((Oauth2ServiceProvider) serviceProvider).getOauth2Service(aspsp, httpClientFactory);
             getStore(context).put(Oauth2Service.class, service);
         }
+    }
+
+    private HttpClientFactory getHttpClientFactory(HttpClient httpClient, HttpClientConfig httpClientConfig) {
+        return new HttpClientFactory() {
+            @Override
+            public HttpClient getHttpClient(String adapterId, String qwacAlias, String[] supportedCipherSuites) {
+                return httpClient;
+            }
+
+            @Override
+            public HttpClientConfig getHttpClientConfig() {
+                return httpClientConfig;
+            }
+        };
     }
 
     private ExtensionContext.Store getStore(ExtensionContext context) {

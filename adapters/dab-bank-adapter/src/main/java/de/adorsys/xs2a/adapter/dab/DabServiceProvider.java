@@ -17,7 +17,6 @@
 package de.adorsys.xs2a.adapter.dab;
 
 import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
@@ -38,12 +37,12 @@ public class DabServiceProvider implements AccountInformationServiceProvider, Pa
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
-                                                                  LinksRewriter linksRewriter,
-                                                                  HttpClientConfig httpClientConfig) {
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  LinksRewriter linksRewriter) {
         return new BaseAccountInformationService(aspsp,
-            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
-            httpClientConfig.getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -57,11 +56,13 @@ public class DabServiceProvider implements AccountInformationServiceProvider, Pa
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp, HttpClientConfig clientConfig, LinksRewriter linksRewriter) {
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
+                                                                HttpClientFactory httpClientFactory,
+                                                                LinksRewriter linksRewriter) {
         return new BasePaymentInitiationService(aspsp,
-            clientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
-            clientConfig.getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

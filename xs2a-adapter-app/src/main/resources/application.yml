@@ -33,7 +33,6 @@ graylog:
   host: localhost
   port: 12201
 
-
 ---
 spring:
   profiles: dev

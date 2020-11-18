@@ -5,6 +5,8 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.PaymentInitationRequestResponse201;
@@ -21,10 +23,25 @@ import static org.mockito.Mockito.*;
 class SparkassePaymentInitiationServiceTest {
 
     private final HttpClient client = mock(HttpClient.class);
+    private final HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
     private final ArgumentCaptor<Request.Builder> builderCaptor =
         ArgumentCaptor.forClass(Request.Builder.class);
     private final PaymentInitiationService service = new SparkasseServiceProvider()
-        .getPaymentInitiationService(new Aspsp(), (x, y, z) -> client, null, new IdentityLinksRewriter());
+        .getPaymentInitiationService(new Aspsp(), getHttpClientFactory(), new IdentityLinksRewriter());
+
+    private HttpClientFactory getHttpClientFactory() {
+        return new HttpClientFactory() {
+            @Override
+            public HttpClient getHttpClient(String adapterId, String qwacAlias, String[] supportedCipherSuites) {
+                return client;
+            }
+
+            @Override
+            public HttpClientConfig getHttpClientConfig() {
+                return httpClientConfig;
+            }
+        };
+    }
 
     @Test
     void initiatePayment() {

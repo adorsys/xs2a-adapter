@@ -17,7 +17,6 @@
 package de.adorsys.xs2a.adapter.comdirect;
 
 import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
@@ -37,12 +36,12 @@ public class ComdirectServiceProvider
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
-                                                                  LinksRewriter linksRewriter,
-                                                                  HttpClientConfig httpClientConfig) {
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  LinksRewriter linksRewriter) {
         return new ComdirectAccountInformationService(aspsp,
-            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
-            httpClientConfig.getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -57,11 +56,12 @@ public class ComdirectServiceProvider
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
-                                                                HttpClientConfig clientConfig,
+                                                                HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
         return new BasePaymentInitiationService(aspsp,
-            clientConfig.getClientFactory().getHttpClient(getAdapterId()),
-            linksRewriter);
+            httpClientFactory.getHttpClient(getAdapterId()),
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -71,13 +71,14 @@ public class ComdirectServiceProvider
 
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return ComdirectOauth2Service.create(aspsp, httpClientFactory.getHttpClient(getAdapterId()), keyStore);
+        return ComdirectOauth2Service.create(aspsp, httpClientFactory.getHttpClient(getAdapterId()), keyStore, null);
     }
 
     @Override
-    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientConfig httpClientConfig) {
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory) {
         return ComdirectOauth2Service.create(aspsp,
-            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
-            httpClientConfig.getKeyStore());
+            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClientConfig().getKeyStore(),
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 }

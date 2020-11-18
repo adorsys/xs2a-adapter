@@ -53,7 +53,7 @@ class SantanderOauth2ServiceTest {
         Pkcs12KeyStore keyStore = Mockito.mock(Pkcs12KeyStore.class);
         Mockito.when(keyStore.getOrganizationIdentifier())
             .thenReturn(CLIENT_ID);
-        oauth2Service = SantanderOauth2Service.create(aspsp, httpClient, keyStore);
+        oauth2Service = SantanderOauth2Service.create(aspsp, httpClient, keyStore, null);
     }
 
     private Response<AuthorisationServerMetaData> authorizationServerMetadata() {

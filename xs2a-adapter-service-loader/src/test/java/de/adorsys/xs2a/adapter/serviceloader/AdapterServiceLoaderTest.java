@@ -193,7 +193,7 @@ class AdapterServiceLoaderTest {
 
     @Test
     void getAccountInformationServiceReturnFirst() {
-        adapterServiceLoader = new AdapterServiceLoader(aspspRepository, null, null, null, true);
+        adapterServiceLoader = new AdapterServiceLoader(aspspRepository,  null, null, null, true);
         Aspsp aspsp1 = new Aspsp();
         aspsp1.setId("1");
 

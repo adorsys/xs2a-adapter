@@ -18,7 +18,6 @@ package de.adorsys.xs2a.adapter.verlag;
 
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
-import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
@@ -58,14 +57,14 @@ public class VerlagServiceProvider
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
-                                                                  LinksRewriter linksRewriter,
-                                                                  HttpClientConfig httpClientConfig) {
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  LinksRewriter linksRewriter) {
         return new VerlagAccountInformationService(aspsp,
             apiKeyEntry,
-            httpClientConfig.getClientFactory().getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
+            httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
             psuIdTypeHeaderInterceptor,
             linksRewriter,
-            httpClientConfig.getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -83,14 +82,14 @@ public class VerlagServiceProvider
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
-                                                                HttpClientConfig clientConfig,
+                                                                HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
         return new VerlagPaymentInitiationService(aspsp,
             apiKeyEntry,
-            clientConfig.getClientFactory().getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
+            httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
             psuIdTypeHeaderInterceptor,
             linksRewriter,
-            clientConfig.getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -99,10 +98,11 @@ public class VerlagServiceProvider
     }
 
     @Override
-    public DownloadService getDownloadService(String baseUrl, HttpClientConfig clientConfig) {
+    public DownloadService getDownloadService(String baseUrl,
+                                              HttpClientFactory httpClientFactory) {
         return new BaseDownloadService(baseUrl,
-            clientConfig.getClientFactory().getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
-            clientConfig.getLogSanitizer());
+            httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

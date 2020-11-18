@@ -16,7 +16,6 @@
 
 package de.adorsys.xs2a.adapter.api;
 
-import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
@@ -30,6 +29,6 @@ public interface PaymentInitiationServiceProvider extends AdapterServiceProvider
                                                          LinksRewriter linksRewriter);
 
     PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
-                                                         HttpClientConfig clientConfig,
+                                                         HttpClientFactory httpClientFactory,
                                                          LinksRewriter linksRewriter);
 }

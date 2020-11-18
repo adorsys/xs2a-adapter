@@ -42,10 +42,8 @@ public class RestConfiguration {
     }
 
     @Bean
-    HttpClientConfig httpClientConfig(HttpLogSanitizer logSanitizer,
-                                      Pkcs12KeyStore keyStore,
-                                      HttpClientFactory clientFactory) {
-        return new BaseHttpClientConfig(logSanitizer, keyStore, clientFactory);
+    HttpClientConfig httpClientConfig(HttpLogSanitizer logSanitizer, Pkcs12KeyStore keyStore) {
+        return new BaseHttpClientConfig(logSanitizer, keyStore);
     }
 
     @Bean
@@ -61,9 +59,11 @@ public class RestConfiguration {
     @Bean
     AdapterServiceLoader adapterServiceLoader(LinksRewriter accountInformationLinksRewriter,
                                               LinksRewriter paymentInitiationLinksRewriter,
-                                              HttpClientConfig httpClientConfig) {
-        return new AdapterServiceLoader(aspspRepository(), httpClientConfig,
-            accountInformationLinksRewriter, paymentInitiationLinksRewriter,
+                                              HttpClientFactory httpClientFactory) {
+        return new AdapterServiceLoader(aspspRepository(),
+            httpClientFactory,
+            accountInformationLinksRewriter,
+            paymentInitiationLinksRewriter,
             chooseFirstFromMultipleAspsps);
     }
 
@@ -77,15 +77,9 @@ public class RestConfiguration {
         return new IdentityLinksRewriter();
     }
 
-//    @Bean
-//    HttpClientFactory httpClientFactory(HttpClientBuilder httpClientBuilder, Pkcs12KeyStore pkcs12KeyStore) {
-//        return wireMockEnabled ? new WiremockHttpClientFactory(httpClientBuilder, pkcs12KeyStore)
-//                   : new ApacheHttpClientFactory(httpClientBuilder, pkcs12KeyStore);
-//    }
-
     @Bean
     HttpClientFactory httpClientFactory(HttpClientBuilder httpClientBuilder, HttpClientConfig clientConfig) {
-        return wireMockEnabled ? new WiremockHttpClientFactory(httpClientBuilder, clientConfig.getKeyStore())
+        return wireMockEnabled ? new WiremockHttpClientFactory(httpClientBuilder, clientConfig)
             : new ApacheHttpClientFactory(httpClientBuilder, clientConfig);
     }
 

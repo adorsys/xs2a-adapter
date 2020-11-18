@@ -1,9 +1,7 @@
 package de.adorsys.xs2a.adapter.consors;
 
 import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.http.ContentType;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.Request;
+import de.adorsys.xs2a.adapter.api.http.*;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.Consents;
 import de.adorsys.xs2a.adapter.api.model.ConsentsResponse201;
@@ -24,9 +22,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ConsorsAccountInformationServiceTest {
 
     private final HttpClient httpClient = Mockito.spy(AbstractHttpClient.class);
+    private final HttpClientConfig httpClientConfig = Mockito.mock(HttpClientConfig.class);
     private final AccountInformationService service = new ConsorsServiceProvider()
-        .getAccountInformationService(new Aspsp(), (x, y, z) -> httpClient, null, new IdentityLinksRewriter());
+        .getAccountInformationService(new Aspsp(), getHttpClientFactory(), new IdentityLinksRewriter());
     private ArgumentCaptor<Request.Builder> builderCaptor;
+
+    private HttpClientFactory getHttpClientFactory() {
+        return new HttpClientFactory() {
+            @Override
+            public HttpClient getHttpClient(String adapterId, String qwacAlias, String[] supportedCipherSuites) {
+                return httpClient;
+            }
+
+            @Override
+            public HttpClientConfig getHttpClientConfig() {
+                return httpClientConfig;
+            }
+        };
+    }
 
     @BeforeEach
     void setUp() {

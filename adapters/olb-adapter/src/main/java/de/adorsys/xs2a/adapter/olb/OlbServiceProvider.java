@@ -1,7 +1,6 @@
 package de.adorsys.xs2a.adapter.olb;
 
 import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
@@ -21,11 +20,13 @@ public class OlbServiceProvider implements AccountInformationServiceProvider, Pa
     }
 
     @Override
-    public AccountInformationService getAccountInformationService(Aspsp aspsp, LinksRewriter linksRewriter, HttpClientConfig httpClientConfig) {
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  LinksRewriter linksRewriter) {
         return new OlbAccountInformationService(aspsp,
-            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
-            httpClientConfig.getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -40,11 +41,13 @@ public class OlbServiceProvider implements AccountInformationServiceProvider, Pa
     }
 
     @Override
-    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp, HttpClientConfig clientConfig, LinksRewriter linksRewriter) {
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
+                                                                HttpClientFactory httpClientFactory,
+                                                                LinksRewriter linksRewriter) {
         return new BasePaymentInitiationService(aspsp,
-            clientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
-            clientConfig.getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

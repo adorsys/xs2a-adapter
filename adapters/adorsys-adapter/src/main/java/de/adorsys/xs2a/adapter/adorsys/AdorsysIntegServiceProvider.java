@@ -46,13 +46,15 @@ public class AdorsysIntegServiceProvider
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
-                                                                HttpClientConfig httpClientConfig,
+                                                                HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
+
+        HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new BasePaymentInitiationService(aspsp,
-            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
-            getInterceptors(httpClientConfig.getKeyStore()),
+            httpClientFactory.getHttpClient(getAdapterId()),
+            getInterceptors(config.getKeyStore()),
             linksRewriter,
-            httpClientConfig.getLogSanitizer());
+            config.getLogSanitizer());
     }
 
     private List<Interceptor> getInterceptors(Pkcs12KeyStore keyStore) {
@@ -79,13 +81,14 @@ public class AdorsysIntegServiceProvider
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
-                                                                  LinksRewriter linksRewriter,
-                                                                  HttpClientConfig httpClientConfig) {
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  LinksRewriter linksRewriter) {
+        HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new AdorsysAccountInformationService(aspsp,
-                                                    httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
-                                                    getInterceptors(httpClientConfig.getKeyStore()),
+                                                    httpClientFactory.getHttpClient(getAdapterId()),
+                                                    getInterceptors(config.getKeyStore()),
                                                     linksRewriter,
-                                                    httpClientConfig.getLogSanitizer());
+                                                    config.getLogSanitizer());
     }
 
     @Deprecated
@@ -98,11 +101,12 @@ public class AdorsysIntegServiceProvider
     }
 
     @Override
-    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientConfig httpClientConfig) {
-        HttpClient httpClient = httpClientConfig.getClientFactory().getHttpClient(getAdapterId());
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory) {
+        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
+        HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new AdorsysIntegOauth2Service(aspsp, httpClient,
-                                             new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class),
-                                             httpClientConfig.getLogSanitizer());
+                                             new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class, config.getLogSanitizer()),
+                                             config.getLogSanitizer());
     }
 
     @Override

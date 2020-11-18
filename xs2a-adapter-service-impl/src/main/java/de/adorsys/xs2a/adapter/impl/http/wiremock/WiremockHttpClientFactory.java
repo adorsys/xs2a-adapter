@@ -3,7 +3,9 @@ package de.adorsys.xs2a.adapter.impl.http.wiremock;
 import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.exception.Xs2aAdapterException;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.impl.http.BaseHttpClientConfig;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -20,17 +22,28 @@ import java.util.concurrent.ConcurrentMap;
 public class WiremockHttpClientFactory implements HttpClientFactory {
 
     private final HttpClientBuilder httpClientBuilder;
-    private final Pkcs12KeyStore keyStore;
+    private final HttpClientConfig httpClientConfig;
     private final ConcurrentMap<String, HttpClient> cache = new ConcurrentHashMap<>();
 
+    @Deprecated
     public WiremockHttpClientFactory(HttpClientBuilder httpClientBuilder, Pkcs12KeyStore keyStore) {
         this.httpClientBuilder = httpClientBuilder;
-        this.keyStore = keyStore;
+        this.httpClientConfig = new BaseHttpClientConfig(null, keyStore);
+    }
+
+    public WiremockHttpClientFactory(HttpClientBuilder httpClientBuilder, HttpClientConfig httpClientConfig) {
+        this.httpClientBuilder = httpClientBuilder;
+        this.httpClientConfig = httpClientConfig;
     }
 
     @Override
     public HttpClient getHttpClient(String adapterId, String qwacAlias, String[] supportedCipherSuites) {
         return cache.computeIfAbsent(adapterId, key -> createHttpClient(qwacAlias, supportedCipherSuites, adapterId));
+    }
+
+    @Override
+    public HttpClientConfig getHttpClientConfig() {
+        return httpClientConfig;
     }
 
     private HttpClient createHttpClient(String qwacAlias, String[] supportedCipherSuites, String adapterId) {
@@ -42,13 +55,13 @@ public class WiremockHttpClientFactory implements HttpClientFactory {
                 new SSLConnectionSocketFactory(socketFactory, null, supportedCipherSuites, (HostnameVerifier) null);
             httpClientBuilder.setSSLSocketFactory(sslSocketFactory);
             httpClient = httpClientBuilder.build();
-            return new WiremockHttpClient(adapterId, httpClient);
+            return new WiremockHttpClient(adapterId, httpClient, httpClientConfig.getLogSanitizer());
         }
     }
 
     private SSLContext getSslContext(String qwacAlias) {
         try {
-            return keyStore.getSslContext(qwacAlias);
+            return httpClientConfig.getKeyStore().getSslContext(qwacAlias);
         } catch (GeneralSecurityException e) {
             throw new Xs2aAdapterException(e);
         } catch (IOException e) {

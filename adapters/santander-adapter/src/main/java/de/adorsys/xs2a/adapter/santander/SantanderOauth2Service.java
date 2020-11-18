@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.api.Oauth2Service;
 import de.adorsys.xs2a.adapter.api.PkceOauth2Extension;
 import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 import de.adorsys.xs2a.adapter.api.validation.ValidationError;
@@ -28,10 +29,10 @@ class SantanderOauth2Service implements Oauth2Service, PkceOauth2Extension {
         this.oauth2Service = oauth2Service;
     }
 
-    public static SantanderOauth2Service create(Aspsp aspsp, HttpClient httpClient, Pkcs12KeyStore keyStore) {
+    public static SantanderOauth2Service create(Aspsp aspsp, HttpClient httpClient, Pkcs12KeyStore keyStore, HttpLogSanitizer logSanitizer) {
         return new SantanderOauth2Service(
             new CertificateSubjectClientIdOauth2Service(
-                new PkceOauth2Service(new BaseOauth2Service(aspsp, httpClient)),
+                new PkceOauth2Service(new BaseOauth2Service(aspsp, httpClient, logSanitizer)),
                 keyStore));
     }
 

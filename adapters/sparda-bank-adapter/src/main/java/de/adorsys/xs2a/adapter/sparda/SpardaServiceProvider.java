@@ -18,7 +18,6 @@ package de.adorsys.xs2a.adapter.sparda;
 
 import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
-import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
@@ -41,13 +40,13 @@ public class SpardaServiceProvider implements AccountInformationServiceProvider,
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
-                                                                  LinksRewriter linksRewriter,
-                                                                  HttpClientConfig httpClientConfig) {
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  LinksRewriter linksRewriter) {
         return new SpardaAccountInformationService(aspsp,
-            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
             JWT_SERVICE,
-            httpClientConfig.getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -64,13 +63,13 @@ public class SpardaServiceProvider implements AccountInformationServiceProvider,
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
-                                                                HttpClientConfig clientConfig,
+                                                                HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
         return new SpardaPaymentInitiationService(aspsp,
-            clientConfig.getClientFactory().getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
             JWT_SERVICE,
-            clientConfig.getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -78,15 +77,18 @@ public class SpardaServiceProvider implements AccountInformationServiceProvider,
         return SpardaOauth2Service.create(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             keyStore,
-            AdapterConfig.readProperty("sparda.client_id"));
+            AdapterConfig.readProperty("sparda.client_id"),
+            null);
     }
 
     @Override
-    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientConfig httpClientConfig) {
+    public Oauth2Service getOauth2Service(Aspsp aspsp,
+                                          HttpClientFactory httpClientFactory) {
         return SpardaOauth2Service.create(aspsp,
-            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
-            httpClientConfig.getKeyStore(),
-            AdapterConfig.readProperty("sparda.client_id"));
+            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClientConfig().getKeyStore(),
+            AdapterConfig.readProperty("sparda.client_id"),
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

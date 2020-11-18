@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.api.Oauth2Service;
 import de.adorsys.xs2a.adapter.api.PkceOauth2Extension;
 import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.Scope;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
@@ -49,8 +50,9 @@ public class SpardaOauth2Service implements Oauth2Service, PkceOauth2Extension {
     public static SpardaOauth2Service create(Aspsp aspsp,
                                              HttpClient httpClient,
                                              Pkcs12KeyStore keyStore,
-                                             String clientId) {
-        BaseOauth2Service baseOauth2Service = new BaseOauth2Service(aspsp, httpClient);
+                                             String clientId,
+                                             HttpLogSanitizer logSanitizer) {
+        BaseOauth2Service baseOauth2Service = new BaseOauth2Service(aspsp, httpClient, logSanitizer);
         CertificateSubjectClientIdOauth2Service clientIdOauth2Service =
             new CertificateSubjectClientIdOauth2Service(baseOauth2Service, keyStore);
         PkceOauth2Service pkceOauth2Service = new SpardaPkceOauth2Service(clientIdOauth2Service);

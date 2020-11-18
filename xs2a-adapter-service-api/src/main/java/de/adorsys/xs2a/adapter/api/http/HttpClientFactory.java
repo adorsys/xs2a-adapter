@@ -11,4 +11,9 @@ public interface HttpClientFactory {
     default HttpClient getHttpClient(String adapterId) {
         return getHttpClient(adapterId, null);
     }
+
+    /**
+     * @return An object with all necessary configurations for creating an {@link HttpClient}
+     */
+    HttpClientConfig getHttpClientConfig();
 }

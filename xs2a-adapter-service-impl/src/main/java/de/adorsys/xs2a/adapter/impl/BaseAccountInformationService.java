@@ -58,25 +58,10 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     private final List<Interceptor> interceptors;
     private final ResponseHandlers responseHandlers;
 
-    public BaseAccountInformationService(Aspsp aspsp, HttpClient httpClient) {
-        this(aspsp, httpClient, Collections.emptyList(), DEFAULT_LINKS_REWRITER, null);
-    }
-
-    public BaseAccountInformationService(Aspsp aspsp, HttpClient httpClient, HttpLogSanitizer logSanitizer) {
-        this(aspsp, httpClient, Collections.emptyList(), DEFAULT_LINKS_REWRITER, logSanitizer);
-    }
-
     public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
                                          Interceptor requestBuilderInterceptor) {
         this(aspsp, httpClient, requestBuilderInterceptor, DEFAULT_LINKS_REWRITER, null);
-    }
-
-    public BaseAccountInformationService(Aspsp aspsp,
-                                         HttpClient httpClient,
-                                         Interceptor requestBuilderInterceptor,
-                                         HttpLogSanitizer logSanitizer) {
-        this(aspsp, httpClient, requestBuilderInterceptor, DEFAULT_LINKS_REWRITER, logSanitizer);
     }
 
     public BaseAccountInformationService(Aspsp aspsp,
@@ -95,23 +80,9 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
                                          Interceptor requestBuilderInterceptor,
-                                         LinksRewriter linksRewriter) {
-        this(aspsp, httpClient, Collections.singletonList(requestBuilderInterceptor), linksRewriter, null);
-    }
-
-    public BaseAccountInformationService(Aspsp aspsp,
-                                         HttpClient httpClient,
-                                         Interceptor requestBuilderInterceptor,
                                          LinksRewriter linksRewriter,
                                          HttpLogSanitizer logSanitizer) {
         this(aspsp, httpClient, Collections.singletonList(requestBuilderInterceptor), linksRewriter, logSanitizer);
-    }
-
-    public BaseAccountInformationService(Aspsp aspsp,
-                                         HttpClient httpClient,
-                                         List<Interceptor> interceptors,
-                                         LinksRewriter linksRewriter) {
-        this(aspsp, httpClient, interceptors, linksRewriter, null);
     }
 
     public BaseAccountInformationService(Aspsp aspsp,

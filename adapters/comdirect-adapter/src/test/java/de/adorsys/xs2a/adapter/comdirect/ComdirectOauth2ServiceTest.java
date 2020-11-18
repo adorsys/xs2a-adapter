@@ -56,7 +56,7 @@ class ComdirectOauth2ServiceTest {
 
     @Test
     void getAuthorizationRequestUri() throws IOException {
-        oauth2Service = ComdirectOauth2Service.create(new Aspsp(), null, keyStore);
+        oauth2Service = ComdirectOauth2Service.create(new Aspsp(), null, keyStore, null);
         Parameters parameters = new Parameters();
         parameters.setScaOAuthLink(SCA_OAUTH_LINK);
         parameters.setState(STATE);
@@ -77,7 +77,7 @@ class ComdirectOauth2ServiceTest {
 
     @Test
     void getAuthorizationRequestUriForPayment() throws IOException {
-        oauth2Service = ComdirectOauth2Service.create(new Aspsp(), null, keyStore);
+        oauth2Service = ComdirectOauth2Service.create(new Aspsp(), null, keyStore, null);
         Parameters parameters = new Parameters();
         parameters.setScaOAuthLink(SCA_OAUTH_LINK);
         parameters.setState(STATE);
@@ -105,7 +105,7 @@ class ComdirectOauth2ServiceTest {
 
         HttpClient httpClient = Mockito.mock(HttpClient.class);
         Request.Builder requestBuilder = Mockito.spy(new RequestBuilderImpl(httpClient, null, null));
-        oauth2Service = ComdirectOauth2Service.create(aspsp, httpClient, keyStore);
+        oauth2Service = ComdirectOauth2Service.create(aspsp, httpClient, keyStore, null);
 
         Parameters parameters = new Parameters();
         parameters.setState(STATE);
@@ -132,7 +132,7 @@ class ComdirectOauth2ServiceTest {
 
     @Test
     void getAuthorizationRequestUri_noScaOAuthLinkNoIdpUrl() {
-        oauth2Service = ComdirectOauth2Service.create(new Aspsp(), null, keyStore);
+        oauth2Service = ComdirectOauth2Service.create(new Aspsp(), null, keyStore, null);
         Parameters parameters = new Parameters();
 
         assertThrows(RequestValidationException.class,
@@ -146,7 +146,7 @@ class ComdirectOauth2ServiceTest {
         HttpClient httpClient = Mockito.spy(new ApacheHttpClient(null, null));
         doReturn(new Response<>(200, new TokenResponse(), ResponseHeaders.emptyResponseHeaders()))
             .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), Mockito.any());
-        oauth2Service = ComdirectOauth2Service.create(aspsp, httpClient, keyStore);
+        oauth2Service = ComdirectOauth2Service.create(aspsp, httpClient, keyStore, null);
         Parameters parameters = new Parameters();
         parameters.setGrantType(Oauth2Service.GrantType.AUTHORIZATION_CODE.toString());
         parameters.setAuthorizationCode(AUTHORIZATION_CODE);

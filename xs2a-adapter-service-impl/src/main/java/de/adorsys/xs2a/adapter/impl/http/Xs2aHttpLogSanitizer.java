@@ -27,8 +27,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Xs2aHttpLogSanitizer implements HttpLogSanitizer {
-    private static HttpLogSanitizer instance;
-
     private static final Logger logger = LoggerFactory.getLogger(Xs2aHttpLogSanitizer.class);
     private static final String APPLICATION_JSON = "application/json";
     static final String REPLACEMENT = "******";
@@ -37,9 +35,16 @@ public class Xs2aHttpLogSanitizer implements HttpLogSanitizer {
     private final List<Pattern> patterns = new ArrayList<>();
     private JsonMapper objectMapper = new JacksonObjectMapper();
 
+    /**
+     * @param whitelist is a list of request/response body fields that a client wants to be unveiled in logs.
+     *                  Empty list may be passed. Field names must conform Berlin Group specification and written
+     *                  in camelCase, otherwise it will have no effect and Xs2aHttpLogSanitizer will still mask values.
+     */
     public Xs2aHttpLogSanitizer(List<String> whitelist) {
         this();
-        nonSanitizedBodyProperties.addAll(whitelist);
+        if (whitelist != null) {
+            nonSanitizedBodyProperties.addAll(whitelist);
+        }
     }
 
     public Xs2aHttpLogSanitizer() {
@@ -75,10 +80,10 @@ public class Xs2aHttpLogSanitizer implements HttpLogSanitizer {
         return replacedData;
     }
 
-    public String sanitizeRequestBody(Object entity, String contentType) {
+    public String sanitizeRequestBody(Object httpEntity, String contentType) {
         if (contentType.startsWith(APPLICATION_JSON)) {
             try {
-                return sanitizeStringifiedJsonBody(EntityUtils.toString((HttpEntity) entity));
+                return sanitizeStringifiedJsonBody(EntityUtils.toString((HttpEntity) httpEntity));
             } catch (Exception e) {
                 logger.error("Can't parse request as json. It will be replaced with {}", REPLACEMENT);
             }

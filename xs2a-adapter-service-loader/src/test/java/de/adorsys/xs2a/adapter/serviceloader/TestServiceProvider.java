@@ -17,7 +17,6 @@
 package de.adorsys.xs2a.adapter.serviceloader;
 
 import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
@@ -35,8 +34,8 @@ public class TestServiceProvider
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
-                                                                  LinksRewriter linksRewriter,
-                                                                  HttpClientConfig httpClientConfig) {
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  LinksRewriter linksRewriter) {
         return new TestAccountInformationService();
     }
 
@@ -50,7 +49,7 @@ public class TestServiceProvider
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
-                                                                HttpClientConfig clientConfig,
+                                                                HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
         return new TestPaymentInitiationService();
     }
@@ -63,7 +62,8 @@ public class TestServiceProvider
     }
 
     @Override
-    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientConfig httpClientConfig) {
+    public Oauth2Service getOauth2Service(Aspsp aspsp,
+                                          HttpClientFactory httpClientFactory) {
         return new TestOauth2Service();
     }
 
@@ -75,7 +75,8 @@ public class TestServiceProvider
     }
 
     @Override
-    public DownloadService getDownloadService(String baseUrl, HttpClientConfig clientConfig) {
+    public DownloadService getDownloadService(String baseUrl,
+                                              HttpClientFactory httpClientFactory) {
         return new TestDownloadService();
     }
 
@@ -87,12 +88,6 @@ public class TestServiceProvider
     @Override
     public EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp,
                                                                               HttpClientFactory httpClientFactory) {
-        return new TestEmbeddedPreAuthorisationService();
-    }
-
-    @Override
-    public EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp,
-                                                                              HttpClientConfig httpClientConfig) {
         return new TestEmbeddedPreAuthorisationService();
     }
 }

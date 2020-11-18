@@ -39,13 +39,14 @@ public class FiduciaServiceProvider implements AccountInformationServiceProvider
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
-                                                                  LinksRewriter linksRewriter,
-                                                                  HttpClientConfig httpClientConfig) {
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  LinksRewriter linksRewriter) {
+        HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new FiduciaAccountInformationService(aspsp,
-            httpClientConfig.getClientFactory().getHttpClient(getAdapterId()),
-            new RequestSigningInterceptor(httpClientConfig.getKeyStore()),
+            httpClientFactory.getHttpClient(getAdapterId()),
+            new RequestSigningInterceptor(config.getKeyStore()),
             linksRewriter,
-            httpClientConfig.getLogSanitizer());
+            config.getLogSanitizer());
     }
 
     @Override
@@ -62,13 +63,14 @@ public class FiduciaServiceProvider implements AccountInformationServiceProvider
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
-                                                                HttpClientConfig clientConfig,
+                                                                HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
+        HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new FiduciaPaymentInitiationService(aspsp,
-            clientConfig.getClientFactory().getHttpClient(getAdapterId()),
-            new RequestSigningInterceptor(clientConfig.getKeyStore()),
+            httpClientFactory.getHttpClient(getAdapterId()),
+            new RequestSigningInterceptor(config.getKeyStore()),
             linksRewriter,
-            clientConfig.getLogSanitizer());
+            config.getLogSanitizer());
     }
 
     @Override

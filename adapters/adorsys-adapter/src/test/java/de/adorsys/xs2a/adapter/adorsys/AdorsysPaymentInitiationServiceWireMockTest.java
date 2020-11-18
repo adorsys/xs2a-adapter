@@ -91,12 +91,26 @@ class AdorsysPaymentInitiationServiceWireMockTest {
 
 
         HttpClient httpClient = new ApacheHttpClient(new Xs2aHttpLogSanitizer(), HttpClientBuilder.create().build());
-        HttpClientFactory httpClientFactory = (adapterId, qwacAlias, supportedCipherSuites) -> httpClient;
-        HttpClientConfig clientConfig = new BaseHttpClientConfig(null, null, httpClientFactory);
+        HttpClientConfig clientConfig = new BaseHttpClientConfig(null, null);
+        HttpClientFactory httpClientFactory = getHttpClientFactory(httpClient, clientConfig);
         LinksRewriter linksRewriter = new IdentityLinksRewriter();
         Aspsp aspsp = new Aspsp();
         aspsp.setUrl("http://localhost:" + wireMockServer.port());
-        service = new AdorsysIntegServiceProvider().getPaymentInitiationService(aspsp, clientConfig, linksRewriter);
+        service = new AdorsysIntegServiceProvider().getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
+    }
+
+    private static HttpClientFactory getHttpClientFactory(HttpClient httpClient, HttpClientConfig config) {
+        return new HttpClientFactory() {
+            @Override
+            public HttpClient getHttpClient(String adapterId, String qwacAlias, String[] supportedCipherSuites) {
+                return httpClient;
+            }
+
+            @Override
+            public HttpClientConfig getHttpClientConfig() {
+                return config;
+            }
+        };
     }
 
     @AfterAll

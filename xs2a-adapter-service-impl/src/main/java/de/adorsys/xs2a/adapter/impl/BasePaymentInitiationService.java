@@ -48,25 +48,10 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     private final LinksRewriter linksRewriter;
     private final ResponseHandlers responseHandlers;
 
-    public BasePaymentInitiationService(Aspsp aspsp, HttpClient httpClient) {
-        this(aspsp, httpClient, Collections.emptyList(), DEFAULT_LINKS_REWRITER, null);
-    }
-
-    public BasePaymentInitiationService(Aspsp aspsp, HttpClient httpClient, HttpLogSanitizer logSanitizer) {
-        this(aspsp, httpClient, Collections.emptyList(), DEFAULT_LINKS_REWRITER, logSanitizer);
-    }
-
     public BasePaymentInitiationService(Aspsp aspsp,
                                         HttpClient httpClient,
                                         Interceptor requestBuilderInterceptor) {
         this(aspsp, httpClient, Collections.singletonList(requestBuilderInterceptor), DEFAULT_LINKS_REWRITER, null);
-    }
-
-    public BasePaymentInitiationService(Aspsp aspsp,
-                                        HttpClient httpClient,
-                                        Interceptor requestBuilderInterceptor,
-                                        HttpLogSanitizer logSanitizer) {
-        this(aspsp, httpClient, Collections.singletonList(requestBuilderInterceptor), DEFAULT_LINKS_REWRITER, logSanitizer);
     }
 
     public BasePaymentInitiationService(Aspsp aspsp,
@@ -80,13 +65,6 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                         LinksRewriter linksRewriter,
                                         HttpLogSanitizer logSanitizer) {
         this(aspsp, httpClient, Collections.emptyList(), linksRewriter, logSanitizer);
-    }
-
-    public BasePaymentInitiationService(Aspsp aspsp,
-                                        HttpClient httpClient,
-                                        Interceptor requestBuilderInterceptor,
-                                        LinksRewriter linksRewriter) {
-        this(aspsp, httpClient, Collections.singletonList(requestBuilderInterceptor), linksRewriter, null);
     }
 
     public BasePaymentInitiationService(Aspsp aspsp,
