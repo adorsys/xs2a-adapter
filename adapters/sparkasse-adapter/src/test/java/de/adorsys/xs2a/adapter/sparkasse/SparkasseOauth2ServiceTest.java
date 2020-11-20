@@ -41,13 +41,13 @@ class SparkasseOauth2ServiceTest {
         Mockito.when(keyStore.getOrganizationIdentifier())
             .thenReturn(ORG_ID);
 
-        httpClient = Mockito.spy(new ApacheHttpClient(null));
+        httpClient = Mockito.spy(new ApacheHttpClient(null, null));
         Mockito.doReturn(authorizationServerMetadata())
             .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(SCA_OAUTH_LINK)), Mockito.any());
         Mockito.doReturn(tokenResponse())
             .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), Mockito.any());
 
-        oauth2Service = SparkasseOauth2Service.create(null, httpClient, keyStore);
+        oauth2Service = SparkasseOauth2Service.create(null, httpClient, keyStore, null);
     }
 
     private Response<AuthorisationServerMetaData> authorizationServerMetadata() {

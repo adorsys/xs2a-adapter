@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.deutschebank;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.http.ContentType;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
@@ -18,8 +19,9 @@ public class DeutscheBankPaymentInitiationService extends BasePaymentInitiationS
     public DeutscheBankPaymentInitiationService(Aspsp aspsp,
                                                 HttpClient httpClient,
                                                 Interceptor interceptor,
-                                                LinksRewriter linksRewriter) {
-        super(aspsp, httpClient, interceptor, linksRewriter);
+                                                LinksRewriter linksRewriter,
+                                                HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, interceptor, linksRewriter, logSanitizer);
     }
 
     @Override

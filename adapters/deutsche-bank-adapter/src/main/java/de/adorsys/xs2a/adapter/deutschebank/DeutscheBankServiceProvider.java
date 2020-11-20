@@ -33,12 +33,20 @@ public class DeutscheBankServiceProvider
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
+        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
+    }
+
+    @Override
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  LinksRewriter linksRewriter) {
         aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "ais"));
         return new DeutscheBankAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             psuIdTypeHeaderInterceptor,
             linksRewriter,
-            psuPasswordEncryptionService);
+            psuPasswordEncryptionService,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -46,18 +54,33 @@ public class DeutscheBankServiceProvider
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "pis"));
+        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
+                                                                HttpClientFactory httpClientFactory,
+                                                                LinksRewriter linksRewriter) {
         return new DeutscheBankPaymentInitiationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             psuIdTypeHeaderInterceptor,
-            linksRewriter);
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
     public DownloadService getDownloadService(String baseUrl,
                                               HttpClientFactory httpClientFactory,
                                               Pkcs12KeyStore keyStore) {
-        return new BaseDownloadService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
+        return getDownloadService(baseUrl, httpClientFactory);
+    }
+
+    @Override
+    public DownloadService getDownloadService(String baseUrl,
+                                              HttpClientFactory httpClientFactory) {
+        return new BaseDownloadService(baseUrl,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

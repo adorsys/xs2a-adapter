@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.ContentType;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.api.validation.ValidationError;
@@ -22,8 +23,9 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
 
     public UnicreditAccountInformationService(Aspsp aspsp,
                                               HttpClient httpClient,
-                                              LinksRewriter linksRewriter) {
-        super(aspsp, httpClient, linksRewriter);
+                                              LinksRewriter linksRewriter,
+                                              HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer);
     }
 
     @Override

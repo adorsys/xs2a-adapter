@@ -18,18 +18,27 @@ package de.adorsys.xs2a.adapter.deutschebank;
 
 import de.adorsys.xs2a.adapter.api.AccountInformationServiceProvider;
 import de.adorsys.xs2a.adapter.api.PaymentInitiationServiceProvider;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ServiceLoader;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ServiceLoaderTest {
     private static final Aspsp ASPSP = buildAspspWithUrl();
     private HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
+    private final HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);;
+
+    @BeforeEach
+    void setUp() {
+        when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+    }
 
     @Test
     void getPaymentInitiationServiceProvider() {
@@ -37,7 +46,7 @@ class ServiceLoaderTest {
         PaymentInitiationServiceProvider provider = loader.iterator().next();
 
         assertThat(provider).isInstanceOf(DeutscheBankServiceProvider.class);
-        assertThat(provider.getPaymentInitiationService(ASPSP, httpClientFactory, null, null)).isNotNull();
+        assertThat(provider.getPaymentInitiationService(ASPSP, httpClientFactory, null)).isNotNull();
     }
 
     @Test
@@ -46,7 +55,7 @@ class ServiceLoaderTest {
         AccountInformationServiceProvider provider = loader.iterator().next();
 
         assertThat(provider).isInstanceOf(DeutscheBankServiceProvider.class);
-        assertThat(provider.getAccountInformationService(ASPSP, httpClientFactory, null, null)).isNotNull();
+        assertThat(provider.getAccountInformationService(ASPSP, httpClientFactory, null)).isNotNull();
     }
 
     private static Aspsp buildAspspWithUrl() {

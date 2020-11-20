@@ -15,13 +15,14 @@ public class AdapterServiceLoader {
     private static final String EMPTY_STRING = "";
 
     private final AspspReadOnlyRepository aspspRepository;
-    protected final Pkcs12KeyStore keyStore;
+    protected Pkcs12KeyStore keyStore;
     protected final HttpClientFactory httpClientFactory;
     protected final LinksRewriter accountInformationLinksRewriter;
     protected final LinksRewriter paymentInitiationLinksRewriter;
     private final Map<Class<?>, ServiceLoader<? extends AdapterServiceProvider>> serviceLoaders = new HashMap<>();
     protected final boolean chooseFirstFromMultipleAspsps;
 
+    @Deprecated
     public AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
                                 Pkcs12KeyStore keyStore,
                                 HttpClientFactory httpClientFactory,
@@ -36,12 +37,24 @@ public class AdapterServiceLoader {
         this.chooseFirstFromMultipleAspsps = chooseFirstFromMultipleAspsps;
     }
 
+    public AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
+                                HttpClientFactory httpClientFactory,
+                                LinksRewriter accountInformationLinksRewriter,
+                                LinksRewriter paymentInitiationLinksRewriter,
+                                boolean chooseFirstFromMultipleAspsps) {
+        this.aspspRepository = aspspRepository;
+        this.accountInformationLinksRewriter = accountInformationLinksRewriter;
+        this.paymentInitiationLinksRewriter = paymentInitiationLinksRewriter;
+        this.chooseFirstFromMultipleAspsps = chooseFirstFromMultipleAspsps;
+        this.httpClientFactory = httpClientFactory;
+    }
+
     public AccountInformationService getAccountInformationService(RequestHeaders requestHeaders) {
         Aspsp aspsp = getAspsp(requestHeaders);
         String adapterId = aspsp.getAdapterId();
         return getServiceProvider(AccountInformationServiceProvider.class, adapterId)
                    .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-                   .getAccountInformationService(aspsp, httpClientFactory, keyStore, accountInformationLinksRewriter);
+                   .getAccountInformationService(aspsp, httpClientFactory, accountInformationLinksRewriter);
     }
 
     protected Aspsp getAspsp(RequestHeaders requestHeaders) {
@@ -109,7 +122,7 @@ public class AdapterServiceLoader {
         String adapterId = aspsp.getAdapterId();
         return getServiceProvider(PaymentInitiationServiceProvider.class, adapterId)
                    .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-                   .getPaymentInitiationService(aspsp, httpClientFactory, keyStore, paymentInitiationLinksRewriter);
+                   .getPaymentInitiationService(aspsp, httpClientFactory, paymentInitiationLinksRewriter);
     }
 
     public Oauth2Service getOauth2Service(RequestHeaders requestHeaders) {
@@ -117,7 +130,7 @@ public class AdapterServiceLoader {
         String adapterId = aspsp.getAdapterId();
         return getServiceProvider(Oauth2ServiceProvider.class, adapterId)
                    .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-                   .getOauth2Service(aspsp, httpClientFactory, keyStore);
+                   .getOauth2Service(aspsp, httpClientFactory);
     }
 
     public DownloadService getDownloadService(RequestHeaders requestHeaders) {
@@ -126,7 +139,7 @@ public class AdapterServiceLoader {
         String baseUrl = Optional.ofNullable(aspsp.getIdpUrl()).orElseGet(aspsp::getUrl);
         return getServiceProvider(DownloadServiceProvider.class, adapterId)
                    .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-                   .getDownloadService(baseUrl, httpClientFactory, keyStore);
+                   .getDownloadService(baseUrl, httpClientFactory);
     }
 
     public EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(RequestHeaders requestHeaders) {

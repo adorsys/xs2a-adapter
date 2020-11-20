@@ -30,9 +30,20 @@ public class SantanderServiceProvider
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
+        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
+    }
+
+    @Override
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  LinksRewriter linksRewriter) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
         SantanderAccessTokenService tokenService = getAccessTokenService(httpClient);
-        return new SantanderAccountInformationService(aspsp, tokenService, httpClient, linksRewriter);
+        return new SantanderAccountInformationService(aspsp,
+            tokenService,
+            httpClient,
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     private SantanderAccessTokenService getAccessTokenService(HttpClient httpClient) {
@@ -46,9 +57,20 @@ public class SantanderServiceProvider
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
+        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
+                                                                HttpClientFactory httpClientFactory,
+                                                                LinksRewriter linksRewriter) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
         SantanderAccessTokenService accessTokenService = getAccessTokenService(httpClient);
-        return new SantanderPaymentInitiationService(aspsp, httpClient, linksRewriter, accessTokenService);
+        return new SantanderPaymentInitiationService(aspsp,
+            httpClient,
+            linksRewriter,
+            accessTokenService,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -58,7 +80,15 @@ public class SantanderServiceProvider
 
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
-        return SantanderOauth2Service.create(aspsp, httpClient, keyStore);
+        return getOauth2Service(aspsp, httpClientFactory);
+    }
+
+    @Override
+    public Oauth2Service getOauth2Service(Aspsp aspsp,
+                                          HttpClientFactory httpClientFactory) {
+        return SantanderOauth2Service.create(aspsp,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClientConfig().getKeyStore(),
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 }

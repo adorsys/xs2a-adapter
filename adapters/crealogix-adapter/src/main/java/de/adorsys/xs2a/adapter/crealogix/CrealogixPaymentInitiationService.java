@@ -20,25 +20,26 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.crealogix.model.CrealogixPaymentInitiationWithStatusResponse;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
-import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import org.mapstruct.factory.Mappers;
 
-import static de.adorsys.xs2a.adapter.crealogix.CrealogixRequestResponseHandlers.crealogixRequestHandler;
-import static de.adorsys.xs2a.adapter.crealogix.CrealogixRequestResponseHandlers.crealogixResponseHandler;
 import static java.util.function.Function.identity;
 
 public class CrealogixPaymentInitiationService extends BasePaymentInitiationService {
 
     private final CrealogixMapper mapper = Mappers.getMapper(CrealogixMapper.class);
+    private final CrealogixRequestResponseHandlers requestResponseHandlers;
 
     public CrealogixPaymentInitiationService(Aspsp aspsp,
                                              HttpClient httpClient,
-                                             LinksRewriter linksRewriter) {
-        super(aspsp, httpClient, linksRewriter);
+                                             LinksRewriter linksRewriter,
+                                             HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer);
+        this.requestResponseHandlers = new CrealogixRequestResponseHandlers(logSanitizer);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
             paymentId,
             requestHeaders,
             requestParams,
-            ResponseHandlers.jsonResponseHandler(CrealogixPaymentInitiationWithStatusResponse.class))
+            requestResponseHandlers.jsonResponseHandler(CrealogixPaymentInitiationWithStatusResponse.class))
                 .map(mapper::toPaymentInitiationWithStatusResponse);
     }
 
@@ -61,7 +62,7 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                                         RequestHeaders requestHeaders,
                                                                         RequestParams requestParams,
                                                                         Object body) {
-        crealogixRequestHandler(requestHeaders);
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
 
         return super.initiatePayment(paymentService,
             paymentProduct,
@@ -69,6 +70,6 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
             requestHeaders,
             requestParams,
             identity(),
-            crealogixResponseHandler(PaymentInitationRequestResponse201.class));
+            requestResponseHandlers.crealogixResponseHandler(PaymentInitationRequestResponse201.class));
     }
 }

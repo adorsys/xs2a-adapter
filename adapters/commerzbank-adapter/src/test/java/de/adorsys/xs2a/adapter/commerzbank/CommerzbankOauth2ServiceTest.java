@@ -45,7 +45,7 @@ class CommerzbankOauth2ServiceTest {
         aspsp = new Aspsp();
         aspsp.setUrl(BASE_URL);
 
-        httpClient = Mockito.spy(new ApacheHttpClient(null));
+        httpClient = Mockito.spy(new ApacheHttpClient(null, null));
         Mockito.doReturn(new Response<>(200, new TokenResponse(), ResponseHeaders.emptyResponseHeaders()))
             .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), Mockito.any());
 
@@ -53,7 +53,7 @@ class CommerzbankOauth2ServiceTest {
         Mockito.when(keyStore.getOrganizationIdentifier())
             .thenReturn(ORG_ID);
 
-        oauth2Service = CommerzbankOauth2Service.create(aspsp, httpClient, keyStore);
+        oauth2Service = CommerzbankOauth2Service.create(aspsp, httpClient, keyStore, null);
     }
 
     @Test

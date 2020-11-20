@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.ing;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.impl.http.JsonMapper;
@@ -21,11 +22,13 @@ public class IngPaymentInitiationApi {
 
     private final String baseUri;
     private final HttpClient httpClient;
+    private final ResponseHandlers responseHandlers;
     private final JsonMapper jsonMapper = new JacksonObjectMapper();
 
-    public IngPaymentInitiationApi(String baseUri, HttpClient httpClient) {
+    public IngPaymentInitiationApi(String baseUri, HttpClient httpClient, HttpLogSanitizer logSanitizer) {
         this.baseUri = baseUri;
         this.httpClient = httpClient;
+        this.responseHandlers = new ResponseHandlers(logSanitizer);
     }
 
     public Response<IngPaymentInitiationResponse> initiatePayment(IngPaymentProduct paymentProduct,
@@ -40,7 +43,7 @@ public class IngPaymentInitiationApi {
                    .header(RequestHeaders.TPP_REDIRECT_URI, tppRedirectUri)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
                    .jsonBody(jsonMapper.writeValueAsString(body))
-                   .send(clientAuthentication, ResponseHandlers.jsonResponseHandler(IngPaymentInitiationResponse.class));
+                   .send(clientAuthentication, responseHandlers.jsonResponseHandler(IngPaymentInitiationResponse.class));
     }
 
     public Response<IngPaymentInstruction> getPaymentDetails(IngPaymentProduct paymentProduct,
@@ -53,7 +56,7 @@ public class IngPaymentInitiationApi {
         return httpClient.get(uri)
                    .header(RequestHeaders.X_REQUEST_ID, requestId)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
-                   .send(clientAuthentication, ResponseHandlers.jsonResponseHandler(IngPaymentInstruction.class));
+                   .send(clientAuthentication, responseHandlers.jsonResponseHandler(IngPaymentInstruction.class));
     }
 
     public Response<IngPaymentStatusResponse> getPaymentStatus(IngPaymentProduct paymentProduct,
@@ -66,7 +69,7 @@ public class IngPaymentInitiationApi {
         return httpClient.get(uri)
                    .header(RequestHeaders.X_REQUEST_ID, requestId)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
-                   .send(clientAuthentication, ResponseHandlers.jsonResponseHandler(IngPaymentStatusResponse.class));
+                   .send(clientAuthentication, responseHandlers.jsonResponseHandler(IngPaymentStatusResponse.class));
     }
 
     public Response<IngPaymentInitiationResponse> initiatePaymentXml(IngXmlPaymentProduct paymentProduct,
@@ -81,7 +84,7 @@ public class IngPaymentInitiationApi {
                    .header(RequestHeaders.TPP_REDIRECT_URI, tppRedirectUri)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
                    .xmlBody(body)
-                   .send(clientAuthentication, ResponseHandlers.jsonResponseHandler(IngPaymentInitiationResponse.class));
+                   .send(clientAuthentication, responseHandlers.jsonResponseHandler(IngPaymentInitiationResponse.class));
     }
 
 
@@ -95,7 +98,7 @@ public class IngPaymentInitiationApi {
         return httpClient.get(uri)
                    .header(RequestHeaders.X_REQUEST_ID, requestId)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
-                   .send(clientAuthentication, ResponseHandlers.stringResponseHandler());
+                   .send(clientAuthentication, responseHandlers.stringResponseHandler());
     }
 
     public Response<String> getPaymentStatusXml(IngXmlPaymentProduct paymentProduct,
@@ -108,7 +111,7 @@ public class IngPaymentInitiationApi {
         return httpClient.get(uri)
                    .header(RequestHeaders.X_REQUEST_ID, requestId)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
-                   .send(clientAuthentication, ResponseHandlers.stringResponseHandler());
+                   .send(clientAuthentication, responseHandlers.stringResponseHandler());
     }
 
     public Response<IngPeriodicPaymentInitiationResponse> initiatePeriodicPayment(IngPaymentProduct paymentProduct,
@@ -123,7 +126,7 @@ public class IngPaymentInitiationApi {
                    .header(RequestHeaders.TPP_REDIRECT_URI, tppRedirectUri)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
                    .jsonBody(jsonMapper.writeValueAsString(body))
-                   .send(clientAuthentication, ResponseHandlers.jsonResponseHandler(IngPeriodicPaymentInitiationResponse.class));
+                   .send(clientAuthentication, responseHandlers.jsonResponseHandler(IngPeriodicPaymentInitiationResponse.class));
     }
 
     public Response<IngPeriodicPaymentInitiationJson> getPeriodicPaymentDetails(IngPaymentProduct paymentProduct,
@@ -136,7 +139,7 @@ public class IngPaymentInitiationApi {
         return httpClient.get(uri)
                    .header(RequestHeaders.X_REQUEST_ID, requestId)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
-                   .send(clientAuthentication, ResponseHandlers.jsonResponseHandler(IngPeriodicPaymentInitiationJson.class));
+                   .send(clientAuthentication, responseHandlers.jsonResponseHandler(IngPeriodicPaymentInitiationJson.class));
     }
 
     public Response<IngPaymentAgreementStatusResponse> getPeriodicPaymentStatus(IngPaymentProduct paymentProduct,
@@ -149,7 +152,7 @@ public class IngPaymentInitiationApi {
         return httpClient.get(uri)
                    .header(RequestHeaders.X_REQUEST_ID, requestId)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
-                   .send(clientAuthentication, ResponseHandlers.jsonResponseHandler(IngPaymentAgreementStatusResponse.class));
+                   .send(clientAuthentication, responseHandlers.jsonResponseHandler(IngPaymentAgreementStatusResponse.class));
     }
 
     public Response<IngPeriodicPaymentInitiationResponse> initiatePeriodicPaymentXml(IngXmlPaymentProduct paymentProduct,
@@ -168,7 +171,7 @@ public class IngPaymentInitiationApi {
                    .addPlainTextPart("endDate", body.getEndDate())
                    .addPlainTextPart("frequency", body.getFrequency())
                    .addPlainTextPart("dayOfExecution", body.getDayOfExecution())
-                   .send(clientAuthentication, ResponseHandlers.jsonResponseHandler(IngPeriodicPaymentInitiationResponse.class));
+                   .send(clientAuthentication, responseHandlers.jsonResponseHandler(IngPeriodicPaymentInitiationResponse.class));
     }
 
     public Response<IngPeriodicPaymentInitiationXml> getPeriodicPaymentDetailsXml(IngXmlPaymentProduct paymentProduct,
@@ -181,7 +184,7 @@ public class IngPaymentInitiationApi {
         return httpClient.get(uri)
                    .header(RequestHeaders.X_REQUEST_ID, requestId)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
-                   .send(clientAuthentication, ResponseHandlers.multipartFormDataResponseHandler(IngPeriodicPaymentInitiationXml.class));
+                   .send(clientAuthentication, responseHandlers.multipartFormDataResponseHandler(IngPeriodicPaymentInitiationXml.class));
     }
 
     public Response<String> getPeriodicPaymentStatusXml(IngXmlPaymentProduct paymentProduct,
@@ -194,6 +197,6 @@ public class IngPaymentInitiationApi {
         return httpClient.get(uri)
                    .header(RequestHeaders.X_REQUEST_ID, requestId)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
-                   .send(clientAuthentication, ResponseHandlers.stringResponseHandler());
+                   .send(clientAuthentication, responseHandlers.stringResponseHandler());
     }
 }

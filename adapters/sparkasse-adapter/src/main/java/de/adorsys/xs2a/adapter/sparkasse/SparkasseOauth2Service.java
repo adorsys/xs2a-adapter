@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.api.Oauth2Service;
 import de.adorsys.xs2a.adapter.api.PkceOauth2Extension;
 import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 import de.adorsys.xs2a.adapter.impl.*;
@@ -24,8 +25,8 @@ public class SparkasseOauth2Service extends Oauth2ServiceDecorator implements Pk
         super(oauth2Service);
     }
 
-    public static SparkasseOauth2Service create(Aspsp aspsp, HttpClient httpClient, Pkcs12KeyStore keyStore) {
-        BaseOauth2Service baseOauth2Service = new BaseOauth2Service(aspsp, httpClient);
+    public static SparkasseOauth2Service create(Aspsp aspsp, HttpClient httpClient, Pkcs12KeyStore keyStore, HttpLogSanitizer logSanitizer) {
+        BaseOauth2Service baseOauth2Service = new BaseOauth2Service(aspsp, httpClient, logSanitizer);
         CertificateSubjectClientIdOauth2Service clientIdOauth2Service =
             new CertificateSubjectClientIdOauth2Service(baseOauth2Service, keyStore);
         PkceOauth2Service pkceOauth2Service = new PkceOauth2Service(clientIdOauth2Service);

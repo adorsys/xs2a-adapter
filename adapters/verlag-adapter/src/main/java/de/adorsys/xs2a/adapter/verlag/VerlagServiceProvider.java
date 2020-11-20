@@ -47,11 +47,19 @@ public class VerlagServiceProvider
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
+        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
+    }
+
+    @Override
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  LinksRewriter linksRewriter) {
         return new VerlagAccountInformationService(aspsp,
             apiKeyEntry,
             httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
             psuIdTypeHeaderInterceptor,
-            linksRewriter);
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -59,16 +67,32 @@ public class VerlagServiceProvider
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
+        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
+                                                                HttpClientFactory httpClientFactory,
+                                                                LinksRewriter linksRewriter) {
         return new VerlagPaymentInitiationService(aspsp,
             apiKeyEntry,
             httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
             psuIdTypeHeaderInterceptor,
-            linksRewriter);
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
     public DownloadService getDownloadService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new BaseDownloadService(baseUrl, httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES));
+        return getDownloadService(baseUrl, httpClientFactory);
+    }
+
+    @Override
+    public DownloadService getDownloadService(String baseUrl,
+                                              HttpClientFactory httpClientFactory) {
+        return new BaseDownloadService(baseUrl,
+            httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

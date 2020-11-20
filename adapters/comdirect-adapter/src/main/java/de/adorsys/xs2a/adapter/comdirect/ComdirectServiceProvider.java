@@ -30,8 +30,17 @@ public class ComdirectServiceProvider
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
-        return new ComdirectAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter);
+        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
+    }
+
+    @Override
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  LinksRewriter linksRewriter) {
+        return new ComdirectAccountInformationService(aspsp,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -39,8 +48,17 @@ public class ComdirectServiceProvider
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new BasePaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter);
+        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
+                                                                HttpClientFactory httpClientFactory,
+                                                                LinksRewriter linksRewriter) {
+        return new BasePaymentInitiationService(aspsp,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -50,6 +68,14 @@ public class ComdirectServiceProvider
 
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return ComdirectOauth2Service.create(aspsp, httpClientFactory.getHttpClient(getAdapterId()), keyStore);
+        return getOauth2Service(aspsp, httpClientFactory);
+    }
+
+    @Override
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory) {
+        return ComdirectOauth2Service.create(aspsp,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory.getHttpClientConfig().getKeyStore(),
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 }

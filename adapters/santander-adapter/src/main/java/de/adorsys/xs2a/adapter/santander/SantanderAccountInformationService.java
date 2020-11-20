@@ -21,6 +21,7 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
@@ -52,8 +53,9 @@ public class SantanderAccountInformationService extends BaseAccountInformationSe
     public SantanderAccountInformationService(Aspsp aspsp,
                                               AccessTokenService accessService,
                                               HttpClient httpClient,
-                                              LinksRewriter linksRewriter) {
-        super(aspsp, httpClient, linksRewriter);
+                                              LinksRewriter linksRewriter,
+                                              HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer);
         this.accessService = accessService;
     }
 

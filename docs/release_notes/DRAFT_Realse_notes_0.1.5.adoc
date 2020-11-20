@@ -7,6 +7,8 @@
 == Notices:
 
 == Features:
+- Added Whitelist for `Xs2aHttpLogSanitizer`. It's possible to configure what properties will not be masked by LogSanitizer
+from now. Default shortlist is provided.
 
 == Fixes:
 - Fixed Crealogix bug with ResponseHandler, when request to bank for Token is successful, Adapter recognises all success

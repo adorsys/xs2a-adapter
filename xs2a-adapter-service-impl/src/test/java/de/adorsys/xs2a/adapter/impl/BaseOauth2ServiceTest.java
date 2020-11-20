@@ -37,7 +37,7 @@ class BaseOauth2ServiceTest {
     private BaseOauth2Service oauth2Service;
 
     @Spy
-    private HttpClient httpClient = new ApacheHttpClient(null);
+    private HttpClient httpClient = new ApacheHttpClient(null, null);
 
     @BeforeEach
     public void setUp() {

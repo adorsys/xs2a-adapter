@@ -5,30 +5,38 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
+import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 
 import java.util.Map;
 
 import static de.adorsys.xs2a.adapter.api.validation.Validation.requireValid;
-import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.byteArrayResponseHandler;
 
 public class BaseDownloadService extends AbstractService implements DownloadService {
     private static final String HTTPS_PROTOCOL = "https://";
 
     protected final String baseUri;
     private final Interceptor requestBuilderInterceptor;
+    private final ResponseHandlers responseHandlers;
 
     public BaseDownloadService(String baseUri, HttpClient httpClient) {
         this(baseUri, httpClient, null);
     }
 
+    public BaseDownloadService(String baseUri, HttpClient httpClient, HttpLogSanitizer logSanitizer) {
+        this(baseUri, httpClient, null, logSanitizer);
+    }
+
     public BaseDownloadService(String baseUri,
                                HttpClient httpClient,
-                               Interceptor requestBuilderInterceptor) {
+                               Interceptor requestBuilderInterceptor,
+                               HttpLogSanitizer logSanitizer) {
         super(httpClient);
         this.baseUri = baseUri;
         this.requestBuilderInterceptor = requestBuilderInterceptor;
+        this.responseHandlers = new ResponseHandlers(logSanitizer);
     }
 
     @Override
@@ -39,7 +47,7 @@ public class BaseDownloadService extends AbstractService implements DownloadServ
 
         Response<byte[]> response = httpClient.get(modifyDownloadUrl(downloadUrl))
                                         .headers(headersMap)
-                                        .send(byteArrayResponseHandler(), requestBuilderInterceptor);
+                                        .send(responseHandlers.byteArrayResponseHandler(), requestBuilderInterceptor);
 
         return new Response<>(
             response.getStatusCode(),

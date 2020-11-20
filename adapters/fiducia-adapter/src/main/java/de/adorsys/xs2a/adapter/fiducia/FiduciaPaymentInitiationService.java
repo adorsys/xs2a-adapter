@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
@@ -25,8 +26,9 @@ public class FiduciaPaymentInitiationService extends BasePaymentInitiationServic
     public FiduciaPaymentInitiationService(Aspsp aspsp,
                                            HttpClient httpClient,
                                            Interceptor requestBuilderInterceptor,
-                                           LinksRewriter linksRewriter) {
-        super(aspsp, httpClient, requestBuilderInterceptor, linksRewriter);
+                                           LinksRewriter linksRewriter,
+                                           HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, requestBuilderInterceptor, linksRewriter, logSanitizer);
     }
 
     @Override

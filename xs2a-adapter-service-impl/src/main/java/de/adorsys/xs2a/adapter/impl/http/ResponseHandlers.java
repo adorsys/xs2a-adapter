@@ -7,6 +7,7 @@ import de.adorsys.xs2a.adapter.api.exception.NotAcceptableException;
 import de.adorsys.xs2a.adapter.api.exception.OAuthException;
 import de.adorsys.xs2a.adapter.api.exception.Xs2aAdapterException;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.model.ErrorResponse;
 import de.adorsys.xs2a.adapter.api.model.HrefType;
 import de.adorsys.xs2a.adapter.api.model.TppMessage;
@@ -22,6 +23,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,15 +33,26 @@ import static de.adorsys.xs2a.adapter.api.http.ContentType.*;
 public class ResponseHandlers {
     private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([^;]+)");
     private static final ErrorResponse EMPTY_ERROR_RESPONSE = new ErrorResponse();
+    private static final HttpLogSanitizer DEFAULT_LOG_SANITIZER = new Xs2aHttpLogSanitizer();
 
     private static final JsonMapper jsonMapper = new JacksonObjectMapper();
     private static final Logger log = LoggerFactory.getLogger(ResponseHandlers.class);
-    private static final Xs2aHttpLogSanitizer logSanitizer = new Xs2aHttpLogSanitizer();
+    private final HttpLogSanitizer logSanitizer;
 
-    private ResponseHandlers() {
+    public ResponseHandlers(HttpLogSanitizer logSanitizer) {
+        this.logSanitizer = getOrDefaultLogSanitizer(logSanitizer);
     }
 
-    public static <T> HttpClient.ResponseHandler<T> jsonResponseHandler(Class<T> klass) {
+    public ResponseHandlers() {
+        this(null);
+    }
+
+    private HttpLogSanitizer getOrDefaultLogSanitizer(HttpLogSanitizer logSanitizer) {
+        return Optional.ofNullable(logSanitizer).orElse(DEFAULT_LOG_SANITIZER);
+    }
+
+
+    public <T> HttpClient.ResponseHandler<T> jsonResponseHandler(Class<T> klass) {
         return (statusCode, responseBody, responseHeaders) -> {
             if (statusCode == 204) {
                 return null;
@@ -75,11 +88,11 @@ public class ResponseHandlers {
         };
     }
 
-    public static <T> HttpClient.ResponseHandler<T> paymentInitiationResponseHandler(String scaOAuthUrl, Class<T> klass) {
+    public <T> HttpClient.ResponseHandler<T> paymentInitiationResponseHandler(String scaOAuthUrl, Class<T> klass) {
         return consentCreationResponseHandler(scaOAuthUrl, klass);
     }
 
-    public static <T> HttpClient.ResponseHandler<T> consentCreationResponseHandler(String scaOAuthUrl, Class<T> klass) {
+    public <T> HttpClient.ResponseHandler<T> consentCreationResponseHandler(String scaOAuthUrl, Class<T> klass) {
         return (statusCode, responseBody, responseHeaders) -> {
             if (statusCode == 401 || statusCode == 403) {
                 String contentType = responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE);
@@ -106,7 +119,7 @@ public class ResponseHandlers {
         };
     }
 
-    private static OAuthException oAuthException(PushbackInputStream responseBody,
+    private OAuthException oAuthException(PushbackInputStream responseBody,
                                                  ResponseHeaders responseHeaders,
                                                  String scaOAuthUrl,
                                                  Function<String, ErrorResponse> errorResponseBuilder) {
@@ -131,7 +144,7 @@ public class ResponseHandlers {
         return new OAuthException(responseHeaders, errorResponse, originalResponse);
     }
 
-    private static boolean isNotJson(PushbackInputStream responseBody) {
+    private boolean isNotJson(PushbackInputStream responseBody) {
         try {
             int data = responseBody.read();
             responseBody.unread(data);
@@ -150,7 +163,7 @@ public class ResponseHandlers {
         }
     }
 
-    private static ErrorResponseException responseException(int statusCode,
+    private ErrorResponseException responseException(int statusCode,
                                                             PushbackInputStream responseBody,
                                                             ResponseHeaders responseHeaders,
                                                             Function<String, ErrorResponse> errorResponseBuilder) {
@@ -183,7 +196,7 @@ public class ResponseHandlers {
         return errorResponse;
     }
 
-    private static boolean isEmpty(PushbackInputStream responseBody) {
+    private boolean isEmpty(PushbackInputStream responseBody) {
         try {
             int nextByte = responseBody.read();
             if (nextByte == -1) {
@@ -196,7 +209,7 @@ public class ResponseHandlers {
         }
     }
 
-    public static HttpClient.ResponseHandler<String> stringResponseHandler() {
+    public HttpClient.ResponseHandler<String> stringResponseHandler() {
         return (statusCode, responseBody, responseHeaders) -> {
             if (statusCode == 200) {
                 return toString(responseBody, responseHeaders);
@@ -207,7 +220,7 @@ public class ResponseHandlers {
         };
     }
 
-    public static HttpClient.ResponseHandler<byte[]> byteArrayResponseHandler() {
+    public HttpClient.ResponseHandler<byte[]> byteArrayResponseHandler() {
         return (statusCode, responseBody, responseHeaders) -> {
             switch (statusCode) {
                 case 200:
@@ -222,7 +235,7 @@ public class ResponseHandlers {
         };
     }
 
-    private static String toString(InputStream responseBody, ResponseHeaders responseHeaders) {
+    private String toString(InputStream responseBody, ResponseHeaders responseHeaders) {
         String charset = StandardCharsets.UTF_8.name();
         String contentType = responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE);
         if (contentType != null) {
@@ -242,12 +255,12 @@ public class ResponseHandlers {
         }
     }
 
-    private static byte[] toByteArray(InputStream responseBody) {
+    private byte[] toByteArray(InputStream responseBody) {
         return readResponseBodyAsByteArrayOutputStream(responseBody)
             .toByteArray();
     }
 
-    private static ByteArrayOutputStream readResponseBodyAsByteArrayOutputStream(InputStream responseBody) {
+    private ByteArrayOutputStream readResponseBodyAsByteArrayOutputStream(InputStream responseBody) {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[1024];
             int length;
@@ -260,7 +273,7 @@ public class ResponseHandlers {
         }
     }
 
-    public static <T> HttpClient.ResponseHandler<T> multipartFormDataResponseHandler(Class<T> bodyClass) {
+    public <T> HttpClient.ResponseHandler<T> multipartFormDataResponseHandler(Class<T> bodyClass) {
         return (statusCode, responseBody, responseHeaders) -> {
             if (statusCode != 200) {
                 throw responseException(statusCode,
@@ -278,7 +291,7 @@ public class ResponseHandlers {
         };
     }
 
-    protected static <T> T parseResponseIntoObject(Class<T> bodyClass,
+    protected <T> T parseResponseIntoObject(Class<T> bodyClass,
                                                    InputStream responseBody,
                                                    ResponseHeaders responseHeaders)
         throws ReflectiveOperationException, IOException, IntrospectionException {

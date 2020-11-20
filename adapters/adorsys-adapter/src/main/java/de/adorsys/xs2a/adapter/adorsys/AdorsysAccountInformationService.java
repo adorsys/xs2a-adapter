@@ -6,17 +6,18 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 import java.util.Map;
 
-import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.consentCreationResponseHandler;
 import static java.util.function.Function.identity;
 
 public class AdorsysAccountInformationService extends BaseAccountInformationService {
@@ -24,12 +25,15 @@ public class AdorsysAccountInformationService extends BaseAccountInformationServ
     private static final String ACCEPT_JSON = "application/json";
 
     private final AdorsysMapper mapper = Mappers.getMapper(AdorsysMapper.class);
+    private final ResponseHandlers handlers;
 
     public AdorsysAccountInformationService(Aspsp aspsp,
                                             HttpClient httpClient,
                                             List<Interceptor> interceptors,
-                                            LinksRewriter linksRewriter) {
-        super(aspsp, httpClient, interceptors, linksRewriter);
+                                            LinksRewriter linksRewriter,
+                                            HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
+        this.handlers = new ResponseHandlers(logSanitizer);
     }
 
     @Override
@@ -40,7 +44,7 @@ public class AdorsysAccountInformationService extends BaseAccountInformationServ
                              requestParams,
                              body,
                              identity(),
-                             consentCreationResponseHandler(getIdpUri(), ConsentsResponse201.class));
+                             handlers.consentCreationResponseHandler(getIdpUri(), ConsentsResponse201.class));
     }
 
     @Override

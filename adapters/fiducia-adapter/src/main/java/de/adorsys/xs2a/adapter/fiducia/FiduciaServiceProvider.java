@@ -17,6 +17,7 @@
 package de.adorsys.xs2a.adapter.fiducia;
 
 import de.adorsys.xs2a.adapter.api.*;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
@@ -29,10 +30,19 @@ public class FiduciaServiceProvider implements AccountInformationServiceProvider
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
+        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
+    }
+
+    @Override
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  LinksRewriter linksRewriter) {
+        HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new FiduciaAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
-            new RequestSigningInterceptor(keyStore),
-            linksRewriter);
+            new RequestSigningInterceptor(config.getKeyStore()),
+            linksRewriter,
+            config.getLogSanitizer());
     }
 
     @Override
@@ -40,10 +50,19 @@ public class FiduciaServiceProvider implements AccountInformationServiceProvider
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
+        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
+                                                                HttpClientFactory httpClientFactory,
+                                                                LinksRewriter linksRewriter) {
+        HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new FiduciaPaymentInitiationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
-            new RequestSigningInterceptor(keyStore),
-            linksRewriter);
+            new RequestSigningInterceptor(config.getKeyStore()),
+            linksRewriter,
+            config.getLogSanitizer());
     }
 
     @Override

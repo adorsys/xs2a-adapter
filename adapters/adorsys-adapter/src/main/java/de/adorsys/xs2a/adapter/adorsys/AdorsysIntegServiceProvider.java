@@ -17,9 +17,7 @@
 package de.adorsys.xs2a.adapter.adorsys;
 
 import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.api.http.Interceptor;
+import de.adorsys.xs2a.adapter.api.http.*;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
@@ -39,10 +37,20 @@ public class AdorsysIntegServiceProvider
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
+        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
+                                                                HttpClientFactory httpClientFactory,
+                                                                LinksRewriter linksRewriter) {
+
+        HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new BasePaymentInitiationService(aspsp,
-                                                httpClientFactory.getHttpClient(getAdapterId()),
-                                                getInterceptors(keyStore),
-                                                linksRewriter);
+            httpClientFactory.getHttpClient(getAdapterId()),
+            getInterceptors(config.getKeyStore()),
+            linksRewriter,
+            config.getLogSanitizer());
     }
 
     private List<Interceptor> getInterceptors(Pkcs12KeyStore keyStore) {
@@ -59,17 +67,33 @@ public class AdorsysIntegServiceProvider
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
+        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
+    }
+
+    @Override
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  LinksRewriter linksRewriter) {
+        HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new AdorsysAccountInformationService(aspsp,
                                                     httpClientFactory.getHttpClient(getAdapterId()),
-                                                    getInterceptors(keyStore),
-                                                    linksRewriter);
+                                                    getInterceptors(config.getKeyStore()),
+                                                    linksRewriter,
+                                                    config.getLogSanitizer());
     }
 
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
+        return getOauth2Service(aspsp, httpClientFactory);
+    }
+
+    @Override
+    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
+        HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new AdorsysIntegOauth2Service(aspsp, httpClient,
-                                             new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class));
+                                             new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class, config.getLogSanitizer()),
+                                             config.getLogSanitizer());
     }
 
     @Override

@@ -16,6 +16,7 @@
 
 package de.adorsys.xs2a.adapter.impl.http;
 
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
@@ -25,7 +26,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Xs2aHttpLogSanitizer {
+public class Xs2aHttpLogSanitizer implements HttpLogSanitizer {
     private static final Logger logger = LoggerFactory.getLogger(Xs2aHttpLogSanitizer.class);
     private static final String APPLICATION_JSON = "application/json";
     static final String REPLACEMENT = "******";
@@ -33,6 +34,18 @@ public class Xs2aHttpLogSanitizer {
     private final Set<String> nonSanitizedBodyProperties = new HashSet<>();
     private final List<Pattern> patterns = new ArrayList<>();
     private JsonMapper objectMapper = new JacksonObjectMapper();
+
+    /**
+     * @param whitelist is a list of request/response body fields that a client wants to be unveiled in logs.
+     *                  Empty list may be passed. Field names must conform Berlin Group specification and written
+     *                  in camelCase, otherwise it will have no effect and Xs2aHttpLogSanitizer will still mask values.
+     */
+    public Xs2aHttpLogSanitizer(List<String> whitelist) {
+        this();
+        if (whitelist != null) {
+            nonSanitizedBodyProperties.addAll(whitelist);
+        }
+    }
 
     public Xs2aHttpLogSanitizer() {
         patterns.add(Pattern.compile("(consents|accounts|authorisations|credit-transfers|target-2-payments)/[^/?\\s\\[\"]+(.*?)"));
@@ -47,12 +60,6 @@ public class Xs2aHttpLogSanitizer {
             "Signature",
             "TPP-Signature-Certificate",
             "Digest"));
-
-        nonSanitizedBodyProperties.addAll(Arrays.asList(
-            "recurringIndicator",
-            "validUntil",
-            "frequencyPerDay",
-            "combinedServiceIndicator"));
     }
 
     public String sanitizeHeader(String name, String value) {
@@ -73,10 +80,10 @@ public class Xs2aHttpLogSanitizer {
         return replacedData;
     }
 
-    public String sanitizeRequestBody(HttpEntity entity, String contentType) {
+    public String sanitizeRequestBody(Object httpEntity, String contentType) {
         if (contentType.startsWith(APPLICATION_JSON)) {
             try {
-                return sanitizeStringifiedJsonBody(EntityUtils.toString(entity));
+                return sanitizeStringifiedJsonBody(EntityUtils.toString((HttpEntity) httpEntity));
             } catch (Exception e) {
                 logger.error("Can't parse request as json. It will be replaced with {}", REPLACEMENT);
             }

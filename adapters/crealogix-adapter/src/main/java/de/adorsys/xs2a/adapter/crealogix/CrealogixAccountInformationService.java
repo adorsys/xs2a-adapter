@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.crealogix.model.CrealogixOK200TransactionDetails;
@@ -11,34 +12,39 @@ import de.adorsys.xs2a.adapter.crealogix.model.CrealogixTransactionResponse200Js
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import org.mapstruct.factory.Mappers;
 
-import static de.adorsys.xs2a.adapter.crealogix.CrealogixRequestResponseHandlers.crealogixRequestHandler;
-import static de.adorsys.xs2a.adapter.crealogix.CrealogixRequestResponseHandlers.crealogixResponseHandler;
 import static java.util.function.Function.identity;
 
 public class CrealogixAccountInformationService extends BaseAccountInformationService {
 
     private final CrealogixMapper crealogixMapper = Mappers.getMapper(CrealogixMapper.class);
+    private final CrealogixRequestResponseHandlers requestResponseHandlers;
 
     public CrealogixAccountInformationService(Aspsp aspsp,
                                               HttpClient httpClient,
-                                              LinksRewriter linksRewriter) {
-        super(aspsp, httpClient, linksRewriter);
+                                              LinksRewriter linksRewriter,
+                                              HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer);
+        this.requestResponseHandlers = new CrealogixRequestResponseHandlers(logSanitizer);
     }
 
     @Override
     public Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
                                                        RequestParams requestParams,
                                                        Consents body) {
-        crealogixRequestHandler(requestHeaders);
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
 
-        return super.createConsent(requestHeaders, requestParams, body, identity(), crealogixResponseHandler(ConsentsResponse201.class));
+        return super.createConsent(requestHeaders,
+            requestParams,
+            body,
+            identity(),
+            requestResponseHandlers.crealogixResponseHandler(ConsentsResponse201.class));
     }
 
     @Override
     public Response<TransactionsResponse200Json> getTransactionList(String accountId,
                                                                     RequestHeaders requestHeaders,
                                                                     RequestParams requestParams) {
-        crealogixRequestHandler(requestHeaders);
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
 
         return super.getTransactionList(accountId,
                                         requestHeaders,
@@ -52,7 +58,7 @@ public class CrealogixAccountInformationService extends BaseAccountInformationSe
                                                                    String transactionId,
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams) {
-        crealogixRequestHandler(requestHeaders);
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
 
         return super.getTransactionDetails(accountId,
                                            transactionId,

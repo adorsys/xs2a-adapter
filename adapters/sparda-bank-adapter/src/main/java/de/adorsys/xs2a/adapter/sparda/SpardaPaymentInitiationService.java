@@ -5,17 +5,18 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.PaymentInitationRequestResponse201;
 import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
 import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 
 import java.util.Map;
 
-import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.paymentInitiationResponseHandler;
 import static java.util.function.Function.identity;
 
 public class SpardaPaymentInitiationService extends BasePaymentInitiationService {
@@ -23,13 +24,16 @@ public class SpardaPaymentInitiationService extends BasePaymentInitiationService
     private static final String BEARER_TOKEN_TYPE_PREFIX = "Bearer ";
 
     private final SpardaJwtService spardaJwtService;
+    private final ResponseHandlers responseHandlers;
 
     public SpardaPaymentInitiationService(Aspsp aspsp,
                                           HttpClient httpClient,
                                           LinksRewriter linksRewriter,
-                                          SpardaJwtService spardaJwtService) {
-        super(aspsp, httpClient, linksRewriter);
+                                          SpardaJwtService spardaJwtService,
+                                          HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer);
         this.spardaJwtService = spardaJwtService;
+        this.responseHandlers = new ResponseHandlers(logSanitizer);
     }
 
     @Override
@@ -49,7 +53,7 @@ public class SpardaPaymentInitiationService extends BasePaymentInitiationService
             requestHeaders,
             requestParams,
             identity(),
-            paymentInitiationResponseHandler(idpUri, PaymentInitationRequestResponse201.class));
+            responseHandlers.paymentInitiationResponseHandler(idpUri, PaymentInitationRequestResponse201.class));
     }
 
     private boolean isOauthPreStep(RequestHeaders requestHeaders) {

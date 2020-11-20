@@ -47,11 +47,11 @@ class SpardaOauth2ServiceTest {
         aspsp = new Aspsp();
         aspsp.setBic(BIC);
         aspsp.setIdpUrl(AUTH_HOST + " " + TOKEN_HOST);
-        httpClient = Mockito.spy(new ApacheHttpClient(null));
+        httpClient = Mockito.spy(new ApacheHttpClient(null, null));
         Mockito.lenient()
             .doReturn(new Response<>(200, null, ResponseHeaders.emptyResponseHeaders()))
             .when(httpClient).send(Mockito.any(), Mockito.any());
-        oauth2Service = SpardaOauth2Service.create(aspsp, httpClient, null, CLIENT_ID);
+        oauth2Service = SpardaOauth2Service.create(aspsp, httpClient, null, CLIENT_ID, null);
     }
 
     @Test
@@ -191,7 +191,7 @@ class SpardaOauth2ServiceTest {
     @Test
     void clientIdFromCertificateIsUsedWhenNullIsPassedIn() throws Exception {
         Pkcs12KeyStore keyStore = Mockito.mock(Pkcs12KeyStore.class);
-        oauth2Service = SpardaOauth2Service.create(aspsp, null, keyStore, null);
+        oauth2Service = SpardaOauth2Service.create(aspsp, null, keyStore, null, null);
         Parameters parameters = new Parameters();
         parameters.setRedirectUri(REDIRECT_URI);
         parameters.setScope(SCOPE);

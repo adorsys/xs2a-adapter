@@ -22,8 +22,13 @@ import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
 public interface PaymentInitiationServiceProvider extends AdapterServiceProvider {
 
+    @Deprecated
     PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                          HttpClientFactory httpClientFactory,
                                                          Pkcs12KeyStore keyStore,
+                                                         LinksRewriter linksRewriter);
+
+    PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
+                                                         HttpClientFactory httpClientFactory,
                                                          LinksRewriter linksRewriter);
 }

@@ -19,6 +19,7 @@ package de.adorsys.xs2a.adapter.impl.http.wiremock;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -34,11 +35,15 @@ public class WiremockHttpClient extends ApacheHttpClient {
     private String wireMockUrl;
 
     public WiremockHttpClient(String adapterId, CloseableHttpClient httpClient) {
-        this(adapterId, httpClient, randomPort());
+        this(adapterId, httpClient, randomPort(), null);
     }
 
-    public WiremockHttpClient(String adapterId, CloseableHttpClient httpClient, int wireMockPort) {
-        super(httpClient);
+    public WiremockHttpClient(String adapterId, CloseableHttpClient httpClient, HttpLogSanitizer logSanitizer) {
+        this(adapterId, httpClient, randomPort(), logSanitizer);
+    }
+
+    public WiremockHttpClient(String adapterId, CloseableHttpClient httpClient, int wireMockPort, HttpLogSanitizer logSanitizer) {
+        super(logSanitizer, httpClient);
         WireMockConfiguration options = options()
             .port(wireMockPort)
             .extensions(new ResponseTemplateTransformer(true))

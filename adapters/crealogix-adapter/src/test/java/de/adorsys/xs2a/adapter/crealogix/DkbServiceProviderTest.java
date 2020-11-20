@@ -4,13 +4,16 @@ import de.adorsys.xs2a.adapter.api.AccountInformationService;
 import de.adorsys.xs2a.adapter.api.EmbeddedPreAuthorisationService;
 import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class DkbServiceProviderTest {
 
@@ -18,7 +21,13 @@ class DkbServiceProviderTest {
     private final HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
     private final Pkcs12KeyStore keyStore = mock(Pkcs12KeyStore.class);
     private final LinksRewriter linksRewriter = mock(LinksRewriter.class);
+    private final HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
     private final Aspsp aspsp = new Aspsp();
+
+    @BeforeEach
+    void setUp() {
+        when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+    }
 
     @Test
     void getAccountInformationService() {

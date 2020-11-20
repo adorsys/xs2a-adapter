@@ -45,7 +45,7 @@ class SantanderOauth2ServiceTest {
     @BeforeEach
     void setUp() throws Exception {
         Aspsp aspsp = new Aspsp();
-        httpClient = Mockito.spy(new ApacheHttpClient(null));
+        httpClient = Mockito.spy(new ApacheHttpClient(null, null));
         Mockito.doReturn(authorizationServerMetadata())
             .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(SCA_OAUTH_LINK)), Mockito.any());
         Mockito.doReturn(new Response<>(200, null, null))
@@ -53,7 +53,7 @@ class SantanderOauth2ServiceTest {
         Pkcs12KeyStore keyStore = Mockito.mock(Pkcs12KeyStore.class);
         Mockito.when(keyStore.getOrganizationIdentifier())
             .thenReturn(CLIENT_ID);
-        oauth2Service = SantanderOauth2Service.create(aspsp, httpClient, keyStore);
+        oauth2Service = SantanderOauth2Service.create(aspsp, httpClient, keyStore, null);
     }
 
     private Response<AuthorisationServerMetaData> authorizationServerMetadata() {

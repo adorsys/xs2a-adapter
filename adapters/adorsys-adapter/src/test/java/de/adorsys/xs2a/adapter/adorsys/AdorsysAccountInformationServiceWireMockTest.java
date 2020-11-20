@@ -26,6 +26,7 @@ import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
+import de.adorsys.xs2a.adapter.impl.http.Xs2aHttpLogSanitizer;
 import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -60,13 +61,13 @@ class AdorsysAccountInformationServiceWireMockTest {
                                                 .usingFilesUnderClasspath("adorsys-adapter"));
         wireMockServer.start();
 
-        HttpClient httpClient = new ApacheHttpClient(HttpClientBuilder.create().build());
+        HttpClient httpClient = new ApacheHttpClient(new Xs2aHttpLogSanitizer(), HttpClientBuilder.create().build());
         LinksRewriter linksRewriter = new IdentityLinksRewriter();
         Aspsp aspsp = new Aspsp();
         aspsp.setName("adorsys-adapter");
         aspsp.setUrl("http://localhost:" + wireMockServer.port());
 
-        service = new AdorsysAccountInformationService(aspsp, httpClient, new ArrayList<>(), linksRewriter);
+        service = new AdorsysAccountInformationService(aspsp, httpClient, new ArrayList<>(), linksRewriter, null);
 
     }
 

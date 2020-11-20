@@ -2,6 +2,7 @@ package de.adorsys.xs2a.adapter.impl.http;
 
 import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ class ApacheHttpClientFactoryTest {
 
     private ApacheHttpClientFactory factory;
     private Pkcs12KeyStore pkcs12KeyStore;
+    private final HttpLogSanitizer logSanitizer = mock(HttpLogSanitizer.class);
 
     @BeforeEach
     public void setUp() throws Exception {

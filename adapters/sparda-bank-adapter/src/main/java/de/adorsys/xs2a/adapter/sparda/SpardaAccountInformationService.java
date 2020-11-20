@@ -5,9 +5,11 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.sparda.model.SpardaOK200TransactionDetails;
 import de.adorsys.xs2a.adapter.sparda.model.SpardaTransactionResponse200Json;
@@ -15,7 +17,6 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.Map;
 
-import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.consentCreationResponseHandler;
 import static java.util.function.Function.identity;
 
 public class SpardaAccountInformationService extends BaseAccountInformationService {
@@ -24,13 +25,16 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
 
     private final SpardaJwtService spardaJwtService;
     private final SpardaMapper spardaMapper = Mappers.getMapper(SpardaMapper.class);
+    private final ResponseHandlers responseHandlers;
 
     public SpardaAccountInformationService(Aspsp aspsp,
                                            HttpClient httpClient,
                                            LinksRewriter linksRewriter,
-                                           SpardaJwtService spardaJwtService) {
-        super(aspsp, httpClient, linksRewriter);
+                                           SpardaJwtService spardaJwtService,
+                                           HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer);
         this.spardaJwtService = spardaJwtService;
+        this.responseHandlers = new ResponseHandlers(logSanitizer);
     }
 
     @Override
@@ -46,7 +50,7 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
             requestParams,
             body,
             identity(),
-            consentCreationResponseHandler(idpUri, ConsentsResponse201.class));
+            responseHandlers.consentCreationResponseHandler(idpUri, ConsentsResponse201.class));
     }
 
     @Override

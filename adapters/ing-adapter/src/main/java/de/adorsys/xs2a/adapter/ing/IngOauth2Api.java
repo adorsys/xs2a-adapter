@@ -3,13 +3,14 @@ package de.adorsys.xs2a.adapter.ing;
 import de.adorsys.xs2a.adapter.api.Oauth2Service;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
+import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.ing.model.IngApplicationTokenResponse;
 import de.adorsys.xs2a.adapter.ing.model.IngAuthorizationURLResponse;
 import de.adorsys.xs2a.adapter.ing.model.IngTokenResponse;
 
-import static de.adorsys.xs2a.adapter.impl.http.ResponseHandlers.jsonResponseHandler;
 import static java.util.Collections.singletonMap;
 
 public class IngOauth2Api {
@@ -18,10 +19,12 @@ public class IngOauth2Api {
 
     private final String baseUri;
     private final HttpClient httpClient;
+    private final ResponseHandlers handlers;
 
-    public IngOauth2Api(String baseUri, HttpClient httpClient) {
+    public IngOauth2Api(String baseUri, HttpClient httpClient, HttpLogSanitizer logSanitizer) {
         this.baseUri = baseUri;
         this.httpClient = httpClient;
+        this.handlers = new ResponseHandlers(logSanitizer);
     }
 
     public Response<IngApplicationTokenResponse> getApplicationToken(Interceptor clientAuthentication) {
@@ -31,7 +34,7 @@ public class IngOauth2Api {
         // this client ID has to be used in the rest of the session when the client ID or key ID is required.
         return httpClient.post(baseUri + TOKEN_ENDPOINT)
                    .urlEncodedBody(singletonMap("grant_type", "client_credentials"))
-                   .send(clientAuthentication, jsonResponseHandler(IngApplicationTokenResponse.class));
+                   .send(clientAuthentication, handlers.jsonResponseHandler(IngApplicationTokenResponse.class));
     }
 
     public Response<IngTokenResponse> getCustomerToken(Oauth2Service.Parameters parameters,
@@ -39,7 +42,7 @@ public class IngOauth2Api {
 
         return httpClient.post(baseUri + TOKEN_ENDPOINT)
                    .urlEncodedBody(parameters.asMap())
-                   .send(clientAuthentication, jsonResponseHandler(IngTokenResponse.class));
+                   .send(clientAuthentication, handlers.jsonResponseHandler(IngTokenResponse.class));
     }
 
     public Response<IngAuthorizationURLResponse> getAuthorizationUrl(Interceptor clientAuthentication,
@@ -50,6 +53,6 @@ public class IngOauth2Api {
         queryParameters.setRedirectUri(redirectUri);
         String uri = StringUri.withQuery(baseUri + AUTHORIZATION_ENDPOINT, queryParameters.asMap());
         return httpClient.get(uri)
-                   .send(clientAuthentication, jsonResponseHandler(IngAuthorizationURLResponse.class));
+                   .send(clientAuthentication, handlers.jsonResponseHandler(IngAuthorizationURLResponse.class));
     }
 }

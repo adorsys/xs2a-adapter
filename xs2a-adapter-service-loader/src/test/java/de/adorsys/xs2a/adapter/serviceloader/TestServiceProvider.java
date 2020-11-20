@@ -33,9 +33,23 @@ public class TestServiceProvider
     }
 
     @Override
+    public AccountInformationService getAccountInformationService(Aspsp aspsp,
+                                                                  HttpClientFactory httpClientFactory,
+                                                                  LinksRewriter linksRewriter) {
+        return new TestAccountInformationService();
+    }
+
+    @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
+                                                                LinksRewriter linksRewriter) {
+        return new TestPaymentInitiationService();
+    }
+
+    @Override
+    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
+                                                                HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
         return new TestPaymentInitiationService();
     }
@@ -48,9 +62,21 @@ public class TestServiceProvider
     }
 
     @Override
+    public Oauth2Service getOauth2Service(Aspsp aspsp,
+                                          HttpClientFactory httpClientFactory) {
+        return new TestOauth2Service();
+    }
+
+    @Override
     public DownloadService getDownloadService(String baseUrl,
                                               HttpClientFactory httpClientFactory,
                                               Pkcs12KeyStore keyStore) {
+        return new TestDownloadService();
+    }
+
+    @Override
+    public DownloadService getDownloadService(String baseUrl,
+                                              HttpClientFactory httpClientFactory) {
         return new TestDownloadService();
     }
 
@@ -60,7 +86,8 @@ public class TestServiceProvider
     }
 
     @Override
-    public EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp, HttpClientFactory httpClientFactory) {
+    public EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp,
+                                                                              HttpClientFactory httpClientFactory) {
         return new TestEmbeddedPreAuthorisationService();
     }
 }

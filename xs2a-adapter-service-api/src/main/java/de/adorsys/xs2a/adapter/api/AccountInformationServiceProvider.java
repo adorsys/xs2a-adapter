@@ -22,8 +22,13 @@ import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
 public interface AccountInformationServiceProvider extends AdapterServiceProvider {
 
+    @Deprecated
     AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                            HttpClientFactory httpClientFactory,
                                                            Pkcs12KeyStore keyStore,
+                                                           LinksRewriter linksRewriter);
+
+    AccountInformationService getAccountInformationService(Aspsp aspsp,
+                                                           HttpClientFactory httpClientFactory,
                                                            LinksRewriter linksRewriter);
 }

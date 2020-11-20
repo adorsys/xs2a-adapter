@@ -24,11 +24,14 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
+import de.adorsys.xs2a.adapter.impl.http.BaseHttpClientConfig;
 import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
+import de.adorsys.xs2a.adapter.impl.http.Xs2aHttpLogSanitizer;
 import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 import org.apache.http.HttpStatus;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -87,12 +90,27 @@ class AdorsysPaymentInitiationServiceWireMockTest {
         wireMockServer.start();
 
 
-        HttpClient httpClient = new ApacheHttpClient(HttpClientBuilder.create().build());
-        HttpClientFactory httpClientFactory = (adapterId, qwacAlias, supportedCipherSuites) -> httpClient;
+        HttpClient httpClient = new ApacheHttpClient(new Xs2aHttpLogSanitizer(), HttpClientBuilder.create().build());
+        HttpClientConfig clientConfig = new BaseHttpClientConfig(null, null);
+        HttpClientFactory httpClientFactory = getHttpClientFactory(httpClient, clientConfig);
         LinksRewriter linksRewriter = new IdentityLinksRewriter();
         Aspsp aspsp = new Aspsp();
         aspsp.setUrl("http://localhost:" + wireMockServer.port());
-        service = new AdorsysIntegServiceProvider().getPaymentInitiationService(aspsp, httpClientFactory, null, linksRewriter);
+        service = new AdorsysIntegServiceProvider().getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
+    }
+
+    private static HttpClientFactory getHttpClientFactory(HttpClient httpClient, HttpClientConfig config) {
+        return new HttpClientFactory() {
+            @Override
+            public HttpClient getHttpClient(String adapterId, String qwacAlias, String[] supportedCipherSuites) {
+                return httpClient;
+            }
+
+            @Override
+            public HttpClientConfig getHttpClientConfig() {
+                return config;
+            }
+        };
     }
 
     @AfterAll

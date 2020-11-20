@@ -45,7 +45,7 @@ class BaseDownloadServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        service = new BaseDownloadService(BASE_URL, httpClient, interceptor);
+        service = new BaseDownloadService(BASE_URL, httpClient, interceptor, null);
     }
 
     @Test
