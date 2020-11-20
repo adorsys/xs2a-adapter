@@ -33,13 +33,7 @@ public class DeutscheBankServiceProvider
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
-        aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "ais"));
-        return new DeutscheBankAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            psuIdTypeHeaderInterceptor,
-            linksRewriter,
-            psuPasswordEncryptionService,
-            null);
+        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override
@@ -60,12 +54,7 @@ public class DeutscheBankServiceProvider
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "pis"));
-        return new DeutscheBankPaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            psuIdTypeHeaderInterceptor,
-            linksRewriter,
-            null);
+        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override
@@ -83,7 +72,7 @@ public class DeutscheBankServiceProvider
     public DownloadService getDownloadService(String baseUrl,
                                               HttpClientFactory httpClientFactory,
                                               Pkcs12KeyStore keyStore) {
-        return new BaseDownloadService(baseUrl, httpClientFactory.getHttpClient(getAdapterId()));
+        return getDownloadService(baseUrl, httpClientFactory);
     }
 
     @Override

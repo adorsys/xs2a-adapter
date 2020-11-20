@@ -13,10 +13,7 @@ public class OlbServiceProvider implements AccountInformationServiceProvider, Pa
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
-        return new OlbAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter,
-            null);
+        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override
@@ -34,10 +31,7 @@ public class OlbServiceProvider implements AccountInformationServiceProvider, Pa
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new BasePaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter,
-            null);
+        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override

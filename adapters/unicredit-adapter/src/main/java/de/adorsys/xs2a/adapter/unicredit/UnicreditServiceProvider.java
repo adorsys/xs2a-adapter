@@ -28,10 +28,7 @@ public class UnicreditServiceProvider implements AccountInformationServiceProvid
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
-        return new UnicreditAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter,
-            null);
+        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override
@@ -49,10 +46,7 @@ public class UnicreditServiceProvider implements AccountInformationServiceProvid
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new UnicreditPaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter,
-            null);
+        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override

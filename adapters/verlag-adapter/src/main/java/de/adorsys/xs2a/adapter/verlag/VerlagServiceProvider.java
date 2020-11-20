@@ -47,12 +47,7 @@ public class VerlagServiceProvider
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
-        return new VerlagAccountInformationService(aspsp,
-            apiKeyEntry,
-            httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
-            psuIdTypeHeaderInterceptor,
-            linksRewriter,
-            null);
+        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override
@@ -72,12 +67,7 @@ public class VerlagServiceProvider
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new VerlagPaymentInitiationService(aspsp,
-            apiKeyEntry,
-            httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
-            psuIdTypeHeaderInterceptor,
-            linksRewriter,
-            null);
+        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override
@@ -94,7 +84,7 @@ public class VerlagServiceProvider
 
     @Override
     public DownloadService getDownloadService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return new BaseDownloadService(baseUrl, httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES));
+        return getDownloadService(baseUrl, httpClientFactory);
     }
 
     @Override

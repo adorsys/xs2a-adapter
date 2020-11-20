@@ -29,7 +29,7 @@ public class DkbServiceProvider implements AccountInformationServiceProvider, Pa
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
-        return new CrealogixAccountInformationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()), linksRewriter, null);
+        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class DkbServiceProvider implements AccountInformationServiceProvider, Pa
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new CrealogixPaymentInitiationService(aspsp, httpClientFactory.getHttpClient(getAdapterId()), linksRewriter, null);
+        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override

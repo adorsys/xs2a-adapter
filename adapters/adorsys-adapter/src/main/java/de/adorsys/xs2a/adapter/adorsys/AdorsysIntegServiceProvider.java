@@ -32,16 +32,12 @@ public class AdorsysIntegServiceProvider
 
     private final OauthHeaderInterceptor oauthHeaderInterceptor = new OauthHeaderInterceptor();
 
-    @Deprecated
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new BasePaymentInitiationService(aspsp,
-                                                httpClientFactory.getHttpClient(getAdapterId()),
-                                                getInterceptors(keyStore),
-                                                linksRewriter);
+        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override
@@ -66,17 +62,12 @@ public class AdorsysIntegServiceProvider
         return interceptors;
     }
 
-    @Deprecated
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
-        return new AdorsysAccountInformationService(aspsp,
-                                                    httpClientFactory.getHttpClient(getAdapterId()),
-                                                    getInterceptors(keyStore),
-                                                    linksRewriter,
-                                                    null);
+        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override
@@ -91,13 +82,9 @@ public class AdorsysIntegServiceProvider
                                                     config.getLogSanitizer());
     }
 
-    @Deprecated
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
-        return new AdorsysIntegOauth2Service(aspsp, httpClient,
-                                             new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class),
-                                   null);
+        return getOauth2Service(aspsp, httpClientFactory);
     }
 
     @Override

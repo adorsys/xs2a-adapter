@@ -31,11 +31,7 @@ public class SpardaServiceProvider implements AccountInformationServiceProvider,
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
-        return new SpardaAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter,
-            JWT_SERVICE,
-            null);
+        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override
@@ -54,11 +50,7 @@ public class SpardaServiceProvider implements AccountInformationServiceProvider,
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new SpardaPaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter,
-            JWT_SERVICE,
-            null);
+        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override
@@ -74,11 +66,7 @@ public class SpardaServiceProvider implements AccountInformationServiceProvider,
 
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return SpardaOauth2Service.create(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            keyStore,
-            AdapterConfig.readProperty("sparda.client_id"),
-            null);
+        return getOauth2Service(aspsp, httpClientFactory);
     }
 
     @Override

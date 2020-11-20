@@ -29,11 +29,7 @@ public class ConsorsServiceProvider implements AccountInformationServiceProvider
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
-        return new ConsorsAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            psuIdHeaderInterceptor,
-            linksRewriter,
-            null);
+        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override
@@ -52,10 +48,7 @@ public class ConsorsServiceProvider implements AccountInformationServiceProvider
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new ConsorsPaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter,
-            null);
+        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override

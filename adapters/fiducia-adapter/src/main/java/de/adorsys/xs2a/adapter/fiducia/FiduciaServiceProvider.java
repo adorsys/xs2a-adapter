@@ -30,11 +30,7 @@ public class FiduciaServiceProvider implements AccountInformationServiceProvider
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
-        return new FiduciaAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            new RequestSigningInterceptor(keyStore),
-            linksRewriter,
-            null);
+        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override
@@ -54,11 +50,7 @@ public class FiduciaServiceProvider implements AccountInformationServiceProvider
                                                                 HttpClientFactory httpClientFactory,
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
-        return new FiduciaPaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            new RequestSigningInterceptor(keyStore),
-            linksRewriter,
-            null);
+        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override

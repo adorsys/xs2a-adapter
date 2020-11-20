@@ -25,7 +25,7 @@ public class IngServiceProvider
                                                                   HttpClientFactory httpClientFactory,
                                                                   Pkcs12KeyStore keyStore,
                                                                   LinksRewriter linksRewriter) {
-        return getIngAccountInformationService(aspsp.getUrl(), httpClientFactory, keyStore, linksRewriter, null);
+        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override
@@ -76,8 +76,7 @@ public class IngServiceProvider
     public Oauth2Service getOauth2Service(Aspsp aspsp,
                                           HttpClientFactory httpClientFactory,
                                           Pkcs12KeyStore keyStore) {
-        String baseUrl = aspsp.getIdpUrl() != null ? aspsp.getIdpUrl() : aspsp.getUrl();
-        return getIngAccountInformationService(baseUrl, httpClientFactory, keyStore, DEFAULT_LINKS_REWRITER, null);
+        return getOauth2Service(aspsp, httpClientFactory);
     }
 
     @Override
@@ -103,10 +102,7 @@ public class IngServiceProvider
                                                                 Pkcs12KeyStore keyStore,
                                                                 LinksRewriter linksRewriter) {
 
-        HttpClient httpClient = httpClient(httpClientFactory);
-        IngOauth2Service ingOauth2Service = ingOauth2Service(aspsp.getUrl(), httpClient, keyStore, null);
-        IngPaymentInitiationApi paymentInitiationApi = new IngPaymentInitiationApi(aspsp.getUrl(), httpClient, null);
-        return new IngPaymentInitiationService(paymentInitiationApi, ingOauth2Service, linksRewriter);
+        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override
