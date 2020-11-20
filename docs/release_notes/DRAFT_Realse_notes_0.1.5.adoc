@@ -9,3 +9,5 @@
 == Features:
 
 == Fixes:
+- Fixed Crealogix bug with ResponseHandler, when request to bank for Token is successful, Adapter recognises all success
+statuses, not only 200.

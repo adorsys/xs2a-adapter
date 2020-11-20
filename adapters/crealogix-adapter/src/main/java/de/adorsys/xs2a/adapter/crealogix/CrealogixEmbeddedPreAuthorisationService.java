@@ -27,6 +27,7 @@ import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.impl.http.JsonMapper;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenException;
 
+import javax.ws.rs.core.Response.Status;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
@@ -94,14 +95,17 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
         return response.getBody().getAccessToken();
     }
 
-    private HttpClient.ResponseHandler<TokenResponse> responseHandler() {
+    HttpClient.ResponseHandler<TokenResponse> responseHandler() {
         return (statusCode, responseBody, responseHeaders) -> {
-            // todo: lookup and replace for isSuccess(statusCode) (https://jira.adorsys.de/browse/XS2AAD-751)
-            if (statusCode == 200) {
+            if (isSuccess(statusCode)) {
                 return jsonMapper.readValue(responseBody, TokenResponse.class);
             }
             throw new AccessTokenException("Can't retrieve access token by provided credentials");
         };
+    }
+
+    private boolean isSuccess(int statusCode) {
+        return Status.Family.SUCCESSFUL.equals(Status.Family.familyOf(statusCode));
     }
 
     private static String buildBasicAuthorization(String key, String secret) {
