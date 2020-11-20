@@ -95,7 +95,7 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
         return response.getBody().getAccessToken();
     }
 
-    private HttpClient.ResponseHandler<TokenResponse> responseHandler() {
+    HttpClient.ResponseHandler<TokenResponse> responseHandler() {
         return (statusCode, responseBody, responseHeaders) -> {
             if (isSuccess(statusCode)) {
                 return jsonMapper.readValue(responseBody, TokenResponse.class);
@@ -105,7 +105,7 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
     }
 
     private boolean isSuccess(int statusCode) {
-        return Status.valueOf(statusCode + "").getFamily().equals(Status.Family.SUCCESSFUL);
+        return Status.Family.SUCCESSFUL.equals(Status.Family.familyOf(statusCode));
     }
 
     private static String buildBasicAuthorization(String key, String secret) {
