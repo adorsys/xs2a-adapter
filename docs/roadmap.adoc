@@ -234,33 +234,17 @@ a| 10.12
 
 a| 0.1.5
 
-a| * Implement adapter for Crealogix (DKB)
+a| * Implement the "Whitelist" feature
 
-* Test successfully DKB for AIS, PIS
+* Fix Crealogix ResponseHandler
 
-* Connect remaining BG-Banks technically for PIS
+* Update test certificate in DB sandbox env
 
-* Connect remaining BG-Banks technically for AIS
+* Implement adapter for Crealogix (DKB)
 
-* Testing Frontend:
+* Add DKB support to Testing FE
 
-* Test multiple consent forms automatically
-
-* Security Assessment
-
-* Connect and test remaining BG-Banks in Germany for AIS
-
-* Identify relevant European banks for all standards
-
-* Connect first non BG-Bank technically for AIS
-
-* Implement the "Whitelist" feature
-
-* Connect and test Hamburg Commercial Bank AG for AIS (dummy call)
-
-* Connect and test Hamburg AAreal Bank AG for AIS (dummy call)
-
-* Implement adapter for Oldenburgische Landesbank
+*Test DKB for AIS (with the real account)
 
 a| *2021*
 
@@ -273,25 +257,19 @@ a| 10.01
 
 a| 0.1.6
 
-a| * Test DAB for AIS (with the real account)
+a| *Migrate to .yaml open API ver 1.3.8 2020-11-06v1
+
+* Add WireMock mode for Deutsche Bank adapter, Verlag Bank adapter
 
 * Test Targobank (Bankverlag) fro AIS, PIS (with the real account)
 
 * Test successfully PIS for Commerzbank, Unicredit
 
-* Implement adapter for Societe Generale S.A
-
-* Connect and test Societe Generale S.A for AIS (dummy call)
-
 * Add WireMock mode other banks
-
-* Implement automated update for CSV file in the Registry Manager
 
 * Connect and test remaining BG-Banks in Germany for AIS
 
-* Implement Stet repository
-
-a|
+a| For future development
 
 a| x.x.x
 
