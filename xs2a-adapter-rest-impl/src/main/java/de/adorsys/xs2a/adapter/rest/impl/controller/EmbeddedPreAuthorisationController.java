@@ -18,8 +18,8 @@ package de.adorsys.xs2a.adapter.rest.impl.controller;
 
 import de.adorsys.xs2a.adapter.api.EmbeddedPreAuthorisationService;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
-import de.adorsys.xs2a.adapter.api.model.EmbeddedPreAuthorisationRequest;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
+import de.adorsys.xs2a.adapter.mapper.EmbeddedPreAuthorisationMapper;
 import de.adorsys.xs2a.adapter.mapper.Oauth2Mapper;
 import de.adorsys.xs2a.adapter.rest.api.EmbeddedPreAuthorisationApi;
 import de.adorsys.xs2a.adapter.rest.api.model.EmbeddedPreAuthorisationRequestTO;
@@ -34,6 +34,7 @@ public class EmbeddedPreAuthorisationController implements EmbeddedPreAuthorisat
 
     private final EmbeddedPreAuthorisationService preAuthorisationService;
     private final Oauth2Mapper mapper = Mappers.getMapper(Oauth2Mapper.class);
+    private final EmbeddedPreAuthorisationMapper preAuthorisationMapper = Mappers.getMapper(EmbeddedPreAuthorisationMapper.class);
 
     public EmbeddedPreAuthorisationController(EmbeddedPreAuthorisationService preAuthorisationService) {
         this.preAuthorisationService = preAuthorisationService;
@@ -42,14 +43,8 @@ public class EmbeddedPreAuthorisationController implements EmbeddedPreAuthorisat
     @Override
     public TokenResponseTO getToken(Map<String, String> headers, EmbeddedPreAuthorisationRequestTO request) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
-        TokenResponse tokenResponse = preAuthorisationService.getToken(buildRequest(request), requestHeaders);
+        TokenResponse tokenResponse
+            = preAuthorisationService.getToken(preAuthorisationMapper.toEmbeddedPreAuthorisationRequest(request), requestHeaders);
         return mapper.map(tokenResponse);
-    }
-
-    private EmbeddedPreAuthorisationRequest buildRequest(EmbeddedPreAuthorisationRequestTO request) {
-        EmbeddedPreAuthorisationRequest preAuthorisationRequest = new EmbeddedPreAuthorisationRequest();
-        preAuthorisationRequest.setUsername(request.getUsername());
-        preAuthorisationRequest.setPassword(request.getPassword());
-        return preAuthorisationRequest;
     }
 }
