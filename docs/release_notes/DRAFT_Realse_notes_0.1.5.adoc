@@ -5,6 +5,7 @@
 |===
 
 == Notices:
+- updated Adapter Remote Feign Client: support for Embedded Pre-step added.
 
 == Features:
 - Added Whitelist for `Xs2aHttpLogSanitizer`. It's possible to configure what properties will not be masked by LogSanitizer
