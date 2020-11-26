@@ -176,11 +176,11 @@ Response<AccountList> accounts = accountInformationService.getAccountList(reques
                                                                           requestParameters);
 
 // Payment Initiation
-Response<PaymentInitationRequestResponse201> payment = paymentInitiationService.getAccountList(paymentService,
-                                                                                               paymentProduct,
-                                                                                               requestHeaders,
-                                                                                               requestParams,
-                                                                                               objectBody);
+Response<PaymentInitationRequestResponse201> payment = paymentInitiationService.initiatePayment(paymentService,
+                                                                                                paymentProduct,
+                                                                                                requestHeaders,
+                                                                                                requestParams,
+                                                                                                objectBody);
 ```
 
 ## How to write your own bank adapter
@@ -205,7 +205,7 @@ If you need details about managing ASPSP Registry please refer to this [document
   All release information can be found under the [Releases](https://github.com/adorsys/xs2a-adapter/releases) section 
   on GitHub.
 
-* [Release Notes](docs/release_notes/Release_notes_0.1.3.adoc)
+* [Release Notes](docs/release_notes/Release_notes_0.1.4.adoc)
 
 * [Roadmap for next features development](docs/roadmap.adoc)
 
@@ -232,6 +232,19 @@ You may run postman tests from the command line
         --folder pain.001-sepa-credit-transfers \
         --timeout-request 3000
 ```
+
+## HttpLogSanitizer Whitelist
+
+XS2A Adapter has a feature that masks sensitive data in logs, e.g. PSU-ID, ConsentId, Location, etc. By default, it veils 
+all data, but starting from version 0.1.5 Adapter user will be able to partially configure HttpLogSanitizer behavior 
+by providing a list of request/response body fields (Whitelist) that will not be hidden.     
+
+There are two ways of setting up Whitelist depending on how a user utilizes the XS2A Adapter:
+* As standalone application: a user will want to add field names separated by a comma on `xs2a-adapter.sanitizer.whitelist` 
+property under `application.yml`. Examples are already put in Adapter YAML.
+* As library: a user will want to provide a java.util.List of type String into default HttpLogSanitizer implementation - `Xs2aHttpLogSanitizer`.
+
+__Note__: field names must be Berlin Group specification compliant, otherwise there will be no effect and data will still be masked.
 
 ## Authors & Contact
 
