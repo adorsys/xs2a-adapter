@@ -10,10 +10,6 @@ spring:
   jackson:
     default-property-inclusion: non_null
 
-logging.level.org.apache.http.wire: DEBUG
-
-logging.level.de.adorsys.xs2a.adapter.remote: DEBUG
-
 feign:
   client:
     config:
