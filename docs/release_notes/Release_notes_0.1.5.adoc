@@ -1,4 +1,4 @@
-= Draft Release notes for version 0.1.5 (release date: xx.12.2020)
+= Draft Release notes for version 0.1.5 (release date: 10.12.2020)
 
 .Added banks
 |===
