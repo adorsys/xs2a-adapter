@@ -14,3 +14,4 @@ from now. Default shortlist is provided.
 == Fixes:
 - Fixed Crealogix bug with ResponseHandler, when request to bank for Token is successful, Adapter recognises all success
 statuses, not only 200.
+- Fixed DeutscheBank Adapter bug for PIS flow, Service Group placeholder was not substituted with the appropriate value.
