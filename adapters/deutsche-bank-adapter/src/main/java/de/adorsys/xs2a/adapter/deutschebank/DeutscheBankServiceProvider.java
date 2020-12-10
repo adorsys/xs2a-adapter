@@ -24,7 +24,7 @@ import de.adorsys.xs2a.adapter.impl.BaseDownloadService;
 
 public class DeutscheBankServiceProvider
     implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, DownloadServiceProvider {
-    private static final String SERVICE_GROUP_PLACEHOLDER = "{Service Group}";
+    public static final String SERVICE_GROUP_PLACEHOLDER = "{Service Group}";
     private static final PsuIdTypeHeaderInterceptor psuIdTypeHeaderInterceptor = new PsuIdTypeHeaderInterceptor();
     private static final PsuPasswordEncryptionService psuPasswordEncryptionService = DeutscheBankPsuPasswordEncryptionService.getInstance();
 
@@ -61,6 +61,7 @@ public class DeutscheBankServiceProvider
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
+        aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "pis"));
         return new DeutscheBankPaymentInitiationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             psuIdTypeHeaderInterceptor,
