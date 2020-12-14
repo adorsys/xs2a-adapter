@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "NextGenPSD2 XS2A Framework",
-    "version": "1.3.6_2020-08-14",
+    "version": "1.3.8_2020-10-22v1",
     "description": "# Summary\nThe **NextGenPSD2** *Framework Version 1.3.6* (with several errata) offers a modern, open, harmonised and interoperable set of\nApplication Programming Interfaces (APIs) as the safest and most efficient way to provide data securely.\nThe NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards \nin Europe and, aligned with the goals of the Euro Retail Payments Board,\nenables European banking customers to benefit from innovative products and services ('Banking as a Service')\nby granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.\n\nThe possible Approaches are:\n  * Redirect SCA Approach\n  * OAuth SCA Approach\n  * Decoupled SCA Approach\n  * Embedded SCA Approach without SCA method\n  * Embedded SCA Approach with only one SCA method available\n  * Embedded SCA Approach with Selection of a SCA method\n\n  Not every message defined in this API definition is necessary for all approaches. \n  Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional.\n  Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support \n  a certain subset of the methods defined in this API definition.\n\n  **Please have a look at the implementation guidelines if you are not sure \n  which message has to be used for the approach you are going to use.**\n\n## Some General Remarks Related to this version of the OpenAPI Specification:\n* **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.** \n  It is not a replacement in any sense.\n  The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API.\n* **This API definition contains the REST-API for requests from the PISP to the ASPSP.**\n* **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.**\n* According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]\n  \n    \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"\n  \n  The element \"Accept\" will not be defined in this file at any place.\n  \n  The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".\n  \n* There are several predefined types which might occur in payment initiation messages, \n  but are not used in the standard JSON messages in the Implementation Guidelines.\n  Therefore they are not used in the corresponding messages in this file either.\n  We added them for the convenience of the user.\n  If there is a payment product, which needs these fields, one can easily use the predefined types.\n  But the ASPSP need not to accept them in general.\n  \n* **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional) \n  except they are mentioned in the Implementation Guidelines.**\n  Therefore the implementer might add these in his own realisation of a PSD2 comlient API in addition to the elements defined in this file.\n   \n## General Remarks on Data Types\n\nThe Berlin Group definition of UTF-8 strings in context of the PSD2 API has to support at least the following characters\n\na b c d e f g h i j k l m n o p q r s t u v w x y z\n\nA B C D E F G H I J K L M N O P Q R S T U V W X Y Z\n\n0 1 2 3 4 5 6 7 8 9\n\n/ - ? : ( ) . , ' +\n\nSpace\n",
     "license": {
       "name": "Creative Commons Attribution 4.0 International Public License",
@@ -3653,7 +3653,7 @@
     "/v1/signing-baskets": {
       "post": {
         "summary": "Create a signing basket resource",
-        "description": "Create a signing basket resource for authorising several transactions with one SCA method. \nThe resource identifications of these transactions are contained in the  payload of this access method\n",
+        "description": "Create a signing basket resource for authorising several transactions with one SCA method. \nThe resource identifications of these transactions are contained in the payload of this access method\n",
         "operationId": "createSigningBasket",
         "tags": [
           "Signing Baskets (SBS)"
@@ -4822,13 +4822,14 @@
         "$ref": "#/components/schemas/authenticationObject"
       },
       "authenticationType": {
-        "description": "Type of the authentication method.\n\nMore authentication types might be added during implementation projects and documented in the ASPSP documentation.\n\n  - 'SMS_OTP': An SCA method, where an OTP linked to the transaction to be authorised is sent to the PSU through a SMS channel.\n  - 'CHIP_OTP': An SCA method, where an OTP is generated by a chip card, e.g. a TOP derived from an EMV cryptogram. \n    To contact the card, the PSU normally needs a (handheld) device. \n    With this device, the PSU either reads the challenging data through a visual interface like flickering or \n    the PSU types in the challenge through the device key pad. \n    The device then derives an OTP from the challenge data and displays the OTP to the PSU.\n  - 'PHOTO_OTP': An SCA method, where the challenge is a QR code or similar encoded visual data \n    which can be read in by a consumer device or specific mobile app. \n    The device resp. the specific app than derives an OTP from the visual challenge data and displays \n    the OTP to the PSU.\n  - 'PUSH_OTP': An OTP is pushed to a dedicated authentication APP and displayed to the PSU.\n",
+        "description": "Type of the authentication method.\n\nMore authentication types might be added during implementation projects and documented in the ASPSP documentation.\n\n  - 'SMS_OTP': An SCA method, where an OTP linked to the transaction to be authorised is sent to the PSU through a SMS channel.\n  - 'CHIP_OTP': An SCA method, where an OTP is generated by a chip card, e.g. a TOP derived from an EMV cryptogram. \n    To contact the card, the PSU normally needs a (handheld) device. \n    With this device, the PSU either reads the challenging data through a visual interface like flickering or \n    the PSU types in the challenge through the device key pad. \n    The device then derives an OTP from the challenge data and displays the OTP to the PSU.\n  - 'PHOTO_OTP': An SCA method, where the challenge is a QR code or similar encoded visual data \n    which can be read in by a consumer device or specific mobile app. \n    The device resp. the specific app than derives an OTP from the visual challenge data and displays \n    the OTP to the PSU.\n  - 'PUSH_OTP': An OTP is pushed to a dedicated authentication APP and displayed to the PSU.\n  - 'SMTP_OTP': An OTP is sent via email to the PSU.\n  - 'EMAIL': Deprecated. An OTP is sent via email to the PSU.\n",
         "type": "string",
         "enum": [
           "SMS_OTP",
           "CHIP_OTP",
           "PHOTO_OTP",
           "PUSH_OTP",
+          "SMTP_OTP",
           "EMAIL"
         ]
       },
@@ -5038,6 +5039,13 @@
               "allAccounts",
               "allAccountsWithOwnerName"
             ]
+          },
+          "restrictedTo": {
+            "description": "If the TPP requests access to accounts via availableAccounts (List of available accounts), global \nor bank driven consents, the TPP may include this element to restrict access to the referred \naccount types. Absence of the element is interpreted as \"no restriction\" (therefore access to \naccounts of all types is requested). The element may only occur, if each of the elements \n  - accounts \n  - balances \n  - transactions \nis either not present or contains an empty array. \n",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/cashAccountType"
+            }
           }
         }
       },
@@ -5222,7 +5230,7 @@
         }
       },
       "accountReport": {
-        "description": "JSON based account report.\nThis account report contains transactions resulting from the query parameters.\n\n'booked' shall be contained if bookingStatus parameter is set to \"booked\" or \"both\".\n\n'pending' is not contained if the bookingStatus parameter is set to \"booked\".\n",
+        "description": "JSON based account report.\nThis account report contains transactions resulting from the query parameters.\n\n'booked' shall be contained if bookingStatus parameter is set to \"booked\" or \"both\".\n\n'pending' is not contained if the bookingStatus parameter is set to \"booked\" or \"information\".\n\n'information' Only contained if the bookingStatus is set to \"information\" and if supported by ASPSP.\n",
         "type": "object",
         "required": [
           "_links"
@@ -5232,6 +5240,9 @@
             "$ref": "#/components/schemas/transactionList"
           },
           "pending": {
+            "$ref": "#/components/schemas/transactionList"
+          },
+          "information": {
             "$ref": "#/components/schemas/transactionList"
           },
           "_links": {
@@ -5262,7 +5273,7 @@
         "description": "Array of transaction details.",
         "type": "array",
         "items": {
-          "$ref": "#/components/schemas/transactionDetails"
+          "$ref": "#/components/schemas/transactions"
         }
       },
       "cardTransactionList": {
@@ -5272,7 +5283,19 @@
           "$ref": "#/components/schemas/cardTransaction"
         }
       },
-      "transactionDetails": {
+      "transactionDetailsBody": {
+        "description": "Transaction details.",
+        "type": "object",
+        "required": [
+          "transactionDetails"
+        ],
+        "properties": {
+          "transactionDetails": {
+            "$ref": "#/components/schemas/transactions"
+          }
+        }
+      },
+      "transactions": {
         "description": "Transaction details.",
         "type": "object",
         "required": [
@@ -5531,7 +5554,7 @@
             "format": "date-time"
           },
           "referenceDate": {
-            "description": "Reference date of the balance.",
+            "description": "Indicates the date of the balance.",
             "type": "string",
             "format": "date"
           },
@@ -10749,7 +10772,7 @@
       "dateFrom": {
         "name": "dateFrom",
         "in": "query",
-        "description": "Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required\nand if bookingStatus does not equal \"information.\n\nFor booked transactions, the relevant date is the booking date. \n\nFor pending transactions, the relevant date is the entry date, which may not be transparent \nneither in this API nor other channels of the ASPSP.\n",
+        "description": "Conditional: Starting date (inclusive the date dateFrom) of the transaction list, mandated if no delta access is required\nand if bookingStatus does not equal \"information\".\n\nFor booked transactions, the relevant date is the booking date. \n\nFor pending transactions, the relevant date is the entry date, which may not be transparent \nneither in this API nor other channels of the ASPSP.\n",
         "required": false,
         "schema": {
           "type": "string",
@@ -11222,6 +11245,13 @@
         },
         "required": false
       },
+      "ASPSP-Multiple-Consent-Support": {
+        "description": "true if the ASPSP supports the Multiple Consent Service.\n\nfalse if the ASPSP does not support the Multiple Consent Service.\n\nIf not provided, this also implies that the ASPSP does not support the Multiple Consent Service.\n",
+        "schema": {
+          "type": "boolean"
+        },
+        "required": false
+      },
       "ASPSP-Notification-Support": {
         "description": "true if the ASPSP supports resource status notification services.\n\nfalse if the ASPSP supports resource status notification in general, but not for the current request.\n\nNot used, if resource status notification services are generally not supported by the ASPSP.\n\nShall be supported if the ASPSP supports resource status notification services.\n",
         "schema": {
@@ -11480,7 +11510,7 @@
               ],
               "properties": {
                 "transactionsDetails": {
-                  "$ref": "#/components/schemas/transactionDetails"
+                  "$ref": "#/components/schemas/transactionDetailsBody"
                 }
               }
             },
@@ -11510,6 +11540,9 @@
               },
               "Example 2: Multicurrency Account": {
                 "$ref": "#/components/examples/balancesExample2_MulticurrencyAcount"
+              },
+              "Example 3:": {
+                "$ref": "#/components/examples/balancesExample3_RegularAccount"
               }
             }
           }
@@ -13616,19 +13649,19 @@
           },
           "balances": [
             {
-              "balanceType": "closingBooked",
               "balanceAmount": {
                 "currency": "EUR",
                 "amount": "500.00"
               },
+              "balanceType": "closingBooked",
               "referenceDate": "2017-10-25"
             },
             {
-              "balanceType": "expected",
               "balanceAmount": {
                 "currency": "EUR",
                 "amount": "900.00"
               },
+              "balanceType": "expected",
               "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
             }
           ]
@@ -13639,36 +13672,65 @@
         "value": {
           "balances": [
             {
-              "balanceType": "closingBooked",
               "balanceAmount": {
                 "currency": "EUR",
                 "amount": "500.00"
               },
+              "balanceType": "closingBooked",
               "referenceDate": "2017-10-25"
             },
             {
-              "balanceType": "expected",
               "balanceAmount": {
                 "currency": "EUR",
                 "amount": "900.00"
               },
+              "balanceType": "expected",
               "lastChangeDateTime": "2017-10-25T15:30:35.035Z"
             },
             {
-              "balanceType": "closingBooked",
               "balanceAmount": {
                 "currency": "USD",
                 "amount": "350.00"
               },
+              "balanceType": "closingBooked",
               "referenceDate": "2017-10-25"
             },
             {
-              "balanceType": "expected",
               "balanceAmount": {
                 "currency": "USD",
                 "amount": "350.00"
               },
+              "balanceType": "expected",
               "lastChangeDateTime": "2017-10-24T14:30:21Z"
+            }
+          ]
+        }
+      },
+      "balancesExample3_RegularAccount": {
+        "description": "Response in case of a regular account where the corresponding balances in the online channel is reported independently from account statements with fixed dates, i.e. always displaying running balance for current time.",
+        "value": {
+          "balances": [
+            {
+              "balanceAmount": {
+                "currency": "EUR",
+                "amount": "1000.00"
+              },
+              "balanceType": "interimBooked"
+            },
+            {
+              "balanceAmount": {
+                "currency": "EUR",
+                "amount": "300.00"
+              },
+              "balanceType": "interimAvailable"
+            },
+            {
+              "balanceAmount": {
+                "currency": "EUR",
+                "amount": "5300.00"
+              },
+              "balanceType": "interimAvailable",
+              "creditLimitIncluded": true
             }
           ]
         }

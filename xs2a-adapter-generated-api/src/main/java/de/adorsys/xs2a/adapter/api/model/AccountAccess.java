@@ -23,6 +23,8 @@ public class AccountAccess {
 
     private AllPsd2 allPsd2;
 
+    private List<String> restrictedTo;
+
     public List<AccountReference> getAccounts() {
         return accounts;
     }
@@ -80,6 +82,14 @@ public class AccountAccess {
         this.allPsd2 = allPsd2;
     }
 
+    public List<String> getRestrictedTo() {
+        return restrictedTo;
+    }
+
+    public void setRestrictedTo(List<String> restrictedTo) {
+        this.restrictedTo = restrictedTo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,7 +101,8 @@ public class AccountAccess {
             Objects.equals(additionalInformation, that.additionalInformation) &&
             Objects.equals(availableAccounts, that.availableAccounts) &&
             Objects.equals(availableAccountsWithBalance, that.availableAccountsWithBalance) &&
-            Objects.equals(allPsd2, that.allPsd2);
+            Objects.equals(allPsd2, that.allPsd2) &&
+            Objects.equals(restrictedTo, that.restrictedTo);
     }
 
     @Override
@@ -102,7 +113,8 @@ public class AccountAccess {
             additionalInformation,
             availableAccounts,
             availableAccountsWithBalance,
-            allPsd2);
+            allPsd2,
+            restrictedTo);
     }
 
     public enum AvailableAccounts {

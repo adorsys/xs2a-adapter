@@ -468,7 +468,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         return new Response<>(response.getStatusCode(), transactionsReport, response.getHeaders());
     }
 
-    private void rewriteTransactionsLinks(List<TransactionDetails> transactions) {
+    private void rewriteTransactionsLinks(List<Transactions> transactions) {
         Optional.ofNullable(transactions)
             .ifPresent(ts ->
                            ts.forEach(transaction -> transaction.setLinks(linksRewriter.rewrite(transaction.getLinks())))
@@ -520,7 +520,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         Optional.ofNullable(response.getBody())
             .map(OK200TransactionDetails::getTransactionsDetails)
-            .ifPresent(t -> t.setLinks(linksRewriter.rewrite(t.getLinks())));
+            .ifPresent(t -> t.getTransactionDetails().setLinks(linksRewriter.rewrite(t.getTransactionDetails().getLinks())));
 
         return new Response<>(response.getStatusCode(), response.getBody(), response.getHeaders());
     }

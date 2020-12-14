@@ -3,13 +3,13 @@ package de.adorsys.xs2a.adapter.adorsys.model;
 import java.util.Objects;
 
 public class AdorsysOK200TransactionDetails {
-    private AdorsysTransactionDetails transactionsDetails;
+    private AdorsysTransactionDetailsBody transactionsDetails;
 
-    public AdorsysTransactionDetails getTransactionsDetails() {
+    public AdorsysTransactionDetailsBody getTransactionsDetails() {
         return transactionsDetails;
     }
 
-    public void setTransactionsDetails(AdorsysTransactionDetails transactionsDetails) {
+    public void setTransactionsDetails(AdorsysTransactionDetailsBody transactionsDetails) {
         this.transactionsDetails = transactionsDetails;
     }
 

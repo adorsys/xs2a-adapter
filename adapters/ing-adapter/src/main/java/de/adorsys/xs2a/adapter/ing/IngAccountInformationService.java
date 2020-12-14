@@ -276,7 +276,7 @@ public class IngAccountInformationService implements AccountInformationService, 
             });
     }
 
-    private void rewriteLinks(List<TransactionDetails> transactionDetails) {
+    private void rewriteLinks(List<Transactions> transactionDetails) {
         Optional.ofNullable(transactionDetails)
             .ifPresent(td -> td.forEach(t -> t.setLinks(rewriteLinks(t.getLinks()))));
     }

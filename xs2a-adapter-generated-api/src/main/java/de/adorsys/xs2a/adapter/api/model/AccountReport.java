@@ -9,27 +9,37 @@ import java.util.Objects;
 
 @Generated("xs2a-adapter-codegen")
 public class AccountReport {
-    private List<TransactionDetails> booked;
+    private List<Transactions> booked;
 
-    private List<TransactionDetails> pending;
+    private List<Transactions> pending;
+
+    private List<Transactions> information;
 
     @JsonProperty("_links")
     private Map<String, HrefType> links;
 
-    public List<TransactionDetails> getBooked() {
+    public List<Transactions> getBooked() {
         return booked;
     }
 
-    public void setBooked(List<TransactionDetails> booked) {
+    public void setBooked(List<Transactions> booked) {
         this.booked = booked;
     }
 
-    public List<TransactionDetails> getPending() {
+    public List<Transactions> getPending() {
         return pending;
     }
 
-    public void setPending(List<TransactionDetails> pending) {
+    public void setPending(List<Transactions> pending) {
         this.pending = pending;
+    }
+
+    public List<Transactions> getInformation() {
+        return information;
+    }
+
+    public void setInformation(List<Transactions> information) {
+        this.information = information;
     }
 
     public Map<String, HrefType> getLinks() {
@@ -47,6 +57,7 @@ public class AccountReport {
         AccountReport that = (AccountReport) o;
         return Objects.equals(booked, that.booked) &&
             Objects.equals(pending, that.pending) &&
+            Objects.equals(information, that.information) &&
             Objects.equals(links, that.links);
     }
 
@@ -54,6 +65,7 @@ public class AccountReport {
     public int hashCode() {
         return Objects.hash(booked,
             pending,
+            information,
             links);
     }
 }

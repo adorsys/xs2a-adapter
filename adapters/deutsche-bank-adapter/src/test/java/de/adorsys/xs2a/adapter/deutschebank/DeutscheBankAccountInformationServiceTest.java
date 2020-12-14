@@ -102,7 +102,7 @@ class DeutscheBankAccountInformationServiceTest {
             "  \"transactionsDetails\": {\n" +
             "    \"remittanceInformationStructured\": {" +
             "       \"reference\": \"" + REMITTANCE_INFORMATION_STRUCTURED + "\"\n" +
-            "       }\n" +
+            "    }\n" +
             "  }\n" +
             "}";
 
@@ -130,6 +130,7 @@ class DeutscheBankAccountInformationServiceTest {
             .asInstanceOf(InstanceOfAssertFactories.type(OK200TransactionDetails.class))
             .matches(body ->
                 body.getTransactionsDetails()
+                    .getTransactionDetails()
                     .getRemittanceInformationStructured()
                     .equals(REMITTANCE_INFORMATION_STRUCTURED));
     }
