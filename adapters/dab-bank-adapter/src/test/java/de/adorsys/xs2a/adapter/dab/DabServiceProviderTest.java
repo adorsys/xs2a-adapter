@@ -4,7 +4,6 @@ import de.adorsys.xs2a.adapter.api.AccountInformationService;
 import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +30,7 @@ class DabServiceProviderTest {
 
         assertThat(actualService)
             .isNotNull()
-            .isInstanceOf(BaseAccountInformationService.class);
+            .isInstanceOf(DavAccountInformationService.class);
     }
 
     @Test
