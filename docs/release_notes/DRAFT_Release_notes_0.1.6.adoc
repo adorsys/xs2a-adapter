@@ -1,10 +1,12 @@
-= Draft Release notes for version 0.1.5 (release date: xx.01.2021)
+= Draft Release notes for version 0.1.6 (release date: xx.01.2021)
 
 .Added banks
 |===
 |===
 
 == Notices:
+- Updated Adapter models to conform to BG NextGen PSD2 specification
+https://77cb457b-3353-4bdc-8ab6-ff6bb2ccdc98.filesusr.com/archives/c2914b_664f2e9dfd624507af82fa9abe2af8e7.zip?dn=psd2-api%201.3.8%202020-11-18v1.yaml.zip[1.3.8 2020-11-18v1]
 
 == Features:
 

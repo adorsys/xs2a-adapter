@@ -1,17 +1,17 @@
-package de.adorsys.xs2a.adapter.api.model;
+package de.adorsys.xs2a.adapter.consors.model;
 
-import javax.annotation.Generated;
+import de.adorsys.xs2a.adapter.api.model.Transactions;
+
 import java.util.Objects;
 
-@Generated("xs2a-adapter-codegen")
-public class OK200TransactionDetails {
-    private TransactionDetailsBody transactionsDetails;
+public class ConsorsOK200TransactionDetails {
+    private Transactions transactionsDetails;
 
-    public TransactionDetailsBody getTransactionsDetails() {
+    public Transactions getTransactionsDetails() {
         return transactionsDetails;
     }
 
-    public void setTransactionsDetails(TransactionDetailsBody transactionsDetails) {
+    public void setTransactionsDetails(Transactions transactionsDetails) {
         this.transactionsDetails = transactionsDetails;
     }
 
@@ -19,7 +19,7 @@ public class OK200TransactionDetails {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OK200TransactionDetails that = (OK200TransactionDetails) o;
+        ConsorsOK200TransactionDetails that = (ConsorsOK200TransactionDetails) o;
         return Objects.equals(transactionsDetails, that.transactionsDetails);
     }
 

@@ -20,7 +20,6 @@ import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
-import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 
 public class DabServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
@@ -37,7 +36,7 @@ public class DabServiceProvider implements AccountInformationServiceProvider, Pa
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   LinksRewriter linksRewriter) {
-        return new BaseAccountInformationService(aspsp,
+        return new DavAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
             httpClientFactory.getHttpClientConfig().getLogSanitizer());

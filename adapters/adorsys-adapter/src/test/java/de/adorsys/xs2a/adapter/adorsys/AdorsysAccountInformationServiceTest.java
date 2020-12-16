@@ -248,9 +248,11 @@ class AdorsysAccountInformationServiceTest {
     void getTransactionDetails() {
         String rawResponse = "{\n" +
             "  \"transactionsDetails\": {\n" +
-            "      \"remittanceInformationStructuredArray\": [" +
-            "         \"" + REMITTANCE_INFORMATION_STRUCTURED + "\"\n" +
-            "      ]\n" +
+            "       \"transactionDetails\": {\n" +
+            "           \"remittanceInformationStructuredArray\": [" +
+            "              \"" + REMITTANCE_INFORMATION_STRUCTURED + "\"\n" +
+            "           ]\n" +
+            "       }\n" +
             "  }\n" +
             "}";
 
@@ -277,6 +279,7 @@ class AdorsysAccountInformationServiceTest {
             .asInstanceOf(InstanceOfAssertFactories.type(OK200TransactionDetails.class))
             .matches(body ->
                 body.getTransactionsDetails()
+                    .getTransactionDetails()
                     .getRemittanceInformationStructuredArray()
                     .get(0)
                     .getReference()

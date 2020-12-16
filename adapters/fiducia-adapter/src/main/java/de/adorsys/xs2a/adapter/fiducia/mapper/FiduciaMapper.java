@@ -37,7 +37,10 @@ public interface FiduciaMapper {
     OK200TransactionDetails toOK200TransactionDetails(FiduciaOK200TransactionDetails value);
 
     @Mapping(target = "currencyExchange", ignore = true)
-    TransactionDetails toTransactionDetails(FiduciaTransactionDetails value);
+    Transactions toTransactionDetails(FiduciaTransactionDetails value);
+
+    @Mapping(target = "transactionDetails", expression = "java(toTransactionDetails(value))")
+    TransactionDetailsBody toTransactionDetailsBody(FiduciaTransactionDetails value);
 
     PaymentInitationRequestResponse201 toPaymentInitationRequestResponse201(FiduciaPaymentInitationRequestResponse201 value);
 }

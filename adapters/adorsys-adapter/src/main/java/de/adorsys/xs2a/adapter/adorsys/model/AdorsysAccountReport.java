@@ -8,24 +8,24 @@ import java.util.Map;
 import java.util.Objects;
 
 public class AdorsysAccountReport {
-    private List<AdorsysTransactionDetails> booked;
-    private List<AdorsysTransactionDetails> pending;
+    private List<AdorsysTransactions> booked;
+    private List<AdorsysTransactions> pending;
     @JsonProperty("_links")
     private Map<String, HrefType> links;
 
-    public List<AdorsysTransactionDetails> getBooked() {
+    public List<AdorsysTransactions> getBooked() {
         return booked;
     }
 
-    public void setBooked(List<AdorsysTransactionDetails> booked) {
+    public void setBooked(List<AdorsysTransactions> booked) {
         this.booked = booked;
     }
 
-    public List<AdorsysTransactionDetails> getPending() {
+    public List<AdorsysTransactions> getPending() {
         return pending;
     }
 
-    public void setPending(List<AdorsysTransactionDetails> pending) {
+    public void setPending(List<AdorsysTransactions> pending) {
         this.pending = pending;
     }
 

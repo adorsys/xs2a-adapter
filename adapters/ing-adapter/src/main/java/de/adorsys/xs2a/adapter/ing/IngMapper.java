@@ -124,7 +124,7 @@ public interface IngMapper {
     @Mapping(target = "balanceAfterTransaction", ignore = true)
     @Mapping(target = "currencyExchange", ignore = true)
     @Mapping(target = "additionalInformation", ignore = true)
-    TransactionDetails map(IngTransaction value);
+    Transactions map(IngTransaction value);
 
     default String map(IngTransactionRemittanceInformationStructured value) {
         return value == null ? null : value.getReference();

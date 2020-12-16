@@ -457,8 +457,8 @@ class IngMapperTest {
         return hrefType;
     }
 
-    private TransactionDetails transaction() {
-        TransactionDetails transaction = new TransactionDetails();
+    private Transactions transaction() {
+        Transactions transaction = new Transactions();
         transaction.setTransactionId(TRANSACTION_ID);
         transaction.setEndToEndId(END_TO_END_ID);
         transaction.setBookingDate(START_DATE);

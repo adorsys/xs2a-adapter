@@ -15,6 +15,8 @@ public enum AuthenticationType {
 
     PUSH_OTP("PUSH_OTP"),
 
+    SMTP_OTP("SMTP_OTP"),
+
     EMAIL("EMAIL");
 
     private String value;

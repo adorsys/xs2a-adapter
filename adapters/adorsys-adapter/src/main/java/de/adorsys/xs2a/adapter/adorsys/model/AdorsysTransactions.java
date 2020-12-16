@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class AdorsysTransactionDetails {
+public class AdorsysTransactions {
     private String transactionId;
     private String entryReference;
     private String endToEndId;
@@ -279,7 +279,7 @@ public class AdorsysTransactionDetails {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AdorsysTransactionDetails that = (AdorsysTransactionDetails) o;
+        AdorsysTransactions that = (AdorsysTransactions) o;
         return Objects.equals(transactionId, that.transactionId) &&
             Objects.equals(entryReference, that.entryReference) &&
             Objects.equals(endToEndId, that.endToEndId) &&

@@ -5,6 +5,6 @@ import de.adorsys.xs2a.adapter.comdirect.model.ComdirectOK200TransactionDetails;
 import org.mapstruct.Mapper;
 
 @Mapper
-public interface OK200TransactionDetailsMapper extends RemittanceInformationStructuredMapper {
+public interface OK200TransactionDetailsMapper extends RemittanceInformationStructuredMapper, TransactionDetailsBodyMapper {
     OK200TransactionDetails toOK200TransactionDetails(ComdirectOK200TransactionDetails value);
 }
