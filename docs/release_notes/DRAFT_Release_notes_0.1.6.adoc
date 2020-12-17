@@ -11,3 +11,4 @@ https://77cb457b-3353-4bdc-8ab6-ff6bb2ccdc98.filesusr.com/archives/c2914b_664f2e
 == Features:
 
 == Fixes:
+- Fixed Crealogix Adapter Pre-Step: added missing mandatory `PSD2-AUTHORIZATION` header

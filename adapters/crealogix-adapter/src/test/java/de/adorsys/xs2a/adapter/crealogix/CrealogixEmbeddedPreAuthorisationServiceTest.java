@@ -55,7 +55,7 @@ class CrealogixEmbeddedPreAuthorisationServiceTest {
         doReturn(tppResponse).when(tppBuilder).send(any());
         doReturn(tppTokenResponse).when(tppResponse).getBody();
 
-        doReturn(psd2Builder).when(httpClient).post(eq("https://localhost:8443/pre-auth/1.0.5/psd2-auth/v1/auth/token"));
+        doReturn(psd2Builder).when(httpClient).post(eq("https://localhost:8443/pre-auth/1.0.6/psd2-auth/v1/auth/token"));
         doReturn(psd2Builder).when(psd2Builder).jsonBody(anyString());
         doReturn(psd2Builder).when(psd2Builder).headers(anyMap());
         doReturn(psd2Response).when(psd2Builder).send(any());
@@ -87,7 +87,10 @@ class CrealogixEmbeddedPreAuthorisationServiceTest {
     @ParameterizedTest
     @ValueSource(ints = {302, 403, 500})
     void responseHandler_notSuccessfulStatuses(int statusCode) {
-        assertThatThrownBy(() -> authorisationService.responseHandler().apply(statusCode, null, ResponseHeaders.emptyResponseHeaders()))
+        HttpClient.ResponseHandler<TokenResponse> responseHandler = authorisationService.responseHandler();
+        ResponseHeaders responseHeaders = ResponseHeaders.emptyResponseHeaders();
+
+        assertThatThrownBy(() -> responseHandler.apply(statusCode, null, responseHeaders))
             .isInstanceOf(AccessTokenException.class);
     }
 
