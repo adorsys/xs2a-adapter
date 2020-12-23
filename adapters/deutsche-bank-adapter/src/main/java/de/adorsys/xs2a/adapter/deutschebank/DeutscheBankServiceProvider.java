@@ -22,8 +22,7 @@ import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BaseDownloadService;
 
-public class DeutscheBankServiceProvider
-    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, DownloadServiceProvider {
+public class DeutscheBankServiceProvider extends AbstractAdapterServiceProvider implements DownloadServiceProvider {
     public static final String SERVICE_GROUP_PLACEHOLDER = "{Service Group}";
     private static final PsuIdTypeHeaderInterceptor psuIdTypeHeaderInterceptor = new PsuIdTypeHeaderInterceptor();
     private static final PsuPasswordEncryptionService psuPasswordEncryptionService = DeutscheBankPsuPasswordEncryptionService.getInstance();
@@ -46,7 +45,8 @@ public class DeutscheBankServiceProvider
             psuIdTypeHeaderInterceptor,
             linksRewriter,
             psuPasswordEncryptionService,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
+            isWiremockValidationEnabled());
     }
 
     @Override
@@ -66,7 +66,8 @@ public class DeutscheBankServiceProvider
             httpClientFactory.getHttpClient(getAdapterId()),
             psuIdTypeHeaderInterceptor,
             linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
+            isWiremockValidationEnabled());
     }
 
     @Override

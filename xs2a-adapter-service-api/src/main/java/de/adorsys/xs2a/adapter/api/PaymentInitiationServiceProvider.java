@@ -20,7 +20,7 @@ import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
-public interface PaymentInitiationServiceProvider extends AdapterServiceProvider {
+public interface PaymentInitiationServiceProvider extends AdapterServiceProvider, WiremockValidation {
 
     @Deprecated
     PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,

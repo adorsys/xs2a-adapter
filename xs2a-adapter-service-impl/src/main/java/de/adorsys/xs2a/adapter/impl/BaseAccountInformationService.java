@@ -61,38 +61,41 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
                                          Interceptor requestBuilderInterceptor) {
-        this(aspsp, httpClient, requestBuilderInterceptor, DEFAULT_LINKS_REWRITER, null);
+        this(aspsp, httpClient, requestBuilderInterceptor, DEFAULT_LINKS_REWRITER, null, false);
     }
 
     public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
                                          LinksRewriter linksRewriter) {
-        this(aspsp, httpClient, Collections.emptyList(), linksRewriter, null);
+        this(aspsp, httpClient, Collections.emptyList(), linksRewriter, null, false);
     }
 
     public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
                                          LinksRewriter linksRewriter,
-                                         HttpLogSanitizer logSanitizer) {
-        this(aspsp, httpClient, Collections.emptyList(), linksRewriter, logSanitizer);
+                                         HttpLogSanitizer logSanitizer,
+                                         boolean wiremockInterceptorEnabled) {
+        this(aspsp, httpClient, Collections.emptyList(), linksRewriter, logSanitizer, wiremockInterceptorEnabled);
     }
 
     public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
                                          Interceptor requestBuilderInterceptor,
                                          LinksRewriter linksRewriter,
-                                         HttpLogSanitizer logSanitizer) {
-        this(aspsp, httpClient, Collections.singletonList(requestBuilderInterceptor), linksRewriter, logSanitizer);
+                                         HttpLogSanitizer logSanitizer,
+                                         boolean wiremockInterceptorEnabled) {
+        this(aspsp, httpClient, Collections.singletonList(requestBuilderInterceptor), linksRewriter, logSanitizer, wiremockInterceptorEnabled);
     }
 
     public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
                                          List<Interceptor> interceptors,
                                          LinksRewriter linksRewriter,
-                                         HttpLogSanitizer logSanitizer) {
+                                         HttpLogSanitizer logSanitizer,
+                                         boolean wiremockInterceptorEnabled) {
         super(httpClient);
         this.aspsp = aspsp;
-        this.interceptors = populateInterceptors(interceptors, aspsp);
+        this.interceptors = populateInterceptors(interceptors, aspsp, wiremockInterceptorEnabled);
         this.linksRewriter = linksRewriter;
         this.responseHandlers = new ResponseHandlers(logSanitizer);
     }

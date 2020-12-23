@@ -9,6 +9,7 @@ import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
@@ -27,7 +28,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ConsorsPaymentInitiationServiceTest {
 
-    @InjectMocks
     private ConsorsPaymentInitiationService service;
     @Mock
     private HttpClient client;
@@ -38,6 +38,11 @@ class ConsorsPaymentInitiationServiceTest {
 
     @Captor
     private ArgumentCaptor<Request.Builder> builderCaptor;
+
+    @BeforeEach
+    void setUp() {
+        service = new ConsorsPaymentInitiationService(aspsp, client, rewriter, null, false);
+    }
 
     @Test
     void initiatePayment_noPsuId() {

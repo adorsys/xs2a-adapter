@@ -31,8 +31,9 @@ public class AdorsysAccountInformationService extends BaseAccountInformationServ
                                             HttpClient httpClient,
                                             List<Interceptor> interceptors,
                                             LinksRewriter linksRewriter,
-                                            HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
+                                            HttpLogSanitizer logSanitizer,
+                                            boolean wiremockInterceptorEnabled) {
+        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
         this.handlers = new ResponseHandlers(logSanitizer);
     }
 

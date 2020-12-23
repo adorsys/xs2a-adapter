@@ -46,7 +46,11 @@ class UnicreditAccountInformationServiceTest {
     void setUp() {
         httpClient = mock(HttpClient.class);
         linksRewriter = mock(LinksRewriter.class);
-        accountInformationService = new UnicreditAccountInformationService(ASPSP, httpClient, linksRewriter, null);
+        accountInformationService = new UnicreditAccountInformationService(ASPSP,
+                                                                           httpClient,
+                                                                           linksRewriter,
+                                                                           null,
+                                                                           false);
     }
 
     @Test

@@ -27,8 +27,7 @@ import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdorsysIntegServiceProvider
-    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceProvider {
+public class AdorsysIntegServiceProvider extends AbstractAdapterServiceProvider implements Oauth2ServiceProvider {
 
     private final OauthHeaderInterceptor oauthHeaderInterceptor = new OauthHeaderInterceptor();
 
@@ -50,7 +49,8 @@ public class AdorsysIntegServiceProvider
             httpClientFactory.getHttpClient(getAdapterId()),
             getInterceptors(config.getKeyStore()),
             linksRewriter,
-            config.getLogSanitizer());
+            config.getLogSanitizer(),
+            isWiremockValidationEnabled());
     }
 
     private List<Interceptor> getInterceptors(Pkcs12KeyStore keyStore) {
@@ -79,7 +79,8 @@ public class AdorsysIntegServiceProvider
                                                     httpClientFactory.getHttpClient(getAdapterId()),
                                                     getInterceptors(config.getKeyStore()),
                                                     linksRewriter,
-                                                    config.getLogSanitizer());
+                                                    config.getLogSanitizer(),
+                                                    isWiremockValidationEnabled());
     }
 
     @Override

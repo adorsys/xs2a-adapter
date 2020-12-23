@@ -10,9 +10,9 @@ import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
 import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -31,7 +31,6 @@ class VerlagAccountInformationServiceTest {
     private static final String ACCOUNT_ID = "accountId";
     private static final String REMITTANCE_INFORMATION_STRUCTURED = "remittanceInformationStructuredStringValue";
 
-    @InjectMocks
     private VerlagAccountInformationService accountInformationService;
     @Mock
     private HttpClient httpClient;
@@ -41,6 +40,17 @@ class VerlagAccountInformationServiceTest {
     private LinksRewriter linksRewriter;
     @Mock
     private AbstractMap.SimpleImmutableEntry<String, String> apiKey;
+
+    @BeforeEach
+    void setUp() {
+        accountInformationService = new VerlagAccountInformationService(aspsp,
+                                                                        apiKey,
+                                                                        httpClient,
+                                                                        null,
+                                                                        linksRewriter,
+                                                                        null,
+                                                                        false);
+    }
 
     @Test
     void getTransactionList() {

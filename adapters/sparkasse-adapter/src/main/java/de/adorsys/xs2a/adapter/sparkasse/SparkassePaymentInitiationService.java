@@ -16,8 +16,9 @@ public class SparkassePaymentInitiationService extends BasePaymentInitiationServ
     public SparkassePaymentInitiationService(Aspsp aspsp,
                                              HttpClient httpClient,
                                              LinksRewriter linksRewriter,
-                                             HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, linksRewriter, logSanitizer);
+                                             HttpLogSanitizer logSanitizer,
+                                             boolean wiremockInterceptorEnabled) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
     }
 
     @Override

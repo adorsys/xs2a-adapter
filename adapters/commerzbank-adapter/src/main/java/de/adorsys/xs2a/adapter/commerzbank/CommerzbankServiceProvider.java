@@ -23,8 +23,7 @@ import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 
-public class CommerzbankServiceProvider
-    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceProvider {
+public class CommerzbankServiceProvider extends AbstractAdapterServiceProvider implements Oauth2ServiceProvider {
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
@@ -41,7 +40,8 @@ public class CommerzbankServiceProvider
         return new CommerzbankAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
+            isWiremockValidationEnabled());
     }
 
     @Override
@@ -59,7 +59,8 @@ public class CommerzbankServiceProvider
         return new BasePaymentInitiationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
+            isWiremockValidationEnabled());
     }
 
     @Override

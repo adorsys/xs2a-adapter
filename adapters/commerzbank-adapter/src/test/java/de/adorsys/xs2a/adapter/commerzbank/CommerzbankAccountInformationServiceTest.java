@@ -13,9 +13,9 @@ import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.commerzbank.model.CommerzbankBalanceReport;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import org.assertj.core.api.InstanceOfAssertFactories;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -33,7 +33,6 @@ class CommerzbankAccountInformationServiceTest {
     private static final String ACCOUNT_ID = "accountId";
     private static final String REMITTANCE_INFORMATION_STRUCTURED = "remittanceInformationStructuredStringValue";
 
-    @InjectMocks
     private CommerzbankAccountInformationService accountInformationService;
     @Mock
     private HttpClient httpClient;
@@ -41,6 +40,15 @@ class CommerzbankAccountInformationServiceTest {
     private Aspsp aspsp;
     @Mock
     private LinksRewriter linksRewriter;
+
+    @BeforeEach
+    void setUp() {
+        accountInformationService = new CommerzbankAccountInformationService(aspsp,
+                                                                             httpClient,
+                                                                             linksRewriter,
+                                                                             null,
+                                                                             false);
+    }
 
     @Test
     void getTransactionList() {

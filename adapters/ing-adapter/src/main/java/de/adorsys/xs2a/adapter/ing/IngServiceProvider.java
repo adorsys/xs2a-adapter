@@ -15,8 +15,7 @@ import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 
-public class IngServiceProvider
-    implements AccountInformationServiceProvider, Oauth2ServiceProvider, PaymentInitiationServiceProvider {
+public class IngServiceProvider extends AbstractAdapterServiceProvider implements Oauth2ServiceProvider {
 
     private static final LinksRewriter DEFAULT_LINKS_REWRITER = new IdentityLinksRewriter();
 

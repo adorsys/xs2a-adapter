@@ -24,8 +24,9 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     public UnicreditAccountInformationService(Aspsp aspsp,
                                               HttpClient httpClient,
                                               LinksRewriter linksRewriter,
-                                              HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, linksRewriter, logSanitizer);
+                                              HttpLogSanitizer logSanitizer,
+                                              boolean wiremockInterceptorEnabled) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
     }
 
     @Override

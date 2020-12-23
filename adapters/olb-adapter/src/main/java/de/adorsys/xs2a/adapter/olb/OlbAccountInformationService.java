@@ -21,8 +21,9 @@ public class OlbAccountInformationService extends BaseAccountInformationService 
     public OlbAccountInformationService(Aspsp aspsp,
                                         HttpClient httpClient,
                                         LinksRewriter linksRewriter,
-                                        HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, linksRewriter, logSanitizer);
+                                        HttpLogSanitizer logSanitizer,
+                                        boolean wiremockInterceptorEnabled) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
     }
 
     @Override

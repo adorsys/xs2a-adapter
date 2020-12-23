@@ -22,7 +22,7 @@ import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 
-public class DabServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+public class DabServiceProvider extends AbstractAdapterServiceProvider {
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
@@ -39,7 +39,8 @@ public class DabServiceProvider implements AccountInformationServiceProvider, Pa
         return new DavAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
+            isWiremockValidationEnabled());
     }
 
     @Override
@@ -57,7 +58,8 @@ public class DabServiceProvider implements AccountInformationServiceProvider, Pa
         return new BasePaymentInitiationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
+            isWiremockValidationEnabled());
     }
 
     @Override

@@ -52,8 +52,9 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
                                             HttpClient httpClient,
                                             Interceptor requestBuilderInterceptor,
                                             LinksRewriter linksRewriter,
-                                            HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, requestBuilderInterceptor, linksRewriter, logSanitizer);
+                                            HttpLogSanitizer logSanitizer,
+                                            boolean wiremockInterceptorEnabled) {
+        super(aspsp, httpClient, requestBuilderInterceptor, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
     }
 
     @Override

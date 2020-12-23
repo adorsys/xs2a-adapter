@@ -29,7 +29,13 @@ class DeutscheBankAccountInformationServiceTest {
     private static final String REMITTANCE_INFORMATION_STRUCTURED = "remittanceInformationStructuredStringValue";
     private final HttpClient httpClient = mock(HttpClient.class);
     private final DeutscheBankAccountInformationService service =
-            new DeutscheBankAccountInformationService(ASPSP, httpClient, null, new IdentityLinksRewriter(), null, null);
+            new DeutscheBankAccountInformationService(ASPSP,
+                httpClient,
+                null,
+                new IdentityLinksRewriter(),
+                null,
+                null,
+                false);
 
     @Test
     void createConsent() {

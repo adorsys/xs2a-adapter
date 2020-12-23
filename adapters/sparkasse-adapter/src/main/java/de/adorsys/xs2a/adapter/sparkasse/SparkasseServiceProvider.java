@@ -21,8 +21,7 @@ import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
-public class SparkasseServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider,
-    Oauth2ServiceProvider {
+public class SparkasseServiceProvider extends AbstractAdapterServiceProvider implements Oauth2ServiceProvider {
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
@@ -39,7 +38,8 @@ public class SparkasseServiceProvider implements AccountInformationServiceProvid
         return new SparkasseAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
+            isWiremockValidationEnabled());
     }
 
     @Override
@@ -57,7 +57,8 @@ public class SparkasseServiceProvider implements AccountInformationServiceProvid
         return new SparkassePaymentInitiationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
+            isWiremockValidationEnabled());
     }
 
     @Override

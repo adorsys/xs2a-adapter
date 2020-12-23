@@ -25,8 +25,7 @@ import de.adorsys.xs2a.adapter.impl.BaseDownloadService;
 
 import java.util.AbstractMap;
 
-public class VerlagServiceProvider
-    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, DownloadServiceProvider {
+public class VerlagServiceProvider extends AbstractAdapterServiceProvider implements DownloadServiceProvider {
 
     private static final String VERLAG_API_KEY_NAME = "verlag.apikey.name";
     private static final String VERLAG_API_KEY_VALUE = "verlag.apikey.value";
@@ -59,7 +58,8 @@ public class VerlagServiceProvider
             httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
             psuIdTypeHeaderInterceptor,
             linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
+            isWiremockValidationEnabled());
     }
 
     @Override
@@ -79,7 +79,8 @@ public class VerlagServiceProvider
             httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
             psuIdTypeHeaderInterceptor,
             linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
+            isWiremockValidationEnabled());
     }
 
     @Override

@@ -18,7 +18,6 @@ package de.adorsys.xs2a.adapter.impl;
 
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
-import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
@@ -32,13 +31,9 @@ import de.adorsys.xs2a.adapter.impl.http.wiremock.WiremockStubDifferenceDetectin
 
 import java.util.*;
 
-import static de.adorsys.xs2a.adapter.api.config.AdapterConfig.WIREMOCK_VALIDATION_ENABLED;
-
 public abstract class AbstractService {
     private static final EnumMap<PaymentService, Class<?>> PAYMENT_INITIATION_BODY_CLASSES =
         new EnumMap<>(PaymentService.class);
-    private final boolean wiremockInterceptorEnabled =
-        Boolean.parseBoolean(AdapterConfig.readProperty(WIREMOCK_VALIDATION_ENABLED, "false"));
 
     protected static final String AUTHORISATIONS = "authorisations";
     protected static final String STATUS = "status";
@@ -105,7 +100,7 @@ public abstract class AbstractService {
         return paymentInitiationBodyClass;
     }
 
-    protected List<Interceptor> populateInterceptors(List<Interceptor> interceptors, Aspsp aspsp) {
+    protected List<Interceptor> populateInterceptors(List<Interceptor> interceptors, Aspsp aspsp, boolean wiremockInterceptorEnabled) {
         if (wiremockInterceptorEnabled && WiremockStubDifferenceDetectingInterceptor.isWiremockSupported(aspsp.getAdapterId())) {
             List<Interceptor> list = new ArrayList<>(interceptors);
             list.add(new WiremockStubDifferenceDetectingInterceptor(aspsp));

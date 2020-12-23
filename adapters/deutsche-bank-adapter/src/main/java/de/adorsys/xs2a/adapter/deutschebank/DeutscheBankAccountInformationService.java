@@ -47,8 +47,9 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
                                                  Interceptor interceptor,
                                                  LinksRewriter linksRewriter,
                                                  PsuPasswordEncryptionService psuPasswordEncryptionService,
-                                                 HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, interceptor, linksRewriter, logSanitizer);
+                                                 HttpLogSanitizer logSanitizer,
+                                                 boolean wiremockInterceptorEnabled) {
+        super(aspsp, httpClient, interceptor, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
         this.psuPasswordEncryptionService = psuPasswordEncryptionService;
     }
 

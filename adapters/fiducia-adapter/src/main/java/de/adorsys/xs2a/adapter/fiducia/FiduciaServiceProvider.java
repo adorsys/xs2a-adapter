@@ -23,7 +23,7 @@ import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.http.RequestSigningInterceptor;
 
-public class FiduciaServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+public class FiduciaServiceProvider extends AbstractAdapterServiceProvider {
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
@@ -42,7 +42,8 @@ public class FiduciaServiceProvider implements AccountInformationServiceProvider
             httpClientFactory.getHttpClient(getAdapterId()),
             new RequestSigningInterceptor(config.getKeyStore()),
             linksRewriter,
-            config.getLogSanitizer());
+            config.getLogSanitizer(),
+            isWiremockValidationEnabled());
     }
 
     @Override
@@ -62,7 +63,8 @@ public class FiduciaServiceProvider implements AccountInformationServiceProvider
             httpClientFactory.getHttpClient(getAdapterId()),
             new RequestSigningInterceptor(config.getKeyStore()),
             linksRewriter,
-            config.getLogSanitizer());
+            config.getLogSanitizer(),
+            isWiremockValidationEnabled());
     }
 
     @Override

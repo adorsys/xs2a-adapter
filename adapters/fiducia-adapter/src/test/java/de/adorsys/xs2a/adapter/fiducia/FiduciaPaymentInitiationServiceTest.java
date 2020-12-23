@@ -32,7 +32,12 @@ class FiduciaPaymentInitiationServiceTest {
     void setUp() {
         httpClient = Mockito.spy(AbstractHttpClient.class);
         fiduciaPaymentInitiationService =
-            new FiduciaPaymentInitiationService(new Aspsp(), httpClient, null, new IdentityLinksRewriter(), null);
+            new FiduciaPaymentInitiationService(new Aspsp(),
+                httpClient,
+                null,
+                new IdentityLinksRewriter(),
+                null,
+                false);
     }
 
     @Test

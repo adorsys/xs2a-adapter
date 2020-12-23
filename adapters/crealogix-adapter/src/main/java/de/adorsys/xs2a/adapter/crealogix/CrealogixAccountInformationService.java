@@ -22,8 +22,9 @@ public class CrealogixAccountInformationService extends BaseAccountInformationSe
     public CrealogixAccountInformationService(Aspsp aspsp,
                                               HttpClient httpClient,
                                               LinksRewriter linksRewriter,
-                                              HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, linksRewriter, logSanitizer);
+                                              HttpLogSanitizer logSanitizer,
+                                              boolean wiremockInterceptorEnabled) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
         this.requestResponseHandlers = new CrealogixRequestResponseHandlers(logSanitizer);
     }
 

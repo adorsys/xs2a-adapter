@@ -31,8 +31,9 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
                                            HttpClient httpClient,
                                            LinksRewriter linksRewriter,
                                            SpardaJwtService spardaJwtService,
-                                           HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, linksRewriter, logSanitizer);
+                                           HttpLogSanitizer logSanitizer,
+                                           boolean wiremockInterceptorEnabled) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
         this.spardaJwtService = spardaJwtService;
         this.responseHandlers = new ResponseHandlers(logSanitizer);
     }

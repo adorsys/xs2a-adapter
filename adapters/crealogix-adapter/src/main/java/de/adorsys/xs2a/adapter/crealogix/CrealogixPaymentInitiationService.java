@@ -37,8 +37,9 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
     public CrealogixPaymentInitiationService(Aspsp aspsp,
                                              HttpClient httpClient,
                                              LinksRewriter linksRewriter,
-                                             HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, linksRewriter, logSanitizer);
+                                             HttpLogSanitizer logSanitizer,
+                                             boolean wiremockInterceptorEnabled) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
         this.requestResponseHandlers = new CrealogixRequestResponseHandlers(logSanitizer);
     }
 

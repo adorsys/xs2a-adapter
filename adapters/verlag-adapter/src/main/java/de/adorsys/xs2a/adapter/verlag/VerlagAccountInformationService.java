@@ -48,8 +48,9 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
                                            HttpClient httpClient,
                                            Interceptor interceptor,
                                            LinksRewriter linksRewriter,
-                                           HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, interceptor, linksRewriter, logSanitizer);
+                                           HttpLogSanitizer logSanitizer,
+                                           boolean wiremockInterceptorEnabled) {
+        super(aspsp, httpClient, interceptor, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
         this.apiKey = apiKey;
     }
 

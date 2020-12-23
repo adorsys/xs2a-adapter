@@ -67,7 +67,7 @@ class AdorsysAccountInformationServiceWireMockTest {
         aspsp.setName("adorsys-adapter");
         aspsp.setUrl("http://localhost:" + wireMockServer.port());
 
-        service = new AdorsysAccountInformationService(aspsp, httpClient, new ArrayList<>(), linksRewriter, null);
+        service = new AdorsysAccountInformationService(aspsp, httpClient, new ArrayList<>(), linksRewriter, null, false);
 
     }
 

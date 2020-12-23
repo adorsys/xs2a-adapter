@@ -26,8 +26,9 @@ public class ConsorsAccountInformationService extends BaseAccountInformationServ
                                             HttpClient httpClient,
                                             PsuIdHeaderInterceptor interceptor,
                                             LinksRewriter linksRewriter,
-                                            HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, interceptor, linksRewriter, logSanitizer);
+                                            HttpLogSanitizer logSanitizer,
+                                            boolean wiremockInterceptorEnabled) {
+        super(aspsp, httpClient, interceptor, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
     }
 
     @Override
