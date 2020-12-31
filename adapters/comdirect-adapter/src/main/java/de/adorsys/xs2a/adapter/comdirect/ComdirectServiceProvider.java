@@ -20,6 +20,7 @@ import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 
 public class ComdirectServiceProvider extends AbstractAdapterServiceProvider implements Oauth2ServiceProvider {
@@ -39,8 +40,7 @@ public class ComdirectServiceProvider extends AbstractAdapterServiceProvider imp
         return new ComdirectAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
-            isWiremockValidationEnabled());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -58,8 +58,7 @@ public class ComdirectServiceProvider extends AbstractAdapterServiceProvider imp
         return new BasePaymentInitiationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
-            isWiremockValidationEnabled());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

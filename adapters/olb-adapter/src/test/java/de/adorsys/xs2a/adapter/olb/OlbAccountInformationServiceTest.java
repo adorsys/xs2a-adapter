@@ -44,8 +44,7 @@ class OlbAccountInformationServiceTest {
         accountInformationService = new OlbAccountInformationService(aspsp,
                                                                      httpClient,
                                                                      linksRewriter,
-                                                                     null,
-                                                                     false);
+                                                                     null);
     }
 
     @Test

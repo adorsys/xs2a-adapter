@@ -19,17 +19,15 @@ package de.adorsys.xs2a.adapter.impl;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.Interceptor;
-import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.PaymentInitiationJson;
 import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationJson;
 import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.impl.http.JsonMapper;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
-import de.adorsys.xs2a.adapter.impl.http.wiremock.WiremockStubDifferenceDetectingInterceptor;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.Map;
 
 public abstract class AbstractService {
     private static final EnumMap<PaymentService, Class<?>> PAYMENT_INITIATION_BODY_CLASSES =
@@ -46,7 +44,7 @@ public abstract class AbstractService {
         PAYMENT_INITIATION_BODY_CLASSES.put(PaymentService.PERIODIC_PAYMENTS, PeriodicPaymentInitiationJson.class);
     }
 
-    public AbstractService(HttpClient httpClient) {
+    protected AbstractService(HttpClient httpClient) {
         this.httpClient = httpClient;
     }
 
@@ -98,14 +96,5 @@ public abstract class AbstractService {
             throw new IllegalArgumentException("Unsupported payment service: " + paymentService);
         }
         return paymentInitiationBodyClass;
-    }
-
-    protected List<Interceptor> populateInterceptors(List<Interceptor> interceptors, Aspsp aspsp, boolean wiremockInterceptorEnabled) {
-        if (wiremockInterceptorEnabled && WiremockStubDifferenceDetectingInterceptor.isWiremockSupported(aspsp.getAdapterId())) {
-            List<Interceptor> list = new ArrayList<>(interceptors);
-            list.add(new WiremockStubDifferenceDetectingInterceptor(aspsp));
-            return Collections.unmodifiableList(list);
-        }
-        return interceptors;
     }
 }

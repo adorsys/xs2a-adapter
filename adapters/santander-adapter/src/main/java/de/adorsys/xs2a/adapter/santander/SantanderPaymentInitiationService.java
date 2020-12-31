@@ -17,9 +17,8 @@ public class SantanderPaymentInitiationService extends BasePaymentInitiationServ
                                              HttpClient httpClient,
                                              LinksRewriter linksRewriter,
                                              AccessTokenService accessTokenService,
-                                             HttpLogSanitizer logSanitizer,
-                                             boolean wiremockInterceptorEnabled) {
-        super(aspsp, httpClient, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
+                                             HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer);
         this.accessTokenService = accessTokenService;
         clientId = SantanderAccessTokenService.getClientId();
     }

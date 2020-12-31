@@ -34,8 +34,7 @@ class DeutscheBankAccountInformationServiceTest {
                 null,
                 new IdentityLinksRewriter(),
                 null,
-                null,
-                false);
+                null);
 
     @Test
     void createConsent() {

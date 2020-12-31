@@ -46,8 +46,7 @@ class ComdirectAccountInformationServiceTest {
         accountInformationService = new ComdirectAccountInformationService(aspsp,
                                                                            httpClient,
                                                                            linksRewriter,
-                                                                           null,
-                                                                           false);
+                                                                           null);
     }
 
     @Test

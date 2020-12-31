@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
 @ServiceWireMockTest(FiduciaServiceProvider.class)
-public class FiduciaAccountInformationServiceWireMockTest {
+class FiduciaAccountInformationServiceWireMockTest {
 
     private static final String CONSENT_ID = "8117230618090020246PSDDE-BAFIN-911360CO4960JJ";
     private static final String AUTHORISATION_ID = "0942330618090020247PSDDE-BAFIN-911360AU4960JJ";

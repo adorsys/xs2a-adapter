@@ -41,7 +41,7 @@ class ConsorsPaymentInitiationServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new ConsorsPaymentInitiationService(aspsp, client, rewriter, null, false);
+        service = new ConsorsPaymentInitiationService(aspsp, client, rewriter, null);
     }
 
     @Test

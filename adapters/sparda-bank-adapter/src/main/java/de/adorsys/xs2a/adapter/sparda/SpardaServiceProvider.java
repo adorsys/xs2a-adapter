@@ -21,6 +21,7 @@ import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
 
 public class SpardaServiceProvider extends AbstractAdapterServiceProvider implements Oauth2ServiceProvider {
     private static final SpardaJwtService JWT_SERVICE = new SpardaJwtService();
@@ -41,8 +42,7 @@ public class SpardaServiceProvider extends AbstractAdapterServiceProvider implem
             httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
             JWT_SERVICE,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
-            isWiremockValidationEnabled());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -61,8 +61,7 @@ public class SpardaServiceProvider extends AbstractAdapterServiceProvider implem
             httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
             JWT_SERVICE,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
-            isWiremockValidationEnabled());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

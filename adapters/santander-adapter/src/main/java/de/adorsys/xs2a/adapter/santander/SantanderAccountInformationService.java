@@ -54,9 +54,8 @@ public class SantanderAccountInformationService extends BaseAccountInformationSe
                                               AccessTokenService accessService,
                                               HttpClient httpClient,
                                               LinksRewriter linksRewriter,
-                                              HttpLogSanitizer logSanitizer,
-                                              boolean wiremockInterceptorEnabled) {
-        super(aspsp, httpClient, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
+                                              HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer);
         this.accessService = accessService;
     }
 

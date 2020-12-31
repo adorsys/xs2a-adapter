@@ -37,8 +37,7 @@ class FiduciaAccountInformationServiceTest {
             httpClient,
             null,
             new IdentityLinksRewriter(),
-            null,
-            false);
+            null);
     }
 
     @Test

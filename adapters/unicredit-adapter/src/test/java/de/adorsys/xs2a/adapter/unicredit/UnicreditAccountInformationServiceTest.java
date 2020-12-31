@@ -49,8 +49,7 @@ class UnicreditAccountInformationServiceTest {
         accountInformationService = new UnicreditAccountInformationService(ASPSP,
                                                                            httpClient,
                                                                            linksRewriter,
-                                                                           null,
-                                                                           false);
+                                                                           null);
     }
 
     @Test

@@ -44,8 +44,7 @@ class SparkasseAccountInformationServiceTest {
         accountInformationService = new SparkasseAccountInformationService(aspsp,
                                                                            httpClient,
                                                                            linksRewriter,
-                                                                           null,
-                                                                           false);
+                                                                           null);
     }
 
     @Test

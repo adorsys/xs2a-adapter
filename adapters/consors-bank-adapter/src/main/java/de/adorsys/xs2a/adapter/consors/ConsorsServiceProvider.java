@@ -20,9 +20,10 @@ import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
 
 public class ConsorsServiceProvider extends AbstractAdapterServiceProvider {
-    private PsuIdHeaderInterceptor psuIdHeaderInterceptor = new PsuIdHeaderInterceptor();
+    private final PsuIdHeaderInterceptor psuIdHeaderInterceptor = new PsuIdHeaderInterceptor();
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
@@ -38,10 +39,9 @@ public class ConsorsServiceProvider extends AbstractAdapterServiceProvider {
                                                                   LinksRewriter linksRewriter) {
         return new ConsorsAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
-            psuIdHeaderInterceptor,
+            getInterceptors(aspsp, psuIdHeaderInterceptor),
             linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
-            isWiremockValidationEnabled());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -59,8 +59,7 @@ public class ConsorsServiceProvider extends AbstractAdapterServiceProvider {
         return new ConsorsPaymentInitiationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
-            isWiremockValidationEnabled());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

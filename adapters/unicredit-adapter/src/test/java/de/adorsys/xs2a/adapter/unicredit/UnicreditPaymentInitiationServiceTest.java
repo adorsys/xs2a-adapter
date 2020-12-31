@@ -45,8 +45,7 @@ class UnicreditPaymentInitiationServiceTest {
         paymentInitiationService = new UnicreditPaymentInitiationService(ASPSP,
                                                                          httpClient,
                                                                          linksRewriter,
-                                                                         null,
-                                                                         false);
+                                                                         null);
     }
 
     @Test

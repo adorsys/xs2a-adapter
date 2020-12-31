@@ -34,6 +34,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 public class DeutscheBankAccountInformationService extends BaseAccountInformationService {
@@ -44,12 +45,11 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
 
     public DeutscheBankAccountInformationService(Aspsp aspsp,
                                                  HttpClient httpClient,
-                                                 Interceptor interceptor,
+                                                 List<Interceptor> interceptors,
                                                  LinksRewriter linksRewriter,
                                                  PsuPasswordEncryptionService psuPasswordEncryptionService,
-                                                 HttpLogSanitizer logSanitizer,
-                                                 boolean wiremockInterceptorEnabled) {
-        super(aspsp, httpClient, interceptor, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
+                                                 HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
         this.psuPasswordEncryptionService = psuPasswordEncryptionService;
     }
 

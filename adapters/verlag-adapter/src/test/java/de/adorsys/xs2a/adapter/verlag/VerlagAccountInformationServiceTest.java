@@ -48,8 +48,7 @@ class VerlagAccountInformationServiceTest {
                                                                         httpClient,
                                                                         null,
                                                                         linksRewriter,
-                                                                        null,
-                                                                        false);
+                                                                        null);
     }
 
     @Test

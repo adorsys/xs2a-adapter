@@ -21,6 +21,7 @@ import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
 
 public class SantanderServiceProvider extends AbstractAdapterServiceProvider implements Oauth2ServiceProvider {
 
@@ -42,8 +43,7 @@ public class SantanderServiceProvider extends AbstractAdapterServiceProvider imp
             tokenService,
             httpClient,
             linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
-            isWiremockValidationEnabled());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     private SantanderAccessTokenService getAccessTokenService(HttpClient httpClient) {
@@ -70,8 +70,7 @@ public class SantanderServiceProvider extends AbstractAdapterServiceProvider imp
             httpClient,
             linksRewriter,
             accessTokenService,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
-            isWiremockValidationEnabled());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

@@ -21,6 +21,7 @@ import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
 
 public class DkbServiceProvider extends AbstractAdapterServiceProvider implements EmbeddedPreAuthorisationServiceProvider {
 
@@ -39,8 +40,7 @@ public class DkbServiceProvider extends AbstractAdapterServiceProvider implement
         return new CrealogixAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
-            isWiremockValidationEnabled());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -58,8 +58,7 @@ public class DkbServiceProvider extends AbstractAdapterServiceProvider implement
         return new CrealogixPaymentInitiationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
             linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
-            isWiremockValidationEnabled());
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

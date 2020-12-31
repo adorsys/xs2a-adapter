@@ -21,6 +21,7 @@ import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
 import de.adorsys.xs2a.adapter.impl.BaseDownloadService;
 
 import java.util.AbstractMap;
@@ -32,8 +33,8 @@ public class VerlagServiceProvider extends AbstractAdapterServiceProvider implem
     private static final String[] SUPPORTED_CIPHER_SUITES =
         {"TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384", "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"};
 
-    private static AbstractMap.SimpleImmutableEntry<String, String> apiKeyEntry;
-    private static final PsuIdTypeHeaderInterceptor psuIdTypeHeaderInterceptor = new PsuIdTypeHeaderInterceptor();
+    private static final AbstractMap.SimpleImmutableEntry<String, String> apiKeyEntry;
+    private final PsuIdTypeHeaderInterceptor psuIdTypeHeaderInterceptor = new PsuIdTypeHeaderInterceptor();
 
     static {
         String apiKeyName = AdapterConfig.readProperty(VERLAG_API_KEY_NAME, "");
@@ -54,12 +55,11 @@ public class VerlagServiceProvider extends AbstractAdapterServiceProvider implem
                                                                   HttpClientFactory httpClientFactory,
                                                                   LinksRewriter linksRewriter) {
         return new VerlagAccountInformationService(aspsp,
-            apiKeyEntry,
-            httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
-            psuIdTypeHeaderInterceptor,
-            linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
-            isWiremockValidationEnabled());
+                                                   apiKeyEntry,
+                                                   httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
+                                                   getInterceptors(aspsp, psuIdTypeHeaderInterceptor),
+                                                   linksRewriter,
+                                                   httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -75,12 +75,11 @@ public class VerlagServiceProvider extends AbstractAdapterServiceProvider implem
                                                                 HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
         return new VerlagPaymentInitiationService(aspsp,
-            apiKeyEntry,
-            httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
-            psuIdTypeHeaderInterceptor,
-            linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer(),
-            isWiremockValidationEnabled());
+                                                  apiKeyEntry,
+                                                  httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
+                                                  getInterceptors(aspsp, psuIdTypeHeaderInterceptor),
+                                                  linksRewriter,
+                                                  httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

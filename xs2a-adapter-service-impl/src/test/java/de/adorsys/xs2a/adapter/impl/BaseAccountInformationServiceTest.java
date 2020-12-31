@@ -63,7 +63,7 @@ class BaseAccountInformationServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        informationService = new BaseAccountInformationService(ASPSP, httpClient, interceptor);
+        informationService = new BaseAccountInformationService(ASPSP, httpClient, Collections.singletonList(interceptor));
     }
 
     @Test

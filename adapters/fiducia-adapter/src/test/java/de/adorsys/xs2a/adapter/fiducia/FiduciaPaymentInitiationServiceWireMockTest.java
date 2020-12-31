@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 @ServiceWireMockTest(FiduciaServiceProvider.class)
-public class FiduciaPaymentInitiationServiceWireMockTest {
+class FiduciaPaymentInitiationServiceWireMockTest {
     protected static final String PAYMENTS_PAYMENT_ID = "9667011219090020282PSDDE-BAFIN-911360PA4960JJ";
     protected static final String PAYMENTS_AUTHORISATION_ID = "9592111219090020283PSDDE-BAFIN-911360AU4960JJ";
     protected static final String PERIODIC_PAYMENT_ID = "2750410619090020256PSDDE-BAFIN-911360PA4960JJ";

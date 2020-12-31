@@ -17,9 +17,13 @@
 package de.adorsys.xs2a.adapter.adorsys;
 
 import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.http.*;
+import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.impl.oauth2.api.BaseOauth2Api;
 import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
@@ -46,20 +50,19 @@ public class AdorsysIntegServiceProvider extends AbstractAdapterServiceProvider 
 
         HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new BasePaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            getInterceptors(config.getKeyStore()),
-            linksRewriter,
-            config.getLogSanitizer(),
-            isWiremockValidationEnabled());
+                                                httpClientFactory.getHttpClient(getAdapterId()),
+                                                getInterceptors(aspsp, getInterceptors(config.getKeyStore())),
+                                                linksRewriter,
+                                                config.getLogSanitizer());
     }
 
-    private List<Interceptor> getInterceptors(Pkcs12KeyStore keyStore) {
+    private Interceptor[] getInterceptors(Pkcs12KeyStore keyStore) {
         List<Interceptor> interceptors = new ArrayList<>();
         interceptors.add(oauthHeaderInterceptor);
         if (keyStore != null) {
             interceptors.add(new AdorsysSigningHeadersInterceptor(keyStore));
         }
-        return interceptors;
+        return interceptors.toArray(new Interceptor[0]);
     }
 
     @Override
@@ -77,10 +80,9 @@ public class AdorsysIntegServiceProvider extends AbstractAdapterServiceProvider 
         HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new AdorsysAccountInformationService(aspsp,
                                                     httpClientFactory.getHttpClient(getAdapterId()),
-                                                    getInterceptors(config.getKeyStore()),
+                                                    getInterceptors(aspsp, getInterceptors(config.getKeyStore())),
                                                     linksRewriter,
-                                                    config.getLogSanitizer(),
-                                                    isWiremockValidationEnabled());
+                                                    config.getLogSanitizer());
     }
 
     @Override

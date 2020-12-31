@@ -32,6 +32,7 @@ import de.adorsys.xs2a.adapter.verlag.model.VerlagTransactionResponse200Json;
 import org.mapstruct.factory.Mappers;
 
 import java.util.AbstractMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -46,11 +47,10 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
     public VerlagAccountInformationService(Aspsp aspsp,
                                            AbstractMap.SimpleImmutableEntry<String, String> apiKey,
                                            HttpClient httpClient,
-                                           Interceptor interceptor,
+                                           List<Interceptor> interceptors,
                                            LinksRewriter linksRewriter,
-                                           HttpLogSanitizer logSanitizer,
-                                           boolean wiremockInterceptorEnabled) {
-        super(aspsp, httpClient, interceptor, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
+                                           HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
         this.apiKey = apiKey;
     }
 

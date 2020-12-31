@@ -21,6 +21,7 @@ import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
 import de.adorsys.xs2a.adapter.impl.http.RequestSigningInterceptor;
 
 public class FiduciaServiceProvider extends AbstractAdapterServiceProvider {
@@ -40,10 +41,9 @@ public class FiduciaServiceProvider extends AbstractAdapterServiceProvider {
         HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new FiduciaAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
-            new RequestSigningInterceptor(config.getKeyStore()),
+            getInterceptors(aspsp, new RequestSigningInterceptor(config.getKeyStore())),
             linksRewriter,
-            config.getLogSanitizer(),
-            isWiremockValidationEnabled());
+            config.getLogSanitizer());
     }
 
     @Override
@@ -61,10 +61,9 @@ public class FiduciaServiceProvider extends AbstractAdapterServiceProvider {
         HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new FiduciaPaymentInitiationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
-            new RequestSigningInterceptor(config.getKeyStore()),
+            getInterceptors(aspsp, new RequestSigningInterceptor(config.getKeyStore())),
             linksRewriter,
-            config.getLogSanitizer(),
-            isWiremockValidationEnabled());
+            config.getLogSanitizer());
     }
 
     @Override

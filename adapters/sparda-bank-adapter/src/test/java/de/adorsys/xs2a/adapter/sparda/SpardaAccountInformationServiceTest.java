@@ -45,8 +45,7 @@ class SpardaAccountInformationServiceTest {
                                                                         httpClient,
                                                                         linksRewriter,
                                                                         null,
-                                                                        null,
-                                                                        false);
+                                                                        null);
     }
 
     @Test

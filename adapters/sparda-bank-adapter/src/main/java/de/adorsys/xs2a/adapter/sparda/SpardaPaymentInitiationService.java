@@ -30,9 +30,8 @@ public class SpardaPaymentInitiationService extends BasePaymentInitiationService
                                           HttpClient httpClient,
                                           LinksRewriter linksRewriter,
                                           SpardaJwtService spardaJwtService,
-                                          HttpLogSanitizer logSanitizer,
-                                          boolean wiremockInterceptorEnabled) {
-        super(aspsp, httpClient, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
+                                          HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, linksRewriter, logSanitizer);
         this.spardaJwtService = spardaJwtService;
         this.responseHandlers = new ResponseHandlers(logSanitizer);
     }

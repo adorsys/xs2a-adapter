@@ -11,6 +11,7 @@ import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 public class DeutscheBankPaymentInitiationService extends BasePaymentInitiationService {
@@ -18,11 +19,10 @@ public class DeutscheBankPaymentInitiationService extends BasePaymentInitiationS
 
     public DeutscheBankPaymentInitiationService(Aspsp aspsp,
                                                 HttpClient httpClient,
-                                                Interceptor interceptor,
+                                                List<Interceptor> interceptors,
                                                 LinksRewriter linksRewriter,
-                                                HttpLogSanitizer logSanitizer,
-                                                boolean wiremockInterceptorEnabled) {
-        super(aspsp, httpClient, interceptor, linksRewriter, logSanitizer, wiremockInterceptorEnabled);
+                                                HttpLogSanitizer logSanitizer) {
+        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
     }
 
     @Override

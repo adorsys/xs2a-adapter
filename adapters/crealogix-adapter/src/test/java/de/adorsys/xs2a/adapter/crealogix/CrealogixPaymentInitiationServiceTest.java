@@ -26,7 +26,7 @@ class CrealogixPaymentInitiationServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new CrealogixPaymentInitiationService(aspsp, httpClient, linksRewriter, null, false);
+        service = new CrealogixPaymentInitiationService(aspsp, httpClient, linksRewriter, null);
     }
 
     @Test

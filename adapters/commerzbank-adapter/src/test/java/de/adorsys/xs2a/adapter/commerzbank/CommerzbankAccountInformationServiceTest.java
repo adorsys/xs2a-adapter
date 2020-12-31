@@ -46,8 +46,7 @@ class CommerzbankAccountInformationServiceTest {
         accountInformationService = new CommerzbankAccountInformationService(aspsp,
                                                                              httpClient,
                                                                              linksRewriter,
-                                                                             null,
-                                                                             false);
+                                                                             null);
     }
 
     @Test

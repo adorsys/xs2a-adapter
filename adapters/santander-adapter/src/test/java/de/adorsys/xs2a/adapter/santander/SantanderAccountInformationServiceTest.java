@@ -48,8 +48,7 @@ class SantanderAccountInformationServiceTest {
                                                                            accessTokenService,
                                                                            httpClient,
                                                                            linksRewriter,
-                                                                           null,
-                                                                           false);
+                                                                           null);
     }
 
     @Test

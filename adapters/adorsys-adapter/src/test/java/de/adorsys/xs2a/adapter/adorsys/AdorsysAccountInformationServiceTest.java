@@ -55,8 +55,7 @@ class AdorsysAccountInformationServiceTest {
                                                                          httpClient,
                                                                          interceptors,
                                                                          linksRewriter,
-                                                                         null,
-                                                                         false);
+                                                                         null);
     }
 
     @Test
