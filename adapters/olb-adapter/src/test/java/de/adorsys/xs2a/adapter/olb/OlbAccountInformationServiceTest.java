@@ -11,9 +11,9 @@ import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
 import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import org.assertj.core.api.InstanceOfAssertFactories;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -31,6 +31,7 @@ class OlbAccountInformationServiceTest {
     private static final String ACCOUNT_ID = "accountId";
     private static final String REMITTANCE_INFORMATION_STRUCTURED = "remittanceInformationStructuredStringValue";
 
+    @InjectMocks
     private OlbAccountInformationService accountInformationService;
     @Mock
     private HttpClient httpClient;
@@ -38,14 +39,6 @@ class OlbAccountInformationServiceTest {
     private Aspsp aspsp;
     @Mock
     private LinksRewriter linksRewriter;
-
-    @BeforeEach
-    void setUp() {
-        accountInformationService = new OlbAccountInformationService(aspsp,
-                                                                     httpClient,
-                                                                     linksRewriter,
-                                                                     null);
-    }
 
     @Test
     void getTransactionList() {

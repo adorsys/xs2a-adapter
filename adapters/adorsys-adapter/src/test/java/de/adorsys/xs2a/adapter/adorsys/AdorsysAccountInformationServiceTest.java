@@ -12,9 +12,9 @@ import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
 import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import org.assertj.core.api.InstanceOfAssertFactories;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -39,6 +39,7 @@ class AdorsysAccountInformationServiceTest {
     private static final String ACCOUNT_ID = "accountId";
     private static final String REMITTANCE_INFORMATION_STRUCTURED = "remittanceInformationStructuredStringValue";
 
+    @InjectMocks
     private AdorsysAccountInformationService accountInformationService;
     @Mock
     private HttpClient httpClient;
@@ -48,15 +49,6 @@ class AdorsysAccountInformationServiceTest {
     private LinksRewriter linksRewriter;
     @Spy
     private final List<Interceptor> interceptors = new LinkedList<>();
-
-    @BeforeEach
-    void setUp() {
-        accountInformationService = new AdorsysAccountInformationService(aspsp,
-                                                                         httpClient,
-                                                                         interceptors,
-                                                                         linksRewriter,
-                                                                         null);
-    }
 
     @Test
     void populatePostHeaders_withoutAcceptHeader() {

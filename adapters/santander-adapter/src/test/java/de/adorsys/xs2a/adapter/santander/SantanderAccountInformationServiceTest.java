@@ -12,9 +12,9 @@ import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenService;
 import org.assertj.core.api.InstanceOfAssertFactories;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -32,6 +32,7 @@ class SantanderAccountInformationServiceTest {
     private static final String ACCOUNT_ID = "accountId";
     private static final String REMITTANCE_INFORMATION_STRUCTURED = "remittanceInformationStructuredStringValue";
 
+    @InjectMocks
     private SantanderAccountInformationService accountInformationService;
     @Mock
     private HttpClient httpClient;
@@ -41,15 +42,6 @@ class SantanderAccountInformationServiceTest {
     private LinksRewriter linksRewriter;
     @Mock
     private AccessTokenService accessTokenService;
-
-    @BeforeEach
-    void setUp() {
-        accountInformationService = new SantanderAccountInformationService(aspsp,
-                                                                           accessTokenService,
-                                                                           httpClient,
-                                                                           linksRewriter,
-                                                                           null);
-    }
 
     @Test
     void getTransactionList() {
