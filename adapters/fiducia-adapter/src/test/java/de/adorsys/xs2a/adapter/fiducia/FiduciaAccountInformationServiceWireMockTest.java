@@ -23,7 +23,7 @@ class FiduciaAccountInformationServiceWireMockTest {
 
     private final AccountInformationService service;
 
-    public FiduciaAccountInformationServiceWireMockTest(AccountInformationService service) {
+    FiduciaAccountInformationServiceWireMockTest(AccountInformationService service) {
         this.service = service;
     }
 

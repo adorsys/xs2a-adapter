@@ -35,7 +35,7 @@ class FiduciaPaymentInitiationServiceWireMockTest {
     private static final Ids paymentIds = getPaymentIds();
     private static final Ids authorisationIds = getAuthorisationIds();
 
-    public FiduciaPaymentInitiationServiceWireMockTest(PaymentInitiationService service) {
+    FiduciaPaymentInitiationServiceWireMockTest(PaymentInitiationService service) {
         this.service = service;
     }
 
