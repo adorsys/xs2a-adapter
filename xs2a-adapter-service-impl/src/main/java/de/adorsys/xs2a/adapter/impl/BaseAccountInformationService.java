@@ -84,7 +84,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
                                          HttpLogSanitizer logSanitizer) {
         super(httpClient);
         this.aspsp = aspsp;
-        this.interceptors = interceptors != null ? interceptors : Collections.emptyList();
+        this.interceptors = Optional.ofNullable(interceptors).orElseGet(Collections::emptyList);
         this.linksRewriter = linksRewriter;
         this.responseHandlers = new ResponseHandlers(logSanitizer);
     }
