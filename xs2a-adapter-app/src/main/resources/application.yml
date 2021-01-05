@@ -25,7 +25,10 @@ xs2a-adapter:
     choose-first-from-multiple-aspsps: true
   audit:
     sanitized: true
-  wire-mock-mode: false
+  wire-mock:
+    mode: false
+    validation:
+      enabled: false
   sanitizer:
     whitelist: recurringIndicator, validUntil, frequencyPerDay, combinedServiceIndicator
 

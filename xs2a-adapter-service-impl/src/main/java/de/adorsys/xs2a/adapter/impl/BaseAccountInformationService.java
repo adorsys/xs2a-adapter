@@ -60,8 +60,8 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
-                                         Interceptor requestBuilderInterceptor) {
-        this(aspsp, httpClient, requestBuilderInterceptor, DEFAULT_LINKS_REWRITER, null);
+                                         List<Interceptor> interceptors) {
+        this(aspsp, httpClient, interceptors, DEFAULT_LINKS_REWRITER, null);
     }
 
     public BaseAccountInformationService(Aspsp aspsp,
@@ -79,20 +79,12 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
     public BaseAccountInformationService(Aspsp aspsp,
                                          HttpClient httpClient,
-                                         Interceptor requestBuilderInterceptor,
-                                         LinksRewriter linksRewriter,
-                                         HttpLogSanitizer logSanitizer) {
-        this(aspsp, httpClient, Collections.singletonList(requestBuilderInterceptor), linksRewriter, logSanitizer);
-    }
-
-    public BaseAccountInformationService(Aspsp aspsp,
-                                         HttpClient httpClient,
                                          List<Interceptor> interceptors,
                                          LinksRewriter linksRewriter,
                                          HttpLogSanitizer logSanitizer) {
         super(httpClient);
         this.aspsp = aspsp;
-        this.interceptors = populateInterceptors(interceptors, aspsp);
+        this.interceptors = Optional.ofNullable(interceptors).orElseGet(Collections::emptyList);
         this.linksRewriter = linksRewriter;
         this.responseHandlers = new ResponseHandlers(logSanitizer);
     }

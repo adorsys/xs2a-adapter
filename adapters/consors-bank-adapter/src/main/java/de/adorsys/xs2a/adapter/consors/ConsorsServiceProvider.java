@@ -20,9 +20,10 @@ import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
 
-public class ConsorsServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
-    private PsuIdHeaderInterceptor psuIdHeaderInterceptor = new PsuIdHeaderInterceptor();
+public class ConsorsServiceProvider extends AbstractAdapterServiceProvider {
+    private final PsuIdHeaderInterceptor psuIdHeaderInterceptor = new PsuIdHeaderInterceptor();
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
@@ -38,7 +39,7 @@ public class ConsorsServiceProvider implements AccountInformationServiceProvider
                                                                   LinksRewriter linksRewriter) {
         return new ConsorsAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
-            psuIdHeaderInterceptor,
+            getInterceptors(aspsp, psuIdHeaderInterceptor),
             linksRewriter,
             httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }

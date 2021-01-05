@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.Consents;
@@ -14,6 +15,7 @@ import de.adorsys.xs2a.adapter.consors.model.ConsorsOK200TransactionDetails;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
 import java.util.Map;
 
 import static de.adorsys.xs2a.adapter.api.RequestHeaders.PSU_ID;
@@ -24,10 +26,10 @@ public class ConsorsAccountInformationService extends BaseAccountInformationServ
 
     public ConsorsAccountInformationService(Aspsp aspsp,
                                             HttpClient httpClient,
-                                            PsuIdHeaderInterceptor interceptor,
+                                            List<Interceptor> interceptors,
                                             LinksRewriter linksRewriter,
                                             HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, interceptor, linksRewriter, logSanitizer);
+        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
     }
 
     @Override

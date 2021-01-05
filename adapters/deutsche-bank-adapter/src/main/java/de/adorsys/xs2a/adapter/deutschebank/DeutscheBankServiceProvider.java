@@ -20,13 +20,13 @@ import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
 import de.adorsys.xs2a.adapter.impl.BaseDownloadService;
 
-public class DeutscheBankServiceProvider
-    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, DownloadServiceProvider {
+public class DeutscheBankServiceProvider extends AbstractAdapterServiceProvider implements DownloadServiceProvider {
     public static final String SERVICE_GROUP_PLACEHOLDER = "{Service Group}";
-    private static final PsuIdTypeHeaderInterceptor psuIdTypeHeaderInterceptor = new PsuIdTypeHeaderInterceptor();
-    private static final PsuPasswordEncryptionService psuPasswordEncryptionService = DeutscheBankPsuPasswordEncryptionService.getInstance();
+    private final PsuIdTypeHeaderInterceptor psuIdTypeHeaderInterceptor = new PsuIdTypeHeaderInterceptor();
+    private final PsuPasswordEncryptionService psuPasswordEncryptionService = DeutscheBankPsuPasswordEncryptionService.getInstance();
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
@@ -43,7 +43,7 @@ public class DeutscheBankServiceProvider
         aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "ais"));
         return new DeutscheBankAccountInformationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
-            psuIdTypeHeaderInterceptor,
+            getInterceptors(aspsp, psuIdTypeHeaderInterceptor),
             linksRewriter,
             psuPasswordEncryptionService,
             httpClientFactory.getHttpClientConfig().getLogSanitizer());
@@ -64,7 +64,7 @@ public class DeutscheBankServiceProvider
         aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "pis"));
         return new DeutscheBankPaymentInitiationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
-            psuIdTypeHeaderInterceptor,
+            getInterceptors(aspsp, psuIdTypeHeaderInterceptor),
             linksRewriter,
             httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }

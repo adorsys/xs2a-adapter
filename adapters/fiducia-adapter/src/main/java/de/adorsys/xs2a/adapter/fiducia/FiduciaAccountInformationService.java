@@ -50,10 +50,10 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
 
     public FiduciaAccountInformationService(Aspsp aspsp,
                                             HttpClient httpClient,
-                                            Interceptor requestBuilderInterceptor,
+                                            List<Interceptor> interceptors,
                                             LinksRewriter linksRewriter,
                                             HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, requestBuilderInterceptor, linksRewriter, logSanitizer);
+        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
     }
 
     @Override

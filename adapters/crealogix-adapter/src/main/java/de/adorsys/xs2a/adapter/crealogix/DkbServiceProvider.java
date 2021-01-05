@@ -21,8 +21,9 @@ import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
 
-public class DkbServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, EmbeddedPreAuthorisationServiceProvider {
+public class DkbServiceProvider extends AbstractAdapterServiceProvider implements EmbeddedPreAuthorisationServiceProvider {
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,

@@ -50,8 +50,8 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
     public BasePaymentInitiationService(Aspsp aspsp,
                                         HttpClient httpClient,
-                                        Interceptor requestBuilderInterceptor) {
-        this(aspsp, httpClient, Collections.singletonList(requestBuilderInterceptor), DEFAULT_LINKS_REWRITER, null);
+                                        List<Interceptor> interceptors) {
+        this(aspsp, httpClient, interceptors, DEFAULT_LINKS_REWRITER, null);
     }
 
     public BasePaymentInitiationService(Aspsp aspsp,
@@ -69,14 +69,6 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
     public BasePaymentInitiationService(Aspsp aspsp,
                                         HttpClient httpClient,
-                                        Interceptor requestBuilderInterceptor,
-                                        LinksRewriter linksRewriter,
-                                        HttpLogSanitizer logSanitizer) {
-        this(aspsp, httpClient, Collections.singletonList(requestBuilderInterceptor), linksRewriter, logSanitizer);
-    }
-
-    public BasePaymentInitiationService(Aspsp aspsp,
-                                        HttpClient httpClient,
                                         List<Interceptor> interceptors,
                                         LinksRewriter linksRewriter) {
         this(aspsp, httpClient, interceptors, linksRewriter, null);
@@ -89,7 +81,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                                         HttpLogSanitizer logSanitizer) {
         super(httpClient);
         this.aspsp = aspsp;
-        this.interceptors = populateInterceptors(interceptors, aspsp);
+        this.interceptors = Optional.ofNullable(interceptors).orElseGet(Collections::emptyList);
         this.linksRewriter = linksRewriter;
         this.responseHandlers = new ResponseHandlers(logSanitizer);
     }

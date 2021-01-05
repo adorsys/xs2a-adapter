@@ -186,9 +186,7 @@ public class IngAccountInformationService implements AccountInformationService, 
     private void rewriteLinks(AccountList accountList) {
         Optional.ofNullable(accountList)
             .map(AccountList::getAccounts)
-            .ifPresent(accounts -> accounts.forEach(acc -> {
-                    acc.setLinks(rewriteLinks(acc.getLinks()));
-                }
+            .ifPresent(accounts -> accounts.forEach(acc -> acc.setLinks(rewriteLinks(acc.getLinks()))
             ));
     }
 

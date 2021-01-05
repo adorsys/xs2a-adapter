@@ -465,6 +465,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
         return headers.getOrDefault(CONTENT_TYPE.toLowerCase(), "").toString().startsWith(APPLICATION_JSON);
     }
 
+    // todo: bug - returns 'false' even if path exists, https://jira.adorsys.de/browse/XS2AAD-783
     public static boolean isWiremockSupported(String adapterId) {
         Path path = Paths.get(String.format(MAPPINGS_DIR_PATH, adapterId));
         return Files.exists(path);

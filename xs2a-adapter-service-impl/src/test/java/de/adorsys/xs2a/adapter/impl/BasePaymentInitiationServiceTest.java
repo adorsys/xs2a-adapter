@@ -56,7 +56,7 @@ class BasePaymentInitiationServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        initiationService = new BasePaymentInitiationService(ASPSP, httpClient, interceptor);
+        initiationService = new BasePaymentInitiationService(ASPSP, httpClient, Collections.singletonList(interceptor));
     }
 
     @Test

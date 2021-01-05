@@ -15,6 +15,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 import static org.apache.http.protocol.HTTP.DATE_HEADER;
@@ -25,10 +26,10 @@ public class FiduciaPaymentInitiationService extends BasePaymentInitiationServic
 
     public FiduciaPaymentInitiationService(Aspsp aspsp,
                                            HttpClient httpClient,
-                                           Interceptor requestBuilderInterceptor,
+                                           List<Interceptor> interceptors,
                                            LinksRewriter linksRewriter,
                                            HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, requestBuilderInterceptor, linksRewriter, logSanitizer);
+        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
     }
 
     @Override

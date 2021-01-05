@@ -20,9 +20,10 @@ import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
 
-public class TestServiceProvider
-    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceProvider, DownloadServiceProvider, EmbeddedPreAuthorisationServiceProvider {
+public class TestServiceProvider extends AbstractAdapterServiceProvider
+    implements Oauth2ServiceProvider, DownloadServiceProvider, EmbeddedPreAuthorisationServiceProvider {
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,

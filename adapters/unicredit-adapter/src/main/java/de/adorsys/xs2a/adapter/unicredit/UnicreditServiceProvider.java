@@ -20,8 +20,9 @@ import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
 
-public class UnicreditServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+public class UnicreditServiceProvider extends AbstractAdapterServiceProvider {
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,

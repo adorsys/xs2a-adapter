@@ -21,10 +21,10 @@ import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 
-public class CommerzbankServiceProvider
-    implements AccountInformationServiceProvider, PaymentInitiationServiceProvider, Oauth2ServiceProvider {
+public class CommerzbankServiceProvider extends AbstractAdapterServiceProvider implements Oauth2ServiceProvider {
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,

@@ -18,7 +18,7 @@
 
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>xs2a-adapter-service-api</artifactId>
+            <artifactId>xs2a-adapter-service-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -74,7 +74,6 @@
                                     <excludes>
                                         <!-- project dependencies -->
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-remote</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-impl</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-app</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-aspsp-registry</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-generated-rest-api</exclude>
@@ -86,6 +85,7 @@
                                         <exclude>org.projectlombok:lombok</exclude>
                                     </excludes>
                                     <includes>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-impl</exclude>
                                     </includes>
                                 </bannedDependencies>
                             </rules>

@@ -24,6 +24,7 @@ import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 
 import java.util.AbstractMap;
+import java.util.List;
 import java.util.Map;
 
 public class VerlagPaymentInitiationService extends BasePaymentInitiationService {
@@ -33,10 +34,10 @@ public class VerlagPaymentInitiationService extends BasePaymentInitiationService
     public VerlagPaymentInitiationService(Aspsp aspsp,
                                           AbstractMap.SimpleImmutableEntry<String, String> apiKey,
                                           HttpClient httpClient,
-                                          Interceptor interceptor,
+                                          List<Interceptor> interceptors,
                                           LinksRewriter linksRewriter,
                                           HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, interceptor, linksRewriter, logSanitizer);
+        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
         this.apiKey = apiKey;
     }
 

@@ -4,9 +4,10 @@ import de.adorsys.xs2a.adapter.api.*;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 
-public class OlbServiceProvider implements AccountInformationServiceProvider, PaymentInitiationServiceProvider {
+public class OlbServiceProvider extends AbstractAdapterServiceProvider {
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,

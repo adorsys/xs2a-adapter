@@ -15,12 +15,12 @@ public class AdapterServiceLoader {
     private static final String EMPTY_STRING = "";
 
     private final AspspReadOnlyRepository aspspRepository;
-    protected Pkcs12KeyStore keyStore;
     protected final HttpClientFactory httpClientFactory;
     protected final LinksRewriter accountInformationLinksRewriter;
     protected final LinksRewriter paymentInitiationLinksRewriter;
     private final Map<Class<?>, ServiceLoader<? extends AdapterServiceProvider>> serviceLoaders = new HashMap<>();
     protected final boolean chooseFirstFromMultipleAspsps;
+    protected final boolean wiremockValidationEnabled;
 
     @Deprecated
     public AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
@@ -29,12 +29,11 @@ public class AdapterServiceLoader {
                                 LinksRewriter accountInformationLinksRewriter,
                                 LinksRewriter paymentInitiationLinksRewriter,
                                 boolean chooseFirstFromMultipleAspsps) {
-        this.aspspRepository = aspspRepository;
-        this.keyStore = keyStore;
-        this.httpClientFactory = httpClientFactory;
-        this.accountInformationLinksRewriter = accountInformationLinksRewriter;
-        this.paymentInitiationLinksRewriter = paymentInitiationLinksRewriter;
-        this.chooseFirstFromMultipleAspsps = chooseFirstFromMultipleAspsps;
+        this(aspspRepository,
+            httpClientFactory,
+            accountInformationLinksRewriter,
+            paymentInitiationLinksRewriter,
+            chooseFirstFromMultipleAspsps);
     }
 
     public AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
@@ -42,19 +41,35 @@ public class AdapterServiceLoader {
                                 LinksRewriter accountInformationLinksRewriter,
                                 LinksRewriter paymentInitiationLinksRewriter,
                                 boolean chooseFirstFromMultipleAspsps) {
+        this(aspspRepository,
+            httpClientFactory,
+            accountInformationLinksRewriter,
+            paymentInitiationLinksRewriter,
+            chooseFirstFromMultipleAspsps,
+            false);
+    }
+
+    public AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
+                                HttpClientFactory httpClientFactory,
+                                LinksRewriter accountInformationLinksRewriter,
+                                LinksRewriter paymentInitiationLinksRewriter,
+                                boolean chooseFirstFromMultipleAspsps,
+                                boolean wiremockValidationEnabled) {
         this.aspspRepository = aspspRepository;
         this.accountInformationLinksRewriter = accountInformationLinksRewriter;
         this.paymentInitiationLinksRewriter = paymentInitiationLinksRewriter;
         this.chooseFirstFromMultipleAspsps = chooseFirstFromMultipleAspsps;
         this.httpClientFactory = httpClientFactory;
+        this.wiremockValidationEnabled = wiremockValidationEnabled;
     }
 
     public AccountInformationService getAccountInformationService(RequestHeaders requestHeaders) {
         Aspsp aspsp = getAspsp(requestHeaders);
         String adapterId = aspsp.getAdapterId();
-        return getServiceProvider(AccountInformationServiceProvider.class, adapterId)
-                   .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-                   .getAccountInformationService(aspsp, httpClientFactory, accountInformationLinksRewriter);
+        AccountInformationServiceProvider provider = getServiceProvider(AccountInformationServiceProvider.class, adapterId)
+            .orElseThrow(() -> new AdapterNotFoundException(adapterId));
+        provider.wiremockValidationEnabled(wiremockValidationEnabled);
+        return provider.getAccountInformationService(aspsp, httpClientFactory, accountInformationLinksRewriter);
     }
 
     protected Aspsp getAspsp(RequestHeaders requestHeaders) {
@@ -120,9 +135,10 @@ public class AdapterServiceLoader {
     public PaymentInitiationService getPaymentInitiationService(RequestHeaders requestHeaders) {
         Aspsp aspsp = getAspsp(requestHeaders);
         String adapterId = aspsp.getAdapterId();
-        return getServiceProvider(PaymentInitiationServiceProvider.class, adapterId)
-                   .orElseThrow(() -> new AdapterNotFoundException(adapterId))
-                   .getPaymentInitiationService(aspsp, httpClientFactory, paymentInitiationLinksRewriter);
+        PaymentInitiationServiceProvider provider = getServiceProvider(PaymentInitiationServiceProvider.class, adapterId)
+            .orElseThrow(() -> new AdapterNotFoundException(adapterId));
+        provider.wiremockValidationEnabled(wiremockValidationEnabled);
+        return provider.getPaymentInitiationService(aspsp, httpClientFactory, paymentInitiationLinksRewriter);
     }
 
     public Oauth2Service getOauth2Service(RequestHeaders requestHeaders) {

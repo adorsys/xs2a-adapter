@@ -30,11 +30,14 @@ public class RestConfiguration {
     @Value("${xs2a-adapter.loader.choose-first-from-multiple-aspsps:false}")
     private boolean chooseFirstFromMultipleAspsps;
 
-    @Value("${xs2a-adapter.wire-mock-mode:false}")
+    @Value("${xs2a-adapter.wire-mock.mode:false}")
     private boolean wireMockEnabled;
 
     @Value("${xs2a-adapter.sanitizer.whitelist}")
     private List<String> sanitizerWhitelist;
+
+    @Value("${xs2a-adapter.wire-mock.validation.enabled:false}")
+    private boolean wiremockValidationEnabled;
 
     @Bean
     HttpLogSanitizer xs2aHttpLogSanitizer() {
@@ -64,7 +67,8 @@ public class RestConfiguration {
             httpClientFactory,
             accountInformationLinksRewriter,
             paymentInitiationLinksRewriter,
-            chooseFirstFromMultipleAspsps);
+            chooseFirstFromMultipleAspsps,
+            wiremockValidationEnabled);
     }
 
     @Bean

@@ -9,14 +9,14 @@ import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
 import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 
-public class IngServiceProvider
-    implements AccountInformationServiceProvider, Oauth2ServiceProvider, PaymentInitiationServiceProvider {
+public class IngServiceProvider extends AbstractAdapterServiceProvider implements Oauth2ServiceProvider {
 
     private static final LinksRewriter DEFAULT_LINKS_REWRITER = new IdentityLinksRewriter();
 
