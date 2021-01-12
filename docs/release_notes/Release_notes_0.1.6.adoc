@@ -1,8 +1,4 @@
-= Draft Release notes for version 0.1.6 (release date: xx.01.2021)
-
-.Added banks
-|===
-|===
+= Release notes for version 0.1.6 (release date: 12.01.2021)
 
 == Notices:
 - Updated Adapter models to conform to BG NextGen PSD2 specification
