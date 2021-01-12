@@ -43,20 +43,6 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
     }
 
     @Override
-    public Response<PaymentInitiationWithStatusResponse> getSinglePaymentInformation(PaymentProduct paymentProduct,
-                                                                                     String paymentId,
-                                                                                     RequestHeaders requestHeaders,
-                                                                                     RequestParams requestParams) {
-        return super.getPaymentInformation(PaymentService.PAYMENTS,
-            paymentProduct,
-            paymentId,
-            requestHeaders,
-            requestParams,
-            requestResponseHandlers.jsonResponseHandler(CrealogixPaymentInitiationWithStatusResponse.class))
-                .map(mapper::toPaymentInitiationWithStatusResponse);
-    }
-
-    @Override
     public Response<PaymentInitationRequestResponse201> initiatePayment(PaymentService paymentService,
                                                                         PaymentProduct paymentProduct,
                                                                         RequestHeaders requestHeaders,
@@ -71,5 +57,187 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
             requestParams,
             identity(),
             requestResponseHandlers.crealogixResponseHandler(PaymentInitationRequestResponse201.class));
+    }
+
+    @Override
+    public Response<PaymentInitiationWithStatusResponse> getSinglePaymentInformation(PaymentProduct paymentProduct,
+                                                                                     String paymentId,
+                                                                                     RequestHeaders requestHeaders,
+                                                                                     RequestParams requestParams) {
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
+
+        return super.getPaymentInformation(PaymentService.PAYMENTS,
+            paymentProduct,
+            paymentId,
+            requestHeaders,
+            requestParams,
+            requestResponseHandlers.jsonResponseHandler(CrealogixPaymentInitiationWithStatusResponse.class))
+                .map(mapper::toPaymentInitiationWithStatusResponse);
+    }
+
+    @Override
+    public Response<PeriodicPaymentInitiationWithStatusResponse> getPeriodicPaymentInformation(PaymentProduct paymentProduct,
+                                                                                               String paymentId,
+                                                                                               RequestHeaders requestHeaders,
+                                                                                               RequestParams requestParams) {
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
+
+        return super.getPeriodicPaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<PeriodicPaymentInitiationMultipartBody> getPeriodicPain001PaymentInformation(PaymentProduct paymentProduct,
+                                                                                                 String paymentId,
+                                                                                                 RequestHeaders requestHeaders,
+                                                                                                 RequestParams requestParams) {
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
+
+        return super.getPeriodicPain001PaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<String> getPaymentInformationAsString(PaymentService paymentService,
+                                                          PaymentProduct paymentProduct,
+                                                          String paymentId,
+                                                          RequestHeaders requestHeaders,
+                                                          RequestParams requestParams) {
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
+
+        return super.getPaymentInformationAsString(paymentService, paymentProduct, paymentId, requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<ScaStatusResponse> getPaymentInitiationScaStatus(PaymentService paymentService,
+                                                                     PaymentProduct paymentProduct,
+                                                                     String paymentId,
+                                                                     String authorisationId,
+                                                                     RequestHeaders requestHeaders,
+                                                                     RequestParams requestParams) {
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
+
+        return super.getPaymentInitiationScaStatus(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams);
+    }
+
+    @Override
+    public Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(PaymentService paymentService,
+                                                                                       PaymentProduct paymentProduct,
+                                                                                       String paymentId,
+                                                                                       RequestHeaders requestHeaders,
+                                                                                       RequestParams requestParams) {
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
+
+        return super.getPaymentInitiationStatus(paymentService, paymentProduct, paymentId, requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<String> getPaymentInitiationStatusAsString(PaymentService paymentService,
+                                                               PaymentProduct paymentProduct,
+                                                               String paymentId,
+                                                               RequestHeaders requestHeaders,
+                                                               RequestParams requestParams) {
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
+
+        return super.getPaymentInitiationStatusAsString(paymentService, paymentProduct, paymentId, requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<Authorisations> getPaymentInitiationAuthorisation(PaymentService paymentService,
+                                                                      PaymentProduct paymentProduct,
+                                                                      String paymentId,
+                                                                      RequestHeaders requestHeaders,
+                                                                      RequestParams requestParams) {
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
+
+        return super.getPaymentInitiationAuthorisation(paymentService, paymentProduct, paymentId, requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(PaymentService paymentService,
+                                                                       PaymentProduct paymentProduct,
+                                                                       String paymentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams) {
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
+
+        return super.startPaymentAuthorisation(paymentService, paymentProduct, paymentId, requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<StartScaprocessResponse> startPaymentAuthorisation(PaymentService paymentService,
+                                                                       PaymentProduct paymentProduct,
+                                                                       String paymentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
+                                                                       UpdatePsuAuthentication updatePsuAuthentication) {
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
+
+        return super.startPaymentAuthorisation(paymentService,
+            paymentProduct,
+            paymentId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication);
+    }
+
+    @Override
+    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                                          PaymentProduct paymentProduct,
+                                                                          String paymentId,
+                                                                          String authorisationId,
+                                                                          RequestHeaders requestHeaders,
+                                                                          RequestParams requestParams,
+                                                                          UpdatePsuAuthentication updatePsuAuthentication) {
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
+
+        return super.updatePaymentPsuData(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            updatePsuAuthentication);
+    }
+
+    @Override
+    public Response<SelectPsuAuthenticationMethodResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                                                PaymentProduct paymentProduct,
+                                                                                String paymentId,
+                                                                                String authorisationId,
+                                                                                RequestHeaders requestHeaders,
+                                                                                RequestParams requestParams,
+                                                                                SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
+
+        return super.updatePaymentPsuData(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            selectPsuAuthenticationMethod);
+    }
+
+    @Override
+    public Response<ScaStatusResponse> updatePaymentPsuData(PaymentService paymentService,
+                                                            PaymentProduct paymentProduct,
+                                                            String paymentId,
+                                                            String authorisationId,
+                                                            RequestHeaders requestHeaders,
+                                                            RequestParams requestParams,
+                                                            TransactionAuthorisation transactionAuthorisation) {
+        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
+
+        return super.updatePaymentPsuData(paymentService,
+            paymentProduct,
+            paymentId,
+            authorisationId,
+            requestHeaders,
+            requestParams,
+            transactionAuthorisation);
     }
 }
