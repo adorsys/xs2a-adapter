@@ -10,3 +10,5 @@
 
 == Fixes:
 - fixed DKB `PSD2-AUTHORIZATION` header, it contains Base64 encoded value of `TPP-ID:TPP-SECRET` now
+- fixed 406 error in `verlag-adapter` for `getTransactionList` call, if the `Accept` header has _accept all_ ("\*/*")
+value or is absent, the **text/plain** value is provided.
