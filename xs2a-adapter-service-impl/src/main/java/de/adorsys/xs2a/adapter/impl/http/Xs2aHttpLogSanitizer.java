@@ -59,7 +59,8 @@ public class Xs2aHttpLogSanitizer implements HttpLogSanitizer {
             "Location",
             "Signature",
             "TPP-Signature-Certificate",
-            "Digest"));
+            "Digest",
+            "PSD2-AUTHORIZATION"));
     }
 
     public String sanitizeHeader(String name, String value) {

@@ -9,3 +9,4 @@
 == Features:
 
 == Fixes:
+- fixed DKB `PSD2-AUTHORIZATION` header, it contains Base64 encoded value of `TPP-ID:TPP-SECRET` now
