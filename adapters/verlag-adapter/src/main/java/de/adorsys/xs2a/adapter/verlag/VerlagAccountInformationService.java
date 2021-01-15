@@ -38,8 +38,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class VerlagAccountInformationService extends BaseAccountInformationService {
-    private static final String ACCEPT_ALL = "*/*";
-    private static final String ACCEPT_XML = "application/xml";
+    static final String ACCEPT_ALL = "*/*";
+    static final String ACCEPT_TEXT_PLAIN = "text/plain";
 
     private final VerlagMapper verlagMapper = Mappers.getMapper(VerlagMapper.class);
     private AbstractMap.SimpleImmutableEntry<String, String> apiKey;
@@ -67,12 +67,12 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
         if (!acceptHeaderOptional.isPresent()
                 || acceptHeaderOptional.get().isEmpty()
                 || acceptHeaderOptional.get().equals(ACCEPT_ALL)) {
-            requestHeaders = modifyAcceptHeader(requestHeaders, ACCEPT_XML);
+            requestHeaders = modifyAcceptHeader(requestHeaders, ACCEPT_TEXT_PLAIN);
         } else if (acceptHeaderIsAListOfValues(acceptHeaderOptional.get())) {
             String[] acceptHeaderValues = acceptHeaderOptional.get().split(",");
 
             if (containsXml(acceptHeaderValues)) {
-                requestHeaders = modifyAcceptHeader(requestHeaders, ACCEPT_XML);
+                requestHeaders = modifyAcceptHeader(requestHeaders, ACCEPT_TEXT_PLAIN);
             } else {
                 requestHeaders = modifyAcceptHeader(requestHeaders, acceptHeaderValues[0]);
             }
@@ -113,7 +113,7 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
 
     private boolean containsXml(String[] acceptHeaderValues) {
         return Stream.of(acceptHeaderValues)
-                   .anyMatch(accept -> accept.contains(ACCEPT_XML));
+                   .anyMatch(accept -> accept.contains(ACCEPT_TEXT_PLAIN));
     }
 
     private RequestHeaders modifyAcceptHeader(RequestHeaders requestHeaders, String acceptHeader) {

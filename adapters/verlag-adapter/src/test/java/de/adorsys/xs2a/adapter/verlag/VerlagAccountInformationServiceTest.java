@@ -5,6 +5,7 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
@@ -12,14 +13,22 @@ import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayInputStream;
 import java.util.AbstractMap;
+import java.util.Collections;
+import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -81,7 +90,7 @@ class VerlagAccountInformationServiceTest {
             .getBooked()
             .get(0)
             .getRemittanceInformationStructured();
-        assertEquals(remittanceInformationStructured, REMITTANCE_INFORMATION_STRUCTURED);
+        assertEquals(REMITTANCE_INFORMATION_STRUCTURED, remittanceInformationStructured);
     }
 
     @Test
@@ -118,6 +127,31 @@ class VerlagAccountInformationServiceTest {
         String remittanceInformationStructured = ((OK200TransactionDetails) body).getTransactionsDetails()
             .getTransactionDetails()
             .getRemittanceInformationStructured();
-        assertEquals(remittanceInformationStructured, REMITTANCE_INFORMATION_STRUCTURED);
+        assertEquals(REMITTANCE_INFORMATION_STRUCTURED, remittanceInformationStructured);
+    }
+
+    @ParameterizedTest
+    @MethodSource("requestHeaders")
+    @SuppressWarnings("unchecked")
+    void getTransactionListAsString(RequestHeaders requestHeaders, String expectedValue) {
+        Request.Builder requestBuilder = spy(new RequestBuilderImpl(httpClient, "GET", URI));
+        ArgumentCaptor<Map<String, String>> headersCaptor = ArgumentCaptor.forClass(Map.class);
+
+        when(httpClient.get(anyString())).thenReturn(requestBuilder);
+
+        accountInformationService.getTransactionListAsString(ACCOUNT_ID, requestHeaders, RequestParams.empty());
+
+        verify(requestBuilder, times(1)).headers(headersCaptor.capture());
+
+        Map<String, String> actualHeaders = headersCaptor.getValue();
+
+        assertFalse(actualHeaders.isEmpty());
+        assertTrue(actualHeaders.containsValue(expectedValue));
+    }
+
+    private static Stream<Arguments> requestHeaders() {
+        return Stream.of(arguments(RequestHeaders.empty(), VerlagAccountInformationService.ACCEPT_TEXT_PLAIN),
+            arguments(RequestHeaders.fromMap(Collections.singletonMap(RequestHeaders.ACCEPT, VerlagAccountInformationService.ACCEPT_ALL)), VerlagAccountInformationService.ACCEPT_TEXT_PLAIN),
+            arguments(RequestHeaders.fromMap(Collections.singletonMap(RequestHeaders.ACCEPT, "application/json")), "application/json"));
     }
 }
