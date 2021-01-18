@@ -5,6 +5,7 @@
 |===
 
 == Notices:
+- for `crealogix-adapter`: extended logging if getToken request fails, all logs are sanitized.
 
 == Features:
 
