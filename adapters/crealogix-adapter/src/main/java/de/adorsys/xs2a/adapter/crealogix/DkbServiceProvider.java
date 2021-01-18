@@ -17,7 +17,6 @@
 package de.adorsys.xs2a.adapter.crealogix;
 
 import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
@@ -68,7 +67,6 @@ public class DkbServiceProvider extends AbstractAdapterServiceProvider implement
 
     @Override
     public EmbeddedPreAuthorisationService getEmbeddedPreAuthorisationService(Aspsp aspsp, HttpClientFactory httpClientFactory) {
-        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
-        return new CrealogixEmbeddedPreAuthorisationService(CrealogixClient.DKB, aspsp, httpClient);
+        return new CrealogixEmbeddedPreAuthorisationService(CrealogixClient.DKB, aspsp, httpClientFactory);
     }
 }

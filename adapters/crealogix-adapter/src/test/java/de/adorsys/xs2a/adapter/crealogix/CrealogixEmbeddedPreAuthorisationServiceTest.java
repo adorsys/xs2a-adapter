@@ -6,10 +6,14 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.EmbeddedPreAuthorisationRequest;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
+import de.adorsys.xs2a.adapter.impl.http.BaseHttpClientConfig;
+import de.adorsys.xs2a.adapter.impl.http.Xs2aHttpLogSanitizer;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,13 +32,19 @@ import static org.mockito.Mockito.*;
 class CrealogixEmbeddedPreAuthorisationServiceTest {
 
     private final HttpClient httpClient = mock(HttpClient.class);
+    private final HttpClientFactory clientFactory = mock(HttpClientFactory.class);
     private final Aspsp aspsp = getAspsp();
     private CrealogixEmbeddedPreAuthorisationService authorisationService;
 
+    private final HttpClientConfig clientConfig = new BaseHttpClientConfig(new Xs2aHttpLogSanitizer(), null);
+
     @BeforeEach
     void setUp() {
+        when(clientFactory.getHttpClient(any())).thenReturn(httpClient);
+        when(clientFactory.getHttpClientConfig()).thenReturn(clientConfig);
+
         authorisationService
-            = new CrealogixEmbeddedPreAuthorisationService(CrealogixClient.DKB, aspsp, httpClient);
+            = new CrealogixEmbeddedPreAuthorisationService(CrealogixClient.DKB, aspsp, clientFactory);
     }
 
     @Test
@@ -89,8 +99,9 @@ class CrealogixEmbeddedPreAuthorisationServiceTest {
     void responseHandler_notSuccessfulStatuses(int statusCode) {
         HttpClient.ResponseHandler<TokenResponse> responseHandler = authorisationService.responseHandler();
         ResponseHeaders responseHeaders = ResponseHeaders.emptyResponseHeaders();
+        InputStream body = new ByteArrayInputStream("body".getBytes());
 
-        assertThatThrownBy(() -> responseHandler.apply(statusCode, null, responseHeaders))
+        assertThatThrownBy(() -> responseHandler.apply(statusCode, body, responseHeaders))
             .isInstanceOf(AccessTokenException.class);
     }
 

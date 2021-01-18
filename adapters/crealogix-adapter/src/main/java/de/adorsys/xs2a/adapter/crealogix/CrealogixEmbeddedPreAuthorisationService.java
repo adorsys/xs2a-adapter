@@ -20,14 +20,23 @@ import de.adorsys.xs2a.adapter.api.EmbeddedPreAuthorisationService;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.EmbeddedPreAuthorisationRequest;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.impl.http.JsonMapper;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenException;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.core.Response.Status;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,6 +45,8 @@ import java.util.Map;
 import static de.adorsys.xs2a.adapter.api.config.AdapterConfig.readProperty;
 
 public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuthorisationService {
+    private final Logger logger = LoggerFactory.getLogger(CrealogixEmbeddedPreAuthorisationService.class);
+
     public static final String TOKEN_CONSUMER_KEY_PROPERTY = ".token.consumer_key";
     public static final String TOKEN_CONSUMER_SECRET_PROPERTY = ".token.consumer_secret";
     public static final String TOKEN_CONSUMER_SECRET_TPP_ID = ".token.tpp_id";
@@ -47,12 +58,16 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
     private static final String TOKEN_URL = "/token";
     private static final Map<String, String> tppHeaders = new HashMap<>();
     private final HttpClient httpClient;
+    private final HttpLogSanitizer logSanitizer;
     private final JsonMapper jsonMapper;
     private final String psd2AuthorizationValue;
 
-    public CrealogixEmbeddedPreAuthorisationService(CrealogixClient crealogixClient, Aspsp aspsp, HttpClient httpClient) {
+    public CrealogixEmbeddedPreAuthorisationService(CrealogixClient crealogixClient,
+                                                    Aspsp aspsp,
+                                                    HttpClientFactory httpClientFactory) {
         this.aspsp = aspsp;
-        this.httpClient = httpClient;
+        this.httpClient = httpClientFactory.getHttpClient(aspsp.getAdapterId());
+        this.logSanitizer = httpClientFactory.getHttpClientConfig().getLogSanitizer();
 
         jsonMapper = new JacksonObjectMapper();
 
@@ -113,8 +128,18 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
             if (isSuccess(statusCode)) {
                 return jsonMapper.readValue(responseBody, TokenResponse.class);
             }
+            String sanitizedResponse = logSanitizer.sanitize(toString(responseBody));
+            logger.error("Failed to retrieve Token. Status code: {}\nBank response: {}", statusCode,  sanitizedResponse);
             throw new AccessTokenException("Can't retrieve access token by provided credentials");
         };
+    }
+
+    private String toString(InputStream inputStream) {
+        try {
+            return IOUtils.toString(inputStream, Charset.defaultCharset());
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     private boolean isSuccess(int statusCode) {
