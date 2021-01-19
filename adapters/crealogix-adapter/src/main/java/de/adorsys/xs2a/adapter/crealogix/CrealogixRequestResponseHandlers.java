@@ -11,6 +11,10 @@ import de.adorsys.xs2a.adapter.api.model.HrefType;
 import de.adorsys.xs2a.adapter.api.model.TppMessage;
 import de.adorsys.xs2a.adapter.api.model.TppMessageCategory;
 import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
+import de.adorsys.xs2a.adapter.impl.security.AccessTokenException;
+
+import java.io.IOException;
+import java.util.Map;
 
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
@@ -27,12 +31,29 @@ public class CrealogixRequestResponseHandlers {
         this.responseHandlers = new ResponseHandlers(logSanitizer);
     }
 
-    public void crealogixRequestHandler(RequestHeaders requestHeaders) {
-        if (!requestHeaders.get(RequestHeaders.AUTHORIZATION).isPresent()) {
-            throw new PreAuthorisationException(
-                    CREALOGIX_ERROR_RESPONSE_INSTANCE,
-                    REQUEST_ERROR_MESSAGE);
+    public RequestHeaders crealogixRequestHandler(RequestHeaders requestHeaders) {
+        Map<String, String> headers = requestHeaders.toMap();
+        String encodedTokens = getAuthorizationHeader(requestHeaders);
+        CrealogixAuthorisationToken tokens;
+
+        try {
+            tokens = CrealogixAuthorisationToken.decode(encodedTokens);
+        } catch (IOException e) {
+            throw new AccessTokenException("Failed to decode tokens");
         }
+
+        headers.replace(RequestHeaders.AUTHORIZATION, "Bearer " + tokens.getTppToken());
+        headers.put(RequestHeaders.PSD2_AUTHORIZATION, "Bearer " + tokens.getPsd2AuthorisationToken());
+
+        return RequestHeaders.fromMap(headers);
+    }
+
+    private String getAuthorizationHeader(RequestHeaders requestHeaders) {
+        return requestHeaders.get(RequestHeaders.AUTHORIZATION).orElseThrow(() ->
+            new PreAuthorisationException(
+                CREALOGIX_ERROR_RESPONSE_INSTANCE,
+                REQUEST_ERROR_MESSAGE)
+        );
     }
 
     public <T> HttpClient.ResponseHandler<T> crealogixResponseHandler(Class<T> tClass) {

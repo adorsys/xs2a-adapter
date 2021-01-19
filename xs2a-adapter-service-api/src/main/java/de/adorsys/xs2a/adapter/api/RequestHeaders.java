@@ -44,6 +44,8 @@ public class RequestHeaders {
     public static final String X_GTW_IBAN = "X-GTW-IBAN";
     // Open Banking Gateway
     public static final String X_OAUTH_PREFERRED = "X-OAUTH-PREFERRED";
+    // Crealogix
+    public static final String PSD2_AUTHORIZATION = "PSD2-AUTHORIZATION";
 
     private static final RequestHeaders EMPTY = new RequestHeaders(Collections.emptyMap());
 
@@ -81,6 +83,7 @@ public class RequestHeaders {
         headerNamesLowerCased.put(AUTHORIZATION.toLowerCase(), AUTHORIZATION);
         headerNamesLowerCased.put(CORRELATION_ID.toLowerCase(), CORRELATION_ID);
         headerNamesLowerCased.put(X_OAUTH_PREFERRED.toLowerCase(), X_OAUTH_PREFERRED);
+        headerNamesLowerCased.put(PSD2_AUTHORIZATION.toLowerCase(), PSD2_AUTHORIZATION);
     }
 
     private final Map<String, String> headers;
