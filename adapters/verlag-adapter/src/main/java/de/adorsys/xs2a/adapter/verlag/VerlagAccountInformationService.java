@@ -71,7 +71,7 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
         } else if (acceptHeaderIsAListOfValues(acceptHeaderOptional.get())) {
             String[] acceptHeaderValues = acceptHeaderOptional.get().split(",");
 
-            if (containsXml(acceptHeaderValues)) {
+            if (containsText(acceptHeaderValues)) {
                 requestHeaders = modifyAcceptHeader(requestHeaders, ACCEPT_TEXT_PLAIN);
             } else {
                 requestHeaders = modifyAcceptHeader(requestHeaders, acceptHeaderValues[0]);
@@ -111,7 +111,7 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
         return acceptHeader.contains(",");
     }
 
-    private boolean containsXml(String[] acceptHeaderValues) {
+    private boolean containsText(String[] acceptHeaderValues) {
         return Stream.of(acceptHeaderValues)
                    .anyMatch(accept -> accept.contains(ACCEPT_TEXT_PLAIN));
     }

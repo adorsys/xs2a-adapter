@@ -1,32 +1,24 @@
 package de.adorsys.xs2a.adapter.crealogix;
 
-import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.Request;
-import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
+import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
+import de.adorsys.xs2a.adapter.api.RequestParams;
+import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.crealogix.model.CrealogixPaymentInitiationWithStatusResponse;
-import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static de.adorsys.xs2a.adapter.api.model.PaymentProduct.SEPA_CREDIT_TRANSFERS;
 import static de.adorsys.xs2a.adapter.api.model.PaymentService.PAYMENTS;
-import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-class CrealogixPaymentInitiationServiceTest {
+class CrealogixPaymentInitiationServiceTest extends CrealogixTestHelper {
 
-    private static final String AUTHORIZATION = "Authorization";
-    private static final String AUTHORIZATION_VALUE = "Bearer foo";
     private static final String PAYMENT_ID = "paymentId";
     private static final String AUTHORIZATION_ID = "authorizationId";
-    private final HttpClient httpClient = mock(HttpClient.class);
-    private final LinksRewriter linksRewriter = mock(LinksRewriter.class);
-    private final Aspsp aspsp = getAspsp();
     private PaymentInitiationService service;
 
     @BeforeEach
@@ -38,11 +30,11 @@ class CrealogixPaymentInitiationServiceTest {
     void getSinglePaymentInformation() {
         when(httpClient.get(any())).thenReturn(getRequestBuilder("GET"));
         when(httpClient.send(any(), any()))
-            .thenReturn(new Response<>(-1, getResponseBody(), ResponseHeaders.emptyResponseHeaders()));
+            .thenReturn(getResponse(new CrealogixPaymentInitiationWithStatusResponse()));
 
         Response<?> actualResponse = service.getSinglePaymentInformation(SEPA_CREDIT_TRANSFERS,
             "paymentId",
-            RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
+            getHeadersWithAuthorization(),
             RequestParams.empty());
 
         assertThat(actualResponse)
@@ -55,16 +47,13 @@ class CrealogixPaymentInitiationServiceTest {
     void initiatePayment() {
         when(httpClient.post(anyString())).thenReturn(getRequestBuilder("POST"));
         when(httpClient.send(any(), any()))
-            .thenReturn(new Response<>(
-                -1,
-                new PaymentInitationRequestResponse201(),
-                ResponseHeaders.emptyResponseHeaders()));
+            .thenReturn(getResponse(new PaymentInitationRequestResponse201()));
 
         Response<PaymentInitationRequestResponse201> actualResponse
             = service.initiatePayment(
                 PAYMENTS,
                 SEPA_CREDIT_TRANSFERS,
-                RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
+                getHeadersWithAuthorization(),
                 RequestParams.empty(),
                 new PaymentInitiationJson()
             );
@@ -88,7 +77,7 @@ class CrealogixPaymentInitiationServiceTest {
         Response<PeriodicPaymentInitiationWithStatusResponse> actualResponse
             = service.getPeriodicPaymentInformation(SEPA_CREDIT_TRANSFERS,
                 PAYMENT_ID,
-                RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
+                getHeadersWithAuthorization(),
                 RequestParams.empty());
 
         assertThat(actualResponse)
@@ -105,7 +94,7 @@ class CrealogixPaymentInitiationServiceTest {
         Response<PeriodicPaymentInitiationMultipartBody> actualResponse
             = service.getPeriodicPain001PaymentInformation(SEPA_CREDIT_TRANSFERS,
                 PAYMENT_ID,
-                RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
+                getHeadersWithAuthorization(),
                 RequestParams.empty());
 
         assertThat(actualResponse)
@@ -122,7 +111,7 @@ class CrealogixPaymentInitiationServiceTest {
         Response<String> actualResponse = service.getPaymentInformationAsString(PAYMENTS,
             SEPA_CREDIT_TRANSFERS,
             PAYMENT_ID,
-            RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
+            getHeadersWithAuthorization(),
             RequestParams.empty());
 
         assertThat(actualResponse)
@@ -140,7 +129,7 @@ class CrealogixPaymentInitiationServiceTest {
             SEPA_CREDIT_TRANSFERS,
             PAYMENT_ID,
             AUTHORIZATION_ID,
-            RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
+            getHeadersWithAuthorization(),
             RequestParams.empty());
 
         assertThat(actualResponse)
@@ -157,7 +146,7 @@ class CrealogixPaymentInitiationServiceTest {
         Response<PaymentInitiationStatusResponse200Json> actualResponse = service.getPaymentInitiationStatus(PAYMENTS,
             SEPA_CREDIT_TRANSFERS,
             PAYMENT_ID,
-            RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
+            getHeadersWithAuthorization(),
             RequestParams.empty());
 
         assertThat(actualResponse)
@@ -174,7 +163,7 @@ class CrealogixPaymentInitiationServiceTest {
         Response<String> actualResponse = service.getPaymentInitiationStatusAsString(PAYMENTS,
             SEPA_CREDIT_TRANSFERS,
             PAYMENT_ID,
-            RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
+            getHeadersWithAuthorization(),
             RequestParams.empty());
 
         assertThat(actualResponse)
@@ -191,7 +180,7 @@ class CrealogixPaymentInitiationServiceTest {
         Response<Authorisations> actualResponse = service.getPaymentInitiationAuthorisation(PAYMENTS,
             SEPA_CREDIT_TRANSFERS,
             PAYMENT_ID,
-            RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
+            getHeadersWithAuthorization(),
             RequestParams.empty());
 
         assertThat(actualResponse)
@@ -208,7 +197,7 @@ class CrealogixPaymentInitiationServiceTest {
         Response<StartScaprocessResponse> actualResponse = service.startPaymentAuthorisation(PAYMENTS,
             SEPA_CREDIT_TRANSFERS,
             PAYMENT_ID,
-            RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
+            getHeadersWithAuthorization(),
             RequestParams.empty());
 
         assertThat(actualResponse)
@@ -225,7 +214,7 @@ class CrealogixPaymentInitiationServiceTest {
         Response<StartScaprocessResponse> actualResponse = service.startPaymentAuthorisation(PAYMENTS,
             SEPA_CREDIT_TRANSFERS,
             PAYMENT_ID,
-            RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
+            getHeadersWithAuthorization(),
             RequestParams.empty(),
             new UpdatePsuAuthentication());
 
@@ -244,7 +233,7 @@ class CrealogixPaymentInitiationServiceTest {
             SEPA_CREDIT_TRANSFERS,
             PAYMENT_ID,
             AUTHORIZATION_ID,
-            RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
+            getHeadersWithAuthorization(),
             RequestParams.empty(),
             new UpdatePsuAuthentication());
 
@@ -253,7 +242,7 @@ class CrealogixPaymentInitiationServiceTest {
     }
 
     @Test
-    void testUpdatePaymentPsuData() {
+    void updatePaymentPsuData_selectScaMethod() {
         when(httpClient.put(anyString()))
             .thenReturn(getRequestBuilder("PUT"));
         when(httpClient.send(any(), any()))
@@ -263,7 +252,7 @@ class CrealogixPaymentInitiationServiceTest {
             SEPA_CREDIT_TRANSFERS,
             PAYMENT_ID,
             AUTHORIZATION_ID,
-            RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
+            getHeadersWithAuthorization(),
             RequestParams.empty(),
             new SelectPsuAuthenticationMethod());
 
@@ -272,7 +261,7 @@ class CrealogixPaymentInitiationServiceTest {
     }
 
     @Test
-    void testUpdatePaymentPsuData1() {
+    void updatePaymentPsuData_authorizeTransaction() {
         when(httpClient.put(anyString()))
             .thenReturn(getRequestBuilder("PUT"));
         when(httpClient.send(any(), any()))
@@ -282,29 +271,11 @@ class CrealogixPaymentInitiationServiceTest {
             SEPA_CREDIT_TRANSFERS,
             PAYMENT_ID,
             AUTHORIZATION_ID,
-            RequestHeaders.fromMap(singletonMap(AUTHORIZATION, AUTHORIZATION_VALUE)),
+            getHeadersWithAuthorization(),
             RequestParams.empty(),
             new TransactionAuthorisation());
 
         assertThat(actualResponse)
             .isNotNull();
-    }
-
-    private <T> Response<T> getResponse(T body) {
-        return new Response<>(-1, body, ResponseHeaders.emptyResponseHeaders());
-    }
-
-    private Request.Builder getRequestBuilder(String method) {
-        return new RequestBuilderImpl(httpClient, method, "");
-    }
-
-    private CrealogixPaymentInitiationWithStatusResponse getResponseBody() {
-        return new CrealogixPaymentInitiationWithStatusResponse();
-    }
-
-    private Aspsp getAspsp() {
-        Aspsp aspsp = new Aspsp();
-        aspsp.setUrl("https://url.com");
-        return aspsp;
     }
 }

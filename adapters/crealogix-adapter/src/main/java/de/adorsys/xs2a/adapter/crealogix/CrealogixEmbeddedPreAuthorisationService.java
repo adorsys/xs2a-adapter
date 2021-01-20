@@ -52,7 +52,6 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
     public static final String TOKEN_CONSUMER_SECRET_TPP_ID = ".token.tpp_id";
     public static final String TOKEN_CONSUMER_SECRET_TPP_MANAGEMENT = ".token.tpp_secret";
     private static final String CREDENTIALS_JSON_BODY = "{\"username\":\"%s\",\"password\":\"%s\"}";
-    private static final String PSD2_AUTHORIZATION_KEY = "PSD2-AUTHORIZATION";
     private final Aspsp aspsp;
 
     private static final String TOKEN_URL = "/token";
@@ -114,7 +113,7 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
         Map<String, String> headers = new HashMap<>(3);
         headers.put(RequestHeaders.CONTENT_TYPE, "application/json");
         headers.put(RequestHeaders.AUTHORIZATION, "Bearer " + tppToken);
-        headers.put(PSD2_AUTHORIZATION_KEY, psd2AuthorizationValue);
+        headers.put(RequestHeaders.PSD2_AUTHORIZATION, psd2AuthorizationValue);
         // todo: add token URI property to config file (https://jira.adorsys.de/browse/XS2AAD-749), add description to Crealogix README (https://jira.adorsys.de/browse/XS2AAD-750)
         Response<TokenResponse> response = httpClient.post(adjustIdpUrl(aspsp.getIdpUrl()) + "/pre-auth/1.0.6/psd2-auth/v1/auth/token")
                                                .jsonBody(String.format(CREDENTIALS_JSON_BODY, username, password))
