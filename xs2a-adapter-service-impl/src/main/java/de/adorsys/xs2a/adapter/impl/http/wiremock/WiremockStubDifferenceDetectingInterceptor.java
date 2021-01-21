@@ -38,14 +38,13 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.lang.Thread.currentThread;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
@@ -465,10 +464,9 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
         return headers.getOrDefault(CONTENT_TYPE.toLowerCase(), "").toString().startsWith(APPLICATION_JSON);
     }
 
-    // todo: bug - returns 'false' even if path exists, https://jira.adorsys.de/browse/XS2AAD-783
     public static boolean isWiremockSupported(String adapterId) {
-        Path path = Paths.get(String.format(MAPPINGS_DIR_PATH, adapterId));
-        return Files.exists(path);
+        URL mappingsUrl = currentThread().getContextClassLoader().getResource(String.format(MAPPINGS_DIR_PATH, adapterId));
+        return mappingsUrl != null;
     }
 
     @SuppressWarnings("unchecked")

@@ -308,6 +308,14 @@ class WiremockStubDifferenceDetectingInterceptorTest {
             .matches(val -> !val.contains(RESPONSE_PAYLOAD_VALUE));
     }
 
+    @Test
+    void isWiremockSupported() {
+        assertThat(WiremockStubDifferenceDetectingInterceptor.isWiremockSupported("adorsys-adapter"))
+            .isTrue();
+        assertThat(WiremockStubDifferenceDetectingInterceptor.isWiremockSupported("foo-adapter"))
+            .isFalse();
+    }
+
     private String getXmlAsString(String path) {
         String xml = null;
         try {
