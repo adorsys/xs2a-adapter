@@ -8,7 +8,6 @@ import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -77,7 +76,6 @@ class AbstractAdapterServiceProviderTest {
         assertThat(interceptors.size()).isEqualTo(1);
     }
 
-    @Disabled("bug - returns 'false' even if path exists, https://jira.adorsys.de/browse/XS2AAD-783")
     @Test
     void getInterceptors_wiremockValidationEnabled_InterceptorIsNotNull_WiremockStubInterceptor() {
         provider.wiremockValidationEnabled(true);

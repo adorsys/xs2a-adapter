@@ -15,3 +15,5 @@ and PSD2-AUTHORIZATION headers.
 - fixed DKB `PSD2-AUTHORIZATION` header, it contains Base64 encoded value of `TPP-ID:TPP-SECRET` now
 - fixed 406 error in `verlag-adapter` for `getTransactionList` call, if the `Accept` header has _accept all_ ("\*/*")
 value or is absent, the **text/plain** value is provided.
+- fixed bug in WiremockStubDifferenceDetectingInterceptor, isWiremockSupported method checks `mappings` directory
+presence in an adapter as intended.
