@@ -51,12 +51,23 @@ class CrealogixRequestResponseHandlersTest extends CrealogixTestHelper {
     }
 
     @Test
-    void crealogixRequestHandler_throwsAccessTokenException() {
+    void crealogixRequestHandler_throwsAccessTokenException_wrongAuthorizationType() {
         RequestHeaders flawedHeaders = getHeadersWithAuthorization("foo");
 
         assertThatThrownBy(() ->
             requestResponseHandlers.crealogixRequestHandler(flawedHeaders))
-                .isInstanceOf(AccessTokenException.class);
+                .isInstanceOf(AccessTokenException.class)
+                .hasMessage(CrealogixRequestResponseHandlers.INVALID_CREDENTIALS_TYPE_MESSAGE);
+    }
+
+    @Test
+    void crealogixRequestHandler_throwsAccessTokenException_failedToDecode() {
+        RequestHeaders flawedHeaders = getHeadersWithAuthorization("Bearer foo");
+
+        assertThatThrownBy(() ->
+            requestResponseHandlers.crealogixRequestHandler(flawedHeaders))
+                .isInstanceOf(AccessTokenException.class)
+                .hasMessage(CrealogixRequestResponseHandlers.DECODE_TOKENS_FAILURE_MESSAGE);
     }
 
     @Test
