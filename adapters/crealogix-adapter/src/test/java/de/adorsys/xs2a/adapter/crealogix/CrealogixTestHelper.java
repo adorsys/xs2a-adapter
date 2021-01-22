@@ -15,7 +15,7 @@ import static org.mockito.Mockito.mock;
 public class CrealogixTestHelper {
 
     protected static final String AUTHORIZATION = "Authorization";
-    protected static final String AUTHORIZATION_VALUE = getEncodedTokens();
+    protected static final String AUTHORIZATION_VALUE = "Bearer " + getEncodedTokens();
     protected static final String TPP_TOKEN = "tppToken";
     protected static final String PSD2_AUTHORIZATION_TOKEN = "psd2AuthorizationToken";
     protected final HttpClient httpClient = mock(HttpClient.class);

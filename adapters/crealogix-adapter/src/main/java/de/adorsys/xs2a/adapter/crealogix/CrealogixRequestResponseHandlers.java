@@ -15,6 +15,8 @@ import de.adorsys.xs2a.adapter.impl.security.AccessTokenException;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
@@ -23,7 +25,10 @@ public class CrealogixRequestResponseHandlers {
 
     public static final String REQUEST_ERROR_MESSAGE = "authorization header is missing, embedded pre-authorization may be needed";
     public static final String RESPONSE_ERROR_MESSAGE = "embedded pre-authorisation needed";
+    public static final String INVALID_CREDENTIALS_TYPE_MESSAGE = "Authorization header credentials type is invalid. 'Bearer' type is expected";
+    public static final String DECODE_TOKENS_FAILURE_MESSAGE = "Failed to decode tokens";
     private static final ErrorResponse CREALOGIX_ERROR_RESPONSE_INSTANCE = getErrorResponse();
+    private static final String BEARER = "Bearer ";
 
     private final ResponseHandlers responseHandlers;
 
@@ -33,19 +38,32 @@ public class CrealogixRequestResponseHandlers {
 
     public RequestHeaders crealogixRequestHandler(RequestHeaders requestHeaders) {
         Map<String, String> headers = requestHeaders.toMap();
-        String encodedTokens = getAuthorizationHeader(requestHeaders);
+
+        String encodedTokens = Stream.of(requestHeaders)
+            .map(this::getAuthorizationHeader)
+            .map(this::validateCredentialsType)
+            .collect(Collectors.joining());
+
         CrealogixAuthorisationToken tokens;
 
         try {
             tokens = CrealogixAuthorisationToken.decode(encodedTokens);
         } catch (IOException e) {
-            throw new AccessTokenException("Failed to decode tokens");
+            throw new AccessTokenException(DECODE_TOKENS_FAILURE_MESSAGE);
         }
 
-        headers.replace(RequestHeaders.AUTHORIZATION, "Bearer " + tokens.getTppToken());
-        headers.put(RequestHeaders.PSD2_AUTHORIZATION, "Bearer " + tokens.getPsd2AuthorisationToken());
+        headers.replace(RequestHeaders.AUTHORIZATION, BEARER + tokens.getTppToken());
+        headers.put(RequestHeaders.PSD2_AUTHORIZATION, BEARER + tokens.getPsd2AuthorisationToken());
 
         return RequestHeaders.fromMap(headers);
+    }
+
+    private String validateCredentialsType(String encodedTokens) {
+        if (!encodedTokens.startsWith(BEARER)) {
+            throw new AccessTokenException(INVALID_CREDENTIALS_TYPE_MESSAGE);
+        }
+
+        return encodedTokens.replace(BEARER, "");
     }
 
     private String getAuthorizationHeader(RequestHeaders requestHeaders) {
