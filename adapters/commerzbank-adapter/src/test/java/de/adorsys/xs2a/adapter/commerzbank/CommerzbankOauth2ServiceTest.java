@@ -9,6 +9,7 @@ import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
+import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -29,8 +30,9 @@ class CommerzbankOauth2ServiceTest {
     private static final String CONSENT_ID = "consent-id";
     private static final String STATE = "test";
     private static final String REDIRECT_URI = "https://example.com/cb";
+    private static final String SCA_OAUTH_LINK = "https://psd2.api.commerzbank.com/berlingroup/.well-known";
     private static final String AUTHORIZATION_ENDPOINT =
-        "https://psd2.api-sandbox.commerzbank.com/public/berlingroup/authorize/authorisation-id";
+        "https://psd2.redirect.commerzbank.com/public/berlingroup/authorize/authorisation-id";
     private static final String TOKEN_ENDPOINT = BASE_URL + "/v1/token";
     private static final String AUTHORIZATION_CODE = "authorization-code";
 
@@ -46,6 +48,8 @@ class CommerzbankOauth2ServiceTest {
         aspsp.setUrl(BASE_URL);
 
         httpClient = Mockito.spy(new ApacheHttpClient(null, null));
+        Mockito.doReturn(authorizationServerMetadata())
+            .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(SCA_OAUTH_LINK)), Mockito.any());
         Mockito.doReturn(new Response<>(200, new TokenResponse(), ResponseHeaders.emptyResponseHeaders()))
             .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), Mockito.any());
 
@@ -56,10 +60,17 @@ class CommerzbankOauth2ServiceTest {
         oauth2Service = CommerzbankOauth2Service.create(aspsp, httpClient, keyStore, null);
     }
 
+    private Response<AuthorisationServerMetaData> authorizationServerMetadata() {
+        AuthorisationServerMetaData metadata = new AuthorisationServerMetaData();
+        metadata.setAuthorisationEndpoint(AUTHORIZATION_ENDPOINT);
+        metadata.setTokenEndpoint(TOKEN_ENDPOINT);
+        return new Response<>(200, metadata, ResponseHeaders.emptyResponseHeaders());
+    }
+
     @Test
     void getAuthorizationRequestUri() throws IOException {
         Parameters parameters = new Parameters();
-        parameters.setScaOAuthLink(AUTHORIZATION_ENDPOINT);
+        parameters.setScaOAuthLink(SCA_OAUTH_LINK);
         parameters.setState(STATE);
         parameters.setRedirectUri(REDIRECT_URI);
         parameters.setConsentId(CONSENT_ID);
@@ -79,7 +90,7 @@ class CommerzbankOauth2ServiceTest {
     @Test
     void getAuthorizationRequestUriForPayment() throws IOException {
         Parameters parameters = new Parameters();
-        parameters.setScaOAuthLink(AUTHORIZATION_ENDPOINT);
+        parameters.setScaOAuthLink(SCA_OAUTH_LINK);
         parameters.setState(STATE);
         parameters.setRedirectUri(REDIRECT_URI);
         parameters.setPaymentId("payment-id");
