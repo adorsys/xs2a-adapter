@@ -12,13 +12,6 @@ info:
 spring:
   application:
     name: xs2a-adapter
-  jackson:
-    default-property-inclusion: non_null
-    serialization:
-      indent-output: true
-      write-dates-as-timestamps: false
-    deserialization:
-      FAIL_ON_UNKNOWN_PROPERTIES: false
 management:
   endpoints:
     web:
@@ -26,17 +19,31 @@ management:
         include: health, info, prometheus
 
 xs2a-adapter:
+  rest:
+    mime-headers-support-enabled: true
   loader:
     choose-first-from-multiple-aspsps: true
+  audit:
+    sanitized: true
+  wire-mock:
+    mode: false
+    validation:
+      enabled: false
+  sanitizer:
+    whitelist: recurringIndicator, validUntil, frequencyPerDay, combinedServiceIndicator
+
+graylog:
+  host: localhost
+  port: 12201
+
 ---
 spring:
   profiles: dev
 logging:
-  config: classpath:logback-dev.xml
   level:
-    de.adorsys.xs2a.adapter.http.ApacheHttpClient: DEBUG
-    de.adorsys.xs2a.adapter.http.ResponseHandlers: DEBUG
+    de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient: DEBUG
+    de.adorsys.xs2a.adapter.impl.http.ResponseHandlers: DEBUG
     de.adorsys.xs2a.adapter.registry.LuceneAspspRepository: DEBUG
-    de.adorsys.xs2a.adapter.adapter.BaseOauth2Service: DEBUG
-    # TODO remove this after SpardaOauth2Service refactoring
-    de.adorsys.xs2a.adapter.service.SpardaOauth2Service: DEBUG
+    de.adorsys.xs2a.adapter.impl.BaseOauth2Service: DEBUG
+  pattern:
+    level: "%5p %mdc{correlationId}"

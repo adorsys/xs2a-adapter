@@ -8,7 +8,7 @@
     <parent>
         <artifactId>xs2a-adapter</artifactId>
         <groupId>de.adorsys.xs2a.adapter</groupId>
-        <version>0.0.8-SNAPSHOT</version>
+        <version>0.1.7-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -17,13 +17,9 @@
     <dependencies>
 
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>xs2a-adapter-generated-api</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

@@ -1,0 +1,29 @@
+{
+  "id" : "89978655-e50f-4992-8505-adfe426ac700",
+  "name" : "v1_consents_lwigccdnqiju2wxmn2qjiiiwdpjrci55c92nupa5ixrng8jyetrvnjadwuefv7g4xcx1qlgcjausajiqoazagmz9mpajiqih3njx8ihgetw__psglvqpt9q_authorisations_19636dbe-99db-4d0f-90de-2573057bc7e4",
+  "request" : {
+    "urlPattern" : "/v1/consents/.+/authorisations/.+",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"scaStatus\":\"finalised\",\"trustedBeneficiaryFlag\":true}",
+    "headers" : {
+      "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "x-request-id" : "ad0ebe9f-0a1b-4e9e-969d-e0062b2111ab",
+      "content-type" : "application/json",
+      "date" : "Tue, 07 Jul 2020 08:08:13 GMT",
+      "x-robots-tag" : "none",
+      "set-cookie" : "SRVNAME=17984ba812b2bfa7d54e249e16048ab4; path=/; HttpOnly; Secure",
+      "cache-control" : "private"
+    }
+  },
+  "uuid" : "89978655-e50f-4992-8505-adfe426ac700",
+  "persistent" : true,
+  "insertionIndex" : 45
+}

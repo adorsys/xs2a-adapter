@@ -1,0 +1,29 @@
+{
+  "id" : "30f1d3b2-512c-4be9-b5b2-89b9a85fb342",
+  "name" : "v1_periodic-payments_sepa-credit-transfers_rwpbx-qgnmjb5yixtxwywiu9xxlutmt70mthnorzi9pvxxwjle_8wk5hazwohptacgftjbetkzvnvu5mzqqwca__psglvqpt9q_authorisations_946d8445-7548-43e0-8cfc-f092d7ebc6cb",
+  "request" : {
+    "urlPattern" : "/v1/periodic-payments/sepa-credit-transfers/.+/authorisations/.+",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"scaStatus\":\"finalised\",\"trustedBeneficiaryFlag\":true}",
+    "headers" : {
+      "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "x-request-id" : "6c3d7440-7c4c-4859-847f-7fd082b54bc5",
+      "content-type" : "application/json",
+      "date" : "Wed, 29 Jul 2020 05:48:35 GMT",
+      "x-robots-tag" : "none",
+      "set-cookie" : "SRVNAME=ae322d2421d269ad308e7ea7bf07f678; path=/; HttpOnly; Secure",
+      "cache-control" : "private"
+    }
+  },
+  "uuid" : "30f1d3b2-512c-4be9-b5b2-89b9a85fb342",
+  "persistent" : true,
+  "insertionIndex" : 22
+}

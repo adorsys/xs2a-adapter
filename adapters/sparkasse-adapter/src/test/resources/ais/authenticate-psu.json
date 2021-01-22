@@ -1,0 +1,54 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "665a5b2c-c020-4fd5-8082-b34995c5b600",
+      "PSU-ID": "chipTAN",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "PSU-IP-Address": "0.0.0.0",
+      "Content-Type": "application/json; charset=UTF-8"
+    },
+    "body": {
+      "psuData": {
+        "password": "okok1"
+      }
+    }
+  },
+  "response": {
+    "body": {
+      "authorisationId": "a7129418-87e2-43c3-ba57-38aa2e23093b",
+      "scaStatus": "psuAuthenticated",
+      "_links": {
+        "scaStatus": {
+          "href": "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/consents/e3d6fd32-8e41-498b-a20a-c643215e420c/authorisations/a7129418-87e2-43c3-ba57-38aa2e23093b"
+        },
+        "selectAuthenticationMethod": {
+          "href": "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/consents/e3d6fd32-8e41-498b-a20a-c643215e420c/authorisations/a7129418-87e2-43c3-ba57-38aa2e23093b"
+        }
+      },
+      "psuMessage": "Bitte wählen Sie Ihr gewünschtes chipTAN-Verfahren.",
+      "scaMethods": [
+        {
+          "authenticationType": "CHIP_OTP",
+          "authenticationMethodId": "MANUAL",
+          "authenticationVersion": "HHD1.3.2",
+          "name": "chipTAN manuell | Kartennummer: ******0430",
+          "explanation": "Erfassung der Auftragsdaten über die Tasten Ihres TAN-Generator."
+        },
+        {
+          "authenticationType": "CHIP_OTP",
+          "authenticationMethodId": "OPTICAL",
+          "authenticationVersion": "HHD1.3.2OPT",
+          "name": "chipTAN Optical | Kartennummer: ******0430",
+          "explanation": "Übertragung der Auftragsdaten mittels animierter Grafik. Erfordert geeigneten TAN-Generator."
+        },
+        {
+          "authenticationType": "PHOTO_OTP",
+          "authenticationMethodId": "QR",
+          "authenticationVersion": "HHD1.3.2QR",
+          "name": "chipTAN QR | Kartennummer: ******0430",
+          "explanation": "Übertragung der Auftragsdaten mittels QR-Code. Erfordert geeigneten TAN-Generator."
+        }
+      ]
+    }
+  }
+}

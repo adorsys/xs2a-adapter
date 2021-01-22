@@ -1,0 +1,9 @@
+= Get Account Information with Redirect Approach
+
+In the following example, an ASPSP has chosen to perform
+the Redirect approach for the authorisation process. The Account Information Consent Request
+is followed by a redirection to the ASPSP SCA authorisation site.
+
+== Sequence Flow
+
+image::./images/ais-redirect-approach.png[]

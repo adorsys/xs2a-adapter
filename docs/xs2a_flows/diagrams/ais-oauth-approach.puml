@@ -1,0 +1,78 @@
+@startuml
+participant tpp as "TPP"
+participant adapter as "XS2A\nAdapter"
+participant bank as "ASPSP"
+
+tpp->adapter: account information consent request
+|||
+adapter->bank: account information consent request
+|||
+adapter<-bank: 201 account-information response (scaOauth link)
+|||
+tpp<-adapter: 201 account-information response (scaOauth link)
+|||
+group oauth2 sca
+tpp->adapter: get authorization url request
+|||
+opt get authorization server metadata
+adapter->bank: get authorization endpoint request
+|||
+adapter<-bank: 200 authorization-endpoint response
+end
+tpp<-adapter: 200 redirect url
+|||
+ref over tpp, adapter, bank: PSU interaction with an authorisation service of the ASPSP
+|||
+tpp<-bank: redirect back (authorization code)
+|||
+tpp->adapter: get access token (exchange code)
+|||
+opt get authorization server metadata
+adapter->bank: get token endpoint request
+|||
+adapter<-bank: 200 token-endpoint response
+end
+|||
+adapter->bank: get access token (exchange code)
+|||
+adapter<-bank: 200 token response
+|||
+tpp<-adapter: 200 token response
+end
+|||
+tpp->adapter: get account list request
+|||
+adapter->bank: get account list request
+|||
+adapter<-bank: 200 account-list response
+|||
+tpp<-adapter: 200 account-list response
+|||
+tpp->adapter: get transaction list request
+|||
+adapter->bank: get transaction list request
+|||
+adapter<-bank: 200 transaction-list response
+|||
+tpp<-adapter: 200 transaction-list response
+|||
+opt get consent status
+tpp->adapter: get consent status
+|||
+adapter->bank: get consent status
+|||
+adapter<-bank: 200 consent status response
+|||
+tpp<-adapter: 200 consent status response
+end
+|||
+opt get sca status
+tpp->adapter: get sca status request
+|||
+adapter->bank: get sca status request
+|||
+adapter<-bank: 200 sca-status response
+|||
+tpp<-adapter: 200 sca-status response
+end
+@enduml

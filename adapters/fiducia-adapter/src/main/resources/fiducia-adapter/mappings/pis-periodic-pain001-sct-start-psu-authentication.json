@@ -1,0 +1,52 @@
+{
+  "id" : "61249fc2-492b-4b8f-9c23-9a177bce918f",
+  "name" : "v1_periodic-payments_pain001-sepa-credit-transfers_2750410619090020256psdde-bafin-911360pa4960jj_authorisations",
+  "request" : {
+    "urlPattern" : "/v1/periodic-payments/pain.001-sepa-credit-transfers/.+/authorisations",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Digest" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "VRK1234567890ALL"
+      },
+      "Date" : {
+        "matches" : ".+"
+      },
+      "Signature" : {
+        "matches" : ".+"
+      },
+      "TPP-Signature-Certificate" : {
+        "matches" : ".+"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"psuData\":{\"password\":\"password\"}}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"scaStatus\":\"psuAuthenticated\",\"scaMethods\":[{\"authenticationType\":\"CHIP_OTP\",\"authenticationMethodId\":\"962\",\"name\":\"SmartTAN plus HHD 1.4\"},{\"authenticationType\":\"CHIP_OTP\",\"authenticationMethodId\":\"952\",\"name\":\"SmartTAN optic\"},{\"authenticationType\":\"CHIP_OTP\",\"authenticationMethodId\":\"972\",\"name\":\"SmartTAN optic/USB HHD 1.4\"},{\"authenticationType\":\"PHOTO_OTP\",\"authenticationMethodId\":\"982\",\"name\":\"Smart-TAN photo\"},{\"authenticationType\":\"CHIP_OTP\",\"authenticationMethodId\":\"932\",\"name\":\"SmartTAN plus\"},{\"authenticationType\":\"PUSH_OTP\",\"authenticationMethodId\":\"944\",\"name\":\"SecureSIGN\"},{\"authenticationType\":\"SMS_OTP\",\"authenticationMethodId\":\"942\",\"name\":\"mobile TAN\"}],\"_links\":{\"selectAuthenticationMethod\":{\"href\":\"/v1/periodic-payments/pain.001-sepa-credit-transfers/2750410619090020256PSDDE-BAFIN-911360PA4960JJ/authorisations/0509410619090020257PSDDE-BAFIN-911360AU4960JJ\"}}}",
+    "headers" : {
+      "Date" : "Wed, 09 Sep 2020 14:01:47 GMT",
+      "Server" : "Webserver",
+      "X-Request-ID" : "cfbe0021-fc53-4758-aea1-6bb8f5aef775",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "Content-Language" : "de",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Keep-Alive" : "timeout=15, max=98"
+    }
+  },
+  "uuid" : "61249fc2-492b-4b8f-9c23-9a177bce918f",
+  "persistent" : true,
+  "insertionIndex" : 17
+}

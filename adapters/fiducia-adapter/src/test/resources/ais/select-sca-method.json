@@ -1,0 +1,27 @@
+{
+  "request": {
+    "headers": {
+      "Content-Type": "application/json",
+      "X-GTW-ASPSP-ID": "a7da261c-30d1-4491-a250-6aab784fbf2b",
+      "X-Request-ID": "db0484f2-37db-4d5b-9bb7-d63ceba276f7",
+      "PSU-ID-Type": "",
+      "PSU-ID": "VRK1234567890ALL"
+    },
+    "body": {
+      "authenticationMethodId": "942"
+    }
+  },
+  "response": {
+    "body": {
+      "challengeData": {
+        "additionalInformation": "Die mobileTAN zu diesem Auftrag wird als SMS an Ihre Mobil-Telefonnummer gesendet, die bei Ihrer Bank registriert ist."
+      },
+      "scaStatus": "started",
+      "_links": {
+        "authoriseTransaction": {
+          "href": "/v1/consents/8117230618090020246PSDDE-BAFIN-911360CO4960JJ/authorisations/0942330618090020247PSDDE-BAFIN-911360AU4960JJ"
+        }
+      }
+    }
+  }
+}

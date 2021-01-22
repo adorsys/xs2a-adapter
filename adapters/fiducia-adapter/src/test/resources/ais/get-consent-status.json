@@ -1,0 +1,13 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "b3b9856e-1334-48c9-a1e4-8a1e44d3811d",
+      "X-GTW-ASPSP-ID": "a7da261c-30d1-4491-a250-6aab784fbf2b"
+    }
+  },
+  "response": {
+    "body": {
+      "consentStatus": "valid"
+    }
+  }
+}

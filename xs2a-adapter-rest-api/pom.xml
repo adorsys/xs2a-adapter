@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.adorsys.xs2a.adapter</groupId>
         <artifactId>xs2a-adapter</artifactId>
-        <version>0.0.8-SNAPSHOT</version>
+        <version>0.1.7-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -53,7 +53,7 @@
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-aspsp-registry</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest2api-mapper</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-rest-impl</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-api-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-impl</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-remote</exclude>
                                         <!-- 3rd party dependencies -->
                                         <exclude>joda-time:*</exclude>

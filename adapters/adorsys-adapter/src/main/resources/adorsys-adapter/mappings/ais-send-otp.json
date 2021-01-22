@@ -1,0 +1,40 @@
+{
+  "id" : "c7c08664-fb39-4aad-b3f5-2506a442c04f",
+  "name" : "v1_consents_lwigccdnqiju2wxmn2qjiiiwdpjrci55c92nupa5ixrng8jyetrvnjadwuefv7g4xcx1qlgcjausajiqoazagmz9mpajiqih3njx8ihgetw__psglvqpt9q_authorisations_19636dbe-99db-4d0f-90de-2573057bc7e4",
+  "request" : {
+    "urlPattern" : "/v1/consents/.+/authorisations/.+",
+    "method" : "PUT",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "max.musterman"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"scaAuthenticationData\":\"123456\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"_links\":{\"scaStatus\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/consents/LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q/authorisations/19636dbe-99db-4d0f-90de-2573057bc7e4\"}},\"scaStatus\":\"finalised\"}",
+    "headers" : {
+      "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "aspsp-sca-approach" : "EMBEDDED",
+      "x-request-id" : "8588997c-c919-42d0-9d90-05a5e75886ea",
+      "content-type" : "application/json",
+      "date" : "Tue, 07 Jul 2020 08:08:13 GMT",
+      "x-robots-tag" : "none",
+      "set-cookie" : "SRVNAME=17984ba812b2bfa7d54e249e16048ab4; path=/; HttpOnly; Secure"
+    }
+  },
+  "uuid" : "c7c08664-fb39-4aad-b3f5-2506a442c04f",
+  "persistent" : true,
+  "insertionIndex" : 43
+}

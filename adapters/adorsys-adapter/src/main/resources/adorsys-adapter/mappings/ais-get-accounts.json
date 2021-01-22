@@ -1,0 +1,32 @@
+{
+  "id" : "80a64003-3649-44b1-8931-cf665bbf6d36",
+  "name" : "v1_accounts",
+  "request" : {
+    "url" : "/v1/accounts?withBalance=false",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Consent-ID" : {
+        "equalTo" : "LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"accounts\":[{\"resourceId\":\"HGlNA7CqT8sjd_1aV2v2LI\",\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\",\"name\":\"max.musterman\",\"displayName\":\"mock display name\",\"product\":\"Cash24\",\"cashAccountType\":\"CASH\",\"status\":\"enabled\",\"linkedAccounts\":\"vEXGW4oQR-YincmiTa4KaM\",\"usage\":\"PRIV\",\"_links\":{\"balances\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/balances\"},\"transactions\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/transactions\"}}}]}",
+    "headers" : {
+      "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "x-request-id" : "70a7346e-e769-4c4b-8326-ceb6b785e07c",
+      "content-type" : "application/json",
+      "date" : "Tue, 07 Jul 2020 08:08:14 GMT",
+      "x-robots-tag" : "none",
+      "set-cookie" : "SRVNAME=17984ba812b2bfa7d54e249e16048ab4; path=/; HttpOnly; Secure",
+      "cache-control" : "private"
+    }
+  },
+  "uuid" : "80a64003-3649-44b1-8931-cf665bbf6d36",
+  "persistent" : true,
+  "insertionIndex" : 47
+}

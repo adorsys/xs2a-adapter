@@ -1,10 +1,10 @@
 package de.adorsys.xs2a.adapter.registry;
 
+import de.adorsys.xs2a.adapter.api.AspspRepository;
+import de.adorsys.xs2a.adapter.api.exception.IbanException;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.api.model.AspspScaApproach;
 import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
-import de.adorsys.xs2a.adapter.service.AspspRepository;
-import de.adorsys.xs2a.adapter.service.exception.IbanException;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
-import de.adorsys.xs2a.adapter.service.model.AspspScaApproach;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -298,7 +298,9 @@ public class LuceneAspspRepository implements AspspRepository {
 
     @Override
     public List<Aspsp> findLike(Aspsp aspsp, String after, int size) {
-        logger.debug(buildFindLikeLoggingMessage(aspsp));
+        if (logger.isDebugEnabled()) {
+            logger.debug(buildFindLikeLoggingMessage(aspsp));
+        }
         BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
         if (aspsp.getName() != null) {
             queryBuilder.add(buildQueryWithPriority(getNameFuzzyQuery(aspsp.getName()), LOW_PRIORITY), BooleanClause.Occur.SHOULD);
@@ -354,7 +356,8 @@ public class LuceneAspspRepository implements AspspRepository {
         try {
             bankCode = Iban.valueOf(iban).getBankCode();
         } catch (Iban4jException e) {
-            throw new IbanException(e);
+            // iban4j exception not used as the cause because the message might contain account number
+            throw new IbanException("Invalid iban");
         }
         if (bankCode == null) {
             throw new IbanException("Failed to extract the bank code from the iban");

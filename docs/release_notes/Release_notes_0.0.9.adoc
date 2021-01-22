@@ -1,0 +1,24 @@
+= Release notes for version 0.0.9 (release date: 10.04.2020)
+
+.Added banks
+|===
+|OLB
+|===
+
+== Notices:
+- AccountInformation, PaymentInitiation, Oauth2 and Download services
+extended to retrieve a list of validation errors via dedicated methods with validate-
+prefix. If a normal request method is called while validation errors are present
+a `RequestValidationException` is thrown with the list of errors.
+Previously individual violations were reported by exceptions (mostly of type
+`BadRequestException`) in the first encountered fashion.
+See https://github.com/adorsys/xs2a-adapter/issues/348[#348]
+- `SpardaOauth2Service` is refactored.
+- Updated XS2A API version to 1.3.6_2020-01-31v1.
+
+== Features:
+- Links rewriting feature with 2 predefined implementations: identity and Berlin Group ones.
+- Exclusions for log sanitizing of body properties
+- Support for card accounts operations
+- Added payment initiation service to psd2 api.
+

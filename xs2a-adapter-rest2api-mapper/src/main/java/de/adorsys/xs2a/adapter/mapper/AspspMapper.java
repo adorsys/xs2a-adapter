@@ -1,7 +1,7 @@
 package de.adorsys.xs2a.adapter.mapper;
 
-import de.adorsys.xs2a.adapter.model.AspspTO;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.rest.api.model.AspspTO;
 import org.mapstruct.Mapper;
 
 import java.util.List;

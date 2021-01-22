@@ -1,0 +1,128 @@
+{
+  "account": {
+    "iban": "DE38760700240320465700",
+    "currency": "EUR"
+  },
+  "transactions": {
+    "booked": [
+      {
+        "transactionId": "v6xAdWKqRYkip16Q3zs1yQ",
+        "endToEndId": "v6xAdWKqRYkip16Q3zs1yQ",
+        "bookingDate": "2020-07-03",
+        "valueDate": "2020-07-03",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1580120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-07-03T17:32:38.878+02:00",
+          "referenceDate": "2020-07-03"
+        }
+      },
+      {
+        "transactionId": "6_iuFgXfSX4ozchDIgLXRw",
+        "endToEndId": "6_iuFgXfSX4ozchDIgLXRw",
+        "bookingDate": "2020-07-03",
+        "valueDate": "2020-07-03",
+        "transactionAmount": {
+          "currency": "EUR",
+          "amount": "10000.00"
+        },
+        "creditorName": "max.musterman",
+        "creditorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "debtorName": "max.musterman",
+        "debtorAccount": {
+          "iban": "DE38760700240320465700",
+          "currency": "EUR"
+        },
+        "remittanceInformationUnstructured": "Cash deposit through Bank ATM",
+        "remittanceInformationUnstructuredArray": [
+          "mock remittance unstructured array"
+        ],
+        "remittanceInformationStructuredArray": [
+          {
+            "reference": "Mock remittance reference"
+          }
+        ],
+        "additionalInformation": "mock additional information",
+        "bankTransactionCode": "PMNT-MCOP-OTHR",
+        "proprietaryBankTransactionCode": "PMNT-MCOP-OTHR",
+        "balanceAfterTransaction": {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "1570120.00"
+          },
+          "balanceType": "interimAvailable",
+          "lastChangeDateTime": "2020-07-03T17:05:42.787+02:00",
+          "referenceDate": "2020-07-03"
+        }
+      }
+    ],
+    "_links": {
+      "account": {
+        "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI"
+      },
+      "balances": {
+        "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/balances"
+      }
+    }
+  },
+  "balances": [
+    {
+      "balanceAmount": {
+        "currency": "EUR",
+        "amount": "1580120.00"
+      },
+      "balanceType": "interimAvailable",
+      "lastChangeDateTime": "2020-07-03T17:40:16.286+02:00",
+      "referenceDate": "2020-07-07"
+    },
+    {
+      "balanceAmount": {
+        "currency": "EUR",
+        "amount": "1580120.00"
+      },
+      "balanceType": "closingBooked",
+      "lastChangeDateTime": "2020-07-03T17:40:16.286+02:00",
+      "referenceDate": "2020-07-07"
+    }
+  ],
+  "_links": {
+    "balances": {
+      "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/balances"
+    },
+    "download": {
+      "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/transactions/download/ZG93bmxvYWRJZA=="
+    }
+  }
+}

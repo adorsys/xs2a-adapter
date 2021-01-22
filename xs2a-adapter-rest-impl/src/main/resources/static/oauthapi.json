@@ -19,12 +19,21 @@
           "example": "my_state"
         },
         {
+          "name": "scope",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "enum": ["ais", "ais_balances", "ais_transactions", "pis"]
+          },
+          "example": "ais"
+        },
+        {
           "name": "redirect_uri",
           "in": "query",
           "schema": {
             "type": "string"
           },
-          "example": "http://localhost:8999/exchange-token"
+          "example": "http://localhost:8080/redirect"
         },
         {
           "name": "sca_oauth_link",
@@ -46,6 +55,25 @@
           "schema": {
             "type": "string"
           }
+        },
+        {
+          "name": "code_challenge_method",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "default": "S256"
+          },
+          "example": "S256",
+          "description": "A method that was used to derive code challenge. [rfc7636]"
+        },
+        {
+          "name": "code_challenge",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          },
+          "example": "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
+          "description": "A challenge derived from the code verifier that is sent in the authorization request, to be verified against later. [rfc7636]"
         },
         {
           "name": "X-GTW-ASPSP-ID",
@@ -104,7 +132,7 @@
           "schema": {
             "type": "string"
           },
-          "example": "http://localhost:8999"
+          "example": "http://localhost:8080/redirect"
         },
         {
           "name": "sca_oauth_link",
@@ -133,6 +161,15 @@
           "schema": {
             "type": "string"
           }
+        },
+        {
+          "name": "code_verifier",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          },
+          "example": "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk",
+          "description": "A cryptographically random string that is used to correlate the authorization request to the token request. [rfc7636]"
         },
         {
           "name": "X-GTW-ASPSP-ID",

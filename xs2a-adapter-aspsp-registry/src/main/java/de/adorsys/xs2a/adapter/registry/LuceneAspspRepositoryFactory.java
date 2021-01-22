@@ -4,10 +4,11 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.deser.DeserializationProblemHandler;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import de.adorsys.xs2a.adapter.api.PropertyUtil;
+import de.adorsys.xs2a.adapter.api.exception.Xs2aAdapterException;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.registry.exception.RegistryIOException;
 import de.adorsys.xs2a.adapter.registry.mapper.AspspMapper;
-import de.adorsys.xs2a.adapter.service.PropertyUtil;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.mapstruct.factory.Mappers;
@@ -22,8 +23,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class LuceneAspspRepositoryFactory {
+    private static final String LUCENE_DIR_PATH_PROPERTY = "csv.aspsp.adapter.lucene.dir.path";
+    private static final String CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH_PROPERTY = "csv.aspsp.adapter.config.file.path";
     private static final String DEFAULT_LUCENE_DIR_PATH = "lucene";
-    private static final String CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH = "csv.aspsp.adapter.config.file.path";
     private static final String DEFAULT_CSV_ASPSP_ADAPTER_CONFIG_FILE = "aspsp-adapter-config.csv";
 
     private final AspspMapper aspspMapper = Mappers.getMapper(AspspMapper.class);
@@ -37,19 +39,15 @@ public class LuceneAspspRepositoryFactory {
     }
 
     private LuceneAspspRepository newLuceneAspspRepositoryInternal() throws IOException {
-        Directory directory = FSDirectory.open(Paths.get(DEFAULT_LUCENE_DIR_PATH, "index"));
+        String luceneDirPath = PropertyUtil.readProperty(LUCENE_DIR_PATH_PROPERTY, DEFAULT_LUCENE_DIR_PATH);
+        Directory directory = FSDirectory.open(Paths.get(luceneDirPath, "index"));
         LuceneAspspRepository luceneAspspRepository = new LuceneAspspRepository(directory);
         byte[] csv = getCsvFileAsByteArray();
 
-        MessageDigest messageDigest = null;
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
+        MessageDigest messageDigest = getMessageDigest();
         String computedDigest = new BigInteger(1, messageDigest.digest(csv)).toString(16);
 
-        Path digestPath = Paths.get(DEFAULT_LUCENE_DIR_PATH, "digest.sha256");
+        Path digestPath = Paths.get(luceneDirPath, "digest.sha256");
         boolean changed;
         if (Files.exists(digestPath)) {
             String storedDigest = new String(Files.readAllBytes(digestPath));
@@ -69,6 +67,17 @@ public class LuceneAspspRepositoryFactory {
         return luceneAspspRepository;
     }
 
+    @SuppressWarnings("java:S4790") // hashing is not used in security context
+    private MessageDigest getMessageDigest() {
+        MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new Xs2aAdapterException(e);
+        }
+        return messageDigest;
+    }
+
     private byte[] getCsvFileAsByteArray() {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         int nRead;
@@ -84,7 +93,7 @@ public class LuceneAspspRepositoryFactory {
     }
 
     private InputStream getCsvFileAsStream() {
-        String csvConfigFileProperty = PropertyUtil.readProperty(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH);
+        String csvConfigFileProperty = PropertyUtil.readProperty(CSV_ASPSP_ADAPTER_CONFIG_FILE_PATH_PROPERTY);
 
         InputStream inputStream;
 

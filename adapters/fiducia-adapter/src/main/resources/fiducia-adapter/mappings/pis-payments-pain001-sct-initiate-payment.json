@@ -1,0 +1,56 @@
+{
+  "id" : "cecf5e3c-8f67-46bc-a1de-13407e6e53e4",
+  "name" : "v1_payments_pain001-sepa-credit-transfers",
+  "request" : {
+    "url" : "/v1/payments/pain.001-sepa-credit-transfers",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Digest" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "VRK1234567890ALL"
+      },
+      "Date" : {
+        "matches" : ".+"
+      },
+      "Signature" : {
+        "matches" : ".+"
+      },
+      "TPP-Signature-Certificate" : {
+        "matches" : ".+"
+      },
+      "PSU-IP-Address" : {
+        "matches" : ".+"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/xml; charset=ISO-8859-1"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToXml" : "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.03\">\n    <CstmrCdtTrfInitn>\n        <GrpHdr>\n            <MsgId>${xmlunit.ignore}</MsgId>\n            <CreDtTm>${xmlunit.ignore}</CreDtTm>\n            <NbOfTxs>${xmlunit.ignore}</NbOfTxs>\n            <CtrlSum>${xmlunit.ignore}</CtrlSum>\n            <InitgPty>\n                <Nm>${xmlunit.ignore}</Nm>\n            </InitgPty>\n        </GrpHdr>\n        <PmtInf>\n            <PmtInfId>${xmlunit.ignore}</PmtInfId>\n            <PmtMtd>${xmlunit.ignore}</PmtMtd>\n            <NbOfTxs>${xmlunit.ignore}</NbOfTxs>\n            <CtrlSum>${xmlunit.ignore}</CtrlSum>\n            <ReqdExctnDt>${xmlunit.ignore}</ReqdExctnDt>\n            <Dbtr>\n                <Nm>${xmlunit.ignore}</Nm>\n            </Dbtr>\n            <DbtrAcct>\n                <Id>\n                    <IBAN>DE39499999600000005111</IBAN>\n                </Id>\n            </DbtrAcct>\n            <DbtrAgt>\n                <FinInstnId>\n                    <BIC>${xmlunit.ignore}</BIC>\n                </FinInstnId>\n            </DbtrAgt>\n            <ChrgBr>${xmlunit.ignore}</ChrgBr>\n            <CdtTrfTxInf>\n                <PmtId>\n                    <EndToEndId>${xmlunit.ignore}</EndToEndId>\n                </PmtId>\n                <Amt>\n                    <InstdAmt Ccy=\"EUR\">${xmlunit.ignore}</InstdAmt>\n                </Amt>\n                <Cdtr>\n                    <Nm>${xmlunit.ignore}</Nm>\n                </Cdtr>\n                <CdtrAcct>\n                    <Id>\n                        <IBAN>${xmlunit.ignore}</IBAN>\n                    </Id>\n                </CdtrAcct>\n                <RmtInf>\n                    <Ustrd>${xmlunit.ignore}</Ustrd>\n                </RmtInf>\n            </CdtTrfTxInf>\n        </PmtInf>\n    </CstmrCdtTrfInitn>\n</Document>",
+      "enablePlaceholders" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"transactionStatus\":\"RCVD\",\"paymentId\":\"9667011219090020282PSDDE-BAFIN-911360PA4960JJ\",\"_links\":{\"startAuthorisationWithPsuAuthentication\":{\"href\":\"/v1/payments/pain.001-sepa-credit-transfers/9667011219090020282PSDDE-BAFIN-911360PA4960JJ/authorisations\"}}}",
+    "headers" : {
+      "Date" : "Wed, 09 Sep 2020 10:11:06 GMT",
+      "Server" : "Webserver",
+      "X-Request-ID" : "7f01c26b-e42b-47ff-8f14-0dec70fe05ec",
+      "Content-Disposition" : "inline;filename=f.txt",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "Content-Language" : "de",
+      "Location" : "/v1/payments/pain.001-sepa-credit-transfers/9667011219090020282PSDDE-BAFIN-911360PA4960JJ",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Keep-Alive" : "timeout=15, max=100"
+    }
+  },
+  "uuid" : "cecf5e3c-8f67-46bc-a1de-13407e6e53e4",
+  "persistent" : true,
+  "insertionIndex" : 11
+}

@@ -1,0 +1,11 @@
+= XS2A Flows
+
+- link:ais-embedded-approach.html[AIS with Embedded Approach]
+- link:ais-oauth-approach.html[AIS with OAuth Approach]
+- link:ais-redirect-approach.html[AIS with Redirect Approach]
+- link:pi-embedded-approach.html[PIS with Embedded Approach]
+- link:pi-oauth-approach.html[PIS with OAuth Approach]
+- link:pi-redirect-approach.html[PIS with Redirect Approach]
+- link:oauth-consent-ing.html[ING AIS]
+- link:pi-ing.html[ING PIS]
+- link:aspsp-manager.html[ASPSP Registry Manager]

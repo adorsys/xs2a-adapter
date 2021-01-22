@@ -1,0 +1,60 @@
+@startuml
+skinparam rectangle<<TPP2>> {
+    BackgroundColor black
+    FontColor white
+}
+
+title WhiteBox Level 1
+
+rectangle tpp1 as "TPP1" {
+    component tsr as "service-remote"
+}
+
+rectangle tpp2 <<TPP2>> as "TPP2"
+
+collections banks as "ASPSPs"
+
+interface "xs2a" as ahttp
+
+interface "xs2a" as bhttp
+
+rectangle "xs2a-adapter (standalone)" {
+    component sr as "service-remote"
+	component ar as "aspsp-registry"
+	component gra as "generated-rest-api"
+	component ga as "generated-api"
+	component r2am as "rest2api-mapper"
+	component ra as "rest-api"
+	component ri as "rest-impl"
+	component sa as "service-api"
+	component si as "service-impl"
+	component sl as "service-loader"
+
+	collections ba as "adapters"
+}
+
+	sl --> ar
+'	ra -> ar
+	sl --> ba
+	sa -0)- sl: AIS, PIS, oAuth, download API
+	'ra --> sa
+	gra <- ra
+	ga <- gra
+	ri --> r2am
+	ri -(0- ra
+	ri -> sa
+	sr --> r2am
+	ba -> si
+	ba -(0- sa: AIS, PIS, oAuth, download API
+	ri --() ahttp
+	tpp2 -( ahttp: http
+    tsr -( ahttp
+	sr --(0- sa
+	sr --> ra
+	ar -(0-sa: aspsp search
+
+'	banks --()
+	bhttp -right-() banks
+	ba -( bhttp: http
+
+@enduml

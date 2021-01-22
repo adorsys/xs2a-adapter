@@ -1,0 +1,47 @@
+{
+  "id" : "fc1f0eff-f826-428f-a94c-b92e86a26c82",
+  "name" : "v1_payments_sepa-credit-transfers",
+  "request" : {
+    "url" : "/v1/payments/sepa-credit-transfers",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "max.musterman"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      },
+      "PSU-IP-Address" : {
+        "matches" : ".+"
+      },
+      "TPP-Redirect-URI" : {
+        "matches" : ".+"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"debtorAccount\":{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"},\"instructedAmount\":{\"currency\":\"EUR\",\"amount\":\"${json-unit.regex}-?[0-9]{1,14}(\\\\.[0-9]{1,3})?\"},\"creditorAccount\":{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"},\"creditorName\":\"${json-unit.any-string}\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"transactionStatus\":\"RCVD\",\"paymentId\":\"W_pFk5-4OqzsXpxKLs9h97q8bfPnV3XKAm5MxM8dnT60LxXyPaGedv4HPQtEQ8-mcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q\",\"_links\":{\"updatePsuAuthentication\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/payments/sepa-credit-transfers/W_pFk5-4OqzsXpxKLs9h97q8bfPnV3XKAm5MxM8dnT60LxXyPaGedv4HPQtEQ8-mcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/259b8215-d14e-493a-ba01-c2243a9ff86a\"},\"self\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/payments/sepa-credit-transfers/W_pFk5-4OqzsXpxKLs9h97q8bfPnV3XKAm5MxM8dnT60LxXyPaGedv4HPQtEQ8-mcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q\"},\"status\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/payments/sepa-credit-transfers/W_pFk5-4OqzsXpxKLs9h97q8bfPnV3XKAm5MxM8dnT60LxXyPaGedv4HPQtEQ8-mcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/status\"},\"scaStatus\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/payments/sepa-credit-transfers/W_pFk5-4OqzsXpxKLs9h97q8bfPnV3XKAm5MxM8dnT60LxXyPaGedv4HPQtEQ8-mcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/259b8215-d14e-493a-ba01-c2243a9ff86a\"}}}",
+    "headers" : {
+      "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "aspsp-sca-approach" : "EMBEDDED",
+      "location" : "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/payments/sepa-credit-transfers/W_pFk5-4OqzsXpxKLs9h97q8bfPnV3XKAm5MxM8dnT60LxXyPaGedv4HPQtEQ8-mcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q",
+      "x-request-id" : "744c0b16-e8ad-4bb2-8df8-f1f86f6c1b06",
+      "content-type" : "application/json",
+      "date" : "Wed, 08 Jul 2020 08:06:37 GMT",
+      "x-robots-tag" : "none",
+      "set-cookie" : "SRVNAME=17984ba812b2bfa7d54e249e16048ab4; path=/; HttpOnly; Secure"
+    }
+  },
+  "uuid" : "fc1f0eff-f826-428f-a94c-b92e86a26c82",
+  "persistent" : true,
+  "insertionIndex" : 10
+}

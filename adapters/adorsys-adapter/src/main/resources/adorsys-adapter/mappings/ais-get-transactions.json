@@ -1,0 +1,32 @@
+{
+  "id" : "e2ee4a64-e33e-45c3-bcab-c4ec6729cb4e",
+  "name" : "v1_accounts_hglna7cqt8sjd_1av2v2li_transactions",
+  "request" : {
+    "urlPattern" : "/v1/accounts/.+/transactions\\?dateFrom=.+&dateTo=.+&bookingStatus=booked&withBalance=true",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Consent-ID" : {
+        "equalTo" : "LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "v1_accounts_hglna7cqt8sjd_1av2v2li_transactions-e2ee4a64-e33e-45c3-bcab-c4ec6729cb4e.json",
+    "headers" : {
+      "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "x-request-id" : "54e025cc-5a6d-4e71-89cf-29bc7306ee7a",
+      "content-type" : "application/json",
+      "date" : "Tue, 07 Jul 2020 08:08:14 GMT",
+      "x-robots-tag" : "none",
+      "set-cookie" : "SRVNAME=17984ba812b2bfa7d54e249e16048ab4; path=/; HttpOnly; Secure",
+      "cache-control" : "private"
+    }
+  },
+  "uuid" : "e2ee4a64-e33e-45c3-bcab-c4ec6729cb4e",
+  "persistent" : true,
+  "insertionIndex" : 49
+}

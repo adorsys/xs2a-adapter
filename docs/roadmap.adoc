@@ -1,0 +1,291 @@
+= Roadmap
+
+Our project started on 01.04.2019 and we currently have three branches for integ, development and master. The current clients of the adapter are MBS which is integrated in the Teambank Environments. Additionally we have Open Banking Gateway since end of February.
+
+[cols="3*.<"]
+
+|===
+
+|Release Date|Version|Features
+
+a|16.03
+
+a|0.0.8
+
+a|* Support Uni Credit newest version
+
+* Testing Frontend:
+
+** Support non Berlin Group (BG) banks
+
+** Email registration for retests
+
+* Automatic Updating of Bank Registry for Fiducia and Sparkasse
+
+a| 08.04
+
+a| 0.0.9
+
+a| * Concept Metric Database
+
+* Identify Metrics from testing Sessions
+
+* Update Adapter to Berlin Group 1.3.6
+
+* Support Payment Initiation Single Sepa Credit Transfer for non BG-Banks
+
+* Connect and Test ING successfully for Account Information Services (AIS)
+
+* Concept Grafana xs2a-intelligence dashboards
+
+* Testing Frontend:
+
+** Implement additional tests in Frontend for checking certain informations
+
+** Configuring single parameters for consent
+
+* Connect and test Comdirect for AIS
+
+* Identify remaining BG-Banks in Germany
+
+* Support Card-Accounts in Adapter
+
+* Support automatic test calls for banks based on dummy data
+
+a| 07.05
+
+a| 0.0.10
+
+a| * Testing Frontend:
+
+** PIS support for Single sepa credit transfer in xml and json
+
+* Setup XS2A-Intelligence Project
+
+* Implement Grafana xs2a Dashboards
+
+* Connect Deutsche Bank for PIS
+
+* Connect Fiducia for PIS
+
+* Extending functionality of PSD2-Interface for PIS
+
+* Fix Errors for Commerzbank
+
+a| 10.06
+
+a| 0.0.11
+
+a| * Testing Frontend:
+
+** Support receiving "Get payment status" response in XML format
+
+** Enhance logic for SCA exemption flow for PIS
+
+** Implement Individual consent configuration for adapters
+
+* Implement pre-step OAuth authorisation flow for PIS in Sparda-dapter
+
+* Extend Grafana Dashboard with new metrics for PIS
+
+* Enhance Grafana Dashboard for AIS
+
+* Configure adapter ecosystem for modelbank project
+
+* Connect Commerzbank for PIS
+
+* Connect and test successfully Unicredit for AIS
+
+* Connect Sparda for AIS & PIS
+
+* Connect and test successfuly ING for AIS, connect for PIS
+
+a| 10.07
+
+a| 0.1.0
+
+a| * Create Documentation for XS2A Intelligence
+
+* Connect and test successfully ING for PIS
+
+* Connect Unicredit for PIS
+
+* Connect and test successfully Fiducia for PIS
+
+* Connect and test successfully Norisbank for AIS & PIS
+
+* Connect and test successfully Comdirect for AIS & PIS
+
+* Connect and test Santander for PIS (dummy call)
+
+* Extend Grafana Dashboard with new metrics for AIS
+
+* Enhance Grafana Dashboard for General dashboards
+
+* Fix bugs with Slack notification for Testing flow
+
+* Increase code coverage
+
+* Implement periodic payments in adapters
+
+* Testing Frontend:
+
+** Implement Periodic payments (JSON format)
+
+** Expand Configuration page setting
+
+a| 10.08
+
+a| 0.1.1
+
+a| * Implement Periodic Payments for ING. Fix bags
+
+* Fix errors for PIS in pain.001 format
+
+* Implement get SCA status for PIS
+
+* Connect Santander for AIS
+
+* Increase test code coverage
+
+* Make the possibility to run Adapter in WireMock mode. Add WireMock tests
+
+* Fix security hotspots
+
+* Update Documentation for High Level Architecture
+
+* Testing Frontend:
+
+** Add additional parameter to the configuration page
+
+** Fix bags with usage of default configuration to determine payment service
+
+a| 10.09
+
+a| 0.1.2
+
+a| * Update to Java 11
+
+* Test DKB for AIS
+
+* Test DAB for AIS
+
+* Connect and test successfully Unicredit, Sparkasse for PIS
+
+* Fix Errors for Commerzbank for PIS
+
+* Fix Errors for Sparkasse for PIS
+
+* Fix Errors for Sparda for AIS & PIS
+
+* Connect remaining BG-Banks technically for PIS
+
+* Connect remaining BG-Banks technically for AIS
+
+* Connect and test DKB for PIS (dummy call)
+
+* Connect and test DAB for PIS (dummy call)
+
+* Extend AIS with a List of Trusted Beneficiaries
+
+* Increase test code coverage
+
+* Update Documentation for Testing Front-end component
+
+* Testing Frontend:
+
+** Support Bulk payments
+
+** Security Assessment
+
+a| 10.10
+
+a| 0.1.3
+
+a| * Update documentation of the project structure and the concepts
+
+* Connect successfully DKB for AIS. Make first concept of architecture and flows of XS2A-Adapter with DKB Adapter
+
+* Test successfully PIS for Sparkasse
+
+* Verify request/response attributes in Testing FE with the WireMock stubs
+
+* Add the possibility to enable/disable the functionality of comparison request headers with WireMock
+
+a| 10.11
+
+a| 0.1.4
+
+a| * Update project documentation on the GitHub page
+
+* Adjust the list of Authentication types (added EMAIL)
+
+* Add WireMock mode for Deutsche Bank adapter, Verlag Bank adapter
+
+* Implement BG part on adapter for Crealogix (DKB) based on adordys adapter
+
+* Add DKB support to Testing FE
+
+* Identify remaining BG-Banks
+
+* Identify the list of German Banks with Open Banking standard
+
+a| 10.12
+
+a| 0.1.5
+
+a| * Implement the "Whitelist" feature
+
+* Fix Crealogix ResponseHandler
+
+* Update test certificate in DB sandbox env
+
+* Implement adapter for Crealogix (DKB)
+
+* Add DKB support to Testing FE
+
+*Test DKB for AIS (with the real account)
+
+a| *2021*
+
+a|
+
+a|
+
+
+a| 10.01
+
+a| 0.1.6
+
+a| *Migrate to .yaml open API ver 1.3.8 2020-11-06v1
+
+* Add WireMock mode for Deutsche Bank adapter, Verlag Bank adapter
+
+* Test Targobank (Bankverlag) fro AIS, PIS (with the real account)
+
+* Test successfully PIS for Commerzbank, Unicredit
+
+* Add WireMock mode other banks
+
+* Connect and test remaining BG-Banks in Germany for AIS
+
+a| For future development
+
+a| x.x.x
+
+a| * Connect and test Societe Generale S.A for AIS (with the real account)
+
+* Connect and test Hamburg Commercial Bank AG for AIS (with the real account)
+
+* Connect and test Hamburg AAreal Bank AG for AIS (with the real account)
+
+* Implement Open Banking UK repository
+
+* Connect and Test European Banks
+
+* Extend AIS with a List of Trusted Beneficiaries
+
+* Implement Confirmation Authorisation Call
+
+|===
+

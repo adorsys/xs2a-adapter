@@ -1,0 +1,40 @@
+{
+  "id" : "6a9e36a9-39f6-4435-9668-4ba46d273038",
+  "name" : "v1_periodic-payments_pain001-sepa-credit-transfers_2750410619090020256psdde-bafin-911360pa4960jj_authorisations_0509410619090020257psdde-bafin-911360au4960jj",
+  "request" : {
+    "urlPattern" : "/v1/periodic-payments/pain.001-sepa-credit-transfers/.+/authorisations/.+",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Digest" : {
+        "matches" : ".+"
+      },
+      "Date" : {
+        "matches" : ".+"
+      },
+      "Signature" : {
+        "matches" : ".+"
+      },
+      "TPP-Signature-Certificate" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"scaStatus\":\"finalised\"}",
+    "headers" : {
+      "Date" : "Wed, 09 Sep 2020 14:02:17 GMT",
+      "Server" : "Webserver",
+      "X-Request-ID" : "8c89bd6d-ca93-46b9-a61c-6f14b3d204e6",
+      "Content-Language" : "de",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Keep-Alive" : "timeout=15, max=94"
+    }
+  },
+  "uuid" : "6a9e36a9-39f6-4435-9668-4ba46d273038",
+  "persistent" : true,
+  "insertionIndex" : 21
+}

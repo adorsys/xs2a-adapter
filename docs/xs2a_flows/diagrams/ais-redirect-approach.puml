@@ -1,0 +1,53 @@
+@startuml
+participant tpp as "TPP"
+participant adapter as "XS2A\nAdapter"
+participant bank as "ASPSP"
+
+tpp->adapter: account information consent request
+|||
+adapter->bank: account information consent request
+|||
+adapter<-bank: 201 account-information response (scaRedirect link)
+|||
+tpp<-adapter: 201 account-information response (scaRedirect link)
+|||
+ref over tpp, adapter, bank: PSU interaction with an authorisation webpage of the ASPSP
+|||
+tpp<-bank: redirect back
+|||
+tpp->adapter: get account list request
+|||
+adapter->bank: get account list request
+|||
+adapter<-bank: 200 account-list response
+|||
+tpp<-adapter: 200 account-list response
+|||
+tpp->adapter: get transaction list request
+|||
+adapter->bank: get transaction list request
+|||
+adapter<-bank: 200 transaction-list response
+|||
+tpp<-adapter: 200 transaction-list response
+|||
+opt get consent status
+tpp->adapter: get consent status
+|||
+adapter->bank: get consent status
+|||
+adapter<-bank: 200 consent status response
+|||
+tpp<-adapter: 200 consent status response
+end
+|||
+opt get sca status
+tpp->adapter: get sca status request
+|||
+adapter->bank: get sca status request
+|||
+adapter<-bank: 200 sca-status response
+|||
+tpp<-adapter: 200 sca-status response
+end
+@enduml

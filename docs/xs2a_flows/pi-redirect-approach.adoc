@@ -1,0 +1,9 @@
+= Payment Initiation with Redirect Approach
+
+In the following example, an ASPSP has chosen to perform
+the Redirect approach for the authorisation process. The Payment Initiation Request
+is followed by a redirection to the ASPSP SCA authorisation site.
+
+== Sequence Flow
+
+image::./images/pi-redirect-approach.png[]

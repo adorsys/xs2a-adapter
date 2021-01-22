@@ -1,0 +1,28 @@
+= Release notes for version 0.1.1 (release date: 10.08.2020)
+
+== Notices:
+- Added mapping for the following models in fiducia-adapter:
+** ExecutionRule
+** DayOfExecution
+** MonthsOfExecution
+** RemittanceInformationStructured
+** ChallengeData (PIS)
+** ReportExchangeRate
+- Added RemittanceInformationStructured mapping in dab and consors adapters
+- Config property `audit.sanitized` was moved to `xs2a-adapter.audit.sanitized`
+- Removed deprecated methods from PaymentInitiationService
+- Removed MonitoringHandlerInterceptor, MonitoringRequestBodyAdvice,
+and BG-Monitoring dependencies from the project
+- Updated postman environment for `adorsys-integ-adapter`
+
+== Features:
+- Added multipart/form-data response handler
+- Added RemotePaymentInitiationService.getPeriodicPain001PaymentInformation (special processing in feign decoder)
+- Added periodic-payments support in ING adapter
+- Added base implementation for `getPaymentInitiationScaStatus` and `getPaymentInitiationAuthorisation` operations
+- Added `wiremock mode` functionality. Set  property `xs2a-adapter.wire-mock-mode` to `true` for activating this functionality
+- Added `Get Payment SCA status` request to the postman test collection
+
+== Fixes:
+- Fixed split packages (fiducia-adapter, ing-adapter, dab-adapter, sparkasse-adapter)
+- Fixed EXECUTION_DATE_INVALID (The requested execution date is not a valid execution date for the ASPSP) error for sparkasse

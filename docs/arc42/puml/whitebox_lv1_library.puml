@@ -1,0 +1,35 @@
+@startuml
+
+title WhiteBox Level 1
+
+interface bxs2a as "XS2A Services"
+collections banks as "ASPSPs"
+
+rectangle "xs2a-adapter (library)" {
+    interface axs2a as "Adapted XS2A Services"
+    component api as "service-api"
+    interface aspsp_repo as "AspspReadOnlyRepository"
+    component registry as "aspsp-registry"
+    component impl as "service-impl"
+    component serviceloader as "service-loader"
+    collections adapters as "adapters"
+    file csv as "aspsp-adapter-config.csv"
+    file conf as "adapter.config.properties"
+
+    api <- impl
+    impl <- adapters
+    adapters -( bxs2a
+    bxs2a - banks
+
+    registry -right- aspsp_repo
+    api <-- registry
+    api <-- serviceloader
+    adapters -- axs2a
+    adapters <.. serviceloader: delegatesTo
+    serviceloader -- axs2a
+    serviceloader -left( aspsp_repo
+
+    registry --> csv
+    api --> conf
+}
+@enduml

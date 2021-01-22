@@ -1,7 +1,9 @@
 package de.adorsys.xs2a.adapter.registry;
 
-import de.adorsys.xs2a.adapter.service.AspspReadOnlyRepository;
-import de.adorsys.xs2a.adapter.service.model.Aspsp;
+import de.adorsys.xs2a.adapter.api.AspspReadOnlyRepository;
+import de.adorsys.xs2a.adapter.api.exception.IbanException;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
+import de.adorsys.xs2a.adapter.api.model.AspspScaApproach;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.junit.jupiter.api.Test;
 
@@ -10,16 +12,17 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.Collections.singletonList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.*;
 
-public class LuceneAspspRepositoryTest {
+class LuceneAspspRepositoryTest {
     private static final String ASPSP_ID = "1";
+    private static final Integer SIZE = Integer.MAX_VALUE;
+    private static final String AFTER = "0";
 
     private LuceneAspspRepository luceneAspspRepository = new LuceneAspspRepository(new ByteBuffersDirectory());
 
     @Test
-    public void deleteById() {
+    void deleteById() {
         Aspsp aspsp = new Aspsp();
         aspsp.setId(ASPSP_ID);
 
@@ -31,11 +34,11 @@ public class LuceneAspspRepositoryTest {
         luceneAspspRepository.deleteById(ASPSP_ID);
 
         Optional<Aspsp> aspsp1 = luceneAspspRepository.findById(ASPSP_ID);
-        assertThat(aspsp1.isPresent()).isFalse();
+        assertThat(aspsp1).isNotPresent();
     }
 
     @Test
-    public void deleteAll() {
+    void deleteAll() {
         Aspsp aspsp1 = new Aspsp();
         luceneAspspRepository.save(aspsp1);
 
@@ -53,7 +56,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void saveCanHandleNullProperties() {
+    void saveCanHandleNullProperties() {
         try {
             luceneAspspRepository.save(new Aspsp());
         } catch (Throwable e) {
@@ -62,19 +65,19 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findByIdReturnsEmptyWhenIndexDoesntExist() {
+    void findByIdReturnsEmptyWhenIndexDoesntExist() {
         Optional<Aspsp> found = new LuceneAspspRepository(new ByteBuffersDirectory()).findById("id");
         assertThat(found).isEmpty();
     }
 
     @Test
-    public void findById_NotFound() {
+    void findById_NotFound() {
         Optional<Aspsp> found = luceneAspspRepository.findById("id");
         assertThat(found).isEmpty();
     }
 
     @Test
-    public void findById_Found() {
+    void findById_Found() {
         Aspsp aspsp = new Aspsp();
         aspsp.setId(ASPSP_ID);
 
@@ -84,13 +87,13 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findByBic_NotFound() {
+    void findByBic_NotFound() {
         List<Aspsp> found = luceneAspspRepository.findByBic("bic");
         assertThat(found).isEmpty();
     }
 
     @Test
-    public void findByBic_Found() {
+    void findByBic_Found() {
         Aspsp aspsp1 = new Aspsp();
         aspsp1.setBic("BIC1");
         luceneAspspRepository.save(aspsp1);
@@ -105,7 +108,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findByBicUsesPrefixSearch() {
+    void findByBicUsesPrefixSearch() {
         Aspsp aspsp1 = new Aspsp();
         aspsp1.setBic("BIC1");
         luceneAspspRepository.save(aspsp1);
@@ -119,7 +122,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findByNameUsesPrefixSearch() {
+    void findByNameUsesPrefixSearch() {
         Aspsp aspsp1 = new Aspsp();
         aspsp1.setName("Sparkasse Nürnberg - Geschäftsstelle");
         luceneAspspRepository.save(aspsp1);
@@ -137,7 +140,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findAll() {
+    void findAll() {
         Aspsp aspsp1 = new Aspsp();
         luceneAspspRepository.save(aspsp1);
 
@@ -152,7 +155,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findAllWithPageSize() {
+    void findAllWithPageSize() {
         Aspsp aspsp1 = new Aspsp();
         luceneAspspRepository.save(aspsp1);
 
@@ -167,7 +170,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findAllWithPagination() {
+    void findAllWithPagination() {
         Aspsp aspsp1 = new Aspsp();
         luceneAspspRepository.save(aspsp1);
 
@@ -185,7 +188,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findLike() {
+    void findLike() {
         Aspsp aspsp1 = new Aspsp();
         aspsp1.setBic("ABCDEF");
         luceneAspspRepository.save(aspsp1);
@@ -202,7 +205,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void findLikeShouldBeOrderedByPriorities_BicBankCodeName_BicBankCode_Bic_BankCode_Name() {
+    void findLikeShouldBeOrderedByPriorities_BicBankCodeName_BicBankCode_Bic_BankCode_Name() {
         List<Aspsp> expected = Arrays.asList(
             buildAspsp("TESTBICA", "111111", "SomeBank"),
             buildAspsp("TESTBICA", "111111"),
@@ -235,8 +238,8 @@ public class LuceneAspspRepositoryTest {
 
         List<Aspsp> actual = luceneAspspRepository.findLike(buildAspsp("TESTBICA", "111111", "SomeBank"));
 
-        assertThat(actual).hasSize(10);
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).hasSize(10)
+            .isEqualTo(expected);
     }
 
     private Aspsp buildAspsp(String bic, String bankCode) {
@@ -255,7 +258,7 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void saveAllTreatsEmptyFieldsAsNull() {
+    void saveAllTreatsEmptyFieldsAsNull() {
         Aspsp aspsp = new Aspsp();
         aspsp.setId(ASPSP_ID);
         aspsp.setIdpUrl("");
@@ -267,12 +270,76 @@ public class LuceneAspspRepositoryTest {
     }
 
     @Test
-    public void saveTreatsEmptyIdAsNull() {
+    void saveTreatsEmptyIdAsNull() {
         Aspsp aspsp = new Aspsp();
         aspsp.setId("");
 
         Aspsp saved = luceneAspspRepository.save(aspsp);
 
         assertThat(saved.getId()).isNotEmpty();
+    }
+
+    @Test
+    void findByBankCode() {
+        String bankCode = "00000000";
+        Aspsp aspsp = buildAspsp(null, bankCode);
+        aspsp.setScaApproaches(singletonList(AspspScaApproach.EMBEDDED));
+
+        luceneAspspRepository.save(aspsp);
+
+        List<Aspsp> actual = luceneAspspRepository.findByBankCode(bankCode, AFTER, SIZE);
+
+        assertThat(actual.isEmpty()).isFalse();
+        assertThat(actual.size()).isEqualTo(1);
+        assertThat(actual.get(0).getBankCode()).isEqualTo(bankCode);
+    }
+
+    @Test
+    void findByIban() {
+        String iban = "DE86999999990000001000";
+        String bankCode = "99999999";
+        Aspsp aspsp = buildAspsp("", bankCode);
+
+        luceneAspspRepository.save(aspsp);
+
+        List<Aspsp> actual = luceneAspspRepository.findByIban(iban, AFTER, SIZE);
+
+        assertThat(actual.isEmpty()).isFalse();
+        assertThat(actual.size()).isEqualTo(1);
+        assertThat(actual.get(0).getBankCode()).isEqualTo(bankCode);
+    }
+
+    @Test
+    void findByIban_invalidIban() {
+        String iban = "DE123123123123123123123";
+        Aspsp aspsp = new Aspsp();
+
+        luceneAspspRepository.save(aspsp);
+
+        Throwable actual = catchThrowable(() -> {
+            luceneAspspRepository.findByIban(iban, AFTER, SIZE);
+        });
+
+        assertThat(actual).isInstanceOf(IbanException.class);
+    }
+
+    @Test
+    void findLike_bicOnlyAndBankCodeOnly() {
+        String bic = "ABABAB";
+        String bankCode = "00000000";
+        Aspsp bicOnly = buildAspsp(bic, null);
+        Aspsp bankCodeOnly = buildAspsp(null, bankCode);
+
+        luceneAspspRepository.saveAll(Arrays.asList(bicOnly, bankCodeOnly));
+
+        List<Aspsp> bicOnlyActual = luceneAspspRepository.findLike(bicOnly, AFTER, SIZE);
+        List<Aspsp> bankCodeOnlyActual = luceneAspspRepository.findLike(bankCodeOnly, AFTER, SIZE);
+
+        assertThat(bicOnlyActual.isEmpty()).isFalse();
+        assertThat(bicOnlyActual.size()).isEqualTo(1);
+        assertThat(bicOnlyActual.get(0).getBic()).isEqualTo(bic);
+        assertThat(bankCodeOnlyActual.isEmpty()).isFalse();
+        assertThat(bankCodeOnlyActual.size()).isEqualTo(1);
+        assertThat(bankCodeOnlyActual.get(0).getBankCode()).isEqualTo(bankCode);
     }
 }

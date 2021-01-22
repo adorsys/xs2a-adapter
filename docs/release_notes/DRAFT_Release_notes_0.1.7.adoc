@@ -1,0 +1,20 @@
+= Release notes for version 0.1.7 (release date: xx.02.2021)
+
+.Added banks
+|===
+|===
+
+== Notices:
+- for `crealogix-adapter`: extended logging if getToken request fails, all logs are sanitized.
+- for `crealogix-adapter`: Authorization header is resolved correctly now, it's decoded and split into Authorization
+and PSD2-AUTHORIZATION headers.
+
+== Features:
+
+== Fixes:
+- fixed DKB `PSD2-AUTHORIZATION` header, it contains Base64 encoded value of `TPP-ID:TPP-SECRET` now
+- fixed 406 error in `verlag-adapter` for `getTransactionList` call, if the `Accept` header has _accept all_ ("\*/*")
+value or is absent, the **text/plain** value is provided.
+- fixed bug in WiremockStubDifferenceDetectingInterceptor, isWiremockSupported method checks `mappings` directory
+presence in an adapter as intended.
+- fixed bug in `crealogix-adapter`: Authorization header credentials type recognized and checked correctly now.

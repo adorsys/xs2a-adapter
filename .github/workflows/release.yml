@@ -37,3 +37,22 @@ jobs:
           echo ${{ secrets.GPG_OWNERTRUST }} | base64 --decode | gpg --batch --import-ownertrust --yes
           mvn --settings scripts/mvn-release-settings.xml -Prelease -DskipTests -B -U deploy
         shell: bash
+
+  build-and-deploy-docs:
+    name: Build and deploy documentation
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - run: chmod +x docs-generator.sh
+
+      - name: Generate Website
+        run: ./docs-generator.sh
+
+      - name: Deploy to Github Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./tmp

@@ -1,0 +1,11 @@
+{
+  "request": {
+    "headers": {
+      "X-GTW-ASPSP-ID": "a7da261c-30d1-4491-a250-6aab784fbf2b",
+      "X-Request-ID": "7df071f9-7779-481d-8414-30fb0aac7cc5"
+    }
+  },
+  "response": {
+    "body": "{\"tppMessages\":[{\"category\":\"ERROR\",\"code\":\"RESOURCE_UNKNOWN\",\"text\":\"RESOURCE_UNKNOWN\"}]}"
+  }
+}

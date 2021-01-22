@@ -1,0 +1,24 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "1710627d-727f-4f2c-aec8-4022ab86c3f8",
+      "Content-Type": "application/xml",
+      "PSU-IP-Address": "0.0.0.0",
+      "PSU-ID": "VRK1234567890ALL",
+      "PSU-ID-Type": "",
+      "X-GTW-ASPSP-ID": "a7da261c-30d1-4491-a250-6aab784fbf2b"
+    },
+    "body": "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.03\">\n    <CstmrCdtTrfInitn>\n        <GrpHdr>\n            <MsgId>PSD294387538754378</MsgId>\n            <CreDtTm>2018-12-10T09:40:47.314+01:00</CreDtTm>\n            <NbOfTxs>1</NbOfTxs>\n            <CtrlSum>100</CtrlSum>\n            <InitgPty>\n                <Nm>Name InitgPty</Nm>\n            </InitgPty>\n        </GrpHdr>\n        <PmtInf>\n            <PmtInfId>NOTPROVIDED</PmtInfId>\n            <PmtMtd>TRF</PmtMtd>\n            <NbOfTxs>1</NbOfTxs>\n            <CtrlSum>100</CtrlSum>\n            <ReqdExctnDt>1999-01-01</ReqdExctnDt>\n            <Dbtr>\n                <Nm>Debtor Name</Nm>\n            </Dbtr>\n            <DbtrAcct>\n                <Id>\n                    <IBAN>DE39499999600000005111</IBAN>\n                </Id>\n            </DbtrAcct>\n            <DbtrAgt>\n                <FinInstnId>\n                    <BIC>TESTDETT421</BIC>\n                </FinInstnId>\n            </DbtrAgt>\n            <ChrgBr>SLEV</ChrgBr>\n            <CdtTrfTxInf>\n                <PmtId>\n                    <EndToEndId>EndToEndId</EndToEndId>\n                </PmtId>\n                <Amt>\n                    <InstdAmt Ccy=\"EUR\">100</InstdAmt>\n                </Amt>\n                <Cdtr>\n                    <Nm>Hans Handbuch</Nm>\n                </Cdtr>\n                <CdtrAcct>\n                    <Id>\n                        <IBAN>DE39499999600000005111</IBAN>\n                    </Id>\n                </CdtrAcct>\n                <RmtInf>\n                    <Ustrd>POSTPaymentEmbPain_OK</Ustrd>\n                </RmtInf>\n            </CdtTrfTxInf>\n        </PmtInf>\n    </CstmrCdtTrfInitn>\n</Document>"
+  },
+  "response": {
+    "body": {
+      "transactionStatus": "RCVD",
+      "paymentId": "9667011219090020282PSDDE-BAFIN-911360PA4960JJ",
+      "_links": {
+        "startAuthorisationWithPsuAuthentication": {
+          "href": "/v1/payments/pain.001-sepa-credit-transfers/9667011219090020282PSDDE-BAFIN-911360PA4960JJ/authorisations"
+        }
+      }
+    }
+  }
+}

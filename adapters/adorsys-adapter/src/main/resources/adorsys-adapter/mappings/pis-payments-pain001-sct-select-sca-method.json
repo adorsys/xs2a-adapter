@@ -1,0 +1,40 @@
+{
+  "id" : "1526ccaa-8b81-4a34-8bdf-9bda967d30c4",
+  "name" : "v1_payments_pain001-sepa-credit-transfers_bwbshzuvuxnswpnth2l-i3t0soam3tozlyhq4pkpmd9exnqj49jykozf6x6z1xdjcgftjbetkzvnvu5mzqqwca__psglvqpt9q_authorisations_ebcc9e28-5edd-4ddb-8e22-12128067763d",
+  "request" : {
+    "urlPattern" : "/v1/payments/pain.001-sepa-credit-transfers/.+/authorisations/.+",
+    "method" : "PUT",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "max.musterman"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"authenticationMethodId\":\"DQ28HA0zRQIldt-MMICgqI\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"chosenScaMethod\":{\"authenticationType\":\"EMAIL\",\"authenticationMethodId\":\"DQ28HA0zRQIldt-MMICgqI\",\"name\":\"max.musterman@mail.de\"},\"challengeData\":{\"otpMaxLength\":6,\"otpFormat\":\"integer\",\"additionalInformation\":\"SCA method EMAIL: tan is 123456 . sent email to max.musterman@mail.de.\"},\"_links\":{\"scaStatus\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/payments/pain.001-sepa-credit-transfers/BWbshZUvuxnSwPNth2l-I3T0soaM3tozlyhq4pkpMd9eXNqj49jykOzF6X6Z1XdjcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/ebcc9e28-5edd-4ddb-8e22-12128067763d\"},\"authoriseTransaction\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/payments/pain.001-sepa-credit-transfers/BWbshZUvuxnSwPNth2l-I3T0soaM3tozlyhq4pkpMd9eXNqj49jykOzF6X6Z1XdjcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/ebcc9e28-5edd-4ddb-8e22-12128067763d\"}},\"scaStatus\":\"scaMethodSelected\"}",
+    "headers" : {
+      "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "aspsp-sca-approach" : "EMBEDDED",
+      "x-request-id" : "7c10c5c6-efa6-4c44-8025-e4afcc6b4911",
+      "content-type" : "application/json",
+      "date" : "Tue, 28 Jul 2020 04:49:54 GMT",
+      "x-robots-tag" : "none",
+      "set-cookie" : "SRVNAME=ae322d2421d269ad308e7ea7bf07f678; path=/; HttpOnly; Secure"
+    }
+  },
+  "uuid" : "1526ccaa-8b81-4a34-8bdf-9bda967d30c4",
+  "persistent" : true,
+  "insertionIndex" : 24
+}

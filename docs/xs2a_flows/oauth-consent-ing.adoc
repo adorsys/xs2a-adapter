@@ -1,0 +1,8 @@
+= Get Account Information for ING
+
+In case of the ING bank, the process of getting Account Information has some
+differences. For a TPP the flow is very similar to AI OAuth Approach.
+
+== Sequence Flow
+
+image::./images/oauth-consent-ing.png[]

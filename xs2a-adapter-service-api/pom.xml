@@ -6,13 +6,22 @@
     <parent>
         <groupId>de.adorsys.xs2a.adapter</groupId>
         <artifactId>xs2a-adapter</artifactId>
-        <version>0.0.8-SNAPSHOT</version>
+        <version>0.1.7-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
     <artifactId>xs2a-adapter-service-api</artifactId>
 
     <dependencies>
+
+        <!-- project dependencies -->
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>xs2a-adapter-generated-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -55,7 +64,7 @@
                                         <!-- project dependencies -->
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-loader</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-remote</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-api-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-impl</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-app</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-aspsp-registry</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-generated-rest-api</exclude>

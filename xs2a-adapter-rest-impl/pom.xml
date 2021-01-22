@@ -6,11 +6,15 @@
     <parent>
         <groupId>de.adorsys.xs2a.adapter</groupId>
         <artifactId>xs2a-adapter</artifactId>
-        <version>0.0.8-SNAPSHOT</version>
+        <version>0.1.7-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
     <artifactId>xs2a-adapter-rest-impl</artifactId>
+
+    <properties>
+        <commons-fileupload.version>1.4</commons-fileupload.version>
+    </properties>
 
     <dependencies>
 
@@ -42,6 +46,10 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
         <!-- swagger dependencies -->
 
         <dependency>
@@ -76,6 +84,12 @@
             <groupId>org.webjars</groupId>
             <artifactId>webjars-locator</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons-fileupload.version}</version>
         </dependency>
 
         <!-- test dependencies -->
@@ -125,7 +139,7 @@
                                         <!-- project dependencies -->
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-loader</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-remote</exclude>
-                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-api-adapter</exclude>
+                                        <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-service-impl</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-app</exclude>
                                         <exclude>de.adorsys.xs2a.adapter:xs2a-adapter-aspsp-registry</exclude>
                                         <!-- 3rd party dependencies -->

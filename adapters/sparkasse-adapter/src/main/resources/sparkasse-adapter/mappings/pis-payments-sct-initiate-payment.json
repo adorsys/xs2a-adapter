@@ -1,0 +1,51 @@
+{
+  "id" : "57876e20-85a8-4430-9a25-82dbbe77056b",
+  "name" : "v1_payments_sepa-credit-transfers",
+  "request" : {
+    "url" : "/v1/payments/sepa-credit-transfers",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "chipTAN"
+      },
+      "TPP-Redirect-URI" : {
+        "matches" : ".+"
+      },
+      "PSU-IP-Address" : {
+        "matches" : ".+"
+      },
+      "TPP-Redirect-Preferred" : {
+        "equalTo" : "false"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"debtorAccount\":{\"iban\":\"DE86999999990000001000\",\"currency\":\"EUR\"},\"instructedAmount\":{\"currency\":\"EUR\",\"amount\":\"${json-unit.regex}-?[0-9]{1,14}(\\\\.[0-9]{1,3})?\"},\"creditorAccount\":{\"iban\":\"DE86999999990000001000\",\"currency\":\"EUR\"},\"creditorName\":\"${json-unit.any-string}\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"transactionStatus\":\"RCVD\",\"paymentId\":\"5f6e3778-2b5c-460c-90f9-c86b0f5c5d57\",\"_links\":{\"startAuthorisationWithPsuAuthentication\":{\"href\":\"https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/sepa-credit-transfers/5f6e3778-2b5c-460c-90f9-c86b0f5c5d57/authorisations\"},\"self\":{\"href\":\"https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/sepa-credit-transfers/5f6e3778-2b5c-460c-90f9-c86b0f5c5d57\"},\"status\":{\"href\":\"https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/sepa-credit-transfers/5f6e3778-2b5c-460c-90f9-c86b0f5c5d57/status\"}},\"psuMessage\":\"Bitte geben Sie Ihren Anmeldenamen/Legitimations-ID und Ihre PIN ein.\"}",
+    "headers" : {
+      "Date" : "Tue, 11 Aug 2020 07:47:33 GMT",
+      "Server" : "Apache",
+      "Content-Type" : "application/json; charset=utf-8",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "X-Request-ID" : "e56a3492-e9c7-4357-9b77-0a3bdafdd607",
+      "Location" : "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/sepa-credit-transfers/5f6e3778-2b5c-460c-90f9-c86b0f5c5d57",
+      "Strict-Transport-Security" : "max-age=31536000",
+      "X-Content-Type-Options" : "nosniff",
+      "Keep-Alive" : "timeout=15, max=100"
+    }
+  },
+  "uuid" : "57876e20-85a8-4430-9a25-82dbbe77056b",
+  "persistent" : true,
+  "insertionIndex" : 10
+}

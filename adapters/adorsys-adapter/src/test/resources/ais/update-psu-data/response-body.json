@@ -1,0 +1,23 @@
+{
+  "scaMethods": [
+    {
+      "authenticationType": "EMAIL",
+      "authenticationMethodId": "DQ28HA0zRQIldt-MMICgqI",
+      "name": "max.musterman@mail.de"
+    },
+    {
+      "authenticationType": "EMAIL",
+      "authenticationMethodId": "KH5mePFfTQgi7trm0gMIOk",
+      "name": "max.musterman2@mail.de"
+    }
+  ],
+  "_links": {
+    "selectAuthenticationMethod": {
+      "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/consents/LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q/authorisations/19636dbe-99db-4d0f-90de-2573057bc7e4"
+    },
+    "scaStatus": {
+      "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/consents/LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q/authorisations/19636dbe-99db-4d0f-90de-2573057bc7e4"
+    }
+  },
+  "scaStatus": "psuAuthenticated"
+}

@@ -1,0 +1,38 @@
+@startuml
+
+actor psu as "PSU"
+participant tpp as "TPP"
+participant adapter as "XS2A\nAdapter"
+participant bank as "ASPSP"
+
+autonumber
+
+tpp->adapter: get authorization request url
+opt get authorization server metadata
+adapter->bank: get authorization endpoint
+adapter<-bank: authorization endpoint
+end
+tpp<-adapter: redirect url
+psu<-tpp: redirect url
+psu->bank: authorization request
+tpp<-bank: authorization code
+tpp->adapter: exchange code
+opt get authorization server metadata
+adapter->bank: get token endpoint
+adapter<-bank: token endpoint
+end
+adapter->bank: exchange code
+adapter<-bank: token response
+tpp<-adapter: token response
+opt token refresh
+tpp->adapter: refresh token
+opt get authorization server metadata
+adapter->bank: get token endpoint
+adapter<-bank: token endpoint
+end
+adapter->bank: refresh token
+adapter<-bank: token response
+tpp<-adapter: token response
+end
+
+@enduml

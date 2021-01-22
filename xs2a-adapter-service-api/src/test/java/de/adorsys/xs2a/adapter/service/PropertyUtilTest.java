@@ -1,11 +1,12 @@
 package de.adorsys.xs2a.adapter.service;
 
 
+import de.adorsys.xs2a.adapter.api.PropertyUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PropertyUtilTest {
+class PropertyUtilTest {
 
     private static final String PROPERTY_NAME = "p1";
     private static final String DEFAULT_VALUE = "42";
@@ -18,14 +19,14 @@ public class PropertyUtilTest {
     }
 
     @Test
-    public void readProperty() {
-        Assertions.assertEquals(PropertyUtil.readProperty(PROPERTY_NAME), PROPERTY_VALUE);
-        Assertions.assertEquals(PropertyUtil.readProperty(NOT_EXISTING_PROPERTY), "");
+    void readProperty() {
+        Assertions.assertEquals(PROPERTY_VALUE, PropertyUtil.readProperty(PROPERTY_NAME));
+        Assertions.assertEquals("", PropertyUtil.readProperty(NOT_EXISTING_PROPERTY));
     }
 
     @Test
-    public void readPropertyWithDefaultValue() {
-        Assertions.assertEquals(PropertyUtil.readProperty(NOT_EXISTING_PROPERTY, DEFAULT_VALUE), "42");
-        Assertions.assertEquals(PropertyUtil.readProperty(PROPERTY_NAME, "42"), PROPERTY_VALUE);
+    void readPropertyWithDefaultValue() {
+        Assertions.assertEquals("42", PropertyUtil.readProperty(NOT_EXISTING_PROPERTY, DEFAULT_VALUE));
+        Assertions.assertEquals(PROPERTY_VALUE, PropertyUtil.readProperty(PROPERTY_NAME, "42"));
     }
 }

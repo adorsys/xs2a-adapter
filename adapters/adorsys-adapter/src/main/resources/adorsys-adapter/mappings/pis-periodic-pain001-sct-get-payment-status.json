@@ -1,0 +1,29 @@
+{
+  "id" : "30ecedcc-4b1a-4631-9da9-60d4d6024100",
+  "name" : "v1_periodic-payments_pain001-sepa-credit-transfers_j2x8wkgv3gyf6cin9xsd95hc83_msjczgiys2ki92g7nlurusdkcssw2nbnva19ocgftjbetkzvnvu5mzqqwca__psglvqpt9q_status",
+  "request" : {
+    "urlPattern" : "/v1/periodic-payments/pain.001-sepa-credit-transfers/.+/status",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"transactionStatus\":\"ACSP\",\"psuMessage\":\"Mocked PSU message from SPI for this payment\"}",
+    "headers" : {
+      "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "x-request-id" : "86e15fc9-c593-4922-8b78-6286d105d486",
+      "content-type" : "application/json",
+      "date" : "Wed, 29 Jul 2020 05:14:27 GMT",
+      "x-robots-tag" : "none",
+      "set-cookie" : "SRVNAME=ae322d2421d269ad308e7ea7bf07f678; path=/; HttpOnly; Secure",
+      "cache-control" : "private"
+    }
+  },
+  "uuid" : "30ecedcc-4b1a-4631-9da9-60d4d6024100",
+  "persistent" : true,
+  "insertionIndex" : 41
+}

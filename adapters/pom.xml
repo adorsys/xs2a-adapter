@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.adorsys.xs2a.adapter</groupId>
         <artifactId>xs2a-adapter</artifactId>
-        <version>0.0.8-SNAPSHOT</version>
+        <version>0.1.7-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -15,8 +15,7 @@
     <artifactId>adapters</artifactId>
 
     <modules>
-        <module>maven-adapter-archetype</module>
-        <module>adorsys-integ-adapter</module>
+        <module>adorsys-adapter</module>
         <module>consors-bank-adapter</module>
         <module>dab-bank-adapter</module>
         <module>deutsche-bank-adapter</module>
@@ -24,13 +23,13 @@
         <module>sparkasse-adapter</module>
         <module>verlag-adapter</module>
         <module>fiducia-adapter</module>
-        <module>dkb-adapter</module>
         <module>commerzbank-adapter</module>
-        <!-- ING adapter will be removed in future releases -->
-        <module>ing-psd2-adapter</module>
+        <module>ing-adapter</module>
         <module>unicredit-adapter</module>
         <module>comdirect-adapter</module>
         <module>santander-adapter</module>
+        <module>olb-adapter</module>
+        <module>crealogix-adapter</module>
   </modules>
 
     <dependencies>
@@ -43,7 +42,7 @@
 
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>adorsys-integ-adapter</artifactId>
+            <artifactId>adorsys-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -85,19 +84,13 @@
 
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>dkb-adapter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>commerzbank-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>ing-psd2-adapter</artifactId>
+            <artifactId>ing-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -116,6 +109,18 @@
         <dependency>
             <groupId>de.adorsys.xs2a.adapter</groupId>
             <artifactId>santander-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>olb-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>crealogix-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
