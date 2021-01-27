@@ -1,35 +1,19 @@
 package de.adorsys.xs2a.adapter.crealogix.model;
 
+import java.util.stream.Stream;
+
 public enum CrealogixAuthType {
-    PASSWORD("PASSWORD"),
-    SMSTAN("SMSTAN"),
-    MATRIX("MATRIX"),
-    FOTOTAN("FOTOTAN"),
-    PUSHTAN("PUSHTAN"),
-    DIGIPASS("DIGIPASS"),
-    CHIPTAN("CHIPTAN");
-
-    private String value;
-
-    CrealogixAuthType(String value) {
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(value);
-    }
+    PASSWORD,
+    SMSTAN,
+    MATRIX,
+    FOTOTAN,
+    PUSHTAN,
+    DIGIPASS,
+    CHIPTAN;
 
     public static CrealogixAuthType fromValue(String text) {
-        for (CrealogixAuthType b : CrealogixAuthType.values()) {
-            if (String.valueOf(b.value).equals(text)) {
-                return b;
-            }
-        }
-        return null;
+        return Stream.of(CrealogixAuthType.values())
+            .filter(t -> t.name().equalsIgnoreCase(text))
+            .findFirst().orElse(null);
     }
 }
