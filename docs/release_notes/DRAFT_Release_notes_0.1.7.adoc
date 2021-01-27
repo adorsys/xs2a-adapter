@@ -19,3 +19,5 @@ value or is absent, the **text/plain** value is provided.
 presence in an adapter as intended.
 - fixed bug in `crealogix-adapter`: Authorization header credentials type recognized and checked correctly now.
 - fixed authorization request uri construction in `commerzbank-adapter`
+- fixed wrong bank response interpreting in `crealogix-adapter`. DKB custom `CrealogixValidationResponse` model was added,
+and a mapper for proper mapping to TokenResponse was generated.

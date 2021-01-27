@@ -25,10 +25,12 @@ import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.EmbeddedPreAuthorisationRequest;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
+import de.adorsys.xs2a.adapter.crealogix.model.CrealogixValidationResponse;
 import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.impl.http.JsonMapper;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenException;
 import org.apache.commons.io.IOUtils;
+import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +48,7 @@ import static de.adorsys.xs2a.adapter.api.config.AdapterConfig.readProperty;
 
 public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuthorisationService {
     private final Logger logger = LoggerFactory.getLogger(CrealogixEmbeddedPreAuthorisationService.class);
+    private final CrealogixMapper mapper = Mappers.getMapper(CrealogixMapper.class);
 
     public static final String TOKEN_CONSUMER_KEY_PROPERTY = ".token.consumer_key";
     public static final String TOKEN_CONSUMER_SECRET_PROPERTY = ".token.consumer_secret";
@@ -104,7 +107,7 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
         Response<TokenResponse> response = httpClient.post(adjustIdpUrl(aspsp.getIdpUrl()) + TOKEN_URL)
                                                .urlEncodedBody(Collections.singletonMap("grant_type", "client_credentials"))
                                                .headers(tppHeaders)
-                                               .send(responseHandler());
+                                               .send(responseHandler(TokenResponse.class));
         return response.getBody().getAccessToken();
     }
 
@@ -118,14 +121,15 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
         Response<TokenResponse> response = httpClient.post(adjustIdpUrl(aspsp.getIdpUrl()) + "/pre-auth/1.0.6/psd2-auth/v1/auth/token")
                                                .jsonBody(String.format(CREDENTIALS_JSON_BODY, username, password))
                                                .headers(headers)
-                                               .send(responseHandler());
+                                               .send(responseHandler(CrealogixValidationResponse.class))
+                                               .map(mapper::toTokenResponse);
         return response.getBody().getAccessToken();
     }
 
-    HttpClient.ResponseHandler<TokenResponse> responseHandler() {
+    <T> HttpClient.ResponseHandler<T> responseHandler(Class<T> tClass) {
         return (statusCode, responseBody, responseHeaders) -> {
             if (isSuccess(statusCode)) {
-                return jsonMapper.readValue(responseBody, TokenResponse.class);
+                return jsonMapper.readValue(responseBody, tClass);
             }
             String sanitizedResponse = logSanitizer.sanitize(toString(responseBody));
             logger.error("Failed to retrieve Token. Status code: {}\nBank response: {}", statusCode,  sanitizedResponse);
