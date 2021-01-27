@@ -43,6 +43,13 @@ spec:
                 secretKeyRef:
                   name: pkcs12-key-store-secret
                   key: key-store-password
+            {{- if .Values.adapter.logSanitizerWhitelist.enabled }}
+            - name: XS2A-ADAPTER_SANITIZER_WHITELIST
+              valueFrom:
+                configMapKeyRef:
+                  key: log-sanitizer-whitelist
+                  name: xs2a-adapter-config
+            {{- end }}
             - name: JAVA_OPTS
               value: >-
                 -Xmx1024m
