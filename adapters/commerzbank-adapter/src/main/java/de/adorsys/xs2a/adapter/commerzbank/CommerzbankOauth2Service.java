@@ -45,7 +45,6 @@ public class CommerzbankOauth2Service extends Oauth2ServiceDecorator implements 
     @Override
     public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) throws IOException {
         requireValid(validateGetAuthorizationRequestUri(headers, parameters));
-        parameters.setAuthorizationEndpoint(parameters.removeScaOAuthLink());
         return oauth2Service.getAuthorizationRequestUri(headers, parameters);
     }
 

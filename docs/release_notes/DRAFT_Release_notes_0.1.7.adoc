@@ -18,3 +18,4 @@ value or is absent, the **text/plain** value is provided.
 - fixed bug in WiremockStubDifferenceDetectingInterceptor, isWiremockSupported method checks `mappings` directory
 presence in an adapter as intended.
 - fixed bug in `crealogix-adapter`: Authorization header credentials type recognized and checked correctly now.
+- fixed authorization request uri construction in `commerzbank-adapter`
