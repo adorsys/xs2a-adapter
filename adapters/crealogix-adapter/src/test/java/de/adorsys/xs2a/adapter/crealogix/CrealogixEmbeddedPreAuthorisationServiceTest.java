@@ -12,6 +12,7 @@ import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.EmbeddedPreAuthorisationRequest;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
+import de.adorsys.xs2a.adapter.crealogix.model.CrealogixValidationResponse;
 import de.adorsys.xs2a.adapter.impl.http.BaseHttpClientConfig;
 import de.adorsys.xs2a.adapter.impl.http.Xs2aHttpLogSanitizer;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenException;
@@ -49,8 +50,8 @@ class CrealogixEmbeddedPreAuthorisationServiceTest {
 
     @Test
     void getToken() throws IOException {
-        Response tppResponse = mock(Response.class);
-        Response psd2Response = mock(Response.class);
+        Response<TokenResponse> tppResponse = mock(Response.class);
+        Response<CrealogixValidationResponse> psd2Response = mock(Response.class);
         TokenResponse tppTokenResponse = new TokenResponse();
         tppTokenResponse.setAccessToken("tpp");
         TokenResponse psd2TokenResponse = new TokenResponse();
@@ -69,6 +70,7 @@ class CrealogixEmbeddedPreAuthorisationServiceTest {
         doReturn(psd2Builder).when(psd2Builder).jsonBody(anyString());
         doReturn(psd2Builder).when(psd2Builder).headers(anyMap());
         doReturn(psd2Response).when(psd2Builder).send(any());
+        doReturn(psd2Response).when(psd2Response).map(any());
         doReturn(psd2TokenResponse).when(psd2Response).getBody();
 
         TokenResponse token = authorisationService.getToken(new EmbeddedPreAuthorisationRequest(), RequestHeaders.fromMap(Collections.emptyMap()));
@@ -87,7 +89,7 @@ class CrealogixEmbeddedPreAuthorisationServiceTest {
         InputStream inputStream = new ByteArrayInputStream(stringBody.getBytes());
 
         TokenResponse actualResponse
-            = authorisationService.responseHandler().apply(statusCode, inputStream, ResponseHeaders.emptyResponseHeaders());
+            = authorisationService.responseHandler(TokenResponse.class).apply(statusCode, inputStream, ResponseHeaders.emptyResponseHeaders());
 
         assertThat(actualResponse)
             .isNotNull()
@@ -97,7 +99,7 @@ class CrealogixEmbeddedPreAuthorisationServiceTest {
     @ParameterizedTest
     @ValueSource(ints = {302, 403, 500})
     void responseHandler_notSuccessfulStatuses(int statusCode) {
-        HttpClient.ResponseHandler<TokenResponse> responseHandler = authorisationService.responseHandler();
+        HttpClient.ResponseHandler<TokenResponse> responseHandler = authorisationService.responseHandler(TokenResponse.class);
         ResponseHeaders responseHeaders = ResponseHeaders.emptyResponseHeaders();
         InputStream body = new ByteArrayInputStream("body".getBytes());
 
