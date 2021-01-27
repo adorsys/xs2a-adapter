@@ -15,3 +15,7 @@ data:
   {{- end }}
   adapter.config.properties: |
     {{- (.Files.Get (.Values.adapter.adapterConfigFile)) | nindent 4 }}
+  {{- if .Values.adapter.logSanitizerWhitelist.enabled }}
+  log-sanitizer-whitelist: |
+    {{- (.Files.Get (.Values.adapter.logSanitizerWhitelist.file)) | nindent 4 }}
+  {{- end }}
