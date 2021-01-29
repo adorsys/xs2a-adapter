@@ -23,10 +23,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayInputStream;
 import java.util.AbstractMap;
-import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static de.adorsys.xs2a.adapter.api.http.ContentType.*;
+import static java.util.Collections.singletonMap;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.any;
@@ -150,8 +151,17 @@ class VerlagAccountInformationServiceTest {
     }
 
     private static Stream<Arguments> requestHeaders() {
-        return Stream.of(arguments(RequestHeaders.empty(), VerlagAccountInformationService.ACCEPT_TEXT_PLAIN),
-            arguments(RequestHeaders.fromMap(Collections.singletonMap(RequestHeaders.ACCEPT, VerlagAccountInformationService.ACCEPT_ALL)), VerlagAccountInformationService.ACCEPT_TEXT_PLAIN),
-            arguments(RequestHeaders.fromMap(Collections.singletonMap(RequestHeaders.ACCEPT, "application/json")), "application/json"));
+        return Stream.of(arguments(RequestHeaders.empty(), APPLICATION_JSON),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, "")), APPLICATION_JSON),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, null)), APPLICATION_JSON),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, ALL)), APPLICATION_JSON),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, APPLICATION_XML)), APPLICATION_JSON),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, TEXT_PLAIN)), TEXT_PLAIN),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, APPLICATION_JSON)), APPLICATION_JSON),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, APPLICATION_XML + "," + ALL)), APPLICATION_JSON),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, APPLICATION_JSON + "," + TEXT_PLAIN)), APPLICATION_JSON),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, APPLICATION_XML + "," + TEXT_PLAIN)), APPLICATION_JSON)
+        );
+
     }
 }
