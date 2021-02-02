@@ -8,6 +8,10 @@
 - for `crealogix-adapter`: extended logging if getToken request fails, all logs are sanitized.
 - for `crealogix-adapter`: Authorization header is resolved correctly now, it's decoded and split into Authorization
 and PSD2-AUTHORIZATION headers.
+- changes in `verlag-adapter`: Adapter will adjust getTransactionListAsString Accept header to contain _application/json_ value.
+JSON is the only value the ASPSP is expecting in Accept header as for now.
+Adapter will tolerate _text/plain_ as this is the only expected value in the ASPSP Sandbox environment.
+A client will want to provide _text/plain_ intentionally to communicate with the Sandbox.
 
 == Features:
 
