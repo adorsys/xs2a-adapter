@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 
-class DavAccountInformationServiceTest {
+class DabAccountInformationServiceTest {
 
     private final HttpClient httpClient = mock(HttpClient.class);
     private final HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
@@ -31,7 +31,7 @@ class DavAccountInformationServiceTest {
     @BeforeEach
     void setUp() {
         when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
-        when(httpClientFactory.getHttpClient(anyString())).thenReturn(httpClient);
+        when(httpClientFactory.getHttpClient(any())).thenReturn(httpClient);
         when(httpClientConfig.getLogSanitizer()).thenReturn(mock(HttpLogSanitizer.class));
 
         service = new DabServiceProvider()

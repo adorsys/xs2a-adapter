@@ -6,13 +6,14 @@ import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 import java.net.URI;
@@ -25,6 +26,9 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.*;
 
 class SantanderOauth2ServiceTest {
 
@@ -39,21 +43,28 @@ class SantanderOauth2ServiceTest {
     private static final String AUTHORIZATION_CODE = "authorization_code";
     private static final String REFRESH_TOKEN = "refresh_token";
 
-    private HttpClient httpClient;
     private SantanderOauth2Service oauth2Service;
+    private final HttpClient httpClient = spy(new ApacheHttpClient(null, null));
+    private final HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
+    private final HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
+    private final Pkcs12KeyStore keyStore = mock(Pkcs12KeyStore.class);
+    private final Aspsp aspsp = new Aspsp();
 
     @BeforeEach
     void setUp() throws Exception {
-        Aspsp aspsp = new Aspsp();
-        httpClient = Mockito.spy(new ApacheHttpClient(null, null));
-        Mockito.doReturn(authorizationServerMetadata())
-            .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(SCA_OAUTH_LINK)), Mockito.any());
-        Mockito.doReturn(new Response<>(200, null, null))
-            .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), Mockito.any());
-        Pkcs12KeyStore keyStore = Mockito.mock(Pkcs12KeyStore.class);
-        Mockito.when(keyStore.getOrganizationIdentifier())
+        doReturn(authorizationServerMetadata())
+            .when(httpClient).send(argThat(req -> req.uri().equals(SCA_OAUTH_LINK)), any());
+        doReturn(new Response<>(200, null, null))
+            .when(httpClient).send(argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), any());
+
+        when(keyStore.getOrganizationIdentifier())
             .thenReturn(CLIENT_ID);
-        oauth2Service = SantanderOauth2Service.create(aspsp, httpClient, keyStore, null);
+
+        when(httpClientFactory.getHttpClient(any())).thenReturn(httpClient);
+        when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+        when(httpClientConfig.getKeyStore()).thenReturn(keyStore);
+
+        oauth2Service = SantanderOauth2Service.create(aspsp, httpClientFactory);
     }
 
     private Response<AuthorisationServerMetaData> authorizationServerMetadata() {
@@ -133,13 +144,13 @@ class SantanderOauth2ServiceTest {
         expectedBody.put(Parameters.CLIENT_ID, CLIENT_ID);
         expectedBody.put(Parameters.CODE_VERIFIER, oauth2Service.codeVerifier());
         expectedBody.put(Parameters.REDIRECT_URI, REDIRECT_URI);
-        Mockito.verify(httpClient, Mockito.times(1)).send(ArgumentMatchers.argThat(req -> {
+        Mockito.verify(httpClient, Mockito.times(1)).send(argThat(req -> {
             boolean tokenExchange = req.uri().equals(TOKEN_ENDPOINT);
             if (tokenExchange) {
                 assertEquals(expectedBody, req.urlEncodedBody());
             }
             return tokenExchange;
-        }), Mockito.any());
+        }), any());
     }
 
     @Test
@@ -155,12 +166,12 @@ class SantanderOauth2ServiceTest {
         expectedBody.put(Parameters.GRANT_TYPE, Oauth2Service.GrantType.REFRESH_TOKEN.toString());
         expectedBody.put(Parameters.REFRESH_TOKEN, REFRESH_TOKEN);
         expectedBody.put(Parameters.CLIENT_ID, CLIENT_ID);
-        Mockito.verify(httpClient, Mockito.times(1)).send(ArgumentMatchers.argThat(req -> {
+        Mockito.verify(httpClient, Mockito.times(1)).send(argThat(req -> {
             boolean tokenExchange = req.uri().equals(TOKEN_ENDPOINT);
             if (tokenExchange) {
                 assertEquals(expectedBody, req.urlEncodedBody());
             }
             return tokenExchange;
-        }), Mockito.any());
+        }), any());
     }
 }

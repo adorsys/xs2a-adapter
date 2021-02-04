@@ -3,8 +3,7 @@ package de.adorsys.xs2a.adapter.fiducia;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
@@ -25,11 +24,14 @@ public class FiduciaPaymentInitiationService extends BasePaymentInitiationServic
     private final FiduciaMapper mapper = Mappers.getMapper(FiduciaMapper.class);
 
     public FiduciaPaymentInitiationService(Aspsp aspsp,
-                                           HttpClient httpClient,
+                                           HttpClientFactory httpClientFactory,
                                            List<Interceptor> interceptors,
-                                           LinksRewriter linksRewriter,
-                                           HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
+                                           LinksRewriter linksRewriter) {
+        super(aspsp,
+            httpClientFactory.getHttpClient(aspsp.getAdapterId()),
+            interceptors,
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

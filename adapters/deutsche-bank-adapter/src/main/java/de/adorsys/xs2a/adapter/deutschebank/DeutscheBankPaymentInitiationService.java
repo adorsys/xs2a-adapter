@@ -1,10 +1,7 @@
 package de.adorsys.xs2a.adapter.deutschebank;
 
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
-import de.adorsys.xs2a.adapter.api.http.ContentType;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
-import de.adorsys.xs2a.adapter.api.http.Interceptor;
+import de.adorsys.xs2a.adapter.api.http.*;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
@@ -18,11 +15,14 @@ public class DeutscheBankPaymentInitiationService extends BasePaymentInitiationS
     private static final String DATE_HEADER = "Date";
 
     public DeutscheBankPaymentInitiationService(Aspsp aspsp,
-                                                HttpClient httpClient,
+                                                HttpClientFactory httpClientFactory,
                                                 List<Interceptor> interceptors,
-                                                LinksRewriter linksRewriter,
-                                                HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
+                                                LinksRewriter linksRewriter) {
+        super(aspsp,
+            httpClientFactory.getHttpClient(aspsp.getAdapterId()),
+            interceptors,
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

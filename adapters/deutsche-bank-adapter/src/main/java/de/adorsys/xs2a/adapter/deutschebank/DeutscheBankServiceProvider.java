@@ -42,11 +42,10 @@ public class DeutscheBankServiceProvider extends AbstractAdapterServiceProvider 
                                                                   LinksRewriter linksRewriter) {
         aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "ais"));
         return new DeutscheBankAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory,
             getInterceptors(aspsp, psuIdTypeHeaderInterceptor),
             linksRewriter,
-            psuPasswordEncryptionService,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            psuPasswordEncryptionService);
     }
 
     @Override
@@ -63,10 +62,9 @@ public class DeutscheBankServiceProvider extends AbstractAdapterServiceProvider 
                                                                 LinksRewriter linksRewriter) {
         aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "pis"));
         return new DeutscheBankPaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory,
             getInterceptors(aspsp, psuIdTypeHeaderInterceptor),
-            linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            linksRewriter);
     }
 
     @Override

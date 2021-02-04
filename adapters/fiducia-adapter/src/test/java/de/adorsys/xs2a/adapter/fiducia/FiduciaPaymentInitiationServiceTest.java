@@ -5,6 +5,8 @@ import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpClient.ResponseHandler;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.fiducia.model.FiduciaDayOfExecution;
@@ -23,16 +25,25 @@ import java.io.ByteArrayInputStream;
 
 import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 class FiduciaPaymentInitiationServiceTest {
     private FiduciaPaymentInitiationService fiduciaPaymentInitiationService;
     private HttpClient httpClient;
+    private HttpClientFactory httpClientFactory;
+    private HttpClientConfig httpClientConfig;
 
     @BeforeEach
     void setUp() {
-        httpClient = Mockito.spy(AbstractHttpClient.class);
+        httpClient = spy(AbstractHttpClient.class);
+        httpClientFactory = mock(HttpClientFactory.class);
+        httpClientConfig = mock(HttpClientConfig.class);
+
+        when(httpClientFactory.getHttpClient(any())).thenReturn(httpClient);
+        when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+
         fiduciaPaymentInitiationService =
-            new FiduciaPaymentInitiationService(new Aspsp(), httpClient, null, new IdentityLinksRewriter(), null);
+            new FiduciaPaymentInitiationService(new Aspsp(), httpClientFactory, null, new IdentityLinksRewriter());
     }
 
     @Test

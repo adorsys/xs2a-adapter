@@ -5,6 +5,8 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.api.validation.RequestValidationException;
 import de.adorsys.xs2a.adapter.impl.http.AbstractHttpClient;
@@ -21,19 +23,25 @@ import java.util.Map;
 import static java.util.Collections.singletonMap;
 import static org.apache.http.protocol.HTTP.DATE_HEADER;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class FiduciaAccountInformationServiceTest {
     private static final String ACCOUNT_ID = "1234567890";
     private static final String UNSUPPORTED_BOOKING_STATUS = "unsupported";
-    private static final String SUPPORTED_BOOKING_STATUS = "booked";
 
-    private HttpClient httpClient;
+    private final HttpClient httpClient = Mockito.spy(AbstractHttpClient.class);
+    private final HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
+    private final HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
     private FiduciaAccountInformationService service;
 
     @BeforeEach
     void setUp() {
-        httpClient = Mockito.spy(AbstractHttpClient.class);
-        service = new FiduciaAccountInformationService(new Aspsp(), httpClient, null, new IdentityLinksRewriter(), null);
+        when(httpClientFactory.getHttpClient(any())).thenReturn(httpClient);
+        when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+
+        service = new FiduciaAccountInformationService(new Aspsp(), httpClientFactory, null, new IdentityLinksRewriter());
     }
 
     @Test

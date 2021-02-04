@@ -5,6 +5,8 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
@@ -35,14 +37,19 @@ class UnicreditPaymentInitiationServiceTest {
     private static final String TPP_REDIRECT_URI = "http://example.com";
     private static final String POST_METHOD = "POST";
     private HttpClient httpClient;
-    private LinksRewriter linksRewriter;
     private UnicreditPaymentInitiationService paymentInitiationService;
 
     @BeforeEach
     void setUp() {
         httpClient = mock(HttpClient.class);
-        linksRewriter = mock(LinksRewriter.class);
-        paymentInitiationService = new UnicreditPaymentInitiationService(ASPSP, httpClient, linksRewriter, null);
+        LinksRewriter linksRewriter = mock(LinksRewriter.class);
+        HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
+        HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
+
+        when(httpClientFactory.getHttpClient(any())).thenReturn(httpClient);
+        when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+
+        paymentInitiationService = new UnicreditPaymentInitiationService(ASPSP, httpClientFactory, linksRewriter);
     }
 
     @Test

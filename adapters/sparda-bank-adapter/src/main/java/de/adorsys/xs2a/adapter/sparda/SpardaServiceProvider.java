@@ -39,10 +39,9 @@ public class SpardaServiceProvider extends AbstractAdapterServiceProvider implem
                                                                   HttpClientFactory httpClientFactory,
                                                                   LinksRewriter linksRewriter) {
         return new SpardaAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory,
             linksRewriter,
-            JWT_SERVICE,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            JWT_SERVICE);
     }
 
     @Override
@@ -58,10 +57,9 @@ public class SpardaServiceProvider extends AbstractAdapterServiceProvider implem
                                                                 HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
         return new SpardaPaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory,
             linksRewriter,
-            JWT_SERVICE,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            JWT_SERVICE);
     }
 
     @Override
@@ -73,10 +71,8 @@ public class SpardaServiceProvider extends AbstractAdapterServiceProvider implem
     public Oauth2Service getOauth2Service(Aspsp aspsp,
                                           HttpClientFactory httpClientFactory) {
         return SpardaOauth2Service.create(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            httpClientFactory.getHttpClientConfig().getKeyStore(),
-            AdapterConfig.readProperty("sparda.client_id"),
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory,
+            AdapterConfig.readProperty("sparda.client_id"));
     }
 
     @Override
