@@ -56,8 +56,8 @@ class AdorsysAccountInformationServiceWireMockTest {
     private ResourceReader reader = JsonReader.getInstance(objectMapper);
     private static AdorsysAccountInformationService service;
     private static WireMockServer wireMockServer;
-    private final static HttpClientFactory httpClientFactory = Mockito.mock(HttpClientFactory.class);
-    private final static HttpClientConfig httpClientConfig = Mockito.mock(HttpClientConfig.class);
+    private static final HttpClientFactory httpClientFactory = Mockito.mock(HttpClientFactory.class);
+    private static final HttpClientConfig httpClientConfig = Mockito.mock(HttpClientConfig.class);
 
     @BeforeAll
     static void beforeAll() {

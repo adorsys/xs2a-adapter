@@ -28,7 +28,7 @@ class CrealogixServiceProviderTest {
     @Test
     void getAccountInformationService() {
         AccountInformationService actualService =
-            serviceProvider.getAccountInformationService(null, clientFactory, null);
+            serviceProvider.getAccountInformationService(aspsp, clientFactory, null);
 
         assertThat(actualService)
             .isNotNull()
