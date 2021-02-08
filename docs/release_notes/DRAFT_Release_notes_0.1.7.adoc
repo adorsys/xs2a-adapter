@@ -12,6 +12,8 @@ and PSD2-AUTHORIZATION headers.
 JSON is the only value the ASPSP is expecting in Accept header as for now.
 Adapter will tolerate _text/plain_ as this is the only expected value in the ASPSP Sandbox environment.
 A client will want to provide _text/plain_ intentionally to communicate with the Sandbox.
+- for `crealogix-adapter`: PaymentInitiationService has the same behavior as AcountInformationService now - an Authorization
+header, made by the Adapter, is decoded and replaced with new Authorization and PSD2-AUTHORIZATION headers with revealed values.
 
 == Features:
 

@@ -48,15 +48,17 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                                         RequestHeaders requestHeaders,
                                                                         RequestParams requestParams,
                                                                         Object body) {
-        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
-
         return super.initiatePayment(paymentService,
             paymentProduct,
             body,
-            requestHeaders,
+            requestHandler(requestHeaders),
             requestParams,
             identity(),
             requestResponseHandlers.crealogixResponseHandler(PaymentInitationRequestResponse201.class));
+    }
+
+    private RequestHeaders requestHandler(RequestHeaders requestHeaders) {
+        return requestResponseHandlers.crealogixRequestHandler(requestHeaders);
     }
 
     @Override
@@ -64,12 +66,10 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                                                      String paymentId,
                                                                                      RequestHeaders requestHeaders,
                                                                                      RequestParams requestParams) {
-        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
-
         return super.getPaymentInformation(PaymentService.PAYMENTS,
             paymentProduct,
             paymentId,
-            requestHeaders,
+            requestHandler(requestHeaders),
             requestParams,
             requestResponseHandlers.jsonResponseHandler(CrealogixPaymentInitiationWithStatusResponse.class))
                 .map(mapper::toPaymentInitiationWithStatusResponse);
@@ -80,9 +80,8 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                                                                String paymentId,
                                                                                                RequestHeaders requestHeaders,
                                                                                                RequestParams requestParams) {
-        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
 
-        return super.getPeriodicPaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams);
+        return super.getPeriodicPaymentInformation(paymentProduct, paymentId, requestHandler(requestHeaders), requestParams);
     }
 
     @Override
@@ -90,9 +89,8 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                                                                  String paymentId,
                                                                                                  RequestHeaders requestHeaders,
                                                                                                  RequestParams requestParams) {
-        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
 
-        return super.getPeriodicPain001PaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams);
+        return super.getPeriodicPain001PaymentInformation(paymentProduct, paymentId, requestHandler(requestHeaders), requestParams);
     }
 
     @Override
@@ -101,9 +99,12 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                           String paymentId,
                                                           RequestHeaders requestHeaders,
                                                           RequestParams requestParams) {
-        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
 
-        return super.getPaymentInformationAsString(paymentService, paymentProduct, paymentId, requestHeaders, requestParams);
+        return super.getPaymentInformationAsString(paymentService,
+            paymentProduct,
+            paymentId,
+            requestHandler(requestHeaders),
+            requestParams);
     }
 
     @Override
@@ -113,13 +114,12 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                                      String authorisationId,
                                                                      RequestHeaders requestHeaders,
                                                                      RequestParams requestParams) {
-        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
 
         return super.getPaymentInitiationScaStatus(paymentService,
             paymentProduct,
             paymentId,
             authorisationId,
-            requestHeaders,
+            requestHandler(requestHeaders),
             requestParams);
     }
 
@@ -129,9 +129,12 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                                                        String paymentId,
                                                                                        RequestHeaders requestHeaders,
                                                                                        RequestParams requestParams) {
-        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
 
-        return super.getPaymentInitiationStatus(paymentService, paymentProduct, paymentId, requestHeaders, requestParams);
+        return super.getPaymentInitiationStatus(paymentService,
+            paymentProduct,
+            paymentId,
+            requestHandler(requestHeaders),
+            requestParams);
     }
 
     @Override
@@ -140,9 +143,12 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                                String paymentId,
                                                                RequestHeaders requestHeaders,
                                                                RequestParams requestParams) {
-        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
 
-        return super.getPaymentInitiationStatusAsString(paymentService, paymentProduct, paymentId, requestHeaders, requestParams);
+        return super.getPaymentInitiationStatusAsString(paymentService,
+            paymentProduct,
+            paymentId,
+            requestHandler(requestHeaders),
+            requestParams);
     }
 
     @Override
@@ -151,9 +157,12 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                                       String paymentId,
                                                                       RequestHeaders requestHeaders,
                                                                       RequestParams requestParams) {
-        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
 
-        return super.getPaymentInitiationAuthorisation(paymentService, paymentProduct, paymentId, requestHeaders, requestParams);
+        return super.getPaymentInitiationAuthorisation(paymentService,
+            paymentProduct,
+            paymentId,
+            requestHandler(requestHeaders),
+            requestParams);
     }
 
     @Override
@@ -162,9 +171,12 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                                        String paymentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams) {
-        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
 
-        return super.startPaymentAuthorisation(paymentService, paymentProduct, paymentId, requestHeaders, requestParams);
+        return super.startPaymentAuthorisation(paymentService,
+            paymentProduct,
+            paymentId,
+            requestHandler(requestHeaders),
+            requestParams);
     }
 
     @Override
@@ -174,12 +186,11 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams,
                                                                        UpdatePsuAuthentication updatePsuAuthentication) {
-        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
 
         return super.startPaymentAuthorisation(paymentService,
             paymentProduct,
             paymentId,
-            requestHeaders,
+            requestHandler(requestHeaders),
             requestParams,
             updatePsuAuthentication);
     }
@@ -192,13 +203,12 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                                           RequestHeaders requestHeaders,
                                                                           RequestParams requestParams,
                                                                           UpdatePsuAuthentication updatePsuAuthentication) {
-        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
 
         return super.updatePaymentPsuData(paymentService,
             paymentProduct,
             paymentId,
             authorisationId,
-            requestHeaders,
+            requestHandler(requestHeaders),
             requestParams,
             updatePsuAuthentication);
     }
@@ -211,13 +221,12 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                                                 RequestHeaders requestHeaders,
                                                                                 RequestParams requestParams,
                                                                                 SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
-        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
 
         return super.updatePaymentPsuData(paymentService,
             paymentProduct,
             paymentId,
             authorisationId,
-            requestHeaders,
+            requestHandler(requestHeaders),
             requestParams,
             selectPsuAuthenticationMethod);
     }
@@ -230,13 +239,12 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
                                                             RequestHeaders requestHeaders,
                                                             RequestParams requestParams,
                                                             TransactionAuthorisation transactionAuthorisation) {
-        requestResponseHandlers.crealogixRequestHandler(requestHeaders);
 
         return super.updatePaymentPsuData(paymentService,
             paymentProduct,
             paymentId,
             authorisationId,
-            requestHeaders,
+            requestHandler(requestHeaders),
             requestParams,
             transactionAuthorisation);
     }
