@@ -38,10 +38,9 @@ public class ConsorsServiceProvider extends AbstractAdapterServiceProvider {
                                                                   HttpClientFactory httpClientFactory,
                                                                   LinksRewriter linksRewriter) {
         return new ConsorsAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory,
             getInterceptors(aspsp, psuIdHeaderInterceptor),
-            linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            linksRewriter);
     }
 
     @Override
@@ -57,9 +56,8 @@ public class ConsorsServiceProvider extends AbstractAdapterServiceProvider {
                                                                 HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
         return new ConsorsPaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory,
+            linksRewriter);
     }
 
     @Override

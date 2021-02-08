@@ -37,9 +37,8 @@ public class DkbServiceProvider extends AbstractAdapterServiceProvider implement
                                                                   HttpClientFactory httpClientFactory,
                                                                   LinksRewriter linksRewriter) {
         return new CrealogixAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory,
+            linksRewriter);
     }
 
     @Override
@@ -55,9 +54,8 @@ public class DkbServiceProvider extends AbstractAdapterServiceProvider implement
                                                                 HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
         return new CrealogixPaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory,
+            linksRewriter);
     }
 
     @Override

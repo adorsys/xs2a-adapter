@@ -5,10 +5,13 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
@@ -27,10 +30,13 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ConsorsPaymentInitiationServiceTest {
 
-    @InjectMocks
     private ConsorsPaymentInitiationService service;
     @Mock
     private HttpClient client;
+    @Mock
+    private HttpClientFactory httpClientFactory;
+    @Mock
+    private HttpClientConfig httpClientConfig;
     @Mock
     private LinksRewriter rewriter;
     @Spy
@@ -38,6 +44,14 @@ class ConsorsPaymentInitiationServiceTest {
 
     @Captor
     private ArgumentCaptor<Request.Builder> builderCaptor;
+
+    @BeforeEach
+    void setUp() {
+        when(httpClientFactory.getHttpClient(any())).thenReturn(client);
+        when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+
+        service = new ConsorsPaymentInitiationService(aspsp, httpClientFactory, rewriter);
+    }
 
     @Test
     void initiatePayment_noPsuId() {

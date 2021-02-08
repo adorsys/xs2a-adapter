@@ -79,10 +79,9 @@ public class AdorsysIntegServiceProvider extends AbstractAdapterServiceProvider 
                                                                   LinksRewriter linksRewriter) {
         HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new AdorsysAccountInformationService(aspsp,
-                                                    httpClientFactory.getHttpClient(getAdapterId()),
+                                                    httpClientFactory,
                                                     getInterceptors(aspsp, getInterceptors(config.getKeyStore())),
-                                                    linksRewriter,
-                                                    config.getLogSanitizer());
+                                                    linksRewriter);
     }
 
     @Override
@@ -94,9 +93,9 @@ public class AdorsysIntegServiceProvider extends AbstractAdapterServiceProvider 
     public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
         HttpClientConfig config = httpClientFactory.getHttpClientConfig();
-        return new AdorsysIntegOauth2Service(aspsp, httpClient,
-                                             new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class, config.getLogSanitizer()),
-                                             config.getLogSanitizer());
+        return new AdorsysIntegOauth2Service(aspsp,
+                                             httpClientFactory,
+                                             new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class, config.getLogSanitizer()));
     }
 
     @Override

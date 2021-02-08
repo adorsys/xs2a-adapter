@@ -40,10 +40,9 @@ public class FiduciaServiceProvider extends AbstractAdapterServiceProvider {
                                                                   LinksRewriter linksRewriter) {
         HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new FiduciaAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory,
             getInterceptors(aspsp, new RequestSigningInterceptor(config.getKeyStore())),
-            linksRewriter,
-            config.getLogSanitizer());
+            linksRewriter);
     }
 
     @Override
@@ -60,10 +59,9 @@ public class FiduciaServiceProvider extends AbstractAdapterServiceProvider {
                                                                 LinksRewriter linksRewriter) {
         HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new FiduciaPaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory,
             getInterceptors(aspsp, new RequestSigningInterceptor(config.getKeyStore())),
-            linksRewriter,
-            config.getLogSanitizer());
+            linksRewriter);
     }
 
     @Override

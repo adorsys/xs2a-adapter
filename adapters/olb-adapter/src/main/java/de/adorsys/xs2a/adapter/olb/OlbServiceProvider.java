@@ -22,9 +22,8 @@ public class OlbServiceProvider extends AbstractAdapterServiceProvider {
                                                                   HttpClientFactory httpClientFactory,
                                                                   LinksRewriter linksRewriter) {
         return new OlbAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory,
+            linksRewriter);
     }
 
     @Override
