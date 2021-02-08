@@ -5,15 +5,17 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
 import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
 import org.assertj.core.api.InstanceOfAssertFactories;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -31,7 +33,6 @@ class OlbAccountInformationServiceTest {
     private static final String ACCOUNT_ID = "accountId";
     private static final String REMITTANCE_INFORMATION_STRUCTURED = "remittanceInformationStructuredStringValue";
 
-    @InjectMocks
     private OlbAccountInformationService accountInformationService;
     @Mock
     private HttpClient httpClient;
@@ -39,6 +40,18 @@ class OlbAccountInformationServiceTest {
     private Aspsp aspsp;
     @Mock
     private LinksRewriter linksRewriter;
+    @Mock
+    private HttpClientFactory httpClientFactory;
+    @Mock
+    private HttpClientConfig httpClientConfig;
+
+    @BeforeEach
+    void setUp() {
+        when(httpClientFactory.getHttpClient(any())).thenReturn(httpClient);
+        when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+
+        accountInformationService = new OlbAccountInformationService(aspsp, httpClientFactory, linksRewriter);
+    }
 
     @Test
     void getTransactionList() {

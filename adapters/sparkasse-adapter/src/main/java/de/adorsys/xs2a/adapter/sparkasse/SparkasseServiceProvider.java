@@ -37,9 +37,8 @@ public class SparkasseServiceProvider extends AbstractAdapterServiceProvider imp
                                                                   HttpClientFactory httpClientFactory,
                                                                   LinksRewriter linksRewriter) {
         return new SparkasseAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory,
+            linksRewriter);
     }
 
     @Override
@@ -55,9 +54,8 @@ public class SparkasseServiceProvider extends AbstractAdapterServiceProvider imp
                                                                 HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
         return new SparkassePaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory,
+            linksRewriter);
     }
 
     @Override
@@ -68,10 +66,7 @@ public class SparkasseServiceProvider extends AbstractAdapterServiceProvider imp
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp,
                                           HttpClientFactory httpClientFactory) {
-        return SparkasseOauth2Service.create(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            httpClientFactory.getHttpClientConfig().getKeyStore(),
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+        return SparkasseOauth2Service.create(aspsp, httpClientFactory);
     }
 
     @Override

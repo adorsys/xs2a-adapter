@@ -16,8 +16,7 @@
 
 package de.adorsys.xs2a.adapter.verlag;
 
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
@@ -29,15 +28,18 @@ import java.util.Map;
 
 public class VerlagPaymentInitiationService extends BasePaymentInitiationService {
 
-    private AbstractMap.SimpleImmutableEntry<String, String> apiKey;
+    private final AbstractMap.SimpleImmutableEntry<String, String> apiKey;
 
     public VerlagPaymentInitiationService(Aspsp aspsp,
                                           AbstractMap.SimpleImmutableEntry<String, String> apiKey,
-                                          HttpClient httpClient,
+                                          HttpClientFactory httpClientFactory,
                                           List<Interceptor> interceptors,
-                                          LinksRewriter linksRewriter,
-                                          HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
+                                          LinksRewriter linksRewriter) {
+        super(aspsp,
+            httpClientFactory.getHttpClient(aspsp.getAdapterId(), null, VerlagServiceProvider.SUPPORTED_CIPHER_SUITES),
+            interceptors,
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
         this.apiKey = apiKey;
     }
 

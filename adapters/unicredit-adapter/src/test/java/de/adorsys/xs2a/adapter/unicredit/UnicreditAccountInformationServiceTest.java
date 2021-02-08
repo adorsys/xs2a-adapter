@@ -5,6 +5,8 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
@@ -38,15 +40,18 @@ class UnicreditAccountInformationServiceTest {
     private static final String TPP_REDIRECT_URI = "http://example.com";
     private static final String ACCOUNT_ID = "accountId";
     private static final String REMITTANCE_INFORMATION_STRUCTURED = "remittanceInformationStructuredStringValue";
-    private HttpClient httpClient;
-    private LinksRewriter linksRewriter;
+    private final HttpClient httpClient = mock(HttpClient.class);
+    private final LinksRewriter linksRewriter = mock(LinksRewriter.class);
+    private final HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
+    private final HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
     private UnicreditAccountInformationService accountInformationService;
 
     @BeforeEach
     void setUp() {
-        httpClient = mock(HttpClient.class);
-        linksRewriter = mock(LinksRewriter.class);
-        accountInformationService = new UnicreditAccountInformationService(ASPSP, httpClient, linksRewriter, null);
+        when(httpClientFactory.getHttpClient(any())).thenReturn(httpClient);
+        when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+
+        accountInformationService = new UnicreditAccountInformationService(ASPSP, httpClientFactory, linksRewriter);
     }
 
     @Test

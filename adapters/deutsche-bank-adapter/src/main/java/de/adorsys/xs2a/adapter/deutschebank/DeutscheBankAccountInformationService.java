@@ -20,10 +20,7 @@ import de.adorsys.xs2a.adapter.api.PsuPasswordEncryptionService;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
-import de.adorsys.xs2a.adapter.api.http.ContentType;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
-import de.adorsys.xs2a.adapter.api.http.Interceptor;
+import de.adorsys.xs2a.adapter.api.http.*;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.deutschebank.model.DeutscheBankOK200TransactionDetails;
@@ -44,12 +41,15 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
     private final PsuPasswordEncryptionService psuPasswordEncryptionService;
 
     public DeutscheBankAccountInformationService(Aspsp aspsp,
-                                                 HttpClient httpClient,
+                                                 HttpClientFactory httpClientFactory,
                                                  List<Interceptor> interceptors,
                                                  LinksRewriter linksRewriter,
-                                                 PsuPasswordEncryptionService psuPasswordEncryptionService,
-                                                 HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
+                                                 PsuPasswordEncryptionService psuPasswordEncryptionService) {
+        super(aspsp,
+            httpClientFactory.getHttpClient(aspsp.getAdapterId()),
+            interceptors,
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
         this.psuPasswordEncryptionService = psuPasswordEncryptionService;
     }
 

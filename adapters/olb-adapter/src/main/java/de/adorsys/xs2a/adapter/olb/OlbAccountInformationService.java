@@ -3,8 +3,7 @@ package de.adorsys.xs2a.adapter.olb;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
@@ -19,10 +18,12 @@ public class OlbAccountInformationService extends BaseAccountInformationService 
     private final OlbMapper olbMapper = Mappers.getMapper(OlbMapper.class);
 
     public OlbAccountInformationService(Aspsp aspsp,
-                                        HttpClient httpClient,
-                                        LinksRewriter linksRewriter,
-                                        HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, linksRewriter, logSanitizer);
+                                        HttpClientFactory httpClientFactory,
+                                        LinksRewriter linksRewriter) {
+        super(aspsp,
+            httpClientFactory.getHttpClient(aspsp.getAdapterId()),
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

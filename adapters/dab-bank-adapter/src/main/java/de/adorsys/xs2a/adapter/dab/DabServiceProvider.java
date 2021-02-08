@@ -37,10 +37,9 @@ public class DabServiceProvider extends AbstractAdapterServiceProvider {
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   LinksRewriter linksRewriter) {
-        return new DavAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+        return new DabAccountInformationService(aspsp,
+            httpClientFactory,
+            linksRewriter);
     }
 
     @Override

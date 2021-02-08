@@ -4,6 +4,8 @@ import de.adorsys.xs2a.adapter.api.Oauth2Service;
 import de.adorsys.xs2a.adapter.api.PkceOauth2Extension;
 import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
@@ -31,7 +33,12 @@ public class CommerzbankOauth2Service extends Oauth2ServiceDecorator implements 
         this.baseUrl = baseUrl;
     }
 
-    public static CommerzbankOauth2Service create(Aspsp aspsp, HttpClient httpClient, Pkcs12KeyStore keyStore, HttpLogSanitizer logSanitizer) {
+    public static CommerzbankOauth2Service create(Aspsp aspsp, HttpClientFactory httpClientFactory) {
+        HttpClient httpClient = httpClientFactory.getHttpClient(aspsp.getAdapterId());
+        HttpClientConfig httpClientConfig = httpClientFactory.getHttpClientConfig();
+        HttpLogSanitizer logSanitizer = httpClientConfig.getLogSanitizer();
+        Pkcs12KeyStore keyStore = httpClientConfig.getKeyStore();
+
         String baseUrl = aspsp.getIdpUrl() != null ? aspsp.getIdpUrl() : aspsp.getUrl();
         BaseOauth2Service baseOauth2Service = new BaseOauth2Service(aspsp, httpClient, logSanitizer);
         CertificateSubjectClientIdOauth2Service clientIdOauth2Service =

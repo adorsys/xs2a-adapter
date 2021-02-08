@@ -30,7 +30,7 @@ public class VerlagServiceProvider extends AbstractAdapterServiceProvider implem
 
     private static final String VERLAG_API_KEY_NAME = "verlag.apikey.name";
     private static final String VERLAG_API_KEY_VALUE = "verlag.apikey.value";
-    private static final String[] SUPPORTED_CIPHER_SUITES =
+    static final String[] SUPPORTED_CIPHER_SUITES =
         {"TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384", "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"};
 
     private static final AbstractMap.SimpleImmutableEntry<String, String> apiKeyEntry;
@@ -56,10 +56,9 @@ public class VerlagServiceProvider extends AbstractAdapterServiceProvider implem
                                                                   LinksRewriter linksRewriter) {
         return new VerlagAccountInformationService(aspsp,
                                                    apiKeyEntry,
-                                                   httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
+                                                   httpClientFactory,
                                                    getInterceptors(aspsp, psuIdTypeHeaderInterceptor),
-                                                   linksRewriter,
-                                                   httpClientFactory.getHttpClientConfig().getLogSanitizer());
+                                                   linksRewriter);
     }
 
     @Override
@@ -76,10 +75,9 @@ public class VerlagServiceProvider extends AbstractAdapterServiceProvider implem
                                                                 LinksRewriter linksRewriter) {
         return new VerlagPaymentInitiationService(aspsp,
                                                   apiKeyEntry,
-                                                  httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
+                                                  httpClientFactory,
                                                   getInterceptors(aspsp, psuIdTypeHeaderInterceptor),
-                                                  linksRewriter,
-                                                  httpClientFactory.getHttpClientConfig().getLogSanitizer());
+                                                  linksRewriter);
     }
 
     @Override

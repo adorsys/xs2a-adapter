@@ -6,13 +6,14 @@ import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 import java.io.IOException;
@@ -23,6 +24,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.*;
 
 class CommerzbankOauth2ServiceTest {
     private static final String ORG_ID = "PSDDE-BAFIN-999999";
@@ -37,27 +41,31 @@ class CommerzbankOauth2ServiceTest {
     private static final String AUTHORIZATION_CODE = "authorization-code";
 
 
-    private Aspsp aspsp;
     private HttpClient httpClient;
-    private Pkcs12KeyStore keyStore;
     private CommerzbankOauth2Service oauth2Service;
 
     @BeforeEach
     void setUp() throws Exception {
-        aspsp = new Aspsp();
+        Aspsp aspsp = new Aspsp();
         aspsp.setUrl(BASE_URL);
 
-        httpClient = Mockito.spy(new ApacheHttpClient(null, null));
-        Mockito.doReturn(authorizationServerMetadata())
-            .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(SCA_OAUTH_LINK)), Mockito.any());
-        Mockito.doReturn(new Response<>(200, new TokenResponse(), ResponseHeaders.emptyResponseHeaders()))
-            .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), Mockito.any());
+        httpClient = spy(new ApacheHttpClient(null, null));
+        doReturn(authorizationServerMetadata())
+            .when(httpClient).send(argThat(req -> req.uri().equals(SCA_OAUTH_LINK)), any());
+        doReturn(new Response<>(200, new TokenResponse(), ResponseHeaders.emptyResponseHeaders()))
+            .when(httpClient).send(argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), any());
 
-        keyStore = Mockito.mock(Pkcs12KeyStore.class);
-        Mockito.when(keyStore.getOrganizationIdentifier())
+        Pkcs12KeyStore keyStore = mock(Pkcs12KeyStore.class);
+        when(keyStore.getOrganizationIdentifier())
             .thenReturn(ORG_ID);
 
-        oauth2Service = CommerzbankOauth2Service.create(aspsp, httpClient, keyStore, null);
+        HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
+        HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
+        when(httpClientFactory.getHttpClient(any())).thenReturn(httpClient);
+        when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+        when(httpClientConfig.getKeyStore()).thenReturn(keyStore);
+
+        oauth2Service = CommerzbankOauth2Service.create(aspsp, httpClientFactory);
     }
 
     private Response<AuthorisationServerMetaData> authorizationServerMetadata() {
@@ -122,12 +130,12 @@ class CommerzbankOauth2ServiceTest {
         expectedBody.put(Parameters.CLIENT_ID, ORG_ID);
         expectedBody.put(Parameters.REDIRECT_URI, REDIRECT_URI);
         expectedBody.put(Parameters.CODE_VERIFIER, oauth2Service.codeVerifier());
-        Mockito.verify(httpClient, Mockito.times(1)).send(ArgumentMatchers.argThat(req -> {
+        Mockito.verify(httpClient, Mockito.times(1)).send(argThat(req -> {
             boolean tokenExchange = req.uri().equals(TOKEN_ENDPOINT);
             if (tokenExchange) {
                 assertEquals(expectedBody, req.urlEncodedBody());
             }
             return tokenExchange;
-        }), Mockito.any());
+        }), any());
     }
 }

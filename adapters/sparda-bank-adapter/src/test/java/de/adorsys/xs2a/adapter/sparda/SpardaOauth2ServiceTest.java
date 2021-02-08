@@ -5,6 +5,8 @@ import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.Scope;
 import de.adorsys.xs2a.adapter.api.validation.ValidationError;
@@ -27,6 +29,8 @@ import static de.adorsys.xs2a.adapter.api.Oauth2Service.GrantType.REFRESH_TOKEN;
 import static de.adorsys.xs2a.adapter.sparda.SpardaOauth2Service.UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 class SpardaOauth2ServiceTest {
     public static final String BIC = "GENODEF1S08";
@@ -42,16 +46,23 @@ class SpardaOauth2ServiceTest {
     private HttpClient httpClient;
     private Aspsp aspsp;
 
+    private final HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
+    private final HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
+
     @BeforeEach
     void setUp() {
         aspsp = new Aspsp();
         aspsp.setBic(BIC);
         aspsp.setIdpUrl(AUTH_HOST + " " + TOKEN_HOST);
-        httpClient = Mockito.spy(new ApacheHttpClient(null, null));
+        httpClient = spy(new ApacheHttpClient(null, null));
         Mockito.lenient()
             .doReturn(new Response<>(200, null, ResponseHeaders.emptyResponseHeaders()))
-            .when(httpClient).send(Mockito.any(), Mockito.any());
-        oauth2Service = SpardaOauth2Service.create(aspsp, httpClient, null, CLIENT_ID, null);
+            .when(httpClient).send(any(), any());
+
+        when(httpClientFactory.getHttpClient(any())).thenReturn(httpClient);
+        when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+
+        oauth2Service = SpardaOauth2Service.create(aspsp, httpClientFactory, CLIENT_ID);
     }
 
     @Test
@@ -145,7 +156,7 @@ class SpardaOauth2ServiceTest {
                     }
                     return tokenExchange;
                 }),
-                Mockito.any());
+                any());
     }
 
     @Test
@@ -169,7 +180,7 @@ class SpardaOauth2ServiceTest {
                     }
                     return tokenExchange;
                 }),
-                Mockito.any());
+                any());
     }
 
     @Test
@@ -191,7 +202,9 @@ class SpardaOauth2ServiceTest {
     @Test
     void clientIdFromCertificateIsUsedWhenNullIsPassedIn() throws Exception {
         Pkcs12KeyStore keyStore = Mockito.mock(Pkcs12KeyStore.class);
-        oauth2Service = SpardaOauth2Service.create(aspsp, null, keyStore, null, null);
+        when(httpClientConfig.getKeyStore()).thenReturn(keyStore);
+
+        oauth2Service = SpardaOauth2Service.create(aspsp, httpClientFactory, null);
         Parameters parameters = new Parameters();
         parameters.setRedirectUri(REDIRECT_URI);
         parameters.setScope(SCOPE);
