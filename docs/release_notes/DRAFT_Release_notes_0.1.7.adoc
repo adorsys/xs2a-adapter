@@ -14,6 +14,8 @@ Adapter will tolerate _text/plain_ as this is the only expected value in the ASP
 A client will want to provide _text/plain_ intentionally to communicate with the Sandbox.
 - changes in `adapters` package: creating `HttpClient's` will be performed within corresponding adapter AIS, PIS, OAuth2, etc.
 services instead of service providers.
+- for `crealogix-adapter`: PaymentInitiationService has the same behavior as AcountInformationService now - an Authorization
+header, made by the Adapter, is decoded and replaced with new Authorization and PSD2-AUTHORIZATION headers with revealed values.
 
 == Features:
 
