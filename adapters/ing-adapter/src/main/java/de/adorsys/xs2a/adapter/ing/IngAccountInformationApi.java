@@ -32,10 +32,8 @@ public class IngAccountInformationApi {
         this.handlers = new ResponseHandlers(logSanitizer);
     }
 
-    public Response<IngAccountsResponse> getAccounts(String requestId, Interceptor clientAuthentication) {
-        return httpClient.get(baseUri + ACCOUNTS_ENDPOINT)
-                   .header(RequestHeaders.X_REQUEST_ID, requestId)
-                   .send(clientAuthentication, handlers.jsonResponseHandler(IngAccountsResponse.class));
+    public Response<IngAccountsResponse> getAccounts(String requestId, List<Interceptor> interceptors) {
+        return getResponse(baseUri + ACCOUNTS_ENDPOINT, requestId, interceptors, IngAccountsResponse.class);
     }
 
     public Response<IngTransactionsResponse> getTransactions(String resourceId,
@@ -44,7 +42,7 @@ public class IngAccountInformationApi {
                                                              Currency currency,
                                                              Integer limit,
                                                              String requestId,
-                                                             Interceptor clientAuthentication) {
+                                                             List<Interceptor> interceptors) {
         Map<String, Object> queryParams = new LinkedHashMap<>();
         queryParams.put("dateFrom", dateFrom);
         queryParams.put("dateTo", dateTo);
@@ -55,9 +53,7 @@ public class IngAccountInformationApi {
             queryParams
         );
 
-        return httpClient.get(uri)
-                   .header(RequestHeaders.X_REQUEST_ID, requestId)
-                   .send(clientAuthentication, handlers.jsonResponseHandler(IngTransactionsResponse.class));
+        return getResponse(uri, requestId, interceptors, IngTransactionsResponse.class);
     }
 
     /**
@@ -70,27 +66,24 @@ public class IngAccountInformationApi {
                                                      List<String> balanceTypes,
                                                      Currency currency,
                                                      String requestId,
-                                                     Interceptor clientAuthentication) {
+                                                     List<Interceptor> interceptors) {
         Map<String, Object> queryParams = new LinkedHashMap<>();
-        queryParams.put("balanceTypes", balanceTypes == null ? null : String.join(",", balanceTypes));
+        queryParams.put("balanceTypes", balanceTypes.isEmpty() ? null : String.join(",", balanceTypes));
         queryParams.put("currency", currency);
         String uri = StringUri.withQuery(
             baseUri + BALANCES_ENDPOINT.replace(ACCOUNT_ID_PLACEHOLDER, Objects.requireNonNull(resourceId)),
             queryParams
         );
 
-        return httpClient.get(uri)
-                   .header(RequestHeaders.X_REQUEST_ID, requestId)
-                   .send(clientAuthentication, handlers.jsonResponseHandler(IngBalancesResponse.class));
+        return getResponse(uri, requestId, interceptors, IngBalancesResponse.class);
     }
 
-    public Response<CardAccountsTransactionsResponse200> getCardAccountTransactions(
-        String accountId,
-        LocalDate dateFrom,
-        LocalDate dateTo,
-        Integer limit,
-        String requestId,
-        Interceptor clientAuthentication) {
+    public Response<CardAccountsTransactionsResponse200> getCardAccountTransactions(String accountId,
+                                                                                    LocalDate dateFrom,
+                                                                                    LocalDate dateTo,
+                                                                                    Integer limit,
+                                                                                    String requestId,
+                                                                                    List<Interceptor> interceptors) {
 
         Map<String, Object> queryParams = new LinkedHashMap<>();
         queryParams.put("dateFrom", dateFrom);
@@ -101,8 +94,15 @@ public class IngAccountInformationApi {
             queryParams
         );
 
-        return httpClient.get(uri)
-                   .header(RequestHeaders.X_REQUEST_ID, requestId)
-                   .send(clientAuthentication, handlers.jsonResponseHandler(CardAccountsTransactionsResponse200.class));
+        return getResponse(uri, requestId, interceptors, CardAccountsTransactionsResponse200.class);
+    }
+
+    private <T> Response<T> getResponse(String url,
+                                        String requestId,
+                                        List<Interceptor> interceptors,
+                                        Class<T> tClass) {
+        return httpClient.get(url)
+            .header(RequestHeaders.X_REQUEST_ID, requestId)
+            .send(handlers.jsonResponseHandler(tClass), interceptors);
     }
 }

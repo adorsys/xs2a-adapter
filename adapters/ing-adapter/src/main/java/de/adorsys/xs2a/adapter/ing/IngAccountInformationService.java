@@ -146,7 +146,7 @@ public class IngAccountInformationService implements AccountInformationService, 
             dateTo,
             limit,
             requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
-            clientAuthentication);
+            Collections.singletonList(clientAuthentication));
 
         // rewrite links
         CardAccountsTransactionsResponse200 body = response.getBody();
@@ -176,8 +176,9 @@ public class IngAccountInformationService implements AccountInformationService, 
         String accessToken = requestHeaders.getAccessToken().orElse(null);
         IngClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         String requestId = requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null);
-        Response<AccountList> response = accountInformationApi.getAccounts(requestId, clientAuthentication)
-            .map(mapper::map);
+        Response<AccountList> response
+            = accountInformationApi.getAccounts(requestId, Collections.singletonList(clientAuthentication))
+                .map(mapper::map);
 
         rewriteLinks(response.getBody());
         return response;
@@ -207,13 +208,13 @@ public class IngAccountInformationService implements AccountInformationService, 
             balanceTypes,
             currency,
             requestId,
-            clientAuthentication)
+            Collections.singletonList(clientAuthentication))
             .map(mapper::map);
     }
 
     private List<String> parseBalanceTypes(String value) {
         if (value == null) {
-            return null;
+            return Collections.emptyList();
         }
         return Arrays.stream(value.split(","))
             .collect(Collectors.toList());
@@ -236,7 +237,7 @@ public class IngAccountInformationService implements AccountInformationService, 
             currency,
             limit,
             requestId,
-            clientAuthentication)
+            Collections.singletonList(clientAuthentication))
             .map(mapper::map);
 
         rewriteLinks(response.getBody());
