@@ -1,8 +1,4 @@
-= Release notes for version 0.1.7 (release date: xx.02.2021)
-
-.Added banks
-|===
-|===
+= Release notes for version 0.1.7 (release date: 10.02.2021)
 
 == Notices:
 - for `crealogix-adapter`: extended logging if getToken request fails, all logs are sanitized.
@@ -18,8 +14,6 @@ services instead of service providers.
 header, made by the Adapter, is decoded and replaced with new Authorization and PSD2-AUTHORIZATION headers with revealed values.
 - for `ing-adapter`: refactored IngServiceProvider - encapsulated creation of HttpClient into a separate factory;
 updated ING API classes to use more recent versions of HttpClient.
-
-== Features:
 
 == Fixes:
 - fixed DKB `PSD2-AUTHORIZATION` header, it contains Base64 encoded value of `TPP-ID:TPP-SECRET` now
