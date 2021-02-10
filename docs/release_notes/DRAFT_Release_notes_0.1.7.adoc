@@ -16,6 +16,8 @@ A client will want to provide _text/plain_ intentionally to communicate with the
 services instead of service providers.
 - for `crealogix-adapter`: PaymentInitiationService has the same behavior as AcountInformationService now - an Authorization
 header, made by the Adapter, is decoded and replaced with new Authorization and PSD2-AUTHORIZATION headers with revealed values.
+- for `ing-adapter`: refactored IngServiceProvider - encapsulated creation of HttpClient into a separate factory;
+updated ING API classes to use more recent versions of HttpClient.
 
 == Features:
 

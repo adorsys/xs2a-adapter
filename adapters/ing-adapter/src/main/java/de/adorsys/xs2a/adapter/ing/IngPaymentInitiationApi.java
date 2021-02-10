@@ -11,6 +11,8 @@ import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import de.adorsys.xs2a.adapter.ing.model.*;
 
+import java.util.List;
+
 import static java.util.Objects.requireNonNull;
 
 // version: 1.1.12
@@ -35,7 +37,7 @@ public class IngPaymentInitiationApi {
                                                                   String requestId,
                                                                   String tppRedirectUri,
                                                                   String psuIpAddress,
-                                                                  Interceptor clientAuthentication,
+                                                                  List<Interceptor> interceptors,
                                                                   IngPaymentInstruction body) {
         String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString());
         return httpClient.post(uri)
@@ -43,40 +45,40 @@ public class IngPaymentInitiationApi {
                    .header(RequestHeaders.TPP_REDIRECT_URI, tppRedirectUri)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
                    .jsonBody(jsonMapper.writeValueAsString(body))
-                   .send(clientAuthentication, responseHandlers.jsonResponseHandler(IngPaymentInitiationResponse.class));
+                   .send(responseHandlers.jsonResponseHandler(IngPaymentInitiationResponse.class), interceptors);
     }
 
     public Response<IngPaymentInstruction> getPaymentDetails(IngPaymentProduct paymentProduct,
                                                              String paymentId,
                                                              String requestId,
                                                              String psuIpAddress,
-                                                             IngClientAuthentication clientAuthentication) {
+                                                             List<Interceptor> interceptors) {
         String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString(),
                                             requireNonNull(paymentId));
         return httpClient.get(uri)
                    .header(RequestHeaders.X_REQUEST_ID, requestId)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
-                   .send(clientAuthentication, responseHandlers.jsonResponseHandler(IngPaymentInstruction.class));
+                   .send(responseHandlers.jsonResponseHandler(IngPaymentInstruction.class), interceptors);
     }
 
     public Response<IngPaymentStatusResponse> getPaymentStatus(IngPaymentProduct paymentProduct,
                                                                String paymentId,
                                                                String requestId,
                                                                String psuIpAddress,
-                                                               IngClientAuthentication clientAuthentication) {
+                                                               List<Interceptor> interceptors) {
         String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString(),
                                             requireNonNull(paymentId), STATUS);
         return httpClient.get(uri)
                    .header(RequestHeaders.X_REQUEST_ID, requestId)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
-                   .send(clientAuthentication, responseHandlers.jsonResponseHandler(IngPaymentStatusResponse.class));
+                   .send(responseHandlers.jsonResponseHandler(IngPaymentStatusResponse.class), interceptors);
     }
 
     public Response<IngPaymentInitiationResponse> initiatePaymentXml(IngXmlPaymentProduct paymentProduct,
                                                                      String requestId,
                                                                      String tppRedirectUri,
                                                                      String psuIpAddress,
-                                                                     Interceptor clientAuthentication,
+                                                                     List<Interceptor> interceptors,
                                                                      String body) {
         String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString());
         return httpClient.post(uri)
@@ -84,41 +86,40 @@ public class IngPaymentInitiationApi {
                    .header(RequestHeaders.TPP_REDIRECT_URI, tppRedirectUri)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
                    .xmlBody(body)
-                   .send(clientAuthentication, responseHandlers.jsonResponseHandler(IngPaymentInitiationResponse.class));
+                   .send(responseHandlers.jsonResponseHandler(IngPaymentInitiationResponse.class), interceptors);
     }
-
 
     public Response<String> getPaymentDetailsXml(IngXmlPaymentProduct paymentProduct,
                                                  String paymentId,
                                                  String requestId,
                                                  String psuIpAddress,
-                                                 IngClientAuthentication clientAuthentication) {
+                                                 List<Interceptor> interceptors) {
         String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString(),
                                             requireNonNull(paymentId));
         return httpClient.get(uri)
                    .header(RequestHeaders.X_REQUEST_ID, requestId)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
-                   .send(clientAuthentication, responseHandlers.stringResponseHandler());
+                   .send(responseHandlers.stringResponseHandler(), interceptors);
     }
 
     public Response<String> getPaymentStatusXml(IngXmlPaymentProduct paymentProduct,
                                                 String paymentId,
                                                 String requestId,
                                                 String psuIpAddress,
-                                                IngClientAuthentication clientAuthentication) {
+                                                List<Interceptor> interceptors) {
         String uri = StringUri.fromElements(baseUri, PAYMENTS, requireNonNull(paymentProduct).toString(),
                                             requireNonNull(paymentId), STATUS);
         return httpClient.get(uri)
                    .header(RequestHeaders.X_REQUEST_ID, requestId)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
-                   .send(clientAuthentication, responseHandlers.stringResponseHandler());
+                   .send(responseHandlers.stringResponseHandler(), interceptors);
     }
 
     public Response<IngPeriodicPaymentInitiationResponse> initiatePeriodicPayment(IngPaymentProduct paymentProduct,
                                                                                   String requestId,
                                                                                   String tppRedirectUri,
                                                                                   String psuIpAddress,
-                                                                                  Interceptor clientAuthentication,
+                                                                                  List<Interceptor> interceptors,
                                                                                   IngPeriodicPaymentInitiationJson body) {
         String uri = StringUri.fromElements(baseUri, PERIODIC_PAYMENTS, requireNonNull(paymentProduct).toString());
         return httpClient.post(uri)
@@ -126,40 +127,40 @@ public class IngPaymentInitiationApi {
                    .header(RequestHeaders.TPP_REDIRECT_URI, tppRedirectUri)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
                    .jsonBody(jsonMapper.writeValueAsString(body))
-                   .send(clientAuthentication, responseHandlers.jsonResponseHandler(IngPeriodicPaymentInitiationResponse.class));
+                   .send(responseHandlers.jsonResponseHandler(IngPeriodicPaymentInitiationResponse.class), interceptors);
     }
 
     public Response<IngPeriodicPaymentInitiationJson> getPeriodicPaymentDetails(IngPaymentProduct paymentProduct,
                                                                                 String paymentId,
                                                                                 String requestId,
                                                                                 String psuIpAddress,
-                                                                                IngClientAuthentication clientAuthentication) {
+                                                                                List<Interceptor> interceptors) {
         String uri = StringUri.fromElements(baseUri, PERIODIC_PAYMENTS, requireNonNull(paymentProduct).toString(),
                                             requireNonNull(paymentId));
         return httpClient.get(uri)
                    .header(RequestHeaders.X_REQUEST_ID, requestId)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
-                   .send(clientAuthentication, responseHandlers.jsonResponseHandler(IngPeriodicPaymentInitiationJson.class));
+                   .send(responseHandlers.jsonResponseHandler(IngPeriodicPaymentInitiationJson.class), interceptors);
     }
 
     public Response<IngPaymentAgreementStatusResponse> getPeriodicPaymentStatus(IngPaymentProduct paymentProduct,
                                                                                 String paymentId,
                                                                                 String requestId,
                                                                                 String psuIpAddress,
-                                                                                IngClientAuthentication clientAuthentication) {
+                                                                                List<Interceptor> interceptors) {
         String uri = StringUri.fromElements(baseUri, PERIODIC_PAYMENTS, requireNonNull(paymentProduct).toString(),
                                             requireNonNull(paymentId), STATUS);
         return httpClient.get(uri)
                    .header(RequestHeaders.X_REQUEST_ID, requestId)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
-                   .send(clientAuthentication, responseHandlers.jsonResponseHandler(IngPaymentAgreementStatusResponse.class));
+                   .send(responseHandlers.jsonResponseHandler(IngPaymentAgreementStatusResponse.class), interceptors);
     }
 
     public Response<IngPeriodicPaymentInitiationResponse> initiatePeriodicPaymentXml(IngXmlPaymentProduct paymentProduct,
                                                                                      String requestId,
                                                                                      String tppRedirectUri,
                                                                                      String psuIpAddress,
-                                                                                     IngClientAuthentication clientAuthentication,
+                                                                                     List<Interceptor> interceptors,
                                                                                      IngPeriodicPaymentInitiationXml body) {
         String uri = StringUri.fromElements(baseUri, PERIODIC_PAYMENTS, requireNonNull(paymentProduct).toString());
         return httpClient.post(uri)
@@ -171,32 +172,32 @@ public class IngPaymentInitiationApi {
                    .addPlainTextPart("endDate", body.getEndDate())
                    .addPlainTextPart("frequency", body.getFrequency())
                    .addPlainTextPart("dayOfExecution", body.getDayOfExecution())
-                   .send(clientAuthentication, responseHandlers.jsonResponseHandler(IngPeriodicPaymentInitiationResponse.class));
+                   .send(responseHandlers.jsonResponseHandler(IngPeriodicPaymentInitiationResponse.class), interceptors);
     }
 
     public Response<IngPeriodicPaymentInitiationXml> getPeriodicPaymentDetailsXml(IngXmlPaymentProduct paymentProduct,
                                                                                   String paymentId,
                                                                                   String requestId,
                                                                                   String psuIpAddress,
-                                                                                  IngClientAuthentication clientAuthentication) {
+                                                                                  List<Interceptor> interceptors) {
         String uri = StringUri.fromElements(baseUri, PERIODIC_PAYMENTS, requireNonNull(paymentProduct).toString(),
                                             requireNonNull(paymentId));
         return httpClient.get(uri)
                    .header(RequestHeaders.X_REQUEST_ID, requestId)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
-                   .send(clientAuthentication, responseHandlers.multipartFormDataResponseHandler(IngPeriodicPaymentInitiationXml.class));
+                   .send(responseHandlers.multipartFormDataResponseHandler(IngPeriodicPaymentInitiationXml.class), interceptors);
     }
 
     public Response<String> getPeriodicPaymentStatusXml(IngXmlPaymentProduct paymentProduct,
                                                         String paymentId,
                                                         String requestId,
                                                         String psuIpAddress,
-                                                        IngClientAuthentication clientAuthentication) {
+                                                        List<Interceptor> interceptors) {
         String uri = StringUri.fromElements(baseUri, PERIODIC_PAYMENTS, requireNonNull(paymentProduct).toString(),
                                             requireNonNull(paymentId), STATUS);
         return httpClient.get(uri)
                    .header(RequestHeaders.X_REQUEST_ID, requestId)
                    .header(RequestHeaders.PSU_IP_ADDRESS, psuIpAddress)
-                   .send(clientAuthentication, responseHandlers.stringResponseHandler());
+                   .send(responseHandlers.stringResponseHandler(), interceptors);
     }
 }

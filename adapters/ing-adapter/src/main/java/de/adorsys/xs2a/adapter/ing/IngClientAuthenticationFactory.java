@@ -1,5 +1,8 @@
 package de.adorsys.xs2a.adapter.ing;
 
+import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
+import de.adorsys.xs2a.adapter.api.exception.Xs2aAdapterException;
 import de.adorsys.xs2a.adapter.ing.model.IngApplicationTokenResponse;
 
 import javax.security.auth.x500.X500Principal;
@@ -21,6 +24,17 @@ public class IngClientAuthenticationFactory {
         digest = MessageDigest.getInstance("SHA-256");
         tppSignatureCertificate = base64(certificate.getEncoded());
         keyId = keyId(certificate);
+    }
+
+    public static IngClientAuthenticationFactory getClientAuthenticationFactory(Pkcs12KeyStore keyStore) {
+        String qsealAlias = AdapterConfig.readProperty("ing.qseal.alias");
+        try {
+            X509Certificate qsealCertificate = keyStore.getQsealCertificate(qsealAlias);
+            PrivateKey qsealPrivateKey = keyStore.getQsealPrivateKey(qsealAlias);
+            return new IngClientAuthenticationFactory(qsealCertificate, qsealPrivateKey);
+        } catch (GeneralSecurityException e) {
+            throw new Xs2aAdapterException(e);
+        }
     }
 
     private String keyId(X509Certificate certificate) {
