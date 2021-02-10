@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class IngOauth2Service {
 
         IngClientAuthentication clientAuthentication = getClientAuthentication();
         IngAuthorizationURLResponse authorizationUrlResponse =
-            oauth2Api.getAuthorizationUrl(clientAuthentication,
+            oauth2Api.getAuthorizationUrl(Collections.singletonList(clientAuthentication),
                 parameters.getScope(),
                 parameters.getRedirectUri())
             .getBody();
@@ -91,7 +92,7 @@ public class IngOauth2Service {
 
         IngClientAuthentication clientAuthentication =
             clientAuthenticationFactory.newClientAuthenticationForApplicationToken();
-        applicationToken = oauth2Api.getApplicationToken(clientAuthentication)
+        applicationToken = oauth2Api.getApplicationToken(Collections.singletonList(clientAuthentication))
             .getBody();
         return applicationToken;
     }
@@ -102,7 +103,7 @@ public class IngOauth2Service {
 
     public IngTokenResponse getToken(Oauth2Service.Parameters parameters) {
         IngClientAuthentication clientAuthentication = getClientAuthentication();
-        return oauth2Api.getCustomerToken(parameters, clientAuthentication)
+        return oauth2Api.getCustomerToken(parameters, Collections.singletonList(clientAuthentication))
             .getBody();
     }
 
