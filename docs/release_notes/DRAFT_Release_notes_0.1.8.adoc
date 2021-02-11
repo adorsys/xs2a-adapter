@@ -5,6 +5,7 @@
 |===
 
 == Notices:
+- changes in "ing-adapter": the adapter supports WiremockStubDifferenceDetectingInterceptor from now on.
 
 == Features:
 

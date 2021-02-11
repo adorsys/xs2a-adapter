@@ -168,6 +168,7 @@ public class IngAccountInformationService implements AccountInformationService, 
     public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) {
         return oauth2Service.getAuthorizationRequestUri(parameters);
     }
+
     @Override
     public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
         return mapper.map(oauth2Service.getToken(parameters));

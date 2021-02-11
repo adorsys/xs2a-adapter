@@ -18,9 +18,9 @@ import static java.util.Objects.requireNonNull;
 // version: 1.1.12
 public class IngPaymentInitiationApi {
 
-    private static final String PAYMENTS = "/v1/payments";
-    private static final String PERIODIC_PAYMENTS = "/v1/periodic-payments/";
-    private static final String STATUS = "status";
+    static final String PAYMENTS = "/v1/payments";
+    static final String PERIODIC_PAYMENTS = "/v1/periodic-payments/";
+    static final String STATUS = "status";
 
     private final String baseUri;
     private final HttpClient httpClient;
