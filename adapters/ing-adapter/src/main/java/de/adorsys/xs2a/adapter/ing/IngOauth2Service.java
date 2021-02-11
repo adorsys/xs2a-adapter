@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.ing;
 
 import de.adorsys.xs2a.adapter.api.Oauth2Service;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.model.Scope;
 import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
@@ -10,10 +11,7 @@ import de.adorsys.xs2a.adapter.ing.model.IngTokenResponse;
 import org.apache.commons.lang3.StringUtils;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.List;
+import java.util.*;
 
 import static de.adorsys.xs2a.adapter.api.Oauth2Service.ResponseType.CODE;
 import static de.adorsys.xs2a.adapter.api.validation.Validation.requireValid;
@@ -28,13 +26,16 @@ public class IngOauth2Service {
 
     private final IngOauth2Api oauth2Api;
     private final IngClientAuthenticationFactory clientAuthenticationFactory;
+    private final List<Interceptor> interceptors;
 
     private IngApplicationTokenResponse applicationToken;
 
     public IngOauth2Service(IngOauth2Api oauth2Api,
-                            IngClientAuthenticationFactory clientAuthenticationFactory) {
+                            IngClientAuthenticationFactory clientAuthenticationFactory,
+                            List<Interceptor> interceptors) {
         this.oauth2Api = oauth2Api;
         this.clientAuthenticationFactory = clientAuthenticationFactory;
+        this.interceptors = interceptors;
     }
 
     private static EnumMap<Scope, String> initiateScopeMapping() {
@@ -52,7 +53,7 @@ public class IngOauth2Service {
 
         IngClientAuthentication clientAuthentication = getClientAuthentication();
         IngAuthorizationURLResponse authorizationUrlResponse =
-            oauth2Api.getAuthorizationUrl(Collections.singletonList(clientAuthentication),
+            oauth2Api.getAuthorizationUrl(addInterceptor(clientAuthentication),
                 parameters.getScope(),
                 parameters.getRedirectUri())
             .getBody();
@@ -92,7 +93,7 @@ public class IngOauth2Service {
 
         IngClientAuthentication clientAuthentication =
             clientAuthenticationFactory.newClientAuthenticationForApplicationToken();
-        applicationToken = oauth2Api.getApplicationToken(Collections.singletonList(clientAuthentication))
+        applicationToken = oauth2Api.getApplicationToken(addInterceptor(clientAuthentication))
             .getBody();
         return applicationToken;
     }
@@ -103,11 +104,18 @@ public class IngOauth2Service {
 
     public IngTokenResponse getToken(Oauth2Service.Parameters parameters) {
         IngClientAuthentication clientAuthentication = getClientAuthentication();
-        return oauth2Api.getCustomerToken(parameters, Collections.singletonList(clientAuthentication))
+        return oauth2Api.getCustomerToken(parameters, addInterceptor(clientAuthentication))
             .getBody();
     }
 
     public IngClientAuthentication getClientAuthentication(String accessToken) {
         return clientAuthenticationFactory.newClientAuthentication(getApplicationToken(), accessToken);
+    }
+
+    private List<Interceptor> addInterceptor(Interceptor interceptor) {
+        List<Interceptor> tempList = new ArrayList<>(Optional.ofNullable(interceptors)
+                                                        .orElseGet(Collections::emptyList));
+        tempList.add(interceptor);
+        return Collections.unmodifiableList(tempList);
     }
 }

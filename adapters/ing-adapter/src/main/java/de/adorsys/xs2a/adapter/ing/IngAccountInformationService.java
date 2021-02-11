@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.ing;
 
 import de.adorsys.xs2a.adapter.api.*;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
@@ -21,13 +22,16 @@ public class IngAccountInformationService implements AccountInformationService, 
     private final LinksRewriter linksRewriter;
     private final IngMapper mapper = Mappers.getMapper(IngMapper.class);
     private final JsonMapper jsonMapper = new JacksonObjectMapper();
+    private final List<Interceptor> interceptors;
 
     public IngAccountInformationService(IngAccountInformationApi accountInformationApi,
                                         IngOauth2Service oauth2Service,
-                                        LinksRewriter linksRewriter) {
+                                        LinksRewriter linksRewriter,
+                                        List<Interceptor> interceptors) {
         this.accountInformationApi = accountInformationApi;
         this.oauth2Service = oauth2Service;
         this.linksRewriter = linksRewriter;
+        this.interceptors = interceptors;
     }
 
     @Override
@@ -146,7 +150,7 @@ public class IngAccountInformationService implements AccountInformationService, 
             dateTo,
             limit,
             requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
-            Collections.singletonList(clientAuthentication));
+            addInterceptor(clientAuthentication));
 
         // rewrite links
         CardAccountsTransactionsResponse200 body = response.getBody();
@@ -164,7 +168,6 @@ public class IngAccountInformationService implements AccountInformationService, 
     public URI getAuthorizationRequestUri(Map<String, String> headers, Parameters parameters) {
         return oauth2Service.getAuthorizationRequestUri(parameters);
     }
-
     @Override
     public TokenResponse getToken(Map<String, String> headers, Parameters parameters) {
         return mapper.map(oauth2Service.getToken(parameters));
@@ -177,7 +180,7 @@ public class IngAccountInformationService implements AccountInformationService, 
         IngClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         String requestId = requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null);
         Response<AccountList> response
-            = accountInformationApi.getAccounts(requestId, Collections.singletonList(clientAuthentication))
+            = accountInformationApi.getAccounts(requestId, addInterceptor(clientAuthentication))
                 .map(mapper::map);
 
         rewriteLinks(response.getBody());
@@ -208,7 +211,7 @@ public class IngAccountInformationService implements AccountInformationService, 
             balanceTypes,
             currency,
             requestId,
-            Collections.singletonList(clientAuthentication))
+            addInterceptor(clientAuthentication))
             .map(mapper::map);
     }
 
@@ -237,7 +240,7 @@ public class IngAccountInformationService implements AccountInformationService, 
             currency,
             limit,
             requestId,
-            Collections.singletonList(clientAuthentication))
+            addInterceptor(clientAuthentication))
             .map(mapper::map);
 
         rewriteLinks(response.getBody());
@@ -278,5 +281,12 @@ public class IngAccountInformationService implements AccountInformationService, 
     private void rewriteLinks(List<Transactions> transactionDetails) {
         Optional.ofNullable(transactionDetails)
             .ifPresent(td -> td.forEach(t -> t.setLinks(rewriteLinks(t.getLinks()))));
+    }
+
+    private List<Interceptor> addInterceptor(Interceptor interceptor) {
+        List<Interceptor> tempList = new ArrayList<>(Optional.ofNullable(interceptors)
+                                                        .orElseGet(Collections::emptyList));
+        tempList.add(interceptor);
+        return Collections.unmodifiableList(tempList);
     }
 }

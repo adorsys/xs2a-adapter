@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class IngPaymentInitiationServiceTest {
     @Test
     void periodicPaymentInitiationWithUnsupportedFrequencyCausesValidationException() {
-        IngPaymentInitiationService pis = new IngPaymentInitiationService(null, null, null);
+        IngPaymentInitiationService pis = new IngPaymentInitiationService(null, null, null, null);
         PeriodicPaymentInitiationJson body = new PeriodicPaymentInitiationJson();
         body.setFrequency(FrequencyCode.MONTHLYVARIABLE);
         PaymentService paymentService = PaymentService.PERIODIC_PAYMENTS;
@@ -41,7 +41,7 @@ class IngPaymentInitiationServiceTest {
     void getPeriodicPain001PaymentInformationDeserialization() {
         HttpClient httpClient = Mockito.spy(AbstractHttpClient.class);
         IngPaymentInitiationApi pia = new IngPaymentInitiationApi(null, httpClient, null);
-        IngPaymentInitiationService pis = new IngPaymentInitiationService(pia, Mockito.mock(IngOauth2Service.class), null);
+        IngPaymentInitiationService pis = new IngPaymentInitiationService(pia, Mockito.mock(IngOauth2Service.class), null, null);
         Mockito.doAnswer(invocationOnMock -> {
             HttpClient.ResponseHandler responseHandler = invocationOnMock.getArgument(1, HttpClient.ResponseHandler.class);
             String rawResponse = "---\r\n" +

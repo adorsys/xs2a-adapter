@@ -4,6 +4,7 @@ import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.api.validation.ValidationError;
@@ -13,8 +14,10 @@ import de.adorsys.xs2a.adapter.ing.model.IngPaymentProduct;
 import de.adorsys.xs2a.adapter.ing.model.IngXmlPaymentProduct;
 import org.mapstruct.factory.Mappers;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static de.adorsys.xs2a.adapter.api.validation.Validation.requireValid;
@@ -26,13 +29,16 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
     private final IngPaymentInitiationApi paymentInitiationApi;
     private final IngMapper mapper = Mappers.getMapper(IngMapper.class);
     private final JsonMapper jsonMapper = new JacksonObjectMapper();
+    private final List<Interceptor> interceptors;
 
     public IngPaymentInitiationService(IngPaymentInitiationApi paymentInitiationApi,
                                        IngOauth2Service ingOauth2Service,
-                                       LinksRewriter linksRewriter) {
+                                       LinksRewriter linksRewriter,
+                                       List<Interceptor> interceptors) {
         this.paymentInitiationApi = paymentInitiationApi;
         this.ingOauth2Service = ingOauth2Service;
         this.linksRewriter = linksRewriter;
+        this.interceptors = interceptors;
     }
 
     @Override
@@ -51,7 +57,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                         requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
                         requestHeaders.get(RequestHeaders.TPP_REDIRECT_URI).orElse(null),
                         requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-                        Collections.singletonList(ingOauth2Service.getClientAuthentication()),
+                        addInterceptor(ingOauth2Service.getClientAuthentication()),
                         (String) body)
                         .map(mapper::map)
                         .map(this::rewriteLinks);
@@ -63,7 +69,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                     requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
                     requestHeaders.get(RequestHeaders.TPP_REDIRECT_URI).orElse(null),
                     requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-                    Collections.singletonList(ingOauth2Service.getClientAuthentication()),
+                    addInterceptor(ingOauth2Service.getClientAuthentication()),
                     mapper.map(jsonBody))
                     .map(mapper::map)
                     .map(this::rewriteLinks);
@@ -74,7 +80,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                         requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
                         requestHeaders.get(RequestHeaders.TPP_REDIRECT_URI).orElse(null),
                         requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-                        Collections.singletonList(ingOauth2Service.getClientAuthentication()),
+                        addInterceptor(ingOauth2Service.getClientAuthentication()),
                         mapper.map((PeriodicPaymentInitiationMultipartBody) body))
                         .map(mapper::map)
                         .map(this::rewriteLinks);
@@ -84,7 +90,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                     requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
                     requestHeaders.get(RequestHeaders.TPP_REDIRECT_URI).orElse(null),
                     requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-                    Collections.singletonList(ingOauth2Service.getClientAuthentication()),
+                    addInterceptor(ingOauth2Service.getClientAuthentication()),
                     mapper.map(jsonMapper.convertValue(body, PeriodicPaymentInitiationJson.class)))
                     .map(mapper::map)
                     .map(this::rewriteLinks);
@@ -130,7 +136,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
             paymentId,
             requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
             requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-            Collections.singletonList(ingOauth2Service.getClientAuthentication()))
+            addInterceptor(ingOauth2Service.getClientAuthentication()))
                    .map(mapper::map);
     }
 
@@ -144,7 +150,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
             paymentId,
             requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
             requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-            Collections.singletonList(ingOauth2Service.getClientAuthentication()))
+            addInterceptor(ingOauth2Service.getClientAuthentication()))
             .map(mapper::map);
     }
 
@@ -158,7 +164,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
             paymentId,
             requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
             requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-            Collections.singletonList(ingOauth2Service.getClientAuthentication()))
+            addInterceptor(ingOauth2Service.getClientAuthentication()))
             .map(mapper::map);
     }
 
@@ -176,7 +182,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                         paymentId,
                         requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
                         requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-                        Collections.singletonList(ingOauth2Service.getClientAuthentication()))
+                        addInterceptor(ingOauth2Service.getClientAuthentication()))
                         .map(Function.identity());
                 }
                 return getSinglePaymentInformation(paymentProduct, paymentId, requestHeaders, requestParams)
@@ -222,7 +228,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                     paymentId,
                     requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
                     requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-                    Collections.singletonList(ingOauth2Service.getClientAuthentication()))
+                    addInterceptor(ingOauth2Service.getClientAuthentication()))
                     .map(mapper::map);
 
             case PERIODIC_PAYMENTS:
@@ -230,7 +236,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                     paymentId,
                     requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
                     requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-                    Collections.singletonList(ingOauth2Service.getClientAuthentication()))
+                    addInterceptor(ingOauth2Service.getClientAuthentication()))
                     .map(mapper::map);
 
             default:
@@ -253,7 +259,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                         paymentId,
                         requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
                         requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-                        Collections.singletonList(ingOauth2Service.getClientAuthentication()))
+                        addInterceptor(ingOauth2Service.getClientAuthentication()))
                         .map(Function.identity());
                 }
                 return getPaymentInitiationStatus(paymentService, paymentProduct, paymentId, requestHeaders, requestParams)
@@ -265,7 +271,7 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                         paymentId,
                         requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
                         requestHeaders.get(RequestHeaders.PSU_IP_ADDRESS).orElse(null),
-                        Collections.singletonList(ingOauth2Service.getClientAuthentication()))
+                        addInterceptor(ingOauth2Service.getClientAuthentication()))
                         .map(Function.identity());
                 }
                 return getPaymentInitiationStatus(paymentService, paymentProduct, paymentId, requestHeaders, requestParams)
@@ -335,5 +341,12 @@ public class IngPaymentInitiationService implements PaymentInitiationService {
                                                                           RequestParams requestParams,
                                                                           UpdatePsuAuthentication updatePsuAuthentication) {
         throw new UnsupportedOperationException();
+    }
+
+    private List<Interceptor> addInterceptor(Interceptor interceptor) {
+        List<Interceptor> tempList = new ArrayList<>(Optional.ofNullable(interceptors)
+            .orElseGet(Collections::emptyList));
+        tempList.add(interceptor);
+        return Collections.unmodifiableList(tempList);
     }
 }
