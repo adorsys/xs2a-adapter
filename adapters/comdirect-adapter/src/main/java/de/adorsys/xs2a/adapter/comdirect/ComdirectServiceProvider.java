@@ -72,9 +72,6 @@ public class ComdirectServiceProvider extends AbstractAdapterServiceProvider imp
 
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory) {
-        return ComdirectOauth2Service.create(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            httpClientFactory.getHttpClientConfig().getKeyStore(),
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+        return ComdirectOauth2Service.create(aspsp, httpClientFactory);
     }
 }
