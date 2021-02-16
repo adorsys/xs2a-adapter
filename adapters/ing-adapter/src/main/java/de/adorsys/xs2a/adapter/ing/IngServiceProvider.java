@@ -31,13 +31,15 @@ public class IngServiceProvider extends AbstractAdapterServiceProvider implement
                                                                          LinksRewriter linksRewriter) {
         return new IngAccountInformationService(IngApiFactory.getAccountInformationApi(aspsp, httpClientFactory),
             ingOauth2Service(aspsp, httpClientFactory),
-            linksRewriter);
+            linksRewriter,
+            getInterceptors(aspsp));
 
     }
 
     private IngOauth2Service ingOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory) {
         return new IngOauth2Service(IngApiFactory.getOAuth2Api(aspsp, httpClientFactory),
-            IngClientAuthenticationFactory.getClientAuthenticationFactory(httpClientFactory.getHttpClientConfig().getKeyStore()));
+            IngClientAuthenticationFactory.getClientAuthenticationFactory(httpClientFactory.getHttpClientConfig().getKeyStore()),
+            getInterceptors(aspsp));
     }
 
     @Override
@@ -75,6 +77,7 @@ public class IngServiceProvider extends AbstractAdapterServiceProvider implement
                                                                 LinksRewriter linksRewriter) {
         return new IngPaymentInitiationService(IngApiFactory.getPaymentInitiationApi(aspsp, httpClientFactory),
             ingOauth2Service(aspsp, httpClientFactory),
-            linksRewriter);
+            linksRewriter,
+            getInterceptors(aspsp));
     }
 }

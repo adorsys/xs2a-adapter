@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.List;
 
 import static de.adorsys.xs2a.adapter.ing.IngOauth2Service.UNSUPPORTED_SCOPE_VALUE_ERROR_MESSAGE;
@@ -89,13 +90,13 @@ class IngOauth2ServiceTest {
         when(clientAuthenticationFactory.newClientAuthenticationForApplicationToken())
             .thenReturn(clientAuthentication);
 
-        when(oauth2Api.getApplicationToken(clientAuthentication))
+        when(oauth2Api.getApplicationToken(Collections.singletonList(clientAuthentication)))
             .thenReturn(new Response<>(200, APPLICATION_TOKEN_RESPONSE, ResponseHeaders.emptyResponseHeaders()));
 
         when(clientAuthenticationFactory.newClientAuthentication(APPLICATION_TOKEN_RESPONSE))
             .thenReturn(clientAuthentication);
 
-        when(oauth2Api.getAuthorizationUrl(clientAuthentication, MAPPED_SCOPE, REDIRECT_URI))
+        when(oauth2Api.getAuthorizationUrl(Collections.singletonList(clientAuthentication), MAPPED_SCOPE, REDIRECT_URI))
             .thenReturn(new Response<>(200, buildAuthorizationURLResponse(), ResponseHeaders.emptyResponseHeaders()));
 
         URI uri = oauth2Service.getAuthorizationRequestUri(parameters);
