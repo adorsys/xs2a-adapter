@@ -10,3 +10,4 @@
 == Features:
 
 == Fixes:
+- fixed authorization request uri construction in `comdirect-adapter`
