@@ -1,0 +1,72 @@
+= WireMock Mode
+
+== What is it?
+WireMock is a simulator for HTTP-based APIs. It is a library for stubbing and mocking web services,
+that constructs an HTTP server that could be connected to as it would be to an actual web service.
+For additional details please refer to the official http://wiremock.org/[WireMock] website.
+
+Adapter uses WireMock to record communication routines with a bank, so users could check their TPP
+implementation without actually querying a bank API.
+
+Request/response records are called *stubs*. All captured (so far) stubs can be found under each adapter
+main resources package in an identical to an adapter module name folder within *mappings* directory, e.g.
+`adorsys-adapter/src/main/resources/adorsys-adapter/**mappings**`
+
+== How to use it?
+By default, it is turned off.
+
+There are two ways to kickoff WireMock depending on how a user utilizes the Adapter:
+
+- as a standalone application - a user will want to set `xs2a-adapter:wiremock:mode` property to **true**
+on the `application.yml` under `xs2a-adapter-app` module.
+- as a library - a user will need to pass a `WiremockHttpClientFactory` instance into `AdapterServiceLoader`
+when initializing.
+
+== How to verify authenticity?
+Bank models and APIs may change over time. So the Adapter team provided a tool to check whether a recorded stub
+is still actual.
+
+`WiremockStubDifferenceDetectingInterceptor` (also referred here as _Validation interceptor_) is an interceptor that does verification.
+If a difference detected the interceptor will add a special header to a response `X-GTW-ASPSP-CHANGES-DETECTED` with
+a value of in what adapter changes occurred, in what stub file, and what part of it (e.g. request headers or response body)
+mismatches. Additional details will be revealed in logs.
+
+== How to use that?
+By default, it is also turned off, and, similarly, there are two ways to start using this interceptor, depending on how
+the Adapter is applied:
+
+- as a standalone application - a user will want to set `xs2a-adapter:wiremock:validation:enabled` property to **true**
+on the `application.yml` under `xs2a-adapter-app` module.
+- as a library - a user will need to pass a `wiremockValidationEnabled` flag (*true* in this case) into `AdapterServiceLoader`
+when initializing.
+
+== What will change...
+=== If WireMock Mode is on?
+As it was mentioned before, there will be no communication with a bank. All requests will be resolved on the Adapter side
+by the WireMock service and response will be constructed based on an available stub.
+
+For example, AIS flow with EMBEDDED SCA in WireMock mode will look like this:
+
+image::embedded_ais_wiremock_mode.png[Wiremock mode]
+
+=== If WireMock Validation enabled
+A client will communicate with a bank as usual, however, there will be additional steps on the adapter side for verifying
+stubs genuine.
+
+E.g., the same AIS flow but with WireMock Validation:
+
+image::embedded_ais_wiremock_validation_enabled.png[Wiremock Validation enabled]
+
+== Can I records my own stubs?
+Sure thing!
+
+*Note*: the Adapter itself doesn't provide tools to record stubs from the box.
+
+You will need to get the WireMock Recorder by your own, here is the detailed instruction of how to http://wiremock.org/docs/record-playback/[record]
+with Wiremock, and here is the link:wiremock.md[manual] of how to capture bank request/response specifically for an adapter.
+
+We recommend a user following the Adapter naming convention regarding packages and stubs naming, at least for a proper work
+of `WiremockStubDifferenceDetectingInterceptor`.
+
+In general, stub name for an AIS call should be _ais-<operation>.json_, for a PIS call - _pis-<payment-service-first-word>-<payment-product-brief>-<operation>.json_,
+package - _<adapter-module>/src/main/resources/<adapter-module>_. There are plenty of concrete instances in adapters, please take a look.
