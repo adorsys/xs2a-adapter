@@ -2,7 +2,7 @@
 
 === 7.1. XS2A Adapter as a library
 
-image::deployment-view.png[XS2A Adapter deployment (as a library),width=520]
+image::deployment-view.png[XS2A Adapter deployment (as a library),width=100%]
 
 .Nodes description
 [cols=",",options="header",]
