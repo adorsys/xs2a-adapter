@@ -47,7 +47,7 @@ by the WireMock service and response will be constructed based on an available s
 
 For example, AIS flow with EMBEDDED SCA in WireMock mode will look like this:
 
-image::/images/embedded_ais_wiremock_mode.png[Wiremock mode on]
+image::./images/embedded_ais_wiremock_mode.png[Wiremock mode on]
 
 === If WireMock Validation enabled
 A client will communicate with a bank as usual, however, there will be additional steps on the adapter side for verifying
@@ -55,7 +55,7 @@ stubs genuine.
 
 E.g., the same AIS flow but with WireMock Validation:
 
-image::/images/embedded_ais_wiremock_validation_enabled.png[Wiremock Validation enabled]
+image::./images/embedded_ais_wiremock_validation_enabled.png[Wiremock Validation enabled]
 
 == Recording own stubs?
 Sure thing!
@@ -72,7 +72,7 @@ Stub names for an AIS call should be *_ais-<operation>.json_*. Where *_operation
 _delete-consent_, _get-accounts_, _get-balances_, _get-consent-status_, _get-transactions_.
 
 For a PIS call - *_pis-<payment-service>-<payment-product>-<operation>.json_*. Where *_payment-service_* can be _payments_
-or _periodic_ for Periodic-Payments (Adapter currently support only this two services), *_payment-product_* can be _sct_ (sepa-credit-transfers)
+or _periodic_ for Periodic-Payments (Adapter currently supports only this two services), *_payment-product_* can be _sct_ (sepa-credit-transfers)
 and _pain001-sct_ (pain.001-sepa-credit-transfers), *_operation_* can be _get-payment-status_, _initiate-payment_, _get-payment-details_.
 
 *_operations_* common for both AIS and PIS are _get-sca-status_, _select-sca-method_, _send-otp_, _update-psu-authentication_,
