@@ -1,0 +1,30 @@
+{
+  "id" : "70d2f382-4c25-4050-b288-8cce6ba581f6",
+  "name" : "v1_payments_pain001-sepa-credit-transfers_850987d5-eb54-4053-84c1-945485147e3b_authorisations_cafd117d-2969-48be-b003-acd835bb02e6",
+  "request" : {
+    "url" : "/v1/payments/pain.001-sepa-credit-transfers/850987d5-eb54-4053-84c1-945485147e3b/authorisations/cafd117d-2969-48be-b003-acd835bb02e6",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "equalTo" : "7d408d0d-8d09-4bd6-9b68-f08b3cdb4c06"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"scaStatus\":\"finalised\"}",
+    "headers" : {
+      "Date" : "Fri, 26 Feb 2021 11:01:37 GMT",
+      "Server" : "Apache",
+      "Content-Type" : "application/json; charset=utf-8",
+      "X-Request-ID" : "7d408d0d-8d09-4bd6-9b68-f08b3cdb4c06",
+      "Location" : "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/pain.001-sepa-credit-transfers/850987d5-eb54-4053-84c1-945485147e3b",
+      "Strict-Transport-Security" : "max-age=31536000",
+      "X-Content-Type-Options" : "nosniff",
+      "Keep-Alive" : "timeout=15, max=100"
+    }
+  },
+  "uuid" : "70d2f382-4c25-4050-b288-8cce6ba581f6",
+  "persistent" : true,
+  "insertionIndex" : 5
+}

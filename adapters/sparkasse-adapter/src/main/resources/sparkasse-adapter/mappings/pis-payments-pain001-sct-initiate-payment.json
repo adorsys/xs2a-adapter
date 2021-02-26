@@ -1,0 +1,52 @@
+{
+  "id" : "55e2ba0e-f856-4f38-85e0-4e6824a5ad83",
+  "name" : "v1_payments_pain001-sepa-credit-transfers",
+  "request" : {
+    "url" : "/v1/payments/pain.001-sepa-credit-transfers",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "equalTo" : "01bec47c-2204-4f06-84ca-414292316f75"
+      },
+      "PSU-ID" : {
+        "equalTo" : "chipTAN"
+      },
+      "TPP-Redirect-URI" : {
+        "equalTo" : "https://example.com"
+      },
+      "PSU-IP-Address" : {
+        "equalTo" : "0.0.0.0"
+      },
+      "PSU-ID-Type" : {
+        "equalTo" : ""
+      },
+      "TPP-Redirect-Preferred" : {
+        "equalTo" : "false"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/xml; charset=ISO-8859-1"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToXml" : "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.03\">\n    <CstmrCdtTrfInitn>\n        <GrpHdr>\n            <MsgId>PSD294387538754378</MsgId>\n            <CreDtTm>2018-12-10T09:40:47.314+01:00</CreDtTm>\n            <NbOfTxs>1</NbOfTxs>\n            <CtrlSum>100</CtrlSum>\n            <InitgPty>\n                <Nm>Name InitgPty</Nm>\n            </InitgPty>\n        </GrpHdr>\n        <PmtInf>\n            <PmtInfId>NOTPROVIDED</PmtInfId>\n            <PmtMtd>TRF</PmtMtd>\n            <NbOfTxs>1</NbOfTxs>\n            <CtrlSum>100</CtrlSum>\n            <ReqdExctnDt>1999-01-01</ReqdExctnDt>\n            <Dbtr>\n                <Nm>Debtor Name</Nm>\n            </Dbtr>\n            <DbtrAcct>\n                <Id>\n                    <IBAN>DE86999999990000001000</IBAN>\n                </Id>\n            </DbtrAcct>\n            <DbtrAgt>\n                <FinInstnId>\n                    <BIC>TESTDETT421</BIC>\n                </FinInstnId>\n            </DbtrAgt>\n            <ChrgBr>SLEV</ChrgBr>\n            <CdtTrfTxInf>\n                <PmtId>\n                    <EndToEndId>EndToEndId</EndToEndId>\n                </PmtId>\n                <Amt>\n                    <InstdAmt Ccy=\"EUR\">100</InstdAmt>\n                </Amt>\n                <Cdtr>\n                    <Nm>Hans Handbuch</Nm>\n                </Cdtr>\n                <CdtrAcct>\n                    <Id>\n                        <IBAN>DE86999999990000001000</IBAN>\n                    </Id>\n                </CdtrAcct>\n                <RmtInf>\n                    <Ustrd>POSTPaymentEmbPain_OK</Ustrd>\n                </RmtInf>\n            </CdtTrfTxInf>\n        </PmtInf>\n    </CstmrCdtTrfInitn>\n</Document>"
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"transactionStatus\":\"RCVD\",\"paymentId\":\"850987d5-eb54-4053-84c1-945485147e3b\",\"_links\":{\"startAuthorisationWithPsuAuthentication\":{\"href\":\"https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/pain.001-sepa-credit-transfers/850987d5-eb54-4053-84c1-945485147e3b/authorisations\"},\"self\":{\"href\":\"https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/pain.001-sepa-credit-transfers/850987d5-eb54-4053-84c1-945485147e3b\"},\"status\":{\"href\":\"https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/pain.001-sepa-credit-transfers/850987d5-eb54-4053-84c1-945485147e3b/status\"}},\"psuMessage\":\"Bitte geben Sie Ihren Anmeldenamen/Legitimations-ID und Ihre PIN ein.\"}",
+    "headers" : {
+      "Date" : "Fri, 26 Feb 2021 11:01:09 GMT",
+      "Server" : "Apache",
+      "Content-Type" : "application/json; charset=utf-8",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "X-Request-ID" : "01bec47c-2204-4f06-84ca-414292316f75",
+      "Location" : "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/pain.001-sepa-credit-transfers/850987d5-eb54-4053-84c1-945485147e3b",
+      "Strict-Transport-Security" : "max-age=31536000",
+      "X-Content-Type-Options" : "nosniff",
+      "Keep-Alive" : "timeout=15, max=100"
+    }
+  },
+  "uuid" : "55e2ba0e-f856-4f38-85e0-4e6824a5ad83",
+  "persistent" : true,
+  "insertionIndex" : 1
+}
