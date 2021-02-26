@@ -1,0 +1,41 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "7dcdae39-b684-47a4-b856-8fd6215526ac",
+      "PSU-ID": "chipTAN",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "PSU-IP-Address": "0.0.0.0",
+      "Content-Type": "application/json; charset=UTF-8"
+    },
+    "body": {
+      "authenticationMethodId": "OPTICAL"
+    }
+  },
+  "response": {
+    "body": {
+      "scaStatus": "scaMethodSelected",
+      "chosenScaMethod": {
+        "authenticationType": "CHIP_OTP",
+        "authenticationMethodId": "OPTICAL",
+        "authenticationVersion": "HHD1.3.2OPT",
+        "name": "chipTAN OPTICAL | Kartennummer: ******9876",
+        "explanation": "Übertragung der Auftragsdaten mittels animierter Grafik. Erfordert geeigneten TAN-Generator."
+      },
+      "challengeData": {
+        "data": ["2908881090261001000226490512,00"],
+        "otpMaxLength": 6,
+        "otpFormat": "integer",
+        "additionalInformation": "Sie haben eine 'Einzelüberweisung' erfasst: Überprüfen Sie die Richtigkeit der 'letzten 10 Zeichen der IBAN des Empfängers' und bestätigen Sie diese mit der Taste 'OK'. Überprüfen Sie die Richtigkeit des 'Betrags' und bestätigen Sie diesen mit der Taste 'OK'."
+      },
+      "_links": {
+        "scaStatus": {
+          "href": "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/pain.001-sepa-credit-transfers/850987d5-eb54-4053-84c1-945485147e3b/authorisations/cafd117d-2969-48be-b003-acd835bb02e6"
+        },
+        "authoriseTransaction": {
+          "href": "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/pain.001-sepa-credit-transfers/850987d5-eb54-4053-84c1-945485147e3b/authorisations/cafd117d-2969-48be-b003-acd835bb02e6"
+        }
+      },
+      "psuMessage": "Bitte geben Sie die TAN ein."
+    }
+  }
+}

@@ -2,11 +2,11 @@
   "id" : "012faa6c-df35-4d2f-a3bb-225704860dc7",
   "name" : "v1_payments_pain001-sepa-credit-transfers_850987d5-eb54-4053-84c1-945485147e3b_status",
   "request" : {
-    "url" : "/v1/payments/pain.001-sepa-credit-transfers/850987d5-eb54-4053-84c1-945485147e3b/status",
+    "urlPattern" : "/v1/payments/pain.001-sepa-credit-transfers/.+/status",
     "method" : "GET",
     "headers" : {
       "X-Request-ID" : {
-        "equalTo" : "22596362-edb3-4e1b-8a7e-2ee16556606e"
+        "matches" : ".+"
       }
     }
   },

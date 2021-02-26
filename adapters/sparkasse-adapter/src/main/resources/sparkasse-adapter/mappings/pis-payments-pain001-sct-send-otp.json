@@ -2,17 +2,14 @@
   "id" : "9670ecdb-e205-4615-956a-26b40a0dbe91",
   "name" : "v1_payments_pain001-sepa-credit-transfers_850987d5-eb54-4053-84c1-945485147e3b_authorisations_cafd117d-2969-48be-b003-acd835bb02e6",
   "request" : {
-    "url" : "/v1/payments/pain.001-sepa-credit-transfers/850987d5-eb54-4053-84c1-945485147e3b/authorisations/cafd117d-2969-48be-b003-acd835bb02e6",
+    "urlPattern" : "/v1/payments/pain.001-sepa-credit-transfers/.+/authorisations/.+",
     "method" : "PUT",
     "headers" : {
       "X-Request-ID" : {
-        "equalTo" : "a193ca13-b0c6-45c7-83a9-d231c66f2561"
+        "matches" : ".+"
       },
       "PSU-ID" : {
         "equalTo" : "chipTAN"
-      },
-      "PSU-ID-Type" : {
-        "equalTo" : ""
       },
       "Content-Type" : {
         "equalTo" : "application/json; charset=UTF-8"
