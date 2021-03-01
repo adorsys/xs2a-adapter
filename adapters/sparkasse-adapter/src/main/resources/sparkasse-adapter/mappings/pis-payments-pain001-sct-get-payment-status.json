@@ -1,0 +1,29 @@
+{
+  "id" : "012faa6c-df35-4d2f-a3bb-225704860dc7",
+  "name" : "v1_payments_pain001-sepa-credit-transfers_850987d5-eb54-4053-84c1-945485147e3b_status",
+  "request" : {
+    "urlPattern" : "/v1/payments/pain.001-sepa-credit-transfers/.+/status",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"transactionStatus\":\"ACCP\",\"fundsAvailable\":true}",
+    "headers" : {
+      "Date" : "Fri, 26 Feb 2021 11:01:45 GMT",
+      "Server" : "Apache",
+      "Content-Type" : "application/json; charset=utf-8",
+      "X-Request-ID" : "22596362-edb3-4e1b-8a7e-2ee16556606e",
+      "Strict-Transport-Security" : "max-age=31536000",
+      "X-Content-Type-Options" : "nosniff",
+      "Keep-Alive" : "timeout=15, max=100"
+    }
+  },
+  "uuid" : "012faa6c-df35-4d2f-a3bb-225704860dc7",
+  "persistent" : true,
+  "insertionIndex" : 6
+}

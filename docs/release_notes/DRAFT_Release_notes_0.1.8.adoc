@@ -6,6 +6,7 @@
 
 == Notices:
 - changes in "ing-adapter": the adapter supports WiremockStubDifferenceDetectingInterceptor from now on.
+- added WireMock stubs of _pain.001-sepa-credit-transfers_ for `sparkasse-adapter` Payments Service.
 
 == Features:
 

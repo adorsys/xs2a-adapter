@@ -1,0 +1,45 @@
+{
+  "id" : "c4d4ee12-d29c-491b-b170-ceecaa56870e",
+  "name" : "v1_payments_pain001-sepa-credit-transfers_850987d5-eb54-4053-84c1-945485147e3b_authorisations",
+  "request" : {
+    "urlPattern" : "/v1/payments/pain.001-sepa-credit-transfers/.+/authorisations",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "chipTAN"
+      },
+      "TPP-Redirect-Preferred" : {
+        "equalTo" : "false"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"psuData\":{\"password\":\"okok1\"}}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"scaStatus\":\"psuAuthenticated\",\"authorisationId\":\"cafd117d-2969-48be-b003-acd835bb02e6\",\"scaMethods\":[{\"authenticationType\":\"CHIP_OTP\",\"authenticationMethodId\":\"MANUAL\",\"authenticationVersion\":\"HHD1.3.2\",\"name\":\"chipTAN manuell | Kartennummer: ******0430\",\"explanation\":\"Erfassung der Auftragsdaten über die Tasten Ihres TAN-Generator.\"},{\"authenticationType\":\"CHIP_OTP\",\"authenticationMethodId\":\"OPTICAL\",\"authenticationVersion\":\"HHD1.3.2OPT\",\"name\":\"chipTAN Optical | Kartennummer: ******0430\",\"explanation\":\"Übertragung der Auftragsdaten mittels animierter Grafik. Erfordert geeigneten TAN-Generator.\"},{\"authenticationType\":\"PHOTO_OTP\",\"authenticationMethodId\":\"QR\",\"authenticationVersion\":\"HHD1.3.2QR\",\"name\":\"chipTAN QR | Kartennummer: ******0430\",\"explanation\":\"Übertragung der Auftragsdaten mittels QR-Code. Erfordert geeigneten TAN-Generator.\"}],\"_links\":{\"scaStatus\":{\"href\":\"https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/pain.001-sepa-credit-transfers/850987d5-eb54-4053-84c1-945485147e3b/authorisations/cafd117d-2969-48be-b003-acd835bb02e6\"},\"selectAuthenticationMethod\":{\"href\":\"https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/pain.001-sepa-credit-transfers/850987d5-eb54-4053-84c1-945485147e3b/authorisations/cafd117d-2969-48be-b003-acd835bb02e6\"}},\"psuMessage\":\"Bitte wählen Sie Ihr gewünschtes TAN-Verfahren/Endgerät.\"}",
+    "headers" : {
+      "Date" : "Fri, 26 Feb 2021 11:01:17 GMT",
+      "Server" : "Apache",
+      "Content-Type" : "application/json; charset=utf-8",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "X-Request-ID" : "167cf527-f6f4-4959-9d3e-f2060d151ebc",
+      "Location" : "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/pain.001-sepa-credit-transfers/850987d5-eb54-4053-84c1-945485147e3b",
+      "Strict-Transport-Security" : "max-age=31536000",
+      "X-Content-Type-Options" : "nosniff",
+      "Keep-Alive" : "timeout=15, max=100"
+    }
+  },
+  "uuid" : "c4d4ee12-d29c-491b-b170-ceecaa56870e",
+  "persistent" : true,
+  "insertionIndex" : 2
+}
