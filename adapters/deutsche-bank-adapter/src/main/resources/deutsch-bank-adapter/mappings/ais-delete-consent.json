@@ -1,0 +1,30 @@
+{
+  "id" : "20f2ce17-26d2-4550-a443-d033809a3842",
+  "name" : "v1_consents_17501be7-1dcd-4ad5-ab30-6d02b170e31a",
+  "request" : {
+    "urlPattern" : "/v1/consents/.+",
+    "method" : "DELETE",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 204,
+    "headers" : {
+      "Date" : "Mon, 01 Mar 2021 16:20:19 GMT",
+      "Server" : "Apache",
+      "glue2gExit" : "2021-03-01T16:20:20.336",
+      "X-Request-ID" : "c1a49db6-27a8-4267-8c94-c3d597932998",
+      "bffEntry" : "2021-03-01T16:20:19.811",
+      "bffExit" : "2021-03-01T16:20:20.336",
+      "Content-Type" : "application/json;charset=utf-8",
+      "glue2gEntry" : "2021-03-01T16:20:19.811",
+      "Keep-Alive" : "timeout=5, max=100"
+    }
+  },
+  "uuid" : "20f2ce17-26d2-4550-a443-d033809a3842",
+  "persistent" : true,
+  "insertionIndex" : 10
+}
