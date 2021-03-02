@@ -120,7 +120,7 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
     private void encryptPassword(PsuData psuData) {
         String password = psuData.getEncryptedPassword();
         String encryptedPassword = psuPasswordEncryptionService.encrypt(password);
-        psuData.setEncryptedPassword(password);
+        psuData.setEncryptedPassword(encryptedPassword);
     }
 
     @Override
