@@ -7,8 +7,16 @@ import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.test.ServiceWireMockTest;
 import de.adorsys.xs2a.adapter.test.TestRequestResponse;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.io.IOException;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 @ServiceWireMockTest(DeutscheBankServiceProvider.class)
 class DeutscheBankAccountInformationServiceWireMockTest {
@@ -16,6 +24,7 @@ class DeutscheBankAccountInformationServiceWireMockTest {
     private static final String CONSENT_ID = "17501be7-1dcd-4ad5-ab30-6d02b170e31a";
     private static final String AUTHORISATION_ID = "9cd38df2-1315-41d4-9602-5f63149aacaf";
     private static final String ACCOUNT_ID = "8724B81FA1BDDF1775B8C8354221849E";
+    private static final String ACCOUNT_ID_REDIRECT = "640C6CEAA12923AABCD11EC1AFC40EF5";
 
     private final AccountInformationService service;
 
@@ -23,9 +32,10 @@ class DeutscheBankAccountInformationServiceWireMockTest {
         this.service = service;
     }
 
-    @Test
-    void createConsent() throws Exception {
-        TestRequestResponse requestResponse = new TestRequestResponse("ais/create-consent.json");
+    @ParameterizedTest
+    @ValueSource(strings = {"", "-redirect"})
+    void createConsent(String suffix) throws Exception {
+        TestRequestResponse requestResponse = new TestRequestResponse(String.format("ais/create-consent%s.json", suffix));
 
         Response<ConsentsResponse201> response = service.createConsent(requestResponse.requestHeaders(),
             RequestParams.empty(),
@@ -74,9 +84,10 @@ class DeutscheBankAccountInformationServiceWireMockTest {
         assertThat(response.getBody()).isEqualTo(requestResponse.responseBody(ScaStatusResponse.class));
     }
 
-    @Test
-    void getAccounts() throws Exception {
-        TestRequestResponse requestResponse = new TestRequestResponse("ais/get-accounts.json");
+    @ParameterizedTest
+    @ValueSource(strings = {"", "-redirect"})
+    void getAccounts(String suffix) throws Exception {
+        TestRequestResponse requestResponse = new TestRequestResponse(String.format("ais/get-accounts%s.json", suffix));
 
         Response<AccountList> response = service.getAccountList(requestResponse.requestHeaders(),
             requestResponse.requestParams());
@@ -84,15 +95,28 @@ class DeutscheBankAccountInformationServiceWireMockTest {
         assertThat(response.getBody()).isEqualTo(requestResponse.responseBody(AccountList.class));
     }
 
-    @Test
-    void getTransactions() throws Exception {
-        TestRequestResponse requestResponse = new TestRequestResponse("ais/get-transactions.json");
+    @ParameterizedTest
+    @MethodSource("testSource")
+    void getTransactions(String suffix, String accountId) throws Exception {
+        TestRequestResponse requestResponse = new TestRequestResponse(String.format("ais/get-transactions%s.json", suffix));
 
-        Response<TransactionsResponse200Json> response = service.getTransactionList(ACCOUNT_ID,
+        Response<TransactionsResponse200Json> response = service.getTransactionList(accountId,
             requestResponse.requestHeaders(),
             requestResponse.requestParams());
 
         assertThat(response.getBody()).isEqualTo(requestResponse.responseBody(TransactionsResponse200Json.class));
+    }
+
+    @ParameterizedTest
+    @MethodSource("testSource")
+    void getBalances(String suffix, String accountId) throws IOException {
+        TestRequestResponse requestResponse = new TestRequestResponse(String.format("ais/get-balances%s.json", suffix));
+
+        Response<ReadAccountBalanceResponse200> response = service.getBalances(accountId,
+            requestResponse.requestHeaders(),
+            RequestParams.empty());
+
+        assertThat(response.getBody()).isEqualTo(requestResponse.responseBody(ReadAccountBalanceResponse200.class));
     }
 
     @Test
@@ -127,5 +151,9 @@ class DeutscheBankAccountInformationServiceWireMockTest {
             RequestParams.empty());
 
         assertThat(response.getStatusCode()).isEqualTo(204);
+    }
+
+    private static Stream<Arguments> testSource() {
+        return Stream.of(arguments("", ACCOUNT_ID), arguments("-redirect", ACCOUNT_ID_REDIRECT));
     }
 }
