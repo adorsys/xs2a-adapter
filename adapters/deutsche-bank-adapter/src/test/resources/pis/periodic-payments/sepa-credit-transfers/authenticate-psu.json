@@ -1,0 +1,43 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "662388a0-92f3-4d1d-bb95-b4c28fb19fbd",
+      "PSU-ID": "6154033437",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "PSU-IP-Address": "0.0.0.0",
+      "PSU-ID-Type": "DE_ONLB_DB",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "psuData": {
+        "encryptedPassword": "PISPWD12"
+      }
+    }
+  },
+  "response": {
+    "body": {
+      "scaMethods" : [ {
+        "authenticationType" : "PHOTO_OTP",
+        "authenticationVersion" : "v1.2",
+        "authenticationMethodId" : "photoOTP",
+        "name" : "SMS OTP on phone +49160 xxxxx 28",
+        "explanation" : "Sandbox PSD2-SCA Methods"
+      }, {
+        "authenticationType" : "SMS_OTP",
+        "authenticationVersion" : "v1.2",
+        "authenticationMethodId" : "smsOTP",
+        "name" : "SMS OTP on phone +49160 xxxxx 28",
+        "explanation" : "Sandbox PSD2-SCA Methods"
+      } ],
+      "scaStatus" : "psuAuthenticated",
+      "_links" : {
+        "scaStatus" : {
+          "href" : "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/periodic-payments/sepa-credit-transfers/9f3ad160-f096-4738-baed-7b42f5a5aeb5/authorisations/89383666-16a8-4cf7-8803-290f9a56628c"
+        },
+        "selectAuthenticationMethod" : {
+          "href" : "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/periodic-payments/sepa-credit-transfers/9f3ad160-f096-4738-baed-7b42f5a5aeb5/authorisations/89383666-16a8-4cf7-8803-290f9a56628c"
+        }
+      }
+    }
+  }
+}

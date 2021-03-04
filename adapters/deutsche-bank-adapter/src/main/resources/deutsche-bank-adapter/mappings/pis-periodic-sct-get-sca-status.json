@@ -1,0 +1,34 @@
+{
+  "id" : "d64e9b35-a160-47b8-80c9-23351dfa7b05",
+  "name" : "v1_periodic-payments_sepa-credit-transfers_9f3ad160-f096-4738-baed-7b42f5a5aeb5_authorisations_89383666-16a8-4cf7-8803-290f9a56628c",
+  "request" : {
+    "urlPattern" : "/v1/periodic-payments/sepa-credit-transfers/.+/authorisations/.+",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Date" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"scaStatus\":\"finalised\"}",
+    "headers" : {
+      "Date" : "Thu, 04 Mar 2021 15:15:22 GMT",
+      "Server" : "Apache",
+      "glue2gExit" : "2021-03-04T15:15:23.049",
+      "X-Request-ID" : "5f1a8892-5483-4e70-a352-ae9599b22285",
+      "bffEntry" : "2021-03-04T15:15:22.386",
+      "bffExit" : "2021-03-04T15:15:23.049",
+      "Content-Type" : "application/json;charset=utf-8",
+      "glue2gEntry" : "2021-03-04T15:15:22.386",
+      "Keep-Alive" : "timeout=5, max=100"
+    }
+  },
+  "uuid" : "d64e9b35-a160-47b8-80c9-23351dfa7b05",
+  "persistent" : true,
+  "insertionIndex" : 29
+}

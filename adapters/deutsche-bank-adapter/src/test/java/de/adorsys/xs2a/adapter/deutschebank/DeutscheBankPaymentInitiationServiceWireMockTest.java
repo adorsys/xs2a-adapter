@@ -22,20 +22,20 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 class DeutscheBankPaymentInitiationServiceWireMockTest {
     protected static final String SCT_PAYMENT_ID = "de91a99b-5b9d-4f70-8846-81beba089f87";
     protected static final String SCT_AUTHORISATION_ID = "43ede576-4b22-4435-ac54-70f2a5eba912";
-//    protected static final String PAIN_SCT_PAYMENT_ID = "850987d5-eb54-4053-84c1-945485147e3b";
-//    protected static final String PAIN_SCT_AUTHORISATION_ID = "cafd117d-2969-48be-b003-acd835bb02e6";
+    protected static final String PERIODIC_SCT_PAYMENT_ID = "9f3ad160-f096-4738-baed-7b42f5a5aeb5";
+    protected static final String PERIODIC_SCT_AUTHORISATION_ID = "89383666-16a8-4cf7-8803-290f9a56628c";
     private final PaymentInitiationService service;
-    private final Map<PaymentProduct, Pair<String, String>> ids;
+    private final Map<PaymentService, Pair<String, String>> ids;
 
     DeutscheBankPaymentInitiationServiceWireMockTest(PaymentInitiationService service) {
         this.service = service;
         this.ids = initiateMap();
     }
 
-    private Map<PaymentProduct, Pair<String, String>> initiateMap() {
-        Map<PaymentProduct, Pair<String, String>> map = new HashMap<>();
-        map.put(PaymentProduct.SEPA_CREDIT_TRANSFERS, Pair.of(SCT_PAYMENT_ID, SCT_AUTHORISATION_ID));
-//        map.put(PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS, Pair.of(PAIN_SCT_PAYMENT_ID, PAIN_SCT_AUTHORISATION_ID));
+    private Map<PaymentService, Pair<String, String>> initiateMap() {
+        Map<PaymentService, Pair<String, String>> map = new HashMap<>();
+        map.put(PaymentService.PAYMENTS, Pair.of(SCT_PAYMENT_ID, SCT_AUTHORISATION_ID));
+        map.put(PaymentService.PERIODIC_PAYMENTS, Pair.of(PERIODIC_SCT_PAYMENT_ID, PERIODIC_SCT_AUTHORISATION_ID));
         return map;
     }
 
@@ -49,7 +49,9 @@ class DeutscheBankPaymentInitiationServiceWireMockTest {
             paymentProduct,
             requestResponse.requestHeaders(),
             RequestParams.empty(),
-            isJson(paymentProduct) ? requestResponse.requestBody(PaymentInitiationJson.class) : requestResponse.requestBody());
+            isPeriodic(paymentService)
+                ? requestResponse.requestBody(PeriodicPaymentInitiationJson.class)
+                : requestResponse.requestBody(PaymentInitiationJson.class));
 
         assertThat(response.getBody()).isEqualTo(requestResponse.responseBody(PaymentInitationRequestResponse201.class));
     }
@@ -64,7 +66,9 @@ class DeutscheBankPaymentInitiationServiceWireMockTest {
             paymentProduct,
             requestResponse.requestHeaders(),
             RequestParams.empty(),
-            isJson(paymentProduct) ? requestResponse.requestBody(PaymentInitiationJson.class) : requestResponse.requestBody());
+            isPeriodic(paymentService)
+                ? requestResponse.requestBody(PeriodicPaymentInitiationJson.class)
+                : requestResponse.requestBody(PaymentInitiationJson.class));
 
         PaymentInitationRequestResponse201 expectedBody =
             requestResponse.responseBody(PaymentInitationRequestResponse201.class);
@@ -73,8 +77,8 @@ class DeutscheBankPaymentInitiationServiceWireMockTest {
         assertThat(response.getBody()).isEqualTo(expectedBody);
     }
 
-    private boolean isJson(PaymentProduct paymentProduct) {
-        return paymentProduct == PaymentProduct.SEPA_CREDIT_TRANSFERS;
+    private boolean isPeriodic(PaymentService paymentProduct) {
+        return paymentProduct == PaymentService.PERIODIC_PAYMENTS;
     }
 
     @ParameterizedTest
@@ -85,8 +89,8 @@ class DeutscheBankPaymentInitiationServiceWireMockTest {
 
         Response<UpdatePsuAuthenticationResponse> response = service.updatePaymentPsuData(paymentService,
             paymentProduct,
-            ids.get(paymentProduct).getLeft(),
-            ids.get(paymentProduct).getRight(),
+            ids.get(paymentService).getLeft(),
+            ids.get(paymentService).getRight(),
             requestResponse.requestHeaders(),
             RequestParams.empty(),
             requestResponse.requestBody(UpdatePsuAuthentication.class));
@@ -102,8 +106,8 @@ class DeutscheBankPaymentInitiationServiceWireMockTest {
 
         Response<SelectPsuAuthenticationMethodResponse> response = service.updatePaymentPsuData(paymentService,
             paymentProduct,
-            ids.get(paymentProduct).getLeft(),
-            ids.get(paymentProduct).getRight(),
+            ids.get(paymentService).getLeft(),
+            ids.get(paymentService).getRight(),
             requestResponse.requestHeaders(),
             RequestParams.empty(),
             requestResponse.requestBody(SelectPsuAuthenticationMethod.class));
@@ -119,8 +123,8 @@ class DeutscheBankPaymentInitiationServiceWireMockTest {
 
         Response<ScaStatusResponse> response = service.updatePaymentPsuData(paymentService,
             paymentProduct,
-            ids.get(paymentProduct).getLeft(),
-            ids.get(paymentProduct).getRight(),
+            ids.get(paymentService).getLeft(),
+            ids.get(paymentService).getRight(),
             requestResponse.requestHeaders(),
             RequestParams.empty(),
             requestResponse.requestBody(TransactionAuthorisation.class));
@@ -136,8 +140,8 @@ class DeutscheBankPaymentInitiationServiceWireMockTest {
 
         Response<ScaStatusResponse> response = service.getPaymentInitiationScaStatus(paymentService,
             paymentProduct,
-            ids.get(paymentProduct).getLeft(),
-            ids.get(paymentProduct).getRight(),
+            ids.get(paymentService).getLeft(),
+            ids.get(paymentService).getRight(),
             requestResponse.requestHeaders(),
             RequestParams.empty());
 
@@ -152,7 +156,7 @@ class DeutscheBankPaymentInitiationServiceWireMockTest {
 
         Response<PaymentInitiationStatusResponse200Json> response = service.getPaymentInitiationStatus(paymentService,
             paymentProduct,
-            ids.get(paymentProduct).getLeft(),
+            ids.get(paymentService).getLeft(),
             requestResponse.requestHeaders(),
             RequestParams.empty());
 
@@ -160,8 +164,7 @@ class DeutscheBankPaymentInitiationServiceWireMockTest {
     }
 
     private static Stream<Arguments> paymentTypes() {
-//        return Stream.of(arguments(PaymentService.PAYMENTS, PaymentProduct.SEPA_CREDIT_TRANSFERS),
-//            arguments(PaymentService.PAYMENTS, PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS));
-        return Stream.of(arguments(PaymentService.PAYMENTS, PaymentProduct.SEPA_CREDIT_TRANSFERS));
+        return Stream.of(arguments(PaymentService.PAYMENTS, PaymentProduct.SEPA_CREDIT_TRANSFERS),
+            arguments(PaymentService.PERIODIC_PAYMENTS, PaymentProduct.SEPA_CREDIT_TRANSFERS));
     }
 }

@@ -6,8 +6,7 @@
   },
   "response": {
     "body": {
-      "transactionStatus": "ACCP",
-      "fundsAvailable": true
+      "transactionStatus": "ACTC"
     }
   }
 }
