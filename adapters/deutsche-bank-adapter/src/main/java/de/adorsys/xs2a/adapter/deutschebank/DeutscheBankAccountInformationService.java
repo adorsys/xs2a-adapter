@@ -116,7 +116,6 @@ public class DeutscheBankAccountInformationService extends BaseAccountInformatio
         return StringUtils.isNotBlank(psuData.getEncryptedPassword());
     }
 
-    // todo: undo passing plain password
     private void encryptPassword(PsuData psuData) {
         String password = psuData.getEncryptedPassword();
         String encryptedPassword = psuPasswordEncryptionService.encrypt(password);

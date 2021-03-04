@@ -13,7 +13,7 @@
         "iban": "DE17215730140403340300",
         "currency": "EUR"
       },
-      "creditorName": "Anton Bruekner",
+      "creditorName": "merchant123",
       "debtorAccount": {
         "iban": "DE25648730420109480400",
         "currency": "EUR"

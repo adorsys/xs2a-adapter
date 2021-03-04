@@ -107,7 +107,7 @@ class DeutscheBankAccountInformationServiceWireMockTest {
     }
 
     @ParameterizedTest
-    @MethodSource("testSource")
+    @MethodSource("testIds")
     void getTransactions(String suffix, String accountId) throws Exception {
         TestRequestResponse requestResponse = new TestRequestResponse(String.format("ais/get-transactions%s.json", suffix));
 
@@ -119,7 +119,7 @@ class DeutscheBankAccountInformationServiceWireMockTest {
     }
 
     @ParameterizedTest
-    @MethodSource("testSource")
+    @MethodSource("testIds")
     void getBalances(String suffix, String accountId) throws IOException {
         TestRequestResponse requestResponse = new TestRequestResponse(String.format("ais/get-balances%s.json", suffix));
 
@@ -164,7 +164,7 @@ class DeutscheBankAccountInformationServiceWireMockTest {
         assertThat(response.getStatusCode()).isEqualTo(204);
     }
 
-    private static Stream<Arguments> testSource() {
+    private static Stream<Arguments> testIds() {
         return Stream.of(arguments("", ACCOUNT_ID), arguments("-redirect", ACCOUNT_ID_REDIRECT));
     }
 }

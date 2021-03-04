@@ -13,7 +13,7 @@
         "iban": "DE17215730140403340300",
         "currency": "EUR"
       },
-      "creditorName": "merchant",
+      "creditorName": "merchant123",
       "debtorAccount": {
         "iban": "DE17215730140403340300",
         "currency": "EUR"
