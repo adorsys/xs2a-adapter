@@ -13,9 +13,9 @@
         "iban": "DE17215730140403340300",
         "currency": "EUR"
       },
-      "creditorName": "Anton Bruekner",
+      "creditorName": "merchant",
       "debtorAccount": {
-        "iban": "DE25648730420109480400",
+        "iban": "DE17215730140403340300",
         "currency": "EUR"
       },
       "instructedAmount": {
@@ -23,25 +23,35 @@
         "currency": "EUR"
       },
       "remittanceInformationUnstructured": "just",
-      "endToEndIdentification": "SandboxTPPTest1"
+      "endToEndIdentification": "SandboxTPPTest1",
+      "startDate": "2021-03-04",
+      "endDate": "2021-04-03",
+      "executionRule": "following",
+      "frequency": "Monthly",
+      "dayOfExecution": "28"
     }
   },
   "response": {
     "body": {
       "transactionStatus" : "RCVD",
-      "paymentId" : "12a878ec-0d06-40bc-a95c-624cf57b5b65",
+      "paymentId" : "951a1aef-caf6-4b3a-85e3-3ebcf35c5fc6",
+      "transactionFees" : {
+        "currency" : "EUR",
+        "amount" : "1.27"
+      },
+      "transactionFeeIndicator" : true,
       "_links" : {
         "scaStatus" : {
-          "href" : "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/payments/sepa-credit-transfers/12a878ec-0d06-40bc-a95c-624cf57b5b65/authorisations/4fab1281-9aa9-45da-8985-8ea724df685a"
+          "href" : "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/periodic-payments/sepa-credit-transfers/951a1aef-caf6-4b3a-85e3-3ebcf35c5fc6/authorisations/f6b116b1-66ad-4045-8994-ca5bcd2bcd82"
         },
         "scaRedirect" : {
-          "href" : "http://localhost:8080/redirect"
+          "href" : "https://www.deutsche-bank.de/pk/shared/jumppage/sandbox.html?sca-ok=aHR0cHM6Ly9leGFtcGxlLmNvbQ==&sca-nok="
         },
         "self" : {
-          "href" : "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/payments/sepa-credit-transfers/12a878ec-0d06-40bc-a95c-624cf57b5b65"
+          "href" : "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/periodic-payments/sepa-credit-transfers/951a1aef-caf6-4b3a-85e3-3ebcf35c5fc6"
         },
         "status" : {
-          "href" : "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/payments/sepa-credit-transfers/12a878ec-0d06-40bc-a95c-624cf57b5b65/status"
+          "href" : "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/periodic-payments/sepa-credit-transfers/951a1aef-caf6-4b3a-85e3-3ebcf35c5fc6/status"
         }
       }
     }
