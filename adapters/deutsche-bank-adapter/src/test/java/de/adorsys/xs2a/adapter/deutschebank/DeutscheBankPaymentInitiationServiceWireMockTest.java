@@ -54,6 +54,25 @@ class DeutscheBankPaymentInitiationServiceWireMockTest {
         assertThat(response.getBody()).isEqualTo(requestResponse.responseBody(PaymentInitationRequestResponse201.class));
     }
 
+    @ParameterizedTest
+    @MethodSource("paymentTypes")
+    void initiatePayment_redirect(PaymentService paymentService, PaymentProduct paymentProduct) throws Exception {
+        TestRequestResponse requestResponse =
+            new TestRequestResponse("pis/" + paymentService + "/" + paymentProduct + "/initiate-payment-redirect.json");
+
+        Response<PaymentInitationRequestResponse201> response = service.initiatePayment(paymentService,
+            paymentProduct,
+            requestResponse.requestHeaders(),
+            RequestParams.empty(),
+            isJson(paymentProduct) ? requestResponse.requestBody(PaymentInitiationJson.class) : requestResponse.requestBody());
+
+        PaymentInitationRequestResponse201 expectedBody =
+            requestResponse.responseBody(PaymentInitationRequestResponse201.class);
+        // sca redirect link is stubbed via wiremock (has dynamic port)
+        expectedBody.getLinks().put("scaRedirect", response.getBody().getLinks().get("scaRedirect"));
+        assertThat(response.getBody()).isEqualTo(expectedBody);
+    }
+
     private boolean isJson(PaymentProduct paymentProduct) {
         return paymentProduct == PaymentProduct.SEPA_CREDIT_TRANSFERS;
     }

@@ -35,13 +35,24 @@ class DeutscheBankAccountInformationServiceWireMockTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "-redirect"})
     void createConsent(String suffix) throws Exception {
-        TestRequestResponse requestResponse = new TestRequestResponse(String.format("ais/create-consent%s.json", suffix));
+        String relativePath = String.format("ais/create-consent%s.json", suffix);
+        TestRequestResponse requestResponse = new TestRequestResponse(relativePath);
 
         Response<ConsentsResponse201> response = service.createConsent(requestResponse.requestHeaders(),
             RequestParams.empty(),
             requestResponse.requestBody(Consents.class));
 
-        assertThat(response.getBody()).isEqualTo(requestResponse.responseBody(ConsentsResponse201.class));
+        if (isRedirect(relativePath)) {
+            ConsentsResponse201 expectedBody = requestResponse.responseBody(ConsentsResponse201.class);
+            expectedBody.getLinks().put("scaRedirect", response.getBody().getLinks().get("scaRedirect"));
+            assertThat(response.getBody()).isEqualTo(expectedBody);
+        } else {
+            assertThat(response.getBody()).isEqualTo(requestResponse.responseBody(ConsentsResponse201.class));
+        }
+    }
+
+    private boolean isRedirect(String relativePath) {
+        return relativePath.contains("-redirect");
     }
 
     @Test
