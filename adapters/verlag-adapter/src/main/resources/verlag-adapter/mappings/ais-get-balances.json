@@ -1,0 +1,34 @@
+{
+  "id" : "f48000b1-89ab-482a-8734-35a31b9c4267",
+  "name" : "v1_accounts_3a4c851658957bc30d767425679769fc380120315d6da67faa52f016723ec9a2_balances",
+  "request" : {
+    "urlPattern" : "/v1/accounts/.+/balances",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Consent-ID" : {
+        "equalTo" : "cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"account\":{\"iban\":\"DE51250400903312345678\",\"currency\":\"EUR\"},\"balances\":[{\"balanceAmount\":{\"currency\":\"EUR\",\"amount\":\"3507505.87\"},\"balanceType\":\"closingBooked\",\"creditLimitIncluded\":false}]}",
+    "headers" : {
+      "Date" : "Fri, 05 Mar 2021 11:57:38 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "X-Request-Id" : "da49f1e6-fc73-4354-80d4-44ecb50b3868",
+      "X-Kong-Upstream-Latency" : "2099",
+      "X-Kong-Proxy-Latency" : "1",
+      "Strict-Transport-Security" : [ "max-age=15724800; includeSubDomains", "max-age=63072000; includeSubDomains; preload" ],
+      "X-Frame-Options" : "DENY",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block"
+    }
+  },
+  "uuid" : "f48000b1-89ab-482a-8734-35a31b9c4267",
+  "persistent" : true,
+  "insertionIndex" : 42
+}

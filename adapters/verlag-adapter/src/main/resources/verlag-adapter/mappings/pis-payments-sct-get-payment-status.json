@@ -1,0 +1,31 @@
+{
+  "id" : "f4f13303-e521-45fd-8243-51409b448dab",
+  "name" : "v1_payments_sepa-credit-transfers_fwd0xfgmdk9sgqviy-hs-fzlme_edcux3yjmkft1qky8llrazziexwk1k_5jbtvstxpei8-lptjavgjstrnls_sdmwf3876hawek_n7hjlg__psglvqpt9q_status",
+  "request" : {
+    "urlPattern" : "/v1/payments/sepa-credit-transfers/.+/status",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"transactionStatus\":\"ACTC\",\"fundsAvailable\":true}",
+    "headers" : {
+      "Date" : "Fri, 05 Mar 2021 15:45:44 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "X-Request-Id" : "da37fe47-0bb0-4e42-b114-ccbbf8941293",
+      "X-Kong-Upstream-Latency" : "196",
+      "X-Kong-Proxy-Latency" : "0",
+      "Strict-Transport-Security" : [ "max-age=15724800; includeSubDomains", "max-age=63072000; includeSubDomains; preload" ],
+      "X-Frame-Options" : "DENY",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block"
+    }
+  },
+  "uuid" : "f4f13303-e521-45fd-8243-51409b448dab",
+  "persistent" : true,
+  "insertionIndex" : 14
+}
