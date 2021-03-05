@@ -1,0 +1,63 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "e56a3492-e9c7-4357-9b77-0a3bdafdd607",
+      "PSU-ID": "6154033437",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "PSU-IP-Address": "0.0.0.0",
+      "PSU-ID-Type": "DE_ONLB_DB",
+      "TPP-Redirect-Preferred": "false",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "creditorAccount": {
+        "iban": "DE76215730140403343700",
+        "currency": "EUR"
+      },
+      "creditorName": "merchant123",
+      "debtorAccount": {
+        "iban": "DE76215730140403343700",
+        "currency": "EUR"
+      },
+      "instructedAmount": {
+        "amount": "20.99",
+        "currency": "EUR"
+      },
+      "remittanceInformationUnstructured": "just",
+      "endToEndIdentification": "SandboxTPPTest1",
+      "startDate": "2021-03-04",
+      "endDate": "2021-04-03",
+      "executionRule": "following",
+      "frequency": "Monthly",
+      "dayOfExecution": "28"
+    }
+  },
+  "response": {
+    "body": {
+      "transactionStatus" : "RCVD",
+      "paymentId" : "9f3ad160-f096-4738-baed-7b42f5a5aeb5",
+      "transactionFees" : {
+        "currency" : "EUR",
+        "amount" : "1.27"
+      },
+      "transactionFeeIndicator" : true,
+      "_links" : {
+        "scaStatus" : {
+          "href" : "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/periodic-payments/sepa-credit-transfers/9f3ad160-f096-4738-baed-7b42f5a5aeb5/authorisations/89383666-16a8-4cf7-8803-290f9a56628c"
+        },
+        "startAuthorisationWithEncryptedPsuAuthentication" : {
+          "href" : "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/periodic-payments/sepa-credit-transfers/9f3ad160-f096-4738-baed-7b42f5a5aeb5/authorisations/89383666-16a8-4cf7-8803-290f9a56628c"
+        },
+        "self" : {
+          "href" : "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/periodic-payments/sepa-credit-transfers/9f3ad160-f096-4738-baed-7b42f5a5aeb5"
+        },
+        "aspspCertificates" : {
+          "href" : "https://simulator-xs2a.db.com/DE/SB-DB/aspsp-certificates/"
+        },
+        "status" : {
+          "href" : "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/periodic-payments/sepa-credit-transfers/9f3ad160-f096-4738-baed-7b42f5a5aeb5/status"
+        }
+      }
+    }
+  }
+}

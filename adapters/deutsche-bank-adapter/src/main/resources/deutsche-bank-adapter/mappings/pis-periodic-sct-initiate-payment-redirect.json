@@ -1,0 +1,56 @@
+{
+  "id" : "ed3845d2-6469-44bc-a2b3-4bc639409969",
+  "name" : "v1_periodic-payments_sepa-credit-transfers",
+  "request" : {
+    "url" : "/v1/periodic-payments/sepa-credit-transfers",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "6154033403"
+      },
+      "TPP-Redirect-URI" : {
+        "matches" : ".+"
+      },
+      "Date" : {
+        "matches" : ".+"
+      },
+      "PSU-IP-Address" : {
+        "matches" : ".+"
+      },
+      "PSU-ID-Type" : {
+        "equalTo" : "DE_ONLB_DB"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"endToEndIdentification\":\"SandboxTPPTest1\",\"debtorAccount\":{\"iban\":\"DE17215730140403340300\",\"currency\":\"EUR\"},\"instructedAmount\":{\"currency\":\"EUR\",\"amount\":\"${json-unit.regex}-?[0-9]{1,14}(\\\\.[0-9]{1,3})?\"},\"creditorAccount\":{\"iban\":\"DE17215730140403340300\",\"currency\":\"EUR\"},\"creditorName\":\"${json-unit.any-string}\",\"remittanceInformationUnstructured\":\"just\",\"startDate\":\"${json-unit.regex}\\\\d{4}-[01]\\\\d-[0-3]\\\\d\",\"endDate\":\"${json-unit.regex}\\\\d{4}-[01]\\\\d-[0-3]\\\\d\",\"executionRule\":\"following\",\"frequency\":\"Monthly\",\"dayOfExecution\":\"${json-unit.regex}\\\\d{1,2}\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"transactionStatus\":\"RCVD\",\"_links\":{\"scaStatus\":{\"href\":\"https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/periodic-payments/sepa-credit-transfers/951a1aef-caf6-4b3a-85e3-3ebcf35c5fc6/authorisations/f6b116b1-66ad-4045-8994-ca5bcd2bcd82\"},\"scaRedirect\":{\"href\":\"http://localhost:{{request.port}}/redirect\"},\"self\":{\"href\":\"https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/periodic-payments/sepa-credit-transfers/951a1aef-caf6-4b3a-85e3-3ebcf35c5fc6\"},\"status\":{\"href\":\"https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/periodic-payments/sepa-credit-transfers/951a1aef-caf6-4b3a-85e3-3ebcf35c5fc6/status\"}},\"paymentId\":\"951a1aef-caf6-4b3a-85e3-3ebcf35c5fc6\",\"transactionFeeIndicator\":true,\"transactionFees\":{\"amount\":\"1.27\",\"currency\":\"EUR\"}}",
+    "headers" : {
+      "Date" : "Thu, 04 Mar 2021 17:11:44 GMT",
+      "Server" : "Apache",
+      "glue2gExit" : "2021-03-04T17:11:44.369",
+      "X-Request-ID" : "be51dd97-c71e-4caf-ba0f-394772e29e83",
+      "ASPSP-SCA-Approach" : "REDIRECT",
+      "bffEntry" : "2021-03-04T17:11:43.282",
+      "bffExit" : "2021-03-04T17:11:44.369",
+      "Content-Type" : "application/json;charset=utf-8",
+      "glue2gEntry" : "2021-03-04T17:11:43.282",
+      "Location" : "{\"href\":\"https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/periodic-payments/sepa-credit-transfers/951a1aef-caf6-4b3a-85e3-3ebcf35c5fc6\"}",
+      "Keep-Alive" : "timeout=5, max=100"
+    }
+  },
+  "uuid" : "ed3845d2-6469-44bc-a2b3-4bc639409969",
+  "persistent" : true,
+  "insertionIndex" : 32
+}

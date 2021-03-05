@@ -1,0 +1,34 @@
+{
+  "id" : "b81db84a-b6eb-415c-9bc4-e40aa14aef72",
+  "name" : "v1_periodic-payments_sepa-credit-transfers_9f3ad160-f096-4738-baed-7b42f5a5aeb5_status",
+  "request" : {
+    "urlPattern" : "/v1/periodic-payments/sepa-credit-transfers/.+/status",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Date" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"transactionStatus\":\"ACTC\"}",
+    "headers" : {
+      "Date" : "Thu, 04 Mar 2021 15:15:27 GMT",
+      "Server" : "Apache",
+      "glue2gExit" : "2021-03-04T15:15:27.327",
+      "X-Request-ID" : "812ba508-f3e3-4a97-9d5c-0de573a9d7c0",
+      "bffEntry" : "2021-03-04T15:15:26.940",
+      "bffExit" : "2021-03-04T15:15:27.328",
+      "Content-Type" : "application/json;charset=utf-8",
+      "glue2gEntry" : "2021-03-04T15:15:26.940",
+      "Keep-Alive" : "timeout=5, max=100"
+    }
+  },
+  "uuid" : "b81db84a-b6eb-415c-9bc4-e40aa14aef72",
+  "persistent" : true,
+  "insertionIndex" : 30
+}

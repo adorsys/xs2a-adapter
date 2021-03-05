@@ -1,0 +1,12 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "06b43276-40f6-4ba4-aa8a-50c8e7f2781d"
+    }
+  },
+  "response": {
+    "body": {
+      "transactionStatus": "ACTC"
+    }
+  }
+}
