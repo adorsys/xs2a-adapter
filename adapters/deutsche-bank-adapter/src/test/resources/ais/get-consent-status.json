@@ -1,0 +1,12 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "d27dedbd-9cfa-4c00-8bc6-f6a8f2223869"
+    }
+  },
+  "response": {
+    "body": {
+      "consentStatus": "valid"
+    }
+  }
+}

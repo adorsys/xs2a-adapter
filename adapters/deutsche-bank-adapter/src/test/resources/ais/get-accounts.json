@@ -1,0 +1,62 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "cc29a35e-2f59-4b2f-bc72-442e8f34a4dd",
+      "Consent-ID": "17501be7-1dcd-4ad5-ab30-6d02b170e31a"
+    },
+    "params": {
+      "withBalance": "false"
+    }
+  },
+  "response": {
+    "body": {
+      "accounts" : [ {
+        "resourceId" : "8724B81FA1BDDF1775B8C8354221849E",
+        "iban" : "DE76215730140403343700",
+        "currency" : "EUR",
+        "name" : "JAVIER MARTIN ALAEZ",
+        "product" : "CUENTA A LA VISTA DB",
+        "balances" : [ {
+          "balanceAmount" : {
+            "currency" : "EUR",
+            "amount" : "500.00"
+          },
+          "balanceType" : "closingBooked",
+          "referenceDate" : "2017-10-25"
+        }, {
+          "balanceAmount" : {
+            "currency" : "EUR",
+            "amount" : "900.00"
+          },
+          "balanceType" : "expected",
+          "lastChangeDateTime" : "2017-10-25T15:30:35.035Z"
+        }, {
+          "balanceAmount" : {
+            "currency" : "USD",
+            "amount" : "350.00"
+          },
+          "balanceType" : "closingBooked",
+          "referenceDate" : "2017-10-25"
+        }, {
+          "balanceAmount" : {
+            "currency" : "USD",
+            "amount" : "350.00"
+          },
+          "balanceType" : "expected",
+          "lastChangeDateTime" : "2017-10-24T14:30:21Z"
+        } ],
+        "_links" : {
+          "balances" : {
+            "href" : "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/accounts/8724B81FA1BDDF1775B8C8354221849E/balances"
+          },
+          "transactions" : {
+            "href" : "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/accounts/8724B81FA1BDDF1775B8C8354221849E/transactions"
+          },
+          "account" : {
+            "href" : "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/accounts/8724B81FA1BDDF1775B8C8354221849E"
+          }
+        }
+      } ]
+    }
+  }
+}

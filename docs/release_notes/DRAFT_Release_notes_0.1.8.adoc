@@ -7,6 +7,10 @@
 == Notices:
 - changes in "ing-adapter": the adapter supports WiremockStubDifferenceDetectingInterceptor from now on.
 - added WireMock stubs of _pain.001-sepa-credit-transfers_ for `sparkasse-adapter` Payments Service.
+- added documentation about WireMock Mode, it will be available on GitHub Pages from next release (0.1.8)
+by referring this https://adorsys.github.io/xs2a-adapter/wiremock-mode[link]. The source .adoc is located
+https://github.com/adorsys/xs2a-adapter/blob/develop/docs/wiremock-mode.adoc[here].
+- added WireMock stubs for `deutsche-bank-adapter`, records covered AIS, PIS flows for EMBEDDED and REDIRECT Approaches.
 
 == Features:
 

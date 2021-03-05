@@ -1,0 +1,58 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "4ba82f21-6083-430a-8bdf-4f7c9e8c4d42",
+      "PSU-ID": "6154033403",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "PSU-IP-Address": "0.0.0.0",
+      "PSU-ID-Type" : "DE_ONLB_DB",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "access": {
+        "accounts": [
+          {
+            "iban": "DE17215730140403340300",
+            "currency": "EUR"
+          }
+        ],
+        "balances": [
+          {
+            "iban": "DE17215730140403340300",
+            "currency": "EUR"
+          }
+        ],
+        "transactions": [
+          {
+            "iban": "DE17215730140403340300",
+            "currency": "EUR"
+          }
+        ]
+      },
+      "recurringIndicator": true,
+      "validUntil": "2021-03-03",
+      "frequencyPerDay": 4,
+      "combinedServiceIndicator": false
+    }
+  },
+  "response": {
+    "body": {
+      "consentStatus" : "received",
+      "consentId" : "24aef626-86e8-4b5a-b02c-02224ba45908",
+      "_links" : {
+        "scaStatus" : {
+          "href" : "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents/24aef626-86e8-4b5a-b02c-02224ba45908/authorisations/d058103a-a048-4171-8c43-9e8139a90e9a"
+        },
+        "scaRedirect" : {
+          "href" : "http://localhost:8080/redirect"
+        },
+        "self" : {
+          "href" : "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents/24aef626-86e8-4b5a-b02c-02224ba45908"
+        },
+        "status" : {
+          "href" : "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/consents/24aef626-86e8-4b5a-b02c-02224ba45908/status"
+        }
+      }
+    }
+  }
+}

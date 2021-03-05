@@ -1,0 +1,49 @@
+{
+  "id" : "f899cf31-4f40-45b5-8216-9fe35a9b9cdb",
+  "name" : "v1_payments_sepa-credit-transfers_de91a99b-5b9d-4f70-8846-81beba089f87_authorisations_43ede576-4b22-4435-ac54-70f2a5eba912",
+  "request" : {
+    "urlPattern" : "/v1/payments/sepa-credit-transfers/.+/authorisations/.+",
+    "method" : "PUT",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "6154033437"
+      },
+      "Date" : {
+        "matches" : ".+"
+      },
+      "PSU-ID-Type" : {
+        "equalTo" : "DE_ONLB_DB"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"psuData\":{\"encryptedPassword\":\"PISPWD12\"}}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"scaStatus\":\"psuAuthenticated\",\"scaMethods\":[{\"authenticationVersion\":\"v1.2\",\"name\":\"SMS OTP on phone +49160 xxxxx 28\",\"authenticationType\":\"PHOTO_OTP\",\"explanation\":\"Sandbox PSD2-SCA Methods\",\"authenticationMethodId\":\"photoOTP\"},{\"authenticationVersion\":\"v1.2\",\"name\":\"SMS OTP on phone +49160 xxxxx 28\",\"authenticationType\":\"SMS_OTP\",\"explanation\":\"Sandbox PSD2-SCA Methods\",\"authenticationMethodId\":\"smsOTP\"}],\"_links\":{\"scaStatus\":{\"href\":\"https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/payments/sepa-credit-transfers/de91a99b-5b9d-4f70-8846-81beba089f87/authorisations/43ede576-4b22-4435-ac54-70f2a5eba912\"},\"selectAuthenticationMethod\":{\"href\":\"https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/payments/sepa-credit-transfers/de91a99b-5b9d-4f70-8846-81beba089f87/authorisations/43ede576-4b22-4435-ac54-70f2a5eba912\"}}}",
+    "headers" : {
+      "Date" : "Thu, 04 Mar 2021 09:02:04 GMT",
+      "Server" : "Apache",
+      "glue2gExit" : "2021-03-04T09:02:05.134",
+      "X-Request-ID" : "6e8fde46-919a-4cc1-924d-0ecd27f74289",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "bffEntry" : "2021-03-04T09:02:04.497",
+      "bffExit" : "2021-03-04T09:02:05.134",
+      "Content-Type" : "application/json;charset=utf-8",
+      "glue2gEntry" : "2021-03-04T09:02:04.497",
+      "Keep-Alive" : "timeout=5, max=100"
+    }
+  },
+  "uuid" : "f899cf31-4f40-45b5-8216-9fe35a9b9cdb",
+  "persistent" : true,
+  "insertionIndex" : 16
+}

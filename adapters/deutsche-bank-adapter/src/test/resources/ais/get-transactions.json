@@ -1,0 +1,69 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "c558ad1b-9e19-4fae-ac89-90a0f811f1fe",
+      "Consent-ID": "17501be7-1dcd-4ad5-ab30-6d02b170e31a"
+    },
+    "params": {
+      "dateFrom": "1970-01-01",
+      "dateTo": "2020-08-06",
+      "bookingStatus": "booked",
+      "withBalance": "true"
+    }
+  },
+  "response": {
+    "body": {
+      "account" : {
+        "iban" : "DE76215730140403343700",
+        "currency" : "EUR"
+      },
+      "transactions" : {
+        "booked" : [ {
+          "transactionId" : "1234567",
+          "bookingDate" : "2017-10-25",
+          "valueDate" : "2017-10-26",
+          "transactionAmount" : {
+            "currency" : "EUR",
+            "amount" : "256.67"
+          },
+          "creditorName" : "John Miles",
+          "creditorAccount" : {
+            "iban" : "DE76215730140403343700"
+          },
+          "remittanceInformationUnstructured" : "Example 1"
+        }, {
+          "transactionId" : "1234568",
+          "bookingDate" : "2017-10-25",
+          "valueDate" : "2017-10-26",
+          "transactionAmount" : {
+            "currency" : "EUR",
+            "amount" : "343.01"
+          },
+          "debtorName" : "Paul Simpson",
+          "debtorAccount" : {
+            "iban" : "DE76215730140403343700"
+          },
+          "remittanceInformationUnstructured" : "Example 2"
+        } ],
+        "pending" : [ {
+          "transactionId" : "1234569",
+          "valueDate" : "2017-10-26",
+          "transactionAmount" : {
+            "currency" : "EUR",
+            "amount" : "-100.03"
+          },
+          "creditorName" : "Claude Renault",
+          "creditorAccount" : {
+            "iban" : "DE76215730140403343700"
+          },
+          "remittanceInformationUnstructured" : "Example 3"
+        } ],
+        "_links" : {
+          "account" : {
+            "href" : "https://simulator-xs2a.db.com/ais/DE/SB-DB/v1/accounts/8724B81FA1BDDF1775B8C8354221849E"
+          }
+        }
+      }
+    }
+  }
+}

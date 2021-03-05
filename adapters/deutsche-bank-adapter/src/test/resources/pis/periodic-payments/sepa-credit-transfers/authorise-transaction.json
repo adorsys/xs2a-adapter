@@ -1,0 +1,21 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "04f6c752-1f2a-4102-b926-52c2f5906afa",
+      "PSU-ID": "6154033437",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "PSU-IP-Address": "0.0.0.0",
+      "PSU-ID-Type": "DE_ONLB_DB",
+      "Content-Type": "application/json; charset=UTF-8"
+    },
+    "body": {
+      "scaAuthenticationData": "123654"
+    }
+  },
+  "response": {
+    "body": {
+      "scaStatus": "finalised"
+      }
+    }
+  }
+}
