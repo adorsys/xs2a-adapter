@@ -3,22 +3,17 @@ package de.adorsys.xs2a.adapter.verlag;
 import de.adorsys.xs2a.adapter.api.AccountInformationService;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
-import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.test.ServiceWireMockTest;
 import de.adorsys.xs2a.adapter.test.TestRequestResponse;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ServiceWireMockTest(VerlagServiceProvider.class)
+@ServiceWireMockTest(TestVerlagServiceProvider.class)
 class VerlagAccountInformationServiceWireMockTest {
-    private static final String pathToConfig
-        = VerlagAccountInformationServiceWireMockTest.class.getResource("/verlag.adapter.config.properties").getFile();
-
     private static final String CONSENT_ID = "cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q";
     private static final String AUTHORISATION_ID = "356e6d7d-9242-4264-8cb5-892e0758d69c";
     private static final String ACCOUNT_ID = "3a4c851658957bc30d767425679769fc380120315d6da67faa52f016723ec9a2";
@@ -27,11 +22,6 @@ class VerlagAccountInformationServiceWireMockTest {
 
     VerlagAccountInformationServiceWireMockTest(AccountInformationService service) {
         this.service = service;
-    }
-
-    @BeforeEach
-    void setUp() {
-        AdapterConfig.setConfigFile(pathToConfig);
     }
 
     @Test
@@ -49,13 +39,12 @@ class VerlagAccountInformationServiceWireMockTest {
     void authenticatePsu() throws Exception {
         TestRequestResponse requestResponse = new TestRequestResponse("ais/authenticate-psu.json");
 
-        Response<UpdatePsuAuthenticationResponse> response = service.updateConsentsPsuData(CONSENT_ID,
-            AUTHORISATION_ID,
+        Response<StartScaprocessResponse> response = service.startConsentAuthorisation(CONSENT_ID,
             requestResponse.requestHeaders(),
             RequestParams.empty(),
             requestResponse.requestBody(UpdatePsuAuthentication.class));
 
-        assertThat(response.getBody()).isEqualTo(requestResponse.responseBody(UpdatePsuAuthenticationResponse.class));
+        assertThat(response.getBody()).isEqualTo(requestResponse.responseBody(StartScaprocessResponse.class));
     }
 
     @Test
@@ -99,11 +88,11 @@ class VerlagAccountInformationServiceWireMockTest {
     void getTransactions() throws Exception {
         TestRequestResponse requestResponse = new TestRequestResponse("ais/get-transactions.json");
 
-        Response<TransactionsResponse200Json> response = service.getTransactionList(ACCOUNT_ID,
+        Response<String> response = service.getTransactionListAsString(ACCOUNT_ID,
             requestResponse.requestHeaders(),
             requestResponse.requestParams());
 
-        assertThat(response.getBody()).isEqualTo(requestResponse.responseBody(TransactionsResponse200Json.class));
+        assertThat(response.getBody()).isEqualTo(requestResponse.responseBody());
     }
 
     @Test

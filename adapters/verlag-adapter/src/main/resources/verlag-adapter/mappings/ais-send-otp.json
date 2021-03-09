@@ -2,7 +2,7 @@
   "id" : "4b951d3c-5f09-4398-a0b5-1c898da93a1a",
   "name" : "v1_consents_cwpvqsw1x4peda49lywh3bnqxgdpkadbtuf4flwrbcbgfrjpxjzpbfl-zngkntymetllil2apmjr5erbhdvaj_sdmwf3876hawek_n7hjlg__psglvqpt9q_authorisations_356e6d7d-9242-4264-8cb5-892e0758d69c",
   "request" : {
-    "url" : "/v1/consents/.+/authorisations/.+",
+    "urlPattern" : "/v1/consents/.+/authorisations/.+",
     "method" : "PUT",
     "headers" : {
       "X-Request-ID" : {
