@@ -10,8 +10,7 @@ import java.util.AbstractMap;
 import java.util.Collections;
 
 /**
- * The sole purpose of this test class is to substitute apiKeyEntry map with a mocked one, which is quite cumbersome to do
- * with the original {@link VerlagServiceProvider} class for WireMock testing.
+ * The purpose of this test class is to substitute apiKeyEntry map with a mocked one for WireMock testing.
  */
 public class TestVerlagServiceProvider extends VerlagServiceProvider {
     private final AbstractMap.SimpleImmutableEntry<String, String> apiKeyEntry

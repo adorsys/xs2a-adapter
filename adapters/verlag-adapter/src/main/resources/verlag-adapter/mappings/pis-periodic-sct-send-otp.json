@@ -2,7 +2,7 @@
   "id" : "e8deb3e8-3b22-4c7c-a007-e9af987b4cb2",
   "name" : "v1_periodic-payments_sepa-credit-transfers_q0rrzv0ejecvksbg-l43vgv3yda4kmpxnxlyxsrdg-yuy6twanrbe4d49fudqnwzcilvnse-k0lfvitlevm4mpsdmwf3876hawek_n7hjlg__psglvqpt9q_authorisations_ce9beeb9-2df6-4ce0-b73",
   "request" : {
-    "url" : "/v1/periodic-payments/sepa-credit-transfers/.+/authorisations/.+",
+    "urlPattern" : "/v1/periodic-payments/sepa-credit-transfers/.+/authorisations/.+",
     "method" : "PUT",
     "headers" : {
       "X-Request-ID" : {

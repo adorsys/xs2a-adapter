@@ -11,6 +11,7 @@
 by referring this https://adorsys.github.io/xs2a-adapter/wiremock-mode[link]. The source .adoc is located
 https://github.com/adorsys/xs2a-adapter/blob/develop/docs/wiremock-mode.adoc[here].
 - added WireMock stubs for `deutsche-bank-adapter`, records covered AIS, PIS flows for EMBEDDED and REDIRECT Approaches.
+- added WireMock stubs for `verlag-adapter`, records covered AIS and PIS flows for EMBEDDED Approach.
 
 == Features:
 

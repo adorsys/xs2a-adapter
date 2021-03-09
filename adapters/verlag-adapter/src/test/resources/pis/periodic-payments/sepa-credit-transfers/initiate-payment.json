@@ -1,0 +1,51 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "e56a3492-e9c7-4357-9b77-0a3bdafdd607",
+      "PSU-ID": "PSD2TEST2",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "PSU-IP-Address": "0.0.0.0",
+      "TPP-Redirect-Preferred": "false",
+      "Content-Type": "application/json; charset=UTF-8"
+    },
+    "body": {
+      "creditorAccount": {
+        "iban": "DE51250400903312345678",
+        "currency": "EUR"
+      },
+      "creditorName": "merchant123",
+      "debtorAccount": {
+        "iban": "DE51250400903312345678",
+        "currency": "EUR"
+      },
+      "instructedAmount": {
+        "amount": "20.99",
+        "currency": "EUR"
+      },
+      "remittanceInformationUnstructured": "just",
+      "endToEndIdentification": "SandboxTPPTest1",
+      "startDate": "2021-03-04",
+      "endDate": "2021-04-03",
+      "executionRule": "following",
+      "frequency": "Monthly",
+      "dayOfExecution": "28"
+    }
+  },
+  "response": {
+    "body": {
+      "transactionStatus": "RCVD",
+      "paymentId": "Q0RrZV0EJeCvkSBG-l43vgV3yDa4kmPXnXLyXsRdg-YuY6TWANrBE4d49FUDqNwzCiLVnsE-K0LFvitlevm4mPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q",
+      "_links": {
+        "self": {
+          "href": "https://www.sandbox-bvxs2a.de/xbank/v1/periodic-payments/sepa-credit-transfers/Q0RrZV0EJeCvkSBG-l43vgV3yDa4kmPXnXLyXsRdg-YuY6TWANrBE4d49FUDqNwzCiLVnsE-K0LFvitlevm4mPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q"
+        },
+        "status": {
+          "href": "https://www.sandbox-bvxs2a.de/xbank/v1/periodic-payments/sepa-credit-transfers/Q0RrZV0EJeCvkSBG-l43vgV3yDa4kmPXnXLyXsRdg-YuY6TWANrBE4d49FUDqNwzCiLVnsE-K0LFvitlevm4mPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/status"
+        },
+        "startAuthorisationWithPsuAuthentication": {
+          "href": "https://www.sandbox-bvxs2a.de/xbank/v1/periodic-payments/sepa-credit-transfers/Q0RrZV0EJeCvkSBG-l43vgV3yDa4kmPXnXLyXsRdg-YuY6TWANrBE4d49FUDqNwzCiLVnsE-K0LFvitlevm4mPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations"
+        }
+      }
+    }
+  }
+}

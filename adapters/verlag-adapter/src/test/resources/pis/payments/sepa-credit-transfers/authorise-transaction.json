@@ -1,0 +1,20 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "04f6c752-1f2a-4102-b926-52c2f5906afa",
+      "PSU-ID": "PSD2TEST2",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "PSU-IP-Address": "0.0.0.0",
+      "Content-Type": "application/json; charset=UTF-8"
+    },
+    "body": {
+      "scaAuthenticationData": "22222"
+    }
+  },
+  "response": {
+    "body": {
+      "scaStatus": "finalised"
+      }
+    }
+  }
+}
