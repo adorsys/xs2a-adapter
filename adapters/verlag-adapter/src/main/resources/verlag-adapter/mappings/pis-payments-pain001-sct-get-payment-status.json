@@ -1,0 +1,31 @@
+{
+  "id" : "5fb2b57b-12a8-48d2-9aee-307c7bcce7e3",
+  "name" : "v1_payments_pain001-sepa-credit-transfers_tisb8fid9_bi1gdun7ewhalpkodfhwgvoaiiksmovvyohiu0pokcekbqldu1tjjb2jzg8bl_p92ot1rziwtlepsdmwf3876hawek_n7hjlg__psglvqpt9q_status",
+  "request" : {
+    "urlPattern" : "/v1/payments/pain.001-sepa-credit-transfers/.+/status",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"transactionStatus\":\"ACTC\",\"fundsAvailable\":true}",
+    "headers" : {
+      "Date" : "Fri, 05 Mar 2021 15:46:18 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "X-Request-Id" : "98cacfc6-ebb5-4ff0-9388-fd454e23abb5",
+      "X-Kong-Upstream-Latency" : "219",
+      "X-Kong-Proxy-Latency" : "1",
+      "Strict-Transport-Security" : [ "max-age=15724800; includeSubDomains", "max-age=63072000; includeSubDomains; preload" ],
+      "X-Frame-Options" : "DENY",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block"
+    }
+  },
+  "uuid" : "5fb2b57b-12a8-48d2-9aee-307c7bcce7e3",
+  "persistent" : true,
+  "insertionIndex" : 19
+}

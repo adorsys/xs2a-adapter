@@ -1,0 +1,36 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "7dcdae39-b684-47a4-b856-8fd6215526ac",
+      "PSU-ID": "PSD2TEST2",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "PSU-IP-Address": "0.0.0.0",
+      "Content-Type": "application/json; charset=UTF-8"
+    },
+    "body": {
+      "authenticationMethodId": "901"
+    }
+  },
+  "response": {
+    "body": {
+      "chosenScaMethod": {
+        "authenticationType": "SMS_OTP",
+        "authenticationMethodId": "901",
+        "name": "SMS-TAN",
+        "explanation": "SMS-TAN"
+      },
+      "challengeData": {
+        "additionalInformation": "Bitte verwenden Sie zur Freigabe des Auftrages die Ihnen per SMS zugesandte TAN."
+      },
+      "scaStatus": "scaMethodSelected",
+      "_links": {
+        "scaStatus": {
+          "href": "https://www.sandbox-bvxs2a.de/xbank/v1/payments/sepa-credit-transfers/fwD0xfgmDk9sGQViY-hS-fzlme_eDCUx3yjmKFt1Qky8lLRAzZIEXwk1k_5JbtVSTXPei8-LpTJAvgJsTrnLs_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations/56fb9bd4-1c56-448e-8d45-b65bb42373c8"
+        },
+        "authoriseTransaction": {
+          "href": "https://www.sandbox-bvxs2a.de/xbank/v1/payments/sepa-credit-transfers/fwD0xfgmDk9sGQViY-hS-fzlme_eDCUx3yjmKFt1Qky8lLRAzZIEXwk1k_5JbtVSTXPei8-LpTJAvgJsTrnLs_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations/56fb9bd4-1c56-448e-8d45-b65bb42373c8"
+        }
+      }
+    }
+  }
+}

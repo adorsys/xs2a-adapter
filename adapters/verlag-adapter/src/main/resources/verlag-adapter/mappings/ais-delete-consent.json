@@ -1,0 +1,29 @@
+{
+  "id" : "680a9cf2-d55f-4429-bb5e-b0121ce6ecf1",
+  "name" : "v1_consents_cwpvqsw1x4peda49lywh3bnqxgdpkadbtuf4flwrbcbgfrjpxjzpbfl-zngkntymetllil2apmjr5erbhdvaj_sdmwf3876hawek_n7hjlg__psglvqpt9q",
+  "request" : {
+    "urlPattern" : "/v1/consents/.+",
+    "method" : "DELETE",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 204,
+    "headers" : {
+      "Date" : "Fri, 05 Mar 2021 11:57:50 GMT",
+      "X-Request-Id" : "457e04e4-2f97-4478-972c-d86d9c0186da",
+      "X-Kong-Upstream-Latency" : "2038",
+      "X-Kong-Proxy-Latency" : "1",
+      "Strict-Transport-Security" : [ "max-age=15724800; includeSubDomains", "max-age=63072000; includeSubDomains; preload" ],
+      "X-Frame-Options" : "DENY",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block"
+    }
+  },
+  "uuid" : "680a9cf2-d55f-4429-bb5e-b0121ce6ecf1",
+  "persistent" : true,
+  "insertionIndex" : 44
+}

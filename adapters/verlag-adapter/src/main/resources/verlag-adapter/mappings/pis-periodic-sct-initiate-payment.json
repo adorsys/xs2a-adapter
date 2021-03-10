@@ -1,0 +1,50 @@
+{
+  "id" : "6d5852f9-94f4-4841-a69c-fd1725aa2343",
+  "name" : "v1_periodic-payments_sepa-credit-transfers",
+  "request" : {
+    "url" : "/v1/periodic-payments/sepa-credit-transfers",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "PSD2TEST2"
+      },
+      "TPP-Redirect-URI" : {
+        "matches" : ".+"
+      },
+      "PSU-IP-Address" : {
+        "matches" : ".+"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"endToEndIdentification\":\"SandboxTPPTest1\",\"debtorAccount\":{\"iban\":\"DE51250400903312345678\",\"currency\":\"EUR\"},\"instructedAmount\":{\"currency\":\"EUR\",\"amount\":\"${json-unit.regex}-?[0-9]{1,14}(\\\\.[0-9]{1,3})?\"},\"creditorAccount\":{\"iban\":\"DE51250400903312345678\",\"currency\":\"EUR\"},\"creditorName\":\"${json-unit.any-string}\",\"remittanceInformationUnstructured\":\"just\",\"startDate\":\"${json-unit.regex}\\\\d{4}-[01]\\\\d-[0-3]\\\\d\",\"endDate\":\"${json-unit.regex}\\\\d{4}-[01]\\\\d-[0-3]\\\\d\",\"frequency\":\"Monthly\",\"dayOfExecution\":\"${json-unit.regex}\\\\d{1,2}\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"transactionStatus\":\"RCVD\",\"paymentId\":\"Q0RrZV0EJeCvkSBG-l43vgV3yDa4kmPXnXLyXsRdg-YuY6TWANrBE4d49FUDqNwzCiLVnsE-K0LFvitlevm4mPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q\",\"_links\":{\"self\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/periodic-payments/sepa-credit-transfers/Q0RrZV0EJeCvkSBG-l43vgV3yDa4kmPXnXLyXsRdg-YuY6TWANrBE4d49FUDqNwzCiLVnsE-K0LFvitlevm4mPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q\"},\"status\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/periodic-payments/sepa-credit-transfers/Q0RrZV0EJeCvkSBG-l43vgV3yDa4kmPXnXLyXsRdg-YuY6TWANrBE4d49FUDqNwzCiLVnsE-K0LFvitlevm4mPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/status\"},\"startAuthorisationWithPsuAuthentication\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/periodic-payments/sepa-credit-transfers/Q0RrZV0EJeCvkSBG-l43vgV3yDa4kmPXnXLyXsRdg-YuY6TWANrBE4d49FUDqNwzCiLVnsE-K0LFvitlevm4mPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations\"}}}",
+    "headers" : {
+      "Date" : "Fri, 05 Mar 2021 15:46:25 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "ASPSP-Notification-Support" : "false",
+      "Location" : "https://www.sandbox-bvxs2a.de/xbank/v1/periodic-payments/sepa-credit-transfers/Q0RrZV0EJeCvkSBG-l43vgV3yDa4kmPXnXLyXsRdg-YuY6TWANrBE4d49FUDqNwzCiLVnsE-K0LFvitlevm4mPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q",
+      "X-Request-Id" : "a949c294-19b4-4db0-bfc3-6ecb7c3655ed",
+      "X-Kong-Upstream-Latency" : "45",
+      "X-Kong-Proxy-Latency" : "0",
+      "Strict-Transport-Security" : [ "max-age=15724800; includeSubDomains", "max-age=63072000; includeSubDomains; preload" ],
+      "X-Frame-Options" : "DENY",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block"
+    }
+  },
+  "uuid" : "6d5852f9-94f4-4841-a69c-fd1725aa2343",
+  "persistent" : true,
+  "insertionIndex" : 20
+}

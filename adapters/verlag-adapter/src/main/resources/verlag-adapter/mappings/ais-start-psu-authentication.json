@@ -1,0 +1,46 @@
+{
+  "id" : "29ba450f-62b7-4b99-a1d4-da915dc8d67b",
+  "name" : "v1_consents_cwpvqsw1x4peda49lywh3bnqxgdpkadbtuf4flwrbcbgfrjpxjzpbfl-zngkntymetllil2apmjr5erbhdvaj_sdmwf3876hawek_n7hjlg__psglvqpt9q_authorisations",
+  "request" : {
+    "urlPattern" : "/v1/consents/.+/authorisations",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "PSD2TEST2"
+      },
+      "TPP-Redirect-Preferred" : {
+        "equalTo" : "false"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"psuData\":{\"password\":\"123456\"}}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"scaMethods\":[{\"authenticationType\":\"SMS_OTP\",\"authenticationMethodId\":\"901\",\"name\":\"SMS-TAN\",\"explanation\":\"SMS-TAN\"},{\"authenticationType\":\"CHIP_OTP\",\"authenticationMethodId\":\"904\",\"name\":\"chipTAN comfort\",\"explanation\":\"chipTAN comfort\"},{\"authenticationType\":\"PUSH_OTP\",\"authenticationMethodId\":\"906\",\"name\":\"BV AppTAN\",\"explanation\":\"BV AppTAN\"},{\"authenticationType\":\"PHOTO_OTP\",\"authenticationMethodId\":\"907\",\"name\":\"PhotoTAN\",\"explanation\":\"PhotoTAN\"}],\"_links\":{\"selectAuthenticationMethod\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/consents/cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations/356e6d7d-9242-4264-8cb5-892e0758d69c\"},\"scaStatus\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/consents/cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations/356e6d7d-9242-4264-8cb5-892e0758d69c\"}},\"scaStatus\":\"psuAuthenticated\",\"authorisationId\":\"356e6d7d-9242-4264-8cb5-892e0758d69c\"}",
+    "headers" : {
+      "Date" : "Fri, 05 Mar 2021 11:57:00 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Aspsp-Sca-Approach" : "EMBEDDED",
+      "X-Request-Id" : "8ee92cad-47c8-4e06-be92-d834c01fb36b",
+      "X-Kong-Upstream-Latency" : "2618",
+      "X-Kong-Proxy-Latency" : "1",
+      "Strict-Transport-Security" : [ "max-age=15724800; includeSubDomains", "max-age=63072000; includeSubDomains; preload" ],
+      "X-Frame-Options" : "DENY",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block"
+    }
+  },
+  "uuid" : "29ba450f-62b7-4b99-a1d4-da915dc8d67b",
+  "persistent" : true,
+  "insertionIndex" : 37
+}

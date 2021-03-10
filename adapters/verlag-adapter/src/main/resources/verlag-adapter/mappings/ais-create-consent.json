@@ -1,0 +1,54 @@
+{
+  "id" : "ffff9a08-f118-439e-9809-487e7e13c8a1",
+  "name" : "v1_consents",
+  "request" : {
+    "url" : "/v1/consents",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "PSD2TEST2"
+      },
+      "TPP-Redirect-URI" : {
+        "matches" : ".+"
+      },
+      "PSU-IP-Address" : {
+        "matches" : ".+"
+      },
+      "TPP-Redirect-Preferred" : {
+        "equalTo" : "false"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"access\":{\"accounts\":[{\"iban\":\"DE51250400903312345678\",\"currency\":\"EUR\"}],\"balances\":[{\"iban\":\"DE51250400903312345678\",\"currency\":\"EUR\"}],\"transactions\":[{\"iban\":\"DE51250400903312345678\",\"currency\":\"EUR\"}]},\"recurringIndicator\":true,\"validUntil\":\"${json-unit.regex}\\\\d{4}-[01]\\\\d-[0-3]\\\\d\",\"frequencyPerDay\":4,\"combinedServiceIndicator\":false}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"consentStatus\":\"received\",\"consentId\":\"cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q\",\"_links\":{\"self\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/consents/cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q\"},\"status\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/consents/cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/status\"},\"startAuthorisationWithPsuAuthentication\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/consents/cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations\"}}}",
+    "headers" : {
+      "Date" : "Fri, 05 Mar 2021 11:56:48 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "ASPSP-Notification-Support" : "false",
+      "Location" : "https://www.sandbox-bvxs2a.de/xbank/v1/consents/cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q",
+      "X-Request-Id" : "694c0056-7c30-4c7e-9065-87c7e1caf622",
+      "X-Kong-Upstream-Latency" : "516",
+      "X-Kong-Proxy-Latency" : "0",
+      "Strict-Transport-Security" : [ "max-age=15724800; includeSubDomains", "max-age=63072000; includeSubDomains; preload" ],
+      "X-Frame-Options" : "DENY",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Set-Cookie" : "TS015dee45=0106e645809849646c606775552830d6cc25566f9a01fb4ac88e5e82231c5b604c44b7c37b54d64aa0865210183266ff537f6753cd; Path=/"
+    }
+  },
+  "uuid" : "ffff9a08-f118-439e-9809-487e7e13c8a1",
+  "persistent" : true,
+  "insertionIndex" : 36
+}
