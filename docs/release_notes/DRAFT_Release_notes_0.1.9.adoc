@@ -5,6 +5,7 @@
 |===
 
 == Notices:
+- added README.md to `crealogix-adapter` with a description of the adapter proper configuration.
 
 == Features:
 
