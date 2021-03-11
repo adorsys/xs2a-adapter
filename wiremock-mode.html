@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Get Account Information with Embedded Approach</title>
+<title>WireMock Mode</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,34 +438,157 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Get Account Information with Embedded Approach</h1>
+<h1>WireMock Mode</h1>
 </div>
 <div id="content">
-<div id="preamble">
+<div class="sect1">
+<h2 id="_what_is_it">What is it?</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In the following example, an ASPSP has chosen to process
-the SCA methods for the consent approval through the TPP – ASPSP interface. In any case,
-the PSU normally will need to authenticate himself with a first factor, before any account or
-SCA method details will be available to the TTP.</p>
+<p>WireMock is a simulator for HTTP-based APIs. It is a library for stubbing and mocking web services,
+that constructs an HTTP server that could be connected to as it would be to an actual web service.
+For additional details please refer to the official <a href="http://wiremock.org/">WireMock</a> website.</p>
 </div>
 <div class="paragraph">
-<p>In case where an OAuth Pre-Step took place, to replace the PSU credentials by an access token.
-Also, the sequence of the PSU authentication with the first authentication factor is omitted.</p>
+<p>Adapter uses WireMock to record communication routines with a bank, so users could check their TPP
+implementation without actually querying a bank API.</p>
 </div>
 <div class="paragraph">
-<p>Depending on the ASPSP decisions, the flow may vary, e.g. if only one SCA method available
-- choosing SCA method step will be omitted.</p>
+<p>Request/response records are called <strong>stubs</strong>. All captured (so far) stubs can be found under each adapter
+main resources package in an identical to an adapter module name folder within <strong>mappings</strong> directory, e.g.
+<code>adorsys-adapter/src/main/resources/adorsys-adapter/<strong>mappings</strong></code></p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_sequence_flow">Sequence Flow</h2>
+<h2 id="_how_to_use_it">How to use it?</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>By default, it is turned off.</p>
+</div>
+<div class="paragraph">
+<p>There are two ways to kickoff WireMock depending on how a user utilizes the Adapter:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>as a standalone application - a user will want to set <code>xs2a-adapter:wiremock:mode</code> property to <strong>true</strong>
+on the <code>application.yml</code> under <code>xs2a-adapter-app</code> module.</p>
+</li>
+<li>
+<p>as a library - a user will need to pass a <code>WiremockHttpClientFactory</code> instance into <code>AdapterServiceLoader</code>
+when initializing.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_how_to_verify_authenticity">How to verify authenticity?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Bank models and APIs may change over time. So the Adapter team provided a tool for checking whether a recorded stub
+is still actual.</p>
+</div>
+<div class="paragraph">
+<p><code>WiremockStubDifferenceDetectingInterceptor</code> (also referred here as <em>Validation interceptor</em>) is an interceptor that does verification.
+If a difference detected the interceptor will add a special header to a response <code>X-GTW-ASPSP-CHANGES-DETECTED</code> with
+a value of in what adapter changes occurred, in what stub file, and what part of it mismatches (e.g. request headers or response body).
+Additional details will be revealed in logs.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_how_to_use_that">How to use that?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, it is also turned off, and, similarly, there are two ways to start using this interceptor, depending on how
+the Adapter is applied:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>as a standalone application - a user will want to set <code>xs2a-adapter:wiremock:validation:enabled</code> property to <strong>true</strong>
+on the <code>application.yml</code> under <code>xs2a-adapter-app</code> module.</p>
+</li>
+<li>
+<p>as a library - a user will need to pass a <code>wiremockValidationEnabled</code> flag (<strong>true</strong> in this case) into <code>AdapterServiceLoader</code>
+when initializing.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_will_change">What will change&#8230;&#8203;</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_if_wiremock_mode_is_on">If WireMock Mode is on?</h3>
+<div class="paragraph">
+<p>As it was mentioned before, there will be no communication with a bank. All requests will be resolved on the Adapter side
+by the WireMock service and response will be constructed based on an available stub.</p>
+</div>
+<div class="paragraph">
+<p>For example, AIS flow with EMBEDDED SCA in WireMock mode will look like this:</p>
+</div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/ais-embedded-approach.png" alt="ais embedded approach">
+<img src="./images/embedded_ais_wiremock_mode.png" alt="Wiremock mode on">
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_if_wiremock_validation_enabled">If WireMock Validation enabled</h3>
+<div class="paragraph">
+<p>A client will communicate with a bank as usual, however, there will be additional steps on the adapter side for verifying
+stubs genuine.</p>
+</div>
+<div class="paragraph">
+<p>E.g., the same AIS flow but with WireMock Validation:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/embedded_ais_wiremock_validation_enabled.png" alt="Wiremock Validation enabled">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_recording_own_stubs">Recording own stubs?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Sure thing!</p>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>: the Adapter itself doesn&#8217;t provide tools for recording stubs from the box.</p>
+</div>
+<div class="paragraph">
+<p>You will need to get the WireMock Recorder by your own, here is the detailed instruction of how to <a href="http://wiremock.org/docs/record-playback/">record</a>
+with Wiremock, and here is the <a href="wiremock.md">manual</a> of how to tweak Recorder for appropriate bank request/response capturing.</p>
+</div>
+<div class="paragraph">
+<p>We recommend a user following the Adapter naming convention regarding packages and stubs naming, at least for a proper work
+of <code>WiremockStubDifferenceDetectingInterceptor</code>.</p>
+</div>
+<div class="paragraph">
+<p>Stub names for an AIS call should be <strong><em>ais-&lt;operation&gt;.json</em></strong>. Where <strong><em>operation</em></strong> can be one of: <em>create-consent</em>,
+<em>delete-consent</em>, <em>get-accounts</em>, <em>get-balances</em>, <em>get-consent-status</em>, <em>get-transactions</em>.</p>
+</div>
+<div class="paragraph">
+<p>For a PIS call - <strong><em>pis-&lt;payment-service&gt;-&lt;payment-product&gt;-&lt;operation&gt;.json</em></strong>. Where <strong><em>payment-service</em></strong> can be <em>payments</em>
+or <em>periodic</em> for Periodic-Payments (Adapter currently supports only this two services), <strong><em>payment-product</em></strong> can be <em>sct</em> (sepa-credit-transfers)
+and <em>pain001-sct</em> (pain.001-sepa-credit-transfers), <strong><em>operation</em></strong> can be <em>get-payment-status</em>, <em>initiate-payment</em>, <em>get-payment-details</em>.</p>
+</div>
+<div class="paragraph">
+<p><strong><em>operations</em></strong> common for both AIS and PIS are <em>get-sca-status</em>, <em>select-sca-method</em>, <em>send-otp</em>, <em>update-psu-authentication</em>,
+<em>authorise-transaction</em>, <em>start-psu-authentication</em></p>
+</div>
+<div class="paragraph">
+<p>Package naming - <strong><em>&lt;adapter-module&gt;/src/main/resources/&lt;adapter-module&gt;</em></strong>.</p>
+</div>
+<div class="paragraph">
+<p>There are plenty of concrete examples in adapters, please take a look.</p>
 </div>
 </div>
 </div>
