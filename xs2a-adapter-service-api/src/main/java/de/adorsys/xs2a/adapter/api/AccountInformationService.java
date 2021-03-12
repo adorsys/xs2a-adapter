@@ -73,8 +73,8 @@ public interface AccountInformationService extends AccountInformationValidationS
                                          RequestParams requestParams);
 
     /**
-     * @return
      * @throws NotAcceptableException if response content type is not json
+     * @return
      */
     Response<TransactionsResponse200Json> getTransactionList(String accountId,
                                                              RequestHeaders requestHeaders,

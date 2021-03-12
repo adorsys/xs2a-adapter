@@ -210,7 +210,7 @@ class ConsentControllerTest {
     }
 
     @Test
-    void authorisations() throws Exception {
+    void getConsentAuthorisation() throws Exception {
         when(accountInformationService.getConsentAuthorisation(anyString(), any(), any()))
             .thenReturn(buildResponse(TestModelBuilder.buildConsentAuthorisationResponse()));
 
