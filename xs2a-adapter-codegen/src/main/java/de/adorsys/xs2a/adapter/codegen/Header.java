@@ -6,7 +6,7 @@ class Header extends Param {
     }
 
     @Override
-    public String getParamSchema()  {
+    public String getParamSchema() {
         return "\n" +
             "      \"" + name + "\": {\n" +
             "        \"name\": \"" + name + "\",\n" +

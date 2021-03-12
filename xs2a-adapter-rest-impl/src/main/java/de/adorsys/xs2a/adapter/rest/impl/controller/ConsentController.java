@@ -132,6 +132,12 @@ public class ConsentController extends AbstractController implements ConsentApi,
                        .body(response.getBody());
     }
 
+    // todo: task https://jira.adorsys.de/browse/XS2AAD-804
+    @Override
+    public ResponseEntity<Authorisations> getConsentAuthorisation(String consentId, Map<String, String> parameters, Map<String, String> headers) {
+        throw new UnsupportedOperationException();
+    }
+
     @Override
     public ResponseEntity<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                              Map<String, String> parameters,
