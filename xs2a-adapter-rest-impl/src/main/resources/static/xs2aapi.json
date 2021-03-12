@@ -1262,6 +1262,62 @@
             "$ref": "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
           }
         }
+      },
+      "get": {
+        "summary": "Get consent authorisation sub-resources request",
+        "description": "Return a list of all authorisation subresources IDs which have been created.\n\nThis function returns an array of hyperlinks to all generated authorisation sub-resources.\n",
+        "operationId": "getConsentAuthorisation",
+        "tags": [
+          "Account Information Service (AIS)"
+        ],
+        "security": [
+          {},
+          {
+            "BearerAuthOAuth": []
+          }
+        ],
+        "parameters": [{"$ref":"#/components/parameters/X-GTW-ASPSP-ID"},{"$ref":"#/components/parameters/X-GTW-Bank-Code"},{"$ref":"#/components/parameters/X-GTW-BIC"},{"$ref":"#/components/parameters/X-GTW-IBAN"},{"$ref":"#/components/parameters/additionalQueryParameters"},{"$ref":"#/components/parameters/consentId_PATH"},{"$ref":"#/components/parameters/X-Request-ID"},{"$ref":"#/components/parameters/Digest"},{"$ref":"#/components/parameters/Signature"},{"$ref":"#/components/parameters/TPP-Signature-Certificate"},{"$ref":"#/components/parameters/PSU-IP-Address_conditionalForAis"},{"$ref":"#/components/parameters/PSU-IP-Port"},{"$ref":"#/components/parameters/PSU-Accept"},{"$ref":"#/components/parameters/PSU-Accept-Charset"},{"$ref":"#/components/parameters/PSU-Accept-Encoding"},{"$ref":"#/components/parameters/PSU-Accept-Language"},{"$ref":"#/components/parameters/PSU-User-Agent"},{"$ref":"#/components/parameters/PSU-Http-Method"},{"$ref":"#/components/parameters/PSU-Device-ID"},{"$ref":"#/components/parameters/PSU-Geo-Location"}],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OK_200_Authorisations"
+          },
+          "400": {
+            "$ref": "#/components/responses/BAD_REQUEST_400_AIS"
+          },
+          "401": {
+            "$ref": "#/components/responses/UNAUTHORIZED_401_AIS"
+          },
+          "403": {
+            "$ref": "#/components/responses/FORBIDDEN_403_AIS"
+          },
+          "404": {
+            "$ref": "#/components/responses/NOT_FOUND_404_AIS"
+          },
+          "405": {
+            "$ref": "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
+          },
+          "406": {
+            "$ref": "#/components/responses/NOT_ACCEPTABLE_406_AIS"
+          },
+          "408": {
+            "$ref": "#/components/responses/REQUEST_TIMEOUT_408_AIS"
+          },
+          "409": {
+            "$ref": "#/components/responses/CONFLICT_409_AIS"
+          },
+          "415": {
+            "$ref": "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
+          },
+          "429": {
+            "$ref": "#/components/responses/TOO_MANY_REQUESTS_429_AIS"
+          },
+          "500": {
+            "$ref": "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
+          },
+          "503": {
+            "$ref": "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
+          }
+        }
       }
     },
     "/v1/consents/{consentId}/authorisations/{authorisationId}": {
