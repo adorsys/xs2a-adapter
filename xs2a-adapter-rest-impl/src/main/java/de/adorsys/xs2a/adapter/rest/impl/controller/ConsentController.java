@@ -132,10 +132,20 @@ public class ConsentController extends AbstractController implements ConsentApi,
                        .body(response.getBody());
     }
 
-    // todo: task https://jira.adorsys.de/browse/XS2AAD-804
     @Override
-    public ResponseEntity<Authorisations> getConsentAuthorisation(String consentId, Map<String, String> parameters, Map<String, String> headers) {
-        throw new UnsupportedOperationException();
+    public ResponseEntity<Authorisations> getConsentAuthorisation(String consentId,
+                                                                  Map<String, String> parameters,
+                                                                  Map<String, String> headers) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
+
+        Response<Authorisations> response =
+            accountInformationService.getConsentAuthorisation(consentId, requestHeaders, requestParams);
+
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(response.getBody());
     }
 
     @Override

@@ -73,6 +73,12 @@ class IngAccountInformationServiceTest {
     }
 
     @Test
+    void getConsentAuthorisation() {
+        assertThatThrownBy(() -> accountInformationService.getConsentAuthorisation(CONSENT_ID, emptyRequestHeaders, emptyParams))
+            .isInstanceOf(UnsupportedOperationException.class);
+    }
+
+    @Test
     void startConsentAuthorisation() {
         assertThatThrownBy(() -> accountInformationService.startConsentAuthorisation(CONSENT_ID, emptyRequestHeaders, emptyParams))
             .isInstanceOf(UnsupportedOperationException.class);

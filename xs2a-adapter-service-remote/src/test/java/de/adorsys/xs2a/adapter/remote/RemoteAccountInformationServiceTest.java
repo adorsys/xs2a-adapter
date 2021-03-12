@@ -124,6 +124,23 @@ class RemoteAccountInformationServiceTest {
     }
 
     @Test
+    void getConsentAuthorisation() {
+        Authorisations responseBody = new Authorisations();
+
+        doReturn(entity).when(client).getConsentAuthorisation(CONSENT_ID, Collections.emptyMap(), Collections.emptyMap());
+        doReturn(HTTP_STATUS_OK).when(entity).getStatusCodeValue();
+        doReturn(responseBody).when(entity).getBody();
+        doReturn(buildHttpHeaders()).when(entity).getHeaders();
+
+        Response<Authorisations> response = service.getConsentAuthorisation(CONSENT_ID,
+            RequestHeaders.empty(),
+            RequestParams.empty());
+
+        Assertions.assertThat(response.getBody()).isEqualTo(responseBody);
+        assertResponseHeaders(response.getHeaders());
+    }
+
+    @Test
     void startConsentAuthorisation() {
         StartScaprocessResponse responseBody = new StartScaprocessResponse();
 

@@ -38,6 +38,10 @@ public interface AccountInformationService extends AccountInformationValidationS
                                                         RequestHeaders requestHeaders,
                                                         RequestParams requestParams);
 
+    Response<Authorisations> getConsentAuthorisation(String consentId,
+                                                     RequestHeaders requestHeaders,
+                                                     RequestParams requestParams);
+
     Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                 RequestHeaders requestHeaders,
                                                                 RequestParams requestParams);
@@ -69,8 +73,8 @@ public interface AccountInformationService extends AccountInformationValidationS
                                          RequestParams requestParams);
 
     /**
-     * @throws NotAcceptableException if response content type is not json
      * @return
+     * @throws NotAcceptableException if response content type is not json
      */
     Response<TransactionsResponse200Json> getTransactionList(String accountId,
                                                              RequestHeaders requestHeaders,

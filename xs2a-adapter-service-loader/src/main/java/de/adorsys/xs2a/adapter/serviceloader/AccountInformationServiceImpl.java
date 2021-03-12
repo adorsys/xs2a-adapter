@@ -66,6 +66,14 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     }
 
     @Override
+    public Response<Authorisations> getConsentAuthorisation(String consentId,
+                                                            RequestHeaders requestHeaders,
+                                                            RequestParams requestParams) {
+        return getAccountInformationService(requestHeaders)
+            .getConsentAuthorisation(consentId, requestHeaders, requestParams);
+    }
+
+    @Override
     public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams) {

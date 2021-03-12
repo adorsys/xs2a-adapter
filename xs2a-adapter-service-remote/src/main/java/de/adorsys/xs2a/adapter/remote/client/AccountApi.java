@@ -61,6 +61,15 @@ interface AccountApi {
                                                               @RequestParam Map<String, String> parameters,
                                                               @RequestHeader Map<String, String> headers);
 
+
+    @RequestMapping(
+        value = "/v1/consents/{consentId}/authorisations",
+        method = RequestMethod.GET
+    )
+    ResponseEntity<Authorisations> getConsentAuthorisation(
+        @PathVariable("consentId") String consentId, @RequestParam Map<String, String> parameters,
+        @RequestHeader Map<String, String> headers);
+
     @RequestMapping(
         value = "/v1/consents/{consentId}/authorisations",
         method = RequestMethod.POST,
