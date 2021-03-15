@@ -38,6 +38,10 @@ public interface AccountInformationService extends AccountInformationValidationS
                                                         RequestHeaders requestHeaders,
                                                         RequestParams requestParams);
 
+    Response<Authorisations> getConsentAuthorisation(String consentId,
+                                                     RequestHeaders requestHeaders,
+                                                     RequestParams requestParams);
+
     Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                 RequestHeaders requestHeaders,
                                                                 RequestParams requestParams);

@@ -67,6 +67,13 @@ public class IngAccountInformationService implements AccountInformationService, 
     }
 
     @Override
+    public Response<Authorisations> getConsentAuthorisation(String consentId,
+                                                            RequestHeaders requestHeaders,
+                                                            RequestParams requestParams) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams) {

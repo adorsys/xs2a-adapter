@@ -99,6 +99,12 @@ public class TestModelBuilder {
         return consentStatusResponse;
     }
 
+    public static Authorisations buildConsentAuthorisationResponse() {
+        Authorisations authorisations = new Authorisations();
+        authorisations.setAuthorisationIds(Collections.singletonList(AUTHORISATION_ID));
+        return authorisations;
+    }
+
     public static StartScaprocessResponse buildStartScaprocessResponse() {
         StartScaprocessResponse startScaprocessResponse = new StartScaprocessResponse();
         startScaprocessResponse.setAuthorisationId(AUTHORISATION_ID);

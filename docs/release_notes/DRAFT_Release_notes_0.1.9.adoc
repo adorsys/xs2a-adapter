@@ -9,5 +9,7 @@
 - changed `code-generator`, it creates Get Authorisation Sub-Resources for Consents API.
 
 == Features:
+- added `getConsentAuthorisation` operation with a respective endpoint for retrieving Authorisation Sub-Resources
+information. Description added on a Swagger resource.
 
 == Fixes:

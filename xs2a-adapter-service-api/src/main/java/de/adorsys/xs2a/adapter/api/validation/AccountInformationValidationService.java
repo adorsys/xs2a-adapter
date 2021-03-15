@@ -52,6 +52,12 @@ public interface AccountInformationValidationService {
         return Collections.emptyList();
     }
 
+    default List<ValidationError> validateGetConsentAuthorisation(String consentId,
+                                                                    RequestHeaders requestHeaders,
+                                                                    RequestParams requestParams) {
+        return Collections.emptyList();
+    }
+
     default List<ValidationError> validateStartConsentAuthorisation(String consentId,
                                                                     RequestHeaders requestHeaders,
                                                                     RequestParams requestParams) {
