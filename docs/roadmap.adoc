@@ -14,12 +14,6 @@ a|0.0.8
 
 a|* Support Uni Credit newest version
 
-* Testing Frontend:
-
-** Support non Berlin Group (BG) banks
-
-** Email registration for retests
-
 * Automatic Updating of Bank Registry for Fiducia and Sparkasse
 
 a| 08.04
@@ -38,12 +32,6 @@ a| * Concept Metric Database
 
 * Concept Grafana xs2a-intelligence dashboards
 
-* Testing Frontend:
-
-** Implement additional tests in Frontend for checking certain informations
-
-** Configuring single parameters for consent
-
 * Connect and test Comdirect for AIS
 
 * Identify remaining BG-Banks in Germany
@@ -56,11 +44,7 @@ a| 07.05
 
 a| 0.0.10
 
-a| * Testing Frontend:
-
-** PIS support for Single sepa credit transfer in xml and json
-
-* Setup XS2A-Intelligence Project
+a| * Setup XS2A-Intelligence Project
 
 * Implement Grafana xs2a Dashboards
 
@@ -76,15 +60,7 @@ a| 10.06
 
 a| 0.0.11
 
-a| * Testing Frontend:
-
-** Support receiving "Get payment status" response in XML format
-
-** Enhance logic for SCA exemption flow for PIS
-
-** Implement Individual consent configuration for adapters
-
-* Implement pre-step OAuth authorisation flow for PIS in Sparda-dapter
+a| * Implement pre-step OAuth authorisation flow for PIS in Sparda-dapter
 
 * Extend Grafana Dashboard with new metrics for PIS
 
@@ -128,12 +104,6 @@ a| * Create Documentation for XS2A Intelligence
 
 * Implement periodic payments in adapters
 
-* Testing Frontend:
-
-** Implement Periodic payments (JSON format)
-
-** Expand Configuration page setting
-
 a| 10.08
 
 a| 0.1.1
@@ -153,12 +123,6 @@ a| * Implement Periodic Payments for ING. Fix bags
 * Fix security hotspots
 
 * Update Documentation for High Level Architecture
-
-* Testing Frontend:
-
-** Add additional parameter to the configuration page
-
-** Fix bags with usage of default configuration to determine payment service
 
 a| 10.09
 
@@ -189,14 +153,6 @@ a| * Update to Java 11
 * Extend AIS with a List of Trusted Beneficiaries
 
 * Increase test code coverage
-
-* Update Documentation for Testing Front-end component
-
-* Testing Frontend:
-
-** Support Bulk payments
-
-** Security Assessment
 
 a| 10.10
 
@@ -257,23 +213,71 @@ a| 10.01
 
 a| 0.1.6
 
-a| *Migrate to .yaml open API ver 1.3.8 2020-11-06v1
+a| * Migrate to .yaml open API ver 1.3.8
 
-* Add WireMock mode for Deutsche Bank adapter, Verlag Bank adapter
+* Update configuration file for Fiducia
 
-* Test Targobank (Bankverlag) fro AIS, PIS (with the real account)
+* Fix bugs with Wiremocks
 
-* Test successfully PIS for Commerzbank, Unicredit
+* Test successfully DKB for AIS
 
-* Add WireMock mode other banks
+a| 10.02
 
-* Connect and test remaining BG-Banks in Germany for AIS
+a| 0.1.7
+
+a| * Test DKB for PIS
+
+* Test successfully AIS for DKB
+
+* Test successfully AIS & PIS for Tagrobank
+
+* Test successfully AIS & PIS for Commerzbank
+
+* Test AIS for Santander
+
+* Adapter refactoring, HttpClient creation.
+
+a| 10.03
+
+a| 0.1.8
+
+a| * Add sparkasse wiremock stubs for pain.001
+
+* Add wiremock stubs for Deutsche Bank adapter
+
+* Add wiremock stubs for Verlag Bank adapter
+
+* Remove Sparkasse workaround for Payments pain.001
+
+* Update project documentation: Add information about Wiremock mode to the GitHub page
+
+* Update ING API Services
+
+* Provide Supporting Wiremock Validation Interceptor for ING
+
+* Investigate AIS & PIS errors for Comdirect
+
+* Add Get Authorisation Sub-Resources Request
+
+a| 10.04
+
+a| 0.1.9
+
+a| * Test successfully PIS for Unicredit
+
+* Update java version for Sonar
+
+* Add Get Consent Authorisation Sub-Resource endpoint (BankVerlag)
+
+* Add Get Consent Authorisation Sub-Resource
+
+* Add Token URI property to the adapter config file for Crealogix
 
 a| For future development
 
 a| x.x.x
 
-a| * Connect and test Societe Generale S.A for AIS (with the real account)
+a|
 
 * Connect and test Hamburg Commercial Bank AG for AIS (with the real account)
 
@@ -286,6 +290,10 @@ a| * Connect and test Societe Generale S.A for AIS (with the real account)
 * Extend AIS with a List of Trusted Beneficiaries
 
 * Implement Confirmation Authorisation Call
+
+* Add WireMock mode other banks
+
+* Connect and test remaining BG-Banks in Germany for AIS
 
 |===
 
