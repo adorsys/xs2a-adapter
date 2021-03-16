@@ -303,10 +303,6 @@ a| * Decoupled Approach improvements
 
 * Provide Supporting Wiremock Validation Interceptor for ING
 
-* Fix Testing Frontend Get Status requests and Delete Consent
-
-* Fix Slack service misbehavior in Testing Frontend
-
 * Investigate AIS & PIS errors for Comdirect
 
 * Add Get Authorisation Sub-Resources Request
