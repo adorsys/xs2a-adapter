@@ -257,23 +257,79 @@ a| 10.01
 
 a| 0.1.6
 
-a| *Migrate to .yaml open API ver 1.3.8 2020-11-06v1
+a| * Migrate to .yaml open API ver 1.3.8
 
-* Add WireMock mode for Deutsche Bank adapter, Verlag Bank adapter
+* Update configuration file for Fiducia
 
-* Test Targobank (Bankverlag) fro AIS, PIS (with the real account)
+* Implement Decoupled SCA in Testing Frontend
 
-* Test successfully PIS for Commerzbank, Unicredit
+* Fix bugs with Wiremocks
 
-* Add WireMock mode other banks
+* Test successfully DKB for AIS
 
-* Connect and test remaining BG-Banks in Germany for AIS
+a| 10.02
+
+a| 0.1.7
+
+a| * Test DKB for PIS
+
+* Test successfully AIS for DKB
+
+* Test successfully AIS & PIS for Tagrobank
+
+* Test successfully AIS & PIS for Commerzbank
+
+* Test AIS for Santander
+
+* Adapter refactoring, HttpClient creation.
+
+a| 10.03
+
+a| 0.1.8
+
+a| * Decoupled Approach improvements
+
+* Add sparkasse wiremock stubs for pain.001
+
+* Add wiremock stubs for Deutsche Bank adapter
+
+* Add wiremock stubs for Verlag Bank adapter
+
+* Remove Sparkasse workaround for Payments pain.001
+
+* Update project documentation: Add information about Wiremock mode to the GitHub page
+
+* Update ING API Services
+
+* Provide Supporting Wiremock Validation Interceptor for ING
+
+* Fix Testing Frontend Get Status requests and Delete Consent
+
+* Fix Slack service misbehavior in Testing Frontend
+
+* Investigate AIS & PIS errors for Comdirect
+
+* Add Get Authorisation Sub-Resources Request
+
+a| 10.04
+
+a| 0.1.9
+
+a| * Test successfully PIS for Unicredit
+
+* Update java version for Sonar
+
+* Add Get Consent Authorisation Sub-Resource endpoint (BankVerlag)
+
+* Add Get Consent Authorisation Sub-Resource
+
+* Add Token URI property to the adapter config file for Crealogix
 
 a| For future development
 
 a| x.x.x
 
-a| * Connect and test Societe Generale S.A for AIS (with the real account)
+a|
 
 * Connect and test Hamburg Commercial Bank AG for AIS (with the real account)
 
@@ -286,6 +342,10 @@ a| * Connect and test Societe Generale S.A for AIS (with the real account)
 * Extend AIS with a List of Trusted Beneficiaries
 
 * Implement Confirmation Authorisation Call
+
+* Add WireMock mode other banks
+
+* Connect and test remaining BG-Banks in Germany for AIS
 
 |===
 
