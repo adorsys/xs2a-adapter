@@ -16,3 +16,4 @@ values for next keys:
 - **dkb.token.consumer_secret** - consumer secret, given after registering on the DKB developer portal
 - **dkb.token.tpp_id** - usually a TPP ID from a certificate, can be found after registering a certificate on the DKB developer portal
 - **dkb.token.tpp_secret** - tpp secret, given after registering certificate on the DKB developer portal
+- **dkb.psd2_token.url** - URL for obtaining PSD2 Authorisation Token, a default value is provided.
