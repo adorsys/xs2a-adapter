@@ -33,7 +33,7 @@ class VerlagServiceProviderTest {
             = serviceProvider.getAccountInformationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(VerlagAccountInformationService.class);
+            .isExactlyInstanceOf(VerlagAccountInformationService.class);
     }
 
     @Test
@@ -42,7 +42,7 @@ class VerlagServiceProviderTest {
             = serviceProvider.getPaymentInitiationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(VerlagPaymentInitiationService.class);
+            .isExactlyInstanceOf(VerlagPaymentInitiationService.class);
     }
 
     @Test
@@ -51,6 +51,6 @@ class VerlagServiceProviderTest {
             = serviceProvider.getDownloadService("", httpClientFactory);
 
         assertThat(actualService)
-            .isInstanceOf(BaseDownloadService.class);
+            .isExactlyInstanceOf(BaseDownloadService.class);
     }
 }

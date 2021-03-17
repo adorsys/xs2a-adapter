@@ -32,7 +32,7 @@ class SpardaServiceProviderTest {
             = serviceProvider.getAccountInformationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(SpardaAccountInformationService.class);
+            .isExactlyInstanceOf(SpardaAccountInformationService.class);
     }
 
     @Test
@@ -41,7 +41,7 @@ class SpardaServiceProviderTest {
             = serviceProvider.getPaymentInitiationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(SpardaPaymentInitiationService.class);
+            .isExactlyInstanceOf(SpardaPaymentInitiationService.class);
     }
 
     @Test
@@ -50,7 +50,7 @@ class SpardaServiceProviderTest {
             = serviceProvider.getOauth2Service(aspsp, httpClientFactory);
 
         assertThat(actualService)
-            .isInstanceOf(SpardaOauth2Service.class);
+            .isExactlyInstanceOf(SpardaOauth2Service.class);
     }
 
     private Aspsp getAspsp() {

@@ -1,6 +1,5 @@
 package de.adorsys.xs2a.adapter.impl.http;
 
-import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.exception.Xs2aAdapterException;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
@@ -23,11 +22,6 @@ public class ApacheHttpClientFactory implements HttpClientFactory {
     private final HttpClientBuilder httpClientBuilder;
     private final ConcurrentMap<String, HttpClient> cache = new ConcurrentHashMap<>();
     private final HttpClientConfig clientConfig;
-
-    @Deprecated
-    public ApacheHttpClientFactory(HttpClientBuilder httpClientBuilder, Pkcs12KeyStore keyStore) {
-        this(httpClientBuilder, new BaseHttpClientConfig(null, keyStore));
-    }
 
     public ApacheHttpClientFactory(HttpClientBuilder httpClientBuilder, HttpClientConfig clientConfig) {
         this.httpClientBuilder = httpClientBuilder;

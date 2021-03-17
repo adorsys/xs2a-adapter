@@ -9,6 +9,9 @@
 - changed `code-generator`, it creates Get Authorisation Sub-Resources for Consents API.
 - changes in `crealogix-adapter`, added `dkb.psd2_token.url` property into `adapter.config.properties` for DKB configuration,
 instead of previously hardcoded URL in the CrealogixEmbeddedPreAuthorisationService.
+- removed deprecated code from `AccountInformationServiceProvider`,  `DownloadServiceProvider`,  `Oauth2ServiceProvider`,
+`PaymentInitiationServiceProvider`, `Request`, `ApacheHttpClientFactory`, `WiremockHttpClientFactory`, `AdapterServiceLoader` classes.
+- replaced `isInstanceOf` checks with more accurate `isExactlyInstanceOf` in some Adapter ServiceProvider tests.
 
 == Features:
 - added `getConsentAuthorisation` operation with a respective endpoint for retrieving Authorisation Sub-Resources

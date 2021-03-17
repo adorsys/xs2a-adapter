@@ -2,7 +2,6 @@ package de.adorsys.xs2a.adapter.impl;
 
 import de.adorsys.xs2a.adapter.api.AccountInformationService;
 import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
@@ -24,17 +23,7 @@ class AbstractAdapterServiceProviderTest {
     void setUp() {
         provider = new AbstractAdapterServiceProvider() {
             @Override
-            public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore, LinksRewriter linksRewriter) {
-                return null;
-            }
-
-            @Override
             public AccountInformationService getAccountInformationService(Aspsp aspsp, HttpClientFactory httpClientFactory, LinksRewriter linksRewriter) {
-                return null;
-            }
-
-            @Override
-            public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore, LinksRewriter linksRewriter) {
                 return null;
             }
 

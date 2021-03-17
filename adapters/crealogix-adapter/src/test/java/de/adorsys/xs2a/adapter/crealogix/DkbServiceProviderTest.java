@@ -3,10 +3,8 @@ package de.adorsys.xs2a.adapter.crealogix;
 import de.adorsys.xs2a.adapter.api.AccountInformationService;
 import de.adorsys.xs2a.adapter.api.EmbeddedPreAuthorisationService;
 import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,8 +17,6 @@ class DkbServiceProviderTest {
 
     private final DkbServiceProvider provider = new DkbServiceProvider();
     private final HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
-    private final Pkcs12KeyStore keyStore = mock(Pkcs12KeyStore.class);
-    private final LinksRewriter linksRewriter = mock(LinksRewriter.class);
     private final HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
     private final Aspsp aspsp = new Aspsp();
 
@@ -31,7 +27,7 @@ class DkbServiceProviderTest {
 
     @Test
     void getAccountInformationService() {
-        AccountInformationService service = provider.getAccountInformationService(aspsp, httpClientFactory, keyStore, linksRewriter);
+        AccountInformationService service = provider.getAccountInformationService(aspsp, httpClientFactory, null);
 
         assertThat(service)
             .isNotNull()
@@ -40,7 +36,7 @@ class DkbServiceProviderTest {
 
     @Test
     void getPaymentInitiationService() {
-        PaymentInitiationService service = provider.getPaymentInitiationService(aspsp, httpClientFactory, keyStore, linksRewriter);
+        PaymentInitiationService service = provider.getPaymentInitiationService(aspsp, httpClientFactory, null);
 
         assertThat(service)
             .isNotNull()

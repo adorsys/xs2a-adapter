@@ -1,11 +1,9 @@
 package de.adorsys.xs2a.adapter.impl.http.wiremock;
 
-import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.exception.Xs2aAdapterException;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.impl.http.BaseHttpClientConfig;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -24,12 +22,6 @@ public class WiremockHttpClientFactory implements HttpClientFactory {
     private final HttpClientBuilder httpClientBuilder;
     private final HttpClientConfig httpClientConfig;
     private final ConcurrentMap<String, HttpClient> cache = new ConcurrentHashMap<>();
-
-    @Deprecated
-    public WiremockHttpClientFactory(HttpClientBuilder httpClientBuilder, Pkcs12KeyStore keyStore) {
-        this.httpClientBuilder = httpClientBuilder;
-        this.httpClientConfig = new BaseHttpClientConfig(null, keyStore);
-    }
 
     public WiremockHttpClientFactory(HttpClientBuilder httpClientBuilder, HttpClientConfig httpClientConfig) {
         this.httpClientBuilder = httpClientBuilder;

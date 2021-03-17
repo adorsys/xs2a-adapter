@@ -10,6 +10,7 @@ import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 
+import java.util.Collections;
 import java.util.Map;
 
 import static de.adorsys.xs2a.adapter.api.validation.Validation.requireValid;
@@ -47,7 +48,7 @@ public class BaseDownloadService extends AbstractService implements DownloadServ
 
         Response<byte[]> response = httpClient.get(modifyDownloadUrl(downloadUrl))
                                         .headers(headersMap)
-                                        .send(responseHandlers.byteArrayResponseHandler(), requestBuilderInterceptor);
+                                        .send(responseHandlers.byteArrayResponseHandler(), Collections.singletonList(requestBuilderInterceptor));
 
         return new Response<>(
             response.getStatusCode(),

@@ -12,11 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 class DeutscheBankServiceProviderTest {
@@ -45,52 +41,36 @@ class DeutscheBankServiceProviderTest {
     @Test
     void getAccountInformationService() {
         AccountInformationService ais = serviceProvider.getAccountInformationService(aspsp, factory, null);
-        // remove after deprecated methods are purged off
-        AccountInformationService deprecatedAis = serviceProvider.getAccountInformationService(aspsp, factory, null, null);
 
-        assertInstancesOf(DeutscheBankAccountInformationService.class, Arrays.asList(ais, deprecatedAis));
+        assertThat(ais)
+            .isExactlyInstanceOf(DeutscheBankAccountInformationService.class);
         assertUrl("ais");
     }
 
     private void assertUrl(String service) {
-        verify(aspsp, times(2)).getUrl();
-        verify(aspsp, times(2)).setUrl(urlCaptor.capture());
+        verify(aspsp, times(1)).getUrl();
+        verify(aspsp, times(1)).setUrl(urlCaptor.capture());
 
         assertThat(urlCaptor.getValue())
             .isNotNull()
             .contains(URL + service);
     }
 
-    private <T, V> void assertInstancesOf(Class<T> tClass, List<V> actuals) {
-        if (actuals == null || actuals.size() == 0) {
-            fail("no instances passed");
-            return;
-        }
-
-        for (V actual : actuals) {
-            assertThat(actual)
-                .isNotNull()
-                .isInstanceOf(tClass);
-        }
-    }
-
     @Test
     void getPaymentInitiationService() {
         PaymentInitiationService pis = serviceProvider.getPaymentInitiationService(aspsp, factory, null);
-        // remove after deprecated methods are purged off
-        PaymentInitiationService deprecatedPis = serviceProvider.getPaymentInitiationService(aspsp, factory, null, null);
 
-        assertInstancesOf(DeutscheBankPaymentInitiationService.class, Arrays.asList(pis, deprecatedPis));
+        assertThat(pis)
+            .isExactlyInstanceOf(DeutscheBankPaymentInitiationService.class);
         assertUrl("pis");
     }
 
     @Test
     void getDownloadService() {
         DownloadService downloadService = serviceProvider.getDownloadService(URL, factory);
-        // remove after deprecated methods are purged off
-        DownloadService deprecatedDownloadService = serviceProvider.getDownloadService(URL, factory);
 
-        assertInstancesOf(BaseDownloadService.class, Arrays.asList(downloadService, deprecatedDownloadService));
+        assertThat(downloadService)
+            .isExactlyInstanceOf(BaseDownloadService.class);
     }
 
     private Aspsp getAspsp() {

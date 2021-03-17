@@ -14,14 +14,6 @@ public class IngServiceProvider extends AbstractAdapterServiceProvider implement
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
-                                                                  Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter) {
-        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
-    }
-
-    @Override
-    public AccountInformationService getAccountInformationService(Aspsp aspsp,
-                                                                  HttpClientFactory httpClientFactory,
                                                                   LinksRewriter linksRewriter) {
         return getIngAccountInformationService(aspsp, httpClientFactory, linksRewriter);
     }
@@ -44,13 +36,6 @@ public class IngServiceProvider extends AbstractAdapterServiceProvider implement
 
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp,
-                                          HttpClientFactory httpClientFactory,
-                                          Pkcs12KeyStore keyStore) {
-        return getOauth2Service(aspsp, httpClientFactory);
-    }
-
-    @Override
-    public Oauth2Service getOauth2Service(Aspsp aspsp,
                                           HttpClientFactory httpClientFactory) {
         return getIngAccountInformationService(aspsp,
             httpClientFactory,
@@ -60,15 +45,6 @@ public class IngServiceProvider extends AbstractAdapterServiceProvider implement
     @Override
     public String getAdapterId() {
         return "ing-adapter";
-    }
-
-    @Override
-    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
-                                                                HttpClientFactory httpClientFactory,
-                                                                Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter) {
-
-        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override

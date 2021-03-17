@@ -58,7 +58,7 @@ class IngServiceProviderTest {
             = serviceProvider.getAccountInformationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(IngAccountInformationService.class);
+            .isExactlyInstanceOf(IngAccountInformationService.class);
     }
 
     @Test
@@ -67,7 +67,7 @@ class IngServiceProviderTest {
             = serviceProvider.getOauth2Service(aspsp, httpClientFactory);
 
         assertThat(actualService)
-            .isInstanceOf(IngAccountInformationService.class);
+            .isExactlyInstanceOf(IngAccountInformationService.class);
     }
 
     @Test
@@ -76,7 +76,7 @@ class IngServiceProviderTest {
             = serviceProvider.getPaymentInitiationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(IngPaymentInitiationService.class);
+            .isExactlyInstanceOf(IngPaymentInitiationService.class);
     }
 
     private static X509Certificate generateCertificate() {

@@ -31,7 +31,7 @@ class FiduciaServiceProviderTest {
             = serviceProvider.getAccountInformationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(FiduciaAccountInformationService.class);
+            .isExactlyInstanceOf(FiduciaAccountInformationService.class);
     }
 
     @Test
@@ -40,6 +40,6 @@ class FiduciaServiceProviderTest {
             = serviceProvider.getPaymentInitiationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(FiduciaPaymentInitiationService.class);
+            .isExactlyInstanceOf(FiduciaPaymentInitiationService.class);
     }
 }

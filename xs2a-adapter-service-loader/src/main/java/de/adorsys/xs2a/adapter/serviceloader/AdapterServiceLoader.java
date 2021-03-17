@@ -22,20 +22,6 @@ public class AdapterServiceLoader {
     protected final boolean chooseFirstFromMultipleAspsps;
     protected final boolean wiremockValidationEnabled;
 
-    @Deprecated
-    public AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
-                                Pkcs12KeyStore keyStore,
-                                HttpClientFactory httpClientFactory,
-                                LinksRewriter accountInformationLinksRewriter,
-                                LinksRewriter paymentInitiationLinksRewriter,
-                                boolean chooseFirstFromMultipleAspsps) {
-        this(aspspRepository,
-            httpClientFactory,
-            accountInformationLinksRewriter,
-            paymentInitiationLinksRewriter,
-            chooseFirstFromMultipleAspsps);
-    }
-
     public AdapterServiceLoader(AspspReadOnlyRepository aspspRepository,
                                 HttpClientFactory httpClientFactory,
                                 LinksRewriter accountInformationLinksRewriter,

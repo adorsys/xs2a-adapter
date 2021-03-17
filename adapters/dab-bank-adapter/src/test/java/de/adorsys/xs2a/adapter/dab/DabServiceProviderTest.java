@@ -30,8 +30,7 @@ class DabServiceProviderTest {
             = provider.getAccountInformationService(new Aspsp(), factory, null);
 
         assertThat(actualService)
-            .isNotNull()
-            .isInstanceOf(DabAccountInformationService.class);
+            .isExactlyInstanceOf(DabAccountInformationService.class);
     }
 
     @Test
@@ -40,7 +39,6 @@ class DabServiceProviderTest {
             = provider.getPaymentInitiationService(null, factory, null);
 
         assertThat(actualService)
-            .isNotNull()
-            .isInstanceOf(BasePaymentInitiationService.class);
+            .isExactlyInstanceOf(BasePaymentInitiationService.class);
     }
 }

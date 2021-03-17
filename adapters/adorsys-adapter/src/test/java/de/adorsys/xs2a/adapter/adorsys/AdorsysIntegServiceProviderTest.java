@@ -33,8 +33,7 @@ class AdorsysIntegServiceProviderTest {
             = provider.getPaymentInitiationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isNotNull()
-            .isInstanceOf(BasePaymentInitiationService.class);
+            .isExactlyInstanceOf(BasePaymentInitiationService.class);
     }
 
     @Test
@@ -43,8 +42,7 @@ class AdorsysIntegServiceProviderTest {
             = provider.getAccountInformationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isNotNull()
-            .isInstanceOf(AdorsysAccountInformationService.class);
+            .isExactlyInstanceOf(AdorsysAccountInformationService.class);
     }
 
     @Test
@@ -53,7 +51,6 @@ class AdorsysIntegServiceProviderTest {
             = provider.getOauth2Service(aspsp, httpClientFactory);
 
         assertThat(actualService)
-            .isNotNull()
-            .isInstanceOf(AdorsysIntegOauth2Service.class);
+            .isExactlyInstanceOf(AdorsysIntegOauth2Service.class);
     }
 }

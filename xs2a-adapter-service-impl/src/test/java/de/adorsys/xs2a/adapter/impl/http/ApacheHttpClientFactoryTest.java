@@ -2,7 +2,7 @@ package de.adorsys.xs2a.adapter.impl.http;
 
 import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,14 +26,16 @@ class ApacheHttpClientFactoryTest {
 
     private ApacheHttpClientFactory factory;
     private Pkcs12KeyStore pkcs12KeyStore;
-    private final HttpLogSanitizer logSanitizer = mock(HttpLogSanitizer.class);
 
     @BeforeEach
     public void setUp() throws Exception {
         pkcs12KeyStore = mock(Pkcs12KeyStore.class);
+        HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
+
         when(pkcs12KeyStore.getSslContext(any()))
             .thenReturn(SSLContext.getDefault());
-        factory = new ApacheHttpClientFactory(HttpClientBuilder.create(), pkcs12KeyStore);
+        when(httpClientConfig.getKeyStore()).thenReturn(pkcs12KeyStore);
+        factory = new ApacheHttpClientFactory(HttpClientBuilder.create(), httpClientConfig);
     }
 
     @Test

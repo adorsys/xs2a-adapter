@@ -31,7 +31,7 @@ class ConsorsServiceProviderTest {
             = serviceProvider.getAccountInformationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(ConsorsAccountInformationService.class);
+            .isExactlyInstanceOf(ConsorsAccountInformationService.class);
     }
 
     @Test
@@ -40,6 +40,6 @@ class ConsorsServiceProviderTest {
             = serviceProvider.getPaymentInitiationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(ConsorsPaymentInitiationService.class);
+            .isExactlyInstanceOf(ConsorsPaymentInitiationService.class);
     }
 }
