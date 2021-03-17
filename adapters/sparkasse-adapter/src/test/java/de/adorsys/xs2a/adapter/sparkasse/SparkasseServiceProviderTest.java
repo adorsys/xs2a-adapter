@@ -6,7 +6,6 @@ import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
-import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.impl.http.BaseHttpClientConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +32,8 @@ class SparkasseServiceProviderTest {
         AccountInformationService actualService
             = provider.getAccountInformationService(aspsp, clientFactory, null);
 
-        assertThat(actualService).isInstanceOf(BaseAccountInformationService.class);
+        assertThat(actualService)
+            .isExactlyInstanceOf(SparkasseAccountInformationService.class);
     }
 
     @Test
@@ -41,7 +41,8 @@ class SparkasseServiceProviderTest {
         PaymentInitiationService actualService
             = provider.getPaymentInitiationService(aspsp, clientFactory, null);
 
-        assertThat(actualService).isInstanceOf(SparkassePaymentInitiationService.class);
+        assertThat(actualService)
+            .isExactlyInstanceOf(SparkassePaymentInitiationService.class);
     }
 
     @Test
@@ -49,6 +50,7 @@ class SparkasseServiceProviderTest {
         Oauth2Service actualService
             = provider.getOauth2Service(aspsp, clientFactory);
 
-        assertThat(actualService).isInstanceOf(SparkasseOauth2Service.class);
+        assertThat(actualService)
+            .isExactlyInstanceOf(SparkasseOauth2Service.class);
     }
 }

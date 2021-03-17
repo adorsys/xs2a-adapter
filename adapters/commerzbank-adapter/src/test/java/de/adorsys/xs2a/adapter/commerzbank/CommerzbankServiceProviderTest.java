@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -34,7 +33,7 @@ class CommerzbankServiceProviderTest {
             = serviceProvider.getAccountInformationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(CommerzbankAccountInformationService.class);
+            .isExactlyInstanceOf(CommerzbankAccountInformationService.class);
     }
 
     @Test
@@ -43,7 +42,7 @@ class CommerzbankServiceProviderTest {
             = serviceProvider.getPaymentInitiationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(BasePaymentInitiationService.class);
+            .isExactlyInstanceOf(BasePaymentInitiationService.class);
     }
 
     @Test
@@ -52,6 +51,6 @@ class CommerzbankServiceProviderTest {
             = serviceProvider.getOauth2Service(aspsp, httpClientFactory);
 
         assertThat(actualService)
-            .isInstanceOf(CommerzbankOauth2Service.class);
+            .isExactlyInstanceOf(CommerzbankOauth2Service.class);
     }
 }

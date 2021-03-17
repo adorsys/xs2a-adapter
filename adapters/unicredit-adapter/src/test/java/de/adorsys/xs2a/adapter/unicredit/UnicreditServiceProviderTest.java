@@ -31,7 +31,7 @@ class UnicreditServiceProviderTest {
             = serviceProvider.getAccountInformationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(UnicreditAccountInformationService.class);
+            .isExactlyInstanceOf(UnicreditAccountInformationService.class);
     }
 
     @Test
@@ -40,6 +40,6 @@ class UnicreditServiceProviderTest {
             = serviceProvider.getPaymentInitiationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(UnicreditPaymentInitiationService.class);
+            .isExactlyInstanceOf(UnicreditPaymentInitiationService.class);
     }
 }

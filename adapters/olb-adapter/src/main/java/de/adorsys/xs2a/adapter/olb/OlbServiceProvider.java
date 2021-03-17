@@ -12,26 +12,10 @@ public class OlbServiceProvider extends AbstractAdapterServiceProvider {
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
-                                                                  Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter) {
-        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
-    }
-
-    @Override
-    public AccountInformationService getAccountInformationService(Aspsp aspsp,
-                                                                  HttpClientFactory httpClientFactory,
                                                                   LinksRewriter linksRewriter) {
         return new OlbAccountInformationService(aspsp,
             httpClientFactory,
             linksRewriter);
-    }
-
-    @Override
-    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
-                                                                HttpClientFactory httpClientFactory,
-                                                                Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter) {
-        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Override

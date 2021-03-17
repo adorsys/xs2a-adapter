@@ -25,7 +25,7 @@ class BaseDownloadServiceTest {
     public static final String OCTET_STREAM = "application/octet-stream";
 
     private BaseDownloadService service;
-    private RequestHeaders headers = RequestHeaders.fromMap(new HashMap<>());
+    private final RequestHeaders headers = RequestHeaders.fromMap(new HashMap<>());
 
     @Mock
     private HttpClient httpClient;
@@ -34,7 +34,7 @@ class BaseDownloadServiceTest {
     private Interceptor interceptor;
 
     @Spy
-    private Request.Builder requestBuilder = new RequestBuilderImpl(httpClient, null, null);
+    private final Request.Builder requestBuilder = new RequestBuilderImpl(httpClient, null, null);
 
     @Captor
     private ArgumentCaptor<String> uriCaptor;
@@ -51,7 +51,7 @@ class BaseDownloadServiceTest {
     @Test
     void download_bestCase() {
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse()).when(requestBuilder).send(any(), any(Interceptor.class));
+        doReturn(dummyResponse()).when(requestBuilder).send(any(), anyList());
 
         Response<byte[]> response = service.download(DOWNLOAD_URL, headers);
 
@@ -66,7 +66,7 @@ class BaseDownloadServiceTest {
     @Test
     void download_partialDownloadLink() {
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse()).when(requestBuilder).send(any(), any(Interceptor.class));
+        doReturn(dummyResponse()).when(requestBuilder).send(any(), anyList());
 
         Response<byte[]> response = service.download("/download", headers);
 
@@ -81,7 +81,7 @@ class BaseDownloadServiceTest {
     @Test
     void download_noProtocolLink() {
         when(httpClient.get(any())).thenReturn(requestBuilder);
-        doReturn(dummyResponse()).when(requestBuilder).send(any(), any(Interceptor.class));
+        doReturn(dummyResponse()).when(requestBuilder).send(any(), anyList());
 
         Response<byte[]> response = service.download("base.url/download", headers);
 

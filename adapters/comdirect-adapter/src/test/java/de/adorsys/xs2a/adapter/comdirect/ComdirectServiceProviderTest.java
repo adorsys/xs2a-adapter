@@ -33,7 +33,7 @@ class ComdirectServiceProviderTest {
             = serviceProvider.getAccountInformationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(ComdirectAccountInformationService.class);
+            .isExactlyInstanceOf(ComdirectAccountInformationService.class);
     }
 
     @Test
@@ -42,7 +42,7 @@ class ComdirectServiceProviderTest {
             = serviceProvider.getPaymentInitiationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(BasePaymentInitiationService.class);
+            .isExactlyInstanceOf(BasePaymentInitiationService.class);
     }
 
     @Test
@@ -51,6 +51,6 @@ class ComdirectServiceProviderTest {
             = serviceProvider.getOauth2Service(aspsp, httpClientFactory);
 
         assertThat(actualService)
-            .isInstanceOf(ComdirectOauth2Service.class);
+            .isExactlyInstanceOf(ComdirectOauth2Service.class);
     }
 }

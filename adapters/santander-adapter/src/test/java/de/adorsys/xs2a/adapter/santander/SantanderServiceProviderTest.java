@@ -36,7 +36,7 @@ class SantanderServiceProviderTest {
         when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
     }
 
-    // to make sure adapter configurations set to default
+    // to make sure adapter configurations are set to default
     @AfterAll
     static void afterAll() {
         AdapterConfig.setConfigFile("");
@@ -48,7 +48,7 @@ class SantanderServiceProviderTest {
             = serviceProvider.getAccountInformationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(SantanderAccountInformationService.class);
+            .isExactlyInstanceOf(SantanderAccountInformationService.class);
     }
 
     @Test
@@ -57,7 +57,7 @@ class SantanderServiceProviderTest {
             = serviceProvider.getPaymentInitiationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isInstanceOf(SantanderPaymentInitiationService.class);
+            .isExactlyInstanceOf(SantanderPaymentInitiationService.class);
     }
 
     @Test
@@ -66,6 +66,6 @@ class SantanderServiceProviderTest {
             = serviceProvider.getOauth2Service(aspsp, httpClientFactory);
 
         assertThat(actualService)
-            .isInstanceOf(SantanderOauth2Service.class);
+            .isExactlyInstanceOf(SantanderOauth2Service.class);
     }
 }

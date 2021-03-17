@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2018 adorsys GmbH & Co KG
+ * Copyright 2018-2021 adorsys GmbH & Co KG
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,14 +31,6 @@ public class DeutscheBankServiceProvider extends AbstractAdapterServiceProvider 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
-                                                                  Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter) {
-        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
-    }
-
-    @Override
-    public AccountInformationService getAccountInformationService(Aspsp aspsp,
-                                                                  HttpClientFactory httpClientFactory,
                                                                   LinksRewriter linksRewriter) {
         aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "ais"));
         return new DeutscheBankAccountInformationService(aspsp,
@@ -51,27 +43,12 @@ public class DeutscheBankServiceProvider extends AbstractAdapterServiceProvider 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
-                                                                Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter) {
-        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
-    }
-
-    @Override
-    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
-                                                                HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
         aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "pis"));
         return new DeutscheBankPaymentInitiationService(aspsp,
             httpClientFactory,
             getInterceptors(aspsp, psuIdTypeHeaderInterceptor),
             linksRewriter);
-    }
-
-    @Override
-    public DownloadService getDownloadService(String baseUrl,
-                                              HttpClientFactory httpClientFactory,
-                                              Pkcs12KeyStore keyStore) {
-        return getDownloadService(baseUrl, httpClientFactory);
     }
 
     @Override
