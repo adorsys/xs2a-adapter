@@ -30,6 +30,7 @@ import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.impl.http.JsonMapper;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenException;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,7 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
     public static final String TOKEN_CONSUMER_SECRET_PROPERTY = ".token.consumer_secret";
     public static final String TOKEN_CONSUMER_SECRET_TPP_ID = ".token.tpp_id";
     public static final String TOKEN_CONSUMER_SECRET_TPP_MANAGEMENT = ".token.tpp_secret";
+    public static final String PSD2_TOKEN_URL = ".psd2_token.url";
     private static final String CREDENTIALS_JSON_BODY = "{\"username\":\"%s\",\"password\":\"%s\"}";
     private final Aspsp aspsp;
 
@@ -63,6 +65,7 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
     private final HttpLogSanitizer logSanitizer;
     private final JsonMapper jsonMapper;
     private final String psd2AuthorizationValue;
+    private final String psd2TokenUrl;
 
     public CrealogixEmbeddedPreAuthorisationService(CrealogixClient crealogixClient,
                                                     Aspsp aspsp,
@@ -78,19 +81,16 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
         String consumerSecret = readProperty(prefix + TOKEN_CONSUMER_SECRET_PROPERTY, "");
         String tppId = readProperty(prefix + TOKEN_CONSUMER_SECRET_TPP_ID, "");
         String tppSecret = readProperty(prefix + TOKEN_CONSUMER_SECRET_TPP_MANAGEMENT, "");
+        psd2TokenUrl = readProperty(prefix + PSD2_TOKEN_URL, "");
 
-        if (checkConsumerAndTppProperties(consumerKey, consumerSecret, tppId, tppSecret)) {
-            throw new AccessTokenException("Consumer Key, Consumer Secret, TPP ID or TPP Secret are not provided");
+        if (StringUtils.isAnyEmpty(consumerKey, consumerSecret, tppId, tppSecret, psd2TokenUrl)) {
+            throw new AccessTokenException("Consumer Key, Consumer Secret, TPP ID, TPP Secret, or PSD2 Token URL is not provided");
         }
 
         this.psd2AuthorizationValue = "Basic " + buildBasicAuthorization(tppId, tppSecret);
 
         tppHeaders.put(RequestHeaders.AUTHORIZATION, "Basic " + buildBasicAuthorization(consumerKey, consumerSecret));
         tppHeaders.put(RequestHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded");
-    }
-
-    private boolean checkConsumerAndTppProperties(String consumerKey, String consumerSecret, String tppId, String tppSecret) {
-        return consumerKey.isEmpty() || consumerSecret.isEmpty() || tppId.isEmpty() || tppSecret.isEmpty();
     }
 
     @Override
@@ -105,9 +105,9 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
 
     private String retrieveTppToken() {
         Response<TokenResponse> response = httpClient.post(adjustIdpUrl(aspsp.getIdpUrl()) + TOKEN_URL)
-                                               .urlEncodedBody(Collections.singletonMap("grant_type", "client_credentials"))
-                                               .headers(tppHeaders)
-                                               .send(responseHandler(TokenResponse.class));
+            .urlEncodedBody(Collections.singletonMap("grant_type", "client_credentials"))
+            .headers(tppHeaders)
+            .send(responseHandler(TokenResponse.class));
         return response.getBody().getAccessToken();
     }
 
@@ -117,12 +117,11 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
         headers.put(RequestHeaders.CONTENT_TYPE, "application/json");
         headers.put(RequestHeaders.AUTHORIZATION, "Bearer " + tppToken);
         headers.put(RequestHeaders.PSD2_AUTHORIZATION, psd2AuthorizationValue);
-        // todo: add token URI property to config file (https://jira.adorsys.de/browse/XS2AAD-749)
-        Response<TokenResponse> response = httpClient.post(adjustIdpUrl(aspsp.getIdpUrl()) + "/pre-auth/1.0.6/psd2-auth/v1/auth/token")
-                                               .jsonBody(String.format(CREDENTIALS_JSON_BODY, username, password))
-                                               .headers(headers)
-                                               .send(responseHandler(CrealogixValidationResponse.class))
-                                               .map(mapper::toTokenResponse);
+        Response<TokenResponse> response = httpClient.post(adjustIdpUrl(aspsp.getIdpUrl()) + psd2TokenUrl)
+            .jsonBody(String.format(CREDENTIALS_JSON_BODY, username, password))
+            .headers(headers)
+            .send(responseHandler(CrealogixValidationResponse.class))
+            .map(mapper::toTokenResponse);
         return response.getBody().getAccessToken();
     }
 
@@ -132,7 +131,7 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
                 return jsonMapper.readValue(responseBody, tClass);
             }
             String sanitizedResponse = logSanitizer.sanitize(toString(responseBody));
-            logger.error("Failed to retrieve Token. Status code: {}\nBank response: {}", statusCode,  sanitizedResponse);
+            logger.error("Failed to retrieve Token. Status code: {}\nBank response: {}", statusCode, sanitizedResponse);
             throw new AccessTokenException("Can't retrieve access token by provided credentials");
         };
     }

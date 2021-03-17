@@ -60,13 +60,13 @@ class CrealogixEmbeddedPreAuthorisationServiceTest {
         Request.Builder tppBuilder = mock(Request.Builder.class);
         Request.Builder psd2Builder = mock(Request.Builder.class);
 
-        doReturn(tppBuilder).when(httpClient).post(eq("https://localhost:8443/token"));
+        doReturn(tppBuilder).when(httpClient).post("https://localhost:8443/token");
         doReturn(tppBuilder).when(tppBuilder).urlEncodedBody(anyMap());
         doReturn(tppBuilder).when(tppBuilder).headers(anyMap());
         doReturn(tppResponse).when(tppBuilder).send(any());
         doReturn(tppTokenResponse).when(tppResponse).getBody();
 
-        doReturn(psd2Builder).when(httpClient).post(eq("https://localhost:8443/pre-auth/1.0.6/psd2-auth/v1/auth/token"));
+        doReturn(psd2Builder).when(httpClient).post("https://localhost:8443/foo/boo/token");
         doReturn(psd2Builder).when(psd2Builder).jsonBody(anyString());
         doReturn(psd2Builder).when(psd2Builder).headers(anyMap());
         doReturn(psd2Response).when(psd2Builder).send(any());
