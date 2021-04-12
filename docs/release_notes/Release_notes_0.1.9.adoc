@@ -1,8 +1,4 @@
-= Draft Release notes for version 0.1.9 (release date: xx.04.2021)
-
-.Added banks
-|===
-|===
+= Release notes for version 0.1.9 (release date: 12.04.2021)
 
 == Notices:
 - added README.md to `crealogix-adapter` with a description of the adapter proper configuration.
@@ -16,5 +12,3 @@ instead of previously hardcoded URL in the CrealogixEmbeddedPreAuthorisationServ
 == Features:
 - added `getConsentAuthorisation` operation with a respective endpoint for retrieving Authorisation Sub-Resources
 information. Description added on a Swagger resource.
-
-== Fixes:
