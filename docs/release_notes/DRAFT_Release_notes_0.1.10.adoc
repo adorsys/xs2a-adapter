@@ -9,3 +9,5 @@
 == Features:
 
 == Fixes:
+- fixed https://github.com/adorsys/xs2a-adapter/issues/577[issue #577] with Bouncy Castle failing if PEM file ends with
+more than one trailing new line. Increased version of Bouncy Castle to 1.64.

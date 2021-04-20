@@ -86,7 +86,7 @@
         <docker.image>${project.artifactId}</docker.image>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
         <javatar-commons.version>0.8</javatar-commons.version>
-        <bouncycastle.version>1.61</bouncycastle.version>
+        <bouncycastle.version>1.64</bouncycastle.version>
         <apache.commons.lang.version>3.9</apache.commons.lang.version>
         <junit-jupiter.version>5.5.2</junit-jupiter.version>
         <assertj.version>3.15.0</assertj.version>
