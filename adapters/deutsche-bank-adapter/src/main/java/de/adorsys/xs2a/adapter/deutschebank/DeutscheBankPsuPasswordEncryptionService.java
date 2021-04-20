@@ -13,10 +13,8 @@ import org.bouncycastle.jcajce.provider.asymmetric.x509.CertificateFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
-import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Collection;
 import java.util.List;
@@ -28,7 +26,7 @@ import java.util.stream.Collectors;
 // TODO adjust this logic on the additional information from Deutsche bank about the certificates API
 public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncryptionService {
     private static final String URL_TO_CERTIFICATE
-        = PropertyUtil.readProperty("deutsche-bank.aspsp.certificate.url","https://xs2a.db.com/pb/aspsp-certificates/tpp-pb-password_cert.pem");
+        = PropertyUtil.readProperty("deutsche-bank.aspsp.certificate.url", "https://xs2a.db.com/pb/aspsp-certificates/tpp-pb-password_cert.pem");
     private static final String DEFAULT_EXCEPTION_MESSAGE = "Exception during Deutsche bank adapter PSU password encryption";
 
     private static DeutscheBankPsuPasswordEncryptionService encryptionService;
@@ -36,20 +34,14 @@ public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncr
     private JWEHeader jweHeader;
     private JWEEncrypter jweEncrypter;
 
-    public static DeutscheBankPsuPasswordEncryptionService getInstance() {
-        if (encryptionService == null) {
-            encryptionService = new DeutscheBankPsuPasswordEncryptionService();
-        }
-
-        return encryptionService;
-    }
-
-    private DeutscheBankPsuPasswordEncryptionService() {
-        init();
-    }
+    private boolean isInit = false;
 
     @Override
     public String encrypt(String password) {
+        if (!isInit) {
+            init();
+        }
+
         JWEObject jweObject = new JWEObject(jweHeader, new Payload(password));
 
         try {
@@ -91,7 +83,9 @@ public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncr
                             .build();
 
             jweEncrypter = new RSAEncrypter(RSAKey.parse(getBankCertificate(x509Certificates)));
-        } catch (IOException | CertificateException | URISyntaxException | JOSEException e) {
+
+            this.isInit = true;
+        } catch (Exception e) {
             throw new PsuPasswordEncodingException(DEFAULT_EXCEPTION_MESSAGE, e);
         }
     }

@@ -26,7 +26,6 @@ import de.adorsys.xs2a.adapter.impl.BaseDownloadService;
 public class DeutscheBankServiceProvider extends AbstractAdapterServiceProvider implements DownloadServiceProvider {
     public static final String SERVICE_GROUP_PLACEHOLDER = "{Service Group}";
     private final PsuIdTypeHeaderInterceptor psuIdTypeHeaderInterceptor = new PsuIdTypeHeaderInterceptor();
-    private final PsuPasswordEncryptionService psuPasswordEncryptionService = DeutscheBankPsuPasswordEncryptionService.getInstance();
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
@@ -37,7 +36,7 @@ public class DeutscheBankServiceProvider extends AbstractAdapterServiceProvider 
             httpClientFactory,
             getInterceptors(aspsp, psuIdTypeHeaderInterceptor),
             linksRewriter,
-            psuPasswordEncryptionService);
+            new DeutscheBankPsuPasswordEncryptionService());
     }
 
     @Override
