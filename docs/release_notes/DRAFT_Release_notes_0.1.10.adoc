@@ -5,6 +5,7 @@
 |===
 
 == Notices:
+- for `sparkasse-adapter`, added custom "PUSH_DEC" Authorisation Type, and it's mapped on BG "PUSH_OTP" Type for normalization.
 
 == Features:
 
