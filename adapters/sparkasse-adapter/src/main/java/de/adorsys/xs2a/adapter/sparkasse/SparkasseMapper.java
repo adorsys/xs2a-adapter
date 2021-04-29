@@ -1,11 +1,10 @@
 package de.adorsys.xs2a.adapter.sparkasse;
 
 import de.adorsys.xs2a.adapter.api.model.*;
-import de.adorsys.xs2a.adapter.sparkasse.model.SparkasseOK200TransactionDetails;
-import de.adorsys.xs2a.adapter.sparkasse.model.SparkasseTransactionDetails;
-import de.adorsys.xs2a.adapter.sparkasse.model.SparkasseTransactionResponse200Json;
+import de.adorsys.xs2a.adapter.sparkasse.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ValueMapping;
 
 @Mapper
 public interface SparkasseMapper {
@@ -19,4 +18,13 @@ public interface SparkasseMapper {
     default String map(RemittanceInformationStructured value) {
         return value == null ? null : value.getReference();
     }
+
+    @ValueMapping(target = "PUSH_OTP", source = "PUSH_DEC")
+    AuthenticationType toAuthenticationType(SparkasseAuthenticationType value);
+
+    ConsentsResponse201 toConsentsResponse201(SparkasseConsentsResponse201 value);
+    PaymentInitationRequestResponse201 toPaymentInitationRequestResponse201(SparkassePaymentInitationRequestResponse201 value);
+    SelectPsuAuthenticationMethodResponse toSelectPsuAuthenticationMethodResponse(SparkasseSelectPsuAuthenticationMethodResponse value);
+    StartScaprocessResponse toStartScaprocessResponse(SparkasseStartScaprocessResponse value);
+    UpdatePsuAuthenticationResponse toUpdatePsuAuthenticationResponse(SparkasseUpdatePsuAuthenticationResponse value);
 }

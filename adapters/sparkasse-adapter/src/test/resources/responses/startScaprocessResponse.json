@@ -1,0 +1,10 @@
+{
+  "scaMethods": [
+    {
+      "authenticationType": "PUSH_DEC"
+    }
+  ],
+  "chosenScaMethod": {
+    "authenticationType": "PUSH_DEC"
+  }
+}
