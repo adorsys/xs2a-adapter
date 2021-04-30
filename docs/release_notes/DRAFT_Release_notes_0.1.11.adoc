@@ -9,3 +9,5 @@
 == Features:
 
 == Fixes:
+- fixed bug in `unicredit-adapter`, payment initiation in json was failing when creditor address field was absent, added
+a default value if none provided by a client.
