@@ -17,6 +17,7 @@ import static de.adorsys.xs2a.adapter.api.RequestHeaders.*;
 
 public class RequestSigningInterceptor implements Interceptor {
     // according to BG spec 1.3 (chapter 12.2)
+    // since BG spec 1.3.4 Date is not a mandatory field. A place for refactoring.
     private static final List<String> SIGNATURE_HEADERS
         = Arrays.asList(DIGEST, X_REQUEST_ID, PSU_ID, PSU_CORPORATE_ID, DATE, TPP_REDIRECT_URI);
 
