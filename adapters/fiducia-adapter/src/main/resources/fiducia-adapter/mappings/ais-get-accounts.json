@@ -14,9 +14,6 @@
       "Digest" : {
         "matches" : ".+"
       },
-      "Date" : {
-        "matches" : ".+"
-      },
       "Signature" : {
         "matches" : ".+"
       },

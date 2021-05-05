@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Collections.singletonMap;
-import static org.apache.http.protocol.HTTP.DATE_HEADER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -42,38 +41,6 @@ class FiduciaAccountInformationServiceTest {
         when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
 
         service = new FiduciaAccountInformationService(new Aspsp(), httpClientFactory, null, new IdentityLinksRewriter());
-    }
-
-    @Test
-    void populatePostHeaders() {
-        Map<String, String> postHeaders = service.populatePostHeaders(new HashMap<>());
-        assertThat(postHeaders)
-            .hasSize(1)
-            .containsKeys(DATE_HEADER);
-    }
-
-    @Test
-    void populateGetHeaders() {
-        Map<String, String> getHeaders = service.populateGetHeaders(new HashMap<>());
-        assertThat(getHeaders)
-            .hasSize(1)
-            .containsKeys(DATE_HEADER);
-    }
-
-    @Test
-    void populatePutHeaders() {
-        Map<String, String> putHeaders = service.populatePutHeaders(new HashMap<>());
-        assertThat(putHeaders)
-            .hasSize(1)
-            .containsKeys(DATE_HEADER);
-    }
-
-    @Test
-    void populateDeleteHeaders() {
-        Map<String, String> deleteHeaders = service.populateDeleteHeaders(new HashMap<>());
-        assertThat(deleteHeaders)
-            .hasSize(1)
-            .containsKeys(DATE_HEADER);
     }
 
     @Test
