@@ -5,9 +5,10 @@
 |===
 
 == Notices:
+- added `commons-io` dependency in the project, for proper work of `deutsche-bank` adapter encryption service
 
 == Features:
 
 == Fixes:
 - fixed bug in `unicredit-adapter`, payment initiation in json was failing when creditor address field was absent, added
-a default value if none provided by a client.
+a default value if none proved by a client.
