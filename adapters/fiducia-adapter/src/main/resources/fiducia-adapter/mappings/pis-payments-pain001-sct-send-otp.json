@@ -14,9 +14,6 @@
       "PSU-ID" : {
         "equalTo" : "VRK1234567890ALL"
       },
-      "Date" : {
-        "matches" : ".+"
-      },
       "Signature" : {
         "matches" : ".+"
       },

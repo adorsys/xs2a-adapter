@@ -11,4 +11,6 @@
 
 == Fixes:
 - fixed bug in `unicredit-adapter`, payment initiation in json was failing when creditor address field was absent, added
-a default value if none proved by a client.
+a default value if none provided by a client.
+- fixed bug in `fiducia-adapter`, `FORMAT_ERROR` was caused by `Date` header presence in Signature. `Date` header is not a
+mandatory field since BG v1.3.4

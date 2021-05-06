@@ -32,11 +32,10 @@ import de.adorsys.xs2a.adapter.fiducia.model.FiduciaTransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import org.mapstruct.factory.Mappers;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-
-import static org.apache.http.protocol.HTTP.DATE_HEADER;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class FiduciaAccountInformationService extends BaseAccountInformationService {
     private static final Set<String> SUPPORTED_BOOKING_STATUSES = new HashSet<>(Collections.singletonList("booked"));
@@ -56,31 +55,6 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
             interceptors,
             linksRewriter,
             httpClientFactory.getHttpClientConfig().getLogSanitizer());
-    }
-
-    @Override
-    protected Map<String, String> populatePostHeaders(Map<String, String> headers) {
-        return withDateHeader(headers);
-    }
-
-    private Map<String, String> withDateHeader(Map<String, String> headers) {
-        headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        return headers;
-    }
-
-    @Override
-    protected Map<String, String> populateGetHeaders(Map<String, String> headers) {
-        return withDateHeader(headers);
-    }
-
-    @Override
-    protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
-        return withDateHeader(headers);
-    }
-
-    @Override
-    protected Map<String, String> populateDeleteHeaders(Map<String, String> headers) {
-        return withDateHeader(headers);
     }
 
     @Override
