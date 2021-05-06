@@ -5,6 +5,7 @@
 |===
 
 == Notices:
+- added `commons-io` dependency in the project, for proper work of `deutsche-bank` adapter encryption service
 
 == Features:
 
