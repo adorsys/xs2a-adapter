@@ -1,13 +1,7 @@
-= Draft Release notes for version 0.1.11 (release date: xx.05.2021)
-
-.Added banks
-|===
-|===
+= Release notes for version 0.1.11 (release date: 07.05.2021)
 
 == Notices:
 - added `commons-io` dependency in the project, for proper work of `deutsche-bank` adapter encryption service
-
-== Features:
 
 == Fixes:
 - fixed bug in `unicredit-adapter`, payment initiation in json was failing when creditor address field was absent, added
