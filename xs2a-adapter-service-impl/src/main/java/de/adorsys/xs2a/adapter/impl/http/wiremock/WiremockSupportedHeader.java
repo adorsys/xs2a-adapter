@@ -69,6 +69,7 @@ enum WiremockSupportedHeader {
         return name;
     }
 
+    @SuppressWarnings("S1172")
     boolean isEqual(String stubValue, String currentValue) {
         return true;
     }

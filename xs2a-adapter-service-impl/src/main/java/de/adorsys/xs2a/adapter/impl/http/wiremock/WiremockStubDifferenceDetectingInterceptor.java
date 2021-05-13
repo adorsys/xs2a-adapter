@@ -51,7 +51,6 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     private static final Logger log = LoggerFactory.getLogger(WiremockStubDifferenceDetectingInterceptor.class);
     private static final CustomTextDifferenceEvaluator customTextDifferenceEvaluator
         = new CustomTextDifferenceEvaluator();
-    private static final String EQUAL_TO = "equalTo";
     private static final String HEADERS = "headers";
     private static final String BODY = "body";
     private static final String BODY_FILE_NAME = "bodyFileName";
@@ -64,6 +63,8 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
     private static final String MULTIPART_FORMDATA = "multipart/form-data";
     public static final String EQUAL_TO_XML = "equalToXml";
     public static final String EQUAL_TO_JSON = "equalToJson";
+    private static final String PAYLOAD = "-payload";
+    private static final String DIFFERENCES_STR = "\nDifferences:";
     private final Aspsp aspsp;
     private final ObjectMapper objectMapper;
 
@@ -210,12 +211,10 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
 
         Iterator<Difference> iterator = diffs.getDifferences().iterator();
         if (iterator.hasNext()) {
-            StringBuilder differences = new StringBuilder("\nDifferences:");
-            iterator.forEachRemaining(diff -> {
-                differences.append("\n").append(diff.toString());
-            });
-            log.warn("{} stub xml {} body is different from the aspsp {}.{}", aspsp.getAdapterId(), payloadType.value, payloadType.value, differences);
-            return Optional.of(payloadType.value + "-payload");
+            StringBuilder differences = new StringBuilder(DIFFERENCES_STR);
+            iterator.forEachRemaining(diff -> differences.append("\n").append(diff.toString()));
+            log.warn("{} stub xml {} body is different from the aspsp {}.\n{}", aspsp.getAdapterId(), payloadType.value, payloadType.value, differences);
+            return Optional.of(payloadType.value + PAYLOAD);
         }
 
         return Optional.empty();
@@ -244,22 +243,69 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
             Map<String, Object> stubBody = objectMapper.readValue(payloadBody, Map.class);
             Map<String, Object> currentBody
                 = isEmpty(body) ? Collections.emptyMap() : objectMapper.readValue(body, Map.class);
+
             Map<String, Object> stubMap = FlatMapUtils.flatten(stubBody);
             Map<String, Object> currentBodyMap = FlatMapUtils.flatten(currentBody);
-            if (!currentBodyMap.keySet().containsAll(stubMap.keySet())) {
-                StringBuilder differences = new StringBuilder("\nDifferences:");
-                for (String key : stubMap.keySet()) {
-                    if (!currentBodyMap.containsKey(key)) {
-                        differences.append("\n").append(key).append(" field is absent");
-                    }
-                }
-                log.warn("{} stub json {} body is different from the aspsp {}.{}", aspsp.getAdapterId(), payloadType.value, payloadType.value, differences);
-                return Optional.of(payloadType.value + "-payload");
-            }
+
+            return checkForDifferences(payloadType, stubMap, currentBodyMap);
         } catch (JsonProcessingException e) {
             log.error("Can't get differences for the {} or wiremock stub body", payloadType.value, e);
         }
+
         return Optional.empty();
+    }
+
+    private Optional<String> checkForDifferences(PayloadType payloadType, Map<String, Object> stubMap, Map<String, Object> currentBodyMap) {
+        Set<Map.Entry<String, Object>> entries = stubMap.entrySet();
+        StringBuilder differences = new StringBuilder(DIFFERENCES_STR);
+
+        if (!currentBodyMap.keySet().containsAll(stubMap.keySet())) {
+            for (Map.Entry<String, Object> entry : entries) {
+                String key = entry.getKey();
+
+                if (!currentBodyMap.containsKey(key)) {
+                    differences.append("\n").append(key).append(" field is absent");
+                } else {
+                    checkFieldValues(currentBodyMap, differences, entry, key);
+                }
+            }
+
+        } else {
+            // check values if all fields are present
+            for (Map.Entry<String, Object> entry : entries) {
+                String key = entry.getKey();
+
+                checkFieldValues(currentBodyMap, differences, entry, key);
+            }
+        }
+
+        // print and return value only if differences encountered
+        if (differences.length() > DIFFERENCES_STR.length()) {
+            log.warn("{} stub json {} body is different from the aspsp {}.\n{}", aspsp.getAdapterId(), payloadType.value, payloadType.value, differences);
+            return Optional.of(payloadType.value + PAYLOAD);
+        }
+        return Optional.empty();
+    }
+
+    private void checkFieldValues(Map<String, Object> currentBodyMap, StringBuilder differences, Map.Entry<String, Object> entry, String key) {
+        Object currentValue = currentBodyMap.get(key);
+        Object stubbedValue = entry.getValue();
+        if (!sameValues(currentValue, stubbedValue)) {
+            // intentionally not printing field value - may contain sensitive data
+            differences.append("\n").append(key).append(" field value is not matching");
+        }
+    }
+
+    private boolean sameValues(Object currentValue, Object stubbedValue) {
+        if (Objects.isNull(currentValue) || Objects.isNull(stubbedValue)) {
+            // the case only for test scenarios, should not occur in production
+            return false;
+        }
+        if (stubbedValue instanceof String && ((String) stubbedValue).contains("${json-unit.regex}")) {
+            // dynamic value, no need for checking
+            return true;
+        }
+        return currentValue.equals(stubbedValue);
     }
 
     private enum PayloadType {
@@ -300,7 +346,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
                 String fileName = (String) response.get(BODY_FILE_NAME);
                 String filePath = adapterId + File.separator + "__files" + File.separator + fileName;
                 InputStream is = getClass().getResourceAsStream(File.separator + filePath);
-                return Optional.ofNullable(IOUtils.toString(is));
+                return Optional.ofNullable(IOUtils.toString(is, (String) null));
             } catch (IOException e) {
                 log.error("Can't get stub response file", e);
             }
@@ -321,7 +367,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
         Optional<String> xmlResults = analyzeMultipartXmlPart(requestBody.get(0), builder);
         Optional<String> jsonResults = analyzeMultipartJsonPart(requestBody.get(1), builder);
         if (xmlResults.isPresent() || jsonResults.isPresent()) {
-            return Optional.of(PayloadType.REQUEST.value + "-payload");
+            return Optional.of(PayloadType.REQUEST.value + PAYLOAD);
         }
         return Optional.empty();
     }
@@ -337,7 +383,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
                                                                     PayloadType.REQUEST);
 
         if (headersResult.isPresent() || bodyResult.isPresent()) {
-            return Optional.of(PayloadType.REQUEST.value + "-payload");
+            return Optional.of(PayloadType.REQUEST.value + PAYLOAD);
         }
         return Optional.empty();
     }
@@ -348,6 +394,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
         String rawDispositionValue = (String) contentDisposition.get("contains");
         String dispositionValue = getDispositionValue(rawDispositionValue);
         if (!builder.containsKey(dispositionValue)) {
+            final String nextKey = builder.keySet().iterator().next();
             log.warn("Multipart Difference:\n" +
                     "{} {}-stub Content-Disposition header value doesn't match with a {} value;\n" +
                     "stub is '{}', but '{}' was in request",
@@ -355,8 +402,8 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
                 PayloadType.REQUEST.value,
                 PayloadType.REQUEST.value,
                 dispositionValue,
-                builder.keySet().iterator().next());
-            return Optional.of(PayloadType.REQUEST.value + "-payload");
+                nextKey);
+            return Optional.of(PayloadType.REQUEST.value + PAYLOAD);
         }
         return Optional.empty();
     }
@@ -378,7 +425,7 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
                                                                     PayloadType.REQUEST);
 
         if (headersResult.isPresent() || bodyResult.isPresent()) {
-            return Optional.of(PayloadType.REQUEST.value + "-payload");
+            return Optional.of(PayloadType.REQUEST.value + PAYLOAD);
         }
         return Optional.empty();
     }
@@ -453,15 +500,6 @@ public class WiremockStubDifferenceDetectingInterceptor implements Interceptor {
 
     private String buildStubFilePath(String adapterName, String fileName) {
         return String.format(MAPPINGS_DIR_PATH, adapterName) + fileName;
-    }
-
-    @SuppressWarnings("unchecked")
-    private boolean isJson(Map<String, Object> headers, PayloadType payloadType) {
-        if (payloadType == PayloadType.REQUEST) {
-            Map<String, String> contentType = (Map<String, String>) headers.getOrDefault(CONTENT_TYPE, Collections.emptyMap());
-            return contentType.getOrDefault(EQUAL_TO, "").startsWith(APPLICATION_JSON);
-        }
-        return headers.getOrDefault(CONTENT_TYPE.toLowerCase(), "").toString().startsWith(APPLICATION_JSON);
     }
 
     public static boolean isWiremockSupported(String adapterId) {
