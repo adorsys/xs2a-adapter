@@ -7,6 +7,7 @@
 == Notices:
 - improved request/response body validation of WiremockStubDifferenceDetectingInterceptor, it validates json field values
 from now on.
+- updated release script, added parameters for avoiding timeout error when publishing artifacts on Maven Central.
 
 == Features:
 
