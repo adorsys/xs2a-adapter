@@ -2,7 +2,7 @@
   "id" : "a45aacc7-22d2-4c9c-90ca-1ddb0b9b2e17",
   "name" : "v1_consents",
   "request" : {
-    "url" : "/v1/consents/.+",
+    "url" : "/v1/consents",
     "method" : "POST",
     "headers" : {
       "X-Request-ID" : {
@@ -22,14 +22,14 @@
       }
     },
     "bodyPatterns" : [ {
-      "equalToJson" : "{\"access\":{\"accounts\":[{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"}],\"balances\":[{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"}],\"transactions\":[{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"}]},\"recurringIndicator\":true,\"validUntil\":\"${json-unit.regex}\\\\d{4}-[01]\\\\d-[0-3]\\\\d\",\"frequencyPerDay\":4,\"combinedServiceIndicator\":false}",
+      "equalToJson" : "{\"access\":{\"accounts\":[{\"iban\":\"IBAN\",\"currency\":\"EUR\"}],\"balances\":[{\"iban\":\"IBAN\",\"currency\":\"EUR\"}],\"transactions\":[{\"iban\":\"IBAN\",\"currency\":\"EUR\"}]},\"recurringIndicator\":true,\"validUntil\":\"${json-unit.regex}\\\\d{4}-[01]\\\\d-[0-3]\\\\d\",\"frequencyPerDay\":4,\"combinedServiceIndicator\":false}",
       "ignoreArrayOrder" : true,
       "ignoreExtraElements" : true
     } ]
   },
   "response" : {
     "status" : 201,
-    "body" : "{\"consentStatus\":\"received\",\"consentId\":\"LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q\",\"_links\":{\"updatePsuAuthentication\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/consents/LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q/authorisations/19636dbe-99db-4d0f-90de-2573057bc7e4\"},\"self\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/consents/LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q\"},\"status\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/consents/LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q/status\"},\"scaStatus\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/consents/LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q/authorisations/19636dbe-99db-4d0f-90de-2573057bc7e4\"}}}",
+    "body" : "{\"consentStatus\":\"received\",\"consentId\":\"consent-id\",\"_links\":{\"updatePsuAuthentication\":{\"href\":\"http://foo.boo\"},\"self\":{\"href\":\"http://foo.boo\"},\"status\":{\"href\":\"http://foo.boo\"},\"scaStatus\":{\"href\":\"http://foo.boo\"}}}",
     "headers" : {
       "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
       "aspsp-sca-approach" : "EMBEDDED",

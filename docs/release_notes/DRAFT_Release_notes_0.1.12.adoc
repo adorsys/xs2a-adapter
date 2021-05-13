@@ -5,6 +5,8 @@
 |===
 
 == Notices:
+- improved request/response body validation of WiremockStubDifferenceDetectingInterceptor, it validates json field values
+from now on.
 
 == Features:
 

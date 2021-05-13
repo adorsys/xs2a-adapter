@@ -31,16 +31,16 @@ public class TestInstancesSupplier {
 
     private static AccountDetails getAccountDetails() {
         AccountDetails details = new AccountDetails();
-        details.setResourceId("some value");
+        details.setResourceId("some_value");
         details.setIban(IBAN);
         details.setCurrency(CURRENCY);
         details.setName("user");
         details.setDisplayName("display user");
         details.setProduct("product");
-        details.setCashAccountType("cash type");
+        details.setCashAccountType("CASH");
         details.setStatus(AccountStatus.ENABLED);
-        details.setLinkedAccounts("linked account");
-        details.setUsage(AccountDetails.Usage.ORGA);
+        details.setLinkedAccounts("linked_account");
+        details.setUsage(AccountDetails.Usage.PRIV);
         details.setLinks(getLinks("balances", "transactions"));
         return details;
     }
@@ -90,7 +90,7 @@ public class TestInstancesSupplier {
 
     public static ConsentsResponse201 getConsentResponse201() {
         ConsentsResponse201 consentsResponse = new ConsentsResponse201();
-        consentsResponse.setConsentStatus(ConsentStatus.VALID);
+        consentsResponse.setConsentStatus(ConsentStatus.RECEIVED);
         consentsResponse.setConsentId("consent-id");
         consentsResponse.setLinks(getLinks("updatePsuAuthentication", "self", "status", "scaStatus"));
         return consentsResponse;
@@ -98,6 +98,8 @@ public class TestInstancesSupplier {
 
     public static PaymentInitationRequestResponse201 getPaymentInitiationRequestResponse201() {
         PaymentInitationRequestResponse201 response = new PaymentInitationRequestResponse201();
+        response.setTransactionStatus(TransactionStatus.RCVD);
+        response.setPaymentId("foo");
         response.setLinks(getLinks("updatePsuAuthentication", "self", "status", "scaStatus"));
         return response;
     }
