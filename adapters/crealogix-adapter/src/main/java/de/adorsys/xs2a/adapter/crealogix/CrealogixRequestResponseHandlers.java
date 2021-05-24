@@ -6,10 +6,7 @@ import de.adorsys.xs2a.adapter.api.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.api.exception.PreAuthorisationException;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
-import de.adorsys.xs2a.adapter.api.model.ErrorResponse;
-import de.adorsys.xs2a.adapter.api.model.HrefType;
-import de.adorsys.xs2a.adapter.api.model.TppMessage;
-import de.adorsys.xs2a.adapter.api.model.TppMessageCategory;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenException;
 
@@ -27,7 +24,6 @@ public class CrealogixRequestResponseHandlers {
     public static final String RESPONSE_ERROR_MESSAGE = "embedded pre-authorisation needed";
     public static final String INVALID_CREDENTIALS_TYPE_MESSAGE = "Authorization header credentials type is invalid. 'Bearer' type is expected";
     public static final String DECODE_TOKENS_FAILURE_MESSAGE = "Failed to decode tokens";
-    private static final ErrorResponse CREALOGIX_ERROR_RESPONSE_INSTANCE = getErrorResponse();
     private static final String BEARER = "Bearer ";
 
     private final ResponseHandlers responseHandlers;
@@ -69,7 +65,7 @@ public class CrealogixRequestResponseHandlers {
     private String getAuthorizationHeader(RequestHeaders requestHeaders) {
         return requestHeaders.get(RequestHeaders.AUTHORIZATION).orElseThrow(() ->
             new PreAuthorisationException(
-                CREALOGIX_ERROR_RESPONSE_INSTANCE,
+                getErrorResponse(REQUEST_ERROR_MESSAGE),
                 REQUEST_ERROR_MESSAGE)
         );
     }
@@ -80,7 +76,7 @@ public class CrealogixRequestResponseHandlers {
                 throw new ErrorResponseException(
                     401,
                     ResponseHeaders.emptyResponseHeaders(),
-                    CREALOGIX_ERROR_RESPONSE_INSTANCE,
+                    getErrorResponse(),
                     RESPONSE_ERROR_MESSAGE);
             }
 
@@ -92,11 +88,15 @@ public class CrealogixRequestResponseHandlers {
         return responseHandlers.jsonResponseHandler(tClass);
     }
 
-    private static ErrorResponse getErrorResponse() {
+    private static ErrorResponse getErrorResponse(String message) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setLinks(singletonMap("embeddedPreAuth", getHrefType()));
-        errorResponse.setTppMessages(singletonList(getTppMessage()));
+        errorResponse.setTppMessages(singletonList(getTppMessage(message)));
         return errorResponse;
+    }
+
+    private static ErrorResponse getErrorResponse() {
+        return getErrorResponse(RESPONSE_ERROR_MESSAGE);
     }
 
     private static HrefType getHrefType() {
@@ -105,10 +105,11 @@ public class CrealogixRequestResponseHandlers {
         return hrefType;
     }
 
-    private static TppMessage getTppMessage() {
+    private static TppMessage getTppMessage(String message) {
         TppMessage tppMessage = new TppMessage();
         tppMessage.setCategory(TppMessageCategory.ERROR);
-        tppMessage.setText(RESPONSE_ERROR_MESSAGE);
+        tppMessage.setCode(MessageCode.TOKEN_UNKNOWN);
+        tppMessage.setText(message);
         return tppMessage;
     }
 }

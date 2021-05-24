@@ -21,10 +21,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.io.UncheckedIOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
@@ -64,9 +61,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         HttpHeaders headers = addErrorOriginationHeader(
             new HttpHeaders(),
             ErrorOrigination.ADAPTER);
-        ErrorResponse errorResponse = buildErrorResponse("authorisation header missing or embedded pre-authorisation needed");
-        errorResponse.setLinks(exception.getErrorResponse().getLinks());
-        return new ResponseEntity<>(errorResponse, headers, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(exception.getErrorResponse(), headers, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler
