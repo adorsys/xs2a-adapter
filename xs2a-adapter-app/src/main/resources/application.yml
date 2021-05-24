@@ -41,7 +41,6 @@ spring:
   profiles: dev
 logging:
   level:
-    org.apache.http.wire: DEBUG
     de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient: DEBUG
     de.adorsys.xs2a.adapter.impl.http.ResponseHandlers: DEBUG
     de.adorsys.xs2a.adapter.registry.LuceneAspspRepository: DEBUG
