@@ -41,7 +41,7 @@ class CrealogixRequestResponseHandlersTest extends CrealogixTestHelper {
         assertThatThrownBy(() ->
             requestResponseHandlers.crealogixRequestHandler(emptyHeaders))
                 .isInstanceOf(PreAuthorisationException.class)
-                .hasMessage(CrealogixRequestResponseHandlers.REQUEST_ERROR_MESSAGE)
+                .hasMessageContaining(CrealogixRequestResponseHandlers.REQUEST_ERROR_MESSAGE)
                 .matches(er -> ((PreAuthorisationException) er)
                     .getErrorResponse()
                     .getLinks()
