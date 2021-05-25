@@ -22,7 +22,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 
@@ -49,22 +48,12 @@ class CrealogixEmbeddedPreAuthorisationServiceTest {
     }
 
     @Test
-    void getToken() throws IOException {
-        Response<TokenResponse> tppResponse = mock(Response.class);
+    void getToken() {
         Response<CrealogixValidationResponse> psd2Response = mock(Response.class);
-        TokenResponse tppTokenResponse = new TokenResponse();
-        tppTokenResponse.setAccessToken("tpp");
         TokenResponse psd2TokenResponse = new TokenResponse();
         psd2TokenResponse.setAccessToken("psd2");
 
-        Request.Builder tppBuilder = mock(Request.Builder.class);
         Request.Builder psd2Builder = mock(Request.Builder.class);
-
-        doReturn(tppBuilder).when(httpClient).post("https://localhost:8443/token");
-        doReturn(tppBuilder).when(tppBuilder).urlEncodedBody(anyMap());
-        doReturn(tppBuilder).when(tppBuilder).headers(anyMap());
-        doReturn(tppResponse).when(tppBuilder).send(any());
-        doReturn(tppTokenResponse).when(tppResponse).getBody();
 
         doReturn(psd2Builder).when(httpClient).post("https://localhost:8443/foo/boo/token");
         doReturn(psd2Builder).when(psd2Builder).jsonBody(anyString());
@@ -75,11 +64,7 @@ class CrealogixEmbeddedPreAuthorisationServiceTest {
 
         TokenResponse token = authorisationService.getToken(new EmbeddedPreAuthorisationRequest(), RequestHeaders.fromMap(Collections.emptyMap()));
 
-        CrealogixAuthorisationToken authorisationToken = CrealogixAuthorisationToken.decode(token.getAccessToken());
-
         assertThat(token.getAccessToken()).isNotBlank();
-        assertThat(authorisationToken.getTppToken()).isEqualTo("tpp");
-        assertThat(authorisationToken.getPsd2AuthorisationToken()).isEqualTo("psd2");
     }
 
     @ParameterizedTest

@@ -14,3 +14,5 @@ by a client validation resolver.
 == Features:
 
 == Fixes:
+- fixing `crealogix-adapter`, the provider has changed its Oauth Embedded Pre-Step flow which broke the adapter. Implemented
+changes will handle a new flow. Also, there is no need for any DKB secrets and keys.
