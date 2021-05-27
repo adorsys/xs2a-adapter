@@ -16,3 +16,6 @@ by a client validation resolver.
 == Fixes:
 - fixing `crealogix-adapter`, the provider has changed its Oauth Embedded Pre-Step flow which broke the adapter. Implemented
 changes will handle a new flow. Also, there is no need for any DKB secrets and keys.
+- for `crealogix-adapter`, removed Authorization header checking because DKB requires a registration by calling an arbitrary
+XS2A endpoint for the first time. For avoiding burdening a client with manual registration Adapter will make the first call
+of Create Consent or Initiate Payment, which should always return 401 UNAUTHORIZED.

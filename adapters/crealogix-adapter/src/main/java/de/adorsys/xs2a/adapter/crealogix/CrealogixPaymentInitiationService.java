@@ -54,7 +54,7 @@ public class CrealogixPaymentInitiationService extends BasePaymentInitiationServ
         return super.initiatePayment(paymentService,
             paymentProduct,
             body,
-            requestHandler(requestHeaders),
+            requestHeaders,
             requestParams,
             identity(),
             requestResponseHandlers.crealogixResponseHandler(PaymentInitationRequestResponse201.class));
