@@ -4,8 +4,7 @@ file. It is used as a default setup if no other configuration is provided. A use
 will need to add some additional data: 
 
 * to communicate with Bank-Verlag `verlag.apikey.name` and `verlag.apikey.value` must be specified;
-* to work with DKB `dkb.token.consumer_key`, `dkb.token.consumer_secret`, `dkb.token.tpp_id`, and `dkb.token.tpp_secret` 
-must be provided, please check out this [file](../adapters/crealogix-adapter/README.md) for more details;
+* to work with DKB `dkb.psd2_token.url` must be provided, please check out this [file](../adapters/crealogix-adapter/README.md) for more details;
 * `santander.token.consumer_key`, `santander.token.consumer_key` to be filled out for Santander, please check out 
 this [file](adapters/santander-adapter.md) for more details;
 * ING needs `ing.qwac.alias` and `ing.qseal.alias` with appropriate QWAC and QSEAL from your keystore;

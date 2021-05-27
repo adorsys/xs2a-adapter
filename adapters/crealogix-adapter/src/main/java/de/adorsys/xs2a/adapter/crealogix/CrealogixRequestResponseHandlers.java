@@ -10,9 +10,7 @@ import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenException;
 
-import java.io.IOException;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Collections.singletonList;
@@ -23,7 +21,6 @@ public class CrealogixRequestResponseHandlers {
     public static final String REQUEST_ERROR_MESSAGE = "authorization header is missing, embedded pre-authorization may be needed";
     public static final String RESPONSE_ERROR_MESSAGE = "embedded pre-authorisation needed";
     public static final String INVALID_CREDENTIALS_TYPE_MESSAGE = "Authorization header credentials type is invalid. 'Bearer' type is expected";
-    public static final String DECODE_TOKENS_FAILURE_MESSAGE = "Failed to decode tokens";
     private static final String BEARER = "Bearer ";
 
     private final ResponseHandlers responseHandlers;
@@ -33,41 +30,40 @@ public class CrealogixRequestResponseHandlers {
     }
 
     public RequestHeaders crealogixRequestHandler(RequestHeaders requestHeaders) {
-        Map<String, String> headers = requestHeaders.toMap();
-
-        String encodedTokens = Stream.of(requestHeaders)
-            .map(this::getAuthorizationHeader)
+        return Stream.of(requestHeaders)
+            .map(RequestHeaders::toMap)
+            .map(this::checkAuthorizationHeader)
             .map(this::validateCredentialsType)
-            .collect(Collectors.joining());
-
-        CrealogixAuthorisationToken tokens;
-
-        try {
-            tokens = CrealogixAuthorisationToken.decode(encodedTokens);
-        } catch (IOException e) {
-            throw new AccessTokenException(DECODE_TOKENS_FAILURE_MESSAGE);
-        }
-
-        headers.replace(RequestHeaders.AUTHORIZATION, BEARER + tokens.getTppToken());
-        headers.put(RequestHeaders.PSD2_AUTHORIZATION, BEARER + tokens.getPsd2AuthorisationToken());
-
-        return RequestHeaders.fromMap(headers);
+            .map(this::mapToPsd2Authorisation)
+            .map(RequestHeaders::fromMap)
+            .findFirst() // always should be one object, if empty
+            .orElse(requestHeaders); // return original headers, which shouldn't be the case
     }
 
-    private String validateCredentialsType(String encodedTokens) {
-        if (!encodedTokens.startsWith(BEARER)) {
+    private Map<String, String> mapToPsd2Authorisation(Map<String, String> requestHeaders) {
+        String token = requestHeaders.remove(RequestHeaders.AUTHORIZATION);
+        requestHeaders.put(RequestHeaders.PSD2_AUTHORIZATION, token);
+
+        return requestHeaders;
+    }
+
+    private Map<String, String> validateCredentialsType(Map<String, String> requestHeaders) {
+        String token = requestHeaders.get(RequestHeaders.AUTHORIZATION);
+
+        if (!token.startsWith(BEARER)) {
             throw new AccessTokenException(INVALID_CREDENTIALS_TYPE_MESSAGE);
         }
 
-        return encodedTokens.replace(BEARER, "");
+        return requestHeaders;
     }
 
-    private String getAuthorizationHeader(RequestHeaders requestHeaders) {
-        return requestHeaders.get(RequestHeaders.AUTHORIZATION).orElseThrow(() ->
-            new PreAuthorisationException(
+    private Map<String, String> checkAuthorizationHeader(Map<String, String> requestHeaders) {
+        if (!requestHeaders.containsKey(RequestHeaders.AUTHORIZATION)) {
+            throw new PreAuthorisationException(
                 getErrorResponse(REQUEST_ERROR_MESSAGE),
-                REQUEST_ERROR_MESSAGE)
-        );
+                REQUEST_ERROR_MESSAGE);
+        }
+        return requestHeaders;
     }
 
     public <T> HttpClient.ResponseHandler<T> crealogixResponseHandler(Class<T> tClass) {
