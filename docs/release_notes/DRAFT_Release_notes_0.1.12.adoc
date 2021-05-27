@@ -10,6 +10,7 @@ from now on.
 - updated release script, added parameters for avoiding timeout error when publishing artifacts on Maven Central.
 - changes in `crealogix-adapter`, PreAuthorisationException is a child of RequestValidationException now and can be handled
 by a client validation resolver.
+- in `crealogix-adapter` README, added description of how to register a TPP in DKB.
 
 == Features:
 
