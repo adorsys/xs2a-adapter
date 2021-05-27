@@ -32,7 +32,7 @@ public class CrealogixAccountInformationService extends BaseAccountInformationSe
     public Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
                                                        RequestParams requestParams,
                                                        Consents body) {
-        return super.createConsent(requestHeaders,
+        return super.createConsent(requestHandler(requestHeaders),
             requestParams,
             body,
             identity(),
