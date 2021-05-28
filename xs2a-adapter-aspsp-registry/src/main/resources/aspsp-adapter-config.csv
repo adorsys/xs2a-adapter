@@ -1284,7 +1284,7 @@ ee08e556-8050-44d0-bf1e-af01e189ff5b,VOLKSBANK NIENBURG,GENODEF1NIN,https://xs2a
 ee718361-b893-40d8-ab54-1ae9517b43df,VOLKSBANK NIENBURG,GENODEF1NIN,https://xs2a-test.fiduciagad.de/xs2a/bg13,fiducia-adapter,25690010
 c66fff43-2374-4327-9431-073528f9dd0e,Landbank Horlofftal,GENODE51REW,https://xs2a-test.fiduciagad.de/xs2a/bg13,fiducia-adapter,51861616
 29c4d3da-78eb-4458-8195-03873b9bb66a,Volksbank Filder,GENODES1NHB,https://xs2a-test.fiduciagad.de/xs2a/bg13,fiducia-adapter,61161696
-335562a2-26e2-4105-b31e-08de285234e0,DKB,BYLADEM1001,https://preview.wso2-clx.crealogix-online.com/psd2/1.3,dkb-adapter,,https://preview.wso2-clx.crealogix-online.com
+335562a2-26e2-4105-b31e-08de285234e0,DKB,BYLADEM1001,https://preview.wso2-clx.crealogix-online.com/psd2sandbox,dkb-adapter,,https://preview.wso2-clx.crealogix-online.com
 369d86be-fb3f-4a2a-a7d9-481f9ae38abb,Volksbank Ruhr Mitte eG,GENODEM1HWE,https://xs2a-test.fiduciagad.de/xs2a/bg13,fiducia-adapter,
 d21b72e6-f213-4858-bd97-44e22af0f878,Volksbank im Ostmünsterland eG,GENODEM1HWI,https://xs2a-test.fiduciagad.de/xs2a/bg13,fiducia-adapter,47861518
 07b508ff-04ef-465b-9883-e7209a867c84,Ostsächsische Sparkasse Dresden,OSDDDE81HDN,https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678,sparkasse-adapter,85050300
