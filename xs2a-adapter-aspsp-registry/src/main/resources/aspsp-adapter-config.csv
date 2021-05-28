@@ -1981,13 +1981,13 @@ a68ca008-a1d7-46cd-90ac-514289c3e970,Raiffeisenbank,GENODEF1ZIR,https://xs2a-tes
 4c47e75a-760f-4d99-8d88-490221b39f98,Ing Bank N.V.,INGDDEFFXXX,https://api.sandbox.ing.com,ing-adapter,50010517
 c400eecb-d40b-4a0b-9a2b-176e24440541,Unicredit Bank,HYVEDEMMXXX,https://api-sandbox.unicredit.de/hydrogen,unicredit-adapter,70020270
 00ec0be1-4b13-4c82-8926-b23d1c8a0d2c,Comdirect bank AG,COBADEHDXXX,https://xs2a-sandbox.comdirect.de/berlingroup,comdirect-adapter,20041111
-14a0c2ad-b9bf-4200-853a-a7abe541b714,Santander Consumer Bank AG,SCFBDE33XXX,https://apigateway-sandbox.api.santander.de/scb-openapis/sx/,santander-adapter,10033300
-fdf27aa0-8ca3-4349-8ea9-5f720833542b,Santander Consumer Bank AG,SCFBDE33XXX,https://apigateway-sandbox.api.santander.de/scb-openapis/sx/,santander-adapter,20133300
-43509f27-17d4-4ba0-9666-06cb891085ed,Santander Consumer Bank AG,SCFBDE33XXX,https://apigateway-sandbox.api.santander.de/scb-openapis/sx/,santander-adapter,20133300
-eead159e-8a39-43db-ac9c-c704b2d83a4a,Santander Consumer Bank AG,SCFBDE33XXX,https://apigateway-sandbox.api.santander.de/scb-openapis/sx/,santander-adapter,25020600
-01447345-00f7-4a2a-80f8-5058d6c78655,Santander Consumer Bank AG,SCFBDE33XXX,https://apigateway-sandbox.api.santander.de/scb-openapis/sx/,santander-adapter,31010833
-4a78041e-11e4-45fc-97b3-4a41ba7cdb2e,Santander Consumer Bank AG,SCFBDE33XXX,https://apigateway-sandbox.api.santander.de/scb-openapis/sx/,santander-adapter,36033300
-259cff2a-43da-45fc-abfb-2e04322c6b5b,Santander Consumer Bank,SCFBDE33XXX,https://apigateway-sandbox.api.santander.de/scb-openapis/sx/,santander-adapter,50033300
-d41eda75-bdcc-49d9-ab4f-3e5a5f93a8c0,Santander Consumer Bank,SCFBDE33XXX,https://apigateway-sandbox.api.santander.de/scb-openapis/sx/,santander-adapter,60133300
-2bcb8ce7-8aca-45b1-81de-bca85ba88bc3,Santander Consumer Bank,SCFBDE33XXX,https://apigateway-sandbox.api.santander.de/scb-openapis/sx/,santander-adapter,70133300
-85e77bb8-db43-4010-92d2-d60f8a41e0d1,Santander Consumer Bank,SCFBDE33XXX,https://apigateway-sandbox.api.santander.de/scb-openapis/sx/,santander-adapter,86033300
+14a0c2ad-b9bf-4200-853a-a7abe541b714,Santander Consumer Bank AG,SCFBDE33XXX,https://api-sandbox-cc.santander.de/scb-openapis/sx,santander-adapter,10033300
+fdf27aa0-8ca3-4349-8ea9-5f720833542b,Santander Consumer Bank AG,SCFBDE33XXX,https://api-sandbox-cc.santander.de/scb-openapis/sx,santander-adapter,20133300
+43509f27-17d4-4ba0-9666-06cb891085ed,Santander Consumer Bank AG,SCFBDE33XXX,https://api-sandbox-cc.santander.de/scb-openapis/sx,santander-adapter,20133300
+eead159e-8a39-43db-ac9c-c704b2d83a4a,Santander Consumer Bank AG,SCFBDE33XXX,https://api-sandbox-cc.santander.de/scb-openapis/sx,santander-adapter,25020600
+01447345-00f7-4a2a-80f8-5058d6c78655,Santander Consumer Bank AG,SCFBDE33XXX,https://api-sandbox-cc.santander.de/scb-openapis/sx,santander-adapter,31010833
+4a78041e-11e4-45fc-97b3-4a41ba7cdb2e,Santander Consumer Bank AG,SCFBDE33XXX,https://api-sandbox-cc.santander.de/scb-openapis/sx,santander-adapter,36033300
+259cff2a-43da-45fc-abfb-2e04322c6b5b,Santander Consumer Bank,SCFBDE33XXX,https://api-sandbox-cc.santander.de/scb-openapis/sx,santander-adapter,50033300
+d41eda75-bdcc-49d9-ab4f-3e5a5f93a8c0,Santander Consumer Bank,SCFBDE33XXX,https://api-sandbox-cc.santander.de/scb-openapis/sx,santander-adapter,60133300
+2bcb8ce7-8aca-45b1-81de-bca85ba88bc3,Santander Consumer Bank,SCFBDE33XXX,https://api-sandbox-cc.santander.de/scb-openapis/sx,santander-adapter,70133300
+85e77bb8-db43-4010-92d2-d60f8a41e0d1,Santander Consumer Bank,SCFBDE33XXX,https://api-sandbox-cc.santander.de/scb-openapis/sx,santander-adapter,86033300
