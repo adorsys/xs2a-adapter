@@ -1189,7 +1189,7 @@ d8ed5b76-12b0-4e4b-b645-63db6fe95420,Raiffeisenbank am Dreisessel,GENODEF1NHD,ht
 2f1ddfa4-11c1-4355-96a3-defa11cffd0a,VR-Bank,GENODEF1ALZ,https://xs2a-test.fiduciagad.de/xs2a/bg13,fiducia-adapter,79567531
 dec9b704-372b-4629-ad9c-6c3b2ae44573,Raiffeisenbank Alxing-Bruck,GENODEF1ALX,https://xs2a-test.fiduciagad.de/xs2a/bg13,fiducia-adapter,70169310
 2946d089-3dab-480d-b7db-2384fef50fb3,Sparkasse Bremen,SBREDE22XXX,https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678,sparkasse-adapter,29050101
-08c364b8-06f8-4cc5-a65c-22d243769580,Sparda-Bank Nürnberg eG,GENODEF1S06,https://sandbox.sparda.de.schulung.sparda.de,sparda-bank-adapter,76090500
+08c364b8-06f8-4cc5-a65c-22d243769580,Sparda-Bank Nürnberg eG,GENODEF1S06,https://api.sparda.de.schulung.sparda.de:443/mock/3.0.0,sparda-bank-adapter,76090500,https://idp-mock.sparda-n.de.schulung.sparda.de https://idp-mock.sparda.de
 029e0b04-1791-4e72-8940-a65f0f2731f3,Sparda-Bank Ostbayern eG,GENODEF1S05,https://sandbox.sparda.de.schulung.sparda.de,sparda-bank-adapter,75090500
 a17cf87f-e1a2-433c-ac85-9be2ab6bdf65,Sparda-Bank München eG,GENODEF1S04,https://sandbox.sparda.de.schulung.sparda.de,sparda-bank-adapter,70090500
 5c84c512-1860-4481-8d5f-a386716c942b,Sparda-Bank Augsburg eG,GENODEF1S03,https://sandbox.sparda.de.schulung.sparda.de,sparda-bank-adapter,72090500
