@@ -1,8 +1,4 @@
-= Draft Release notes for version 0.1.12 (release date: xx.06.2021)
-
-.Added banks
-|===
-|===
+= Release notes for version 0.1.12 (release date: 14.06.2021)
 
 == Notices:
 - improved request/response body validation of WiremockStubDifferenceDetectingInterceptor, it validates json field values
@@ -12,8 +8,6 @@ from now on.
 by a client validation resolver.
 - in `crealogix-adapter` README, added description of how to register a TPP in DKB.
 - migrate to java 11
-
-== Features:
 
 == Fixes:
 - fixing `crealogix-adapter`, the provider has changed its Oauth Embedded Pre-Step flow which broke the adapter. Implemented
