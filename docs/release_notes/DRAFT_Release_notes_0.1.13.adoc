@@ -5,6 +5,7 @@
 |===
 
 == Notices:
+- updated Postman collections
 
 == Features:
 
