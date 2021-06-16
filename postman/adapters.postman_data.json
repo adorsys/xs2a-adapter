@@ -54,7 +54,8 @@
     "scaAuthenticationData_PIS": "22222",
     "creditorName": "Merchant123",
     "sepa-credit-transfers-supported": "true",
-    "pain.001-sepa-credit-transfers-supported": "false"
+    "pain.001-sepa-credit-transfers-supported": "false",
+    "access_token": "Bearer testToken"
   },
   {
     "adapter": "dab-bank",
@@ -85,12 +86,12 @@
   {
     "adapter": "sparda-bank",
     "bic": "GENODEF1S06",
-    "psuId_AIS": "PSU-Successful",
-    "psuId_PIS": "PSU-Successful",
+    "psuId_AIS": "",
+    "psuId_PIS": "",
     "psuIdType_AIS": "",
     "psuIdType_PIS": "",
-    "iban_AIS": "DE32799905998833114935",
-    "iban_PIS": "DE32799905998833114935",
+    "iban_AIS": "DE29799905990000603740",
+    "iban_PIS": "DE29799905990000603740",
     "creditorName": "Merchant123",
     "sepa-credit-transfers-supported": "true",
     "pain.001-sepa-credit-transfers-supported": "false"
@@ -102,7 +103,7 @@
     "psuId_PIS": "VRK1234567890ALL",
     "psuIdType_AIS": "",
     "psuIdType_PIS": "",
-    "iban_AIS": "DE87499999600000005120",
+    "iban_AIS": "DE45499999600000005100",
     "iban_PIS": "DE39499999600000005111",
     "password_AIS": "password",
     "password_PIS": "password",
@@ -117,18 +118,18 @@
   {
     "adapter": "deutsche-bank",
     "bic": "DEUTDE",
-    "psuId_AIS": "555-EXTAISC-02",
-    "psuId_PIS": "648403403903",
+    "psuId_AIS": "6154033437",
+    "psuId_PIS": "6154033437",
     "psuIdType_AIS": "DE_ONLB_DB",
     "psuIdType_PIS": "DE_ONLB_DB",
-    "iban_AIS": "DE92500105177545332689",
-    "iban_PIS": "DE47500105173944365833",
+    "iban_AIS": "DE76215730140403343700",
+    "iban_PIS": "DE76215730140403343700",
     "password_AIS": "PISPWD12",
     "password_PIS": "PISPWD12",
     "authenticationMethodId_AIS": "smsOTP",
-    "authenticationMethodId_PIS": "mTAN",
+    "authenticationMethodId_PIS": "smsOTP",
     "scaAuthenticationData_AIS": "123654",
-    "scaAuthenticationData_PIS": "325614",
+    "scaAuthenticationData_PIS": "123654",
     "creditorName": "Merchant123",
     "sepa-credit-transfers-supported": "true",
     "pain.001-sepa-credit-transfers-supported": "false"
@@ -158,7 +159,7 @@
     "psuId_PIS": "",
     "psuIdType_AIS": "",
     "psuIdType_PIS": "",
-    "iban_AIS": "FR8230066631856742938741993",
+    "iban_AIS": "DE78240176185167050131",
     "iban_PIS": "DE38760700240320465700",
     "password_AIS": "",
     "password_PIS": "",
@@ -170,7 +171,9 @@
     "sepa-credit-transfers-supported": "true",
     "pain.001-sepa-credit-transfers-supported": "false",
     "client_id": "VALID_CLIENT_ID",
-    "authorization_code": "AIS_VALID_CODE"
+    "authorization_code_AIS": "AIS_VALID_CODE",
+    "authorization_code_PIS": "PIS_VALID_CODE",
+    "paymentId": "PAYMENT_ID_PATC_SCT"
   },
   {
     "adapter": "comdirect",
@@ -180,7 +183,7 @@
     "psuIdType_AIS": "",
     "psuIdType_PIS": "",
     "iban_AIS": "FR8230066631856742938741993",
-    "iban_PIS": "DE38760700240320465700",
+    "iban_PIS": "FR8230066631856742938741993",
     "password_AIS": "",
     "password_PIS": "",
     "authenticationMethodId_AIS": "",
@@ -191,7 +194,10 @@
     "sepa-credit-transfers-supported": "true",
     "pain.001-sepa-credit-transfers-supported": "false",
     "client_id": "VALID_CLIENT_ID",
-    "authorization_code": "AIS_VALID_CODE"
+    "authorization_code_AIS": "AIS_VALID_CODE",
+    "accountId": "ACCOUNT_ID",
+    "authorization_code_PIS": "PIS_VALID_CODE",
+    "paymentId": "PAYMENT_ID_PATC_SCT"
   },
   {
     "adapter": "ing",
