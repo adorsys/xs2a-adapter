@@ -141,15 +141,8 @@
 									"        postman.setNextRequest(\"startConsentAuthorisation_updateEncryptedPsuAuthentication\");",
 									"    }",
 									"} else if (jsonData._links.scaRedirect) {",
-									"    var scaRedirect = jsonData._links.scaRedirect.href;",
-									"    var adapter = pm.variables.get(\"adapter\");",
-									"    pm.globals.set(\"scaRedirect\", scaRedirect);",
-									"    if (adapter === \"dab-bank\" || adapter === \"consors-bank\" || adapter === \"sparda-bank\") {",
-									"        pm.globals.set(\"authorisationId\", scaRedirect.split('/').pop());",
-									"        // postman.setNextRequest(\"scaRedirect_DAB&Consors&Sparda_AIS\");",
-									"        console.log(\"This redirect approach is not working anymore\");",
-									"        postman.setNextRequest(null);",
-									"    }",
+									"    console.log(\"This redirect approach is not working anymore\");",
+									"    postman.setNextRequest(null);",
 									"} else if (jsonData._links.startAuthorisation) {",
 									"    postman.setNextRequest(\"startConsentAuthorisation\");",
 									"} else if (jsonData._links.scaOAuth) {",
@@ -1748,6 +1741,40 @@
 					"name": "sepa-credit-transfers",
 					"item": [
 						{
+							"name": "Payment_Product_Support_Checking_Step_sepa_credit_transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// both variables are needed, because this test could be run with the evironment variables collection and with data file as well",
+											"// so it is important to check both possible approaches",
+											"const paymentProductSupportedEnvironmentVar = pm.environment.get(\"sepa-credit-transfers-supported\");    // get env var",
+											"const paymentProductSupportedIterationVar = pm.iterationData.get(\"sepa-credit-transfers-supported\");    // get var from data file for the current iteration",
+											"",
+											"if (paymentProductSupportedEnvironmentVar !== \"true\" && paymentProductSupportedIterationVar !== \"true\") {",
+											"    postman.setNextRequest(null);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://example.com",
+									"protocol": "http",
+									"host": [
+										"example",
+										"com"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "GET ASPSP ID",
 							"event": [
 								{
@@ -1760,6 +1787,15 @@
 											"",
 											"var jsonData = pm.response.json();",
 											"pm.globals.set(\"aspspId\", jsonData[0].id);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -1782,40 +1818,6 @@
 											"key": "bic",
 											"value": "{{bic}}"
 										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Payment_Product_Support_Checking_Step_sepa_credit_transfers",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"// both variables are needed, because this test could be run with the evironment variables collection and with data file as well",
-											"// so it is important to check both possible approaches",
-											"const paymentProductSupportedEnvironmentVar = pm.environment.get(\"sepa-credit-transfers-supported\");    // get env var",
-											"const paymentProductSupportedIterationVar = pm.iterationData.get(\"sepa-credit-transfers-supported\");    // get var from data file for the current iteration",
-											"",
-											"if (paymentProductSupportedEnvironmentVar !== \"true\" && paymentProductSupportedIterationVar !== \"true\") {",
-											"    postman.setNextRequest(\"Payment_Product_Support_Checking_Step_pain.001_sepa_credit_transfers\");",
-											"}"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://example.com",
-									"protocol": "http",
-									"host": [
-										"example",
-										"com"
 									]
 								}
 							},
@@ -1869,13 +1871,8 @@
 											"        postman.setNextRequest(\"startPaymentAuthorisation_updateEncyptedPsuAuthentication_payments/sepa-credit-transfers\");",
 											"    }",
 											"} else if (jsonData._links.scaRedirect) {",
-											"    var scaRedirect = jsonData._links.scaRedirect.href;",
-											"    pm.globals.set(\"scaRedirect\", scaRedirect);",
-											"    var adapter = pm.variables.get(\"adapter\");",
-											"    if (adapter === \"dab-bank\" || adapter === \"consors-bank\" || adapter === \"sparda-bank\") {",
-											"        pm.globals.set(\"authorisationId\", scaRedirect.split('/').pop());",
-											"        postman.setNextRequest(\"scaRedirect_DAB&Consors&Sparda_payments/sepa-credit-transfers\");",
-											"    }",
+											"    console.log(\"This redirect approach is not working anymore\");",
+											"    postman.setNextRequest(null);",
 											"} else if (jsonData._links.scaOAuth) {",
 											"    postman.setNextRequest(\"getPaymentInitiationStatus_payments/sepa-credit-transfers\");",
 											"} else if (jsonData._links.startAuthorisation) {",
@@ -1966,7 +1963,7 @@
 							"response": []
 						},
 						{
-							"name": "scaOAuth_token_static_code Copy",
+							"name": "scaOAuth_token_static_code",
 							"event": [
 								{
 									"listen": "test",
@@ -2043,182 +2040,7 @@
 							"response": []
 						},
 						{
-							"name": "scaRedirect_DAB&Consors&Sparda_payments/sepa-credit-transfers",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Consent status is valid\", function () {",
-											"    pm.expect(pm.response.text()).to.include(\"The payment status has changed to: AcceptedSettlementCompleted\");",
-											"});",
-											"",
-											"postman.setNextRequest(\"getPaymentInformation_payments/sepa-credit-transfers\");"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{scaRedirect}}?psu-id=PSU-Successful",
-									"host": [
-										"{{scaRedirect}}"
-									],
-									"query": [
-										{
-											"key": "psu-id",
-											"value": "PSU-Successful"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "getPaymentInitiationStatus_payments/sepa-credit-transfers",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Transaction status is received\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"const Header = require('postman-collection').Header",
-											"",
-											"const adapter = pm.variables.get(\"adapter\");",
-											"if (adapter === \"dkb\") {",
-											"    pm.request.headers.add(new Header(\"Authorization: \" + pm.environment.get(\"access_token\")))",
-											"}"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "X-Request-ID",
-										"value": "{{$guid}}",
-										"type": "text"
-									},
-									{
-										"key": "X-GTW-ASPSP-ID",
-										"value": "{{aspspId}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/status",
-									"host": [
-										"{{baseUri}}"
-									],
-									"path": [
-										"v1",
-										"payments",
-										"sepa-credit-transfers",
-										"{{paymentId}}",
-										"status"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "getPaymentInformation_payments/sepa-credit-transfers",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"const jsonData = pm.response.json();",
-											"",
-											"pm.test(\"Transaction status received\", function () {",
-											"    pm.expect(jsonData).to.have.property('transactionStatus');",
-											"});",
-											"",
-											"if (jsonData.transactionStatus === 'ACSC' || jsonData.transactionStatus === 'RCVD') {",
-											"    postman.setNextRequest(\"Payment_Product_Support_Checking_Step_pain.001_sepa_credit_transfers\");",
-											"}"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "X-Request-ID",
-										"value": "{{$guid}}",
-										"type": "text"
-									},
-									{
-										"key": "PSU-IP-Address",
-										"value": "0.0.0.0",
-										"type": "text"
-									},
-									{
-										"key": "PSU-ID",
-										"value": "{{psuId_PIS}}",
-										"type": "text"
-									},
-									{
-										"key": "PSU-ID-Type",
-										"value": "{{psuIdType_PIS}}",
-										"type": "text"
-									},
-									{
-										"key": "X-GTW-ASPSP-ID",
-										"value": "{{aspspId}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}",
-									"host": [
-										"{{baseUri}}"
-									],
-									"path": [
-										"v1",
-										"payments",
-										"sepa-credit-transfers",
-										"{{paymentId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "startPaymentAuthorisation",
+							"name": "startPaymentAuthorisation_payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -2228,15 +2050,15 @@
 											"",
 											"var jsonData = pm.response.json();",
 											"",
-											"pm.test(\"_links/scaOAuth/href must be present\", function () {",
-											"    pm.response.to.have.jsonBody(\"_links.scaOAuth.href\");",
+											"pm.test(\"_links must be present\", function () {",
+											"    pm.response.to.have.jsonBody(\"_links\");",
 											"});",
 											"",
 											"if (pm.variables.get(\"adapter\") === \"unicredit\") {",
 											"    var href = jsonData._links.updatePsuAuthentication.href;",
 											"    var queryParams = href.slice(href.indexOf(\"?\"), href.length);",
 											"    pm.globals.set(\"queryParams\", queryParams);",
-											"    postman.setNextRequest(\"updateConsentsPsuData_updatePsuAuthentication\");",
+											"    postman.setNextRequest(\"updatePaymentPsuData_updatePsuAuthentication_payments/sepa-credit-transfers\");",
 											"}"
 										],
 										"type": "text/javascript"
@@ -2415,65 +2237,6 @@
 							"response": []
 						},
 						{
-							"name": "getPaymentInitiationAuthorisation_payments/sepa-credit-transfers",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"var jsonData = pm.response.json();",
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"AuthorisationIds are not empty\", function () {",
-											"    pm.expect(jsonData.authorisationIds[0]).to.exist;",
-											"});",
-											"",
-											"pm.globals.set(\"authorisationId\", jsonData.authorisationIds[0]);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "X-Request-ID",
-										"type": "text",
-										"value": "{{$guid}}"
-									},
-									{
-										"key": "X-GTW-ASPSP-ID",
-										"type": "text",
-										"value": "{{aspspId}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations",
-									"host": [
-										"{{baseUri}}"
-									],
-									"path": [
-										"v1",
-										"payments",
-										"sepa-credit-transfers",
-										"{{paymentId}}",
-										"authorisations"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "startPaymentAuthorisation_updateEncyptedPsuAuthentication_payments/sepa-credit-transfers",
 							"event": [
 								{
@@ -2492,7 +2255,7 @@
 											"",
 											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers_encrypted\");",
+											"    postman.setNextRequest(\"updatePaymentPsuData_selectPsuAuthenticationMethod_payments/sepa-credit-transfers\");",
 											"});",
 											"",
 											"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
@@ -2554,7 +2317,7 @@
 							"response": []
 						},
 						{
-							"name": "updatePaymentPsuData_updatePsuAuthentication_payments/sepa-credit-transfers",
+							"name": "updatePaymentPsuData_updateEncyptedPsuAuthentication_payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
@@ -2563,6 +2326,91 @@
 											"var jsonData = pm.response.json();",
 											"pm.test(\"scaStatus is psuAuthenticated\", function () {",
 											"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
+											"});",
+											"",
+											"pm.test(\"SCA methods are available\", function () {",
+											"    pm.response.to.have.jsonBody(\"scaMethods\");",
+											"});",
+											"",
+											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
+											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+											"    postman.setNextRequest(\"updatePaymentPsuData_selectPsuAuthenticationMethod_payments/sepa-credit-transfers\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"type": "text",
+										"value": "{{aspspId}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{$guid}}"
+									},
+									{
+										"key": "PSU-ID",
+										"type": "text",
+										"value": "{{psuId_PIS}}"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"type": "text",
+										"value": "{{psuIdType_PIS}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"psuData\": {\n        \"encryptedPassword\": \"{{password_PIS}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"payments",
+										"sepa-credit-transfers",
+										"{{paymentId}}",
+										"authorisations",
+										"{{authorisationId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updatePaymentPsuData_updatePsuAuthentication_payments/sepa-credit-transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();",
+											"pm.test(\"scaStatus is psuAuthenticated or started\", function () {",
+											"    pm.expect(jsonData.scaStatus).to.be.oneOf([\"psuAuthenticated\", \"started\"]);",
 											"});",
 											"",
 											"pm.test(\"SCA methods are available\", function () {",
@@ -2579,6 +2427,7 @@
 											"    var href = jsonData._links.authoriseTransaction.href;",
 											"    var queryParams = href.slice(href.indexOf(\"?\"), href.length);",
 											"    pm.globals.set(\"queryParams\", queryParams);",
+											"    postman.setNextRequest(\"updatePaymentPsuData_transactionAuthorisation_payments/sepa-credit-transfers\");",
 											"}"
 										],
 										"type": "text/javascript"
@@ -2651,81 +2500,6 @@
 							"response": []
 						},
 						{
-							"name": "updatePaymentPsuData_updateEncyptedPsuAuthentication_payments/sepa-credit-transfers",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"var jsonData = pm.response.json();",
-											"pm.test(\"scaStatus is psuAuthenticated\", function () {",
-											"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
-											"});",
-											"",
-											"pm.test(\"SCA methods are available\", function () {",
-											"    pm.response.to.have.jsonBody(\"scaMethods\");",
-											"});",
-											"",
-											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
-											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"type": "text",
-										"value": "application/json"
-									},
-									{
-										"key": "X-GTW-ASPSP-ID",
-										"type": "text",
-										"value": "{{aspspId}}"
-									},
-									{
-										"key": "X-Request-ID",
-										"type": "text",
-										"value": "{{$guid}}"
-									},
-									{
-										"key": "PSU-ID",
-										"type": "text",
-										"value": "{{psuId_PIS}}"
-									},
-									{
-										"key": "PSU-ID-Type",
-										"type": "text",
-										"value": "{{psuIdType_PIS}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"psuData\": {\n        \"encryptedPassword\": \"{{password_PIS}}\"\n    }\n}"
-								},
-								"url": {
-									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
-									"host": [
-										"{{baseUri}}"
-									],
-									"path": [
-										"v1",
-										"payments",
-										"sepa-credit-transfers",
-										"{{paymentId}}",
-										"authorisations",
-										"{{authorisationId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "updatePaymentPsuData_selectPsuAuthenticationMethod_payments/sepa-credit-transfers",
 							"event": [
 								{
@@ -2744,6 +2518,7 @@
 											"",
 											"pm.test(\"_links/authoriseTransaction/href must be present\", function () {",
 											"    pm.response.to.have.jsonBody(\"_links.authoriseTransaction.href\");",
+											"    postman.setNextRequest(\"updatePaymentPsuData_transactionAuthorisation_payments/sepa-credit-transfers\");",
 											"});"
 										],
 										"type": "text/javascript"
@@ -2827,7 +2602,7 @@
 											"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
 											"});",
 											"",
-											"postman.setNextRequest(\"getPaymentInitiationScaStatus_payments/sepa-credit-transfers\");",
+											"postman.setNextRequest(\"getPaymentInitiationStatus_payments/sepa-credit-transfers\");",
 											"",
 											""
 										],
@@ -2904,6 +2679,156 @@
 							"response": []
 						},
 						{
+							"name": "getPaymentInitiationStatus_payments/sepa-credit-transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Transaction status is successful\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.transactionStatus).to.be.oneOf([\"RCVD\", \"PATC\", \"ACTC\", \"ACCP\", \"ACSP\"]);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const Header = require('postman-collection').Header",
+											"",
+											"const adapter = pm.variables.get(\"adapter\");",
+											"if (adapter === \"dkb\") {",
+											"    pm.request.headers.add(new Header(\"Authorization: \" + pm.environment.get(\"access_token\")))",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"value": "{{$guid}}",
+										"type": "text"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/status",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"payments",
+										"sepa-credit-transfers",
+										"{{paymentId}}",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getPaymentInformation_payments/sepa-credit-transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Transaction status received\", function () {",
+											"    pm.expect(jsonData).to.have.property('transactionStatus');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const Header = require('postman-collection').Header",
+											"",
+											"const adapter = pm.variables.get(\"adapter\");",
+											"if (adapter === \"dkb\") {",
+											"    pm.request.headers.add(new Header(\"Authorization: \" + pm.environment.get(\"access_token\")))",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"value": "{{$guid}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-IP-Address",
+										"value": "0.0.0.0",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psuId_PIS}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"value": "{{psuIdType_PIS}}",
+										"type": "text"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"payments",
+										"sepa-credit-transfers",
+										"{{paymentId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "getPaymentInitiationScaStatus_payments/sepa-credit-transfers",
 							"event": [
 								{
@@ -2917,7 +2842,9 @@
 											"pm.test(\"scaStatus is finalised\", function () {",
 											"    var jsonData = pm.response.json();",
 											"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
-											"});"
+											"});",
+											"",
+											"postman.setNextRequest(null);"
 										],
 										"type": "text/javascript"
 									}
@@ -2967,6 +2894,100 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "getPaymentInitiationAuthorisation_payments/sepa-credit-transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"AuthorisationIds are not empty\", function () {",
+											"    pm.expect(jsonData.authorisationIds[0]).to.exist;",
+											"});",
+											"",
+											"pm.globals.set(\"authorisationId\", jsonData.authorisationIds[0]);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{$guid}}"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"type": "text",
+										"value": "{{aspspId}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}/authorisations",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"payments",
+										"sepa-credit-transfers",
+										"{{paymentId}}",
+										"authorisations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "scaRedirect_DAB&Consors&Sparda_payments/sepa-credit-transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Consent status is valid\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"The payment status has changed to: AcceptedSettlementCompleted\");",
+											"});",
+											"",
+											"postman.setNextRequest(\"getPaymentInformation_payments/sepa-credit-transfers\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{scaRedirect}}?psu-id=PSU-Successful",
+									"host": [
+										"{{scaRedirect}}"
+									],
+									"query": [
+										{
+											"key": "psu-id",
+											"value": "PSU-Successful"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"event": [
@@ -2995,6 +3016,40 @@
 				{
 					"name": "pain.001-sepa-credit-transfers",
 					"item": [
+						{
+							"name": "Payment_Product_Support_Checking_Step_pain.001_sepa_credit_transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// both variables are needed, because this test could be run with the evironment variables collection and with data file as well",
+											"// so it is important to check both possible approaches",
+											"const paymentProductSupportedEnvironmentVar = pm.environment.get(\"pain.001-sepa-credit-transfers-supported\");   // get env var",
+											"const paymentProductSupportedIterationVar = pm.iterationData.get(\"pain.001-sepa-credit-transfers-supported\");   // get var from data file for the current iteration",
+											"",
+											"if (paymentProductSupportedEnvironmentVar !== \"true\" && paymentProductSupportedIterationVar !== \"true\") {",
+											"    postman.setNextRequest(null);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://example.com",
+									"protocol": "http",
+									"host": [
+										"example",
+										"com"
+									]
+								}
+							},
+							"response": []
+						},
 						{
 							"name": "GET ASPSP ID",
 							"event": [
@@ -3036,47 +3091,20 @@
 							"response": []
 						},
 						{
-							"name": "Payment_Product_Support_Checking_Step_pain.001_sepa_credit_transfers",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"// both variables are needed, because this test could be run with the evironment variables collection and with data file as well",
-											"// so it is important to check both possible approaches",
-											"const paymentProductSupportedEnvironmentVar = pm.environment.get(\"pain.001-sepa-credit-transfers-supported\");   // get env var",
-											"const paymentProductSupportedIterationVar = pm.iterationData.get(\"pain.001-sepa-credit-transfers-supported\");   // get var from data file for the current iteration",
-											"",
-											"if (paymentProductSupportedEnvironmentVar !== \"true\" && paymentProductSupportedIterationVar !== \"true\") {",
-											"    postman.setNextRequest(\"Payment_Product_Support_Checking_Step_sepa_credit_transfers_periodic\");",
-											"}"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://example.com",
-									"protocol": "http",
-									"host": [
-										"example",
-										"com"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "initiatePayment_payments/pain.001-sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"pm.globals.unset(\"scaRedirect\");"
+											"const Header = require('postman-collection').Header",
+											"",
+											"pm.globals.unset(\"scaRedirect\");",
+											"",
+											"const adapter = pm.variables.get(\"adapter\");",
+											"if (adapter === \"dkb\") {",
+											"    pm.request.headers.add(new Header(\"Authorization: \" + pm.environment.get(\"access_token\")))",
+											"}"
 										],
 										"type": "text/javascript"
 									}
@@ -3165,57 +3193,6 @@
 							"response": []
 						},
 						{
-							"name": "getPaymentInitiationStatus_payments/pain.001-sepa-credit-transfers",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Transaction status is received\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "X-Request-ID",
-										"value": "{{$guid}}",
-										"type": "text"
-									},
-									{
-										"key": "X-GTW-ASPSP-ID",
-										"value": "{{aspspId}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/status",
-									"host": [
-										"{{baseUri}}"
-									],
-									"path": [
-										"v1",
-										"payments",
-										"pain.001-sepa-credit-transfers",
-										"{{paymentId}}",
-										"status"
-									]
-								},
-								"description": "Processing of a Get Transaction Status Request after a Payment Initiation Request for a single payment with product sepa-credit-transfer with the body in XML format."
-							},
-							"response": []
-						},
-						{
 							"name": "startPaymentAuthorisation_updatePsuAuthentication_payments/pain.001-sepa-credit-transfers",
 							"event": [
 								{
@@ -3292,6 +3269,416 @@
 									]
 								},
 								"description": "Processing of a service request that needs authentication. The PSU has not yet been authorised. Embedded SCA Approach selected. The PSU has more than one embedded method available. PSU authenticaton required for the SCA selection to be applied. Missing authorisation data may be delivered at the same time as an authorisation sub-resource is created."
+							},
+							"response": []
+						},
+						{
+							"name": "updatePaymentPsuData_updatePsuAuthentication_payments/pain.001-sepa-credit-transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();",
+											"pm.test(\"scaStatus is psuAuthenticated\", function () {",
+											"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
+											"});",
+											"",
+											"pm.test(\"SCA methods are available\", function () {",
+											"    pm.response.to.have.jsonBody(\"scaMethods\");",
+											"});",
+											"",
+											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
+											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"type": "text",
+										"value": "{{aspspId}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{$guid}}"
+									},
+									{
+										"key": "PSU-ID",
+										"type": "text",
+										"value": "{{psuId_PIS}}"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"type": "text",
+										"value": "{{psuIdType_PIS}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_PIS}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"payments",
+										"pain.001-sepa-credit-transfers",
+										"{{paymentId}}",
+										"authorisations",
+										"{{authorisationId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updatePaymentPsuData_selectPsuAuthenticationMethod_payments/pain.001-sepa-credit-transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"scaStatus is scaMethodSelected\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.scaStatus).to.be.oneOf([\"scaMethodSelected\", \"started\"]);",
+											"});",
+											"",
+											"pm.test(\"SCA method as indicated by the request field \\\"authenticationMethodId\\\"\", function () {",
+											"    var authenticationMethodId = pm.variables.get(\"authenticationMethodId_PIS\");",
+											"    pm.response.to.have.jsonBody(\"chosenScaMethod.authenticationMethodId\", authenticationMethodId);",
+											"});",
+											"",
+											"pm.test(\"_links/authoriseTransaction/href must be present\", function () {",
+											"    pm.response.to.have.jsonBody(\"_links.authoriseTransaction.href\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"type": "text",
+										"value": "{{aspspId}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{$guid}}"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"type": "text",
+										"value": "{{psuIdType_PIS}}"
+									},
+									{
+										"key": "PSU-ID",
+										"type": "text",
+										"value": "{{psuId_PIS}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId_PIS}}\"\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"payments",
+										"pain.001-sepa-credit-transfers",
+										"{{paymentId}}",
+										"authorisations",
+										"{{authorisationId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updatePaymentPsuData_transactionAuthorisation_payments/pain.001-sepa-credit-transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"scaStatus is finalised\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
+											"});",
+											"",
+											"postman.setNextRequest(\"getPaymentInitiationStatus_payments/pain.001-sepa-credit-transfers\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{$guid}}"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"type": "text",
+										"value": "{{aspspId}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"type": "text",
+										"value": "{{psuIdType_PIS}}"
+									},
+									{
+										"key": "PSU-ID",
+										"type": "text",
+										"value": "{{psuId_PIS}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"scaAuthenticationData\": \"{{scaAuthenticationData_PIS}}\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"payments",
+										"pain.001-sepa-credit-transfers",
+										"{{paymentId}}",
+										"authorisations",
+										"{{authorisationId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getPaymentInitiationStatus_payments/pain.001-sepa-credit-transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Transaction status is successful\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.transactionStatus).to.be.oneOf([\"RCVD\", \"ACCP\", \"ACTC\", \"ACSP\"]);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"value": "{{$guid}}",
+										"type": "text"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/status",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"payments",
+										"pain.001-sepa-credit-transfers",
+										"{{paymentId}}",
+										"status"
+									]
+								},
+								"description": "Processing of a Get Transaction Status Request after a Payment Initiation Request for a single payment with product sepa-credit-transfer with the body in XML format."
+							},
+							"response": []
+						},
+						{
+							"name": "getPaymentInformation_payments/pain.001-sepa-credit-transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Transaction status received\", function () {",
+											"    pm.expect(jsonData).to.have.property('transactionStatus');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const Header = require('postman-collection').Header",
+											"",
+											"const adapter = pm.variables.get(\"adapter\");",
+											"if (adapter === \"dkb\") {",
+											"    pm.request.headers.add(new Header(\"Authorization: \" + pm.environment.get(\"access_token\")))",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"value": "{{$guid}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-IP-Address",
+										"value": "0.0.0.0",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psuId_PIS}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"value": "{{psuIdType_PIS}}",
+										"type": "text"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/payments/sepa-credit-transfers/{{paymentId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"payments",
+										"sepa-credit-transfers",
+										"{{paymentId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getPaymentInitiationScaStatus_payments/pain.001-sepa-credit-transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"scaStatus is finalised\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
+											"});",
+											"",
+											"postman.setNextRequest(null);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"type": "text",
+										"value": "{{aspspId}}"
+									},
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{$guid}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"payments",
+										"pain.001-sepa-credit-transfers",
+										"{{paymentId}}",
+										"authorisations",
+										"{{authorisationId}}"
+									]
+								}
 							},
 							"response": []
 						},
@@ -3384,277 +3771,6 @@
 								}
 							},
 							"response": []
-						},
-						{
-							"name": "updatePaymentPsuData_updatePsuAuthentication_payments/pain.001-sepa-credit-transfers",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"var jsonData = pm.response.json();",
-											"pm.test(\"scaStatus is psuAuthenticated\", function () {",
-											"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
-											"});",
-											"",
-											"pm.test(\"SCA methods are available\", function () {",
-											"    pm.response.to.have.jsonBody(\"scaMethods\");",
-											"});",
-											"",
-											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
-											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"type": "text",
-										"value": "application/json"
-									},
-									{
-										"key": "X-GTW-ASPSP-ID",
-										"type": "text",
-										"value": "{{aspspId}}"
-									},
-									{
-										"key": "X-Request-ID",
-										"type": "text",
-										"value": "{{$guid}}"
-									},
-									{
-										"key": "PSU-ID",
-										"type": "text",
-										"value": "{{psuId_PIS}}"
-									},
-									{
-										"key": "PSU-ID-Type",
-										"type": "text",
-										"value": "{{psuIdType_PIS}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"psuData\": {\n        \"password\": \"{{password_PIS}}\"\n    }\n}"
-								},
-								"url": {
-									"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
-									"host": [
-										"{{baseUri}}"
-									],
-									"path": [
-										"v1",
-										"payments",
-										"pain.001-sepa-credit-transfers",
-										"{{paymentId}}",
-										"authorisations",
-										"{{authorisationId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "updatePaymentPsuData_selectPsuAuthenticationMethod_payments/pain.001-sepa-credit-transfers",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"scaStatus is scaMethodSelected\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.scaStatus).to.eql(\"scaMethodSelected\");",
-											"});",
-											"",
-											"pm.test(\"SCA method as indicated by the request field \\\"authenticationMethodId\\\"\", function () {",
-											"    var authenticationMethodId = pm.variables.get(\"authenticationMethodId_PIS\");",
-											"    pm.response.to.have.jsonBody(\"chosenScaMethod.authenticationMethodId\", authenticationMethodId);",
-											"});",
-											"",
-											"pm.test(\"_links/authoriseTransaction/href must be present\", function () {",
-											"    pm.response.to.have.jsonBody(\"_links.authoriseTransaction.href\");",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"type": "text",
-										"value": "application/json"
-									},
-									{
-										"key": "X-GTW-ASPSP-ID",
-										"type": "text",
-										"value": "{{aspspId}}"
-									},
-									{
-										"key": "X-Request-ID",
-										"type": "text",
-										"value": "{{$guid}}"
-									},
-									{
-										"key": "PSU-ID-Type",
-										"type": "text",
-										"value": "{{psuIdType_PIS}}"
-									},
-									{
-										"key": "PSU-ID",
-										"type": "text",
-										"value": "{{psuId_PIS}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n\t\"authenticationMethodId\": \"{{authenticationMethodId_PIS}}\"\r\n}"
-								},
-								"url": {
-									"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
-									"host": [
-										"{{baseUri}}"
-									],
-									"path": [
-										"v1",
-										"payments",
-										"pain.001-sepa-credit-transfers",
-										"{{paymentId}}",
-										"authorisations",
-										"{{authorisationId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "updatePaymentPsuData_transactionAuthorisation_payments/pain.001-sepa-credit-transfers",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"scaStatus is finalised\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
-											"});",
-											"",
-											"postman.setNextRequest(\"getPaymentInitiationScaStatus_payments/pain.001-sepa-credit-transfers\");"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "X-Request-ID",
-										"type": "text",
-										"value": "{{$guid}}"
-									},
-									{
-										"key": "X-GTW-ASPSP-ID",
-										"type": "text",
-										"value": "{{aspspId}}"
-									},
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"type": "text",
-										"value": "application/json"
-									},
-									{
-										"key": "PSU-ID-Type",
-										"type": "text",
-										"value": "{{psuIdType_PIS}}"
-									},
-									{
-										"key": "PSU-ID",
-										"type": "text",
-										"value": "{{psuId_PIS}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"scaAuthenticationData\": \"{{scaAuthenticationData_PIS}}\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
-									"host": [
-										"{{baseUri}}"
-									],
-									"path": [
-										"v1",
-										"payments",
-										"pain.001-sepa-credit-transfers",
-										"{{paymentId}}",
-										"authorisations",
-										"{{authorisationId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "getPaymentInitiationScaStatus_payments/pain.001-sepa-credit-transfers",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"scaStatus is finalised\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "X-GTW-ASPSP-ID",
-										"type": "text",
-										"value": "{{aspspId}}"
-									},
-									{
-										"key": "X-Request-ID",
-										"type": "text",
-										"value": "{{$guid}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUri}}/v1/payments/pain.001-sepa-credit-transfers/{{paymentId}}/authorisations/{{authorisationId}}",
-									"host": [
-										"{{baseUri}}"
-									],
-									"path": [
-										"v1",
-										"payments",
-										"pain.001-sepa-credit-transfers",
-										"{{paymentId}}",
-										"authorisations",
-										"{{authorisationId}}"
-									]
-								}
-							},
-							"response": []
 						}
 					],
 					"event": [
@@ -3683,6 +3799,42 @@
 				{
 					"name": "periodic-payments",
 					"item": [
+						{
+							"name": "Payment_Product_Support_Checking_Step_sepa_credit_transfers_periodic",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// both variables are needed, because this test could be run with the evironment variables collection and with data file as well",
+											"// so it is important to check both possible approaches",
+											"const paymentProductSupportedEnvironmentVar = pm.environment.get(\"sepa-credit-transfers-supported\");    // get env var",
+											"const paymentProductSupportedIterationVar = pm.iterationData.get(\"sepa-credit-transfers-supported\");    // get var from data file for the current iteration",
+											"",
+											"const adapter = pm.variables.get(\"adapter\");",
+											"if ((paymentProductSupportedEnvironmentVar !== \"true\" && paymentProductSupportedIterationVar !== \"true\")",
+											"        || (adapter === \"dkb\" || adapter === \"comdirect\" || adapter === \"commerzbank\")) {",
+											"    postman.setNextRequest(null);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://example.com",
+									"protocol": "http",
+									"host": [
+										"example",
+										"com"
+									]
+								}
+							},
+							"response": []
+						},
 						{
 							"name": "GET ASPSP ID",
 							"event": [
@@ -3718,40 +3870,6 @@
 											"key": "bic",
 											"value": "{{bic}}"
 										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Payment_Product_Support_Checking_Step_sepa_credit_transfers_periodic",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"// both variables are needed, because this test could be run with the evironment variables collection and with data file as well",
-											"// so it is important to check both possible approaches",
-											"const paymentProductSupportedEnvironmentVar = pm.environment.get(\"sepa-credit-transfers-supported\");    // get env var",
-											"const paymentProductSupportedIterationVar = pm.iterationData.get(\"sepa-credit-transfers-supported\");    // get var from data file for the current iteration",
-											"",
-											"if (paymentProductSupportedEnvironmentVar !== \"true\" && paymentProductSupportedIterationVar !== \"true\") {",
-											"    postman.setNextRequest(null);",
-											"}"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://example.com",
-									"protocol": "http",
-									"host": [
-										"example",
-										"com"
 									]
 								}
 							},
@@ -3805,13 +3923,8 @@
 											"        postman.setNextRequest(\"startPaymentAuthorisation_updateEncyptedPsuAuthentication_periodic-payments/sepa-credit-transfers\");",
 											"    }",
 											"} else if (jsonData._links.scaRedirect) {",
-											"    var scaRedirect = jsonData._links.scaRedirect.href;",
-											"    pm.globals.set(\"scaRedirect\", scaRedirect);",
-											"    var adapter = pm.variables.get(\"adapter\");",
-											"    if (adapter === \"dab-bank\" || adapter === \"consors-bank\" || adapter === \"sparda-bank\") {",
-											"        pm.globals.set(\"authorisationId\", scaRedirect.split('/').pop());",
-											"        postman.setNextRequest(\"scaRedirect_DAB&Consors&Sparda_periodic-payments/sepa-credit-transfers\");",
-											"    }",
+											"    console.log(\"This redirect approach is not working anymore\");",
+											"    postman.setNextRequest(null);",
 											"} else if (jsonData._links.scaOAuth) {",
 											"    postman.setNextRequest(\"getPaymentInitiationStatus_periodic-payments/sepa-credit-transfers\");",
 											"}"
@@ -3823,6 +3936,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
+											"const Header = require('postman-collection').Header",
+											"",
 											"pm.globals.unset(\"scaRedirect\");",
 											"",
 											"const date = new Date();",
@@ -3895,76 +4010,86 @@
 							"response": []
 						},
 						{
-							"name": "scaRedirect_DAB&Consors&Sparda_periodic-payments/sepa-credit-transfers",
+							"name": "startPaymentAuthorisation_periodic-payments/sepa-credit-transfers",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Consent status is valid\", function () {",
-											"    pm.expect(pm.response.text()).to.include(\"The payment status has changed to: AcceptedSettlementCompleted\");",
+											"postman.setNextRequest(null);",
+											"",
+											"var jsonData = pm.response.json();",
+											"",
+											"pm.test(\"_links must be present\", function () {",
+											"    pm.response.to.have.jsonBody(\"_links\");",
 											"});",
 											"",
-											"postman.setNextRequest(\"getPaymentInformation_periodic-payments/sepa-credit-transfers\");"
+											"if (pm.variables.get(\"adapter\") === \"unicredit\") {",
+											"    var href = jsonData._links.updatePsuAuthentication.href;",
+											"    var queryParams = href.slice(href.indexOf(\"?\"), href.length);",
+											"    pm.globals.set(\"queryParams\", queryParams);",
+											"    postman.setNextRequest(\"updatePaymentPsuData_updatePsuAuthentication_periodic-payments/sepa-credit-transfers\");",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const Header = require('postman-collection').Header",
+											"",
+											"const adapter = pm.variables.get(\"adapter\");",
+											"if (adapter === \"dkb\") {",
+											"    pm.request.headers.add(new Header(\"Authorization: \" + pm.environment.get(\"access_token\")))",
+											"}"
 										],
 										"type": "text/javascript"
 									}
 								}
 							],
 							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{scaRedirect}}?psu-id=PSU-Successful",
-									"host": [
-										"{{scaRedirect}}"
-									],
-									"query": [
-										{
-											"key": "psu-id",
-											"value": "PSU-Successful"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "getPaymentInitiationStatus_periodic-payments/sepa-credit-transfers",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Transaction status is received\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.transactionStatus).to.eql(\"RCVD\");",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
+								"method": "POST",
 								"header": [
 									{
 										"key": "X-Request-ID",
-										"value": "{{$guid}}",
-										"type": "text"
+										"type": "text",
+										"value": "{{$guid}}"
+									},
+									{
+										"key": "PSU-ID",
+										"type": "text",
+										"value": "{{psuId_PIS}}"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
 									},
 									{
 										"key": "X-GTW-ASPSP-ID",
-										"value": "{{aspspId}}",
+										"type": "text",
+										"value": "{{aspspId}}"
+									},
+									{
+										"key": "TPP-Redirect-Preferred",
+										"type": "text",
+										"value": "false"
+									},
+									{
+										"key": "TPP-Redirect-URI",
+										"value": "https://example.com",
 										"type": "text"
 									}
 								],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
 								"url": {
-									"raw": "{{baseUri}}/v1/periodic-payments/sepa-credit-transfers/{{paymentId}}/status",
+									"raw": "{{baseUri}}/v1/periodic-payments/sepa-credit-transfers/{{paymentId}}/authorisations",
 									"host": [
 										"{{baseUri}}"
 									],
@@ -3973,85 +4098,10 @@
 										"periodic-payments",
 										"sepa-credit-transfers",
 										"{{paymentId}}",
-										"status"
+										"authorisations"
 									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "getPaymentInformation_periodic-payments/sepa-credit-transfers",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"const jsonData = pm.response.json();",
-											"",
-											"pm.test(\"Transaction status received\", function () {",
-											"    pm.expect(jsonData).to.have.property('transactionStatus');",
-											"});",
-											"",
-											"if (jsonData.transactionStatus === 'ACSC' || jsonData.transactionStatus === 'RCVD') {",
-											"    postman.setNextRequest(null);",
-											"}"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "X-Request-ID",
-										"value": "{{$guid}}",
-										"type": "text"
-									},
-									{
-										"key": "PSU-IP-Address",
-										"value": "0.0.0.0",
-										"type": "text"
-									},
-									{
-										"key": "PSU-ID",
-										"value": "{{psuId_PIS}}",
-										"type": "text"
-									},
-									{
-										"key": "PSU-ID-Type",
-										"value": "{{psuIdType_PIS}}",
-										"type": "text"
-									},
-									{
-										"key": "X-GTW-ASPSP-ID",
-										"value": "{{aspspId}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
 								},
-								"url": {
-									"raw": "{{baseUri}}/v1/periodic-payments/sepa-credit-transfers/{{paymentId}}",
-									"host": [
-										"{{baseUri}}"
-									],
-									"path": [
-										"v1",
-										"periodic-payments",
-										"sepa-credit-transfers",
-										"{{paymentId}}"
-									]
-								}
+								"description": "Processing of a Consent request that needs authentication. The redirect SCA approach is selected. A link to start the authorisation is contained in the request."
 							},
 							"response": []
 						},
@@ -4089,6 +4139,15 @@
 										],
 										"type": "text/javascript"
 									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
 							],
 							"request": {
@@ -4119,6 +4178,11 @@
 										"key": "TPP-Redirect-Preferred",
 										"type": "text",
 										"value": "false"
+									},
+									{
+										"key": "TPP-Redirect-URI",
+										"value": "https://example.com",
+										"type": "text"
 									}
 								],
 								"body": {
@@ -4143,63 +4207,6 @@
 							"response": []
 						},
 						{
-							"name": "getPaymentInitiationAuthorisation_periodic-payments/sepa-credit-transfers",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"var jsonData = pm.response.json();",
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"AuthorisationIds are not empty\", function () {",
-											"    pm.expect(jsonData.authorisationIds[0]).to.exist;",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "X-Request-ID",
-										"type": "text",
-										"value": "{{$guid}}"
-									},
-									{
-										"key": "X-GTW-ASPSP-ID",
-										"type": "text",
-										"value": "{{aspspId}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "{{baseUri}}/v1/periodic-payments/sepa-credit-transfers/{{paymentId}}/authorisations",
-									"host": [
-										"{{baseUri}}"
-									],
-									"path": [
-										"v1",
-										"periodic-payments",
-										"sepa-credit-transfers",
-										"{{paymentId}}",
-										"authorisations"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "startPaymentAuthorisation_updateEncyptedPsuAuthentication_periodic-payments/sepa-credit-transfers",
 							"event": [
 								{
@@ -4218,7 +4225,7 @@
 											"",
 											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
-											"    postman.setNextRequest(\"SCA/EmbeddedSCA/PsuNotAuth/002_1_msg3_sepa_credit_transfers_periodic_encrypted\");",
+											"    postman.setNextRequest(\"updatePaymentPsuData_selectPsuAuthenticationMethod_periodic-payments/sepa-credit-transfers\");",
 											"});",
 											"",
 											"var selectAuthenticationMethodUri = jsonData._links.selectAuthenticationMethod.href;",
@@ -4287,8 +4294,8 @@
 									"script": {
 										"exec": [
 											"var jsonData = pm.response.json();",
-											"pm.test(\"scaStatus is psuAuthenticated\", function () {",
-											"    pm.expect(jsonData.scaStatus).to.eql(\"psuAuthenticated\");",
+											"pm.test(\"scaStatus is psuAuthenticated or started\", function () {",
+											"    pm.expect(jsonData.scaStatus).to.be.oneOf([\"psuAuthenticated\", \"started\"]);",
 											"});",
 											"",
 											"pm.test(\"SCA methods are available\", function () {",
@@ -4299,7 +4306,28 @@
 											"pm.test(\"_links/selectAuthenticationMethod/href must be present\", function () {",
 											"    pm.response.to.have.jsonBody(\"_links.selectAuthenticationMethod.href\");",
 											"    postman.setNextRequest(\"updatePaymentPsuData_selectPsuAuthenticationMethod_periodic-payments/sepa-credit-transfers\");",
-											"});"
+											"});",
+											"",
+											"if (pm.variables.get(\"adapter\") === \"unicredit\") {",
+											"    var href = jsonData._links.authoriseTransaction.href;",
+											"    var queryParams = href.slice(href.indexOf(\"?\"), href.length);",
+											"    pm.globals.set(\"queryParams\", queryParams);",
+											"    postman.setNextRequest(\"updatePaymentPsuData_transactionAuthorisation_periodic-payments/sepa-credit-transfers\");",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Workaround for Unicredit",
+											"const adapter = pm.variables.get(\"adapter\");",
+											"",
+											"if (adapter === \"unicredit\") {",
+											"    pm.request.url = request.url + pm.variables.get(\"queryParams\");",
+											"}"
 										],
 										"type": "text/javascript"
 									}
@@ -4454,6 +4482,15 @@
 										],
 										"type": "text/javascript"
 									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
 							],
 							"request": {
@@ -4520,7 +4557,21 @@
 											"});",
 											"",
 											"",
-											"postman.setNextRequest(\"getPaymentInitiationScaStatus_periodic-payments/sepa-credit-transfers\");"
+											"postman.setNextRequest(\"getPaymentInitiationStatus_periodic-payments/sepa-credit-transfers\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Workaround for Unicredit",
+											"",
+											"const adapter = pm.variables.get(\"adapter\");",
+											"if (adapter === \"unicredit\") {",
+											"    pm.request.url = request.url + pm.variables.get(\"queryParams\");",
+											"}"
 										],
 										"type": "text/javascript"
 									}
@@ -4578,6 +4629,155 @@
 							"response": []
 						},
 						{
+							"name": "getPaymentInitiationStatus_periodic-payments/sepa-credit-transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Transaction status is successful\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.transactionStatus).to.be.oneOf([\"RCVD\", \"ACCP\", \"ACTC\", \"ACSP\"]);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"value": "{{$guid}}",
+										"type": "text"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUri}}/v1/periodic-payments/sepa-credit-transfers/{{paymentId}}/status",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"periodic-payments",
+										"sepa-credit-transfers",
+										"{{paymentId}}",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getPaymentInformation_periodic-payments/sepa-credit-transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const jsonData = pm.response.json();",
+											"",
+											"pm.test(\"Transaction status received\", function () {",
+											"    pm.expect(jsonData).to.have.property('transactionStatus');",
+											"});",
+											"",
+											"if (jsonData.transactionStatus === 'ACSC' || jsonData.transactionStatus === 'RCVD') {",
+											"    postman.setNextRequest(null);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const Header = require('postman-collection').Header",
+											"",
+											"const adapter = pm.variables.get(\"adapter\");",
+											"if (adapter === \"dkb\") {",
+											"    pm.request.headers.add(new Header(\"Authorization: \" + pm.environment.get(\"access_token\")))",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"value": "{{$guid}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-IP-Address",
+										"value": "0.0.0.0",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID",
+										"value": "{{psuId_PIS}}",
+										"type": "text"
+									},
+									{
+										"key": "PSU-ID-Type",
+										"value": "{{psuIdType_PIS}}",
+										"type": "text"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"value": "{{aspspId}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/periodic-payments/sepa-credit-transfers/{{paymentId}}",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"periodic-payments",
+										"sepa-credit-transfers",
+										"{{paymentId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "getPaymentInitiationScaStatus_periodic-payments/sepa-credit-transfers",
 							"event": [
 								{
@@ -4591,7 +4791,9 @@
 											"pm.test(\"scaStatus is finalised\", function () {",
 											"    var jsonData = pm.response.json();",
 											"    pm.expect(jsonData.scaStatus).to.eql(\"finalised\");",
-											"});"
+											"});",
+											"",
+											"postman.setNextRequest(null);"
 										],
 										"type": "text/javascript"
 									}
@@ -4623,6 +4825,98 @@
 										"{{paymentId}}",
 										"authorisations",
 										"{{authorisationId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getPaymentInitiationAuthorisation_periodic-payments/sepa-credit-transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"AuthorisationIds are not empty\", function () {",
+											"    pm.expect(jsonData.authorisationIds[0]).to.exist;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Request-ID",
+										"type": "text",
+										"value": "{{$guid}}"
+									},
+									{
+										"key": "X-GTW-ASPSP-ID",
+										"type": "text",
+										"value": "{{aspspId}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUri}}/v1/periodic-payments/sepa-credit-transfers/{{paymentId}}/authorisations",
+									"host": [
+										"{{baseUri}}"
+									],
+									"path": [
+										"v1",
+										"periodic-payments",
+										"sepa-credit-transfers",
+										"{{paymentId}}",
+										"authorisations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "scaRedirect_DAB&Consors&Sparda_periodic-payments/sepa-credit-transfers",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Consent status is valid\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"The payment status has changed to: AcceptedSettlementCompleted\");",
+											"});",
+											"",
+											"postman.setNextRequest(\"getPaymentInformation_periodic-payments/sepa-credit-transfers\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{scaRedirect}}?psu-id=PSU-Successful",
+									"host": [
+										"{{scaRedirect}}"
+									],
+									"query": [
+										{
+											"key": "psu-id",
+											"value": "PSU-Successful"
+										}
 									]
 								}
 							},

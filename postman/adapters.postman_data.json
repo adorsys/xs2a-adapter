@@ -35,7 +35,7 @@
     "scaAuthenticationData_PIS": "22222",
     "creditorName": "Merchant123",
     "sepa-credit-transfers-supported": "true",
-    "pain.001-sepa-credit-transfers-supported": "false"
+    "pain.001-sepa-credit-transfers-supported": "true"
   },
   {
     "adapter": "dkb",
@@ -67,7 +67,7 @@
     "iban_AIS": "DE74701204003326455007",
     "iban_PIS": "DE74701204003326455007",
     "creditorName": "Merchant123",
-    "sepa-credit-transfers-supported": "true",
+    "sepa-credit-transfers-supported": "false",
     "pain.001-sepa-credit-transfers-supported": "false"
   },
   {
@@ -93,7 +93,7 @@
     "iban_AIS": "DE29799905990000603740",
     "iban_PIS": "DE29799905990000603740",
     "creditorName": "Merchant123",
-    "sepa-credit-transfers-supported": "true",
+    "sepa-credit-transfers-supported": "false",
     "pain.001-sepa-credit-transfers-supported": "false"
   },
   {
