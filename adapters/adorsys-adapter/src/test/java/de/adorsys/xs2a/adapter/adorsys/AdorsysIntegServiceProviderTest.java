@@ -6,7 +6,6 @@ import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
-import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +32,7 @@ class AdorsysIntegServiceProviderTest {
             = provider.getPaymentInitiationService(aspsp, httpClientFactory, null);
 
         assertThat(actualService)
-            .isExactlyInstanceOf(BasePaymentInitiationService.class);
+            .isExactlyInstanceOf(AdorsysPaymentInitiationService.class);
     }
 
     @Test
