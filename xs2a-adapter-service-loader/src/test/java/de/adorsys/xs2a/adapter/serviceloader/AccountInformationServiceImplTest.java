@@ -89,6 +89,16 @@ class AccountInformationServiceImplTest {
     }
 
     @Test
+    void getConsentAuthorisation() {
+        service.getConsentAuthorisation(CONSENT_ID, headers, parameters);
+
+        verify(adapterServiceLoader, times(1))
+            .getAccountInformationService(any(RequestHeaders.class));
+        verify(accountInformationService, times(1))
+            .getConsentAuthorisation(anyString(), any(RequestHeaders.class), any(RequestParams.class));
+    }
+
+    @Test
     void startConsentAuthorisation() {
         service.startConsentAuthorisation(CONSENT_ID, headers, parameters);
 

@@ -1,0 +1,44 @@
+{
+  "id" : "e8deb3e8-3b22-4c7c-a007-e9af987b4cb2",
+  "name" : "v1_periodic-payments_sepa-credit-transfers_q0rrzv0ejecvksbg-l43vgv3yda4kmpxnxlyxsrdg-yuy6twanrbe4d49fudqnwzcilvnse-k0lfvitlevm4mpsdmwf3876hawek_n7hjlg__psglvqpt9q_authorisations_ce9beeb9-2df6-4ce0-b73",
+  "request" : {
+    "urlPattern" : "/v1/periodic-payments/sepa-credit-transfers/.+/authorisations/.+",
+    "method" : "PUT",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "PSD2TEST2"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"scaAuthenticationData\":\"22222\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"_links\":{\"scaStatus\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/periodic-payments/sepa-credit-transfers/Q0RrZV0EJeCvkSBG-l43vgV3yDa4kmPXnXLyXsRdg-YuY6TWANrBE4d49FUDqNwzCiLVnsE-K0LFvitlevm4mPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations/ce9beeb9-2df6-4ce0-b73a-c6a3a6a597d3\"}},\"scaStatus\":\"finalised\"}",
+    "headers" : {
+      "Date" : "Fri, 05 Mar 2021 15:46:43 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Vary" : "Accept-Encoding",
+      "Aspsp-Sca-Approach" : "EMBEDDED",
+      "X-Request-Id" : "c885b5d7-94b8-491b-850e-e63a7ca9b08a",
+      "X-Kong-Upstream-Latency" : "218",
+      "X-Kong-Proxy-Latency" : "0",
+      "Strict-Transport-Security" : [ "max-age=15724800; includeSubDomains", "max-age=63072000; includeSubDomains; preload" ],
+      "X-Frame-Options" : "DENY",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block"
+    }
+  },
+  "uuid" : "e8deb3e8-3b22-4c7c-a007-e9af987b4cb2",
+  "persistent" : true,
+  "insertionIndex" : 23
+}

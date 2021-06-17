@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2018 adorsys GmbH & Co KG
+ * Copyright 2018-2021 adorsys GmbH & Co KG
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,14 +38,6 @@ public class AdorsysIntegServiceProvider extends AbstractAdapterServiceProvider 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
-                                                                Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter) {
-        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
-    }
-
-    @Override
-    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
-                                                                HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
 
         HttpClientConfig config = httpClientFactory.getHttpClientConfig();
@@ -68,35 +60,21 @@ public class AdorsysIntegServiceProvider extends AbstractAdapterServiceProvider 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
-                                                                  Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter) {
-        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
-    }
-
-    @Override
-    public AccountInformationService getAccountInformationService(Aspsp aspsp,
-                                                                  HttpClientFactory httpClientFactory,
                                                                   LinksRewriter linksRewriter) {
         HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new AdorsysAccountInformationService(aspsp,
-                                                    httpClientFactory.getHttpClient(getAdapterId()),
+                                                    httpClientFactory,
                                                     getInterceptors(aspsp, getInterceptors(config.getKeyStore())),
-                                                    linksRewriter,
-                                                    config.getLogSanitizer());
-    }
-
-    @Override
-    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return getOauth2Service(aspsp, httpClientFactory);
+                                                    linksRewriter);
     }
 
     @Override
     public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory) {
         HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
         HttpClientConfig config = httpClientFactory.getHttpClientConfig();
-        return new AdorsysIntegOauth2Service(aspsp, httpClient,
-                                             new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class, config.getLogSanitizer()),
-                                             config.getLogSanitizer());
+        return new AdorsysIntegOauth2Service(aspsp,
+                                             httpClientFactory,
+                                             new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class, config.getLogSanitizer()));
     }
 
     @Override

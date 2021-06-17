@@ -2,14 +2,11 @@ package de.adorsys.xs2a.adapter.unicredit;
 
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
+import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.ContentType;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.api.model.Aspsp;
-import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
-import de.adorsys.xs2a.adapter.api.model.PaymentService;
-import de.adorsys.xs2a.adapter.api.model.UpdatePsuAuthentication;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 
@@ -18,11 +15,49 @@ import java.util.Map;
 
 public class UnicreditPaymentInitiationService extends BasePaymentInitiationService {
 
+    private static final String DEFAULT_COUNTRY_CODE = "DE";
+
     public UnicreditPaymentInitiationService(Aspsp aspsp,
-                                             HttpClient httpClient,
-                                             LinksRewriter linksRewriter,
-                                             HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, linksRewriter, logSanitizer);
+                                             HttpClientFactory httpClientFactory,
+                                             LinksRewriter linksRewriter) {
+        super(aspsp,
+            httpClientFactory.getHttpClient(aspsp.getAdapterId()),
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+    }
+
+    @Override
+    public Response<PaymentInitationRequestResponse201> initiatePayment(PaymentService paymentService,
+                                                                        PaymentProduct paymentProduct,
+                                                                        RequestHeaders requestHeaders,
+                                                                        RequestParams requestParams,
+                                                                        Object body) {
+        Object requestBody = addCreditorAddress(body);
+
+        return super.initiatePayment(paymentService, paymentProduct, requestHeaders, requestParams, requestBody);
+    }
+
+    private Object addCreditorAddress(Object body) {
+        if (body instanceof PaymentInitiationJson) {
+            PaymentInitiationJson paymentsJson = (PaymentInitiationJson) body;
+            if (paymentsJson.getCreditorAddress() == null) {
+                paymentsJson.setCreditorAddress(buildDefaultAddress());
+            }
+            return paymentsJson;
+        } else if (body instanceof PeriodicPaymentInitiationJson) {
+            PeriodicPaymentInitiationJson periodicJson = (PeriodicPaymentInitiationJson) body;
+            if (periodicJson.getCreditorAddress() == null) {
+                periodicJson.setCreditorAddress(buildDefaultAddress());
+            }
+            return periodicJson;
+        }
+        return body;
+    }
+
+    private Address buildDefaultAddress() {
+        Address address = new Address();
+        address.setCountry(DEFAULT_COUNTRY_CODE);
+        return address;
     }
 
     @Override

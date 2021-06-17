@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2018 adorsys GmbH & Co KG
+ * Copyright 2018-2021 adorsys GmbH & Co KG
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,15 +26,6 @@ import de.adorsys.xs2a.adapter.impl.BaseDownloadService;
 public class DeutscheBankServiceProvider extends AbstractAdapterServiceProvider implements DownloadServiceProvider {
     public static final String SERVICE_GROUP_PLACEHOLDER = "{Service Group}";
     private final PsuIdTypeHeaderInterceptor psuIdTypeHeaderInterceptor = new PsuIdTypeHeaderInterceptor();
-    private final PsuPasswordEncryptionService psuPasswordEncryptionService = DeutscheBankPsuPasswordEncryptionService.getInstance();
-
-    @Override
-    public AccountInformationService getAccountInformationService(Aspsp aspsp,
-                                                                  HttpClientFactory httpClientFactory,
-                                                                  Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter) {
-        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
-    }
 
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
@@ -42,19 +33,10 @@ public class DeutscheBankServiceProvider extends AbstractAdapterServiceProvider 
                                                                   LinksRewriter linksRewriter) {
         aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "ais"));
         return new DeutscheBankAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory,
             getInterceptors(aspsp, psuIdTypeHeaderInterceptor),
             linksRewriter,
-            psuPasswordEncryptionService,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
-    }
-
-    @Override
-    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
-                                                                HttpClientFactory httpClientFactory,
-                                                                Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter) {
-        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
+            new DeutscheBankPsuPasswordEncryptionService());
     }
 
     @Override
@@ -63,17 +45,9 @@ public class DeutscheBankServiceProvider extends AbstractAdapterServiceProvider 
                                                                 LinksRewriter linksRewriter) {
         aspsp.setUrl(aspsp.getUrl().replace(SERVICE_GROUP_PLACEHOLDER, "pis"));
         return new DeutscheBankPaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
+            httpClientFactory,
             getInterceptors(aspsp, psuIdTypeHeaderInterceptor),
-            linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
-    }
-
-    @Override
-    public DownloadService getDownloadService(String baseUrl,
-                                              HttpClientFactory httpClientFactory,
-                                              Pkcs12KeyStore keyStore) {
-        return getDownloadService(baseUrl, httpClientFactory);
+            linksRewriter);
     }
 
     @Override

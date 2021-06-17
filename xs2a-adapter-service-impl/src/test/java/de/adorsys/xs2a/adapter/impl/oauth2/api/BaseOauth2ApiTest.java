@@ -23,8 +23,6 @@ class BaseOauth2ApiTest<T extends AuthorisationServerMetaData> {
 
     private BaseOauth2Api<AuthorisationServerMetaData> api = new BaseOauth2Api<>(httpClient, AuthorisationServerMetaData.class);
 
-
-
     @Test
     void getAuthorisationUri() {
         when(httpClient.get(any())).thenReturn(requestBuilder);

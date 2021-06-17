@@ -5,28 +5,31 @@ import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
 import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayInputStream;
 import java.util.AbstractMap;
-import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static de.adorsys.xs2a.adapter.api.http.ContentType.*;
+import static java.util.Collections.singletonMap;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,7 +43,6 @@ class VerlagAccountInformationServiceTest {
     private static final String ACCOUNT_ID = "accountId";
     private static final String REMITTANCE_INFORMATION_STRUCTURED = "remittanceInformationStructuredStringValue";
 
-    @InjectMocks
     private VerlagAccountInformationService accountInformationService;
     @Mock
     private HttpClient httpClient;
@@ -50,6 +52,18 @@ class VerlagAccountInformationServiceTest {
     private LinksRewriter linksRewriter;
     @Mock
     private AbstractMap.SimpleImmutableEntry<String, String> apiKey;
+    @Mock
+    private HttpClientFactory httpClientFactory;
+    @Mock
+    private HttpClientConfig httpClientConfig;
+
+    @BeforeEach
+    void setUp() {
+        when(httpClientFactory.getHttpClient(any(), any(), any())).thenReturn(httpClient);
+        when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+
+        accountInformationService = new VerlagAccountInformationService(aspsp, apiKey, httpClientFactory, null, linksRewriter);
+    }
 
     @Test
     void getTransactionList() {
@@ -150,8 +164,17 @@ class VerlagAccountInformationServiceTest {
     }
 
     private static Stream<Arguments> requestHeaders() {
-        return Stream.of(arguments(RequestHeaders.empty(), VerlagAccountInformationService.ACCEPT_TEXT_PLAIN),
-            arguments(RequestHeaders.fromMap(Collections.singletonMap(RequestHeaders.ACCEPT, VerlagAccountInformationService.ACCEPT_ALL)), VerlagAccountInformationService.ACCEPT_TEXT_PLAIN),
-            arguments(RequestHeaders.fromMap(Collections.singletonMap(RequestHeaders.ACCEPT, "application/json")), "application/json"));
+        return Stream.of(arguments(RequestHeaders.empty(), APPLICATION_JSON),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, "")), APPLICATION_JSON),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, null)), APPLICATION_JSON),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, ALL)), APPLICATION_JSON),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, APPLICATION_XML)), APPLICATION_JSON),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, TEXT_PLAIN)), TEXT_PLAIN),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, APPLICATION_JSON)), APPLICATION_JSON),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, APPLICATION_XML + "," + ALL)), APPLICATION_JSON),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, APPLICATION_JSON + "," + TEXT_PLAIN)), APPLICATION_JSON),
+            arguments(RequestHeaders.fromMap(singletonMap(RequestHeaders.ACCEPT, APPLICATION_XML + "," + TEXT_PLAIN)), APPLICATION_JSON)
+        );
+
     }
 }

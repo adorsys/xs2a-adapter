@@ -1,0 +1,46 @@
+{
+  "id" : "c21ef730-df2b-4980-a0cb-399a4bebadc9",
+  "name" : "v1_periodic-payments_sepa-credit-transfers_q0rrzv0ejecvksbg-l43vgv3yda4kmpxnxlyxsrdg-yuy6twanrbe4d49fudqnwzcilvnse-k0lfvitlevm4mpsdmwf3876hawek_n7hjlg__psglvqpt9q_authorisations",
+  "request" : {
+    "urlPattern" : "/v1/periodic-payments/sepa-credit-transfers/.+/authorisations",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "PSD2TEST2"
+      },
+      "TPP-Redirect-Preferred" : {
+        "equalTo" : "false"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"psuData\":{\"password\":\"123456\"}}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"scaMethods\":[{\"authenticationType\":\"SMS_OTP\",\"authenticationMethodId\":\"901\",\"name\":\"SMS-TAN\",\"explanation\":\"SMS-TAN\"},{\"authenticationType\":\"CHIP_OTP\",\"authenticationMethodId\":\"904\",\"name\":\"chipTAN comfort\",\"explanation\":\"chipTAN comfort\"},{\"authenticationType\":\"PUSH_OTP\",\"authenticationMethodId\":\"906\",\"name\":\"BV AppTAN\",\"explanation\":\"BV AppTAN\"},{\"authenticationType\":\"PHOTO_OTP\",\"authenticationMethodId\":\"907\",\"name\":\"PhotoTAN\",\"explanation\":\"PhotoTAN\"}],\"_links\":{\"selectAuthenticationMethod\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/periodic-payments/sepa-credit-transfers/Q0RrZV0EJeCvkSBG-l43vgV3yDa4kmPXnXLyXsRdg-YuY6TWANrBE4d49FUDqNwzCiLVnsE-K0LFvitlevm4mPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations/ce9beeb9-2df6-4ce0-b73a-c6a3a6a597d3\"},\"scaStatus\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/periodic-payments/sepa-credit-transfers/Q0RrZV0EJeCvkSBG-l43vgV3yDa4kmPXnXLyXsRdg-YuY6TWANrBE4d49FUDqNwzCiLVnsE-K0LFvitlevm4mPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations/ce9beeb9-2df6-4ce0-b73a-c6a3a6a597d3\"}},\"scaStatus\":\"psuAuthenticated\",\"authorisationId\":\"ce9beeb9-2df6-4ce0-b73a-c6a3a6a597d3\"}",
+    "headers" : {
+      "Date" : "Fri, 05 Mar 2021 15:46:36 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Aspsp-Sca-Approach" : "EMBEDDED",
+      "X-Request-Id" : "a2babbdd-83cf-453f-8b7b-0c469f7395e4",
+      "X-Kong-Upstream-Latency" : "245",
+      "X-Kong-Proxy-Latency" : "1",
+      "Strict-Transport-Security" : [ "max-age=15724800; includeSubDomains", "max-age=63072000; includeSubDomains; preload" ],
+      "X-Frame-Options" : "DENY",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block"
+    }
+  },
+  "uuid" : "c21ef730-df2b-4980-a0cb-399a4bebadc9",
+  "persistent" : true,
+  "insertionIndex" : 21
+}

@@ -4,8 +4,7 @@ import de.adorsys.xs2a.adapter.api.Oauth2Service;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
@@ -28,13 +27,15 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
     private final ResponseHandlers responseHandlers;
 
     public SpardaAccountInformationService(Aspsp aspsp,
-                                           HttpClient httpClient,
+                                           HttpClientFactory httpClientFactory,
                                            LinksRewriter linksRewriter,
-                                           SpardaJwtService spardaJwtService,
-                                           HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, linksRewriter, logSanitizer);
+                                           SpardaJwtService spardaJwtService) {
+        super(aspsp,
+            httpClientFactory.getHttpClient(aspsp.getAdapterId()),
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
         this.spardaJwtService = spardaJwtService;
-        this.responseHandlers = new ResponseHandlers(logSanitizer);
+        this.responseHandlers = new ResponseHandlers(httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

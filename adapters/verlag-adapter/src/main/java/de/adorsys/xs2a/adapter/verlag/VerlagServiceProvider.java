@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2018 adorsys GmbH & Co KG
+ * Copyright 2018-2021 adorsys GmbH & Co KG
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ public class VerlagServiceProvider extends AbstractAdapterServiceProvider implem
 
     private static final String VERLAG_API_KEY_NAME = "verlag.apikey.name";
     private static final String VERLAG_API_KEY_VALUE = "verlag.apikey.value";
-    private static final String[] SUPPORTED_CIPHER_SUITES =
+    static final String[] SUPPORTED_CIPHER_SUITES =
         {"TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384", "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"};
 
     private static final AbstractMap.SimpleImmutableEntry<String, String> apiKeyEntry;
@@ -45,29 +45,12 @@ public class VerlagServiceProvider extends AbstractAdapterServiceProvider implem
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
-                                                                  Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter) {
-        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
-    }
-
-    @Override
-    public AccountInformationService getAccountInformationService(Aspsp aspsp,
-                                                                  HttpClientFactory httpClientFactory,
                                                                   LinksRewriter linksRewriter) {
         return new VerlagAccountInformationService(aspsp,
                                                    apiKeyEntry,
-                                                   httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
+                                                   httpClientFactory,
                                                    getInterceptors(aspsp, psuIdTypeHeaderInterceptor),
-                                                   linksRewriter,
-                                                   httpClientFactory.getHttpClientConfig().getLogSanitizer());
-    }
-
-    @Override
-    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
-                                                                HttpClientFactory httpClientFactory,
-                                                                Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter) {
-        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
+                                                   linksRewriter);
     }
 
     @Override
@@ -76,15 +59,9 @@ public class VerlagServiceProvider extends AbstractAdapterServiceProvider implem
                                                                 LinksRewriter linksRewriter) {
         return new VerlagPaymentInitiationService(aspsp,
                                                   apiKeyEntry,
-                                                  httpClientFactory.getHttpClient(getAdapterId(), null, SUPPORTED_CIPHER_SUITES),
+                                                  httpClientFactory,
                                                   getInterceptors(aspsp, psuIdTypeHeaderInterceptor),
-                                                  linksRewriter,
-                                                  httpClientFactory.getHttpClientConfig().getLogSanitizer());
-    }
-
-    @Override
-    public DownloadService getDownloadService(String baseUrl, HttpClientFactory httpClientFactory, Pkcs12KeyStore keyStore) {
-        return getDownloadService(baseUrl, httpClientFactory);
+                                                  linksRewriter);
     }
 
     @Override

@@ -15,7 +15,7 @@
   },
   "response" : {
     "status" : 200,
-    "body" : "{\"accounts\":[{\"resourceId\":\"HGlNA7CqT8sjd_1aV2v2LI\",\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\",\"name\":\"max.musterman\",\"displayName\":\"mock display name\",\"product\":\"Cash24\",\"cashAccountType\":\"CASH\",\"status\":\"enabled\",\"linkedAccounts\":\"vEXGW4oQR-YincmiTa4KaM\",\"usage\":\"PRIV\",\"_links\":{\"balances\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/balances\"},\"transactions\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/transactions\"}}}]}",
+    "body" : "{\"accounts\":[{\"resourceId\":\"some_value\",\"iban\":\"IBAN\",\"currency\":\"EUR\",\"name\":\"user\",\"displayName\":\"display user\",\"product\":\"product\",\"cashAccountType\":\"CASH\",\"status\":\"enabled\",\"linkedAccounts\":\"linked_account\",\"usage\":\"PRIV\",\"_links\":{\"balances\":{\"href\":\"http://foo.boo\"},\"transactions\":{\"href\":\"http://foo.boo\"}}}]}",
     "headers" : {
       "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
       "x-request-id" : "70a7346e-e769-4c4b-8326-ceb6b785e07c",

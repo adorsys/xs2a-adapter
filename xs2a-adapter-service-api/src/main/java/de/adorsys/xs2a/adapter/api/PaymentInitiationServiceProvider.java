@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2018 adorsys GmbH & Co KG
+ * Copyright 2018-2021 adorsys GmbH & Co KG
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +21,6 @@ import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 
 public interface PaymentInitiationServiceProvider extends AdapterServiceProvider, WiremockValidation {
-
-    @Deprecated
-    PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
-                                                         HttpClientFactory httpClientFactory,
-                                                         Pkcs12KeyStore keyStore,
-                                                         LinksRewriter linksRewriter);
 
     PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                          HttpClientFactory httpClientFactory,

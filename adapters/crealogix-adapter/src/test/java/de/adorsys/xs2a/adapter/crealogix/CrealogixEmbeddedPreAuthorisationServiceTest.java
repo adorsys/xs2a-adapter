@@ -12,6 +12,7 @@ import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.EmbeddedPreAuthorisationRequest;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
+import de.adorsys.xs2a.adapter.crealogix.model.CrealogixValidationResponse;
 import de.adorsys.xs2a.adapter.impl.http.BaseHttpClientConfig;
 import de.adorsys.xs2a.adapter.impl.http.Xs2aHttpLogSanitizer;
 import de.adorsys.xs2a.adapter.impl.security.AccessTokenException;
@@ -21,7 +22,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 
@@ -48,36 +48,23 @@ class CrealogixEmbeddedPreAuthorisationServiceTest {
     }
 
     @Test
-    void getToken() throws IOException {
-        Response tppResponse = mock(Response.class);
-        Response psd2Response = mock(Response.class);
-        TokenResponse tppTokenResponse = new TokenResponse();
-        tppTokenResponse.setAccessToken("tpp");
+    void getToken() {
+        Response<CrealogixValidationResponse> psd2Response = mock(Response.class);
         TokenResponse psd2TokenResponse = new TokenResponse();
         psd2TokenResponse.setAccessToken("psd2");
 
-        Request.Builder tppBuilder = mock(Request.Builder.class);
         Request.Builder psd2Builder = mock(Request.Builder.class);
 
-        doReturn(tppBuilder).when(httpClient).post(eq("https://localhost:8443/token"));
-        doReturn(tppBuilder).when(tppBuilder).urlEncodedBody(anyMap());
-        doReturn(tppBuilder).when(tppBuilder).headers(anyMap());
-        doReturn(tppResponse).when(tppBuilder).send(any());
-        doReturn(tppTokenResponse).when(tppResponse).getBody();
-
-        doReturn(psd2Builder).when(httpClient).post(eq("https://localhost:8443/pre-auth/1.0.6/psd2-auth/v1/auth/token"));
+        doReturn(psd2Builder).when(httpClient).post("https://localhost:8443/foo/boo/token");
         doReturn(psd2Builder).when(psd2Builder).jsonBody(anyString());
         doReturn(psd2Builder).when(psd2Builder).headers(anyMap());
         doReturn(psd2Response).when(psd2Builder).send(any());
+        doReturn(psd2Response).when(psd2Response).map(any());
         doReturn(psd2TokenResponse).when(psd2Response).getBody();
 
         TokenResponse token = authorisationService.getToken(new EmbeddedPreAuthorisationRequest(), RequestHeaders.fromMap(Collections.emptyMap()));
 
-        CrealogixAuthorisationToken authorisationToken = CrealogixAuthorisationToken.decode(token.getAccessToken());
-
         assertThat(token.getAccessToken()).isNotBlank();
-        assertThat(authorisationToken.getTppToken()).isEqualTo("tpp");
-        assertThat(authorisationToken.getPsd2AuthorisationToken()).isEqualTo("psd2");
     }
 
     @ParameterizedTest
@@ -87,7 +74,7 @@ class CrealogixEmbeddedPreAuthorisationServiceTest {
         InputStream inputStream = new ByteArrayInputStream(stringBody.getBytes());
 
         TokenResponse actualResponse
-            = authorisationService.responseHandler().apply(statusCode, inputStream, ResponseHeaders.emptyResponseHeaders());
+            = authorisationService.responseHandler(TokenResponse.class).apply(statusCode, inputStream, ResponseHeaders.emptyResponseHeaders());
 
         assertThat(actualResponse)
             .isNotNull()
@@ -97,7 +84,7 @@ class CrealogixEmbeddedPreAuthorisationServiceTest {
     @ParameterizedTest
     @ValueSource(ints = {302, 403, 500})
     void responseHandler_notSuccessfulStatuses(int statusCode) {
-        HttpClient.ResponseHandler<TokenResponse> responseHandler = authorisationService.responseHandler();
+        HttpClient.ResponseHandler<TokenResponse> responseHandler = authorisationService.responseHandler(TokenResponse.class);
         ResponseHeaders responseHeaders = ResponseHeaders.emptyResponseHeaders();
         InputStream body = new ByteArrayInputStream("body".getBytes());
 

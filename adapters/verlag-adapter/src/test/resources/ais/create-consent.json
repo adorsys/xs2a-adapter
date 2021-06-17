@@ -1,0 +1,55 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "4ba82f21-6083-430a-8bdf-4f7c9e8c4d42",
+      "PSU-ID": "PSD2TEST2",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "PSU-IP-Address": "0.0.0.0",
+      "TPP-Redirect-Preferred": "false",
+      "Content-Type": "application/json; charset=UTF-8"
+    },
+    "body": {
+      "access": {
+        "balances": [
+          {
+            "iban": "DE51250400903312345678",
+            "currency": "EUR"
+          }
+        ],
+        "transactions": [
+          {
+            "iban": "DE51250400903312345678",
+            "currency": "EUR"
+          }
+        ],
+        "accounts": [
+          {
+            "iban": "DE51250400903312345678",
+            "currency": "EUR"
+          }
+        ]
+      },
+      "combinedServiceIndicator": "false",
+      "recurringIndicator": "true",
+      "validUntil": "2021-03-06",
+      "frequencyPerDay": "4"
+    }
+  },
+  "response": {
+    "body": {
+      "consentStatus" : "received",
+      "consentId" : "cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q",
+      "_links" : {
+        "self" : {
+          "href" : "https://www.sandbox-bvxs2a.de/xbank/v1/consents/cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q"
+        },
+        "status" : {
+          "href" : "https://www.sandbox-bvxs2a.de/xbank/v1/consents/cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/status"
+        },
+        "startAuthorisationWithPsuAuthentication" : {
+          "href" : "https://www.sandbox-bvxs2a.de/xbank/v1/consents/cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations"
+        }
+      }
+    }
+  }
+}

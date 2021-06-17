@@ -178,6 +178,34 @@ class WiremockStubDifferenceDetectingInterceptorTest {
     }
 
     @Test
+    void postHandle_jsonBody_notMatchingRequestResponseBodyValues() throws JsonProcessingException {
+        Consents requestBody = getConsents();
+        requestBody.setFrequencyPerDay(1);
+        ConsentsResponse201 responseBody = getConsentResponse201();
+        responseBody.setConsentId("wrong_id");
+
+        RequestBuilderImpl request = new RequestBuilderImpl(httpClient, POST, CONSENTS_URL);
+        request.jsonBody(writeValueAsString(requestBody));
+        request.header(RequestHeaders.X_REQUEST_ID, X_REQUEST_ID_VALUE);
+        request.header(RequestHeaders.PSU_ID, PSU_ID_VALUE);
+        request.header(RequestHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE);
+        request.header(RequestHeaders.PSU_IP_ADDRESS, PSU_IP_ADDRESS_VALUE);
+        request.header(RequestHeaders.TPP_REDIRECT_URI, TPP_REDIRECT_URI_VALUE);
+
+        Response<?> actualResponse = interceptor
+                                         .postHandle(request,
+                                                     getResponse(writeValueAsString(responseBody),
+                                                                 getResponseHeaders(ResponseHeaders.CONTENT_TYPE, CONTENT_TYPE_JSON_VALUE)));
+
+        assertThat(actualResponse.getHeaders().getHeadersMap())
+            .containsKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .extractingByKey(ResponseHeaders.X_GTW_ASPSP_CHANGES_DETECTED)
+            .matches(val -> val.contains(RESPONSE_PAYLOAD_VALUE))
+            .matches(val -> val.contains(REQUEST_PAYLOAD_VALUE))
+            .matches(val -> !val.contains(REQUEST_HEADERS_VALUE));
+    }
+
+    @Test
     void postHandle_nothingMatches() throws JsonProcessingException {
         RequestBuilderImpl request = new RequestBuilderImpl(httpClient, POST, CONSENTS_URL);
         request.jsonBody(writeValueAsString(new Consents()));

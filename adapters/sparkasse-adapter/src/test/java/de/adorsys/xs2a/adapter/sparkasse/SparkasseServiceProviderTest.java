@@ -5,7 +5,7 @@ import de.adorsys.xs2a.adapter.api.Oauth2Service;
 import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
-import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.http.BaseHttpClientConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +20,7 @@ class SparkasseServiceProviderTest {
     private final HttpClientConfig clientConfig = new BaseHttpClientConfig(null, null);
     private final SparkasseServiceProvider provider
         = new SparkasseServiceProvider();
+    private final Aspsp aspsp = new Aspsp();
 
     @BeforeEach
     void setUp() {
@@ -29,24 +30,27 @@ class SparkasseServiceProviderTest {
     @Test
     void getAccountInformationService() {
         AccountInformationService actualService
-            = provider.getAccountInformationService(null, clientFactory, null);
+            = provider.getAccountInformationService(aspsp, clientFactory, null);
 
-        assertThat(actualService).isInstanceOf(BaseAccountInformationService.class);
+        assertThat(actualService)
+            .isExactlyInstanceOf(SparkasseAccountInformationService.class);
     }
 
     @Test
     void getPaymentInitiationService() {
         PaymentInitiationService actualService
-            = provider.getPaymentInitiationService(null, clientFactory, null);
+            = provider.getPaymentInitiationService(aspsp, clientFactory, null);
 
-        assertThat(actualService).isInstanceOf(SparkassePaymentInitiationService.class);
+        assertThat(actualService)
+            .isExactlyInstanceOf(SparkassePaymentInitiationService.class);
     }
 
     @Test
     void getOauth2Service() {
         Oauth2Service actualService
-            = provider.getOauth2Service(null, clientFactory);
+            = provider.getOauth2Service(aspsp, clientFactory);
 
-        assertThat(actualService).isInstanceOf(SparkasseOauth2Service.class);
+        assertThat(actualService)
+            .isExactlyInstanceOf(SparkasseOauth2Service.class);
     }
 }

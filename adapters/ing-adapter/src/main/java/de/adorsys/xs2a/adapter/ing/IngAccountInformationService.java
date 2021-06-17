@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.ing;
 
 import de.adorsys.xs2a.adapter.api.*;
+import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
@@ -21,13 +22,16 @@ public class IngAccountInformationService implements AccountInformationService, 
     private final LinksRewriter linksRewriter;
     private final IngMapper mapper = Mappers.getMapper(IngMapper.class);
     private final JsonMapper jsonMapper = new JacksonObjectMapper();
+    private final List<Interceptor> interceptors;
 
     public IngAccountInformationService(IngAccountInformationApi accountInformationApi,
                                         IngOauth2Service oauth2Service,
-                                        LinksRewriter linksRewriter) {
+                                        LinksRewriter linksRewriter,
+                                        List<Interceptor> interceptors) {
         this.accountInformationApi = accountInformationApi;
         this.oauth2Service = oauth2Service;
         this.linksRewriter = linksRewriter;
+        this.interceptors = interceptors;
     }
 
     @Override
@@ -59,6 +63,13 @@ public class IngAccountInformationService implements AccountInformationService, 
     public Response<ConsentStatusResponse200> getConsentStatus(String consentId,
                                                                RequestHeaders requestHeaders,
                                                                RequestParams requestParams) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response<Authorisations> getConsentAuthorisation(String consentId,
+                                                            RequestHeaders requestHeaders,
+                                                            RequestParams requestParams) {
         throw new UnsupportedOperationException();
     }
 
@@ -146,7 +157,7 @@ public class IngAccountInformationService implements AccountInformationService, 
             dateTo,
             limit,
             requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null),
-            clientAuthentication);
+            addInterceptor(clientAuthentication));
 
         // rewrite links
         CardAccountsTransactionsResponse200 body = response.getBody();
@@ -176,8 +187,9 @@ public class IngAccountInformationService implements AccountInformationService, 
         String accessToken = requestHeaders.getAccessToken().orElse(null);
         IngClientAuthentication clientAuthentication = oauth2Service.getClientAuthentication(accessToken);
         String requestId = requestHeaders.get(RequestHeaders.X_REQUEST_ID).orElse(null);
-        Response<AccountList> response = accountInformationApi.getAccounts(requestId, clientAuthentication)
-            .map(mapper::map);
+        Response<AccountList> response
+            = accountInformationApi.getAccounts(requestId, addInterceptor(clientAuthentication))
+                .map(mapper::map);
 
         rewriteLinks(response.getBody());
         return response;
@@ -207,13 +219,13 @@ public class IngAccountInformationService implements AccountInformationService, 
             balanceTypes,
             currency,
             requestId,
-            clientAuthentication)
+            addInterceptor(clientAuthentication))
             .map(mapper::map);
     }
 
     private List<String> parseBalanceTypes(String value) {
         if (value == null) {
-            return null;
+            return Collections.emptyList();
         }
         return Arrays.stream(value.split(","))
             .collect(Collectors.toList());
@@ -236,7 +248,7 @@ public class IngAccountInformationService implements AccountInformationService, 
             currency,
             limit,
             requestId,
-            clientAuthentication)
+            addInterceptor(clientAuthentication))
             .map(mapper::map);
 
         rewriteLinks(response.getBody());
@@ -277,5 +289,12 @@ public class IngAccountInformationService implements AccountInformationService, 
     private void rewriteLinks(List<Transactions> transactionDetails) {
         Optional.ofNullable(transactionDetails)
             .ifPresent(td -> td.forEach(t -> t.setLinks(rewriteLinks(t.getLinks()))));
+    }
+
+    private List<Interceptor> addInterceptor(Interceptor interceptor) {
+        List<Interceptor> tempList = new ArrayList<>(Optional.ofNullable(interceptors)
+                                                        .orElseGet(Collections::emptyList));
+        tempList.add(interceptor);
+        return Collections.unmodifiableList(tempList);
     }
 }

@@ -23,7 +23,10 @@ class CrealogixPaymentInitiationServiceTest extends CrealogixTestHelper {
 
     @BeforeEach
     void setUp() {
-        service = new CrealogixPaymentInitiationService(aspsp, httpClient, linksRewriter, null);
+        when(httpClientFactory.getHttpClient(any())).thenReturn(httpClient);
+        when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+
+        service = new CrealogixPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Test

@@ -1,0 +1,35 @@
+{
+  "id" : "8b2039d9-7430-412e-ac91-88e314ec1e30",
+  "name" : "v1_accounts",
+  "request" : {
+    "url" : "/v1/accounts?withBalance=false",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Consent-ID" : {
+        "equalTo" : "cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"accounts\":[{\"resourceId\":\"3a4c851658957bc30d767425679769fc380120315d6da67faa52f016723ec9a2\",\"iban\":\"DE51250400903312345678\",\"currency\":\"EUR\",\"name\":\"Kontokorrentkonto\",\"cashAccountType\":\"CACC\",\"status\":\"enabled\",\"bic\":\"XBANDECG\",\"usage\":\"PRIV\",\"_links\":{\"balances\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/accounts/3a4c851658957bc30d767425679769fc380120315d6da67faa52f016723ec9a2/balances\"},\"transactions\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/accounts/3a4c851658957bc30d767425679769fc380120315d6da67faa52f016723ec9a2/transactions\"}},\"ownerName\":\"TESTKONTO\"}]}",
+    "headers" : {
+      "Date" : "Fri, 05 Mar 2021 11:57:25 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Vary" : "Accept-Encoding",
+      "X-Request-Id" : "b2590331-7be0-4a23-9c22-c378319815fb",
+      "X-Kong-Upstream-Latency" : "4334",
+      "X-Kong-Proxy-Latency" : "0",
+      "Strict-Transport-Security" : [ "max-age=15724800; includeSubDomains", "max-age=63072000; includeSubDomains; preload" ],
+      "X-Frame-Options" : "DENY",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block"
+    }
+  },
+  "uuid" : "8b2039d9-7430-412e-ac91-88e314ec1e30",
+  "persistent" : true,
+  "insertionIndex" : 40
+}

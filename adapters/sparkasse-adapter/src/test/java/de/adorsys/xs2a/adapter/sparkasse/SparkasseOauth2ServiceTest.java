@@ -6,12 +6,14 @@ import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
+import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
 import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 import java.io.IOException;
@@ -20,6 +22,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.*;
 
 class SparkasseOauth2ServiceTest {
     private static final String ORG_ID = "PSDDE-BAFIN-999999";
@@ -31,23 +36,28 @@ class SparkasseOauth2ServiceTest {
     private static final String AUTHORIZATION_CODE = "authorization-code";
     private static final String REFRESH_TOKEN = "refresh-token";
 
-    private Pkcs12KeyStore keyStore;
+    private final Pkcs12KeyStore keyStore = mock(Pkcs12KeyStore.class);
+    private final HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
+    private final HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
+    private final HttpClient httpClient = spy(new ApacheHttpClient(null, null));
+    private final Aspsp aspsp = new Aspsp();
     private SparkasseOauth2Service oauth2Service;
-    private HttpClient httpClient;
 
     @BeforeEach
     void setUp() throws Exception {
-        keyStore = Mockito.mock(Pkcs12KeyStore.class);
-        Mockito.when(keyStore.getOrganizationIdentifier())
+        when(keyStore.getOrganizationIdentifier())
             .thenReturn(ORG_ID);
 
-        httpClient = Mockito.spy(new ApacheHttpClient(null, null));
-        Mockito.doReturn(authorizationServerMetadata())
-            .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(SCA_OAUTH_LINK)), Mockito.any());
-        Mockito.doReturn(tokenResponse())
-            .when(httpClient).send(Mockito.argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), Mockito.any());
+        doReturn(authorizationServerMetadata())
+            .when(httpClient).send(argThat(req -> req.uri().equals(SCA_OAUTH_LINK)), any());
+        doReturn(tokenResponse())
+            .when(httpClient).send(argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), any());
 
-        oauth2Service = SparkasseOauth2Service.create(null, httpClient, keyStore, null);
+        when(httpClientFactory.getHttpClient(any())).thenReturn(httpClient);
+        when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+        when(httpClientConfig.getKeyStore()).thenReturn(keyStore);
+
+        oauth2Service = SparkasseOauth2Service.create(aspsp, httpClientFactory);
     }
 
     private Response<AuthorisationServerMetaData> authorizationServerMetadata() {
@@ -114,13 +124,13 @@ class SparkasseOauth2ServiceTest {
         expectedBody.put(Parameters.CODE, AUTHORIZATION_CODE);
         expectedBody.put(Parameters.CLIENT_ID, ORG_ID);
         expectedBody.put(Parameters.CODE_VERIFIER, oauth2Service.codeVerifier());
-        Mockito.verify(httpClient, Mockito.times(1)).send(ArgumentMatchers.argThat(req -> {
+        Mockito.verify(httpClient, Mockito.times(1)).send(argThat(req -> {
             boolean tokenExchange = req.uri().equals(TOKEN_ENDPOINT);
             if (tokenExchange) {
                 assertEquals(expectedBody, req.urlEncodedBody());
             }
             return tokenExchange;
-        }), Mockito.any());
+        }), any());
     }
 
     @Test
@@ -137,12 +147,12 @@ class SparkasseOauth2ServiceTest {
         expectedBody.put(Parameters.GRANT_TYPE, GrantType.REFRESH_TOKEN.toString());
         expectedBody.put(Parameters.REFRESH_TOKEN, REFRESH_TOKEN);
         expectedBody.put(Parameters.CLIENT_ID, ORG_ID);
-        Mockito.verify(httpClient, Mockito.times(1)).send(ArgumentMatchers.argThat(req -> {
+        Mockito.verify(httpClient, Mockito.times(1)).send(argThat(req -> {
             boolean tokenExchange = req.uri().equals(TOKEN_ENDPOINT);
             if (tokenExchange) {
                 assertEquals(expectedBody, req.urlEncodedBody());
             }
             return tokenExchange;
-        }), Mockito.any());
+        }), any());
     }
 }

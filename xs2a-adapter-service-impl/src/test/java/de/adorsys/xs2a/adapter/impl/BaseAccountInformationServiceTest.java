@@ -136,6 +136,23 @@ class BaseAccountInformationServiceTest {
     }
 
     @Test
+    void getConsentAuthorisation() {
+        Authorisations example = new Authorisations();
+        when(httpClient.get(any())).thenReturn(requestBuilder);
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), eq(Collections.singletonList(interceptor)));
+
+        Response<Authorisations> response = informationService.getConsentAuthorisation(CONSENTID, headers, params);
+
+        verify(httpClient, times(1)).get(uriCaptor.capture());
+        verify(requestBuilder, times(1)).headers(headersCaptor.capture());
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
+
+        assertThat(uriCaptor.getValue()).isEqualTo(PSU_AUTHORISATION_URI + "/authorisations");
+        assertThat(headersCaptor.getValue()).isEqualTo(headers.toMap());
+        assertThat(response.getBody()).isEqualTo(example);
+    }
+
+    @Test
     void startConsentAuthorisation() {
         StartScaprocessResponse example = new StartScaprocessResponse();
 

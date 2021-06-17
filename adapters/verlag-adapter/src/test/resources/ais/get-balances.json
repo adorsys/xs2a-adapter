@@ -1,0 +1,26 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "991cc90c-5795-4dad-b802-b7315f192227",
+      "Consent-ID": "cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q"
+    }
+  },
+  "response": {
+    "body": {
+      "account": {
+        "iban": "DE51250400903312345678",
+        "currency": "EUR"
+      },
+      "balances": [
+        {
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "3507505.87"
+          },
+          "balanceType": "closingBooked",
+          "creditLimitIncluded": false
+        }
+      ]
+    }
+  }
+}

@@ -21,7 +21,7 @@ jobs:
       - name: Setup java
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
 
       - uses: actions/cache@v1
         with:
@@ -35,7 +35,11 @@ jobs:
           export GPG_TTY="$( tty )"
           echo ${{ secrets.GPG_SECRET_KEY }} | base64 --decode | gpg --import --batch --yes
           echo ${{ secrets.GPG_OWNERTRUST }} | base64 --decode | gpg --batch --import-ownertrust --yes
-          mvn --settings scripts/mvn-release-settings.xml -Prelease -DskipTests -B -U deploy
+          mvn -ntp --settings scripts/mvn-release-settings.xml \
+          -Dhttp.keepAlive=false \
+          -Dmaven.wagon.http.pool=false \
+          -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
+          -Prelease -DskipTests -B -U deploy
         shell: bash
 
   build-and-deploy-docs:

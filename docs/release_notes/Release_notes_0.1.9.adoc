@@ -1,0 +1,14 @@
+= Release notes for version 0.1.9 (release date: 12.04.2021)
+
+== Notices:
+- added README.md to `crealogix-adapter` with a description of the adapter proper configuration.
+- changed `code-generator`, it creates Get Authorisation Sub-Resources for Consents API.
+- changes in `crealogix-adapter`, added `dkb.psd2_token.url` property into `adapter.config.properties` for DKB configuration,
+instead of previously hardcoded URL in the CrealogixEmbeddedPreAuthorisationService.
+- removed deprecated code from `AccountInformationServiceProvider`,  `DownloadServiceProvider`,  `Oauth2ServiceProvider`,
+`PaymentInitiationServiceProvider`, `Request`, `ApacheHttpClientFactory`, `WiremockHttpClientFactory`, `AdapterServiceLoader` classes.
+- replaced `isInstanceOf` checks with more accurate `isExactlyInstanceOf` in some Adapter ServiceProvider tests.
+
+== Features:
+- added `getConsentAuthorisation` operation with a respective endpoint for retrieving Authorisation Sub-Resources
+information. Description added on a Swagger resource.

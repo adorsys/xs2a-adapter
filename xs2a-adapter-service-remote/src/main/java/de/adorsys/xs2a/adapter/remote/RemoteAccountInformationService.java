@@ -116,6 +116,21 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
+    public Response<Authorisations> getConsentAuthorisation(String consentId,
+                                                            RequestHeaders requestHeaders,
+                                                            RequestParams requestParams) {
+        ResponseEntity<Authorisations> responseEntity =
+            client.getConsentAuthorisation(consentId,
+                requestParams.toMap(),
+                requestHeaders.toMap());
+        return new Response<>(
+            responseEntity.getStatusCodeValue(),
+            responseEntity.getBody(),
+            responseHeadersMapper.getHeaders(responseEntity.getHeaders())
+        );
+    }
+
+    @Override
     public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams) {

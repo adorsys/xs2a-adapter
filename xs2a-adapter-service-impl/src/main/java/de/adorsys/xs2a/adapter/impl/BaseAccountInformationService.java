@@ -192,6 +192,21 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
+    public Response<Authorisations> getConsentAuthorisation(String consentId,
+                                                            RequestHeaders requestHeaders,
+                                                            RequestParams requestParams) {
+        requireValid(validateGetConsentAuthorisation(consentId, requestHeaders, requestParams));
+
+        String uri = StringUri.fromElements(getConsentBaseUri(), consentId, AUTHORISATIONS);
+        uri = buildUri(uri, requestParams);
+        Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
+
+        return httpClient.get(uri)
+            .headers(headersMap)
+            .send(responseHandlers.jsonResponseHandler(Authorisations.class), interceptors);
+    }
+
+    @Override
     public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                        RequestHeaders requestHeaders,
                                                                        RequestParams requestParams) {

@@ -3,8 +3,7 @@ package de.adorsys.xs2a.adapter.fiducia;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
@@ -13,23 +12,21 @@ import de.adorsys.xs2a.adapter.fiducia.model.*;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 import org.mapstruct.factory.Mappers;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
-
-import static org.apache.http.protocol.HTTP.DATE_HEADER;
 
 public class FiduciaPaymentInitiationService extends BasePaymentInitiationService {
 
     private final FiduciaMapper mapper = Mappers.getMapper(FiduciaMapper.class);
 
     public FiduciaPaymentInitiationService(Aspsp aspsp,
-                                           HttpClient httpClient,
+                                           HttpClientFactory httpClientFactory,
                                            List<Interceptor> interceptors,
-                                           LinksRewriter linksRewriter,
-                                           HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
+                                           LinksRewriter linksRewriter) {
+        super(aspsp,
+            httpClientFactory.getHttpClient(aspsp.getAdapterId()),
+            interceptors,
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
@@ -152,25 +149,5 @@ public class FiduciaPaymentInitiationService extends BasePaymentInitiationServic
                                                     requestParams,
                                                     FiduciaPeriodicPaymentInitiationMultipartBody.class,
                                                     mapper::toPeriodicPaymentInitiationMultipartBody);
-    }
-
-    @Override
-    protected Map<String, String> populatePostHeaders(Map<String, String> headers) {
-        return withDateHeader(headers);
-    }
-
-    private Map<String, String> withDateHeader(Map<String, String> headers) {
-        headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        return headers;
-    }
-
-    @Override
-    protected Map<String, String> populateGetHeaders(Map<String, String> headers) {
-        return withDateHeader(headers);
-    }
-
-    @Override
-    protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
-        return withDateHeader(headers);
     }
 }

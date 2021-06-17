@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 adorsys GmbH & Co KG
+ * Copyright 2018-2021 adorsys GmbH & Co KG
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,27 +27,10 @@ public class DkbServiceProvider extends AbstractAdapterServiceProvider implement
     @Override
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
-                                                                  Pkcs12KeyStore keyStore,
-                                                                  LinksRewriter linksRewriter) {
-        return getAccountInformationService(aspsp, httpClientFactory, linksRewriter);
-    }
-
-    @Override
-    public AccountInformationService getAccountInformationService(Aspsp aspsp,
-                                                                  HttpClientFactory httpClientFactory,
                                                                   LinksRewriter linksRewriter) {
         return new CrealogixAccountInformationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
-    }
-
-    @Override
-    public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
-                                                                HttpClientFactory httpClientFactory,
-                                                                Pkcs12KeyStore keyStore,
-                                                                LinksRewriter linksRewriter) {
-        return getPaymentInitiationService(aspsp, httpClientFactory, linksRewriter);
+            httpClientFactory,
+            linksRewriter);
     }
 
     @Override
@@ -55,9 +38,8 @@ public class DkbServiceProvider extends AbstractAdapterServiceProvider implement
                                                                 HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
         return new CrealogixPaymentInitiationService(aspsp,
-            httpClientFactory.getHttpClient(getAdapterId()),
-            linksRewriter,
-            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+            httpClientFactory,
+            linksRewriter);
     }
 
     @Override

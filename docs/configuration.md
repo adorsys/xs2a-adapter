@@ -4,19 +4,16 @@ file. It is used as a default setup if no other configuration is provided. A use
 will need to add some additional data: 
 
 * to communicate with Bank-Verlag `verlag.apikey.name` and `verlag.apikey.value` must be specified;
-* to work with DKB `dkb.token.consumer_key` and `dkb.token.consumer_secret` must be provided, please check out 
-this [file](docs/adapters/dkb-adapter.md) for more details;
+* to work with DKB `dkb.psd2_token.url` must be provided, please check out this [file](../adapters/crealogix-adapter/README.md) for more details;
 * `santander.token.consumer_key`, `santander.token.consumer_key` to be filled out for Santander, please check out 
-this [file](docs/adapters/santander-adapter.md) for more details;
+this [file](adapters/santander-adapter.md) for more details;
 * ING needs `ing.qwac.alias` and `ing.qseal.alias` with appropriate QWAC and QSEAL from your keystore;
 
 Additionally, a user may provide:
 
-* `sparda.oauth_approach.default_code_verifier` and `sparda.client_id` for Sparda;
-* `sparkasse.oauth_approach.default_code_verifier` for Sparkasse;
+* `sparda.client_id` for Sparda;
 
-We already specified a data for connecting with Adorsys Dynamic Sandbox.  
-Wiremock mode is turned off by default.
+We already specified a data for connecting with Adorsys Dynamic Sandbox. 
 
 For configuring adapter with your custom settings, just copy [adapter configuration
 file](xs2a-adapter-service-api/src/main/resources/adapter.config.properties) and fill out the 

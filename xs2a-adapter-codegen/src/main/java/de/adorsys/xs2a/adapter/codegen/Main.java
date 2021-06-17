@@ -22,37 +22,41 @@ import java.util.Map;
 import java.util.Set;
 
 public class Main {
+    private static final String CONSENT_API = "ConsentApi";
+    private static final String ACCOUNT_API = "AccountApi";
+    private static final String PAYMENT_API = "PaymentApi";
 
     private static final String OPENAPI_SPEC_DIR = "xs2a-adapter-rest-impl/src/main/resources/static";
     private static final String GENERATED_REST_API_DIR = "xs2a-adapter-generated-rest-api/src/main/java";
     private static final String GENERATED_API_DIR = "xs2a-adapter-generated-api/src/main/java";
     private static final Map<String, String> operationToInterface = Map.ofEntries(
-        Map.entry("createConsent", "ConsentApi"),
-        Map.entry("getConsentInformation", "ConsentApi"),
-        Map.entry("getConsentStatus", "ConsentApi"),
-        Map.entry("startConsentAuthorisation", "ConsentApi"),
-        Map.entry("getConsentScaStatus", "ConsentApi"),
-        Map.entry("updateConsentsPsuData", "ConsentApi"),
-        Map.entry("deleteConsent", "ConsentApi"),
+        Map.entry("createConsent", CONSENT_API),
+        Map.entry("getConsentInformation", CONSENT_API),
+        Map.entry("getConsentStatus", CONSENT_API),
+        Map.entry("startConsentAuthorisation", CONSENT_API),
+        Map.entry("getConsentAuthorisation", CONSENT_API),
+        Map.entry("getConsentScaStatus", CONSENT_API),
+        Map.entry("updateConsentsPsuData", CONSENT_API),
+        Map.entry("deleteConsent", CONSENT_API),
 
-        Map.entry("getAccountList", "AccountApi"),
-        Map.entry("getTransactionList", "AccountApi"),
-        Map.entry("getTransactionDetails", "AccountApi"),
-        Map.entry("getBalances", "AccountApi"),
+        Map.entry("getAccountList", ACCOUNT_API),
+        Map.entry("getTransactionList", ACCOUNT_API),
+        Map.entry("getTransactionDetails", ACCOUNT_API),
+        Map.entry("getBalances", ACCOUNT_API),
         // card accounts
-        Map.entry("getCardAccount", "AccountApi"),
-        Map.entry("ReadCardAccount", "AccountApi"),
-        Map.entry("getCardAccountTransactionList", "AccountApi"),
-        Map.entry("getCardAccountBalances", "AccountApi"),
+        Map.entry("getCardAccount", ACCOUNT_API),
+        Map.entry("ReadCardAccount", ACCOUNT_API),
+        Map.entry("getCardAccountTransactionList", ACCOUNT_API),
+        Map.entry("getCardAccountBalances", ACCOUNT_API),
 
 
-        Map.entry("initiatePayment", "PaymentApi"),
-        Map.entry("getPaymentInformation", "PaymentApi"),
-        Map.entry("getPaymentInitiationScaStatus", "PaymentApi"),
-        Map.entry("getPaymentInitiationStatus", "PaymentApi"),
-        Map.entry("getPaymentInitiationAuthorisation", "PaymentApi"),
-        Map.entry("startPaymentAuthorisation", "PaymentApi"),
-        Map.entry("updatePaymentPsuData", "PaymentApi"));
+        Map.entry("initiatePayment", PAYMENT_API),
+        Map.entry("getPaymentInformation", PAYMENT_API),
+        Map.entry("getPaymentInitiationScaStatus", PAYMENT_API),
+        Map.entry("getPaymentInitiationStatus", PAYMENT_API),
+        Map.entry("getPaymentInitiationAuthorisation", PAYMENT_API),
+        Map.entry("startPaymentAuthorisation", PAYMENT_API),
+        Map.entry("updatePaymentPsuData", PAYMENT_API));
 
 
     public static void main(String[] args) throws IOException {
@@ -77,7 +81,7 @@ public class Main {
     }
 
     private static void saveFile(JavaFile file) {
-        String baseDir = file.typeSpec.kind == TypeSpec.Kind.INTERFACE? GENERATED_REST_API_DIR : GENERATED_API_DIR;
+        String baseDir = file.typeSpec.kind == TypeSpec.Kind.INTERFACE ? GENERATED_REST_API_DIR : GENERATED_API_DIR;
         Path path = Paths.get(baseDir, file.packageName.replace('.', '/'), file.typeSpec.name + ".java");
         Path dir = path.getParent();
         try {

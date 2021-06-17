@@ -1,0 +1,8 @@
+= Release notes for version 0.1.10 (release date: 29.04.2021)
+
+== Notices:
+- for `sparkasse-adapter`, added custom "PUSH_DEC" Authorisation Type, and it's mapped on BG "PUSH_OTP" Type for normalization.
+
+== Fixes:
+- fixed https://github.com/adorsys/xs2a-adapter/issues/577[issue #577] with Bouncy Castle failing if PEM file ends with
+more than one trailing new line. Increased version of Bouncy Castle to 1.64.

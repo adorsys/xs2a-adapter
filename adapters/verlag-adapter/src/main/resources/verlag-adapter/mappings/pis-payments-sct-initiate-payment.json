@@ -1,0 +1,51 @@
+{
+  "id" : "6259c9df-0397-45bb-b57d-9abe7fd0b94b",
+  "name" : "v1_payments_sepa-credit-transfers",
+  "request" : {
+    "url" : "/v1/payments/sepa-credit-transfers",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "PSD2TEST2"
+      },
+      "TPP-Redirect-URI" : {
+        "matches" : ".+"
+      },
+      "PSU-IP-Address" : {
+        "matches" : ".+"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"endToEndIdentification\":\"SandboxTPPTest1\",\"debtorAccount\":{\"iban\":\"DE51250400903312345678\",\"currency\":\"EUR\"},\"instructedAmount\":{\"currency\":\"EUR\",\"amount\":\"${json-unit.regex}-?[0-9]{1,14}(\\\\.[0-9]{1,3})?\"},\"creditorAccount\":{\"iban\":\"DE51250400903312345678\",\"currency\":\"EUR\"},\"creditorName\":\"${json-unit.any-string}\",\"remittanceInformationUnstructured\":\"just\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"transactionStatus\":\"RCVD\",\"paymentId\":\"fwD0xfgmDk9sGQViY-hS-fzlme_eDCUx3yjmKFt1Qky8lLRAzZIEXwk1k_5JbtVSTXPei8-LpTJAvgJsTrnLs_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q\",\"_links\":{\"self\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/payments/sepa-credit-transfers/fwD0xfgmDk9sGQViY-hS-fzlme_eDCUx3yjmKFt1Qky8lLRAzZIEXwk1k_5JbtVSTXPei8-LpTJAvgJsTrnLs_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q\"},\"status\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/payments/sepa-credit-transfers/fwD0xfgmDk9sGQViY-hS-fzlme_eDCUx3yjmKFt1Qky8lLRAzZIEXwk1k_5JbtVSTXPei8-LpTJAvgJsTrnLs_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/status\"},\"startAuthorisationWithPsuAuthentication\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/payments/sepa-credit-transfers/fwD0xfgmDk9sGQViY-hS-fzlme_eDCUx3yjmKFt1Qky8lLRAzZIEXwk1k_5JbtVSTXPei8-LpTJAvgJsTrnLs_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations\"}}}",
+    "headers" : {
+      "Date" : "Fri, 05 Mar 2021 15:45:13 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "ASPSP-Notification-Support" : "false",
+      "Location" : "https://www.sandbox-bvxs2a.de/xbank/v1/payments/sepa-credit-transfers/fwD0xfgmDk9sGQViY-hS-fzlme_eDCUx3yjmKFt1Qky8lLRAzZIEXwk1k_5JbtVSTXPei8-LpTJAvgJsTrnLs_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q",
+      "X-Request-Id" : "7fff50b0-0f8b-4c1a-8cc4-612b2ed5031d",
+      "X-Kong-Upstream-Latency" : "51",
+      "X-Kong-Proxy-Latency" : "1",
+      "Strict-Transport-Security" : [ "max-age=15724800; includeSubDomains", "max-age=63072000; includeSubDomains; preload" ],
+      "X-Frame-Options" : "DENY",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Set-Cookie" : "TS015dee45=0106e64580328026ee0df557d48253a9b2793393d0af0b6424c4051384eba80960dbb9a3503d2a9b18bd8e18d0a00d80cc235eb362; Path=/"
+    }
+  },
+  "uuid" : "6259c9df-0397-45bb-b57d-9abe7fd0b94b",
+  "persistent" : true,
+  "insertionIndex" : 10
+}

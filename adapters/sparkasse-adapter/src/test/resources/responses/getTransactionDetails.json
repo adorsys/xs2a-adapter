@@ -1,0 +1,7 @@
+{
+  "transactionsDetails": {
+    "remittanceInformationStructured": {
+       "reference": "remittanceInformationStructuredStringValue"
+       }
+  }
+}

@@ -19,8 +19,7 @@ package de.adorsys.xs2a.adapter.fiducia;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
@@ -33,11 +32,10 @@ import de.adorsys.xs2a.adapter.fiducia.model.FiduciaTransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import org.mapstruct.factory.Mappers;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-
-import static org.apache.http.protocol.HTTP.DATE_HEADER;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class FiduciaAccountInformationService extends BaseAccountInformationService {
     private static final Set<String> SUPPORTED_BOOKING_STATUSES = new HashSet<>(Collections.singletonList("booked"));
@@ -49,36 +47,14 @@ public class FiduciaAccountInformationService extends BaseAccountInformationServ
     private static final FiduciaMapper mapper = Mappers.getMapper(FiduciaMapper.class);
 
     public FiduciaAccountInformationService(Aspsp aspsp,
-                                            HttpClient httpClient,
+                                            HttpClientFactory httpClientFactory,
                                             List<Interceptor> interceptors,
-                                            LinksRewriter linksRewriter,
-                                            HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
-    }
-
-    @Override
-    protected Map<String, String> populatePostHeaders(Map<String, String> headers) {
-        return withDateHeader(headers);
-    }
-
-    private Map<String, String> withDateHeader(Map<String, String> headers) {
-        headers.put(DATE_HEADER, DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()));
-        return headers;
-    }
-
-    @Override
-    protected Map<String, String> populateGetHeaders(Map<String, String> headers) {
-        return withDateHeader(headers);
-    }
-
-    @Override
-    protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
-        return withDateHeader(headers);
-    }
-
-    @Override
-    protected Map<String, String> populateDeleteHeaders(Map<String, String> headers) {
-        return withDateHeader(headers);
+                                            LinksRewriter linksRewriter) {
+        super(aspsp,
+            httpClientFactory.getHttpClient(aspsp.getAdapterId()),
+            interceptors,
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

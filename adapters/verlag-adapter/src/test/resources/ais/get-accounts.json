@@ -1,0 +1,36 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "cc29a35e-2f59-4b2f-bc72-442e8f34a4dd",
+      "Consent-ID": "cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q"
+    },
+    "params": {
+      "withBalance": "false"
+    }
+  },
+  "response": {
+    "body": {
+      "accounts": [
+        {
+          "resourceId": "3a4c851658957bc30d767425679769fc380120315d6da67faa52f016723ec9a2",
+          "iban": "DE51250400903312345678",
+          "currency": "EUR",
+          "name": "Kontokorrentkonto",
+          "cashAccountType": "CACC",
+          "status": "enabled",
+          "bic": "XBANDECG",
+          "usage": "PRIV",
+          "ownerName": "TESTKONTO",
+          "_links": {
+            "balances": {
+              "href": "https://www.sandbox-bvxs2a.de/xbank/v1/accounts/3a4c851658957bc30d767425679769fc380120315d6da67faa52f016723ec9a2/balances"
+            },
+            "transactions": {
+              "href": "https://www.sandbox-bvxs2a.de/xbank/v1/accounts/3a4c851658957bc30d767425679769fc380120315d6da67faa52f016723ec9a2/transactions"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id" : "738c33b3-0e61-4068-933f-5a1efd88bbfc",
+  "name" : "v1_payments_pain001-sepa-credit-transfers_tisb8fid9_bi1gdun7ewhalpkodfhwgvoaiiksmovvyohiu0pokcekbqldu1tjjb2jzg8bl_p92ot1rziwtlepsdmwf3876hawek_n7hjlg__psglvqpt9q_authorisations",
+  "request" : {
+    "urlPattern" : "/v1/payments/pain.001-sepa-credit-transfers/.+/authorisations",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "PSD2TEST2"
+      },
+      "TPP-Redirect-Preferred" : {
+        "matches" : ".+"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"psuData\":{\"password\":\"123456\"}}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"scaMethods\":[{\"authenticationType\":\"SMS_OTP\",\"authenticationMethodId\":\"901\",\"name\":\"SMS-TAN\",\"explanation\":\"SMS-TAN\"},{\"authenticationType\":\"CHIP_OTP\",\"authenticationMethodId\":\"904\",\"name\":\"chipTAN comfort\",\"explanation\":\"chipTAN comfort\"},{\"authenticationType\":\"PUSH_OTP\",\"authenticationMethodId\":\"906\",\"name\":\"BV AppTAN\",\"explanation\":\"BV AppTAN\"},{\"authenticationType\":\"PHOTO_OTP\",\"authenticationMethodId\":\"907\",\"name\":\"PhotoTAN\",\"explanation\":\"PhotoTAN\"}],\"_links\":{\"selectAuthenticationMethod\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/payments/pain.001-sepa-credit-transfers/tIsb8fiD9_bi1gDuN7EwhAlPkOdfHwgvoAIiksmOVVYOhIu0pokCEKbQldu1TJJb2JZg8bL_p92Ot1RZiwTlEPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations/b890406b-f872-4889-9242-6891f5d6967b\"},\"scaStatus\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/payments/pain.001-sepa-credit-transfers/tIsb8fiD9_bi1gDuN7EwhAlPkOdfHwgvoAIiksmOVVYOhIu0pokCEKbQldu1TJJb2JZg8bL_p92Ot1RZiwTlEPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations/b890406b-f872-4889-9242-6891f5d6967b\"}},\"scaStatus\":\"psuAuthenticated\",\"authorisationId\":\"b890406b-f872-4889-9242-6891f5d6967b\"}",
+    "headers" : {
+      "Date" : "Fri, 05 Mar 2021 15:46:03 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Aspsp-Sca-Approach" : "EMBEDDED",
+      "X-Request-Id" : "55b3ac16-db68-483c-8957-2936713af3d8",
+      "X-Kong-Upstream-Latency" : "242",
+      "X-Kong-Proxy-Latency" : "0",
+      "Strict-Transport-Security" : [ "max-age=15724800; includeSubDomains", "max-age=63072000; includeSubDomains; preload" ],
+      "X-Frame-Options" : "DENY",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block"
+    }
+  },
+  "uuid" : "738c33b3-0e61-4068-933f-5a1efd88bbfc",
+  "persistent" : true,
+  "insertionIndex" : 16
+}

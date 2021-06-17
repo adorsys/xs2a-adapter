@@ -133,6 +133,22 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
+    public ResponseEntity<Authorisations> getConsentAuthorisation(String consentId,
+                                                                  Map<String, String> parameters,
+                                                                  Map<String, String> headers) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
+        RequestParams requestParams = RequestParams.fromMap(parameters);
+
+        Response<Authorisations> response =
+            accountInformationService.getConsentAuthorisation(consentId, requestHeaders, requestParams);
+
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .headers(headersMapper.toHttpHeaders(response.getHeaders()))
+            .body(response.getBody());
+    }
+
+    @Override
     public ResponseEntity<StartScaprocessResponse> startConsentAuthorisation(String consentId,
                                                                              Map<String, String> parameters,
                                                                              Map<String, String> headers,

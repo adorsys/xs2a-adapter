@@ -1,0 +1,53 @@
+{
+  "id" : "2016d59f-cb85-4949-a372-dfa81685cd05",
+  "name" : "v1_payments_pain001-sepa-credit-transfers",
+  "request" : {
+    "url" : "/v1/payments/pain.001-sepa-credit-transfers",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "PSD2TEST2"
+      },
+      "TPP-Redirect-URI" : {
+        "matches" : ".+"
+      },
+      "PSU-IP-Address" : {
+        "matches" : ".+"
+      },
+      "TPP-Redirect-Preferred" : {
+        "equalTo" : "false"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/xml; charset=ISO-8859-1"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToXml" : "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.03\">\n    <CstmrCdtTrfInitn>\n        <GrpHdr>\n            <MsgId>${xmlunit.ignore}</MsgId>\n            <CreDtTm>${xmlunit.ignore}</CreDtTm>\n            <NbOfTxs>${xmlunit.ignore}</NbOfTxs>\n            <CtrlSum>${xmlunit.ignore}</CtrlSum>\n            <InitgPty>\n                <Nm>${xmlunit.ignore}</Nm>\n            </InitgPty>\n        </GrpHdr>\n        <PmtInf>\n            <PmtInfId>${xmlunit.ignore}</PmtInfId>\n            <PmtMtd>${xmlunit.ignore}</PmtMtd>\n            <NbOfTxs>${xmlunit.ignore}</NbOfTxs>\n            <CtrlSum>${xmlunit.ignore}</CtrlSum>\n            <ReqdExctnDt>${xmlunit.ignore}</ReqdExctnDt>\n            <Dbtr>\n                <Nm>${xmlunit.ignore}</Nm>\n            </Dbtr>\n            <DbtrAcct>\n                <Id>\n                    <IBAN>DE51250400903312345678</IBAN>\n                </Id>\n            </DbtrAcct>\n            <DbtrAgt>\n                <FinInstnId>\n                    <BIC>${xmlunit.ignore}</BIC>\n                </FinInstnId>\n            </DbtrAgt>\n            <ChrgBr>${xmlunit.ignore}</ChrgBr>\n            <CdtTrfTxInf>\n                <PmtId>\n                    <EndToEndId>${xmlunit.ignore}</EndToEndId>\n                </PmtId>\n                <Amt>\n                    <InstdAmt Ccy=\"EUR\">${xmlunit.ignore}</InstdAmt>\n                </Amt>\n                <Cdtr>\n                    <Nm>${xmlunit.ignore}</Nm>\n                </Cdtr>\n                <CdtrAcct>\n                    <Id>\n                        <IBAN>${xmlunit.ignore}</IBAN>\n                    </Id>\n                </CdtrAcct>\n                <RmtInf>\n                    <Ustrd>${xmlunit.ignore}</Ustrd>\n                </RmtInf>\n            </CdtTrfTxInf>\n        </PmtInf>\n    </CstmrCdtTrfInitn>\n</Document>",
+      "enablePlaceholders" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"transactionStatus\":\"RCVD\",\"paymentId\":\"tIsb8fiD9_bi1gDuN7EwhAlPkOdfHwgvoAIiksmOVVYOhIu0pokCEKbQldu1TJJb2JZg8bL_p92Ot1RZiwTlEPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q\",\"_links\":{\"self\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/payments/pain.001-sepa-credit-transfers/tIsb8fiD9_bi1gDuN7EwhAlPkOdfHwgvoAIiksmOVVYOhIu0pokCEKbQldu1TJJb2JZg8bL_p92Ot1RZiwTlEPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q\"},\"status\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/payments/pain.001-sepa-credit-transfers/tIsb8fiD9_bi1gDuN7EwhAlPkOdfHwgvoAIiksmOVVYOhIu0pokCEKbQldu1TJJb2JZg8bL_p92Ot1RZiwTlEPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/status\"},\"startAuthorisationWithPsuAuthentication\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/payments/pain.001-sepa-credit-transfers/tIsb8fiD9_bi1gDuN7EwhAlPkOdfHwgvoAIiksmOVVYOhIu0pokCEKbQldu1TJJb2JZg8bL_p92Ot1RZiwTlEPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations\"}}}",
+    "headers" : {
+      "Date" : "Fri, 05 Mar 2021 15:45:56 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "ASPSP-Notification-Support" : "false",
+      "Location" : "https://www.sandbox-bvxs2a.de/xbank/v1/payments/pain.001-sepa-credit-transfers/tIsb8fiD9_bi1gDuN7EwhAlPkOdfHwgvoAIiksmOVVYOhIu0pokCEKbQldu1TJJb2JZg8bL_p92Ot1RZiwTlEPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q",
+      "X-Request-Id" : "a24527c5-5bbe-4238-8189-9b7aa6c84528",
+      "Content-Disposition" : "inline;filename=f.txt",
+      "X-Kong-Upstream-Latency" : "80",
+      "X-Kong-Proxy-Latency" : "1",
+      "Strict-Transport-Security" : [ "max-age=15724800; includeSubDomains", "max-age=63072000; includeSubDomains; preload" ],
+      "X-Frame-Options" : "DENY",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block"
+    }
+  },
+  "uuid" : "2016d59f-cb85-4949-a372-dfa81685cd05",
+  "persistent" : true,
+  "insertionIndex" : 15
+}

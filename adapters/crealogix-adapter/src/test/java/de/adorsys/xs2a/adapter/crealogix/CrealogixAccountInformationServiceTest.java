@@ -27,7 +27,10 @@ class CrealogixAccountInformationServiceTest extends CrealogixTestHelper {
 
     @BeforeEach
     void setUp() {
-        service = new CrealogixAccountInformationService(aspsp, httpClient, linksRewriter, null);
+        when(httpClientFactory.getHttpClient(any())).thenReturn(httpClient);
+        when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+
+        service = new CrealogixAccountInformationService(aspsp, httpClientFactory, linksRewriter);
     }
 
     @Test

@@ -1,0 +1,44 @@
+{
+  "id" : "4b5bfa7c-268e-45d5-954e-e20adb35c273",
+  "name" : "v1_consents_cwpvqsw1x4peda49lywh3bnqxgdpkadbtuf4flwrbcbgfrjpxjzpbfl-zngkntymetllil2apmjr5erbhdvaj_sdmwf3876hawek_n7hjlg__psglvqpt9q_authorisations_356e6d7d-9242-4264-8cb5-892e0758d69c",
+  "request" : {
+    "urlPattern" : "/v1/consents/.+/authorisations/.+",
+    "method" : "PUT",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "PSD2TEST2"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"authenticationMethodId\":\"901\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"chosenScaMethod\":{\"authenticationType\":\"SMS_OTP\",\"authenticationMethodId\":\"901\",\"name\":\"SMS-TAN\",\"explanation\":\"SMS-TAN\"},\"challengeData\":{\"additionalInformation\":\"Bitte verwenden Sie zur Freigabe des Auftrages die Ihnen per SMS zugesandte TAN.\"},\"_links\":{\"scaStatus\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/consents/cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations/356e6d7d-9242-4264-8cb5-892e0758d69c\"},\"authoriseTransaction\":{\"href\":\"https://www.sandbox-bvxs2a.de/xbank/v1/consents/cWpVQSW1X4peDA49LYWH3BnqXgDPkAdbTUf4flwrBcBGfRJPXJzpBFL-ZNGkNtYmeTllIL2aPmJr5erBhdvaj_SdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations/356e6d7d-9242-4264-8cb5-892e0758d69c\"}},\"scaStatus\":\"scaMethodSelected\"}",
+    "headers" : {
+      "Date" : "Fri, 05 Mar 2021 11:57:08 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Vary" : "Accept-Encoding",
+      "Aspsp-Sca-Approach" : "EMBEDDED",
+      "X-Request-Id" : "78504721-3943-4633-a11b-c24e016f0f9e",
+      "X-Kong-Upstream-Latency" : "1492",
+      "X-Kong-Proxy-Latency" : "0",
+      "Strict-Transport-Security" : [ "max-age=15724800; includeSubDomains", "max-age=63072000; includeSubDomains; preload" ],
+      "X-Frame-Options" : "DENY",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block"
+    }
+  },
+  "uuid" : "4b5bfa7c-268e-45d5-954e-e20adb35c273",
+  "persistent" : true,
+  "insertionIndex" : 38
+}

@@ -210,6 +210,19 @@ class ConsentControllerTest {
     }
 
     @Test
+    void getConsentAuthorisation() throws Exception {
+        when(accountInformationService.getConsentAuthorisation(anyString(), any(), any()))
+            .thenReturn(buildResponse(TestModelBuilder.buildConsentAuthorisationResponse()));
+
+        mockMvc.perform(get(ConsentController.CONSENTS + "/foo/authorisations"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.authorisationIds[0]", containsString(TestModelBuilder.AUTHORISATION_ID)));
+
+        verify(accountInformationService, times(1))
+            .getConsentAuthorisation(anyString(), any(), any());
+    }
+
+    @Test
     void startConsentAuthorisation_updatePsuAuthentication() throws Exception {
         UpdatePsuAuthentication requestBody = TestModelBuilder.buildUpdatePsuAuthentication();
 

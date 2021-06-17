@@ -1,0 +1,41 @@
+@startuml
+participant tpp as "TPP"
+participant adapter as "XS2A\nAdapter"
+participant bank as "ASPSP"
+
+tpp->adapter: account information consent request
+|||
+adapter->bank: account information consent request
+|||
+adapter<-bank: 201 account-information response (startAuthorisation link)
+|||
+adapter<-adapter: check existing stub
+|||
+tpp<-adapter: 201 account-information response (startAuthorisation link)
+|||
+group psu authorisation
+tpp->adapter: start authorisation request (psu credentials)
+|||
+adapter->bank: start authorisation request (psu credentials)
+|||
+adapter<-bank: 201 start-authorisation response (available sca methods)
+|||
+adapter<-adapter: check existing stub
+|||
+tpp<-adapter: 201 start-authorisation response (available sca methods)
+|||
+tpp->adapter: authorisation update request (sca method)
+|||
+adapter->bank: authorisation update request (sca method)
+|||
+adapter<-bank: 200 authorisation-update response
+|||
+adapter<-adapter: check existing stub
+|||
+tpp<-adapter: 200 authorisation-update response
+...
+end
+...
+=== Other AIS requests/responses... ==
+|||
+@enduml

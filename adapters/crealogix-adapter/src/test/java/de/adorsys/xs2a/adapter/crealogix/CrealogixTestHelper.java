@@ -4,6 +4,8 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
@@ -15,18 +17,13 @@ import static org.mockito.Mockito.mock;
 public class CrealogixTestHelper {
 
     protected static final String AUTHORIZATION = "Authorization";
-    protected static final String AUTHORIZATION_VALUE = "Bearer " + getEncodedTokens();
-    protected static final String TPP_TOKEN = "tppToken";
-    protected static final String PSD2_AUTHORIZATION_TOKEN = "psd2AuthorizationToken";
+    protected static final String TOKEN = "token";
+    protected static final String AUTHORIZATION_VALUE = "Bearer " + TOKEN;
     protected final HttpClient httpClient = mock(HttpClient.class);
+    protected final HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
+    protected final HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
     protected final LinksRewriter linksRewriter = mock(LinksRewriter.class);
     protected final Aspsp aspsp = getAspsp();
-
-    private static String getEncodedTokens() {
-        CrealogixAuthorisationToken token
-            = new CrealogixAuthorisationToken(TPP_TOKEN, PSD2_AUTHORIZATION_TOKEN);
-        return token.encode();
-    }
 
     protected  <T> Response<T> getResponse(T body) {
         return new Response<>(-1, body, ResponseHeaders.emptyResponseHeaders());

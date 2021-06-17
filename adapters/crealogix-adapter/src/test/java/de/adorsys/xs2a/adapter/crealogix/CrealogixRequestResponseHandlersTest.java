@@ -41,7 +41,7 @@ class CrealogixRequestResponseHandlersTest extends CrealogixTestHelper {
         assertThatThrownBy(() ->
             requestResponseHandlers.crealogixRequestHandler(emptyHeaders))
                 .isInstanceOf(PreAuthorisationException.class)
-                .hasMessage(CrealogixRequestResponseHandlers.REQUEST_ERROR_MESSAGE)
+                .hasMessageContaining(CrealogixRequestResponseHandlers.REQUEST_ERROR_MESSAGE)
                 .matches(er -> ((PreAuthorisationException) er)
                     .getErrorResponse()
                     .getLinks()
@@ -61,22 +61,11 @@ class CrealogixRequestResponseHandlersTest extends CrealogixTestHelper {
     }
 
     @Test
-    void crealogixRequestHandler_throwsAccessTokenException_failedToDecode() {
-        RequestHeaders flawedHeaders = getHeadersWithAuthorization("Bearer foo");
-
-        assertThatThrownBy(() ->
-            requestResponseHandlers.crealogixRequestHandler(flawedHeaders))
-                .isInstanceOf(AccessTokenException.class)
-                .hasMessage(CrealogixRequestResponseHandlers.DECODE_TOKENS_FAILURE_MESSAGE);
-    }
-
-    @Test
     void crealogixRequestHandler() {
         RequestHeaders actualHeaders = requestResponseHandlers.crealogixRequestHandler(getHeadersWithAuthorization());
 
         assertThat(actualHeaders.toMap())
-            .hasSize(2)
-            .contains(entry(RequestHeaders.AUTHORIZATION, "Bearer " + TPP_TOKEN),
-                entry(RequestHeaders.PSD2_AUTHORIZATION, "Bearer " + PSD2_AUTHORIZATION_TOKEN));
+            .hasSize(1)
+            .contains(entry(RequestHeaders.PSD2_AUTHORIZATION, "Bearer " + TOKEN));
     }
 }

@@ -19,9 +19,7 @@ package de.adorsys.xs2a.adapter.verlag;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
-import de.adorsys.xs2a.adapter.api.http.Interceptor;
+import de.adorsys.xs2a.adapter.api.http.*;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
@@ -35,22 +33,24 @@ import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Stream;
+
+import static de.adorsys.xs2a.adapter.api.http.ContentType.APPLICATION_JSON;
 
 public class VerlagAccountInformationService extends BaseAccountInformationService {
-    static final String ACCEPT_ALL = "*/*";
-    static final String ACCEPT_TEXT_PLAIN = "text/plain";
 
     private final VerlagMapper verlagMapper = Mappers.getMapper(VerlagMapper.class);
     private AbstractMap.SimpleImmutableEntry<String, String> apiKey;
 
     public VerlagAccountInformationService(Aspsp aspsp,
                                            AbstractMap.SimpleImmutableEntry<String, String> apiKey,
-                                           HttpClient httpClient,
+                                           HttpClientFactory httpClientFactory,
                                            List<Interceptor> interceptors,
-                                           LinksRewriter linksRewriter,
-                                           HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
+                                           LinksRewriter linksRewriter) {
+        super(aspsp,
+            httpClientFactory.getHttpClient(aspsp.getAdapterId(), null, VerlagServiceProvider.SUPPORTED_CIPHER_SUITES),
+            interceptors,
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
         this.apiKey = apiKey;
     }
 
@@ -59,26 +59,20 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
         return super.getTransactionListAsString(accountId, modifyAcceptHeader(requestHeaders), requestParams);
     }
 
-    // Needed to deal with the behaviour of ASPSP, that responds with 406
-    // on non existing, empty, equal to */* or list formatted Accept header
+    // Needed to deal with the behaviour of ASPSP, that responds with 406 on any value except 'application/json'
+    // for Accept header in production
+    // ASPSP Sandbox supports 'text/plain' only which is also concerned
     private RequestHeaders modifyAcceptHeader(RequestHeaders requestHeaders) {
-        Optional<String> acceptHeaderOptional = requestHeaders.get(RequestHeaders.ACCEPT);
-
-        if (!acceptHeaderOptional.isPresent()
-                || acceptHeaderOptional.get().isEmpty()
-                || acceptHeaderOptional.get().equals(ACCEPT_ALL)) {
-            requestHeaders = modifyAcceptHeader(requestHeaders, ACCEPT_TEXT_PLAIN);
-        } else if (acceptHeaderIsAListOfValues(acceptHeaderOptional.get())) {
-            String[] acceptHeaderValues = acceptHeaderOptional.get().split(",");
-
-            if (containsText(acceptHeaderValues)) {
-                requestHeaders = modifyAcceptHeader(requestHeaders, ACCEPT_TEXT_PLAIN);
-            } else {
-                requestHeaders = modifyAcceptHeader(requestHeaders, acceptHeaderValues[0]);
-            }
+        if (isTextPlain(requestHeaders)) {
+            return requestHeaders;
         }
 
-        return requestHeaders;
+        return setAcceptJson(requestHeaders);
+    }
+
+    private boolean isTextPlain(RequestHeaders requestHeaders) {
+        Optional<String> acceptHeaderOptional = requestHeaders.get(RequestHeaders.ACCEPT);
+        return acceptHeaderOptional.isPresent() && ContentType.TEXT_PLAIN.equalsIgnoreCase(acceptHeaderOptional.get());
     }
 
     @Override
@@ -107,18 +101,9 @@ public class VerlagAccountInformationService extends BaseAccountInformationServi
                                            verlagMapper::toOK200TransactionDetails);
     }
 
-    private boolean acceptHeaderIsAListOfValues(String acceptHeader) {
-        return acceptHeader.contains(",");
-    }
-
-    private boolean containsText(String[] acceptHeaderValues) {
-        return Stream.of(acceptHeaderValues)
-                   .anyMatch(accept -> accept.contains(ACCEPT_TEXT_PLAIN));
-    }
-
-    private RequestHeaders modifyAcceptHeader(RequestHeaders requestHeaders, String acceptHeader) {
+    private RequestHeaders setAcceptJson(RequestHeaders requestHeaders) {
         Map<String, String> headersMap = requestHeaders.toMap();
-        headersMap.put(RequestHeaders.ACCEPT, acceptHeader);
+        headersMap.put(RequestHeaders.ACCEPT, APPLICATION_JSON);
         return RequestHeaders.fromMap(headersMap);
     }
 

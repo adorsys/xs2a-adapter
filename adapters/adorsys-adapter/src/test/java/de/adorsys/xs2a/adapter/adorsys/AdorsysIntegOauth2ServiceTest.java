@@ -4,6 +4,8 @@ import de.adorsys.xs2a.adapter.api.Oauth2Service.Parameters;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.api.model.TokenResponse;
@@ -11,9 +13,9 @@ import de.adorsys.xs2a.adapter.api.oauth.Oauth2Api;
 import de.adorsys.xs2a.adapter.api.validation.RequestValidationException;
 import de.adorsys.xs2a.adapter.impl.http.StringUri;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -45,7 +47,6 @@ class AdorsysIntegOauth2ServiceTest {
     private static final Response<TokenResponse> OAUTH_TOKEN_RESPONSE
         = new Response<>(HTTP_CODE_OK, buildTokenResponse(), ResponseHeaders.emptyResponseHeaders());
 
-    @InjectMocks
     private AdorsysIntegOauth2Service oauth2Service;
 
     @Mock
@@ -54,9 +55,20 @@ class AdorsysIntegOauth2ServiceTest {
     private Oauth2Api oauth2Api;
     @Mock
     private HttpClient httpClient;
-
     @Mock
     private Request.Builder requestBuilder;
+    @Mock
+    private HttpClientFactory httpClientFactory;
+    @Mock
+    private HttpClientConfig httpClientConfig;
+
+    @BeforeEach
+    void setUp() {
+        when(httpClientFactory.getHttpClient(any())).thenReturn(httpClient);
+        when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+
+        oauth2Service = new AdorsysIntegOauth2Service(aspsp, httpClientFactory, oauth2Api);
+    }
 
     @Test
     void getAuthorizationRequestUri_Failure_ScaOauthUrlIsNotProvided() {

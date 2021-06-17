@@ -3,8 +3,7 @@ package de.adorsys.xs2a.adapter.crealogix;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.crealogix.model.CrealogixOK200TransactionDetails;
@@ -20,11 +19,13 @@ public class CrealogixAccountInformationService extends BaseAccountInformationSe
     private final CrealogixRequestResponseHandlers requestResponseHandlers;
 
     public CrealogixAccountInformationService(Aspsp aspsp,
-                                              HttpClient httpClient,
-                                              LinksRewriter linksRewriter,
-                                              HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, linksRewriter, logSanitizer);
-        this.requestResponseHandlers = new CrealogixRequestResponseHandlers(logSanitizer);
+                                              HttpClientFactory httpClientFactory,
+                                              LinksRewriter linksRewriter) {
+        super(aspsp,
+            httpClientFactory.getHttpClient(aspsp.getAdapterId()),
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+        this.requestResponseHandlers = new CrealogixRequestResponseHandlers(httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override

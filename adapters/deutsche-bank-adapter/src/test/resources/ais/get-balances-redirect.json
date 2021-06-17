@@ -1,0 +1,45 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "991cc90c-5795-4dad-b802-b7315f192227",
+      "Consent-ID": "24aef626-86e8-4b5a-b02c-02224ba45908"
+    }
+  },
+  "response": {
+    "body": {
+      "account" : {
+        "iban" : "DE17215730140403340300",
+        "currency" : "EUR"
+      },
+      "balances" : [ {
+        "balanceAmount" : {
+          "currency" : "EUR",
+          "amount" : "500.00"
+        },
+        "balanceType" : "closingBooked",
+        "referenceDate" : "2017-10-25"
+      }, {
+        "balanceAmount" : {
+          "currency" : "EUR",
+          "amount" : "900.00"
+        },
+        "balanceType" : "expected",
+        "lastChangeDateTime" : "2017-10-25T15:30:35.035Z"
+      }, {
+        "balanceAmount" : {
+          "currency" : "USD",
+          "amount" : "350.00"
+        },
+        "balanceType" : "closingBooked",
+        "referenceDate" : "2017-10-25"
+      }, {
+        "balanceAmount" : {
+          "currency" : "USD",
+          "amount" : "350.00"
+        },
+        "balanceType" : "expected",
+        "lastChangeDateTime" : "2017-10-24T14:30:21Z"
+      } ]
+    }
+  }
+}

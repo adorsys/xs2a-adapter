@@ -1,0 +1,49 @@
+{
+  "id" : "df2eaafb-925c-4243-bf67-645d72038a3c",
+  "name" : "v1_periodic-payments_sepa-credit-transfers_9f3ad160-f096-4738-baed-7b42f5a5aeb5_authorisations_89383666-16a8-4cf7-8803-290f9a56628c",
+  "request" : {
+    "urlPattern" : "/v1/periodic-payments/sepa-credit-transfers/.+/authorisations/.+",
+    "method" : "PUT",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "6154033437"
+      },
+      "Date" : {
+        "matches" : ".+"
+      },
+      "PSU-ID-Type" : {
+        "equalTo" : "DE_ONLB_DB"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"scaAuthenticationData\":\"123654\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"scaStatus\":\"finalised\",\"_links\":{\"scaStatus\":{\"href\":\"https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/periodic-payments/sepa-credit-transfers/9f3ad160-f096-4738-baed-7b42f5a5aeb5/authorisations/89383666-16a8-4cf7-8803-290f9a56628c\"}}}",
+    "headers" : {
+      "Date" : "Thu, 04 Mar 2021 15:15:18 GMT",
+      "Server" : "Apache",
+      "glue2gExit" : "2021-03-04T15:15:18.376",
+      "X-Request-ID" : "e45e8f06-5efa-41a1-8bb1-7a41c1a2fff4",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "bffEntry" : "2021-03-04T15:15:18.130",
+      "bffExit" : "2021-03-04T15:15:18.376",
+      "Content-Type" : "application/json;charset=utf-8",
+      "glue2gEntry" : "2021-03-04T15:15:18.130",
+      "Keep-Alive" : "timeout=5, max=100"
+    }
+  },
+  "uuid" : "df2eaafb-925c-4243-bf67-645d72038a3c",
+  "persistent" : true,
+  "insertionIndex" : 28
+}

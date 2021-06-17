@@ -22,6 +22,8 @@ import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
@@ -33,6 +35,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import pro.javatar.commons.reader.JsonReader;
 import pro.javatar.commons.reader.ResourceReader;
 
@@ -53,6 +56,8 @@ class AdorsysAccountInformationServiceWireMockTest {
     private ResourceReader reader = JsonReader.getInstance(objectMapper);
     private static AdorsysAccountInformationService service;
     private static WireMockServer wireMockServer;
+    private static final HttpClientFactory httpClientFactory = Mockito.mock(HttpClientFactory.class);
+    private static final HttpClientConfig httpClientConfig = Mockito.mock(HttpClientConfig.class);
 
     @BeforeAll
     static void beforeAll() {
@@ -67,7 +72,10 @@ class AdorsysAccountInformationServiceWireMockTest {
         aspsp.setName("adorsys-adapter");
         aspsp.setUrl("http://localhost:" + wireMockServer.port());
 
-        service = new AdorsysAccountInformationService(aspsp, httpClient, new ArrayList<>(), linksRewriter, null);
+        Mockito.when(httpClientFactory.getHttpClient(Mockito.any())).thenReturn(httpClient);
+        Mockito.when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
+
+        service = new AdorsysAccountInformationService(aspsp, httpClientFactory, new ArrayList<>(), linksRewriter);
 
     }
 

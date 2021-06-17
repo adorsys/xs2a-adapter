@@ -1,0 +1,57 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "662388a0-92f3-4d1d-bb95-b4c28fb19fbd",
+      "PSU-ID": "PSD2TEST2",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "PSU-IP-Address": "0.0.0.0",
+      "TPP-Redirect-Preferred" : "false",
+      "Content-Type": "application/json; charset=UTF-8"
+    },
+    "body": {
+      "psuData": {
+        "password": "123456"
+      }
+    }
+  },
+  "response": {
+    "body": {
+      "scaStatus": "psuAuthenticated",
+      "authorisationId": "b890406b-f872-4889-9242-6891f5d6967b",
+      "scaMethods": [
+        {
+          "authenticationType": "SMS_OTP",
+          "authenticationMethodId": "901",
+          "name": "SMS-TAN",
+          "explanation": "SMS-TAN"
+        },
+        {
+          "authenticationType": "CHIP_OTP",
+          "authenticationMethodId": "904",
+          "name": "chipTAN comfort",
+          "explanation": "chipTAN comfort"
+        },
+        {
+          "authenticationType": "PUSH_OTP",
+          "authenticationMethodId": "906",
+          "name": "BV AppTAN",
+          "explanation": "BV AppTAN"
+        },
+        {
+          "authenticationType": "PHOTO_OTP",
+          "authenticationMethodId": "907",
+          "name": "PhotoTAN",
+          "explanation": "PhotoTAN"
+        }
+      ],
+      "_links": {
+        "selectAuthenticationMethod": {
+          "href": "https://www.sandbox-bvxs2a.de/xbank/v1/payments/pain.001-sepa-credit-transfers/tIsb8fiD9_bi1gDuN7EwhAlPkOdfHwgvoAIiksmOVVYOhIu0pokCEKbQldu1TJJb2JZg8bL_p92Ot1RZiwTlEPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations/b890406b-f872-4889-9242-6891f5d6967b"
+        },
+        "scaStatus": {
+          "href": "https://www.sandbox-bvxs2a.de/xbank/v1/payments/pain.001-sepa-credit-transfers/tIsb8fiD9_bi1gDuN7EwhAlPkOdfHwgvoAIiksmOVVYOhIu0pokCEKbQldu1TJJb2JZg8bL_p92Ot1RZiwTlEPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations/b890406b-f872-4889-9242-6891f5d6967b"
+        }
+      }
+    }
+  }
+}

@@ -5,8 +5,7 @@ import de.adorsys.xs2a.adapter.adorsys.model.AdorsysTransactionsResponse200Json;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
+import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
@@ -28,12 +27,15 @@ public class AdorsysAccountInformationService extends BaseAccountInformationServ
     private final ResponseHandlers handlers;
 
     public AdorsysAccountInformationService(Aspsp aspsp,
-                                            HttpClient httpClient,
+                                            HttpClientFactory httpClientFactory,
                                             List<Interceptor> interceptors,
-                                            LinksRewriter linksRewriter,
-                                            HttpLogSanitizer logSanitizer) {
-        super(aspsp, httpClient, interceptors, linksRewriter, logSanitizer);
-        this.handlers = new ResponseHandlers(logSanitizer);
+                                            LinksRewriter linksRewriter) {
+        super(aspsp,
+            httpClientFactory.getHttpClient(aspsp.getAdapterId()),
+            interceptors,
+            linksRewriter,
+            httpClientFactory.getHttpClientConfig().getLogSanitizer());
+        this.handlers = new ResponseHandlers(httpClientFactory.getHttpClientConfig().getLogSanitizer());
     }
 
     @Override
