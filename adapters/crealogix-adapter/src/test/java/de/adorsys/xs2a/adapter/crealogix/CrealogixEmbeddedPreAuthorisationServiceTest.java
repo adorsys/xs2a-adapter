@@ -36,7 +36,7 @@ class CrealogixEmbeddedPreAuthorisationServiceTest {
     private final Aspsp aspsp = getAspsp();
     private CrealogixEmbeddedPreAuthorisationService authorisationService;
 
-    private final HttpClientConfig clientConfig = new BaseHttpClientConfig(new Xs2aHttpLogSanitizer(), null);
+    private final HttpClientConfig clientConfig = new BaseHttpClientConfig(new Xs2aHttpLogSanitizer(), null, null);
 
     @BeforeEach
     void setUp() {

@@ -8,6 +8,7 @@ from now on.
 by a client validation resolver.
 - in `crealogix-adapter` README, added description of how to register a TPP in DKB.
 - migrate to java 11
+- added support wiremock server as a standalone application
 
 == Fixes:
 - fixing `crealogix-adapter`, the provider has changed its Oauth Embedded Pre-Step flow which broke the adapter. Implemented

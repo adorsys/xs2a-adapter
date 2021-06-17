@@ -39,6 +39,9 @@ public class RestConfiguration {
     @Value("${xs2a-adapter.wire-mock.validation.enabled:false}")
     private boolean wiremockValidationEnabled;
 
+    @Value("${xs2a-adapter.wire-mock.standalone.url:}")
+    private String wiremockStandaloneUrl;
+
     @Bean
     HttpLogSanitizer xs2aHttpLogSanitizer() {
         return new Xs2aHttpLogSanitizer(sanitizerWhitelist);
@@ -46,7 +49,7 @@ public class RestConfiguration {
 
     @Bean
     HttpClientConfig httpClientConfig(HttpLogSanitizer logSanitizer, Pkcs12KeyStore keyStore) {
-        return new BaseHttpClientConfig(logSanitizer, keyStore);
+        return new BaseHttpClientConfig(logSanitizer, keyStore, wiremockStandaloneUrl);
     }
 
     @Bean

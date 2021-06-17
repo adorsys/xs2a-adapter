@@ -13,4 +13,9 @@ public interface HttpClientConfig {
      * @return Key Store with Application Certificates
      */
     Pkcs12KeyStore getKeyStore();
+
+    /**
+     * @return Url for standalone wiremock server
+     */
+    String getWiremockStandaloneUrl();
 }

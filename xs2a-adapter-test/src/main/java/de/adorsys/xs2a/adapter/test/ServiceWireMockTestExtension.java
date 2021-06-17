@@ -43,7 +43,7 @@ class ServiceWireMockTestExtension implements BeforeAllCallback, AfterAllCallbac
         HttpClient httpClient = new ApacheHttpClient(new Xs2aHttpLogSanitizer(), HttpClientBuilder.create().build());
         Pkcs12KeyStore keyStore = new Pkcs12KeyStore(getClass().getClassLoader()
             .getResourceAsStream("de/adorsys/xs2a/adapter/test/test_keystore.p12"));
-        HttpClientConfig httpClientConfig = new BaseHttpClientConfig(null, keyStore);
+        HttpClientConfig httpClientConfig = new BaseHttpClientConfig(null, keyStore, null);
         HttpClientFactory httpClientFactory = getHttpClientFactory(httpClient, httpClientConfig);
         LinksRewriter linksRewriter = new IdentityLinksRewriter();
         if (serviceProvider instanceof AccountInformationServiceProvider) {

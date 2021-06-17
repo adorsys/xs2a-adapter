@@ -47,7 +47,8 @@ public class WiremockHttpClientFactory implements HttpClientFactory {
                 new SSLConnectionSocketFactory(socketFactory, null, supportedCipherSuites, (HostnameVerifier) null);
             httpClientBuilder.setSSLSocketFactory(sslSocketFactory);
             httpClient = httpClientBuilder.build();
-            return new WiremockHttpClient(adapterId, httpClient, httpClientConfig.getLogSanitizer());
+            return new WiremockHttpClient(adapterId, httpClient, httpClientConfig.getLogSanitizer(),
+                                          httpClientConfig.getWiremockStandaloneUrl());
         }
     }
 
