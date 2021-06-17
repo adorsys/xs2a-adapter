@@ -5,6 +5,9 @@
 |===
 
 == Notices:
+- updated Postman collections
+- fixed `adorsys-adapter` payment initiation failing if no Creditor Address was provided in JSON request
+- fixed `comdirect-adapter` issue with failing mapping LocalDateTime to OffsetDateTime
 
 == Features:
 
