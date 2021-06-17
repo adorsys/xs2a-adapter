@@ -128,6 +128,13 @@ public class CrealogixAccountInformationService extends BaseAccountInformationSe
     }
 
     @Override
+    public Response<OK200AccountDetails> getAccountDetails(String accountId,
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
+        return super.getAccountDetails(accountId, requestHandler(requestHeaders), requestParams);
+    }
+
+    @Override
     public Response<TransactionsResponse200Json> getTransactionList(String accountId,
                                                                     RequestHeaders requestHeaders,
                                                                     RequestParams requestParams) {

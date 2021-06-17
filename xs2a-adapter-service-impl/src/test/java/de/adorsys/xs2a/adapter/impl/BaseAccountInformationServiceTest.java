@@ -288,6 +288,27 @@ class BaseAccountInformationServiceTest {
     }
 
     @Test
+    void getAccountDetails() {
+        OK200AccountDetails example = new OK200AccountDetails();
+
+        when(httpClient.get(any())).thenReturn(requestBuilder);
+        doReturn(dummyResponse(example)).when(requestBuilder).send(any(), eq(Collections.singletonList(interceptor)));
+
+        String accountId = "accountId";
+        Response<OK200AccountDetails> response
+            = informationService.getAccountDetails(accountId, headers, params);
+
+        verify(httpClient, times(1)).get(uriCaptor.capture());
+        verify(requestBuilder, times(1)).headers(headersCaptor.capture());
+        verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
+
+        assertThat(uriCaptor.getValue()).isEqualTo(AbstractService.buildUri(
+            BASE_URI + "/v1/accounts/" + accountId, params));
+        assertThat(headersCaptor.getValue()).isEqualTo(informationService.addConsentIdHeader(headers.toMap()));
+        assertThat(response.getBody()).isEqualTo(example);
+    }
+
+    @Test
     void getTransactionList() {
         TransactionsResponse200Json example = new TransactionsResponse200Json();
         Map<String, String> transactionHeaders = headers.toMap();

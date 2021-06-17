@@ -110,6 +110,15 @@ interface AccountApi {
         @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
+        value = "/v1/accounts/{account-id}",
+        method = RequestMethod.GET
+    )
+    ResponseEntity<OK200AccountDetails> getAccountDetails(
+        @PathVariable("account-id") String accountId,
+        @RequestParam(value = "withBalance", required = false) Boolean withBalance,
+        @RequestHeader Map<String, String> headers);
+
+    @RequestMapping(
         value = "/v1/accounts/{account-id}/balances",
         method = RequestMethod.GET
     )

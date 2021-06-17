@@ -266,6 +266,25 @@ class RemoteAccountInformationServiceTest {
     }
 
     @Test
+    void getAccountDetails() {
+        OK200AccountDetails responseBody = new OK200AccountDetails();
+        String accountId = "accountId";
+
+        doReturn(responseBody).when(entity).getBody();
+        doReturn(entity).when(client).getAccountDetails(accountId, false, Collections.emptyMap());
+        doReturn(HTTP_STATUS_OK).when(entity).getStatusCodeValue();
+        doReturn(responseBody).when(entity).getBody();
+        doReturn(buildHttpHeaders()).when(entity).getHeaders();
+
+
+        Response<OK200AccountDetails> response = service.getAccountDetails(accountId, RequestHeaders.empty(),
+            RequestParams.empty());
+
+        assertResponseHeaders(response.getHeaders());
+        Assertions.assertThat(response.getBody()).isEqualTo(responseBody);
+    }
+
+    @Test
     void getTransactionList_NotAJsonContentType() {
         Map<String, String> headersMap = new HashMap<>();
         headersMap.put(RequestHeaders.CONTENT_TYPE, "application/xml");

@@ -61,6 +61,13 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     }
 
     @Override
+    public Response<OK200AccountDetails> getAccountDetails(String accountId,
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
+        return super.getAccountDetails(accountId, requestHeaders, RequestParams.builder().build());
+    }
+
+    @Override
     protected Map<String, String> populatePostHeaders(Map<String, String> map) {
         map.put(RequestHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON);
         return map;

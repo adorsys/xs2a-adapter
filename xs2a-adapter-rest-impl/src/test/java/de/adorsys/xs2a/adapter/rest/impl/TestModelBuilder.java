@@ -158,6 +158,12 @@ public class TestModelBuilder {
         return accountList;
     }
 
+    public static OK200AccountDetails buildAccountDetails() {
+        OK200AccountDetails accountDetails = new OK200AccountDetails();
+        accountDetails.setAccount(new AccountDetails());
+        return accountDetails;
+    }
+
     public static TransactionsResponse200Json buildTransactionsResponse() {
         TransactionsResponse200Json transactionsResponse200Json = new TransactionsResponse200Json();
         Map<String, HrefType> links = new HashMap<>();

@@ -7,5 +7,6 @@
 == Notices:
 
 == Features:
+- Added "getAccountDetails" operation
 
 == Fixes:
