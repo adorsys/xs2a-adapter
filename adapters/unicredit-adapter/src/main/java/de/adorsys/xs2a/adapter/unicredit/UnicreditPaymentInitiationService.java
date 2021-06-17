@@ -32,14 +32,14 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
                                                                         RequestHeaders requestHeaders,
                                                                         RequestParams requestParams,
                                                                         Object body) {
-        Object requestBody = body;
+        Object requestBody = null;
         if (!isXml(paymentProduct)) {
             Class<?> paymentBodyClass = getPaymentInitiationBodyClass(paymentService);
             requestBody = jsonMapper.convertValue(body, paymentBodyClass);
             addCreditorAddress(requestBody);
         }
 
-        return super.initiatePayment(paymentService, paymentProduct, requestHeaders, requestParams, requestBody);
+        return super.initiatePayment(paymentService, paymentProduct, requestHeaders, requestParams, requestBody == null ? body : requestBody);
     }
 
     private void addCreditorAddress(Object body) {
