@@ -91,7 +91,7 @@ class AdorsysPaymentInitiationServiceWireMockTest {
 
 
         HttpClient httpClient = new ApacheHttpClient(new Xs2aHttpLogSanitizer(), HttpClientBuilder.create().build());
-        HttpClientConfig clientConfig = new BaseHttpClientConfig(null, null);
+        HttpClientConfig clientConfig = new BaseHttpClientConfig(null, null, null);
         HttpClientFactory httpClientFactory = getHttpClientFactory(httpClient, clientConfig);
         LinksRewriter linksRewriter = new IdentityLinksRewriter();
         Aspsp aspsp = new Aspsp();
