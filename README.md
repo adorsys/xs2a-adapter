@@ -25,163 +25,7 @@ However, being able to interact with many banks can be a time and cost consuming
 
 ## Running the XS2A Adapter
 
-Before running the XS2A Adapter it should be configured
-
-### Configuring the XS2A Adapter
-
-- `Keystore`. How to create an [adapter keystore](docs/keystore.md). After the keystore has been created, you should specify the properties **pkcs12.keyStore** and **pkcs12.keyStorePassword**.
-- `Adapters config file`. A very basic configuration is already provided within [adapter.config.properties](xs2a-adapter-service-api/src/main/resources/adapter.config.properties), 
-also you can introduce your own custom configuration, and specify the path to it with `adapter.config.file.path` 
-environment variable. Please check out this [documentation](docs/configuration.md) if you need more details. 
-- `aspsp-registry` config file. For configuring ASPSP registry you can modify [aspsp-adapter-config.csv](xs2a-adapter-aspsp-registry/src/main/resources/aspsp-adapter-config.csv) file
-and specify the location with `csv.aspsp.adapter.config.file.path` environment variable.
-
-__Note__: be aware that `aspsp-registry` contains data for connecting with bank Sandboxes only,
-if you need a production data please contact our [sales team](mailto:rene.pongratz@adorsys.com).
-
-
-```shell script
-# Java property example
--Dadapter.config.file.path=<path/to/adapter.config.properties>
--Dcsv.aspsp.adapter.config.file.path=<path/to/aspsp-adapter-config.csv>
--Dpkcs12.keyStore=</path/to/keystore.p12>
--Dpkcs12.keyStorePassword=<keyStorePassword>
-```
-
-### Running XS2A Adapter as a standalone application
-
-#### Running in your local machine
-
-1. Download the project and go to the project directory:
-
-    ```shell script
-    git clone https://github.com/adorsys/xs2a-adapter
-    cd xs2a-adapter
-    ```
-
-2. Build and run the project
-
-    __Notice:__ Default application port is **8999**, and it could be changed in the [application.yml](xs2a-adapter-app/src/main/resources/application.yml) file
-
-    ```shell script
-    mvn clean package
-    ```
-    Before executing the next command you should replace the next placeholders with values received at [configuration step](#configuring-the-xs2a-adapter)
-    - **<path/to/keystore.p12>** with your keystore file location
-    - **<path/to/adapter.config.properties>** with your adapter config file
-    - **<path/to/aspsp-adapter-config.csv>** with your aspsp-registry configuration file
-    - **\<keystore-password>** with a keystore password
-    
-    ```shell script
-    java \
-      -Dcom.sun.security.enableAIAcaIssuers=true \
-      -Dpkcs12.keyStore=<path/to/keystore.p12> \
-      -Dpkcs12.keyStorePassword=<keystore-password> \
-      -Dadapter.config.file.path=<path/to/adapter.config.properties> \
-      -Dcsv.aspsp.adapter.config.file.path=<path/to/aspsp-adapter-config.csv> \
-      -jar xs2a-adapter-app/target/xs2a-adapter-app.jar
-    ```
-
-3. After the application has been started you may look over the supported API via [xs2a-adapter swagger page](http://localhost:8999/swagger-ui.html)
-
-#### Containerization
-
-You may also build a docker image and run it in your cloud environment
-
-__Notice:__ Default port is **8081**, and it could be changed in the [Dockerfile](Dockerfile)
-
-Before executing the next command you should replace the next placeholders with values received at [configuration step](#configuring-the-xs2a-adapter)
-- **<path/to/keystore.p12>** with your keystore file location
-- **<path/to/adapter.config.properties>** with your adapter config file
-- **<path/to/aspsp-adapter-config.csv>** with your aspsp-registry configuration file
-- **\<keystore-password>** with a keystore password
-
-```shell script
-mvn clean package
-docker build -t adorsys/xs2a-adapter:latest .
-docker run \
-    -v "$(pwd)"/<path/to/keystore.p12>:/pkcs12/key-store.p12 \
-    -v "$(pwd)"/<path/to/adapter.config.properties>:/config/adapter.config.properties \
-    -v "$(pwd)"/<path/to/aspsp-adapter-config.csv>:/config/aspsp-adapter-config.csv \
-    -e JAVA_OPTS="-Xmx1024m -Dcom.sun.security.enableAIAcaIssuers=true -Dpkcs12.keyStore=/pkcs12/key-store.p12 -Dpkcs12.keyStorePassword=<keystore-password>" \
-    -e "adapter.config.file.path"="/config/adapter.config.properties" \
-    -e "csv.aspsp.adapter.config.file.path"="/config/aspsp-adapter-config.csv" \
-    -p 8080:8081 \
-    --name xs2a-adapter \
-    adorsys/xs2a-adapter:latest
-```
-After the application has been started you may look over the supported API via [xs2a-adapter swagger page](http://localhost:8080/swagger-ui.html)
-
-### Using XS2A Adapter as a library
-
-XS2A Adapter is available from the Maven-Central repository. To use it in your project, add next dependencies:
-
-```xml
-    <dependencies>
-    ...
-        <dependency>
-            <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>adapters</artifactId>
-            <version>${xs2a-adapter.version}</version>
-            <type>pom</type>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>xs2a-adapter-service-loader</artifactId>
-            <version>${xs2a-adapter.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>xs2a-adapter-aspsp-registry</artifactId>
-            <version>${xs2a-adapter.version}</version>
-        </dependency>
-    ...
-    </dependencies>
-
-```
-`service-loader` provides interfaces for communicating with banks: _AccountInformationService_
-and _PaymentInitiationService_ for querying account data and performing payments respectively.
-`adapters` contains all implemented bank adapters and `aspsp-registry` provides the Lucene repository
-with data records necessary for connecting with German banks. These are records for all implemented
-banks at the moment.
-
-If there is no need for using all implemented bank adapters you can replace `adapters` dependency with
-a specific one for a concrete adapter.
-
-For example:
-```xml
-    <dependencies>
-    ...
-        <dependency>
-            <groupId>de.adorsys.xs2a.adapter</groupId>
-            <artifactId>adorsys-adapter</artifactId>
-            <version>${xs2a-adapter.version}</version>
-        </dependency>
-
-    <!--    other XS2A Adapter dependencies    -->
-    ...
-    </dependencies>
-```
-
-Now you will be able to call adapter services to work with banks:
-```groovy
-// Consent establishing
-Response<ConsentsResponse201> consent = accountInformationService.createConsent(requestHeaders,
-                                                                                requestParameters,
-                                                                                consentsBody);
-// retrieving list of Accounts
-Response<AccountList> accounts = accountInformationService.getAccountList(requestHeaders,
-                                                                          requestParameters);
-
-// Payment Initiation
-Response<PaymentInitationRequestResponse201> payment = paymentInitiationService.initiatePayment(paymentService,
-                                                                                                paymentProduct,
-                                                                                                requestHeaders,
-                                                                                                requestParams,
-                                                                                                objectBody);
-```
+[The developer guide](docs/developer_guide.md) contains information necessary for launching the XS2A Adapter.
 
 ## How to write your own bank adapter
 
@@ -245,6 +89,20 @@ property under `application.yml`. Examples are already put in Adapter YAML.
 * As library: a user will want to provide a java.util.List of type String into default HttpLogSanitizer implementation - `Xs2aHttpLogSanitizer`.
 
 __Note__: field names must be Berlin Group specification compliant, otherwise there will be no effect and data will still be masked.
+
+## Non-XS2A Interfaces
+
+The Adapter also covers non-PSD2 XS2A interfaces and contain services that handles such cases. 
+These are OAuth2 and EmbeddedPreStep services. Please check out Swagger JSONs for details: 
+[OAuth2 API](xs2a-adapter-rest-impl/src/main/resources/static/oauthapi.json) 
+and [EmbeddedPreStep API](xs2a-adapter-rest-impl/src/main/resources/static/embeddedpreauthapi.json) respectively.
+
+**EmbeddedPreStep** interface is a specific Crealogix solution that resembles OAuth2 protocol but may have no interaction with
+IPD Server, also user credentials are passed between a TPP, and an ASPSP as it would be usual Embedded approach.
+
+More details are on the [Crealogix API Store](https://preview.wso2-clx.crealogix-online.com/store/apis/info?name=PSD2Pre-StepAuthorizationAPI&version=1.0.6&provider=admin).
+
+Crealogix solution is used by DKB.
 
 ## Authors & Contact
 
