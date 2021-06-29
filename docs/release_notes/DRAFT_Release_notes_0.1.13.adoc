@@ -5,10 +5,11 @@
 |===
 
 == Notices:
-- updated Postman collections
-- fixed `adorsys-adapter` payment initiation failing if no Creditor Address was provided in JSON request
-- fixed `comdirect-adapter` issue with failing mapping LocalDateTime to OffsetDateTime
-- added support wiremock server as a standalone application
+- updated Postman collections.
+- fixed `adorsys-adapter` payment initiation failing if no Creditor Address was provided in JSON request.
+- fixed `comdirect-adapter` issue with failing mapping LocalDateTime to OffsetDateTime.
+- added support wiremock server as a standalone application.
+- updated Adapter documentation, added details on bank's specific configurations and non-XS2A interfaces.
 
 == Features:
 
