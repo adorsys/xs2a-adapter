@@ -225,7 +225,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
-    public ResponseEntity<OK200AccountDetails> getAccountDetails(String accountId,
+    public ResponseEntity<OK200AccountDetails> readAccountDetails(String accountId,
                                                                  Boolean withBalance,
                                                                  Map<String, String> parameters,
                                                                  Map<String, String> headers) {
@@ -235,7 +235,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
                                               .withBalance(withBalance)
                                               .build();
 
-        Response<OK200AccountDetails> response = accountInformationService.getAccountDetails(
+        Response<OK200AccountDetails> response = accountInformationService.readAccountDetails(
             accountId, requestHeaders, requestParams);
 
         return ResponseEntity.status(HttpStatus.OK)

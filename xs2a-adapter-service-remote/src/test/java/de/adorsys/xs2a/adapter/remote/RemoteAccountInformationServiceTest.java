@@ -266,18 +266,18 @@ class RemoteAccountInformationServiceTest {
     }
 
     @Test
-    void getAccountDetails() {
+    void readAccountDetails() {
         OK200AccountDetails responseBody = new OK200AccountDetails();
         String accountId = "accountId";
 
         doReturn(responseBody).when(entity).getBody();
-        doReturn(entity).when(client).getAccountDetails(accountId, false, Collections.emptyMap());
+        doReturn(entity).when(client).readAccountDetails(accountId, false, Collections.emptyMap());
         doReturn(HTTP_STATUS_OK).when(entity).getStatusCodeValue();
         doReturn(responseBody).when(entity).getBody();
         doReturn(buildHttpHeaders()).when(entity).getHeaders();
 
 
-        Response<OK200AccountDetails> response = service.getAccountDetails(accountId, RequestHeaders.empty(),
+        Response<OK200AccountDetails> response = service.readAccountDetails(accountId, RequestHeaders.empty(),
             RequestParams.empty());
 
         assertResponseHeaders(response.getHeaders());

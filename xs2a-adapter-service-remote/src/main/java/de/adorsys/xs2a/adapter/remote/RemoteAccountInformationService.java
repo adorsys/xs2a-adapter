@@ -264,7 +264,7 @@ public class RemoteAccountInformationService implements AccountInformationServic
     }
 
     @Override
-    public Response<OK200AccountDetails> getAccountDetails(
+    public Response<OK200AccountDetails> readAccountDetails(
         String accountId,
         RequestHeaders requestHeaders,
         RequestParams requestParams
@@ -273,7 +273,7 @@ public class RemoteAccountInformationService implements AccountInformationServic
             RequestParams.WITH_BALANCE,
             Boolean.FALSE.toString()
         );
-        ResponseEntity<OK200AccountDetails> responseEntity = client.getAccountDetails(
+        ResponseEntity<OK200AccountDetails> responseEntity = client.readAccountDetails(
             accountId,
             Boolean.valueOf(withBalance),
             requestHeaders.toMap()

@@ -288,7 +288,7 @@ class BaseAccountInformationServiceTest {
     }
 
     @Test
-    void getAccountDetails() {
+    void readAccountDetails() {
         OK200AccountDetails example = new OK200AccountDetails();
 
         when(httpClient.get(any())).thenReturn(requestBuilder);
@@ -296,7 +296,7 @@ class BaseAccountInformationServiceTest {
 
         String accountId = "accountId";
         Response<OK200AccountDetails> response
-            = informationService.getAccountDetails(accountId, headers, params);
+            = informationService.readAccountDetails(accountId, headers, params);
 
         verify(httpClient, times(1)).get(uriCaptor.capture());
         verify(requestBuilder, times(1)).headers(headersCaptor.capture());

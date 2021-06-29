@@ -326,8 +326,8 @@ class ConsentControllerTest {
     }
 
     @Test
-    void getAccountDetails() throws Exception {
-        when(accountInformationService.getAccountDetails(anyString(), any(), any()))
+    void readAccountDetails() throws Exception {
+        when(accountInformationService.readAccountDetails(anyString(), any(), any()))
             .thenReturn(buildResponse(TestModelBuilder.buildAccountDetails()));
 
         mockMvc.perform(get(ACCOUNTS + "/accountId"))
@@ -335,7 +335,7 @@ class ConsentControllerTest {
             .andExpect(jsonPath("$.account", notNullValue()));
 
         verify(accountInformationService, times(1))
-            .getAccountDetails(anyString(), any(), any());
+            .readAccountDetails(anyString(), any(), any());
     }
 
     @Test

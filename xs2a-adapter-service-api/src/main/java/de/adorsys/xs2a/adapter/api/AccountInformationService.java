@@ -72,7 +72,7 @@ public interface AccountInformationService extends AccountInformationValidationS
     Response<AccountList> getAccountList(RequestHeaders requestHeaders,
                                          RequestParams requestParams);
 
-    Response<OK200AccountDetails> getAccountDetails(String accountId,
+    Response<OK200AccountDetails> readAccountDetails(String accountId,
                                                     RequestHeaders requestHeaders,
                                                     RequestParams requestParams);
 

@@ -61,10 +61,10 @@ public class UnicreditAccountInformationService extends BaseAccountInformationSe
     }
 
     @Override
-    public Response<OK200AccountDetails> getAccountDetails(String accountId,
+    public Response<OK200AccountDetails> readAccountDetails(String accountId,
                                                            RequestHeaders requestHeaders,
                                                            RequestParams requestParams) {
-        return super.getAccountDetails(accountId, requestHeaders, RequestParams.builder().build());
+        return super.readAccountDetails(accountId, requestHeaders, RequestParams.builder().build());
     }
 
     @Override
