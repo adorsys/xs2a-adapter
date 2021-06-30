@@ -10,6 +10,6 @@
 - fixed `comdirect-adapter` issue with failing mapping LocalDateTime to OffsetDateTime
 
 == Features:
-- Added "getAccountDetails" operation
+- Added "readAccountDetails" operation
 
 == Fixes:
