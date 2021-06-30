@@ -174,13 +174,13 @@ class AccountInformationServiceImplTest {
     }
 
     @Test
-    void getAccountDetails() {
-        service.getAccountDetails(ACCOUNT_ID, headers, parameters);
+    void readAccountDetails() {
+        service.readAccountDetails(ACCOUNT_ID, headers, parameters);
 
         verify(adapterServiceLoader, times(1))
             .getAccountInformationService(any(RequestHeaders.class));
         verify(accountInformationService, times(1))
-            .getAccountDetails(anyString(), any(RequestHeaders.class), any(RequestParams.class));
+            .readAccountDetails(anyString(), any(RequestHeaders.class), any(RequestParams.class));
     }
 
     @Test

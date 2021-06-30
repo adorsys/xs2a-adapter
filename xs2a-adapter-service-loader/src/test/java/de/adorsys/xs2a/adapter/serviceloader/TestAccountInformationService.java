@@ -91,7 +91,7 @@ public class TestAccountInformationService implements AccountInformationService 
     }
 
     @Override
-    public Response<OK200AccountDetails> getAccountDetails(String accountId,
+    public Response<OK200AccountDetails> readAccountDetails(String accountId,
                                                            RequestHeaders requestHeaders,
                                                            RequestParams requestParams) {
         return null;

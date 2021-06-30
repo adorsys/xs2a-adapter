@@ -196,7 +196,7 @@ public class IngAccountInformationService implements AccountInformationService, 
     }
 
     @Override
-    public Response<OK200AccountDetails> getAccountDetails(String accountId,
+    public Response<OK200AccountDetails> readAccountDetails(String accountId,
                                                            RequestHeaders requestHeaders,
                                                            RequestParams requestParams) {
         throw new UnsupportedOperationException();

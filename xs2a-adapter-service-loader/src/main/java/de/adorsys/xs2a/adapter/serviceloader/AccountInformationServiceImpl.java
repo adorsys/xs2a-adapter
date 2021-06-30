@@ -140,11 +140,11 @@ public class AccountInformationServiceImpl implements AccountInformationService 
     }
 
     @Override
-    public Response<OK200AccountDetails> getAccountDetails(String accountId,
+    public Response<OK200AccountDetails> readAccountDetails(String accountId,
                                                            RequestHeaders requestHeaders,
                                                            RequestParams requestParams) {
         return getAccountInformationService(requestHeaders)
-                   .getAccountDetails(accountId, requestHeaders, requestParams);
+                   .readAccountDetails(accountId, requestHeaders, requestParams);
     }
 
     @Override

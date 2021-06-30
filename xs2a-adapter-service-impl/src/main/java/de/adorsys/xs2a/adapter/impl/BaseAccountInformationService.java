@@ -433,10 +433,10 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
-    public Response<OK200AccountDetails> getAccountDetails(String accountId,
+    public Response<OK200AccountDetails> readAccountDetails(String accountId,
                                                            RequestHeaders requestHeaders,
                                                            RequestParams requestParams) {
-        requireValid(validateGetAccountDetails(requestHeaders, requestParams));
+        requireValid(validateReadAccountDetails(requestHeaders, requestParams));
 
         Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
         headersMap = addConsentIdHeader(headersMap);

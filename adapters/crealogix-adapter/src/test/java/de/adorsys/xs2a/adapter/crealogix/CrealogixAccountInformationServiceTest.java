@@ -285,13 +285,13 @@ class CrealogixAccountInformationServiceTest extends CrealogixTestHelper {
     }
 
     @Test
-    void getAccountDetails() {
+    void readAccountDetails() {
         when(httpClient.get(anyString()))
             .thenReturn(getRequestBuilder("GET"));
         when(httpClient.send(any(), any()))
             .thenReturn(getResponse(new OK200AccountDetails()));
 
-        Response<OK200AccountDetails> actualResponse = service.getAccountDetails(
+        Response<OK200AccountDetails> actualResponse = service.readAccountDetails(
             "accountId",
             getHeadersWithAuthorization(),
             RequestParams.empty());
