@@ -12,5 +12,6 @@
 - updated Adapter documentation, added details on bank's specific configurations and non-XS2A interfaces.
 
 == Features:
+- Added "readAccountDetails" operation
 
 == Fixes:

@@ -43,6 +43,7 @@ public class Main {
         Map.entry("getTransactionList", ACCOUNT_API),
         Map.entry("getTransactionDetails", ACCOUNT_API),
         Map.entry("getBalances", ACCOUNT_API),
+        Map.entry("readAccountDetails", ACCOUNT_API),
         // card accounts
         Map.entry("getCardAccount", ACCOUNT_API),
         Map.entry("ReadCardAccount", ACCOUNT_API),

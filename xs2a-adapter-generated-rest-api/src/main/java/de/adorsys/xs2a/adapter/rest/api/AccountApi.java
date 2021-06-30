@@ -19,6 +19,15 @@ public interface AccountApi {
         @RequestParam Map<String, String> parameters, @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
+        value = "/v1/accounts/{account-id}",
+        method = RequestMethod.GET
+    )
+    ResponseEntity<OK200AccountDetails> readAccountDetails(
+        @PathVariable("account-id") String accountId,
+        @RequestParam(value = "withBalance", required = false) Boolean withBalance,
+        @RequestParam Map<String, String> parameters, @RequestHeader Map<String, String> headers);
+
+    @RequestMapping(
         value = "/v1/accounts/{account-id}/balances",
         method = RequestMethod.GET
     )

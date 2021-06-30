@@ -195,6 +195,13 @@ public class IngAccountInformationService implements AccountInformationService, 
         return response;
     }
 
+    @Override
+    public Response<OK200AccountDetails> readAccountDetails(String accountId,
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
+        throw new UnsupportedOperationException();
+    }
+
     private void rewriteLinks(AccountList accountList) {
         Optional.ofNullable(accountList)
             .map(AccountList::getAccounts)

@@ -326,6 +326,19 @@ class ConsentControllerTest {
     }
 
     @Test
+    void readAccountDetails() throws Exception {
+        when(accountInformationService.readAccountDetails(anyString(), any(), any()))
+            .thenReturn(buildResponse(TestModelBuilder.buildAccountDetails()));
+
+        mockMvc.perform(get(ACCOUNTS + "/accountId"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.account", notNullValue()));
+
+        verify(accountInformationService, times(1))
+            .readAccountDetails(anyString(), any(), any());
+    }
+
+    @Test
     void getTransactionList_json() throws Exception {
         when(accountInformationService.getTransactionList(anyString(), any(), any()))
             .thenReturn(buildResponse(TestModelBuilder.buildTransactionsResponse()));

@@ -72,6 +72,10 @@ public interface AccountInformationService extends AccountInformationValidationS
     Response<AccountList> getAccountList(RequestHeaders requestHeaders,
                                          RequestParams requestParams);
 
+    Response<OK200AccountDetails> readAccountDetails(String accountId,
+                                                    RequestHeaders requestHeaders,
+                                                    RequestParams requestParams);
+
     /**
      * @throws NotAcceptableException if response content type is not json
      * @return

@@ -100,6 +100,11 @@ public interface AccountInformationValidationService {
         return Collections.emptyList();
     }
 
+    default List<ValidationError> validateReadAccountDetails(RequestHeaders requestHeaders,
+                                                            RequestParams requestParams) {
+        return Collections.emptyList();
+    }
+
     default List<ValidationError> validateGetTransactionList(String accountId,
                                                              RequestHeaders requestHeaders,
                                                              RequestParams requestParams) {
