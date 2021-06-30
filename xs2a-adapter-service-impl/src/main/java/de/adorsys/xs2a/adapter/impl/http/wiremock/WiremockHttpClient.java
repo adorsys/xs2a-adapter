@@ -22,40 +22,53 @@ import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemp
 import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.security.SecureRandom;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 
 public class WiremockHttpClient extends ApacheHttpClient {
+    private static final Logger logger = LoggerFactory.getLogger(WiremockHttpClient.class);
 
     private static final String URL_REGEX = "https?://[^/]+";
     private WireMockServer wireMockServer;
-    private String wireMockUrl;
+    private final String wireMockUrl;
 
     public WiremockHttpClient(String adapterId, CloseableHttpClient httpClient) {
-        this(adapterId, httpClient, randomPort(), null);
+        this(adapterId, httpClient, randomPort(), null, null);
     }
 
     public WiremockHttpClient(String adapterId, CloseableHttpClient httpClient, HttpLogSanitizer logSanitizer) {
-        this(adapterId, httpClient, randomPort(), logSanitizer);
+        this(adapterId, httpClient, randomPort(), logSanitizer, null);
     }
 
-    public WiremockHttpClient(String adapterId, CloseableHttpClient httpClient, int wireMockPort, HttpLogSanitizer logSanitizer) {
+    public WiremockHttpClient(String adapterId, CloseableHttpClient httpClient,
+                              HttpLogSanitizer logSanitizer, String wiremockStandaloneUrl) {
+        this(adapterId, httpClient, randomPort(), logSanitizer, wiremockStandaloneUrl);
+    }
+
+    public WiremockHttpClient(String adapterId, CloseableHttpClient httpClient, int wireMockPort,
+                              HttpLogSanitizer logSanitizer, String wiremockStandaloneUrl) {
         super(logSanitizer, httpClient);
-        WireMockConfiguration options = options()
-            .port(wireMockPort)
-            .extensions(new ResponseTemplateTransformer(true))
-            .fileSource(new JarReadingClasspathFileSource(adapterId));
 
-        wireMockServer = new WireMockServer(options);
-        wireMockServer.start();
-        wireMockUrl = "http://localhost:" + wireMockServer.port();
-    }
+        if (StringUtils.isNotEmpty(wiremockStandaloneUrl)) {
+            wireMockUrl = wiremockStandaloneUrl;
+            logger.info("Wiremock [standalone] server is connected: {}", wireMockUrl);
+        } else {
+            WireMockConfiguration options = options()
+                                                .port(wireMockPort)
+                                                .extensions(new ResponseTemplateTransformer(true))
+                                                .fileSource(new JarReadingClasspathFileSource(adapterId));
 
-    public int getWireMockPort() {
-        return wireMockServer.port();
+            wireMockServer = new WireMockServer(options);
+            wireMockServer.start();
+            wireMockUrl = "http://localhost:" + wireMockServer.port();
+            logger.info("Wiremock [local] server is up and running: {}", wireMockUrl);
+        }
     }
 
     @Override
