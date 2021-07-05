@@ -55,7 +55,7 @@
     "creditorName": "Merchant123",
     "sepa-credit-transfers-supported": "true",
     "pain.001-sepa-credit-transfers-supported": "false",
-    "access_token": "Bearer testToken"
+    "access_token": "testToken"
   },
   {
     "adapter": "dab-bank",
@@ -135,6 +135,7 @@
     "pain.001-sepa-credit-transfers-supported": "false"
   },
   {
+    "adapter": "adorsys",
     "bic": "ADORSYS",
     "psuId_AIS": "max.musterman",
     "psuId_PIS": "max.musterman",
