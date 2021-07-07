@@ -6,13 +6,15 @@
 
 == Notices:
 - updated Postman collections.
-- fixed `adorsys-adapter` payment initiation failing if no Creditor Address was provided in JSON request.
-- fixed `comdirect-adapter` issue with failing mapping LocalDateTime to OffsetDateTime.
 - added support wiremock server as a standalone application.
 - updated Adapter documentation, added details on bank's specific configurations and non-XS2A interfaces.
+- changes in `adorsys-adapter`, removed AdorsysPaymentInitiationService, which contained a workaround for adding
+a Creditor Address field. After the latest ModelBank environment updates, the address field is no more a mandatory data.
 
 == Features:
 - Added "readAccountDetails" operation
 
 == Fixes:
 - fixed tests and test sequences in Postman collections
+- fixed `adorsys-adapter` payment initiation failing if no Creditor Address was provided in JSON request.
+- fixed `comdirect-adapter` issue with failing mapping LocalDateTime to OffsetDateTime.
