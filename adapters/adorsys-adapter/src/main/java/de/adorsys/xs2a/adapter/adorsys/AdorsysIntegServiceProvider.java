@@ -24,6 +24,7 @@ import de.adorsys.xs2a.adapter.api.http.Interceptor;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
 import de.adorsys.xs2a.adapter.impl.AbstractAdapterServiceProvider;
+import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
 import de.adorsys.xs2a.adapter.impl.oauth2.api.BaseOauth2Api;
 import de.adorsys.xs2a.adapter.impl.oauth2.api.model.AuthorisationServerMetaData;
 
@@ -40,10 +41,11 @@ public class AdorsysIntegServiceProvider extends AbstractAdapterServiceProvider 
                                                                 LinksRewriter linksRewriter) {
 
         HttpClientConfig config = httpClientFactory.getHttpClientConfig();
-        return new AdorsysPaymentInitiationService(aspsp,
-                                                httpClientFactory,
-                                                getInterceptors(aspsp, getInterceptors(config.getKeyStore())),
-                                                linksRewriter);
+        return new BasePaymentInitiationService(aspsp,
+            httpClientFactory.getHttpClient(getAdapterId()),
+            getInterceptors(aspsp, getInterceptors(config.getKeyStore())),
+            linksRewriter,
+            config.getLogSanitizer());
     }
 
     private Interceptor[] getInterceptors(Pkcs12KeyStore keyStore) {
