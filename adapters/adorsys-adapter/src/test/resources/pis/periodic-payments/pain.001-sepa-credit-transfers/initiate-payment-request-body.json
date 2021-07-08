@@ -1,9 +1,0 @@
-{
-  "xml_sct": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.03\"><CstmrCdtTrfInitn><GrpHdr><MsgId>5c36b9e4ccdd40b3a64d3c74b5d7fb92</MsgId><CreDtTm>2020-07-29T08:30:35</CreDtTm><NbOfTxs>1</NbOfTxs><CtrlSum>9.99</CtrlSum><InitgPty><Nm>max.musterman</Nm></InitgPty></GrpHdr><PmtInf><PmtInfId>aacc226ccfb94f46b8e57c2b31839393</PmtInfId><PmtMtd>TRF</PmtMtd><NbOfTxs>1</NbOfTxs><CtrlSum>9.99</CtrlSum><ReqdExctnDt>2020-07-29</ReqdExctnDt><Dbtr><Nm>max.musterman</Nm></Dbtr><DbtrAcct><Id><IBAN>DE38760700240320465700</IBAN></Id></DbtrAcct><DbtrAgt><FinInstnId><BIC>ADORSYS</BIC></FinInstnId></DbtrAgt><ChrgBr>SLEV</ChrgBr><CdtTrfTxInf><PmtId><EndToEndId>d8fc35dc27cf4db8a00ca77ab51f9a94</EndToEndId></PmtId><Amt><InstdAmt Ccy=\"EUR\">9.99</InstdAmt></Amt><Cdtr><Nm>Max Musterman</Nm></Cdtr><CdtrAcct><Id><IBAN>DE38760700240320465700</IBAN></Id></CdtrAcct><RmtInf><Ustrd>XS2A Test Payment with adorsys testing app</Ustrd></RmtInf></CdtTrfTxInf></PmtInf></CstmrCdtTrfInitn></Document>",
-  "json_standingorderType": {
-    "startDate": "2020-07-29",
-    "endDate": "2020-07-29",
-    "frequency": "Weekly",
-    "dayOfExecution": "1"
-  }
-}
