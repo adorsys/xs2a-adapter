@@ -1,6 +1,6 @@
 {
-  "id" : "d33af1fa-c815-431b-8447-eeef05e8dbf9",
-  "name" : "v1_accounts_hglna7cqt8sjd_1av2v2li_balances",
+  "id" : "cb6ee563-5857-4680-af81-20fbbe4f6721",
+  "name" : "v1_accounts_ef6ry2zxqgwqsnzc04pnxe_balances",
   "request" : {
     "urlPattern" : "/v1/accounts/.+/balances",
     "method" : "GET",
@@ -9,24 +9,24 @@
         "matches" : ".+"
       },
       "Consent-ID" : {
-        "equalTo" : "LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q"
+        "equalTo" : "ct0s-Y8Z44WtefkjG9bpPNncZTwHLG4c-80qRfxCEg_YECQyw8BRU0756d7Om2P9NPb-djhLCY-tXnSUu5KpO8z9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q"
       }
     }
   },
   "response" : {
     "status" : 200,
-    "body" : "{\"account\":{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"},\"balances\":[{\"balanceAmount\":{\"currency\":\"EUR\",\"amount\":\"1580120.00\"},\"balanceType\":\"interimAvailable\",\"lastChangeDateTime\":\"2020-07-03T17:40:16.286+02:00\",\"referenceDate\":\"2020-07-07\"},{\"balanceAmount\":{\"currency\":\"EUR\",\"amount\":\"1580120.00\"},\"balanceType\":\"closingBooked\",\"lastChangeDateTime\":\"2020-07-03T17:40:16.286+02:00\",\"referenceDate\":\"2020-07-07\"}]}",
+    "body" : "{\"account\":{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"},\"balances\":[{\"balanceAmount\":{\"currency\":\"EUR\",\"amount\":\"17120.00\"},\"balanceType\":\"interimAvailable\",\"lastChangeDateTime\":\"2021-07-07T10:40:30.712+02:00\",\"referenceDate\":\"2021-07-07\"},{\"balanceAmount\":{\"currency\":\"EUR\",\"amount\":\"17120.00\"},\"balanceType\":\"closingBooked\",\"lastChangeDateTime\":\"2021-07-07T10:40:30.712+02:00\",\"referenceDate\":\"2021-07-07\"}]}",
     "headers" : {
       "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
-      "x-request-id" : "2c35e4cd-87e7-438f-8fbf-dd8a1f22ed99",
+      "x-request-id" : "f1fe95bc-33f3-4a10-9270-7f44fc97d0f4",
       "content-type" : "application/json",
-      "date" : "Tue, 07 Jul 2020 08:08:15 GMT",
+      "date" : "Wed, 07 Jul 2021 14:08:53 GMT",
       "x-robots-tag" : "none",
-      "set-cookie" : "SRVNAME=17984ba812b2bfa7d54e249e16048ab4; path=/; HttpOnly; Secure",
+      "set-cookie" : "SRVNAME=c88f1df71e4faf4c2c3ec5052407fcb2; path=/; HttpOnly; Secure; SameSite=None",
       "cache-control" : "private"
     }
   },
-  "uuid" : "d33af1fa-c815-431b-8447-eeef05e8dbf9",
+  "uuid" : "cb6ee563-5857-4680-af81-20fbbe4f6721",
   "persistent" : true,
-  "insertionIndex" : 51
+  "insertionIndex" : 42
 }

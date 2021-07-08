@@ -1,7 +1,7 @@
 {
   "chosenScaMethod": {
     "authenticationType": "EMAIL",
-    "authenticationMethodId": "DQ28HA0zRQIldt-MMICgqI",
+    "authenticationMethodId": "j7FGgYHgQY4nl2zGk4sF3o",
     "name": "max.musterman@mail.de"
   },
   "challengeData": {
@@ -11,10 +11,10 @@
   },
   "_links": {
     "scaStatus": {
-      "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/consents/LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q/authorisations/19636dbe-99db-4d0f-90de-2573057bc7e4"
+      "href": "https://dev-modelbank-xs2a-connector.cloud.adorsys.de/v1/consents/ct0s-Y8Z44WtefkjG9bpPNncZTwHLG4c-80qRfxCEg_YECQyw8BRU0756d7Om2P9NPb-djhLCY-tXnSUu5KpO8z9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q/authorisations/513f9273-dc29-4a2d-976f-714b185d1c35"
     },
     "authoriseTransaction": {
-      "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/consents/LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q/authorisations/19636dbe-99db-4d0f-90de-2573057bc7e4"
+      "href": "https://dev-modelbank-xs2a-connector.cloud.adorsys.de/v1/consents/ct0s-Y8Z44WtefkjG9bpPNncZTwHLG4c-80qRfxCEg_YECQyw8BRU0756d7Om2P9NPb-djhLCY-tXnSUu5KpO8z9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q/authorisations/513f9273-dc29-4a2d-976f-714b185d1c35"
     }
   },
   "scaStatus": "scaMethodSelected"
