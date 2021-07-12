@@ -303,4 +303,40 @@ class Xs2AHttpLogSanitizerTest {
 
         assertThat(actualSanitizedJson).isEqualTo(REPLACEMENT);
     }
+
+    @Test
+    void sanitizeErrorBody_DKBCase() {
+        String accountId = "74d110c6-11aa-22bb-33cc-b6373a561977";
+
+        //language=JSON
+        String errorResponse = "{\n" +
+            "  \"tppMessages\": [\n" +
+            "    {\n" +
+            "      \"category\": \"ERROR\",\n" +
+            "      \"code\": \"SERVICE_BLOCKED\",\n" +
+            "      \"path\": \"/v1/accounts/%s/transactions\",\n" +
+            "      \"text\": \"Insufficient consent for transactions of accountId %s.\"\n" +
+            "    }\n" +
+            "  ],\n" +
+            "  \"_links\": {}\n" +
+            "}";
+
+        String notSanitized = String.format(errorResponse, accountId, accountId);
+
+        String actual = anonymizer.sanitize(notSanitized);
+
+        assertThat(actual).doesNotContain(accountId);
+    }
+
+    @Test
+    void sanitizeUrl_commerzbankCase() {
+        String accountId = "400e565d-11aa-22bb-33cc-b1b9bc1e6da5";
+        String url = "https://psd2.api.commerzbank.com/berlingroup/.well-known/openid-configuration?authorizationId=%s";
+
+        String notSanitized = String.format(url, accountId);
+
+        String actual = anonymizer.sanitize(notSanitized);
+
+        assertThat(actual).doesNotContain(accountId);
+    }
 }
