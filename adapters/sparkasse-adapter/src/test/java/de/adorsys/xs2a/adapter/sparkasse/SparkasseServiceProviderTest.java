@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 class SparkasseServiceProviderTest {
 
     private final HttpClientFactory clientFactory = mock(HttpClientFactory.class);
-    private final HttpClientConfig clientConfig = new BaseHttpClientConfig(null, null);
+    private final HttpClientConfig clientConfig = new BaseHttpClientConfig(null, null, null);
     private final SparkasseServiceProvider provider
         = new SparkasseServiceProvider();
     private final Aspsp aspsp = new Aspsp();

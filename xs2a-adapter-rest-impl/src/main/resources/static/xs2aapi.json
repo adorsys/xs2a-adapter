@@ -546,6 +546,64 @@
         }
       }
     },
+    "/v1/accounts/{account-id}": {
+      "get": {
+        "summary": "Read account details",
+        "description": "Reads details about an account, with balances where required. \nIt is assumed that a consent of the PSU to \nthis access is already given and stored on the ASPSP system. \nThe addressed details of this account depends then on the stored consent addressed by consentId, \nrespectively the OAuth2 access token.\n\n**NOTE:** The account-id can represent a multicurrency account. \nIn this case the currency code is set to \"XXX\".\n\nGive detailed information about the addressed account.\n\nGive detailed information about the addressed account together with balance information\n",
+        "operationId": "readAccountDetails",
+        "tags": [
+          "Account Information Service (AIS)"
+        ],
+        "security": [
+          {},
+          {
+            "BearerAuthOAuth": []
+          }
+        ],
+        "parameters": [{"$ref":"#/components/parameters/X-GTW-ASPSP-ID"},{"$ref":"#/components/parameters/X-GTW-Bank-Code"},{"$ref":"#/components/parameters/X-GTW-BIC"},{"$ref":"#/components/parameters/X-GTW-IBAN"},{"$ref":"#/components/parameters/additionalQueryParameters"},{"$ref":"#/components/parameters/accountId"},{"$ref":"#/components/parameters/withBalanceQuery"},{"$ref":"#/components/parameters/X-Request-ID"},{"$ref":"#/components/parameters/Digest"},{"$ref":"#/components/parameters/Signature"},{"$ref":"#/components/parameters/TPP-Signature-Certificate"},{"$ref":"#/components/parameters/consentId_HEADER_mandatory"},{"$ref":"#/components/parameters/PSU-IP-Address_conditionalForAis"},{"$ref":"#/components/parameters/PSU-IP-Port"},{"$ref":"#/components/parameters/PSU-Accept"},{"$ref":"#/components/parameters/PSU-Accept-Charset"},{"$ref":"#/components/parameters/PSU-Accept-Encoding"},{"$ref":"#/components/parameters/PSU-Accept-Language"},{"$ref":"#/components/parameters/PSU-User-Agent"},{"$ref":"#/components/parameters/PSU-Http-Method"},{"$ref":"#/components/parameters/PSU-Device-ID"},{"$ref":"#/components/parameters/PSU-Geo-Location"}],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OK_200_AccountDetails"
+          },
+          "400": {
+            "$ref": "#/components/responses/BAD_REQUEST_400_AIS"
+          },
+          "401": {
+            "$ref": "#/components/responses/UNAUTHORIZED_401_AIS"
+          },
+          "403": {
+            "$ref": "#/components/responses/FORBIDDEN_403_AIS"
+          },
+          "404": {
+            "$ref": "#/components/responses/NOT_FOUND_404_AIS"
+          },
+          "405": {
+            "$ref": "#/components/responses/METHOD_NOT_ALLOWED_405_AIS"
+          },
+          "406": {
+            "$ref": "#/components/responses/NOT_ACCEPTABLE_406_AIS"
+          },
+          "408": {
+            "$ref": "#/components/responses/REQUEST_TIMEOUT_408_AIS"
+          },
+          "409": {
+            "$ref": "#/components/responses/CONFLICT_409_AIS"
+          },
+          "415": {
+            "$ref": "#/components/responses/UNSUPPORTED_MEDIA_TYPE_415_AIS"
+          },
+          "429": {
+            "$ref": "#/components/responses/TOO_MANY_REQUESTS_429_AIS"
+          },
+          "500": {
+            "$ref": "#/components/responses/INTERNAL_SERVER_ERROR_500_AIS"
+          },
+          "503": {
+            "$ref": "#/components/responses/SERVICE_UNAVAILABLE_503_AIS"
+          }
+        }
+      }
+    },
     "/v1/accounts/{account-id}/balances": {
       "get": {
         "summary": "Read balance",
@@ -6217,6 +6275,37 @@
           }
         }
       },
+      "OK_200_AccountDetails": {
+        "description": "OK",
+        "headers": {
+          "X-Request-ID": {
+            "$ref": "#/components/headers/X-Request-ID"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "account"
+              ],
+              "properties": {
+                "account": {
+                  "$ref": "#/components/schemas/accountDetails"
+                }
+              }
+            },
+            "examples": {
+              "Regular Account": {
+                "$ref": "#/components/examples/accountDetailsRegularAccount"
+              },
+              "Multicurrency Account": {
+                "$ref": "#/components/examples/accountDetailsMulticurrencyAccount"
+              }
+            }
+          }
+        }
+      },
       "OK_200_CardAccountDetails": {
         "description": "OK",
         "headers": {
@@ -7109,6 +7198,50 @@
               "remittanceInformationUnstructured": "Ref Number Merchant 2"
             }
           ]
+        }
+      },
+      "accountDetailsRegularAccount": {
+        "description": "Account details for a regular Account.",
+        "value": {
+          "account": {
+            "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+            "iban": "FR7612345987650123456789014",
+            "currency": "EUR",
+            "ownerName": "Heike Mustermann",
+            "product": "Girokonto",
+            "cashAccountType": "CACC",
+            "name": "Main Account",
+            "_links": {
+              "balances": {
+                "href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"
+              },
+              "transactions": {
+                "href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"
+              }
+            }
+          }
+        }
+      },
+      "accountDetailsMulticurrencyAccount": {
+        "description": "Account details for a multicurrency account.",
+        "value": {
+          "account": {
+            "resourceId": "3dc3d5b3-7023-4848-9853-f5400a64e80f",
+            "iban": "FR7612345987650123456789014",
+            "currency": "XXX",
+            "ownerName": "Heike Mustermann",
+            "product": "Multicurrency Account",
+            "cashAccountType": "CACC",
+            "name": "Aggregation Account",
+            "_links": {
+              "balances": {
+                "href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/balances"
+              },
+              "transactions": {
+                "href": "/v1/accounts/3dc3d5b3-7023-4848-9853-f5400a64e80f/transactions"
+              }
+            }
+          }
         }
       },
       "accountListExample1": {

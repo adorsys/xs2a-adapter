@@ -10,7 +10,7 @@ import java.util.Objects;
 public class ComdirectTransactionResponse200Json {
     private AccountReference account;
     private ComdirectAccountReport transactions;
-    private List<Balance> balances;
+    private List<ComdirectBalance> balances;
 
     @JsonProperty("_links")
     private Map<String, HrefType> links;
@@ -31,11 +31,11 @@ public class ComdirectTransactionResponse200Json {
         this.transactions = transactions;
     }
 
-    public List<Balance> getBalances() {
+    public List<ComdirectBalance> getBalances() {
         return balances;
     }
 
-    public void setBalances(List<Balance> balances) {
+    public void setBalances(List<ComdirectBalance> balances) {
         this.balances = balances;
     }
 

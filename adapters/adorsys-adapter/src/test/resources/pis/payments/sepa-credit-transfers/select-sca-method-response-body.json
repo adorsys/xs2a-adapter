@@ -1,7 +1,23 @@
 {
+  "transactionFees": {
+    "currency": "EUR",
+    "amount": "500"
+  },
+  "currencyConversionFees": {
+    "currency": "EUR",
+    "amount": "300"
+  },
+  "estimatedTotalAmount": {
+    "currency": "EUR",
+    "amount": "900"
+  },
+  "estimatedInterbankSettlementAmount": {
+    "currency": "EUR",
+    "amount": "250"
+  },
   "chosenScaMethod": {
     "authenticationType": "EMAIL",
-    "authenticationMethodId": "DQ28HA0zRQIldt-MMICgqI",
+    "authenticationMethodId": "j7FGgYHgQY4nl2zGk4sF3o",
     "name": "max.musterman@mail.de"
   },
   "challengeData": {
@@ -11,10 +27,10 @@
   },
   "_links": {
     "scaStatus": {
-      "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/payments/sepa-credit-transfers/W_pFk5-4OqzsXpxKLs9h97q8bfPnV3XKAm5MxM8dnT60LxXyPaGedv4HPQtEQ8-mcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/259b8215-d14e-493a-ba01-c2243a9ff86a"
+      "href": "https://dev-modelbank-xs2a-connector.cloud.adorsys.de/v1/payments/sepa-credit-transfers/eesrCxpL3GBU1STQYLfK6yM8afAk9F5hrVutnylIDsFMv1ws-VIYQjo1EIaGDvp6cgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/62de6fa2-b93f-47bd-821f-6b0887d37066"
     },
     "authoriseTransaction": {
-      "href": "https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/payments/sepa-credit-transfers/W_pFk5-4OqzsXpxKLs9h97q8bfPnV3XKAm5MxM8dnT60LxXyPaGedv4HPQtEQ8-mcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/259b8215-d14e-493a-ba01-c2243a9ff86a"
+      "href": "https://dev-modelbank-xs2a-connector.cloud.adorsys.de/v1/payments/sepa-credit-transfers/eesrCxpL3GBU1STQYLfK6yM8afAk9F5hrVutnylIDsFMv1ws-VIYQjo1EIaGDvp6cgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/62de6fa2-b93f-47bd-821f-6b0887d37066"
     }
   },
   "scaStatus": "scaMethodSelected"

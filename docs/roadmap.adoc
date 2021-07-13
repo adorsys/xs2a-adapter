@@ -278,7 +278,6 @@ a| 0.1.10
 a| * Map new AuthenticationType for Sparkasse
 * Investigate PIS error for Sparkasse
 * Github issue-DeutscheBankPsuPasswordEncryptionService
-* Test PIS for Unicredit
 
 a| 08.05
 a| 0.1.11
@@ -302,7 +301,6 @@ a| * Update Postman collections
 * Fix Postman Tests
 * Remove CreditorAddress workaround in Adorsys adapter
 * Rewrite WireMock stubs for Adorsys adapter
-* Test AIS for Unicredit
 * Account Id is not masked
 
 a| For future development

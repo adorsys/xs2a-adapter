@@ -161,11 +161,13 @@ class UnicreditPaymentInitiationServiceTest {
             fail("failed to deserialize body string");
         }
 
-        assertThat(actualBody).matches((body) -> Optional.ofNullable(body)
-            .map(PaymentInitiationJson::getCreditorAddress)
-            .map(Address::getCountry)
-            .isPresent());
-        assertThat(actualBody.getCreditorAddress().getCountry()).isEqualTo(DEFAULT_COUNTRY_CODE);
+        assertThat(actualBody)
+            .extracting((body) -> Optional.ofNullable(body)
+                .map(PaymentInitiationJson::getCreditorAddress)
+                .map(Address::getCountry)
+                .orElse(null))
+            .isNotNull()
+            .isEqualTo(DEFAULT_COUNTRY_CODE);
     }
 
     @Test
@@ -198,11 +200,13 @@ class UnicreditPaymentInitiationServiceTest {
             fail("failed to deserialize body string");
         }
 
-        assertThat(actualBody).matches((body) -> Optional.ofNullable(body)
-            .map(PaymentInitiationJson::getCreditorAddress)
-            .map(Address::getCountry)
-            .isPresent());
-        assertThat(actualBody.getCreditorAddress().getCountry()).isEqualTo(countryCode);
+        assertThat(actualBody)
+            .extracting((body) -> Optional.ofNullable(body)
+                .map(PaymentInitiationJson::getCreditorAddress)
+                .map(Address::getCountry)
+                .orElse(null))
+            .isNotNull()
+            .isEqualTo(countryCode);
     }
 
     @Test
@@ -227,11 +231,13 @@ class UnicreditPaymentInitiationServiceTest {
             fail("failed to deserialize body string");
         }
 
-        assertThat(actualBody).matches((body) -> Optional.ofNullable(body)
-            .map(PeriodicPaymentInitiationJson::getCreditorAddress)
-            .map(Address::getCountry)
-            .isPresent());
-        assertThat(actualBody.getCreditorAddress().getCountry()).isEqualTo(DEFAULT_COUNTRY_CODE);
+        assertThat(actualBody)
+            .extracting((body) -> Optional.ofNullable(body)
+                .map(PeriodicPaymentInitiationJson::getCreditorAddress)
+                .map(Address::getCountry)
+                .orElse(null))
+            .isNotNull()
+            .isEqualTo(DEFAULT_COUNTRY_CODE);
     }
 
     private static Map<String, String> getHeadersMap(String uceBankingGlobal) {

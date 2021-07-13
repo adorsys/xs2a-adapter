@@ -32,26 +32,28 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
                                                                         RequestHeaders requestHeaders,
                                                                         RequestParams requestParams,
                                                                         Object body) {
-        Object requestBody = addCreditorAddress(body);
+        Object requestBody = null;
+        if (!isXml(paymentProduct)) {
+            Class<?> paymentBodyClass = getPaymentInitiationBodyClass(paymentService);
+            requestBody = jsonMapper.convertValue(body, paymentBodyClass);
+            addCreditorAddress(requestBody);
+        }
 
-        return super.initiatePayment(paymentService, paymentProduct, requestHeaders, requestParams, requestBody);
+        return super.initiatePayment(paymentService, paymentProduct, requestHeaders, requestParams, requestBody == null ? body : requestBody);
     }
 
-    private Object addCreditorAddress(Object body) {
+    private void addCreditorAddress(Object body) {
         if (body instanceof PaymentInitiationJson) {
             PaymentInitiationJson paymentsJson = (PaymentInitiationJson) body;
             if (paymentsJson.getCreditorAddress() == null) {
                 paymentsJson.setCreditorAddress(buildDefaultAddress());
             }
-            return paymentsJson;
         } else if (body instanceof PeriodicPaymentInitiationJson) {
             PeriodicPaymentInitiationJson periodicJson = (PeriodicPaymentInitiationJson) body;
             if (periodicJson.getCreditorAddress() == null) {
                 periodicJson.setCreditorAddress(buildDefaultAddress());
             }
-            return periodicJson;
         }
-        return body;
     }
 
     private Address buildDefaultAddress() {

@@ -5,7 +5,7 @@ will need to add some additional data:
 
 * to communicate with Bank-Verlag `verlag.apikey.name` and `verlag.apikey.value` must be specified;
 * to work with DKB `dkb.psd2_token.url` must be provided, please check out this [file](../adapters/crealogix-adapter/README.md) for more details;
-* `santander.token.consumer_key`, `santander.token.consumer_key` to be filled out for Santander, please check out 
+* `santander.token.consumer_key`, `santander.token.consumer_secret` to be filled out for Santander, please check out 
 this [file](adapters/santander-adapter.md) for more details;
 * ING needs `ing.qwac.alias` and `ing.qseal.alias` with appropriate QWAC and QSEAL from your keystore;
 

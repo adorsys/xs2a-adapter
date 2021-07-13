@@ -15,9 +15,10 @@ main resources package in an identical to an adapter module name folder within *
 == How to use it?
 By default, it is turned off.
 
-There are two ways to kickoff WireMock depending on how a user utilizes the Adapter:
+There are two ways to kick off WireMock depending on how a user utilizes the Adapter:
 
 - as a standalone application - a user will want to set `xs2a-adapter:wiremock:mode` property to **true**
+and set url to standalone server `xs2a-adapter:wiremock:standalone:url`
 on the `application.yml` under `xs2a-adapter-app` module.
 - as a library - a user will need to pass a `WiremockHttpClientFactory` instance into `AdapterServiceLoader`
 when initializing.

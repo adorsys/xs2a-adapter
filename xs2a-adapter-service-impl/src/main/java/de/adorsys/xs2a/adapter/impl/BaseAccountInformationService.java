@@ -433,6 +433,28 @@ public class BaseAccountInformationService extends AbstractService implements Ac
     }
 
     @Override
+    public Response<OK200AccountDetails> readAccountDetails(String accountId,
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
+        requireValid(validateReadAccountDetails(requestHeaders, requestParams));
+
+        Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
+        headersMap = addConsentIdHeader(headersMap);
+
+        String uri = buildUri(StringUri.fromElements(getAccountsBaseUri(), accountId), requestParams);
+
+        Response<OK200AccountDetails> response = httpClient.get(uri)
+            .headers(headersMap)
+            .send(responseHandlers.jsonResponseHandler(OK200AccountDetails.class), interceptors);
+
+        Optional.ofNullable(response.getBody())
+            .map(OK200AccountDetails::getAccount)
+            .ifPresent(account -> account.setLinks(linksRewriter.rewrite(account.getLinks())));
+
+        return response;
+    }
+
+    @Override
     public Response<TransactionsResponse200Json> getTransactionList(String accountId,
                                                                     RequestHeaders requestHeaders,
                                                                     RequestParams requestParams) {

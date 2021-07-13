@@ -43,7 +43,7 @@ public class SantanderAccessTokenService implements AccessTokenService {
     private static final String SANTANDER_TOKEN_SECONDS_BEFORE_TOKEN_EXPIRATION_PROPERTY = "santander.token.seconds_before_token_expiration";
 
     private static final String DEFAULT_SECONDS_BEFORE_TOKEN_EXPIRATION = "60";
-    private static final String DEFAULT_TOKEN_URL = "https://apigateway-sandbox.api.santander.de/scb-openapis/sx/oauthsos/password/token";
+    private static final String DEFAULT_TOKEN_URL = "https://api-sandbox-cc.santander.de/scb-openapis/sx/v1/oauth_matls/token";
 
     private static SantanderAccessTokenService instance;
     private static Map<String, String> headers;

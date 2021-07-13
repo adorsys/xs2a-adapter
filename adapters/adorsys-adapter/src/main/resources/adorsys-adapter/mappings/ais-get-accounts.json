@@ -1,5 +1,5 @@
 {
-  "id" : "80a64003-3649-44b1-8931-cf665bbf6d36",
+  "id" : "b57c707e-0188-4f7e-bc78-0128ef09de48",
   "name" : "v1_accounts",
   "request" : {
     "url" : "/v1/accounts?withBalance=false",
@@ -9,24 +9,24 @@
         "matches" : ".+"
       },
       "Consent-ID" : {
-        "equalTo" : "LWigcCDnqIju2WxmN2QJiIIwDPJRCi55C92NUPa5IXRNg8JYEtRvNJAdwuefV7G4XcX1qLGcJAusajIQOAZagMz9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q"
+        "equalTo" : "ct0s-Y8Z44WtefkjG9bpPNncZTwHLG4c-80qRfxCEg_YECQyw8BRU0756d7Om2P9NPb-djhLCY-tXnSUu5KpO8z9MpaJIQIH3NJX8IHgetw=_=_psGLvQpt9Q"
       }
     }
   },
   "response" : {
     "status" : 200,
-    "body" : "{\"accounts\":[{\"resourceId\":\"HGlNA7CqT8sjd_1aV2v2LI\",\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\",\"name\":\"max.musterman\",\"displayName\":\"mock display name\",\"product\":\"Cash24\",\"cashAccountType\":\"CASH\",\"status\":\"enabled\",\"linkedAccounts\":\"vEXGW4oQR-YincmiTa4KaM\",\"usage\":\"PRIV\",\"_links\":{\"balances\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/balances\"},\"transactions\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/accounts/HGlNA7CqT8sjd_1aV2v2LI/transactions\"}}}]}",
+    "body" : "{\"accounts\":[{\"resourceId\":\"EF6RY2ZXQGwqsNzc04pnXE\",\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\",\"name\":\"max.musterman\",\"displayName\":\"mock display name\",\"product\":\"Cash24\",\"cashAccountType\":\"CASH\",\"status\":\"enabled\",\"linkedAccounts\":\"PIXgZPn9QT8oy0xQqMP2SQ\",\"usage\":\"PRIV\",\"_links\":{\"balances\":{\"href\":\"https://dev-modelbank-xs2a-connector.cloud.adorsys.de/v1/accounts/EF6RY2ZXQGwqsNzc04pnXE/balances\"},\"transactions\":{\"href\":\"https://dev-modelbank-xs2a-connector.cloud.adorsys.de/v1/accounts/EF6RY2ZXQGwqsNzc04pnXE/transactions\"}}}]}",
     "headers" : {
       "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
-      "x-request-id" : "70a7346e-e769-4c4b-8326-ceb6b785e07c",
+      "x-request-id" : "38fd8f66-c08a-4d3c-a5f5-beaf03640542",
       "content-type" : "application/json",
-      "date" : "Tue, 07 Jul 2020 08:08:14 GMT",
+      "date" : "Wed, 07 Jul 2021 14:08:47 GMT",
       "x-robots-tag" : "none",
-      "set-cookie" : "SRVNAME=17984ba812b2bfa7d54e249e16048ab4; path=/; HttpOnly; Secure",
+      "set-cookie" : "SRVNAME=c88f1df71e4faf4c2c3ec5052407fcb2; path=/; HttpOnly; Secure; SameSite=None",
       "cache-control" : "private"
     }
   },
-  "uuid" : "80a64003-3649-44b1-8931-cf665bbf6d36",
+  "uuid" : "b57c707e-0188-4f7e-bc78-0128ef09de48",
   "persistent" : true,
-  "insertionIndex" : 47
+  "insertionIndex" : 40
 }

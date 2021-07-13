@@ -59,8 +59,6 @@ class AdorsysPaymentInitiationServiceWireMockTest {
 
     private static final String PAYMENT_ID = "W_pFk5-4OqzsXpxKLs9h97q8bfPnV3XKAm5MxM8dnT60LxXyPaGedv4HPQtEQ8-mcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q";
     private static final String AUTHORISATION_ID = "259b8215-d14e-493a-ba01-c2243a9ff86a";
-    private static final String PERIODIC_PAYMENT_ID = "RWPbX-Qgnmjb5yixTXwywIU9xxlutmt70MthNORZI9pVXXwjlE_8wK5HaZwohPtAcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q";
-    private static final String PERIODIC_AUTHORISATION_ID = "946d8445-7548-43e0-8cfc-f092d7ebc6cb";
 
     private final ObjectMapper objectMapper = new JacksonObjectMapper().copyObjectMapper()
                                                   .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
@@ -68,19 +66,9 @@ class AdorsysPaymentInitiationServiceWireMockTest {
     private static PaymentInitiationService service;
     private static WireMockServer wireMockServer;
     private static final Ids paymentIds = new Ids()
-                                              .add(PaymentService.PAYMENTS, PaymentProduct.SEPA_CREDIT_TRANSFERS, PAYMENT_ID)
-                                              .add(PaymentService.PAYMENTS, PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS,
-                                                   "BWbshZUvuxnSwPNth2l-I3T0soaM3tozlyhq4pkpMd9eXNqj49jykOzF6X6Z1XdjcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q")
-                                              .add(PaymentService.PERIODIC_PAYMENTS, PaymentProduct.SEPA_CREDIT_TRANSFERS, PERIODIC_PAYMENT_ID)
-                                              .add(PaymentService.PERIODIC_PAYMENTS, PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS,
-                                                   "j2x8WKgv3GyF6Cin9XsD95hC83_mSJcZgIyS2ki92g7nLuRUsdKCSSW2nbnVA19OcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q");
+                                              .add(PaymentService.PAYMENTS, PaymentProduct.SEPA_CREDIT_TRANSFERS, PAYMENT_ID);
     private static final Ids authorisationIds = new Ids()
-                                                    .add(PaymentService.PAYMENTS, PaymentProduct.SEPA_CREDIT_TRANSFERS, AUTHORISATION_ID)
-                                                    .add(PaymentService.PAYMENTS, PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS,
-                                                         "ebcc9e28-5edd-4ddb-8e22-12128067763d")
-                                                    .add(PaymentService.PERIODIC_PAYMENTS, PaymentProduct.SEPA_CREDIT_TRANSFERS, PERIODIC_AUTHORISATION_ID)
-                                                    .add(PaymentService.PERIODIC_PAYMENTS, PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS,
-                                                         "5aa0b73f-6f89-45d9-90fe-1d679d95e6d6");
+                                                    .add(PaymentService.PAYMENTS, PaymentProduct.SEPA_CREDIT_TRANSFERS, AUTHORISATION_ID);
 
     @BeforeAll
     static void beforeAll() {
@@ -91,7 +79,7 @@ class AdorsysPaymentInitiationServiceWireMockTest {
 
 
         HttpClient httpClient = new ApacheHttpClient(new Xs2aHttpLogSanitizer(), HttpClientBuilder.create().build());
-        HttpClientConfig clientConfig = new BaseHttpClientConfig(null, null);
+        HttpClientConfig clientConfig = new BaseHttpClientConfig(null, null, null);
         HttpClientFactory httpClientFactory = getHttpClientFactory(httpClient, clientConfig);
         LinksRewriter linksRewriter = new IdentityLinksRewriter();
         Aspsp aspsp = new Aspsp();
@@ -153,64 +141,6 @@ class AdorsysPaymentInitiationServiceWireMockTest {
         assertThat(response.getBody()).isEqualTo(expected);
     }
 
-    @Test
-    void initiatePayment_PeriodicPayments() throws IOException {
-        Map<String, String> headersMap = reader.getObjectFromFile("pis/initiate-payment-request-headers.json", Map.class);
-        PeriodicPaymentInitiationJson paymentInitiationJson = reader.getObjectFromFile("pis/periodic-payments/sepa-credit-transfers/initiate-payment-request-body.json", PeriodicPaymentInitiationJson.class);
-        PaymentInitationRequestResponse201 expected = reader.getObjectFromFile("pis/periodic-payments/sepa-credit-transfers/initiate-payment-response-body.json", PaymentInitationRequestResponse201.class);
-
-        Response<PaymentInitationRequestResponse201> response = service.initiatePayment(PaymentService.PERIODIC_PAYMENTS,
-                                                                                        PaymentProduct.SEPA_CREDIT_TRANSFERS,
-                                                                                        RequestHeaders.fromMap(headersMap),
-                                                                                        RequestParams.empty(),
-                                                                                        paymentInitiationJson);
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
-        assertThat(response.getBody()).isEqualTo(expected);
-    }
-
-    @Test
-    void initiatePayment_paymentsPain001Sct() throws IOException {
-        Map<String, String> headersMap =
-            reader.getObjectFromFile("pis/initiate-payment-request-headers.json", Map.class);
-        String xml = reader.getStringFromFile("pis/payments/pain.001-sepa-credit-transfers/initiate-payment-request-body.xml");
-        PaymentInitationRequestResponse201 expected =
-            reader.getObjectFromFile("pis/payments/pain.001-sepa-credit-transfers/initiate-payment-response-body.json",
-                                     PaymentInitationRequestResponse201.class);
-
-        Response<PaymentInitationRequestResponse201> response = service.initiatePayment(PaymentService.PAYMENTS,
-                                                                                        PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS,
-                                                                                        RequestHeaders.fromMap(headersMap),
-                                                                                        RequestParams.empty(),
-                                                                                        xml);
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
-        assertThat(response.getBody()).isEqualTo(expected);
-    }
-
-    @Test
-    void initiatePayment_periodicPaymentsPain001Sct() throws IOException {
-        Map<String, String> headersMap =
-            reader.getObjectFromFile("pis/initiate-payment-request-headers.json", Map.class);
-        PeriodicPaymentInitiationMultipartBody body =
-            reader.getObjectFromFile("pis/periodic-payments/pain.001-sepa-credit-transfers/initiate-payment-request-body.json",
-                                     PeriodicPaymentInitiationMultipartBody.class);
-        PaymentInitationRequestResponse201 expected =
-            reader.getObjectFromFile("pis/periodic-payments/pain.001-sepa-credit-transfers/initiate-payment-response-body.json",
-                                     PaymentInitationRequestResponse201.class);
-
-        Response<PaymentInitationRequestResponse201> response = service.initiatePayment(
-            PaymentService.PERIODIC_PAYMENTS,
-            PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS,
-            RequestHeaders.fromMap(headersMap),
-            RequestParams.empty(),
-            body);
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
-        assertThat(response.getBody()).isEqualTo(expected);
-    }
-
-
     @ParameterizedTest
     @MethodSource("paymentTypes")
     void authenticatePsu(PaymentService paymentService, PaymentProduct paymentProduct) throws IOException {
@@ -236,10 +166,7 @@ class AdorsysPaymentInitiationServiceWireMockTest {
     }
 
     private static Stream<Arguments> paymentTypes() {
-        return Stream.of(arguments(PaymentService.PAYMENTS, PaymentProduct.SEPA_CREDIT_TRANSFERS),
-                         arguments(PaymentService.PAYMENTS, PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS),
-                         arguments(PaymentService.PERIODIC_PAYMENTS, PaymentProduct.SEPA_CREDIT_TRANSFERS),
-                         arguments(PaymentService.PERIODIC_PAYMENTS, PaymentProduct.PAIN_001_SEPA_CREDIT_TRANSFERS));
+        return Stream.of(arguments(PaymentService.PAYMENTS, PaymentProduct.SEPA_CREDIT_TRANSFERS));
     }
 
     private static class Ids {

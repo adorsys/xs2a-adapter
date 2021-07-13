@@ -1,4 +1,5 @@
 {
   "scaStatus": "finalised",
-  "trustedBeneficiaryFlag": true
+  "trustedBeneficiaryFlag": false,
+  "psuMessage": "Mocked PSU message from SPI."
 }

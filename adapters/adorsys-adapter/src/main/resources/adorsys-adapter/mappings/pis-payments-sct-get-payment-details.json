@@ -1,6 +1,6 @@
 {
-  "id" : "6fc0135b-b223-445e-bae4-20ca640976f8",
-  "name" : "v1_payments_sepa-credit-transfers_w_pfk5-4oqzsxpxkls9h97q8bfpnv3xkam5mxm8dnt60lxxypagedv4hpqteq8-mcgftjbetkzvnvu5mzqqwca__psglvqpt9q",
+  "id" : "336e8e08-055c-4ed8-8882-67e43e52458b",
+  "name" : "v1_payments_sepa-credit-transfers_eesrcxpl3gbu1stqylfk6ym8afak9f5hrvutnylidsfmv1ws-viyqjo1eiagdvp6cgftjbetkzvnvu5mzqqwca__psglvqpt9q",
   "request" : {
     "urlPattern" : "/v1/payments/sepa-credit-transfers/.+",
     "method" : "GET",
@@ -18,18 +18,18 @@
   },
   "response" : {
     "status" : 200,
-    "body" : "{\"endToEndIdentification\":\"SandboxTPPTest1\",\"debtorName\":\"Mocked debtor name from ASPSP\",\"debtorAccount\":{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"},\"instructedAmount\":{\"currency\":\"EUR\",\"amount\":\"20.99\"},\"creditorAccount\":{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"},\"creditorName\":\"Merchant123\",\"remittanceInformationUnstructured\":\"just\",\"transactionStatus\":\"ACCC\"}",
+    "body" : "{\"endToEndIdentification\":\"SandboxTPPTest1\",\"debtorName\":\"max.musterman\",\"debtorAccount\":{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"},\"instructedAmount\":{\"currency\":\"EUR\",\"amount\":\"20.99\"},\"creditorAccount\":{\"iban\":\"DE38760700240320465700\",\"currency\":\"EUR\"},\"creditorName\":\"Merchant123\",\"remittanceInformationUnstructured\":\"just\",\"transactionStatus\":\"ACSP\"}",
     "headers" : {
       "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
-      "x-request-id" : "7ac9da2e-791e-422e-b8ed-3c33b2a6b5fe",
+      "x-request-id" : "a1f81244-9b83-4465-8008-f6800f634ae3",
       "content-type" : "application/json;charset=UTF-8",
-      "date" : "Wed, 08 Jul 2020 10:16:02 GMT",
+      "date" : "Thu, 08 Jul 2021 11:37:05 GMT",
       "x-robots-tag" : "none",
-      "set-cookie" : "SRVNAME=17984ba812b2bfa7d54e249e16048ab4; path=/; HttpOnly; Secure",
+      "set-cookie" : "SRVNAME=c88f1df71e4faf4c2c3ec5052407fcb2; path=/; HttpOnly; Secure; SameSite=None",
       "cache-control" : "private"
     }
   },
-  "uuid" : "6fc0135b-b223-445e-bae4-20ca640976f8",
+  "uuid" : "336e8e08-055c-4ed8-8882-67e43e52458b",
   "persistent" : true,
-  "insertionIndex" : 34
+  "insertionIndex" : 41
 }

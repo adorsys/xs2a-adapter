@@ -42,10 +42,10 @@ public class AdorsysIntegServiceProvider extends AbstractAdapterServiceProvider 
 
         HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new BasePaymentInitiationService(aspsp,
-                                                httpClientFactory.getHttpClient(getAdapterId()),
-                                                getInterceptors(aspsp, getInterceptors(config.getKeyStore())),
-                                                linksRewriter,
-                                                config.getLogSanitizer());
+            httpClientFactory.getHttpClient(getAdapterId()),
+            getInterceptors(aspsp, getInterceptors(config.getKeyStore())),
+            linksRewriter,
+            config.getLogSanitizer());
     }
 
     private Interceptor[] getInterceptors(Pkcs12KeyStore keyStore) {
