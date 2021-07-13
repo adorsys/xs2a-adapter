@@ -69,7 +69,7 @@ public class Xs2aHttpLogSanitizer implements HttpLogSanitizer {
         if (sanitizedHeaders.contains(name)) {
             return REPLACEMENT;
         }
-        return sanitize(value);
+        return value;
     }
 
     public String sanitize(String data) {
