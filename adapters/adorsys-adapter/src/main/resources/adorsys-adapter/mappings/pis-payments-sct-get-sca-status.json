@@ -1,6 +1,6 @@
 {
-  "id" : "0e33b5b8-5475-4d7e-8a03-129bd9e8f077",
-  "name" : "v1_payments_sepa-credit-transfers_w_pfk5-4oqzsxpxkls9h97q8bfpnv3xkam5mxm8dnt60lxxypagedv4hpqteq8-mcgftjbetkzvnvu5mzqqwca__psglvqpt9q_authorisations_259b8215-d14e-493a-ba01-c2243a9ff86a",
+  "id" : "56fa12f8-db96-423d-b110-521a01441fbc",
+  "name" : "v1_payments_sepa-credit-transfers_eesrcxpl3gbu1stqylfk6ym8afak9f5hrvutnylidsfmv1ws-viyqjo1eiagdvp6cgftjbetkzvnvu5mzqqwca__psglvqpt9q_authorisations_62de6fa2-b93f-47bd-821f-6b0887d37066",
   "request" : {
     "urlPattern" : "/v1/payments/sepa-credit-transfers/.+/authorisations/.+",
     "method" : "GET",
@@ -12,18 +12,18 @@
   },
   "response" : {
     "status" : 200,
-    "body" : "{\"scaStatus\":\"finalised\",\"trustedBeneficiaryFlag\":true}",
+    "body" : "{\"scaStatus\":\"finalised\",\"trustedBeneficiaryFlag\":false,\"psuMessage\":\"Mocked PSU message from SPI.\"}",
     "headers" : {
       "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
-      "x-request-id" : "1a86e3fe-a007-4547-adeb-2ad7e17ac917",
+      "x-request-id" : "3ad0606c-58c9-4b3a-98cd-481be240865f",
       "content-type" : "application/json",
-      "date" : "Wed, 29 Jul 2020 05:10:51 GMT",
+      "date" : "Thu, 08 Jul 2021 11:37:10 GMT",
       "x-robots-tag" : "none",
-      "set-cookie" : "SRVNAME=ae322d2421d269ad308e7ea7bf07f678; path=/; HttpOnly; Secure",
+      "set-cookie" : "SRVNAME=c88f1df71e4faf4c2c3ec5052407fcb2; path=/; HttpOnly; Secure; SameSite=None",
       "cache-control" : "private"
     }
   },
-  "uuid" : "0e33b5b8-5475-4d7e-8a03-129bd9e8f077",
+  "uuid" : "56fa12f8-db96-423d-b110-521a01441fbc",
   "persistent" : true,
-  "insertionIndex" : 12
+  "insertionIndex" : 42
 }

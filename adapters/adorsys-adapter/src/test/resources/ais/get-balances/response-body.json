@@ -7,20 +7,20 @@
     {
       "balanceAmount": {
         "currency": "EUR",
-        "amount": "1580120.00"
+        "amount": "17120.00"
       },
       "balanceType": "interimAvailable",
-      "lastChangeDateTime": "2020-07-03T17:40:16.286+02:00",
-      "referenceDate": "2020-07-07"
+      "lastChangeDateTime": "2021-07-07T10:40:30.712+02:00",
+      "referenceDate": "2021-07-07"
     },
     {
       "balanceAmount": {
         "currency": "EUR",
-        "amount": "1580120.00"
+        "amount": "17120.00"
       },
       "balanceType": "closingBooked",
-      "lastChangeDateTime": "2020-07-03T17:40:16.286+02:00",
-      "referenceDate": "2020-07-07"
+      "lastChangeDateTime": "2021-07-07T10:40:30.712+02:00",
+      "referenceDate": "2021-07-07"
     }
   ]
 }

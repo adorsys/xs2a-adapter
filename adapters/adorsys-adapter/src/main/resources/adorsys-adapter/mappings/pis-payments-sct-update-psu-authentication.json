@@ -1,6 +1,6 @@
 {
-  "id" : "089bb9da-b8c4-4949-8ac9-5499b0ea4138",
-  "name" : "v1_payments_sepa-credit-transfers_w_pfk5-4oqzsxpxkls9h97q8bfpnv3xkam5mxm8dnt60lxxypagedv4hpqteq8-mcgftjbetkzvnvu5mzqqwca__psglvqpt9q_authorisations_259b8215-d14e-493a-ba01-c2243a9ff86a",
+  "id" : "ef31e088-344f-47bc-9a55-8f498a266d8a",
+  "name" : "v1_payments_sepa-credit-transfers_eesrcxpl3gbu1stqylfk6ym8afak9f5hrvutnylidsfmv1ws-viyqjo1eiagdvp6cgftjbetkzvnvu5mzqqwca__psglvqpt9q_authorisations_62de6fa2-b93f-47bd-821f-6b0887d37066",
   "request" : {
     "urlPattern" : "/v1/payments/sepa-credit-transfers/.+/authorisations/.+",
     "method" : "PUT",
@@ -23,18 +23,18 @@
   },
   "response" : {
     "status" : 200,
-    "body" : "{\"scaMethods\":[{\"authenticationType\":\"EMAIL\",\"authenticationMethodId\":\"DQ28HA0zRQIldt-MMICgqI\",\"name\":\"max.musterman@mail.de\"},{\"authenticationType\":\"EMAIL\",\"authenticationMethodId\":\"KH5mePFfTQgi7trm0gMIOk\",\"name\":\"max.musterman2@mail.de\"}],\"_links\":{\"selectAuthenticationMethod\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/payments/sepa-credit-transfers/W_pFk5-4OqzsXpxKLs9h97q8bfPnV3XKAm5MxM8dnT60LxXyPaGedv4HPQtEQ8-mcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/259b8215-d14e-493a-ba01-c2243a9ff86a\"},\"scaStatus\":{\"href\":\"https://demo-dynamicsandbox-xs2a.cloud.adorsys.de/v1/payments/sepa-credit-transfers/W_pFk5-4OqzsXpxKLs9h97q8bfPnV3XKAm5MxM8dnT60LxXyPaGedv4HPQtEQ8-mcgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/259b8215-d14e-493a-ba01-c2243a9ff86a\"}},\"scaStatus\":\"psuAuthenticated\"}",
+    "body" : "{\"scaMethods\":[{\"authenticationType\":\"EMAIL\",\"authenticationMethodId\":\"j7FGgYHgQY4nl2zGk4sF3o\",\"name\":\"max.musterman@mail.de\"},{\"authenticationType\":\"EMAIL\",\"authenticationMethodId\":\"oo37-5JHSmEg03ISCRfEos\",\"name\":\"max.musterman2@mail.de\"}],\"_links\":{\"selectAuthenticationMethod\":{\"href\":\"https://dev-modelbank-xs2a-connector.cloud.adorsys.de/v1/payments/sepa-credit-transfers/eesrCxpL3GBU1STQYLfK6yM8afAk9F5hrVutnylIDsFMv1ws-VIYQjo1EIaGDvp6cgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/62de6fa2-b93f-47bd-821f-6b0887d37066\"},\"scaStatus\":{\"href\":\"https://dev-modelbank-xs2a-connector.cloud.adorsys.de/v1/payments/sepa-credit-transfers/eesrCxpL3GBU1STQYLfK6yM8afAk9F5hrVutnylIDsFMv1ws-VIYQjo1EIaGDvp6cgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/62de6fa2-b93f-47bd-821f-6b0887d37066\"}},\"scaStatus\":\"psuAuthenticated\"}",
     "headers" : {
       "vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
       "aspsp-sca-approach" : "EMBEDDED",
-      "x-request-id" : "bd7c951a-9ca9-4918-a956-6ef38eabb701",
+      "x-request-id" : "ae9a6046-80dd-49cf-902d-005d3960e88c",
       "content-type" : "application/json",
-      "date" : "Wed, 08 Jul 2020 08:06:37 GMT",
+      "date" : "Thu, 08 Jul 2021 11:36:48 GMT",
       "x-robots-tag" : "none",
-      "set-cookie" : "SRVNAME=17984ba812b2bfa7d54e249e16048ab4; path=/; HttpOnly; Secure"
+      "set-cookie" : "SRVNAME=c88f1df71e4faf4c2c3ec5052407fcb2; path=/; HttpOnly; Secure; SameSite=None"
     }
   },
-  "uuid" : "089bb9da-b8c4-4949-8ac9-5499b0ea4138",
+  "uuid" : "ef31e088-344f-47bc-9a55-8f498a266d8a",
   "persistent" : true,
-  "insertionIndex" : 12
+  "insertionIndex" : 37
 }
