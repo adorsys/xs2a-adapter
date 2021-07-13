@@ -273,6 +273,36 @@ a| * Test successfully PIS for Unicredit
 
 * Add Token URI property to the adapter config file for Crealogix
 
+a| 29.04
+a| 0.1.10
+a| * Map new AuthenticationType for Sparkasse
+* Investigate PIS error for Sparkasse
+* Github issue-DeutscheBankPsuPasswordEncryptionService
+
+a| 08.05
+a| 0.1.11
+a| * Remove Unicredit workaround in Payment Initiation
+* Investigate error for Sparkasse Periodic PIS test in pain.001 format
+* Fix Fiducia FORMAT_ERROR
+
+a| 14.06
+a| 0.1.12
+a| * Migrate to Java 11
+* Improve payload comparison
+* Update release.yml in Adapter project
+* Adding ValidationError and a request validation in adapters
+* Repair DKB embedded authorisation
+
+a| 13.07
+a| 0.1.13
+a| * Update Postman collections
+* Refine documentation about using adapter as a library
+* Add "getAccountDetails" base implementation
+* Fix Postman Tests
+* Remove CreditorAddress workaround in Adorsys adapter
+* Rewrite WireMock stubs for Adorsys adapter
+* Account Id is not masked
+
 a| For future development
 
 a| x.x.x
