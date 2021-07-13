@@ -49,6 +49,8 @@ public class Xs2aHttpLogSanitizer implements HttpLogSanitizer {
 
     public Xs2aHttpLogSanitizer() {
         patterns.add(Pattern.compile("(consents|accounts|authorisations|credit-transfers|target-2-payments)/[^/?\\s\\[\"]+(.*?)"));
+        // To tackle DKB errors and Commerzbank Authorization URIs
+        patterns.add(Pattern.compile("([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})"));
 
         sanitizedHeaders.addAll(Arrays.asList(
             "Authorization",
@@ -67,15 +69,20 @@ public class Xs2aHttpLogSanitizer implements HttpLogSanitizer {
         if (sanitizedHeaders.contains(name)) {
             return REPLACEMENT;
         }
-        return sanitize(value);
+        return value;
     }
 
     public String sanitize(String data) {
         String replacedData = data;
         for (Pattern pattern : patterns) {
             Matcher matcher = pattern.matcher(replacedData);
+            var groupCount = matcher.groupCount();
             if (matcher.find()) {
-                replacedData = matcher.replaceAll("$1/" + REPLACEMENT + "$2");
+                if (2 == groupCount) {
+                    replacedData = matcher.replaceAll("$1/" + REPLACEMENT + "$2");
+                } else if (1 == groupCount) {
+                    replacedData = matcher.replaceAll(REPLACEMENT);
+                }
             }
         }
         return replacedData;
