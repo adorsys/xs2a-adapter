@@ -1,8 +1,4 @@
-= Draft Release notes for version 0.1.13 (release date: xx.07.2021)
-
-.Added banks
-|===
-|===
+= Release notes for version 0.1.13 (release date: 13.07.2021)
 
 == Notices:
 - updated Postman collections.
