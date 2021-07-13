@@ -12,6 +12,8 @@
 a Creditor Address field. After the latest ModelBank environment updates, the address field is no more a mandatory data.
 - updated WireMock stubs for `adorsys-adapter`, removed all periodic-payments and XML based payments as they are not
 working at the moment.
+- adjusted Xs2aHttpLogSanitizer to mask Account Ids in DKB error responses and Authorization Ids in the Commerzbank GET
+Authorization URI requests.
 
 == Features:
 - Added "readAccountDetails" operation
