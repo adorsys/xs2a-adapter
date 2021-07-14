@@ -86,7 +86,7 @@ class Xs2AHttpLogSanitizerTest {
     @Test
     void sanitizeSensitiveHeaders() {
         List<String> headers = Arrays.asList("Authorization", "PSU-ID", "PSU-Corporate-ID", "Consent-ID", "X-GTW-IBAN",
-            "Location");
+            "Location", "location", "X-dynatrace-Origin-URL");
         for (String header : headers) {
             String sanitizedHeader = anonymizer.sanitizeHeader(header, "1234567");
             assertThat(sanitizedHeader).isEqualTo(REPLACEMENT);
