@@ -5,6 +5,7 @@
 |===
 
 == Notices:
+- `Xs2aHttpLogSanitizer` was extended with new headers to hide.
 
 == Features:
 
