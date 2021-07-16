@@ -13,6 +13,7 @@ import de.adorsys.xs2a.adapter.api.http.Request;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.http.RequestBuilderImpl;
+import de.adorsys.xs2a.adapter.unicredit.model.UnicreditUpdatePsuAuthenticationResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -45,12 +46,13 @@ class UnicreditPaymentInitiationServiceTest {
     private static final String DEFAULT_COUNTRY_CODE = "DE";
     private static final Map<String, String> defaultHeaders = getHeadersMap(DEFAULT_PSU_ID_TYPE);
     private HttpClient httpClient;
+    private LinksRewriter linksRewriter;
     private UnicreditPaymentInitiationService paymentInitiationService;
 
     @BeforeEach
     void setUp() {
         httpClient = mock(HttpClient.class);
-        LinksRewriter linksRewriter = mock(LinksRewriter.class);
+        linksRewriter = mock(LinksRewriter.class);
         HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
         HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
 
@@ -137,6 +139,35 @@ class UnicreditPaymentInitiationServiceTest {
                                                       new TransactionAuthorisation());
 
         assertThat(requestBuilder.headers()).containsEntry(RequestHeaders.PSU_ID_TYPE, DEFAULT_PSU_ID_TYPE);
+    }
+
+    @Test
+    void updatePaymentPsuData_responseMapping() {
+        Request.Builder requestBuilder = spy(new RequestBuilderImpl(httpClient, "PUT", AUTHORISATION_URL));
+
+        UnicreditUpdatePsuAuthenticationResponse unicreditResponse = new UnicreditUpdatePsuAuthenticationResponse();
+        Map<String, HrefType> links = new HashMap<>();
+        HrefType hrefAuthoriseTransaction = new HrefType();
+        hrefAuthoriseTransaction.setHref("https://api.unicredit.de/hydrogen/v1/payments/****");
+        links.put("authoriseTransaction", hrefAuthoriseTransaction);
+        unicreditResponse.setLinks(Collections.singletonList(links));
+
+        when(httpClient.put(anyString())).thenReturn(requestBuilder);
+        doReturn(new Response<>(200,
+                                unicreditResponse,
+                                ResponseHeaders.fromMap(Collections.emptyMap()))).when(requestBuilder).send(any(), eq(Collections.emptyList()));
+        when(linksRewriter.rewrite(any())).thenAnswer(i -> i.getArguments()[0]);
+
+        Response<UpdatePsuAuthenticationResponse> response = paymentInitiationService.updatePaymentPsuData(
+            PaymentService.PAYMENTS,
+            PaymentProduct.SEPA_CREDIT_TRANSFERS,
+            PAYMENT_ID,
+            AUTHORISATION_ID,
+            RequestHeaders.fromMap(Collections.emptyMap()),
+            RequestParams.empty(),
+            new UpdatePsuAuthentication());
+
+        assertThat(response.getBody().getLinks()).containsExactlyEntriesOf(links);
     }
 
     @Test
