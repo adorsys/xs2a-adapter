@@ -10,3 +10,4 @@
 == Features:
 
 == Fixes:
+- fixed `unicredit-adapter` update payment psu data failing because of invalid links format in response.
