@@ -3,6 +3,7 @@ package de.adorsys.xs2a.adapter.santander;
 import de.adorsys.xs2a.adapter.api.Oauth2Service;
 import de.adorsys.xs2a.adapter.api.PkceOauth2Extension;
 import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
+import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
@@ -24,7 +25,8 @@ import static de.adorsys.xs2a.adapter.api.validation.Validation.requireValid;
 
 class SantanderOauth2Service implements Oauth2Service, PkceOauth2Extension {
 
-    private static final String TOKEN_URL = "/v1/oauth_matls/token";
+    private static final String SANTANDER_TOKEN_URL_PROPERTY = "santander.token.url";
+    private static final String TOKEN_URL = AdapterConfig.readProperty(SANTANDER_TOKEN_URL_PROPERTY, "/v1/oauth_matls/token");
     private static final String GRANT_TYPE_VALUE = "client_credentials";
     private static String baseUrl;
     private final Oauth2Service oauth2Service;
@@ -61,7 +63,7 @@ class SantanderOauth2Service implements Oauth2Service, PkceOauth2Extension {
     }
 
     private void fixScaOAuthLink(Parameters parameters) {
-        String scaOAuthLink = parameters.removeScaOAuthLink();
+        String scaOAuthLink = parameters.getScaOAuthLink();
 
         if (scaOAuthLink.startsWith("https://")) {
             return; // link in an expected format

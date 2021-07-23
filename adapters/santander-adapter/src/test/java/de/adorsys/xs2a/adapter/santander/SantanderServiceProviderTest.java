@@ -3,12 +3,10 @@ package de.adorsys.xs2a.adapter.santander;
 import de.adorsys.xs2a.adapter.api.AccountInformationService;
 import de.adorsys.xs2a.adapter.api.Oauth2Service;
 import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
-import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
+import de.adorsys.xs2a.adapter.api.Pkcs12KeyStore;
 import de.adorsys.xs2a.adapter.api.http.HttpClientConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,25 +19,14 @@ class SantanderServiceProviderTest {
     private SantanderServiceProvider serviceProvider;
     private final HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
     private final HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
+    private final Pkcs12KeyStore keyStore = mock(Pkcs12KeyStore.class);
     private final Aspsp aspsp = new Aspsp();
-    private static final String pathToConfig
-        = SantanderServiceProviderTest.class.getResource("/santander.test.config.properties").getFile();
-
-    @BeforeAll
-    static void beforeAll() {
-        AdapterConfig.setConfigFile(pathToConfig);
-    }
 
     @BeforeEach
     void setUp() {
         serviceProvider = new SantanderServiceProvider();
         when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
-    }
-
-    // to make sure adapter configurations are set to default
-    @AfterAll
-    static void afterAll() {
-        AdapterConfig.setConfigFile("");
+        when(httpClientConfig.getKeyStore()).thenReturn(keyStore);
     }
 
     @Test

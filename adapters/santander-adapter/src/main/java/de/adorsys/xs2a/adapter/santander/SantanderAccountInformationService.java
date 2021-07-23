@@ -26,19 +26,9 @@ import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import de.adorsys.xs2a.adapter.santander.model.SantanderTransactionResponse200Json;
 import org.mapstruct.factory.Mappers;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class SantanderAccountInformationService extends BaseAccountInformationService {
-    private static final Set<String> HEADERS_TO_KEEP = new HashSet<>(Arrays.asList(
-        RequestHeaders.X_REQUEST_ID,
-        RequestHeaders.ACCEPT,
-        RequestHeaders.CONTENT_TYPE,
-        RequestHeaders.CONSENT_ID,
-        RequestHeaders.AUTHORIZATION
-    ));
 
     private final SantanderMapper santanderMapper = Mappers.getMapper(SantanderMapper.class);
     private final SantanderOauth2Service oauth2Service;
