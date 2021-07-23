@@ -56,7 +56,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    ResponseEntity<Object> handle(PreAuthorisationException exception) {
+    ResponseEntity<Object> handle(RequestAuthorizationValidationException exception) {
         logError(exception);
         HttpHeaders headers = addErrorOriginationHeader(
             new HttpHeaders(),

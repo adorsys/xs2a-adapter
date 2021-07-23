@@ -29,9 +29,8 @@ public class SantanderServiceProvider extends AbstractAdapterServiceProvider imp
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   LinksRewriter linksRewriter) {
-        SantanderAccessTokenService tokenService = getAccessTokenService(httpClientFactory);
         return new SantanderAccountInformationService(aspsp,
-            tokenService,
+            getOauth2Service(aspsp, httpClientFactory),
             httpClientFactory,
             linksRewriter);
     }
@@ -60,7 +59,7 @@ public class SantanderServiceProvider extends AbstractAdapterServiceProvider imp
     }
 
     @Override
-    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory) {
+    public SantanderOauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory) {
         return SantanderOauth2Service.create(aspsp, httpClientFactory);
     }
 }

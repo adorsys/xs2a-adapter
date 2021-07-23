@@ -22,12 +22,8 @@ import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
-import de.adorsys.xs2a.adapter.api.model.Aspsp;
-import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
-import de.adorsys.xs2a.adapter.api.model.TransactionsResponse200Json;
+import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
-import de.adorsys.xs2a.adapter.impl.security.AccessTokenService;
-import de.adorsys.xs2a.adapter.santander.model.SantanderOK200TransactionDetails;
 import de.adorsys.xs2a.adapter.santander.model.SantanderTransactionResponse200Json;
 import org.mapstruct.factory.Mappers;
 
@@ -43,27 +39,134 @@ public class SantanderAccountInformationService extends BaseAccountInformationSe
         RequestHeaders.X_REQUEST_ID,
         RequestHeaders.ACCEPT,
         RequestHeaders.CONTENT_TYPE,
-        RequestHeaders.CONSENT_ID
+        RequestHeaders.CONSENT_ID,
+        RequestHeaders.AUTHORIZATION
     ));
 
     private final SantanderMapper santanderMapper = Mappers.getMapper(SantanderMapper.class);
-    private AccessTokenService accessService;
+    private final SantanderOauth2Service oauth2Service;
+    private final SantanderRequestHandler requestHandler = new SantanderRequestHandler();
 
     public SantanderAccountInformationService(Aspsp aspsp,
-                                              AccessTokenService accessService,
+                                              SantanderOauth2Service oauth2Service,
                                               HttpClientFactory httpClientFactory,
                                               LinksRewriter linksRewriter) {
         super(aspsp,
-            httpClientFactory.getHttpClient(aspsp.getAdapterId()),
+            SantanderHttpClientFactory.getHttpClient(aspsp.getAdapterId(), httpClientFactory),
             linksRewriter,
             httpClientFactory.getHttpClientConfig().getLogSanitizer());
-        this.accessService = accessService;
+        this.oauth2Service = oauth2Service;
+    }
+
+    @Override
+    public Response<ConsentsResponse201> createConsent(RequestHeaders requestHeaders,
+                                                       RequestParams requestParams,
+                                                       Consents body) {
+        Map<String, String> updatedHeaders = addBearerHeader(requestHeaders.toMap());
+
+        return super.createConsent(RequestHeaders.fromMap(updatedHeaders), requestParams, body);
+    }
+
+    @Override
+    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response<StartScaprocessResponse> startConsentAuthorisation(String consentId,
+                                                                       RequestHeaders requestHeaders,
+                                                                       RequestParams requestParams,
+                                                                       UpdatePsuAuthentication updatePsuAuthentication) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response<UpdatePsuAuthenticationResponse> updateConsentsPsuData(String consentId,
+                                                                           String authorisationId,
+                                                                           RequestHeaders requestHeaders,
+                                                                           RequestParams requestParams,
+                                                                           UpdatePsuAuthentication updatePsuAuthentication) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response<SelectPsuAuthenticationMethodResponse> updateConsentsPsuData(String consentId,
+                                                                                 String authorisationId,
+                                                                                 RequestHeaders requestHeaders,
+                                                                                 RequestParams requestParams,
+                                                                                 SelectPsuAuthenticationMethod selectPsuAuthenticationMethod) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response<ScaStatusResponse> updateConsentsPsuData(String consentId,
+                                                             String authorisationId,
+                                                             RequestHeaders requestHeaders,
+                                                             RequestParams requestParams,
+                                                             TransactionAuthorisation transactionAuthorisation) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response<ConsentInformationResponse200Json> getConsentInformation(String consentId,
+                                                                             RequestHeaders requestHeaders,
+                                                                             RequestParams requestParams) {
+        requestHandler.validateRequest(requestHeaders);
+
+        return super.getConsentInformation(consentId, requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<ConsentStatusResponse200> getConsentStatus(String consentId,
+                                                               RequestHeaders requestHeaders,
+                                                               RequestParams requestParams) {
+        requestHandler.validateRequest(requestHeaders);
+
+        return super.getConsentStatus(consentId, requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<Void> deleteConsent(String consentId,
+                                        RequestHeaders requestHeaders,
+                                        RequestParams requestParams) {
+        requestHandler.validateRequest(requestHeaders);
+
+        return super.deleteConsent(consentId, requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<AccountList> getAccountList(RequestHeaders requestHeaders,
+                                                RequestParams requestParams) {
+        requestHandler.validateRequest(requestHeaders);
+
+        return super.getAccountList(requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<OK200AccountDetails> readAccountDetails(String accountId,
+                                                            RequestHeaders requestHeaders,
+                                                            RequestParams requestParams) {
+        requestHandler.validateRequest(requestHeaders);
+
+        return super.readAccountDetails(accountId, requestHeaders, requestParams);
+    }
+
+    @Override
+    public Response<ReadAccountBalanceResponse200> getBalances(String accountId,
+                                                               RequestHeaders requestHeaders,
+                                                               RequestParams requestParams) {
+        requestHandler.validateRequest(requestHeaders);
+
+        return super.getBalances(accountId, requestHeaders, requestParams);
     }
 
     @Override
     public Response<TransactionsResponse200Json> getTransactionList(String accountId,
                                                                     RequestHeaders requestHeaders,
                                                                     RequestParams requestParams) {
+        requestHandler.validateRequest(requestHeaders);
 
         return super.getTransactionList(accountId,
                                         requestHeaders,
@@ -78,21 +181,45 @@ public class SantanderAccountInformationService extends BaseAccountInformationSe
                                                                    RequestHeaders requestHeaders,
                                                                    RequestParams requestParams) {
 
-        return super.getTransactionDetails(accountId,
-                                           transactionId,
-                                           requestHeaders,
-                                           requestParams,
-                                           SantanderOK200TransactionDetails.class,
-                                           santanderMapper::toOK200TransactionDetails);
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response<Authorisations> getConsentAuthorisation(String consentId,
+                                                            RequestHeaders requestHeaders,
+                                                            RequestParams requestParams) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response<CardAccountList> getCardAccountList(RequestHeaders requestHeaders,
+                                                        RequestParams requestParams) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response<OK200CardAccountDetails> getCardAccountDetails(String accountId,
+                                                                   RequestHeaders requestHeaders,
+                                                                   RequestParams requestParams) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response<ReadCardAccountBalanceResponse200> getCardAccountBalances(String accountId,
+                                                                              RequestHeaders requestHeaders,
+                                                                              RequestParams requestParams) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Response<CardAccountsTransactionsResponse200> getCardAccountTransactionList(String accountId,
+                                                                                       RequestHeaders requestHeaders,
+                                                                                       RequestParams requestParams) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     protected Map<String, String> populatePostHeaders(Map<String, String> headers) {
-        return updateHeaders(headers);
-    }
-
-    @Override
-    protected Map<String, String> populatePutHeaders(Map<String, String> headers) {
         return updateHeaders(headers);
     }
 
@@ -108,7 +235,6 @@ public class SantanderAccountInformationService extends BaseAccountInformationSe
 
     private Map<String, String> updateHeaders(Map<String, String> headers) {
         removeUnneededHeaders(headers);
-        addBearerHeader(headers);
         addIbmClientIdHeader(headers);
         return headers;
     }
@@ -117,8 +243,15 @@ public class SantanderAccountInformationService extends BaseAccountInformationSe
         headers.keySet().removeIf(header -> !HEADERS_TO_KEEP.contains(header));
     }
 
-    private void addBearerHeader(Map<String, String> headers) {
-        headers.put("Authorization", "Bearer " + accessService.retrieveToken());
+    private Map<String, String> addBearerHeader(Map<String, String> headers) {
+        headers.put("Authorization", "Bearer " + oauth2Service.getClientCredentialsAccessToken());
+        return headers;
+    }
+
+    @Override
+    protected Map<String, String> resolvePsuIdHeader(Map<String, String> headers) {
+        headers.remove(RequestHeaders.PSU_ID); // will actually fail if PSU-ID is provided
+        return headers;
     }
 
     private void addIbmClientIdHeader(Map<String, String> headers) {

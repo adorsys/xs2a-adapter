@@ -80,7 +80,7 @@ class BaseAccountInformationServiceTest {
         verify(requestBuilder, times(1)).send(any(), eq(Collections.singletonList(interceptor)));
 
         assertThat(uriCaptor.getValue()).isEqualTo(BASE_URI + "/v1/consents");
-        assertThat(headersCaptor.getValue()).isEqualTo(informationService.addPsuIdHeader(headers.toMap()));
+        assertThat(headersCaptor.getValue()).isEqualTo(informationService.resolvePsuIdHeader(headers.toMap()));
         assertThat(bodyCaptor.getValue()).isEqualTo("{}");
         assertThat(response.getBody()).isEqualTo(example);
     }
