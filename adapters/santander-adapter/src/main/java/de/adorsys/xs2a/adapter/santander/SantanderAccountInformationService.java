@@ -19,7 +19,6 @@ package de.adorsys.xs2a.adapter.santander;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.Response;
-import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
@@ -31,8 +30,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import static de.adorsys.xs2a.adapter.santander.SantanderAccessTokenService.SANTANDER_TOKEN_CONSUMER_KEY_PROPERTY;
 
 public class SantanderAccountInformationService extends BaseAccountInformationService {
     private static final Set<String> HEADERS_TO_KEEP = new HashSet<>(Arrays.asList(
@@ -219,28 +216,11 @@ public class SantanderAccountInformationService extends BaseAccountInformationSe
     }
 
     @Override
-    protected Map<String, String> populatePostHeaders(Map<String, String> headers) {
-        return updateHeaders(headers);
-    }
-
-    @Override
-    protected Map<String, String> populateGetHeaders(Map<String, String> headers) {
-        return updateHeaders(headers);
-    }
-
-    @Override
-    protected Map<String, String> populateDeleteHeaders(Map<String, String> headers) {
-        return updateHeaders(headers);
-    }
-
-    private Map<String, String> updateHeaders(Map<String, String> headers) {
-        removeUnneededHeaders(headers);
-        addIbmClientIdHeader(headers);
-        return headers;
-    }
-
-    private void removeUnneededHeaders(Map<String, String> headers) {
-        headers.keySet().removeIf(header -> !HEADERS_TO_KEEP.contains(header));
+    public Response<ScaStatusResponse> getConsentScaStatus(String consentId,
+                                                           String authorisationId,
+                                                           RequestHeaders requestHeaders,
+                                                           RequestParams requestParams) {
+        throw new UnsupportedOperationException();
     }
 
     private Map<String, String> addBearerHeader(Map<String, String> headers) {
@@ -252,13 +232,5 @@ public class SantanderAccountInformationService extends BaseAccountInformationSe
     protected Map<String, String> resolvePsuIdHeader(Map<String, String> headers) {
         headers.remove(RequestHeaders.PSU_ID); // will actually fail if PSU-ID is provided
         return headers;
-    }
-
-    private void addIbmClientIdHeader(Map<String, String> headers) {
-        headers.put("x-ibm-client-id", getConsumerKey());
-    }
-
-    private String getConsumerKey() {
-        return AdapterConfig.readProperty(SANTANDER_TOKEN_CONSUMER_KEY_PROPERTY, "");
     }
 }

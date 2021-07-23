@@ -16,8 +16,9 @@
 
 package de.adorsys.xs2a.adapter.santander;
 
-import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.AccountInformationService;
+import de.adorsys.xs2a.adapter.api.Oauth2ServiceProvider;
+import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
@@ -35,22 +36,14 @@ public class SantanderServiceProvider extends AbstractAdapterServiceProvider imp
             linksRewriter);
     }
 
-    private SantanderAccessTokenService getAccessTokenService(HttpClientFactory httpClientFactory) {
-        SantanderAccessTokenService tokenService = SantanderAccessTokenService.getInstance();
-        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
-        tokenService.setHttpClient(httpClient);
-        return tokenService;
-    }
-
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
-        SantanderAccessTokenService accessTokenService = getAccessTokenService(httpClientFactory);
         return new SantanderPaymentInitiationService(aspsp,
             httpClientFactory,
             linksRewriter,
-            accessTokenService);
+            getOauth2Service(aspsp, httpClientFactory));
     }
 
     @Override

@@ -31,14 +31,13 @@ class SantanderAccountInformationServiceTest {
     private static final String URI = "https://foo.boo";
     private static final String ACCOUNT_ID = "accountId";
     private static final String REMITTANCE_INFORMATION_STRUCTURED = "remittanceInformationStructuredStringValue";
-    private static final RequestHeaders EMPTY_REQUEST_HEADERS = RequestHeaders.empty();
-    private static final RequestParams EMPTY_REQUEST_PARAMS = RequestParams.empty();
     private static final String CONSENT_ID = "consentId";
 
     private static final RequestHeaders HEADERS_WITH_AUTHORISATION
         = RequestHeaders.fromMap(Map.of(RequestHeaders.AUTHORIZATION, "Bearer foo"));
-    private static final String AUTHORISATION_ID = "authorisationId";
     private static Request.Builder requestBuilder;
+    private static final RequestHeaders EMPTY_REQUEST_HEADERS = RequestHeaders.empty();
+    private static final RequestParams EMPTY_REQUEST_PARAMS = RequestParams.empty();
 
     private SantanderAccountInformationService accountInformationService;
     @Mock
@@ -250,6 +249,8 @@ class SantanderAccountInformationServiceTest {
         assertThatThrownBy(() -> accountInformationService.getCardAccountBalances(null, null, null))
             .isExactlyInstanceOf(UnsupportedOperationException.class);
         assertThatThrownBy(() -> accountInformationService.getCardAccountTransactionList(null, null, null))
+            .isExactlyInstanceOf(UnsupportedOperationException.class);
+        assertThatThrownBy(() -> accountInformationService.getConsentScaStatus(null, null, null, null))
             .isExactlyInstanceOf(UnsupportedOperationException.class);
     }
 }
