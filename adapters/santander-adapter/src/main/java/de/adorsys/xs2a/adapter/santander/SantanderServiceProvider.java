@@ -16,8 +16,9 @@
 
 package de.adorsys.xs2a.adapter.santander;
 
-import de.adorsys.xs2a.adapter.api.*;
-import de.adorsys.xs2a.adapter.api.http.HttpClient;
+import de.adorsys.xs2a.adapter.api.AccountInformationService;
+import de.adorsys.xs2a.adapter.api.Oauth2ServiceProvider;
+import de.adorsys.xs2a.adapter.api.PaymentInitiationService;
 import de.adorsys.xs2a.adapter.api.http.HttpClientFactory;
 import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.Aspsp;
@@ -29,29 +30,20 @@ public class SantanderServiceProvider extends AbstractAdapterServiceProvider imp
     public AccountInformationService getAccountInformationService(Aspsp aspsp,
                                                                   HttpClientFactory httpClientFactory,
                                                                   LinksRewriter linksRewriter) {
-        SantanderAccessTokenService tokenService = getAccessTokenService(httpClientFactory);
         return new SantanderAccountInformationService(aspsp,
-            tokenService,
+            getOauth2Service(aspsp, httpClientFactory),
             httpClientFactory,
             linksRewriter);
-    }
-
-    private SantanderAccessTokenService getAccessTokenService(HttpClientFactory httpClientFactory) {
-        SantanderAccessTokenService tokenService = SantanderAccessTokenService.getInstance();
-        HttpClient httpClient = httpClientFactory.getHttpClient(getAdapterId());
-        tokenService.setHttpClient(httpClient);
-        return tokenService;
     }
 
     @Override
     public PaymentInitiationService getPaymentInitiationService(Aspsp aspsp,
                                                                 HttpClientFactory httpClientFactory,
                                                                 LinksRewriter linksRewriter) {
-        SantanderAccessTokenService accessTokenService = getAccessTokenService(httpClientFactory);
         return new SantanderPaymentInitiationService(aspsp,
             httpClientFactory,
             linksRewriter,
-            accessTokenService);
+            getOauth2Service(aspsp, httpClientFactory));
     }
 
     @Override
@@ -60,7 +52,7 @@ public class SantanderServiceProvider extends AbstractAdapterServiceProvider imp
     }
 
     @Override
-    public Oauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory) {
+    public SantanderOauth2Service getOauth2Service(Aspsp aspsp, HttpClientFactory httpClientFactory) {
         return SantanderOauth2Service.create(aspsp, httpClientFactory);
     }
 }

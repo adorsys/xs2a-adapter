@@ -116,7 +116,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
         requireValid(validateCreateConsent(requestHeaders, requestParams, body));
 
         Map<String, String> headersMap = populatePostHeaders(requestHeaders.toMap());
-        headersMap = addPsuIdHeader(headersMap);
+        headersMap = resolvePsuIdHeader(headersMap);
         headersMap = addPsuIdTypeHeader(headersMap);
 
         String bodyString = jsonMapper.writeValueAsString(jsonMapper.convertValue(body, Consents.class));

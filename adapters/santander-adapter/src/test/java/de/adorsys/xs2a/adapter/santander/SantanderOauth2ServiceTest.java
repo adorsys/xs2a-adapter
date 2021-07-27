@@ -48,7 +48,13 @@ class SantanderOauth2ServiceTest {
     private final HttpClientFactory httpClientFactory = mock(HttpClientFactory.class);
     private final HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
     private final Pkcs12KeyStore keyStore = mock(Pkcs12KeyStore.class);
-    private final Aspsp aspsp = new Aspsp();
+    private final Aspsp aspsp = getAspsp();
+
+    private Aspsp getAspsp() {
+        Aspsp aspsp = new Aspsp();
+        aspsp.setUrl("https://api.santander.de");
+        return aspsp;
+    }
 
     @BeforeEach
     void setUp() throws Exception {
@@ -57,10 +63,10 @@ class SantanderOauth2ServiceTest {
         doReturn(new Response<>(200, null, null))
             .when(httpClient).send(argThat(req -> req.uri().equals(TOKEN_ENDPOINT)), any());
 
-        when(keyStore.getOrganizationIdentifier())
+        when(keyStore.getOrganizationIdentifier(any()))
             .thenReturn(CLIENT_ID);
 
-        when(httpClientFactory.getHttpClient(any())).thenReturn(httpClient);
+        when(httpClientFactory.getHttpClient(any(), any())).thenReturn(httpClient);
         when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
         when(httpClientConfig.getKeyStore()).thenReturn(keyStore);
 
@@ -131,7 +137,6 @@ class SantanderOauth2ServiceTest {
     @Test
     void getToken() throws Exception {
         Parameters parameters = new Parameters();
-        parameters.setScaOAuthLink(SCA_OAUTH_LINK);
         parameters.setGrantType(Oauth2Service.GrantType.AUTHORIZATION_CODE.toString());
         parameters.setAuthorizationCode(AUTHORIZATION_CODE);
         parameters.setRedirectUri(REDIRECT_URI);
@@ -156,7 +161,6 @@ class SantanderOauth2ServiceTest {
     @Test
     void getTokenRefresh() throws Exception {
         Parameters parameters = new Parameters();
-        parameters.setScaOAuthLink(SCA_OAUTH_LINK);
         parameters.setGrantType(Oauth2Service.GrantType.REFRESH_TOKEN.toString());
         parameters.setRefreshToken(REFRESH_TOKEN);
 

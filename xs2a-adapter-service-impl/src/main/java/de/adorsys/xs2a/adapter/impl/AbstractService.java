@@ -48,7 +48,13 @@ public abstract class AbstractService {
         this.httpClient = httpClient;
     }
 
-    protected Map<String, String> addPsuIdHeader(Map<String, String> headers) {
+    /**
+     * In default implementation, adds a PSU-ID header.
+     *
+     * @param headers request headers
+     * @return list of headers with added an empty PSU-ID header
+     */
+    protected Map<String, String> resolvePsuIdHeader(Map<String, String> headers) {
         if (!headers.containsKey(RequestHeaders.PSU_ID)) {
             headers.put(RequestHeaders.PSU_ID, "");
         }

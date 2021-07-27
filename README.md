@@ -40,7 +40,7 @@ The former uniquely identifies an XS2A API provider in the `aspsp-registry`.
 The later is a shorthand for performing a lookup in the registry using a bank code.
 Note that the `aspsp-registry` supports lookup by attributes other than bank code including full-text search by name,
 but only as a pre-request.
-If you need details about managing ASPSP Registry please refer to this [document](/docs/aspsp_registry.md).
+If you need details about managing ASPSP Registry please refer to this [document](docs/aspsp_registry.md).
 
 ## Releases and versions
 
@@ -49,7 +49,7 @@ If you need details about managing ASPSP Registry please refer to this [document
   All release information can be found under the [Releases](https://github.com/adorsys/xs2a-adapter/releases) section 
   on GitHub.
 
-* [Release Notes](docs/release_notes/Release_notes_0.1.4.adoc)
+* [Release Notes](docs/release_notes/Release_notes_0.1.14.adoc)
 
 * [Roadmap for next features development](docs/roadmap.adoc)
 

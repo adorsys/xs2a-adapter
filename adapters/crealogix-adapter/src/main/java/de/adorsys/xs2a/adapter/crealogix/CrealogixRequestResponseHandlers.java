@@ -3,7 +3,7 @@ package de.adorsys.xs2a.adapter.crealogix;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.exception.ErrorResponseException;
-import de.adorsys.xs2a.adapter.api.exception.PreAuthorisationException;
+import de.adorsys.xs2a.adapter.api.exception.RequestAuthorizationValidationException;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
 import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.api.model.*;
@@ -59,7 +59,7 @@ public class CrealogixRequestResponseHandlers {
 
     private Map<String, String> checkAuthorizationHeader(Map<String, String> requestHeaders) {
         if (!requestHeaders.containsKey(RequestHeaders.AUTHORIZATION)) {
-            throw new PreAuthorisationException(
+            throw new RequestAuthorizationValidationException(
                 getErrorResponse(REQUEST_ERROR_MESSAGE),
                 REQUEST_ERROR_MESSAGE);
         }

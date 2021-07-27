@@ -83,6 +83,9 @@ You can specify multiple redirect URLs.
 The access to the Santander Sandbox is only possible using the Santander Sandbox eIDAS Certificate, provided 
 in the [Santander API Market](https://www.santander.de/privatkunden/specials/api-market/).
 
+**For Sandbox only**, Adapter will look for specific Santander certificated under `santander_qwac` alias within your KeyStore.
+Otherwise, `default_qwac` certificate will be used.
+
 Details about Santander [here](adapters/santander-adapter.md)
 
 #### ING

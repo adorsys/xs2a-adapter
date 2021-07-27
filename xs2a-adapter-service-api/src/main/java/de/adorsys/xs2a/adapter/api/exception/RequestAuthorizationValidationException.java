@@ -7,10 +7,10 @@ import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 
 import java.util.Collections;
 
-public class PreAuthorisationException extends RequestValidationException {
+public class RequestAuthorizationValidationException extends RequestValidationException {
     private final transient ErrorResponse errorResponse;
 
-    public PreAuthorisationException(ErrorResponse errorResponse, String message) {
+    public RequestAuthorizationValidationException(ErrorResponse errorResponse, String message) {
         super(Collections.singletonList(new ValidationError(ValidationError.Code.REQUIRED, RequestHeaders.AUTHORIZATION, message)));
         this.errorResponse = errorResponse;
     }

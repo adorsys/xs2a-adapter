@@ -6,8 +6,11 @@
 
 == Notices:
 - `Xs2aHttpLogSanitizer` was extended with new headers to hide.
+- refactored `santander-adapter`: added validations, marked some API endpoints as unsupported based on the bank documentation.
+- renamed 'PreAuthorisationException' into more generic `RequestAuthorizationValidationException`.
 
 == Features:
 
 == Fixes:
 - fixed `unicredit-adapter` update payment psu data failing because of invalid links format in response.
+- fixed `santander-adapter` OAuth2Service.

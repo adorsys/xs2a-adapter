@@ -2,7 +2,7 @@ package de.adorsys.xs2a.adapter.rest.impl.config;
 
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.exception.ErrorResponseException;
-import de.adorsys.xs2a.adapter.api.exception.PreAuthorisationException;
+import de.adorsys.xs2a.adapter.api.exception.RequestAuthorizationValidationException;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.api.validation.RequestValidationException;
 import de.adorsys.xs2a.adapter.api.validation.ValidationError;
@@ -72,10 +72,10 @@ class RestExceptionHandlerTest {
 
     @Test
     void preAuthorisationException() {
-        PreAuthorisationException preAuthorisationException
-            = new PreAuthorisationException(getErrorResponse(), "test error");
+        RequestAuthorizationValidationException requestAuthorizationValidationException
+            = new RequestAuthorizationValidationException(getErrorResponse(), "test error");
 
-        ResponseEntity<?> actualResponse = exceptionHandler.handle(preAuthorisationException);
+        ResponseEntity<?> actualResponse = exceptionHandler.handle(requestAuthorizationValidationException);
 
         assertThat(actualResponse)
             .isNotNull()
