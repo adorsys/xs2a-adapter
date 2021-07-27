@@ -17,11 +17,11 @@ in the configuration file. More details are coming below.
 
 ### Common XS2A Adapter configuration
 
-- `Keystore`. How to create an [adapter keystore](docs/keystore.md). After the keystore has been created, you should specify the properties **pkcs12.keyStore** and **pkcs12.keyStorePassword**.
-- `Adapters Config File`. A very basic configuration is already provided within [adapter.config.properties](xs2a-adapter-service-api/src/main/resources/adapter.config.properties), 
+- `Keystore`. How to create an [adapter keystore](keystore.md). After the keystore has been created, you should specify the properties **pkcs12.keyStore** and **pkcs12.keyStorePassword**.
+- `Adapters Config File`. A very basic configuration is already provided within [adapter.config.properties](../xs2a-adapter-service-api/src/main/resources/adapter.config.properties), 
 also you can introduce your own custom configuration, and specify the path to it with `adapter.config.file.path` 
-environment variable. Please check out this [documentation](docs/configuration.md) if you need details about the Adapter Config File. 
-- `aspsp-registry` config file. For configuring ASPSP registry you can modify [aspsp-adapter-config.csv](xs2a-adapter-aspsp-registry/src/main/resources/aspsp-adapter-config.csv) file
+environment variable. Please check out this [documentation](configuration.md) if you need details about the Adapter Config File. 
+- `aspsp-registry` config file. For configuring ASPSP registry you can modify [aspsp-adapter-config.csv](../xs2a-adapter-aspsp-registry/src/main/resources/aspsp-adapter-config.csv) file
 and specify the location with `csv.aspsp.adapter.config.file.path` environment variable.
 
 __Note__: be aware that `aspsp-registry` contains data for connecting with bank Sandboxes only,
@@ -136,12 +136,12 @@ Additional details could be found on the [Deutsche Bank Developer Portal](https:
 
 2. Build and run the project
 
-    __Notice:__ Default application port is **8999**, and it could be changed in the [application.yml](xs2a-adapter-app/src/main/resources/application.yml) file
+    __Notice:__ Default application port is **8999**, and it could be changed in the [application.yml](../xs2a-adapter-app/src/main/resources/application.yml) file
 
     ```shell script
     mvn clean package
     ```
-    Before executing the next command you should replace the next placeholders with values received at [configuration step](#configuring-the-xs2a-adapter)
+    Before executing the next command you should replace the next placeholders with values received at [configuration step](#common-xs2a-adapter-configuration)
     - **<path/to/keystore.p12>** with your keystore file location
     - **<path/to/adapter.config.properties>** with your adapter config file
     - **<path/to/aspsp-adapter-config.csv>** with your aspsp-registry configuration file
@@ -163,9 +163,9 @@ Additional details could be found on the [Deutsche Bank Developer Portal](https:
 
 You may also build a docker image and run it in your cloud environment
 
-__Notice:__ Default port is **8081**, and it could be changed in the [Dockerfile](Dockerfile)
+__Notice:__ Default port is **8081**, and it could be changed in the [Dockerfile](../Dockerfile)
 
-Before executing the next command you should replace the next placeholders with values received at [configuration step](#configuring-the-xs2a-adapter)
+Before executing the next command you should replace the next placeholders with values received at [configuration step](#common-xs2a-adapter-configuration)
 - **<path/to/keystore.p12>** with your keystore file location
 - **<path/to/adapter.config.properties>** with your adapter config file
 - **<path/to/aspsp-adapter-config.csv>** with your aspsp-registry configuration file
@@ -258,5 +258,5 @@ Response<PaymentInitationRequestResponse201> payment = paymentInitiationService.
                                                                                                 objectBody);
 ```
 
-With such approach, an [adapter.config.properties](xs2a-adapter-service-api/src/main/resources/adapter.config.properties)
+With such approach, an [adapter.config.properties](../xs2a-adapter-service-api/src/main/resources/adapter.config.properties)
 should be sited in the same module where the Adapter services located.
