@@ -64,6 +64,7 @@ class SantanderOauth2Service implements Oauth2Service, PkceOauth2Extension {
 
     private void fixScaOAuthLink(Parameters parameters) {
         String scaOAuthLink = parameters.getScaOAuthLink();
+        scaOAuthLink = scaOAuthLink.toLowerCase();
 
         if (scaOAuthLink.startsWith("https://")) {
             return; // link in an expected format
