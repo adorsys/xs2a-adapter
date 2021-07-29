@@ -1,0 +1,13 @@
+@startuml
+participant tpp as "TPP"
+participant adapter as "XS2A\nAdapter"
+participant bank as "ASPSP"
+
+tpp->adapter: POST embedded pre-step (PSU login and password)
+|||
+adapter->bank: POST embedded pre-step (PSU login and password)
+|||
+adapter<-bank: 201 access token
+|||
+tpp<-adapter: 201 access token
+@enduml

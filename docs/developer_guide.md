@@ -2,7 +2,7 @@
 
 ### Prerequisites
 
-For running or utilizing the Application please you may need:
+For running or utilizing the Application you may need:
 
 - Java 8+ JDK
 - Maven

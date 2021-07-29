@@ -8,4 +8,7 @@
 - link:pi-redirect-approach.html[PIS with Redirect Approach]
 - link:oauth-consent-ing.html[ING AIS]
 - link:pi-ing.html[ING PIS]
+- link:emdedded-prestep-dkb.html[Embedded Pre-step]
+- link:ais-dkb.html[DKB AIS]
+- link:pi-dkb.html[DKB PIS]
 - link:aspsp-manager.html[ASPSP Registry Manager]
