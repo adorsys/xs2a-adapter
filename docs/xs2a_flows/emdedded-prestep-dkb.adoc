@@ -5,9 +5,13 @@ or Embedded pre-step, which is not a part of Berlin Group PSD2 specification. Th
 name, is a mix of the Embedded and OAuth2 approaches. When requesting for an access token TPP must add a PSU login and password
 to a body in the call. TPP must call all PSD2 endpoints with an obtained access token included in the `PSD2-AUTHORIZATION` Bearer header.
 
+== Sequence Flow
+
 image::./images/embedded-pre-step.png[]
 
-The obtaining of an access token is mandatory for both AIS and PIS flows. The flows themselves much resemble the classical
+== XS2A Flows from DKB perspective
+
+The obtaining of an access token is mandatory for both AIS and PIS flows. The flows themselves much resemble the regular
 Embedded approach. Moreover, adapter will not impose using specific DKB `PSD2-AUTHORIZATION` but maps it to a common `AUTHORIZATION` header
 
 - link:ais-dkb.html[DKB AIS]

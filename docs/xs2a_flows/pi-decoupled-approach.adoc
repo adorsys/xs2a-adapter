@@ -1,0 +1,12 @@
+= Payment Initiation with Decoupled Approach
+
+The transaction flow in the Decoupled SCA Approach is similar to the Redirect SCA Approach.
+The difference is  that the  ASPSP  is  asking the PSU  to  authorise the payment  e.g.  via  a
+dedicated mobile app, or any other application or device which is independent from the online
+banking frontend.
+
+== Sequence Flow
+
+The example with the implicit start of the authorization process
+
+image::./images/pi-decoupled-approach.png[]

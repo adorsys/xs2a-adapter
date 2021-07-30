@@ -1,0 +1,41 @@
+@startuml
+participant tpp as "TPP"
+participant adapter as "XS2A\nAdapter"
+participant bank as "ASPSP"
+
+tpp->adapter: account information consent request
+|||
+adapter->bank: account information consent request
+|||
+adapter<-bank: 201 account-information response (startAuthorisation link)
+|||
+tpp<-adapter: 201 account-information response (startAuthorisation link)
+|||
+tpp->adapter: start authorisation request (psu credentials)
+|||
+adapter->bank: start authorisation request (psu credentials)
+|||
+adapter<-bank: 201 start-authorisation response \n(message: authorise the transaction via app „xxx“)
+|||
+tpp<-adapter: 201 start-authorisation response \n(message: authorise the transaction via app „xxx“)
+|||
+ref over tpp, adapter, bank: The ASPSP pushes the challenge to an authorisation app or device.\nPSU authorises the consent
+|||
+tpp->adapter: get consent status
+|||
+adapter->bank: get consent status
+|||
+adapter<-bank: 200 consent status response
+|||
+tpp<-adapter: 200 consent status response
+|||
+opt get sca status
+tpp->adapter: get sca status request
+|||
+adapter->bank: get sca status request
+|||
+adapter<-bank: 200 sca-status response
+|||
+tpp<-adapter: 200 sca-status response
+end
+@enduml

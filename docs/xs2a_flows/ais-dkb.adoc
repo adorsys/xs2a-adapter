@@ -2,4 +2,6 @@
 
 **Note:** XS2A Adapter maps PSD2-AUTHORIZATION header to a common AUTHORIZATION header.
 
+== Sequence Flow
+
 image::./images/ais-dkb.png[]
