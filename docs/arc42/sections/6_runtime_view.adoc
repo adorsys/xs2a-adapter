@@ -3,6 +3,7 @@
 === 6.1. Send request to ASPSP
 
 TPP sends request to ASPSP via XS2A Adapter.
+
 image::runtime-view.png[Sequence diagram: Interaction with Adapter,width=520]
 
 *Scenario:*
@@ -30,10 +31,14 @@ image::oauth-sca.png[OAuth2 SCA]
 
 image::oauth-integrated.png[Integrated OAuth based authentication process in AIS context]
 
-==== 6.2.1 Pre-step
+==== 6.2.2 Pre-step
 
 image::oauth-pre-step.png[OAuth based pre-step authentication process in AIS context]
 
-==== 6.2.1 OAuth2 Constent
+==== 6.2.3 OAuth2 Consent
 
 image::oauth-consent.png[OAuth based consent]
+
+==== 6.2.4 Embedded Pre-step
+
+image::embedded-pre-step.png[Embedded Pre-step]

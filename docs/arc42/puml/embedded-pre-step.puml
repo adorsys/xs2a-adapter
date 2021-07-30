@@ -5,9 +5,12 @@ participant bank as "ASPSP"
 
 tpp->adapter: POST embedded pre-step (PSU login and password)
 |||
-adapter->bank: POST POST generate oAuth token / login (PSU login and password)
+adapter->bank: POST generate oAuth token / login (PSU login and password)
 |||
 adapter<-bank: 201 access token
 |||
 tpp<-adapter: 201 access token
+note over tpp, bank
+ may proceed with account information or payment initiation requests
+end note
 @enduml
