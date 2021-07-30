@@ -6,6 +6,7 @@
 
 == Notices:
 - `Xs2aHttpLogSanitizer` was extended with new headers to hide.
+- added Decoupled, and Embedded Pre-step flows to the XS2A Flows documentation. Amended mistakes in the Adapter arc42 page.
 
 == Features:
 
