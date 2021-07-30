@@ -6,6 +6,7 @@
 
 == Notices:
 - `Xs2aHttpLogSanitizer` was extended with new headers to hide.
+- added Decoupled, and Embedded Pre-step flows to the XS2A Flows documentation. Amended mistakes in the Adapter arc42 page.
 - refactored `santander-adapter`: added validations, marked some API endpoints as unsupported based on the bank documentation.
 - renamed 'PreAuthorisationException' into more generic `RequestAuthorizationValidationException`.
 

@@ -9,7 +9,7 @@ adapter->bank: account information consent request
 |||
 adapter<-bank: 201 account-information response (startAuthorisation link)
 |||
-adapter<-adapter: check existing stub
+adapter->adapter: check existing stub
 |||
 tpp<-adapter: 201 account-information response (startAuthorisation link)
 |||
@@ -20,7 +20,7 @@ adapter->bank: start authorisation request (psu credentials)
 |||
 adapter<-bank: 201 start-authorisation response (available sca methods)
 |||
-adapter<-adapter: check existing stub
+adapter->adapter: check existing stub
 |||
 tpp<-adapter: 201 start-authorisation response (available sca methods)
 |||
@@ -30,7 +30,7 @@ adapter->bank: authorisation update request (sca method)
 |||
 adapter<-bank: 200 authorisation-update response
 |||
-adapter<-adapter: check existing stub
+adapter->adapter: check existing stub
 |||
 tpp<-adapter: 200 authorisation-update response
 ...
