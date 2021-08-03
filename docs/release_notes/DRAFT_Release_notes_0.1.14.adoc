@@ -9,9 +9,11 @@
 - added Decoupled, and Embedded Pre-step flows to the XS2A Flows documentation. Amended mistakes in the Adapter arc42 page.
 - refactored `santander-adapter`: added validations, marked some API endpoints as unsupported based on the bank documentation.
 - renamed 'PreAuthorisationException' into more generic `RequestAuthorizationValidationException`.
+- `AccessTokenService` and `AccessTokenException` are moved to `xs2a-adapter-service-api` package.
 
 == Features:
 
 == Fixes:
 - fixed `unicredit-adapter` update payment psu data failing because of invalid links format in response.
 - fixed `santander-adapter` OAuth2Service.
+- fixed swallowing original bank error when throwing `AccessTokenException` in `CrealogixEmbeddedPreAuthorisationService`.

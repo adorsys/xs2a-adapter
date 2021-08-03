@@ -1,12 +1,14 @@
 package de.adorsys.xs2a.adapter.rest.impl.config;
 
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
+import de.adorsys.xs2a.adapter.api.exception.AccessTokenException;
 import de.adorsys.xs2a.adapter.api.exception.ErrorResponseException;
 import de.adorsys.xs2a.adapter.api.exception.RequestAuthorizationValidationException;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.api.validation.RequestValidationException;
 import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -46,7 +48,7 @@ class RestExceptionHandlerTest {
         ErrorResponseException ex =
             new ErrorResponseException(400, emptyResponseHeaders(), new ErrorResponse(), OAUTH_ERROR_RESPONSE);
         RestExceptionHandler exceptionHandler = this.exceptionHandler;
-        ResponseEntity responseEntity = exceptionHandler.handle(ex);
+        ResponseEntity<?> responseEntity = exceptionHandler.handle(ex);
 
         assertThat(responseEntity.getBody()).isEqualTo(OAUTH_ERROR_RESPONSE);
     }
@@ -95,6 +97,46 @@ class RestExceptionHandlerTest {
                 .get(EMBEDDED_PRE_AUTH)
                 .getHref()
                 .equals(PRE_AUTH_TOKEN_URI));
+    }
+
+    @Test
+    void accessTokenException_internalError() {
+        var actualResponse = exceptionHandler.handle(new AccessTokenException("foo"));
+
+        assertThat(actualResponse)
+            .isNotNull()
+            .matches(resp -> HttpStatus.INTERNAL_SERVER_ERROR == resp.getStatusCode())
+            .matches(resp -> {
+                var headers = resp.getHeaders();
+                assertThat(headers).isNotEmpty();
+                return headers.containsValue(List.of("ADAPTER"));
+            })
+            .extracting(ResponseEntity::getBody)
+            .extracting(ErrorResponse::getTppMessages, InstanceOfAssertFactories.list(TppMessage.class))
+            .hasSize(1)
+            .element(0)
+            .matches(tppMessage -> "Server error".equals(tppMessage.getText()));
+    }
+
+    @Test
+    void accessTokenException_bankError() {
+        final String originalMessage = "bank message";
+        var actualResponse
+            = exceptionHandler.handle(new AccessTokenException("foo", 400, originalMessage, true));
+
+        assertThat(actualResponse)
+            .isNotNull()
+            .matches(resp -> HttpStatus.BAD_REQUEST == resp.getStatusCode())
+            .matches(resp -> {
+                var headers = resp.getHeaders();
+                assertThat(headers).isNotEmpty();
+                return headers.containsValue(List.of("BANK"));
+            })
+            .extracting(ResponseEntity::getBody)
+            .extracting(ErrorResponse::getTppMessages, InstanceOfAssertFactories.list(TppMessage.class))
+            .hasSize(1)
+            .element(0)
+            .matches(tppMessage -> originalMessage.equals(tppMessage.getText()));
     }
 
     private ErrorResponse getErrorResponse() {

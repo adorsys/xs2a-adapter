@@ -15,7 +15,7 @@ import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 import de.adorsys.xs2a.adapter.crealogix.model.CrealogixValidationResponse;
 import de.adorsys.xs2a.adapter.impl.http.BaseHttpClientConfig;
 import de.adorsys.xs2a.adapter.impl.http.Xs2aHttpLogSanitizer;
-import de.adorsys.xs2a.adapter.impl.security.AccessTokenException;
+import de.adorsys.xs2a.adapter.api.exception.AccessTokenException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

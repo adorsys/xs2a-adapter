@@ -28,7 +28,7 @@ import de.adorsys.xs2a.adapter.api.model.TokenResponse;
 import de.adorsys.xs2a.adapter.crealogix.model.CrealogixValidationResponse;
 import de.adorsys.xs2a.adapter.impl.http.JacksonObjectMapper;
 import de.adorsys.xs2a.adapter.impl.http.JsonMapper;
-import de.adorsys.xs2a.adapter.impl.security.AccessTokenException;
+import de.adorsys.xs2a.adapter.api.exception.AccessTokenException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
@@ -102,7 +102,7 @@ public class CrealogixEmbeddedPreAuthorisationService implements EmbeddedPreAuth
             }
             String sanitizedResponse = logSanitizer.sanitize(toString(responseBody));
             logger.error("Failed to retrieve Token. Status code: {}\nBank response: {}", statusCode, sanitizedResponse);
-            throw new AccessTokenException("Can't retrieve access token by provided credentials");
+            throw new AccessTokenException("Can't retrieve access token by provided credentials", statusCode, sanitizedResponse, true);
         };
     }
 

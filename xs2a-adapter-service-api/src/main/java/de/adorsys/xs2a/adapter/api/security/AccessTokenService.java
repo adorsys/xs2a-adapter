@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package de.adorsys.xs2a.adapter.impl.security;
+package de.adorsys.xs2a.adapter.api.security;
 
-public class AccessTokenException extends RuntimeException {
-    public AccessTokenException(String message) {
-        super(message);
-    }
+public interface AccessTokenService {
+
+    String retrieveToken();
 }
