@@ -312,7 +312,11 @@
 									"const adapter = pm.variables.get(\"adapter\");",
 									"if (adapter === \"dkb\") {",
 									"    pm.request.headers.add(new Header(\"Authorization: \" + pm.environment.get(\"access_token\")))",
-									"}"
+									"} else if (\"unicredit\" === adapter) {",
+									"    pm.request.removeHeader(\"PSU-IP-Address\"); // need to remove an old value",
+									"    pm.request.headers.add(new Header(\"PSU-IP-Address: 80.81.82.83\"))",
+									"}",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -2009,7 +2013,11 @@
 											"const adapter = pm.variables.get(\"adapter\");",
 											"if (adapter === \"dkb\") {",
 											"    pm.request.headers.add(new Header(\"Authorization: \" + pm.environment.get(\"access_token\")))",
-											"}"
+											"} else if (\"unicredit\" === adapter) {",
+											"    pm.request.removeHeader(\"PSU-IP-Address\"); // need to remove an old value",
+											"    pm.request.headers.add(new Header(\"PSU-IP-Address: 80.81.82.83\"))",
+											"}",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -3228,7 +3236,8 @@
 											"const adapter = pm.variables.get(\"adapter\");",
 											"if (adapter === \"dkb\") {",
 											"    pm.request.headers.add(new Header(\"Authorization: \" + pm.environment.get(\"access_token\")))",
-											"}"
+											"} ",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -4082,7 +4091,14 @@
 											"date.setDate(date.getDate() + 30);",
 											"const monthLater = date.toISOString().split(\"T\")[0];",
 											"pm.globals.set(\"start_date\", today);",
-											"pm.globals.set(\"end_date\", monthLater);"
+											"pm.globals.set(\"end_date\", monthLater);",
+											"",
+											"const adapter = pm.variables.get(\"adapter\");",
+											"if (\"unicredit\" === adapter) {",
+											"    pm.request.removeHeader(\"PSU-IP-Address\"); // need to remove an old value",
+											"    pm.request.headers.add(new Header(\"PSU-IP-Address: 80.81.82.83\"))",
+											"}",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -5098,7 +5114,8 @@
 											"date.setDate(date.getDate() + 30);",
 											"const monthLater = date.toISOString().split(\"T\")[0];",
 											"pm.globals.set(\"start_date\", today);",
-											"pm.globals.set(\"end_date\", monthLater);"
+											"pm.globals.set(\"end_date\", monthLater);",
+											""
 										],
 										"type": "text/javascript"
 									}
