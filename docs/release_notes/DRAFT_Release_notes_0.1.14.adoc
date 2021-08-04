@@ -17,3 +17,4 @@
 - fixed `unicredit-adapter` update payment psu data failing because of invalid links format in response.
 - fixed `santander-adapter` OAuth2Service.
 - fixed swallowing original bank error when throwing `AccessTokenException` in `CrealogixEmbeddedPreAuthorisationService`.
+- fixed Postman collection for `unicredit-adapter`
