@@ -10,6 +10,7 @@
 - refactored `santander-adapter`: added validations, marked some API endpoints as unsupported based on the bank documentation.
 - renamed 'PreAuthorisationException' into more generic `RequestAuthorizationValidationException`.
 - `AccessTokenService` and `AccessTokenException` are moved to `xs2a-adapter-service-api` package.
+- added `Glossary` to the Adapter arc42 document.
 
 == Features:
 
