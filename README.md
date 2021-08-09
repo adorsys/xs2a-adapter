@@ -87,7 +87,7 @@ These are OAuth2 and EmbeddedPreStep services. Please check out Swagger JSONs fo
 and [EmbeddedPreStep API](xs2a-adapter-rest-impl/src/main/resources/static/embeddedpreauthapi.json) respectively.
 
 **EmbeddedPreStep** interface is a specific Crealogix solution that resembles OAuth2 protocol but may have no interaction with
-IPD Server, also user credentials are passed between a TPP, and an ASPSP as it would be usual Embedded approach.
+IDP Server, also user credentials are passed between a TPP, and an ASPSP as it would be a usual Embedded approach.
 
 More details are on the [Crealogix API Store](https://preview.wso2-clx.crealogix-online.com/store/apis/info?name=PSD2Pre-StepAuthorizationAPI&version=1.0.6&provider=admin).
 
