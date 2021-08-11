@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Payment Initiation for ING</title>
+<title>Embedded Pre-Step</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,14 +438,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Payment Initiation for ING</h1>
+<h1>Embedded Pre-Step</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>In case of the ING bank, the process of Payment Initiation has some
-differences. For a TPP the flow is similar to PI Redirect Approach.</p>
+<p>DKB solution provider Crealogix introduced their own authentication solution, which is called Embedded pre-authentication
+or Embedded pre-step, which is not a part of Berlin Group PSD2 specification. The solution, as it can be implied from the
+name, is a mix of the Embedded and OAuth2 approaches. When requesting for an access token TPP must add a PSU login and password
+to a body in the call. TPP must call all PSD2 endpoints with an obtained access token included in the <code>PSD2-AUTHORIZATION</code> Bearer header.</p>
 </div>
 </div>
 </div>
@@ -454,8 +456,27 @@ differences. For a TPP the flow is similar to PI Redirect Approach.</p>
 <div class="sectionbody">
 <div class="imageblock">
 <div class="content">
-<img src="./images/pi-ing.png" alt="pi ing">
+<img src="./images/embedded-pre-step.png" alt="embedded pre step">
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_xs2a_flows_from_dkb_perspective">XS2A Flows from DKB perspective</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The obtaining of an access token is mandatory for both AIS and PIS flows. The flows themselves much resemble the regular
+Embedded approach. Moreover, adapter will not impose using specific DKB <code>PSD2-AUTHORIZATION</code> but maps it to a common <code>AUTHORIZATION</code> header</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="ais-dkb.html">DKB AIS</a></p>
+</li>
+<li>
+<p><a href="pi-dkb.html">DKB PIS</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>

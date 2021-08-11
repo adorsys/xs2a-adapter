@@ -482,9 +482,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_5_3_level_3">5.3. Level 3</a>
 <ul class="sectlevel3">
-<li><a href="#_5_3_1_white_box_building_block_x_1">5.3.1. White Box &lt;_building block x.1_&gt;</a></li>
-<li><a href="#_5_3_2_white_box_building_block_x_2">5.3.2. White Box &lt;_building block x.2_&gt;</a></li>
-<li><a href="#_5_3_3_white_box_building_block_y_1">5.3.3. White Box &lt;_building block y.1_&gt;</a></li>
+<li><a href="#_5_3_1_account_information_service_ais_interface_blackbox">5.3.1. Account Information Service (AIS) Interface (Blackbox).</a></li>
+<li><a href="#_5_3_2_payment_initiation_service_pis_interface_blackbox">5.3.2. Payment Initiation Service (PIS) Interface (Blackbox).</a></li>
+</ul>
+</li>
+<li><a href="#_non_xs2a_interfaces">Non-XS2A Interfaces.</a>
+<ul class="sectlevel3">
+<li><a href="#_oauth2_service">OAuth2 Service.</a></li>
+<li><a href="#_embedded_pre_authorisation_service">Embedded Pre-Authorisation Service.</a></li>
+</ul>
+</li>
+<li><a href="#_xs2a_adapter_specific_interfaces">XS2A Adapter Specific Interfaces.</a>
+<ul class="sectlevel3">
+<li><a href="#_aspsp_read_only_repository_service">ASPSP Read Only Repository Service.</a></li>
 </ul>
 </li>
 </ul>
@@ -495,8 +505,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_6_2_sca_oauth2_approach">6.2 SCA OAuth2 Approach</a>
 <ul class="sectlevel3">
 <li><a href="#_6_2_1_integrated">6.2.1 Integrated</a></li>
-<li><a href="#_6_2_1_pre_step">6.2.1 Pre-step</a></li>
-<li><a href="#_6_2_1_oauth2_constent">6.2.1 OAuth2 Constent</a></li>
+<li><a href="#_6_2_2_pre_step">6.2.2 Pre-step</a></li>
+<li><a href="#_6_2_3_oauth2_consent">6.2.3 OAuth2 Consent</a></li>
+<li><a href="#_6_2_4_embedded_pre_step">6.2.4 Embedded Pre-step</a></li>
 </ul>
 </li>
 </ul>
@@ -1115,21 +1126,320 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_5_3_level_3">5.3. Level 3</h3>
 <div class="sect3">
-<h4 id="_5_3_1_white_box_building_block_x_1">5.3.1. White Box &lt;_building block x.1_&gt;</h4>
+<h4 id="_5_3_1_account_information_service_ais_interface_blackbox">5.3.1. Account Information Service (AIS) Interface (Blackbox).</h4>
 <div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
+<p><strong>Intent/Responsibility:</strong> Performs request/response normalisation and calls a bank AIS endpoint.</p>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 14. AIS Interface</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">createConsent</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This method creates a consent resource, defining access rights to dedicated accounts of a given PSU-ID.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getConsentInformation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the content of an account information consent object.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">deleteConsent</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The TPP can delete an account information consent object if needed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getConsentStatus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reads the status of an account information consent resource.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getConsentAuthorisation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns a list of all authorisation sub-resources IDs which have been created.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">startConsentAuthorisation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates an authorisation sub-resource and start the authorisation process of a consent.
+The message might in addition transmit authentication and authorisation related data.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">updateConsentsPsuData</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This method updates PSU data on the consents resource if needed.
+It may authorise a consent within the Embedded SCA Approach where needed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getAccountList</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reads the identifiers of the available payment account together with booking balance information,
+depending on the consent granted.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">readAccountDetails</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reads details about an account, with balances where required.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getTransactionList</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reads transaction reports or transaction lists of a given account addressed by "account-id",
+depending on the steering parameter "bookingStatus" together with balances.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getTransactionDetails</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reads transaction details from a given transaction addressed by "transactionId" on a given account addressed by "account-id".</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getTransactionListAsString</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The same as <strong>getTransactionDetails</strong> but returns mere String object.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getConsentScaStatus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This method returns the SCA status of a consent initiation&#8217;s authorisation sub-resource.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getBalances</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reads account data from a given account addressed by "account-id".</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getCardAccountList</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reads a list of card accounts with additional information, e.g. balance information.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getCardAccountDetails</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reads details about a card account.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getCardAccountBalances</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reads balance data from a given card account addressed by "account-id".</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getCardAccountTransactionList</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reads account data from a given card account addressed by "account-id".</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
-<h4 id="_5_3_2_white_box_building_block_x_2">5.3.2. White Box &lt;_building block x.2_&gt;</h4>
+<h4 id="_5_3_2_payment_initiation_service_pis_interface_blackbox">5.3.2. Payment Initiation Service (PIS) Interface (Blackbox).</h4>
 <div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
+<p><strong>Intent/Responsibility:</strong> Performs request/response normalisation and calls a bank PIS endpoint.</p>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 15. PIS Interface</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">initiatePayment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This method is used to initiate a payment at the ASPSP.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getSinglePaymentInformation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the content of a payment object of a single payment initiation request.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getPeriodicPaymentInformation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the content of a payment object of a periodic payment initiation request.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getPeriodicPain001PaymentInformation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the content of a payment object of an XML format periodic payment initiation request.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getPaymentInformationAsString</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the content of a payment object as a mere string.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getPaymentInitiationScaStatus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This method returns the SCA status of a payment initiation&#8217;s authorisation sub-resource.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getPaymentInitiationStatus</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Check the transaction status of a payment initiation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getPaymentInitiationStatusAsString</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The same as <strong>getPaymentInitiationStatus</strong> but returns mere String object.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getPaymentInitiationAuthorisation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read a list of all authorisation subresources IDs which have been created.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">startPaymentAuthorisation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create an authorisation sub-resource and start the authorisation process.
+The message might in addition transmit authentication and authorisation related data.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">updatePaymentPsuData</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This methods updates PSU data on the authorisation resource if needed.
+It may authorise a payment within the Embedded SCA Approach where needed.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_non_xs2a_interfaces">Non-XS2A Interfaces.</h3>
+<div class="paragraph">
+<p>XS2A Adapter handles specific cases that are not specified or scarcely described in the PSD2 Berlin Group Specification.</p>
 </div>
 <div class="sect3">
-<h4 id="_5_3_3_white_box_building_block_y_1">5.3.3. White Box &lt;_building block y.1_&gt;</h4>
+<h4 id="_oauth2_service">OAuth2 Service.</h4>
 <div class="paragraph">
-<p><em>&lt;white box template&gt;</em></p>
+<p><strong>Intent/Responsibility:</strong> This is API for supporting OAuth flow.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 16. OAuth2 Service Interface (with REST endpoints)</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getAuthorizationRequestUri</p>
+<p class="tableblock">GET <em>/oauth2/authorization-request-uri</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Retrieves an authorization URL from a bank IDP Server and supplies necessary parameters for
+completing PSU authorization.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getToken</p>
+<p class="tableblock">POST <em>/oauth2/token</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Exchanges an authorization code for a bearer token.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_embedded_pre_authorisation_service">Embedded Pre-Authorisation Service.</h4>
+<div class="paragraph">
+<p><strong>Intent/Responsibility:</strong> This is API for supporting embedded pre-authorisation flow.</p>
+</div>
+<div class="paragraph">
+<p>This is a Crealogix specific solution which is used by <strong>DKB</strong> bank.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 17. Embedded Pre-Authorisation Service Interface (with REST endpoints)</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">getToken</p>
+<p class="tableblock">POST <em>/v1/embedded-pre-auth/token</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Exchanges user credentials for a bearer token.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_xs2a_adapter_specific_interfaces">XS2A Adapter Specific Interfaces.</h3>
+<div class="paragraph">
+<p>For Adapter to address a request to a specific bank a bank adapter identifier is a must. To tackle the problem ASPSP Repository
+was introduced. It traverses through the Lucene Repository that persists all available bank (ASPSP) records.</p>
+</div>
+<div class="sect3">
+<h4 id="_aspsp_read_only_repository_service">ASPSP Read Only Repository Service.</h4>
+<div class="paragraph">
+<p><strong>Intent/Responsibility:</strong> Lookup for an appropriate adapter by incoming parameters.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 18. ASPSP Read Only Repository Interface (Library)</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">findById</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Retrieves an ASPSP by provided ID.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">findByBic</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Retrieves all ASPSPs by provided BIC.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">findByBankCode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Retrieves all ASPSPs by provided BLZ (Bank Code).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">findByName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Retrieves all ASPSPs by provided Bank Name.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">findAll</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Retrieves all ASPSPs from the Repository.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">findLike</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Retrieves all ASPSPs by provided set of data (e.g. BIC and Bank Name).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">findByIban</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Retrieves an ASPSP by provided IBAN.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The REST Client of the ASPSP Repository is also available, however its interface is simplified.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 19. ASPSP Repository REST Interface (Standalone)</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET <em>/v1/aspsp</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Finds all ASPSPs by one of the next parameters BIC, BLZ (bank code), IBAN or Bank Name or by a set of
+listed parameters.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GET <em>/v1/aspsp/{aspsp-id}</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Finds an ASPSP by ID.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Additional details on the ASPSP Repository can be found <a href="https://github.com/adorsys/xs2a-adapter/blob/develop/docs/aspsp_registry.md">here</a></p>
 </div>
 </div>
 </div>
@@ -1141,8 +1451,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_6_1_send_request_to_aspsp">6.1. Send request to ASPSP</h3>
 <div class="paragraph">
-<p>TPP sends request to ASPSP via XS2A Adapter.
-image::runtime-view.png[Sequence diagram: Interaction with Adapter,width=520]</p>
+<p>TPP sends request to ASPSP via XS2A Adapter.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/runtime-view.png" alt="Sequence diagram: Interaction with Adapter" width="520">
+</div>
 </div>
 <div class="paragraph">
 <p><strong>Scenario:</strong></p>
@@ -1208,7 +1522,7 @@ when searched bank is unsupported.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_6_2_1_pre_step">6.2.1 Pre-step</h4>
+<h4 id="_6_2_2_pre_step">6.2.2 Pre-step</h4>
 <div class="imageblock">
 <div class="content">
 <img src="./images/oauth-pre-step.png" alt="OAuth based pre-step authentication process in AIS context">
@@ -1216,10 +1530,18 @@ when searched bank is unsupported.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_6_2_1_oauth2_constent">6.2.1 OAuth2 Constent</h4>
+<h4 id="_6_2_3_oauth2_consent">6.2.3 OAuth2 Consent</h4>
 <div class="imageblock">
 <div class="content">
 <img src="./images/oauth-consent.png" alt="OAuth based consent">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_6_2_4_embedded_pre_step">6.2.4 Embedded Pre-step</h4>
+<div class="imageblock">
+<div class="content">
+<img src="./images/embedded-pre-step.png" alt="Embedded Pre-step">
 </div>
 </div>
 </div>
@@ -1237,7 +1559,7 @@ when searched bank is unsupported.</p>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 14. Nodes description</caption>
+<caption class="title">Table 20. Nodes description</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1276,7 +1598,7 @@ when searched bank is unsupported.</p>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 15. Nodes description</caption>
+<caption class="title">Table 21. Nodes description</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1360,7 +1682,7 @@ when searched bank is unsupported.</p>
 <h2 id="_12_glossary">12. Glossary</h2>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 16. Glossary</caption>
+<caption class="title">Table 22. Glossary</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1373,12 +1695,107 @@ when searched bank is unsupported.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;Term-1&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;definition-1&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">XS2A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Access to Account</em>, a name of an interface, defined by <a href="https://www.berlin-group.org/">Berlin Group</a> to comply
+banks to the requirements of PSD2.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;Term-2&gt;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;definition-2&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PSD2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://ec.europa.eu/info/law/payment-services-psd-2-directive-eu-2015-2366_en"><em>Payment Service Directive 2</em></a>,
+a European law for payments services.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TPP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Third Party Payment Service Providers</em> provider, a system that acts on behalf of PSU on its data hold by ASPSP.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ASPSP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Account Servicing Payment Service Provider</em>, a banking system that holds account data of PSU and performs
+corresponding operations over it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AIS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Account Information Service</em> is an online service which provides consolidated information on payment accounts held by
+a payment service user with payment service providers.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PIS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Payment Initiation Service</em> is an online service which accesses a user’s payment account to initiate
+the transfer of funds on their behalf with the user’s consent and authentication.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SCA</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Strong Customer Authentication</em> is a requirement of the second Payment Services Directive (PSD2), which aims
+to add extra layers of security to electronic payments.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OAuth</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://oauth.net/"><em>Open Authorization</em></a> is an open standard for authorization. OAuth provides client applications
+a 'secure delegated access' to server resources on behalf of a resource owner.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">API</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://en.wikipedia.org/wiki/API"><em>Application Programming Interface</em></a> is a set of programming code that enables
+data transmission between one software product and another.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IDE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://en.wikipedia.org/wiki/Integrated_development_environment"><em>Integrated Development Environment</em></a> is
+a software application that provides comprehensive facilities to computer programmers for software development.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">REST</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://www.codecademy.com/articles/what-is-rest"><em>Representational State Transfer</em></a>, is an architectural style
+for providing standards between computer systems on the web, making it easier for systems to communicate with each other.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP/HTTPS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol"><em>HyperText Transfer Protocol</em></a> is
+the communications protocol used to connect to Web servers on the Internet or on a local network (intranet). HTTPS (HTTP Secure) is the encrypted version of HTTP.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CSV</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://en.wikipedia.org/wiki/Comma-separated_values"><em>Comma-Separated Values</em></a> file is a delimited text file that uses
+a comma to separate values.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://en.wikipedia.org/wiki/URL"><em>Uniform Resource Locator</em></a>, colloquially termed a web address, is a reference to
+a web resource that specifies its location on a computer network and a mechanism for retrieving it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">YAML</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://en.wikipedia.org/wiki/YAML"><em>Yet Another Markup Language</em></a> is a human friendly data serialization standard
+for all programming languages.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IDP Server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Identity Provider Server</em> is a system entity that creates, maintains, and manages identity information for
+principals and also provides authentication services to relying applications within a federation or distributed network.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PSU</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Payment Service User</em> means a natural or legal person, including the Client, making use of Payment Services
+in the capacity of either Payer or Payee, or both.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BIC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Bank Identifier Code</em> is the same as the bank&#8217;s SWIFT address.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BLZ or Bank Code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://en.wikipedia.org/wiki/Bank_code">Bankleitzahl (DE) or <em>Bank Code</em></a> is a code assigned by
+a central bank, a bank supervisory body, or a Bankers Association in
+a country to all its licensed member banks or financial institutions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bank Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ASPSP or a bank legal name.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IBAN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://en.wikipedia.org/wiki/International_Bank_Account_Number"><em>International Bank Account Number</em></a> is an internationally agreed system of identifying bank accounts across
+national borders to facilitate the communication and processing of cross border transactions with a reduced risk of transcription errors.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1387,7 +1804,7 @@ when searched bank is unsupported.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-07-13 15:11:37 UTC
+Last updated 2021-08-11 13:01:12 UTC
 </div>
 </div>
 </body>

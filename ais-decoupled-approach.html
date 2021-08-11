@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Payment Initiation for ING</title>
+<title>Get Account Information with Decoupled Approach</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -438,23 +438,28 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1>Payment Initiation for ING</h1>
+<h1>Get Account Information with Decoupled Approach</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>In case of the ING bank, the process of Payment Initiation has some
-differences. For a TPP the flow is similar to PI Redirect Approach.</p>
+<p>The transaction flow in the Decoupled SCA Approach is similar to the Redirect SCA Approach.
+The difference is  that the  ASPSP  is  asking the PSU  to  authorise the payment  e.g.  via  a
+dedicated mobile app, or any other application or device which is independent from the online
+banking frontend.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_sequence_flow">Sequence Flow</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>The example with the explicit start of the authorization process</p>
+</div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/pi-ing.png" alt="pi ing">
+<img src="./images/ais-decoupled-approach.png" alt="ais decoupled approach">
 </div>
 </div>
 </div>
