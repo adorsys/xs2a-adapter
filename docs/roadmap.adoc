@@ -303,13 +303,14 @@ a| * Update Postman collections
 * Rewrite WireMock stubs for Adorsys adapter
 * Account Id is not masked
 
-a| 10.08
+a| 11.08
 a| 0.1.14
-a| * Make currency a configurable property for payments
-* Complete Building Block View part
+a| * Complete Building Block View part
 * Fix Postman Create Consent for Unicredit Sandbox
-* Bug fixing: Adapter UI can re-attempt to send incorrect password
 * Bug fixing: Mask Location header
+* Revise Santander OAuth2 Service
+* Revise existing documentation
+* Fill out Glossary chapter
 
 a| For future development
 
