@@ -189,7 +189,7 @@ XS2A Adapter handles specific cases that are not specified or scarcely described
 |getAuthorizationRequestUri
 
 GET _/oauth2/authorization-request-uri_
-|Retrieves an authorization URL from a bank IDP server and supplies necessary parameters for
+|Retrieves an authorization URL from a bank IDP Server and supplies necessary parameters for
 completing PSU authorization.
 |getToken
 
