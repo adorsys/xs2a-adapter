@@ -119,14 +119,131 @@ image::whitebox_bank_adapters.png[5.2.3. Whitebox Bank Adapters,width=520]
 
 === 5.3. Level 3
 
-==== 5.3.1. White Box <_building block x.1_>
+==== 5.3.1. Account Information Service (AIS) Interface (Blackbox).
 
-_<white box template>_
+*Intent/Responsibility:* Performs request/response normalisation and calls a bank AIS endpoint.
 
-==== 5.3.2. White Box <_building block x.2_>
+.AIS Interface
+[cols=",",options="header",]
+|===
+|Method |Description
+|createConsent |This method creates a consent resource, defining access rights to dedicated accounts of a given PSU-ID.
+|getConsentInformation |Returns the content of an account information consent object.
+|deleteConsent |The TPP can delete an account information consent object if needed.
+|getConsentStatus |Reads the status of an account information consent resource.
+|getConsentAuthorisation |Returns a list of all authorisation sub-resources IDs which have been created.
+|startConsentAuthorisation |Creates an authorisation sub-resource and start the authorisation process of a consent.
+The message might in addition transmit authentication and authorisation related data.
+|updateConsentsPsuData |This method update PSU data on the consents resource if needed.
+It may authorise a consent within the Embedded SCA Approach where needed.
+|getAccountList |Reads the identifiers of the available payment account together with booking balance information,
+depending on the consent granted.
+|readAccountDetails |Reads details about an account, with balances where required.
+|getTransactionList |Reads transaction reports or transaction lists of a given account addressed by "account-id",
+depending on the steering parameter "bookingStatus" together with balances.
+|getTransactionDetails |Reads transaction details from a given transaction addressed by "transactionId" on a given account addressed by "account-id".
+|getTransactionListAsString |The same as *getTransactionDetails* but returns mere String object.
+|getConsentScaStatus |This method returns the SCA status of a consent initiation's authorisation sub-resource.
+|getBalances |Reads account data from a given account addressed by "account-id".
+|getCardAccountList |Reads a list of card accounts with additional information, e.g. balance information.
+|getCardAccountDetails |Reads details about a card account.
+|getCardAccountBalances |Reads balance data from a given card account addressed by "account-id".
+|getCardAccountTransactionList |Reads account data from a given card account addressed by "account-id".
+|===
 
-_<white box template>_
+==== 5.3.2. Payment Initiation Service (PIS) Interface (Blackbox).
 
-==== 5.3.3. White Box <_building block y.1_>
+*Intent/Responsibility:* Performs request/response normalisation and calls a bank PIS endpoint.
 
-_<white box template>_
+.PIS Interface
+[cols=",",options="header",]
+|===
+|Method |Description
+|initiatePayment |This method is used to initiate a payment at the ASPSP.
+|getSinglePaymentInformation |Returns the content of a payment object of a single payment initiation request.
+|getPeriodicPaymentInformation |Returns the content of a payment object of a periodic payment initiation request.
+|getPeriodicPain001PaymentInformation |Returns the content of a payment object of an XML format periodic payment initiation request.
+|getPaymentInformationAsString |Returns the content of a payment object as a mere string.
+|getPaymentInitiationScaStatus |This method returns the SCA status of a payment initiation's authorisation sub-resource.
+|getPaymentInitiationStatus |Check the transaction status of a payment initiation.
+|getPaymentInitiationStatusAsString |The same as *getPaymentInitiationStatus* but returns mere String object.
+|getPaymentInitiationAuthorisation |Read a list of all authorisation subresources IDs which have been created.
+|startPaymentAuthorisation |Create an authorisation sub-resource and start the authorisation process.
+The message might in addition transmit authentication and authorisation related data.
+|updatePaymentPsuData |This methods updates PSU data on the authorisation resource if needed.
+It may authorise a payment within the Embedded SCA Approach where needed.
+|===
+
+=== Non-XS2A Interfaces.
+
+XS2A Adapter handles specific cases that are not specified or scarcely described in the PSD2 Berlin Group Specification.
+
+==== OAuth2 Service.
+
+*Intent/Responsibility:* This is API for supporting OAuth flow.
+
+.OAuth2 Service Interface (with REST endpoints)
+[cols=",",options="header",]
+|===
+|Method |Description
+|getAuthorizationRequestUri
+
+GET _/oauth2/authorization-request-uri_
+|Retrieves an authorization URL from a bank IDP server and supplies necessary parameters for
+completing PSU authorization.
+|getToken
+
+POST _/oauth2/token_
+|Exchanges an authorization code for a bearer token.
+|===
+
+==== Embedded Pre-Authorisation Service.
+
+*Intent/Responsibility:* This is API for supporting embedded pre-authorisation flow.
+
+This is a Crealogix specific solution which is used by *DKB* bank.
+
+.Embedded Pre-Authorisation Service Interface (with REST endpoints)
+[cols=",",options="header",]
+|===
+|Method |Description
+|getToken
+
+POST _/v1/embedded-pre-auth/token_
+|Exchanges user credentials for a bearer token.
+|===
+
+=== XS2A Adapter Specific Interfaces.
+
+For Adapter to address the request to a specific bank a bank adapter identifier is a must. To tackle a problem ASPSP Repository
+was introduced. It traverses through the Lucene Repository that persists all available bank (ASPSP) records.
+
+==== ASPSP Read Only Repository Service.
+
+*Intent/Responsibility:* Lookup for an appropriate adapter by incoming parameters.
+
+.ASPSP Read Only Repository Interface (Library)
+[cols=",",options="header",]
+|===
+|Method |Description
+|findById |Retrieves an ASPSP by provided ID.
+|findByBic |Retrieves all ASPSPs by provided BIC.
+|findByBankCode |Retrieves all ASPSPs by provided BLZ (Bank Code).
+|findByName |Retrieves all ASPSPs by provided Bank Name.
+|findAll |Retrieves all ASPSPs from the Repository.
+|findLike |Retrieves all ASPSPs by provided set of data (e.g. BIC and Bank Name).
+|findByIban |Retrieves an ASPSP by provided IBAN.
+|===
+
+The REST Client of the ASPSP Repository is also available, however its interface is simplified.
+
+.ASPSP Repository REST Interface (Standalone)
+[cols=",",options="header",]
+|===
+|Method |Description
+|GET _/v1/aspsp_ |Finds all ASPSPs by one of the next parameters BIC, BLZ (bank code), IBAN or Bank Name or by a set of
+listed parameters.
+|GET _/v1/aspsp/{aspsp-id}_ |Finds an ASPSP by ID.
+|===
+
+Additional details on the ASPSP Repository can be found https://github.com/adorsys/xs2a-adapter/blob/develop/docs/aspsp_registry.md[here]

@@ -19,4 +19,9 @@
 |CSV |https://en.wikipedia.org/wiki/Comma-separated_values[_Comma-Separated Values_] file is a delimited text file that uses a comma to separate values.
 |URL |https://en.wikipedia.org/wiki/URL[_Uniform Resource Locator_], colloquially termed a web address, is a reference to a web resource that specifies its location on a computer network and a mechanism for retrieving it.
 |YAML |https://en.wikipedia.org/wiki/YAML[_Yet Another Markup Language_] is a human friendly data serialization standard for all programming languages.
+|PSU |
+|BIC |
+|BLZ or Bank Code |
+|Bank Name |
+|IBAN |
 |===
