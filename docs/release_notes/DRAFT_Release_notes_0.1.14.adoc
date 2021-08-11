@@ -11,6 +11,7 @@
 - renamed 'PreAuthorisationException' into more generic `RequestAuthorizationValidationException`.
 - `AccessTokenService` and `AccessTokenException` are moved to `xs2a-adapter-service-api` package.
 - added `Glossary` to the Adapter arc42 document.
+- completed `Building Block View` chapter of the Adapter arc42 document.
 
 == Features:
 

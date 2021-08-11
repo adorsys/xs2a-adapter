@@ -134,7 +134,7 @@ image::whitebox_bank_adapters.png[5.2.3. Whitebox Bank Adapters,width=520]
 |getConsentAuthorisation |Returns a list of all authorisation sub-resources IDs which have been created.
 |startConsentAuthorisation |Creates an authorisation sub-resource and start the authorisation process of a consent.
 The message might in addition transmit authentication and authorisation related data.
-|updateConsentsPsuData |This method update PSU data on the consents resource if needed.
+|updateConsentsPsuData |This method updates PSU data on the consents resource if needed.
 It may authorise a consent within the Embedded SCA Approach where needed.
 |getAccountList |Reads the identifiers of the available payment account together with booking balance information,
 depending on the consent granted.
@@ -215,7 +215,7 @@ POST _/v1/embedded-pre-auth/token_
 
 === XS2A Adapter Specific Interfaces.
 
-For Adapter to address the request to a specific bank a bank adapter identifier is a must. To tackle a problem ASPSP Repository
+For Adapter to address a request to a specific bank a bank adapter identifier is a must. To tackle the problem ASPSP Repository
 was introduced. It traverses through the Lucene Repository that persists all available bank (ASPSP) records.
 
 ==== ASPSP Read Only Repository Service.
