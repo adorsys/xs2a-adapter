@@ -1,8 +1,4 @@
-= Draft Release notes for version 0.1.14 (release date: xx.08.2021)
-
-.Added banks
-|===
-|===
+= Release notes for version 0.1.14 (release date: 11.08.2021)
 
 == Notices:
 - `Xs2aHttpLogSanitizer` was extended with new headers to hide.
