@@ -40,18 +40,7 @@ The former uniquely identifies an XS2A API provider in the `aspsp-registry`.
 The later is a shorthand for performing a lookup in the registry using a bank code.
 Note that the `aspsp-registry` supports lookup by attributes other than bank code including full-text search by name,
 but only as a pre-request.
-If you need details about managing ASPSP Registry please refer to this [document](/docs/aspsp_registry.md).
-
-## Releases and versions
-
-* XS2A Adapter reveals a new release at the beginning of each month. All released features, fixes, details, etc. can be found 
-  within the Release Notes referred below. We are doing our best to follow the Adapter Roadmap mentioned below as well. 
-  All release information can be found under the [Releases](https://github.com/adorsys/xs2a-adapter/releases) section 
-  on GitHub.
-
-* [Release Notes](docs/release_notes/Release_notes_0.1.4.adoc)
-
-* [Roadmap for next features development](docs/roadmap.adoc)
+If you need details about managing ASPSP Registry please refer to this [document](docs/aspsp_registry.md).
 
 ## Testing API with Postman json collections
 
@@ -98,11 +87,57 @@ These are OAuth2 and EmbeddedPreStep services. Please check out Swagger JSONs fo
 and [EmbeddedPreStep API](xs2a-adapter-rest-impl/src/main/resources/static/embeddedpreauthapi.json) respectively.
 
 **EmbeddedPreStep** interface is a specific Crealogix solution that resembles OAuth2 protocol but may have no interaction with
-IPD Server, also user credentials are passed between a TPP, and an ASPSP as it would be usual Embedded approach.
+IDP Server, also user credentials are passed between a TPP, and an ASPSP as it would be a usual Embedded approach.
 
 More details are on the [Crealogix API Store](https://preview.wso2-clx.crealogix-online.com/store/apis/info?name=PSD2Pre-StepAuthorizationAPI&version=1.0.6&provider=admin).
 
 Crealogix solution is used by DKB.
+
+## WireMock Mode
+
+XS2A Adapter has a feature for testing a bank connection without actually communicating with a bank. We have written stubs
+of real bank responses so you can give a try for your solution. This feature is called a `WireMock Mode`. 
+
+To activate it, a user will need to set `sa2a-adapter:wire-mock:mode` to `true` within the `application.yml` file. It will
+start a WiremockHttpClient, with a build in WireMock server, instead of a default ApacheHttpClient.
+
+Not all adapters have written stubs though. Responses available for the next adapters:
+- adorsys-adapter
+- deutsche-bank-adapter
+- fiducia-adapter
+- ing-adapter
+- sparkasse-adapter
+- verlag-adapter
+
+New stubs will be added in time.
+
+The XS2A Adapter also provides an easy way to connect to a standalone WireMock server in case a user will want to have 
+one running separately. For connecting with a standalone WireMock you will want to have a `WireMock Mode` on and provide 
+a URL to the server as a value of `sa2a-adapter:wire-mock:standalone:url` property.
+
+More details on the `WireMock Mode` can be found [here](https://adorsys.github.io/xs2a-adapter/wiremock-mode).
+
+## Examples of XS2A flows
+
+In case you are not very comfortable with how all communication between a TPP and a bank is performed, 
+please take a look at [these examples](https://adorsys.github.io/xs2a-adapter/xs2a-flows) in a form of sequence diagrams.
+
+For full description, please refer to the official Berlin Group PSD2 specification - <https://www.berlin-group.org/nextgenpsd2-downloads>
+
+## Technical Details
+
+We have provided technical description in the [arc42 document](https://adorsys.github.io/xs2a-adapter/). 
+
+## Releases and versions
+
+* XS2A Adapter reveals a new release at the beginning of each month. All released features, fixes, details, etc. can be found 
+  within the Release Notes referred below. We are doing our best to follow the Adapter Roadmap mentioned below as well. 
+  All release information can be found under the [Releases](https://github.com/adorsys/xs2a-adapter/releases) section 
+  on GitHub.
+
+* [Release Notes](https://github.com/adorsys/xs2a-adapter/tags)
+
+* [Roadmap for next features development](docs/roadmap.adoc)
 
 ## Authors & Contact
 

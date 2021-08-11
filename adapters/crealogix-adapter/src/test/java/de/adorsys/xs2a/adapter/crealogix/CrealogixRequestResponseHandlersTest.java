@@ -2,9 +2,9 @@ package de.adorsys.xs2a.adapter.crealogix;
 
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.exception.ErrorResponseException;
-import de.adorsys.xs2a.adapter.api.exception.PreAuthorisationException;
+import de.adorsys.xs2a.adapter.api.exception.RequestAuthorizationValidationException;
 import de.adorsys.xs2a.adapter.api.http.HttpClient;
-import de.adorsys.xs2a.adapter.impl.security.AccessTokenException;
+import de.adorsys.xs2a.adapter.api.exception.AccessTokenException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -40,9 +40,9 @@ class CrealogixRequestResponseHandlersTest extends CrealogixTestHelper {
 
         assertThatThrownBy(() ->
             requestResponseHandlers.crealogixRequestHandler(emptyHeaders))
-                .isInstanceOf(PreAuthorisationException.class)
+                .isInstanceOf(RequestAuthorizationValidationException.class)
                 .hasMessageContaining(CrealogixRequestResponseHandlers.REQUEST_ERROR_MESSAGE)
-                .matches(er -> ((PreAuthorisationException) er)
+                .matches(er -> ((RequestAuthorizationValidationException) er)
                     .getErrorResponse()
                     .getLinks()
                     .get("embeddedPreAuth")

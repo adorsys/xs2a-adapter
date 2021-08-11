@@ -4,6 +4,44 @@
 [width="100%",cols="50%,50%",options="header",]
 |===
 |Term |Definition
-|<Term-1> |<definition-1>
-|<Term-2> |<definition-2>
+|XS2A |_Access to Account_, a name of an interface, defined by https://www.berlin-group.org/[Berlin Group] to comply
+banks to the requirements of PSD2.
+|PSD2 |https://ec.europa.eu/info/law/payment-services-psd-2-directive-eu-2015-2366_en[_Payment Service Directive 2_],
+a European law for payments services.
+|TPP |_Third Party Payment Service Providers_ provider, a system that acts on behalf of PSU on its data hold by ASPSP.
+|ASPSP |_Account Servicing Payment Service Provider_, a banking system that holds account data of PSU and performs
+corresponding operations over it.
+|AIS |_Account Information Service_ is an online service which provides consolidated information on payment accounts held by
+a payment service user with payment service providers.
+|PIS |_Payment Initiation Service_ is an online service which accesses a user’s payment account to initiate
+the transfer of funds on their behalf with the user’s consent and authentication.
+|SCA |_Strong Customer Authentication_ is a requirement of the second Payment Services Directive (PSD2), which aims
+to add extra layers of security to electronic payments.
+|OAuth |https://oauth.net/[_Open Authorization_] is an open standard for authorization. OAuth provides client applications
+a 'secure delegated access' to server resources on behalf of a resource owner.
+|API |https://en.wikipedia.org/wiki/API[_Application Programming Interface_] is a set of programming code that enables
+data transmission between one software product and another.
+|IDE |https://en.wikipedia.org/wiki/Integrated_development_environment[_Integrated Development Environment_] is
+a software application that provides comprehensive facilities to computer programmers for software development.
+|REST |https://www.codecademy.com/articles/what-is-rest[_Representational State Transfer_], is an architectural style
+for providing standards between computer systems on the web, making it easier for systems to communicate with each other.
+|HTTP/HTTPS |https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol[_HyperText Transfer Protocol_] is
+the communications protocol used to connect to Web servers on the Internet or on a local network (intranet). HTTPS (HTTP Secure) is the encrypted version of HTTP.
+|CSV |https://en.wikipedia.org/wiki/Comma-separated_values[_Comma-Separated Values_] file is a delimited text file that uses
+a comma to separate values.
+|URL |https://en.wikipedia.org/wiki/URL[_Uniform Resource Locator_], colloquially termed a web address, is a reference to
+a web resource that specifies its location on a computer network and a mechanism for retrieving it.
+|YAML |https://en.wikipedia.org/wiki/YAML[_Yet Another Markup Language_] is a human friendly data serialization standard
+for all programming languages.
+|IDP Server |_Identity Provider Server_ is a system entity that creates, maintains, and manages identity information for
+principals and also provides authentication services to relying applications within a federation or distributed network.
+|PSU |_Payment Service User_ means a natural or legal person, including the Client, making use of Payment Services
+in the capacity of either Payer or Payee, or both.
+|BIC |_Bank Identifier Code_ is the same as the bank's SWIFT address.
+|BLZ or Bank Code |https://en.wikipedia.org/wiki/Bank_code[Bankleitzahl (DE) or _Bank Code_] is a code assigned by
+a central bank, a bank supervisory body, or a Bankers Association in
+a country to all its licensed member banks or financial institutions.
+|Bank Name |ASPSP or a bank legal name.
+|IBAN |https://en.wikipedia.org/wiki/International_Bank_Account_Number[_International Bank Account Number_] is an internationally agreed system of identifying bank accounts across
+national borders to facilitate the communication and processing of cross border transactions with a reduced risk of transcription errors.
 |===

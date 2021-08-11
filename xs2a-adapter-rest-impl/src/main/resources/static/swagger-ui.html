@@ -36,6 +36,21 @@
 <script src="/webjars/swagger-ui/swagger-ui-bundle.js"> </script>
 <script src="/webjars/swagger-ui/swagger-ui-standalone-preset.js"> </script>
 <script>
+    // plugin for hiding empty PIIS part https://github.com/swagger-api/swagger-ui/issues/4157
+    const HideEmptyTagsPlugin = () => {
+        return {
+            statePlugins: {
+                spec: {
+                    wrapSelectors: {
+                        taggedOperations: (ori) => (...args) => {
+                            return ori(...args)
+                                .filter(tagMeta => tagMeta.get("operations") && tagMeta.get("operations").size > 0)
+                        }
+                    }
+                }
+            }
+        }
+    }
     window.onload = function() {
         // Begin Swagger UI call region
         const ui = SwaggerUIBundle({
@@ -64,7 +79,8 @@
                 SwaggerUIStandalonePreset
             ],
             plugins: [
-                SwaggerUIBundle.plugins.DownloadUrl
+                SwaggerUIBundle.plugins.DownloadUrl,
+                HideEmptyTagsPlugin
             ],
             layout: "StandaloneLayout"
         });

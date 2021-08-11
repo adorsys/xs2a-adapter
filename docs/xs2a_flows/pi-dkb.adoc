@@ -1,0 +1,7 @@
+= DKB AIS Flow
+
+**Note:** XS2A Adapter maps AUTHORIZATION header to a specific PSD2-AUTHORIZATION header.
+
+== Sequence Flow
+
+image::./images/pi-dkb.png[]

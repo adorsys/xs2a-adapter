@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String ERROR_ORIGINATION_HEADER_NAME = "X-GTW-Error-Origination";
+    private static final String SERVER_ERROR_MESSAGE = "Server error";
 
     private final HeadersMapper headersMapper;
 
@@ -35,6 +36,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
+    @SuppressWarnings({"java:S3740", "rawtypes"})
     ResponseEntity handle(ErrorResponseException exception) {
         logError(exception);
         HttpHeaders responseHeaders = addErrorOriginationHeader(
@@ -56,7 +58,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    ResponseEntity<Object> handle(PreAuthorisationException exception) {
+    ResponseEntity<Object> handle(RequestAuthorizationValidationException exception) {
         logError(exception);
         HttpHeaders headers = addErrorOriginationHeader(
             new HttpHeaders(),
@@ -213,9 +215,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler
     ResponseEntity<ErrorResponse> handle(Exception exception) {
         logError(exception);
-        ErrorResponse errorResponse = buildErrorResponse("Server error");
+        ErrorResponse errorResponse = buildErrorResponse(SERVER_ERROR_MESSAGE);
         HttpHeaders headers = addErrorOriginationHeader(new HttpHeaders(), ErrorOrigination.ADAPTER);
         return new ResponseEntity<>(errorResponse, headers, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler
+    ResponseEntity<ErrorResponse> handle(AccessTokenException exception) {
+        logError(exception);
+        var originalMessage = exception.getOriginalMessage();
+        var errorResponse = buildErrorResponse(originalMessage == null ? SERVER_ERROR_MESSAGE : originalMessage);
+        var headers
+            = addErrorOriginationHeader(new HttpHeaders(), exception.isBankOriginator() ? ErrorOrigination.BANK : ErrorOrigination.ADAPTER);
+        var statusCode = exception.getOriginalStatusCode();
+        return new ResponseEntity<>(errorResponse, headers, statusCode == null ? HttpStatus.INTERNAL_SERVER_ERROR : HttpStatus.valueOf(statusCode));
     }
 
     private ErrorResponse buildErrorResponse(String text) {

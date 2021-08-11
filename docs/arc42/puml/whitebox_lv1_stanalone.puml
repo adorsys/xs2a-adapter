@@ -36,7 +36,7 @@ rectangle "xs2a-adapter (standalone)" {
 	sl --> ar
 '	ra -> ar
 	sl --> ba
-	sa -0)- sl: AIS, PIS, oAuth, download API
+	sa -0)- sl: AIS, PIS, oAuth, download API, embedded pre-step
 	'ra --> sa
 	gra <- ra
 	ga <- gra
@@ -45,7 +45,7 @@ rectangle "xs2a-adapter (standalone)" {
 	ri -> sa
 	sr --> r2am
 	ba -> si
-	ba -(0- sa: AIS, PIS, oAuth, download API
+	ba -(0- sa: AIS, PIS, oAuth, download API, embedded pre-step
 	ri --() ahttp
 	tpp2 -( ahttp: http
     tsr -( ahttp

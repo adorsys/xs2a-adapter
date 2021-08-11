@@ -1,0 +1,97 @@
+@startuml
+participant tpp as "TPP"
+participant adapter as "XS2A\nAdapter"
+participant bank as "ASPSP"
+
+tpp->adapter: account information consent request (no authorization header)
+|||
+tpp<-adapter: 401 UNAUTHORIZED (embedded pre-step link)
+|||
+ref over tpp, adapter, bank: TPP performs embedded pre-authorization
+|||
+tpp->adapter: account information consent request (with authorization header)
+|||
+adapter->adapter: map authorization to psd2-authorization
+|||
+adapter->bank: account information consent request (with psd2-authorization header)
+|||
+adapter<-bank: 201 account-information response (startAuthorisation link)
+|||
+tpp<-adapter: 201 account-information response (startAuthorisation link)
+|||
+group psu authorisation
+tpp->adapter: start authorisation request (no credentials, with authorization header)
+|||
+adapter->adapter: map authorization to psd2-authorization
+|||
+adapter->bank: start authorisation request (no credentials, with psd2-authorization header)
+|||
+adapter<-bank: 201 start-authorisation response (available sca methods)
+|||
+tpp<-adapter: 201 start-authorisation response (available sca methods)
+|||
+tpp->adapter: authorisation update request (sca method, with authorization header)
+|||
+adapter->adapter: map authorization to psd2-authorization
+|||
+adapter->bank: authorisation update request (sca method, with psd2-authorization header)
+|||
+adapter<-bank: 200 authorisation-update response
+|||
+tpp<-adapter: 200 authorisation-update response
+|||
+tpp->adapter: authorisation update request (otp, with authorization header)
+|||
+adapter->adapter: map authorization to psd2-authorization
+|||
+adapter->bank: authorisation update request (otp, with psd2-authorization header)
+|||
+adapter<-bank: 200 authorisation-update response
+|||
+tpp<-adapter: 200 authorisation-update response
+end
+|||
+tpp->adapter: get account list request (with authorization header)
+|||
+adapter->adapter: map authorization to psd2-authorization
+|||
+adapter->bank: get account list request (with psd2-authorization header)
+|||
+adapter<-bank: 200 account-list response
+|||
+tpp<-adapter: 200 account-list response
+|||
+tpp->adapter: get transaction list request (with authorization header)
+|||
+adapter->adapter: map authorization to psd2-authorization
+|||
+adapter->bank: get transaction list request (with psd2-authorization header)
+|||
+adapter<-bank: 200 transaction-list response
+|||
+tpp<-adapter: 200 transaction-list response
+|||
+opt get consent status
+tpp->adapter: get consent status (with authorization header)
+|||
+adapter->adapter: map authorization to psd2-authorization
+|||
+adapter->bank: get consent status (with psd2-authorization header)
+|||
+adapter<-bank: 200 consent status response
+|||
+tpp<-adapter: 200 consent status response
+end
+|||
+opt get sca status
+tpp->adapter: get sca status request (with authorization header)
+|||
+adapter->adapter: map authorization to psd2-authorization
+|||
+adapter->bank: get sca status request (with psd2-authorization header)
+|||
+adapter<-bank: 200 sca-status response
+|||
+tpp<-adapter: 200 sca-status response
+end
+@enduml

@@ -25,15 +25,16 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Xs2aHttpLogSanitizer implements HttpLogSanitizer {
     private static final Logger logger = LoggerFactory.getLogger(Xs2aHttpLogSanitizer.class);
     private static final String APPLICATION_JSON = "application/json";
     static final String REPLACEMENT = "******";
-    private final Set<String> sanitizedHeaders = new HashSet<>();
+    private final Set<String> sanitizeHeaders = new HashSet<>();
     private final Set<String> nonSanitizedBodyProperties = new HashSet<>();
     private final List<Pattern> patterns = new ArrayList<>();
-    private JsonMapper objectMapper = new JacksonObjectMapper();
+    private final JsonMapper objectMapper = new JacksonObjectMapper();
 
     /**
      * @param whitelist is a list of request/response body fields that a client wants to be unveiled in logs.
@@ -52,7 +53,7 @@ public class Xs2aHttpLogSanitizer implements HttpLogSanitizer {
         // To tackle DKB errors and Commerzbank Authorization URIs
         patterns.add(Pattern.compile("([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})"));
 
-        sanitizedHeaders.addAll(Arrays.asList(
+        List<String> headers = toLowerCase(Arrays.asList(
             "Authorization",
             "PSU-ID",
             "PSU-Corporate-ID",
@@ -62,11 +63,21 @@ public class Xs2aHttpLogSanitizer implements HttpLogSanitizer {
             "Signature",
             "TPP-Signature-Certificate",
             "Digest",
+            "X-dynatrace-Origin-URL", // Unicredit header
             "PSD2-AUTHORIZATION"));
+
+        sanitizeHeaders.addAll(headers);
     }
 
+    private List<String> toLowerCase(List<String> list) {
+        return list.stream()
+            .map(String::toLowerCase)
+            .collect(Collectors.toList());
+    }
+
+
     public String sanitizeHeader(String name, String value) {
-        if (sanitizedHeaders.contains(name)) {
+        if (sanitizeHeaders.contains(name.toLowerCase())) {
             return REPLACEMENT;
         }
         return value;

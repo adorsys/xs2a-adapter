@@ -16,7 +16,7 @@ You can specify the path to your keystore with a java vm option **pkcs12.keyStor
 ```commandline
 java -Dpkcs12.keyStore=</path/to/your/keystore.p12> ...
 ```
-If your keystore has a password it should be passed to the adapter as a java vm option too **pkcs12.keyStorePassword**. E.g.
+If your keystore has a password it should be passed to the adapter as a java vm option to **pkcs12.keyStorePassword**. E.g.
 ```commandline
 java -Dpkcs12.keyStorePassword=<keyStorePassword> ...
 ````
