@@ -303,6 +303,15 @@ a| * Update Postman collections
 * Rewrite WireMock stubs for Adorsys adapter
 * Account Id is not masked
 
+a| 11.08
+a| 0.1.14
+a| * Complete Building Block View part
+* Fix Postman Create Consent for Unicredit Sandbox
+* Bug fixing: Mask Location header
+* Revise Santander OAuth2 Service
+* Revise existing documentation
+* Fill out Glossary chapter
+
 a| For future development
 
 a| x.x.x
