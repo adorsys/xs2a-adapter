@@ -2,7 +2,7 @@
 
 === 5.1. Whitebox XS2A Adapter Library
 
-image::whitebox_lv1_library.png[5.1. Whitebox XS2A Adapter library,width=520]
+image::whitebox_lv1_library.png[5.1. Whitebox XS2A Adapter library,width=860]
 
 .Contained Building Blocks
 [cols=",",options="header",]
