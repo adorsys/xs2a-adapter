@@ -1,0 +1,20 @@
+@startuml
+
+(AdorsysIntegServiceProvider) as Adorsys
+(ComdirectServiceProvider) as Comdirect
+(CommerzbankServiceProvider) as Commerzbank
+(ConsorsServiceProvider) as Consors
+(DkbServiceProvider) as DKB
+(XServiceProvider) as other
+
+(AbstractAdapterServiceProvider) as parent <<abstract class>>
+
+parent --|> Adorsys
+parent --|> Comdirect
+parent --|> Commerzbank
+parent --|> Consors
+parent --|> DKB
+
+parent --|> other
+
+@enduml

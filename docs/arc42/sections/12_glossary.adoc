@@ -8,7 +8,7 @@
 banks to the requirements of PSD2.
 |PSD2 |https://ec.europa.eu/info/law/payment-services-psd-2-directive-eu-2015-2366_en[_Payment Service Directive 2_],
 a European law for payments services.
-|TPP |_Third Party Payment Service Providers_ provider, a system that acts on behalf of PSU on its data hold by ASPSP.
+|TPP |_Third Party Payment Service Provider_, a system that acts on behalf of PSU on its data hold by ASPSP.
 |ASPSP |_Account Servicing Payment Service Provider_, a banking system that holds account data of PSU and performs
 corresponding operations over it.
 |AIS |_Account Information Service_ is an online service which provides consolidated information on payment accounts held by
@@ -44,4 +44,5 @@ a country to all its licensed member banks or financial institutions.
 |Bank Name |ASPSP or a bank legal name.
 |IBAN |https://en.wikipedia.org/wiki/International_Bank_Account_Number[_International Bank Account Number_] is an internationally agreed system of identifying bank accounts across
 national borders to facilitate the communication and processing of cross border transactions with a reduced risk of transcription errors.
+|BG |Stands for _Berlin Group_
 |===

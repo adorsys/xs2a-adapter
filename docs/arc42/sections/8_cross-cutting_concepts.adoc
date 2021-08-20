@@ -1,15 +1,180 @@
 == 8. Cross-cutting Concepts
 
-=== 8.1. _<Concept 1>_
+=== 8.1. XS2A Adapter Domain Model
+The main goal of the XS2A Adapter is to normalize a request/response to/from a bank to be compliant to the Berlin Group PSD2 specification.
+
+For understanding of the XS2A Adapter work it's better to start from an action diagram.
+
+image::adapter-activity.png[XS2A Adapter Activity,width=100%]
+
+.XS2A Adapter Activity
+[cols=",",options="header",]
+|===
+|Module |Description
+|TPP |Third Party Payment Service Provider, a client of the XS2A Adapter.
+|Adapter REST Interface |Receives requests and sends responses from/to a client, delegates a request to the ASPSP Registry
+or to the Adapter Service Loader.
+|Adapter ASPSP Registry |Retrieves an ASPSP information from a Lucene repository by a provided input.
+|Adapter Service Loader |Loads an appropriate XS2A Adapter and delegates a request to it.
+|Adapters |Collection of implemented bank adapters.
+|Adapter Service Implementation |Module with base service implementations to deal with a request.
+|X Adapter |A specific XS2A Adapter that performs the request/response normalization and calls an appropriate bank.
+|ASPSP |Account Servicing Payment Service Provider or simply the Bank
+|===
+
+The request/response is passed through multiple layers.
+
+In particular, *Adapter REST Interface*:
+
+image::adapter-rest-interface.png[XS2A Adapter REST Interface,width=100%]
+
+.XS2A Adapter REST Interface
+[cols=",",options="header",]
+|===
+|Class/Interface |Description
+|ConsentApi |Operations for creating. deleting, reading and authorising a consent.
+|AccountApi |Operations for retrieving account data, like balances, transactions, transaction details,. etc.
+|ConsentController |Implements ConsentApi and AccountApi and delegates request processing to the Account Information Service.
+|Oauth2Api |Operations for constructing Authorizing URL and obtaining an Access Token.
+|OAuth2Controller |Implements Oauth2Api and delegates a request to the OAuth2 Service.
+|PaymentApi |Operations for the payment initiation, authorisation, and reading a payment information.
+|AspspSearchApi |Operations for retrieving an ASPSP information.
+|AspspSearchController |Implements AspspSearchApi and delegates a request to the Aspsp Search Service.
+|EmbeddedPreAuthorisationApi |Operation for retrieving an Access Token.
+|EmbeddedPreAuthorisationController |Implements EmbeddedPreAuthorisationApi and delegates a request to the Pre-Authorisation Service.
+|===
+
+The full description of the XS2A Adapter REST API can be found on the https://xs2a-adapter-integ.cloud.adorsys.de/swagger-ui.html[Swagger page].
+
+https://www.berlin-group.org/nextgenpsd2-downloads[Berlin Group Specification] provides comprehensive documentation on the PSD2 XS2A Interface.
+
+The next part is *Adapter ASPSP Registry*, and it's sufficiently described in xref:whitebox_aspsp_registry[Whitebox ASPSP Registry]
+
+*Adapter Service Loader* responsibility is to provide an appropriate XS2A Adapter to deal with a request/response routine.
+The structure is the next:
+
+image::adapter-service-loader.png[XS2A Adapter Service Loader,width=100%]
+
+.XS2A Adapter Service Loader
+[cols=",",options="header",]
+|===
+|Class/Interface |Description
+|AdapterServiceLoader |The class resolves which particular adapter should be called.
+|AccountInformationServiceImpl |The class calls Service Loader to get a particular adapter then passes the request
+to the specific Account Information service.
+|PaymentInitiationServiceImpl |The class calls Service Loader to get a particular adapter then passes the request
+to the specific Payment Initiation service.
+|AccountInformationService |The interface determines operations for retrieving account information, consent creation,
+PSU authentication and authorisation. Based on PSD2 Berlin Group specification.
+|PaymentInitiationService |The interface determines operations for payment initiation, PSU authentication and authorisation.
+Based on PSD2 Berlin Group specification.
+|===
+
+All base service implementations are located in the *Adapter Service Implementation* module:
+
+image::adapter-service-impl.png[XS2A Adapter Service Loader,width=100%]
+
+.XS2A Adapter Service Implementation
+[cols=",",options="header",]
+|===
+|Class/Interface |Description
+|BaseAccountInformationService |The class provides the base request/response normalization for account information retrieval
+and calls a real bank.
+|RequestBuilderImpl |The class encapsulates all request related data like body, headers, query parameters, etc.
+|BasePaymentInitiationService |The class provides the base request/response normalization for payment initiation and calls a real bank.
+|AbstractAdapterServiceProvider |The abstract class encapsulates common for all service providers operations.
+|AccountInformationService |The interface determines operations for retrieving account information, consent creation,
+PSU authentication and authorisation. Based on PSD2 Berlin Group specification.
+|Builder |The interface determines operations for assembling request data.
+|Request |Marker interface, encapsulates Builder interface.
+|Response |Wrapper for a bank response. Contains a body, headers and HTTP status code.
+|PaymentInitiationService |The interface determines the operations for payment initiation, PSU authentication and authorisation.
+Based on PSD2 Berlin Group specification.
+|AccountInformationServiceProvider |The interface determines operations for account information service provider.
+|PaymentInitiationServiceProvider |The interface determines operations for payment initiation service provider.
+|AdapterServiceProvider |The interface determines common operations for any service provider.
+|===
+
+The full list of the AIS operations is put down xref:account_information_service[here] and PIS operations are xref:payment_initiation_service[here]
+
+Normalization of a request/response takes place in a particular *X Adapter*:
+
+image::x-adapter.png[XS2A Adapter Service Loader,width=100%]
+
+.X Adapter
+[cols=",",options="header",]
+|===
+|Class/Interface |Description
+|XAdapterServiceProvider |Child of a AbstractAdapterServiceProvider with a specific bank implementations.
+|XAccountInformationService |Child of a BaseAccountInformationService with a specific bank implementations.
+|XPaymentInitiationService |Child of a BasePaymentInitiationService with a specific bank implementations.
+|===
+
+
+=== 8.2. Inheritance of the base services.
+
+Creating an adapter is achieved via extending base services: AIS, PIS, OAuth2, etc.
+
+A concrete adapter is merely simple as all main operations are performed in the base Account Information and
+Payment Initiation services. Also, not all adapters need to extend a base service to add a specific change, a bank can have
+a perfectly valid BG interface so a base service is enough for connecting to an ASPSP.
+
+image::account-information-service-tree.png[AIS child tree]
+image::payment-initiation-service-tree.png[PIS child tree]
+
+However, all adapters must extend AbstractAdapterServiceProvider that implements AccountInformationServiceProvider and
+PaymentInitiationServiceProvider for proper Service Loader work.
+
+image::adapter-service-provider-tree.png[Adapter Service Provider tree, width=960]
+
+There are additional constrains on an adapter which listed https://github.com/adorsys/xs2a-adapter/blob/develop/docs/Adapter.md[here].
+
+=== 8.3. Http Client and Request/Response Interceptor
+
+XS2A Adapter provides its own HTTP Client implementations: ApacheHttpClient, WiremockHttpClient.
+
+image::adapter-http-client.png[PIS child tree,width=100%]
+
+.XS2A Adapter HttpClient
+[cols=",",options="header",]
+|===
+|Class/Interface |Description
+|HttpClient |Interface provides the list of operations for a client.
+|ResponseHandler |Functional Interface for operation of handling a bank response.
+|AbstractHttpClient |Abstract class provides base implementation or Get, Post, Put, and Delete operations.
+|ApacheHttpClient |Main implementation of the HttpClient that uses the https://hc.apache.org/httpcomponents-client-5.1.x/[Apache Components] solution.
+|WiremockHttpClient |A client on top of the ApacheHttpClient, that palms off a recorded bank response instead of
+communicating to a real bank.
+|===
+
+More details on WireMock will come below.
+
+To be able to modify a specific aspect of a request an Interceptor interface was introduced. With an interceptor a client
+can pre- or post-handle a call to a bank.
+
+image::adapter-interceptor.png[PIS child tree,width=100%]
+
+.XS2A Adapter Interceptor
+[cols=",",options="header",]
+|===
+|Class/Interface |Description
+|Interceptor |Interface provides the list of operations with default postHandle() implementation.
+|adorsys.AdorsysSigningHeadersInterceptor |Signs a request to banks that uses the Adorsys solutions.
+|adorsys.OauthHeaderInterceptor |Adds a specified OAuth header to a request to banks that uses the Adorsys solutions.
+|consors.PsuIdHeaderInterceptor |Clears PSU-ID header if it contains mere quotes (*""*) for Consors.
+|deutschebank.PsuIdHeaderInterceptor |Normalize PSU-ID header if necessary for a specific Deutsche Bank branches.
+|deutschebank.PsuIdTypeHeaderInterceptor |Adds a defined value of PSU-ID-Type header based on a specific Deutsche Bank branch.
+|verlag.PsuIdTypeHeaderInterceptor |Removes a PSU-ID-Type header if it contains an empty value for banks that use Verlag solutions.
+|ing.IngClientAuthentication |Signs a request to ING
+|adapter.impl.http.RequestSigningInterceptor |Base singing request interceptor.
+|adapter.impl.http.wiremock.WiremockStubDifferenceDetectingInterceptor |Detects differences between a performed request and
+recorded wiremock stubs.
+|===
+
+=== 8.4. WireMock
 
 _<explanation>_
 
-=== 8.2. _<Concept 2>_
-
-_<explanation>_
-
-…
-
-=== 8.3. _<Concept n>_
+=== 8.4. _<Concept n>_
 
 _<explanation>_

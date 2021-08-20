@@ -1,0 +1,20 @@
+@startuml
+
+"**TPP**" -right-> [request/response] "**Adapter REST Interface**"
+-down-> [Lookup for Adapter ID] "**Adapter ASPSP Registry**"
+-up-> "**Adapter REST Interface**"
+-right-> [request/response] "**Adapter Service Loader**"
+-right-> [request/response] "**X Adapter**"
+-right-> [request/response] "**BANK**"
+"**BANK**" -left-> "**X Adapter**"
+"**X Adapter**" -left-> "**Adapter Service Loader**"
+"**Adapter Service Loader**" -left-> "**Adapter REST Interface**"
+"**Adapter REST Interface**" -left-> "**TPP**"
+
+
+"**Adapter Service Implementation** \n Base AIS, PIS, OAuth, etc. service implementations" --> "**X Adapter**"
+note bottom: Request-Response normalization
+
+"**Adapter Service Loader**" -up-> [Lookup for a specific Adapter] "**Adapters**"
+"**Adapters**" -[dashed]-> "**X Adapter**"
+@enduml

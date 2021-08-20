@@ -1,0 +1,35 @@
+@startuml
+
+interface HttpClient {
+    + get()
+    + post()
+    + put()
+    + delete()
+    + send()
+    + content()
+}
+interface ResponseHandler {
+    + apply()
+}
+abstract AbstractHttpClient {
+    + ...()
+}
+class ApacheHttpClient {
+    - logSanitizer
+    - closableHttpClient
+    + ...()
+}
+class WiremockHttpClient {
+    - wireMockServer
+    - wireMockUrl
+    + ...()
+}
+
+HttpClient <|.. AbstractHttpClient
+
+HttpClient +-right- ResponseHandler
+
+AbstractHttpClient <|-- ApacheHttpClient
+ApacheHttpClient <|-right- WiremockHttpClient
+
+@enduml

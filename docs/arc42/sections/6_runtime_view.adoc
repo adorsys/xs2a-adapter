@@ -4,7 +4,7 @@
 
 TPP sends request to ASPSP via XS2A Adapter.
 
-image::runtime-view.png[Sequence diagram: Interaction with Adapter,width=520]
+image::runtime-view.png[Sequence diagram: Interaction with Adapter,width=960]
 
 *Scenario:*
 
