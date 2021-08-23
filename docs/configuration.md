@@ -5,7 +5,7 @@ will need to add some additional data:
 
 * to communicate with Bank-Verlag `verlag.apikey.name` and `verlag.apikey.value` must be specified, see [developer guide](developer_guide.md) for details;
 * to work with DKB `dkb.psd2_token.url` must be provided, please check out this [file](../adapters/crealogix-adapter/README.md) for more details;
-* ING needs `ing.qwac.alias` and `ing.qseal.alias` with appropriate QWAC and QSEAL from your keystore, see [developer guide](developer_guide.md) for details;;
+* ING needs `ing.qwac.alias` and `ing.qseal.alias` with appropriate QWAC and QSEAL from your keystore, see [developer guide](developer_guide.md) for details;
 
 Additionally, a user may provide:
 

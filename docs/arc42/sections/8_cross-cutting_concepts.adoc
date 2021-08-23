@@ -1,11 +1,12 @@
-== 8. Cross-cutting Concepts
+== 8. Cross-cutting Concepts.
 
 === 8.1. XS2A Adapter Domain Model.
 The main goal of the XS2A Adapter is to normalize a request/response to/from a bank to be compliant to the Berlin Group PSD2 specification.
 
 
 ==== 8.1.1. XS2A Request/Response flow overview.
-For understanding of the XS2A Adapter work it's better to start from an action diagram.
+Request/response processing are mostly done in the specific adapter, but a request/response is passed through several layers until it reaches
+an adapter.
 
 image::adapter-activity.png[XS2A Adapter Activity,width=100%]
 
@@ -24,8 +25,8 @@ or to the Adapter Service Loader.
 |ASPSP |Account Servicing Payment Service Provider or simply the Bank
 |===
 
-The request/response is passed through multiple layers.
-
+There is no main Request or Response models in XS2A Adapter. Almost each operation has its own request/response structure,
+these are models based on the Berlin Group specification. Full list and descriptions are available in the https://xs2a-adapter-integ.cloud.adorsys.de/swagger-ui.html[swagger file].
 
 ==== 8.1.2. XS2A Adapter REST Interface.
 
@@ -36,7 +37,7 @@ image::adapter-rest-interface.png[XS2A Adapter REST Interface,width=100%]
 |===
 |Class/Interface |Description
 |ConsentApi |Operations for creating. deleting, reading and authorising a consent.
-|AccountApi |Operations for retrieving account data, like balances, transactions, transaction details,. etc.
+|AccountApi |Operations for retrieving account data, like balances, transactions, transaction details, etc.
 |ConsentController |Implements ConsentApi and AccountApi and delegates request processing to the Account Information Service.
 |Oauth2Api |Operations for constructing Authorizing URL and obtaining an Access Token.
 |OAuth2Controller |Implements Oauth2Api and delegates a request to the OAuth2 Service.
@@ -81,7 +82,7 @@ Based on PSD2 Berlin Group specification.
 
 All base service implementations are located in the Adapter Service Implementation module:
 
-image::adapter-service-impl.png[XS2A Adapter Service Loader,width=100%]
+image::adapter-service-impl.png[XS2A Adapter Service Implementation,width=100%]
 
 .XS2A Adapter Service Implementation
 [cols=",",options="header",]
@@ -110,7 +111,7 @@ The full list of the AIS operations is put down xref:account_information_service
 
 Normalization of a request/response takes place in a particular X-Adapter:
 
-image::x-adapter.png[XS2A Adapter Service Loader,width=100%]
+image::x-adapter.png[X-Adapter,width=100%]
 
 .X Adapter
 [cols=",",options="header",]
@@ -127,7 +128,7 @@ Creating an adapter is achieved via extending base services: AIS, PIS, OAuth2, e
 
 A concrete adapter is merely simple as all main operations are performed in the base Account Information and
 Payment Initiation services. Also, not all adapters need to extend a base service to add a specific change, a bank can have
-a perfectly valid BG interface so a base service is enough for connecting to an ASPSP.
+a perfectly valid BG interface, so a base service is enough for connecting to an ASPSP.
 
 image::account-information-service-tree.png[AIS child tree]
 image::payment-initiation-service-tree.png[PIS child tree]
@@ -143,7 +144,7 @@ There are additional constrains on an adapter which listed https://github.com/ad
 
 XS2A Adapter provides its own HTTP Client implementations: ApacheHttpClient, WiremockHttpClient.
 
-image::adapter-http-client.png[PIS child tree,width=100%]
+image::adapter-http-client.png[XS2A Adapter HTTP Client,width=100%]
 
 .XS2A Adapter HttpClient
 [cols=",",options="header",]
@@ -162,14 +163,14 @@ More details on WireMock will come below.
 To be able to modify a specific aspect of a request an Interceptor interface was introduced. With an interceptor a client
 can pre- or post-handle a call to a bank.
 
-image::adapter-interceptor.png[PIS child tree,width=100%]
+image::adapter-interceptor.png[XS2A Adapter Interceptor,width=100%]
 
 .XS2A Adapter Interceptor
 [cols=",",options="header",]
 |===
 |Class/Interface |Description
 |Interceptor |Interface provides the list of operations with default postHandle() implementation.
-|adorsys.AdorsysSigningHeadersInterceptor |Signs a request to banks that uses the Adorsys solutions.
+|adorsys.AdorsysSigningHeadersInterceptor |Signs a request to banks that use the Adorsys solutions.
 |adorsys.OauthHeaderInterceptor |Adds a specified OAuth header to a request to banks that uses the Adorsys solutions.
 |consors.PsuIdHeaderInterceptor |Clears PSU-ID header if it contains mere quotes (*""*) for Consors.
 |deutschebank.PsuIdHeaderInterceptor |Normalize PSU-ID header if necessary for a specific Deutsche Bank branches.
@@ -187,16 +188,16 @@ For convenient testing of a client solution XS2A Adapter introduced a WireMock m
 itself doesn't communicate with a real bank but returns a request/response record (also called a stub).
 
 .XS2A Flow in WireMock mode
-image::adapter_wiremock_mode.png[PIS child tree,width=100%]
+image::adapter-wiremock-mode.png[XS2A Flow in WireMock mode,width=100%]
 
 A comprehensive description about XS2A Adapter WireMock mode can be found https://adorsys.github.io/xs2a-adapter/wiremock-mode[here].
 
 === 8.5. XS2A Adapter Exceptions.
 
-XS2A Adapter developed its own set of exceptions that can occur in specific situations. All of them are subtype of RuntimeException.
+XS2A Adapter developed its own set of exceptions that can occur in specific situations. All of them are subtypes of RuntimeException.
 
 .XS2A Adapter Exceptions
-image::adapter-exceptions.png[PIS child tree,width=100%]
+image::adapter-exceptions.png[XS2A Adapter Exceptions,width=100%]
 
 .XS2A Adapter Exceptions
 [cols="",options="header",]
@@ -205,14 +206,14 @@ image::adapter-exceptions.png[PIS child tree,width=100%]
 |AccessTokenException |Will occur if obtaining an access token failed. Used in specific OAuth approaches like DKB Embedded Pre-Step. |400..500*
 |AdapterNotFoundException |Thrown if XS2A Adapter Service Loader failed to find an adapter. |400
 |AspspRegistrationException |Thrown if ASPSP registry services failed to complete an operation. |400
-|AspspRegistrationNotFoundException |Thrown if no adapter found in the Registry by provided parameters (IBAN, DIC, Bank Code, etc.) |400
-|BadRequestException |Thrown if malformed request received, used in specific case like missing scope for OAuth or wrong body
+|AspspRegistrationNotFoundException |Thrown if no adapter found in the Registry by provided parameters (IBAN, BIC, Bank Code, etc.) |400
+|BadRequestException |Thrown if malformed request received, used in specific cases like missing scope for OAuth or wrong body
 of PSU Update Data operations. |400
 |ErrorResponseException |Common wrapper for a bank exception, most bank errors are folded into this class. |400..500*
 |HttpRequestSigningException |Thrown if XS2A Adapter failed to sign a request. |500
 |IbanException |Thrown if ASPSP Registry failed to process an IBAN. |400
 |NotAcceptableException |Thrown if JSON Response Handler received not a JSON formatted data. |406
-|OAuthException |Thrown if OAuth2 service failed to complete an operation. |403
+|OAuthException |Thrown if bank returned 401 or 403 for consent creation operation. This exception is specific for Sparda and Adorsys adapters. |403
 |PsuPasswordEncodingException |Thrown if PsuPasswordEncryptionService failed to complete an operation. |500
 |RequestValidationException |Thrown if a request failed a validation. |400
 |RequestAuthorizationValidationException |A subtype of RequestValidationException, thrown if AUTHORIZATION header is missing. |401
@@ -222,6 +223,44 @@ of PSU Update Data operations. |400
 
 _* HTTP Status depends on the status from the bank response_
 
-=== 8.6. _<Concept n>_
+=== 8.6. XS2A Adapter configuration properties.
 
-_<explanation>_
+XS2A Adapter expects to have `adapter.config.properties` with configuration key-value pairs for some adapters.
+
+Those properties are parsed by AdapterConfig service, which uses `java.util.Properties` under the hood.
+
+.AdapterConfig
+image::adapter-config.png[XS2A Adapter configuration,width=100%]
+
+AdapterConfig interface provides reading properties operations and loading a new properties file, mostly for test purposes.
+
+Additional details on the XS2A Adapter properties are https://github.com/adorsys/xs2a-adapter/blob/develop/docs/configuration.md[here].
+
+=== 8.7. XS2A Adapter Pkcs12KeyStore.
+
+In order to interact with the Banks' XS2A Interfaces, a user will need to have an eIDAS certificate. XS2A Adapter expects
+a user to supply a valid PKCS #12 Key Store file (.p12) with a certificate as a JVM parameter (standalone)
+or as a parameter in the Pkcs12KeyStore constructor (library).
+
+Description of the KeyStore and how to create it is already put down in https://github.com/adorsys/xs2a-adapter/blob/develop/docs/keystore.md[here]
+
+=== 8.8. XS2A Adapter Request Signing.
+
+XS2A Adapter can sign the request for a user, if an adapter applied `RequestSigningInterceptor` and has a QSEAL
+certificate in a key store. In some specific cases (like ING) an adapter will have its own signing service.
+
+.XS2A Adapter Signing Infrastructure
+image::adapter-signing.png[XS2A Adapter Request Signing Infrastructure,width=100%]
+
+.XS2A Adapter Interceptor
+[cols=",",options="header",]
+|===
+|Class/Interface |Description
+|Interceptor |Interface provides the list of operations with default postHandle() implementation.
+|RequestSigningInterceptor |Adds signing data to the headers and delegates signing to the service.
+|RequestSigningService |Provides Digest, Signature and TPP Signature Certificate values.
+|Digest |Model for a Digest header.
+|DigestBuilder |Calculates digest.
+|Signature |Model for a Signature header.
+|Builder |Calculates signature.
+|===

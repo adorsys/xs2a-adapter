@@ -12,8 +12,8 @@ For running or utilizing the Application you may need:
 
 In order to interact with the Banks' XS2A Interfaces, a user will need to have an eIDAS certificate. 
 Qualified Certificates for Website Authentication (QWAC) is a mandatory one for establishing TLS-connection. In some cases,
-Qualified Certificates for Electronic Seals (QSEAL) may be needed. The XS2A Adapter expects a user to provide a PKCS12 KeyStore
-in the configuration file. More details are coming below.
+Qualified Certificates for Electronic Seals (QSEAL) may be needed. The XS2A Adapter expects a user to provide a PKCS12 KeyStore. 
+More details are coming below.
 
 ### Common XS2A Adapter configuration
 

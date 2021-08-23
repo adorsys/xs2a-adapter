@@ -1,0 +1,14 @@
+@startuml
+
+class AbstractList {
+    - Properties properties
+    .. other private fields ..
+    __
+    + void reload()
+    + void setConfigFile(File file)
+    + String readProperty(String property)
+    + String readProperty(String property,String defaultValue)
+    .. other private methods ..
+}
+
+@enduml

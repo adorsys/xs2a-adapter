@@ -1,0 +1,47 @@
+@startuml
+
+class RequestSigningInterceptor {
+    - requestSigningService
+    + preHandle()
+}
+interface Interceptor {
+    + preHandle()
+    + postHandle()
+}
+class RequestSigningService {
+    - keyStore
+    + buildDigest()
+    + buildSignature()
+    + buildTppSignatureCertificate()
+}
+class Digest {
+    - headerValue
+}
+class DigestBuilder {
+    - requestBody
+    - hashingAlgorithm
+    - encodingAlgorithm
+    - charset
+    + build()
+}
+class Signature {
+    - headerValue
+}
+class Builder {
+    - keyId
+    - signingAlgorithm
+    - encodingAlgorithm
+    - charset
+    - headersMap
+    - privateKey
+    + build()
+}
+
+Interceptor <|.left. RequestSigningInterceptor
+RequestSigningInterceptor *-- RequestSigningService
+RequestSigningService <.. Digest
+RequestSigningService <.. Signature
+Digest +-- DigestBuilder
+Signature +-- Builder
+
+@enduml

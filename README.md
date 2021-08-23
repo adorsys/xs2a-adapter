@@ -128,6 +128,21 @@ For full description, please refer to the official Berlin Group PSD2 specificati
 
 We have provided technical description in the [arc42 document](https://adorsys.github.io/xs2a-adapter/). 
 
+## Banks peculiarities
+
+There are some specific cases in communication with banks that an XS2A Adapter user must be aware of.
+
+For example, `Sparkasse` and `Fiducia` always return a list of transactions in XML format, thus triggering 
+
+```bash
+Response<TransactionsResponse200Json> getTransactionList(String accountId,
+                                                         RequestHeaders requestHeaders,
+                                                         RequestParams requestParams);
+```
+
+or calling `getTransactionList` endpoint with specified `Accept: application/json` header on these banks 
+will throw `NotAcceptableException`, due to format mismatching.
+
 ## Releases and versions
 
 * XS2A Adapter reveals a new release at the beginning of each month. All released features, fixes, details, etc. can be found 
