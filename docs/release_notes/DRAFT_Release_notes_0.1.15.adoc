@@ -2,6 +2,9 @@
 
 .Added banks
 |===
+|Bank Name|Approach|AIS, PIS
+
+|Aareal Bank (Crealogix Solution)|embedded|AIS, PIS
 |===
 
 == Notices:

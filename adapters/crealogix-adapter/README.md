@@ -4,6 +4,7 @@ This adapter covers banks which use a PSD2 API solution provided by [CREALOGIX G
 
 Connected CREALOGIX banks:
 - DKB
+- Aareal Bank
 
 ### Configuration
 
@@ -20,6 +21,25 @@ This call will create a TPP record within ASPSP database. For example with DKB, 
 
 ```
 curl --location POST 'https://api.dkb.de/psd2/v1/consents' \
+--cert $CERT_PATH \
+--key $PR_KEY_PATH \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "access": {
+        "allPsd2": "allAccounts"
+    },
+    "combinedServiceIndicator": "false",
+    "recurringIndicator": "true",
+    "validUntil": "2023-05-18",
+    "frequencyPerDay": "4"
+}'
+
+```
+
+For Aareal Bank:
+
+```
+curl --location POST 'https://tpp.aareal-bank.com/psd2/1.3.6/v1/consents' \
 --cert $CERT_PATH \
 --key $PR_KEY_PATH \
 --header 'Content-Type: application/json' \

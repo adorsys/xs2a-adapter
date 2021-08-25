@@ -39,7 +39,7 @@ if you need a production data please contact our [sales team](mailto:rene.pongra
 
 In order to communicate with some banks additional steps are compulsory.
 
-#### DKB
+#### DKB and Aareal Bank
 
 The registration is needed. However, the process is merely simple - a user will want to call any DKB PSD2 endpoint 
 with production certificates, e.g.
@@ -62,7 +62,7 @@ curl --location POST 'https://api.dkb.de/psd2/v1/consents' \
 
 It will return 401 UNAUTHORIZED for a successful registration.
 
-Details about DKB [here](../adapters/crealogix-adapter/README.md)
+Details about DKB and Aareal Bank [here](../adapters/crealogix-adapter/README.md)
 
 #### Santander
 
