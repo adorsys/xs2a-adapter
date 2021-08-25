@@ -1,0 +1,18 @@
+@startmindmap
+* RuntimeException
+** AccessTokenException
+** AdapterNotFoundException
+** AspspRegistrationException
+*** AspspRegistrationNotFoundException
+** BadRequestException
+** ErrorResponseException
+** HttpRequestSigningException
+** IbanException
+** NotAcceptableException
+** OAuthException
+** PsuPasswordEncodingException
+** RequestValidationException
+*** RequestAuthorizationValidationException
+** UncheckedSSLHandshakeException
+** Xs2aAdapterException
+@endmindmap

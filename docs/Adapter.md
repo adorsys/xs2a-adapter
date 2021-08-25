@@ -4,7 +4,8 @@ To create your own adapter you need to implement 4 interfaces and create 2 one-l
 
 ### Steps:
 - Add **xs2a-adapter-api** dependency to your classpath
-- Implement **AccountInformationServiceProvider** and **PaymentInitiationServiceProvider** interfaces. Don't forget to provide **correct bank code** otherwise no-one will be able to communicate with your adapter.
+- Extend **AbstractAdapterServiceProvider** that implements **AccountInformationServiceProvider** and **PaymentInitiationServiceProvider**. 
+Don't forget to provide **correct bank code** otherwise no-one will be able to communicate with your adapter.
 - Provide implementation of **AccountInformationService** interface.
 - Provide implementation of **PaymentInitiationService** interface.
 - Create **META-INF/services** package inside the resources folder

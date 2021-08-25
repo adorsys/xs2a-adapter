@@ -33,3 +33,6 @@ asciidoctor -o ${ADOC_DESTINATION_FILE} ${ADOC_SOURCE_FILE}
 asciidoctor -D ${ADOC_DESTINATION_FOLDER} ${ADOC_SOURCE_FOLDER}
 #wiremock mode doc
 asciidoctor -o ${ADOC_WIREMOCK_DESTINATION_FILE} ${ADOC_WIREMOCK_SOURCE_FILE}
+
+# copy all existing images
+cp docs/arc42/images/* ${PUML_DESTINATION}

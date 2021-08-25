@@ -1,0 +1,12 @@
+@startmindmap
++ BaseAccountInformationService
+++ AdorsysAccountInformationService
+++ ComdirectAccountInformationService
+++ CommerzbankAccountInformationService
+++ ConsorsAccountInformationService
+++ CrealogixAccountInformationService
+++ DeutscheBankAccountInformationService
+++ FiduciaAccountInformationService
+++ IngAccountInformationApi
+++ XAccountInformationService
+@endmindmap

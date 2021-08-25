@@ -5,6 +5,7 @@
 |===
 
 == Notices:
+- added `Cross-cutting Concepts` to the Adapter arc42 document.
 
 == Features:
 

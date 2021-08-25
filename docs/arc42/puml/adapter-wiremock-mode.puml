@@ -1,0 +1,15 @@
+@startuml
+participant tpp as "TPP"
+participant adapter as "XS2A\nAdapter"
+participant bank as "ASPSP"
+
+tpp->adapter: account information consent request
+|||
+adapter->adapter: build response from stub record
+|||
+tpp<-adapter: 201 account-information response (startAuthorisation link)
+|||
+...
+=== Other AIS requests/responses... ==
+|||
+@enduml

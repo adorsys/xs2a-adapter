@@ -2,7 +2,7 @@
 
 === 5.1. Whitebox XS2A Adapter Library
 
-image::whitebox_lv1_library.png[5.1. Whitebox XS2A Adapter library,width=520]
+image::whitebox_lv1_library.png[5.1. Whitebox XS2A Adapter library,width=860]
 
 .Contained Building Blocks
 [cols=",",options="header",]
@@ -119,6 +119,7 @@ image::whitebox_bank_adapters.png[5.2.3. Whitebox Bank Adapters,width=520]
 
 === 5.3. Level 3
 
+[[account_information_service]]
 ==== 5.3.1. Account Information Service (AIS) Interface (Blackbox).
 
 *Intent/Responsibility:* Performs request/response normalisation and calls a bank AIS endpoint.
@@ -151,6 +152,7 @@ depending on the steering parameter "bookingStatus" together with balances.
 |getCardAccountTransactionList |Reads account data from a given card account addressed by "account-id".
 |===
 
+[[payment_initiation_service]]
 ==== 5.3.2. Payment Initiation Service (PIS) Interface (Blackbox).
 
 *Intent/Responsibility:* Performs request/response normalisation and calls a bank PIS endpoint.

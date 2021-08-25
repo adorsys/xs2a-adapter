@@ -1,0 +1,31 @@
+@startuml
+
+interface Interceptor {
+    + preHandle()
+    + postHandle()
+}
+class xs2a.adapter.adorsys.AdorsysSigningHeadersInterceptor
+class xs2a.adapter.adorsys.OauthHeaderInterceptor
+class xs2a.adapter.consors.PsuIdHeaderInterceptor
+class xs2a.adapter.deutschebank.PsuIdHeaderInterceptor
+class xs2a.adapter.deutschebank.PsuIdTypeHeaderInterceptor
+class xs2a.adapter.verlag.PsuIdTypeHeaderInterceptor
+class xs2a.adapter.ing.IngClientAuthentication
+package xs2a.adapter.impl.http {
+    class RequestSigningInterceptor
+    package wiremock {
+        class WiremockStubDifferenceDetectingInterceptor
+    }
+}
+
+Interceptor <|.. xs2a.adapter.adorsys.AdorsysSigningHeadersInterceptor
+Interceptor <|.. xs2a.adapter.adorsys.OauthHeaderInterceptor
+Interceptor <|.left. xs2a.adapter.consors.PsuIdHeaderInterceptor
+Interceptor <|.. xs2a.adapter.deutschebank.PsuIdHeaderInterceptor
+Interceptor <|.. xs2a.adapter.deutschebank.PsuIdTypeHeaderInterceptor
+Interceptor <|.right. xs2a.adapter.verlag.PsuIdTypeHeaderInterceptor
+Interceptor <|.up. xs2a.adapter.ing.IngClientAuthentication
+Interceptor <|.up. RequestSigningInterceptor
+Interceptor <|.up. WiremockStubDifferenceDetectingInterceptor
+
+@enduml

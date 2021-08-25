@@ -1,0 +1,12 @@
+@startmindmap
++ BasePaymentInitiationService
+++ ConsorsPaymentInitiationService
+++ CrealogixPaymentInitiationService
+++ DeutscheBankPaymentInitiationService
+++ FiduciaPaymentInitiationService
+++ IngPaymentInitiationService
+++ SantanderPaymentInitiationService
+++ SpardaPaymentInitiationService
+++ SparkassePaymentInitiationService
+++ XPaymentInitiationService
+@endmindmap
