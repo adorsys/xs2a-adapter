@@ -43,12 +43,12 @@ public class AdorsysIntegServiceProvider extends AbstractAdapterServiceProvider 
         HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new BasePaymentInitiationService(aspsp,
             httpClientFactory.getHttpClient(getAdapterId()),
-            getInterceptors(aspsp, getInterceptors(config.getKeyStore())),
+            getInterceptors(aspsp, getAdorsysInterceptors(config.getKeyStore())),
             linksRewriter,
             config.getLogSanitizer());
     }
 
-    private Interceptor[] getInterceptors(Pkcs12KeyStore keyStore) {
+    private Interceptor[] getAdorsysInterceptors(Pkcs12KeyStore keyStore) {
         List<Interceptor> interceptors = new ArrayList<>();
         interceptors.add(oauthHeaderInterceptor);
         if (keyStore != null) {
@@ -64,7 +64,7 @@ public class AdorsysIntegServiceProvider extends AbstractAdapterServiceProvider 
         HttpClientConfig config = httpClientFactory.getHttpClientConfig();
         return new AdorsysAccountInformationService(aspsp,
                                                     httpClientFactory,
-                                                    getInterceptors(aspsp, getInterceptors(config.getKeyStore())),
+                                                    getInterceptors(aspsp, getAdorsysInterceptors(config.getKeyStore())),
                                                     linksRewriter);
     }
 

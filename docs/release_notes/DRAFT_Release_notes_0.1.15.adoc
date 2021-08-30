@@ -10,6 +10,8 @@
 == Notices:
 - added `Cross-cutting Concepts` to the Adapter arc42 document.
 - added `Design Decisions` to the Adapter arc42 document.
+- renamed `getInterceptors` to `getAdorsysInterceptors` in `AdorsysIntegServiceProvider` to avoid confusion with
+`AbstractAdapterServiceProvider` method with the same name.
 
 == Features:
 
