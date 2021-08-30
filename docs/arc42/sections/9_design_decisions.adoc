@@ -1,1 +1,96 @@
-== 9. Design Decisions
+== 9. Design Decisions.
+=== 9.1. WireMock.
+
+.Motivation.
+
+It can be nice to have an opportunity for testing an XS2A Adapter user solution without an actual interaction with a bank
+sandbox or production environment.
+
+.Decision.
+
+_WireMock_ is a simulator for HTTP-based APIs for stubbing and mocking web services.
+
+=== 9.2. Apache HTTP Client.
+
+.Motivation.
+
+XS2A Adapter must communicate with a bank via HTTP protocols, thus an efficient, up-to-date, and feature-rich HTTP
+client with the most recent protocol standards and recommendations is needed.
+
+.Decision.
+
+_Apache HTTP Client_ is a robust, versatile java based library for building HTTP-aware client applications.
+
+=== 9.3. Mapstruct.
+
+.Motivation.
+
+XS2A Adapter sometimes must work with bank models that are not BG compliant, thereby a mapping to an appropriate analogue
+should be performed, which is onerous and error-prone if implemented manually.
+
+.Decision.
+
+_Mapstruct_ is a code generator that greatly simplifies the implementation of mappings between java bean types based on
+convention over configuration approach.
+
+=== 9.4. Javatar-commons.
+
+.Motivation.
+Some XS2A models are big and complex and cumbersome to build programmatically for testing purposes. Would be nice to drop
+model creating from the test and be able to deserialize it from JSON or YAML representation.
+
+.Decision.
+_javatar-commons_ - a convenient set of JSON and YAML reading and deserialization utils.
+
+=== 9.5. Bouncy Castle.
+
+.Motivation.
+XS2A Adapter must load a specific certificate for password encryption for Deutsche Bank, need a tool for obtaining a bank
+certificate.
+
+.Decision.
+_Bouncy Castle_ is a collection of APIs used in cryptography, including deserializing a certificate from an input stream.
+
+=== 9.6. Nimbus-jose-jwt.
+
+.Motivation.
+In Deutsche Bank case, PSU password should be encrypted based on JWE https://datatracker.ietf.org/doc/html/rfc7516[RFC7516] specification.
+
+.Decision.
+_nimbus-jose-jwt_ is a popular and robust Java and Android library for JSON Web Token (JWT), standard signature (JWS),
+amd encryption (JWE).
+
+=== 9.7. Webjars-locator.
+
+.Motivation.
+It would be nice to have a possibility for avoiding onerous supporting of webjars resource versioning for Swagger-UI.
+
+.Decision.
+_webjars-locator_ - a library to automatically resolve the version of any Webjar assets.
+
+=== 9.8. Postman.
+
+.Motivation.
+Provide a convenient way of testing XS2A Adapter REST interface. Also, it should be a CLI for testing the API in a pipeline.
+
+.Decision.
+_Postman_ is an API platform for building and using APIs. XS2A Adapter provides a ready to use postman
+https://github.com/adorsys/xs2a-adapter/tree/develop/postman[collections] for testing API locally.
+
+=== 9.9. Sonar.
+
+.Motivation.
+Nice to have a system for monitoring code quality, decrease bug appearance and avoid code smells.
+
+.Decision.
+_Sonar_ - open-source platform for continuous inspection of code quality to detect bugs, code smalls, and security vulnerabilities.
+
+=== 9.10. Swagger-UI.
+
+.Motivation.
+XS2A Adapter REST API should be represented visually (online) in an accessible and understandable way, following OpenAPI
+specification, based on available JSON file.
+
+.Decision.
+_Swagger-UI_ Swagger UI allows anyone to visualize and interact with the API’s resources without having any of
+the implementation logic in place.
