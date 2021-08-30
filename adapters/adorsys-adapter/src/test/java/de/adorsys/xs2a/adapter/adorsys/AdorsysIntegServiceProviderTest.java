@@ -62,8 +62,8 @@ class AdorsysIntegServiceProviderTest {
 
         assertThat(actualAdorsysInterceptors)
             .hasSize(2)
-            .matches(ints -> ints[0] instanceof OauthHeaderInterceptor)
-            .matches(ints -> ints[1] instanceof AdorsysSigningHeadersInterceptor);
+            .matches(interceptors -> interceptors[0] instanceof OauthHeaderInterceptor)
+            .matches(interceptors -> interceptors[1] instanceof AdorsysSigningHeadersInterceptor);
     }
 
     @Test
