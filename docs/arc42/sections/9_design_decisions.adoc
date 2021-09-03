@@ -83,7 +83,7 @@ https://github.com/adorsys/xs2a-adapter/tree/develop/postman[collections] for te
 Nice to have a system for monitoring code quality, decrease bug appearance and avoid code smells.
 
 .Decision.
-_Sonar_ - open-source platform for continuous inspection of code quality to detect bugs, code smalls, and security vulnerabilities.
+_Sonar_ - open-source platform for continuous inspection of code quality to detect bugs, code smells, and security vulnerabilities.
 
 === 9.10. Swagger-UI.
 
