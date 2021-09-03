@@ -12,6 +12,7 @@
 - added `Design Decisions` to the Adapter arc42 document.
 - renamed `getInterceptors` to `getAdorsysInterceptors` in `AdorsysIntegServiceProvider` to avoid confusion with
 `AbstractAdapterServiceProvider` method with the same name.
+- added pushing XS2A Adapter docker image to Dockerhub.
 
 == Features:
 

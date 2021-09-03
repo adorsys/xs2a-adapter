@@ -102,6 +102,20 @@ jobs:
           docker tag ${LOCAL_IMAGE_NAME} ${OPENSHIFT_IMAGE_NAME}
           docker push ${OPENSHIFT_IMAGE_NAME}
 
+      - name: DEV. Dockerhub login
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: DEV. Deploy docker image to Dockerhub
+        env:
+          LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+          DOCKERHUB_IMAGE_NAME: ${{ env.SONAR_ORG }}/${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+        run: |
+          docker tag ${LOCAL_IMAGE_NAME} ${DOCKERHUB_IMAGE_NAME}
+          docker push ${DOCKERHUB_IMAGE_NAME}
+
   sonar:
     name: Publish code coverage to Sonar Cloud
     needs: build
