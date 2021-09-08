@@ -1,5 +1,34 @@
-== 10. Quality Requirements
+== 10. Quality Requirements.
 
-=== 10.1. Quality Tree
+=== 10.1. Quality Tree.
 
-=== 10.2. Quality Scenarios
+image::quality-tree.png[XS2A Adapter Activity,width=100%]
+
+=== 10.2. Quality Scenarios.
+
+.Understandability / Clear for users.
+XS2A Adapter should be easy and low cost to deploy, set up, and launch in a user environment.
+
+.Understandability / Clear for contributors.
+A potential contributor should be provided with necessary documentation and manuals for extending, improving an old adapter,
+or creating a new one.
+
+.Interoperability / Open and completely understood interface.
+XS2A Adapter API must be open to the public, clear in details and low time and cost for utilizing as a library or
+a standalone application.
+
+.Testability / Coverage
+XS2A Adapter test coverage should be above 80%.
+
+.Testability / Independent from a bank accessibility.
+XS2A Adapter should provide a clear way to be tested (e.g. integration or system tests) as a part of a user solution
+without actual communication with a bank, which can be achieved via using https://adorsys.github.io/xs2a-adapter/wiremock-mode[WireMock mode].
+
+.Error transparent / Exceptions from ASPSPs must be passed
+Original errors and exceptions from an aspsp should be passed to an end-user (TPP) or at least logged for later tackling.
+
+.Validations clear / Adapter validation remarks should be clear
+XS2A Adapter Validation Error must contain enough description for a user to determine and fix a cause.
+
+.Data mask / Sensitive information must be concealed
+Data that can be considered as a user sensitive must be masked via HttpLogSanitizer.

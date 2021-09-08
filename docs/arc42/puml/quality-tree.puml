@@ -1,0 +1,17 @@
+@startmindmap
+* Qualities
+** Understandability
+*** Clear for users
+*** Not too complicated for contributors
+** Interoperability
+*** Open and completely understood interface
+** Testability
+*** Coverage
+*** Independent from a bank accessibility
+** Error transparent
+*** Exceptions from ASPSPs must be passed
+** Validations clear
+*** Adapter validation remarks should be clear
+** Data mask
+*** Sensitive information must be concealed
+@endmindmap
