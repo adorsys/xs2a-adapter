@@ -2,8 +2,8 @@
 
 ### Adapter Config Properties
 
-*Other properties:*
-- santander.token.url - token url (default value is **https://api-sandbox-cc.santander.de/scb-openapis/sx/v1/oauth_matls/token**)
+*Mandatory properties:*
+- santander.token.url - token url (default value is **/v1/oauth_matls/token**)
 
 ### Registration for Production Environment
 
@@ -33,4 +33,4 @@ could be found following the link mentioned above.
 Adapter will look for a specific Santander certificate by `santander_qwac` alias in your KeyStore. If none found, it will load
 a `default_qwac`.
 
-More about KeyStore [here](../keystore.md)
+More about KeyStore is [here](../keystore.md)
