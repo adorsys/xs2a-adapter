@@ -14,6 +14,7 @@
 `AbstractAdapterServiceProvider` method with the same name.
 - added pushing XS2A Adapter docker image to Dockerhub.
 - added `Quality Requirements` to the Adapter arc42 document.
+- for `deutsche-bank-adapter`, provided default URL for obtaining a certificate for password encryption in `adapter.config.properties`.
 
 == Features:
 
