@@ -25,7 +25,7 @@ XS2A Adapter should provide a clear way to be tested (e.g. integration or system
 without actual communication with a bank, which can be achieved via using https://adorsys.github.io/xs2a-adapter/wiremock-mode[WireMock mode].
 
 .Error transparent / Exceptions from ASPSPs must be passed
-Original errors and exceptions from an aspsp should be passed to an end-user (TPP) or at least logged for later tackling.
+Original errors and exceptions from an ASPSP should be passed to an end-user (TPP) or at least logged for later tackling.
 
 .Validations clear / Adapter validation remarks should be clear
 XS2A Adapter Validation Error must contain enough description for a user to determine and fix a cause.

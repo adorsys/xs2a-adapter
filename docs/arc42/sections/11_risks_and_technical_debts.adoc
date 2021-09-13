@@ -1,1 +1,33 @@
-== 11. Risks and Technical Debts
+== 11. Risks and Technical Debts.
+
+.Changes in bank APIs.
+Unfortunately, there is no way to follow after bank API updates automatically to be up to the latest interface versions.
+Some banks do email notifications though, but it's still required a manual checking.
+
+.Undocumented bugs.
+Some bank XS2A implementations contain bugs (e.g. Unicredit mandatory Creditor Address field for payment initiation).
+All caught bugs are addressed to banks for fixing, that takes time for implementing from an ASPSP side, meanwhile XS2A Adapter
+amends the behavior if possible. We cannot guarantee that all glitches are covered but do everything possible to keep track of
+those and implement intermediate fixes.
+
+.Specific behavior.
+Some banks have specific requirements that are not contradicting the BG specification but also not intuitive (Deutsche Bank
+predefined mandatory PSU-ID-Type values). XS2A Adapter covers some of those edge cases but not all. For example, a user
+will want to explicitly request a list of transactions in XML from Sparkasse and Fiducia banks as they are supporting responses
+in that format only.
+
+.Deviation behavior of production environment.
+XS2A Adapter is tested against bank sandboxes. Those are expected to resemble a production environment and in most cases
+they are. However, there are some cases where behavior is not matching. As usual XS2A Adapter covers such specific instances
+as those are encountered (e.g. Verlag banks in the sandbox anticipate Access header to be `plain/text` only, in production -
+they accept only `application/json`). There is a possibility that not all mismatches are covered and documented.
+
+.Updating BG specification.
+Berlin Group specification is evolving with time, even though the API is mostly constant, models can be volatile. XS2A Adapter
+tends to be inline with the latest specification version and migrating to a newer Adapter release can potentially break a
+user implementation. It's advised checking Adapter release notes and Swagger before migrating.
+
+.Maintenance activities.
+Banks sometimes perform maintenance activities on their side, XS2A Adapter is not designed to cover such edge cases,
+neither keep track of them, and will just pass a 5xx error from the ASPSP side. Some banks inform their users about
+maintenance works by email.
