@@ -4,8 +4,8 @@ import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.RSAEncrypter;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.util.Base64;
-import de.adorsys.xs2a.adapter.api.PropertyUtil;
 import de.adorsys.xs2a.adapter.api.PsuPasswordEncryptionService;
+import de.adorsys.xs2a.adapter.api.config.AdapterConfig;
 import de.adorsys.xs2a.adapter.api.exception.PsuPasswordEncodingException;
 import org.apache.commons.io.IOUtils;
 import org.bouncycastle.jcajce.provider.asymmetric.x509.CertificateFactory;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 // TODO adjust this logic on the additional information from Deutsche bank about the certificates API
 public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncryptionService {
     private static final String URL_TO_CERTIFICATE
-        = PropertyUtil.readProperty("deutsche-bank.aspsp.certificate.url", "https://xs2a.db.com/pb/aspsp-certificates/tpp-pb-password_cert.pem");
+        = AdapterConfig.readProperty("deutsche-bank.aspsp.certificate.url", "https://xs2a.db.com/pb/aspsp-certificates/tpp-pb-password_cert.pem");
     private static final String DEFAULT_EXCEPTION_MESSAGE = "Exception during Deutsche bank adapter PSU password encryption";
 
     private static DeutscheBankPsuPasswordEncryptionService encryptionService;
