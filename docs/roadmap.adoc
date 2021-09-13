@@ -314,7 +314,7 @@ a| * Complete Building Block View part
 
 a| 13.09
 a| 0.1.15
-a| * Implement AIS adapter for AAreal Bank Ag (without real acc testing)
+a| * Implement AIS adapter for AAreal Bank Ag
 * Complete Cross-cutting Concepts part
 * Fill out Design Decisions
 * Complete Quality Requirements
