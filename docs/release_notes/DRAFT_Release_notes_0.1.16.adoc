@@ -1,0 +1,11 @@
+= Draft Release notes for version 0.1.16 (release date: xx.10.2021)
+
+.Added banks
+|===
+|===
+
+== Notices:
+
+== Features:
+
+== Fixes:
