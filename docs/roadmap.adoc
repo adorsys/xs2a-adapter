@@ -312,6 +312,16 @@ a| * Complete Building Block View part
 * Revise existing documentation
 * Fill out Glossary chapter
 
+a| 13.09
+a| 0.1.15
+a| * Implement AIS adapter for AAreal Bank Ag (without real acc testing)
+* Complete Cross-cutting Concepts part
+* Fill out Design Decisions
+* Complete Quality Requirements
+* Complete Risks and Technical Debts part
+* Set up a Docker Image publishing to Docker Hub
+* Put in order all default values in adapters
+
 a| For future development
 
 a| x.x.x
@@ -319,8 +329,6 @@ a| x.x.x
 a|
 
 * Connect and test Hamburg Commercial Bank AG for AIS (with the real account)
-
-* Connect and test Hamburg AAreal Bank AG for AIS (with the real account)
 
 * Implement Open Banking UK repository
 
