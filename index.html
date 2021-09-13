@@ -482,8 +482,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_5_3_level_3">5.3. Level 3</a>
 <ul class="sectlevel3">
-<li><a href="#_5_3_1_account_information_service_ais_interface_blackbox">5.3.1. Account Information Service (AIS) Interface (Blackbox).</a></li>
-<li><a href="#_5_3_2_payment_initiation_service_pis_interface_blackbox">5.3.2. Payment Initiation Service (PIS) Interface (Blackbox).</a></li>
+<li><a href="#account_information_service">5.3.1. Account Information Service (AIS) Interface (Blackbox).</a></li>
+<li><a href="#payment_initiation_service">5.3.2. Payment Initiation Service (PIS) Interface (Blackbox).</a></li>
 </ul>
 </li>
 <li><a href="#_non_xs2a_interfaces">Non-XS2A Interfaces.</a>
@@ -518,21 +518,48 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_7_2_xs2a_adapter_as_a_standalone_application">7.2. XS2A Adapter as a standalone application</a></li>
 </ul>
 </li>
-<li><a href="#_8_cross_cutting_concepts">8. Cross-cutting Concepts</a>
+<li><a href="#_8_cross_cutting_concepts">8. Cross-cutting Concepts.</a>
 <ul class="sectlevel2">
-<li><a href="#_8_1_concept_1">8.1. <em>&lt;Concept 1&gt;</em></a></li>
-<li><a href="#_8_2_concept_2">8.2. <em>&lt;Concept 2&gt;</em></a></li>
-<li><a href="#_8_3_concept_n">8.3. <em>&lt;Concept n&gt;</em></a></li>
+<li><a href="#_8_1_xs2a_adapter_domain_model">8.1. XS2A Adapter Domain Model.</a>
+<ul class="sectlevel3">
+<li><a href="#_8_1_1_xs2a_requestresponse_flow_overview">8.1.1. XS2A Request/Response flow overview.</a></li>
+<li><a href="#_8_1_2_xs2a_adapter_rest_interface">8.1.2. XS2A Adapter REST Interface.</a></li>
+<li><a href="#_8_1_3_xs2a_adapter_aspsp_registry">8.1.3. XS2A Adapter ASPSP Registry.</a></li>
+<li><a href="#_8_1_4_xs2a_adapter_service_loader">8.1.4. XS2A Adapter Service Loader.</a></li>
+<li><a href="#_8_1_5_xs2a_adapter_service_implementation">8.1.5. XS2A Adapter Service Implementation.</a></li>
+<li><a href="#_8_1_6_x_adapter">8.1.6. X-Adapter.</a></li>
 </ul>
 </li>
-<li><a href="#_9_design_decisions">9. Design Decisions</a></li>
-<li><a href="#_10_quality_requirements">10. Quality Requirements</a>
-<ul class="sectlevel2">
-<li><a href="#_10_1_quality_tree">10.1. Quality Tree</a></li>
-<li><a href="#_10_2_quality_scenarios">10.2. Quality Scenarios</a></li>
+<li><a href="#_8_2_inheritance_of_the_base_services">8.2. Inheritance of the base services.</a></li>
+<li><a href="#_8_3_http_client_and_requestresponse_interceptor">8.3. Http Client and Request/Response Interceptor.</a></li>
+<li><a href="#_8_4_wiremock">8.4. WireMock.</a></li>
+<li><a href="#_8_5_xs2a_adapter_exceptions">8.5. XS2A Adapter Exceptions.</a></li>
+<li><a href="#_8_6_xs2a_adapter_configuration_properties">8.6. XS2A Adapter configuration properties.</a></li>
+<li><a href="#_8_7_xs2a_adapter_pkcs12keystore">8.7. XS2A Adapter Pkcs12KeyStore.</a></li>
+<li><a href="#_8_8_xs2a_adapter_request_signing">8.8. XS2A Adapter Request Signing.</a></li>
 </ul>
 </li>
-<li><a href="#_11_risks_and_technical_debts">11. Risks and Technical Debts</a></li>
+<li><a href="#_9_design_decisions">9. Design Decisions.</a>
+<ul class="sectlevel2">
+<li><a href="#_9_1_wiremock">9.1. WireMock.</a></li>
+<li><a href="#_9_2_apache_http_client">9.2. Apache HTTP Client.</a></li>
+<li><a href="#_9_3_mapstruct">9.3. Mapstruct.</a></li>
+<li><a href="#_9_4_javatar_commons">9.4. Javatar-commons.</a></li>
+<li><a href="#_9_5_bouncy_castle">9.5. Bouncy Castle.</a></li>
+<li><a href="#_9_6_nimbus_jose_jwt">9.6. Nimbus-jose-jwt.</a></li>
+<li><a href="#_9_7_webjars_locator">9.7. Webjars-locator.</a></li>
+<li><a href="#_9_8_postman">9.8. Postman.</a></li>
+<li><a href="#_9_9_sonar">9.9. Sonar.</a></li>
+<li><a href="#_9_10_swagger_ui">9.10. Swagger-UI.</a></li>
+</ul>
+</li>
+<li><a href="#_10_quality_requirements">10. Quality Requirements.</a>
+<ul class="sectlevel2">
+<li><a href="#_10_1_quality_tree">10.1. Quality Tree.</a></li>
+<li><a href="#_10_2_quality_scenarios">10.2. Quality Scenarios.</a></li>
+</ul>
+</li>
+<li><a href="#_11_risks_and_technical_debts">11. Risks and Technical Debts.</a></li>
 <li><a href="#_12_glossary">12. Glossary</a></li>
 </ul>
 </div>
@@ -833,7 +860,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_5_1_whitebox_xs2a_adapter_library">5.1. Whitebox XS2A Adapter Library</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/whitebox_lv1_library.png" alt="5.1. Whitebox XS2A Adapter library" width="520">
+<img src="./images/whitebox_lv1_library.png" alt="5.1. Whitebox XS2A Adapter library" width="860">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1126,7 +1153,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_5_3_level_3">5.3. Level 3</h3>
 <div class="sect3">
-<h4 id="_5_3_1_account_information_service_ais_interface_blackbox">5.3.1. Account Information Service (AIS) Interface (Blackbox).</h4>
+<h4 id="account_information_service">5.3.1. Account Information Service (AIS) Interface (Blackbox).</h4>
 <div class="paragraph">
 <p><strong>Intent/Responsibility:</strong> Performs request/response normalisation and calls a bank AIS endpoint.</p>
 </div>
@@ -1223,7 +1250,7 @@ depending on the steering parameter "bookingStatus" together with balances.</p><
 </table>
 </div>
 <div class="sect3">
-<h4 id="_5_3_2_payment_initiation_service_pis_interface_blackbox">5.3.2. Payment Initiation Service (PIS) Interface (Blackbox).</h4>
+<h4 id="payment_initiation_service">5.3.2. Payment Initiation Service (PIS) Interface (Blackbox).</h4>
 <div class="paragraph">
 <p><strong>Intent/Responsibility:</strong> Performs request/response normalisation and calls a bank PIS endpoint.</p>
 </div>
@@ -1455,7 +1482,7 @@ listed parameters.</p></td>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/runtime-view.png" alt="Sequence diagram: Interaction with Adapter" width="520">
+<img src="./images/runtime-view.png" alt="Sequence diagram: Interaction with Adapter" width="960">
 </div>
 </div>
 <div class="paragraph">
@@ -1628,61 +1655,908 @@ when searched bank is unsupported.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_8_cross_cutting_concepts">8. Cross-cutting Concepts</h2>
+<h2 id="_8_cross_cutting_concepts">8. Cross-cutting Concepts.</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_8_1_concept_1">8.1. <em>&lt;Concept 1&gt;</em></h3>
+<h3 id="_8_1_xs2a_adapter_domain_model">8.1. XS2A Adapter Domain Model.</h3>
 <div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
+<p>The main goal of the XS2A Adapter is to normalize a request/response to/from a bank to be compliant to the Berlin Group PSD2 specification.</p>
+</div>
+<div class="sect3">
+<h4 id="_8_1_1_xs2a_requestresponse_flow_overview">8.1.1. XS2A Request/Response flow overview.</h4>
+<div class="paragraph">
+<p>Request/response processing are mostly done in the specific adapter, but a request/response is passed through several layers until it reaches
+an adapter.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/adapter-activity.png" alt="XS2A Adapter Activity" width="100%">
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 22. XS2A Adapter Activity</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Module</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TPP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Third Party Payment Service Provider, a client of the XS2A Adapter.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adapter REST Interface</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Receives requests and sends responses from/to a client, delegates a request to the ASPSP Registry
+or to the Adapter Service Loader.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adapter ASPSP Registry</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Retrieves an ASPSP information from a Lucene repository by a provided input.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adapter Service Loader</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Loads an appropriate XS2A Adapter and delegates a request to it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adapters</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Collection of implemented bank adapters.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adapter Service Implementation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Module with base service implementations to deal with a request.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X Adapter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A specific XS2A Adapter that performs the request/response normalization and calls an appropriate bank.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ASPSP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Account Servicing Payment Service Provider or simply the Bank</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>There is no main Request or Response models in XS2A Adapter. Almost each operation has its own request/response structure,
+these are models based on the Berlin Group specification. Full list and descriptions are available in the <a href="https://xs2a-adapter-integ.cloud.adorsys.de/swagger-ui.html">swagger file</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_8_1_2_xs2a_adapter_rest_interface">8.1.2. XS2A Adapter REST Interface.</h4>
+<div class="imageblock">
+<div class="content">
+<img src="./images/adapter-rest-interface.png" alt="XS2A Adapter REST Interface" width="100%">
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 23. XS2A Adapter REST Interface</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Class/Interface</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ConsentApi</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operations for creating. deleting, reading and authorising a consent.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AccountApi</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operations for retrieving account data, like balances, transactions, transaction details, etc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ConsentController</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implements ConsentApi and AccountApi and delegates request processing to the Account Information Service.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Oauth2Api</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operations for constructing Authorizing URL and obtaining an Access Token.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OAuth2Controller</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implements Oauth2Api and delegates a request to the OAuth2 Service.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PaymentApi</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operations for the payment initiation, authorisation, and reading a payment information.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AspspSearchApi</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operations for retrieving an ASPSP information.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AspspSearchController</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implements AspspSearchApi and delegates a request to the Aspsp Search Service.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EmbeddedPreAuthorisationApi</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operation for retrieving an Access Token.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EmbeddedPreAuthorisationController</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implements EmbeddedPreAuthorisationApi and delegates a request to the Pre-Authorisation Service.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The full description of the XS2A Adapter REST API can be found on the <a href="https://xs2a-adapter-integ.cloud.adorsys.de/swagger-ui.html">Swagger page</a>.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.berlin-group.org/nextgenpsd2-downloads">Berlin Group Specification</a> provides comprehensive documentation on the PSD2 XS2A Interface.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_8_1_3_xs2a_adapter_aspsp_registry">8.1.3. XS2A Adapter ASPSP Registry.</h4>
+<div class="paragraph">
+<p>Adapter ASPSP Registry is sufficiently described in <a href="#whitebox_aspsp_registry">Whitebox ASPSP Registry</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_8_1_4_xs2a_adapter_service_loader">8.1.4. XS2A Adapter Service Loader.</h4>
+<div class="paragraph">
+<p>Adapter Service Loader responsibility is to provide an appropriate XS2A Adapter to deal with a request/response routine.
+The structure is the next:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/adapter-service-loader.png" alt="XS2A Adapter Service Loader" width="100%">
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 24. XS2A Adapter Service Loader</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Class/Interface</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AdapterServiceLoader</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The class resolves which particular adapter should be called.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AccountInformationServiceImpl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The class calls Service Loader to get a particular adapter then passes the request
+to the specific Account Information service.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PaymentInitiationServiceImpl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The class calls Service Loader to get a particular adapter then passes the request
+to the specific Payment Initiation service.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AccountInformationService</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The interface determines operations for retrieving account information, consent creation,
+PSU authentication and authorisation. Based on PSD2 Berlin Group specification.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PaymentInitiationService</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The interface determines operations for payment initiation, PSU authentication and authorisation.
+Based on PSD2 Berlin Group specification.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_8_1_5_xs2a_adapter_service_implementation">8.1.5. XS2A Adapter Service Implementation.</h4>
+<div class="paragraph">
+<p>All base service implementations are located in the Adapter Service Implementation module:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/adapter-service-impl.png" alt="XS2A Adapter Service Implementation" width="100%">
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 25. XS2A Adapter Service Implementation</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Class/Interface</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BaseAccountInformationService</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The class provides the base request/response normalization for account information retrieval
+and calls a real bank.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequestBuilderImpl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The class encapsulates all request related data like body, headers, query parameters, etc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BasePaymentInitiationService</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The class provides the base request/response normalization for payment initiation and calls a real bank.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AbstractAdapterServiceProvider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The abstract class encapsulates common for all service providers operations.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AccountInformationService</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The interface determines operations for retrieving account information, consent creation,
+PSU authentication and authorisation. Based on PSD2 Berlin Group specification.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Builder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The interface determines operations for assembling request data.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Request</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Marker interface, encapsulates Builder interface.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Response</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wrapper for a bank response. Contains a body, headers and HTTP status code.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PaymentInitiationService</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The interface determines the operations for payment initiation, PSU authentication and authorisation.
+Based on PSD2 Berlin Group specification.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AccountInformationServiceProvider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The interface determines operations for account information service provider.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PaymentInitiationServiceProvider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The interface determines operations for payment initiation service provider.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AdapterServiceProvider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The interface determines common operations for any service provider.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The full list of the AIS operations is put down <a href="#account_information_service">here</a> and PIS operations are <a href="#payment_initiation_service">here</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_8_1_6_x_adapter">8.1.6. X-Adapter.</h4>
+<div class="paragraph">
+<p>Normalization of a request/response takes place in a particular X-Adapter:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/x-adapter.png" alt="X-Adapter" width="100%">
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 26. X Adapter</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Class/Interface</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">XAdapterServiceProvider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child of a AbstractAdapterServiceProvider with a specific bank implementations.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">XAccountInformationService</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child of a BaseAccountInformationService with a specific bank implementations.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">XPaymentInitiationService</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Child of a BasePaymentInitiationService with a specific bank implementations.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_8_2_concept_2">8.2. <em>&lt;Concept 2&gt;</em></h3>
+<h3 id="_8_2_inheritance_of_the_base_services">8.2. Inheritance of the base services.</h3>
 <div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
+<p>Creating an adapter is achieved via extending base services: AIS, PIS, OAuth2, etc.</p>
 </div>
 <div class="paragraph">
-<p>…</p>
+<p>A concrete adapter is merely simple as all main operations are performed in the base Account Information and
+Payment Initiation services. Also, not all adapters need to extend a base service to add a specific change, a bank can have
+a perfectly valid BG interface, so a base service is enough for connecting to an ASPSP.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/account-information-service-tree.png" alt="AIS child tree">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/payment-initiation-service-tree.png" alt="PIS child tree">
+</div>
+</div>
+<div class="paragraph">
+<p>However, all adapters must extend AbstractAdapterServiceProvider that implements AccountInformationServiceProvider and
+PaymentInitiationServiceProvider for proper Service Loader work.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/adapter-service-provider-tree.png" alt="Adapter Service Provider tree" width="960">
+</div>
+</div>
+<div class="paragraph">
+<p>There are additional constrains on an adapter which listed <a href="https://github.com/adorsys/xs2a-adapter/blob/develop/docs/Adapter.md">here</a>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_8_3_concept_n">8.3. <em>&lt;Concept n&gt;</em></h3>
+<h3 id="_8_3_http_client_and_requestresponse_interceptor">8.3. Http Client and Request/Response Interceptor.</h3>
 <div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
+<p>XS2A Adapter provides its own HTTP Client implementations: ApacheHttpClient, WiremockHttpClient.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/adapter-http-client.png" alt="XS2A Adapter HTTP Client" width="100%">
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 27. XS2A Adapter HttpClient</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Class/Interface</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HttpClient</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interface provides the list of operations for a client.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ResponseHandler</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Functional Interface for operation of handling a bank response.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AbstractHttpClient</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Abstract class provides base implementation or Get, Post, Put, and Delete operations.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ApacheHttpClient</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Main implementation of the HttpClient that uses the <a href="https://hc.apache.org/httpcomponents-client-5.1.x/">Apache Components</a> solution.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WiremockHttpClient</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A client on top of the ApacheHttpClient, that palms off a recorded bank response instead of
+communicating to a real bank.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>More details on WireMock will come below.</p>
+</div>
+<div class="paragraph">
+<p>To be able to modify a specific aspect of a request an Interceptor interface was introduced. With an interceptor a client
+can pre- or post-handle a call to a bank.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/adapter-interceptor.png" alt="XS2A Adapter Interceptor" width="100%">
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 28. XS2A Adapter Interceptor</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Class/Interface</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interceptor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interface provides the list of operations with default postHandle() implementation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">adorsys.AdorsysSigningHeadersInterceptor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signs a request to banks that use the Adorsys solutions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">adorsys.OauthHeaderInterceptor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adds a specified OAuth header to a request to banks that uses the Adorsys solutions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">consors.PsuIdHeaderInterceptor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clears PSU-ID header if it contains mere quotes (<strong>""</strong>) for Consors.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">deutschebank.PsuIdHeaderInterceptor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Normalize PSU-ID header if necessary for a specific Deutsche Bank branches.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">deutschebank.PsuIdTypeHeaderInterceptor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adds a defined value of PSU-ID-Type header based on a specific Deutsche Bank branch.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">verlag.PsuIdTypeHeaderInterceptor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Removes a PSU-ID-Type header if it contains an empty value for banks that use Verlag solutions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ing.IngClientAuthentication</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signs a request to ING</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">adapter.impl.http.RequestSigningInterceptor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Base singing request interceptor.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">adapter.impl.http.wiremock.WiremockStubDifferenceDetectingInterceptor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Detects differences between a performed request and
+recorded wiremock stubs.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_8_4_wiremock">8.4. WireMock.</h3>
+<div class="paragraph">
+<p>For convenient testing of a client solution XS2A Adapter introduced a WireMock mode. In this configuration the adapter
+itself doesn&#8217;t communicate with a real bank but returns a request/response record (also called a stub).</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/adapter-wiremock-mode.png" alt="XS2A Flow in WireMock mode" width="100%">
+</div>
+<div class="title">Figure 1. XS2A Flow in WireMock mode</div>
+</div>
+<div class="paragraph">
+<p>A comprehensive description about XS2A Adapter WireMock mode can be found <a href="https://adorsys.github.io/xs2a-adapter/wiremock-mode">here</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_8_5_xs2a_adapter_exceptions">8.5. XS2A Adapter Exceptions.</h3>
+<div class="paragraph">
+<p>XS2A Adapter developed its own set of exceptions that can occur in specific situations. All of them are subtypes of RuntimeException.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/adapter-exceptions.png" alt="XS2A Adapter Exceptions" width="100%">
+</div>
+<div class="title">Figure 2. XS2A Adapter Exceptions</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 29. XS2A Adapter Exceptions</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Exception</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">HTTP Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AccessTokenException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Will occur if obtaining an access token failed. Used in specific OAuth approaches like DKB Embedded Pre-Step.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400..500*</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AdapterNotFoundException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thrown if XS2A Adapter Service Loader failed to find an adapter.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AspspRegistrationException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thrown if ASPSP registry services failed to complete an operation.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AspspRegistrationNotFoundException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thrown if no adapter found in the Registry by provided parameters (IBAN, BIC, Bank Code, etc.)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BadRequestException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thrown if malformed request received, used in specific cases like missing scope for OAuth or wrong body
+of PSU Update Data operations.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ErrorResponseException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Common wrapper for a bank exception, most bank errors are folded into this class.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400..500*</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HttpRequestSigningException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thrown if XS2A Adapter failed to sign a request.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IbanException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thrown if ASPSP Registry failed to process an IBAN.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NotAcceptableException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thrown if JSON Response Handler received not a JSON formatted data.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">406</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OAuthException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thrown if bank returned 401 or 403 for consent creation operation. This exception is specific for Sparda and Adorsys adapters.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">403</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PsuPasswordEncodingException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thrown if PsuPasswordEncryptionService failed to complete an operation.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequestValidationException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thrown if a request failed a validation.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequestAuthorizationValidationException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A subtype of RequestValidationException, thrown if AUTHORIZATION header is missing.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">401</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">UncheckedSSLHandshakeException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thrown if SSL Handshake Error occurred while establishing connection with a bank server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Xs2aAdapterException</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">General exception, thrown if no other suitable exception exists.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><em>* HTTP Status depends on the status from the bank response</em></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_8_6_xs2a_adapter_configuration_properties">8.6. XS2A Adapter configuration properties.</h3>
+<div class="paragraph">
+<p>XS2A Adapter expects to have <code>adapter.config.properties</code> with configuration key-value pairs for some adapters.</p>
+</div>
+<div class="paragraph">
+<p>Those properties are parsed by AdapterConfig service, which uses <code>java.util.Properties</code> under the hood.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/adapter-config.png" alt="XS2A Adapter configuration" width="100%">
+</div>
+<div class="title">Figure 3. AdapterConfig</div>
+</div>
+<div class="paragraph">
+<p>AdapterConfig interface provides reading properties operations and loading a new properties file, mostly for test purposes.</p>
+</div>
+<div class="paragraph">
+<p>Additional details on the XS2A Adapter properties are <a href="https://github.com/adorsys/xs2a-adapter/blob/develop/docs/configuration.md">here</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_8_7_xs2a_adapter_pkcs12keystore">8.7. XS2A Adapter Pkcs12KeyStore.</h3>
+<div class="paragraph">
+<p>In order to interact with the Banks' XS2A Interfaces, a user will need to have an eIDAS certificate. XS2A Adapter expects
+a user to supply a valid PKCS #12 Key Store file (.p12) with a certificate as a JVM parameter (standalone)
+or as a parameter in the Pkcs12KeyStore constructor (library).</p>
+</div>
+<div class="paragraph">
+<p>Description of the KeyStore and how to create it is already put down in <a href="https://github.com/adorsys/xs2a-adapter/blob/develop/docs/keystore.md">here</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_8_8_xs2a_adapter_request_signing">8.8. XS2A Adapter Request Signing.</h3>
+<div class="paragraph">
+<p>XS2A Adapter can sign the request for a user, if an adapter applied <code>RequestSigningInterceptor</code> and has a QSEAL
+certificate in a key store. In some specific cases (like ING) an adapter will have its own signing service.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/adapter-signing.png" alt="XS2A Adapter Request Signing Infrastructure" width="100%">
+</div>
+<div class="title">Figure 4. XS2A Adapter Signing Infrastructure</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 30. XS2A Adapter Interceptor</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Class/Interface</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interceptor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interface provides the list of operations with default postHandle() implementation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequestSigningInterceptor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adds signing data to the headers and delegates signing to the service.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RequestSigningService</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provides Digest, Signature and TPP Signature Certificate values.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Digest</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Model for a Digest header.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DigestBuilder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Calculates digest.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signature</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Model for a Signature header.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Builder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Calculates signature.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_9_design_decisions">9. Design Decisions.</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_9_1_wiremock">9.1. WireMock.</h3>
+<div class="paragraph">
+<div class="title">Motivation.</div>
+<p>It can be nice to have an opportunity for testing an XS2A Adapter user solution without an actual interaction with a bank
+sandbox or production environment.</p>
+</div>
+<div class="paragraph">
+<div class="title">Decision.</div>
+<p><em>WireMock</em> is a simulator for HTTP-based APIs for stubbing and mocking web services.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_9_2_apache_http_client">9.2. Apache HTTP Client.</h3>
+<div class="paragraph">
+<div class="title">Motivation.</div>
+<p>XS2A Adapter must communicate with a bank via HTTP protocols, thus an efficient, up-to-date, and feature-rich HTTP
+client with the most recent protocol standards and recommendations is needed.</p>
+</div>
+<div class="paragraph">
+<div class="title">Decision.</div>
+<p><em>Apache HTTP Client</em> is a robust, versatile java based library for building HTTP-aware client applications.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_9_3_mapstruct">9.3. Mapstruct.</h3>
+<div class="paragraph">
+<div class="title">Motivation.</div>
+<p>XS2A Adapter sometimes must work with bank models that are not BG compliant, thereby a mapping to an appropriate analogue
+should be performed, which is onerous and error-prone if implemented manually.</p>
+</div>
+<div class="paragraph">
+<div class="title">Decision.</div>
+<p><em>Mapstruct</em> is a code generator that greatly simplifies the implementation of mappings between java bean types based on
+convention over configuration approach.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_9_4_javatar_commons">9.4. Javatar-commons.</h3>
+<div class="paragraph">
+<div class="title">Motivation.</div>
+<p>Some XS2A models are big and complex and cumbersome to build programmatically for testing purposes. Would be nice to drop
+model creating from the test and be able to deserialize it from JSON or YAML representation.</p>
+</div>
+<div class="paragraph">
+<div class="title">Decision.</div>
+<p><em>javatar-commons</em> - a convenient set of JSON and YAML reading and deserialization utils.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_9_5_bouncy_castle">9.5. Bouncy Castle.</h3>
+<div class="paragraph">
+<div class="title">Motivation.</div>
+<p>XS2A Adapter must load a specific certificate for password encryption for Deutsche Bank, need a tool for obtaining a bank
+certificate.</p>
+</div>
+<div class="paragraph">
+<div class="title">Decision.</div>
+<p><em>Bouncy Castle</em> is a collection of APIs used in cryptography, including deserializing a certificate from an input stream.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_9_6_nimbus_jose_jwt">9.6. Nimbus-jose-jwt.</h3>
+<div class="paragraph">
+<div class="title">Motivation.</div>
+<p>In Deutsche Bank case, PSU password should be encrypted based on JWE <a href="https://datatracker.ietf.org/doc/html/rfc7516">RFC7516</a> specification.</p>
+</div>
+<div class="paragraph">
+<div class="title">Decision.</div>
+<p><em>nimbus-jose-jwt</em> is a popular and robust Java and Android library for JSON Web Token (JWT), standard signature (JWS),
+amd encryption (JWE).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_9_7_webjars_locator">9.7. Webjars-locator.</h3>
+<div class="paragraph">
+<div class="title">Motivation.</div>
+<p>It would be nice to have a possibility for avoiding onerous supporting of webjars resource versioning for Swagger-UI.</p>
+</div>
+<div class="paragraph">
+<div class="title">Decision.</div>
+<p><em>webjars-locator</em> - a library to automatically resolve the version of any Webjar assets.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_9_8_postman">9.8. Postman.</h3>
+<div class="paragraph">
+<div class="title">Motivation.</div>
+<p>Provide a convenient way of testing XS2A Adapter REST interface. Also, it should be a CLI for testing the API in a pipeline.</p>
+</div>
+<div class="paragraph">
+<div class="title">Decision.</div>
+<p><em>Postman</em> is an API platform for building and using APIs. XS2A Adapter provides a ready to use postman
+<a href="https://github.com/adorsys/xs2a-adapter/tree/develop/postman">collections</a> for testing API locally.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_9_9_sonar">9.9. Sonar.</h3>
+<div class="paragraph">
+<div class="title">Motivation.</div>
+<p>Nice to have a system for monitoring code quality, decrease bug appearance and avoid code smells.</p>
+</div>
+<div class="paragraph">
+<div class="title">Decision.</div>
+<p><em>Sonar</em> - open-source platform for continuous inspection of code quality to detect bugs, code smells, and security vulnerabilities.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_9_10_swagger_ui">9.10. Swagger-UI.</h3>
+<div class="paragraph">
+<div class="title">Motivation.</div>
+<p>XS2A Adapter REST API should be represented visually (online) in an accessible and understandable way, following OpenAPI
+specification, based on available JSON file.</p>
+</div>
+<div class="paragraph">
+<div class="title">Decision.</div>
+<p><em>Swagger-UI</em> Swagger UI allows anyone to visualize and interact with the API’s resources without having any of
+the implementation logic in place.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_9_design_decisions">9. Design Decisions</h2>
+<h2 id="_10_quality_requirements">10. Quality Requirements.</h2>
 <div class="sectionbody">
-
+<div class="sect2">
+<h3 id="_10_1_quality_tree">10.1. Quality Tree.</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/quality-tree.png" alt="XS2A Adapter Activity" width="100%">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_10_2_quality_scenarios">10.2. Quality Scenarios.</h3>
+<div class="paragraph">
+<div class="title">Understandability / Clear for users.</div>
+<p>XS2A Adapter should be easy and low cost to deploy, set up, and launch in a user environment.</p>
+</div>
+<div class="paragraph">
+<div class="title">Understandability / Clear for contributors.</div>
+<p>A potential contributor should be provided with necessary documentation and manuals for extending, improving an old adapter,
+or creating a new one.</p>
+</div>
+<div class="paragraph">
+<div class="title">Interoperability / Open and completely understood interface.</div>
+<p>XS2A Adapter API must be open to the public, clear in details and low time and cost for utilizing as a library or
+a standalone application.</p>
+</div>
+<div class="paragraph">
+<div class="title">Testability / Coverage</div>
+<p>XS2A Adapter test coverage should be above 80%.</p>
+</div>
+<div class="paragraph">
+<div class="title">Testability / Independent from a bank accessibility.</div>
+<p>XS2A Adapter should provide a clear way to be tested (e.g. integration or system tests) as a part of a user solution
+without actual communication with a bank, which can be achieved via using <a href="https://adorsys.github.io/xs2a-adapter/wiremock-mode">WireMock mode</a>.</p>
+</div>
+<div class="paragraph">
+<div class="title">Error transparent / Exceptions from ASPSPs must be passed</div>
+<p>Original errors and exceptions from an ASPSP should be passed to an end-user (TPP) or at least logged for later tackling.</p>
+</div>
+<div class="paragraph">
+<div class="title">Validations clear / Adapter validation remarks should be clear</div>
+<p>XS2A Adapter Validation Error must contain enough description for a user to determine and fix a cause.</p>
+</div>
+<div class="paragraph">
+<div class="title">Data mask / Sensitive information must be concealed</div>
+<p>Data that can be considered as a user sensitive must be masked via HttpLogSanitizer.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_10_quality_requirements">10. Quality Requirements</h2>
+<h2 id="_11_risks_and_technical_debts">11. Risks and Technical Debts.</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_10_1_quality_tree">10.1. Quality Tree</h3>
-
+<div class="paragraph">
+<div class="title">Changes in bank APIs.</div>
+<p>Unfortunately, there is no way to follow after bank API updates automatically to be up to the latest interface versions.
+Some banks do email notifications though, but it&#8217;s still required a manual checking.</p>
 </div>
-<div class="sect2">
-<h3 id="_10_2_quality_scenarios">10.2. Quality Scenarios</h3>
-
+<div class="paragraph">
+<div class="title">Undocumented bugs.</div>
+<p>Some bank XS2A implementations contain bugs (e.g. Unicredit mandatory Creditor Address field for payment initiation).
+All caught bugs are addressed to banks for fixing, that takes time for implementing from an ASPSP side, meanwhile XS2A Adapter
+amends the behavior if possible. We cannot guarantee that all glitches are covered but do everything possible to keep track of
+those and implement intermediate fixes.</p>
 </div>
+<div class="paragraph">
+<div class="title">Specific behavior.</div>
+<p>Some banks have specific requirements that are not contradicting the BG specification but also not intuitive (Deutsche Bank
+predefined mandatory PSU-ID-Type values). XS2A Adapter covers some of those edge cases but not all. For example, a user
+will want to explicitly request a list of transactions in XML from Sparkasse and Fiducia banks as they are supporting responses
+in that format only.</p>
 </div>
+<div class="paragraph">
+<div class="title">Deviation behavior of production environment.</div>
+<p>XS2A Adapter is tested against bank sandboxes. Those are expected to resemble a production environment and in most cases
+they are. However, there are some cases where behavior is not matching. As usual XS2A Adapter covers such specific instances
+as those are encountered (e.g. Verlag banks in the sandbox anticipate Access header to be <code>plain/text</code> only, in production -
+they accept only <code>application/json</code>). There is a possibility that not all mismatches are covered and documented.</p>
 </div>
-<div class="sect1">
-<h2 id="_11_risks_and_technical_debts">11. Risks and Technical Debts</h2>
-<div class="sectionbody">
-
+<div class="paragraph">
+<div class="title">Updating BG specification.</div>
+<p>Berlin Group specification is evolving with time, even though the API is mostly constant, models can be volatile. XS2A Adapter
+tends to be inline with the latest specification version and migrating to a newer Adapter release can potentially break a
+user implementation. It&#8217;s advised checking Adapter release notes and Swagger before migrating.</p>
+</div>
+<div class="paragraph">
+<div class="title">Maintenance activities.</div>
+<p>Banks sometimes perform maintenance activities on their side, XS2A Adapter is not designed to cover such edge cases,
+neither keep track of them, and will just pass a 5xx error from the ASPSP side. Some banks inform their users about
+maintenance works by email.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_12_glossary">12. Glossary</h2>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 22. Glossary</caption>
+<caption class="title">Table 31. Glossary</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1706,7 +2580,7 @@ a European law for payments services.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">TPP</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Third Party Payment Service Providers</em> provider, a system that acts on behalf of PSU on its data hold by ASPSP.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Third Party Payment Service Provider</em>, a system that acts on behalf of PSU on its data hold by ASPSP.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">ASPSP</p></td>
@@ -1784,7 +2658,7 @@ in the capacity of either Payer or Payee, or both.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">BLZ or Bank Code</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://en.wikipedia.org/wiki/Bank_code">Bankleitzahl (DE) or <em>Bank Code</em></a> is a code assigned by
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://en.wikipedia.org/wiki/Bank_code"><em>Bankleitzahl (DE) or Bank Code</em></a> is a code assigned by
 a central bank, a bank supervisory body, or a Bankers Association in
 a country to all its licensed member banks or financial institutions.</p></td>
 </tr>
@@ -1797,6 +2671,14 @@ a country to all its licensed member banks or financial institutions.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://en.wikipedia.org/wiki/International_Bank_Account_Number"><em>International Bank Account Number</em></a> is an internationally agreed system of identifying bank accounts across
 national borders to facilitate the communication and processing of cross border transactions with a reduced risk of transcription errors.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BG</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stands for <em>Berlin Group</em>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QSEAL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Qualified Electronic Seal Certificate</em> is a qualified digital certificate under the  trust  services  defined  in  the  eIDAS  Regulation.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1804,7 +2686,7 @@ national borders to facilitate the communication and processing of cross border 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-08-11 13:01:12 UTC
+Last updated 2021-09-13 08:54:24 UTC
 </div>
 </div>
 </body>
