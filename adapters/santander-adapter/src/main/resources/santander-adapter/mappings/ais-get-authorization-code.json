@@ -1,0 +1,17 @@
+{
+  "id" : "6934db76-5bd6-4fe1-abc6-dab92161b8c3",
+  "name" : "oauth2_authorization-server-url",
+  "request" : {
+    "urlPattern" : "/\\?response_type=code&state=xyz&redirect_uri=https%3A%2F%2Fclient.example.com%2Fcb&code_challenge_method=S256&code_challenge=.+&client_id=PSDDE-SANDBOX-0006&scope=AIS%3A3087d8e2-2eb0-4e54-9af9-32ea8c6eef02",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 302,
+    "headers" : {
+      "Location" : "http://localhost:8080/redirect?code=fooboo"
+    }
+  },
+  "uuid" : "6934db76-5bd6-4fe1-abc6-dab92161b8c3",
+  "persistent" : true,
+  "insertionIndex" : 2
+}

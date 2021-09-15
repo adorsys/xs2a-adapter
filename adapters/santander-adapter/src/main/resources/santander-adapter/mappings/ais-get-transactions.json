@@ -1,0 +1,43 @@
+{
+  "id" : "60c00c70-8e2a-4857-9c14-3cfc5074af59",
+  "name" : "scb-openapis_sx_v1_accounts_3b5a3b70-ceec-4518-b23e-ee5d1302f532_transactions",
+  "request" : {
+    "urlPattern" : ".*/v1/accounts/.+/transactions\\?bookingStatus=booked&withBalance=true",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Consent-ID" : {
+        "equalTo" : "3087d8e2-2eb0-4e54-9af9-32ea8c6eef02"
+      },
+      "Authorization" : {
+        "equalTo" : "Bearer 5e71f077-39e2-4f2a-a28b-feebf53f8b88"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"account\":{\"iban\":\"DE74310108330000009001\",\"currency\":\"EUR\"},\"transactions\":{\"booked\":[{\"transactionId\":\"3102900000015BH48100001000120190313\",\"endToEndId\":\"32931029632BBBXHWM\",\"bookingDate\":\"2019-03-13\",\"valueDate\":\"2019-03-13\",\"transactionAmount\":{\"currency\":\"EUR\",\"amount\":\"-90.01\"},\"debtorName\":\"Max Mustermann\",\"debtorAccount\":{\"iban\":\"DE74310108330000009001\",\"currency\":\"EUR\"},\"creditorName\":\"Sunny AG\",\"creditorAccount\":{\"iban\":\"DE40100100103307118608\",\"currency\":\"EUR\"},\"remittanceInformationUnstructured\":\"Invoice\",\"bankTransactionCode\":\"PMNT-ICDT-ESCT\",\"proprietaryBankTransactionCode\":\"NTRF+116\"},{\"transactionId\":\"4041700000003BH22899999000120190313\",\"creditorId\":\"FR41510118000\",\"endToEndId\":\"12345678902020101604\",\"mandateId\":\"Mandate-16102020-4\",\"bankTransactionCode\":\"PMNT-RDDT-ESDD\",\"proprietaryBankTransactionCode\":\"NDDT+105\",\"creditorName\":\"External Creditor\",\"creditorAccount\":{\"iban\":\"FR7618206000103056966400\"},\"ultimateCreditor\":\"Ultimate creditor name\",\"debtorName\":\"Max Mustermann\",\"debtorAccount\":{\"iban\":\"DE74310108330000009001\"},\"ultimateDebtor\":\"Ultimate debtor name\",\"transactionAmount\":{\"currency\":\"EUR\",\"amount\":-46.97},\"bookingDate\":\"2019-03-13\",\"valueDate\":\"2019-03-13\",\"remittanceInformationUnstructured\":\"Incoming Sepa Direct Debit\",\"paymentReference\":\"32940417755BBBBFLJ\"}]},\"balances\":[{\"balanceType\":\"closingBooked\",\"balanceAmount\":{\"currency\":\"EUR\",\"amount\":\"175387.25\"},\"referenceDate\":\"2019-03-13\"},{\"balanceType\":\"openingBooked\",\"balanceAmount\":{\"currency\":\"EUR\",\"amount\":\"180387.25\"},\"referenceDate\":\"2019-03-13\"}]}",
+    "headers" : {
+      "X-Backside-Transport" : "OK OK,OK OK",
+      "Content-Security-Policy" : "default-src 'self' 'unsafe-inline';script-src 'self' 'unsafe-inline';object-src 'none';connect-src 'self' 'unsafe-inline' https://catalogue.nodered.org https://flow-library-catalogue.appls.boaw.paas.gsnetcloud.corp;upgrade-insecure-requests",
+      "X-DNS-Prefetch-Control" : "off",
+      "Expect-CT" : "max-age=0",
+      "X-Frame-Options" : "DENY",
+      "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+      "X-Download-Options" : "noopen",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Permitted-Cross-Domain-Policies" : "none",
+      "Referrer-Policy" : "no-referrer",
+      "X-XSS-Protection" : "1; mode=block",
+      "Content-Type" : "application/json; charset=utf-8",
+      "ETag" : "W/\"617-1ojPDpsmoR77aW5lzyVhitN6Kns\"",
+      "Date" : "Tue, 14 Sep 2021 08:03:54 GMT",
+      "Cache-control" : "private"
+    }
+  },
+  "uuid" : "60c00c70-8e2a-4857-9c14-3cfc5074af59",
+  "persistent" : true,
+  "insertionIndex" : 9
+}

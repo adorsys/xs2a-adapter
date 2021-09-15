@@ -1,0 +1,15 @@
+{
+  "request": {
+    "headers": {
+      "X-GTW-ASPSP-ID": "14a0c2ad-b9bf-4200-853a-a7abe541b714"
+    },
+    "params": {
+      "state": "xyz",
+      "redirect_uri": "https://client.example.com/cb",
+      "sca_oauth_link": "/.well-known/oauth-authorization-server",
+      "consent_id": "3087d8e2-2eb0-4e54-9af9-32ea8c6eef02",
+      "code_challenge": "hvN5UqBsdJJ9IzaaFN26enIYqIRyNQPwoCd74DmHCXU",
+      "client_id": "PSDDE-SANDBOX-0006"
+    }
+  }
+}

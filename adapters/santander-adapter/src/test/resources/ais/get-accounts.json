@@ -1,0 +1,36 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "58fa1ca2-9adf-4555-b892-0eca1e4c5178",
+      "Consent-ID": "3087d8e2-2eb0-4e54-9af9-32ea8c6eef02",
+      "Authorization": "Bearer 5e71f077-39e2-4f2a-a28b-feebf53f8b88"
+    },
+    "params": {
+      "withBalance": "false"
+    }
+  },
+  "response": {
+    "body": {
+      "accounts": [
+        {
+          "resourceId": "3b5a3b70-ceec-4518-b23e-ee5d1302f532",
+          "iban": "DE74310108330000009001",
+          "currency": "EUR",
+          "ownerName": "My account owner name",
+          "name": "Haushaltskonto",
+          "product": "Haushaltskonto",
+          "cashAccountType": "CACC",
+          "status": "enabled",
+          "_links": {
+            "balances": {
+              "href": "/v1/accounts/3b5a3b70-ceec-4518-b23e-ee5d1302f532/balances"
+            },
+            "transactions": {
+              "href": "/v1/accounts/3b5a3b70-ceec-4518-b23e-ee5d1302f532/transactions"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
