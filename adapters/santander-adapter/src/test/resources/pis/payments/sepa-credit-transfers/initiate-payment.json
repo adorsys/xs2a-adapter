@@ -1,0 +1,44 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "57f3a3cb-5699-4871-9bd5-aacddce09aa8",
+      "TPP-Redirect-URI": "https://example.com/redirect",
+      "PSU-IP-Address": "37.44.220.0",
+      "Content-Type": "application/json; charset=UTF-8"
+    },
+    "body": {
+      "endToEndIdentification": "SandboxTPPTest1",
+      "debtorAccount": {
+        "iban": "DE74310108330000009001",
+        "currency": "EUR"
+      },
+      "instructedAmount": {
+        "currency": "EUR",
+        "amount": "20.99"
+      },
+      "creditorAccount": {
+        "iban": "DE74310108330000009001",
+        "currency": "EUR"
+      },
+      "creditorName": "Anton Brueckner",
+      "remittanceInformationUnstructured": "just"
+    }
+  },
+  "response": {
+    "body": {
+      "transactionStatus": "RCVD",
+      "paymentId": "73c52dc3-bd44-42b3-bc86-6b61c3167b63",
+      "_links": {
+        "scaOAuth": {
+          "href": "/.well-known/oauth-authorization-server"
+        },
+        "self": {
+          "href": "/v1/payments/sepa-credit-transfers/73c52dc3-bd44-42b3-bc86-6b61c3167b63"
+        },
+        "status": {
+          "href": "/v1/payments/sepa-credit-transfers/73c52dc3-bd44-42b3-bc86-6b61c3167b63/status"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "id" : "2971c403-8cdb-4e16-84aa-2470e51adbee",
+  "name" : "scb-openapis_sx_v1_payments_sepa-credit-transfers_73c52dc3-bd44-42b3-bc86-6b61c3167b63_status",
+  "request" : {
+    "urlPattern" : ".*/v1/payments/sepa-credit-transfers/.+/status",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Authorization" : {
+        "equalTo" : "Bearer 6758aa6a-c04e-4828-991b-3ae82d340e87"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"transactionStatus\":\"RCVD\"}",
+    "headers" : {
+      "X-Backside-Transport" : "OK OK,OK OK",
+      "content-security-policy" : "default-src 'self' 'unsafe-inline';script-src 'self' 'unsafe-inline';object-src 'none';connect-src 'self' 'unsafe-inline' https://catalogue.nodered.org https://flow-library-catalogue.appls.boaw.paas.gsnetcloud.corp;upgrade-insecure-requests",
+      "x-dns-prefetch-control" : "off",
+      "expect-ct" : "max-age=0",
+      "x-frame-options" : "DENY",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-download-options" : "noopen",
+      "x-content-type-options" : "nosniff",
+      "x-permitted-cross-domain-policies" : "none",
+      "referrer-policy" : "no-referrer",
+      "x-xss-protection" : "1; mode=block",
+      "Content-Type" : "application/json",
+      "etag" : "W/\"1c-GrZmm5CsQ4aRAQJ+UvTk+Yn/hn8\"",
+      "date" : "Thu, 16 Sep 2021 08:27:41 GMT",
+      "Cache-control" : "private"
+    }
+  },
+  "uuid" : "2971c403-8cdb-4e16-84aa-2470e51adbee",
+  "persistent" : true,
+  "insertionIndex" : 16
+}
