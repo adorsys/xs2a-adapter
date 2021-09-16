@@ -5,6 +5,7 @@
 |===
 
 == Notices:
+- added WireMock stubs for `santander-adapter`
 
 == Features:
 
