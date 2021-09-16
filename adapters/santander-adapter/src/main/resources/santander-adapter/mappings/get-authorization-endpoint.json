@@ -1,0 +1,26 @@
+{
+  "id" : "89d969ec-5235-4d98-83a7-9a872668d071",
+  "name" : "scb-openapis_sx_well-known_oauth-authorization-server",
+  "request" : {
+    "urlPattern" : ".*/.well-known/oauth-authorization-server",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"authorization_endpoint\":\"http://localhost:{{request.port}}\",\"code_challenge_methods_supported\":[\"S256\"],\"grant_types_supported\":[\"authorization_code\",\"client_credentials\"],\"issuer\":\"http://www.santander.de\",\"response_types_supported\":[\"code\",\"none\"],\"scopes_supported\":[\"accounts.read\",\"accounts.write\",\"payments.read\",\"payments.write\"],\"service_documentation\":\"https://www.santander.de/privatkunden/specials/api-market\",\"token_endpoint\":\"https://api-sandbox-cc.santander.de/scb-openapis/sx/v1/oauth_matls/token\",\"token_endpoint_auth_methods_supported\":[\"oauth\"],\"ui_locales_supported\":[\"en-US\",\"en-GB\",\"de-DE\"]}",
+    "headers" : {
+      "X-Backside-Transport" : "OK OK,OK OK",
+      "X-Content-Type-Options" : "nosniff",
+      "Content-Type" : "application/json; charset=utf-8",
+      "ETag" : "W/\"29c-6Jety3VaM4G8WsPG+m/UL+7QC08\"",
+      "Date" : "Tue, 14 Sep 2021 08:03:07 GMT",
+      "Cache-control" : "private",
+      "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+      "X-Frame-Options" : "DENY",
+      "X-XSS-Protection" : "1; mode=block"
+    }
+  },
+  "uuid" : "89d969ec-5235-4d98-83a7-9a872668d071",
+  "persistent" : true,
+  "insertionIndex" : 6
+}

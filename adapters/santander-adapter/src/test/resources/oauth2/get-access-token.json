@@ -1,0 +1,23 @@
+{
+  "request": {
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "params": {
+      "code": "fooboo",
+      "redirect_uri": "https://client.example.com/cb",
+      "grant_type": "authorization_code",
+      "sca_oauth_link": "/.well-known/oauth-authorization-server",
+      "client_id": "PSDDE-SANDBOX-0006",
+      "code_verifier": "YSxbsfx6L9dMsHEAoom5Rls2a6qrF6D8_nbfUT6J948"
+    }
+  },
+  "response": {
+    "body": {
+      "scope": "payments.write periodicpayments.read fundsconfirmations.read consents.write consents.read payments.read accounts.read periodicpayments.write",
+      "access_token": "5e71f077-39e2-4f2a-a28b-feebf53f8b88",
+      "token_type": "bearer",
+      "expires_in": 599
+    }
+  }
+}

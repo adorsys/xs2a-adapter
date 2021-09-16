@@ -108,6 +108,7 @@ Not all adapters have written stubs though. Responses available for the next ada
 - ing-adapter
 - sparkasse-adapter
 - verlag-adapter
+- santander-adapter
 
 New stubs will be added in time.
 
