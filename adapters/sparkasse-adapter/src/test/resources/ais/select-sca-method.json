@@ -8,7 +8,7 @@
       "Content-Type": "application/json; charset=UTF-8"
     },
     "body": {
-      "authenticationMethodId": "MANUAL"
+      "authenticationMethodId": "OPTICAL"
     }
   },
   "response": {
@@ -16,7 +16,7 @@
       "scaStatus": "scaMethodSelected",
       "chosenScaMethod": {
         "authenticationType": "CHIP_OTP",
-        "authenticationMethodId": "MANUAL",
+        "authenticationMethodId": "OPTICAL",
         "authenticationVersion": "HHD1.3.2",
         "name": "chipTAN MANUAL | Kartennummer: ******9876",
         "explanation": "Erfassung der Auftragsdaten über die Tasten Ihres TAN-Generator."

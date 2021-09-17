@@ -22,14 +22,14 @@
       }
     },
     "bodyPatterns" : [ {
-      "equalToJson" : "{\"authenticationMethodId\":\"MANUAL\"}",
+      "equalToJson" : "{\"authenticationMethodId\":\"OPTICAL\"}",
       "ignoreArrayOrder" : true,
       "ignoreExtraElements" : true
     } ]
   },
   "response" : {
     "status" : 200,
-    "body" : "{\"scaStatus\":\"scaMethodSelected\",\"chosenScaMethod\":{\"authenticationType\":\"CHIP_OTP\",\"authenticationMethodId\":\"MANUAL\",\"authenticationVersion\":\"HHD1.3.2\",\"name\":\"chipTAN MANUAL | Kartennummer: ******9876\",\"explanation\":\"Erfassung der Auftragsdaten über die Tasten Ihres TAN-Generator.\"},\"challengeData\":{\"otpMaxLength\":6,\"otpFormat\":\"integer\",\"additionalInformation\":\"Sie haben eine 'Einzelüberweisung' erfasst: Überprüfen Sie die Richtigkeit der 'letzten 10 Zeichen der IBAN des Empfängers' und bestätigen Sie diese mit der Taste 'OK'. Überprüfen Sie die Richtigkeit des 'Betrags' und bestätigen Sie diesen mit der Taste 'OK'.\"},\"_links\":{\"scaStatus\":{\"href\":\"https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/sepa-credit-transfers/5f6e3778-2b5c-460c-90f9-c86b0f5c5d57/authorisations/c9ef5300-0091-47c6-9df9-2190313e8f03\"},\"authoriseTransaction\":{\"href\":\"https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/sepa-credit-transfers/5f6e3778-2b5c-460c-90f9-c86b0f5c5d57/authorisations/c9ef5300-0091-47c6-9df9-2190313e8f03\"}},\"psuMessage\":\"Bitte geben Sie die TAN ein.\"}",
+    "body" : "{\"scaStatus\":\"scaMethodSelected\",\"chosenScaMethod\":{\"authenticationType\":\"CHIP_OTP\",\"authenticationMethodId\":\"OPTICAL\",\"authenticationVersion\":\"HHD1.3.2\",\"name\":\"chipTAN MANUAL | Kartennummer: ******9876\",\"explanation\":\"Erfassung der Auftragsdaten über die Tasten Ihres TAN-Generator.\"},\"challengeData\":{\"otpMaxLength\":6,\"otpFormat\":\"integer\",\"additionalInformation\":\"Sie haben eine 'Einzelüberweisung' erfasst: Überprüfen Sie die Richtigkeit der 'letzten 10 Zeichen der IBAN des Empfängers' und bestätigen Sie diese mit der Taste 'OK'. Überprüfen Sie die Richtigkeit des 'Betrags' und bestätigen Sie diesen mit der Taste 'OK'.\"},\"_links\":{\"scaStatus\":{\"href\":\"https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/sepa-credit-transfers/5f6e3778-2b5c-460c-90f9-c86b0f5c5d57/authorisations/c9ef5300-0091-47c6-9df9-2190313e8f03\"},\"authoriseTransaction\":{\"href\":\"https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/sepa-credit-transfers/5f6e3778-2b5c-460c-90f9-c86b0f5c5d57/authorisations/c9ef5300-0091-47c6-9df9-2190313e8f03\"}},\"psuMessage\":\"Bitte geben Sie die TAN ein.\"}",
     "headers" : {
       "Date" : "Tue, 11 Aug 2020 07:47:39 GMT",
       "Server" : "Apache",

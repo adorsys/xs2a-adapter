@@ -22,14 +22,14 @@
       }
     },
     "bodyPatterns" : [ {
-      "equalToJson" : "{\"authenticationMethodId\":\"MANUAL\"}",
+      "equalToJson" : "{\"authenticationMethodId\":\"OPTICAL\"}",
       "ignoreArrayOrder" : true,
       "ignoreExtraElements" : true
     } ]
   },
   "response" : {
     "status" : 200,
-    "body" : "{\"scaStatus\":\"scaMethodSelected\",\"chosenScaMethod\":{\"authenticationType\":\"CHIP_OTP\",\"authenticationMethodId\":\"MANUAL\",\"authenticationVersion\":\"HHD1.3.2\",\"name\":\"chipTAN MANUAL | Kartennummer: ******9876\",\"explanation\":\"Erfassung der Auftragsdaten über die Tasten Ihres TAN-Generator.\"},\"challengeData\":{\"otpMaxLength\":6,\"otpFormat\":\"integer\",\"additionalInformation\":\"Sie haben eine 'Einzelüberweisung' erfasst: Überprüfen Sie die Richtigkeit der 'letzten 10 Zeichen der IBAN des Empfängers' und bestätigen Sie diese mit der Taste 'OK'. Überprüfen Sie die Richtigkeit des 'Betrags' und bestätigen Sie diesen mit der Taste 'OK'.\"},\"_links\":{\"authoriseTransaction\":{\"href\":\"https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/consents/e3d6fd32-8e41-498b-a20a-c643215e420c/authorisations/a7129418-87e2-43c3-ba57-38aa2e23093b\"},\"scaStatus\":{\"href\":\"https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/consents/e3d6fd32-8e41-498b-a20a-c643215e420c/authorisations/a7129418-87e2-43c3-ba57-38aa2e23093b\"}},\"psuMessage\":\"Bitte geben Sie die TAN ein.\"}",
+    "body" : "{\"scaStatus\":\"scaMethodSelected\",\"chosenScaMethod\":{\"authenticationType\":\"CHIP_OTP\",\"authenticationMethodId\":\"OPTICAL\",\"authenticationVersion\":\"HHD1.3.2\",\"name\":\"chipTAN MANUAL | Kartennummer: ******9876\",\"explanation\":\"Erfassung der Auftragsdaten über die Tasten Ihres TAN-Generator.\"},\"challengeData\":{\"otpMaxLength\":6,\"otpFormat\":\"integer\",\"additionalInformation\":\"Sie haben eine 'Einzelüberweisung' erfasst: Überprüfen Sie die Richtigkeit der 'letzten 10 Zeichen der IBAN des Empfängers' und bestätigen Sie diese mit der Taste 'OK'. Überprüfen Sie die Richtigkeit des 'Betrags' und bestätigen Sie diesen mit der Taste 'OK'.\"},\"_links\":{\"authoriseTransaction\":{\"href\":\"https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/consents/e3d6fd32-8e41-498b-a20a-c643215e420c/authorisations/a7129418-87e2-43c3-ba57-38aa2e23093b\"},\"scaStatus\":{\"href\":\"https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/consents/e3d6fd32-8e41-498b-a20a-c643215e420c/authorisations/a7129418-87e2-43c3-ba57-38aa2e23093b\"}},\"psuMessage\":\"Bitte geben Sie die TAN ein.\"}",
     "headers" : {
       "Date" : "Thu, 06 Aug 2020 09:03:46 GMT",
       "Server" : "Apache",
