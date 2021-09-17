@@ -11,3 +11,4 @@
 
 == Fixes:
 - amended `release` script and rearranged steps.
+- adjusted WireMock stubs for `sparkasse-adapter` to work in both WireMock tests and in WireMock Mode.

@@ -2,7 +2,7 @@
   "id" : "652c47ec-99d1-4b70-8cba-0a3987ddd0ce",
   "name" : "v1_consents_e3d6fd32-8e41-498b-a20a-c643215e420c_status",
   "request" : {
-    "urlPattern" : "/v1/consents/.+/status",
+    "urlPattern" : ".*/v1/consents/.+/status",
     "method" : "GET",
     "headers" : {
       "X-Request-ID" : {
