@@ -2,7 +2,7 @@
   "id" : "223e646a-6b1f-4023-b89a-e22d36bf8687",
   "name" : "v1_accounts_3217d050-f5b5-4318-a799-413bce784ef6_transactions",
   "request" : {
-    "urlPattern" : "/v1/accounts/.+/transactions\\?dateFrom=.+&dateTo=.+&bookingStatus=booked&withBalance=true",
+    "urlPattern" : ".*/v1/accounts/.+/transactions\\?dateFrom=.+&dateTo=.+&bookingStatus=booked&withBalance=true",
     "method" : "GET",
     "headers" : {
       "X-Request-ID" : {

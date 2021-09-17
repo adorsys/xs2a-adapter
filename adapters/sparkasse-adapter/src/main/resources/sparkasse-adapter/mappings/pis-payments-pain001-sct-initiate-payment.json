@@ -2,7 +2,7 @@
   "id" : "55e2ba0e-f856-4f38-85e0-4e6824a5ad83",
   "name" : "v1_payments_pain001-sepa-credit-transfers",
   "request" : {
-    "url" : "/v1/payments/pain.001-sepa-credit-transfers",
+    "urlPattern" : ".*/v1/payments/pain.001-sepa-credit-transfers",
     "method" : "POST",
     "headers" : {
       "X-Request-ID" : {

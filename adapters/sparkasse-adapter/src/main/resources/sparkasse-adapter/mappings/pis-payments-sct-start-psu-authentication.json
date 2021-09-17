@@ -2,7 +2,7 @@
   "id" : "8241860a-dbd8-4a5d-9379-6c10150897b9",
   "name" : "v1_payments_sepa-credit-transfers_5f6e3778-2b5c-460c-90f9-c86b0f5c5d57_authorisations",
   "request" : {
-    "urlPattern" : "/v1/payments/sepa-credit-transfers/.+/authorisations",
+    "urlPattern" : ".*/v1/payments/sepa-credit-transfers/.+/authorisations",
     "method" : "POST",
     "headers" : {
       "X-Request-ID" : {

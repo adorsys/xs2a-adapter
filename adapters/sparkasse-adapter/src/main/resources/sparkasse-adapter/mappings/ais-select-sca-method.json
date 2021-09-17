@@ -2,7 +2,7 @@
   "id" : "7f5448ee-3988-4742-bae6-5ca325b72b0d",
   "name" : "v1_consents_e3d6fd32-8e41-498b-a20a-c643215e420c_authorisations_a7129418-87e2-43c3-ba57-38aa2e23093b",
   "request" : {
-    "urlPattern" : "/v1/consents/.+/authorisations/.+",
+    "urlPattern" : ".*/v1/consents/.+/authorisations/.+",
     "method" : "PUT",
     "headers" : {
       "X-Request-ID" : {

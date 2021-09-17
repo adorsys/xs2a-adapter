@@ -2,7 +2,7 @@
   "id" : "ed9b1fb4-bc6c-4fc6-b6bb-6c0cb3a264bf",
   "name" : "v1_consents_e3d6fd32-8e41-498b-a20a-c643215e420c",
   "request" : {
-    "urlPattern" : "/v1/consents/.+",
+    "urlPattern" : ".*/v1/consents/.+",
     "method" : "DELETE",
     "headers" : {
       "X-Request-ID" : {

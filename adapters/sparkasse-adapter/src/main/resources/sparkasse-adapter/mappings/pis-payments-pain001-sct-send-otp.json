@@ -2,7 +2,7 @@
   "id" : "9670ecdb-e205-4615-956a-26b40a0dbe91",
   "name" : "v1_payments_pain001-sepa-credit-transfers_850987d5-eb54-4053-84c1-945485147e3b_authorisations_cafd117d-2969-48be-b003-acd835bb02e6",
   "request" : {
-    "urlPattern" : "/v1/payments/pain.001-sepa-credit-transfers/.+/authorisations/.+",
+    "urlPattern" : ".*/v1/payments/pain.001-sepa-credit-transfers/.+/authorisations/.+",
     "method" : "PUT",
     "headers" : {
       "X-Request-ID" : {
