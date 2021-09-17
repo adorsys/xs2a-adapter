@@ -1,0 +1,57 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "cc29a35e-2f59-4b2f-bc72-442e8f34a4dd",
+      "Consent-ID": "12f6ed9d-fd09-4aea-97bc-aeb61052cf3e",
+      "PSU-ID": "bgdemo"
+    },
+    "params": {
+      "withBalance": "false"
+    }
+  },
+  "response": {
+    "body": {
+      "accounts": [
+        {
+          "resourceId": "3dc3d5b37023",
+          "iban": "DE49700202700123456785",
+          "currency": "EUR",
+          "name": "Account-1",
+          "product": "lorem ipsum",
+          "bic": "HYVEDEMMXXX",
+          "usage": "PRIV",
+          "details": "lorem ipsum",
+          "balances": [
+            {
+              "balanceAmount": {
+                "currency": "EUR",
+                "amount": "123456.78"
+              },
+              "balanceType": "expected",
+              "lastChangeDateTime": "2019-10-14T09:00:00Z",
+              "referenceDate": "2019-10-14"
+            },
+            {
+              "balanceAmount": {
+                "currency": "EUR",
+                "amount": "234567.89"
+              },
+              "balanceType": "authorised",
+              "lastChangeDateTime": "2019-10-13T20:00:00Z",
+              "referenceDate": "2019-10-13"
+            },
+            {
+              "balanceAmount": {
+                "currency": "EUR",
+                "amount": "29944"
+              },
+              "balanceType": "closingBooked",
+              "lastChangeDateTime": "2019-10-13T20:00:00Z",
+              "referenceDate": "2019-10-13"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

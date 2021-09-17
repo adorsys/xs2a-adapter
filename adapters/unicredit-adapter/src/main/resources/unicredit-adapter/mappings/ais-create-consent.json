@@ -1,0 +1,55 @@
+{
+  "id" : "4476593f-cc13-48b5-b756-f7fd7738a4b5",
+  "name" : "hydrogen_v1_consents",
+  "request" : {
+    "urlPattern" : ".*/v1/consents",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "bgdemo"
+      },
+      "PSU-IP-Address" : {
+        "matches" : ".+"
+      },
+      "PSU-ID-Type" : {
+        "equalTo" : "HVB_ONLINEBANKING"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"access\":{\"accounts\":[{\"iban\":\"DE49700202700123456785\",\"currency\":\"EUR\"}],\"balances\":[{\"iban\":\"DE49700202700123456785\",\"currency\":\"EUR\"}],\"transactions\":[{\"iban\":\"DE49700202700123456785\",\"currency\":\"EUR\"}]},\"recurringIndicator\":true,\"validUntil\":\"${json-unit.regex}\\\\d{4}-[01]\\\\d-[0-3]\\\\d\",\"frequencyPerDay\":4,\"combinedServiceIndicator\":false}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\r\n\t\"consentStatus\": \"received\",\r\n\t\"consentId\": \"12f6ed9d-fd09-4aea-97bc-aeb61052cf3e\",\r\n\t\"_links\": {\r\n\t\t\"startAuthorisation\": {\r\n\t\t\t\"href\": \"https://api-sandbox.unicredit.de/hydrogen/v1/consents/12f6ed9d-fd09-4aea-97bc-aeb61052cf3e/authorisations\"\r\n\t\t}\r\n\t}\r\n}",
+    "headers" : {
+      "Date" : "Fri, 17 Sep 2021 14:03:25 GMT",
+      "X-Rate-Limit" : "[{\"window\":34,\"type\":\"throttle\",\"remaining\":29998}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-2da0446131a905ea1e8922a0 0; Id-2ea04461bc9956d8f1c0053a 0",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Location" : "https://api-sandbox.unicredit.de/hydrogen/v1/consents/12f6ed9d-fd09-4aea-97bc-aeb61052cf3e",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "de379d4b-b9e4-409f-9aeb-03ba711ef370",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "4476593f-cc13-48b5-b756-f7fd7738a4b5",
+  "persistent" : true,
+  "insertionIndex" : 3
+}

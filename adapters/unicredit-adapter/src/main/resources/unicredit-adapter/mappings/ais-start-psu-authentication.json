@@ -1,0 +1,48 @@
+{
+  "id" : "42d11cc8-7385-42c6-8f11-043bfc5aba81",
+  "name" : "hydrogen_v1_consents_12f6ed9d-fd09-4aea-97bc-aeb61052cf3e_authorisations",
+  "request" : {
+    "urlPattern" : ".*/v1/consents/.+/authorisations",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "bgdemo"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\r\n\t\"scaStatus\": \"received\",\r\n\t\"authorisationId\": \"12f6ed9d-fd09-4aea-97bc-aeb61052cf3e\",\r\n\t\"_links\": {\r\n\t\t\"updatePsuAuthentication\": {\r\n\t\t\t\"href\": \"https://api-sandbox.unicredit.de/hydrogen/v1/consents/12f6ed9d-fd09-4aea-97bc-aeb61052cf3e/authorisations/12f6ed9d-fd09-4aea-97bc-aeb61052cf3e?correlationId=AOTACU\"\r\n\t\t},\r\n\t\t\"scaStatus\": {\r\n\t\t\t\"href\": \"https://api-sandbox.unicredit.de/hydrogen/v1/consents/12f6ed9d-fd09-4aea-97bc-aeb61052cf3e/authorisations/12f6ed9d-fd09-4aea-97bc-aeb61052cf3e\"\r\n\t\t}\r\n\t}\r\n}",
+    "headers" : {
+      "Date" : "Fri, 17 Sep 2021 14:03:32 GMT",
+      "X-Rate-Limit" : "[{\"window\":27,\"type\":\"throttle\",\"remaining\":29996}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-34a044617684babca75e5740 0; Id-34a04461c29937839d119eb8 0",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "0cb88531-6584-4873-ab24-5968bbef7f69",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "42d11cc8-7385-42c6-8f11-043bfc5aba81",
+  "persistent" : true,
+  "insertionIndex" : 4
+}

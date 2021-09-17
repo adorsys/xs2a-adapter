@@ -1,0 +1,39 @@
+{
+  "id" : "2ef2c633-061a-4591-802a-97a16c7d2cfd",
+  "name" : "hydrogen_v1_accounts_3dc3d5b37023_balances",
+  "request" : {
+    "urlPattern" : ".*/v1/accounts/.+/balances",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Consent-ID" : {
+        "equalTo" : "12f6ed9d-fd09-4aea-97bc-aeb61052cf3e"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\r\n    \"account\": {\r\n        \"iban\": \"DE49700202700123456785\",\r\n        \"currency\": \"EUR\"\r\n    },\r\n    \"balances\": [{\r\n        \"balanceAmount\": {\r\n            \"currency\": \"EUR\",\r\n            \"amount\": \"123456.78\"\r\n        },\r\n        \"balanceType\": \"expected\",\r\n        \"lastChangeDateTime\": \"2019-10-14T09:00:00Z\",\r\n        \"referenceDate\": \"2019-10-14\"\r\n    },{\r\n        \"balanceAmount\": {\r\n            \"currency\": \"EUR\",\r\n            \"amount\": \"234567.89\"\r\n        },\r\n        \"balanceType\": \"authorised\",\r\n        \"lastChangeDateTime\": \"2019-10-13T20:00:00Z\",\r\n        \"referenceDate\": \"2019-10-13\"\r\n    },{\r\n        \"balanceAmount\": {\r\n            \"currency\": \"EUR\",\r\n            \"amount\": \"29944\"\r\n        },\r\n        \"balanceType\": \"closingBooked\",\r\n        \"lastChangeDateTime\": \"2019-10-13T20:00:00Z\",\r\n        \"referenceDate\": \"2019-10-13\"\r\n    }]\r\n}\r\n",
+    "headers" : {
+      "Date" : "Fri, 17 Sep 2021 14:04:01 GMT",
+      "X-Rate-Limit" : "[{\"window\":58,\"type\":\"throttle\",\"remaining\":29999}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-51a044615da99fe012d9f933 0; Id-51a04461b47f7fdef22acc21 0",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "12bebce0-1a19-45f3-9a08-42b38ab7d8ff",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "2ef2c633-061a-4591-802a-97a16c7d2cfd",
+  "persistent" : true,
+  "insertionIndex" : 9
+}

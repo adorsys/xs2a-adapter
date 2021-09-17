@@ -1,0 +1,49 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "4ba82f21-6083-430a-8bdf-4f7c9e8c4d43",
+      "PSU-ID": "bgdemo",
+      "PSU-ID-Type": "HVB_ONLINEBANKING",
+      "PSU-IP-Address": "0.0.0.0",
+      "Content-Type": "application/json; charset=UTF-8",
+      "TPP-Redirect-URI": "https://example.com"
+    },
+    "body": {
+      "access": {
+        "accounts": [
+          {
+            "iban": "DE49700202700123456785",
+            "currency": "EUR"
+          }
+        ],
+        "balances": [
+          {
+            "iban": "DE49700202700123456785",
+            "currency": "EUR"
+          }
+        ],
+        "transactions": [
+          {
+            "iban": "DE49700202700123456785",
+            "currency": "EUR"
+          }
+        ]
+      },
+      "recurringIndicator": true,
+      "validUntil": "2021-09-22",
+      "frequencyPerDay": 4,
+      "combinedServiceIndicator": false
+    }
+  },
+  "response": {
+    "body": {
+      "consentStatus": "received",
+      "consentId": "12f6ed9d-fd09-4aea-97bc-aeb61052cf3e",
+      "_links": {
+        "startAuthorisation": {
+          "href": "https://api-sandbox.unicredit.de/hydrogen/v1/consents/12f6ed9d-fd09-4aea-97bc-aeb61052cf3e/authorisations"
+        }
+      }
+    }
+  }
+}

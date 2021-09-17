@@ -1,0 +1,34 @@
+{
+  "id" : "9fc222ae-a3a5-4240-b265-a3eef16327e2",
+  "name" : "hydrogen_v1_consents_12f6ed9d-fd09-4aea-97bc-aeb61052cf3e",
+  "request" : {
+    "urlPattern" : ".*/v1/consents/.+",
+    "method" : "DELETE",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 204,
+    "headers" : {
+      "Date" : "Fri, 17 Sep 2021 14:04:09 GMT",
+      "X-Rate-Limit" : "[{\"window\":50,\"type\":\"throttle\",\"remaining\":29996}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-59a04461a584ebe12c6695b5 0; Id-59a04461bd7fe290bdfb2ed3 0",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "5b83bf03-7b7b-4e83-aff2-501ae89fdcb4",
+      "X-XSS-Protection" : "1",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "9fc222ae-a3a5-4240-b265-a3eef16327e2",
+  "persistent" : true,
+  "insertionIndex" : 12
+}

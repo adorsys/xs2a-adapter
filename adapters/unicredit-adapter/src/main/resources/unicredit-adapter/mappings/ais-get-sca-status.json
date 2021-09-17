@@ -1,0 +1,36 @@
+{
+  "id" : "3ff98560-4cb1-433c-90f7-94f680a1075e",
+  "name" : "hydrogen_v1_consents_12f6ed9d-fd09-4aea-97bc-aeb61052cf3e_authorisations_a7129418-87e2-43c3-ba57-38aa2e23093b",
+  "request" : {
+    "urlPattern" : ".*/v1/consents/.+/authorisations/.+",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 404,
+    "body" : "{\r\n    \"tppMessages\": [\r\n        {\r\n            \"category\": \"ERROR\",\r\n            \"code\": \"RESOURCE_UNKNOWN\",\r\n             \"text\": \"The resource you are looking for was not found in our system\"\r\n        }\r\n    ]\r\n}",
+    "headers" : {
+      "Date" : "Fri, 17 Sep 2021 14:04:03 GMT",
+      "X-Rate-Limit" : "[{\"window\":56,\"type\":\"throttle\",\"remaining\":29998}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-53a044615ea9f625bf0cc2fc 0; Id-53a04461b77f5642f2a8901c 0",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "a0bcf913-3137-40be-b86b-3d74af0a2516",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "3ff98560-4cb1-433c-90f7-94f680a1075e",
+  "persistent" : true,
+  "insertionIndex" : 10
+}

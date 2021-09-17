@@ -1,0 +1,51 @@
+{
+  "id" : "fc253668-5806-4d55-a1a5-3219093da693",
+  "name" : "hydrogen_v1_consents_12f6ed9d-fd09-4aea-97bc-aeb61052cf3e_authorisations_a7129418-87e2-43c3-ba57-38aa2e23093b",
+  "request" : {
+    "urlPattern" : ".*/v1/consents/.+/authorisations/.+\\?correlationId=AOTACU",
+    "method" : "PUT",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "bgdemo"
+      },
+      "PSU-ID-Type" : {
+        "equalTo" : "HVB_ONLINEBANKING"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"psuData\":{\"password\":\"bgpassword\"}}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"scaStatus\" : \"started\",\n  \"chosenScaMethod\" : {\n    \"authenticationType\" : \"SMS_OTP\",\n    \"authenticationMethodId\" : \"03\"\n  },\n  \"challengeData\" : {\n    \"otpMaxLength\" : 6,\n    \"otpFormat\" : \"integer\"\n  },\n  \"_links\" : {\n    \"authoriseTransaction\" : {\n      \"href\" : \"https://api-sandbox.unicredit.de/hydrogen/v1/consents/12f6ed9d-fd09-4aea-97bc-aeb61052cf3e/authorisations/12f6ed9d-fd09-4aea-97bc-aeb61052cf3e?lfdNumber=525&correlationId=AOTACU&authenticationCurrentNumber=525\"\n    }\n  }\n}",
+    "headers" : {
+      "Date" : "Fri, 17 Sep 2021 14:03:41 GMT",
+      "X-Rate-Limit" : "[{\"window\":18,\"type\":\"throttle\",\"remaining\":29994}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-3da0446142a9040d49210cb1 0; Id-3da04461cb99c35351eb238c 0",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "450afb7e-ae7f-4735-aa87-f0021b0d040b",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "fc253668-5806-4d55-a1a5-3219093da693",
+  "persistent" : true,
+  "insertionIndex" : 5
+}
