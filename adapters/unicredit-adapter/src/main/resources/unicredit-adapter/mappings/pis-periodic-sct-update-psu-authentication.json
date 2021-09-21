@@ -1,0 +1,51 @@
+{
+  "id" : "567800d1-6772-4481-93c8-99a720414233",
+  "name" : "hydrogen_v1_periodic-payments_sepa-credit-transfers_pdea744022_authorisations_pdea630971",
+  "request" : {
+    "urlPattern" : ".*/v1/periodic-payments/sepa-credit-transfers/.+/authorisations/.+\\?correlationId=JZ9TZO",
+    "method" : "PUT",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "bgdemo"
+      },
+      "PSU-ID-Type" : {
+        "equalTo" : "HVB_ONLINEBANKING"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"psuData\":{\"password\":\"bgpassword\"}}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"scaStatus\" : \"started\",\n  \"chosenScaMethod\" : {\n    \"authenticationType\" : \"SMS_OTP\",\n    \"authenticationMethodId\" : \"03\"\n  },\n  \"challengeData\" : {\n    \"otpMaxLength\" : 6,\n    \"otpFormat\" : \"integer\"\n  },\n  \"authenticationCurrentNumber\" : \"987\",\n  \"_links\" : {\n    \"authoriseTransaction\" : {\n      \"href\" : \"https://api-sandbox.unicredit.de/hydrogen/v1/periodic-payments/sepa-credit-transfers/PDEA744022/authorisations/PDEA744022?lfdNumber=987&correlationId=JZ9TZO&authenticationCurrentNumber=987\"\n    }\n  }\n}",
+    "headers" : {
+      "Date" : "Mon, 20 Sep 2021 15:14:16 GMT",
+      "X-Rate-Limit" : "[{\"window\":43,\"type\":\"throttle\",\"remaining\":29996}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-48a548613ef449c9b1001a70 0; Id-48a548613dbf3acbe1fa068c 0",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "e1504365-419a-4a79-941a-f4b865d681e1",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "567800d1-6772-4481-93c8-99a720414233",
+  "persistent" : true,
+  "insertionIndex" : 22
+}

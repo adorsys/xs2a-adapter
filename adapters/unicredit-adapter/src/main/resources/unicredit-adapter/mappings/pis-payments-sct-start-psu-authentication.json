@@ -1,0 +1,51 @@
+{
+  "id" : "6883c9d5-2a65-4c59-af65-ae7c451a9d52",
+  "name" : "hydrogen_v1_payments_sepa-credit-transfers_pdea630971_authorisations",
+  "request" : {
+    "urlPattern" : ".*v1/payments/sepa-credit-transfers/.+/authorisations",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "bgdemo"
+      },
+      "TPP-Redirect-URI" : {
+        "matches" : ".+"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\r\n\t\"scaStatus\": \"received\",\r\n\t\"authorisationId\": \"PDEA630971\",\r\n\t\"_links\": {\r\n\t\t\"updatePsuAuthentication\": {\r\n\t\t\t\"href\": \"https://api-sandbox.unicredit.de/hydrogen/v1/payments/sepa-credit-transfers/PDEA630971/authorisations/PDEA630971?correlationId=NCVY87\"\r\n\t\t},\r\n\t\t\"scaStatus\": {\r\n\t\t\t\"href\": \"https://api-sandbox.unicredit.de/hydrogen/v1/payments/sepa-credit-transfers/PDEA630971/authorisations/PDEA630971\"\r\n\t\t}\r\n\t}\r\n}",
+    "headers" : {
+      "Date" : "Mon, 20 Sep 2021 15:12:53 GMT",
+      "X-Rate-Limit" : "[{\"window\":6,\"type\":\"throttle\",\"remaining\":29997}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-f5a4486163136abebe845921 0; Id-f5a448613cd9f60d728f8eb7 0",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "31887281-19bb-499b-b919-443c2cbba93d",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "6883c9d5-2a65-4c59-af65-ae7c451a9d52",
+  "persistent" : true,
+  "insertionIndex" : 12
+}

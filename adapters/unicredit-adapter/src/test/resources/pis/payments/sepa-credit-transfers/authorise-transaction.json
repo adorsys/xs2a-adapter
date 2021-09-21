@@ -1,0 +1,26 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "04f6c752-1f2a-4102-b926-52c2f5906afb",
+      "PSU-ID": "bgdemo",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "PSU-IP-Address": "0.0.0.0",
+      "PSU-ID-Type": "HVB_ONLINEBANKING",
+      "Content-Type": "application/json"
+    },
+    "params": {
+      "lfdNumber": "966",
+      "correlationId": "NCVY87",
+      "authenticationCurrentNumber": "966"
+    },
+    "body": {
+      "scaAuthenticationData": "123456"
+    }
+  },
+  "response": {
+    "body": {
+      "scaStatus": "finalised"
+      }
+    }
+  }
+}

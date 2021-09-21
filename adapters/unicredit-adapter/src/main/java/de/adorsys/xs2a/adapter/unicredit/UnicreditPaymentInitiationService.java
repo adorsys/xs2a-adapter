@@ -9,7 +9,6 @@ import de.adorsys.xs2a.adapter.api.link.LinksRewriter;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.api.validation.ValidationError;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
-import de.adorsys.xs2a.adapter.unicredit.model.UnicreditUpdatePsuAuthenticationResponse;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -45,24 +44,24 @@ public class UnicreditPaymentInitiationService extends BasePaymentInitiationServ
         return super.initiatePayment(paymentService, paymentProduct, requestHeaders, requestParams, requestBody == null ? body : requestBody);
     }
 
-    @Override
-    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(PaymentService paymentService,
-                                                                          PaymentProduct paymentProduct,
-                                                                          String paymentId,
-                                                                          String authorisationId,
-                                                                          RequestHeaders requestHeaders,
-                                                                          RequestParams requestParams,
-                                                                          UpdatePsuAuthentication updatePsuAuthentication) {
-        return updatePaymentPsuData(paymentService,
-            paymentProduct,
-            paymentId,
-            authorisationId,
-            requestHeaders,
-            requestParams,
-            updatePsuAuthentication,
-            UnicreditUpdatePsuAuthenticationResponse.class,
-            unicreditMapper::toUpdatePsuAuthenticationResponse);
-    }
+//    @Override
+//    public Response<UpdatePsuAuthenticationResponse> updatePaymentPsuData(PaymentService paymentService,
+//                                                                          PaymentProduct paymentProduct,
+//                                                                          String paymentId,
+//                                                                          String authorisationId,
+//                                                                          RequestHeaders requestHeaders,
+//                                                                          RequestParams requestParams,
+//                                                                          UpdatePsuAuthentication updatePsuAuthentication) {
+//        return updatePaymentPsuData(paymentService,
+//            paymentProduct,
+//            paymentId,
+//            authorisationId,
+//            requestHeaders,
+//            requestParams,
+//            updatePsuAuthentication,
+//            UnicreditUpdatePsuAuthenticationResponse.class,
+//            unicreditMapper::toUpdatePsuAuthenticationResponse);
+//    }
 
     private void addCreditorAddress(Object body) {
         if (body instanceof PaymentInitiationJson) {

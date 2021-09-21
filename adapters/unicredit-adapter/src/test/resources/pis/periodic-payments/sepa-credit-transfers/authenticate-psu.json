@@ -1,0 +1,24 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "662388a0-92f3-4d1d-bb95-b4c28fb19fbe",
+      "PSU-ID": "bgdemo",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "Content-Type": "application/json"
+    }
+  },
+  "response": {
+    "body": {
+      "scaStatus": "received",
+      "authorisationId": "PDEA744022",
+      "_links": {
+        "updatePsuAuthentication": {
+          "href": "https://api-sandbox.unicredit.de/hydrogen/v1/periodic-payments/sepa-credit-transfers/PDEA744022/authorisations/PDEA744022?correlationId=JZ9TZO"
+        },
+        "scaStatus": {
+          "href": "https://api-sandbox.unicredit.de/hydrogen/v1/periodic-payments/sepa-credit-transfers/PDEA744022/authorisations/PDEA744022"
+        }
+      }
+    }
+  }
+}

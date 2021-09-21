@@ -1,0 +1,41 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "e56a3492-e9c7-4357-9b77-0a3bdafdd608",
+      "PSU-ID": "bgdemo",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "PSU-IP-Address": "0.0.0.0",
+      "PSU-ID-Type": "HVB_ONLINEBANKING",
+      "TPP-Redirect-Preferred": "false",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "creditorAccount": {
+        "iban": "DE49700202700123456785",
+        "currency": "EUR"
+      },
+      "creditorName": "merchant123",
+      "debtorAccount": {
+        "iban": "DE49700202700123456785",
+        "currency": "EUR"
+      },
+      "instructedAmount": {
+        "amount": "20.99",
+        "currency": "EUR"
+      },
+      "remittanceInformationUnstructured": "just",
+      "endToEndIdentification": "SandboxTPPTest1"
+    }
+  },
+  "response": {
+    "body": {
+      "transactionStatus": "RCVD",
+      "paymentId": "PDEA630971",
+      "_links": {
+        "startAuthorisation": {
+          "href": "https://api-sandbox.unicredit.de/hydrogen/v1/payments/sepa-credit-transfers/PDEA630971/authorisations"
+        }
+      }
+    }
+  }
+}

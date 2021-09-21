@@ -1,0 +1,50 @@
+{
+  "id" : "f3ef633a-f82b-4e3b-9b0f-a9c1b1196266",
+  "name" : "hydrogen_v1_periodic-payments_sepa-credit-transfers_pdea744022_authorisations_pdea630971",
+  "request" : {
+    "urlPattern" : ".*/v1/periodic-payments/sepa-credit-transfers/.+/authorisations/.+?lfdNumber=987&correlationId=JZ9TZO&authenticationCurrentNumber=987",
+    "method" : "PUT",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "bgdemo"
+      },
+      "PSU-ID-Type" : {
+        "equalTo" : "HVB_ONLINEBANKING"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"scaAuthenticationData\":\"123456\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"scaStatus\" : \"finalised\"\n}",
+    "headers" : {
+      "Date" : "Mon, 20 Sep 2021 15:14:22 GMT",
+      "X-Rate-Limit" : "[{\"window\":37,\"type\":\"throttle\",\"remaining\":29995}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-4ea5486129d6ef2d454bae04 0; Id-4ea548616ed9822cf6114967 0",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "28103814-f19f-4158-bf14-c64aa0c568c7",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "f3ef633a-f82b-4e3b-9b0f-a9c1b1196266",
+  "persistent" : true,
+  "insertionIndex" : 23
+}

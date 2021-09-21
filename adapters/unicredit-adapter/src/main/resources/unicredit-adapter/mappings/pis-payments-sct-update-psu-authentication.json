@@ -1,0 +1,51 @@
+{
+  "id" : "027dea35-4c4c-4d3a-950d-3e909d21a2db",
+  "name" : "hydrogen_v1_payments_sepa-credit-transfers_pdea630971_authorisations_pdea630971",
+  "request" : {
+    "urlPattern" : ".*/v1/payments/sepa-credit-transfers/.+/authorisations/.+\\?correlationId=NCVY87",
+    "method" : "PUT",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "bgdemo"
+      },
+      "PSU-ID-Type" : {
+        "equalTo" : "HVB_ONLINEBANKING"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"psuData\":{\"password\":\"bgpassword\"}}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"scaStatus\" : \"started\",\n  \"chosenScaMethod\" : {\n    \"authenticationType\" : \"SMS_OTP\",\n    \"authenticationMethodId\" : \"03\"\n  },\n  \"challengeData\" : {\n    \"otpMaxLength\" : 6,\n    \"otpFormat\" : \"integer\"\n  },\n  \"_links\" : {\n    \"authoriseTransaction\" : {\n      \"href\" : \"https://api-sandbox.unicredit.de/hydrogen/v1/payments/sepa-credit-transfers/PDEA630971/authorisations/PDEA630971?lfdNumber=966&correlationId=NCVY87&authenticationCurrentNumber=966\"\n    }\n  }\n}",
+    "headers" : {
+      "Date" : "Mon, 20 Sep 2021 15:12:59 GMT",
+      "X-Rate-Limit" : "[{\"window\":0,\"type\":\"throttle\",\"remaining\":29996}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-fba448611fe433b043217b97 0; Id-fba4486110bffe4ac6bbef34 0",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "59b33938-008e-4794-b933-b792564248a5",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "027dea35-4c4c-4d3a-950d-3e909d21a2db",
+  "persistent" : true,
+  "insertionIndex" : 13
+}

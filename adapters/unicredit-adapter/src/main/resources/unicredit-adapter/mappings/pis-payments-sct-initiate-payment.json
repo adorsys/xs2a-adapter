@@ -1,0 +1,58 @@
+{
+  "id" : "598f42ad-e837-46f2-a805-a0d1d5ea773f",
+  "name" : "hydrogen_v1_payments_sepa-credit-transfers",
+  "request" : {
+    "urlPattern" : ".*/v1/payments/sepa-credit-transfers",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "bgdemo"
+      },
+      "TPP-Redirect-URI" : {
+        "matches" : ".+"
+      },
+      "PSU-IP-Address" : {
+        "matches" : ".+"
+      },
+      "PSU-ID-Type" : {
+        "equalTo" : "HVB_ONLINEBANKING"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"endToEndIdentification\":\"SandboxTPPTest1\",\"debtorAccount\":{\"iban\":\"DE49700202700123456785\",\"currency\":\"EUR\"},\"instructedAmount\":{\"currency\":\"EUR\",\"amount\":\"${json-unit.regex}-?[0-9]{1,14}(\\\\.[0-9]{1,3})?\"},\"creditorAccount\":{\"iban\":\"DE49700202700123456785\",\"currency\":\"EUR\"},\"creditorName\":\"${json-unit.any-string}\",\"creditorAddress\":{\"country\":\"DE\"},\"remittanceInformationUnstructured\":\"just\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\r\n\t\"transactionStatus\": \"RCVD\",\r\n\t\"paymentId\": \"PDEA630971\",\r\n\t\"_links\": {\r\n\t\t\"startAuthorisation\": {\r\n\t\t\t\"href\": \"https://api-sandbox.unicredit.de/hydrogen/v1/payments/sepa-credit-transfers/PDEA630971/authorisations\"\r\n\t\t}\r\n\t}\r\n}",
+    "headers" : {
+      "Date" : "Mon, 20 Sep 2021 15:12:47 GMT",
+      "X-Rate-Limit" : "[{\"window\":12,\"type\":\"throttle\",\"remaining\":29998}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-efa448615e13645283f0dd76 0; Id-efa4486139d995064e241c69 0",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Location" : "https://api-sandbox.unicredit.de/hydrogen/v1/payments/sepa-credit-transfers/PDEA630971",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "d43d12a8-a740-48c6-8d1f-15f4a21b7290",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "598f42ad-e837-46f2-a805-a0d1d5ea773f",
+  "persistent" : true,
+  "insertionIndex" : 11
+}

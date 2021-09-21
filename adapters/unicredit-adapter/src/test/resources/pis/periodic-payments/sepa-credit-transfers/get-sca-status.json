@@ -1,0 +1,18 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "610cc155-67bf-48b0-91cb-2830321f1857"
+    }
+  },
+  "response": {
+    "body": {
+      "tppMessages": [
+        {
+          "category": "ERROR",
+          "code": "RESOURCE_UNKNOWN",
+          "text": "The resource you are looking for was not found in our system"
+        }
+      ]
+    }
+  }
+}
