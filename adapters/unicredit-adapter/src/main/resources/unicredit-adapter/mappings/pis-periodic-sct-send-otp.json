@@ -2,7 +2,7 @@
   "id" : "f3ef633a-f82b-4e3b-9b0f-a9c1b1196266",
   "name" : "hydrogen_v1_periodic-payments_sepa-credit-transfers_pdea744022_authorisations_pdea630971",
   "request" : {
-    "urlPattern" : ".*/v1/periodic-payments/sepa-credit-transfers/.+/authorisations/.+?lfdNumber=987&correlationId=JZ9TZO&authenticationCurrentNumber=987",
+    "urlPattern" : ".*/v1/periodic-payments/sepa-credit-transfers/.+/authorisations/.+\\?lfdNumber=987&correlationId=JZ9TZO&authenticationCurrentNumber=987",
     "method" : "PUT",
     "headers" : {
       "X-Request-ID" : {

@@ -6,6 +6,7 @@
 
 == Notices:
 - added WireMock stubs for `santander-adapter`.
+- added WireMock stubs for `unicredit-adapter`.
 
 == Features:
 

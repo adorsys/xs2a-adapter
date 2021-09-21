@@ -109,6 +109,7 @@ Not all adapters have written stubs though. Responses available for the next ada
 - sparkasse-adapter
 - verlag-adapter
 - santander-adapter
+- unicredit-adapter
 
 New stubs will be added in time.
 
