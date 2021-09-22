@@ -1,0 +1,36 @@
+{
+  "id" : "ff5cf5e8-b787-4539-9e21-74b02b4b7382",
+  "name" : "hydrogen_v1_payments_sepa-credit-transfers_pdea630971_authorisations_pdea630971",
+  "request" : {
+    "urlPattern" : ".*/v1/payments/sepa-credit-transfers/.+/authorisations/.+",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\r\n\t\"scaStatus\": \"finalised\"\r\n}",
+    "headers" : {
+      "Date" : "Mon, 20 Sep 2021 15:13:34 GMT",
+      "X-Rate-Limit" : "[{\"window\":25,\"type\":\"throttle\",\"remaining\":29995}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-1ea5486103d65f95a7d76f47 0; Id-1ea5486127bf5247387271ce 0",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "3a7678c9-e4a3-4598-8bed-580a8c1e0205",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "ff5cf5e8-b787-4539-9e21-74b02b4b7382",
+  "persistent" : true,
+  "insertionIndex" : 18
+}

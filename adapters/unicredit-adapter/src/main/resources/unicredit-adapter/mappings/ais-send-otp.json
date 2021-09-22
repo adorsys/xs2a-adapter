@@ -1,0 +1,50 @@
+{
+  "id" : "bbb2b78d-ca23-4ede-95dd-6b3d7bdb09f4",
+  "name" : "hydrogen_v1_consents_12f6ed9d-fd09-4aea-97bc-aeb61052cf3e_authorisations_a7129418-87e2-43c3-ba57-38aa2e23093b",
+  "request" : {
+    "urlPattern" : ".*/v1/consents/.+/authorisations/.+\\?lfdNumber=525&correlationId=AOTACU&authenticationCurrentNumber=525",
+    "method" : "PUT",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "bgdemo"
+      },
+      "PSU-ID-Type" : {
+        "equalTo" : "HVB_ONLINEBANKING"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"scaAuthenticationData\":\"123456\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"scaStatus\" : \"finalised\"\n}",
+    "headers" : {
+      "Date" : "Fri, 17 Sep 2021 14:03:48 GMT",
+      "X-Rate-Limit" : "[{\"window\":11,\"type\":\"throttle\",\"remaining\":29993}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-44a044614ba947aebfb539bf 0; Id-44a04461a77f8e76350da629 0",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "6c7613b8-6811-4371-85ef-8ea0d77ba66f",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "bbb2b78d-ca23-4ede-95dd-6b3d7bdb09f4",
+  "persistent" : true,
+  "insertionIndex" : 6
+}

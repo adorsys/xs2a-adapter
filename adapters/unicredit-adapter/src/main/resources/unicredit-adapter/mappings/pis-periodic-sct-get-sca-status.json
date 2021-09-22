@@ -1,0 +1,36 @@
+{
+  "id" : "1c0900ea-4121-4716-8fb3-cec97de104cf",
+  "name" : "hydrogen_v1_periodic-payments_sepa-credit-transfers_pdea744022_authorisations_pdea630971",
+  "request" : {
+    "urlPattern" : ".*/v1/periodic-payments/sepa-credit-transfers/.+/authorisations/.+",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 404,
+    "body" : "{\r\n    \"tppMessages\": [\r\n        {\r\n            \"category\": \"ERROR\",\r\n            \"code\": \"RESOURCE_UNKNOWN\",\r\n             \"text\": \"The resource you are looking for was not found in our system\"\r\n        }\r\n    ]\r\n}",
+    "headers" : {
+      "Date" : "Mon, 20 Sep 2021 15:14:29 GMT",
+      "X-Rate-Limit" : "[{\"window\":30,\"type\":\"throttle\",\"remaining\":29993}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-55a548612fd6867b42be17b4 0; Id-55a5486145bf05ef0ed31ae9 0",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "898d568d-cb4d-429a-9478-938054356186",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "1c0900ea-4121-4716-8fb3-cec97de104cf",
+  "persistent" : true,
+  "insertionIndex" : 25
+}

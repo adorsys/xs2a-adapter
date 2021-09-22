@@ -1,0 +1,36 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "662388a0-92f3-4d1d-bb95-b4c28fb19fbf",
+      "PSU-ID": "bgdemo",
+      "PSU-ID-Type": "HVB_ONLINEBANKING",
+      "Content-Type": "application/json"
+    },
+    "params": {
+      "correlationId": "NCVY87"
+    },
+    "body": {
+      "psuData": {
+        "password": "bgpassword"
+      }
+    }
+  },
+  "response": {
+    "body": {
+      "scaStatus" : "started",
+      "chosenScaMethod" : {
+        "authenticationType" : "SMS_OTP",
+        "authenticationMethodId" : "03"
+      },
+      "challengeData" : {
+        "otpMaxLength" : 6,
+        "otpFormat" : "integer"
+      },
+      "_links" : {
+        "authoriseTransaction" : {
+          "href" : "https://api-sandbox.unicredit.de/hydrogen/v1/payments/sepa-credit-transfers/PDEA630971/authorisations/PDEA630971?lfdNumber=966&correlationId=NCVY87&authenticationCurrentNumber=966"
+        }
+      }
+    }
+  }
+}

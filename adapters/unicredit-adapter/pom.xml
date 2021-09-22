@@ -25,6 +25,13 @@
         <!-- test dependencies -->
 
         <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>xs2a-adapter-test</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>pro.javatar.commons</groupId>
             <artifactId>javatar-commons</artifactId>
             <scope>test</scope>

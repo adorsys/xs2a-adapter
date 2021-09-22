@@ -1,0 +1,37 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "665a5b2c-c020-4fd5-8082-b34995c5b603",
+      "PSU-ID": "bgdemo",
+      "PSU-ID-Type": "HVB_ONLINEBANKING",
+      "Content-Type": "application/json",
+      "TPP-Redirect-URI": "https://example.com"
+    },
+    "params": {
+      "correlationId": "AOTACU"
+    },
+    "body": {
+      "psuData": {
+        "password": "bgpassword"
+      }
+    }
+  },
+  "response": {
+    "body": {
+      "scaStatus" : "started",
+      "chosenScaMethod" : {
+        "authenticationType" : "SMS_OTP",
+        "authenticationMethodId" : "03"
+      },
+      "challengeData" : {
+        "otpMaxLength" : 6,
+        "otpFormat" : "integer"
+      },
+      "_links" : {
+        "authoriseTransaction" : {
+          "href" : "https://api-sandbox.unicredit.de/hydrogen/v1/consents/12f6ed9d-fd09-4aea-97bc-aeb61052cf3e/authorisations/12f6ed9d-fd09-4aea-97bc-aeb61052cf3e?lfdNumber=525&correlationId=AOTACU&authenticationCurrentNumber=525"
+        }
+      }
+    }
+  }
+}

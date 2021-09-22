@@ -1,0 +1,42 @@
+{
+  "id" : "72726135-e0c9-4158-a994-d83caf15ee04",
+  "name" : "hydrogen_v1_accounts",
+  "request" : {
+    "urlPattern" : ".*/v1/accounts",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Consent-ID" : {
+        "equalTo" : "12f6ed9d-fd09-4aea-97bc-aeb61052cf3e"
+      },
+      "PSU-ID" : {
+        "equalTo" : "bgdemo"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\r\n    \"accounts\": [\r\n        {\r\n            \"resourceId\": \"3dc3d5b37023\",\r\n            \"iban\": \"DE49700202700123456785\",\r\n            \"currency\": \"EUR\",\r\n            \"name\": \"Account-1\",\r\n            \"product\": \"lorem ipsum\",\r\n            \"bic\": \"HYVEDEMMXXX\",\r\n            \"usage\": \"PRIV\",\r\n            \"details\": \"lorem ipsum\",\r\n            \"balances\": [\r\n                {\r\n                    \"balanceAmount\": {\r\n                        \"currency\": \"EUR\",\r\n                        \"amount\": \"123456.78\"\r\n                    },\r\n                    \"balanceType\": \"expected\",\r\n                    \"lastChangeDateTime\": \"2019-10-14T09:00:00Z\",\r\n                    \"referenceDate\": \"2019-10-14\"\r\n                },\r\n                {\r\n                    \"balanceAmount\": {\r\n                        \"currency\": \"EUR\",\r\n                        \"amount\": \"234567.89\"\r\n                    },\r\n                    \"balanceType\": \"authorised\",\r\n                    \"lastChangeDateTime\": \"2019-10-13T20:00:00Z\",\r\n                    \"referenceDate\": \"2019-10-13\"\r\n                },\r\n                {\r\n                    \"balanceAmount\": {\r\n                        \"currency\": \"EUR\",\r\n                        \"amount\": \"29944\"\r\n                    },\r\n                    \"balanceType\": \"closingBooked\",\r\n                    \"lastChangeDateTime\": \"2019-10-13T20:00:00Z\",\r\n                    \"referenceDate\": \"2019-10-13\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+    "headers" : {
+      "Date" : "Fri, 17 Sep 2021 14:03:52 GMT",
+      "X-Rate-Limit" : "[{\"window\":7,\"type\":\"throttle\",\"remaining\":29992}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-48a044618e84940e353b7bb5 0; Id-48a04461d499b328a2bcc2e8 0",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "e07e37a2-3bfb-41e5-b3d7-dad9c31120c2",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "72726135-e0c9-4158-a994-d83caf15ee04",
+  "persistent" : true,
+  "insertionIndex" : 7
+}

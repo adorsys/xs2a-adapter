@@ -1,0 +1,23 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "c6101e8e-c7b7-498c-809d-590fcc48fd83",
+      "PSU-ID": "bgdemo",
+      "PSU-ID-Type": "HVB_ONLINEBANKING",
+      "Content-Type": "application/json; charset=UTF-8"
+    },
+    "params": {
+      "lfdNumber": "525",
+      "correlationId": "AOTACU",
+      "authenticationCurrentNumber": 525
+    },
+    "body": {
+      "scaAuthenticationData": "123456"
+    }
+  },
+  "response": {
+    "body": {
+      "scaStatus": "finalised"
+    }
+  }
+}

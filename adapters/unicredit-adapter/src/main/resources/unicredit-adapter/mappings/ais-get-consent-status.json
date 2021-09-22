@@ -1,0 +1,36 @@
+{
+  "id" : "01a38a4b-12de-4791-872b-ebbe432e7e84",
+  "name" : "hydrogen_v1_consents_12f6ed9d-fd09-4aea-97bc-aeb61052cf3e_status",
+  "request" : {
+    "urlPattern" : ".*/v1/consents/.+/status",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\r\n\t\"consentStatus\": \"valid\"\r\n}",
+    "headers" : {
+      "Date" : "Fri, 17 Sep 2021 14:04:06 GMT",
+      "X-Rate-Limit" : "[{\"window\":53,\"type\":\"throttle\",\"remaining\":29997}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-56a04461a084b5c10f725b95 0; Id-56a04461ba7f0f7c17555b3e 0",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "dd8ed8b2-ee42-48df-9eca-7c139bf0f8b9",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "01a38a4b-12de-4791-872b-ebbe432e7e84",
+  "persistent" : true,
+  "insertionIndex" : 11
+}
