@@ -1,0 +1,41 @@
+{
+  "id" : "eabb071a-77c3-49dd-b6dd-53d53249f9ba",
+  "name" : "berlingroup_v1_accounts_account_id_transactions",
+  "request" : {
+    "urlPattern" : ".*/v1/accounts/.+/transactions\\?dateFrom=.+&dateTo=.+&bookingStatus=booked&withBalance=true",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Consent-ID" : {
+        "equalTo" : "VALID_CONSENT_ID"
+      },
+      "Authorization" : {
+        "equalTo" : "Bearer 3b4481e417194853903641fc7eb3c1ce0a01afee216d49b0a4eea408490c84733a43c5e2edce48a89a34b84c3df0d8bd"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"account\" : {\n    \"iban\" : \"DE78240176185167050131\",\n    \"currency\" : \"EUR\"\n  },\n  \"balances\" : [ {\n    \"balanceAmount\" : {\n      \"currency\" : \"EUR\",\n      \"amount\" : 150.02\n    },\n    \"lastChangeDateTime\" : \"2018-02-26T00:00:00Z\",\n    \"referenceDate\" : \"2021-09-22\",\n    \"balanceType\" : \"closingBooked\"\n  } ],\n  \"transactions\" : {\n    \"booked\" : [ {\n      \"transactionId\" : \"1234567\",\n      \"bookingDate\" : \"2021-09-12\",\n      \"valueDate\" : \"2021-09-12\",\n      \"transactionAmount\" : {\n        \"currency\" : \"EUR\",\n        \"amount\" : -256.67\n      },\n      \"creditorName\" : \"John Miles\",\n      \"creditorAccount\" : {\n        \"iban\" : \"DE43533700240123456900\"\n      },\n      \"remittanceInformationUnstructured\" : \"Example 1\",\n      \"_links\" : {\n        \"transactionDetails\" : {\n          \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID/transactions/1234567\"\n        }\n      }\n    } ],\n    \"pending\" : [ ],\n    \"_links\" : {\n      \"first\" : {\n        \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID/transactions?dateFrom=1970-01-01&dateTo=2020-07-01&bookingStatus=BOOKED&withBalance=true&page=0\"\n      },\n      \"last\" : {\n        \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID/transactions?dateFrom=1970-01-01&dateTo=2020-07-01&bookingStatus=BOOKED&withBalance=true&page=0\"\n      },\n      \"account\" : {\n        \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID\"\n      },\n      \"balances\" : {\n        \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID/balances\"\n      },\n      \"transactions\" : {\n        \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID/transactions\"\n      }\n    }\n  }\n}",
+    "headers" : {
+      "Server" : "nginx",
+      "Date" : "Wed, 22 Sep 2021 12:55:41 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "X-Request-ID" : "9992fdfe-12a1-45a6-91a3-be547f21a7e1",
+      "Strict-Transport-Security" : [ "max-age=31536000 ; includeSubDomains", "max-age=15768000; includeSubDomains" ],
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "X-Frame-Options" : "DENY",
+      "Cache-Control" : "no-store, no-cache",
+      "Content-Security-Policy" : "default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self'; style-src 'self' 'unsafe-inline' https://*.googleapis.com; font-src 'self' https://*.gstatic.com; object-src 'none'",
+      "Referrer-Policy" : "strict-origin"
+    }
+  },
+  "uuid" : "eabb071a-77c3-49dd-b6dd-53d53249f9ba",
+  "persistent" : true,
+  "insertionIndex" : 4
+}

@@ -26,9 +26,9 @@ xs2a-adapter:
   audit:
     sanitized: true
   wire-mock:
-    mode: false
+    mode: true
     standalone:
-      url: http://localhost:8881
+      url: http://localhost:8008
     validation:
       enabled: false
   sanitizer:

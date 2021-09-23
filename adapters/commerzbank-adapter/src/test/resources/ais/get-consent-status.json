@@ -1,0 +1,13 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "b3b9856e-1334-48c9-a1e4-8a1e44d3811d",
+      "Authorization": "Bearer 3b4481e417194853903641fc7eb3c1ce0a01afee216d49b0a4eea408490c84733a43c5e2edce48a89a34b84c3df0d8bd"
+    }
+  },
+  "response": {
+    "body": {
+      "consentStatus": "valid"
+    }
+  }
+}

@@ -85,7 +85,7 @@ class SantanderAccountInformationServiceWireMockTest {
 
     @Test
     void deleteConsent() throws IOException {
-        TestRequestResponse requestResponse = new TestRequestResponse("ais/get-consent-status.json");
+        TestRequestResponse requestResponse = new TestRequestResponse("ais/delete-consent.json");
 
         Response<Void> response = accountInformationService.deleteConsent(CONSENT_ID,
             requestResponse.requestHeaders(),
