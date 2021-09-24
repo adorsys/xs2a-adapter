@@ -1,0 +1,36 @@
+{
+  "id" : "73b0a3c8-be6a-47cc-855b-be1d2ac5dc18",
+  "name" : "berlingroup_v1_consents_valid_consent_id",
+  "request" : {
+    "urlPattern" : ".*/v1/consents/.+",
+    "method" : "DELETE",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Authorization" : {
+        "equalTo" : "Bearer 91bf86c06f494054a164154891d462c23caf8fe7b0994d4d8da674bc78c2141a5c84866e122c461fae87ca71ae6fe487"
+      }
+    }
+  },
+  "response" : {
+    "status" : 204,
+    "headers" : {
+      "Server" : "nginx",
+      "Date" : "Fri, 24 Sep 2021 08:18:15 GMT",
+      "X-Request-ID" : "0e708551-89f1-4285-91c0-c875db300361",
+      "Strict-Transport-Security" : [ "max-age=31536000 ; includeSubDomains", "max-age=15768000; includeSubDomains" ],
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "X-Frame-Options" : "DENY",
+      "Cache-Control" : "no-store, no-cache",
+      "Content-Security-Policy" : "default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self'; style-src 'self' 'unsafe-inline' https://*.googleapis.com; font-src 'self' https://*.gstatic.com; object-src 'none'",
+      "Referrer-Policy" : "strict-origin"
+    }
+  },
+  "uuid" : "73b0a3c8-be6a-47cc-855b-be1d2ac5dc18",
+  "persistent" : true,
+  "insertionIndex" : 9
+}

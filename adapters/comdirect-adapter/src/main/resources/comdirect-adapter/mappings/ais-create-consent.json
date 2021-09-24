@@ -1,0 +1,51 @@
+{
+  "id" : "ecb7864a-81d7-4ef0-ab96-8c9f382eb0ae",
+  "name" : "berlingroup_v1_consents",
+  "request" : {
+    "urlPattern" : ".*/v1/consents",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "TPP-Redirect-URI" : {
+        "matches" : ".+"
+      },
+      "PSU-IP-Address" : {
+        "matches" : ".+"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"access\":{\"accounts\":[{\"iban\":\"FR7630076020821234567890186\",\"currency\":\"EUR\"}],\"balances\":[{\"iban\":\"FR7630076020821234567890186\",\"currency\":\"EUR\"}],\"transactions\":[{\"iban\":\"FR7630076020821234567890186\",\"currency\":\"EUR\"}]},\"recurringIndicator\":true,\"validUntil\":\"${json-unit.regex}\\\\d{4}-[01]\\\\d-[0-3]\\\\d\",\"frequencyPerDay\":4,\"combinedServiceIndicator\":false}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\n  \"consentStatus\" : \"received\",\n  \"consentId\" : \"VALID_CONSENT_ID\",\n  \"_links\" : {\n    \"scaOAuth\" : {\n      \"href\" : \"https://xs2a-sandbox.comdirect.de/berlingroup/.well-known/openid-configuration?authorizationId=22222222-2222-2222-2222-222222222222\"\n    },\n    \"scaStatus\" : {\n      \"href\" : \"https://xs2a-sandbox.comdirect.de/berlingroup/v1/consents/VALID_CONSENT_ID/authorisations/22222222-2222-2222-2222-222222222222\"\n    },\n    \"status\" : {\n      \"href\" : \"https://xs2a-sandbox.comdirect.de/berlingroup/v1/consents/VALID_CONSENT_ID/status\"\n    },\n    \"self\" : {\n      \"href\" : \"https://xs2a-sandbox.comdirect.de/berlingroup/v1/consents/VALID_CONSENT_ID\"\n    }\n  }\n}",
+    "headers" : {
+      "Server" : "nginx",
+      "Date" : "Fri, 24 Sep 2021 08:17:50 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "X-Request-ID" : "a719675a-339a-45c6-be0a-7d995a65a6b0",
+      "Strict-Transport-Security" : [ "max-age=31536000 ; includeSubDomains", "max-age=15768000; includeSubDomains" ],
+      "ASPSP-SCA-Approach" : "REDIRECT",
+      "Location" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/consents/VALID_CONSENT_ID",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "X-Frame-Options" : "DENY",
+      "Cache-Control" : "no-store, no-cache",
+      "Content-Security-Policy" : "default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self'; style-src 'self' 'unsafe-inline' https://*.googleapis.com; font-src 'self' https://*.gstatic.com; object-src 'none'",
+      "Referrer-Policy" : "strict-origin"
+    }
+  },
+  "uuid" : "ecb7864a-81d7-4ef0-ab96-8c9f382eb0ae",
+  "persistent" : true,
+  "insertionIndex" : 1
+}

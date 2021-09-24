@@ -1,0 +1,38 @@
+{
+  "id" : "6b59308c-8dd0-45da-a07e-e1053e79031e",
+  "name" : "berlingroup_v1_consents_valid_consent_id_authorisations_11111111-1111-1111-1111-111111111111",
+  "request" : {
+    "urlPattern" : ".*/v1/consents/.+/authorisations/.+",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Authorization" : {
+        "equalTo" : "Bearer 91bf86c06f494054a164154891d462c23caf8fe7b0994d4d8da674bc78c2141a5c84866e122c461fae87ca71ae6fe487"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"scaStatus\" : \"finalised\"\n}",
+    "headers" : {
+      "Server" : "nginx",
+      "Date" : "Fri, 24 Sep 2021 08:18:10 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "X-Request-ID" : "7a31ae12-8d0d-46d8-af37-c268f0b38eb4",
+      "Strict-Transport-Security" : [ "max-age=31536000 ; includeSubDomains", "max-age=15768000; includeSubDomains" ],
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "X-Frame-Options" : "DENY",
+      "Cache-Control" : "no-store, no-cache",
+      "Content-Security-Policy" : "default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self'; style-src 'self' 'unsafe-inline' https://*.googleapis.com; font-src 'self' https://*.gstatic.com; object-src 'none'",
+      "Referrer-Policy" : "strict-origin"
+    }
+  },
+  "uuid" : "6b59308c-8dd0-45da-a07e-e1053e79031e",
+  "persistent" : true,
+  "insertionIndex" : 7
+}
