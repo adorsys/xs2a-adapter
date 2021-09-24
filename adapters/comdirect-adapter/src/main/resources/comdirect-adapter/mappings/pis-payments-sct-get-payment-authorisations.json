@@ -1,0 +1,38 @@
+{
+  "id" : "cd4c1bdd-218e-49d5-953c-1060b02e168c",
+  "name" : "berlingroup_v1_payments_sepa-credit-transfers_payment_id_patc_sct_authorisations",
+  "request" : {
+    "urlPattern" : ".*/v1/payments/sepa-credit-transfers/.+/authorisations",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Authorization" : {
+        "equalTo" : "Bearer 77afd3fae10c4d468dda1a8efea4d7d723c1f44e7db8493085be58d23e1d5e37a153fe97a7e14e569f10e168c2c5c61c"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"authorisationIds\" : [ \"11111111-1111-1111-1111-111111111111\", \"22222222-2222-2222-2222-222222222222\", \"99999999-9999-9999-9999-999999999999\" ]\n}",
+    "headers" : {
+      "Server" : "nginx",
+      "Date" : "Fri, 24 Sep 2021 15:00:41 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "X-Request-ID" : "9a56d698-f008-43fd-a3fc-7564de11961b",
+      "Strict-Transport-Security" : [ "max-age=31536000 ; includeSubDomains", "max-age=15768000; includeSubDomains" ],
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "X-Frame-Options" : "DENY",
+      "Cache-Control" : "no-store, no-cache",
+      "Content-Security-Policy" : "default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self'; style-src 'self' 'unsafe-inline' https://*.googleapis.com; font-src 'self' https://*.gstatic.com; object-src 'none'",
+      "Referrer-Policy" : "strict-origin"
+    }
+  },
+  "uuid" : "cd4c1bdd-218e-49d5-953c-1060b02e168c",
+  "persistent" : true,
+  "insertionIndex" : 13
+}

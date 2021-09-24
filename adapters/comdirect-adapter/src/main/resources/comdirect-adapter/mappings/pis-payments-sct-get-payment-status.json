@@ -1,0 +1,38 @@
+{
+  "id" : "21b27c0f-6510-49fb-b5ac-66a1f37926c4",
+  "name" : "berlingroup_v1_payments_sepa-credit-transfers_payment_id_patc_sct_status",
+  "request" : {
+    "urlPattern" : ".*/v1/payments/sepa-credit-transfers/.+/status",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Authorization" : {
+        "equalTo" : "Bearer 77afd3fae10c4d468dda1a8efea4d7d723c1f44e7db8493085be58d23e1d5e37a153fe97a7e14e569f10e168c2c5c61c"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"transactionStatus\" : \"PATC\"\n}",
+    "headers" : {
+      "Server" : "nginx",
+      "Date" : "Fri, 24 Sep 2021 15:00:37 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "X-Request-ID" : "42ccfae6-1068-42a4-879b-29e14510933f",
+      "Strict-Transport-Security" : [ "max-age=31536000 ; includeSubDomains", "max-age=15768000; includeSubDomains" ],
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "X-Frame-Options" : "DENY",
+      "Cache-Control" : "no-store, no-cache",
+      "Content-Security-Policy" : "default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self'; style-src 'self' 'unsafe-inline' https://*.googleapis.com; font-src 'self' https://*.gstatic.com; object-src 'none'",
+      "Referrer-Policy" : "strict-origin"
+    }
+  },
+  "uuid" : "21b27c0f-6510-49fb-b5ac-66a1f37926c4",
+  "persistent" : true,
+  "insertionIndex" : 12
+}
