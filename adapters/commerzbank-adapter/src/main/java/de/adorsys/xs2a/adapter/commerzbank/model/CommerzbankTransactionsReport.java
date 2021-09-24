@@ -22,14 +22,6 @@ public class CommerzbankTransactionsReport {
         this.account = account;
     }
 
-    public AccountReference getAccountReference() {
-        return account;
-    }
-
-    public void setAccountReference(AccountReference accountReference) {
-        this.account = accountReference;
-    }
-
     public CommerzbankAccountReport getTransactions() {
         return transactions;
     }

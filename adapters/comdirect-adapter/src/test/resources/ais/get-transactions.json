@@ -3,7 +3,7 @@
     "headers": {
       "X-Request-ID": "c558ad1b-9e19-4fae-ac89-90a0f811f1ff",
       "Consent-ID": "VALID_CONSENT_ID",
-      "Authorization": "Bearer 3b4481e417194853903641fc7eb3c1ce0a01afee216d49b0a4eea408490c84733a43c5e2edce48a89a34b84c3df0d8bd"
+      "Authorization": "Bearer 91bf86c06f494054a164154891d462c23caf8fe7b0994d4d8da674bc78c2141a5c84866e122c461fae87ca71ae6fe487"
     },
     "params": {
       "dateFrom": "2020-07-06",
@@ -15,7 +15,7 @@
   "response": {
     "body": {
       "account" : {
-        "iban" : "DE78240176185167050131",
+        "iban" : "FR7630056009271234567890182",
         "currency" : "EUR"
       },
       "balances" : [ {
@@ -24,14 +24,14 @@
           "amount" : 150.02
         },
         "lastChangeDateTime" : "2018-02-26T00:00:00+01:00",
-        "referenceDate" : "2021-09-22",
+        "referenceDate" : "2021-09-24",
         "balanceType" : "closingBooked"
       } ],
       "transactions" : {
         "booked" : [ {
           "transactionId" : "1234567",
-          "bookingDate" : "2021-09-12",
-          "valueDate" : "2021-09-12",
+          "bookingDate" : "2021-09-14",
+          "valueDate" : "2021-09-14",
           "transactionAmount" : {
             "currency" : "EUR",
             "amount" : -256.67
@@ -43,26 +43,26 @@
           "remittanceInformationUnstructured" : "Example 1",
           "_links" : {
             "transactionDetails" : {
-              "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID/transactions/1234567"
+              "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID/transactions/1234567"
             }
           }
         } ],
         "pending" : [ ],
         "_links" : {
           "first" : {
-            "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID/transactions?dateFrom=1970-01-01&dateTo=2020-07-01&bookingStatus=BOOKED&withBalance=true&page=0"
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID/transactions?dateFrom=1970-01-01&dateTo=2020-07-01&bookingStatus=BOOKED&withBalance=true&page=0"
           },
           "last" : {
-            "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID/transactions?dateFrom=1970-01-01&dateTo=2020-07-01&bookingStatus=BOOKED&withBalance=true&page=0"
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID/transactions?dateFrom=1970-01-01&dateTo=2020-07-01&bookingStatus=BOOKED&withBalance=true&page=0"
           },
           "account" : {
-            "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID"
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID"
           },
           "balances" : {
-            "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID/balances"
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID/balances"
           },
           "transactions" : {
-            "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID/transactions"
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID/transactions"
           }
         }
       }

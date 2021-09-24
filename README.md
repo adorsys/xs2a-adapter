@@ -110,6 +110,8 @@ Not all adapters have written stubs though. Responses available for the next ada
 - verlag-adapter
 - santander-adapter
 - unicredit-adapter
+- commerzbank-adapter
+- comdirect-adapter
 
 New stubs will be added in time.
 
