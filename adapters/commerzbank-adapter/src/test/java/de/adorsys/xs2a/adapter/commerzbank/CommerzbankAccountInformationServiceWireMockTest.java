@@ -73,7 +73,7 @@ class CommerzbankAccountInformationServiceWireMockTest {
 
     @Test
     void getConsentAuthorisation() throws IOException {
-        var requestResponse = new TestRequestResponse("ais/get-consent-authorisation.json");
+        var requestResponse = new TestRequestResponse("ais/get-consent-authorisations.json");
 
         var response = accountInformationService.getConsentAuthorisation(CONSENT_ID,
             requestResponse.requestHeaders(),

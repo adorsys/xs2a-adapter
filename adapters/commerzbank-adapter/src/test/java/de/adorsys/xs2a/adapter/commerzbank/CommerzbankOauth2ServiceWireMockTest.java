@@ -26,7 +26,7 @@ class CommerzbankOauth2ServiceWireMockTest {
 
         var modifiableParams = new LinkedHashMap<>(requestResponse.requestParams().toMap());
 
-        TokenResponse actualToken = oauth2Service.getToken(requestResponse.requestHeaders().toMap(),
+        var actualToken = oauth2Service.getToken(requestResponse.requestHeaders().toMap(),
             new Oauth2Service.Parameters(modifiableParams));
 
         assertThat(actualToken)
