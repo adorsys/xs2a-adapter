@@ -1,0 +1,38 @@
+{
+  "id" : "56215ea0-958a-4129-957f-e32ce65ff1ee",
+  "name" : "berlingroup_v1_token",
+  "request" : {
+    "urlPattern" : ".*/v1/token",
+    "method" : "POST",
+    "headers" : {
+      "Content-Type" : {
+        "equalTo" : "application/x-www-form-urlencoded"
+      }
+    },
+    "bodyPatterns" : [ {
+      "contains" : "code=AIS_VALID_CODE",
+      "caseInsensitive" : false
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"access_token\" : \"3b4481e417194853903641fc7eb3c1ce0a01afee216d49b0a4eea408490c84733a43c5e2edce48a89a34b84c3df0d8bd\",\n  \"token_type\" : \"Bearer\",\n  \"expires_in\" : 3600,\n  \"refresh_token\" : \"bb3d791cdd23405b8a3d96f0c679ce0c0025470afcd349008c3d2120a4ef602e657c99f191e2494797c080a334453f62\",\n  \"scope\" : \"AIS:VALID_CONSENT_ID\"\n}",
+    "headers" : {
+      "Server" : "nginx",
+      "Date" : "Wed, 22 Sep 2021 12:55:33 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Strict-Transport-Security" : [ "max-age=31536000 ; includeSubDomains", "max-age=15768000; includeSubDomains" ],
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "X-Frame-Options" : "DENY",
+      "Cache-Control" : "no-store, no-cache",
+      "Content-Security-Policy" : "default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self'; style-src 'self' 'unsafe-inline' https://*.googleapis.com; font-src 'self' https://*.gstatic.com; object-src 'none'",
+      "Referrer-Policy" : "strict-origin"
+    }
+  },
+  "uuid" : "56215ea0-958a-4129-957f-e32ce65ff1ee",
+  "persistent" : true,
+  "insertionIndex" : 2
+}

@@ -1,0 +1,51 @@
+{
+  "id" : "d076f6c0-4d4e-4597-a242-19068f2b1e53",
+  "name" : "berlingroup_v1_consents",
+  "request" : {
+    "urlPattern" : ".*/v1/consents",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "TPP-Redirect-URI" : {
+        "matches" : ".+"
+      },
+      "PSU-IP-Address" : {
+        "matches" : ".+"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"access\":{\"accounts\":[{\"iban\":\"DE78240176185167050131\",\"currency\":\"EUR\"}],\"balances\":[{\"iban\":\"DE78240176185167050131\",\"currency\":\"EUR\"}],\"transactions\":[{\"iban\":\"DE78240176185167050131\",\"currency\":\"EUR\"}]},\"recurringIndicator\":true,\"validUntil\":\"${json-unit.regex}\\\\d{4}-[01]\\\\d-[0-3]\\\\d\",\"frequencyPerDay\":4,\"combinedServiceIndicator\":false}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\n  \"consentStatus\" : \"received\",\n  \"consentId\" : \"VALID_CONSENT_ID\",\n  \"_links\" : {\n    \"scaOAuth\" : {\n      \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/.well-known/openid-configuration?authorizationId=22222222-2222-2222-2222-222222222222\"\n    },\n    \"scaStatus\" : {\n      \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/consents/VALID_CONSENT_ID/authorisations/22222222-2222-2222-2222-222222222222\"\n    },\n    \"status\" : {\n      \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/consents/VALID_CONSENT_ID/status\"\n    },\n    \"self\" : {\n      \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/consents/VALID_CONSENT_ID\"\n    }\n  }\n}",
+    "headers" : {
+      "Server" : "nginx",
+      "Date" : "Wed, 22 Sep 2021 12:55:30 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "X-Request-ID" : "a212ef4c-9c0e-4418-bc81-0771cb6937d9",
+      "Strict-Transport-Security" : [ "max-age=31536000 ; includeSubDomains", "max-age=15768000; includeSubDomains" ],
+      "ASPSP-SCA-Approach" : "REDIRECT",
+      "Location" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/consents/VALID_CONSENT_ID",
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "X-Frame-Options" : "DENY",
+      "Cache-Control" : "no-store, no-cache",
+      "Content-Security-Policy" : "default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self'; style-src 'self' 'unsafe-inline' https://*.googleapis.com; font-src 'self' https://*.gstatic.com; object-src 'none'",
+      "Referrer-Policy" : "strict-origin"
+    }
+  },
+  "uuid" : "d076f6c0-4d4e-4597-a242-19068f2b1e53",
+  "persistent" : true,
+  "insertionIndex" : 1
+}

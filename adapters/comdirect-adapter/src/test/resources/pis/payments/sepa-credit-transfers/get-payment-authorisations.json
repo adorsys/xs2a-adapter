@@ -1,0 +1,13 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "06b43276-40f6-4ba4-aa8a-50c8e7f27820",
+      "Authorization": "Bearer 77afd3fae10c4d468dda1a8efea4d7d723c1f44e7db8493085be58d23e1d5e37a153fe97a7e14e569f10e168c2c5c61c"
+    }
+  },
+  "response": {
+    "body": {
+      "authorisationIds" : [ "11111111-1111-1111-1111-111111111111", "22222222-2222-2222-2222-222222222222", "99999999-9999-9999-9999-999999999999" ]
+    }
+  }
+}

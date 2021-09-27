@@ -1,0 +1,41 @@
+{
+  "id" : "ac324b7f-89d1-48ec-a84a-99edc46a5c0d",
+  "name" : "berlingroup_v1_accounts",
+  "request" : {
+    "urlPattern" : ".*/v1/accounts\\?withBalance=false",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Consent-ID" : {
+        "equalTo" : "VALID_CONSENT_ID"
+      },
+      "Authorization" : {
+        "equalTo" : "Bearer 3b4481e417194853903641fc7eb3c1ce0a01afee216d49b0a4eea408490c84733a43c5e2edce48a89a34b84c3df0d8bd"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"accounts\" : [ {\n    \"resourceId\" : \"ACCOUNT_ID_4\",\n    \"name\" : \"Personal account 4\",\n    \"bic\" : \"COBADETESTX\",\n    \"currency\" : \"EUR\",\n    \"cashAccountType\" : \"CACC\",\n    \"iban\" : \"DE12876125829604834872\",\n    \"_links\" : {\n      \"account\" : {\n        \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID_4\"\n      }\n    },\n    \"product\" : \"SAC\"\n  }, {\n    \"resourceId\" : \"ACCOUNT_ID_3\",\n    \"name\" : \"Personal account 3\",\n    \"bic\" : \"COBADETESTX\",\n    \"currency\" : \"EUR\",\n    \"cashAccountType\" : \"CACC\",\n    \"iban\" : \"DE73370690218842698791\",\n    \"_links\" : {\n      \"account\" : {\n        \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID_3\"\n      }\n    },\n    \"product\" : \"SAC\"\n  }, {\n    \"resourceId\" : \"ACCOUNT_ID\",\n    \"name\" : \"Main personal account\",\n    \"bic\" : \"COBADETESTX\",\n    \"currency\" : \"EUR\",\n    \"cashAccountType\" : \"CACC\",\n    \"iban\" : \"DE78240176185167050131\",\n    \"_links\" : {\n      \"account\" : {\n        \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID\"\n      },\n      \"balances\" : {\n        \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID/balances\"\n      },\n      \"transactions\" : {\n        \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID/transactions\"\n      }\n    },\n    \"product\" : \"SAC\"\n  }, {\n    \"resourceId\" : \"ACCOUNT_ID_2\",\n    \"name\" : \"Personal account 2\",\n    \"bic\" : \"COBADETESTX\",\n    \"currency\" : \"EUR\",\n    \"cashAccountType\" : \"CACC\",\n    \"iban\" : \"DE84900290172902694978\",\n    \"_links\" : {\n      \"account\" : {\n        \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID_2\"\n      },\n      \"balances\" : {\n        \"href\" : \"https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID_2/balances\"\n      }\n    },\n    \"product\" : \"SAC\"\n  } ]\n}",
+    "headers" : {
+      "Server" : "nginx",
+      "Date" : "Wed, 22 Sep 2021 12:55:38 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "X-Request-ID" : "8d6fded3-2764-4547-b706-0a2376312665",
+      "Strict-Transport-Security" : [ "max-age=31536000 ; includeSubDomains", "max-age=15768000; includeSubDomains" ],
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "X-Frame-Options" : "DENY",
+      "Cache-Control" : "no-store, no-cache",
+      "Content-Security-Policy" : "default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self'; style-src 'self' 'unsafe-inline' https://*.googleapis.com; font-src 'self' https://*.gstatic.com; object-src 'none'",
+      "Referrer-Policy" : "strict-origin"
+    }
+  },
+  "uuid" : "ac324b7f-89d1-48ec-a84a-99edc46a5c0d",
+  "persistent" : true,
+  "insertionIndex" : 3
+}

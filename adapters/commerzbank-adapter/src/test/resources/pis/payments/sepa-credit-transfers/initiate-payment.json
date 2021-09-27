@@ -1,0 +1,47 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "57f3a3cb-5699-4871-9bd5-aacddce09aa9",
+      "TPP-Redirect-URI": "https://example.com/redirect",
+      "PSU-IP-Address": "0.0.0.0",
+      "Content-Type": "application/json; charset=UTF-8"
+    },
+    "body": {
+      "endToEndIdentification": "SandboxTPPTest1",
+      "debtorAccount": {
+        "iban": "DE86999999990000001000",
+        "currency": "EUR"
+      },
+      "instructedAmount": {
+        "currency": "EUR",
+        "amount": "20.99"
+      },
+      "creditorAccount": {
+        "iban": "DE86999999990000001000",
+        "currency": "EUR"
+      },
+      "creditorName": "Anton Brueckner",
+      "remittanceInformationUnstructured": "just"
+    }
+  },
+  "response": {
+    "body": {
+      "transactionStatus" : "RCVD",
+      "paymentId" : "PAYMENT_ID_RCVD_SCT",
+      "_links" : {
+        "scaOAuth" : {
+          "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/.well-known/openid-configuration?authorizationId=11111111-1111-1111-1111-111111111111"
+        },
+        "scaStatus" : {
+          "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/payments/sepa-credit-transfers/PAYMENT_ID_RCVD_SCT/authorisations/11111111-1111-1111-1111-111111111111"
+        },
+        "self" : {
+          "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/payments/sepa-credit-transfers/PAYMENT_ID_RCVD_SCT"
+        },
+        "status" : {
+          "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/payments/sepa-credit-transfers/PAYMENT_ID_RCVD_SCT/status"
+        }
+      }
+    }
+  }
+}

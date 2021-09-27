@@ -1,0 +1,41 @@
+{
+  "id" : "dbf8f9d9-b727-48f5-8ba8-4b13a32e9427",
+  "name" : "berlingroup_v1_accounts",
+  "request" : {
+    "urlPattern" : ".*/v1/accounts\\?withBalance=false",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Consent-ID" : {
+        "equalTo" : "VALID_CONSENT_ID"
+      },
+      "Authorization" : {
+        "equalTo" : "Bearer 91bf86c06f494054a164154891d462c23caf8fe7b0994d4d8da674bc78c2141a5c84866e122c461fae87ca71ae6fe487"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"accounts\" : [ {\n    \"resourceId\" : \"ACCOUNT_ID_4\",\n    \"name\" : \"Personal account 4\",\n    \"bic\" : \"NORDFRPP\",\n    \"currency\" : \"EUR\",\n    \"cashAccountType\" : \"CACC\",\n    \"iban\" : \"FR7630076020821234567890186\",\n    \"_links\" : {\n      \"account\" : {\n        \"href\" : \"https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID_4\"\n      }\n    },\n    \"product\" : \"SAC\"\n  }, {\n    \"resourceId\" : \"ACCOUNT_ID\",\n    \"name\" : \"Main personal account\",\n    \"bic\" : \"CCFRFRPP\",\n    \"currency\" : \"EUR\",\n    \"cashAccountType\" : \"CACC\",\n    \"iban\" : \"FR7630056009271234567890182\",\n    \"_links\" : {\n      \"account\" : {\n        \"href\" : \"https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID\"\n      },\n      \"balances\" : {\n        \"href\" : \"https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID/balances\"\n      },\n      \"transactions\" : {\n        \"href\" : \"https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID/transactions\"\n      }\n    },\n    \"product\" : \"SAC\"\n  }, {\n    \"resourceId\" : \"ACCOUNT_ID_2\",\n    \"name\" : \"Personal account 2\",\n    \"bic\" : \"CMCIFRPAXXX\",\n    \"currency\" : \"EUR\",\n    \"cashAccountType\" : \"CACC\",\n    \"iban\" : \"FR7611808009101234567890147\",\n    \"_links\" : {\n      \"account\" : {\n        \"href\" : \"https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID_2\"\n      },\n      \"balances\" : {\n        \"href\" : \"https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID_2/balances\"\n      }\n    },\n    \"product\" : \"SAC\"\n  }, {\n    \"resourceId\" : \"ACCOUNT_ID_3\",\n    \"name\" : \"Personal account 3\",\n    \"bic\" : \"PSSTFRPPCNE\",\n    \"currency\" : \"EUR\",\n    \"cashAccountType\" : \"CACC\",\n    \"iban\" : \"FR7610011000201234567890188\",\n    \"_links\" : {\n      \"account\" : {\n        \"href\" : \"https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID_3\"\n      }\n    },\n    \"product\" : \"SAC\"\n  } ]\n}",
+    "headers" : {
+      "Server" : "nginx",
+      "Date" : "Fri, 24 Sep 2021 08:17:57 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "X-Request-ID" : "1eadb9b6-05fb-43cd-ad3e-d22daf50facc",
+      "Strict-Transport-Security" : [ "max-age=31536000 ; includeSubDomains", "max-age=15768000; includeSubDomains" ],
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "X-Frame-Options" : "DENY",
+      "Cache-Control" : "no-store, no-cache",
+      "Content-Security-Policy" : "default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self'; style-src 'self' 'unsafe-inline' https://*.googleapis.com; font-src 'self' https://*.gstatic.com; object-src 'none'",
+      "Referrer-Policy" : "strict-origin"
+    }
+  },
+  "uuid" : "dbf8f9d9-b727-48f5-8ba8-4b13a32e9427",
+  "persistent" : true,
+  "insertionIndex" : 3
+}

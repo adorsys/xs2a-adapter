@@ -1,0 +1,66 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "991cc90c-5795-4dad-b802-b7315f192227",
+      "Consent-ID": "VALID_CONSENT_ID",
+      "Authorization": "Bearer 3b4481e417194853903641fc7eb3c1ce0a01afee216d49b0a4eea408490c84733a43c5e2edce48a89a34b84c3df0d8bd"
+    }
+  },
+  "response": {
+    "body": {
+      "account" : {
+        "iban" : "DE78240176185167050131",
+        "currency" : "EUR"
+      },
+      "balances" : [ {
+        "balanceAmount" : {
+          "currency" : "EUR",
+          "amount" : 150.02
+        },
+        "lastChangeDateTime" : "2018-02-26T00:00:00+01:00",
+        "referenceDate" : "2021-09-22",
+        "balanceType" : "closingBooked"
+      }, {
+        "balanceAmount" : {
+          "currency" : "EUR",
+          "amount" : 100.02
+        },
+        "lastChangeDateTime" : "2021-09-22T00:00:00+02:00",
+        "referenceDate" : "2018-02-27",
+        "balanceType" : "expected"
+      }, {
+        "balanceAmount" : {
+          "currency" : "EUR",
+          "amount" : 100.02
+        },
+        "lastChangeDateTime" : "2021-09-22T00:00:00+02:00",
+        "referenceDate" : "2021-09-22",
+        "balanceType" : "interimAvailable"
+      }, {
+        "balanceAmount" : {
+          "currency" : "EUR",
+          "amount" : 110
+        },
+        "lastChangeDateTime" : "2021-09-22T00:00:00+02:00",
+        "referenceDate" : "2018-02-01",
+        "balanceType" : "openingBooked"
+      }, {
+        "balanceAmount" : {
+          "currency" : "EUR",
+          "amount" : 13.37
+        },
+        "lastChangeDateTime" : "2021-09-22T00:00:00+02:00",
+        "referenceDate" : "2021-09-22",
+        "balanceType" : "interimBooked"
+      }, {
+        "balanceAmount" : {
+          "currency" : "EUR",
+          "amount" : 42
+        },
+        "lastChangeDateTime" : "2021-09-22T00:00:00+02:00",
+        "referenceDate" : "2021-09-22",
+        "balanceType" : "forwardAvailable"
+      } ]
+    }
+  }
+}

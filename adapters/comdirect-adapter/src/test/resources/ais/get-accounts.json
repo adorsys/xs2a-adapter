@@ -1,0 +1,78 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "58fa1ca2-9adf-4555-b892-0eca1e4c5178",
+      "Consent-ID": "VALID_CONSENT_ID",
+      "Authorization": "Bearer 91bf86c06f494054a164154891d462c23caf8fe7b0994d4d8da674bc78c2141a5c84866e122c461fae87ca71ae6fe487"
+    },
+    "params": {
+      "withBalance": "false"
+    }
+  },
+  "response": {
+    "body": {
+      "accounts" : [ {
+        "resourceId" : "ACCOUNT_ID_4",
+        "name" : "Personal account 4",
+        "bic" : "NORDFRPP",
+        "currency" : "EUR",
+        "cashAccountType" : "CACC",
+        "iban" : "FR7630076020821234567890186",
+        "_links" : {
+          "account" : {
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID_4"
+          }
+        },
+        "product" : "SAC"
+      }, {
+        "resourceId" : "ACCOUNT_ID",
+        "name" : "Main personal account",
+        "bic" : "CCFRFRPP",
+        "currency" : "EUR",
+        "cashAccountType" : "CACC",
+        "iban" : "FR7630056009271234567890182",
+        "_links" : {
+          "account" : {
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID"
+          },
+          "balances" : {
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID/balances"
+          },
+          "transactions" : {
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID/transactions"
+          }
+        },
+        "product" : "SAC"
+      }, {
+        "resourceId" : "ACCOUNT_ID_2",
+        "name" : "Personal account 2",
+        "bic" : "CMCIFRPAXXX",
+        "currency" : "EUR",
+        "cashAccountType" : "CACC",
+        "iban" : "FR7611808009101234567890147",
+        "_links" : {
+          "account" : {
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID_2"
+          },
+          "balances" : {
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID_2/balances"
+          }
+        },
+        "product" : "SAC"
+      }, {
+        "resourceId" : "ACCOUNT_ID_3",
+        "name" : "Personal account 3",
+        "bic" : "PSSTFRPPCNE",
+        "currency" : "EUR",
+        "cashAccountType" : "CACC",
+        "iban" : "FR7610011000201234567890188",
+        "_links" : {
+          "account" : {
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID_3"
+          }
+        },
+        "product" : "SAC"
+      } ]
+    }
+  }
+}
