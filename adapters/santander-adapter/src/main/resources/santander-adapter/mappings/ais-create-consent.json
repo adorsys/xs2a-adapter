@@ -1,0 +1,50 @@
+{
+  "id" : "8ed2fe82-86c2-4507-a44e-a81b5b91cc50",
+  "name" : "scb-openapis_sx_v1_consents",
+  "request" : {
+    "urlPattern" : ".*/v1/consents",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-IP-Address" : {
+        "matches" : ".+"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json; charset=UTF-8"
+      },
+      "Authorization" : {
+        "equalTo" : "Bearer 4f4f45b7-c75a-426c-98ab-c109b3b19b5c"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"access\":{\"accounts\":[{\"iban\":\"DE74310108330000009001\",\"currency\":\"EUR\"}],\"balances\":[{\"iban\":\"DE74310108330000009001\",\"currency\":\"EUR\"}],\"transactions\":[{\"iban\":\"DE74310108330000009001\",\"currency\":\"EUR\"}]},\"recurringIndicator\":true,\"validUntil\":\"${json-unit.regex}\\\\d{4}-[01]\\\\d-[0-3]\\\\d\",\"frequencyPerDay\":4,\"combinedServiceIndicator\":false}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"consentStatus\":\"received\",\"consentId\":\"3087d8e2-2eb0-4e54-9af9-32ea8c6eef02\",\"_links\":{\"scaOAuth\":{\"href\":\"/.well-known/oauth-authorization-server\"},\"self\":{\"href\":\"/v1/consents/3087d8e2-2eb0-4e54-9af9-32ea8c6eef02\"},\"status\":{\"href\":\"/v1/consents/3087d8e2-2eb0-4e54-9af9-32ea8c6eef02/status\"}}}",
+    "headers" : {
+      "X-Backside-Transport" : "OK OK,OK OK",
+      "Content-Security-Policy" : "default-src 'self' 'unsafe-inline';script-src 'self' 'unsafe-inline';object-src 'none';connect-src 'self' 'unsafe-inline' https://catalogue.nodered.org https://flow-library-catalogue.appls.boaw.paas.gsnetcloud.corp;upgrade-insecure-requests",
+      "X-DNS-Prefetch-Control" : "off",
+      "Expect-CT" : "max-age=0",
+      "X-Frame-Options" : "DENY",
+      "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+      "X-Download-Options" : "noopen",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Permitted-Cross-Domain-Policies" : "none",
+      "Referrer-Policy" : "no-referrer",
+      "X-XSS-Protection" : "1; mode=block",
+      "Content-Type" : "application/json; charset=utf-8",
+      "ETag" : "W/\"129-P2NdZJtzHna/mkOIejudVkkMnz0\"",
+      "Date" : "Tue, 14 Sep 2021 08:02:52 GMT"
+    }
+  },
+  "uuid" : "8ed2fe82-86c2-4507-a44e-a81b5b91cc50",
+  "persistent" : true,
+  "insertionIndex" : 5
+}

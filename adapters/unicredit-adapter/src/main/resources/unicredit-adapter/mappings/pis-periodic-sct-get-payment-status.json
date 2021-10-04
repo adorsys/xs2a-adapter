@@ -1,0 +1,36 @@
+{
+  "id" : "724405b7-ba1f-4db7-bb69-a04e436e01b4",
+  "name" : "hydrogen_v1_periodic-payments_sepa-credit-transfers_pdea744022_status",
+  "request" : {
+    "urlPattern" : ".*/v1/periodic-payments/sepa-credit-transfers/.+/status",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\r\n\t\"transactionStatus\": \"ACSP\"\r\n}",
+    "headers" : {
+      "Date" : "Mon, 20 Sep 2021 15:14:26 GMT",
+      "X-Rate-Limit" : "[{\"window\":33,\"type\":\"throttle\",\"remaining\":29994}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-52a5486146f4a0ce9e8c1110 0; Id-52a5486170d9a37b32f5ff99 0",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "2a4cd30e-2eb5-4178-93fe-344666585b36",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "724405b7-ba1f-4db7-bb69-a04e436e01b4",
+  "persistent" : true,
+  "insertionIndex" : 24
+}

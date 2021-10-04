@@ -2,7 +2,7 @@
   "id" : "57876e20-85a8-4430-9a25-82dbbe77056b",
   "name" : "v1_payments_sepa-credit-transfers",
   "request" : {
-    "url" : "/v1/payments/sepa-credit-transfers",
+    "urlPattern" : ".*/v1/payments/sepa-credit-transfers",
     "method" : "POST",
     "headers" : {
       "X-Request-ID" : {

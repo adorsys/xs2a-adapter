@@ -1,0 +1,41 @@
+{
+  "id" : "f4a5b811-78c8-4f94-8581-69b98373daf6",
+  "name" : "berlingroup_v1_accounts_account_id_balances",
+  "request" : {
+    "urlPattern" : ".*/v1/accounts/.+/balances",
+    "method" : "GET",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "Consent-ID" : {
+        "equalTo" : "VALID_CONSENT_ID"
+      },
+      "Authorization" : {
+        "equalTo" : "Bearer 3b4481e417194853903641fc7eb3c1ce0a01afee216d49b0a4eea408490c84733a43c5e2edce48a89a34b84c3df0d8bd"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"account\" : {\n    \"iban\" : \"DE78240176185167050131\",\n    \"currency\" : \"EUR\"\n  },\n  \"balances\" : [ {\n    \"balanceAmount\" : {\n      \"currency\" : \"EUR\",\n      \"amount\" : 150.02\n    },\n    \"lastChangeDateTime\" : \"2018-02-26T00:00:00\",\n    \"referenceDate\" : \"2021-09-22\",\n    \"balanceType\" : \"closingBooked\"\n  }, {\n    \"balanceAmount\" : {\n      \"currency\" : \"EUR\",\n      \"amount\" : 100.02\n    },\n    \"lastChangeDateTime\" : \"2021-09-22T00:00:00\",\n    \"referenceDate\" : \"2018-02-27\",\n    \"balanceType\" : \"expected\"\n  }, {\n    \"balanceAmount\" : {\n      \"currency\" : \"EUR\",\n      \"amount\" : 100.02\n    },\n    \"lastChangeDateTime\" : \"2021-09-22T00:00:00\",\n    \"referenceDate\" : \"2021-09-22\",\n    \"balanceType\" : \"interimAvailable\"\n  }, {\n    \"balanceAmount\" : {\n      \"currency\" : \"EUR\",\n      \"amount\" : 110\n    },\n    \"lastChangeDateTime\" : \"2021-09-22T00:00:00\",\n    \"referenceDate\" : \"2018-02-01\",\n    \"balanceType\" : \"openingBooked\"\n  }, {\n    \"balanceAmount\" : {\n      \"currency\" : \"EUR\",\n      \"amount\" : 13.37\n    },\n    \"lastChangeDateTime\" : \"2021-09-22T00:00:00\",\n    \"referenceDate\" : \"2021-09-22\",\n    \"balanceType\" : \"interimBooked\"\n  }, {\n    \"balanceAmount\" : {\n      \"currency\" : \"EUR\",\n      \"amount\" : 42\n    },\n    \"lastChangeDateTime\" : \"2021-09-22T00:00:00\",\n    \"referenceDate\" : \"2021-09-22\",\n    \"balanceType\" : \"forwardAvailable\"\n  } ]\n}",
+    "headers" : {
+      "Server" : "nginx",
+      "Date" : "Wed, 22 Sep 2021 12:55:44 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "X-Request-ID" : "c9062cc0-7d3e-4707-a8e4-9403b5cb5087",
+      "Strict-Transport-Security" : [ "max-age=31536000 ; includeSubDomains", "max-age=15768000; includeSubDomains" ],
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "X-Frame-Options" : "DENY",
+      "Cache-Control" : "no-store, no-cache",
+      "Content-Security-Policy" : "default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self'; style-src 'self' 'unsafe-inline' https://*.googleapis.com; font-src 'self' https://*.gstatic.com; object-src 'none'",
+      "Referrer-Policy" : "strict-origin"
+    }
+  },
+  "uuid" : "f4a5b811-78c8-4f94-8581-69b98373daf6",
+  "persistent" : true,
+  "insertionIndex" : 5
+}

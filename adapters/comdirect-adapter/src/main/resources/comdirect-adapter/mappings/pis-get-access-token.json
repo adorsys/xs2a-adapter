@@ -1,0 +1,38 @@
+{
+  "id" : "ac3d8b56-1221-4fc8-9fe9-377f3fed9de4",
+  "name" : "berlingroup_v1_token",
+  "request" : {
+    "urlPattern" : ".*/v1/token",
+    "method" : "POST",
+    "headers" : {
+      "Content-Type" : {
+        "equalTo" : "application/x-www-form-urlencoded"
+      }
+    },
+    "bodyPatterns" : [ {
+      "contains" : "code=PIS_VALID_CODE",
+      "caseInsensitive" : false
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"access_token\" : \"77afd3fae10c4d468dda1a8efea4d7d723c1f44e7db8493085be58d23e1d5e37a153fe97a7e14e569f10e168c2c5c61c\",\n  \"token_type\" : \"Bearer\",\n  \"expires_in\" : 300,\n  \"refresh_token\" : \"666fc81ea4e84ec5a10423ce9677a7decee81d6e4b4f4ed5b8295ed74cc661cf2b24d2ba62d145f6a8fb9950665792c5\",\n  \"scope\" : \"PIS:PAYMENT_ID_RCVD_SCT\"\n}",
+    "headers" : {
+      "Server" : "nginx",
+      "Date" : "Fri, 24 Sep 2021 15:00:31 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Strict-Transport-Security" : [ "max-age=31536000 ; includeSubDomains", "max-age=15768000; includeSubDomains" ],
+      "X-Content-Type-Options" : "nosniff",
+      "X-XSS-Protection" : "1; mode=block",
+      "Pragma" : "no-cache",
+      "Expires" : "0",
+      "X-Frame-Options" : "DENY",
+      "Cache-Control" : "no-store, no-cache",
+      "Content-Security-Policy" : "default-src 'self'; script-src 'self' 'unsafe-eval'; img-src 'self'; style-src 'self' 'unsafe-inline' https://*.googleapis.com; font-src 'self' https://*.gstatic.com; object-src 'none'",
+      "Referrer-Policy" : "strict-origin"
+    }
+  },
+  "uuid" : "ac3d8b56-1221-4fc8-9fe9-377f3fed9de4",
+  "persistent" : true,
+  "insertionIndex" : 11
+}

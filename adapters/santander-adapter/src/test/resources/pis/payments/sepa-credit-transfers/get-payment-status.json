@@ -1,0 +1,14 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "06b43276-40f6-4ba4-aa8a-50c8e7f2781e",
+      "Authorization": "Bearer 6758aa6a-c04e-4828-991b-3ae82d340e87",
+      "PSU-IP-Address": "81.82.83.84"
+    }
+  },
+  "response": {
+    "body": {
+      "transactionStatus": "RCVD"
+    }
+  }
+}

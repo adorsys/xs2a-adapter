@@ -1,0 +1,23 @@
+{
+  "request": {
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "params": {
+      "code": "AIS_VALID_CODE",
+      "redirect_uri": "https://client.example.com/cb",
+      "grant_type": "authorization_code",
+      "client_id": "VALID_CLIENT_ID",
+      "code_verifier": "any_value"
+    }
+  },
+  "response": {
+    "body": {
+      "scope": "AIS:VALID_CONSENT_ID",
+      "access_token": "3b4481e417194853903641fc7eb3c1ce0a01afee216d49b0a4eea408490c84733a43c5e2edce48a89a34b84c3df0d8bd",
+      "token_type": "Bearer",
+      "expires_in": 3600,
+      "refresh_token": "bb3d791cdd23405b8a3d96f0c679ce0c0025470afcd349008c3d2120a4ef602e657c99f191e2494797c080a334453f62"
+    }
+  }
+}

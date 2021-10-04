@@ -1,0 +1,13 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "a0448f06-780e-4875-8227-6dc3c1433fb7",
+      "Authorization": "Bearer 91bf86c06f494054a164154891d462c23caf8fe7b0994d4d8da674bc78c2141a5c84866e122c461fae87ca71ae6fe487"
+    }
+  },
+  "response": {
+    "body": {
+      "scaStatus" : "finalised"
+    }
+  }
+}

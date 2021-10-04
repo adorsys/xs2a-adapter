@@ -1,0 +1,24 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "665a5b2c-c020-4fd5-8082-b34995c5b601",
+      "PSU-ID": "bgdemo",
+      "Content-Type": "application/json; charset=UTF-8",
+      "TPP-Redirect-URI": "https://example.com"
+    }
+  },
+  "response": {
+    "body": {
+      "scaStatus": "received",
+      "authorisationId": "12f6ed9d-fd09-4aea-97bc-aeb61052cf3e",
+      "_links": {
+        "updatePsuAuthentication": {
+          "href": "https://api-sandbox.unicredit.de/hydrogen/v1/consents/12f6ed9d-fd09-4aea-97bc-aeb61052cf3e/authorisations/12f6ed9d-fd09-4aea-97bc-aeb61052cf3e?correlationId=AOTACU"
+        },
+        "scaStatus": {
+          "href": "https://api-sandbox.unicredit.de/hydrogen/v1/consents/12f6ed9d-fd09-4aea-97bc-aeb61052cf3e/authorisations/12f6ed9d-fd09-4aea-97bc-aeb61052cf3e"
+        }
+      }
+    }
+  }
+}

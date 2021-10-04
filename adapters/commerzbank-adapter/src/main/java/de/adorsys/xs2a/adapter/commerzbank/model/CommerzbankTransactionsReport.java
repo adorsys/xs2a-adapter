@@ -8,18 +8,18 @@ import java.util.List;
 import java.util.Map;
 
 public class CommerzbankTransactionsReport {
-    private AccountReference accountReference;
+    private AccountReference account;
     private CommerzbankAccountReport transactions;
     private List<CommerzbankBalance> balances;
     @JsonProperty("_links")
     private Map<String, HrefType> links;
 
-    public AccountReference getAccountReference() {
-        return accountReference;
+    public AccountReference getAccount() {
+        return account;
     }
 
-    public void setAccountReference(AccountReference accountReference) {
-        this.accountReference = accountReference;
+    public void setAccount(AccountReference account) {
+        this.account = account;
     }
 
     public CommerzbankAccountReport getTransactions() {

@@ -1,0 +1,46 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "e56a3492-e9c7-4357-9b77-0a3bdafdd608",
+      "PSU-ID": "bgdemo",
+      "TPP-Redirect-URI": "http://localhost:8080/redirect",
+      "PSU-IP-Address": "0.0.0.0",
+      "PSU-ID-Type": "HVB_ONLINEBANKING",
+      "TPP-Redirect-Preferred": "false",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "endToEndIdentification": "SandboxTPPTest1",
+      "debtorAccount": {
+        "iban": "DE49700202700123456785",
+        "currency": "EUR"
+      },
+      "instructedAmount": {
+        "currency": "EUR",
+        "amount": "20.99"
+      },
+      "creditorAccount": {
+        "iban": "DE49700202700123456785",
+        "currency": "EUR"
+      },
+      "creditorName": "Merchant123",
+      "remittanceInformationUnstructured": "just",
+      "startDate": "2021-09-20",
+      "endDate": "2021-10-20",
+      "executionRule": "following",
+      "frequency": "Monthly",
+      "dayOfExecution": "28"
+    }
+  },
+  "response": {
+    "body": {
+      "transactionStatus": "PDNG",
+      "paymentId": "PDEA744022",
+      "_links": {
+        "startAuthorisation": {
+          "href": "https://api-sandbox.unicredit.de/hydrogen/v1/periodic-payments/sepa-credit-transfers/PDEA744022/authorisations"
+        }
+      }
+    }
+  }
+}

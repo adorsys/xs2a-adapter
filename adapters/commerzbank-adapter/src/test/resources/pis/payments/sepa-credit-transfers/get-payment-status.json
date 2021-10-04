@@ -1,0 +1,13 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "06b43276-40f6-4ba4-aa8a-50c8e7f2781f",
+      "Authorization": "Bearer 30701ab20e5048c29a24f9c2920bddd9c94f6f13da1b49faa17ef0194dd89374e24bac76c3944379a85705f1b16fbec7"
+    }
+  },
+  "response": {
+    "body": {
+      "transactionStatus": "PATC"
+    }
+  }
+}

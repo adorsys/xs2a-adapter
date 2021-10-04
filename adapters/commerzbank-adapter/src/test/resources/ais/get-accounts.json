@@ -1,0 +1,78 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "58fa1ca2-9adf-4555-b892-0eca1e4c5178",
+      "Consent-ID": "VALID_CONSENT_ID",
+      "Authorization": "Bearer 3b4481e417194853903641fc7eb3c1ce0a01afee216d49b0a4eea408490c84733a43c5e2edce48a89a34b84c3df0d8bd"
+    },
+    "params": {
+      "withBalance": "false"
+    }
+  },
+  "response": {
+    "body": {
+      "accounts" : [ {
+        "resourceId" : "ACCOUNT_ID_4",
+        "name" : "Personal account 4",
+        "bic" : "COBADETESTX",
+        "currency" : "EUR",
+        "cashAccountType" : "CACC",
+        "iban" : "DE12876125829604834872",
+        "_links" : {
+          "account" : {
+            "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID_4"
+          }
+        },
+        "product" : "SAC"
+      }, {
+        "resourceId" : "ACCOUNT_ID_3",
+        "name" : "Personal account 3",
+        "bic" : "COBADETESTX",
+        "currency" : "EUR",
+        "cashAccountType" : "CACC",
+        "iban" : "DE73370690218842698791",
+        "_links" : {
+          "account" : {
+            "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID_3"
+          }
+        },
+        "product" : "SAC"
+      }, {
+        "resourceId" : "ACCOUNT_ID",
+        "name" : "Main personal account",
+        "bic" : "COBADETESTX",
+        "currency" : "EUR",
+        "cashAccountType" : "CACC",
+        "iban" : "DE78240176185167050131",
+        "_links" : {
+          "account" : {
+            "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID"
+          },
+          "balances" : {
+            "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID/balances"
+          },
+          "transactions" : {
+            "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID/transactions"
+          }
+        },
+        "product" : "SAC"
+      }, {
+        "resourceId" : "ACCOUNT_ID_2",
+        "name" : "Personal account 2",
+        "bic" : "COBADETESTX",
+        "currency" : "EUR",
+        "cashAccountType" : "CACC",
+        "iban" : "DE84900290172902694978",
+        "_links" : {
+          "account" : {
+            "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID_2"
+          },
+          "balances" : {
+            "href" : "https://psd2.api-sandbox.commerzbank.com/berlingroup/v1/accounts/ACCOUNT_ID_2/balances"
+          }
+        },
+        "product" : "SAC"
+      } ]
+    }
+  }
+}

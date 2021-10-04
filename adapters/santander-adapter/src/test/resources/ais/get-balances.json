@@ -1,0 +1,37 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "991cc90c-5795-4dad-b802-b7315f192227",
+      "Consent-ID": "3087d8e2-2eb0-4e54-9af9-32ea8c6eef02",
+      "Authorization": "Bearer 5e71f077-39e2-4f2a-a28b-feebf53f8b88"
+    }
+  },
+  "response": {
+    "body": {
+      "account": {
+        "iban": "DE74310108330000009001",
+        "currency": "EUR"
+      },
+      "balances": [
+        {
+          "balanceType": "expected",
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "175387.25"
+          },
+          "lastChangeDateTime": "2019-03-13T23:30:29.851Z",
+          "referenceDate": "2019-03-13"
+        },
+        {
+          "balanceType": "authorised",
+          "balanceAmount": {
+            "currency": "EUR",
+            "amount": "180387.25"
+          },
+          "lastChangeDateTime": "2019-03-13T08:30:29.851Z",
+          "referenceDate": "2019-03-13"
+        }
+      ]
+    }
+  }
+}

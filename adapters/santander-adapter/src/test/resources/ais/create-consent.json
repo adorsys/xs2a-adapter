@@ -1,0 +1,53 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "b2323695-917b-43f1-abb2-0d247c1937ef",
+      "Content-Type": "application/json",
+      "PSU-IP-Address": "0.0.0.0",
+      "X-GTW-ASPSP-ID": "14a0c2ad-b9bf-4200-853a-a7abe541b714"
+    },
+    "body": {
+      "access": {
+        "balances": [
+          {
+            "iban": "DE74310108330000009001",
+            "currency": "EUR"
+          }
+        ],
+        "transactions": [
+          {
+            "iban": "DE74310108330000009001",
+            "currency": "EUR"
+          }
+        ],
+        "accounts": [
+          {
+            "iban": "DE74310108330000009001",
+            "currency": "EUR"
+          }
+        ]
+      },
+      "combinedServiceIndicator": "false",
+      "recurringIndicator": "true",
+      "validUntil": "2021-09-15",
+      "frequencyPerDay": "4"
+    }
+  },
+  "response": {
+    "body": {
+      "consentStatus": "received",
+      "consentId": "3087d8e2-2eb0-4e54-9af9-32ea8c6eef02",
+      "_links": {
+        "scaOAuth": {
+          "href": "/.well-known/oauth-authorization-server"
+        },
+        "self": {
+          "href": "/v1/consents/3087d8e2-2eb0-4e54-9af9-32ea8c6eef02"
+        },
+        "status": {
+          "href": "/v1/consents/3087d8e2-2eb0-4e54-9af9-32ea8c6eef02/status"
+        }
+      }
+    }
+  }
+}

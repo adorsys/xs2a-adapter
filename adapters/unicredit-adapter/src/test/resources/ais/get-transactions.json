@@ -1,0 +1,192 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "c558ad1b-9e19-4fae-ac89-90a0f811f1ff",
+      "Consent-ID": "12f6ed9d-fd09-4aea-97bc-aeb61052cf3e"
+    },
+    "params": {
+      "dateFrom": "2020-07-06",
+      "dateTo": "2020-08-06",
+      "bookingStatus": "booked",
+      "withBalance": "true"
+    }
+  },
+  "response": {
+    "body": {
+      "account": {
+        "iban": "DE49700202700123456785",
+        "currency": "EUR"
+      },
+      "transactions": {
+        "booked": [
+          {
+            "transactionId": "1234567890123456",
+            "endToEndId": "AAA10000234567890123456",
+            "bookingDate": "2019-09-28",
+            "valueDate": "2019-09-29",
+            "transactionAmount": {
+              "currency": "EUR",
+              "amount": "180.12"
+            },
+            "creditorName": "Lorem ipsum",
+            "creditorAccount": {
+              "iban": "DE31701500000012345674",
+              "currency": "EUR"
+            },
+            "debtorName": "Our Customer",
+            "debtorAccount": {
+              "iban": "DE49700202700123456785",
+              "currency": "EUR"
+            },
+            "remittanceInformationUnstructured": "Testpartner BIC HYVEDEMM300/IBAN DE1234 1234567898765432 KUNDENREF 8768371263817631 82 Test TF5 DRITTANB 11.06.2020/12:20 TAN 039844 REFEREN",
+            "proprietaryBankTransactionCode": "ÜBERWEISUNG (DIRECT BANKING",
+            "additionalInformation": "ÜBERWEISUNG (DIRECT BANKING Testpartner BIC HYVEDEMM300/IBAN DE1234 1234567898765432 KUNDENREF 8768371263817631 82 Test TF5 DRITTANB 11.06.2020/12:20 TAN 039844 REFERENZNR VPE2006161504000 000000001"
+          },
+          {
+            "transactionId": "3456789012345612",
+            "endToEndId": "BBB30000456789012345612",
+            "bookingDate": "2019-09-02",
+            "valueDate": "2019-09-02",
+            "transactionAmount": {
+              "currency": "EUR",
+              "amount": "18119.12"
+            },
+            "creditorName": "Our Customer",
+            "creditorAccount": {
+              "iban": "DE49700202700123456785",
+              "currency": "EUR"
+            },
+            "debtorName": "duo dolores",
+            "debtorAccount": {
+              "iban": "DE72200505500000987651",
+              "currency": "EUR"
+            },
+            "remittanceInformationUnstructured": "Testpartner BIC HYVEDEMM300/IBAN DE1234 1234567898765432 KUNDENREF 8768371263817631 82 Test TF5 DRITTANB 11.06.2020/12:20 TAN 039844 REFEREN",
+            "proprietaryBankTransactionCode": "ÜBERWEISUNG (DIRECT BANKING",
+            "additionalInformation": "ÜBERWEISUNG (DIRECT BANKING Testpartner BIC HYVEDEMM300/IBAN DE1234 1234567898765432 KUNDENREF 8768371263817631 82 Test TF5 DRITTANB 11.06.2020/12:20 TAN 039844 REFERENZNR VPE2006161504000 000000001"
+          },
+          {
+            "transactionId": "5678901234561234",
+            "endToEndId": "CCC50000678901234561234",
+            "bookingDate": "2019-09-08",
+            "valueDate": "2019-09-08",
+            "transactionAmount": {
+              "currency": "EUR",
+              "amount": "119.12"
+            },
+            "creditorName": "Our Customer",
+            "creditorAccount": {
+              "iban": "DE49700202700123456785",
+              "currency": "EUR"
+            },
+            "debtorName": "duo dolores",
+            "debtorAccount": {
+              "iban": "DE72200505500000987651",
+              "currency": "EUR"
+            },
+            "remittanceInformationUnstructured": "Testpartner BIC HYVEDEMM300/IBAN DE1234 1234567898765432 KUNDENREF 8768371263817631 82 Test TF5 DRITTANB 11.06.2020/12:20 TAN 039844 REFEREN",
+            "proprietaryBankTransactionCode": "ÜBERWEISUNG (DIRECT BANKING",
+            "additionalInformation": "ÜBERWEISUNG (DIRECT BANKING Testpartner BIC HYVEDEMM300/IBAN DE1234 1234567898765432 KUNDENREF 8768371263817631 82 Test TF5 DRITTANB 11.06.2020/12:20 TAN 039844 REFERENZNR VPE2006161504000 000000001"
+          },
+          {
+            "transactionId": "7890123456123456",
+            "endToEndId": "DDD70000890123456123456",
+            "creditorId": "DE94ZZZ00000012345",
+            "bookingDate": "2019-09-13",
+            "valueDate": "2019-09-13",
+            "transactionAmount": {
+              "currency": "EUR",
+              "amount": "472.96"
+            },
+            "creditorName": "voluptates repudiandae",
+            "creditorAccount": {
+              "iban": "DE12500105170648489890",
+              "currency": "EUR"
+            },
+            "debtorName": "Our Customer",
+            "debtorAccount": {
+              "iban": "DE49700202700123456785",
+              "currency": "EUR"
+            },
+            "remittanceInformationUnstructured": " Testpartner BIC HYVEDEMM300/IBAN DE1234 1234567898765432 KUNDENREF 8768371263817631 82 Test TF5 DRITTANB 11.06.2020/12:20 TAN 039844 REFEREN",
+            "proprietaryBankTransactionCode": "ÜBERWEISUNG (DIRECT BANKING",
+            "additionalInformation": "ÜBERWEISUNG (DIRECT BANKING Testpartner BIC HYVEDEMM300/IBAN DE1234 1234567898765432 KUNDENREF 8768371263817631 82 Test TF5 DRITTANB 11.06.2020/12:20 TAN 039844 REFERENZNR VPE2006161504000 000000001"
+          },
+          {
+            "transactionId": "9012345612345678",
+            "endToEndId": "EEE90000012345612345678",
+            "mandateId": "87654321",
+            "creditorId": "DE94ZZZ000000234567",
+            "bookingDate": "2019-09-25",
+            "valueDate": "2019-09-25",
+            "transactionAmount": {
+              "currency": "EUR",
+              "amount": "21.80"
+            },
+            "creditorName": "Itaque earum",
+            "creditorAccount": {
+              "iban": "DE12500400000123456780",
+              "currency": "EUR"
+            },
+            "debtorName": "Our Customer",
+            "debtorAccount": {
+              "iban": "DE49700202700123456785",
+              "currency": "EUR"
+            },
+            "remittanceInformationUnstructured": "Testpartner BIC HYVEDEMM300/IBAN DE1234 1234567898765432 KUNDENREF 8768371263817631 82 Test TF5 DRITTANB 11.06.2020/12:20 TAN 039844 REFEREN",
+            "proprietaryBankTransactionCode": "ÜBERWEISUNG (DIRECT BANKING",
+            "additionalInformation": "Testpartner BIC HYVEDEMM300/IBAN DE1234 1234567898765432 KUNDENREF 8768371263817631 82 Test TF5 DRITTANB 11.06.2020/12:20 TAN 039844 REFEREN"
+          },
+          {
+            "transactionId": "9112345612345678",
+            "endToEndId": "FFF90000112345612345678",
+            "mandateId": "86101000320",
+            "bookingDate": "2019-10-05",
+            "valueDate": "2019-10-05",
+            "transactionAmount": {
+              "currency": "EUR",
+              "amount": "2000.00"
+            },
+            "creditorName": "Card Transaction Card: 1234-1711-1234-1234",
+            "creditorAccount": {
+              "iban": "BE68844010370034",
+              "currency": "EUR"
+            },
+            "debtorName": "Our Customer",
+            "debtorAccount": {
+              "iban": "NL18ABNA0484869868",
+              "currency": "EUR"
+            },
+            "remittanceInformationUnstructured": " Testpartner BIC HYVEDEMM300/IBAN DE1234 1234567898765432 KUNDENREF 8768371263817631 82 Test TF5 DRITTANB 11.06.2020/12:20 TAN 039844 REFEREN",
+            "proprietaryBankTransactionCode": "ÜBERWEISUNG (DIRECT BANKING",
+            "additionalInformation": "ÜBERWEISUNG (DIRECT BANKING Testpartner BIC HYVEDEMM300/IBAN DE1234 1234567898765432 KUNDENREF 8768371263817631 82 Test TF5 DRITTANB 11.06.2020/12:20 TAN 039844 REFERENZNR VPE2006161504000 000000001"
+          },
+          {
+            "transactionId": "5678901234567890",
+            "endToEndId": "CCC50000678901234567890",
+            "bookingDate": "2019-10-08",
+            "valueDate": "2019-10-08",
+            "transactionAmount": {
+              "currency": "EUR",
+              "amount": "9269.12"
+            },
+            "creditorName": "Our Customer",
+            "creditorAccount": {
+              "iban": "DE49700202700123456785",
+              "currency": "EUR"
+            },
+            "debtorName": "At vero",
+            "debtorAccount": {
+              "iban": "DE12500400000123456780",
+              "currency": "EUR"
+            },
+            "remittanceInformationUnstructured": " Testpartner BIC HYVEDEMM300/IBAN DE1234 1234567898765432 KUNDENREF 8768371263817631 82 Test TF5 DRITTANB 11.06.2020/12:20 TAN 039844 REFEREN",
+            "proprietaryBankTransactionCode": "ÜBERWEISUNG (DIRECT BANKING",
+            "additionalInformation": "ÜBERWEISUNG (DIRECT BANKING Testpartner BIC HYVEDEMM300/IBAN DE1234 1234567898765432 KUNDENREF 8768371263817631 82 Test TF5 DRITTANB 11.06.2020/12:20 TAN 039844 REFERENZNR VPE2006161504000 000000001"
+          }
+        ]
+      }
+    }
+
+  }
+}

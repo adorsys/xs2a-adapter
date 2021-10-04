@@ -1,0 +1,51 @@
+{
+  "id" : "0a5e3254-2594-49c2-b33a-fb0317930ed0",
+  "name" : "hydrogen_v1_periodic-payments_sepa-credit-transfers_pdea744022_authorisations",
+  "request" : {
+    "urlPattern" : ".*/v1/periodic-payments/sepa-credit-transfers/.+/authorisations",
+    "method" : "POST",
+    "headers" : {
+      "X-Request-ID" : {
+        "matches" : ".+"
+      },
+      "PSU-ID" : {
+        "equalTo" : "bgdemo"
+      },
+      "TPP-Redirect-URI" : {
+        "matches" : ".+"
+      },
+      "Content-Type" : {
+        "equalTo" : "application/json"
+      }
+    },
+    "bodyPatterns" : [ {
+      "equalToJson" : "{}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\r\n\t\"scaStatus\": \"received\",\r\n\t\"authorisationId\": \"PDEA744022\",\r\n\t\"_links\": {\r\n\t\t\"updatePsuAuthentication\": {\r\n\t\t\t\"href\": \"https://api-sandbox.unicredit.de/hydrogen/v1/periodic-payments/sepa-credit-transfers/PDEA744022/authorisations/PDEA744022?correlationId=JZ9TZO\"\r\n\t\t},\r\n\t\t\"scaStatus\": {\r\n\t\t\t\"href\": \"https://api-sandbox.unicredit.de/hydrogen/v1/periodic-payments/sepa-credit-transfers/PDEA744022/authorisations/PDEA744022\"\r\n\t\t}\r\n\t}\r\n}",
+    "headers" : {
+      "Date" : "Mon, 20 Sep 2021 15:14:06 GMT",
+      "X-Rate-Limit" : "[{\"window\":53,\"type\":\"throttle\",\"remaining\":29997}]",
+      "Max-Forwards" : "20",
+      "X-CorrelationID" : "Id-3ea5486135f4114e5a87c49c 0; Id-3ea5486165d929c1b8e607e0 0",
+      "ASPSP-SCA-Approach" : "EMBEDDED",
+      "Cache-Control" : "no-store",
+      "Content-Security-Policy" : "block-all-mixed-content",
+      "Pragma" : "no-cache",
+      "Strict-Transport-Security" : "max-age=31536000 ; includeSubDomains",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "sameorigin",
+      "X-Request-ID" : "4aa4e9ae-5690-43ad-b1d1-6d4670187391",
+      "X-XSS-Protection" : "1",
+      "Content-Type" : "application/json",
+      "Expires" : "Thu, 01 Dec 1994 16:00:00 GMT"
+    }
+  },
+  "uuid" : "0a5e3254-2594-49c2-b33a-fb0317930ed0",
+  "persistent" : true,
+  "insertionIndex" : 21
+}

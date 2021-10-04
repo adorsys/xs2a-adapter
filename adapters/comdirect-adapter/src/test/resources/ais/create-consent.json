@@ -1,0 +1,57 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "b2323695-917b-43f1-abb2-0d247c1937f0",
+      "Content-Type": "application/json",
+      "PSU-IP-Address": "0.0.0.0",
+      "X-GTW-ASPSP-ID": "14a0c2ad-b9bf-4200-853a-a7abe541b714",
+      "TPP-Redirect-URI": "https://example.com"
+    },
+    "body": {
+      "access": {
+        "balances": [
+          {
+            "iban": "FR7630076020821234567890186",
+            "currency": "EUR"
+          }
+        ],
+        "transactions": [
+          {
+            "iban": "FR7630076020821234567890186",
+            "currency": "EUR"
+          }
+        ],
+        "accounts": [
+          {
+            "iban": "FR7630076020821234567890186",
+            "currency": "EUR"
+          }
+        ]
+      },
+      "combinedServiceIndicator": "false",
+      "recurringIndicator": "true",
+      "validUntil": "2021-09-23",
+      "frequencyPerDay": "4"
+    }
+  },
+  "response": {
+    "body": {
+      "consentStatus" : "received",
+      "consentId" : "VALID_CONSENT_ID",
+      "_links" : {
+        "scaOAuth" : {
+          "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/.well-known/openid-configuration?authorizationId=22222222-2222-2222-2222-222222222222"
+        },
+        "scaStatus" : {
+          "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/consents/VALID_CONSENT_ID/authorisations/22222222-2222-2222-2222-222222222222"
+        },
+        "status" : {
+          "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/consents/VALID_CONSENT_ID/status"
+        },
+        "self" : {
+          "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/consents/VALID_CONSENT_ID"
+        }
+      }
+    }
+  }
+}

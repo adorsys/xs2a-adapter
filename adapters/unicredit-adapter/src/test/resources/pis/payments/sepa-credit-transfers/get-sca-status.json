@@ -1,0 +1,12 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "610cc155-67bf-48b0-91cb-2830321f1857"
+    }
+  },
+  "response": {
+    "body": {
+      "scaStatus": "finalised"
+    }
+  }
+}

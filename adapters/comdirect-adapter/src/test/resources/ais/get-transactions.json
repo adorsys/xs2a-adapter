@@ -1,0 +1,71 @@
+{
+  "request": {
+    "headers": {
+      "X-Request-ID": "c558ad1b-9e19-4fae-ac89-90a0f811f1ff",
+      "Consent-ID": "VALID_CONSENT_ID",
+      "Authorization": "Bearer 91bf86c06f494054a164154891d462c23caf8fe7b0994d4d8da674bc78c2141a5c84866e122c461fae87ca71ae6fe487"
+    },
+    "params": {
+      "dateFrom": "2020-07-06",
+      "dateTo": "2020-08-06",
+      "bookingStatus": "booked",
+      "withBalance": "true"
+    }
+  },
+  "response": {
+    "body": {
+      "account" : {
+        "iban" : "FR7630056009271234567890182",
+        "currency" : "EUR"
+      },
+      "balances" : [ {
+        "balanceAmount" : {
+          "currency" : "EUR",
+          "amount" : 150.02
+        },
+        "lastChangeDateTime" : "2018-02-26T00:00:00+01:00",
+        "referenceDate" : "2021-09-24",
+        "balanceType" : "closingBooked"
+      } ],
+      "transactions" : {
+        "booked" : [ {
+          "transactionId" : "1234567",
+          "bookingDate" : "2021-09-14",
+          "valueDate" : "2021-09-14",
+          "transactionAmount" : {
+            "currency" : "EUR",
+            "amount" : -256.67
+          },
+          "creditorName" : "John Miles",
+          "creditorAccount" : {
+            "iban" : "DE43533700240123456900"
+          },
+          "remittanceInformationUnstructured" : "Example 1",
+          "_links" : {
+            "transactionDetails" : {
+              "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID/transactions/1234567"
+            }
+          }
+        } ],
+        "pending" : [ ],
+        "_links" : {
+          "first" : {
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID/transactions?dateFrom=1970-01-01&dateTo=2020-07-01&bookingStatus=BOOKED&withBalance=true&page=0"
+          },
+          "last" : {
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID/transactions?dateFrom=1970-01-01&dateTo=2020-07-01&bookingStatus=BOOKED&withBalance=true&page=0"
+          },
+          "account" : {
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID"
+          },
+          "balances" : {
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID/balances"
+          },
+          "transactions" : {
+            "href" : "https://xs2a-sandbox.comdirect.de/berlingroup/v1/accounts/ACCOUNT_ID/transactions"
+          }
+        }
+      }
+    }
+  }
+}

@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.adorsys.xs2a.adapter</groupId>
         <artifactId>xs2a-adapter</artifactId>
-        <version>0.1.15</version>
+        <version>0.1.16</version>
         <relativePath>../..</relativePath>
     </parent>
 
@@ -23,6 +23,13 @@
         </dependency>
 
         <!-- test dependencies -->
+
+        <dependency>
+            <groupId>de.adorsys.xs2a.adapter</groupId>
+            <artifactId>xs2a-adapter-test</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>pro.javatar.commons</groupId>
