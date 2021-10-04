@@ -1,16 +1,10 @@
-= Draft Release notes for version 0.1.16 (release date: xx.10.2021)
-
-.Added banks
-|===
-|===
+= Release notes for version 0.1.16 (release date: 04.10.2021)
 
 == Notices:
 - added WireMock stubs for `santander-adapter`.
 - added WireMock stubs for `unicredit-adapter`.
 - added WireMock stubs for `commerzbank-adapter`.
 - added WireMock stubs for `comdirect-adapter`.
-
-== Features:
 
 == Fixes:
 - amended `release` script and rearranged steps.
