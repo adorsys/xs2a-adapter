@@ -322,6 +322,13 @@ a| * Implement AIS adapter for AAreal Bank Ag
 * Set up a Docker Image publishing to Docker Hub
 * Put in order all default values in adapters
 
+a| 11.10
+a| 0.1.16
+a| * Record WireMock stubs for Comdirect and Commerzbank
+* Record WireMock stubs for Santander
+* Fix Sparkasse WireMock stubs
+* Record WireMock stubs for Unicredit
+
 a| For future development
 
 a| x.x.x
@@ -337,8 +344,6 @@ a|
 * Extend AIS with a List of Trusted Beneficiaries
 
 * Implement Confirmation Authorisation Call
-
-* Add WireMock mode other banks
 
 * Connect and test remaining BG-Banks in Germany for AIS
 
