@@ -11,7 +11,7 @@ There are various ways for a bank to implement a PSD2 compliant XS2A interface. 
 Constantly evolving and extending scope, production traffic and support in open banking
 world call for high maintenance and service investments on our part.
 
-Henceforth, adorsys will offer all versions higher than v1.0 of Open Banking Gateway under a
+Henceforth, adorsys will offer all versions higher than v.0.1.16 of Adapter under a
 dual-license model. Thus, this repository will be available either under Affero GNU General
 Public License v.3 (AGPL v.3) or alternatively under a commercial license agreement.
 
@@ -188,7 +188,7 @@ If you have any technical questions you can ask them in our [gitter](https://git
 
 ## License
 
-This project is licensed under the Apache License version 2.0 - see the [LICENSE](LICENSE) file for details
+This project is licensed under the Apache License version 2.0 **(until 01.01.2022)** - see the [LICENSE](LICENSE) file for details
 
 ## FAQ on Licensing Change
 
