@@ -345,8 +345,6 @@ a|
 
 * Implement Confirmation Authorisation Call
 
-* Add WireMock mode other banks
-
 * Connect and test remaining BG-Banks in Germany for AIS
 
 |===
