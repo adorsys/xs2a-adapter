@@ -61,9 +61,7 @@ class CommerzbankAccountInformationServiceTest {
             "  \"transactions\": {\n" +
             "    \"booked\": [\n" +
             "      {\n" +
-            "        \"remittanceInformationStructured\": {" +
-            "           \"reference\": \"" + REMITTANCE_INFORMATION_STRUCTURED + "\"\n" +
-            "         }\n" +
+            "        \"remittanceInformationStructured\": \"" + REMITTANCE_INFORMATION_STRUCTURED + "\"\n" +
             "      }\n" +
             "    ]\n" +
             "  }\n" +
@@ -122,9 +120,7 @@ class CommerzbankAccountInformationServiceTest {
     void getTransactionDetails() {
         String rawResponse = "{\n" +
             "  \"transactionsDetails\": {\n" +
-            "    \"remittanceInformationStructured\": {" +
-            "       \"reference\": \"" + REMITTANCE_INFORMATION_STRUCTURED + "\"\n" +
-            "       }\n" +
+            "    \"remittanceInformationStructured\": \"" + REMITTANCE_INFORMATION_STRUCTURED + "\"\n" +
             "  }\n" +
             "}";
 
