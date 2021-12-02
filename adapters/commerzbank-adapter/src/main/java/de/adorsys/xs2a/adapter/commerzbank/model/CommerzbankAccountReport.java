@@ -2,30 +2,31 @@ package de.adorsys.xs2a.adapter.commerzbank.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.adorsys.xs2a.adapter.api.model.HrefType;
+import de.adorsys.xs2a.adapter.api.model.Transactions;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class CommerzbankAccountReport {
-    private List<CommerzbankTransactionDetails> booked;
-    private List<CommerzbankTransactionDetails> pending;
+    private List<Transactions> booked;
+    private List<Transactions> pending;
     @JsonProperty("_links")
     private Map<String, HrefType> links;
 
-    public List<CommerzbankTransactionDetails> getBooked() {
+    public List<Transactions> getBooked() {
         return booked;
     }
 
-    public void setBooked(List<CommerzbankTransactionDetails> booked) {
+    public void setBooked(List<Transactions> booked) {
         this.booked = booked;
     }
 
-    public List<CommerzbankTransactionDetails> getPending() {
+    public List<Transactions> getPending() {
         return pending;
     }
 
-    public void setPending(List<CommerzbankTransactionDetails> pending) {
+    public void setPending(List<Transactions> pending) {
         this.pending = pending;
     }
 

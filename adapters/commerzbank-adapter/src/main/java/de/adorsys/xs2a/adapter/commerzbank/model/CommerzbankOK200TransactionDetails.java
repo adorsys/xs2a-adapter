@@ -1,15 +1,17 @@
 package de.adorsys.xs2a.adapter.commerzbank.model;
 
+import de.adorsys.xs2a.adapter.api.model.Transactions;
+
 import java.util.Objects;
 
 public class CommerzbankOK200TransactionDetails {
-    private CommerzbankTransactionDetails transactionsDetails;
+    private Transactions transactionsDetails;
 
-    public CommerzbankTransactionDetails getTransactionsDetails() {
+    public Transactions getTransactionsDetails() {
         return transactionsDetails;
     }
 
-    public void setTransactionsDetails(CommerzbankTransactionDetails transactionsDetails) {
+    public void setTransactionsDetails(Transactions transactionsDetails) {
         this.transactionsDetails = transactionsDetails;
     }
 
