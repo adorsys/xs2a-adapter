@@ -1,0 +1,7 @@
+= Release notes for version 0.1.17 (release date: 02.12.2021)
+
+== Notices:
+ - `commerzbank-adapter` was updated according to new Commerzbank API
+
+== Fixes:
+- `commerzbank-adapter` was cleaned up from unnecessary models and mappers
