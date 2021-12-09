@@ -36,9 +36,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Arrays;
 
 public class FiduciaAccountInformationService extends BaseAccountInformationService {
-    private static final Set<String> SUPPORTED_BOOKING_STATUSES = new HashSet<>(Collections.singletonList("booked"));
+    private static final Set<String> SUPPORTED_BOOKING_STATUSES = new HashSet<>(Arrays.asList("booked", "information"));
     private static final String BOOKING_STATUS_ERROR_MESSAGE = String.format(
         "ASPSP supports only the following booking statuses: %s. " +
             "The booking status from the request has to be changed to the supported ones.",
