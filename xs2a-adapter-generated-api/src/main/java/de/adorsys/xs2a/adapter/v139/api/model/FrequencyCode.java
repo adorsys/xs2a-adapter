@@ -2,49 +2,48 @@ package de.adorsys.xs2a.adapter.v139.api.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.lang.Override;
-import java.lang.String;
+
 import javax.annotation.Generated;
 
 @Generated("xs2a-adapter-codegen")
 public enum FrequencyCode {
-  DAILY("Daily"),
+    DAILY("Daily"),
 
-  WEEKLY("Weekly"),
+    WEEKLY("Weekly"),
 
-  EVERYTWOWEEKS("EveryTwoWeeks"),
+    EVERYTWOWEEKS("EveryTwoWeeks"),
 
-  MONTHLY("Monthly"),
+    MONTHLY("Monthly"),
 
-  EVERYTWOMONTHS("EveryTwoMonths"),
+    EVERYTWOMONTHS("EveryTwoMonths"),
 
-  QUARTERLY("Quarterly"),
+    QUARTERLY("Quarterly"),
 
-  SEMIANNUAL("SemiAnnual"),
+    SEMIANNUAL("SemiAnnual"),
 
-  ANNUAL("Annual"),
+    ANNUAL("Annual"),
 
-  MONTHLYVARIABLE("MonthlyVariable");
+    MONTHLYVARIABLE("MonthlyVariable");
 
-  private String value;
+    private String value;
 
-  FrequencyCode(String value) {
-    this.value = value;
-  }
-
-  @JsonCreator
-  public static FrequencyCode fromValue(String value) {
-    for (FrequencyCode e : FrequencyCode.values()) {
-      if (e.value.equals(value)) {
-        return e;
-      }
+    FrequencyCode(String value) {
+        this.value = value;
     }
-    return null;
-  }
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return value;
-  }
+    @JsonCreator
+    public static FrequencyCode fromValue(String value) {
+        for (FrequencyCode e : FrequencyCode.values()) {
+            if (e.value.equals(value)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return value;
+    }
 }

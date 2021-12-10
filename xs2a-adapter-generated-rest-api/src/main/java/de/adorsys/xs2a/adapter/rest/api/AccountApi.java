@@ -1,8 +1,20 @@
 package de.adorsys.xs2a.adapter.rest.api;
 
-import de.adorsys.xs2a.adapter.api.model.*;
+import de.adorsys.xs2a.adapter.api.model.AccountList;
+import de.adorsys.xs2a.adapter.api.model.BookingStatus;
+import de.adorsys.xs2a.adapter.api.model.CardAccountList;
+import de.adorsys.xs2a.adapter.api.model.CardAccountsTransactionsResponse200;
+import de.adorsys.xs2a.adapter.api.model.OK200AccountDetails;
+import de.adorsys.xs2a.adapter.api.model.OK200CardAccountDetails;
+import de.adorsys.xs2a.adapter.api.model.OK200TransactionDetails;
+import de.adorsys.xs2a.adapter.api.model.ReadAccountBalanceResponse200;
+import de.adorsys.xs2a.adapter.api.model.ReadCardAccountBalanceResponse200;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Generated;
 import java.time.LocalDate;

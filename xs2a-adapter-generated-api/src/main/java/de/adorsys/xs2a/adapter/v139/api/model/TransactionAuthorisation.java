@@ -1,33 +1,30 @@
 package de.adorsys.xs2a.adapter.v139.api.model;
 
-import java.lang.Object;
-import java.lang.Override;
-import java.lang.String;
-import java.util.Objects;
 import javax.annotation.Generated;
+import java.util.Objects;
 
 @Generated("xs2a-adapter-codegen")
 public class TransactionAuthorisation {
-  private String scaAuthenticationData;
+    private String scaAuthenticationData;
 
-  public String getScaAuthenticationData() {
-    return scaAuthenticationData;
-  }
+    public String getScaAuthenticationData() {
+        return scaAuthenticationData;
+    }
 
-  public void setScaAuthenticationData(String scaAuthenticationData) {
-    this.scaAuthenticationData = scaAuthenticationData;
-  }
+    public void setScaAuthenticationData(String scaAuthenticationData) {
+        this.scaAuthenticationData = scaAuthenticationData;
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    TransactionAuthorisation that = (TransactionAuthorisation) o;
-    return Objects.equals(scaAuthenticationData, that.scaAuthenticationData);
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TransactionAuthorisation that = (TransactionAuthorisation) o;
+        return Objects.equals(scaAuthenticationData, that.scaAuthenticationData);
+    }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(scaAuthenticationData);
-  }
+    @Override
+    public int hashCode() {
+        return Objects.hash(scaAuthenticationData);
+    }
 }

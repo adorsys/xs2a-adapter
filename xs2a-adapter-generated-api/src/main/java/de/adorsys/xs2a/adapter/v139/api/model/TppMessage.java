@@ -1,69 +1,66 @@
 package de.adorsys.xs2a.adapter.v139.api.model;
 
-import java.lang.Object;
-import java.lang.Override;
-import java.lang.String;
-import java.util.Objects;
 import javax.annotation.Generated;
+import java.util.Objects;
 
 @Generated("xs2a-adapter-codegen")
 public class TppMessage {
-  private TppMessageCategory category;
+    private TppMessageCategory category;
 
-  private String code;
+    private String code;
 
-  private String path;
+    private String path;
 
-  private String text;
+    private String text;
 
-  public TppMessageCategory getCategory() {
-    return category;
-  }
+    public TppMessageCategory getCategory() {
+        return category;
+    }
 
-  public void setCategory(TppMessageCategory category) {
-    this.category = category;
-  }
+    public void setCategory(TppMessageCategory category) {
+        this.category = category;
+    }
 
-  public String getCode() {
-    return code;
-  }
+    public String getCode() {
+        return code;
+    }
 
-  public void setCode(String code) {
-    this.code = code;
-  }
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-  public String getPath() {
-    return path;
-  }
+    public String getPath() {
+        return path;
+    }
 
-  public void setPath(String path) {
-    this.path = path;
-  }
+    public void setPath(String path) {
+        this.path = path;
+    }
 
-  public String getText() {
-    return text;
-  }
+    public String getText() {
+        return text;
+    }
 
-  public void setText(String text) {
-    this.text = text;
-  }
+    public void setText(String text) {
+        this.text = text;
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    TppMessage that = (TppMessage) o;
-    return Objects.equals(category, that.category) &&
-        Objects.equals(code, that.code) &&
-        Objects.equals(path, that.path) &&
-        Objects.equals(text, that.text);
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TppMessage that = (TppMessage) o;
+        return Objects.equals(category, that.category) &&
+            Objects.equals(code, that.code) &&
+            Objects.equals(path, that.path) &&
+            Objects.equals(text, that.text);
+    }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(category,
-        code,
-        path,
-        text);
-  }
+    @Override
+    public int hashCode() {
+        return Objects.hash(category,
+            code,
+            path,
+            text);
+    }
 }

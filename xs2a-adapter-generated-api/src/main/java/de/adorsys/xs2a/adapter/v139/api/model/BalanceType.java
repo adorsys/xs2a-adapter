@@ -2,45 +2,44 @@ package de.adorsys.xs2a.adapter.v139.api.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.lang.Override;
-import java.lang.String;
+
 import javax.annotation.Generated;
 
 @Generated("xs2a-adapter-codegen")
 public enum BalanceType {
-  CLOSINGBOOKED("closingBooked"),
+    CLOSINGBOOKED("closingBooked"),
 
-  EXPECTED("expected"),
+    EXPECTED("expected"),
 
-  OPENINGBOOKED("openingBooked"),
+    OPENINGBOOKED("openingBooked"),
 
-  INTERIMAVAILABLE("interimAvailable"),
+    INTERIMAVAILABLE("interimAvailable"),
 
-  INTERIMBOOKED("interimBooked"),
+    INTERIMBOOKED("interimBooked"),
 
-  FORWARDAVAILABLE("forwardAvailable"),
+    FORWARDAVAILABLE("forwardAvailable"),
 
-  NONINVOICED("nonInvoiced");
+    NONINVOICED("nonInvoiced");
 
-  private String value;
+    private String value;
 
-  BalanceType(String value) {
-    this.value = value;
-  }
-
-  @JsonCreator
-  public static BalanceType fromValue(String value) {
-    for (BalanceType e : BalanceType.values()) {
-      if (e.value.equals(value)) {
-        return e;
-      }
+    BalanceType(String value) {
+        this.value = value;
     }
-    return null;
-  }
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return value;
-  }
+    @JsonCreator
+    public static BalanceType fromValue(String value) {
+        for (BalanceType e : BalanceType.values()) {
+            if (e.value.equals(value)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return value;
+    }
 }

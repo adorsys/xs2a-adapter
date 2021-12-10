@@ -2,39 +2,38 @@ package de.adorsys.xs2a.adapter.v139.api.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.lang.Override;
-import java.lang.String;
+
 import javax.annotation.Generated;
 
 @Generated("xs2a-adapter-codegen")
 public enum ChargeBearer {
-  DEBT("DEBT"),
+    DEBT("DEBT"),
 
-  CRED("CRED"),
+    CRED("CRED"),
 
-  SHAR("SHAR"),
+    SHAR("SHAR"),
 
-  SLEV("SLEV");
+    SLEV("SLEV");
 
-  private String value;
+    private String value;
 
-  ChargeBearer(String value) {
-    this.value = value;
-  }
-
-  @JsonCreator
-  public static ChargeBearer fromValue(String value) {
-    for (ChargeBearer e : ChargeBearer.values()) {
-      if (e.value.equals(value)) {
-        return e;
-      }
+    ChargeBearer(String value) {
+        this.value = value;
     }
-    return null;
-  }
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return value;
-  }
+    @JsonCreator
+    public static ChargeBearer fromValue(String value) {
+        for (ChargeBearer e : ChargeBearer.values()) {
+            if (e.value.equals(value)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return value;
+    }
 }

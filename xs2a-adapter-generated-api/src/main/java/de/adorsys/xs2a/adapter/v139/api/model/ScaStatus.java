@@ -2,49 +2,48 @@ package de.adorsys.xs2a.adapter.v139.api.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.lang.Override;
-import java.lang.String;
+
 import javax.annotation.Generated;
 
 @Generated("xs2a-adapter-codegen")
 public enum ScaStatus {
-  RECEIVED("received"),
+    RECEIVED("received"),
 
-  PSUIDENTIFIED("psuIdentified"),
+    PSUIDENTIFIED("psuIdentified"),
 
-  PSUAUTHENTICATED("psuAuthenticated"),
+    PSUAUTHENTICATED("psuAuthenticated"),
 
-  SCAMETHODSELECTED("scaMethodSelected"),
+    SCAMETHODSELECTED("scaMethodSelected"),
 
-  STARTED("started"),
+    STARTED("started"),
 
-  UNCONFIRMED("unconfirmed"),
+    UNCONFIRMED("unconfirmed"),
 
-  FINALISED("finalised"),
+    FINALISED("finalised"),
 
-  FAILED("failed"),
+    FAILED("failed"),
 
-  EXEMPTED("exempted");
+    EXEMPTED("exempted");
 
-  private String value;
+    private String value;
 
-  ScaStatus(String value) {
-    this.value = value;
-  }
-
-  @JsonCreator
-  public static ScaStatus fromValue(String value) {
-    for (ScaStatus e : ScaStatus.values()) {
-      if (e.value.equals(value)) {
-        return e;
-      }
+    ScaStatus(String value) {
+        this.value = value;
     }
-    return null;
-  }
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return value;
-  }
+    @JsonCreator
+    public static ScaStatus fromValue(String value) {
+        for (ScaStatus e : ScaStatus.values()) {
+            if (e.value.equals(value)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return value;
+    }
 }
