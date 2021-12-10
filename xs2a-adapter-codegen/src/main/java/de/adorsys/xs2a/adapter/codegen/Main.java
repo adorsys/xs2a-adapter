@@ -40,15 +40,15 @@ public class Main {
         Map.entry("deleteConsent", CONSENT_API),
 
         Map.entry("getAccountList", ACCOUNT_API),
+        Map.entry("readAccountDetails", ACCOUNT_API),
+        Map.entry("getBalances", ACCOUNT_API),
         Map.entry("getTransactionList", ACCOUNT_API),
         Map.entry("getTransactionDetails", ACCOUNT_API),
-        Map.entry("getBalances", ACCOUNT_API),
-        Map.entry("readAccountDetails", ACCOUNT_API),
         // card accounts
-        Map.entry("getCardAccount", ACCOUNT_API),
-        Map.entry("ReadCardAccount", ACCOUNT_API),
-        Map.entry("getCardAccountTransactionList", ACCOUNT_API),
+        Map.entry("getCardAccountList", ACCOUNT_API),
+        Map.entry("readCardAccountDetails", ACCOUNT_API),
         Map.entry("getCardAccountBalances", ACCOUNT_API),
+        Map.entry("getCardAccountTransactionList", ACCOUNT_API),
 
 
         Map.entry("initiatePayment", PAYMENT_API),
@@ -57,22 +57,29 @@ public class Main {
         Map.entry("getPaymentInitiationStatus", PAYMENT_API),
         Map.entry("getPaymentInitiationAuthorisation", PAYMENT_API),
         Map.entry("startPaymentAuthorisation", PAYMENT_API),
+        Map.entry("startPaymentInitiationCancellationAuthorisation", PAYMENT_API),
+        Map.entry("getPaymentCancellationScaStatus", PAYMENT_API),
         Map.entry("updatePaymentPsuData", PAYMENT_API));
 
 
     public static void main(String[] args) throws IOException {
-
-        String modifiedSpec = filterOperations("xs2a-adapter-codegen/src/main/resources/psd2-api 1.3.8 2020-11-06v1.json",
-            operationToInterface.keySet());
-        modifiedSpec = addCustomParams(modifiedSpec);
-        modifiedSpec = removeServers(modifiedSpec);
-
-        Files.writeString(Paths.get(OPENAPI_SPEC_DIR, "xs2aapi.json"), modifiedSpec);
-        OpenAPI api = parseSpec(modifiedSpec);
-        FileUtils.deleteDirectory(new File(GENERATED_REST_API_DIR));
-        FileUtils.deleteDirectory(new File(GENERATED_API_DIR));
-        new CodeGenerator(api, Main::saveFile, "de.adorsys.xs2a.adapter").generate(operationToInterface);
+       // generate("de.adorsys.xs2a.adapter","xs2a-adapter-codegen/src/main/resources/psd2-api 1.3.8 2020-11-06v1.json", null);
+        generate("de.adorsys.xs2a.adapter.v139","xs2a-adapter-codegen/src/main/resources/psd2-api 1.3.9 2021-05-04v1.json", "1.3.9");
     }
+
+
+   private  static void  generate(String basePackage, String apiSource,String version) throws IOException {
+       String modifiedSpec = filterOperations(apiSource,
+           operationToInterface.keySet());
+       modifiedSpec = addCustomParams(modifiedSpec);
+       modifiedSpec = removeServers(modifiedSpec);
+
+       Files.writeString(Paths.get(OPENAPI_SPEC_DIR, version!=null ?String.format("xs2aapi.%s.json", version): "xs2aapi.json"), modifiedSpec);
+       OpenAPI api = parseSpec(modifiedSpec);
+       FileUtils.deleteDirectory(new File(GENERATED_REST_API_DIR.concat("/").concat(basePackage.replace(".", "/"))));
+       FileUtils.deleteDirectory(new File(GENERATED_API_DIR.concat("/").concat(basePackage.replace(".", "/"))));
+       new CodeGenerator(api, Main::saveFile, basePackage).generate(operationToInterface);
+   }
 
     private static OpenAPI parseSpec(String json) {
         ParseOptions options = new ParseOptions();
