@@ -52,8 +52,8 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
     @Override
     public ResponseEntity<ConsentsResponse201> createConsent(Map<String, String> parameters,
-                                                               Map<String, String> headers,
-                                                               Consents body) {
+                                                             Map<String, String> headers,
+                                                             Consents body) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         RequestParams requestParams = RequestParams.fromMap(parameters);
 
@@ -226,9 +226,9 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
     @Override
     public ResponseEntity<OK200AccountDetails> readAccountDetails(String accountId,
-                                                                 Boolean withBalance,
-                                                                 Map<String, String> parameters,
-                                                                 Map<String, String> headers) {
+                                                                  Boolean withBalance,
+                                                                  Map<String, String> parameters,
+                                                                  Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
 
         RequestParams requestParams = RequestParams.builder()
@@ -246,10 +246,13 @@ public class ConsentController extends AbstractController implements ConsentApi,
     @Override
     public ResponseEntity<Object> getTransactionList(String accountId,
                                                      LocalDate dateFrom,
-                                                     LocalDate dateTo, String entryReferenceFrom,
-                                                     BookingStatus bookingStatus,
+                                                     LocalDate dateTo,
+                                                     String entryReferenceFrom,
+                                                     BookingStatusGeneric bookingStatus,
                                                      Boolean deltaList,
                                                      Boolean withBalance,
+                                                     Integer pageIndex,
+                                                     Integer itemsPerPage,
                                                      Map<String, String> parameters,
                                                      Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
@@ -287,7 +290,7 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
-    public ResponseEntity<CardAccountList> getCardAccount(Map<String, String> parameters, Map<String, String> headers) {
+    public ResponseEntity<CardAccountList> getCardAccountList(Map<String, String> parameters, Map<String, String> headers) {
         Response<CardAccountList> response =
             accountInformationService.getCardAccountList(RequestHeaders.fromMap(headers),
                 RequestParams.fromMap(parameters));
@@ -297,9 +300,9 @@ public class ConsentController extends AbstractController implements ConsentApi,
     }
 
     @Override
-    public ResponseEntity<OK200CardAccountDetails> ReadCardAccount(String accountId,
-                                                                     Map<String, String> parameters,
-                                                                     Map<String, String> headers) {
+    public ResponseEntity<OK200CardAccountDetails> readCardAccountDetails(String accountId,
+                                                                          Map<String, String> parameters,
+                                                                          Map<String, String> headers) {
         Response<OK200CardAccountDetails> response =
             accountInformationService.getCardAccountDetails(accountId,
                 RequestHeaders.fromMap(headers),
@@ -324,14 +327,14 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
     @Override
     public ResponseEntity<CardAccountsTransactionsResponse200> getCardAccountTransactionList(String accountId,
-                                                                                               LocalDate dateFrom,
-                                                                                               LocalDate dateTo,
-                                                                                               String entryReferenceFrom,
-                                                                                               BookingStatus bookingStatus,
-                                                                                               Boolean deltaList,
-                                                                                               Boolean withBalance,
-                                                                                               Map<String, String> parameters,
-                                                                                               Map<String, String> headers) {
+                                                                                             LocalDate dateFrom,
+                                                                                             LocalDate dateTo,
+                                                                                             String entryReferenceFrom,
+                                                                                             BookingStatusCard bookingStatus,
+                                                                                             Boolean deltaList,
+                                                                                             Boolean withBalance,
+                                                                                             Map<String, String> parameters,
+                                                                                             Map<String, String> headers) {
         Response<CardAccountsTransactionsResponse200> response =
             accountInformationService.getCardAccountTransactionList(accountId,
                 RequestHeaders.fromMap(headers),
@@ -343,9 +346,9 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
     @Override
     public ResponseEntity<ScaStatusResponse> getConsentScaStatus(String consentId,
-                                                                   String authorisationId,
-                                                                   Map<String, String> parameters,
-                                                                   Map<String, String> headers) {
+                                                                 String authorisationId,
+                                                                 Map<String, String> parameters,
+                                                                 Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         RequestParams requestParams = RequestParams.fromMap(parameters);
 
@@ -362,8 +365,8 @@ public class ConsentController extends AbstractController implements ConsentApi,
 
     @Override
     public ResponseEntity<ReadAccountBalanceResponse200> getBalances(String accountId,
-                                                                       Map<String, String> parameters,
-                                                                       Map<String, String> headers) {
+                                                                     Map<String, String> parameters,
+                                                                     Map<String, String> headers) {
         RequestHeaders requestHeaders = RequestHeaders.fromMap(headers);
         RequestParams requestParams = RequestParams.fromMap(parameters);
 

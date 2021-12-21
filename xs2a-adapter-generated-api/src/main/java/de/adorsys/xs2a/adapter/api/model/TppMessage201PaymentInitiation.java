@@ -1,13 +1,13 @@
-package de.adorsys.xs2a.adapter.v139.api.model;
+package de.adorsys.xs2a.adapter.api.model;
 
 import javax.annotation.Generated;
 import java.util.Objects;
 
 @Generated("xs2a-adapter-codegen")
-public class TppMessage {
+public class TppMessage201PaymentInitiation {
     private TppMessageCategory category;
 
-    private String code;
+    private MessageCode201PaymentInitiation code;
 
     private String path;
 
@@ -21,11 +21,11 @@ public class TppMessage {
         this.category = category;
     }
 
-    public String getCode() {
+    public MessageCode201PaymentInitiation getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(MessageCode201PaymentInitiation code) {
         this.code = code;
     }
 
@@ -49,7 +49,7 @@ public class TppMessage {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TppMessage that = (TppMessage) o;
+        TppMessage201PaymentInitiation that = (TppMessage201PaymentInitiation) o;
         return Objects.equals(category, that.category) &&
             Objects.equals(code, that.code) &&
             Objects.equals(path, that.path) &&

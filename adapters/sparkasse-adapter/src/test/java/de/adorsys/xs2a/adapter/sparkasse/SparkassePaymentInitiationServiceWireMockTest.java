@@ -79,6 +79,7 @@ class SparkassePaymentInitiationServiceWireMockTest {
     void selectScaMethod(PaymentService paymentService, PaymentProduct paymentProduct) throws Exception {
         TestRequestResponse requestResponse =
             new TestRequestResponse("pis/" + paymentService + "/" + paymentProduct + "/select-sca-method.json");
+        SelectPsuAuthenticationMethodResponse expected = requestResponse.responseBody(SelectPsuAuthenticationMethodResponse.class);
 
         Response<SelectPsuAuthenticationMethodResponse> response = service.updatePaymentPsuData(paymentService,
             paymentProduct,
@@ -88,7 +89,10 @@ class SparkassePaymentInitiationServiceWireMockTest {
             RequestParams.empty(),
             requestResponse.requestBody(SelectPsuAuthenticationMethod.class));
 
-        assertThat(response.getBody()).isEqualTo(requestResponse.responseBody(SelectPsuAuthenticationMethodResponse.class));
+        SelectPsuAuthenticationMethodResponse actual = response.getBody();
+
+        assertThat(actual).isEqualToIgnoringGivenFields(expected, "chosenScaMethod");
+        assertThat(actual.getChosenScaMethod()).isEqualToComparingFieldByField(expected.getChosenScaMethod());
     }
 
     @ParameterizedTest

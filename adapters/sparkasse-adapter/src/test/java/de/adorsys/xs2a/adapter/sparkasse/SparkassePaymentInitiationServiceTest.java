@@ -29,6 +29,8 @@ class SparkassePaymentInitiationServiceTest {
 
     private static final String PAYMENT_ID = "paymentId";
     private static final String AUTHORISATION_ID = "authorisationId";
+    private static final String AUTHORISATION_TYPE = "PUSH_OTP";
+
     private final HttpClient client = mock(HttpClient.class);
     private final HttpClientConfig httpClientConfig = mock(HttpClientConfig.class);
     private final ArgumentCaptor<Request.Builder> builderCaptor =
@@ -104,10 +106,10 @@ class SparkassePaymentInitiationServiceTest {
             .isNotNull()
             .extracting(Response::getBody)
             .asInstanceOf(InstanceOfAssertFactories.type(PaymentInitationRequestResponse201.class))
-            .matches(body ->
-                body.getChosenScaMethod()
-                    .getAuthenticationType()
-                    .equals(AuthenticationType.PUSH_OTP));
+            .matches(body -> {
+                    var authObject = (AuthenticationObject) body.getChosenScaMethod();
+                    return authObject.getAuthenticationType().equals(AUTHORISATION_TYPE);
+            });
     }
 
     @Test
@@ -132,15 +134,15 @@ class SparkassePaymentInitiationServiceTest {
             .isNotNull()
             .extracting(Response::getBody)
             .asInstanceOf(InstanceOfAssertFactories.type(StartScaprocessResponse.class))
-            .matches(body ->
-                body.getChosenScaMethod()
-                    .getAuthenticationType()
-                    .equals(AuthenticationType.PUSH_OTP))
+            .matches(body -> {
+                    var authObject = (AuthenticationObject) body.getChosenScaMethod();
+                    return authObject.getAuthenticationType().equals(AUTHORISATION_TYPE);
+            })
             .matches(body ->
                 body.getScaMethods()
                     .get(0) // assuming only one Sca Method
                     .getAuthenticationType()
-                    .equals(AuthenticationType.PUSH_OTP));
+                    .equals(AUTHORISATION_TYPE));
     }
 
     @Test
@@ -167,15 +169,15 @@ class SparkassePaymentInitiationServiceTest {
             .isNotNull()
             .extracting(Response::getBody)
             .asInstanceOf(InstanceOfAssertFactories.type(UpdatePsuAuthenticationResponse.class))
-            .matches(body ->
-                body.getChosenScaMethod()
-                    .getAuthenticationType()
-                    .equals(AuthenticationType.PUSH_OTP))
+            .matches(body -> {
+                var authObject = (AuthenticationObject) body.getChosenScaMethod();
+                return authObject.getAuthenticationType().equals(AUTHORISATION_TYPE);
+            })
             .matches(body ->
                 body.getScaMethods()
                     .get(0) // assuming only one Sca Method
                     .getAuthenticationType()
-                    .equals(AuthenticationType.PUSH_OTP));
+                    .equals(AUTHORISATION_TYPE));
     }
 
     @Test
@@ -202,10 +204,10 @@ class SparkassePaymentInitiationServiceTest {
             .isNotNull()
             .extracting(Response::getBody)
             .asInstanceOf(InstanceOfAssertFactories.type(SelectPsuAuthenticationMethodResponse.class))
-            .matches(body ->
-                body.getChosenScaMethod()
-                    .getAuthenticationType()
-                    .equals(AuthenticationType.PUSH_OTP));
+            .matches(body -> {
+                var authObject = (AuthenticationObject) body.getChosenScaMethod();
+                return authObject.getAuthenticationType().equals(AUTHORISATION_TYPE);
+            });
     }
 
 

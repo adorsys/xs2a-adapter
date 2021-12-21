@@ -17,6 +17,8 @@ public class AccountReference {
 
     private String currency;
 
+    private String otherAccountIdentification;
+
     public String getIban() {
         return iban;
     }
@@ -65,6 +67,14 @@ public class AccountReference {
         this.currency = currency;
     }
 
+    public String getOtherAccountIdentification() {
+        return otherAccountIdentification;
+    }
+
+    public void setOtherAccountIdentification(String otherAccountIdentification) {
+        this.otherAccountIdentification = otherAccountIdentification;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,7 +85,8 @@ public class AccountReference {
             Objects.equals(pan, that.pan) &&
             Objects.equals(maskedPan, that.maskedPan) &&
             Objects.equals(msisdn, that.msisdn) &&
-            Objects.equals(currency, that.currency);
+            Objects.equals(currency, that.currency) &&
+            Objects.equals(otherAccountIdentification, that.otherAccountIdentification);
     }
 
     @Override
@@ -85,6 +96,7 @@ public class AccountReference {
             pan,
             maskedPan,
             msisdn,
-            currency);
+            currency,
+            otherAccountIdentification);
     }
 }

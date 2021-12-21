@@ -329,10 +329,10 @@ class IngMapperTest {
         return ingTppMessage;
     }
 
-    private TppMessage2XX tppMessage() {
-        TppMessage2XX tppMessage = new TppMessage2XX();
+    private TppMessage201PaymentInitiation tppMessage() {
+        TppMessage201PaymentInitiation tppMessage = new TppMessage201PaymentInitiation();
         tppMessage.setCategory(TppMessageCategory.WARNING);
-        tppMessage.setCode(MessageCode2XX.WARNING);
+        tppMessage.setCode(MessageCode201PaymentInitiation.WARNING);
         tppMessage.setPath("path");
         tppMessage.setText("text");
         return tppMessage;

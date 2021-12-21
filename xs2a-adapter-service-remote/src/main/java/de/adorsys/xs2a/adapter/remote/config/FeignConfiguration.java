@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.ContentType;
 import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
-import de.adorsys.xs2a.adapter.api.model.BookingStatus;
+import de.adorsys.xs2a.adapter.api.model.BookingStatusGeneric;
 import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
 import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationMultipartBody;
@@ -65,9 +65,9 @@ public class FeignConfiguration {
 
         public CustomConversionService() {
 
-            addConverter(new Converter<BookingStatus, String>() {
+            addConverter(new Converter<BookingStatusGeneric, String>() {
                 @Override
-                public String convert(BookingStatus source) {
+                public String convert(BookingStatusGeneric source) {
                     return source.toString();
                 }
             });

@@ -137,7 +137,6 @@ class CrealogixAccountInformationServiceTest extends CrealogixTestHelper {
             .asInstanceOf(InstanceOfAssertFactories.type(OK200TransactionDetails.class))
             .matches(body ->
                 body.getTransactionsDetails()
-                    .getTransactionDetails()
                     .getRemittanceInformationStructured()
                     .equals(REMITTANCE_INFORMATION_STRUCTURED));
     }

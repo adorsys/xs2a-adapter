@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.v139.api.model;
+package de.adorsys.xs2a.adapter.api.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -6,30 +6,24 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import javax.annotation.Generated;
 
 @Generated("xs2a-adapter-codegen")
-public enum ConsentStatus {
-    RECEIVED("received"),
+public enum ChargeBearer {
+    DEBT("DEBT"),
 
-    REJECTED("rejected"),
+    CRED("CRED"),
 
-    VALID("valid"),
+    SHAR("SHAR"),
 
-    REVOKEDBYPSU("revokedByPsu"),
-
-    EXPIRED("expired"),
-
-    TERMINATEDBYTPP("terminatedByTpp"),
-
-    PARTIALLYAUTHORISED("partiallyAuthorised");
+    SLEV("SLEV");
 
     private String value;
 
-    ConsentStatus(String value) {
+    ChargeBearer(String value) {
         this.value = value;
     }
 
     @JsonCreator
-    public static ConsentStatus fromValue(String value) {
-        for (ConsentStatus e : ConsentStatus.values()) {
+    public static ChargeBearer fromValue(String value) {
+        for (ChargeBearer e : ChargeBearer.values()) {
             if (e.value.equals(value)) {
                 return e;
             }

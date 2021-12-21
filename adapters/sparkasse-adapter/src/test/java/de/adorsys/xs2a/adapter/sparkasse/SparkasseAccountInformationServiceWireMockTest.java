@@ -47,6 +47,7 @@ class SparkasseAccountInformationServiceWireMockTest {
     @Test
     void selectScaMethod() throws Exception {
         TestRequestResponse requestResponse = new TestRequestResponse("ais/select-sca-method.json");
+        SelectPsuAuthenticationMethodResponse expected = requestResponse.responseBody(SelectPsuAuthenticationMethodResponse.class);
 
         Response<SelectPsuAuthenticationMethodResponse> response = service.updateConsentsPsuData(CONSENT_ID,
             AUTHORISATION_ID,
@@ -54,8 +55,10 @@ class SparkasseAccountInformationServiceWireMockTest {
             RequestParams.empty(),
             requestResponse.requestBody(SelectPsuAuthenticationMethod.class));
 
-        assertThat(response.getBody())
-            .isEqualTo(requestResponse.responseBody(SelectPsuAuthenticationMethodResponse.class));
+        SelectPsuAuthenticationMethodResponse actual = response.getBody();
+
+        assertThat(actual).isEqualToIgnoringGivenFields(expected, "chosenScaMethod");
+        assertThat(actual.getChosenScaMethod()).isEqualToComparingFieldByField(expected.getChosenScaMethod());
     }
 
     @Test

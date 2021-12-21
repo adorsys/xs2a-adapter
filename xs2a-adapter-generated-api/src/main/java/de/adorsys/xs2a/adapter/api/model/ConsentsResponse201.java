@@ -15,7 +15,7 @@ public class ConsentsResponse201 {
 
     private List<AuthenticationObject> scaMethods;
 
-    private AuthenticationObject chosenScaMethod;
+    private Object chosenScaMethod;
 
     private ChallengeData challengeData;
 
@@ -23,6 +23,10 @@ public class ConsentsResponse201 {
     private Map<String, HrefType> links;
 
     private String psuMessage;
+
+    private List<TppMessageGeneric> tppMessages;
+
+    private ScaStatus scaStatus;
 
     public ConsentStatus getConsentStatus() {
         return consentStatus;
@@ -48,11 +52,11 @@ public class ConsentsResponse201 {
         this.scaMethods = scaMethods;
     }
 
-    public AuthenticationObject getChosenScaMethod() {
+    public Object getChosenScaMethod() {
         return chosenScaMethod;
     }
 
-    public void setChosenScaMethod(AuthenticationObject chosenScaMethod) {
+    public void setChosenScaMethod(Object chosenScaMethod) {
         this.chosenScaMethod = chosenScaMethod;
     }
 
@@ -80,6 +84,22 @@ public class ConsentsResponse201 {
         this.psuMessage = psuMessage;
     }
 
+    public List<TppMessageGeneric> getTppMessages() {
+        return tppMessages;
+    }
+
+    public void setTppMessages(List<TppMessageGeneric> tppMessages) {
+        this.tppMessages = tppMessages;
+    }
+
+    public ScaStatus getScaStatus() {
+        return scaStatus;
+    }
+
+    public void setScaStatus(ScaStatus scaStatus) {
+        this.scaStatus = scaStatus;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,7 +111,9 @@ public class ConsentsResponse201 {
             Objects.equals(chosenScaMethod, that.chosenScaMethod) &&
             Objects.equals(challengeData, that.challengeData) &&
             Objects.equals(links, that.links) &&
-            Objects.equals(psuMessage, that.psuMessage);
+            Objects.equals(psuMessage, that.psuMessage) &&
+            Objects.equals(tppMessages, that.tppMessages) &&
+            Objects.equals(scaStatus, that.scaStatus);
     }
 
     @Override
@@ -102,6 +124,8 @@ public class ConsentsResponse201 {
             chosenScaMethod,
             challengeData,
             links,
-            psuMessage);
+            psuMessage,
+            tppMessages,
+            scaStatus);
     }
 }

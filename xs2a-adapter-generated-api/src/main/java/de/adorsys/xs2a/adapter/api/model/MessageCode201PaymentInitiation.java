@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.v139.api.model;
+package de.adorsys.xs2a.adapter.api.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -6,22 +6,20 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import javax.annotation.Generated;
 
 @Generated("xs2a-adapter-codegen")
-public enum BookingStatusCard {
-    BOOKED("booked"),
+public enum MessageCode201PaymentInitiation {
+    WARNING("WARNING"),
 
-    PENDING("pending"),
-
-    BOTH("both");
+    BENEFICIARY_WHITELISTING_REQUIRED("BENEFICIARY_WHITELISTING_REQUIRED");
 
     private String value;
 
-    BookingStatusCard(String value) {
+    MessageCode201PaymentInitiation(String value) {
         this.value = value;
     }
 
     @JsonCreator
-    public static BookingStatusCard fromValue(String value) {
-        for (BookingStatusCard e : BookingStatusCard.values()) {
+    public static MessageCode201PaymentInitiation fromValue(String value) {
+        for (MessageCode201PaymentInitiation e : MessageCode201PaymentInitiation.values()) {
             if (e.value.equals(value)) {
                 return e;
             }

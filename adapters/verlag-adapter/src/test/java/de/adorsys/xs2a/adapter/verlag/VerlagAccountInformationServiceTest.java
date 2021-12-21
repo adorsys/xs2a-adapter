@@ -139,7 +139,6 @@ class VerlagAccountInformationServiceTest {
         Object body = actualResponse.getBody();
         assertTrue(body instanceof OK200TransactionDetails);
         String remittanceInformationStructured = ((OK200TransactionDetails) body).getTransactionsDetails()
-            .getTransactionDetails()
             .getRemittanceInformationStructured();
         assertEquals(REMITTANCE_INFORMATION_STRUCTURED, remittanceInformationStructured);
     }

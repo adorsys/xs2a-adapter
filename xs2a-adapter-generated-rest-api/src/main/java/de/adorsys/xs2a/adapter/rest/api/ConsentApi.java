@@ -26,30 +26,36 @@ public interface ConsentApi {
         method = RequestMethod.POST,
         consumes = "application/json"
     )
-    ResponseEntity<ConsentsResponse201> createConsent(@RequestParam Map<String, String> parameters,
-                                                      @RequestHeader Map<String, String> headers, @RequestBody Consents body);
+    ResponseEntity<ConsentsResponse201> createConsent(
+        @RequestParam Map<String, String> parameters,
+        @RequestHeader Map<String, String> headers,
+        @RequestBody Consents body);
 
     @RequestMapping(
         value = "/v1/consents/{consentId}",
         method = RequestMethod.GET
     )
     ResponseEntity<ConsentInformationResponse200Json> getConsentInformation(
-        @PathVariable("consentId") String consentId, @RequestParam Map<String, String> parameters,
+        @PathVariable("consentId") String consentId,
+        @RequestParam Map<String, String> parameters,
         @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/v1/consents/{consentId}",
         method = RequestMethod.DELETE
     )
-    ResponseEntity<Void> deleteConsent(@PathVariable("consentId") String consentId,
-                                       @RequestParam Map<String, String> parameters, @RequestHeader Map<String, String> headers);
+    ResponseEntity<Void> deleteConsent(
+        @PathVariable("consentId") String consentId,
+        @RequestParam Map<String, String> parameters,
+        @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/v1/consents/{consentId}/status",
         method = RequestMethod.GET
     )
     ResponseEntity<ConsentStatusResponse200> getConsentStatus(
-        @PathVariable("consentId") String consentId, @RequestParam Map<String, String> parameters,
+        @PathVariable("consentId") String consentId,
+        @RequestParam Map<String, String> parameters,
         @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
@@ -57,7 +63,8 @@ public interface ConsentApi {
         method = RequestMethod.GET
     )
     ResponseEntity<Authorisations> getConsentAuthorisation(
-        @PathVariable("consentId") String consentId, @RequestParam Map<String, String> parameters,
+        @PathVariable("consentId") String consentId,
+        @RequestParam Map<String, String> parameters,
         @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
@@ -66,24 +73,30 @@ public interface ConsentApi {
         consumes = "application/json"
     )
     ResponseEntity<StartScaprocessResponse> startConsentAuthorisation(
-        @PathVariable("consentId") String consentId, @RequestParam Map<String, String> parameters,
-        @RequestHeader Map<String, String> headers, @RequestBody ObjectNode body);
+        @PathVariable("consentId") String consentId,
+        @RequestParam Map<String, String> parameters,
+        @RequestHeader Map<String, String> headers,
+        @RequestBody ObjectNode body);
 
     @RequestMapping(
         value = "/v1/consents/{consentId}/authorisations/{authorisationId}",
         method = RequestMethod.GET
     )
-    ResponseEntity<ScaStatusResponse> getConsentScaStatus(@PathVariable("consentId") String consentId,
-                                                          @PathVariable("authorisationId") String authorisationId,
-                                                          @RequestParam Map<String, String> parameters, @RequestHeader Map<String, String> headers);
+    ResponseEntity<ScaStatusResponse> getConsentScaStatus(
+        @PathVariable("consentId") String consentId,
+        @PathVariable("authorisationId") String authorisationId,
+        @RequestParam Map<String, String> parameters,
+        @RequestHeader Map<String, String> headers);
 
     @RequestMapping(
         value = "/v1/consents/{consentId}/authorisations/{authorisationId}",
         method = RequestMethod.PUT,
         consumes = "application/json"
     )
-    ResponseEntity<Object> updateConsentsPsuData(@PathVariable("consentId") String consentId,
-                                                 @PathVariable("authorisationId") String authorisationId,
-                                                 @RequestParam Map<String, String> parameters, @RequestHeader Map<String, String> headers,
-                                                 @RequestBody ObjectNode body);
+    ResponseEntity<Object> updateConsentsPsuData(
+        @PathVariable("consentId") String consentId,
+        @PathVariable("authorisationId") String authorisationId,
+        @RequestParam Map<String, String> parameters,
+        @RequestHeader Map<String, String> headers,
+        @RequestBody ObjectNode body);
 }

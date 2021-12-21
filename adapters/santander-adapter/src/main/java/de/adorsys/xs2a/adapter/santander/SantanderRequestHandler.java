@@ -32,7 +32,7 @@ public class SantanderRequestHandler {
     private static TppMessage getTppMessage() {
         TppMessage tppMessage = new TppMessage();
         tppMessage.setCategory(TppMessageCategory.ERROR);
-        tppMessage.setCode(MessageCode.TOKEN_UNKNOWN);
+        tppMessage.setCode(MessageCode.TOKEN_UNKNOWN.toString());
         tppMessage.setText(REQUEST_ERROR_MESSAGE);
         return tppMessage;
     }

@@ -253,7 +253,6 @@ class AdorsysAccountInformationServiceTest {
                     .get(0)
                     .getRemittanceInformationStructuredArray()
                     .get(0)
-                    .getReference()
                     .equals(REMITTANCE_INFORMATION_STRUCTURED));
     }
 
@@ -292,10 +291,8 @@ class AdorsysAccountInformationServiceTest {
             .asInstanceOf(InstanceOfAssertFactories.type(OK200TransactionDetails.class))
             .matches(body ->
                 body.getTransactionsDetails()
-                    .getTransactionDetails()
                     .getRemittanceInformationStructuredArray()
                     .get(0)
-                    .getReference()
                     .equals(REMITTANCE_INFORMATION_STRUCTURED));
     }
 }

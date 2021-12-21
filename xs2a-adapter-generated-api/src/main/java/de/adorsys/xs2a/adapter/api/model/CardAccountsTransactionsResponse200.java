@@ -11,6 +11,8 @@ import java.util.Objects;
 public class CardAccountsTransactionsResponse200 {
     private AccountReference cardAccount;
 
+    private Boolean debitAccounting;
+
     private CardAccountReport cardTransactions;
 
     private List<Balance> balances;
@@ -24,6 +26,14 @@ public class CardAccountsTransactionsResponse200 {
 
     public void setCardAccount(AccountReference cardAccount) {
         this.cardAccount = cardAccount;
+    }
+
+    public Boolean getDebitAccounting() {
+        return debitAccounting;
+    }
+
+    public void setDebitAccounting(Boolean debitAccounting) {
+        this.debitAccounting = debitAccounting;
     }
 
     public CardAccountReport getCardTransactions() {
@@ -56,6 +66,7 @@ public class CardAccountsTransactionsResponse200 {
         if (o == null || getClass() != o.getClass()) return false;
         CardAccountsTransactionsResponse200 that = (CardAccountsTransactionsResponse200) o;
         return Objects.equals(cardAccount, that.cardAccount) &&
+            Objects.equals(debitAccounting, that.debitAccounting) &&
             Objects.equals(cardTransactions, that.cardTransactions) &&
             Objects.equals(balances, that.balances) &&
             Objects.equals(links, that.links);
@@ -64,6 +75,7 @@ public class CardAccountsTransactionsResponse200 {
     @Override
     public int hashCode() {
         return Objects.hash(cardAccount,
+            debitAccounting,
             cardTransactions,
             balances,
             links);

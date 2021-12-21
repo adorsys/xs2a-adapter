@@ -16,6 +16,10 @@ public class Transactions {
 
     private String endToEndId;
 
+    private Boolean batchIndicator;
+
+    private Integer batchNumberOfTransactions;
+
     private String mandateId;
 
     private String checkId;
@@ -52,7 +56,9 @@ public class Transactions {
 
     private String remittanceInformationStructured;
 
-    private List<RemittanceInformationStructured> remittanceInformationStructuredArray;
+    private List<String> remittanceInformationStructuredArray;
+
+    private List<EntryDetailsElement> entryDetails;
 
     private String additionalInformation;
 
@@ -91,6 +97,22 @@ public class Transactions {
 
     public void setEndToEndId(String endToEndId) {
         this.endToEndId = endToEndId;
+    }
+
+    public Boolean getBatchIndicator() {
+        return batchIndicator;
+    }
+
+    public void setBatchIndicator(Boolean batchIndicator) {
+        this.batchIndicator = batchIndicator;
+    }
+
+    public Integer getBatchNumberOfTransactions() {
+        return batchNumberOfTransactions;
+    }
+
+    public void setBatchNumberOfTransactions(Integer batchNumberOfTransactions) {
+        this.batchNumberOfTransactions = batchNumberOfTransactions;
     }
 
     public String getMandateId() {
@@ -238,13 +260,21 @@ public class Transactions {
         this.remittanceInformationStructured = remittanceInformationStructured;
     }
 
-    public List<RemittanceInformationStructured> getRemittanceInformationStructuredArray() {
+    public List<String> getRemittanceInformationStructuredArray() {
         return remittanceInformationStructuredArray;
     }
 
     public void setRemittanceInformationStructuredArray(
-        List<RemittanceInformationStructured> remittanceInformationStructuredArray) {
+        List<String> remittanceInformationStructuredArray) {
         this.remittanceInformationStructuredArray = remittanceInformationStructuredArray;
+    }
+
+    public List<EntryDetailsElement> getEntryDetails() {
+        return entryDetails;
+    }
+
+    public void setEntryDetails(List<EntryDetailsElement> entryDetails) {
+        this.entryDetails = entryDetails;
     }
 
     public String getAdditionalInformation() {
@@ -312,6 +342,8 @@ public class Transactions {
         return Objects.equals(transactionId, that.transactionId) &&
             Objects.equals(entryReference, that.entryReference) &&
             Objects.equals(endToEndId, that.endToEndId) &&
+            Objects.equals(batchIndicator, that.batchIndicator) &&
+            Objects.equals(batchNumberOfTransactions, that.batchNumberOfTransactions) &&
             Objects.equals(mandateId, that.mandateId) &&
             Objects.equals(checkId, that.checkId) &&
             Objects.equals(creditorId, that.creditorId) &&
@@ -331,6 +363,7 @@ public class Transactions {
             Objects.equals(remittanceInformationUnstructuredArray, that.remittanceInformationUnstructuredArray) &&
             Objects.equals(remittanceInformationStructured, that.remittanceInformationStructured) &&
             Objects.equals(remittanceInformationStructuredArray, that.remittanceInformationStructuredArray) &&
+            Objects.equals(entryDetails, that.entryDetails) &&
             Objects.equals(additionalInformation, that.additionalInformation) &&
             Objects.equals(additionalInformationStructured, that.additionalInformationStructured) &&
             Objects.equals(purposeCode, that.purposeCode) &&
@@ -345,6 +378,8 @@ public class Transactions {
         return Objects.hash(transactionId,
             entryReference,
             endToEndId,
+            batchIndicator,
+            batchNumberOfTransactions,
             mandateId,
             checkId,
             creditorId,
@@ -364,6 +399,7 @@ public class Transactions {
             remittanceInformationUnstructuredArray,
             remittanceInformationStructured,
             remittanceInformationStructuredArray,
+            entryDetails,
             additionalInformation,
             additionalInformationStructured,
             purposeCode,

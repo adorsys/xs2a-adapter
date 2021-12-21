@@ -1,4 +1,4 @@
-package de.adorsys.xs2a.adapter.v139.api.model;
+package de.adorsys.xs2a.adapter.api.model;
 
 import javax.annotation.Generated;
 import java.util.Objects;

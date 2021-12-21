@@ -1,6 +1,7 @@
 package de.adorsys.xs2a.adapter.rest.impl.config;
 
-import de.adorsys.xs2a.adapter.api.model.BookingStatus;
+import de.adorsys.xs2a.adapter.api.model.BookingStatusCard;
+import de.adorsys.xs2a.adapter.api.model.BookingStatusGeneric;
 import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
 import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import org.springframework.core.convert.ConversionService;
@@ -21,7 +22,8 @@ public class PropertyEditorControllerAdvice {
 
     @InitBinder
     void initBinder(WebDataBinder dataBinder) {
-        registerCustomEditor(dataBinder, BookingStatus.class);
+        registerCustomEditor(dataBinder, BookingStatusGeneric.class);
+        registerCustomEditor(dataBinder, BookingStatusCard.class);
         registerCustomEditor(dataBinder, PaymentService.class);
         registerCustomEditor(dataBinder, PaymentProduct.class);
     }

@@ -25,7 +25,7 @@ public class PaymentInitationRequestResponse201 {
 
     private List<AuthenticationObject> scaMethods;
 
-    private AuthenticationObject chosenScaMethod;
+    private Object chosenScaMethod;
 
     private ChallengeData challengeData;
 
@@ -34,7 +34,9 @@ public class PaymentInitationRequestResponse201 {
 
     private String psuMessage;
 
-    private List<TppMessage2XX> tppMessages;
+    private List<TppMessage201PaymentInitiation> tppMessages;
+
+    private ScaStatus scaStatus;
 
     public TransactionStatus getTransactionStatus() {
         return transactionStatus;
@@ -100,11 +102,11 @@ public class PaymentInitationRequestResponse201 {
         this.scaMethods = scaMethods;
     }
 
-    public AuthenticationObject getChosenScaMethod() {
+    public Object getChosenScaMethod() {
         return chosenScaMethod;
     }
 
-    public void setChosenScaMethod(AuthenticationObject chosenScaMethod) {
+    public void setChosenScaMethod(Object chosenScaMethod) {
         this.chosenScaMethod = chosenScaMethod;
     }
 
@@ -132,12 +134,20 @@ public class PaymentInitationRequestResponse201 {
         this.psuMessage = psuMessage;
     }
 
-    public List<TppMessage2XX> getTppMessages() {
+    public List<TppMessage201PaymentInitiation> getTppMessages() {
         return tppMessages;
     }
 
-    public void setTppMessages(List<TppMessage2XX> tppMessages) {
+    public void setTppMessages(List<TppMessage201PaymentInitiation> tppMessages) {
         this.tppMessages = tppMessages;
+    }
+
+    public ScaStatus getScaStatus() {
+        return scaStatus;
+    }
+
+    public void setScaStatus(ScaStatus scaStatus) {
+        this.scaStatus = scaStatus;
     }
 
     @Override
@@ -157,7 +167,8 @@ public class PaymentInitationRequestResponse201 {
             Objects.equals(challengeData, that.challengeData) &&
             Objects.equals(links, that.links) &&
             Objects.equals(psuMessage, that.psuMessage) &&
-            Objects.equals(tppMessages, that.tppMessages);
+            Objects.equals(tppMessages, that.tppMessages) &&
+            Objects.equals(scaStatus, that.scaStatus);
     }
 
     @Override
@@ -174,6 +185,7 @@ public class PaymentInitationRequestResponse201 {
             challengeData,
             links,
             psuMessage,
-            tppMessages);
+            tppMessages,
+            scaStatus);
     }
 }

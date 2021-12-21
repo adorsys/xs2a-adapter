@@ -70,7 +70,6 @@ class DabAccountInformationServiceTest {
             .asInstanceOf(InstanceOfAssertFactories.type(OK200TransactionDetails.class))
             .matches(body ->
                 body.getTransactionsDetails()
-                    .getTransactionDetails()
                     .getTransactionId()
                     .equals("test"));
     }

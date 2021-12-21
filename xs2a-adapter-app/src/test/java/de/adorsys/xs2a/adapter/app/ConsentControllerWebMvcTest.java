@@ -32,6 +32,6 @@ class ConsentControllerWebMvcTest {
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.tppMessages[0].text")
                 .value("Illegal value 'BOOKED' for parameter 'bookingStatus', allowed values: " +
-                    "information, booked, pending, both"));
+                    "information, booked, pending, both, all"));
     }
 }

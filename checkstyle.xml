@@ -44,6 +44,8 @@
     <!--   <property name="fileExtensions" value="java"/> -->
     <!-- </module> -->
 
+    <module name="SuppressWarningsFilter"/>
+
     <module name="TreeWalker">
 
         <!-- Checks for Javadoc comments.                     -->
@@ -74,7 +76,7 @@
         </module>
         <module name="MethodLength"/>
         <module name="ParameterNumber">
-            <property name="max" value="11"/>
+            <property name="max" value="9"/>
             <property name="ignoreOverriddenMethods" value="true"/>
         </module>
 
@@ -121,5 +123,6 @@
         <module name="ArrayTypeStyle"/>
         <module name="TodoComment"/>
         <module name="UpperEll"/>
+        <module name="SuppressWarningsHolder"/>
     </module>
 </module>

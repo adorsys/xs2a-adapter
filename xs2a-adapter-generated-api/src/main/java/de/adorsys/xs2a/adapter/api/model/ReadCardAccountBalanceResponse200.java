@@ -8,6 +8,8 @@ import java.util.Objects;
 public class ReadCardAccountBalanceResponse200 {
     private AccountReference cardAccount;
 
+    private Boolean debitAccounting;
+
     private List<Balance> balances;
 
     public AccountReference getCardAccount() {
@@ -16,6 +18,14 @@ public class ReadCardAccountBalanceResponse200 {
 
     public void setCardAccount(AccountReference cardAccount) {
         this.cardAccount = cardAccount;
+    }
+
+    public Boolean getDebitAccounting() {
+        return debitAccounting;
+    }
+
+    public void setDebitAccounting(Boolean debitAccounting) {
+        this.debitAccounting = debitAccounting;
     }
 
     public List<Balance> getBalances() {
@@ -32,12 +42,14 @@ public class ReadCardAccountBalanceResponse200 {
         if (o == null || getClass() != o.getClass()) return false;
         ReadCardAccountBalanceResponse200 that = (ReadCardAccountBalanceResponse200) o;
         return Objects.equals(cardAccount, that.cardAccount) &&
+            Objects.equals(debitAccounting, that.debitAccounting) &&
             Objects.equals(balances, that.balances);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(cardAccount,
+            debitAccounting,
             balances);
     }
 }
