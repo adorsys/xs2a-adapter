@@ -33,12 +33,10 @@ import de.adorsys.xs2a.adapter.impl.BaseAccountInformationService;
 import org.mapstruct.factory.Mappers;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class FiduciaAccountInformationService extends BaseAccountInformationService {
-//    private static final Set<String> SUPPORTED_BOOKING_STATUSES = new HashSet<>(Collections.singletonList("booked"));
     private static final Set<String> SUPPORTED_BOOKING_STATUSES = Set.of("booked", "information");
     private static final String BOOKING_STATUS_ERROR_MESSAGE = String.format(
         "ASPSP supports only the following booking statuses: %s. " +
