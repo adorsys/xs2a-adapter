@@ -104,7 +104,7 @@ public class CrealogixRequestResponseHandlers {
     private static TppMessage getTppMessage(String message) {
         TppMessage tppMessage = new TppMessage();
         tppMessage.setCategory(TppMessageCategory.ERROR);
-        tppMessage.setCode(MessageCode.TOKEN_UNKNOWN);
+        tppMessage.setCode(MessageCode.TOKEN_UNKNOWN.toString());
         tppMessage.setText(message);
         return tppMessage;
     }

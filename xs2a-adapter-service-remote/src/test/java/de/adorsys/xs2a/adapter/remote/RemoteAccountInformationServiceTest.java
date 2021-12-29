@@ -430,7 +430,7 @@ class RemoteAccountInformationServiceTest {
                                                                     eq(requestParams.dateFrom()),
                                                                     eq(requestParams.dateTo()),
                                                                     eq(entryReferenceFrom),
-                                                                    eq(BookingStatus.BOTH),
+                                                                    eq(BookingStatusCard.BOTH),
                                                                     eq(requestParams.deltaList()),
                                                                     eq(requestParams.withBalance()),
                                                                     anyMap(),
@@ -505,7 +505,7 @@ class RemoteAccountInformationServiceTest {
 
     private HashMap<String, String> buildRequestParams() {
         HashMap<String, String> params = new HashMap<>();
-        params.put(RequestParams.BOOKING_STATUS, BookingStatus.BOOKED.toString());
+        params.put(RequestParams.BOOKING_STATUS, BookingStatusGeneric.BOOKED.toString());
         return params;
     }
 

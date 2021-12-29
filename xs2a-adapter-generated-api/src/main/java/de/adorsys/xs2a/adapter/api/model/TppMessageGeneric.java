@@ -4,10 +4,10 @@ import javax.annotation.Generated;
 import java.util.Objects;
 
 @Generated("xs2a-adapter-codegen")
-public class TppMessage {
+public class TppMessageGeneric {
     private TppMessageCategory category;
 
-    private String code;
+    private TppMessageCategory code;
 
     private String path;
 
@@ -21,11 +21,11 @@ public class TppMessage {
         this.category = category;
     }
 
-    public String getCode() {
+    public TppMessageCategory getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(TppMessageCategory code) {
         this.code = code;
     }
 
@@ -49,7 +49,7 @@ public class TppMessage {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TppMessage that = (TppMessage) o;
+        TppMessageGeneric that = (TppMessageGeneric) o;
         return Objects.equals(category, that.category) &&
             Objects.equals(code, that.code) &&
             Objects.equals(path, that.path) &&

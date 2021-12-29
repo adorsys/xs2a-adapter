@@ -5,13 +5,13 @@ import java.util.Objects;
 
 @Generated("xs2a-adapter-codegen")
 public class OK200TransactionDetails {
-    private TransactionDetailsBody transactionsDetails;
+    private Transactions transactionsDetails;
 
-    public TransactionDetailsBody getTransactionsDetails() {
+    public Transactions getTransactionsDetails() {
         return transactionsDetails;
     }
 
-    public void setTransactionsDetails(TransactionDetailsBody transactionsDetails) {
+    public void setTransactionsDetails(Transactions transactionsDetails) {
         this.transactionsDetails = transactionsDetails;
     }
 

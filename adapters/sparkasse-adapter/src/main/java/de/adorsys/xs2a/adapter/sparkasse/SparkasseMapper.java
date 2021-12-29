@@ -12,19 +12,24 @@ public interface SparkasseMapper {
     OK200TransactionDetails toOK200TransactionDetails(SparkasseOK200TransactionDetails value);
     Transactions toTransactions(SparkasseTransactionDetails value);
 
-    @Mapping(target = "transactionDetails", expression = "java(toTransactions(value))")
-    TransactionDetailsBody toTransactionDetailsBody(SparkasseTransactionDetails value);
-
     default String map(RemittanceInformationStructured value) {
         return value == null ? null : value.getReference();
     }
 
-    @ValueMapping(target = "PUSH_OTP", source = "PUSH_DEC")
-    AuthenticationType toAuthenticationType(SparkasseAuthenticationType value);
+    AuthenticationObject toAuthenticationObject(SparkasseAuthenticationObject value);
 
+    @ValueMapping(target = "PUSH_OTP", source = "PUSH_DEC")
+    String toAuthenticationType(SparkasseAuthenticationType value);
+
+    @Mapping(target = "chosenScaMethod", expression = "java(toAuthenticationObject(value.getChosenScaMethod()))")
     ConsentsResponse201 toConsentsResponse201(SparkasseConsentsResponse201 value);
+
     PaymentInitationRequestResponse201 toPaymentInitationRequestResponse201(SparkassePaymentInitationRequestResponse201 value);
+
+    @Mapping(target = "chosenScaMethod", expression = "java(toAuthenticationObject(value.getChosenScaMethod()))")
     SelectPsuAuthenticationMethodResponse toSelectPsuAuthenticationMethodResponse(SparkasseSelectPsuAuthenticationMethodResponse value);
+
     StartScaprocessResponse toStartScaprocessResponse(SparkasseStartScaprocessResponse value);
     UpdatePsuAuthenticationResponse toUpdatePsuAuthenticationResponse(SparkasseUpdatePsuAuthenticationResponse value);
+
 }

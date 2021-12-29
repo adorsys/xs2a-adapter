@@ -14,6 +14,11 @@
   },
   "response": {
     "body": {
+      "_links": {
+        "scaStatus": {
+          "href": "https://simulator-xs2a.db.com/pis/DE/SB-DB/v1/periodic-payments/sepa-credit-transfers/9f3ad160-f096-4738-baed-7b42f5a5aeb5/authorisations/89383666-16a8-4cf7-8803-290f9a56628c"
+        }
+      },
       "scaStatus": "finalised"
       }
     }

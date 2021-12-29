@@ -1,34 +1,18 @@
 package de.adorsys.xs2a.adapter.api.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.annotation.Generated;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Generated("xs2a-adapter-codegen")
-public class Transactions {
-    private String transactionId;
-
-    private String entryReference;
-
+public class EntryDetailsElement {
     private String endToEndId;
-
-    private Boolean batchIndicator;
-
-    private Integer batchNumberOfTransactions;
 
     private String mandateId;
 
     private String checkId;
 
     private String creditorId;
-
-    private LocalDate bookingDate;
-
-    private LocalDate valueDate;
 
     private Amount transactionAmount;
 
@@ -58,38 +42,7 @@ public class Transactions {
 
     private List<String> remittanceInformationStructuredArray;
 
-    private List<EntryDetailsElement> entryDetails;
-
-    private String additionalInformation;
-
-    private AdditionalInformationStructured additionalInformationStructured;
-
     private PurposeCode purposeCode;
-
-    private String bankTransactionCode;
-
-    private String proprietaryBankTransactionCode;
-
-    private Balance balanceAfterTransaction;
-
-    @JsonProperty("_links")
-    private Map<String, HrefType> links;
-
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
-    }
-
-    public String getEntryReference() {
-        return entryReference;
-    }
-
-    public void setEntryReference(String entryReference) {
-        this.entryReference = entryReference;
-    }
 
     public String getEndToEndId() {
         return endToEndId;
@@ -97,22 +50,6 @@ public class Transactions {
 
     public void setEndToEndId(String endToEndId) {
         this.endToEndId = endToEndId;
-    }
-
-    public Boolean getBatchIndicator() {
-        return batchIndicator;
-    }
-
-    public void setBatchIndicator(Boolean batchIndicator) {
-        this.batchIndicator = batchIndicator;
-    }
-
-    public Integer getBatchNumberOfTransactions() {
-        return batchNumberOfTransactions;
-    }
-
-    public void setBatchNumberOfTransactions(Integer batchNumberOfTransactions) {
-        this.batchNumberOfTransactions = batchNumberOfTransactions;
     }
 
     public String getMandateId() {
@@ -137,22 +74,6 @@ public class Transactions {
 
     public void setCreditorId(String creditorId) {
         this.creditorId = creditorId;
-    }
-
-    public LocalDate getBookingDate() {
-        return bookingDate;
-    }
-
-    public void setBookingDate(LocalDate bookingDate) {
-        this.bookingDate = bookingDate;
-    }
-
-    public LocalDate getValueDate() {
-        return valueDate;
-    }
-
-    public void setValueDate(LocalDate valueDate) {
-        this.valueDate = valueDate;
     }
 
     public Amount getTransactionAmount() {
@@ -269,31 +190,6 @@ public class Transactions {
         this.remittanceInformationStructuredArray = remittanceInformationStructuredArray;
     }
 
-    public List<EntryDetailsElement> getEntryDetails() {
-        return entryDetails;
-    }
-
-    public void setEntryDetails(List<EntryDetailsElement> entryDetails) {
-        this.entryDetails = entryDetails;
-    }
-
-    public String getAdditionalInformation() {
-        return additionalInformation;
-    }
-
-    public void setAdditionalInformation(String additionalInformation) {
-        this.additionalInformation = additionalInformation;
-    }
-
-    public AdditionalInformationStructured getAdditionalInformationStructured() {
-        return additionalInformationStructured;
-    }
-
-    public void setAdditionalInformationStructured(
-        AdditionalInformationStructured additionalInformationStructured) {
-        this.additionalInformationStructured = additionalInformationStructured;
-    }
-
     public PurposeCode getPurposeCode() {
         return purposeCode;
     }
@@ -302,53 +198,15 @@ public class Transactions {
         this.purposeCode = purposeCode;
     }
 
-    public String getBankTransactionCode() {
-        return bankTransactionCode;
-    }
-
-    public void setBankTransactionCode(String bankTransactionCode) {
-        this.bankTransactionCode = bankTransactionCode;
-    }
-
-    public String getProprietaryBankTransactionCode() {
-        return proprietaryBankTransactionCode;
-    }
-
-    public void setProprietaryBankTransactionCode(String proprietaryBankTransactionCode) {
-        this.proprietaryBankTransactionCode = proprietaryBankTransactionCode;
-    }
-
-    public Balance getBalanceAfterTransaction() {
-        return balanceAfterTransaction;
-    }
-
-    public void setBalanceAfterTransaction(Balance balanceAfterTransaction) {
-        this.balanceAfterTransaction = balanceAfterTransaction;
-    }
-
-    public Map<String, HrefType> getLinks() {
-        return links;
-    }
-
-    public void setLinks(Map<String, HrefType> links) {
-        this.links = links;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Transactions that = (Transactions) o;
-        return Objects.equals(transactionId, that.transactionId) &&
-            Objects.equals(entryReference, that.entryReference) &&
-            Objects.equals(endToEndId, that.endToEndId) &&
-            Objects.equals(batchIndicator, that.batchIndicator) &&
-            Objects.equals(batchNumberOfTransactions, that.batchNumberOfTransactions) &&
+        EntryDetailsElement that = (EntryDetailsElement) o;
+        return Objects.equals(endToEndId, that.endToEndId) &&
             Objects.equals(mandateId, that.mandateId) &&
             Objects.equals(checkId, that.checkId) &&
             Objects.equals(creditorId, that.creditorId) &&
-            Objects.equals(bookingDate, that.bookingDate) &&
-            Objects.equals(valueDate, that.valueDate) &&
             Objects.equals(transactionAmount, that.transactionAmount) &&
             Objects.equals(currencyExchange, that.currencyExchange) &&
             Objects.equals(creditorName, that.creditorName) &&
@@ -363,28 +221,15 @@ public class Transactions {
             Objects.equals(remittanceInformationUnstructuredArray, that.remittanceInformationUnstructuredArray) &&
             Objects.equals(remittanceInformationStructured, that.remittanceInformationStructured) &&
             Objects.equals(remittanceInformationStructuredArray, that.remittanceInformationStructuredArray) &&
-            Objects.equals(entryDetails, that.entryDetails) &&
-            Objects.equals(additionalInformation, that.additionalInformation) &&
-            Objects.equals(additionalInformationStructured, that.additionalInformationStructured) &&
-            Objects.equals(purposeCode, that.purposeCode) &&
-            Objects.equals(bankTransactionCode, that.bankTransactionCode) &&
-            Objects.equals(proprietaryBankTransactionCode, that.proprietaryBankTransactionCode) &&
-            Objects.equals(balanceAfterTransaction, that.balanceAfterTransaction) &&
-            Objects.equals(links, that.links);
+            Objects.equals(purposeCode, that.purposeCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(transactionId,
-            entryReference,
-            endToEndId,
-            batchIndicator,
-            batchNumberOfTransactions,
+        return Objects.hash(endToEndId,
             mandateId,
             checkId,
             creditorId,
-            bookingDate,
-            valueDate,
             transactionAmount,
             currencyExchange,
             creditorName,
@@ -399,13 +244,6 @@ public class Transactions {
             remittanceInformationUnstructuredArray,
             remittanceInformationStructured,
             remittanceInformationStructuredArray,
-            entryDetails,
-            additionalInformation,
-            additionalInformationStructured,
-            purposeCode,
-            bankTransactionCode,
-            proprietaryBankTransactionCode,
-            balanceAfterTransaction,
-            links);
+            purposeCode);
     }
 }

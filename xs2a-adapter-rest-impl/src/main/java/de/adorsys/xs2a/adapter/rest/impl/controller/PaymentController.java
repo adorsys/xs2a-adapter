@@ -270,4 +270,3 @@ public class PaymentController extends AbstractController implements PaymentApi 
             .body(response.getBody());
     }
 }
-

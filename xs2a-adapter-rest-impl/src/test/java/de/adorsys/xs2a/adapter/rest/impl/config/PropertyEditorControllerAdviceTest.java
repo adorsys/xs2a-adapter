@@ -4,7 +4,8 @@ import de.adorsys.xs2a.adapter.api.AccountInformationService;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.RequestParams;
 import de.adorsys.xs2a.adapter.api.exception.NotAcceptableException;
-import de.adorsys.xs2a.adapter.api.model.BookingStatus;
+import de.adorsys.xs2a.adapter.api.model.BookingStatusCard;
+import de.adorsys.xs2a.adapter.api.model.BookingStatusGeneric;
 import de.adorsys.xs2a.adapter.mapper.HeadersMapper;
 import de.adorsys.xs2a.adapter.rest.impl.controller.ConsentController;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,6 +65,23 @@ class PropertyEditorControllerAdviceTest {
 
         RequestParams actualParams = paramsCaptor.getValue();
         assertNotNull(actualParams);
-        assertEquals(BookingStatus.BOOKED.toString(), actualParams.bookingStatus());
+        assertEquals(BookingStatusGeneric.BOOKED.toString(), actualParams.bookingStatus());
+    }
+
+    @Test
+    void setAsText_cardBookingStatus() throws Exception {
+        when(accountInformationService.getCardAccountTransactionList(anyString(), any(RequestHeaders.class), paramsCaptor.capture()))
+            .thenThrow(new NotAcceptableException("error message"));
+
+        mockMvc.perform(get("/v1/card-accounts/1/transactions")
+                .accept(APPLICATION_JSON_VALUE)
+                .param("bookingStatus", "booked"))
+            .andExpect(status().isNotAcceptable());
+
+        verify(propertyEditorControllerAdvice, atLeastOnce()).initBinder(any());
+
+        RequestParams actualParams = paramsCaptor.getValue();
+        assertNotNull(actualParams);
+        assertEquals(BookingStatusCard.BOOKED.toString(), actualParams.bookingStatus());
     }
 }

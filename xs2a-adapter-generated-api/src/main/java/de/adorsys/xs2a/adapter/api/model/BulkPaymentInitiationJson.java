@@ -18,6 +18,8 @@ public class BulkPaymentInitiationJson {
 
     private List<PaymentInitiationBulkElementJson> payments;
 
+    private String debtorName;
+
     public Boolean getBatchBookingPreferred() {
         return batchBookingPreferred;
     }
@@ -58,6 +60,14 @@ public class BulkPaymentInitiationJson {
         this.payments = payments;
     }
 
+    public String getDebtorName() {
+        return debtorName;
+    }
+
+    public void setDebtorName(String debtorName) {
+        this.debtorName = debtorName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,7 +77,8 @@ public class BulkPaymentInitiationJson {
             Objects.equals(debtorAccount, that.debtorAccount) &&
             Objects.equals(requestedExecutionDate, that.requestedExecutionDate) &&
             Objects.equals(requestedExecutionTime, that.requestedExecutionTime) &&
-            Objects.equals(payments, that.payments);
+            Objects.equals(payments, that.payments) &&
+            Objects.equals(debtorName, that.debtorName);
     }
 
     @Override
@@ -76,6 +87,7 @@ public class BulkPaymentInitiationJson {
             debtorAccount,
             requestedExecutionDate,
             requestedExecutionTime,
-            payments);
+            payments,
+            debtorName);
     }
 }

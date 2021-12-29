@@ -426,7 +426,7 @@ class ConsentControllerTest {
             .thenReturn(buildResponse(TestModelBuilder.buildCardAccountsTransactionsResponse()));
 
         mockMvc.perform(get(CARD_ACCOUNTS + "/foo/transactions")
-        .param("bookingStatus", BookingStatus.BOOKED.toString()))
+        .param("bookingStatus", BookingStatusCard.BOOKED.toString()))
             .andExpect(status().isOk())
             .andExpect(jsonPath(format("$._links.%s.href", TestModelBuilder.CONSTENT_ID),
                 containsString(TestModelBuilder.MESSAGE)));
@@ -471,11 +471,19 @@ class ConsentControllerTest {
 
     private static FormattingConversionService buildFormattingConversionService() {
         FormattingConversionService service = new FormattingConversionService();
-        service.addConverter(new Converter<String, BookingStatus>() {
+        service.addConverter(new Converter<String, BookingStatusGeneric>() {
 
             @Override
-            public BookingStatus convert(String source) {
-                return BookingStatus.fromValue(source);
+            public BookingStatusGeneric convert(String source) {
+                return BookingStatusGeneric.fromValue(source);
+            }
+        });
+
+        service.addConverter(new Converter<String, BookingStatusCard>() {
+
+            @Override
+            public BookingStatusCard convert(String source) {
+                return BookingStatusCard.fromValue(source);
             }
         });
 

@@ -13,6 +13,11 @@
   },
   "response": {
     "body": {
+      "_links": {
+        "scaStatus": {
+          "href": "https://www.sandbox-bvxs2a.de/xbank/v1/payments/pain.001-sepa-credit-transfers/tIsb8fiD9_bi1gDuN7EwhAlPkOdfHwgvoAIiksmOVVYOhIu0pokCEKbQldu1TJJb2JZg8bL_p92Ot1RZiwTlEPSdMWF3876hAweK_n7HJlg=_=_psGLvQpt9Q/authorisations/b890406b-f872-4889-9242-6891f5d6967b"
+        }
+      },
       "scaStatus": "finalised"
       }
     }

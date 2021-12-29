@@ -15,7 +15,7 @@ public class StartScaprocessResponse {
 
     private List<AuthenticationObject> scaMethods;
 
-    private AuthenticationObject chosenScaMethod;
+    private Object chosenScaMethod;
 
     private ChallengeData challengeData;
 
@@ -23,6 +23,8 @@ public class StartScaprocessResponse {
     private Map<String, HrefType> links;
 
     private String psuMessage;
+
+    private List<TppMessageGeneric> tppMessage;
 
     public ScaStatus getScaStatus() {
         return scaStatus;
@@ -48,11 +50,11 @@ public class StartScaprocessResponse {
         this.scaMethods = scaMethods;
     }
 
-    public AuthenticationObject getChosenScaMethod() {
+    public Object getChosenScaMethod() {
         return chosenScaMethod;
     }
 
-    public void setChosenScaMethod(AuthenticationObject chosenScaMethod) {
+    public void setChosenScaMethod(Object chosenScaMethod) {
         this.chosenScaMethod = chosenScaMethod;
     }
 
@@ -80,6 +82,14 @@ public class StartScaprocessResponse {
         this.psuMessage = psuMessage;
     }
 
+    public List<TppMessageGeneric> getTppMessage() {
+        return tppMessage;
+    }
+
+    public void setTppMessage(List<TppMessageGeneric> tppMessage) {
+        this.tppMessage = tppMessage;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,7 +101,8 @@ public class StartScaprocessResponse {
             Objects.equals(chosenScaMethod, that.chosenScaMethod) &&
             Objects.equals(challengeData, that.challengeData) &&
             Objects.equals(links, that.links) &&
-            Objects.equals(psuMessage, that.psuMessage);
+            Objects.equals(psuMessage, that.psuMessage) &&
+            Objects.equals(tppMessage, that.tppMessage);
     }
 
     @Override
@@ -102,6 +113,7 @@ public class StartScaprocessResponse {
             chosenScaMethod,
             challengeData,
             links,
-            psuMessage);
+            psuMessage,
+            tppMessage);
     }
 }

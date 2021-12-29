@@ -13,6 +13,11 @@
   },
   "response": {
     "body": {
+      "_links": {
+        "scaStatus": {
+          "href": "https://xs2a-sandbox.f-i-apim.de:8444/fixs2a-env/xs2a-api/12345678/v1/payments/sepa-credit-transfers/5f6e3778-2b5c-460c-90f9-c86b0f5c5d57/authorisations/c9ef5300-0091-47c6-9df9-2190313e8f03"
+        }
+      },
       "scaStatus": "finalised"
       }
     }

@@ -22,6 +22,8 @@ public class BulkPaymentInitiationWithStatusResponse {
 
     private TransactionStatus transactionStatus;
 
+    private List<TppMessageGeneric> tppMessage;
+
     public Boolean getBatchBookingPreferred() {
         return batchBookingPreferred;
     }
@@ -78,6 +80,14 @@ public class BulkPaymentInitiationWithStatusResponse {
         this.transactionStatus = transactionStatus;
     }
 
+    public List<TppMessageGeneric> getTppMessage() {
+        return tppMessage;
+    }
+
+    public void setTppMessage(List<TppMessageGeneric> tppMessage) {
+        this.tppMessage = tppMessage;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,7 +99,8 @@ public class BulkPaymentInitiationWithStatusResponse {
             Objects.equals(debtorAccount, that.debtorAccount) &&
             Objects.equals(paymentInformationId, that.paymentInformationId) &&
             Objects.equals(payments, that.payments) &&
-            Objects.equals(transactionStatus, that.transactionStatus);
+            Objects.equals(transactionStatus, that.transactionStatus) &&
+            Objects.equals(tppMessage, that.tppMessage);
     }
 
     @Override
@@ -100,6 +111,7 @@ public class BulkPaymentInitiationWithStatusResponse {
             debtorAccount,
             paymentInformationId,
             payments,
-            transactionStatus);
+            transactionStatus,
+            tppMessage);
     }
 }

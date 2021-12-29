@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Generated("xs2a-adapter-codegen")
-public class PaymentInitiationStatusResponse200Json {
+public class PaymentInitiationStatusResponse202Json {
     private TransactionStatus transactionStatus;
 
     private Boolean fundsAvailable;
@@ -64,7 +64,7 @@ public class PaymentInitiationStatusResponse200Json {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PaymentInitiationStatusResponse200Json that = (PaymentInitiationStatusResponse200Json) o;
+        PaymentInitiationStatusResponse202Json that = (PaymentInitiationStatusResponse202Json) o;
         return Objects.equals(transactionStatus, that.transactionStatus) &&
             Objects.equals(fundsAvailable, that.fundsAvailable) &&
             Objects.equals(psuMessage, that.psuMessage) &&

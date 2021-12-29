@@ -340,7 +340,7 @@ public class RemoteAccountInformationService implements AccountInformationServic
         LocalDate dateFrom = strToLocalDate(requestParamMap.get(RequestParams.DATE_FROM));
         LocalDate dateTo = strToLocalDate(requestParamMap.get(RequestParams.DATE_TO));
         String entryReferenceFrom = requestParamMap.get(RequestParams.ENTRY_REFERENCE_FROM);
-        BookingStatus bookingStatus = BookingStatus.fromValue(
+        BookingStatusGeneric bookingStatus = BookingStatusGeneric.fromValue(
             requestParamMap.get(RequestParams.BOOKING_STATUS)
         );
         Boolean deltaList = Boolean.valueOf(requestParamMap.get(RequestParams.DELTA_LIST));
@@ -451,7 +451,7 @@ public class RemoteAccountInformationService implements AccountInformationServic
                 requestParams.dateFrom(),
                 requestParams.dateTo(),
                 requestParams.entryReferenceFrom(),
-                requestParams.bookingStatus() != null ? BookingStatus.fromValue(requestParams.bookingStatus()) : null,
+                requestParams.bookingStatus() != null ? BookingStatusCard.fromValue(requestParams.bookingStatus()) : null,
                 requestParams.deltaList(),
                 requestParams.withBalance(),
                 requestParams.toMap(),

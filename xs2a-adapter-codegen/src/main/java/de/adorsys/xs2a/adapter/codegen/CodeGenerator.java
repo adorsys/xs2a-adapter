@@ -219,7 +219,7 @@ public class CodeGenerator {
         } else if (content.size() == 1) {
             Map.Entry<String, MediaType> entry = content.entrySet().iterator().next();
             String key = entry.getKey();
-            if (key.equals("application/xml")) {
+            if (key.equals("application/xml") || key.equals("text/plain")) {
                 return ClassName.get(String.class);
             } else if (key.equals("application/json")) {
                 MediaType value = entry.getValue();
@@ -327,11 +327,12 @@ public class CodeGenerator {
                 MediaType mediaType = content.get("application/json");
                 if (mediaType == null) return false;
                 return mediaType.getSchema() instanceof ObjectSchema;
-            })
-            .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().getContent().get("application/json").getSchema()));
+            }).collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().getContent().get("application/json").getSchema()));
+
         Map<String, Schema> parameterSchemas = api.getComponents().getParameters().entrySet().stream()
             .filter(p -> p.getValue().getSchema() != null && (p.getValue().getIn().equals("path") || p.getValue().getIn().equals("query")))
             .collect(Collectors.toMap(Map.Entry::getKey, p -> p.getValue().getSchema()));
+
         Map<String, Schema> componentSchemas = api.getComponents().getSchemas();
         Map<String, Schema> combinedSchemas = new LinkedHashMap<>(componentSchemas);
         combinedSchemas.putAll(parameterSchemas);

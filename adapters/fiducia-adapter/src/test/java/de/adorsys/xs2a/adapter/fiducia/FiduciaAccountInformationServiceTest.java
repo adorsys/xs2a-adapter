@@ -151,7 +151,6 @@ class FiduciaAccountInformationServiceTest {
 
         ExecutionRule executionRule = response.getBody()
             .getTransactionsDetails()
-            .getTransactionDetails()
             .getAdditionalInformationStructured()
             .getStandingOrderDetails()
             .getExecutionRule();
@@ -225,7 +224,6 @@ class FiduciaAccountInformationServiceTest {
 
         DayOfExecution dayOfExecution = response.getBody()
             .getTransactionsDetails()
-            .getTransactionDetails()
             .getAdditionalInformationStructured()
             .getStandingOrderDetails()
             .getDayOfExecution();
@@ -300,7 +298,6 @@ class FiduciaAccountInformationServiceTest {
 
         StandingOrderDetails.MonthsOfExecution monthsOfExecution = response.getBody()
             .getTransactionsDetails()
-            .getTransactionDetails()
             .getAdditionalInformationStructured()
             .getStandingOrderDetails()
             .getMonthsOfExecution()
