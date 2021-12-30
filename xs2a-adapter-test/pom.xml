@@ -6,7 +6,7 @@
     <parent>
         <artifactId>xs2a-adapter</artifactId>
         <groupId>de.adorsys.xs2a.adapter</groupId>
-        <version>0.1.18-alpha-release-candidate</version>
+        <version>0.1.18-SNAPSHOT</version>
     </parent>
 
     <artifactId>xs2a-adapter-test</artifactId>
