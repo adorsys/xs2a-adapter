@@ -39,8 +39,9 @@ public interface FiduciaMapper {
     @Mapping(target = "currencyExchange", ignore = true)
     Transactions toTransactionDetails(FiduciaTransactionDetails value);
 
-    @Mapping(target = "transactionDetails", expression = "java(toTransactionDetails(value))")
-    TransactionDetailsBody toTransactionDetailsBody(FiduciaTransactionDetails value);
+    default String map(RemittanceInformationStructured value) {
+        return value == null ? null : value.getReference();
+    }
 
     PaymentInitationRequestResponse201 toPaymentInitationRequestResponse201(FiduciaPaymentInitationRequestResponse201 value);
 }

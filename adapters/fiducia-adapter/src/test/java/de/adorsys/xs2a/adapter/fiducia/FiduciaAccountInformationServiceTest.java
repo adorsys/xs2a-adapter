@@ -14,6 +14,8 @@ import de.adorsys.xs2a.adapter.impl.link.identity.IdentityLinksRewriter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
 import java.io.ByteArrayInputStream;
@@ -41,6 +43,17 @@ class FiduciaAccountInformationServiceTest {
         when(httpClientFactory.getHttpClientConfig()).thenReturn(httpClientConfig);
 
         service = new FiduciaAccountInformationService(new Aspsp(), httpClientFactory, null, new IdentityLinksRewriter());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"booked", "information"})
+    void getTransactionList_success_checkSupportedBookingStatuses(String status) {
+        RequestHeaders requestHeaders = RequestHeaders.fromMap(new HashMap<>());
+        RequestParams requestParams = RequestParams.fromMap(buildRequestParamsMapWithBookingStatus(status));
+
+        Assertions.assertDoesNotThrow(
+            () -> service.validateGetTransactionList(ACCOUNT_ID, requestHeaders, requestParams)
+        );
     }
 
     @Test
@@ -138,7 +151,6 @@ class FiduciaAccountInformationServiceTest {
 
         ExecutionRule executionRule = response.getBody()
             .getTransactionsDetails()
-            .getTransactionDetails()
             .getAdditionalInformationStructured()
             .getStandingOrderDetails()
             .getExecutionRule();
@@ -212,7 +224,6 @@ class FiduciaAccountInformationServiceTest {
 
         DayOfExecution dayOfExecution = response.getBody()
             .getTransactionsDetails()
-            .getTransactionDetails()
             .getAdditionalInformationStructured()
             .getStandingOrderDetails()
             .getDayOfExecution();
@@ -287,7 +298,6 @@ class FiduciaAccountInformationServiceTest {
 
         StandingOrderDetails.MonthsOfExecution monthsOfExecution = response.getBody()
             .getTransactionsDetails()
-            .getTransactionDetails()
             .getAdditionalInformationStructured()
             .getStandingOrderDetails()
             .getMonthsOfExecution()

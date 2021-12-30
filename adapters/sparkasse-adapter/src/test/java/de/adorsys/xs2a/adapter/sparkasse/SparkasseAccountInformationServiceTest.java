@@ -39,6 +39,7 @@ class SparkasseAccountInformationServiceTest {
     private static final String REMITTANCE_INFORMATION_STRUCTURED = "remittanceInformationStructuredStringValue";
     private static final String CONSENT_ID = "consentId";
     private static final String AUTHORISATION_ID = "authorisationId";
+    private static final String AUTHORISATION_TYPE = "PUSH_OTP";
 
     private SparkasseAccountInformationService accountInformationService;
     @Mock
@@ -82,10 +83,10 @@ class SparkasseAccountInformationServiceTest {
             .isNotNull()
             .extracting(Response::getBody)
             .asInstanceOf(InstanceOfAssertFactories.type(ConsentsResponse201.class))
-            .matches(body ->
-                body.getChosenScaMethod()
-                    .getAuthenticationType()
-                    .equals(AuthenticationType.PUSH_OTP));
+            .matches(body -> {
+                var authObject = (AuthenticationObject) body.getChosenScaMethod();
+                return authObject.getAuthenticationType().equals(AUTHORISATION_TYPE);
+            });
     }
 
     @Test
@@ -106,15 +107,15 @@ class SparkasseAccountInformationServiceTest {
             .isNotNull()
             .extracting(Response::getBody)
             .asInstanceOf(InstanceOfAssertFactories.type(StartScaprocessResponse.class))
-            .matches(body ->
-                body.getChosenScaMethod()
-                    .getAuthenticationType()
-                    .equals(AuthenticationType.PUSH_OTP))
+            .matches(body -> {
+                var authObject = (AuthenticationObject) body.getChosenScaMethod();
+                return authObject.getAuthenticationType().equals(AUTHORISATION_TYPE);
+            })
             .matches(body ->
                 body.getScaMethods()
                     .get(0) // assuming only one Sca Method
                     .getAuthenticationType()
-                    .equals(AuthenticationType.PUSH_OTP));
+                    .equals(AUTHORISATION_TYPE));
     }
 
     @Test
@@ -139,15 +140,15 @@ class SparkasseAccountInformationServiceTest {
             .isNotNull()
             .extracting(Response::getBody)
             .asInstanceOf(InstanceOfAssertFactories.type(UpdatePsuAuthenticationResponse.class))
-            .matches(body ->
-                body.getChosenScaMethod()
-                    .getAuthenticationType()
-                    .equals(AuthenticationType.PUSH_OTP))
+            .matches(body -> {
+                var authObject = (AuthenticationObject) body.getChosenScaMethod();
+                return authObject.getAuthenticationType().equals(AUTHORISATION_TYPE);
+            })
             .matches(body ->
                 body.getScaMethods()
                     .get(0) // assuming only one Sca Method
                     .getAuthenticationType()
-                    .equals(AuthenticationType.PUSH_OTP));
+                    .equals(AUTHORISATION_TYPE));
     }
 
     @Test
@@ -172,10 +173,10 @@ class SparkasseAccountInformationServiceTest {
             .isNotNull()
             .extracting(Response::getBody)
             .asInstanceOf(InstanceOfAssertFactories.type(SelectPsuAuthenticationMethodResponse.class))
-            .matches(body ->
-                body.getChosenScaMethod()
-                    .getAuthenticationType()
-                    .equals(AuthenticationType.PUSH_OTP));
+            .matches(body -> {
+                var authObject = (AuthenticationObject) body.getChosenScaMethod();
+                return authObject.getAuthenticationType().equals(AUTHORISATION_TYPE);
+            });
     }
 
     @Test
@@ -227,7 +228,6 @@ class SparkasseAccountInformationServiceTest {
             .asInstanceOf(InstanceOfAssertFactories.type(OK200TransactionDetails.class))
             .matches(body ->
                 body.getTransactionsDetails()
-                    .getTransactionDetails()
                     .getRemittanceInformationStructured()
                     .equals(REMITTANCE_INFORMATION_STRUCTURED));
     }

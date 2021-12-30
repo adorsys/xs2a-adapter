@@ -6,24 +6,26 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import javax.annotation.Generated;
 
 @Generated("xs2a-adapter-codegen")
-public enum BookingStatus {
+public enum BookingStatusGeneric {
     INFORMATION("information"),
 
     BOOKED("booked"),
 
     PENDING("pending"),
 
-    BOTH("both");
+    BOTH("both"),
+
+    ALL("all");
 
     private String value;
 
-    BookingStatus(String value) {
+    BookingStatusGeneric(String value) {
         this.value = value;
     }
 
     @JsonCreator
-    public static BookingStatus fromValue(String value) {
-        for (BookingStatus e : BookingStatus.values()) {
+    public static BookingStatusGeneric fromValue(String value) {
+        for (BookingStatusGeneric e : BookingStatusGeneric.values()) {
             if (e.value.equals(value)) {
                 return e;
             }

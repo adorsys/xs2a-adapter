@@ -29,7 +29,7 @@ public class Main {
     private static final String OPENAPI_SPEC_DIR = "xs2a-adapter-rest-impl/src/main/resources/static";
     private static final String GENERATED_REST_API_DIR = "xs2a-adapter-generated-rest-api/src/main/java";
     private static final String GENERATED_API_DIR = "xs2a-adapter-generated-api/src/main/java";
-    private static final Map<String, String> operationToInterface = Map.ofEntries(
+    private static final Map<String, String> OPERATION_TO_INTERFACE = Map.ofEntries(
         Map.entry("createConsent", CONSENT_API),
         Map.entry("getConsentInformation", CONSENT_API),
         Map.entry("getConsentStatus", CONSENT_API),
@@ -40,15 +40,15 @@ public class Main {
         Map.entry("deleteConsent", CONSENT_API),
 
         Map.entry("getAccountList", ACCOUNT_API),
+        Map.entry("readAccountDetails", ACCOUNT_API),
+        Map.entry("getBalances", ACCOUNT_API),
         Map.entry("getTransactionList", ACCOUNT_API),
         Map.entry("getTransactionDetails", ACCOUNT_API),
-        Map.entry("getBalances", ACCOUNT_API),
-        Map.entry("readAccountDetails", ACCOUNT_API),
         // card accounts
-        Map.entry("getCardAccount", ACCOUNT_API),
-        Map.entry("ReadCardAccount", ACCOUNT_API),
-        Map.entry("getCardAccountTransactionList", ACCOUNT_API),
+        Map.entry("getCardAccountList", ACCOUNT_API),
+        Map.entry("readCardAccountDetails", ACCOUNT_API),
         Map.entry("getCardAccountBalances", ACCOUNT_API),
+        Map.entry("getCardAccountTransactionList", ACCOUNT_API),
 
 
         Map.entry("initiatePayment", PAYMENT_API),
@@ -61,17 +61,24 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
+        generate("de.adorsys.xs2a.adapter","xs2a-adapter-codegen/src/main/resources/psd2-api 1.3.9 2021-05-04v1.json", "1.3.9");
+    }
 
-        String modifiedSpec = filterOperations("xs2a-adapter-codegen/src/main/resources/psd2-api 1.3.8 2020-11-06v1.json",
-            operationToInterface.keySet());
-        modifiedSpec = addCustomParams(modifiedSpec);
-        modifiedSpec = removeServers(modifiedSpec);
 
-        Files.writeString(Paths.get(OPENAPI_SPEC_DIR, "xs2aapi.json"), modifiedSpec);
-        OpenAPI api = parseSpec(modifiedSpec);
-        FileUtils.deleteDirectory(new File(GENERATED_REST_API_DIR));
-        FileUtils.deleteDirectory(new File(GENERATED_API_DIR));
-        new CodeGenerator(api, Main::saveFile, "de.adorsys.xs2a.adapter").generate(operationToInterface);
+   private  static void  generate(String basePackage, String apiSource,String version) throws IOException {
+       String modifiedSpec = filterOperations(apiSource, OPERATION_TO_INTERFACE.keySet());
+       modifiedSpec = addCustomParams(modifiedSpec);
+       modifiedSpec = removeServers(modifiedSpec);
+
+       Files.writeString(Paths.get(OPENAPI_SPEC_DIR, version != null ? String.format("xs2aapi.%s.json", version): "xs2aapi.json"), modifiedSpec);
+       OpenAPI api = parseSpec(modifiedSpec);
+       FileUtils.deleteDirectory(getFile(basePackage, GENERATED_REST_API_DIR));
+       FileUtils.deleteDirectory(getFile(basePackage, GENERATED_API_DIR));
+       new CodeGenerator(api, Main::saveFile, basePackage).generate(OPERATION_TO_INTERFACE);
+   }
+
+    private static File getFile(String basePackage, String generatedRestApiDir) {
+        return new File(generatedRestApiDir.concat("/").concat(basePackage.replace(".", "/")));
     }
 
     private static OpenAPI parseSpec(String json) {

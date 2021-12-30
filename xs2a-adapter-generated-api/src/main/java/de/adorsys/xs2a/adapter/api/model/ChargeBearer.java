@@ -6,28 +6,24 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import javax.annotation.Generated;
 
 @Generated("xs2a-adapter-codegen")
-public enum AuthenticationType {
-    SMS_OTP("SMS_OTP"),
+public enum ChargeBearer {
+    DEBT("DEBT"),
 
-    CHIP_OTP("CHIP_OTP"),
+    CRED("CRED"),
 
-    PHOTO_OTP("PHOTO_OTP"),
+    SHAR("SHAR"),
 
-    PUSH_OTP("PUSH_OTP"),
-
-    SMTP_OTP("SMTP_OTP"),
-
-    EMAIL("EMAIL");
+    SLEV("SLEV");
 
     private String value;
 
-    AuthenticationType(String value) {
+    ChargeBearer(String value) {
         this.value = value;
     }
 
     @JsonCreator
-    public static AuthenticationType fromValue(String value) {
-        for (AuthenticationType e : AuthenticationType.values()) {
+    public static ChargeBearer fromValue(String value) {
+        for (ChargeBearer e : ChargeBearer.values()) {
             if (e.value.equals(value)) {
                 return e;
             }

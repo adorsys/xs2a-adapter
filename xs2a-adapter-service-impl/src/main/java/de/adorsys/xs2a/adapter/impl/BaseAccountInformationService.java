@@ -549,7 +549,7 @@ public class BaseAccountInformationService extends AbstractService implements Ac
 
         Optional.ofNullable(response.getBody())
             .map(OK200TransactionDetails::getTransactionsDetails)
-            .ifPresent(t -> t.getTransactionDetails().setLinks(linksRewriter.rewrite(t.getTransactionDetails().getLinks())));
+            .ifPresent(t -> t.setLinks(linksRewriter.rewrite(t.getLinks())));
 
         return new Response<>(response.getStatusCode(), response.getBody(), response.getHeaders());
     }

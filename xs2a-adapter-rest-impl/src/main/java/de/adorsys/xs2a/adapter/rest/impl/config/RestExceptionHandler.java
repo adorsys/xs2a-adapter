@@ -145,7 +145,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         for (ValidationError validationError : exception.getValidationErrors()) {
             TppMessage tppMessage = new TppMessage();
             tppMessage.setCategory(TppMessageCategory.ERROR);
-            tppMessage.setCode(MessageCode.FORMAT_ERROR);
+            tppMessage.setCode(MessageCode.FORMAT_ERROR.toString());
             tppMessage.setPath(validationError.getPath());
             tppMessage.setText(validationError.getMessage());
             tppMessages.add(tppMessage);

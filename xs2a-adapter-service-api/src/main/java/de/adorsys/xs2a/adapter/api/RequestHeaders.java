@@ -32,6 +32,12 @@ public class RequestHeaders {
     public static final String PSU_HTTP_METHOD = "PSU-Http-Method";
     public static final String PSU_DEVICE_ID = "PSU-Device-ID";
     public static final String PSU_GEO_LOCATION = "PSU-Geo-Location";
+    public static final String TPP_DECOUPLED_PREFERRED = "TPP-Decoupled-Preferred";
+    public static final String TPP_BRAND_LOGGING_INFORMATION = "TPP-Brand-Logging-Information";
+    public static final String TPP_NOTIFICATION_URI = "TPP-Notification-URI";
+    public static final String TPP_NOTIFICATION_CONTENT_PREFERRED = "TPP-Notification-Content-Preferred";
+    public static final String PSU_IP_ADDRESS_MANDATORY = "PSU-IP-Address_mandatory";
+
     // technical
     public static final String ACCEPT = "Accept";
     public static final String CONTENT_TYPE = "Content-Type";
@@ -84,6 +90,11 @@ public class RequestHeaders {
         headerNamesLowerCased.put(CORRELATION_ID.toLowerCase(), CORRELATION_ID);
         headerNamesLowerCased.put(X_OAUTH_PREFERRED.toLowerCase(), X_OAUTH_PREFERRED);
         headerNamesLowerCased.put(PSD2_AUTHORIZATION.toLowerCase(), PSD2_AUTHORIZATION);
+        headerNamesLowerCased.put(TPP_DECOUPLED_PREFERRED.toLowerCase(), TPP_DECOUPLED_PREFERRED);
+        headerNamesLowerCased.put(TPP_BRAND_LOGGING_INFORMATION.toLowerCase(), TPP_BRAND_LOGGING_INFORMATION);
+        headerNamesLowerCased.put(TPP_NOTIFICATION_URI.toLowerCase(), TPP_NOTIFICATION_URI);
+        headerNamesLowerCased.put(TPP_NOTIFICATION_CONTENT_PREFERRED.toLowerCase(), TPP_NOTIFICATION_CONTENT_PREFERRED);
+        headerNamesLowerCased.put(PSU_IP_ADDRESS_MANDATORY.toLowerCase(), PSU_IP_ADDRESS_MANDATORY);
     }
 
     private final Map<String, String> headers;

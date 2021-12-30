@@ -7,7 +7,7 @@ import java.util.Objects;
 public class TppMessage {
     private TppMessageCategory category;
 
-    private MessageCode code;
+    private String code;
 
     private String path;
 
@@ -21,11 +21,11 @@ public class TppMessage {
         this.category = category;
     }
 
-    public MessageCode getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(MessageCode code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

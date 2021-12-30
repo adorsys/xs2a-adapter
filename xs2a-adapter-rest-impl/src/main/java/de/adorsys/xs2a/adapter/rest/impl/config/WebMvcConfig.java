@@ -6,7 +6,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import de.adorsys.xs2a.adapter.api.model.BookingStatus;
+import de.adorsys.xs2a.adapter.api.model.BookingStatusCard;
+import de.adorsys.xs2a.adapter.api.model.BookingStatusGeneric;
 import de.adorsys.xs2a.adapter.api.model.PaymentProduct;
 import de.adorsys.xs2a.adapter.api.model.PaymentService;
 import de.adorsys.xs2a.adapter.api.model.PeriodicPaymentInitiationXmlPart2StandingorderTypeJson;
@@ -39,18 +40,34 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registrar.setUseIsoFormat(true);
         registrar.registerFormatters(registry);
 
-        registry.addConverter(new Converter<String, BookingStatus>() {
+        registry.addConverter(new Converter<String, BookingStatusGeneric>() {
 
             @Override
-            public BookingStatus convert(String source) {
-                return BookingStatus.fromValue(source);
+            public BookingStatusGeneric convert(String source) {
+                return BookingStatusGeneric.fromValue(source);
             }
         });
 
-        registry.addConverter(new Converter<BookingStatus, String>() {
+        registry.addConverter(new Converter<BookingStatusGeneric, String>() {
 
             @Override
-            public String convert(BookingStatus source) {
+            public String convert(BookingStatusGeneric source) {
+                return source.toString();
+            }
+        });
+
+        registry.addConverter(new Converter<String, BookingStatusCard>() {
+
+            @Override
+            public BookingStatusCard convert(String source) {
+                return BookingStatusCard.fromValue(source);
+            }
+        });
+
+        registry.addConverter(new Converter<BookingStatusCard, String>() {
+
+            @Override
+            public String convert(BookingStatusCard source) {
                 return source.toString();
             }
         });

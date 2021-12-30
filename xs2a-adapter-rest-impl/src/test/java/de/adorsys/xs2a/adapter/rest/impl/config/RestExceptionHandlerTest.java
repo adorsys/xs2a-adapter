@@ -67,7 +67,7 @@ class RestExceptionHandlerTest {
         assertThat(responseEntity.getBody().getTppMessages()).hasSize(1);
         TppMessage tppMessage = responseEntity.getBody().getTppMessages().get(0);
         assertThat(tppMessage.getCategory()).isEqualTo(TppMessageCategory.ERROR);
-        assertThat(tppMessage.getCode()).isEqualTo(MessageCode.FORMAT_ERROR);
+        assertThat(tppMessage.getCode()).isEqualTo(MessageCode.FORMAT_ERROR.toString());
         assertThat(tppMessage.getPath()).isEqualTo(requestValidationException.getValidationErrors().get(0).getPath());
         assertThat(tppMessage.getText()).isEqualTo(requestValidationException.getValidationErrors().get(0).getMessage());
     }

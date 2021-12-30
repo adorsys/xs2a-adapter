@@ -25,6 +25,8 @@ public class CardAccountDetails {
 
     private String product;
 
+    private Boolean debitAccounting;
+
     private AccountStatus status;
 
     private Usage usage;
@@ -94,6 +96,14 @@ public class CardAccountDetails {
         this.product = product;
     }
 
+    public Boolean getDebitAccounting() {
+        return debitAccounting;
+    }
+
+    public void setDebitAccounting(Boolean debitAccounting) {
+        this.debitAccounting = debitAccounting;
+    }
+
     public AccountStatus getStatus() {
         return status;
     }
@@ -154,6 +164,7 @@ public class CardAccountDetails {
             Objects.equals(name, that.name) &&
             Objects.equals(displayName, that.displayName) &&
             Objects.equals(product, that.product) &&
+            Objects.equals(debitAccounting, that.debitAccounting) &&
             Objects.equals(status, that.status) &&
             Objects.equals(usage, that.usage) &&
             Objects.equals(details, that.details) &&
@@ -171,6 +182,7 @@ public class CardAccountDetails {
             name,
             displayName,
             product,
+            debitAccounting,
             status,
             usage,
             details,

@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Generated("xs2a-adapter-codegen")
 public class AuthenticationObject {
-    private AuthenticationType authenticationType;
+    private String authenticationType;
 
     private String authenticationVersion;
 
@@ -15,11 +15,11 @@ public class AuthenticationObject {
 
     private String explanation;
 
-    public AuthenticationType getAuthenticationType() {
+    public String getAuthenticationType() {
         return authenticationType;
     }
 
-    public void setAuthenticationType(AuthenticationType authenticationType) {
+    public void setAuthenticationType(String authenticationType) {
         this.authenticationType = authenticationType;
     }
 

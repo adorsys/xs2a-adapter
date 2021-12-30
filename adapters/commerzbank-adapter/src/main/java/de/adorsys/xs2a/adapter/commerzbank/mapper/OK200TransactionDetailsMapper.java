@@ -5,6 +5,6 @@ import de.adorsys.xs2a.adapter.commerzbank.model.CommerzbankOK200TransactionDeta
 import org.mapstruct.Mapper;
 
 @Mapper
-public interface OK200TransactionDetailsMapper extends TransactionDetailsBodyMapper {
+public interface OK200TransactionDetailsMapper {
     OK200TransactionDetails toOK200TransactionDetails(CommerzbankOK200TransactionDetails value);
 }

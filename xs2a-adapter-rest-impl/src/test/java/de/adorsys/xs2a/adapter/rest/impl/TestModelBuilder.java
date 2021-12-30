@@ -30,7 +30,7 @@ public class TestModelBuilder {
     public static final String AUTHORISATION_ID = "authorisation-ID";
     public static final String PAYMENT_ID = "payment-ID";
     public static final String NAME = "SMS OTP on phone +49160 xxxxx 28";
-    public static final AuthenticationType TYPE = AuthenticationType.SMS_OTP;
+    public static final String TYPE = "SMS_OTP";
     public static final String EXPLANATION = "some explanation";
     public static final String VERSION = "v1.2";
     public static final String METHOD_ID = "authMethodId3";

@@ -1,3 +1,8 @@
 {
+  "_links": {
+    "scaStatus": {
+      "href": "https://dev-modelbank-xs2a-connector.cloud.adorsys.de/v1/payments/sepa-credit-transfers/eesrCxpL3GBU1STQYLfK6yM8afAk9F5hrVutnylIDsFMv1ws-VIYQjo1EIaGDvp6cgftJbETkzvNvu5mZQqWcA==_=_psGLvQpt9Q/authorisations/62de6fa2-b93f-47bd-821f-6b0887d37066"
+    }
+  },
   "scaStatus": "finalised"
 }

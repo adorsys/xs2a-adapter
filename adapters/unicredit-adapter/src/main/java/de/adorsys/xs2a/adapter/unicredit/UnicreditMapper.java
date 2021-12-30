@@ -6,7 +6,6 @@ import de.adorsys.xs2a.adapter.unicredit.model.UnicreditTransactionDetails;
 import de.adorsys.xs2a.adapter.unicredit.model.UnicreditTransactionResponse200Json;
 import de.adorsys.xs2a.adapter.unicredit.model.UnicreditUpdatePsuAuthenticationResponse;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,9 +17,6 @@ public interface UnicreditMapper {
     OK200TransactionDetails toOK200TransactionDetails(UnicreditOK200TransactionDetails value);
     Transactions toTransactions(UnicreditTransactionDetails value);
     UpdatePsuAuthenticationResponse toUpdatePsuAuthenticationResponse(UnicreditUpdatePsuAuthenticationResponse value);
-
-    @Mapping(target = "transactionDetails", expression = "java(toTransactions(value))")
-    TransactionDetailsBody toTransactionDetailsBody(UnicreditTransactionDetails value);
 
     default String map(RemittanceInformationStructured value) {
         return value == null ? null : value.getReference();

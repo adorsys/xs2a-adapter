@@ -16,7 +16,7 @@ public class SelectPsuAuthenticationMethodResponse {
 
     private Amount estimatedInterbankSettlementAmount;
 
-    private AuthenticationObject chosenScaMethod;
+    private Object chosenScaMethod;
 
     private ChallengeData challengeData;
 
@@ -59,11 +59,11 @@ public class SelectPsuAuthenticationMethodResponse {
         this.estimatedInterbankSettlementAmount = estimatedInterbankSettlementAmount;
     }
 
-    public AuthenticationObject getChosenScaMethod() {
+    public Object getChosenScaMethod() {
         return chosenScaMethod;
     }
 
-    public void setChosenScaMethod(AuthenticationObject chosenScaMethod) {
+    public void setChosenScaMethod(Object chosenScaMethod) {
         this.chosenScaMethod = chosenScaMethod;
     }
 
