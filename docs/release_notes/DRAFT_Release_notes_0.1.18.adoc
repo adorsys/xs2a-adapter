@@ -6,6 +6,8 @@
 
 == Notices:
 
+- Updated license type to Affero GNU General Public License v.3 (AGPL v.3).
+
 == Features:
 
 == Fixes:
