@@ -70,6 +70,8 @@ public class RequestHeaders {
     public static final String X_OAUTH_PREFERRED = "X-OAUTH-PREFERRED";
     // Crealogix
     public static final String PSD2_AUTHORIZATION = "PSD2-AUTHORIZATION";
+    // Sparda
+    public static final String X_BIC = "X-BIC";
 
     private static final RequestHeaders EMPTY = new RequestHeaders(Collections.emptyMap());
 
@@ -113,6 +115,7 @@ public class RequestHeaders {
         headerNamesLowerCased.put(TPP_NOTIFICATION_URI.toLowerCase(), TPP_NOTIFICATION_URI);
         headerNamesLowerCased.put(TPP_NOTIFICATION_CONTENT_PREFERRED.toLowerCase(), TPP_NOTIFICATION_CONTENT_PREFERRED);
         headerNamesLowerCased.put(PSU_IP_ADDRESS_MANDATORY.toLowerCase(), PSU_IP_ADDRESS_MANDATORY);
+        headerNamesLowerCased.put(X_BIC.toLowerCase(), X_BIC);
     }
 
     private final Map<String, String> headers;

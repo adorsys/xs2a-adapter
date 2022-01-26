@@ -64,12 +64,22 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
             requestHeaders = modifyPsuId(requestHeaders);
         }
         String idpUri = StringUri.appendQueryParam(getIdpUri(), Oauth2Service.Parameters.SCOPE, AIS_SCOPE);
+        requestHeaders = addBicHeader(requestHeaders);
+        requestHeaders = updateRedirectHeaders(requestHeaders);
 
         return createConsent(requestHeaders,
             requestParams,
             body,
             identity(),
             responseHandlers.consentCreationResponseHandler(idpUri, ConsentsResponse201.class));
+    }
+
+    private RequestHeaders updateRedirectHeaders(RequestHeaders requestHeaders) {
+        Map<String, String> headersMap = requestHeaders.toMap();
+        headersMap.replace(RequestHeaders.TPP_REDIRECT_URI, "https://sopra-ft.com/test-ok");
+        headersMap.replace(RequestHeaders.TPP_NOK_REDIRECT_URI, "https://sopra-ft.com/test-nok");
+
+        return RequestHeaders.fromMap(headersMap);
     }
 
     @Override
@@ -111,6 +121,13 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
                            .orElse(null);
         Map<String, String> headersMap = requestHeaders.toMap();
         headersMap.put(RequestHeaders.PSU_ID.toLowerCase(), spardaJwtService.getPsuId(token));
+        return RequestHeaders.fromMap(headersMap);
+    }
+
+    private RequestHeaders addBicHeader(RequestHeaders requestHeaders) {
+        String bic = aspsp.getBic();
+        Map<String, String> headersMap = requestHeaders.toMap();
+        headersMap.put(RequestHeaders.X_BIC, bic);
         return RequestHeaders.fromMap(headersMap);
     }
 
