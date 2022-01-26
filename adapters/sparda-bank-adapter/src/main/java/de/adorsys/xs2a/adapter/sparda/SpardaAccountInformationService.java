@@ -65,7 +65,7 @@ public class SpardaAccountInformationService extends BaseAccountInformationServi
         }
         String idpUri = StringUri.appendQueryParam(getIdpUri(), Oauth2Service.Parameters.SCOPE, AIS_SCOPE);
         requestHeaders = addBicHeader(requestHeaders);
-        requestHeaders = updateRedirectHeaders(requestHeaders);
+//        requestHeaders = updateRedirectHeaders(requestHeaders);
 
         return createConsent(requestHeaders,
             requestParams,
