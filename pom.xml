@@ -110,11 +110,6 @@
         </sonar.coverage.exclusions>
         <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
     </properties>
-    
-    <properties>
-       <sonar.organization>rafmo20d-1</sonar.organization>
-       <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-    </properties>
 
     <dependencyManagement>
         <dependencies>
