@@ -16,7 +16,7 @@
 
     <properties>
         <lucene.version>8.1.1</lucene.version>
-        <iban4j.version>3.2.1</iban4j.version>
+        <iban4j.version>3.2.3-RELEASE</iban4j.version>
     </properties>
 
     <dependencies>
