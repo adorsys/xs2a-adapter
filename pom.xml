@@ -84,7 +84,7 @@
         <!-- other -->
         <servlet-api.version>4.0.0</servlet-api.version>
         <docker.image>${project.artifactId}</docker.image>
-        <mapstruct.version>1.4.1.Final</mapstruct.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
         <javatar-commons.version>0.8</javatar-commons.version>
         <bouncycastle.version>1.64</bouncycastle.version>
         <apache.commons.lang.version>3.9</apache.commons.lang.version>
