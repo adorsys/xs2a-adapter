@@ -5,10 +5,10 @@ metadata:
     {{- include "xs2a-adapter.labels" . | nindent 4 }}
   {{ if .Values.adapter.image.keel.enabled }}
   annotations:
-    keel.sh/policy: {{ .Values.api.image.keel.policy | quote }}
-    keel.sh/match-tag: {{ .Values.api.image.keel.matchTag | quote }}
-    keel.sh/trigger: {{ .Values.api.image.keel.trigger | quote }}
-    keel.sh/pollSchedule: {{ .Values.api.image.keel.pollSchedule | quote }}
+    keel.sh/policy: {{ .Values.adapter.image.keel.policy | quote }}
+    keel.sh/match-tag: {{ .Values.adapter.image.keel.matchTag | quote }}
+    keel.sh/trigger: {{ .Values.adapter.image.keel.trigger | quote }}
+    keel.sh/pollSchedule: {{ .Values.adapter.image.keel.pollSchedule | quote }}
   {{- end }}
   name: {{ include "xs2a-adapter.fullname" . }}
 spec:
