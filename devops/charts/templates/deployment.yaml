@@ -101,6 +101,6 @@ spec:
             claimName: {{ include "xs2a-adapter.fullname" . }}-pvc
         - configMap:
             defaultMode: 292
-            name: xs2a-adapter-config
+            name: {{ include "xs2a-adapter.fullname" . }}-config
           name: configmap-volume
 {{- end }}
