@@ -1,10 +1,10 @@
-{{- if eq .Values.cluster.type "aws_eks" }}
-apiVersion: apps/v1
-kind: Deployment
+{{- if eq .Values.cluster.type "openshift" }}
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
 metadata:
   labels:
     {{- include "xs2a-adapter.labels" . | nindent 4 }}
-  {{- if .Values.adapter.image.keel.enabled }}
+  {{ if .Values.adapter.image.keel.enabled }}
   annotations:
     keel.sh/policy: {{ .Values.adapter.image.keel.policy | quote }}
     keel.sh/match-tag: {{ .Values.adapter.image.keel.matchTag | quote }}
@@ -64,7 +64,9 @@ spec:
                 -Dcom.sun.security.enableAIAcaIssuers=true
                 -Dpkcs12.keyStore=/pkcs12/key-store.p12
                 -Dpkcs12.keyStorePassword=$(PKCS12_KEY_STORE_PASSWORD)
+          {{- if ne .Values.cluster.type "openshift" }}
           image: {{ .Values.adapter.image.name }}:{{ .Values.adapter.image.tag }}
+          {{- end }}
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
@@ -103,4 +105,18 @@ spec:
             defaultMode: 292
             name: xs2a-adapter-config
           name: configmap-volume
+  test: false
+  {{- if eq .Values.cluster.type "openshift" }}
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - xs2a-adapter
+        from:
+          kind: ImageStreamTag
+          name: xs2a-adapter:{{ .Values.adapter.tag }}
+          namespace: {{ .Values.adapter.namespace }}
+      type: ImageChange
+  {{- end }}
 {{- end }}
