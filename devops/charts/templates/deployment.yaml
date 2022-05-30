@@ -63,7 +63,7 @@ spec:
                 -Dcom.sun.security.enableAIAcaIssuers=true
                 -Dpkcs12.keyStore=/pkcs12/key-store.p12
                 -Dpkcs12.keyStorePassword=$(PKCS12_KEY_STORE_PASSWORD)
-          {{- if not eq .Values.cluster.type "openshift" }}
+          {{- if ne .Values.cluster.type "openshift" }}
           image: {{ .Values.adapter.image.name }}:{{ .Values.adapter.image.tag }}
           {{ end }}
           imagePullPolicy: Always
