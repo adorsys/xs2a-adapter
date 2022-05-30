@@ -1,4 +1,4 @@
-{{ if .Values.apiResult.route.enabled }}
+{{ if .Values.adapter.route.enabled }}
 {{ if eq .Values.cluster.type "openshift" }}
 apiVersion: route.openshift.io/v1
 kind: Route
