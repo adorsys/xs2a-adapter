@@ -98,7 +98,7 @@ spec:
             secretName: pkcs12-key-store-secret
         - name: persistent-volume
           persistentVolumeClaim:
-            claimName: xs2a-adapter-pvc
+            claimName: {{ include "xs2a-adapter.fullname" . }}-pvc
         - configMap:
             defaultMode: 292
             name: xs2a-adapter-config
