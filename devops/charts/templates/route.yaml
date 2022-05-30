@@ -1,9 +1,11 @@
+{{ if .Values.apiResult.route.enabled }}
+{{ if eq .Values.cluster.type "openshift" }}
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   labels:
-    app: xs2a-adapter
-  name: xs2a-adapter
+    {{- include "xs2a-adapter.labels" . | nindent 4 }}
+  name: {{ include "xs2a-adapter.fullname" . }}
 spec:
   host: {{ .Values.adapter.route }}
   port:
@@ -16,3 +18,5 @@ spec:
     name: xs2a-adapter
     weight: 100
   wildcardPolicy: None
+{{- end }}
+{{- end }}

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "xs2a-adapter.fullname" . }}-pvc
+  labels:
+    {{- include "xs2a-adapter.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: {{ .Values.adapter.storageClass }}
