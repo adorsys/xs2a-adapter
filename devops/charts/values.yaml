@@ -32,6 +32,8 @@ adapter:
       - secretName: adorsys-wildcard
         hosts:
           - testhost.adorsys.dev
+  pkcs12KeyStoreSecret:
+    enabled: false
   storageClass: aws-efs
   # external aspsp config indicator
   aspspConfig: false
