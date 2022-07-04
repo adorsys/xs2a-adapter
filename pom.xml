@@ -91,7 +91,7 @@
         <junit-jupiter.version>5.8.2</junit-jupiter.version>
         <assertj.version>3.15.0</assertj.version>
         <mockito.version>3.2.4</mockito.version>
-        <nimbus-jose-jwt.version>8.4</nimbus-jose-jwt.version>
+        <nimbus-jose-jwt.version>8.23</nimbus-jose-jwt.version>
         <webjars-locator.version>0.45</webjars-locator.version>
         <wiremock.version>2.27.1</wiremock.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
