@@ -93,7 +93,7 @@
         <mockito.version>3.2.4</mockito.version>
         <nimbus-jose-jwt.version>8.23</nimbus-jose-jwt.version>
         <webjars-locator.version>0.45</webjars-locator.version>
-        <wiremock.version>2.27.1</wiremock.version>
+        <wiremock.version>2.32.0</wiremock.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-logging.version>1.2</commons-logging.version>
         <commons-io.version>2.8.0</commons-io.version>
