@@ -1,7 +1,40 @@
 ---
 timezone: Europe/Berlin
 
+helm:
+  ## 'helm.version' supports 'two' (wildcardPolicy: None) or 'three' (status.ingress.host: "")
+  version: two
+
+cluster:
+  ## cluster.type supports 'openshift' (uses openshift routes) or 'aws_eks' (uses kubernetes ingress)
+  type: openshift
+
 adapter:
+  image:
+    name: adorsys/xs2a-adapter
+    tag: develop
+    keel:
+      enabled: false
+      trigger: poll
+      pollSchedule: "@every 1m"
+      # support non-semver tags
+      policy: force
+      matchTag: "1"
+  route:
+    enabled: true
+  ingress:
+    enabled: false
+    annotations: {}
+    host: testhost.adorsys.dev
+    path: /
+    pathType: ImplementationSpecific
+    tls:
+      - secretName: adorsys-wildcard
+        hosts:
+          - testhost.adorsys.dev
+  pkcs12KeyStoreSecret:
+    enabled: false
+  storageClass: aws-efs
   # external aspsp config indicator
   aspspConfig: false
   # external log obfuscator whitelist

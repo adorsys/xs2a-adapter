@@ -1,0 +1,111 @@
+{{- if eq .Values.cluster.type "openshift" }}
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    {{- include "xs2a-adapter.labels" . | nindent 4 }}
+  name: {{ include "xs2a-adapter.fullname" . }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      {{- include "xs2a-adapter.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      labels:
+        {{- include "xs2a-adapter.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: xs2a-adapter
+          env:
+            - name: GRAYLOG_HOST
+              value: {{ .Values.adapter.graylogHost }}
+            - name: XS2A-ADAPTER_LOADER_CHOOSE-FIRST-FROM-MULTIPLE-ASPSPS
+              value: "true"
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.adapter.profiles }}
+            {{- if .Values.adapter.aspspConfig }}
+            - name: csv.aspsp.adapter.config.file.path
+              value: /opt/xs2a-adapter/conf/aspsp-adapter-config.csv
+            {{- end }}
+            - name: csv.aspsp.adapter.lucene.dir.path
+              value: /opt/xs2a-adapter/lucene
+            {{- if .Values.logback.enabled }}
+            - name: LOGGING_CONFIG
+              value: /opt/xs2a-adapter/conf/logback.xml
+            {{- end }}
+            - name: adapter.config.file.path
+              value: /opt/xs2a-adapter/conf/adapter.config.properties
+            - name: PKCS12_KEY_STORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pkcs12-key-store-secret
+                  key: key-store-password
+            {{- if .Values.adapter.logSanitizerWhitelist.enabled }}
+            - name: XS2A-ADAPTER_SANITIZER_WHITELIST
+              valueFrom:
+                configMapKeyRef:
+                  key: log-sanitizer-whitelist
+                  name: xs2a-adapter-config
+            {{- end }}
+            - name: JAVA_OPTS
+              value: >-
+                -Xmx1024m
+                -Dcom.sun.security.enableAIAcaIssuers=true
+                -Dpkcs12.keyStore=/pkcs12/key-store.p12
+                -Dpkcs12.keyStorePassword=$(PKCS12_KEY_STORE_PASSWORD)
+          image: {{ .Values.adapter.image.name }}:{{ .Values.adapter.image.tag }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+              protocol: TCP
+          resources: {}
+          livenessProbe:
+{{ toYaml .Values.adapter.livenessProbe | indent 12 }}
+          readinessProbe:
+{{ toYaml .Values.adapter.readinessProbe | indent 12 }}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - name: pkcs12-key-store-secret-volume
+              mountPath: /pkcs12
+            {{- if and .Values.logback.enabled }}
+            - name: persistent-volume
+              mountPath: /opt/xs2a-adapter/logs
+            {{- end }}
+            - name: persistent-volume
+              mountPath: /opt/xs2a-adapter/lucene
+            - name: configmap-volume
+              mountPath: /opt/xs2a-adapter/conf
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pkcs12-key-store-secret-volume
+          secret:
+            secretName: pkcs12-key-store-secret
+        - name: persistent-volume
+          persistentVolumeClaim:
+            claimName: {{ include "xs2a-adapter.fullname" . }}-pvc
+        - configMap:
+            defaultMode: 292
+            name: xs2a-adapter-config
+          name: configmap-volume
+  test: false
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - xs2a-adapter
+        from:
+          kind: ImageStreamTag
+          name: xs2a-adapter:{{ .Values.adapter.tag }}
+          namespace: {{ .Values.adapter.namespace }}
+      type: ImageChange
+{{- end }}
