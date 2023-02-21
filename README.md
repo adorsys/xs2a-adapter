@@ -4,6 +4,16 @@
 
 There are various ways for a bank to implement a PSD2 compliant XS2A interface. Don’t waste time in connecting different banks with different approaches into your application. Use the free of charge XS2A adapter and concentrate on your true value proposition!
 
+## Changes in OSS release policy
+
+For the time being, version 0.1.17 will be the current try-out version of XS2A-adapter that adorsys publishes on GitHub.
+With PSD2 standards and our solutions having grown to maturity in production, our continuous investment in development and maintenance
+of our XS2A projects forces us to focus on our commercial engagements.
+We are committed to continuous active development of our XS2A solutions to ensure constant adherence to the latest Berlin Group
+specifications and to support OpenFinance initiatives.
+Existing published versions will remain available under their respective open-source licenses.
+If you are a user of our XS2A solutions and would like to either start or extend cooperation, please contact us under psd2@adorsys.com.
+
 ## Licensing model change to dual license: AGPL v.3 or commercial license
 
 **Attention: this open-source project will change its licensing model as of 01.01.2022!**
@@ -168,7 +178,7 @@ will throw `NotAcceptableException`, due to format mismatching.
 
 ## Releases and versions
 
-XS2A Adapter publishes a new release every 3 to 6 months. All released features, fixes, details, etc. can be found
+ All released features, fixes, details, etc. can be found
   within the Release Notes under the [Releases](https://github.com/adorsys/xs2a-adapter/releases) section
   on GitHub.
 
