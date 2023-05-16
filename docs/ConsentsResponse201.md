@@ -9,4 +9,6 @@ Name | Type | Description | Notes
 **chosenScaMethod** | [**ChosenScaMethod**](ChosenScaMethod.md) |  |  [optional]
 **challengeData** | [**ChallengeData**](ChallengeData.md) |  |  [optional]
 **_links** | [**LinksConsents**](LinksConsents.md) |  | 
-**psuMessage** | **String** | Text to be displayed to the PSU, e.g. in a Decoupled SCA Approach. |  [optional]
+**psuMessage** | **String** |  |  [optional]
+**tppMessages** | [**List&lt;TppMessageGeneric&gt;**](TppMessageGeneric.md) |  |  [optional]
+**scaStatus** | [**ScaStatus**](ScaStatus.md) |  |  [optional]

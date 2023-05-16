@@ -1,0 +1,37 @@
+# Transactions
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**transactionId** | **String** |  |  [optional]
+**entryReference** | **String** |  |  [optional]
+**endToEndId** | **String** | Unique end to end identity. |  [optional]
+**batchIndicator** | **Boolean** | If this indicator equals true, then the related entry is a batch entry.  |  [optional]
+**batchNumberOfTransactions** | **Integer** | Shall be used if and only if the batchIndicator is contained and equals true.  |  [optional]
+**mandateId** | **String** | Identification of Mandates, e.g. a SEPA Mandate ID. |  [optional]
+**checkId** | **String** | Identification of a Cheque. |  [optional]
+**creditorId** | **String** |  |  [optional]
+**bookingDate** | [**LocalDate**](LocalDate.md) |  |  [optional]
+**valueDate** | [**LocalDate**](LocalDate.md) | The Date at which assets become available to the account owner in case of a credit, or cease to be available to the account owner in case of a debit entry. **Usage:** If entry status is pending and value date is present, then the value date refers to an expected/requested value date. |  [optional]
+**transactionAmount** | [**Amount**](Amount.md) |  | 
+**currencyExchange** | [**ReportExchangeRateList**](ReportExchangeRateList.md) |  |  [optional]
+**creditorName** | **String** |  |  [optional]
+**creditorAccount** | [**AccountReference**](AccountReference.md) |  |  [optional]
+**creditorAgent** | **String** |  |  [optional]
+**ultimateCreditor** | **String** |  |  [optional]
+**debtorName** | **String** |  |  [optional]
+**debtorAccount** | [**AccountReference**](AccountReference.md) |  |  [optional]
+**debtorAgent** | **String** |  |  [optional]
+**ultimateDebtor** | **String** |  |  [optional]
+**remittanceInformationUnstructured** | **String** |  |  [optional]
+**remittanceInformationUnstructuredArray** | [**RemittanceInformationUnstructuredArray**](RemittanceInformationUnstructuredArray.md) |  |  [optional]
+**remittanceInformationStructured** | [**RemittanceInformationStructuredMax140**](RemittanceInformationStructuredMax140.md) |  |  [optional]
+**remittanceInformationStructuredArray** | [**RemittanceInformationStructuredArray**](RemittanceInformationStructuredArray.md) |  |  [optional]
+**entryDetails** | [**EntryDetails**](EntryDetails.md) |  |  [optional]
+**additionalInformation** | **String** |  |  [optional]
+**additionalInformationStructured** | [**AdditionalInformationStructured**](AdditionalInformationStructured.md) |  |  [optional]
+**purposeCode** | [**PurposeCode**](PurposeCode.md) |  |  [optional]
+**bankTransactionCode** | **String** |  |  [optional]
+**proprietaryBankTransactionCode** | **String** |  |  [optional]
+**balanceAfterTransaction** | [**Balance**](Balance.md) |  |  [optional]
+**_links** | [**LinksTransactionDetails**](LinksTransactionDetails.md) |  |  [optional]

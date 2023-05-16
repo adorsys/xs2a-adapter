@@ -1,8 +1,8 @@
 /*
  * NextGenPSD2 XS2A Framework
- * # Summary The **NextGenPSD2** *Framework Version 1.3.4* offers a modern, open, harmonised and interoperable set of Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely. The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service') by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.   Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional.   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support   a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure   which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**   It is not a replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]      \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"    The element \"Accept\" will not be defined in this file at any place.    The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".  * There are several predefined types which might occur in payment initiation messages,   but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which need these fields, one can easily use the predefined types.   But the ASPSP need not to accept them in general.  * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)   except they are mention in the Implementation Guidelines.**   Therefore the implementer might add these in his own realisation of a PSD2 comlient API in addition to the elements define in this file.  ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API has to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
+ * # Summary The **NextGenPSD2** *Framework Version 1.3.12* offers a modern, open, harmonised and interoperable set of Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely. The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards  in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service') by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach    * OAuth SCA Approach   * Decoupled SCA Approach    * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.    Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional.   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support    a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure    which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**    It is not a replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]        \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"      The element \"Accept\" will not be defined in this file at any place.      The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".    * There are several predefined types which might occur in payment initiation messages,    but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which needs these fields, one can easily use the predefined types.   But the ASPSP need not to accept them in general.    * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)    except they are mentioned in the Implementation Guidelines.**   Therefore the implementer might add these in his own realisation of a PSD2 complient API in addition to the elements defined in this file.     ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API has to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
  *
- * OpenAPI spec version: 1.3.4_2019-07-17v1
+ * OpenAPI spec version: 1.3.12_2022-07-01
  * Contact: info@berlin-group.org
  *
  * NOTE: This class is auto generated by the swagger code generator program.
@@ -29,7 +29,7 @@ import java.util.List;
  * Requested access services for a consent. 
  */
 @Schema(description = "Requested access services for a consent. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2020-03-26T15:17:13.106+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
 public class AccountAccess {
   @SerializedName("accounts")
   private List<AccountReference> accounts = null;
@@ -40,12 +40,16 @@ public class AccountAccess {
   @SerializedName("transactions")
   private List<AccountReference> transactions = null;
 
+  @SerializedName("additionalInformation")
+  private AdditionalInformationAccess additionalInformation = null;
+
   /**
-   * Optional if supported by API provider.  Only the value \&quot;allAccounts\&quot; is admitted. 
+   * Optional if supported by API provider.  The values \&quot;allAccounts\&quot; and \&quot;allAccountsWithOwnerName\&quot; are admitted.  The support of the \&quot;allAccountsWithOwnerName\&quot; value by the ASPSP is optional. 
    */
   @JsonAdapter(AvailableAccountsEnum.Adapter.class)
   public enum AvailableAccountsEnum {
-    ALLACCOUNTS("allAccounts");
+    ALLACCOUNTS("allAccounts"),
+    ALLACCOUNTSWITHOWNERNAME("allAccountsWithOwnerName");
 
     private String value;
 
@@ -84,11 +88,12 @@ public class AccountAccess {
   private AvailableAccountsEnum availableAccounts = null;
 
   /**
-   * Optional if supported by API provider.  Only the value \&quot;allAccounts\&quot; is admitted. 
+   * Optional if supported by API provider.  The values \&quot;allAccounts\&quot; and \&quot;allAccountsWithOwnerName\&quot; are admitted.  The support of the \&quot;allAccountsWithOwnerName\&quot; value by the ASPSP is optional. 
    */
   @JsonAdapter(AvailableAccountsWithBalanceEnum.Adapter.class)
   public enum AvailableAccountsWithBalanceEnum {
-    ALLACCOUNTS("allAccounts");
+    ALLACCOUNTS("allAccounts"),
+    ALLACCOUNTSWITHOWNERNAME("allAccountsWithOwnerName");
 
     private String value;
 
@@ -127,11 +132,12 @@ public class AccountAccess {
   private AvailableAccountsWithBalanceEnum availableAccountsWithBalance = null;
 
   /**
-   * Optional if supported by API provider.  Only the value \&quot;allAccounts\&quot; is admitted. 
+   * Optional if supported by API provider.  The values \&quot;allAccounts\&quot; and \&quot;allAccountsWithOwnerName\&quot; are admitted.  The support of the \&quot;allAccountsWithOwnerName\&quot; value by the ASPSP is optional. 
    */
   @JsonAdapter(AllPsd2Enum.Adapter.class)
   public enum AllPsd2Enum {
-    ALLACCOUNTS("allAccounts");
+    ALLACCOUNTS("allAccounts"),
+    ALLACCOUNTSWITHOWNERNAME("allAccountsWithOwnerName");
 
     private String value;
 
@@ -169,8 +175,8 @@ public class AccountAccess {
   }  @SerializedName("allPsd2")
   private AllPsd2Enum allPsd2 = null;
 
-  @SerializedName("additionalAccountInformation")
-  private AdditionalInformationAccess additionalAccountInformation = null;
+  @SerializedName("restrictedTo")
+  private List<String> restrictedTo = null;
 
   public AccountAccess accounts(List<AccountReference> accounts) {
     this.accounts = accounts;
@@ -186,10 +192,10 @@ public class AccountAccess {
   }
 
    /**
-   * Is asking for detailed account information.  If the array is empty, the TPP is asking for an accessible account list. This may be restricted in a PSU/ASPSP authorization dialogue. If the array is empty, also the arrays for balances or transactions shall be empty, if used. 
+   * Is asking for detailed account information.   If the array is empty in a request, the TPP is asking for an accessible account list.  This may be restricted in a PSU/ASPSP authorization dialogue.  If the array is empty, also the arrays for balances, additionalInformation sub attributes or transactions shall be empty, if used. 
    * @return accounts
   **/
-  @Schema(description = "Is asking for detailed account information.  If the array is empty, the TPP is asking for an accessible account list. This may be restricted in a PSU/ASPSP authorization dialogue. If the array is empty, also the arrays for balances or transactions shall be empty, if used. ")
+  @Schema(description = "Is asking for detailed account information.   If the array is empty in a request, the TPP is asking for an accessible account list.  This may be restricted in a PSU/ASPSP authorization dialogue.  If the array is empty, also the arrays for balances, additionalInformation sub attributes or transactions shall be empty, if used. ")
   public List<AccountReference> getAccounts() {
     return accounts;
   }
@@ -212,10 +218,10 @@ public class AccountAccess {
   }
 
    /**
-   * Is asking for balances of the addressed accounts.  If the array is empty, the TPP is asking for the balances of all accessible account lists. This may be restricted in a PSU/ASPSP authorization dialogue. If the array is empty, also the arrays for accounts or transactions shall be empty, if used. 
+   * Is asking for balances of the addressed accounts.  If the array is empty in the request, the TPP is asking for the balances of all accessible account lists.  This may be restricted in a PSU/ASPSP authorization dialogue.  If the array is empty, also the arrays for accounts, additionalInformation sub attributes or transactions shall be empty, if used. 
    * @return balances
   **/
-  @Schema(description = "Is asking for balances of the addressed accounts.  If the array is empty, the TPP is asking for the balances of all accessible account lists. This may be restricted in a PSU/ASPSP authorization dialogue. If the array is empty, also the arrays for accounts or transactions shall be empty, if used. ")
+  @Schema(description = "Is asking for balances of the addressed accounts.  If the array is empty in the request, the TPP is asking for the balances of all accessible account lists.  This may be restricted in a PSU/ASPSP authorization dialogue.  If the array is empty, also the arrays for accounts, additionalInformation sub attributes or transactions shall be empty, if used. ")
   public List<AccountReference> getBalances() {
     return balances;
   }
@@ -238,10 +244,10 @@ public class AccountAccess {
   }
 
    /**
-   * Is asking for transactions of the addressed accounts.  If the array is empty, the TPP is asking for the transactions of all accessible account lists. This may be restricted in a PSU/ASPSP authorization dialogue. If the array is empty, also the arrays for accounts or balances shall be empty, if used. 
+   * Is asking for transactions of the addressed accounts.   If the array is empty in the request, the TPP is asking for the transactions of all accessible account lists.  This may be restricted in a PSU/ASPSP authorization dialogue.  If the array is empty, also the arrays for accounts, additionalInformation sub attributes or balances shall be empty, if used. 
    * @return transactions
   **/
-  @Schema(description = "Is asking for transactions of the addressed accounts.  If the array is empty, the TPP is asking for the transactions of all accessible account lists. This may be restricted in a PSU/ASPSP authorization dialogue. If the array is empty, also the arrays for accounts or balances shall be empty, if used. ")
+  @Schema(description = "Is asking for transactions of the addressed accounts.   If the array is empty in the request, the TPP is asking for the transactions of all accessible account lists.  This may be restricted in a PSU/ASPSP authorization dialogue.  If the array is empty, also the arrays for accounts, additionalInformation sub attributes or balances shall be empty, if used. ")
   public List<AccountReference> getTransactions() {
     return transactions;
   }
@@ -250,16 +256,34 @@ public class AccountAccess {
     this.transactions = transactions;
   }
 
+  public AccountAccess additionalInformation(AdditionalInformationAccess additionalInformation) {
+    this.additionalInformation = additionalInformation;
+    return this;
+  }
+
+   /**
+   * Get additionalInformation
+   * @return additionalInformation
+  **/
+  @Schema(description = "")
+  public AdditionalInformationAccess getAdditionalInformation() {
+    return additionalInformation;
+  }
+
+  public void setAdditionalInformation(AdditionalInformationAccess additionalInformation) {
+    this.additionalInformation = additionalInformation;
+  }
+
   public AccountAccess availableAccounts(AvailableAccountsEnum availableAccounts) {
     this.availableAccounts = availableAccounts;
     return this;
   }
 
    /**
-   * Optional if supported by API provider.  Only the value \&quot;allAccounts\&quot; is admitted. 
+   * Optional if supported by API provider.  The values \&quot;allAccounts\&quot; and \&quot;allAccountsWithOwnerName\&quot; are admitted.  The support of the \&quot;allAccountsWithOwnerName\&quot; value by the ASPSP is optional. 
    * @return availableAccounts
   **/
-  @Schema(description = "Optional if supported by API provider.  Only the value \"allAccounts\" is admitted. ")
+  @Schema(description = "Optional if supported by API provider.  The values \"allAccounts\" and \"allAccountsWithOwnerName\" are admitted.  The support of the \"allAccountsWithOwnerName\" value by the ASPSP is optional. ")
   public AvailableAccountsEnum getAvailableAccounts() {
     return availableAccounts;
   }
@@ -274,10 +298,10 @@ public class AccountAccess {
   }
 
    /**
-   * Optional if supported by API provider.  Only the value \&quot;allAccounts\&quot; is admitted. 
+   * Optional if supported by API provider.  The values \&quot;allAccounts\&quot; and \&quot;allAccountsWithOwnerName\&quot; are admitted.  The support of the \&quot;allAccountsWithOwnerName\&quot; value by the ASPSP is optional. 
    * @return availableAccountsWithBalance
   **/
-  @Schema(description = "Optional if supported by API provider.  Only the value \"allAccounts\" is admitted. ")
+  @Schema(description = "Optional if supported by API provider.  The values \"allAccounts\" and \"allAccountsWithOwnerName\" are admitted.  The support of the \"allAccountsWithOwnerName\" value by the ASPSP is optional. ")
   public AvailableAccountsWithBalanceEnum getAvailableAccountsWithBalance() {
     return availableAccountsWithBalance;
   }
@@ -292,10 +316,10 @@ public class AccountAccess {
   }
 
    /**
-   * Optional if supported by API provider.  Only the value \&quot;allAccounts\&quot; is admitted. 
+   * Optional if supported by API provider.  The values \&quot;allAccounts\&quot; and \&quot;allAccountsWithOwnerName\&quot; are admitted.  The support of the \&quot;allAccountsWithOwnerName\&quot; value by the ASPSP is optional. 
    * @return allPsd2
   **/
-  @Schema(description = "Optional if supported by API provider.  Only the value \"allAccounts\" is admitted. ")
+  @Schema(description = "Optional if supported by API provider.  The values \"allAccounts\" and \"allAccountsWithOwnerName\" are admitted.  The support of the \"allAccountsWithOwnerName\" value by the ASPSP is optional. ")
   public AllPsd2Enum getAllPsd2() {
     return allPsd2;
   }
@@ -304,22 +328,30 @@ public class AccountAccess {
     this.allPsd2 = allPsd2;
   }
 
-  public AccountAccess additionalAccountInformation(AdditionalInformationAccess additionalAccountInformation) {
-    this.additionalAccountInformation = additionalAccountInformation;
+  public AccountAccess restrictedTo(List<String> restrictedTo) {
+    this.restrictedTo = restrictedTo;
+    return this;
+  }
+
+  public AccountAccess addRestrictedToItem(String restrictedToItem) {
+    if (this.restrictedTo == null) {
+      this.restrictedTo = new ArrayList<>();
+    }
+    this.restrictedTo.add(restrictedToItem);
     return this;
   }
 
    /**
-   * Get additionalAccountInformation
-   * @return additionalAccountInformation
+   * If the TPP requests access to accounts via availableAccounts (List of available accounts), global  or bank driven consents, the TPP may include this element to restrict access to the referred  account types. Absence of the element is interpreted as \&quot;no restriction\&quot; (therefore access to  accounts of all types is requested). The element may only occur, if each of the elements    - accounts    - balances    - transactions  is either not present or contains an empty array.  
+   * @return restrictedTo
   **/
-  @Schema(description = "")
-  public AdditionalInformationAccess getAdditionalAccountInformation() {
-    return additionalAccountInformation;
+  @Schema(description = "If the TPP requests access to accounts via availableAccounts (List of available accounts), global  or bank driven consents, the TPP may include this element to restrict access to the referred  account types. Absence of the element is interpreted as \"no restriction\" (therefore access to  accounts of all types is requested). The element may only occur, if each of the elements    - accounts    - balances    - transactions  is either not present or contains an empty array.  ")
+  public List<String> getRestrictedTo() {
+    return restrictedTo;
   }
 
-  public void setAdditionalAccountInformation(AdditionalInformationAccess additionalAccountInformation) {
-    this.additionalAccountInformation = additionalAccountInformation;
+  public void setRestrictedTo(List<String> restrictedTo) {
+    this.restrictedTo = restrictedTo;
   }
 
 
@@ -335,15 +367,16 @@ public class AccountAccess {
     return Objects.equals(this.accounts, accountAccess.accounts) &&
         Objects.equals(this.balances, accountAccess.balances) &&
         Objects.equals(this.transactions, accountAccess.transactions) &&
+        Objects.equals(this.additionalInformation, accountAccess.additionalInformation) &&
         Objects.equals(this.availableAccounts, accountAccess.availableAccounts) &&
         Objects.equals(this.availableAccountsWithBalance, accountAccess.availableAccountsWithBalance) &&
         Objects.equals(this.allPsd2, accountAccess.allPsd2) &&
-        Objects.equals(this.additionalAccountInformation, accountAccess.additionalAccountInformation);
+        Objects.equals(this.restrictedTo, accountAccess.restrictedTo);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(accounts, balances, transactions, availableAccounts, availableAccountsWithBalance, allPsd2, additionalAccountInformation);
+    return Objects.hash(accounts, balances, transactions, additionalInformation, availableAccounts, availableAccountsWithBalance, allPsd2, restrictedTo);
   }
 
 
@@ -355,10 +388,11 @@ public class AccountAccess {
     sb.append("    accounts: ").append(toIndentedString(accounts)).append("\n");
     sb.append("    balances: ").append(toIndentedString(balances)).append("\n");
     sb.append("    transactions: ").append(toIndentedString(transactions)).append("\n");
+    sb.append("    additionalInformation: ").append(toIndentedString(additionalInformation)).append("\n");
     sb.append("    availableAccounts: ").append(toIndentedString(availableAccounts)).append("\n");
     sb.append("    availableAccountsWithBalance: ").append(toIndentedString(availableAccountsWithBalance)).append("\n");
     sb.append("    allPsd2: ").append(toIndentedString(allPsd2)).append("\n");
-    sb.append("    additionalAccountInformation: ").append(toIndentedString(additionalAccountInformation)).append("\n");
+    sb.append("    restrictedTo: ").append(toIndentedString(restrictedTo)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -4,6 +4,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **endToEndIdentification** | **String** |  |  [optional]
+**instructionIdentification** | **String** |  |  [optional]
+**debtorName** | **String** |  |  [optional]
 **debtorAccount** | [**AccountReference**](AccountReference.md) |  | 
 **ultimateDebtor** | **String** |  |  [optional]
 **instructedAmount** | [**Amount**](Amount.md) |  | 
@@ -11,9 +13,13 @@ Name | Type | Description | Notes
 **creditorAgent** | **String** |  |  [optional]
 **creditorName** | **String** |  | 
 **creditorAddress** | [**Address**](Address.md) |  |  [optional]
+**creditorId** | **String** | Identification of Creditors, e.g. a SEPA Creditor ID. |  [optional]
 **ultimateCreditor** | **String** |  |  [optional]
 **purposeCode** | [**PurposeCode**](PurposeCode.md) |  |  [optional]
+**chargeBearer** | [**ChargeBearer**](ChargeBearer.md) |  |  [optional]
 **remittanceInformationUnstructured** | **String** |  |  [optional]
-**remittanceInformationStructured** | [**RemittanceInformationStructured**](RemittanceInformationStructured.md) |  |  [optional]
+**remittanceInformationStructured** | [**RemittanceInformationStructuredMax140**](RemittanceInformationStructuredMax140.md) |  |  [optional]
+**remittanceInformationStructuredArray** | [**RemittanceInformationStructuredArray**](RemittanceInformationStructuredArray.md) |  |  [optional]
 **requestedExecutionDate** | [**LocalDate**](LocalDate.md) |  |  [optional]
 **transactionStatus** | [**TransactionStatus**](TransactionStatus.md) |  |  [optional]
+**tppMessages** | [**List&lt;TppMessageGeneric&gt;**](TppMessageGeneric.md) | Messages to the TPP on operational issues. |  [optional]

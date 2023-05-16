@@ -214,7 +214,7 @@
 <!--                            <goal>generate</goal>-->
 <!--                        </goals>-->
 <!--                        <configuration>-->
-<!--                            <inputSpec>${project.basedir}/src/main/resources/psd2-api_1.3.4_20190717v1.yaml</inputSpec>-->
+<!--                            <inputSpec>${project.basedir}/src/main/resources/psd2-api_v1.3.12-2022-07-06.yaml</inputSpec>-->
 <!--                            <output>${basedir}</output>-->
 <!--                            <language>java</language>-->
 <!--                            <generateApiTests>false</generateApiTests>-->

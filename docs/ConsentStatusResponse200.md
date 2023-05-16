@@ -4,3 +4,4 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **consentStatus** | [**ConsentStatus**](ConsentStatus.md) |  | 
+**psuMessage** | **String** |  |  [optional]

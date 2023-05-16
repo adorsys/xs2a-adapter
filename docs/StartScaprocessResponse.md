@@ -10,3 +10,4 @@ Name | Type | Description | Notes
 **challengeData** | [**ChallengeData**](ChallengeData.md) |  |  [optional]
 **_links** | [**LinksStartScaProcess**](LinksStartScaProcess.md) |  | 
 **psuMessage** | **String** |  |  [optional]
+**tppMessages** | [**List&lt;TppMessageGeneric&gt;**](TppMessageGeneric.md) | Messages to the TPP on operational issues. |  [optional]

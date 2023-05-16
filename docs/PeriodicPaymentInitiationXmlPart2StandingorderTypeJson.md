@@ -8,3 +8,4 @@ Name | Type | Description | Notes
 **executionRule** | [**ExecutionRule**](ExecutionRule.md) |  |  [optional]
 **frequency** | [**FrequencyCode**](FrequencyCode.md) |  | 
 **dayOfExecution** | [**DayOfExecution**](DayOfExecution.md) |  |  [optional]
+**monthsOfExecution** | [**MonthsOfExecution**](MonthsOfExecution.md) |  |  [optional]

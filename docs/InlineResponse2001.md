@@ -3,4 +3,4 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**transactionsDetails** | [**TransactionDetails**](TransactionDetails.md) |  | 
+**transactionsDetails** | [**Transactions**](Transactions.md) |  | 

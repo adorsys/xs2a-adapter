@@ -8,3 +8,6 @@ Name | Type | Description | Notes
 **chosenScaMethod** | [**ChosenScaMethod**](ChosenScaMethod.md) |  |  [optional]
 **challengeData** | [**ChallengeData**](ChallengeData.md) |  |  [optional]
 **_links** | [**LinksPaymentInitiationCancel**](LinksPaymentInitiationCancel.md) |  |  [optional]
+**tppMessages** | [**List&lt;TppMessageGeneric&gt;**](TppMessageGeneric.md) |  |  [optional]
+**scaStatus** | [**ScaStatus**](ScaStatus.md) |  |  [optional]
+**psuMessage** | **String** |  |  [optional]

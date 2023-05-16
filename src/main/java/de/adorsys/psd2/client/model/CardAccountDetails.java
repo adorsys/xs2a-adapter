@@ -1,8 +1,8 @@
 /*
  * NextGenPSD2 XS2A Framework
- * # Summary The **NextGenPSD2** *Framework Version 1.3.4* offers a modern, open, harmonised and interoperable set of Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely. The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service') by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.   Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional.   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support   a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure   which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**   It is not a replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]      \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"    The element \"Accept\" will not be defined in this file at any place.    The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".  * There are several predefined types which might occur in payment initiation messages,   but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which need these fields, one can easily use the predefined types.   But the ASPSP need not to accept them in general.  * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)   except they are mention in the Implementation Guidelines.**   Therefore the implementer might add these in his own realisation of a PSD2 comlient API in addition to the elements define in this file.  ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API has to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
+ * # Summary The **NextGenPSD2** *Framework Version 1.3.12* offers a modern, open, harmonised and interoperable set of Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely. The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards  in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service') by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach    * OAuth SCA Approach   * Decoupled SCA Approach    * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.    Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional.   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support    a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure    which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**    It is not a replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]        \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"      The element \"Accept\" will not be defined in this file at any place.      The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".    * There are several predefined types which might occur in payment initiation messages,    but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which needs these fields, one can easily use the predefined types.   But the ASPSP need not to accept them in general.    * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)    except they are mentioned in the Implementation Guidelines.**   Therefore the implementer might add these in his own realisation of a PSD2 complient API in addition to the elements defined in this file.     ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API has to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
  *
- * OpenAPI spec version: 1.3.4_2019-07-17v1
+ * OpenAPI spec version: 1.3.12_2022-07-01
  * Contact: info@berlin-group.org
  *
  * NOTE: This class is auto generated by the swagger code generator program.
@@ -29,7 +29,7 @@ import java.io.IOException;
  * Card account details. 
  */
 @Schema(description = "Card account details. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2020-03-26T15:17:13.106+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
 public class CardAccountDetails {
   @SerializedName("resourceId")
   private String resourceId = null;
@@ -40,11 +40,20 @@ public class CardAccountDetails {
   @SerializedName("currency")
   private String currency = null;
 
+  @SerializedName("ownerName")
+  private String ownerName = null;
+
   @SerializedName("name")
   private String name = null;
 
+  @SerializedName("displayName")
+  private String displayName = null;
+
   @SerializedName("product")
   private String product = null;
+
+  @SerializedName("debitAccounting")
+  private Boolean debitAccounting = null;
 
   @SerializedName("status")
   private AccountStatus status = null;
@@ -159,16 +168,34 @@ public class CardAccountDetails {
     this.currency = currency;
   }
 
+  public CardAccountDetails ownerName(String ownerName) {
+    this.ownerName = ownerName;
+    return this;
+  }
+
+   /**
+   * Get ownerName
+   * @return ownerName
+  **/
+  @Schema(description = "")
+  public String getOwnerName() {
+    return ownerName;
+  }
+
+  public void setOwnerName(String ownerName) {
+    this.ownerName = ownerName;
+  }
+
   public CardAccountDetails name(String name) {
     this.name = name;
     return this;
   }
 
    /**
-   * Name of the account given by the bank or the PSU in online-banking.
+   * Name of the account, as assigned by the ASPSP,  in agreement with the account owner in order to provide an additional means of identification of the account. 
    * @return name
   **/
-  @Schema(description = "Name of the account given by the bank or the PSU in online-banking.")
+  @Schema(description = "Name of the account, as assigned by the ASPSP,  in agreement with the account owner in order to provide an additional means of identification of the account. ")
   public String getName() {
     return name;
   }
@@ -177,22 +204,58 @@ public class CardAccountDetails {
     this.name = name;
   }
 
+  public CardAccountDetails displayName(String displayName) {
+    this.displayName = displayName;
+    return this;
+  }
+
+   /**
+   * Get displayName
+   * @return displayName
+  **/
+  @Schema(description = "")
+  public String getDisplayName() {
+    return displayName;
+  }
+
+  public void setDisplayName(String displayName) {
+    this.displayName = displayName;
+  }
+
   public CardAccountDetails product(String product) {
     this.product = product;
     return this;
   }
 
    /**
-   * Product name of the bank for this account, proprietary definition.
+   * Product Name of the Bank for this account, proprietary definition. 
    * @return product
   **/
-  @Schema(description = "Product name of the bank for this account, proprietary definition.")
+  @Schema(description = "Product Name of the Bank for this account, proprietary definition. ")
   public String getProduct() {
     return product;
   }
 
   public void setProduct(String product) {
     this.product = product;
+  }
+
+  public CardAccountDetails debitAccounting(Boolean debitAccounting) {
+    this.debitAccounting = debitAccounting;
+    return this;
+  }
+
+   /**
+   * Get debitAccounting
+   * @return debitAccounting
+  **/
+  @Schema(description = "")
+  public Boolean getDebitAccounting() {
+    return debitAccounting;
+  }
+
+  public void setDebitAccounting(Boolean debitAccounting) {
+    this.debitAccounting = debitAccounting;
   }
 
   public CardAccountDetails status(AccountStatus status) {
@@ -316,8 +379,11 @@ public class CardAccountDetails {
     return Objects.equals(this.resourceId, cardAccountDetails.resourceId) &&
         Objects.equals(this.maskedPan, cardAccountDetails.maskedPan) &&
         Objects.equals(this.currency, cardAccountDetails.currency) &&
+        Objects.equals(this.ownerName, cardAccountDetails.ownerName) &&
         Objects.equals(this.name, cardAccountDetails.name) &&
+        Objects.equals(this.displayName, cardAccountDetails.displayName) &&
         Objects.equals(this.product, cardAccountDetails.product) &&
+        Objects.equals(this.debitAccounting, cardAccountDetails.debitAccounting) &&
         Objects.equals(this.status, cardAccountDetails.status) &&
         Objects.equals(this.usage, cardAccountDetails.usage) &&
         Objects.equals(this.details, cardAccountDetails.details) &&
@@ -328,7 +394,7 @@ public class CardAccountDetails {
 
   @Override
   public int hashCode() {
-    return Objects.hash(resourceId, maskedPan, currency, name, product, status, usage, details, creditLimit, balances, _links);
+    return Objects.hash(resourceId, maskedPan, currency, ownerName, name, displayName, product, debitAccounting, status, usage, details, creditLimit, balances, _links);
   }
 
 
@@ -340,8 +406,11 @@ public class CardAccountDetails {
     sb.append("    resourceId: ").append(toIndentedString(resourceId)).append("\n");
     sb.append("    maskedPan: ").append(toIndentedString(maskedPan)).append("\n");
     sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
+    sb.append("    ownerName: ").append(toIndentedString(ownerName)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    displayName: ").append(toIndentedString(displayName)).append("\n");
     sb.append("    product: ").append(toIndentedString(product)).append("\n");
+    sb.append("    debitAccounting: ").append(toIndentedString(debitAccounting)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    usage: ").append(toIndentedString(usage)).append("\n");
     sb.append("    details: ").append(toIndentedString(details)).append("\n");

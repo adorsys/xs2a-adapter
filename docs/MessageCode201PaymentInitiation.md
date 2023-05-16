@@ -1,0 +1,6 @@
+# MessageCode201PaymentInitiation
+
+## Enum
+
+* `WARNING` (value: `"WARNING"`)
+* `BENEFICIARY_WHITELISTING_REQUIRED` (value: `"BENEFICIARY_WHITELISTING_REQUIRED"`)

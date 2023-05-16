@@ -4,7 +4,6 @@
 
 * `CLOSINGBOOKED` (value: `"closingBooked"`)
 * `EXPECTED` (value: `"expected"`)
-* `AUTHORISED` (value: `"authorised"`)
 * `OPENINGBOOKED` (value: `"openingBooked"`)
 * `INTERIMAVAILABLE` (value: `"interimAvailable"`)
 * `INTERIMBOOKED` (value: `"interimBooked"`)

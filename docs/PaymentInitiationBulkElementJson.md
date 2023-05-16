@@ -4,6 +4,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **endToEndIdentification** | **String** |  |  [optional]
+**instructionIdentification** | **String** |  |  [optional]
+**debtorName** | **String** |  |  [optional]
 **ultimateDebtor** | **String** |  |  [optional]
 **instructedAmount** | [**Amount**](Amount.md) |  | 
 **creditorAccount** | [**AccountReference**](AccountReference.md) |  | 
@@ -11,8 +13,10 @@ Name | Type | Description | Notes
 **creditorAgentName** | **String** |  |  [optional]
 **creditorName** | **String** |  | 
 **creditorAddress** | [**Address**](Address.md) |  |  [optional]
-**creditorId** | **String** | Identification of Creditors, e.g. a SEPA Creditor ID. |  [optional]
 **ultimateCreditor** | **String** |  |  [optional]
 **purposeCode** | [**PurposeCode**](PurposeCode.md) |  |  [optional]
+**chargeBearer** | [**ChargeBearer**](ChargeBearer.md) |  |  [optional]
 **remittanceInformationUnstructured** | **String** |  |  [optional]
-**remittanceInformationStructured** | [**RemittanceInformationStructured**](RemittanceInformationStructured.md) |  |  [optional]
+**remittanceInformationUnstructuredArray** | [**RemittanceInformationUnstructuredArray**](RemittanceInformationUnstructuredArray.md) |  |  [optional]
+**remittanceInformationStructured** | [**RemittanceInformationStructuredMax140**](RemittanceInformationStructuredMax140.md) |  |  [optional]
+**remittanceInformationStructuredArray** | [**RemittanceInformationStructuredArray**](RemittanceInformationStructuredArray.md) |  |  [optional]

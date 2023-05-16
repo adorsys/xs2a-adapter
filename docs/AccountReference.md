@@ -8,4 +8,6 @@ Name | Type | Description | Notes
 **pan** | **String** |  |  [optional]
 **maskedPan** | **String** |  |  [optional]
 **msisdn** | **String** |  |  [optional]
+**other** | [**OtherType**](OtherType.md) |  |  [optional]
 **currency** | **String** |  |  [optional]
+**cashAccountType** | **String** |  |  [optional]

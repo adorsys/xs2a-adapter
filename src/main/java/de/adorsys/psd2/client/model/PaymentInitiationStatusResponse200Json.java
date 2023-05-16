@@ -1,8 +1,8 @@
 /*
  * NextGenPSD2 XS2A Framework
- * # Summary The **NextGenPSD2** *Framework Version 1.3.4* offers a modern, open, harmonised and interoperable set of Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely. The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service') by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.   Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional.   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support   a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure   which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**   It is not a replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]      \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"    The element \"Accept\" will not be defined in this file at any place.    The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".  * There are several predefined types which might occur in payment initiation messages,   but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which need these fields, one can easily use the predefined types.   But the ASPSP need not to accept them in general.  * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)   except they are mention in the Implementation Guidelines.**   Therefore the implementer might add these in his own realisation of a PSD2 comlient API in addition to the elements define in this file.  ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API has to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
+ * # Summary The **NextGenPSD2** *Framework Version 1.3.12* offers a modern, open, harmonised and interoperable set of Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely. The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards  in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service') by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach    * OAuth SCA Approach   * Decoupled SCA Approach    * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.    Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional.   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support    a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure    which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**    It is not a replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]        \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"      The element \"Accept\" will not be defined in this file at any place.      The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".    * There are several predefined types which might occur in payment initiation messages,    but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which needs these fields, one can easily use the predefined types.   But the ASPSP need not to accept them in general.    * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)    except they are mentioned in the Implementation Guidelines.**   Therefore the implementer might add these in his own realisation of a PSD2 complient API in addition to the elements defined in this file.     ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API has to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
  *
- * OpenAPI spec version: 1.3.4_2019-07-17v1
+ * OpenAPI spec version: 1.3.12_2022-07-01
  * Contact: info@berlin-group.org
  *
  * NOTE: This class is auto generated by the swagger code generator program.
@@ -19,20 +19,40 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import de.adorsys.psd2.client.model.AccountOwner;
+import de.adorsys.psd2.client.model.LinksPaymentInitiationStatus;
+import de.adorsys.psd2.client.model.TppMessageGeneric;
 import de.adorsys.psd2.client.model.TransactionStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 /**
- * Body of the response for a successful payment initiation status request in case of an JSON based endpoint.
+ * Body of the response for a successful payment initiation status request in case of an JSON based endpoint. *Remark:* If the PSU does not complete a required SCA within the required timeframe the payment resource&#x27;s status must be set to \&quot;RJCT\&quot;. Particularly, if a multi-level-SCA is required and the number of successful SCAs during the required timeframe is insufficient, the status must also be set to \&quot;RJCT\&quot;.
  */
-@Schema(description = "Body of the response for a successful payment initiation status request in case of an JSON based endpoint.")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2020-03-26T15:17:13.106+01:00[Europe/Berlin]")
+@Schema(description = "Body of the response for a successful payment initiation status request in case of an JSON based endpoint. *Remark:* If the PSU does not complete a required SCA within the required timeframe the payment resource's status must be set to \"RJCT\". Particularly, if a multi-level-SCA is required and the number of successful SCAs during the required timeframe is insufficient, the status must also be set to \"RJCT\".")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
 public class PaymentInitiationStatusResponse200Json {
   @SerializedName("transactionStatus")
   private TransactionStatus transactionStatus = null;
 
   @SerializedName("fundsAvailable")
   private Boolean fundsAvailable = null;
+
+  @SerializedName("psuMessage")
+  private String psuMessage = null;
+
+  @SerializedName("ownerNames")
+  private List<AccountOwner> ownerNames = null;
+
+  @SerializedName("psuName")
+  private String psuName = null;
+
+  @SerializedName("_links")
+  private LinksPaymentInitiationStatus _links = null;
+
+  @SerializedName("tppMessages")
+  private List<TppMessageGeneric> tppMessages = null;
 
   public PaymentInitiationStatusResponse200Json transactionStatus(TransactionStatus transactionStatus) {
     this.transactionStatus = transactionStatus;
@@ -70,6 +90,112 @@ public class PaymentInitiationStatusResponse200Json {
     this.fundsAvailable = fundsAvailable;
   }
 
+  public PaymentInitiationStatusResponse200Json psuMessage(String psuMessage) {
+    this.psuMessage = psuMessage;
+    return this;
+  }
+
+   /**
+   * Get psuMessage
+   * @return psuMessage
+  **/
+  @Schema(description = "")
+  public String getPsuMessage() {
+    return psuMessage;
+  }
+
+  public void setPsuMessage(String psuMessage) {
+    this.psuMessage = psuMessage;
+  }
+
+  public PaymentInitiationStatusResponse200Json ownerNames(List<AccountOwner> ownerNames) {
+    this.ownerNames = ownerNames;
+    return this;
+  }
+
+  public PaymentInitiationStatusResponse200Json addOwnerNamesItem(AccountOwner ownerNamesItem) {
+    if (this.ownerNames == null) {
+      this.ownerNames = new ArrayList<>();
+    }
+    this.ownerNames.add(ownerNamesItem);
+    return this;
+  }
+
+   /**
+   * List of owner names. Should only be delivered after successful SCA. Could be restricted to the current PSU by the ASPSP. 
+   * @return ownerNames
+  **/
+  @Schema(description = "List of owner names. Should only be delivered after successful SCA. Could be restricted to the current PSU by the ASPSP. ")
+  public List<AccountOwner> getOwnerNames() {
+    return ownerNames;
+  }
+
+  public void setOwnerNames(List<AccountOwner> ownerNames) {
+    this.ownerNames = ownerNames;
+  }
+
+  public PaymentInitiationStatusResponse200Json psuName(String psuName) {
+    this.psuName = psuName;
+    return this;
+  }
+
+   /**
+   * Name of the PSU. In case of a corporate account, this might be the person acting on behalf of the corporate. 
+   * @return psuName
+  **/
+  @Schema(description = "Name of the PSU. In case of a corporate account, this might be the person acting on behalf of the corporate. ")
+  public String getPsuName() {
+    return psuName;
+  }
+
+  public void setPsuName(String psuName) {
+    this.psuName = psuName;
+  }
+
+  public PaymentInitiationStatusResponse200Json _links(LinksPaymentInitiationStatus _links) {
+    this._links = _links;
+    return this;
+  }
+
+   /**
+   * Get _links
+   * @return _links
+  **/
+  @Schema(description = "")
+  public LinksPaymentInitiationStatus getLinks() {
+    return _links;
+  }
+
+  public void setLinks(LinksPaymentInitiationStatus _links) {
+    this._links = _links;
+  }
+
+  public PaymentInitiationStatusResponse200Json tppMessages(List<TppMessageGeneric> tppMessages) {
+    this.tppMessages = tppMessages;
+    return this;
+  }
+
+  public PaymentInitiationStatusResponse200Json addTppMessagesItem(TppMessageGeneric tppMessagesItem) {
+    if (this.tppMessages == null) {
+      this.tppMessages = new ArrayList<>();
+    }
+    this.tppMessages.add(tppMessagesItem);
+    return this;
+  }
+
+   /**
+   * Messages to the TPP on operational issues.
+   * @return tppMessages
+  **/
+  @Schema(description = "Messages to the TPP on operational issues.")
+  public List<TppMessageGeneric> getTppMessages() {
+    return tppMessages;
+  }
+
+  public void setTppMessages(List<TppMessageGeneric> tppMessages) {
+    this.tppMessages = tppMessages;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -81,12 +207,17 @@ public class PaymentInitiationStatusResponse200Json {
     }
     PaymentInitiationStatusResponse200Json paymentInitiationStatusResponse200Json = (PaymentInitiationStatusResponse200Json) o;
     return Objects.equals(this.transactionStatus, paymentInitiationStatusResponse200Json.transactionStatus) &&
-        Objects.equals(this.fundsAvailable, paymentInitiationStatusResponse200Json.fundsAvailable);
+        Objects.equals(this.fundsAvailable, paymentInitiationStatusResponse200Json.fundsAvailable) &&
+        Objects.equals(this.psuMessage, paymentInitiationStatusResponse200Json.psuMessage) &&
+        Objects.equals(this.ownerNames, paymentInitiationStatusResponse200Json.ownerNames) &&
+        Objects.equals(this.psuName, paymentInitiationStatusResponse200Json.psuName) &&
+        Objects.equals(this._links, paymentInitiationStatusResponse200Json._links) &&
+        Objects.equals(this.tppMessages, paymentInitiationStatusResponse200Json.tppMessages);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(transactionStatus, fundsAvailable);
+    return Objects.hash(transactionStatus, fundsAvailable, psuMessage, ownerNames, psuName, _links, tppMessages);
   }
 
 
@@ -97,6 +228,11 @@ public class PaymentInitiationStatusResponse200Json {
     
     sb.append("    transactionStatus: ").append(toIndentedString(transactionStatus)).append("\n");
     sb.append("    fundsAvailable: ").append(toIndentedString(fundsAvailable)).append("\n");
+    sb.append("    psuMessage: ").append(toIndentedString(psuMessage)).append("\n");
+    sb.append("    ownerNames: ").append(toIndentedString(ownerNames)).append("\n");
+    sb.append("    psuName: ").append(toIndentedString(psuName)).append("\n");
+    sb.append("    _links: ").append(toIndentedString(_links)).append("\n");
+    sb.append("    tppMessages: ").append(toIndentedString(tppMessages)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -1,8 +1,8 @@
 /*
  * NextGenPSD2 XS2A Framework
- * # Summary The **NextGenPSD2** *Framework Version 1.3.4* offers a modern, open, harmonised and interoperable set of Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely. The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service') by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach   * OAuth SCA Approach   * Decoupled SCA Approach   * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.   Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional.   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support   a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure   which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**   It is not a replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]      \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"    The element \"Accept\" will not be defined in this file at any place.    The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".  * There are several predefined types which might occur in payment initiation messages,   but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which need these fields, one can easily use the predefined types.   But the ASPSP need not to accept them in general.  * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)   except they are mention in the Implementation Guidelines.**   Therefore the implementer might add these in his own realisation of a PSD2 comlient API in addition to the elements define in this file.  ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API has to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
+ * # Summary The **NextGenPSD2** *Framework Version 1.3.12* offers a modern, open, harmonised and interoperable set of Application Programming Interfaces (APIs) as the safest and most efficient way to provide data securely. The NextGenPSD2 Framework reduces XS2A complexity and costs, addresses the problem of multiple competing standards  in Europe and, aligned with the goals of the Euro Retail Payments Board, enables European banking customers to benefit from innovative products and services ('Banking as a Service') by granting TPPs safe and secure (authenticated and authorised) access to their bank accounts and financial data.  The possible Approaches are:   * Redirect SCA Approach    * OAuth SCA Approach   * Decoupled SCA Approach    * Embedded SCA Approach without SCA method   * Embedded SCA Approach with only one SCA method available   * Embedded SCA Approach with Selection of a SCA method    Not every message defined in this API definition is necessary for all approaches.    Furthermore this API definition does not differ between methods which are mandatory, conditional, or optional.   Therefore for a particular implementation of a Berlin Group PSD2 compliant API it is only necessary to support    a certain subset of the methods defined in this API definition.    **Please have a look at the implementation guidelines if you are not sure    which message has to be used for the approach you are going to use.**  ## Some General Remarks Related to this version of the OpenAPI Specification: * **This API definition is based on the Implementation Guidelines of the Berlin Group PSD2 API.**    It is not a replacement in any sense.   The main specification is (at the moment) always the Implementation Guidelines of the Berlin Group PSD2 API. * **This API definition contains the REST-API for requests from the PISP to the ASPSP.** * **This API definition contains the messages for all different approaches defined in the Implementation Guidelines.** * According to the OpenAPI-Specification [https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md]        \"If in is \"header\" and the name field is \"Accept\", \"Content-Type\" or \"Authorization\", the parameter definition SHALL be ignored.\"      The element \"Accept\" will not be defined in this file at any place.      The elements \"Content-Type\" and \"Authorization\" are implicitly defined by the OpenApi tags \"content\" and \"security\".    * There are several predefined types which might occur in payment initiation messages,    but are not used in the standard JSON messages in the Implementation Guidelines.   Therefore they are not used in the corresponding messages in this file either.   We added them for the convenience of the user.   If there is a payment product, which needs these fields, one can easily use the predefined types.   But the ASPSP need not to accept them in general.    * **We omit the definition of all standard HTTP header elements (mandatory/optional/conditional)    except they are mentioned in the Implementation Guidelines.**   Therefore the implementer might add these in his own realisation of a PSD2 complient API in addition to the elements defined in this file.     ## General Remarks on Data Types  The Berlin Group definition of UTF-8 strings in context of the PSD2 API has to support at least the following characters  a b c d e f g h i j k l m n o p q r s t u v w x y z  A B C D E F G H I J K L M N O P Q R S T U V W X Y Z  0 1 2 3 4 5 6 7 8 9  / - ? : ( ) . , ' +  Space 
  *
- * OpenAPI spec version: 1.3.4_2019-07-17v1
+ * OpenAPI spec version: 1.3.12_2022-07-01
  * Contact: info@berlin-group.org
  *
  * NOTE: This class is auto generated by the swagger code generator program.
@@ -25,16 +25,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * Additional account information 
+ * Optional if supported by API provider.  Is asking for additional information as added within this structured object. The usage of this data element requires at least one of the entries \&quot;accounts\&quot;,  \&quot;transactions\&quot; or \&quot;balances\&quot; also to be contained in the object.  If detailed accounts are referenced, it is required in addition that any account addressed within  the additionalInformation attribute is also addressed by at least one of the attributes \&quot;accounts\&quot;,  \&quot;transactions\&quot; or \&quot;balances\&quot;. 
  */
-@Schema(description = "Additional account information ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2020-03-26T15:17:13.106+01:00[Europe/Berlin]")
+@Schema(description = "Optional if supported by API provider.  Is asking for additional information as added within this structured object. The usage of this data element requires at least one of the entries \"accounts\",  \"transactions\" or \"balances\" also to be contained in the object.  If detailed accounts are referenced, it is required in addition that any account addressed within  the additionalInformation attribute is also addressed by at least one of the attributes \"accounts\",  \"transactions\" or \"balances\". ")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
 public class AdditionalInformationAccess {
   @SerializedName("ownerName")
   private List<AccountReference> ownerName = null;
 
-  @SerializedName("ownerAddress")
-  private List<AccountReference> ownerAddress = null;
+  @SerializedName("trustedBeneficiaries")
+  private List<AccountReference> trustedBeneficiaries = null;
 
   public AdditionalInformationAccess ownerName(List<AccountReference> ownerName) {
     this.ownerName = ownerName;
@@ -50,10 +50,10 @@ public class AdditionalInformationAccess {
   }
 
    /**
-   * Is asking for account owner name of the accounts referenced within. 
+   * Is asking for account owner name of the accounts referenced within.  If the array is empty in the request, the TPP is asking for the account  owner name of all accessible accounts.  This may be restricted in a PSU/ASPSP authorization dialogue.  If the array is empty, also the arrays for accounts, balances or transactions shall be empty, if used. The ASPSP will indicate in the consent resource after a successful authorisation,  whether the ownerName consent can be accepted by providing the accounts on which the ownerName will  be delivered.  This array can be empty. 
    * @return ownerName
   **/
-  @Schema(description = "Is asking for account owner name of the accounts referenced within. ")
+  @Schema(description = "Is asking for account owner name of the accounts referenced within.  If the array is empty in the request, the TPP is asking for the account  owner name of all accessible accounts.  This may be restricted in a PSU/ASPSP authorization dialogue.  If the array is empty, also the arrays for accounts, balances or transactions shall be empty, if used. The ASPSP will indicate in the consent resource after a successful authorisation,  whether the ownerName consent can be accepted by providing the accounts on which the ownerName will  be delivered.  This array can be empty. ")
   public List<AccountReference> getOwnerName() {
     return ownerName;
   }
@@ -62,30 +62,30 @@ public class AdditionalInformationAccess {
     this.ownerName = ownerName;
   }
 
-  public AdditionalInformationAccess ownerAddress(List<AccountReference> ownerAddress) {
-    this.ownerAddress = ownerAddress;
+  public AdditionalInformationAccess trustedBeneficiaries(List<AccountReference> trustedBeneficiaries) {
+    this.trustedBeneficiaries = trustedBeneficiaries;
     return this;
   }
 
-  public AdditionalInformationAccess addOwnerAddressItem(AccountReference ownerAddressItem) {
-    if (this.ownerAddress == null) {
-      this.ownerAddress = new ArrayList<>();
+  public AdditionalInformationAccess addTrustedBeneficiariesItem(AccountReference trustedBeneficiariesItem) {
+    if (this.trustedBeneficiaries == null) {
+      this.trustedBeneficiaries = new ArrayList<>();
     }
-    this.ownerAddress.add(ownerAddressItem);
+    this.trustedBeneficiaries.add(trustedBeneficiariesItem);
     return this;
   }
 
    /**
-   * Is asking for account owner address related to the accounts referenced within 
-   * @return ownerAddress
+   * Optional if supported by API provider. Is asking for the trusted beneficiaries related to the accounts referenced within and related to the PSU. If the array is empty in the request, the TPP is asking for the lists of trusted beneficiaries of all accessible accounts.  This may be restricted in a PSU/ASPSP authorization dialogue by the PSU if also the account lists addressed  by the tags “accounts”, “balances” or “transactions” are empty. The ASPSP will indicate in the consent resource after a successful authorisation,  whether the trustedBeneficiaries consent can be accepted by providing the accounts on which the list of trusted beneficiaries will be delivered.  This array can be empty. 
+   * @return trustedBeneficiaries
   **/
-  @Schema(description = "Is asking for account owner address related to the accounts referenced within ")
-  public List<AccountReference> getOwnerAddress() {
-    return ownerAddress;
+  @Schema(description = "Optional if supported by API provider. Is asking for the trusted beneficiaries related to the accounts referenced within and related to the PSU. If the array is empty in the request, the TPP is asking for the lists of trusted beneficiaries of all accessible accounts.  This may be restricted in a PSU/ASPSP authorization dialogue by the PSU if also the account lists addressed  by the tags “accounts”, “balances” or “transactions” are empty. The ASPSP will indicate in the consent resource after a successful authorisation,  whether the trustedBeneficiaries consent can be accepted by providing the accounts on which the list of trusted beneficiaries will be delivered.  This array can be empty. ")
+  public List<AccountReference> getTrustedBeneficiaries() {
+    return trustedBeneficiaries;
   }
 
-  public void setOwnerAddress(List<AccountReference> ownerAddress) {
-    this.ownerAddress = ownerAddress;
+  public void setTrustedBeneficiaries(List<AccountReference> trustedBeneficiaries) {
+    this.trustedBeneficiaries = trustedBeneficiaries;
   }
 
 
@@ -99,12 +99,12 @@ public class AdditionalInformationAccess {
     }
     AdditionalInformationAccess additionalInformationAccess = (AdditionalInformationAccess) o;
     return Objects.equals(this.ownerName, additionalInformationAccess.ownerName) &&
-        Objects.equals(this.ownerAddress, additionalInformationAccess.ownerAddress);
+        Objects.equals(this.trustedBeneficiaries, additionalInformationAccess.trustedBeneficiaries);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(ownerName, ownerAddress);
+    return Objects.hash(ownerName, trustedBeneficiaries);
   }
 
 
@@ -114,7 +114,7 @@ public class AdditionalInformationAccess {
     sb.append("class AdditionalInformationAccess {\n");
     
     sb.append("    ownerName: ").append(toIndentedString(ownerName)).append("\n");
-    sb.append("    ownerAddress: ").append(toIndentedString(ownerAddress)).append("\n");
+    sb.append("    trustedBeneficiaries: ").append(toIndentedString(trustedBeneficiaries)).append("\n");
     sb.append("}");
     return sb.toString();
   }
