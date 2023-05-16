@@ -25,7 +25,7 @@ import java.io.IOException;
  * PSU Data for Update PSU authentication.
  */
 @Schema(description = "PSU Data for Update PSU authentication.")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
+
 public class PsuData {
   @SerializedName("password")
   private String password = null;

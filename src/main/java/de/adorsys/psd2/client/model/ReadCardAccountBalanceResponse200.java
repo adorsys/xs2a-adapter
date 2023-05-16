@@ -27,7 +27,7 @@ import java.io.IOException;
  * Body of the response for a successful read balance for a card account request.
  */
 @Schema(description = "Body of the response for a successful read balance for a card account request.")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
+
 public class ReadCardAccountBalanceResponse200 {
   @SerializedName("cardAccount")
   private AccountReference cardAccount = null;

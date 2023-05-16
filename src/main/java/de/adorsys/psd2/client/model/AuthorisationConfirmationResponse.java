@@ -27,7 +27,7 @@ import java.io.IOException;
  * Body of the JSON response for an authorisation confirmation request.
  */
 @Schema(description = "Body of the JSON response for an authorisation confirmation request.")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
+
 public class AuthorisationConfirmationResponse {
   @SerializedName("scaStatus")
   private ScaStatusAuthorisationConfirmation scaStatus = null;

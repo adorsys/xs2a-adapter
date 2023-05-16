@@ -22,7 +22,7 @@ import java.util.List;
  * A list of balances regarding this account, e.g. the current balance, the last booked balance. The list might be restricted to the current balance. 
  */
 @Schema(description = "A list of balances regarding this account, e.g. the current balance, the last booked balance. The list might be restricted to the current balance. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
+
 public class BalanceList extends ArrayList<Balance> {
 
   @Override

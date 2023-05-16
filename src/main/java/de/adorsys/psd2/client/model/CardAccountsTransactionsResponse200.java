@@ -29,7 +29,7 @@ import java.io.IOException;
  * Body of the JSON response for a successful read card account transaction list request. This card account report contains transactions resulting from the query parameters. 
  */
 @Schema(description = "Body of the JSON response for a successful read card account transaction list request. This card account report contains transactions resulting from the query parameters. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
+
 public class CardAccountsTransactionsResponse200 {
   @SerializedName("cardAccount")
   private AccountReference cardAccount = null;

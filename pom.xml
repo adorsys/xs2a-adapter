@@ -223,6 +223,7 @@
 <!--                                <modelPackage>de.adorsys.psd2.client.model</modelPackage>-->
 <!--                                <apiPackage>de.adorsys.psd2.client.api</apiPackage>-->
 <!--                                <dateLibrary>java8</dateLibrary>-->
+<!--                                <hideGenerationTimestamp>true</hideGenerationTimestamp>-->
 <!--                            </configOptions>-->
 <!--                        </configuration>-->
 <!--                    </execution>-->

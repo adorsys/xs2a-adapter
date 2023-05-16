@@ -29,7 +29,7 @@ import java.util.List;
  * Standardised definition of reporting error information according to [RFC7807]  in case of a HTTP error code 401 for PIIS. 
  */
 @Schema(description = "Standardised definition of reporting error information according to [RFC7807]  in case of a HTTP error code 401 for PIIS. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
+
 public class Error401PIIS {
   @SerializedName("type")
   private String type = null;

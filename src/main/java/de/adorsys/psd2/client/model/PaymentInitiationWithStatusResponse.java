@@ -37,7 +37,7 @@ import java.util.List;
  * Generic JSON response body consistion of the corresponding payment initiation JSON body together with an optional transaction status field. 
  */
 @Schema(description = "Generic JSON response body consistion of the corresponding payment initiation JSON body together with an optional transaction status field. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
+
 public class PaymentInitiationWithStatusResponse {
   @SerializedName("endToEndIdentification")
   private String endToEndIdentification = null;

@@ -26,7 +26,7 @@ import java.io.IOException;
  * TppMessage405AIS
  */
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
+
 public class TppMessage405AIS {
   @SerializedName("category")
   private TppMessageCategory category = null;

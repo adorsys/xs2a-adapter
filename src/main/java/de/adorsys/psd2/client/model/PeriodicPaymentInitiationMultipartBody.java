@@ -27,7 +27,7 @@ import java.io.IOException;
  * The multipart message definition for the initiation of a periodic payment initiation  where the information of the payment is contained in a pain.001 message (Part 1) and  the additional information related to the periodic payment is an additional JSON message (Part 2). 
  */
 @Schema(description = "The multipart message definition for the initiation of a periodic payment initiation  where the information of the payment is contained in a pain.001 message (Part 1) and  the additional information related to the periodic payment is an additional JSON message (Part 2). ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
+
 public class PeriodicPaymentInitiationMultipartBody {
   @SerializedName("xml_sct")
   private OneOfPeriodicPaymentInitiationMultipartBodyXmlSct xmlSct = null;

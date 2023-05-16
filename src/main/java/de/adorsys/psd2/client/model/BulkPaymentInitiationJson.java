@@ -31,7 +31,7 @@ import java.util.List;
  * Generic Body for a bulk payment initiation via JSON.  paymentInformationId is contained in code but commented since it is n.a.  and not all ASPSP are able to support this field now. In a later version the field will be mandatory. 
  */
 @Schema(description = "Generic Body for a bulk payment initiation via JSON.  paymentInformationId is contained in code but commented since it is n.a.  and not all ASPSP are able to support this field now. In a later version the field will be mandatory. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
+
 public class BulkPaymentInitiationJson {
   @SerializedName("batchBookingPreferred")
   private Boolean batchBookingPreferred = null;

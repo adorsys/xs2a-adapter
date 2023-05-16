@@ -30,7 +30,7 @@ import java.util.List;
  * Body of the JSON response with SCA Status.
  */
 @Schema(description = "Body of the JSON response with SCA Status.")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
+
 public class ScaStatusResponse {
   @SerializedName("scaStatus")
   private ScaStatus scaStatus = null;

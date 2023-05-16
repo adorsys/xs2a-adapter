@@ -26,7 +26,7 @@ import java.io.IOException;
  * Is used if and only if the bookingStatus entry equals \&quot;information\&quot;.  Every active standing order related to the dedicated payment account result into one entry. 
  */
 @Schema(description = "Is used if and only if the bookingStatus entry equals \"information\".  Every active standing order related to the dedicated payment account result into one entry. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
+
 public class AdditionalInformationStructured {
   @SerializedName("standingOrderDetails")
   private StandingOrderDetails standingOrderDetails = null;

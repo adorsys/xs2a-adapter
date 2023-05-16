@@ -25,7 +25,7 @@ import java.io.IOException;
  * This is a data element to support the declaration of additional errors in the context of [RFC7807].
  */
 @Schema(description = "This is a data element to support the declaration of additional errors in the context of [RFC7807].")
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2023-05-15T10:07:19.009+02:00[Europe/Berlin]")
+
 public class Error404SBSAdditionalErrors {
   @SerializedName("title")
   private String title = null;
