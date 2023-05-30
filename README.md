@@ -2,43 +2,20 @@
 [![Build Status](https://github.com/adorsys/xs2a-adapter/workflows/Develop%20CI/badge.svg)](https://github.com/adorsys/xs2a-adapter/actions)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=adorsys_xs2a-adapter&metric=alert_status)](https://sonarcloud.io/dashboard?id=adorsys_xs2a-adapter)
 
+This is the try-out version of adorsys XS2A Adapters: an open source (AGPL v3) solution that provide XS2A connectivity to the largest retail banks in Germany.
+
+If you are looking for a strong base framework to build up XS2A connectivity capabilities to other banks or as an initial foundation for your own gateway (see also adorsys [Open Banking Gateway](https://github.com/adorsys/open-banking-gateway) project), we would be thrilled to cooperate with you and share our know-how of the framework and overall open finance and development expertise.
+
+If you are an organisation that would like to commercially use our solutions beyond AGPL v3 requirements, we are open to discuss alternative individual licensing options. If you are interested in working with us or have any other inquiries, please contact us under [psd2@adorsys.com](mailto:psd2@adorsys.com).
+
 There are various ways for a bank to implement a PSD2 compliant XS2A interface. Don’t waste time in connecting different banks with different approaches into your application. Use the free of charge XS2A adapter and concentrate on your true value proposition!
-
-## Changes in OSS release policy
-
-For the time being, version 0.1.17 will be the current try-out version of XS2A-adapter that adorsys publishes on GitHub.
-With PSD2 standards and our solutions having grown to maturity in production, our continuous investment in development and maintenance
-of our XS2A projects forces us to focus on our commercial engagements.
-We are committed to continuous active development of our XS2A solutions to ensure constant adherence to the latest Berlin Group
-specifications and to support OpenFinance initiatives.
-Existing published versions will remain available under their respective open-source licenses.
-If you are a user of our XS2A solutions and would like to either start or extend cooperation, please contact us under psd2@adorsys.com.
-
-## Licensing model change to dual license: AGPL v.3 or commercial license
-
-**Attention: this open-source project will change its licensing model as of 01.01.2022!**
-
-Constantly evolving and extending scope, production traffic and support in open banking
-world call for high maintenance and service investments on our part.
-
-Henceforth, adorsys will offer all versions higher than v.0.1.16 of Adapter under a
-dual-license model. Thus, this repository will be available either under Affero GNU General
-Public License v.3 (AGPL v.3) or alternatively under a commercial license agreement.
-
-We would like to thank all our users for their trust so far and are convinced that we will be
-able to provide an even better service going forward.
-
-For more information, advice for your implementation project or if your use case requires
-more time to adapt this change, please contact us at psd2@adorsys.com .
-
-For additional details please see the section [FAQ on Licensing Change](https://github.com/adorsys/xs2a-adapter#faq-on-licensing-change).
 
 ## Who we are
 
-[adorsys](https://adorsys.de/en/index.html) is a company who works ever since the very beginning of PSD2 with its requirements and implicit tasks.
+[Adorsys](https://adorsys.com/en/) is a company who works ever since the very beginning of PSD2 with its requirements and implicit tasks.
 We help banks to be PSD2 complaint (technical and legal terms). To speed up the process we provide this open source XS2A interface,
 that can be connected to your middleware system.
-You can check your readiness for PSD2 Compliance and other information via [our Web-site](https://adorsys.de/en/psd2).
+You can check your readiness for PSD2 Compliance and other information via [our Web-site](https://adorsys.com/en/).
 
 ## What this Project is about
 
@@ -46,7 +23,6 @@ You can check your readiness for PSD2 Compliance and other information via [our 
 
 PSD2 as the first regulatory driven Open Banking initiative offers many opportunities for both Banks and Third Party Providers. TPPs can use the account information and payment services provided by the banks in order to offer new innovative services to the end users. The more banks a TPP can interact with the more users it can reach with its application, which in consequence raises the value of the application itself.
 However, being able to interact with many banks can be a time and cost consuming challenge when developing and maintaining an application. Even though PSD2 sets a standard for bank interfaces, much space for implementation options remains. A bank, therefore, can have an own PSD2 compliant solution or have implemented one of the mayor PSD2 standards, like Open Banking UK, Berlin Group or STET. A PSD2 adapter must be able to process the different messages correctly and react fast to changes on the XS2A interfaces.
-
 
 ### High level architecture
 
@@ -198,67 +174,4 @@ If you have any technical questions you can ask them in our [gitter](https://git
 
 ## License
 
-This project is dual licensed under Affero GNU General Public License v.3 (AGPL v.3) or alternatively under a commercial license agreement - see the [LICENSE](LICENSE) file for details.
-
-For commercial inquiries please contact us at psd2@adorsys.com.
-
-For additional details please see the section: FAQ on Licensing Change.
-
-## FAQ on Licensing Change
-
-**What is a dual-licensing model?**
-
-Under a dual-licensing model, our product is available under two licenses:
-
-1. [The Affero GNU General Public License v3 (AGPL v3)](https://www.gnu.org/licenses/agpl-3.0.en.html)
-2. A proprietary commercial license
-
-If you are a developer or business that would like to review our products in detail, test and implement in your open-source projects and share the changes back to the community, the product repository is freely available under AGPL v3.
-
-If you are a business that would like to implement our products in a commercial setting and would like to protect your individual changes, we offer the option to license our products under a commercial license.
-
-This change will still allow free access and ensure openness under AGPL v3 but with assurance of committing any alterations or extensions back to the project and preventing redistribution of such implementations under commercial license.
-
-**Will there be any differences between the open-source and commercially licensed versions of your products?**
-
-Our public release frequency will be reduced as our focus shifts towards the continuous maintenance of the commercial version. Nevertheless, we are committed to also provide open-source releases of our products on a regular basis as per our release policy.
-
-For customers with a commercial license, we will offer new intermediate releases in a more frequent pace.
-
-**Does this mean that this product is no longer open source?**
-
-No, the product will still be published and available on GitHub under an OSI-approved open-source license (AGPL v3).
-
-**What about adorsys’ commitment to open source? Will adorsys provide future product releases on GitHub?**
-
-We at adorsys are committed to continue actively participating in the open-source community. Our products remain licensed under OSI-approved open-source licenses, and we are looking forward to expanding our product portfolio on GitHub even further.
-
-**How does the change impact me if I already use the open-source edition of your product?**
-
-All currently published versions until v1.0 will remain under their current Apache 2.0 license and its respective requirements and you may continue using it as-is. To upgrade to future versions, you will be required to either abide by the requirements of AGPL v3, including documenting and sharing your implemented changes to the product when distributing, or alternatively approach us to obtain a commercial license.
-
-**What if I cannot adjust to the new licensing model until 01.01.2022? Can I extend the deadline?**
-
-We understand that adjustment to licensing changes can take time and therefore are open to discuss extension options on an individual basis. For inquiries please contact us at psd2@adorsys.com.
-
-**Which versions of the product are affected?**
-
-All versions of Open Banking Gateway after v1.0 will be affected by the licensing changes and move to a dual-licensing model.
-
-**What will happen to older, Apache 2.0 licensed product versions?**
-
-All older Apache 2.0 licensed versions prior and including v1.0 will remain available under their existing license.
-
-**What open-source products from Adorsys are affected by the licensing change?**
-
-The following products are affected:
-
-- [XS2A Core](https://github.com/adorsys/xs2a)
-- [XS2A Sandbox & ModelBank](https://github.com/adorsys/XS2A-Sandbox)
-- [Open Banking Gateway](https://github.com/adorsys/open-banking-gateway) incl. [XS2A Adapters](https://github.com/adorsys/xs2a-adapter)
-- [SmartAnalytics](https://github.com/adorsys/smartanalytics)
-- [Datasafe](https://github.com/adorsys/datasafe)
-
-**I’m using one of these products indirectly via some software integrator. How does the licensing change affect me?**
-
-The licensing change does not affect you as user, but it is relevant to your provider who has used our product in their solution implementation. In case of uncertainty please contact your service provider or approach us at psd2@adorsys.com.
+This project is licensed under Affero GNU General Public License v.3 (AGPL v.3). See the [LICENSE](LICENSE) file for details. For alternative individual licensing options please contact us at [psd2@adorsys.com](mailto:psd2@adorsys.com).
