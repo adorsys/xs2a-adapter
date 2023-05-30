@@ -12,10 +12,10 @@ There are various ways for a bank to implement a PSD2 compliant XS2A interface. 
 
 ## Who we are
 
-[adorsys](https://adorsys.de/en/index.html) is a company who works ever since the very beginning of PSD2 with its requirements and implicit tasks.
+[Adorsys](https://adorsys.com/en/) is a company who works ever since the very beginning of PSD2 with its requirements and implicit tasks.
 We help banks to be PSD2 complaint (technical and legal terms). To speed up the process we provide this open source XS2A interface,
 that can be connected to your middleware system.
-You can check your readiness for PSD2 Compliance and other information via [our Web-site](https://adorsys.de/en/psd2).
+You can check your readiness for PSD2 Compliance and other information via [adorsys — Innovative & market-driven business models](https://adorsys.com/en/).
 
 ## What this Project is about
 
