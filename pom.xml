@@ -92,7 +92,7 @@
         <assertj.version>3.15.0</assertj.version>
         <mockito.version>3.2.4</mockito.version>
         <nimbus-jose-jwt.version>9.0</nimbus-jose-jwt.version>
-        <webjars-locator.version>0.45</webjars-locator.version>
+        <webjars-locator.version>0.47</webjars-locator.version>
         <wiremock.version>2.35.0</wiremock.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-logging.version>1.2</commons-logging.version>
