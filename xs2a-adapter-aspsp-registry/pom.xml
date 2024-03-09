@@ -15,8 +15,8 @@
     <artifactId>xs2a-adapter-aspsp-registry</artifactId>
 
     <properties>
-        <lucene.version>8.1.1</lucene.version>
-        <iban4j.version>3.2.1</iban4j.version>
+        <lucene.version>8.11.2</lucene.version>
+        <iban4j.version>3.2.4-RELEASE</iban4j.version>
     </properties>
 
     <dependencies>

@@ -13,7 +13,7 @@
     <artifactId>xs2a-adapter-rest-impl</artifactId>
 
     <properties>
-        <commons-fileupload.version>1.4</commons-fileupload.version>
+        <commons-fileupload.version>1.5</commons-fileupload.version>
     </properties>
 
     <dependencies>
