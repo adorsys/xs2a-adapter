@@ -21,7 +21,7 @@ package de.adorsys.xs2a.adapter.api.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 import java.util.List;
 import java.util.Objects;
 

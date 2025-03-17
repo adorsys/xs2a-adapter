@@ -63,7 +63,7 @@ public class WiremockHttpClient extends ApacheHttpClient {
         } else {
             WireMockConfiguration options = options()
                                                 .port(wireMockPort)
-                                                .extensions(new ResponseTemplateTransformer(true))
+                                                .extensions(new ResponseTemplateTransformer(null, true, null, null))
                                                 .fileSource(new JarReadingClasspathFileSource(adapterId));
 
             wireMockServer = new WireMockServer(options);

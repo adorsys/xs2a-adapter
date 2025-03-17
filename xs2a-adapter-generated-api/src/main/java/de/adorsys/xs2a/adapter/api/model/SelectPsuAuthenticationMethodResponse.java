@@ -20,7 +20,7 @@ package de.adorsys.xs2a.adapter.api.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 import java.util.Map;
 import java.util.Objects;
 

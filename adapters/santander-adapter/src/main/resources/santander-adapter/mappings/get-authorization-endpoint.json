@@ -8,7 +8,8 @@
   "response" : {
     "status" : 200,
     "body" : "{\"authorization_endpoint\":\"http://localhost:{{request.port}}\",\"code_challenge_methods_supported\":[\"S256\"],\"grant_types_supported\":[\"authorization_code\",\"client_credentials\"],\"issuer\":\"http://www.santander.de\",\"response_types_supported\":[\"code\",\"none\"],\"scopes_supported\":[\"accounts.read\",\"accounts.write\",\"payments.read\",\"payments.write\"],\"service_documentation\":\"https://www.santander.de/privatkunden/specials/api-market\",\"token_endpoint\":\"https://api-sandbox-cc.santander.de/scb-openapis/sx/v1/oauth_matls/token\",\"token_endpoint_auth_methods_supported\":[\"oauth\"],\"ui_locales_supported\":[\"en-US\",\"en-GB\",\"de-DE\"]}",
-    "headers" : {
+      "transformers": ["response-template"],
+      "headers" : {
       "X-Backside-Transport" : "OK OK,OK OK",
       "X-Content-Type-Options" : "nosniff",
       "Content-Type" : "application/json; charset=utf-8",

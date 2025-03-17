@@ -28,6 +28,7 @@ import de.adorsys.xs2a.adapter.api.exception.PsuPasswordEncodingException;
 import org.apache.commons.io.IOUtils;
 import org.bouncycastle.jcajce.provider.asymmetric.x509.CertificateFactory;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -75,15 +76,15 @@ public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncr
         CertificateFactory certificateFactory = new CertificateFactory();
 
         try {
-            URI certificateUri = new URI(URL_TO_CERTIFICATE);
-            InputStream certs = getCertificates(certificateUri);
+            String certPath = "./src/main/resources/DeutscheBankCert.pem";
+            FileInputStream fis = new FileInputStream(certPath);
 
             // Warning for unchecked assignment can be ignored,
             // as under the hood CertificateFactory#engineGenerateCertificates returns ArrayList<java.security.cert.Certificate>,
             // even though java.util.Collection is mentioned as a return type.
             // See org.bouncycastle.jcajce.provider.asymmetric.x509.CertificateFactory#engineGenerateCertificates implementation for further details.
             @SuppressWarnings("unchecked")
-            Collection<Certificate> certificates = certificateFactory.engineGenerateCertificates(certs);
+            Collection<Certificate> certificates = certificateFactory.engineGenerateCertificates(fis);
 
             if (certificates.isEmpty()) {
                 throw new PsuPasswordEncodingException("No certificates have been provided by bank for PSU password encryption");
@@ -96,7 +97,6 @@ public class DeutscheBankPsuPasswordEncryptionService implements PsuPasswordEncr
                                                            .collect(Collectors.toList());
 
             jweHeader = new JWEHeader.Builder(JWEAlgorithm.RSA_OAEP_256, EncryptionMethod.A256GCM)
-                            .x509CertURL(certificateUri)
                             .x509CertChain(x509CertificateChainEncoded)
                             .build();
 

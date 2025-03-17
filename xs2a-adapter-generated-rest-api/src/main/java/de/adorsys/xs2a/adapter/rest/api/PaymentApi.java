@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 import java.util.Map;
 
 @Generated("xs2a-adapter-codegen")

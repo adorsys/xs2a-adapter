@@ -65,24 +65,24 @@
 
     <properties>
         <!-- maven -->
-        <java.version>11</java.version>
+        <java.version>21</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.enforce.plugin.version>1.4.1</maven.enforce.plugin.version>
-        <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+        <sonar-maven-plugin.version>5.0.0.4389</sonar-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
 
         <!-- spring -->
-        <spring-boot.version>2.3.0.RELEASE</spring-boot.version>
-        <spring-cloud.version>Hoxton.SR6</spring-cloud.version>
+        <spring-boot.version>3.4.3</spring-boot.version>
+        <spring-cloud.version>2024.0.0</spring-cloud.version>
 
         <!-- swagger -->
         <swagger-ui.version>3.25.0</swagger-ui.version>
 
         <!-- other -->
-        <servlet-api.version>4.0.0</servlet-api.version>
+        <servlet-api.version>6.0.0</servlet-api.version>
         <docker.image>${project.artifactId}</docker.image>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
         <javatar-commons.version>0.8</javatar-commons.version>
@@ -93,7 +93,7 @@
         <mockito.version>3.2.4</mockito.version>
         <nimbus-jose-jwt.version>8.4</nimbus-jose-jwt.version>
         <webjars-locator.version>0.38</webjars-locator.version>
-        <wiremock.version>2.27.1</wiremock.version>
+        <wiremock.version>3.10.0</wiremock.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-logging.version>1.2</commons-logging.version>
         <commons-io.version>2.8.0</commons-io.version>
@@ -201,7 +201,22 @@
                 <artifactId>mockito-junit-jupiter</artifactId>
                 <version>${mockito.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${servlet-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>32.1.2-jre</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.openfeign.form</groupId>
+                <artifactId>feign-form-spring</artifactId>
+                <version>3.8.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -239,7 +254,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.11.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -250,6 +265,9 @@
                             <version>${mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>

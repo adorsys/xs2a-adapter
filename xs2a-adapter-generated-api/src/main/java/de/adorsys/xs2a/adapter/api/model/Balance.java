@@ -18,7 +18,7 @@
 
 package de.adorsys.xs2a.adapter.api.model;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Objects;
