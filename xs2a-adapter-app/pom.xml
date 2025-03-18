@@ -93,7 +93,7 @@
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
-            <version>2.3.2</version>
+            <version>${jakarta.xml.bind-api.version}</version>
         </dependency>
 
         <!-- tests dependencies -->
@@ -107,7 +107,7 @@
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>5.0.0</version>
+            <version>${servlet-api.version}</version>
             <scope>provided</scope>
         </dependency>
 

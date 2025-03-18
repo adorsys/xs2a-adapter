@@ -97,6 +97,16 @@
         <commons-fileupload.version>1.5</commons-fileupload.version>
         <commons-logging.version>1.2</commons-logging.version>
         <commons-io.version>2.8.0</commons-io.version>
+        <guava.version>32.1.2-jre</guava.version>
+        <feign.version>3.8.0</feign.version>
+        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <jakarta.xml.bind-api.version>2.3.2</jakarta.xml.bind-api.version>
+        <jakarta.validation-api.version>2.0.2</jakarta.validation-api.version>
+        <jakarta.ws.rs-api.version>3.0.0</jakarta.ws.rs-api.version>
+        <httpmime.version>4.5.14</httpmime.version>
+        <httpclient.version>4.5.14</httpclient.version>
 
         <!-- Sonar dependencies -->
         <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
@@ -210,12 +220,12 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>32.1.2-jre</version>
+                <version>${guava.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.openfeign.form</groupId>
                 <artifactId>feign-form-spring</artifactId>
-                <version>3.8.0</version>
+                <version>${feign.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -254,7 +264,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -411,7 +421,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.0.1</version>
+                        <version>${maven-source-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -424,7 +434,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>${maven-gpg-plugin.version}</version>
                         <configuration>
                         </configuration>
                         <executions>
