@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Generated;
-import jakarta.lang.model.element.Modifier;
+import javax.lang.model.element.Modifier;
 import java.lang.reflect.Type;
 import java.nio.file.Paths;
 import java.time.LocalDate;
