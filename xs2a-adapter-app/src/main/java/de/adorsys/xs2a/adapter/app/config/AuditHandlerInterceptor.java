@@ -23,12 +23,12 @@ import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.http.HttpLogSanitizer;
 import de.adorsys.xs2a.adapter.impl.http.Xs2aHttpLogSanitizer;
 import org.slf4j.MDC;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-public class AuditHandlerInterceptor extends HandlerInterceptorAdapter {
+public class AuditHandlerInterceptor implements HandlerInterceptor {
 
     private final HttpLogSanitizer logSanitizer = new Xs2aHttpLogSanitizer();
     private final boolean sanitized;

@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;

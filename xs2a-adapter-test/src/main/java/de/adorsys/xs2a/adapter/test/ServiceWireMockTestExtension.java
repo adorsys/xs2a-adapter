@@ -51,7 +51,7 @@ class ServiceWireMockTestExtension implements BeforeAllCallback, AfterAllCallbac
 
         WireMockServer wireMockServer = new WireMockServer(wireMockConfig()
             .dynamicPort()
-            .extensions(new ResponseTemplateTransformer(true))
+            .extensions(new ResponseTemplateTransformer(null, true, null, null))
             .usingFilesUnderClasspath(serviceProvider.getAdapterId()));
         wireMockServer.start();
         getStore(context).put(WireMockServer.class, wireMockServer);

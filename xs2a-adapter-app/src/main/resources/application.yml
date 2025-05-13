@@ -40,7 +40,9 @@ graylog:
 
 ---
 spring:
-  profiles: dev
+  config:
+    activate:
+      on-profile: dev
 logging:
   level:
     de.adorsys.xs2a.adapter.impl.http.ApacheHttpClient: DEBUG

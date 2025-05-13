@@ -1,5 +1,5 @@
 {
-  "id" : "6934db76-5bd6-4fe1-abc6-dab92161b8c3",
+  "id" : "6934db76-5bd6-4fe1-abc6-dab92161b8c2",
   "name" : "oauth2_authorization-server-url",
   "request" : {
     "url" : "/oauth2/authorization-server-url?scope=payment-accounts%3Atransactions%3Aview+payment-accounts%3Abalances%3Aview&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fredirect",
@@ -25,7 +25,8 @@
   "response" : {
     "status" : 200,
     "body" : "{\"location\":\"http://localhost:{{request.port}}/granting/c712eb70-c8aa-4077-b0cf-a2b3ddcf2a1e\"}",
-    "headers" : {
+      "transformers": ["response-template"],
+      "headers" : {
       "Date" : "Wed, 12 Aug 2020 07:36:30 GMT",
       "Content-Type" : "application/json;charset=UTF-8",
       "X-ING-Response-ID" : "51655d0d-2aaf-4b12-9ff3-497b1e19ca5b",
@@ -36,7 +37,7 @@
       "X-XSS-Protection" : "1; mode=block"
     }
   },
-  "uuid" : "6934db76-5bd6-4fe1-abc6-dab92161b8c3",
+  "uuid" : "6934db76-5bd6-4fe1-abc6-dab92161b8c2",
   "persistent" : true,
   "insertionIndex" : 2
 }

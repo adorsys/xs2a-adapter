@@ -47,6 +47,7 @@ import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.http.HttpHeaders;
@@ -115,11 +116,14 @@ public class FeignConfiguration {
     }
 
     @Bean
-    Encoder encoder(ObjectFactory<HttpMessageConverters> messageConverters, ObjectMapper objectMapper) {
+    Encoder encoder(@Lazy HttpMessageConverters messageConverters, ObjectMapper objectMapper) {
         PeriodicPaymentInitiationMultipartBodyHttpMessageConverter httpMessageConverter =
             new PeriodicPaymentInitiationMultipartBodyHttpMessageConverter(objectMapper);
 
-        return new SpringEncoder(new SpringFormEncoder() {
+        ObjectFactory<HttpMessageConverters> messageConvertersObjectFactory = () -> messageConverters;
+        SpringEncoder springEncoder = new SpringEncoder(messageConvertersObjectFactory);
+
+        return new SpringFormEncoder(springEncoder) {
             @Override
             public void encode(Object object, Type bodyType, RequestTemplate template) {
                 if (!(object instanceof PeriodicPaymentInitiationMultipartBody)) {
@@ -138,7 +142,7 @@ public class FeignConfiguration {
                 template.removeHeader(HttpHeaders.CONTENT_TYPE);
                 template.header(HttpHeaders.CONTENT_TYPE, outputMessage.getHeaders().getContentType().toString());
             }
-        }, messageConverters);
+        };
     }
 
     private static final class BufferingOutputMessage implements HttpOutputMessage {

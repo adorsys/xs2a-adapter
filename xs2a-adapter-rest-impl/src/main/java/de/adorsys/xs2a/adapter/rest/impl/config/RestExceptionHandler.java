@@ -30,6 +30,7 @@ import org.slf4j.MDC;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -194,7 +195,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
                                                                           HttpHeaders headers,
-                                                                          HttpStatus status,
+                                                                          HttpStatusCode status,
                                                                           WebRequest request) {
 
         logError(ex);
@@ -204,7 +205,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex,
                                                         HttpHeaders headers,
-                                                        HttpStatus status,
+                                                        HttpStatusCode status,
                                                         WebRequest request) {
         if (ex instanceof MethodArgumentTypeMismatchException) {
             logError(ex);

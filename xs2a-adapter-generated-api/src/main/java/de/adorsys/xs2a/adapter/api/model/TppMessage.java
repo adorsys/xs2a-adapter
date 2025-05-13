@@ -18,7 +18,7 @@
 
 package de.adorsys.xs2a.adapter.api.model;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 import java.util.Objects;
 
 @Generated("xs2a-adapter-codegen")

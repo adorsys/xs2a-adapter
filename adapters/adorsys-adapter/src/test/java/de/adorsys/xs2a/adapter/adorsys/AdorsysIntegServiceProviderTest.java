@@ -74,7 +74,7 @@ class AdorsysIntegServiceProviderTest {
 
         provider.getAccountInformationService(aspsp, httpClientFactory, null);
 
-        verify(provider, times(1)).getInterceptors(any(), interceptorCaptor.capture());
+        verify(provider, times(1)).getInterceptors(any(), interceptorCaptor.capture(), interceptorCaptor.capture());
 
         Interceptor[] actualAdorsysInterceptors = interceptorCaptor.getAllValues().toArray(new Interceptor[0]);
 

@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 import javax.lang.model.element.Modifier;
 import java.lang.reflect.Type;
 import java.nio.file.Paths;

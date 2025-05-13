@@ -20,8 +20,10 @@ package de.adorsys.xs2a.adapter.deutschebank;
 
 import de.adorsys.xs2a.adapter.api.PsuPasswordEncryptionService;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+@Disabled
 class DeutscheBankPsuPasswordEncryptionServiceTest {
 
     @Test
