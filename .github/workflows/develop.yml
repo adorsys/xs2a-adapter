@@ -2,7 +2,7 @@ name: Develop CI
 on:
   push:
     branches:
-      - develop
+      - fix_develop_pipeline
 
 env:
   XS2A_ADAPTER_IMAGE_NAME: xs2a-adapter
@@ -28,7 +28,7 @@ jobs:
           java-version: 21
           distribution: 'temurin'
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -46,6 +46,7 @@ jobs:
   deploy:
     name: Deploy docker image to the registry
     needs: build
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
@@ -57,7 +58,7 @@ jobs:
           java-version: 21
           distribution: 'temurin'
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -132,7 +133,7 @@ jobs:
           java-version: 21
           distribution: 'temurin'
 
-      - uses: actions/cache@v1
+      - uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
