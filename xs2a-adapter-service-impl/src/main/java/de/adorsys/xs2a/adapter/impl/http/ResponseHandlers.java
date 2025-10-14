@@ -1,5 +1,6 @@
 package de.adorsys.xs2a.adapter.impl.http;
 
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import de.adorsys.xs2a.adapter.api.RequestHeaders;
 import de.adorsys.xs2a.adapter.api.ResponseHeaders;
 import de.adorsys.xs2a.adapter.api.exception.ErrorResponseException;
@@ -28,14 +29,17 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static de.adorsys.xs2a.adapter.api.http.ContentType.*;
+import static de.adorsys.xs2a.adapter.api.http.ContentType.APPLICATION_JSON;
+import static de.adorsys.xs2a.adapter.api.http.ContentType.MULTIPART_FORM_DATA;
 
 public class ResponseHandlers {
+    public static final String APPLICATION_XML = "application/xml";
     private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=([^;]+)");
     private static final ErrorResponse EMPTY_ERROR_RESPONSE = new ErrorResponse();
     private static final HttpLogSanitizer DEFAULT_LOG_SANITIZER = new Xs2aHttpLogSanitizer();
 
     private static final JsonMapper jsonMapper = new JacksonObjectMapper();
+    private static final XmlMapper xmlMapper = new XmlMapper();
     private static final Logger log = LoggerFactory.getLogger(ResponseHandlers.class);
     private final HttpLogSanitizer logSanitizer;
 
@@ -84,6 +88,42 @@ public class ResponseHandlers {
                 default:
                     throw responseException(statusCode, pushbackResponseBody, responseHeaders,
                                             ResponseHandlers::buildErrorResponseFromString);
+            }
+        };
+    }
+
+    public <T> HttpClient.ResponseHandler<String> xmlResponseHandler() {
+        return (statusCode, responseBody, responseHeaders) -> {
+            if (statusCode == 204) {
+                return null;
+            }
+
+            PushbackInputStream pushbackResponseBody = new PushbackInputStream(responseBody);
+            String contentType = responseHeaders.getHeader(RequestHeaders.CONTENT_TYPE);
+
+            if (statusCode >= 400) {
+                // Gestion des erreurs : réponse non-XML ou vide
+                if ((contentType == null || !contentType.startsWith(APPLICATION_XML)) && isNotXml(pushbackResponseBody)) {
+                    throw responseException(statusCode, pushbackResponseBody, responseHeaders,
+                        ResponseHandlers::buildEmptyErrorResponse);
+                }
+                throw responseException(statusCode, pushbackResponseBody, responseHeaders,
+                    ResponseHandlers::buildErrorResponseFromXmlString);
+            }
+
+            if (contentType != null && !contentType.startsWith(APPLICATION_XML)) {
+                throw new NotAcceptableException(String.format(
+                    "Content type %s is not acceptable, has to start with %s", contentType, APPLICATION_XML));
+            }
+
+            switch (statusCode) {
+                case 200:
+                case 201:
+                case 202:
+                        return toString(responseBody, responseHeaders);
+                default:
+                    throw responseException(statusCode, pushbackResponseBody, responseHeaders,
+                        ResponseHandlers::buildErrorResponseFromString);
             }
         };
     }
@@ -163,6 +203,23 @@ public class ResponseHandlers {
         }
     }
 
+    private boolean isNotXml(PushbackInputStream responseBody) {
+        try {
+            int data = responseBody.read();
+            responseBody.unread(data);
+
+            if (data != -1) {
+                char firstChar = (char) data;
+                return firstChar != '<';
+            }
+
+            return true;
+        } catch (IOException e) {
+            return true;
+        }
+    }
+
+
     private ErrorResponseException responseException(int statusCode,
                                                             PushbackInputStream responseBody,
                                                             ResponseHeaders responseHeaders,
@@ -182,6 +239,20 @@ public class ResponseHandlers {
 
     private static ErrorResponse buildEmptyErrorResponse(String originalResponse) {
         return EMPTY_ERROR_RESPONSE;
+    }
+
+    private static ErrorResponse buildErrorResponseFromXmlString(String originalResponse) {
+        try {
+            return xmlMapper.readValue(originalResponse, ErrorResponse.class);
+        } catch (IOException e) {
+            log.warn("Failed to parse XML error response to ErrorResponse. Falling back to generic error.", e);
+            ErrorResponse errorResponse = new ErrorResponse();
+            TppMessage tppMessage = new TppMessage();
+            tppMessage.setCategory(TppMessageCategory.ERROR);
+            tppMessage.setText(originalResponse);
+            errorResponse.setTppMessages(Collections.singletonList(tppMessage));
+            return errorResponse;
+        }
     }
 
     private static ErrorResponse buildErrorResponseForOAuthNonJsonCase(String originalResponse) {

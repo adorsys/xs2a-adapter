@@ -44,7 +44,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
 
     protected static final String V1 = "v1";
     protected final Aspsp aspsp;
-    private final List<Interceptor> interceptors;
+    protected final List<Interceptor> interceptors;
     private final LinksRewriter linksRewriter;
     private final ResponseHandlers responseHandlers;
 
@@ -302,7 +302,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
     }
 
     @Override
-    public Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(PaymentService paymentService,
+    public Response getPaymentInitiationStatus(PaymentService paymentService,
                                                                                        PaymentProduct paymentProduct,
                                                                                        String paymentId,
                                                                                        RequestHeaders requestHeaders,
@@ -336,7 +336,7 @@ public class BasePaymentInitiationService extends AbstractService implements Pay
                    .send(responseHandlers.stringResponseHandler(), interceptors);
     }
 
-    private String getPaymentInitiationStatusUri(PaymentService paymentService,
+    protected String getPaymentInitiationStatusUri(PaymentService paymentService,
                                                  PaymentProduct paymentProduct,
                                                  String paymentId) {
         return StringUri.fromElements(getPaymentBaseUri(), paymentService, paymentProduct, paymentId, STATUS);
