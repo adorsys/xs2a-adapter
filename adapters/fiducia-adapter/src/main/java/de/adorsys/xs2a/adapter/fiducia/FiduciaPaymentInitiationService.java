@@ -10,13 +10,18 @@ import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.fiducia.mapper.FiduciaMapper;
 import de.adorsys.xs2a.adapter.fiducia.model.*;
 import de.adorsys.xs2a.adapter.impl.BasePaymentInitiationService;
+import de.adorsys.xs2a.adapter.impl.http.ResponseHandlers;
+
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.Map;
+import static de.adorsys.xs2a.adapter.api.validation.Validation.requireValid;
 
 public class FiduciaPaymentInitiationService extends BasePaymentInitiationService {
 
     private final FiduciaMapper mapper = Mappers.getMapper(FiduciaMapper.class);
+    private final ResponseHandlers responseHandlers = new ResponseHandlers();
 
     public FiduciaPaymentInitiationService(Aspsp aspsp,
                                            HttpClientFactory httpClientFactory,
@@ -89,6 +94,26 @@ public class FiduciaPaymentInitiationService extends BasePaymentInitiationServic
                                                updatePsuAuthentication,
                                                FiduciaStartScaProcessResponse.class,
                                                mapper::toStartScaProcessResponse);
+    }
+
+    @Override
+    public Response<PaymentInitiationStatusResponse200Json> getPaymentInitiationStatus(PaymentService paymentService,
+                                                                                       PaymentProduct paymentProduct,
+                                                                                       String paymentId,
+                                                                                       RequestHeaders requestHeaders,
+                                                                                       RequestParams requestParams) {
+        requireValid(validateGetPaymentInitiationStatus(paymentService, paymentProduct, paymentId, requestHeaders,
+            requestParams));
+
+        String uri = super.getPaymentInitiationStatusUri(paymentService, paymentProduct, paymentId);
+        uri = buildUri(uri, requestParams);
+        Map<String, String> headersMap = populateGetHeaders(requestHeaders.toMap());
+
+        return httpClient.get(uri)
+            .headers(headersMap)
+            .send(responseHandlers.xmlResponseHandler(), interceptors)
+            .map(mapper::toPaymentInitiationStatusResponse200Json);
+
     }
 
     @Override
