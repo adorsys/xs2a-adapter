@@ -39,18 +39,18 @@ jobs:
           LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
         run: docker build -t ${LOCAL_IMAGE_NAME} .
 
-      - name: BGW DEV. Docker login
-        uses: azure/docker-login@v2
-        with:
-          login-server: ${{ env.OPENSHIFT_REGISTRY }}
-          username: image-pusher
-          password: ${{ secrets.OPENSHIFT_TOKEN_BGW_DEV }}
-
-      - name: BGW DEV. Deploy docker image
-        env:
-          LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
-          OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_BGW_DEV }}/${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
-        run: |
-          docker tag ${LOCAL_IMAGE_NAME} ${OPENSHIFT_IMAGE_NAME}
-          docker push ${OPENSHIFT_IMAGE_NAME}
+#      - name: BGW DEV. Docker login
+#        uses: azure/docker-login@v2
+#        with:
+#          login-server: ${{ env.OPENSHIFT_REGISTRY }}
+#          username: image-pusher
+#          password: ${{ secrets.OPENSHIFT_TOKEN_BGW_DEV }}
+#
+#      - name: BGW DEV. Deploy docker image
+#        env:
+#          LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+#          OPENSHIFT_IMAGE_NAME: ${{ env.OPENSHIFT_REGISTRY }}/${{ env.OPENSHIFT_NAMESPACE_BGW_DEV }}/${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+#        run: |
+#          docker tag ${LOCAL_IMAGE_NAME} ${OPENSHIFT_IMAGE_NAME}
+#          docker push ${OPENSHIFT_IMAGE_NAME}
 
