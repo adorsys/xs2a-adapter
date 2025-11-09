@@ -5,7 +5,7 @@ on:
       - fix_develop_pipeline
 
 env:
-  XS2A_ADAPTER_IMAGE_NAME: xs2a-adapter
+#  XS2A_ADAPTER_IMAGE_NAME: xs2a-adapter
   XS2A_ADAPTER_IMAGE_TAG: develop
 #  OPENSHIFT_REGISTRY: openshift-registry.adorsys.de
 #  OPENSHIFT_NAMESPACE_DEV: xs2a-adapter-dev
@@ -40,7 +40,7 @@ jobs:
 
       - name: Build docker image
         env:
-          LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:test
+          LOCAL_IMAGE_NAME: ${{ github.event.repository.name }}:test
         run: docker build -t ${LOCAL_IMAGE_NAME} .
 
   deploy:
@@ -64,14 +64,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Publish packages
-        run: mvn -B deploy -Dmaven.test.skip=true -Dbuild.number=${GITHUB_SHA::7}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Publish packages
+#        run: mvn -B deploy -Dmaven.test.skip=true -Dbuild.number=${GITHUB_SHA::7}
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build docker image
         env:
-          LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+          LOCAL_IMAGE_NAME: ${{ github.event.repository.name }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
         run: docker build -t ${LOCAL_IMAGE_NAME} .
 
 #      - name: DEV. Docker login
@@ -112,8 +112,8 @@ jobs:
 
       - name: DEV. Deploy docker image to Dockerhub
         env:
-          LOCAL_IMAGE_NAME: ${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
-          DOCKERHUB_IMAGE_NAME: ${{ env.SONAR_ORG }}/${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+          LOCAL_IMAGE_NAME: ${{ github.event.repository.name }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+          DOCKERHUB_IMAGE_NAME: ${{ github.repository }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
         run: |
           docker tag ${LOCAL_IMAGE_NAME} ${DOCKERHUB_IMAGE_NAME}
           docker push ${DOCKERHUB_IMAGE_NAME}
