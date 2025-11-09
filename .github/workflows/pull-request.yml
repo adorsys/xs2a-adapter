@@ -31,5 +31,5 @@ jobs:
       - name: Build docker image
         env:
           XS2A_ADAPTER_IMAGE: xs2a-adapter
-          IMAGE_TAG: test
-        run: docker build -t ${XS2A_ADAPTER_IMAGE}:${IMAGE_TAG} .
+          LOCAL_IMAGE_NAME: ${{ github.event.repository.name }}:test
+        run: docker build -t ${LOCAL_IMAGE_NAME} .

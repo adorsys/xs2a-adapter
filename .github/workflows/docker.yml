@@ -5,9 +5,7 @@ on:
       - master
 
 env:
-  XS2A_ADAPTER_IMAGE_NAME: xs2a-adapter
   XS2A_ADAPTER_IMAGE_TAG: latest
-  XS2A_ADAPTER_ORGANIZATION_NAME: adorsys
 
 jobs:
   build-and-push-to-dockerhub:
@@ -35,7 +33,7 @@ jobs:
       - name: Build and push to Dockerhub
         uses: docker/build-push-action@v2
         env:
-          DOCKERHUB_IMAGE_NAME: ${{ env.XS2A_ADAPTER_ORGANIZATION_NAME }}/${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
+          DOCKERHUB_IMAGE_NAME: ${{ github.event.repository.name }}:${{ env.XS2A_ADAPTER_IMAGE_TAG }}
         with:
           context: .
           push: true
