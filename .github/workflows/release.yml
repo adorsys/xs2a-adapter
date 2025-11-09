@@ -9,8 +9,6 @@ env:
   GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
   SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
   SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-  XS2A_ADAPTER_IMAGE_NAME: xs2a-adapter
-  XS2A_ADAPTER_ORGANIZATION_NAME: adorsys
 
 jobs:
   build-and-push-to-dockerhub:
@@ -49,7 +47,7 @@ jobs:
       - name: Build and push to Dockerhub
         uses: docker/build-push-action@v2
         env:
-          DOCKERHUB_IMAGE_NAME: ${{ env.XS2A_ADAPTER_ORGANIZATION_NAME }}/${{ env.XS2A_ADAPTER_IMAGE_NAME }}:${{ env.DOCKER_TAG }}
+          DOCKERHUB_IMAGE_NAME: ${{ github.repository }}:${{ env.DOCKER_TAG }}
         with:
           context: .
           push: true
@@ -88,21 +86,21 @@ jobs:
           -Prelease -DskipTests -B -U deploy
         shell: bash
 
-  build-and-deploy-docs:
-    name: Build and deploy documentation
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git checkout
-        uses: actions/checkout@v4
-
-      - run: chmod +x docs-generator.sh
-
-      - name: Generate Website
-        run: ./docs-generator.sh
-
-      - name: Deploy to Github Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./tmp
+#  build-and-deploy-docs:
+#    name: Build and deploy documentation
+#    needs: build
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Git checkout
+#        uses: actions/checkout@v4
+#
+#      - run: chmod +x docs-generator.sh
+#
+#      - name: Generate Website
+#        run: ./docs-generator.sh
+#
+#      - name: Deploy to Github Pages
+#        uses: peaceiris/actions-gh-pages@v3
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_dir: ./tmp

@@ -2,7 +2,7 @@ name: Develop CI
 on:
   push:
     branches:
-      - fix_develop_pipeline
+      - develop
 
 env:
 #  XS2A_ADAPTER_IMAGE_NAME: xs2a-adapter
@@ -64,6 +64,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Build project
+        run: mvn clean verify -B
 #      - name: Publish packages
 #        run: mvn -B deploy -Dmaven.test.skip=true -Dbuild.number=${GITHUB_SHA::7}
 #        env:
