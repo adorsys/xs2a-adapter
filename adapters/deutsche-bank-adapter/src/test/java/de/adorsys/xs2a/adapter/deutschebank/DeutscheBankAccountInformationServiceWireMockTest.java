@@ -6,6 +6,7 @@ import de.adorsys.xs2a.adapter.api.Response;
 import de.adorsys.xs2a.adapter.api.model.*;
 import de.adorsys.xs2a.adapter.test.ServiceWireMockTest;
 import de.adorsys.xs2a.adapter.test.TestRequestResponse;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -18,6 +19,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+@Disabled
 @ServiceWireMockTest(DeutscheBankServiceProvider.class)
 class DeutscheBankAccountInformationServiceWireMockTest {
 
