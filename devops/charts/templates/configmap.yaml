@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: xs2a-adapter-config
+  name: {{ include "xs2a-adapter.fullname" . }}-config
   labels:
-    app: xs2a-adapter
+    {{- include "xs2a-adapter.labels" . | nindent 4 }}
 data:
   {{- if and .Values.logback.enabled }}
   logback.xml: |
